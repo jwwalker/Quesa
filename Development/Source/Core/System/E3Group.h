@@ -159,9 +159,9 @@ public :
 
 
 
-class E3Group : public E3ShapeData
+class E3Group : public E3Shape
 	{
-Q3_CLASS_ENUMS ( kQ3ShapeTypeGroup, E3Group, E3ShapeData )
+Q3_CLASS_ENUMS ( kQ3ShapeTypeGroup, E3Group, E3Shape )
 
 // 16 bytes overhead per group
 // initialised in e3group_new

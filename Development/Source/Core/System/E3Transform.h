@@ -84,9 +84,9 @@ public :
 
 
 
-class E3Transform : public E3ShapeData
+class E3Transform : public E3Shape
 	{
-Q3_CLASS_ENUMS ( kQ3ShapeTypeTransform, E3Transform, E3ShapeData )
+Q3_CLASS_ENUMS ( kQ3ShapeTypeTransform, E3Transform, E3Shape )
 public :
 
 	// There is no extra data for this class

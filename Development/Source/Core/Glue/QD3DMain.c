@@ -47,6 +47,7 @@
 #include "E3Prefix.h"
 #include "E3Main.h"
 #include "E3CustomElements.h"
+#include "E3Set.h"
 #include "E3View.h"
 
 
@@ -510,6 +511,7 @@ Q3Object_Duplicate(TQ3Object object)
 
 
 	// Release build checks
+	Q3_REQUIRE_OR_RESULT( object != NULL, NULL ) ;
 	Q3_REQUIRE_OR_RESULT( object->IsObjectValid () , NULL ) ;
 
 
@@ -1110,7 +1112,7 @@ Q3Object_SetSet ( TQ3Object object, TQ3SetObject set )
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( object->IsObjectValid (), kQ3Failure ) ;
-	Q3_REQUIRE_OR_RESULT((set == NULL) || Q3Object_IsType(set, kQ3SharedTypeSet), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( ( set == NULL ) || ( set->IsObjectValid () && Q3_OBJECT_IS_CLASS ( set, E3Set ) ), kQ3Failure ) ;
 
 
 
@@ -1148,7 +1150,7 @@ Q3Shared_GetType(TQ3SharedObject sharedObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, kQ3ObjectTypeShared), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT( E3Shared_IsOfMyClass ( sharedObject ), kQ3ObjectTypeInvalid);
 
 
 
@@ -1182,7 +1184,7 @@ Q3Shared_GetReference(TQ3SharedObject sharedObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, kQ3ObjectTypeShared), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Shared_IsOfMyClass ( sharedObject ), NULL);
 
 
 
@@ -1216,7 +1218,7 @@ Q3Shared_IsReferenced(TQ3SharedObject sharedObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, kQ3ObjectTypeShared), kQ3False);
+	Q3_REQUIRE_OR_RESULT( E3Shared_IsOfMyClass ( sharedObject ), kQ3False);
 
 
 
@@ -1250,7 +1252,7 @@ Q3Shared_GetReferenceCount( TQ3SharedObject               sharedObject )
 {
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, kQ3ObjectTypeShared), kQ3False);
+	Q3_REQUIRE_OR_RESULT( E3Shared_IsOfMyClass ( sharedObject ), kQ3False);
 
 
 
@@ -1285,7 +1287,7 @@ Q3Shared_GetEditIndex(TQ3SharedObject sharedObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, kQ3ObjectTypeShared), 0);
+	Q3_REQUIRE_OR_RESULT( E3Shared_IsOfMyClass ( sharedObject ), 0);
 
 
 
@@ -1319,7 +1321,7 @@ Q3Shared_Edited(TQ3SharedObject sharedObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, (kQ3ObjectTypeShared)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Shared_IsOfMyClass ( sharedObject ), kQ3Failure);
 
 
 
@@ -1464,7 +1466,9 @@ Q3Shape_AddElement(TQ3ShapeObject shape, TQ3ElementType theType, const void *dat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) || Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1505,7 +1509,9 @@ Q3Shape_GetElement(TQ3ShapeObject shape, TQ3ElementType theType, void *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) || Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1546,7 +1552,9 @@ Q3Shape_ContainsElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) || Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3False);
+	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3False ) ;
+	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3False ) ;
+	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3False ) ;
 
 
 
@@ -1583,7 +1591,9 @@ Q3Shape_GetNextElementType(TQ3ShapeObject shape, TQ3ElementType *theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) || Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theType), kQ3Failure);
 
 
@@ -1621,7 +1631,9 @@ Q3Shape_EmptyElements(TQ3ShapeObject shape)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) || Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3Failure ) ;
 
 
 
@@ -1655,7 +1667,9 @@ Q3Shape_ClearElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) || Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3Failure ) ;
 
 
 
