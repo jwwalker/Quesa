@@ -489,6 +489,7 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 	TQ3Matrix4x4			localToWorld;
 	TQ3Uns32				editIndex;
 	E3ClassInfoPtr			theClass;
+	TQ3Boolean				usesSubdivision;
 
 
 
@@ -503,24 +504,46 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 
 
 
+	// Find the geometry class
+	theClass = E3ClassTree_GetClassByType(objectType);
+	Q3_ASSERT_VALID_PTR(theClass);
+	
+	
+	
+	// Does the geometry use subdivision?
+	usesSubdivision = (E3ClassTree_GetMethod(theClass, kQ3XMethodTypeGeomUsesSubdivision) != NULL)?
+		kQ3True : kQ3False;
+
+
+
 	// First check the geometry edit index
 	editIndex = Q3Shared_GetEditIndex(theGeom);
 	if (instanceData->cachedObject == NULL || editIndex > instanceData->cachedEditIndex)
 		{
 		instanceData->cachedEditIndex = editIndex;
+		
+		// If the geometry uses subdivision and appears to be a new object, let's
+		// update some other cached values now, to avoid re-caching the object
+		// several times as these fields are updated one at a time.
+		if ( (instanceData->cachedDeterminant == 0.0f) && usesSubdivision )
+			{
+			Q3Memory_Copy(E3View_State_GetStyleSubdivision(theView),
+							&instanceData->styleSubdivision,
+							sizeof(TQ3SubdivisionStyleData));
+			
+			instanceData->cameraEditIndex = Q3Shared_GetEditIndex(E3View_AccessCamera(theView));
+			
+			Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
+			instanceData->cachedDeterminant = Q3Matrix4x4_Determinant( &localToWorld );
+			}
+		
 		return(kQ3False);
 		}
 
 
 
-	// Find the geometry class
-	theClass = E3ClassTree_GetClassByType(objectType);
-	Q3_ASSERT_VALID_PTR(theClass);
-
-
-
 	// Check for changes to the subdivision style
-	if (E3ClassTree_GetMethod(theClass, kQ3XMethodTypeGeomUsesSubdivision) != NULL)
+	if (usesSubdivision)
 		{
 		// Check to see if the current subdivision style is different
 		if (memcmp(&instanceData->styleSubdivision,
