@@ -69,8 +69,6 @@ typedef struct TQ3VertexArray {
 
 	// Misc state
 	TQ3Boolean					renderEdges;
-	TQ3Boolean					flippedTriangles;
-	TQ3BackfacingStyle			stateBackfacing;
 
 
 	// Geometry state
@@ -652,6 +650,16 @@ ir_geom_trimesh_build_vertex_normals(TQ3VertexArray *vertexArray)
 				vertexArray->vertexNormals[n] = vertexArray->triNormals[m];
 			}
 		}
+
+
+
+	// Validate the vertices
+	//
+	// At present only normals are validated and so we do validation here.
+	IRGeometry_Validate_Vertices(vertexArray->instanceData,
+								 vertexArray->geomData->numPoints,
+								 sizeof(TQ3Vector3D),
+								 vertexArray->vertexNormals);
 }
 
 
@@ -724,20 +732,32 @@ ir_geom_trimesh_build_triangles(TQ3VertexArray *vertexArray)
 
 		// Fill in any missing values
 		if (vertexArray->geomTriNormalsFlag != NULL)
-			Q3Triangle_CrossProductArray(vertexArray->geomData->numTriangles,
-										 vertexArray->geomTriNormalsFlag,
-										 (TQ3Uns32 *) vertexArray->geomData->triangles,
-										 vertexArray->geomData->points,
-										 vertexArray->triNormals);
+			IRGeometry_Generate_Triangle_Normals(vertexArray->instanceData,
+												 vertexArray->geomData->numTriangles,
+												 vertexArray->geomTriNormalsFlag,
+												 (TQ3Uns32 *) vertexArray->geomData->triangles,
+												 vertexArray->geomData->points,
+												 vertexArray->triNormals);
 		}
+
 
 	// Otherwise, calculate the values into the scratch space
 	else
-		Q3Triangle_CrossProductArray(vertexArray->geomData->numTriangles,
-									 NULL,
-									 (TQ3Uns32 *) vertexArray->geomData->triangles,
-									 vertexArray->geomData->points,
-									 vertexArray->triNormals);
+		IRGeometry_Generate_Triangle_Normals(vertexArray->instanceData,
+											 vertexArray->geomData->numTriangles,
+											 NULL,
+											 (TQ3Uns32 *) vertexArray->geomData->triangles,
+											 vertexArray->geomData->points,
+											 vertexArray->triNormals);
+
+
+
+	// Validate the triangles
+	IRGeometry_Validate_Triangles(vertexArray->instanceData,
+								  vertexArray->geomData->numTriangles,
+								  (TQ3Uns32 *) vertexArray->geomData->triangles,
+								  vertexArray->geomData->points,
+								  vertexArray->triNormals);
 
 
 
@@ -762,46 +782,15 @@ ir_geom_trimesh_build_triangles(TQ3VertexArray *vertexArray)
 
 
 	// Initialise the triangle flags
-	if (vertexArray->stateBackfacing == kQ3BackfacingStyleBoth)
-		{
-		for (n = 0; n < vertexArray->geomData->numTriangles; n++)
-			vertexArray->triFlags[n] = kQ3TriFlagVisible;
-		}
-	else
-		{
-		// Calculate the flags
-		qd3dStatus = IRGeometry_Triangle_CalcFlags(vertexArray->instanceData,
-												   vertexArray->geomData->numTriangles,
-												   (TQ3Uns32 *) vertexArray->geomData->triangles,
-												   vertexArray->geomData->points,
-												   vertexArray->triNormals,
-												   vertexArray->triFlags);
+	qd3dStatus = IRGeometry_Generate_Triangle_Flags(vertexArray->instanceData,
+											 		vertexArray->geomData->numTriangles,
+											 		(TQ3Uns32 *) vertexArray->geomData->triangles,
+											 		vertexArray->geomData->points,
+											 		vertexArray->triNormals,
+													vertexArray->triFlags);
 
-		if (qd3dStatus != kQ3Success)
-			Q3Memory_Clear(vertexArray->triFlags, vertexArray->geomData->numTriangles * sizeof(TQ3TriFlags));
-
-
-		// Flip any triangles which need to be flipped
-		//
-		// If a triangle has been determined to be backfacing, but we're in flip-if-backfacing
-		// mode, we need to temporarily flip its indices and normal to the correct direction.
-		//
-		// To ensure the application's data is not changed from under it, we will re-flip the
-		// triangle back to its original form after rendering.
-		if (qd3dStatus == kQ3Success && vertexArray->stateBackfacing == kQ3BackfacingStyleFlip)
-			{
-			vertexArray->flippedTriangles = kQ3True;
-			for (n = 0; n < vertexArray->geomData->numTriangles; n++)
-				{
-				if (E3Bit_IsSet(vertexArray->triFlags[n], kQ3TriFlagFlipped))
-					{
-					theIndices = vertexArray->geomData->triangles[n].pointIndices;
-					E3Integer_Swap(theIndices[0], theIndices[2]);
-					Q3Vector3D_Negate(&vertexArray->triNormals[n], &vertexArray->triNormals[n]);
-					}
-				}
-			}
-		}
+	if (qd3dStatus != kQ3Success)
+		Q3Memory_Clear(vertexArray->triFlags, vertexArray->geomData->numTriangles * sizeof(TQ3TriFlags));
 }
 
 
@@ -1078,12 +1067,11 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 
 	// Set up the misc/geometry state
 	tmpVertex.attributeSet = geomAttributes;
-	IRGeometry_Vertex_GetState(instanceData, &tmpVertex, &tmpFVertex);
+	IRGeometry_Generate_Vertex_State(instanceData, NULL, &tmpVertex, &tmpFVertex);
 	if (!E3Bit_IsSet(tmpFVertex.theFlags, kQ3FVertexHaveTransparency))
 		Q3ColorRGB_Set(&tmpFVertex.colourTransparency, 1.0f, 1.0f, 1.0f);
 
 	vertexArray->renderEdges           = renderEdges;
-	vertexArray->stateBackfacing       = instanceData->stateBackfacing;
 	vertexArray->geomIsHilighted       = (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL);
 	vertexArray->geomNeedsUVs          = (instanceData->stateTextureActive             && !vertexArray->renderEdges);
 	vertexArray->geomDiffuse           = tmpFVertex.colourDiffuse;
@@ -1265,18 +1253,11 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 //-----------------------------------------------------------------------------
 static void
 ir_geom_trimesh_render(TQ3VertexArray *vertexArray)
-{	TQ3BackfacingStyle	stateBackfacing;
-	TQ3Uns32			n, m;
+{	TQ3Uns32	n, m;
 
 
 
 	// Prepare to render
-	if (vertexArray->stateBackfacing != kQ3BackfacingStyleBoth)
-		{
-		stateBackfacing = kQ3BackfacingStyleBoth;
-		IRRenderer_Update_Style_Backfacing(vertexArray->theView, vertexArray->instanceData, &stateBackfacing);
-		}
-
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(TQ3Point3D), vertexArray->vertexPoints);
 
@@ -1332,9 +1313,6 @@ ir_geom_trimesh_render(TQ3VertexArray *vertexArray)
 
 	
 	// Clean up after rendering
-	if (vertexArray->stateBackfacing != kQ3BackfacingStyleBoth)
-		IRRenderer_Update_Style_Backfacing(vertexArray->theView, vertexArray->instanceData, &vertexArray->stateBackfacing);
-
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	if (vertexArray->vertexDiffuse != NULL)
@@ -1345,42 +1323,6 @@ ir_geom_trimesh_render(TQ3VertexArray *vertexArray)
 
 	if (vertexArray->vertexUVs != NULL)
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_trimesh_finish : Finish rendering a TriMesh.
-//-----------------------------------------------------------------------------
-static void
-ir_geom_trimesh_finish(TQ3VertexArray *vertexArray)
-{	TQ3Uns32	*theIndices;
-	TQ3Uns32	n;
-
-
-
-	// Restore the triangle normal state
-	//
-	// If we used the application supplied triangle normals, and we're rendering
-	// in flipped mode, we may have flipped some triangle indices/normals.
-	//
-	// To ensure the application doesn't have its data changed underneath it, we
-	// need to flip these back after rendering or they'd be incorrect for the next
-	// frame (the assumption is that this is cheaper than copying them).
-	if (vertexArray->flippedTriangles)
-		{
-		for (n = 0; n < vertexArray->geomData->numTriangles; n++)
-			{
-			if (E3Bit_IsSet(vertexArray->triFlags[n], kQ3TriFlagFlipped))
-				{
-				theIndices = vertexArray->geomData->triangles[n].pointIndices;
-				E3Integer_Swap(theIndices[0], theIndices[2]);
-				Q3Vector3D_Negate(&vertexArray->triNormals[n], &vertexArray->triNormals[n]);
-				}
-			}
-		}
 }
 
 
@@ -1467,10 +1409,7 @@ IRGeometry_Submit_TriMesh(TQ3ViewObject				theView,
 
 
 	// Clean up
-	ir_geom_trimesh_finish(&vertexArray);
-	
 	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, vertexArray.vertexUVs != NULL);
-
 
 	return(kQ3Success);
 }

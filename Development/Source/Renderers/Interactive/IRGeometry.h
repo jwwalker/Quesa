@@ -62,21 +62,25 @@ enum{
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+TQ3Status			IRGeometry_Initialize(
+								TQ3InteractiveData		*instanceData);
+
 void				IRGeometry_Terminate(
 								TQ3InteractiveData		*instanceData);
 
 TQ3Boolean			IRGeometry_Attribute_Handler(
-								TQ3ViewObject theView,
-								TQ3AttributeSet geomAttributes,
-							 	TQ3InteractiveData *instanceData,
-							 	TQ3XAttributeMask needAttributesMask);
+								TQ3ViewObject			theView,
+								TQ3AttributeSet			geomAttributes,
+							 	TQ3InteractiveData		*instanceData,
+							 	TQ3XAttributeMask		needAttributesMask);
 							 	
-void				IRGeometry_Vertex_GetState(
+void				IRGeometry_Generate_Vertex_State(
 								TQ3InteractiveData		*instanceData,
+								const TQ3Vector3D		*defaultNormal,
 								TQ3Vertex3D				*srcVertex,
 								TQ3FVertex3D			*dstVertex);
 
-TQ3Status			IRGeometry_Triangle_CalcFlags(
+TQ3Status			IRGeometry_Generate_Triangle_Flags(
 								TQ3InteractiveData		*instanceData,
 								TQ3Uns32				numTriangles,
 								const TQ3Uns32			*theIndices,
@@ -84,10 +88,27 @@ TQ3Status			IRGeometry_Triangle_CalcFlags(
 								const TQ3Vector3D		*theNormals,
 								TQ3TriFlags				*theFlags);
 								
-TQ3Boolean			IRGeometry_Triangle_IsVisible(
+void				IRGeometry_Generate_Triangle_Normals(
 								TQ3InteractiveData		*instanceData,
-								const TQ3Vector3D		*triNormal);
+								TQ3Uns32				numTriangles,
+								const TQ3Uns8			*usageFlags,
+								const TQ3Uns32			*theIndices,
+								const TQ3Point3D		*thePoints,
+								TQ3Vector3D				*theNormals);
 
+void				IRGeometry_Validate_Triangles(
+								TQ3InteractiveData		*instanceData,
+								TQ3Uns32				numTriangles,
+								const TQ3Uns32			*theIndices,
+								const TQ3Point3D		*thePoints,
+								const TQ3Vector3D		*theNormals);
+								
+void				IRGeometry_Validate_Vertices(
+								TQ3InteractiveData		*instanceData,
+								TQ3Uns32				numVertices,
+								UInt32					vertexStride,
+								const TQ3Vector3D		*theNormals);
+								
 TQ3Status			IRGeometry_Submit_Triangle(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,

@@ -51,8 +51,7 @@ typedef enum {
 	kQ3TriFlagNone								= 0,
 	kQ3TriFlagCulled							= (1 << 1),
 	kQ3TriFlagVisible							= (1 << 2),
-	kQ3TriFlagFlipped							= (1 << 3),
-	kQ3TriFlagTransparent						= (1 << 4)
+	kQ3TriFlagTransparent						= (1 << 3)
 } TQ3TriFlags;
 
 
@@ -150,9 +149,8 @@ typedef struct TQ3InteractiveData {
 	TQ3SlabObject			transPtrSlab;
 
 
-	// Geometry state
-	TQ3Uns32				geomSize;
-	TQ3Uns8					*geomData;
+	// Geometry scratch state
+	TQ3SlabObject			geomScratchSlab;
 
 
 	// TriMesh state
