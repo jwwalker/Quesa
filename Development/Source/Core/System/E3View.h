@@ -92,13 +92,14 @@ typedef enum TQ3BoundingMethod {
 
 
 // Matrix state
-typedef enum TQ3MatrixState {
+enum {
 	kQ3MatrixStateNone						= 0,
 	kQ3MatrixStateLocalToWorld				= (1 << 0),	// Local  to world   changed
 	kQ3MatrixStateWorldToCamera				= (1 << 1),	// World  to camera  changed
 	kQ3MatrixStateCameraToFrustum			= (1 << 2)	// Camera to frustum changed
-} TQ3MatrixState;
+};
 
+typedef TQ3Uns32	TQ3MatrixState;
 
 
 
