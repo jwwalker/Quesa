@@ -16,21 +16,21 @@
 
         For the current version of Quesa, see:
 
-        	<http://www.quesa.org/>
+            <http://www.quesa.org/>
 
-		This library is free software; you can redistribute it and/or
-		modify it under the terms of the GNU Lesser General Public
-		License as published by the Free Software Foundation; either
-		version 2 of the License, or (at your option) any later version.
+        This library is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2 of the License, or (at your option) any later version.
 
-		This library is distributed in the hope that it will be useful,
-		but WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-		Lesser General Public License for more details.
+        This library is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+        Lesser General Public License for more details.
 
-		You should have received a copy of the GNU Lesser General Public
-		License along with this library; if not, write to the Free Software
-		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+        You should have received a copy of the GNU Lesser General Public
+        License along with this library; if not, write to the Free Software
+        Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
 #ifndef QUESA_VIEWER_HDR
@@ -54,7 +54,7 @@
 
 
 //=============================================================================
-//		C++ preamble
+//      C++ preamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 extern "C" {
@@ -69,22 +69,22 @@ extern "C" {
 //-----------------------------------------------------------------------------
 // Viewer state flags (Q3ViewerGetState/Q3WinViewerGetState)
 enum {
-	kQ3ViewerEmpty								= 0,
-	kQ3ViewerHasModel							= (1 << 0),
-	kQ3ViewerHasUndo							= (1 << 1)
+    kQ3ViewerEmpty                              = 0,
+    kQ3ViewerHasModel                           = (1 << 0),
+    kQ3ViewerHasUndo                            = (1 << 1)
 };
 
 
 // Viewer cameras
 typedef enum {
-	kQ3ViewerCameraRestore						= 0,
-	kQ3ViewerCameraFit							= 1,
-	kQ3ViewerCameraFront						= 2,
-	kQ3ViewerCameraBack							= 3,
-	kQ3ViewerCameraLeft							= 4,
-	kQ3ViewerCameraRight						= 5,
-	kQ3ViewerCameraTop							= 6,
-	kQ3ViewerCameraBottom						= 7
+    kQ3ViewerCameraRestore                      = 0,
+    kQ3ViewerCameraFit                          = 1,
+    kQ3ViewerCameraFront                        = 2,
+    kQ3ViewerCameraBack                         = 3,
+    kQ3ViewerCameraLeft                         = 4,
+    kQ3ViewerCameraRight                        = 5,
+    kQ3ViewerCameraTop                          = 6,
+    kQ3ViewerCameraBottom                       = 7
 } TQ3ViewerCameraView;
 
 
@@ -98,26 +98,26 @@ typedef enum {
 
 // Viewer flags (Q3ViewerNew)
 enum {
-	kQ3ViewerShowBadge							= (1 << 0),
-	kQ3ViewerActive								= (1 << 1),
-	kQ3ViewerControllerVisible					= (1 << 2),
-	kQ3ViewerDrawFrame							= (1 << 3),
-	kQ3ViewerDraggingOff						= (1 << 4),
-	kQ3ViewerButtonCamera						= (1 << 5),
-	kQ3ViewerButtonTruck						= (1 << 6),
-	kQ3ViewerButtonOrbit						= (1 << 7),
-	kQ3ViewerButtonZoom							= (1 << 8),
-	kQ3ViewerButtonDolly						= (1 << 9),
-	kQ3ViewerButtonReset						= (1 << 10),
-	kQ3ViewerOutputTextMode						= (1 << 11),
-	kQ3ViewerDragMode							= (1 << 12),
-	kQ3ViewerDrawGrowBox						= (1 << 13),
-	kQ3ViewerDrawDragBorder						= (1 << 14),
-	kQ3ViewerDraggingInOff						= (1 << 15),
-	kQ3ViewerDraggingOutOff						= (1 << 16),
-	kQ3ViewerButtonOptions						= (1 << 17),
-	kQ3ViewerPaneGrowBox						= (1 << 18),
-	kQ3ViewerDefault							= (1 << 31)
+    kQ3ViewerShowBadge                          = (1 << 0),
+    kQ3ViewerActive                             = (1 << 1),
+    kQ3ViewerControllerVisible                  = (1 << 2),
+    kQ3ViewerDrawFrame                          = (1 << 3),
+    kQ3ViewerDraggingOff                        = (1 << 4),
+    kQ3ViewerButtonCamera                       = (1 << 5),
+    kQ3ViewerButtonTruck                        = (1 << 6),
+    kQ3ViewerButtonOrbit                        = (1 << 7),
+    kQ3ViewerButtonZoom                         = (1 << 8),
+    kQ3ViewerButtonDolly                        = (1 << 9),
+    kQ3ViewerButtonReset                        = (1 << 10),
+    kQ3ViewerOutputTextMode                     = (1 << 11),
+    kQ3ViewerDragMode                           = (1 << 12),
+    kQ3ViewerDrawGrowBox                        = (1 << 13),
+    kQ3ViewerDrawDragBorder                     = (1 << 14),
+    kQ3ViewerDraggingInOff                      = (1 << 15),
+    kQ3ViewerDraggingOutOff                     = (1 << 16),
+    kQ3ViewerButtonOptions                      = (1 << 17),
+    kQ3ViewerPaneGrowBox                        = (1 << 18),
+    kQ3ViewerDefault                            = (1 << 31)
 };
 
 #endif // QUESA_OS_MACINTOSH
@@ -133,40 +133,40 @@ enum {
 
 // Viewer flags (Q3WinViewerNew)
 enum {
-	kQ3ViewerShowBadge							= (1 << 0),
-	kQ3ViewerActive								= (1 << 1),
-	kQ3ViewerControllerVisibile					= (1 << 2),
-	kQ3ViewerButtonCamera						= (1 << 3),
-	kQ3ViewerButtonTruck						= (1 << 4),
-	kQ3ViewerButtonOrbit						= (1 << 5),
-	kQ3ViewerButtonZoom							= (1 << 6),
-	kQ3ViewerButtonDolly						= (1 << 7),
-	kQ3ViewerButtonReset						= (1 << 8),
-	kQ3ViewerButtonNone							= (1 << 9),
-	kQ3ViewerOutputTextMode						= (1 << 10),
-	kQ3ViewerDraggingInOff						= (1 << 11),
-	kQ3ViewerButtonOptions						= (1 << 12),
-	kQ3ViewerPaneGrowBox						= (1 << 13),
-	kQ3ViewerDefault							= (1 << 15)
+    kQ3ViewerShowBadge                          = (1 << 0),
+    kQ3ViewerActive                             = (1 << 1),
+    kQ3ViewerControllerVisibile                 = (1 << 2),
+    kQ3ViewerButtonCamera                       = (1 << 3),
+    kQ3ViewerButtonTruck                        = (1 << 4),
+    kQ3ViewerButtonOrbit                        = (1 << 5),
+    kQ3ViewerButtonZoom                         = (1 << 6),
+    kQ3ViewerButtonDolly                        = (1 << 7),
+    kQ3ViewerButtonReset                        = (1 << 8),
+    kQ3ViewerButtonNone                         = (1 << 9),
+    kQ3ViewerOutputTextMode                     = (1 << 10),
+    kQ3ViewerDraggingInOff                      = (1 << 11),
+    kQ3ViewerButtonOptions                      = (1 << 12),
+    kQ3ViewerPaneGrowBox                        = (1 << 13),
+    kQ3ViewerDefault                            = (1 << 15)
 };
 
 
 // WM_NOTIFY messages
-#define Q3VNM_DROPFILES							0x5000
-#define Q3VNM_CANUNDO							0x5001
-#define Q3VNM_DRAWCOMPLETE						0x5002
-#define Q3VNM_SETVIEW							0x5003
-#define Q3VNM_SETVIEWNUMBER						0x5004
-#define Q3VNM_BUTTONSET							0x5005
-#define Q3VNM_BADGEHIT							0x5006
+#define Q3VNM_DROPFILES                         0x5000
+#define Q3VNM_CANUNDO                           0x5001
+#define Q3VNM_DRAWCOMPLETE                      0x5002
+#define Q3VNM_SETVIEW                           0x5003
+#define Q3VNM_SETVIEWNUMBER                     0x5004
+#define Q3VNM_BUTTONSET                         0x5005
+#define Q3VNM_BADGEHIT                          0x5006
 
 
 // Window class name (can be passed to CreateWindow/CreateWindowEx)
-#define kQ3ViewerClassName						"QD3DViewerWindow"
+#define kQ3ViewerClassName                      "QD3DViewerWindow"
 
 
 // Clipboard type
-#define kQ3ViewerClipboardFormat				"QuickDraw 3D Metafile"
+#define kQ3ViewerClipboardFormat                "QuickDraw 3D Metafile"
 
 #endif // QUESA_OS_WIN32
 
@@ -182,13 +182,13 @@ typedef void *TQ3ViewerObject;
 
 
 // Viewer callbacks
-typedef CALLBACK_API_C(TQ3Status,			TQ3ViewerWindowResizeCallbackMethod)(
-							TQ3ViewerObject		theViewer,
-							const void			*userData);
+typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerWindowResizeCallbackMethod)(
+                            TQ3ViewerObject     theViewer,
+                            const void          *userData);
 
-typedef CALLBACK_API_C(TQ3Status,			TQ3ViewerPaneResizeNotifyCallbackMethod)(
-							TQ3ViewerObject		theViewer,
-							const void			*userData);
+typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerPaneResizeNotifyCallbackMethod)(
+                            TQ3ViewerObject     theViewer,
+                            const void          *userData);
 
 
 
@@ -200,9 +200,9 @@ typedef CALLBACK_API_C(TQ3Status,			TQ3ViewerPaneResizeNotifyCallbackMethod)(
 #if QUESA_OS_MACINTOSH
 
 // Viewer callbacks
-typedef CALLBACK_API_C(OSErr,				TQ3ViewerDrawingCallbackMethod)(
-							TQ3ViewerObject		theViewer,
-							const void			*userData);
+typedef CALLBACK_API_C(OSErr,               TQ3ViewerDrawingCallbackMethod)(
+                            TQ3ViewerObject     theViewer,
+                            const void          *userData);
 
 
 #endif // QUESA_OS_MACINTOSH
@@ -217,30 +217,30 @@ typedef CALLBACK_API_C(OSErr,				TQ3ViewerDrawingCallbackMethod)(
 #if QUESA_OS_WIN32
 
 // Viewer callbacks
-typedef CALLBACK_API_C(TQ3Status,			TQ3ViewerDrawingCallbackMethod)(
-							TQ3ViewerObject		theViewer,
-							const void			*userData);
+typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerDrawingCallbackMethod)(
+                            TQ3ViewerObject     theViewer,
+                            const void          *userData);
 
 
 // Viewer types
 typedef struct {
-	NMHDR							nmhdr;
-	HANDLE							hDrop;
+    NMHDR                           nmhdr;
+    HANDLE                          hDrop;
 } TQ3ViewerDropFiles;
 
 typedef struct {
-	NMHDR							nmhdr;
-	TQ3ViewerCameraView				view;
+    NMHDR                           nmhdr;
+    TQ3ViewerCameraView             view;
 } TQ3ViewerSetView;
 
 typedef struct {
-	NMHDR							nmhdr;
-	TQ3Uns32						number;
+    NMHDR                           nmhdr;
+    TQ3Uns32                        number;
 } TQ3ViewerSetViewNumber;
 
 typedef struct {
-	NMHDR							nmhdr;
-	TQ3Uns32						button;
+    NMHDR                           nmhdr;
+    TQ3Uns32                        button;
 } TQ3ViewerButtonSet;
 
 
@@ -255,624 +255,1129 @@ typedef struct {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
 
-/*
- *	Q3ViewerGetVersion
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetVersion
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param majorRevision    Description of the parameter.
+ *  @param minorRevision    Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetVersion (
-	unsigned long                 *majorRevision,
-	unsigned long                 *minorRevision
+    unsigned long                 *majorRevision,
+    unsigned long                 *minorRevision
 );
 
 
-/*
- *	Q3ViewerGetReleaseVersion
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetReleaseVersion
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param releaseRevision  Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetReleaseVersion (
-	unsigned long                 *releaseRevision
+    unsigned long                 *releaseRevision
 );
 
 
-/*
- *	Q3ViewerNew
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerNew
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param Q3ViewerNew(     Description of the parameter.
+ *  @param port             Description of the parameter.
+ *  @param rect             Description of the parameter.
+ *  @param flags            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ViewerObject )
 Q3ViewerNew(
-	CGrafPtr                      port,
-	Rect                          *rect,
-	unsigned long                 flags
+    CGrafPtr                      port,
+    Rect                          *rect,
+    unsigned long                 flags
 );
 
 
-/*
- *	Q3ViewerDispose
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerDispose
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerDispose (
-	TQ3ViewerObject               theViewer
+    TQ3ViewerObject               theViewer
 );
 
 
-/*
- *	Q3ViewerUseFile
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerUseFile
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param refNum           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerUseFile (
-	TQ3ViewerObject                theViewer,
-	long                           refNum
+    TQ3ViewerObject                theViewer,
+    long                           refNum
 );
 
 
-/*
- *	Q3ViewerUseData
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerUseData
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @param size             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerUseData (
-	TQ3ViewerObject                theViewer,
-	void                           *data,
-	long                           size
+    TQ3ViewerObject                theViewer,
+    void                           *data,
+    long                           size
 );
 
 
-/*
- *	Q3ViewerWriteFile
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerWriteFile
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param refNum           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerWriteFile (
-	TQ3ViewerObject                theViewer,
-	long                           refNum
+    TQ3ViewerObject                theViewer,
+    long                           refNum
 );
 
 
-/*
- *	Q3ViewerWriteData
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerWriteData
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( unsigned long )
 Q3ViewerWriteData (
-	TQ3ViewerObject                theViewer,
-	Handle                         data
+    TQ3ViewerObject                theViewer,
+    Handle                         data
 );
 
 
-/*
- *	Q3ViewerDraw
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerDraw
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerDraw (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerDrawContent
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerDrawContent
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerDrawContent (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerDrawControlStrip
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerDrawControlStrip
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerDrawControlStrip (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerEvent
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerEvent
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param evt              Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerEvent (
-	TQ3ViewerObject                theViewer,
-	EventRecord                    *evt
+    TQ3ViewerObject                theViewer,
+    EventRecord                    *evt
 );
 
 
-/*
- *	Q3ViewerGetPict
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetPict
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( PicHandle )
 Q3ViewerGetPict (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerGetButtonRect
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetButtonRect
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param button           Description of the parameter.
+ *  @param rect             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetButtonRect (
-	TQ3ViewerObject                theViewer,
-	unsigned long                  button,
-	Rect                           *rect
+    TQ3ViewerObject                theViewer,
+    unsigned long                  button,
+    Rect                           *rect
 );
 
 
-/*
- *	Q3ViewerGetCurrentButton
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetCurrentButton
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( unsigned long )
 Q3ViewerGetCurrentButton (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerSetCurrentButton
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetCurrentButton
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param button           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetCurrentButton (
-	TQ3ViewerObject                theViewer,
-	unsigned long                  button
+    TQ3ViewerObject                theViewer,
+    unsigned long                  button
 );
 
 
-/*
- *	Q3ViewerUseGroup
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerUseGroup
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param group            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerUseGroup (
-	TQ3ViewerObject                theViewer,
-	TQ3GroupObject                 group
+    TQ3ViewerObject                theViewer,
+    TQ3GroupObject                 group
 );
 
 
-/*
- *	Q3ViewerGetGroup
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetGroup
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3GroupObject )
 Q3ViewerGetGroup (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerSetBackgroundColor
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetBackgroundColor
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param color            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetBackgroundColor (
-	TQ3ViewerObject                theViewer,
-	TQ3ColorARGB                   *color
+    TQ3ViewerObject                theViewer,
+    TQ3ColorARGB                   *color
 );
 
 
-/*
- *	Q3ViewerGetBackgroundColor
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetBackgroundColor
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param color            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetBackgroundColor (
-	TQ3ViewerObject                theViewer,
-	TQ3ColorARGB                   *color
+    TQ3ViewerObject                theViewer,
+    TQ3ColorARGB                   *color
 );
 
 
-/*
- *	Q3ViewerGetView
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetView
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ViewObject )
 Q3ViewerGetView (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerRestoreView
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerRestoreView
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerRestoreView (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerSetFlags
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetFlags
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param flags            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetFlags (
-	TQ3ViewerObject                theViewer,
-	unsigned long                  flags
+    TQ3ViewerObject                theViewer,
+    unsigned long                  flags
 );
 
 
-/*
- *	Q3ViewerGetFlags
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetFlags
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( unsigned long )
 Q3ViewerGetFlags (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerSetBounds
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetBounds
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param bounds           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetBounds (
-	TQ3ViewerObject                theViewer,
-	Rect                           *bounds
+    TQ3ViewerObject                theViewer,
+    Rect                           *bounds
 );
 
 
-/*
- *	Q3ViewerGetBounds
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetBounds
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param bounds           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetBounds (
-	TQ3ViewerObject                theViewer,
-	Rect                           *bounds
+    TQ3ViewerObject                theViewer,
+    Rect                           *bounds
 );
 
 
-/*
- *	Q3ViewerSetDimension
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetDimension
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param width            Description of the parameter.
+ *  @param height           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetDimension (
-	TQ3ViewerObject                theViewer,
-	unsigned long                  width,
-	unsigned long                  height
+    TQ3ViewerObject                theViewer,
+    unsigned long                  width,
+    unsigned long                  height
 );
 
 
-/*
- *	Q3ViewerGetDimension
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetDimension
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param width            Description of the parameter.
+ *  @param height           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetDimension (
-	TQ3ViewerObject                theViewer,
-	unsigned long                  *width,
-	unsigned long                  *height
+    TQ3ViewerObject                theViewer,
+    unsigned long                  *width,
+    unsigned long                  *height
 );
 
 
-/*
- *	Q3ViewerGetMinimumDimension
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetMinimumDimension
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param width            Description of the parameter.
+ *  @param height           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetMinimumDimension (
-	TQ3ViewerObject                theViewer,
-	unsigned long                  *width,
-	unsigned long                  *height
+    TQ3ViewerObject                theViewer,
+    unsigned long                  *width,
+    unsigned long                  *height
 );
 
 
-/*
- *	Q3ViewerSetPort
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetPort
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param port             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetPort (
-	TQ3ViewerObject                theViewer,
-	CGrafPtr                       port
+    TQ3ViewerObject                theViewer,
+    CGrafPtr                       port
 );
 
 
-/*
- *	Q3ViewerGetPort
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetPort
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( CGrafPtr )
 Q3ViewerGetPort (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerAdjustCursor
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerAdjustCursor
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param pt               Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerAdjustCursor (
-	TQ3ViewerObject                theViewer,
-	Point                          *pt
+    TQ3ViewerObject                theViewer,
+    Point                          *pt
 );
 
 
-/*
- *	Q3ViewerCursorChanged
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerCursorChanged
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerCursorChanged (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerGetState
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetState
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( unsigned long )
 Q3ViewerGetState (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerClear
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerClear
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerClear (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerCut
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerCut
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerCut (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerCopy
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerCopy
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerCopy (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerPaste
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerPaste
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerPaste (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerMouseDown
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerMouseDown
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param x                Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerMouseDown (
-	TQ3ViewerObject                theViewer,
-	long                           x,
-	long                           y
+    TQ3ViewerObject                theViewer,
+    long                           x,
+    long                           y
 );
 
 
-/*
- *	Q3ViewerContinueTracking
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerContinueTracking
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param x                Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerContinueTracking (
-	TQ3ViewerObject                theViewer,
-	long                           x,
-	long                           y
+    TQ3ViewerObject                theViewer,
+    long                           x,
+    long                           y
 );
 
 
-/*
- *	Q3ViewerMouseUp
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerMouseUp
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param x                Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerMouseUp (
-	TQ3ViewerObject                theViewer,
-	long                           x,
-	long                           y
+    TQ3ViewerObject                theViewer,
+    long                           x,
+    long                           y
 );
 
 
-/*
- *	Q3ViewerHandleKeyEvent
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerHandleKeyEvent
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param evt              Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerHandleKeyEvent (
-	TQ3ViewerObject                theViewer,
-	EventRecord                    *evt
+    TQ3ViewerObject                theViewer,
+    EventRecord                    *evt
 );
 
 
-/*
- *	Q3ViewerSetDrawingCallbackMethod
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetDrawingCallbackMethod
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param callbackMethod   Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetDrawingCallbackMethod (
-	TQ3ViewerObject                theViewer,
-	TQ3ViewerDrawingCallbackMethod callbackMethod,
-	const void                     *data
+    TQ3ViewerObject                theViewer,
+    TQ3ViewerDrawingCallbackMethod callbackMethod,
+    const void                     *data
 );
 
 
-/*
- *	Q3ViewerSetWindowResizeCallback
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetWindowResizeCallback
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param windowResizeCallbackMethod Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetWindowResizeCallback (
-	TQ3ViewerObject                theViewer,
-	TQ3ViewerWindowResizeCallbackMethod windowResizeCallbackMethod,
-	const void                     *data
+    TQ3ViewerObject                theViewer,
+    TQ3ViewerWindowResizeCallbackMethod windowResizeCallbackMethod,
+    const void                     *data
 );
 
 
-/*
- *	Q3ViewerSetPaneResizeNotifyCallback
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetPaneResizeNotifyCallback
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param paneResizeNotifyCallbackMethod Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetPaneResizeNotifyCallback (
-	TQ3ViewerObject                theViewer,
-	TQ3ViewerPaneResizeNotifyCallbackMethod paneResizeNotifyCallbackMethod,
-	const void                     *data
+    TQ3ViewerObject                theViewer,
+    TQ3ViewerPaneResizeNotifyCallbackMethod paneResizeNotifyCallbackMethod,
+    const void                     *data
 );
 
 
-/*
- *	Q3ViewerUndo
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerUndo
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerUndo (
-	TQ3ViewerObject                theViewer
+    TQ3ViewerObject                theViewer
 );
 
 
-/*
- *	Q3ViewerGetUndoString
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetUndoString
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param str              Description of the parameter.
+ *  @param cnt              Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerGetUndoString (
-	TQ3ViewerObject                theViewer,
-	char                           *str,
-	unsigned long                  *cnt
+    TQ3ViewerObject                theViewer,
+    char                           *str,
+    unsigned long                  *cnt
 );
 
 
-/*
- *	Q3ViewerGetCameraCount
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetCameraCount
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param cnt              Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetCameraCount (
-	TQ3ViewerObject                theViewer,
-	unsigned long                  *cnt
+    TQ3ViewerObject                theViewer,
+    unsigned long                  *cnt
 );
 
 
-/*
- *	Q3ViewerSetCameraByNumber
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetCameraByNumber
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param cameraNo         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetCameraByNumber (
-	TQ3ViewerObject                theViewer,
-	unsigned long                  cameraNo
+    TQ3ViewerObject                theViewer,
+    unsigned long                  cameraNo
 );
 
 
-/*
- *	Q3ViewerSetCameraByView
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetCameraByView
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param viewType         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetCameraByView (
-	TQ3ViewerObject                theViewer,
-	TQ3ViewerCameraView            viewType
+    TQ3ViewerObject                theViewer,
+    TQ3ViewerCameraView            viewType
 );
 
 
-/*
- *	Q3ViewerSetRendererType
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetRendererType
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param rendererType     Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetRendererType (
-	TQ3ViewerObject                theViewer,
-	TQ3ObjectType                  rendererType
+    TQ3ViewerObject                theViewer,
+    TQ3ObjectType                  rendererType
 );
 
 
-/*
- *	Q3ViewerGetRendererType
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetRendererType
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param rendererType     Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetRendererType (
-	TQ3ViewerObject                theViewer,
-	TQ3ObjectType                  *rendererType
+    TQ3ViewerObject                theViewer,
+    TQ3ObjectType                  *rendererType
 );
 
 
-/*
- *	Q3ViewerChangeBrightness
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerChangeBrightness
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param brightness       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerChangeBrightness (
-	TQ3ViewerObject                theViewer,
-	float                          brightness
+    TQ3ViewerObject                theViewer,
+    float                          brightness
 );
 
 
-/*
- *	Q3ViewerSetRemoveBackfaces
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetRemoveBackfaces
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param remove           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetRemoveBackfaces (
-	TQ3ViewerObject                theViewer,
-	TQ3Boolean                     remove
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     remove
 );
 
 
-/*
- *	Q3ViewerGetRemoveBackfaces
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetRemoveBackfaces
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param remove           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetRemoveBackfaces (
-	TQ3ViewerObject                theViewer,
-	TQ3Boolean                     *remove
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     *remove
 );
 
 
-/*
- *	Q3ViewerSetPhongShading
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerSetPhongShading
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param phong            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetPhongShading (
-	TQ3ViewerObject                theViewer,
-	TQ3Boolean                     phong
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     phong
 );
 
 
-/*
- *	Q3ViewerGetPhongShading
- *		Description of function
+/*!
+ *  @function
+ *      Q3ViewerGetPhongShading
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theViewer        Description of the parameter.
+ *  @param phong            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetPhongShading (
-	TQ3ViewerObject                theViewer,
-	TQ3Boolean                     *phong
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     *phong
 );
 
 #endif // QUESA_OS_MACINTOSH
@@ -886,513 +1391,925 @@ Q3ViewerGetPhongShading (
 //-----------------------------------------------------------------------------
 #if QUESA_OS_WIN32
 
-/*
- *	Q3WinViewerGetVersion
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetVersion
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param majorRevision    Description of the parameter.
+ *  @param minorRevision    Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetVersion (
-	unsigned long                  *majorRevision,
-	unsigned long                  *minorRevision
+    unsigned long                  *majorRevision,
+    unsigned long                  *minorRevision
 );
 
 
-/*
- *	Q3WinViewerGetReleaseVersion
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetReleaseVersion
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param releaseRevision  Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetReleaseVersion (
-	unsigned long                  *releaseRevision
+    unsigned long                  *releaseRevision
 );
 
 
-/*
- *	Q3WinViewerNew
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerNew
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param window           Description of the parameter.
+ *  @param rect             Description of the parameter.
+ *  @param flags            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ViewerObject )
 Q3WinViewerNew (
-	HWND                           window,
-	const RECT                     *rect,
-	unsigned long                  flags
+    HWND                           window,
+    const RECT                     *rect,
+    unsigned long                  flags
 );
 
 
-/*
- *	Q3WinViewerDispose
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerDispose
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerDispose (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerUseFile
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerUseFile
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param fileHandle       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerUseFile (
-	TQ3ViewerObject                viewer,
-	HANDLE                         fileHandle
+    TQ3ViewerObject                viewer,
+    HANDLE                         fileHandle
 );
 
 
-/*
- *	Q3WinViewerUseData
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerUseData
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @param size             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerUseData (
-	TQ3ViewerObject                viewer,
-	void                           *data,
-	unsigned long                  size
+    TQ3ViewerObject                viewer,
+    void                           *data,
+    unsigned long                  size
 );
 
 
-/*
- *	Q3WinViewerWriteFile
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerWriteFile
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param fileHandle       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerWriteFile (
-	TQ3ViewerObject                viewer,
-	HANDLE                         fileHandle
+    TQ3ViewerObject                viewer,
+    HANDLE                         fileHandle
 );
 
 
-/*
- *	Q3WinViewerWriteData
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerWriteData
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @param dataSize         Description of the parameter.
+ *  @param actualDataSize   Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerWriteData (
-	TQ3ViewerObject                viewer,
-	void                           *data,
-	unsigned long                  dataSize,
-	unsigned long                  *actualDataSize
+    TQ3ViewerObject                viewer,
+    void                           *data,
+    unsigned long                  dataSize,
+    unsigned long                  *actualDataSize
 );
 
 
-/*
- *	Q3WinViewerDraw
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerDraw
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerDraw (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerDrawContent
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerDrawContent
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerDrawContent (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerDrawControlStrip
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerDrawControlStrip
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerDrawControlStrip (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerMouseDown
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerMouseDown
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param x                Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( BOOL )
 Q3WinViewerMouseDown (
-	TQ3ViewerObject                viewer,
-	long                           x,
-	long                           y
+    TQ3ViewerObject                viewer,
+    long                           x,
+    long                           y
 );
 
 
-/*
- *	Q3WinViewerContinueTracking
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerContinueTracking
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param x                Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( BOOL )
 Q3WinViewerContinueTracking (
-	TQ3ViewerObject                viewer,
-	long                           x,
-	long                           y
+    TQ3ViewerObject                viewer,
+    long                           x,
+    long                           y
 );
 
 
-/*
- *	Q3WinViewerMouseUp
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerMouseUp
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param x                Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( BOOL )
 Q3WinViewerMouseUp (
-	TQ3ViewerObject                viewer,
-	long                           x,
-	long                           y
+    TQ3ViewerObject                viewer,
+    long                           x,
+    long                           y
 );
 
 
-/*
- *	Q3WinViewerGetBitmap
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetBitmap
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( HBITMAP )
 Q3WinViewerGetBitmap (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerGetButtonRect
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetButtonRect
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param button           Description of the parameter.
+ *  @param rectangle        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetButtonRect (
-	TQ3ViewerObject                viewer,
-	unsigned long                  button,
-	RECT                           *rectangle
+    TQ3ViewerObject                viewer,
+    unsigned long                  button,
+    RECT                           *rectangle
 );
 
 
-/*
- *	Q3WinViewerGetCurrentButton
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetCurrentButton
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( unsigned long )
 Q3WinViewerGetCurrentButton (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerSetCurrentButton
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerSetCurrentButton
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param button           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetCurrentButton (
-	TQ3ViewerObject                viewer,
-	unsigned long                  button
+    TQ3ViewerObject                viewer,
+    unsigned long                  button
 );
 
 
-/*
- *	Q3WinViewerUseGroup
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerUseGroup
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param group            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerUseGroup (
-	TQ3ViewerObject                viewer,
-	TQ3GroupObject                 group
+    TQ3ViewerObject                viewer,
+    TQ3GroupObject                 group
 );
 
 
-/*
- *	Q3WinViewerGetGroup
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetGroup
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3GroupObject )
 Q3WinViewerGetGroup (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerSetBackgroundColor
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerSetBackgroundColor
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param color            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetBackgroundColor (
-	TQ3ViewerObject                viewer,
-	TQ3ColorARGB                   *color
+    TQ3ViewerObject                viewer,
+    TQ3ColorARGB                   *color
 );
 
 
-/*
- *	Q3WinViewerGetBackgroundColor
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetBackgroundColor
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param color            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetBackgroundColor (
-	TQ3ViewerObject                viewer,
-	TQ3ColorARGB                   *color
+    TQ3ViewerObject                viewer,
+    TQ3ColorARGB                   *color
 );
 
 
-/*
- *	Q3WinViewerGetView
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetView
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ViewObject )
 Q3WinViewerGetView (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerRestoreView
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerRestoreView
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerRestoreView (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerSetFlags
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerSetFlags
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param flags            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetFlags (
-	TQ3ViewerObject                viewer,
-	unsigned long                  flags
+    TQ3ViewerObject                viewer,
+    unsigned long                  flags
 );
 
 
-/*
- *	Q3WinViewerGetFlags
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetFlags
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( unsigned long )
 Q3WinViewerGetFlags (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerSetBounds
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerSetBounds
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param bounds           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetBounds (
-	TQ3ViewerObject                viewer,
-	RECT                           *bounds
+    TQ3ViewerObject                viewer,
+    RECT                           *bounds
 );
 
 
-/*
- *	Q3WinViewerGetBounds
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetBounds
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param bounds           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetBounds (
-	TQ3ViewerObject                viewer,
-	RECT                           *bounds
+    TQ3ViewerObject                viewer,
+    RECT                           *bounds
 );
 
 
-/*
- *	Q3WinViewerSetDimension
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerSetDimension
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param width            Description of the parameter.
+ *  @param height           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetDimension (
-	TQ3ViewerObject                viewer,
-	unsigned long                  width,
-	unsigned long                  height
+    TQ3ViewerObject                viewer,
+    unsigned long                  width,
+    unsigned long                  height
 );
 
 
-/*
- *	Q3WinViewerGetDimension
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetDimension
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param width            Description of the parameter.
+ *  @param height           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetDimension (
-	TQ3ViewerObject                viewer,
-	unsigned long                  *width,
-	unsigned long                  *height
+    TQ3ViewerObject                viewer,
+    unsigned long                  *width,
+    unsigned long                  *height
 );
 
 
-/*
- *	Q3WinViewerGetMinimumDimension
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetMinimumDimension
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param width            Description of the parameter.
+ *  @param height           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetMinimumDimension (
-	TQ3ViewerObject                viewer,
-	unsigned long                  *width,
-	unsigned long                  *height
+    TQ3ViewerObject                viewer,
+    unsigned long                  *width,
+    unsigned long                  *height
 );
 
 
-/*
- *	Q3WinViewerSetWindow
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerSetWindow
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param window           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetWindow (
-	TQ3ViewerObject                viewer,
-	HWND                           window
+    TQ3ViewerObject                viewer,
+    HWND                           window
 );
 
 
-/*
- *	Q3WinViewerGetWindow
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetWindow
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( HWND )
 Q3WinViewerGetWindow (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerGetViewer
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetViewer
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param theWindow        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ViewerObject )
 Q3WinViewerGetViewer (
-	HWND                           theWindow
+    HWND                           theWindow
 );
 
 
-/*
- *	Q3WinViewerGetControlStrip
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetControlStrip
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( HWND )
 Q3WinViewerGetControlStrip (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerAdjustCursor
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerAdjustCursor
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param x                Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Boolean )
 Q3WinViewerAdjustCursor (
-	TQ3ViewerObject                viewer,
-	long                           x,
-	long                           y
+    TQ3ViewerObject                viewer,
+    long                           x,
+    long                           y
 );
 
 
-/*
- *	Q3WinViewerCursorChanged
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerCursorChanged
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerCursorChanged (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerGetState
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetState
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( unsigned long )
 Q3WinViewerGetState (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerClear
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerClear
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerClear (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerCut
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerCut
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerCut (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerCopy
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerCopy
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerCopy (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerPaste
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerPaste
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerPaste (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerUndo
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerUndo
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerUndo (
-	TQ3ViewerObject                viewer
+    TQ3ViewerObject                viewer
 );
 
 
-/*
- *	Q3WinViewerGetUndoString
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetUndoString
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param theString        Description of the parameter.
+ *  @param stringSize       Description of the parameter.
+ *  @param actualSize       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Boolean )
 Q3WinViewerGetUndoString (
-	TQ3ViewerObject                viewer,
-	char                           *theString,
-	unsigned long                  stringSize,
-	unsigned long                  *actualSize
+    TQ3ViewerObject                viewer,
+    char                           *theString,
+    unsigned long                  stringSize,
+    unsigned long                  *actualSize
 );
 
 
-/*
- *	Q3WinViewerGetCameraCount
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerGetCameraCount
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param count            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetCameraCount (
-	TQ3ViewerObject                viewer,
-	unsigned long                  *count
+    TQ3ViewerObject                viewer,
+    unsigned long                  *count
 );
 
 
-/*
- *	Q3WinViewerSetCameraNumber
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerSetCameraNumber
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param cameraNo         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetCameraNumber (
-	TQ3ViewerObject                viewer,
-	unsigned long                  cameraNo
+    TQ3ViewerObject                viewer,
+    unsigned long                  cameraNo
 );
 
 
-/*
- *	Q3WinViewerSetCameraView
- *		Description of function
+/*!
+ *  @function
+ *      Q3WinViewerSetCameraView
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param viewer           Description of the parameter.
+ *  @param viewType         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetCameraView (
-	TQ3ViewerObject                viewer,
-	TQ3ViewerCameraView            viewType
+    TQ3ViewerObject                viewer,
+    TQ3ViewerCameraView            viewType
 );
 
 #endif // QUESA_OS_WIN32
@@ -1402,11 +2319,12 @@ Q3WinViewerSetCameraView (
 
 
 //=============================================================================
-//		C++ postamble
+//      C++ postamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 }
 #endif
 
 #endif
+
 

@@ -18,21 +18,21 @@
 
         For the current version of Quesa, see:
 
-        	<http://www.quesa.org/>
+            <http://www.quesa.org/>
 
-		This library is free software; you can redistribute it and/or
-		modify it under the terms of the GNU Lesser General Public
-		License as published by the Free Software Foundation; either
-		version 2 of the License, or (at your option) any later version.
+        This library is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2 of the License, or (at your option) any later version.
 
-		This library is distributed in the hope that it will be useful,
-		but WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-		Lesser General Public License for more details.
+        This library is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+        Lesser General Public License for more details.
 
-		You should have received a copy of the GNU Lesser General Public
-		License along with this library; if not, write to the Free Software
-		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+        You should have received a copy of the GNU Lesser General Public
+        License along with this library; if not, write to the Free Software
+        Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
 #ifndef QUESA_CONTROLLER_HDR
@@ -54,7 +54,7 @@
 
 
 //=============================================================================
-//		C++ preamble
+//      C++ preamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 extern "C" {
@@ -68,7 +68,7 @@ extern "C" {
 //      Constants
 //-----------------------------------------------------------------------------
 // Max channel size
-#define kQ3ControllerSetChannelMaxDataSize		256
+#define kQ3ControllerSetChannelMaxDataSize      256
 
 
 
@@ -78,36 +78,36 @@ extern "C" {
 //      Types
 //-----------------------------------------------------------------------------
 // Channel methods
-typedef CALLBACK_API_C(TQ3Status,			TQ3ChannelGetMethod)(
-							TQ3ControllerRef	controllerRef,
-							TQ3Uns32			channel,
-							void				*data,
-							TQ3Uns32			*dataSize);
+typedef CALLBACK_API_C(TQ3Status,           TQ3ChannelGetMethod)(
+                            TQ3ControllerRef    controllerRef,
+                            TQ3Uns32            channel,
+                            void                *data,
+                            TQ3Uns32            *dataSize);
 
-typedef CALLBACK_API_C(TQ3Status,			TQ3ChannelSetMethod)(
-							TQ3ControllerRef	controllerRef,
-							TQ3Uns32			channel,
-							const void			*data,
-							TQ3Uns32			dataSize);
+typedef CALLBACK_API_C(TQ3Status,           TQ3ChannelSetMethod)(
+                            TQ3ControllerRef    controllerRef,
+                            TQ3Uns32            channel,
+                            const void          *data,
+                            TQ3Uns32            dataSize);
 
 
 // Controller data
 typedef struct {
-	char										*signature;
-	TQ3Uns32									valueCount;
-	TQ3Uns32									channelCount;
-	TQ3ChannelGetMethod							channelGetMethod;
-	TQ3ChannelSetMethod							channelSetMethod;
+    char                                        *signature;
+    TQ3Uns32                                    valueCount;
+    TQ3Uns32                                    channelCount;
+    TQ3ChannelGetMethod                         channelGetMethod;
+    TQ3ChannelSetMethod                         channelSetMethod;
 } TQ3ControllerData;
 
 
 // Tracker callbacks
-typedef CALLBACK_API_C(TQ3Status,			TQ3TrackerNotifyFunc)(
-							TQ3TrackerObject	trackerObject,
-							TQ3ControllerRef	controllerRef);
+typedef CALLBACK_API_C(TQ3Status,           TQ3TrackerNotifyFunc)(
+                            TQ3TrackerObject    trackerObject,
+                            TQ3ControllerRef    controllerRef);
 
-typedef CALLBACK_API_C(void,				TQ3CursorTrackerNotifyFunc)(
-							void);
+typedef CALLBACK_API_C(void,                TQ3CursorTrackerNotifyFunc)(
+                            void);
 
 
 
@@ -116,588 +116,1032 @@ typedef CALLBACK_API_C(void,				TQ3CursorTrackerNotifyFunc)(
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-/*
- *	Q3Controller_GetListChanged
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_GetListChanged
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param listChanged      Description of the parameter.
+ *  @param serialNumber     Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetListChanged (
-	TQ3Boolean                    *listChanged,
-	TQ3Uns32                      *serialNumber
+    TQ3Boolean                    *listChanged,
+    TQ3Uns32                      *serialNumber
 );
 
 
 
-/*
- *	Q3Controller_Next
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_Next
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param nextControllerRef Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_Next (
-	TQ3ControllerRef              controllerRef,
-	TQ3ControllerRef              *nextControllerRef
+    TQ3ControllerRef              controllerRef,
+    TQ3ControllerRef              *nextControllerRef
 );
 
 
 
-/*
- *	Q3Controller_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_New
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerData   Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ControllerRef  )
 Q3Controller_New (
-	const TQ3ControllerData       *controllerData
+    const TQ3ControllerData       *controllerData
 );
 
 
 
-/*
- *	Q3Controller_Decommission
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_Decommission
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_Decommission (
-	TQ3ControllerRef              controllerRef
+    TQ3ControllerRef              controllerRef
 );
 
 
 
-/*
- *	Q3Controller_SetActivation
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_SetActivation
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param active           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetActivation (
-	TQ3ControllerRef              controllerRef,
-	TQ3Boolean                    active
+    TQ3ControllerRef              controllerRef,
+    TQ3Boolean                    active
 );
 
 
 
-/*
- *	Q3Controller_GetActivation
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_GetActivation
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param active           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetActivation (
-	TQ3ControllerRef              controllerRef,
-	TQ3Boolean                    *active
+    TQ3ControllerRef              controllerRef,
+    TQ3Boolean                    *active
 );
 
 
 
-/*
- *	Q3Controller_GetSignature
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_GetSignature
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param signature        Description of the parameter.
+ *  @param numChars         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetSignature (
-	TQ3ControllerRef              controllerRef,
-	char                          *signature,
-	TQ3Uns32                      numChars
+    TQ3ControllerRef              controllerRef,
+    char                          *signature,
+    TQ3Uns32                      numChars
 );
 
 
 
-/*
- *	Q3Controller_SetChannel
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_SetChannel
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param channel          Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @param dataSize         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetChannel (
-	TQ3ControllerRef              controllerRef,
-	TQ3Uns32                      channel,
-	const void                    *data,
-	TQ3Uns32                      dataSize
+    TQ3ControllerRef              controllerRef,
+    TQ3Uns32                      channel,
+    const void                    *data,
+    TQ3Uns32                      dataSize
 );
 
 
 
-/*
- *	Q3Controller_GetChannel
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_GetChannel
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param channel          Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @param dataSize         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetChannel (
-	TQ3ControllerRef              controllerRef,
-	TQ3Uns32                      channel,
-	void                          *data,
-	TQ3Uns32                      *dataSize
+    TQ3ControllerRef              controllerRef,
+    TQ3Uns32                      channel,
+    void                          *data,
+    TQ3Uns32                      *dataSize
 );
 
 
 
-/*
- *	Q3Controller_GetValueCount
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_GetValueCount
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param valueCount       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetValueCount (
-	TQ3ControllerRef              controllerRef,
-	TQ3Uns32                      *valueCount
+    TQ3ControllerRef              controllerRef,
+    TQ3Uns32                      *valueCount
 );
 
 
 
-/*
- *	Q3Controller_SetTracker
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_SetTracker
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param tracker          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetTracker (
-	TQ3ControllerRef              controllerRef,
-	TQ3TrackerObject              tracker
+    TQ3ControllerRef              controllerRef,
+    TQ3TrackerObject              tracker
 );
 
 
 
-/*
- *	Q3Controller_HasTracker
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_HasTracker
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param hasTracker       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_HasTracker (
-	TQ3ControllerRef              controllerRef,
-	TQ3Boolean                    *hasTracker
+    TQ3ControllerRef              controllerRef,
+    TQ3Boolean                    *hasTracker
 );
 
 
 
-/*
- *	Q3Controller_Track2DCursor
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_Track2DCursor
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param track2DCursor    Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_Track2DCursor (
-	TQ3ControllerRef              controllerRef,
-	TQ3Boolean                    *track2DCursor
+    TQ3ControllerRef              controllerRef,
+    TQ3Boolean                    *track2DCursor
 );
 
 
 
-/*
- *	Q3Controller_Track3DCursor
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_Track3DCursor
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param track3DCursor    Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_Track3DCursor (
-	TQ3ControllerRef              controllerRef,
-	TQ3Boolean                    *track3DCursor
+    TQ3ControllerRef              controllerRef,
+    TQ3Boolean                    *track3DCursor
 );
 
 
 
-/*
- *	Q3Controller_GetButtons
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_GetButtons
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param buttons          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetButtons (
-	TQ3ControllerRef              controllerRef,
-	TQ3Uns32                      *buttons
+    TQ3ControllerRef              controllerRef,
+    TQ3Uns32                      *buttons
 );
 
 
 
-/*
- *	Q3Controller_SetButtons
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_SetButtons
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param buttons          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetButtons (
-	TQ3ControllerRef              controllerRef,
-	TQ3Uns32                      buttons
+    TQ3ControllerRef              controllerRef,
+    TQ3Uns32                      buttons
 );
 
 
 
-/*
- *	Q3Controller_GetTrackerPosition
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_GetTrackerPosition
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param position         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetTrackerPosition (
-	TQ3ControllerRef              controllerRef,
-	TQ3Point3D                    *position
+    TQ3ControllerRef              controllerRef,
+    TQ3Point3D                    *position
 );
 
 
 
-/*
- *	Q3Controller_SetTrackerPosition
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_SetTrackerPosition
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param position         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetTrackerPosition (
-	TQ3ControllerRef              controllerRef,
-	const TQ3Point3D              *position
+    TQ3ControllerRef              controllerRef,
+    const TQ3Point3D              *position
 );
 
 
 
-/*
- *	Q3Controller_MoveTrackerPosition
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_MoveTrackerPosition
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param delta            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_MoveTrackerPosition (
-	TQ3ControllerRef              controllerRef,
-	const TQ3Vector3D             *delta
+    TQ3ControllerRef              controllerRef,
+    const TQ3Vector3D             *delta
 );
 
 
 
-/*
- *	Q3Controller_GetTrackerOrientation
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_GetTrackerOrientation
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param orientation      Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetTrackerOrientation (
-	TQ3ControllerRef              controllerRef,
-	TQ3Quaternion                 *orientation
+    TQ3ControllerRef              controllerRef,
+    TQ3Quaternion                 *orientation
 );
 
 
 
-/*
- *	Q3Controller_SetTrackerOrientation
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_SetTrackerOrientation
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param orientation      Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetTrackerOrientation (
-	TQ3ControllerRef              controllerRef,
-	const TQ3Quaternion           *orientation
+    TQ3ControllerRef              controllerRef,
+    const TQ3Quaternion           *orientation
 );
 
 
 
-/*
- *	Q3Controller_MoveTrackerOrientation
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_MoveTrackerOrientation
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param delta            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_MoveTrackerOrientation (
-	TQ3ControllerRef              controllerRef,
-	const TQ3Quaternion           *delta
+    TQ3ControllerRef              controllerRef,
+    const TQ3Quaternion           *delta
 );
 
 
 
-/*
- *	Q3Controller_GetValues
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_GetValues
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param valueCount       Description of the parameter.
+ *  @param values           Description of the parameter.
+ *  @param changed          Description of the parameter.
+ *  @param serialNumber     Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetValues (
-	TQ3ControllerRef              controllerRef,
-	TQ3Uns32                      valueCount,
-	float                         *values,
-	TQ3Boolean                    *changed,
-	TQ3Uns32                      *serialNumber
+    TQ3ControllerRef              controllerRef,
+    TQ3Uns32                      valueCount,
+    float                         *values,
+    TQ3Boolean                    *changed,
+    TQ3Uns32                      *serialNumber
 );
 
 
 
-/*
- *	Q3Controller_SetValues
- *		Description of function
+/*!
+ *  @function
+ *      Q3Controller_SetValues
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @param values           Description of the parameter.
+ *  @param valueCount       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetValues (
-	TQ3ControllerRef              controllerRef,
-	const float                   *values,
-	TQ3Uns32                      valueCount
+    TQ3ControllerRef              controllerRef,
+    const float                   *values,
+    TQ3Uns32                      valueCount
 );
 
 
 
-/*
- *	Q3ControllerState_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3ControllerState_New
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerRef    Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ControllerStateObject  )
 Q3ControllerState_New (
-	TQ3ControllerRef              controllerRef
+    TQ3ControllerRef              controllerRef
 );
 
 
 
-/*
- *	Q3ControllerState_SaveAndReset
- *		Description of function
+/*!
+ *  @function
+ *      Q3ControllerState_SaveAndReset
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerStateObject Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ControllerState_SaveAndReset (
-	TQ3ControllerStateObject      controllerStateObject
+    TQ3ControllerStateObject      controllerStateObject
 );
 
 
 
-/*
- *	Q3ControllerState_Restore
- *		Description of function
+/*!
+ *  @function
+ *      Q3ControllerState_Restore
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param controllerStateObject Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ControllerState_Restore (
-	TQ3ControllerStateObject      controllerStateObject
+    TQ3ControllerStateObject      controllerStateObject
 );
 
 
 
-/*
- *	Q3Tracker_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_New
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param notifyFunc       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3TrackerObject  )
 Q3Tracker_New (
-	TQ3TrackerNotifyFunc          notifyFunc
+    TQ3TrackerNotifyFunc          notifyFunc
 );
 
 
 
-/*
- *	Q3Tracker_SetNotifyThresholds
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_SetNotifyThresholds
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param positionThresh   Description of the parameter.
+ *  @param orientationThresh Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetNotifyThresholds (
-	TQ3TrackerObject              trackerObject,
-	float                         positionThresh,
-	float                         orientationThresh
+    TQ3TrackerObject              trackerObject,
+    float                         positionThresh,
+    float                         orientationThresh
 );
 
 
 
-/*
- *	Q3Tracker_GetNotifyThresholds
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_GetNotifyThresholds
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param positionThresh   Description of the parameter.
+ *  @param orientationThresh Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetNotifyThresholds (
-	TQ3TrackerObject              trackerObject,
-	float                         *positionThresh,
-	float                         *orientationThresh
+    TQ3TrackerObject              trackerObject,
+    float                         *positionThresh,
+    float                         *orientationThresh
 );
 
 
 
-/*
- *	Q3Tracker_SetActivation
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_SetActivation
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param active           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetActivation (
-	TQ3TrackerObject              trackerObject,
-	TQ3Boolean                    active
+    TQ3TrackerObject              trackerObject,
+    TQ3Boolean                    active
 );
 
 
 
-/*
- *	Q3Tracker_GetActivation
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_GetActivation
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param active           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetActivation (
-	TQ3TrackerObject              trackerObject,
-	TQ3Boolean                    *active
+    TQ3TrackerObject              trackerObject,
+    TQ3Boolean                    *active
 );
 
 
 
-/*
- *	Q3Tracker_GetButtons
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_GetButtons
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param buttons          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetButtons (
-	TQ3TrackerObject              trackerObject,
-	TQ3Uns32                      *buttons
+    TQ3TrackerObject              trackerObject,
+    TQ3Uns32                      *buttons
 );
 
 
 
-/*
- *	Q3Tracker_ChangeButtons
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_ChangeButtons
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param controllerRef    Description of the parameter.
+ *  @param buttons          Description of the parameter.
+ *  @param buttonMask       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_ChangeButtons (
-	TQ3TrackerObject              trackerObject,
-	TQ3ControllerRef              controllerRef,
-	TQ3Uns32                      buttons,
-	TQ3Uns32                      buttonMask
+    TQ3TrackerObject              trackerObject,
+    TQ3ControllerRef              controllerRef,
+    TQ3Uns32                      buttons,
+    TQ3Uns32                      buttonMask
 );
 
 
 
-/*
- *	Q3Tracker_GetPosition
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_GetPosition
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param position         Description of the parameter.
+ *  @param delta            Description of the parameter.
+ *  @param changed          Description of the parameter.
+ *  @param serialNumber     Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetPosition (
-	TQ3TrackerObject              trackerObject,
-	TQ3Point3D                    *position,
-	TQ3Vector3D                   *delta,
-	TQ3Boolean                    *changed,
-	TQ3Uns32                      *serialNumber
+    TQ3TrackerObject              trackerObject,
+    TQ3Point3D                    *position,
+    TQ3Vector3D                   *delta,
+    TQ3Boolean                    *changed,
+    TQ3Uns32                      *serialNumber
 );
 
 
 
-/*
- *	Q3Tracker_SetPosition
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_SetPosition
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param controllerRef    Description of the parameter.
+ *  @param position         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetPosition (
-	TQ3TrackerObject              trackerObject,
-	TQ3ControllerRef              controllerRef,
-	const TQ3Point3D              *position
+    TQ3TrackerObject              trackerObject,
+    TQ3ControllerRef              controllerRef,
+    const TQ3Point3D              *position
 );
 
 
 
-/*
- *	Q3Tracker_MovePosition
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_MovePosition
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param controllerRef    Description of the parameter.
+ *  @param delta            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_MovePosition (
-	TQ3TrackerObject              trackerObject,
-	TQ3ControllerRef              controllerRef,
-	const TQ3Vector3D             *delta
+    TQ3TrackerObject              trackerObject,
+    TQ3ControllerRef              controllerRef,
+    const TQ3Vector3D             *delta
 );
 
 
 
-/*
- *	Q3Tracker_GetOrientation
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_GetOrientation
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param orientation      Description of the parameter.
+ *  @param delta            Description of the parameter.
+ *  @param changed          Description of the parameter.
+ *  @param serialNumber     Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetOrientation (
-	TQ3TrackerObject              trackerObject,
-	TQ3Quaternion                 *orientation,
-	TQ3Quaternion                 *delta,
-	TQ3Boolean                    *changed,
-	TQ3Uns32                      *serialNumber
+    TQ3TrackerObject              trackerObject,
+    TQ3Quaternion                 *orientation,
+    TQ3Quaternion                 *delta,
+    TQ3Boolean                    *changed,
+    TQ3Uns32                      *serialNumber
 );
 
 
 
-/*
- *	Q3Tracker_SetOrientation
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_SetOrientation
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param controllerRef    Description of the parameter.
+ *  @param orientation      Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetOrientation (
-	TQ3TrackerObject              trackerObject,
-	TQ3ControllerRef              controllerRef,
-	const TQ3Quaternion           *orientation
+    TQ3TrackerObject              trackerObject,
+    TQ3ControllerRef              controllerRef,
+    const TQ3Quaternion           *orientation
 );
 
 
 
-/*
- *	Q3Tracker_MoveOrientation
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_MoveOrientation
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param controllerRef    Description of the parameter.
+ *  @param delta            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_MoveOrientation (
-	TQ3TrackerObject              trackerObject,
-	TQ3ControllerRef              controllerRef,
-	const TQ3Quaternion           *delta
+    TQ3TrackerObject              trackerObject,
+    TQ3ControllerRef              controllerRef,
+    const TQ3Quaternion           *delta
 );
 
 
 
-/*
- *	Q3Tracker_SetEventCoordinates
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_SetEventCoordinates
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param timeStamp        Description of the parameter.
+ *  @param buttons          Description of the parameter.
+ *  @param position         Description of the parameter.
+ *  @param orientation      Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetEventCoordinates (
-	TQ3TrackerObject              trackerObject,
-	TQ3Uns32                      timeStamp,
-	TQ3Uns32                      buttons,
-	const TQ3Point3D              *position,
-	const TQ3Quaternion           *orientation
+    TQ3TrackerObject              trackerObject,
+    TQ3Uns32                      timeStamp,
+    TQ3Uns32                      buttons,
+    const TQ3Point3D              *position,
+    const TQ3Quaternion           *orientation
 );
 
 
 
-/*
- *	Q3Tracker_GetEventCoordinates
- *		Description of function
+/*!
+ *  @function
+ *      Q3Tracker_GetEventCoordinates
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackerObject    Description of the parameter.
+ *  @param timeStamp        Description of the parameter.
+ *  @param buttons          Description of the parameter.
+ *  @param position         Description of the parameter.
+ *  @param orientation      Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetEventCoordinates (
-	TQ3TrackerObject              trackerObject,
-	TQ3Uns32                      timeStamp,
-	TQ3Uns32                      *buttons,
-	TQ3Point3D                    *position,
-	TQ3Quaternion                 *orientation
+    TQ3TrackerObject              trackerObject,
+    TQ3Uns32                      timeStamp,
+    TQ3Uns32                      *buttons,
+    TQ3Point3D                    *position,
+    TQ3Quaternion                 *orientation
 );
 
 
 
-/*
- *	Q3CursorTracker_PrepareTracking
- *		Description of function
+/*!
+ *  @function
+ *      Q3CursorTracker_PrepareTracking
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_PrepareTracking (
-	void
+    void
 );
 
 
 
-/*
- *	Q3CursorTracker_SetTrackDeltas
- *		Description of function
+/*!
+ *  @function
+ *      Q3CursorTracker_SetTrackDeltas
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param trackDeltas      Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_SetTrackDeltas (
-	TQ3Boolean                    trackDeltas
+    TQ3Boolean                    trackDeltas
 );
 
 
 
-/*
- *	Q3CursorTracker_GetAndClearDeltas
- *		Description of function
+/*!
+ *  @function
+ *      Q3CursorTracker_GetAndClearDeltas
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param depth            Description of the parameter.
+ *  @param orientation      Description of the parameter.
+ *  @param hasOrientation   Description of the parameter.
+ *  @param changed          Description of the parameter.
+ *  @param serialNumber     Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_GetAndClearDeltas (
-	float                         *depth,
-	TQ3Quaternion                 *orientation,
-	TQ3Boolean                    *hasOrientation,
-	TQ3Boolean                    *changed,
-	TQ3Uns32                      *serialNumber
+    float                         *depth,
+    TQ3Quaternion                 *orientation,
+    TQ3Boolean                    *hasOrientation,
+    TQ3Boolean                    *changed,
+    TQ3Uns32                      *serialNumber
 );
 
 
 
-/*
- *	Q3CursorTracker_SetNotifyFunc
- *		Description of function
+/*!
+ *  @function
+ *      Q3CursorTracker_SetNotifyFunc
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param notifyFunc       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_SetNotifyFunc (
-	TQ3CursorTrackerNotifyFunc    notifyFunc
+    TQ3CursorTrackerNotifyFunc    notifyFunc
 );
 
 
 
-/*
- *	Q3CursorTracker_GetNotifyFunc
- *		Description of function
+/*!
+ *  @function
+ *      Q3CursorTracker_GetNotifyFunc
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param notifyFunc       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_GetNotifyFunc (
-	TQ3CursorTrackerNotifyFunc    *notifyFunc
+    TQ3CursorTrackerNotifyFunc    *notifyFunc
 );
 
 
@@ -705,11 +1149,12 @@ Q3CursorTracker_GetNotifyFunc (
 
 
 //=============================================================================
-//		C++ postamble
+//      C++ postamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 }
 #endif
 
 #endif
+
 

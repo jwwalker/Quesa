@@ -16,21 +16,21 @@
 
         For the current version of Quesa, see:
 
-        	<http://www.quesa.org/>
+            <http://www.quesa.org/>
 
-		This library is free software; you can redistribute it and/or
-		modify it under the terms of the GNU Lesser General Public
-		License as published by the Free Software Foundation; either
-		version 2 of the License, or (at your option) any later version.
+        This library is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2 of the License, or (at your option) any later version.
 
-		This library is distributed in the hope that it will be useful,
-		but WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-		Lesser General Public License for more details.
+        This library is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+        Lesser General Public License for more details.
 
-		You should have received a copy of the GNU Lesser General Public
-		License along with this library; if not, write to the Free Software
-		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+        You should have received a copy of the GNU Lesser General Public
+        License along with this library; if not, write to the Free Software
+        Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
 #ifndef QUESA_CUSTOMELEMENTS_HDR
@@ -52,7 +52,7 @@
 
 
 //=============================================================================
-//		C++ preamble
+//      C++ preamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 extern "C" {
@@ -66,15 +66,15 @@ extern "C" {
 //      Constants
 //-----------------------------------------------------------------------------
 // Custom element names
-#define CEcNameElementName						"Apple Computer, Inc.:NameElement"
-#define	CEcUrlElementName						"Apple Computer, Inc.:URLElement"
-#define	CEcWireElementName						"Apple Computer, Inc.:WireElement"
+#define CEcNameElementName                      "Apple Computer, Inc.:NameElement"
+#define CEcUrlElementName                       "Apple Computer, Inc.:URLElement"
+#define CEcWireElementName                      "Apple Computer, Inc.:WireElement"
 
 
 // URL options
 typedef enum {
-	kCEUrlOptionNone							= 0,
-	kCEUrlOptionUseMap							= 1
+    kCEUrlOptionNone                            = 0,
+    kCEUrlOptionUseMap                          = 1
 } TCEUrlOptions;
 
 
@@ -86,9 +86,9 @@ typedef enum {
 //-----------------------------------------------------------------------------
 // URL type
 typedef struct {
-	char										*url;
-	char										*description;
-	TCEUrlOptions								options;
+    char                                        *url;
+    char                                        *description;
+    TCEUrlOptions                               options;
 } TCEUrlData;
 
 
@@ -98,109 +98,187 @@ typedef struct {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-/*
- *	CENameElement_SetData
- *		Description of function
+/*!
+ *  @function
+ *      TQ3Status  
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param object           Description of the parameter.
+ *  @param name             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 CENameElement_SetData (
-	TQ3Object                     object,
-	const char                    *name
+    TQ3Object                     object,
+    const char                    *name
 );
 
 
 
-/*
- *	CENameElement_GetData
- *		Description of function
+/*!
+ *  @function
+ *      TQ3Status  
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param object           Description of the parameter.
+ *  @param name             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 CENameElement_GetData (
-	TQ3Object                     object,
-	char                          **name
+    TQ3Object                     object,
+    char                          **name
 );
 
 
 
-/*
- *	CENameElement_EmptyData
- *		Description of function
+/*!
+ *  @function
+ *      TQ3Status  
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param name             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 CENameElement_EmptyData (
-	char                          **name
+    char                          **name
 );
 
 
 
-/*
- *	CEUrlElement_SetData
- *		Description of function
+/*!
+ *  @function
+ *      TQ3Status  
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param object           Description of the parameter.
+ *  @param urlData          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 CEUrlElement_SetData (
-	TQ3Object                     object,
-	TCEUrlData                    *urlData
+    TQ3Object                     object,
+    TCEUrlData                    *urlData
 );
 
 
 
-/*
- *	CEUrlElement_GetData
- *		Description of function
+/*!
+ *  @function
+ *      TQ3Status  
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param object           Description of the parameter.
+ *  @param urlData          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 CEUrlElement_GetData (
-	TQ3Object                     object,
-	TCEUrlData                    **urlData
+    TQ3Object                     object,
+    TCEUrlData                    **urlData
 );
 
 
 
-/*
- *	CEUrlElement_EmptyData
- *		Description of function
+/*!
+ *  @function
+ *      TQ3Status  
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param urlData          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 CEUrlElement_EmptyData (
-	TCEUrlData                    **urlData
+    TCEUrlData                    **urlData
 );
 
 
 
 #if QUESA_SUPPORT_QUICKTIME
 
-/*
- *	CEWireElement_SetData
- *		Description of function
+/*!
+ *  @function
+ *      TQ3Status  
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param object           Description of the parameter.
+ *  @param wireData         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 CEWireElement_SetData (
-	TQ3Object                     object,
-	QTAtomContainer               wireData
+    TQ3Object                     object,
+    QTAtomContainer               wireData
 );
 
 
 
-/*
- *	CEWireElement_GetData
- *		Description of function
+/*!
+ *  @function
+ *      TQ3Status  
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param object           Description of the parameter.
+ *  @param wireData         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 CEWireElement_GetData (
-	TQ3Object                     object,
-	QTAtomContainer               *wireData
+    TQ3Object                     object,
+    QTAtomContainer               *wireData
 );
 
 
 
-/*
- *	CEWireElement_EmptyData
- *		Description of function
+/*!
+ *  @function
+ *      TQ3Status  
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param wireData         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 CEWireElement_EmptyData (
-	QTAtomContainer               *wireData
+    QTAtomContainer               *wireData
 );
 
 #endif // QUESA_SUPPORT_QUICKTIME
@@ -210,11 +288,12 @@ CEWireElement_EmptyData (
 
 
 //=============================================================================
-//		C++ postamble
+//      C++ postamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 }
 #endif
 
 #endif
+
 

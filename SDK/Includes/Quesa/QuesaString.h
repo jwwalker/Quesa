@@ -16,21 +16,21 @@
 
         For the current version of Quesa, see:
 
-        	<http://www.quesa.org/>
+            <http://www.quesa.org/>
 
-		This library is free software; you can redistribute it and/or
-		modify it under the terms of the GNU Lesser General Public
-		License as published by the Free Software Foundation; either
-		version 2 of the License, or (at your option) any later version.
+        This library is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2 of the License, or (at your option) any later version.
 
-		This library is distributed in the hope that it will be useful,
-		but WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-		Lesser General Public License for more details.
+        This library is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+        Lesser General Public License for more details.
 
-		You should have received a copy of the GNU Lesser General Public
-		License along with this library; if not, write to the Free Software
-		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+        You should have received a copy of the GNU Lesser General Public
+        License along with this library; if not, write to the Free Software
+        Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
 #ifndef QUESA_STRING_HDR
@@ -52,7 +52,7 @@
 
 
 //=============================================================================
-//		C++ preamble
+//      C++ preamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 extern "C" {
@@ -65,71 +65,122 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-/*
- *	Q3String_GetType
- *		Description of function
+/*!
+ *  @function
+ *      Q3String_GetType
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param stringObj        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3String_GetType (
-	TQ3StringObject               stringObj
+    TQ3StringObject               stringObj
 );
 
 
 
-/*
- *	Q3CString_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3CString_New
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param str              Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3StringObject  )
 Q3CString_New (
-	const char                    *str
+    const char                    *str
 );
 
 
 
-/*
- *	Q3CString_GetLength
- *		Description of function
+/*!
+ *  @function
+ *      Q3CString_GetLength
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param stringObj        Description of the parameter.
+ *  @param length           Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CString_GetLength (
-	TQ3StringObject               stringObj,
-	TQ3Uns32                      *length
+    TQ3StringObject               stringObj,
+    TQ3Uns32                      *length
 );
 
 
 
-/*
- *	Q3CString_SetString
- *		Description of function
+/*!
+ *  @function
+ *      Q3CString_SetString
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param stringObj        Description of the parameter.
+ *  @param str              Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CString_SetString (
-	TQ3StringObject               stringObj,
-	const char                    *str
+    TQ3StringObject               stringObj,
+    const char                    *str
 );
 
 
 
-/*
- *	Q3CString_GetString
- *		Description of function
+/*!
+ *  @function
+ *      Q3CString_GetString
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param stringObj        Description of the parameter.
+ *  @param str              Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CString_GetString (
-	TQ3StringObject               stringObj,
-	char                          **str
+    TQ3StringObject               stringObj,
+    char                          **str
 );
 
 
 
-/*
- *	Q3CString_EmptyData
- *		Description of function
+/*!
+ *  @function
+ *      Q3CString_EmptyData
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param str              Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CString_EmptyData (
-	char                          **str
+    char                          **str
 );
 
 
@@ -137,11 +188,12 @@ Q3CString_EmptyData (
 
 
 //=============================================================================
-//		C++ postamble
+//      C++ postamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 }
 #endif
 
 #endif
+
 

@@ -16,21 +16,21 @@
 
         For the current version of Quesa, see:
 
-        	<http://www.quesa.org/>
+            <http://www.quesa.org/>
 
-		This library is free software; you can redistribute it and/or
-		modify it under the terms of the GNU Lesser General Public
-		License as published by the Free Software Foundation; either
-		version 2 of the License, or (at your option) any later version.
+        This library is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2 of the License, or (at your option) any later version.
 
-		This library is distributed in the hope that it will be useful,
-		but WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-		Lesser General Public License for more details.
+        This library is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+        Lesser General Public License for more details.
 
-		You should have received a copy of the GNU Lesser General Public
-		License along with this library; if not, write to the Free Software
-		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+        You should have received a copy of the GNU Lesser General Public
+        License along with this library; if not, write to the Free Software
+        Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
 #ifndef QUESA_STORAGE_HDR
@@ -48,16 +48,16 @@
 #define __QD3DSTORAGE__
 
 #if QUESA_OS_MACINTOSH
-  	#if QUESA_UH_IN_FRAMEWORKS
-		#include <CarbonCore/MacTypes.h>
-		#include <CarbonCore/Files.h>
-  	#else
-		#include <MacTypes.h>
-		#include <Files.h>
-	#endif
+    #if QUESA_UH_IN_FRAMEWORKS
+        #include <CarbonCore/MacTypes.h>
+        #include <CarbonCore/Files.h>
+    #else
+        #include <MacTypes.h>
+        #include <Files.h>
+    #endif
 
 #elif QUESA_OS_WIN32
-	#include <Windows.h>
+    #include <Windows.h>
 #endif
 
 #include <stdio.h>
@@ -67,7 +67,7 @@
 
 
 //=============================================================================
-//		C++ preamble
+//      C++ preamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 extern "C" {
@@ -80,173 +80,284 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-/*
- *	Q3Storage_GetType
- *		Description of function
+/*!
+ *  @function
+ *      Q3Storage_GetType
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Storage_GetType (
-	TQ3StorageObject              storage
+    TQ3StorageObject              storage
 );
 
 
 
-/*
- *	Q3Storage_GetSize
- *		Description of function
+/*!
+ *  @function
+ *      Q3Storage_GetSize
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param size             Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Storage_GetSize (
-	TQ3StorageObject              storage,
-	TQ3Uns32                      *size
+    TQ3StorageObject              storage,
+    TQ3Uns32                      *size
 );
 
 
 
-/*
- *	Q3Storage_GetData
- *		Description of function
+/*!
+ *  @function
+ *      Q3Storage_GetData
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param offset           Description of the parameter.
+ *  @param dataSize         Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @param sizeRead         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Storage_GetData (
-	TQ3StorageObject              storage,
-	TQ3Uns32                      offset,
-	TQ3Uns32                      dataSize,
-	unsigned char                 *data,
-	TQ3Uns32                      *sizeRead
+    TQ3StorageObject              storage,
+    TQ3Uns32                      offset,
+    TQ3Uns32                      dataSize,
+    unsigned char                 *data,
+    TQ3Uns32                      *sizeRead
 );
 
 
 
-/*
- *	Q3Storage_SetData
- *		Description of function
+/*!
+ *  @function
+ *      Q3Storage_SetData
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param offset           Description of the parameter.
+ *  @param dataSize         Description of the parameter.
+ *  @param data             Description of the parameter.
+ *  @param sizeWritten      Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Storage_SetData (
-	TQ3StorageObject              storage,
-	TQ3Uns32                      offset,
-	TQ3Uns32                      dataSize,
-	const unsigned char           *data,
-	TQ3Uns32                      *sizeWritten
+    TQ3StorageObject              storage,
+    TQ3Uns32                      offset,
+    TQ3Uns32                      dataSize,
+    const unsigned char           *data,
+    TQ3Uns32                      *sizeWritten
 );
 
 
 
-/*
- *	Q3MemoryStorage_GetType
- *		Description of function
+/*!
+ *  @function
+ *      Q3MemoryStorage_GetType
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3MemoryStorage_GetType (
-	TQ3StorageObject              storage
+    TQ3StorageObject              storage
 );
 
 
 
-/*
- *	Q3MemoryStorage_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3MemoryStorage_New
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param buffer           Description of the parameter.
+ *  @param validSize        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3MemoryStorage_New (
-	const unsigned char           *buffer,
-	TQ3Uns32                      validSize
+    const unsigned char           *buffer,
+    TQ3Uns32                      validSize
 );
 
 
 
-/*
- *	Q3MemoryStorage_Set
- *		Description of function
+/*!
+ *  @function
+ *      Q3MemoryStorage_Set
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param buffer           Description of the parameter.
+ *  @param validSize        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MemoryStorage_Set (
-	TQ3StorageObject              storage,
-	const unsigned char           *buffer,
-	TQ3Uns32                      validSize
+    TQ3StorageObject              storage,
+    const unsigned char           *buffer,
+    TQ3Uns32                      validSize
 );
 
 
 
-/*
- *	Q3MemoryStorage_NewBuffer
- *		Description of function
+/*!
+ *  @function
+ *      Q3MemoryStorage_NewBuffer
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param buffer           Description of the parameter.
+ *  @param validSize        Description of the parameter.
+ *  @param bufferSize       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3MemoryStorage_NewBuffer (
-	unsigned char                 *buffer,
-	TQ3Uns32                      validSize,
-	TQ3Uns32                      bufferSize
+    unsigned char                 *buffer,
+    TQ3Uns32                      validSize,
+    TQ3Uns32                      bufferSize
 );
 
 
 
-/*
- *	Q3MemoryStorage_SetBuffer
- *		Description of function
+/*!
+ *  @function
+ *      Q3MemoryStorage_SetBuffer
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param buffer           Description of the parameter.
+ *  @param validSize        Description of the parameter.
+ *  @param bufferSize       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MemoryStorage_SetBuffer (
-	TQ3StorageObject              storage,
-	unsigned char                 *buffer,
-	TQ3Uns32                      validSize,
-	TQ3Uns32                      bufferSize
+    TQ3StorageObject              storage,
+    unsigned char                 *buffer,
+    TQ3Uns32                      validSize,
+    TQ3Uns32                      bufferSize
 );
 
 
 
-/*
- *	Q3MemoryStorage_GetBuffer
- *		Description of function
+/*!
+ *  @function
+ *      Q3MemoryStorage_GetBuffer
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param buffer           Description of the parameter.
+ *  @param validSize        Description of the parameter.
+ *  @param bufferSize       Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MemoryStorage_GetBuffer (
-	TQ3StorageObject              storage,
-	unsigned char                 **buffer,
-	TQ3Uns32                      *validSize,
-	TQ3Uns32                      *bufferSize
+    TQ3StorageObject              storage,
+    unsigned char                 **buffer,
+    TQ3Uns32                      *validSize,
+    TQ3Uns32                      *bufferSize
 );
 
 
 
-/*
- *	Q3PathStorage_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3PathStorage_New
+ *  @discussion
+ *      Not supported by QD3D.
  *
- *		Note : Not supported by QD3D.
+ *  @param pathName         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3PathStorage_New (
-	const char                    *pathName
+    const char                    *pathName
 );
 
 
 
-/*
- *	Q3PathStorage_Set
- *		Description of function
+/*!
+ *  @function
+ *      Q3PathStorage_Set
+ *  @discussion
+ *      Not supported by QD3D.
  *
- *		Note : Not supported by QD3D.
+ *  @param theStorage       Description of the parameter.
+ *  @param pathName         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PathStorage_Set (
-	TQ3StorageObject              theStorage,
-	const char                    *pathName
+    TQ3StorageObject              theStorage,
+    const char                    *pathName
 );
 
 
 
-/*
- *	Q3PathStorage_Get
- *		Description of function
+/*!
+ *  @function
+ *      Q3PathStorage_Get
+ *  @discussion
+ *      Not supported by QD3D.
  *
- *		Note : Not supported by QD3D.
+ *  @param theStorage       Description of the parameter.
+ *  @param pathName         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PathStorage_Get (
-	TQ3StorageObject              theStorage,
-	char                          *pathName
+    TQ3StorageObject              theStorage,
+    char                          *pathName
 );
 
 
@@ -258,121 +369,210 @@ Q3PathStorage_Get (
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
 
-/*
- *	Q3HandleStorage_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3HandleStorage_New
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param handle           Description of the parameter.
+ *  @param validSize        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3HandleStorage_New (
-	Handle                        handle,
-	TQ3Uns32                      validSize
+    Handle                        handle,
+    TQ3Uns32                      validSize
 );
 
 
 
-/*
- *	Q3HandleStorage_Set
- *		Description of function
+/*!
+ *  @function
+ *      Q3HandleStorage_Set
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param handle           Description of the parameter.
+ *  @param validSize        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3HandleStorage_Set (
-	TQ3StorageObject              storage,
-	Handle                        handle,
-	TQ3Uns32                      validSize
+    TQ3StorageObject              storage,
+    Handle                        handle,
+    TQ3Uns32                      validSize
 );
 
 
 
-/*
- *	Q3HandleStorage_Get
- *		Description of function
+/*!
+ *  @function
+ *      Q3HandleStorage_Get
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param handle           Description of the parameter.
+ *  @param validSize        Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3HandleStorage_Get (
-	TQ3StorageObject              storage,
-	Handle                        *handle,
-	TQ3Uns32                      *validSize
+    TQ3StorageObject              storage,
+    Handle                        *handle,
+    TQ3Uns32                      *validSize
 );
 
 
 
-/*
- *	Q3MacintoshStorage_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3MacintoshStorage_New
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param fsRefNum         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3MacintoshStorage_New (
-	TQ3Int16                      fsRefNum
+    TQ3Int16                      fsRefNum
 );
 
 
 
-/*
- *	Q3MacintoshStorage_Set
- *		Description of function
+/*!
+ *  @function
+ *      Q3MacintoshStorage_Set
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param fsRefNum         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacintoshStorage_Set (
-	TQ3StorageObject              storage,
-	TQ3Int16                      fsRefNum
+    TQ3StorageObject              storage,
+    TQ3Int16                      fsRefNum
 );
 
 
 
-/*
- *	Q3MacintoshStorage_Get
- *		Description of function
+/*!
+ *  @function
+ *      Q3MacintoshStorage_Get
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param fsRefNum         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacintoshStorage_Get (
-	TQ3StorageObject              storage,
-	TQ3Int16                      *fsRefNum
+    TQ3StorageObject              storage,
+    TQ3Int16                      *fsRefNum
 );
 
 
 
-/*
- *	Q3MacintoshStorage_GetType
- *		Description of function
+/*!
+ *  @function
+ *      Q3MacintoshStorage_GetType
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3MacintoshStorage_GetType (
-	TQ3StorageObject              storage
+    TQ3StorageObject              storage
 );
 
 
 
-/*
- *	Q3FSSpecStorage_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3FSSpecStorage_New
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param fs               Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3FSSpecStorage_New (
-	const FSSpec                  *fs
+    const FSSpec                  *fs
 );
 
 
 
-/*
- *	Q3FSSpecStorage_Set
- *		Description of function
+/*!
+ *  @function
+ *      Q3FSSpecStorage_Set
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param fs               Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FSSpecStorage_Set (
-	TQ3StorageObject              storage,
-	const FSSpec                  *fs
+    TQ3StorageObject              storage,
+    const FSSpec                  *fs
 );
 
 
 
-/*
- *	Q3FSSpecStorage_Get
- *		Description of function
+/*!
+ *  @function
+ *      Q3FSSpecStorage_Get
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param fs               Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FSSpecStorage_Get (
-	TQ3StorageObject              storage,
-	FSSpec                        *fs
+    TQ3StorageObject              storage,
+    FSSpec                        *fs
 );
 
 #endif // QUESA_OS_MACINTOSH
@@ -386,37 +586,63 @@ Q3FSSpecStorage_Get (
 //-----------------------------------------------------------------------------
 #if QUESA_OS_WIN32
 
-/*
- *	Q3Win32Storage_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3Win32Storage_New
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param hFile            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3Win32Storage_New (
-	HANDLE                        hFile
+    HANDLE                        hFile
 );
 
 
 
-/*
- *	Q3Win32Storage_Set
- *		Description of function
+/*!
+ *  @function
+ *      Q3Win32Storage_Set
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param hFile            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Win32Storage_Set (
-	TQ3StorageObject              storage,
-	HANDLE                        hFile
+    TQ3StorageObject              storage,
+    HANDLE                        hFile
 );
 
 
 
-/*
- *	Q3Win32Storage_Get
- *		Description of function
+/*!
+ *  @function
+ *      Q3Win32Storage_Get
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param hFile            Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Win32Storage_Get (
-	TQ3StorageObject              storage,
-	HANDLE                        *hFile
+    TQ3StorageObject              storage,
+    HANDLE                        *hFile
 );
 
 #endif // QUESA_OS_WIN32
@@ -430,37 +656,63 @@ Q3Win32Storage_Get (
 //-----------------------------------------------------------------------------
 #if QUESA_OS_UNIX
 
-/*
- *	Q3UnixPathStorage_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3UnixPathStorage_New
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param pathName         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3UnixPathStorage_New (
-	const char                    *pathName
+    const char                    *pathName
 );
 
 
 
-/*
- *	Q3UnixPathStorage_Set
- *		Description of function
+/*!
+ *  @function
+ *      Q3UnixPathStorage_Set
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param pathName         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3UnixPathStorage_Set (
-	TQ3StorageObject              storage,
-	const char                    *pathName
+    TQ3StorageObject              storage,
+    const char                    *pathName
 );
 
 
 
-/*
- *	Q3UnixPathStorage_Get
- *		Description of function
+/*!
+ *  @function
+ *      Q3UnixPathStorage_Get
+ *  @discussion
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *  @param storage          Description of the parameter.
+ *  @param pathName         Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3UnixPathStorage_Get (
-	TQ3StorageObject              storage,
-	char                          *pathName
+    TQ3StorageObject              storage,
+    char                          *pathName
 );
 
 #endif // QUESA_OS_UNIX
@@ -473,43 +725,54 @@ Q3UnixPathStorage_Get (
 //-----------------------------------------------------------------------------
 #if QUESA_OS_BE
 
-/*
- *	Q3BeStorage_New
- *		Description of function
+/*!
+ *  @function
+ *      Q3BeStorage_New
+ *  @discussion
+ *      Not supported by QD3D.
  *
- *		Note : Not supported by QD3D.
+ *  @param theFile          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3BeStorage_New (
-	BFile                         *theFile
+    BFile                         *theFile
 );
 
 
 
-/*
- *	Q3BeStorage_Set
- *		Description of function
+/*!
+ *  @function
+ *      Q3BeStorage_Set
+ *  @discussion
+ *      Not supported by QD3D.
  *
- *		Note : Not supported by QD3D.
+ *  @param theStorage       Description of the parameter.
+ *  @param theFile          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3BeStorage_Set (
-	TQ3StorageObject              theStorage,
-	BFile                         *theFile
+    TQ3StorageObject              theStorage,
+    BFile                         *theFile
 );
 
 
 
-/*
- *	Q3BeStorage_Get
- *		Description of function
+/*!
+ *  @function
+ *      Q3BeStorage_Get
+ *  @discussion
+ *      Not supported by QD3D.
  *
- *		Note : Not supported by QD3D.
+ *  @param theStorage       Description of the parameter.
+ *  @param theFile          Description of the parameter.
+ *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3BeStorage_Get (
-	TQ3StorageObject              theStorage,
-	BFile                         **theFile
+    TQ3StorageObject              theStorage,
+    BFile                         **theFile
 );
 
 #endif // QUESA_OS_BE
@@ -519,11 +782,12 @@ Q3BeStorage_Get (
 
 
 //=============================================================================
-//		C++ postamble
+//      C++ postamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 }
 #endif
 
 #endif
+
 
