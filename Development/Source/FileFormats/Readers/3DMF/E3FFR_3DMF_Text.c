@@ -835,20 +835,20 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 			}
 		else if(E3CString_IsEqual(BeginGroupLabel,objectType)) // BeginGroup
 			{
+			oldContainer = instanceData->containerLevel;
+			instanceData->containerLevel = instanceData->nestingLevel;
+			instanceData->MFData.inContainer = kQ3True;
+			
+			// read the root object, is its responsibility read its childs
+			result = Q3File_ReadObject (theFile);
+			
+			e3fformat_3dmf_text_skip_to_level (theFile, level);
+			instanceData->containerLevel = oldContainer;
+
 			if(instanceData->MFData.baseData.readInGroup == kQ3True) // we have to return the whole group
+
 				{
-				// read the group object
 				instanceData->MFData.baseData.groupDeepCounter++;
-				result = Q3File_ReadObject (theFile);
-				
-				if(Q3File_GetNextObjectType(theFile) == kQ3ObjectTypeDisplayGroupState){
-					childObject = Q3File_ReadObject(theFile);
-					if(childObject){
-						Q3DisplayGroup_SetState (result, E3FFormat_3DMF_DisplayGroupState_Get(childObject));
-						Q3Object_Dispose(childObject);
-						}
-					}
-					
 				if((result == NULL) || (Q3Object_IsType(result, kQ3ShapeTypeGroup) == kQ3False))
 					return NULL;
 				
@@ -857,18 +857,17 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 					childObject = Q3File_ReadObject(theFile);
 					if(childObject != NULL) {
 						if(Q3Object_IsType(childObject, kQ3SharedTypeEndGroup) == kQ3True)
+							{
+							Q3Object_Dispose(childObject);
 							break;
+							}
+
 						Q3Group_AddObject(result, childObject);
 						Q3Object_Dispose(childObject);
 						}
 					}
 				instanceData->MFData.baseData.groupDeepCounter--;
 				Q3_ASSERT(instanceData->MFData.baseData.groupDeepCounter >= 0);
-				}
-			else // instanceData->readInGroup == kQ3False, we have to return the single elements
-				{
-				// read the group object and continue normally
-				result = Q3File_ReadObject (theFile);
 				}
 			}
 		else
