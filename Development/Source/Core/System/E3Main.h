@@ -79,9 +79,37 @@ private :
 #define Q3_OBJECT_IS_CLASS(_object, _class) ((_object)->IsClass ( _class::eClassType, _class::eClassDepth ))
 
 
+#define Q3_REGISTER_CLASS(_parentType, _infoClass, _Name, _metaHandler, _instanceClass )	\
+	E3ClassTree::RegisterClass	( new ( std::nothrow ) _infoClass							\
+										(													\
+										_metaHandler, 										\
+										E3ClassTree::GetClass ( _parentType )				\
+										),													\
+								_instanceClass::eClassType,									\
+								_Name,														\
+								sizeof ( _instanceClass )									\
+								)
+	
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
+
+
+
+class E3Root : public E3ClassInfo
+	{
+	TQ3XObjectDisposeMethod			disposeMethod ;
+
+public :
+
+									E3Root	(
+											TQ3XMetaHandler	newClassMetaHandler,
+											E3ClassInfo*	newParent
+			 								) ; // constructor	
+			 								
+	friend class OpaqueTQ3Object ;
+	} ;
+
 
 
 
@@ -125,6 +153,7 @@ friend TQ3Status E3Memory_DumpRecording ( const char* fileName, const char* memo
 public :
 
 
+	TQ3Status					Dispose ( void ) ;
 	void						DestroyInstance ( void ) ;
 	TQ3Object					DuplicateInstance ( void ) ;
 	void*						FindLeafInstanceData ( void ) ;
@@ -214,7 +243,6 @@ TQ3Boolean			E3ObjectHierarchy_IsNameRegistered(const char *objectClassName);
 TQ3Status			E3ObjectHierarchy_GetSubClassData(TQ3ObjectType objectClassType, TQ3SubClassData *subClassData);
 TQ3Status			E3ObjectHierarchy_EmptySubClassData(TQ3SubClassData *subClassData);
 
-TQ3Status			E3Object_Dispose(TQ3Object theObject);
 TQ3Status			E3Object_CleanDispose(TQ3Object *object);
 TQ3Object			E3Object_Duplicate(TQ3Object theObject);
 TQ3Status			E3Object_Submit(TQ3Object theObject, TQ3ViewObject theView);
