@@ -740,8 +740,8 @@ ir_state_adjust_geom(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttrib
 //-----------------------------------------------------------------------------
 static void
 ir_state_adjust_gl(TQ3InteractiveData *instanceData)
-{	GLfloat		specularControl;
-
+{	GLfloat		shininess;
+	float		specularControl;
 
 
 	// If we're using Phong illumination, update the specular colour and control
@@ -768,34 +768,17 @@ ir_state_adjust_gl(TQ3InteractiveData *instanceData)
 			instanceData->stateCurrentSpecularControl = instanceData->stateGeomSpecularControl;
 			specularControl                           = instanceData->stateCurrentSpecularControl;
 			
-			if (specularControl < 0.5f)
-	           	specularControl = 0.0f;
+			if (specularControl < 0.0)
+				specularControl = 0.0;
+			
+			shininess = 128.0 - (20.0 * 128.0)/(specularControl + 20.0);
+			// This function was arrived at heuristically, but notice several properties:
+			// 1. as long as specularControl >= 0, shininess >= 0.
+			// 2. as specularControl increases, shininess increases.
+			// 3. as specularControl tends to infinity, shininess approaches 128 (the maximum
+			//    allowed by OpenGL).
 
-			else if (specularControl < 1.0f)
-    	       	specularControl = 1.0f;
-
-			else if (specularControl < 2.0f)
-        	   	specularControl = 1.5f;
-
-			else if (specularControl < 5.0f)
-	           	specularControl = 2.5f;
-
-			else if (specularControl < 10.0f)
-    	       	specularControl = 4.0f;
-
-			else if (specularControl < 15.0f)
-				specularControl = 12.0f;
-
-			else if (specularControl < 20.0f)
-				specularControl = 30.0f;
-
-			else if (specularControl < 25.0f)
-				specularControl = 80.0f;
-
-			else
-        	   	specularControl = 128.0f;
-
-			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &specularControl);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
 			}
 		}
 
