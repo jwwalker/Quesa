@@ -67,7 +67,7 @@
 //-----------------------------------------------------------------------------
 #define kRendererClassName							"Quesa:Shared:Renderer:Interactive"
 #define kRendererNickName							"Quesa Interactive"
-#define	kRendererDefaultDepthBits					16
+#define	kRendererDefaultDepthBits					32
 
 
 
