@@ -2613,9 +2613,10 @@ E3View_GetRenderer(TQ3ViewObject theView, TQ3RendererObject *theRenderer)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3View_StartRendering(TQ3ViewObject theView)
-{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3Status		qd3dStatus;
-	TQ3Matrix4x4	worldToFrustum;
+{	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3DrawContextData		drawContextData;
+	TQ3Matrix4x4			worldToFrustum;
+	TQ3Status				qd3dStatus;
 
 
 
@@ -2638,12 +2639,26 @@ E3View_StartRendering(TQ3ViewObject theView)
 
 
 
+	// Make sure we have a non-empty draw context
+	Q3DrawContext_GetData(instanceData->theDrawContext, &drawContextData);
+	if (drawContextData.paneState)
+		{
+		if (drawContextData.pane.min.x == drawContextData.pane.max.x &&
+			drawContextData.pane.min.y == drawContextData.pane.max.y)
+			{
+			E3ErrorManager_PostError(kQ3ErrorBadDrawContext, kQ3False);
+			return(kQ3Failure);
+			}
+		}
+
+
+
 	// Start the submit loop
 	qd3dStatus = e3view_submit_begin(theView, kQ3ViewModeDrawing);
 
 
 
-	// If this is the first pass then update the draw context
+	// If this is the first pass then update the draw context and start the frame
 	if (instanceData->viewPass == 1 && qd3dStatus == kQ3Success)
 		{
 		qd3dStatus = E3DrawContext_Update(instanceData->theDrawContext);
