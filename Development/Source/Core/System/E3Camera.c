@@ -217,7 +217,10 @@ e3camera_viewangle_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMa
 	
 	a = 1.0f / (1.0f - zNear * oneOverZFar);
 	c = (-zNear * a) / (zNear * zFar);
-	w = 1.0f / (float) tan(instanceData->fov * 0.5f) / instanceData->aspectRatioXToY;
+  if (instanceData->aspectRatioXToY <= 1.0f)
+    w = 1.0f / (float) tan(instanceData->fov * 0.5f);
+  else
+    w = 1.0f / (float) tan(instanceData->fov * 0.5f) / instanceData->aspectRatioXToY;
 	h = w * instanceData->aspectRatioXToY;
 	q = zFar / (zFar - zNear);
 
