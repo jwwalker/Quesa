@@ -109,7 +109,7 @@ Q3WinViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 
 
 	// Call our implementation
-	return(Q3ViewerGetVersion(majorRevision, minorRevision));
+	return(E3WinViewerGetVersion(majorRevision, minorRevision));
 }
 
 
@@ -143,7 +143,7 @@ Q3WinViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 
 
 	// Call our implementation
-	return(Q3ViewerGetReleaseVersion(releaseRevision));
+	return(E3WinViewerGetReleaseVersion(releaseRevision));
 }
 
 
@@ -216,7 +216,7 @@ Q3WinViewerDispose(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerDispose(viewer));
+	return(E3WinViewerDispose(viewer));
 }
 
 
@@ -252,7 +252,7 @@ Q3WinViewerUseFile(TQ3ViewerObject viewer, HANDLE fileHandle)
 
 
 	// Call our implementation
-	return(Q3ViewerUseFile(viewer, fileHandle));
+	return(E3WinViewerUseFile(viewer, fileHandle));
 }
 
 
@@ -292,7 +292,7 @@ Q3WinViewerUseData(TQ3ViewerObject viewer, void *data, TQ3Uns32 size)
 
 
 	// Call our implementation
-	return(Q3ViewerUseData(viewer, data, size));
+	return(E3WinViewerUseData(viewer, data, size));
 }
 
 
@@ -328,7 +328,7 @@ Q3WinViewerWriteFile(TQ3ViewerObject viewer, HANDLE fileHandle)
 
 
 	// Call our implementation
-	return(Q3ViewerWriteFile(viewer, fileHandle));
+	return(E3WinViewerWriteFile(viewer, fileHandle));
 }
 
 
@@ -375,7 +375,7 @@ Q3WinViewerWriteData(TQ3ViewerObject viewer, void *data, TQ3Uns32 dataSize, TQ3U
 
 
 	// Call our implementation
-	return(Q3ViewerWriteData(viewer, data, dataSize, actualDataSize));
+	return(E3WinViewerWriteData(viewer, data, dataSize, actualDataSize));
 }
 
 
@@ -408,7 +408,7 @@ Q3WinViewerDraw(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerDraw(viewer));
+	return(E3WinViewerDraw(viewer));
 }
 
 
@@ -441,7 +441,7 @@ Q3WinViewerDrawContent(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerDrawContent(viewer));
+	return(E3WinViewerDrawContent(viewer));
 }
 
 
@@ -474,7 +474,7 @@ Q3WinViewerDrawControlStrip(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerDrawControlStrip(viewer));
+	return(E3WinViewerDrawControlStrip(viewer));
 }
 
 
@@ -513,7 +513,7 @@ Q3WinViewerMouseDown(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 
 
 	// Call our implementation
-	return(Q3ViewerMouseDown(viewer, x, y));
+	return(E3WinViewerMouseDown(viewer, x, y));
 }
 
 
@@ -552,7 +552,7 @@ Q3WinViewerContinueTracking(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 
 
 	// Call our implementation
-	return(Q3ViewerContinueTracking(viewer, x, y));
+	return(E3WinViewerContinueTracking(viewer, x, y));
 }
 
 
@@ -591,7 +591,7 @@ Q3WinViewerMouseUp(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 
 
 	// Call our implementation
-	return(Q3ViewerMouseUp(viewer, x, y));
+	return(E3WinViewerMouseUp(viewer, x, y));
 }
 
 
@@ -664,7 +664,7 @@ Q3WinViewerGetButtonRect(TQ3ViewerObject viewer, TQ3Uns32 button, RECT *rectangl
 
 
 	// Call our implementation
-	return(Q3ViewerGetButtonRect(viewer, button, rectangle));
+	return(E3WinViewerGetButtonRect(viewer, button, rectangle));
 }
 
 
@@ -697,7 +697,7 @@ Q3WinViewerGetCurrentButton(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerGetCurrentButton(viewer));
+	return(E3WinViewerGetCurrentButton(viewer));
 }
 
 
@@ -733,7 +733,7 @@ Q3WinViewerSetCurrentButton(TQ3ViewerObject viewer, TQ3Uns32 button)
 
 
 	// Call our implementation
-	return(Q3ViewerSetCurrentButton(viewer, button));
+	return(E3WinViewerSetCurrentButton(viewer, button));
 }
 
 
@@ -841,7 +841,7 @@ Q3WinViewerSetBackgroundColor(TQ3ViewerObject viewer, TQ3ColorARGB *color)
 
 
 	// Call our implementation
-	return(Q3ViewerSetBackgroundColor(viewer, color));
+	return(E3WinViewerSetBackgroundColor(viewer, color));
 }
 
 
@@ -878,7 +878,7 @@ Q3WinViewerGetBackgroundColor(TQ3ViewerObject viewer, TQ3ColorARGB *color)
 
 
 	// Call our implementation
-	return(Q3ViewerGetBackgroundColor(viewer, color));
+	return(E3WinViewerGetBackgroundColor(viewer, color));
 }
 
 
@@ -980,7 +980,7 @@ Q3WinViewerSetFlags(TQ3ViewerObject viewer, TQ3Uns32 flags)
 
 
 	// Call our implementation
-	return(Q3ViewerSetFlags(viewer, flags));
+	return(E3WinViewerSetFlags(viewer, flags));
 }
 
 
@@ -1013,7 +1013,7 @@ Q3WinViewerGetFlags(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerGetFlags(viewer));
+	return(E3WinViewerGetFlags(viewer));
 }
 
 
@@ -1087,7 +1087,7 @@ Q3WinViewerGetBounds(TQ3ViewerObject viewer, RECT *bounds)
 
 
 	// Call our implementation
-	return(Q3ViewerGetBounds(viewer, bounds));
+	return(E3WinViewerGetBounds(viewer, bounds));
 }
 
 
@@ -1126,7 +1126,7 @@ Q3WinViewerSetDimension(TQ3ViewerObject viewer, TQ3Uns32 width, TQ3Uns32 height)
 
 
 	// Call our implementation
-	return(Q3ViewerSetDimension(viewer, width, height));
+	return(E3WinViewerSetDimension(viewer, width, height));
 }
 
 
@@ -1167,7 +1167,7 @@ Q3WinViewerGetDimension(TQ3ViewerObject viewer, TQ3Uns32 *width, TQ3Uns32 *heigh
 
 
 	// Call our implementation
-	return(Q3ViewerGetDimension(viewer, width, height));
+	return(E3WinViewerGetDimension(viewer, width, height));
 }
 
 
@@ -1208,7 +1208,7 @@ Q3WinViewerGetMinimumDimension(TQ3ViewerObject viewer, TQ3Uns32 *width, TQ3Uns32
 
 
 	// Call our implementation
-	return (Q3ViewerGetMinimumDimension(viewer, width, height));
+	return (E3WinViewerGetMinimumDimension(viewer, width, height));
 }
 
 
@@ -1310,9 +1310,7 @@ Q3WinViewerGetViewer(HWND theWindow)
 
 
 	// Call our implementation
-	// To be implemented...
-	return(NULL);
-//	return(Q3ViewerGetViewer(theWindow));
+	return(E3WinViewerGetViewer(theWindow));
 }
 
 
@@ -1345,9 +1343,7 @@ Q3WinViewerGetControlStrip(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	// To be implemented...
-	return(NULL);
-//	return(Q3ViewerGetControlStrip(viewer));
+	return(E3WinViewerGetControlStrip(viewer));
 }
 
 
@@ -1452,7 +1448,7 @@ Q3WinViewerGetState(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerGetState(viewer));
+	return(E3WinViewerGetState(viewer));
 }
 
 
@@ -1698,7 +1694,7 @@ Q3WinViewerGetCameraCount(TQ3ViewerObject viewer, TQ3Uns32 *count)
 
 
 	// Call our implementation
-	return(Q3ViewerGetCameraCount(viewer, count));
+	return(E3WinViewerGetCameraCount(viewer, count));
 }
 
 
@@ -1734,9 +1730,7 @@ Q3WinViewerSetCameraNumber(TQ3ViewerObject viewer, TQ3Uns32 cameraNo)
 
 
 	// Call our implementation
-	// To be implemented...
-	return(kQ3Failure);
-//	return(Q3ViewerSetCameraNumber(viewer, cameraNo));
+	return(E3WinViewerSetCameraNumber(viewer, cameraNo));
 }
 
 
@@ -1772,9 +1766,7 @@ Q3WinViewerSetCameraView(TQ3ViewerObject viewer, TQ3ViewerCameraView viewType)
 
 
 	// Call our implementation
-	// To be implemented...
-	return(kQ3Failure);
-//	return(Q3ViewerSetCameraView(viewer, viewType));
+	return(E3WinViewerSetCameraView(viewer, viewType));
 }
 
 
