@@ -307,14 +307,9 @@ WFRenderer_Register(void)
 
 
 
-	// Determine how to register the renderer
-#if QUESA_REPLACE_QD3D_RENDERERS
+	// Register always as kQ3RendererTypeWireFrame since QD3D does so
 	theType   = kQ3RendererTypeWireFrame;
 	className = kQ3ClassNameRendererWireframe;
-#else
-	theType   = kQ3ObjectTypeQuesaWireframe;
-	className = kRendererClassName;
-#endif
 
 
 
