@@ -211,6 +211,10 @@ e3fformat_3dmf_bin_canread(TQ3StorageObject storage, TQ3ObjectType* theFileForma
 	TQ3Int32 flags;
 	TQ3Uns32 sizeRead;
 	
+	if (theFileFormatFound == NULL) {
+		return (kQ3False);
+	}
+
 	*theFileFormatFound = kQ3ObjectTypeInvalid;
 	
 	readMethod = (TQ3XStorageReadDataMethod)E3ClassTree_GetMethod (storage->theClass, kQ3XMethodTypeStorageReadData);

@@ -603,6 +603,10 @@ e3fformat_3dmf_text_canread(TQ3StorageObject storage, TQ3ObjectType* theFileForm
 	char key[] = "3DMetafile";
 	TQ3Uns32 sizeRead;
 	
+	if (theFileFormatFound == NULL) {
+		return (kQ3False);
+	}
+
 	*theFileFormatFound = kQ3ObjectTypeInvalid;
 	
 	readMethod = (TQ3XStorageReadDataMethod)E3ClassTree_GetMethod (storage->theClass, kQ3XMethodTypeStorageReadData);
