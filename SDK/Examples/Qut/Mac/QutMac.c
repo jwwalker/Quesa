@@ -131,7 +131,6 @@ EventLoopTimerRef			gUpdateTimer = NULL;
 //-----------------------------------------------------------------------------
 //		qut_carbon_get_nib : Get our nib reference.
 //-----------------------------------------------------------------------------
-// dair, rename these routines
 #if QUT_MAC_CARBON_EVENTS
 static IBNibRef
 qut_carbon_get_nib(void)
@@ -378,7 +377,6 @@ qut_carbon_install_handlers(void)
 //=============================================================================
 //		qut_classic_handle_menu : Handle menu selections.
 //-----------------------------------------------------------------------------
-// dair, rename these routines
 #if !QUT_MAC_CARBON_EVENTS
 static void
 qut_classic_handle_menu(TQ3Uns32 menuInfo)
