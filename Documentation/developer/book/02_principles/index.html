@@ -16,12 +16,36 @@
 <!-- Page Content                                                            -->
 <!--=========================================================================-->
 <h2>Basic Principles</h2>
-<ol>
-	<li>Reference counted objects</li>
-	<li>Inherited class system</li>
-	<li>API naming convention</li>
-	<li>Initialisation and termination</li>
+
+
+<!----------------------------------------------------------------------------->
+<h3>Reference counted objects</h3>
+
+Most objects in Quesa are <i>reference-counted</i>.   That means that Quesa keeps track of how many references there are to an object, and doesn't delete the object until the object is no longer in use (i.e., its reference count is zero).
+
+<p>Not all libraries treat reference-counting the same way.  The Quesa rules for it are as follows:
+
+<ol><p><li>The reference count of an object is incremented before returning it from a function.
+
+<p><li>The reference count of an object is <i>not</i> incremented before passing it in as a parameter to some other function.
 </ol>
+
+So, if you call a Quesa function that returns an object (such as 
+<a href="../../apiref/QuesaGeometry/Functions/Functions.html#Q3Box_New">Q3Box_New</a> or 
+<a href="../../apiref/QuesaGroup/Functions/Functions.html#Q3Group_GetPositionObject">Q3Group_GetPositionObject</a>), you have gained a reference to that object.  As long as you keep that reference in your data, everything is fine.  When that reference is about to disappear -- for example, because it's in a local variable that is about to go out of scope or be assigned a different value, or in an object that is being destroyed -- then you must call <a href="../../apiref/Quesa/Functions/Functions.html#Q3Object_Dispose">Q3Object_Dispose</a> to let Quesa know that there is one less reference to that object.
+
+<p>If your own code causes another reference to an object to be created -- for example, because you're returning an object from a function but also keeping your own reference to it -- then you should call <a href="../../apiref/Quesa/Functions/Functions.html#Q3Shared_GetReference">Q3Shared_GetReference</a> to increment its reference count.
+
+
+<!----------------------------------------------------------------------------->
+<h3>Inherited class system</h3>
+
+<!----------------------------------------------------------------------------->
+<h3>API naming convention</h3>
+
+<!----------------------------------------------------------------------------->
+<h3>Initialisation and termination</h3>
+
 
 
 
