@@ -205,32 +205,22 @@ E3System_UnloadPlugins(void)
 //-----------------------------------------------------------------------------
 void
 E3System_Bottleneck(void)
-{	E3GlobalsPtr	theGlobals = E3Globals_Get();
-	TQ3Boolean		needToClear;
-
-
-
-	// Decide if we need to clear - we do a bitwise or rather than a logical
-	// or, to avoid C short-cutting the expression and to give us a single
-	// branch for the most common case rather than four tests.
-	needToClear = (TQ3Boolean)(theGlobals->errMgrClearError   | theGlobals->errMgrClearWarning |
-				   theGlobals->errMgrClearNotice  | theGlobals->errMgrClearPlatform);
-
-
-
+{
 	// Clear any error state that's required
-	if (needToClear)
+	if (gE3Globals.errMgrNeedsClearing)
 		{
-		if (theGlobals->errMgrClearError)
+		if (gE3Globals.errMgrClearError)
 			E3ErrorManager_ClearError();
 
-		if (theGlobals->errMgrClearWarning)
+		if (gE3Globals.errMgrClearWarning)
 			E3ErrorManager_ClearWarning();
 
-		if (theGlobals->errMgrClearNotice)
+		if (gE3Globals.errMgrClearNotice)
 			E3ErrorManager_ClearNotice();
 
-		if (theGlobals->errMgrClearPlatform)
+		if (gE3Globals.errMgrClearPlatform)
 			E3ErrorManager_ClearPlatformError();
+		
+		gE3Globals.errMgrNeedsClearing = kQ3False;
 		}
 }

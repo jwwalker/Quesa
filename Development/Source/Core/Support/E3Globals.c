@@ -41,13 +41,48 @@
 
 
 //=============================================================================
-//      Internal variables
+//      Global variables
 //-----------------------------------------------------------------------------
-static TQ3Boolean		gInitialisedGlobals = kQ3False;
-static E3Globals		gE3Globals;
+//		Note : Code should access these via E3Globals_Get(); do not access
+//				them directly (except in E3System.c).
+//-----------------------------------------------------------------------------
+E3Globals		gE3Globals = 
+{
+	0,						// systemInitialised;
+	0,						// systemRefCount;
+	0,						// classTree;
+	0,						// classTreeRoot;
+	0,						// nextType;
+	0,						// sharedLibraryCount;
+	0,						// sharedLibraryInfo;
+	0,						// errMgrClearError;
+	0,						// errMgrClearWarning;
+	0,						// errMgrClearNotice;
+	0,						// errMgrClearPlatform;
+	0,						// errMgrNeedsClearing;
+	0,						// errMgrIsFatalError;
+	0,						// errMgrOldestError;
+	0,						// errMgrOldestWarning;
+	0,						// errMgrOldestNotice;
+	0,						// errMgrOldestPlatform;
+	0,						// errMgrLatestError;
+	0,						// errMgrLatestWarning;
+	0,						// errMgrLatestNotice;
+	0,						// errMgrLatestPlatform;
+	0,						// errMgrHandlerFuncError;
+	0,						// errMgrHandlerFuncWarning;
+	0,						// errMgrHandlerFuncNotice;
+	0,						// errMgrHandlerFuncPlatform;
+	0,						// errMgrHandlerDataError;
+	0,						// errMgrHandlerDataWarning;
+	0,						// errMgrHandlerDataNotice;
+	0,						// errMgrHandlerDataPlatform;
 
-
-
+#if QUESA_OS_MACINTOSH
+	0,						// dmNotifyUPP;
+	0,						// dmNotifiedChanges;
+#endif
+};
 
 
 //=============================================================================
@@ -61,17 +96,6 @@ static E3Globals		gE3Globals;
 E3GlobalsPtr
 E3Globals_Get(void)
 {
-
-
-	// If we've not initialised the globals, do so now
-	if (!gInitialisedGlobals)
-		{
-		Q3Memory_Clear(&gE3Globals, sizeof(gE3Globals));
-		gInitialisedGlobals = kQ3True;
-		}
-
-
-
 	// Return the globals
 	return(&gE3Globals);
 }
