@@ -39,11 +39,14 @@
 #include "E3View.h"
 #include "E3ClassTree.h"
 
-#pragma mark constants and typedefs
+
+
+
+
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
-
+#pragma mark constants and typedefs
 //-----------------------------------------------------------------------------
 /*
 	Types for ordered display groups
@@ -60,7 +63,6 @@
 	to put cameras and lights in a display group, even if you could?
 */
 //-----------------------------------------------------------------------------
-
 typedef enum
 {
 	kQ3XOrderIndex_First = 0,
@@ -119,12 +121,12 @@ typedef struct TQ3OrderedDisplayGroupData {
 
 
 
-#pragma mark -
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3group_new : Group new method.
 //-----------------------------------------------------------------------------
+#pragma mark -
 static TQ3Status
 e3group_new(TQ3Object theObject, void *privateData, const void *paramData)
 {
@@ -1226,8 +1228,8 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 
 	// Find out if we need to submit ourselves
 	shouldSubmit = kQ3False;
-	theMode = E3View_GetViewMode(theView);
-	qd3dStatus   = E3DisplayGroup_GetState(theObject, &theState);
+	theMode      = E3View_GetViewMode(theView);
+	qd3dStatus   = Q3DisplayGroup_GetState(theObject, &theState);
 	if (qd3dStatus == kQ3Success)
 		{
 		switch (theMode) {
