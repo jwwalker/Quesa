@@ -45,7 +45,12 @@ PATH=${PATH}:/usr/local/bin
 export PATH
 
 # make sure we can find gtk.m4
-aclocal -I /usr/local/share/aclocal
+ACLOCALADDPATHS=
+if test -d /usr/local/share/aclocal; then
+ ACLOCALADDPATHS=${ACLOCALADDPATHS} -I /usr/local/share/aclocal
+fi
+
+aclocal ${ACLOCALADDPATHS}
 automake --add-missing
 automake
 autoconf
