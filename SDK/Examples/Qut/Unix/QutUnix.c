@@ -515,16 +515,7 @@ qut_terminate(void)
 static void qut_file_ok_sel (GtkWidget *w, GtkFileSelection *fs)
 {
 	gStorage = Q3PathStorage_New(gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs)));
-	gtk_widget_destroy(fs); 
-}
-
-//=============================================================================
-//      qut_file_cancel_sel : FileSelector call back, creates the Storage object.
-//-----------------------------------------------------------------------------
-static void qut_file_cancel_sel (GtkWidget *w, GtkFileSelection *fs)
-{
-	gtk_widget_destroy(fs); 
-	gtk_main_quit();
+	gtk_widget_destroy(GTK_WIDGET(fs)); 
 }
 
 
