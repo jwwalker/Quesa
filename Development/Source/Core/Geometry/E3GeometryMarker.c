@@ -35,6 +35,8 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3View.h"
+#include "E3Pick.h"
+#include "E3Utils.h"
 #include "E3Geometry.h"
 #include "E3GeometryMarker.h"
 
@@ -45,6 +47,53 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      e3geom_marker_pixel_is_set : Is a pixel within a marker set?
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+e3geom_marker_pixel_is_set(const TQ3MarkerData *instanceData, TQ3Int32 x, TQ3Int32 y)
+{	TQ3Uns32		bitOffset, byteOffset;
+	TQ3Uns8			*thePtr, theByte;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(instanceData), kQ3False);
+
+
+
+	// Check to see if the pixel is in range
+	if (x < 0 || x >= instanceData->bitmap.width ||
+		y < 0 || y >= instanceData->bitmap.height)
+		return(kQ3False);
+
+
+
+	// Find the right row within the image
+	thePtr = instanceData->bitmap.image + (y * instanceData->bitmap.rowBytes);
+
+
+
+	// Find the right byte within the row
+	byteOffset = (x / 8);
+	thePtr    += byteOffset;
+	theByte    = *thePtr;
+
+
+
+	// Find the right bit within the byte
+	bitOffset = 7 - (x - byteOffset);
+
+
+
+	// Test the pixel
+	return(E3Bit_Test(theByte, 1 << bitOffset));
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_marker_new : Marker new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -119,17 +168,134 @@ e3geom_marker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 //=============================================================================
+//      e3geom_marker_pick_window_point : Marker window-point picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_marker_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3MarkerData			*instanceData = (const TQ3MarkerData *) objectData;
+	TQ3Status					qd3dStatus    = kQ3Success;
+	TQ3Point2D					windowPoint, markerPixel;
+	TQ3WindowPointPickData		pickData;
+
+
+
+	// Get the pick data
+	Q3WindowPointPick_GetData(thePick, &pickData);
+
+
+
+	// Transform our point to the screen, and adjust it by our offset
+	// to get the location of the top-left pixel within the image.
+	Q3View_TransformLocalToWindow(theView, &instanceData->location, &windowPoint);
+	windowPoint.x += instanceData->xOffset;
+	windowPoint.y += instanceData->yOffset;
+
+
+
+	// Calculate where in our image the pick point will fall
+	markerPixel.x = pickData.point.x - windowPoint.x;
+	markerPixel.y = pickData.point.y - windowPoint.y;
+
+
+
+	// See if we fall within the pick
+	if (e3geom_marker_pixel_is_set(instanceData, (TQ3Int32) markerPixel.x, (TQ3Int32) markerPixel.y))
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_marker_pick_window_rect : Marker window-rect picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_marker_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3MarkerData			*instanceData = (const TQ3MarkerData *) objectData;
+	TQ3Status					qd3dStatus    = kQ3Success;
+	TQ3Area						markerRect;
+	TQ3WindowRectPickData		pickData;
+	TQ3Uns32					x, y;
+
+
+
+	// Get the pick data
+	Q3WindowRectPick_GetData(thePick, &pickData);
+
+
+
+	// Transform our point to the screen, adjust it by our offset to get the
+	// location of the top-left pixel within the image, and add our width/height
+	// to get the location of the botom-right pixel.
+	Q3View_TransformLocalToWindow(theView, &instanceData->location, &markerRect.min);
+
+	markerRect.min.x += instanceData->xOffset;
+	markerRect.min.y += instanceData->yOffset;
+
+	markerRect.max.x = markerRect.min.x + instanceData->bitmap.width;
+	markerRect.max.y = markerRect.min.y + instanceData->bitmap.height;
+
+
+
+	// See if we fall within the pick
+	if (E3Rect_IntersectRect(&markerRect, &pickData.rect))
+		{
+		// Look for an active pixel within the pick rect
+		for (y = 0; y < instanceData->bitmap.height; y++)
+			{
+			for (x = 0; x < instanceData->bitmap.width; x++)
+				{
+				if (e3geom_marker_pixel_is_set(instanceData, x, y))
+					{
+					qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+					return(qd3dStatus);
+					}
+				}
+			}
+		}
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_marker_pick : Marker picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_marker_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{
-#pragma unused(objectType)
+{	TQ3Status			qd3dStatus;
+	TQ3PickObject		thePick;
 
 
 
-	// To be implemented...
-	return(kQ3Failure);
+	// Handle the pick
+	thePick = E3View_AccessPick(theView);
+	switch (Q3Pick_GetType(thePick)) {
+		case kQ3PickTypeWindowPoint:
+			qd3dStatus = e3geom_marker_pick_window_point(theView, thePick, theObject, objectData);
+			break;
+
+		case kQ3PickTypeWindowRect:
+			qd3dStatus = e3geom_marker_pick_window_rect(theView, thePick, theObject, objectData);
+			break;
+
+		case kQ3PickTypeWorldRay:
+			// Can't be picked, but don't stop picking
+			qd3dStatus = kQ3Success;
+			break;
+
+		default:
+			qd3dStatus = kQ3Failure;
+			break;
+		}
+
+	return(qd3dStatus);
 }
 
 

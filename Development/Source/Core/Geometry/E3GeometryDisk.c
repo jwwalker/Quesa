@@ -285,24 +285,6 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 //=============================================================================
-//      e3geom_disk_pick : Disk picking method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3geom_disk_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{
-#pragma unused(objectType)
-
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
-
-
-
-
-
-//=============================================================================
 //      e3geom_disk_bounds : Disk bounds method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -378,10 +360,6 @@ e3geom_disk_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeGeomCacheNew:
 			theMethod = (TQ3XFunctionPointer) e3geom_disk_cache_new;
-			break;
-
-		case kQ3XMethodTypeObjectSubmitPick:
-			theMethod = (TQ3XFunctionPointer) e3geom_disk_pick;
 			break;
 
 		case kQ3XMethodTypeObjectSubmitBounds:

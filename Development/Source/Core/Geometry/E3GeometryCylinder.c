@@ -396,10 +396,15 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 
 
-	// Set this point to the center of the cylinder for the end caps
-	// kQ3EndCapMaskBottom will use it as is, while kQ3EndCapMaskTop
-	// will translate it along the orientation vector along with the other points
+	// Set this point to the center of the cylinder for the end caps kQ3EndCapMaskBottom
+	// will use it as is, while kQ3EndCapMaskTop will translate it along the orientation
+	// vector along with the other points
+	//
+	// Note this assumes that the bottom is processed before the top - please remember
+	// this if restructuring this routine.
 	points[sides] = geomData->origin;
+
+
 
 	// Now, add the cylinder bottom;
 	// This is like the sides, but all triangles go to a center point
@@ -519,24 +524,6 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 
 //=============================================================================
-//      e3geom_cylinder_pick : Cylinder picking method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3geom_cylinder_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{
-#pragma unused(objectType)
-
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
-
-
-
-
-
-//=============================================================================
 //      e3geom_cylinder_bounds : Cylinder bounds method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -618,10 +605,6 @@ e3geom_cylinder_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeGeomCacheNew:
 			theMethod = (TQ3XFunctionPointer) e3geom_cylinder_cache_new;
-			break;
-
-		case kQ3XMethodTypeObjectSubmitPick:
-			theMethod = (TQ3XFunctionPointer) e3geom_cylinder_pick;
 			break;
 
 		case kQ3XMethodTypeObjectSubmitBounds:

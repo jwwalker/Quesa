@@ -35,6 +35,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3View.h"
+#include "E3Pick.h"
 #include "E3Geometry.h"
 #include "E3GeometryTriangle.h"
 
@@ -116,17 +117,188 @@ e3geom_triangle_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 //=============================================================================
+//      e3geom_triangle_pick_with_ray : Triangle ray picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_triangle_pick_with_ray(TQ3ViewObject			theView,
+								TQ3PickObject		thePick,
+								const TQ3Ray3D		*theRay,
+								TQ3Object			theObject,
+								const void			*objectData)
+{	const TQ3TriangleData		*instanceData = (const TQ3TriangleData *) objectData;
+	TQ3Boolean					haveUV, cullBackface;
+	TQ3Param2D					hitUV, *resultUV;
+	TQ3BackfacingStyle			backfacingStyle;
+	TQ3Point3D					worldPoints[2];
+	TQ3TriangleData				worldTriangle;
+	TQ3Status					qd3dStatus;
+	TQ3Vector3D					hitNormal;
+	TQ3Point3D					hitXYZ;
+	TQ3Param3D					theHit;
+	TQ3Uns32					n;
+
+
+
+	// Transform our points
+	for (n = 0; n < 3; n++)
+		Q3View_TransformLocalToWorld(theView, &instanceData->vertices[n].point, &worldPoints[n]);
+
+
+
+	// Determine if we should cull back-facing triangles or not
+	qd3dStatus   = E3View_GetBackfacingStyleState(theView, &backfacingStyle);
+	cullBackface = (qd3dStatus == kQ3Success && backfacingStyle == kQ3BackfacingStyleRemove);
+
+
+
+	// See if we fall within the pick
+	//
+	// Note we do not use any vertex/edge tolerances supplied for the pick, since
+	// QD3D's blue book appears to suggest neither are used for triangles.
+	if (Q3Ray3D_IntersectTriangle(theRay, &worldPoints[0], &worldPoints[1], &worldPoints[2], cullBackface, &theHit))
+		{
+		// Set up a temporary triangle that holds the world points
+		worldTriangle = *instanceData;
+		for (n = 0; n < 3; n++)
+			worldTriangle.vertices[n].point = worldPoints[n];
+
+
+		// Obtain the XYZ, normal, and UV for the hit point. We always return an
+		// XYZ and normal for the hit, however we need to cope with missing UVs.
+		E3Triangle_InterpolateHit(&worldTriangle, &theHit, &hitXYZ, &hitNormal, &hitUV, &haveUV);
+		resultUV = (haveUV ? &hitUV : NULL);
+
+
+		// Record the hit
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitXYZ, &hitNormal, resultUV, NULL);
+		}
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_triangle_pick_window_point : Triangle window-point picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_triangle_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	TQ3Status		qd3dStatus;
+	TQ3Ray3D		theRay;
+
+
+
+	// Get the ray through the pick point
+	E3View_GetRayThroughPickPoint(theView, &theRay);
+
+
+
+	// Pick using the ray
+	qd3dStatus = e3geom_triangle_pick_with_ray(theView, thePick, &theRay, theObject, objectData);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_triangle_pick_window_rect : Triangle window-rect picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_triangle_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3TriangleData		*instanceData = (const TQ3TriangleData *) objectData;
+	TQ3Status					qd3dStatus = kQ3Success;
+	TQ3Point2D					windowPoints[3];
+	TQ3WindowRectPickData		pickData;
+	TQ3Uns32					n;
+	
+
+
+	// Get the pick data
+	Q3WindowRectPick_GetData(thePick, &pickData);
+
+
+
+	// Transform our points
+	for (n = 0; n < 3; n++)
+		Q3View_TransformLocalToWindow(theView, &instanceData->vertices[n].point, &windowPoints[n]);
+
+
+
+	// See if we fall within the pick
+	if (E3Rect_ContainsLine(&pickData.rect, &windowPoints[0], &windowPoints[1]) ||
+		E3Rect_ContainsLine(&pickData.rect, &windowPoints[0], &windowPoints[2]) ||
+		E3Rect_ContainsLine(&pickData.rect, &windowPoints[1], &windowPoints[2]))
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_triangle_pick_world_ray : Triangle world-ray picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_triangle_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3TriangleData		*instanceData = (const TQ3TriangleData *) objectData;
+	TQ3Status					qd3dStatus;
+	TQ3WorldRayPickData			pickData;
+
+
+
+	// Get the pick data
+	Q3WorldRayPick_GetData(thePick, &pickData);
+
+
+
+	// Pick using the ray
+	qd3dStatus = e3geom_triangle_pick_with_ray(theView, thePick, &pickData.ray, theObject, objectData);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_triangle_pick : Triangle picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_triangle_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{
-#pragma unused(objectType)
+{	TQ3Status			qd3dStatus;
+	TQ3PickObject		thePick;
 
 
 
-	// To be implemented...
-	return(kQ3Failure);
+	// Handle the pick
+	thePick = E3View_AccessPick(theView);
+	switch (Q3Pick_GetType(thePick)) {
+		case kQ3PickTypeWindowPoint:
+			qd3dStatus = e3geom_triangle_pick_window_point(theView, thePick, theObject, objectData);
+			break;
+
+		case kQ3PickTypeWindowRect:
+			qd3dStatus = e3geom_triangle_pick_window_rect(theView, thePick, theObject, objectData);
+			break;
+
+		case kQ3PickTypeWorldRay:
+			qd3dStatus = e3geom_triangle_pick_world_ray(theView, thePick, theObject, objectData);
+			break;
+
+		default:
+			qd3dStatus = kQ3Failure;
+			break;
+		}
+
+	return(qd3dStatus);
 }
 
 

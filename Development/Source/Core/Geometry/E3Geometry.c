@@ -155,7 +155,7 @@ e3geometry_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
-//      e3geometry_decompose : Decompose a geometry to something simpler.
+//      e3geometry_submit_decomposed : Decompose and submit a geometry.
 //-----------------------------------------------------------------------------
 //		Note :	Manages the cached representation of objects which are not
 //				natively supported by a renderer/writer/picker.
@@ -169,7 +169,7 @@ e3geometry_delete(TQ3Object theObject, void *privateData)
 //				reached.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geometry_decompose(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status						qd3dStatus  = kQ3Failure;
 	TQ3GeometryData					*instanceData;
 	TQ3XGeomCacheIsValidMethod		cacheIsValid;
@@ -273,8 +273,39 @@ e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 
 	// If it's not supported, try and decompose it
 	if (!geomSupported)
-		qd3dStatus = e3geometry_decompose(theView, objectType, theObject, objectData);
+		qd3dStatus = e3geometry_submit_decomposed(theView, objectType, theObject, objectData);
 
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geometry_pick : Geometry picking method.
+//-----------------------------------------------------------------------------
+//		Note :	Unless an object provides its own picking method, the base
+//				class picking method will be used instead.
+//
+//				Since the most primitive objects (markers, pixmap markers,
+//				points, lines, and triangles) all provide a pick method the
+//				base class can handle pick requests by recursing into the
+//				cached representation for the geometry.
+//
+//				This requires that every object be expressible in terms of the
+//				most primitive geometries (which should always be the case).
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geometry_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Since our geometry can't pick itself, submit a decomposed version.
+	// This will recurse as required, until eventually something which
+	// can pick itself is reached.
+	qd3dStatus = e3geometry_submit_decomposed(theView, objectType, theObject, objectData);
 	return(qd3dStatus);
 }
 
@@ -303,7 +334,7 @@ e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theO
 
 	// If it's not supported, try and decompose it
 	if (!geomSupported)
-		qd3dStatus = e3geometry_decompose(theView, objectType, theObject, objectData);
+		qd3dStatus = e3geometry_submit_decomposed(theView, objectType, theObject, objectData);
 
 	return(qd3dStatus);
 }
@@ -501,6 +532,10 @@ e3geometry_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectSubmitRender:
 			theMethod = (TQ3XFunctionPointer) e3geometry_render;
+			break;
+
+		case kQ3XMethodTypeObjectSubmitPick:
+			theMethod = (TQ3XFunctionPointer) e3geometry_pick;
 			break;
 
 		case kQ3XMethodTypeObjectSubmitWrite:

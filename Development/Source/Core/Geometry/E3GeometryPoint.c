@@ -35,6 +35,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3View.h"
+#include "E3Pick.h"
 #include "E3Geometry.h"
 #include "E3GeometryPoint.h"
 
@@ -117,17 +118,149 @@ e3geom_point_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 //=============================================================================
+//      e3geom_point_pick_window_point : Point window-point picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_point_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3PointData			*instanceData = (const TQ3PointData *) objectData;
+	TQ3Status					qd3dStatus = kQ3Success;
+	TQ3Point2D					windowPoint;
+	TQ3WindowPointPickData		pickData;
+	TQ3Point3D					hitXYZ;
+
+
+
+	// Get the pick data
+	Q3WindowPointPick_GetData(thePick, &pickData);
+
+
+
+	// Transform our point to the screen
+	Q3View_TransformLocalToWindow(theView, &instanceData->point, &windowPoint);
+
+
+
+	// See if we fall within the pick
+	if ((windowPoint.x >= (pickData.point.x - pickData.vertexTolerance)) &&
+		(windowPoint.x <= (pickData.point.x + pickData.vertexTolerance)) &&
+		(windowPoint.y >= (pickData.point.y - pickData.vertexTolerance)) &&
+		(windowPoint.y <= (pickData.point.y + pickData.vertexTolerance)))
+		{
+		Q3View_TransformLocalToWorld(theView, &instanceData->point, &hitXYZ);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitXYZ, NULL, NULL, NULL);
+		}
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_point_pick_window_rect : Point window-rect picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_point_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3PointData			*instanceData = (const TQ3PointData *) objectData;
+	TQ3Status					qd3dStatus = kQ3Success;
+	TQ3Point2D					windowPoint;
+	TQ3WindowRectPickData		pickData;
+	TQ3Point3D					hitXYZ;
+
+
+
+	// Get the pick data
+	Q3WindowRectPick_GetData(thePick, &pickData);
+
+
+
+	// Transform our point to the screen
+	Q3View_TransformLocalToWindow(theView, &instanceData->point, &windowPoint);
+
+
+
+	// See if we fall within the pick
+	if ((windowPoint.x >= pickData.rect.min.x) && (windowPoint.x <= pickData.rect.max.x) &&
+		(windowPoint.y >= pickData.rect.min.y) && (windowPoint.y <= pickData.rect.max.y))
+		{
+		Q3View_TransformLocalToWorld(theView, &instanceData->point, &hitXYZ);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitXYZ, NULL, NULL, NULL);
+		}
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_point_pick_world_ray : Point world-ray picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_point_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3PointData			*instanceData = (const TQ3PointData *) objectData;
+	TQ3Status					qd3dStatus = kQ3Success;
+	TQ3Sphere					theSphere;
+	TQ3WorldRayPickData			pickData;
+	TQ3Point3D					hitHYZ;
+
+
+
+	// Get the pick data
+	Q3WorldRayPick_GetData(thePick, &pickData);
+
+
+
+	// Create a bounding sphere around the point
+	Q3View_TransformLocalToWorld(theView, &instanceData->point, &theSphere.origin);
+	theSphere.radius = pickData.vertexTolerance;
+
+
+
+	// See if we fall within the pick
+	if (Q3Ray3D_IntersectSphere(&pickData.ray, &theSphere, &hitHYZ))
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitHYZ, NULL, NULL, NULL);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_point_pick : Point picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_point_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{
-#pragma unused(objectType)
+{	TQ3Status			qd3dStatus;
+	TQ3PickObject		thePick;
 
 
 
-	// To be implemented...
-	return(kQ3Failure);
+	// Handle the pick
+	thePick = E3View_AccessPick(theView);
+	switch (Q3Pick_GetType(thePick)) {
+		case kQ3PickTypeWindowPoint:
+			qd3dStatus = e3geom_point_pick_window_point(theView, thePick, theObject, objectData);
+			break;
+
+		case kQ3PickTypeWindowRect:
+			qd3dStatus = e3geom_point_pick_window_rect(theView, thePick, theObject, objectData);
+			break;
+
+		case kQ3PickTypeWorldRay:
+			qd3dStatus = e3geom_point_pick_world_ray(theView, thePick, theObject, objectData);
+			break;
+
+		default:
+			qd3dStatus = kQ3Failure;
+			break;
+		}
+
+	return(qd3dStatus);
 }
 
 

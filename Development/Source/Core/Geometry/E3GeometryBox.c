@@ -497,24 +497,6 @@ e3geom_box_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3
 
 
 //=============================================================================
-//      e3geom_box_pick : Box picking method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3geom_box_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{
-#pragma unused(objectType)
-
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
-
-
-
-
-
-//=============================================================================
 //      e3geom_box_bounds : Box bounds method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -579,10 +561,6 @@ e3geom_box_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeGeomCacheNew:
 			theMethod = (TQ3XFunctionPointer) e3geom_box_cache_new;
-			break;
-
-		case kQ3XMethodTypeObjectSubmitPick:
-			theMethod = (TQ3XFunctionPointer) e3geom_box_pick;
 			break;
 
 		case kQ3XMethodTypeObjectSubmitBounds:

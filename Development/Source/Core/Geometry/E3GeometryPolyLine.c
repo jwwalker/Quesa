@@ -174,24 +174,6 @@ e3geom_polyline_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 
 //=============================================================================
-//      e3geom_polyline_pick : PolyLine picking method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3geom_polyline_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{
-#pragma unused(objectType)
-
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
-
-
-
-
-
-//=============================================================================
 //      e3geom_polyline_bounds : PolyLine bounds method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -254,10 +236,6 @@ e3geom_polyline_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeGeomCacheNew:
 			theMethod = (TQ3XFunctionPointer) e3geom_polyline_cache_new;
-			break;
-
-		case kQ3XMethodTypeObjectSubmitPick:
-			theMethod = (TQ3XFunctionPointer) e3geom_polyline_pick;
 			break;
 
 		case kQ3XMethodTypeObjectSubmitBounds:

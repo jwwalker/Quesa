@@ -35,6 +35,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3View.h"
+#include "E3Pick.h"
 #include "E3Geometry.h"
 #include "E3GeometryPixmapMarker.h"
 
@@ -45,6 +46,210 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      e3geom_pixmapmarker_get_data : Get the data for a marker's image.
+//-----------------------------------------------------------------------------
+//		Note : If possible, we try and avoid copying the image data.
+//-----------------------------------------------------------------------------
+static TQ3Uns8 *
+e3geom_pixmapmarker_get_data(const TQ3PixmapMarkerData *instanceData, TQ3Boolean *wasCopied)
+{	TQ3Uns32			validSize, bufferSize;
+	TQ3StorageObject	theStorage;
+	TQ3Status			qd3dStatus;
+	TQ3Uns8				*basePtr;
+	TQ3ObjectType		theType;
+	
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(instanceData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(wasCopied), NULL);
+
+
+
+	// Fetch the storage field into a local variable for readability
+	theStorage = instanceData->pixmap.image;
+
+
+
+	// Get a pointer to the data for the image, ideally without copying
+	*wasCopied = kQ3False;
+	theType    = Q3Storage_GetType(theStorage);
+	switch (theType) {
+		case kQ3StorageTypeMemory:
+			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, &basePtr, &validSize, &bufferSize);
+			break;
+
+#if QUESA_OS_MACINTOSH
+		case kQ3MemoryStorageTypeHandle:
+			{	Handle	theHnd;
+			
+			qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
+			if (qd3dStatus == kQ3Success && theHnd != NULL)
+				{
+			    MoveHHi(theHnd);
+    			HLock(theHnd);
+    			basePtr = (TQ3Uns8 *) *theHnd;
+    			}
+    		}
+    		break;
+#endif
+
+		default:
+			qd3dStatus = Q3Storage_GetSize(theStorage, &bufferSize);
+			if (qd3dStatus == kQ3Success)
+				basePtr = (TQ3Uns8 *) Q3Memory_Allocate(bufferSize);
+			
+			if (basePtr != NULL)
+				{
+				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, basePtr, &validSize);
+				*wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
+				
+				if (qd3dStatus != kQ3Success)
+					Q3Memory_Free(&basePtr);
+				}
+			break;
+		}
+
+
+
+	// Return the image
+	if (qd3dStatus != kQ3Success)
+		return(NULL);
+	
+	return(basePtr);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_pixmapmarker_release_data : Release the data for an image.
+//-----------------------------------------------------------------------------
+//		Note :	If we copied the data for the image, we dispose of it here.
+//
+//				We also need to check for Mac Handle storage objects, and
+//				unlock the handle - we left it locked when the image data was
+//				acquired, since it may have saved us from having to copy the
+//				data.
+//-----------------------------------------------------------------------------
+static void
+e3geom_pixmapmarker_release_data(const TQ3PixmapMarkerData	*instanceData,
+									TQ3Uns8					*basePtr,
+									TQ3Boolean				wasCopied)
+{
+	TQ3StorageObject	theStorage;
+#if QUESA_OS_MACINTOSH
+	TQ3Status			qd3dStatus;
+	TQ3Uns32			validSize;
+	TQ3ObjectType		theType;
+	Handle				theHnd;
+#endif
+
+
+
+	// Fetch the storage field into a local variable for readability
+	theStorage = instanceData->pixmap.image;
+
+
+
+	// If this is a Mac handle object, unlock the handle
+#if QUESA_OS_MACINTOSH
+	theType = Q3Storage_GetType(theStorage);
+	if (theType == kQ3MemoryStorageTypeHandle)
+		{
+		qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
+		if (qd3dStatus == kQ3Success && theHnd != NULL)
+			HUnlock(theHnd);
+		}
+#endif
+
+
+
+	// If the data was copied, dispose of it
+	if (wasCopied)
+		Q3Memory_Free(&basePtr);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_pixmapmarker_pixel_is_set : Is a pixel within a marker set?
+//-----------------------------------------------------------------------------
+//		Note :	Potentially very inefficient, since we may need to copy the
+///				entire marker data from storage into a local buffer on each
+//				call.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+e3geom_pixmapmarker_pixel_is_set(const TQ3PixmapMarkerData *instanceData, TQ3Int32 x, TQ3Int32 y)
+{	TQ3Uns8			*thePtr, *basePtr;
+	TQ3Boolean		wasCopied, isSet;
+	TQ3Uns32		thePixel;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(instanceData), kQ3False);
+
+
+
+	// Check to see if the pixel is in range
+	if (x < 0 || x >= instanceData->pixmap.width ||
+		y < 0 || y >= instanceData->pixmap.height)
+		return(kQ3False);
+
+
+
+	// Check to see if the pixel type has alpha - if not, they're all set
+	if (instanceData->pixmap.pixelType != kQ3PixelTypeARGB32 &&
+		instanceData->pixmap.pixelType != kQ3PixelTypeARGB16)
+		return(kQ3True);		
+
+
+
+	// Get the data for the marker
+	basePtr = e3geom_pixmapmarker_get_data(instanceData, &wasCopied);
+	if (basePtr == NULL)
+		return(kQ3False);
+
+
+
+	// Find the right row within the image
+	thePtr = basePtr + (y * instanceData->pixmap.rowBytes);
+
+
+
+	// Test the pixel within the row
+	if (instanceData->pixmap.pixelType == kQ3PixelTypeARGB32)
+		{
+		thePixel = (TQ3Uns32) *((TQ3Uns32 *) (thePtr + (x * 4)));
+		thePixel = (thePixel & 0xFF000000) >> 24;
+		}
+	
+	else
+		{
+		Q3_ASSERT(instanceData->pixmap.pixelType == kQ3PixelTypeARGB16);
+		thePixel = (TQ3Uns32) *((TQ3Uns16 *) (thePtr + (x * 2)));
+		thePixel = (thePixel & 0x00008000) >> 15;
+		}
+
+	isSet = (TQ3Boolean) (thePixel != 0x00);
+
+
+
+	// Clean up
+	e3geom_pixmapmarker_release_data(instanceData, basePtr, wasCopied);
+	
+	return(isSet);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_pixmapmarker_new : PixmapMarker new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -116,17 +321,134 @@ e3geom_pixmapmarker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 //=============================================================================
-//      e3geom_pixmapmarker_pick : PixmapMarker picking method.
+//      e3geom_pixmapmarker_pick_window_point : Pixmap window-point picking.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_pixmapmarker_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3PixmapMarkerData		*instanceData = (const TQ3PixmapMarkerData *) objectData;
+	TQ3Status						qd3dStatus    = kQ3Success;
+	TQ3Point2D						windowPoint, markerPixel;
+	TQ3WindowPointPickData			pickData;
+
+
+
+	// Get the pick data
+	Q3WindowPointPick_GetData(thePick, &pickData);
+
+
+
+	// Transform our point to the screen, and adjust it by our offset
+	// to get the location of the top-left pixel within the image.
+	Q3View_TransformLocalToWindow(theView, &instanceData->position, &windowPoint);
+	windowPoint.x += instanceData->xOffset;
+	windowPoint.y += instanceData->yOffset;
+
+
+
+	// Calculate where in our image the pick point will fall
+	markerPixel.x = pickData.point.x - windowPoint.x;
+	markerPixel.y = pickData.point.y - windowPoint.y;
+
+
+
+	// See if we fall within the pick
+	if (e3geom_pixmapmarker_pixel_is_set(instanceData, (TQ3Int32) markerPixel.x, (TQ3Int32) markerPixel.y))
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_pixmapmarker_pick_window_rect : Pixmap window-rect picking.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_pixmapmarker_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3PixmapMarkerData		*instanceData = (const TQ3PixmapMarkerData *) objectData;
+	TQ3Status						qd3dStatus    = kQ3Success;
+	TQ3Area							markerRect;
+	TQ3WindowRectPickData			pickData;
+	TQ3Uns32						x, y;
+
+
+
+	// Get the pick data
+	Q3WindowRectPick_GetData(thePick, &pickData);
+
+
+
+	// Transform our point to the screen, adjust it by our offset to get the
+	// location of the top-left pixel within the image, and add our width/height
+	// to get the location of the botom-right pixel.
+	Q3View_TransformLocalToWindow(theView, &instanceData->position, &markerRect.min);
+
+	markerRect.min.x += instanceData->xOffset;
+	markerRect.min.y += instanceData->yOffset;
+
+	markerRect.max.x = markerRect.min.x + instanceData->pixmap.width;
+	markerRect.max.y = markerRect.min.y + instanceData->pixmap.height;
+
+
+
+	// See if we fall within the pick
+	if (E3Rect_IntersectRect(&markerRect, &pickData.rect))
+		{
+		// Look for an active pixel within the pick rect
+		for (y = 0; y < instanceData->pixmap.height; y++)
+			{
+			for (x = 0; x < instanceData->pixmap.width; x++)
+				{
+				if (e3geom_pixmapmarker_pixel_is_set(instanceData, x, y))
+					{
+					qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+					return(qd3dStatus);
+					}
+				}
+			}
+		}
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_pixmapmarker_pick : Pixmap marker picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_pixmapmarker_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{
-#pragma unused(objectType)
+{	TQ3Status			qd3dStatus;
+	TQ3PickObject		thePick;
 
 
 
-	// To be implemented...
-	return(kQ3Failure);
+	// Handle the pick
+	thePick = E3View_AccessPick(theView);
+	switch (Q3Pick_GetType(thePick)) {
+		case kQ3PickTypeWindowPoint:
+			qd3dStatus = e3geom_pixmapmarker_pick_window_point(theView, thePick, theObject, objectData);
+			break;
+
+		case kQ3PickTypeWindowRect:
+			qd3dStatus = e3geom_pixmapmarker_pick_window_rect(theView, thePick, theObject, objectData);
+			break;
+
+		case kQ3PickTypeWorldRay:
+			// Can't be picked, but don't stop picking
+			qd3dStatus = kQ3Success;
+			break;
+
+		default:
+			qd3dStatus = kQ3Failure;
+			break;
+		}
+
+	return(qd3dStatus);
 }
 
 

@@ -35,6 +35,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3View.h"
+#include "E3Pick.h"
 #include "E3Set.h"
 #include "E3Math.h"
 #include "E3Geometry.h"
@@ -395,17 +396,99 @@ e3geom_trimesh_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 //=============================================================================
+//      e3geom_trimesh_triangle_new : Retrieve a triangle from the TriMesh.
+//-----------------------------------------------------------------------------
+static void
+e3geom_trimesh_triangle_new(const TQ3TriMeshData *theTriMesh, TQ3Uns32 theIndex, TQ3TriangleData *theTriangle)
+{	TQ3Uns32			n, m, vertIndex, attrSize;
+	TQ3ObjectType		attrType;
+	E3ClassInfoPtr		theClass;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE(Q3_VALID_PTR(theTriMesh));
+	Q3_REQUIRE(theIndex >= 0 && theIndex < theTriMesh->numTriangles);
+	Q3_REQUIRE(Q3_VALID_PTR(theTriangle));
+
+
+
+	// Set up the triangle
+	Q3Memory_Clear(theTriangle, sizeof(TQ3TriangleData));
+	E3Shared_Acquire(&theTriangle->triangleAttributeSet, theTriMesh->triMeshAttributeSet);
+
+
+
+	// Set up the vertices
+	for (n = 0; n < 3; n++)
+		{
+		// Set up the point
+		vertIndex = theTriMesh->triangles[theIndex].pointIndices[n];
+		theTriangle->vertices[n].point = theTriMesh->points[vertIndex];
+
+
+		// Set up the attributes
+		if (theTriMesh->numVertexAttributeTypes != 0)
+			{
+			Q3_ASSERT(Q3_VALID_PTR(theTriMesh->vertexAttributeTypes));
+			theTriangle->vertices[n].attributeSet = Q3AttributeSet_New();
+			if (theTriangle->vertices[n].attributeSet != NULL)
+				{
+				for (m = 0; m < theTriMesh->numVertexAttributeTypes; m++)
+					{
+					attrType = theTriMesh->vertexAttributeTypes[m].attributeType;
+					attrType = E3Attribute_AttributeToClassType(attrType);
+					theClass = E3ClassTree_GetClassByType(attrType);
+					if (theClass != NULL)
+						{
+						attrSize = E3ClassTree_GetInstanceSize(theClass);
+						Q3AttributeSet_Add(theTriangle->vertices[n].attributeSet, attrType,
+											(TQ3Uns8 *) theTriMesh->vertexAttributeTypes[m].data + (vertIndex * attrSize));
+						}
+					}
+				}
+			}
+		}
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_trimesh_triangle_delete : Delete the data for a single triangle.
+//-----------------------------------------------------------------------------
+static void
+e3geom_trimesh_triangle_delete(TQ3TriangleData *theTriangle)
+{	TQ3Uns32		n;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE(Q3_VALID_PTR(theTriangle));
+
+
+
+	// Dispose of the triangle
+	for (n = 0; n < 3; n++)
+		E3Object_DisposeAndForget(theTriangle->vertices[n].attributeSet);
+
+	E3Object_DisposeAndForget(theTriangle->triangleAttributeSet);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_trimesh_cache_new : TriMesh cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3TriMeshData *geomData)
-{	TQ3Uns32				n, v, a, vertexIdx;
-	TQ3TriangleData			triangleData;
+{	TQ3TriangleData			triangleData;
 	TQ3GeometryObject		theTriangle;
 	TQ3GroupObject			theGroup;
-	TQ3AttributeType 		attrType;
-	TQ3Uns32				attrSize;
-	E3ClassInfoPtr			theClass;
+	TQ3Uns32				n;
 #pragma unused(theView)
 
 
@@ -418,63 +501,20 @@ e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 
 	// Add the cached form to the group
-	triangleData.vertices[0].attributeSet = NULL;
-	triangleData.vertices[1].attributeSet = NULL;
-	triangleData.vertices[2].attributeSet = NULL;
-
 	for (n = 0; n < geomData->numTriangles; n++)
 		{
-		// Set up the triangle
-		for (v=0; v<3; v++)
-			{
-			// copy the vertex location
-			vertexIdx = geomData->triangles[n].pointIndices[v];
-			triangleData.vertices[v].point = geomData->points[vertexIdx];
-
-			// copy the vertex attribute set, if any
-			if (geomData->numVertexAttributeTypes != 0)
-				{
-				Q3_ASSERT(Q3_VALID_PTR(geomData->vertexAttributeTypes));
-				triangleData.vertices[v].attributeSet = Q3AttributeSet_New();
-				if (triangleData.vertices[v].attributeSet != NULL)
-					{
-					for (a=0; a<geomData->numVertexAttributeTypes; a++)
-						{
-						attrType = geomData->vertexAttributeTypes[a].attributeType;
-						attrType = E3Attribute_AttributeToClassType(attrType);
-						theClass = E3ClassTree_GetClassByType(attrType);
-						if (theClass != NULL)
-							{
-							attrSize = E3ClassTree_GetInstanceSize(theClass);
-							Q3AttributeSet_Add(triangleData.vertices[v].attributeSet,
-												attrType,
-												(char*)geomData->vertexAttributeTypes[a].data + vertexIdx*attrSize);
-							}
-						}
-					}
-				}
-			}
-			
-		// finally, copy the trimesh attribute set, if any
-		triangleData.triangleAttributeSet = geomData->triMeshAttributeSet;
+		// Extract the triangle
+		e3geom_trimesh_triangle_new(geomData, n, &triangleData);
 
 
-
-		// Create the triangle
+		// Create it
 		theTriangle = Q3Triangle_New(&triangleData);
 		if (theTriangle != NULL)
-			{
-			Q3Group_AddObject(theGroup, theTriangle);
-			Q3Object_Dispose(theTriangle);
-			}
+			E3Group_AddObjectAndDispose(theGroup, theTriangle);
 
-			
-		// dispose of vertex attributes, if any
-		if (geomData->numVertexAttributeTypes != 0)
-			{
-			for (v=0; v<3; v++)
-				Q3Object_Dispose(triangleData.vertices[v].attributeSet);
-			}
+
+		// Clean up
+		e3geom_trimesh_triangle_delete(&triangleData);
 		}
 
 
@@ -493,17 +533,406 @@ e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 
 //=============================================================================
+//      e3geom_trimesh_pick_with_ray : TriMesh ray picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_trimesh_pick_with_ray(TQ3ViewObject			theView,
+								TQ3PickObject		thePick,
+								const TQ3Ray3D		*theRay,
+								TQ3Object			theObject,
+								const void			*objectData)
+{	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
+	TQ3Uns32					n, numPoints, v0, v1, v2;
+	TQ3Status					qd3dStatus = kQ3Success;
+	TQ3Boolean					haveUV, cullBackface;
+	TQ3Param2D					hitUV, *resultUV;
+	TQ3BackfacingStyle			backfacingStyle;
+	TQ3TriangleData				worldTriangle;
+	TQ3Point3D					*worldPoints;
+	TQ3Vector3D					hitNormal;
+	TQ3Point3D					hitXYZ;
+	TQ3Param3D					theHit;
+
+
+
+	// Transform our points
+	numPoints   = instanceData->numPoints;
+	worldPoints = (TQ3Point3D *) Q3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
+	if (worldPoints == NULL)
+		return(kQ3Failure);
+
+	Q3Point3D_To3DTransformArray(instanceData->points,
+								 E3View_State_GetLocalToWorld(theView),
+								 worldPoints,
+								 numPoints,
+								 sizeof(TQ3Point3D),
+								 sizeof(TQ3Point3D));
+
+
+
+	// Determine if we should cull back-facing triangles or not
+	qd3dStatus   = E3View_GetBackfacingStyleState(theView, &backfacingStyle);
+	cullBackface = (qd3dStatus == kQ3Success && backfacingStyle == kQ3BackfacingStyleRemove);
+
+
+
+	// See if we fall within the pick
+	//
+	// Note we do not use any vertex/edge tolerances supplied for the pick, since
+	// QD3D's blue book appears to suggest neither are used for triangles.
+	for (n = 0; n < instanceData->numTriangles && qd3dStatus == kQ3Success; n++)
+		{
+		// Grab the vertex indicies
+		v0 = instanceData->triangles[n].pointIndices[0];
+		v1 = instanceData->triangles[n].pointIndices[1];
+		v2 = instanceData->triangles[n].pointIndices[2];
+		Q3_ASSERT(v0 >= 0 && v0 < instanceData->numPoints);
+		Q3_ASSERT(v1 >= 0 && v1 < instanceData->numPoints);
+		Q3_ASSERT(v2 >= 0 && v2 < instanceData->numPoints);
+
+
+
+		// Pick the triangle
+		if (Q3Ray3D_IntersectTriangle(theRay, &worldPoints[v0], &worldPoints[v1], &worldPoints[v2], cullBackface, &theHit))
+			{
+			// Create the triangle, and update the vertices to the transformed coordinates
+			e3geom_trimesh_triangle_new(instanceData, n, &worldTriangle);
+			worldTriangle.vertices[0].point = worldPoints[v0];
+			worldTriangle.vertices[1].point = worldPoints[v1];
+			worldTriangle.vertices[2].point = worldPoints[v2];
+
+
+			// Obtain the XYZ, normal, and UV for the hit point. We always return an
+			// XYZ and normal for the hit, however we need to cope with missing UVs.
+			E3Triangle_InterpolateHit(&worldTriangle, &theHit, &hitXYZ, &hitNormal, &hitUV, &haveUV);
+			resultUV = (haveUV ? &hitUV : NULL);
+
+
+			// Record the hit
+			qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitXYZ, &hitNormal, resultUV, NULL);
+
+
+			// Clean up
+			e3geom_trimesh_triangle_delete(&worldTriangle);
+			}
+		}
+
+
+
+	// Clean up
+	Q3Memory_Free(&worldPoints);
+
+	return(qd3dStatus);			
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_trimesh_pick_with_rect : TriMesh rect picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_trimesh_pick_with_rect(TQ3ViewObject			theView,
+								TQ3PickObject		thePick,
+								const TQ3Area		*theRect,
+								TQ3Object			theObject,
+								const void			*objectData)
+{	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
+	TQ3Matrix4x4				theMatrix, worldToFrustum, frustumToWindow;
+	TQ3Uns32					n, numPoints, v0, v1, v2;
+	TQ3Status					qd3dStatus = kQ3Success;
+	TQ3Point2D					triVertices[3];
+	TQ3Point3D					*windowPoints;
+
+
+
+	// Transform our points from local coordinates to window coordinates
+	numPoints    = instanceData->numPoints;
+	windowPoints = (TQ3Point3D *) Q3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
+	if (windowPoints == NULL)
+		return(kQ3Failure);
+
+	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
+	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
+	Q3Matrix4x4_Multiply(E3View_State_GetLocalToWorld(theView), &worldToFrustum, &theMatrix);
+	Q3Matrix4x4_Multiply(&theMatrix, &frustumToWindow, &theMatrix);
+
+	Q3Point3D_To3DTransformArray(instanceData->points, &theMatrix, windowPoints, numPoints, sizeof(TQ3Point3D), sizeof(TQ3Point3D));
+
+
+
+	// See if we fall within the pick
+	for (n = 0; n < instanceData->numTriangles && qd3dStatus == kQ3Success; n++)
+		{
+		// Grab the vertex indicies
+		v0 = instanceData->triangles[n].pointIndices[0];
+		v1 = instanceData->triangles[n].pointIndices[1];
+		v2 = instanceData->triangles[n].pointIndices[2];
+		Q3_ASSERT(v0 >= 0 && v0 < instanceData->numPoints);
+		Q3_ASSERT(v1 >= 0 && v1 < instanceData->numPoints);
+		Q3_ASSERT(v2 >= 0 && v2 < instanceData->numPoints);
+
+
+		// Set up the 2D component of the triangle
+		triVertices[0].x = windowPoints[v0].x;
+		triVertices[0].y = windowPoints[v0].y;
+
+		triVertices[1].x = windowPoints[v1].x;
+		triVertices[1].y = windowPoints[v1].y;
+
+		triVertices[2].x = windowPoints[v2].x;
+		triVertices[2].y = windowPoints[v2].y;
+
+
+		// See if this triangle falls within the pick
+		if (E3Rect_ContainsLine(theRect, &triVertices[0], &triVertices[1]) ||
+			E3Rect_ContainsLine(theRect, &triVertices[0], &triVertices[2]) ||
+			E3Rect_ContainsLine(theRect, &triVertices[1], &triVertices[2]))
+			{
+			qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+			break;
+			}
+		}
+
+
+
+	// Clean up
+	Q3Memory_Free(&windowPoints);
+
+	return(qd3dStatus);			
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_trimesh_pick_screen_bounds : Get our screen bounding rect.
+//-----------------------------------------------------------------------------
+//		Note :	Returns a 2D bounding rect that encloses the eight vertices of
+//				our bounding box when projected to the screen.
+//-----------------------------------------------------------------------------
+static void
+e3geom_trimesh_pick_screen_bounds(TQ3ViewObject theView, TQ3Object theObject, const void *objectData, TQ3Area *windowBounds)
+{	const TQ3TriMeshData	*instanceData = (const TQ3TriMeshData *) objectData;
+	TQ3Matrix4x4			theMatrix, worldToFrustum, frustumToWindow;
+	TQ3Point3D				worldPoints[8], windowPoints[8];
+	TQ3Uns32				n;
+
+
+
+	// Obtain the eight corners of our bounding box
+	worldPoints[0].x = instanceData->bBox.min.x;
+	worldPoints[0].y = instanceData->bBox.min.y;
+	worldPoints[0].z = instanceData->bBox.min.z;
+
+	worldPoints[1].x = instanceData->bBox.max.x;
+	worldPoints[1].y = instanceData->bBox.min.y;
+	worldPoints[1].z = instanceData->bBox.min.z;
+
+	worldPoints[2].x = instanceData->bBox.min.x;
+	worldPoints[2].y = instanceData->bBox.max.y;
+	worldPoints[2].z = instanceData->bBox.min.z;
+
+	worldPoints[3].x = instanceData->bBox.max.x;
+	worldPoints[3].y = instanceData->bBox.max.y;
+	worldPoints[3].z = instanceData->bBox.min.z;
+
+	worldPoints[4].x = instanceData->bBox.min.x;
+	worldPoints[4].y = instanceData->bBox.min.y;
+	worldPoints[4].z = instanceData->bBox.max.z;
+
+	worldPoints[5].x = instanceData->bBox.max.x;
+	worldPoints[5].y = instanceData->bBox.min.y;
+	worldPoints[5].z = instanceData->bBox.max.z;
+
+	worldPoints[6].x = instanceData->bBox.min.x;
+	worldPoints[6].y = instanceData->bBox.max.y;
+	worldPoints[6].z = instanceData->bBox.max.z;
+
+	worldPoints[7].x = instanceData->bBox.max.x;
+	worldPoints[7].y = instanceData->bBox.max.y;
+	worldPoints[7].z = instanceData->bBox.max.z;
+
+
+
+	// Transform the eight corners from world coordinates to window coordinates
+	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
+	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
+	Q3Matrix4x4_Multiply(E3View_State_GetLocalToWorld(theView), &worldToFrustum, &theMatrix);
+	Q3Matrix4x4_Multiply(&theMatrix, &frustumToWindow, &theMatrix);
+
+	Q3Point3D_To3DTransformArray(worldPoints, &theMatrix, windowPoints, 8, sizeof(TQ3Point3D), sizeof(TQ3Point3D));
+
+
+
+	// Calculate the 2D bounding box formed from these points
+	windowBounds->min.x = windowBounds->max.x = windowPoints[0].x;
+	windowBounds->min.y = windowBounds->max.y = windowPoints[0].y;
+
+	for (n = 0; n < 8; n++)
+		{
+		if (windowPoints[n].x < windowBounds->min.x)
+			windowBounds->min.x = windowPoints[n].x;
+
+		else if (windowPoints[n].x > windowBounds->max.x)
+			windowBounds->max.x = windowPoints[n].x;
+		
+		if (windowPoints[n].y < windowBounds->min.y)
+			windowBounds->min.y = windowPoints[n].y;
+
+		else if (windowPoints[n].y > windowBounds->max.y)
+			windowBounds->max.y = windowPoints[n].y;
+		}
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_trimesh_pick_window_point : TriMesh window-point picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_trimesh_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
+	TQ3Status					qd3dStatus    = kQ3Success;
+	TQ3Area						windowBounds;
+	TQ3WindowPointPickData		pickData;
+	TQ3Ray3D					theRay;
+
+
+
+	// Get the pick data
+	Q3WindowPointPick_GetData(thePick, &pickData);
+
+
+
+	// Obtain our window bounding rectangle
+	e3geom_trimesh_pick_screen_bounds(theView, theObject, objectData, &windowBounds);
+
+
+
+	// See if we fall within the pick
+	//
+	// Note that we could perform a further test, and see if theRay intersects our
+	// global bounding box - however we assume that a test against the bounds
+	// in screen space will reject most TriMeshes, and so a further test against
+	// the bounds at this point will probably succeed.
+	if ((pickData.point.x >= windowBounds.min.x) && (pickData.point.x <= windowBounds.max.x) &&
+		(pickData.point.y >= windowBounds.min.y) && (pickData.point.y <= windowBounds.max.y))
+		{
+		E3View_GetRayThroughPickPoint(theView, &theRay);
+		qd3dStatus = e3geom_trimesh_pick_with_ray(theView, thePick, &theRay, theObject, objectData);
+		}
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_trimesh_pick_window_rect : TriMesh window-rect picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_trimesh_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
+	TQ3Status					qd3dStatus    = kQ3Success;
+	TQ3Area						windowBounds;
+	TQ3WindowRectPickData		pickData;
+
+
+
+	// Get the pick data
+	Q3WindowRectPick_GetData(thePick, &pickData);
+
+
+
+	// Obtain our window bounding rectangle
+	e3geom_trimesh_pick_screen_bounds(theView, theObject, objectData, &windowBounds);
+
+
+
+	// See if we fall within the pick
+	if (E3Rect_IntersectRect(&windowBounds, &pickData.rect))
+		qd3dStatus = e3geom_trimesh_pick_with_rect(theView, thePick, &pickData.rect, theObject, objectData);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_trimesh_pick_world_ray : TriMesh world-ray picking method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_trimesh_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
+{	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
+	TQ3BoundingBox				worldBounds;
+	TQ3Status					qd3dStatus;
+	TQ3WorldRayPickData			pickData;
+	TQ3Point3D					hitHYZ;
+
+
+
+	// Get the pick data
+	Q3WorldRayPick_GetData(thePick, &pickData);
+
+
+
+	// Transform our bounding box
+	Q3View_TransformLocalToWorld(theView, &instanceData->bBox.min, &worldBounds.min);
+	Q3View_TransformLocalToWorld(theView, &instanceData->bBox.max, &worldBounds.max);
+	
+
+
+	// See if we fall within the pick
+	if (Q3Ray3D_IntersectBoundingBox(&pickData.ray, &worldBounds, &hitHYZ))
+		qd3dStatus = e3geom_trimesh_pick_with_ray(theView, thePick, &pickData.ray, theObject, objectData);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_trimesh_pick : TriMesh picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_trimesh_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{
-#pragma unused(objectType)
+{	TQ3Status			qd3dStatus;
+	TQ3PickObject		thePick;
 
 
 
-	// To be implemented...
-	return(kQ3Failure);
+	// Handle the pick
+	thePick = E3View_AccessPick(theView);
+	switch (Q3Pick_GetType(thePick)) {
+		case kQ3PickTypeWindowPoint:
+			qd3dStatus = e3geom_trimesh_pick_window_point(theView, thePick, theObject, objectData);
+			break;
+
+		case kQ3PickTypeWindowRect:
+			qd3dStatus = e3geom_trimesh_pick_window_rect(theView, thePick, theObject, objectData);
+			break;
+
+		case kQ3PickTypeWorldRay:
+			qd3dStatus = e3geom_trimesh_pick_world_ray(theView, thePick, theObject, objectData);
+			break;
+
+		default:
+			qd3dStatus = kQ3Failure;
+			break;
+		}
+
+	return(qd3dStatus);
 }
 
 
