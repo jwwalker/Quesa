@@ -38,6 +38,7 @@
 #include "E3IO.h"
 #include "E3IOData.h"
 #include "E3IOFileFormat.h"
+#include "E3View.h"
 
 
 
@@ -4079,6 +4080,239 @@ Q3FileFormat_NewFromType(TQ3ObjectType fformatObjectType)
 }
 
 
+//=============================================================================
+//      Q3FileFormat_GetType : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ObjectType
+Q3FileFormat_GetType(TQ3FileFormatObject format)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3ObjectTypeInvalid);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3ObjectTypeInvalid);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GetType(format));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_HasModalConfigure : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+Q3FileFormat_HasModalConfigure(TQ3FileFormatObject format)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3False);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3False);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_HasModalConfigure(format));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_ModalConfigure : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_ModalConfigure(TQ3FileFormatObject format, TQ3DialogAnchor dialogAnchor, TQ3Boolean *canceled)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(canceled), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on renderer
+		return(kQ3Failure);
+
+	if (0) // Further checks on dialogAnchor
+		return(kQ3Failure);
+
+	if (0) // Further checks on canceled
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_ModalConfigure(format, dialogAnchor, canceled));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormatClass_GetFormatNameString : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormatClass_GetFormatNameString(TQ3ObjectType formatClassType, TQ3ObjectClassNameString formatClassString)
+{
+
+
+	// Release build checks
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on rendererClassType
+		return(kQ3Failure);
+
+	if (0) // Further checks on rendererClassString
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormatClass_GetFormatNameString(formatClassType, formatClassString));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_GetConfigurationData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_GetConfigurationData(TQ3FileFormatObject format, unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dataBuffer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(actualDataSize), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on renderer
+		return(kQ3Failure);
+
+	if (0) // Further checks on dataBuffer
+		return(kQ3Failure);
+
+	if (0) // Further checks on bufferSize
+		return(kQ3Failure);
+
+	if (0) // Further checks on actualDataSize
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GetConfigurationData(format, dataBuffer, bufferSize, actualDataSize));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_SetConfigurationData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_SetConfigurationData(TQ3RendererObject format, unsigned char *dataBuffer, unsigned long bufferSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dataBuffer), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on renderer
+		return(kQ3Failure);
+
+	if (0) // Further checks on dataBuffer
+		return(kQ3Failure);
+
+	if (0) // Further checks on bufferSize
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_SetConfigurationData(format, dataBuffer, bufferSize));
+}
+
+
 
 
 
@@ -4538,4 +4772,357 @@ Q3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject		format,
 	// Call our implementation
 	return(E3FileFormat_GenericReadText_ReadUntilChars(format, buffer, chars, numChars, blanks, foundChar, maxLen, charsRead));
 }
+
+
+
+//=============================================================================
+//      Q3FileFormat_GenericWriteBinary_8 : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, TQ3Int8 data)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GenericWriteBinary_8(format, data));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_GenericWriteBinary_16 : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, TQ3Int16 data)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GenericWriteBinary_16(format, data));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_GenericWriteBinary_32 : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, TQ3Int32 data)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GenericWriteBinary_32(format, data));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_GenericWriteBinary_64 : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, TQ3Int64 data)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GenericWriteBinary_64(format, data));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_GenericWriteBinary_String : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char *data, unsigned long *length)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(length), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+
+	if (0) // Further checks on length
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GenericWriteBinary_String(format, data, length));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_GenericWriteBinary_Raw : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format, const unsigned char *data, unsigned long length)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(length != 0, kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+
+	if (0) // Further checks on length
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GenericWriteBinary_Raw(format, data, length));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_GenericWriteBinSwap_16 : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, TQ3Int16 data)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GenericWriteBinSwap_16(format, data));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_GenericWriteBinSwap_32 : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, TQ3Int32 data)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GenericWriteBinSwap_32(format, data));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3FileFormat_GenericWriteBinSwap_64 : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, TQ3Int64 data)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on format
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileFormat_GenericWriteBinSwap_64(format, data));
+}
+
+
+
 
