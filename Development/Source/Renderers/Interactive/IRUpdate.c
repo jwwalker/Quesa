@@ -487,7 +487,7 @@ ir_state_texture_cache_add(TQ3ViewObject			theView,
 							TQ3TextureObject		theTexture)
 {	TQ3CachedTexture	cachedTexture;
 	TQ3Status			qd3dStatus;
-	UInt32				n;
+	TQ3Uns32			n;
 
 
 
@@ -1322,7 +1322,6 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 		}
 
 
-
 	// Big endian conversion
 	if (srcByteOrder == kQ3EndianBig)
 		{
@@ -1564,7 +1563,8 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 					for (x = 0; x < theWidth; x++)
 						{
-                        n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
+						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+						n         = E3EndianSwap16(n);
 						alphaBits = (n >> 15) & 0x0001;
 						redBits   = (n >> 10) & 0x001F;
 						greenBits = (n >>  5) & 0x001F;
@@ -1593,7 +1593,8 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 					for (x = 0; x < theWidth; x++)
 						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
+						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+						n         = E3EndianSwap16(n);
 						redBits   = (n >> 10) & 0x001F;
 						greenBits = (n >>  5) & 0x001F;
 						blueBits  = (n >>  0) & 0x001F;
@@ -1621,7 +1622,8 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 					for (x = 0; x < theWidth; x++)
 						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
+						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+						n         = E3EndianSwap16(n);
 						redBits   = (n >> 11) & 0x001F;
 						greenBits = (n >>  5) & 0x003F;
 						blueBits  = (n >>  0) & 0x001F;
