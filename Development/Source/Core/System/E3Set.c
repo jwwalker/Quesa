@@ -60,19 +60,57 @@
 
 
 //=============================================================================
+//      Internal constants
+//-----------------------------------------------------------------------------
+const UInt32 kSetTableSize									= 6;
+
+
+
+
+
+//=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
-// Set data
+// Set instance data
 typedef struct TQ3SetData {
-	TQ3Uns32			numElements;		// Element count
-	TQ3ElementObject	*theElements;		// Element array (may contain empty slots)
+	E3HashTablePtr		theTable;			// Elements in set, keyed by type
+	TQ3Uns32			scanEditIndex;		// Set edit index while scanning
+	TQ3Uns32			scanCount;			// Size of scanResults
+	TQ3Uns32			scanIndex;			// Current index into scanResults
+	TQ3ElementType		*scanResults;		// Scan results
 } TQ3SetData;
 
 
-// Attribute set data
+// Attribute set instance data
 typedef struct TQ3AttributeSetData {
 	TQ3XAttributeMask	theMask;			// Attribute mask
 } TQ3AttributeSetData;
+
+
+// Set iterator
+typedef TQ3Status (*TQ3SetIterator)(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3ElementObject theElement, void *userData);
+
+
+// Set iterator param info
+typedef struct TQ3SetIteratorParamInfo {
+	TQ3SetData			*setInstanceData;	// Set instance data
+	TQ3SetIterator		theIterator;		// Set iterator
+	void				*iteratorData;		// User data for the set iterator
+} TQ3SetIteratorParamInfo;
+
+
+// Set submit iterator param info
+typedef struct TQ3SetSubmitParamInfo {
+	TQ3Boolean			isAttributeSet;		// Are we an attribute set?
+	TQ3ViewObject		theView;			// View to submit to
+} TQ3SetSubmitParamInfo;
+
+
+// Attribute set inherit iterator param info
+typedef struct TQ3AttributeSetInheritParamInfo {
+	TQ3AttributeSet		theResult;			// Output set
+	TQ3Boolean			isChild;			// Iterating over child
+} TQ3AttributeSetInheritParamInfo;
 
 
 
@@ -81,24 +119,295 @@ typedef struct TQ3AttributeSetData {
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      e3set_add_element : Add an element to a set.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3set_add_element(TQ3SetData *instanceData, TQ3ElementType theType, TQ3ElementObject theElement)
+{	TQ3Status	qd3dStatus;
+
+
+
+	// Create our table if required
+	if (instanceData->theTable == NULL)
+		instanceData->theTable = E3HashTable_Create(kSetTableSize);
+
+
+
+	// Make sure we have a table
+	if (instanceData->theTable == NULL)
+		return(kQ3Failure);
+
+
+
+	// Add the element to the table
+	qd3dStatus = E3HashTable_Add(instanceData->theTable, theType, theElement);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3set_remove_element : Remove an element to a set.
+//-----------------------------------------------------------------------------
+static TQ3ElementObject
+e3set_remove_element(TQ3SetData *instanceData, TQ3ElementType theType)
+{	TQ3ElementObject	theElement;
+
+
+
+	// Make sure we have a table
+	if (instanceData->theTable == NULL)
+		return(NULL);
+
+
+
+	// Find the appropriate element, and remove it
+	theElement = E3HashTable_Find(instanceData->theTable, theType);
+	if (theElement != NULL)
+		E3HashTable_Remove(instanceData->theTable, theType);
+
+	return(theElement);
+}
+
+
+
+
+
+//=============================================================================
+//      e3set_clear_elements : Clear the elements associated with a set.
+//-----------------------------------------------------------------------------
+//		Note : We assume our caller has already released the elements.
+//-----------------------------------------------------------------------------
+static void
+e3set_clear_elements(TQ3SetData *instanceData)
+{
+
+
+	// Recreate the table
+	if (instanceData->theTable != NULL)
+		{
+		E3HashTable_Destroy(&instanceData->theTable);
+		instanceData->theTable = E3HashTable_Create(kSetTableSize);
+		}
+
+}
+
+
+
+
+
+//=============================================================================
+//      e3set_find_element : Find an element in a set.
+//-----------------------------------------------------------------------------
+static TQ3ElementObject
+e3set_find_element(const TQ3SetData *instanceData, TQ3ElementType theType)
+{	TQ3ElementObject	theElement;
+
+
+
+	// Make sure we have a table
+	if (instanceData->theTable == NULL)
+		return(NULL);
+
+
+
+	// Find the element
+	theElement = E3HashTable_Find(instanceData->theTable, theType);
+	
+	return(theElement);
+}
+
+
+
+
+
+//=============================================================================
+//      e3set_iterator : Set iterator glue.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3set_iterator(E3HashTablePtr theTable, TQ3ObjectType theKey, void *theItem, void *userData)
+{	TQ3SetData					*setInstanceData;
+	void						*iteratorData;
+	TQ3SetIterator				theIterator;
+	TQ3SetIteratorParamInfo		*paramInfo;
+	TQ3Status					qd3dStatus;
+
+
+
+	// Get our param info
+	paramInfo        = (TQ3SetIteratorParamInfo *) userData;
+	setInstanceData  = paramInfo->setInstanceData;
+	theIterator      = paramInfo->theIterator;
+	iteratorData     = paramInfo->iteratorData;
+
+
+
+	// Invoke the iterator
+	qd3dStatus = theIterator(setInstanceData, theKey, (TQ3ElementObject) theItem, iteratorData);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3set_iterate_elements : Iterate over the elements in a set.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3set_iterate_elements(const TQ3SetData *instanceData, TQ3SetIterator theIterator, void *userData)
+{	TQ3Status					qd3dStatus;
+	TQ3SetIteratorParamInfo		paramInfo;
+
+
+
+	// Make sure we have a table
+	if (instanceData->theTable == NULL)
+		return(NULL);
+
+
+
+	// Iterate over the table	
+	paramInfo.setInstanceData = (TQ3SetData *) instanceData;
+	paramInfo.theIterator     = theIterator;
+	paramInfo.iteratorData    = userData;
+	
+	qd3dStatus = E3HashTable_Iterate(instanceData->theTable, e3set_iterator, &paramInfo);
+	
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3set_iterator_delete : Set iterator to delete elements.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3set_iterator_delete(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3ElementObject theElement, void *userData)
+{
+
+
+	// Delete the element
+	Q3Object_Dispose(theElement);
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3set_iterator_duplicate : Set iterator to duplicate elements.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3set_iterator_duplicate(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3ElementObject theElement, void *userData)
+{	TQ3SetData			*toInstanceData;
+	TQ3Status			qd3dStatus;
+	TQ3ElementObject	toElement;
+
+
+
+	// Duplicate the element into the destination attribute set
+	toInstanceData = (TQ3SetData *) userData;
+	toElement      = Q3Object_Duplicate(theElement);
+
+	if (toElement != NULL)
+		qd3dStatus = e3set_add_element(toInstanceData, theType, toElement);
+	else
+		qd3dStatus = kQ3Failure;
+	
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3set_iterator_submit : Set iterator to submit elements.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3set_iterator_submit(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3ElementObject theElement, void *userData)
+{	TQ3Boolean					isAttributeSet;
+	TQ3Status					qd3dStatus;
+	TQ3SetSubmitParamInfo		*paramInfo;
+	TQ3ViewObject				theView;
+
+
+
+	// Get our param info
+	paramInfo      = (TQ3SetSubmitParamInfo *) userData;
+	isAttributeSet = paramInfo->isAttributeSet;
+	theView        = paramInfo->theView;
+
+
+
+	// Submit the element in the appropriate way
+	if (isAttributeSet)
+		{
+		theType    = E3Attribute_ClassToAttributeType(theType);
+		qd3dStatus = Q3Attribute_Submit(theType, theElement->instanceData, theView);
+		}
+	else
+		qd3dStatus = E3View_SubmitImmediate(theView, theType, theElement->instanceData);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3set_iterator_scan_types : Set iterator to build the scan list.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3set_iterator_scan_types(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3ElementObject theElement, void *userData)
+{	TQ3Status	qd3dStatus;
+
+
+
+	// Append the type to the scan results table
+	qd3dStatus = Q3Memory_Reallocate(&instanceData->scanResults, (instanceData->scanCount + 1) * sizeof (TQ3ObjectType));
+	if (qd3dStatus == kQ3Success)
+		{
+		instanceData->scanResults[instanceData->scanCount] = theType;
+		instanceData->scanCount++;
+		}
+	
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
 //      e3set_delete : Set class delete method.
 //-----------------------------------------------------------------------------
 static void
 e3set_delete(TQ3Object theObject, void *privateData)
 {	TQ3SetData		*instanceData = (TQ3SetData *) privateData;
-	TQ3Uns32		n;
-#pragma unused(theObject)
+
+
+
+	// Empty the set
+	Q3Set_Empty(theObject);
 
 
 
 	// Dispose of our instance data
-	for (n = 0; n < instanceData->numElements; n++)
-		{
-		if (instanceData->theElements[n] != NULL)
-			Q3Object_Dispose(instanceData->theElements[n]);
-		}
-	
-	Q3Memory_Free(&instanceData->theElements);
+	if (instanceData->theTable != NULL)
+		E3HashTable_Destroy(&instanceData->theTable);
+
+	Q3Memory_Free(&instanceData->scanResults);
 }
 
 
@@ -109,12 +418,11 @@ e3set_delete(TQ3Object theObject, void *privateData)
 //      e3set_duplicate : Set class duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3set_duplicate(TQ3Object fromObject,    const void *fromPrivateData,
-					 TQ3Object toObject, void       *toPrivateData)
+e3set_duplicate(TQ3Object fromObject, const void *fromPrivateData,
+				 TQ3Object toObject,        void *toPrivateData)
 {	const TQ3SetData	*fromInstanceData = (const TQ3SetData *) fromPrivateData;
 	TQ3SetData			*toInstanceData   = (TQ3SetData *)       toPrivateData;
 	TQ3Status			qd3dStatus;
-	TQ3Uns32			n;
 #pragma unused(fromObject)
 #pragma unused(toObject)
 
@@ -129,48 +437,21 @@ e3set_duplicate(TQ3Object fromObject,    const void *fromPrivateData,
 
 
 	// Initialise the instance data of the new object
-	toInstanceData->numElements = fromInstanceData->numElements;
-	toInstanceData->theElements = NULL;
-
+	toInstanceData->theTable = NULL;
+	
 
 
 	// If there are any elements to copy, duplicate them
-	if (toInstanceData->numElements != 0)
+	if (fromInstanceData->theTable != NULL)
 		{
-		// Allocate the memory (cleared, since the set might have unused slots)
-		toInstanceData->theElements = (TQ3ElementObject *) Q3Memory_AllocateClear(sizeof(TQ3ElementObject) * toInstanceData->numElements);
-		if (toInstanceData->theElements == NULL)
-			return(kQ3Failure);
-
-
-
-		// Duplicate the elements
-		qd3dStatus = kQ3Success;
-		for (n = 0; n < toInstanceData->numElements && qd3dStatus == kQ3Success; n++)
-			{
-			if (fromInstanceData->theElements[n] != NULL)
-				{
-				toInstanceData->theElements[n] = Q3Object_Duplicate(fromInstanceData->theElements[n]);
-				if (toInstanceData->theElements[n] == NULL)
-					qd3dStatus = kQ3Failure;				
-				}
-			}
-
-
-
-		// Handle failure
+		qd3dStatus = e3set_iterate_elements(fromInstanceData, e3set_iterator_duplicate, toInstanceData);
 		if (qd3dStatus != kQ3Success)
 			{
-			// Dispose of any elements we managed to duplicate
-			for (n = 0; n < toInstanceData->numElements; n++)
-				{
-				if (toInstanceData->theElements[n] != NULL)
-					Q3Object_Dispose(toInstanceData->theElements[n]);
-				}
-			
-			
-			// Dispose of the set data
-			Q3Memory_Free(&toInstanceData->theElements);
+			Q3Set_Empty(toObject);
+
+			if (toInstanceData->theTable != NULL)
+				E3HashTable_Destroy(&toInstanceData->theTable);
+
 			return(kQ3Failure);
 			}
 		}
@@ -210,89 +491,86 @@ e3set_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3set_find_element_type : 	Look for an element type within the array
-//									of elements in the set instance data.
+//      e3attributeset_iterator_inherit : Attribute set inheritance iterator.
 //-----------------------------------------------------------------------------
+#pragma mark -
 static TQ3Status
-e3set_find_element_type( TQ3SetData* inInstanceData, TQ3ElementType inType,
-	TQ3Uns32* outFoundIndex )
-{
-	TQ3Status	found = kQ3Failure;
-	TQ3Uns32	n;
-	
-	for (n = 0; n < inInstanceData->numElements; ++n)
-	{
-		if (inInstanceData->theElements[n] != NULL)
+e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3ElementObject theElement, void *userData)
+{	TQ3Boolean							addElement, isChild;
+	TQ3XAttributeCopyInheritMethod 		copyInheritMethod;
+	void 								*attributeData;
+	TQ3XAttributeInheritMethod 			inheritMethod;
+	TQ3Status							qd3dStatus;
+	TQ3AttributeSetInheritParamInfo		*paramInfo;
+	TQ3AttributeSet						theResult;
+
+
+
+	// Get our param info
+	paramInfo = (TQ3AttributeSetInheritParamInfo *) userData;
+	theResult  = paramInfo->theResult;
+	isChild    = paramInfo->isChild;
+
+
+
+	// Get the attribute type
+	theType = E3Attribute_ClassToAttributeType(theType);
+
+
+
+	// Decide if we need to add the element to the result or not
+	qd3dStatus = kQ3Success;
+	addElement = isChild || !E3AttributeSet_Contains(theResult, theType);
+
+	if (addElement)
 		{
-			if (Q3Object_IsType(inInstanceData->theElements[n], inType))
+		// Handle built in attributes
+		if (theType < kQ3AttributeTypeNumTypes)
+			qd3dStatus = Q3AttributeSet_Add(theResult, theType, theElement->instanceData);
+
+
+		// Handle custom attributes
+		else
 			{
-				if (outFoundIndex != NULL)
+			// See if we need to inherit
+			inheritMethod = (TQ3XAttributeInheritMethod) E3ClassTree_GetMethod(
+																theElement->theClass,
+																kQ3XMethodTypeAttributeInherit);
+			if (inheritMethod == kQ3True)
 				{
-					*outFoundIndex = n;
+				// Use the copy inherit method to copy the attribute
+				copyInheritMethod = (TQ3XAttributeCopyInheritMethod) E3ClassTree_GetMethod(
+																		theElement->theClass,
+																		kQ3XMethodTypeAttributeCopyInherit);
+				if (copyInheritMethod != NULL)
+					{
+					qd3dStatus    = kQ3Failure;
+					attributeData = Q3Memory_AllocateClear(E3ClassTree_GetInstanceSize(theElement->theClass));
+	
+					if (attributeData != NULL)
+						qd3dStatus = copyInheritMethod(theElement->instanceData, attributeData); 
+	
+					if (qd3dStatus == kQ3Success)
+						qd3dStatus = Q3AttributeSet_Add(theResult, theType, attributeData);
+	
+					Q3Memory_Free(&attributeData);
+					}
+	
+	
+				// Or just copy it directly		
+				else
+					qd3dStatus = Q3AttributeSet_Add(theResult, theType, theElement->instanceData);
 				}
-				found = kQ3Success;
-				break;
 			}
+
+
+
+		// Handle failure
+		if (qd3dStatus != kQ3Success)
+			Q3AttributeSet_Empty(theResult);
 		}
-	}
-	
-	return found;
-}
 
-
-
-
-
-//=============================================================================
-//      e3set_find_empty_slot : Find an empty slot in the element array.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3set_find_empty_slot( TQ3SetData* inInstanceData, TQ3Uns32* outFoundIndex )
-{
-	TQ3Status	found = kQ3Failure;
-	TQ3Uns32	n;
-	
-	for (n = 0; n < inInstanceData->numElements; ++n)
-	{
-		if (inInstanceData->theElements[n] == NULL)
-		{
-			found = kQ3Success;
-			break;
-		}
-	}
-	
-	if (outFoundIndex != NULL)
-	{
-		*outFoundIndex = n;
-	}
-	return found;
-}
-
-
-
-
-//=============================================================================
-//      e3set_grow_element_array : Grow the array of elements of a set.
-//-----------------------------------------------------------------------------
-//		Note:	If profiling shows that this takes a significant amount of time,
-//				one could improve it by growing exponentially.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3set_grow_element_array( TQ3SetData* ioInstanceData )
-{
-	TQ3Status	status;
-	
-	status = Q3Memory_Reallocate( &ioInstanceData->theElements,
-				 sizeof(TQ3ElementObject) * (ioInstanceData->numElements+1));
-	
-	if (status == kQ3Success)
-	{
-		// initialize the newly-created slot
-		ioInstanceData->theElements[ ioInstanceData->numElements ] = NULL;
-		
-		ioInstanceData->numElements += 1;
-	}
-	return status;
+	return(qd3dStatus);
 }
 
 
@@ -305,7 +583,6 @@ e3set_grow_element_array( TQ3SetData* ioInstanceData )
 //		Note :	See the comments in E3AttributeSet_Submit for an explanation
 //				as to why we don't perform the actual submit here.
 //-----------------------------------------------------------------------------
-#pragma mark -
 static TQ3Status
 e3attributeset_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status		qd3dStatus;
@@ -1288,12 +1565,11 @@ E3Set_UnregisterClass(void)
 //				in a set.
 //-----------------------------------------------------------------------------
 #pragma mark -
-TQ3Status
+TQ3ElementObject
 E3Set_AccessElementData(TQ3SetObject theSet, TQ3ElementType theType, TQ3Uns32 *dataSize, void **data)
 {	TQ3SetData			*instanceData;
 	TQ3ElementObject	theElement;
 	E3ClassInfoPtr		theClass;
-	TQ3Uns32			n;
 
 
 
@@ -1313,34 +1589,26 @@ E3Set_AccessElementData(TQ3SetObject theSet, TQ3ElementType theType, TQ3Uns32 *d
 	// Find the instance data
 	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
-		return(kQ3Failure);
+		return(NULL);
 
 
 
 	// Find the element
-	theElement = NULL;
+	theElement = e3set_find_element(instanceData, theType);
+	if (theElement != NULL)
+		{
+		// Find the class for the element
+		theClass = theElement->theClass;
+		if (theClass == NULL)
+			return(NULL);
+
+
+		// Return the size and pointer for the data for the element
+		*dataSize = E3ClassTree_GetInstanceSize(theClass);
+		*data     = theElement->instanceData;
+		}
 	
-	if (kQ3Success == e3set_find_element_type( instanceData, theType, &n ))
-		theElement = instanceData->theElements[n];
-		
-
-	if (theElement == NULL)
-		return(kQ3Failure);
-
-
-
-	// Find the class for the element
-	theClass = E3ClassTree_GetClassByType(theType);
-	if (theClass == NULL)
-		return(kQ3Failure);
-
-
-
-	// Return the size and pointer for the data for the element
-	*dataSize = E3ClassTree_GetInstanceSize(theClass);
-	*data     = theElement->instanceData;
-
-	return(kQ3Success);
+	return(theElement);
 }
 
 
@@ -1388,10 +1656,9 @@ TQ3Status
 E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 {	TQ3XElementCopyReplaceMethod		copyReplaceMethod;
 	TQ3SetData							*instanceData;
-	TQ3Uns32							n, dataSize;
 	TQ3Status							qd3dStatus;
 	TQ3ElementObject					theElement;
-	E3ClassInfoPtr						theClass;
+	TQ3Uns32							dataSize;
 
 
 
@@ -1402,63 +1669,39 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 
 
 
-	// Find the class
-	theClass = E3ClassTree_GetClassByType(theType);
-	if (theClass == NULL)
-		return(kQ3Failure);
-
-
-
-	// If the element exists, replace it
-	if (kQ3Success == e3set_find_element_type( instanceData, theType, &n ))
+	// Find the element, and replace its data if it exists
+	theElement = e3set_find_element(instanceData, theType);
+	if (theElement != NULL)
 		{
-		copyReplaceMethod = (TQ3XElementCopyReplaceMethod) E3ClassTree_GetMethod(theClass,
-															  kQ3XMethodTypeElementCopyReplace);
+		copyReplaceMethod = (TQ3XElementCopyReplaceMethod) E3ClassTree_GetMethod(theElement->theClass,
+														   kQ3XMethodTypeElementCopyReplace);
 		if (copyReplaceMethod != NULL)
-			{
-			qd3dStatus = copyReplaceMethod(data, instanceData->theElements[n]->instanceData);
-			}
+			qd3dStatus = copyReplaceMethod(data, theElement->instanceData);
 		else
 			{
-			dataSize = E3ClassTree_GetInstanceSize(theClass);
-			memcpy(instanceData->theElements[n]->instanceData, data, dataSize);
+			dataSize = E3ClassTree_GetInstanceSize(theElement->theClass);
+			Q3Memory_Copy(data, theElement->instanceData, dataSize);
 			qd3dStatus = kQ3Success;
 			}
 		
 		Q3Shared_Edited(theSet);
-		return (qd3dStatus);
+		return(qd3dStatus);
 		}
 
 
 
-	// If we're still here, the element doesn't exist. So, try and
-	// find an empty slot that we can use to store it into.
-	if (e3set_find_empty_slot( instanceData, &n ) == kQ3Failure)
-		{
-		// Grow the array
-		qd3dStatus = e3set_grow_element_array( instanceData );
-		
-		if (qd3dStatus != kQ3Success)
-			return(qd3dStatus);
-		
-		// Now there has to be an empty slot
-		e3set_find_empty_slot( instanceData, &n );
-		}
-
-
-
-	// Create a new element
+	// We don't have an existing element, so instantiate a new one
 	theElement = E3ClassTree_CreateInstance(theType, kQ3False, data);
 	if (theElement == NULL)
 		return(kQ3Failure);
 
 
 
-	// Save the element in the empty slot	
-	instanceData->theElements[n] = theElement;
+	// And add it to the set
+	qd3dStatus = e3set_add_element(instanceData, theType, theElement);
 	Q3Shared_Edited(theSet);
 
-	return(kQ3Success);
+	return(qd3dStatus);
 }
 
 
@@ -1473,40 +1716,32 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 {	TQ3XElementCopyGetMethod	copyGetMethod;
 	void						*elementData;
 	TQ3Status					qd3dStatus;
+	TQ3ElementObject			theElement;
 	TQ3Uns32					dataSize;
-	E3ClassInfoPtr				theClass;
-
-
-
-	// Find the class
-	theClass = E3ClassTree_GetClassByType(theType);
-	if (theClass == NULL)
-		return(kQ3Failure);
 
 
 
 	// Get the size and pointer for the data for the element
-	qd3dStatus = E3Set_AccessElementData(theSet, theType, &dataSize, &elementData);
-	if (qd3dStatus != kQ3Success)
-		return(qd3dStatus);
+	theElement = E3Set_AccessElementData(theSet, theType, &dataSize, &elementData);
+	if (theElement == NULL)
+		return(kQ3Failure);
 
 
 
-	// If there's nothing to copy, bail
-	// (It may be OK for the dataSize to be zero, as the mere presence or
-	// absence of an attribute can carry information.)
+	// If there's nothing to copy, bail. It is OK for dataSize to be 0, as the
+	// mere presence of an attribute can itself carry information.
 	if (dataSize == 0)
 		return(kQ3Success);
 
 
 
 	// Copy the element data
-	copyGetMethod = (TQ3XElementCopyGetMethod) E3ClassTree_GetMethod(theClass,
+	copyGetMethod = (TQ3XElementCopyGetMethod) E3ClassTree_GetMethod(theElement->theClass,
 														  kQ3XMethodTypeElementCopyGet);
 	if (copyGetMethod != NULL)
 		qd3dStatus = copyGetMethod((void *) elementData, (void *) data);
 	else
-		memcpy(data, elementData, dataSize);
+		Q3Memory_Copy(elementData, data, dataSize);
 	
 	return(qd3dStatus);
 }
@@ -1520,13 +1755,11 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject destSet )
-{
-	TQ3Status					qd3dStatus;
-	TQ3SetData*					srcInstanceData;
-	TQ3SetData*					dstInstanceData;
-	TQ3ElementObject			srcElement;
-	TQ3Uns32					srcIndex;
-	TQ3Uns32					dstIndex;
+{	TQ3ElementObject	srcElement, dstElement;
+	TQ3SetData			*srcInstanceData;
+	TQ3SetData			*dstInstanceData;
+	TQ3Status			qd3dStatus;
+
 
 
 	// Get the instance data for each set
@@ -1541,36 +1774,27 @@ E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject 
 		return(kQ3Failure);
 
 
+
 	// Find the element to copy
-	if (kQ3Failure == e3set_find_element_type( srcInstanceData, theType, &srcIndex ))
+	srcElement = e3set_find_element(srcInstanceData, theType);
+	if (srcElement == NULL)
 		return(kQ3Failure);
-		
-	srcElement = srcInstanceData->theElements[ srcIndex ];
-	
-
-	// If the destination has an element of this type, remove it.
-	Q3Set_Clear( destSet, theType );
 
 
-	// Find an empty slot in the destination.
-	if (e3set_find_empty_slot( dstInstanceData, &dstIndex ) == kQ3Failure)
-	{
-		// Grow the array
-		qd3dStatus = e3set_grow_element_array( dstInstanceData );
-		
-		if (qd3dStatus != kQ3Success)
-			return(qd3dStatus);
-		
-		// Now there has to be an empty slot
-		e3set_find_empty_slot( dstInstanceData, &dstIndex );
-	}
+
+	// If the destination has an element of this type, remove it
+	Q3Set_Clear(destSet, theType);
+
+
+
+	// Duplicate the element, and add it to the set
+	dstElement = Q3Object_Duplicate(srcElement);
+	if (dstElement != NULL)
+		qd3dStatus = e3set_add_element(dstInstanceData, theType, dstElement);
+	else
+		qd3dStatus = kQ3Failure;
 	
-	
-	// Duplicate the element.
-	dstInstanceData->theElements[ dstIndex ] = Q3Object_Duplicate( srcElement );
-	
-	
-	return (dstInstanceData->theElements[ dstIndex ] != NULL);
+	return(qd3dStatus);
 }
 
 
@@ -1582,7 +1806,8 @@ E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject 
 //-----------------------------------------------------------------------------
 TQ3Boolean
 E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
-{	TQ3SetData		*instanceData;
+{	TQ3SetData			*instanceData;
+	TQ3ElementObject	theElement;
 
 
 
@@ -1593,12 +1818,9 @@ E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 
-	// Look for the element
-	if (kQ3Success == e3set_find_element_type( instanceData, theType, NULL ))
-		return kQ3True;
-
-
-	return(kQ3False);
+	// Find the element
+	theElement = e3set_find_element(instanceData, theType);
+	return((TQ3Boolean) (theElement != NULL));
 }
 
 
@@ -1610,8 +1832,8 @@ E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
-{	TQ3SetData		*instanceData;
-	TQ3Uns32		n;
+{	TQ3SetData			*instanceData;
+	TQ3ElementObject	theElement;
 
 
 
@@ -1623,16 +1845,14 @@ E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Remove the element
-	if (kQ3Success == e3set_find_element_type( instanceData, theType, &n ))
+	theElement = e3set_remove_element(instanceData, theType);
+	if (theElement != NULL)
 		{
-		Q3Object_Dispose(instanceData->theElements[n]);
-		instanceData->theElements[n] = NULL;
-
+		Q3Object_Dispose(theElement);
 		Q3Shared_Edited(theSet);
-		return(kQ3Success);
 		}
 
-	return(kQ3Failure);
+	return(theElement != NULL ? kQ3Success : kQ3Failure);
 }
 
 
@@ -1645,7 +1865,6 @@ E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 TQ3Status
 E3Set_Empty(TQ3SetObject theSet)
 {	TQ3SetData		*instanceData;
-	TQ3Uns32		n;
 
 
 
@@ -1656,25 +1875,10 @@ E3Set_Empty(TQ3SetObject theSet)
 
 
 
-	// Remove the elements
-	for (n = 0; n < instanceData->numElements; n++)
-		{
-		if (instanceData->theElements[n] != NULL)
-			{
-			Q3Object_Dispose(instanceData->theElements[n]);
-			instanceData->theElements[n] = NULL;
-			}
-		}
-
-
-
-	// Remove the element array from the set
-	instanceData->numElements = 0;
-	Q3Memory_Free(&instanceData->theElements);
-
-
-
-	// Bump the edit index
+	// Remove the elements from the set
+	e3set_iterate_elements(instanceData, e3set_iterator_delete, NULL);
+	e3set_clear_elements(instanceData);
+	
 	Q3Shared_Edited(theSet);
 
 	return(kQ3Success);
@@ -1687,15 +1891,21 @@ E3Set_Empty(TQ3SetObject theSet)
 //=============================================================================
 //      E3Set_GetNextElementType : Get the next element type in a set.
 //-----------------------------------------------------------------------------
-//		Note :	Currently performs a linear search from the start of the set
-//				on each invokation. This could be improved by caching the
-//				index of the previous search, but we'd also need to reset the
-//				index if the set was modified during a search.
+//		Note :	Assumes the set will not be changed while scanning. If the set
+//				is changed, we will detect this and stop the iteration.
+//
+//				To avoid depending on the details of how sets are implemented,
+//				we use an iterator to build up a flat list of the types of the
+//				elements in the set.
+//
+//				When the search concludes, this list will be freed: if a scan
+//				is stopped early, the list will persist until the next scan or
+//				until the set is disposed of.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
-{	TQ3SetData		*instanceData;
-	TQ3Uns32		n;
+{	TQ3SetData			*instanceData;
+	TQ3Uns32			editIndex;
 
 
 
@@ -1706,49 +1916,63 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 
 
 
-	// Check for empty sets
-	if (instanceData->numElements == 0)
-		{
-		*theType = kQ3ElementTypeNone;
-		return(kQ3Success);
-		}
+	// Get the edit index for the set
+	editIndex = Q3Shared_GetEditIndex(theSet);
 
 
 
-	// Find the 'current' element. This should probably be cached
-	// so that we don't start from the beginning each time.
+	// Prepare to start a new scan
 	if (*theType == kQ3ElementTypeNone)
-		n = 0;
+		{
+		// Reset our state from any previous scan 
+		instanceData->scanEditIndex = editIndex;
+		instanceData->scanCount     = 0;
+		instanceData->scanIndex     = 0;
+		Q3Memory_Free(&instanceData->scanResults);
+
+
+		// Build the array of types in the set
+		e3set_iterate_elements(instanceData, e3set_iterator_scan_types, NULL);
+		}
+	
+	
+	// Continue a previous scan
 	else
 		{
-		if (kQ3Failure == e3set_find_element_type( instanceData, *theType, &n ))
+		// If we've been edited, stop the scan
+		if (editIndex != instanceData->scanEditIndex)
 			{
-			// this shouldn't typically happen, but maybe the user fed us
-			// a bogus type
-			n = instanceData->numElements;
+			instanceData->scanCount     = 0;
+			instanceData->scanIndex     = 0;
+			Q3Memory_Free(&instanceData->scanResults);
+
+			*theType = kQ3ElementTypeNone;
+			return(kQ3Success);
 			}
-		n++;
 		}
 
 
 
-	// Skip any empty slots
-	while (n < instanceData->numElements && instanceData->theElements[n] == NULL)
-		n++;
+	// Return the next type in the set
+	Q3_ASSERT(instanceData->scanIndex < instanceData->scanCount);
+	Q3_ASSERT_VALID_PTR(instanceData->scanResults);
+	
+	*theType = instanceData->scanResults[instanceData->scanIndex];
+	instanceData->scanIndex++;
 
 
 
-	// Return the next element, if any
-	if (n >= instanceData->numElements)
-		*theType = kQ3ElementTypeNone;
-	else
+	// If that was the last type, clean up
+	if (instanceData->scanIndex == instanceData->scanCount)
 		{
-		Q3_ASSERT_VALID_PTR(instanceData->theElements[n]);
-		*theType = Q3Object_GetLeafType(instanceData->theElements[n]);
+		instanceData->scanCount     = 0;
+		instanceData->scanIndex     = 0;
+		Q3Memory_Free(&instanceData->scanResults);
 		}
-
+	
 	return(kQ3Success);
 }
+
 
 
 
@@ -1756,12 +1980,12 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 //=============================================================================
 //      E3Set_SubmitElements : Submit the elements of a set.
 //-----------------------------------------------------------------------------
-TQ3Status			E3Set_SubmitElements( TQ3SetObject inSet, TQ3ViewObject inView )
-{	TQ3SetData			*instanceData;
-	TQ3ObjectType		theType;
-	TQ3Uns32			n;
-	TQ3ElementObject	theElement;
-	TQ3Status			theStatus = kQ3Success;
+TQ3Status
+E3Set_SubmitElements( TQ3SetObject inSet, TQ3ViewObject inView )
+{	TQ3SetData					*instanceData;
+	TQ3Status					qd3dStatus;
+	TQ3SetSubmitParamInfo		paramInfo;
+
 
 
 	// Find the instance data
@@ -1770,22 +1994,14 @@ TQ3Status			E3Set_SubmitElements( TQ3SetObject inSet, TQ3ViewObject inView )
 		return(kQ3Failure);
 
 
-	// Submit the elements
-	for (n = 0; n < instanceData->numElements; n++)
-		{
-		theElement = instanceData->theElements[n];
-		
-		if (theElement != NULL)
-			{
-			theType = Q3Object_GetLeafType(theElement);
-			theStatus = E3View_SubmitImmediate( inView, theType,
-				theElement->instanceData );
-			if (theStatus == kQ3Failure)
-				break;
-			}
-		}
+
+	// Submit the elements in the set
+	paramInfo.isAttributeSet = kQ3False;
+	paramInfo.theView        = inView;
+
+	qd3dStatus = e3set_iterate_elements(instanceData, e3set_iterator_submit, &paramInfo);
 	
-	return theStatus;
+	return(qd3dStatus);
 }
 
 
@@ -2012,6 +2228,7 @@ E3AttributeSet_Get(TQ3AttributeSet attributeSet, TQ3AttributeType theType, void 
 	// Get the data
 	theType    = E3Attribute_AttributeToClassType(theType);
 	qd3dStatus = Q3Set_Get(attributeSet, theType, data);
+
 	return(qd3dStatus);
 }
 
@@ -2109,31 +2326,26 @@ E3AttributeSet_GetNextAttributeType(TQ3AttributeSet source, TQ3AttributeType *th
 //-----------------------------------------------------------------------------
 TQ3Status
 E3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject view)
-{	TQ3SetData			*instanceData;
-	TQ3ObjectType		theType;
-	TQ3Uns32			n;
+{	TQ3SetData					*instanceData;
+	TQ3Status					qd3dStatus;
+	TQ3SetSubmitParamInfo		paramInfo;
 
 
 
-	// Find the instance data for the set
+	// Find the instance data
 	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(attributeSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
 
 
-	// Submit the attributes
-	for (n = 0; n < instanceData->numElements; n++)
-		{
-		if (instanceData->theElements[n] != NULL)
-			{
-			theType = Q3Object_GetLeafType(instanceData->theElements[n]);
-			theType = E3Attribute_ClassToAttributeType(theType);
-			Q3Attribute_Submit(theType, instanceData->theElements[n]->instanceData, view);
-			}
-		}
+	// Submit the elements in the set
+	paramInfo.isAttributeSet = kQ3True;
+	paramInfo.theView        = view;
 
-	return(kQ3Success);
+	qd3dStatus = e3set_iterate_elements(instanceData, e3set_iterator_submit, &paramInfo);
+	
+	return(qd3dStatus);
 }
 
 
@@ -2148,13 +2360,9 @@ E3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject view)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3AttributeSet result)
-{	TQ3SetData						*parentInstanceData, *childInstanceData;
-	TQ3XAttributeCopyInheritMethod 	copyInheritMethod;
-	void 							*attributeData;
-	TQ3XAttributeInheritMethod 		inheritMethod;
-	TQ3Status						qd3dStatus;
-	TQ3ObjectType					theType;
-	TQ3Uns32						n;
+{	TQ3SetData							*parentInstanceData, *childInstanceData;
+	TQ3Status							qd3dStatus;
+	TQ3AttributeSetInheritParamInfo		paramInfo;
 
 
 
@@ -2174,120 +2382,25 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 
 
 
-	// For each attribute in child, copy it into result
-	for (n = 0; n < childInstanceData->numElements; n++)
+	// Iterate over the child
+	if (qd3dStatus == kQ3Success)
 		{
-		if (childInstanceData->theElements[n] != NULL)
-			{
-			theType = Q3Object_GetLeafType(childInstanceData->theElements[n]);
-			theType = E3Attribute_ClassToAttributeType(theType);
-
-
-			// Built in attributes
-			if (theType < kQ3AttributeTypeNumTypes)
-				qd3dStatus = Q3AttributeSet_Add(result, theType, childInstanceData->theElements[n]->instanceData);
-
-
-			// Custom attributes
-			else
-				{
-				inheritMethod = (TQ3XAttributeInheritMethod) E3ClassTree_GetMethod(
-																	childInstanceData->theElements[n]->theClass,
-																	kQ3XMethodTypeAttributeInherit);
-				if (inheritMethod == kQ3True) // We have to inherit.
-					{
-					copyInheritMethod = (TQ3XAttributeCopyInheritMethod) E3ClassTree_GetMethod(
-																childInstanceData->theElements[n]->theClass,
-																kQ3XMethodTypeAttributeCopyInherit);
-					if (copyInheritMethod != NULL) // Use copy inherit method to copy the attribute.
-						{
-						qd3dStatus    = kQ3Failure;
-						attributeData = Q3Memory_AllocateClear(E3ClassTree_GetInstanceSize(childInstanceData->theElements[n]->theClass));
-
-						if (attributeData != NULL)
-							qd3dStatus = copyInheritMethod(childInstanceData->theElements[n]->instanceData, attributeData); 
-
-						if (qd3dStatus == kQ3Success)
-							qd3dStatus = Q3AttributeSet_Add(result, theType, attributeData);
-
-						Q3Memory_Free(&attributeData);
-						}
-					
-					else // There's no copy inherit method, so copy it directly into result.
-						qd3dStatus = Q3AttributeSet_Add(result, theType, childInstanceData->theElements[n]->instanceData);
-						
-					}
-				}
-				
-			
-			// Clean up
-			if (qd3dStatus != kQ3Success)
-				{
-				Q3AttributeSet_Empty(result);
-				return(qd3dStatus);
-				}
-			}
+		paramInfo.theResult = result;
+		paramInfo.isChild   = kQ3True;
+		qd3dStatus          = e3set_iterate_elements(childInstanceData, e3attributeset_iterator_inherit, &paramInfo);
 		}
 
 
 
-	// For each attribute in parent, copy it in if it's not already there
-	for (n = 0; n < parentInstanceData->numElements; n++)
+	// Iterate over the parent
+	if (qd3dStatus == kQ3Success)
 		{
-		if (parentInstanceData->theElements[n] != NULL)
-			{
-			theType = Q3Object_GetLeafType(parentInstanceData->theElements[n]);
-			theType = E3Attribute_ClassToAttributeType(theType);
-			if (!E3AttributeSet_Contains(result, theType))
-				{
-				// Built in attributes
-				if (theType < kQ3AttributeTypeNumTypes)
-					qd3dStatus = Q3AttributeSet_Add(result, theType, parentInstanceData->theElements[n]->instanceData);
-
-
-				// Custom attributes
-				else
-					{
-					inheritMethod = (TQ3XAttributeInheritMethod) E3ClassTree_GetMethod(
-																			parentInstanceData->theElements[n]->theClass,
-																		  	kQ3XMethodTypeAttributeInherit);
-					if (inheritMethod == kQ3True) // We have to inherit.
-						{
-						copyInheritMethod = (TQ3XAttributeCopyInheritMethod) E3ClassTree_GetMethod(
-																				parentInstanceData->theElements[n]->theClass,
-																			 	 kQ3XMethodTypeAttributeCopyInherit);
-						if (copyInheritMethod != NULL) // Use copy inherit method to copy the attribute.
-							{
-							qd3dStatus    = kQ3Failure;
-							attributeData = Q3Memory_AllocateClear(E3ClassTree_GetInstanceSize(childInstanceData->theElements[n]->theClass));
-
-							if (attributeData != NULL)
-								qd3dStatus = copyInheritMethod(parentInstanceData->theElements[n]->instanceData, attributeData); 
-
-							if (qd3dStatus == kQ3Success)
-								qd3dStatus = Q3AttributeSet_Add(result, theType, attributeData);
-
-							Q3Memory_Free(&attributeData);
-							}
-						
-						else // There's no copy inherit method, so copy it directly into result.
-							qd3dStatus = Q3AttributeSet_Add(result, theType, parentInstanceData->theElements[n]->instanceData);
-							
-						}
-					}
-				
-				
-				// Clean up
-				if (qd3dStatus != kQ3Success)
-					{
-					Q3AttributeSet_Empty(result);
-					return(qd3dStatus);
-					}
-				}
-			}
+		paramInfo.theResult = result;
+		paramInfo.isChild   = kQ3False;
+		qd3dStatus          = e3set_iterate_elements(childInstanceData, e3attributeset_iterator_inherit, &paramInfo);
 		}
-
-	return(kQ3Success);
+	
+	return(qd3dStatus);
 }
 
 
@@ -2393,8 +2506,4 @@ E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 
 	return((TQ3XObjectClass) theClass);
 }
-
-
-
-
 
