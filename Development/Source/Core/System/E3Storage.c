@@ -154,20 +154,22 @@ e3storage_memory_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataS
 
 
 
-	// Make sure we have enough space
-	if (offset  >= instanceData->bufferSize)
+	// Make sure we have enough space to write something
+	if ((bytesToWrite > 0) && (offset  >= instanceData->bufferSize))
 		return(kQ3Failure);
 
 
 
 	// Work out how much we should copy
 	if (offset + bytesToWrite > instanceData->bufferSize)
-		bytesToWrite = instanceData->validSize - offset;
+		bytesToWrite = instanceData->bufferSize - offset;
 
 
 
 	// Copy the block
-	Q3Memory_Copy(data, &instanceData->buffer[offset], bytesToWrite);
+	if (bytesToWrite > 0)
+		Q3Memory_Copy(data, &instanceData->buffer[offset], bytesToWrite);
+	
 	
 	if(instanceData->validSize < offset + bytesToWrite) // shift EOF
 		instanceData->validSize = offset + bytesToWrite;
