@@ -181,9 +181,14 @@ Q3Notice_Register(TQ3NoticeMethod noticePost, TQ3Int32 reference)
 //=============================================================================
 //      Q3Error_Get : Quesa API entry point.
 //-----------------------------------------------------------------------------
+//		Note :	Preserves the Error Manager state around the bottleneck, since
+//				calling this routine should not clear the existing state.
+//-----------------------------------------------------------------------------
 TQ3Error
 Q3Error_Get(TQ3Error *firstError)
-{
+{	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	TQ3Boolean		saveState;
+
 
 
 	// Release build checks
@@ -197,6 +202,16 @@ Q3Error_Get(TQ3Error *firstError)
 	if (0) // Further checks on firstError
 		return(kQ3ErrorNone);
 #endif
+
+
+
+	// Call the bottleneck, saving the state around it
+	saveState                    = theGlobals->errMgrClearError;
+	theGlobals->errMgrClearError = kQ3False;
+
+	E3System_Bottleneck();
+	
+	theGlobals->errMgrClearError = saveState;
 
 
 
@@ -216,6 +231,11 @@ Q3Error_IsFatalError(TQ3Error error)
 {
 
 
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
 	// Call our implementation
 	return(E3Error_IsFatalError(error));
 }
@@ -229,12 +249,33 @@ Q3Error_IsFatalError(TQ3Error error)
 //-----------------------------------------------------------------------------
 TQ3Warning
 Q3Warning_Get(TQ3Warning *firstWarning)
-{
+{	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	TQ3Boolean		saveState;
+
 
 
 	// Release build checks
 	if (firstWarning != NULL)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstWarning), kQ3WarningNone);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on firstWarning
+		return(kQ3ErrorNone);
+#endif
+
+
+
+
+	// Call the bottleneck, saving the state around it
+	saveState                      = theGlobals->errMgrClearWarning;
+	theGlobals->errMgrClearWarning = kQ3False;
+
+	E3System_Bottleneck();
+	
+	theGlobals->errMgrClearWarning = saveState;
 
 
 
@@ -251,12 +292,33 @@ Q3Warning_Get(TQ3Warning *firstWarning)
 //-----------------------------------------------------------------------------
 TQ3Notice
 Q3Notice_Get(TQ3Notice *firstNotice)
-{
+{	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	TQ3Boolean		saveState;
+
 
 
 	// Release build checks
 	if (firstNotice != NULL)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstNotice), kQ3NoticeNone);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on firstNotice
+		return(kQ3ErrorNone);
+#endif
+
+
+
+
+	// Call the bottleneck, saving the state around it
+	saveState                     = theGlobals->errMgrClearNotice;
+	theGlobals->errMgrClearNotice = kQ3False;
+
+	E3System_Bottleneck();
+	
+	theGlobals->errMgrClearNotice = saveState;
 
 
 
@@ -273,12 +335,33 @@ Q3Notice_Get(TQ3Notice *firstNotice)
 //-----------------------------------------------------------------------------
 TQ3Uns32
 Q3Error_PlatformGet(TQ3Uns32 *firstErr)
-{
+{	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	TQ3Boolean		saveState;
+
 
 
 	// Release build checks
 	if (firstErr != NULL)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstErr), 0);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on firstErr
+		return(kQ3ErrorNone);
+#endif
+
+
+
+
+	// Call the bottleneck, saving the state around it
+	saveState                       = theGlobals->errMgrClearPlatform;
+	theGlobals->errMgrClearPlatform = kQ3False;
+
+	E3System_Bottleneck();
+	
+	theGlobals->errMgrClearPlatform = saveState;
 
 
 
@@ -298,6 +381,11 @@ Q3Error_PlatformPost(TQ3Uns32 theErr)
 {
 
 
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
 	// Call our implementation
 	E3Error_PlatformPost(theErr);
 }
@@ -312,6 +400,11 @@ Q3Error_PlatformPost(TQ3Uns32 theErr)
 const char *
 Q3Error_ToString(TQ3Language theLanguage, TQ3Error theError)
 {
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
 
 
 	// Call our implementation
@@ -330,6 +423,11 @@ Q3Warning_ToString(TQ3Language theLanguage, TQ3Warning theWarning)
 {
 
 
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
 	// Call our implementation
 	return(E3Warning_ToString(theLanguage, theWarning));
 }
@@ -344,6 +442,11 @@ Q3Warning_ToString(TQ3Language theLanguage, TQ3Warning theWarning)
 const char *
 Q3Notice_ToString(TQ3Language theLanguage, TQ3Notice theNotice)
 {
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
 
 
 	// Call our implementation
@@ -367,6 +470,19 @@ Q3MacintoshError_Get(OSErr *firstMacErr)
 	// Release build checks
 	if (firstMacErr != NULL)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstMacErr), noErr);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on firstErr
+		return(kQ3ErrorNone);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
 
 
 
