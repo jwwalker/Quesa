@@ -39,7 +39,7 @@
 #include "IRUpdate.h"
 #include "IRTexture.h"
 #include "IRTransparent.h"
-#include "IRTribuffer.h"
+#include "IRTriBuffer.h"
 #include "IRLights.h"
 
 #include "GLPrefix.h"
