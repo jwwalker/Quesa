@@ -89,7 +89,10 @@
 // Set up the platform
 #define QUESA_OS_MACINTOSH		TARGET_OS_MAC
 #define QUESA_OS_WIN32			TARGET_OS_WIN32
-#define QUESA_OS_UNIX			TARGET_OS_UNIX
+
+#ifndef QUESA_OS_UNIX
+	#define QUESA_OS_UNIX		TARGET_OS_UNIX
+#endif
 
 #ifndef QUESA_OS_BE
 	#define QUESA_OS_BE			0
