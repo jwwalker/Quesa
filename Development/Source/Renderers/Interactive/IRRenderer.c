@@ -233,8 +233,8 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 
 
-	// Flush the primitive cache
-	IRGeometry_Transparent_Flush(theView, instanceData, kQ3True);
+	// Draw the transparent primitives
+	IRGeometry_Transparent_Draw(theView, instanceData);
 
 
 
