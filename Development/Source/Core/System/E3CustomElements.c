@@ -69,6 +69,8 @@ typedef struct TCEUrlDataPrivate {
 #define kQ3ClassNameCustomElementDepthBits		"Quesa:DepthBitsElement"
 #define kQ3ClassNameCustomElementBeforeRender	"Quesa:BeforeRenderCallback"
 #define kQ3ClassNameCustomElementAfterRender	"Quesa:AfterRenderCallback"
+#define kQ3ClassNameCustomElementBeforePick		"Quesa:BeforePickCallback"
+#define kQ3ClassNameCustomElementAfterPick		"Quesa:AfterPickCallback"
 
 
 
@@ -671,6 +673,22 @@ E3CustomElements_RegisterClass(void)
 					kQ3ObjectTypeElement,
 					kQ3CallbackElementTypeAfterRender,
 					kQ3ClassNameCustomElementAfterRender,
+					NULL,
+					sizeof(TQ3ObjectEventCallback) );
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(
+					kQ3ObjectTypeElement,
+					kQ3CallbackElementTypeBeforePick,
+					kQ3ClassNameCustomElementBeforePick,
+					NULL,
+					sizeof(TQ3ObjectEventCallback) );
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(
+					kQ3ObjectTypeElement,
+					kQ3CallbackElementTypeAfterPick,
+					kQ3ClassNameCustomElementAfterPick,
 					NULL,
 					sizeof(TQ3ObjectEventCallback) );
 
