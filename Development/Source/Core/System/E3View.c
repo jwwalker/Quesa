@@ -3637,7 +3637,10 @@ E3View_EndWriting(TQ3ViewObject theView)
 
 	// If we don't need to retraverse, drop the file reference
 	if (viewStatus != kQ3ViewStatusRetraverse)
+		{
+		E3FileFormat_Method_EndFile(theView);
 		E3Shared_Replace(&instanceData->theFile, NULL);
+		}
 
 	return(viewStatus);
 }
