@@ -191,7 +191,7 @@ const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	#define TQ3Rect Rect
 	#define ConstTQ3Rect Rect
-	#define TQ3Window CGrafPtr
+	#define TQ3Port CGrafPtr
 	#define TQ3Result OSErr
 	#define TQ3EventRecord EventRecord
 	#define TQ3BoolResult Boolean
@@ -201,12 +201,12 @@ const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 	#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
 		#define TQ3Rect RECT
 		#define ConstTQ3Rect const RECT
-		#define TQ3Window HWND
+		#define TQ3Port HWND
 		#define TQ3BoolResult BOOL
 	#else
 		#define TQ3Rect TQ3Area
 		#define ConstTQ3Rect const TQ3Area
-		#define TQ3Window void*
+		#define TQ3Port void*
 		#define TQ3BoolResult TQ3Boolean
 	#endif
 	#define TQ3EventRecord void
@@ -264,15 +264,15 @@ typedef struct TQ3ViewerData
 	void*									paneResizeNotifyCallbackData;
 	TQ3Rect									theRect;
 	TQ3Rect									drawRect;
-	TQ3Window								theWindow;
+	TQ3Port								thePort;
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	ControlHandle							statusBar;
 	DragReference							theDrag;
 	DragReceiveHandlerUPP					receiveHandler;
 	DragTrackingHandlerUPP					trackingHandler;
 #elif defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
-	TQ3Window								the3DMFWindow;
-	TQ3Window								theControllerWindow;
+	TQ3Port								the3DMFWindow;
+	TQ3Port								theControllerWindow;
 #else
 	// other platforms
 #endif
@@ -294,6 +294,31 @@ static TQ3ViewerData* gDragViewer = NULL;
 
 //=============================================================================
 //      Internal functions
+//-----------------------------------------------------------------------------
+//      e3_viewer_GetPortWindow :	Convert a TQ3Port into the associated Window.
+//									Mac only.  There may be an easier way to do
+//									this under Carbon, but I don't know how.
+//-----------------------------------------------------------------------------
+#if QUESA_OS_MACINTOSH
+static
+WindowRef e3_viewer_GetPortWindow(TQ3Port port)
+{
+	#if TARGET_API_MAC_CARBON
+		// Under Carbon, I don't know how to do this short of a loop:
+		WindowRef w = GetFrontWindowOfClass(kAllWindowClasses, false);
+		while (w) {
+			if (GetWindowPort(w) == port) break;
+			w = GetNextWindowOfClass(w, kAllWindowClasses, false);
+		}
+		return w;
+	#else
+		// under Classic MacOS, you can just typecast:
+		return (WindowRef)port;
+	#endif
+}
+#endif
+
+
 //-----------------------------------------------------------------------------
 //      e3_viewer_button_to_external :	Convert an internal button index to the
 //										external index.
@@ -1052,7 +1077,7 @@ e3resetcamerabounds (TQ3ViewerData* viewerData)
 static TQ3Status
 e3drawtool (TQ3ViewerData* viewerData, TQ3Uns32 buttonMask, TQ3Uns32 buttonNumber)
 	{
-	if (viewerData->theWindow == NULL)
+	if (viewerData->thePort == NULL)
 		return kQ3Success;
 	if (viewerData->flags & buttonMask)
 		{
@@ -1234,8 +1259,8 @@ e3balloonhelp (TQ3ViewerData* theViewer, Point pt)
 				if (aHelpMsg.u.hmmString [0])
 					{
 					GetPort (&oldPort);
-					if (theViewer->theWindow)
-						SetPort ((GrafPtr)(theViewer->theWindow));
+					if (theViewer->thePort)
+						SetPort ((GrafPtr)(theViewer->thePort));
 					LocalToGlobal ((Point*)(&alternateRect.top));
 					LocalToGlobal ((Point*)(&alternateRect.bottom));
 					LocalToGlobal (&pt);
@@ -1519,8 +1544,8 @@ e3dodrag (TQ3ViewerData* theViewer, TQ3EventRecord* theEvent)
 				RgnHandle innerRgn;
 				Rect r = theViewer->drawRect;
 				GetPort (&oldPort);
-				if (theViewer->theWindow)
-					SetPort ((GrafPtr)(theViewer->theWindow));
+				if (theViewer->thePort)
+					SetPort ((GrafPtr)(theViewer->thePort));
 				LocalToGlobal ((Point*)(&r.top));
 				LocalToGlobal ((Point*)(&r.bottom));
 				SetPort (oldPort);
@@ -1684,7 +1709,7 @@ Q3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 //      Q3ViewerNew : Creates a new viewer object.
 //-----------------------------------------------------------------------------
 TQ3ViewerObject
-Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, TQ3Uns32 flags)
+Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 	{
 	TQ3Uns32 index;
 	TQ3ViewerData* viewerData;
@@ -1777,7 +1802,7 @@ Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 			viewerData->trackingHandler = NULL;
 			}
 	#endif
-		viewerData->theWindow = port;
+		viewerData->thePort = port;
 		viewerData->theRect = *rect;
 		viewerData->drawRect = *rect;
 		if (viewerData->flags & kQ3ViewerControllerVisible)
@@ -1837,9 +1862,8 @@ Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 				#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 					TQ3MacDrawContextData drawContextData;
 					e3setdefaultdrawcontext (&viewerData->drawRect, &drawContextData.drawContextData);
-					#warning Nasty dangerous Window/GrafPtr typecasting here!
-					drawContextData.window = (CWindowPtr)port; // be warned: port may be NULL
-					drawContextData.grafPort = (TQ3Window)port; // NOTE: shouldn't TQ3Window be a WindowRef?
+					drawContextData.window = e3_viewer_GetPortWindow(port);
+					drawContextData.grafPort = port;
 					drawContextData.library = kQ3Mac2DLibraryNone;
 					drawContextData.viewPort = NULL; // do not support GX
 					theContext = Q3MacDrawContext_New (&drawContextData);
@@ -1945,7 +1969,7 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 	viewerData->validViewer = kQ3InvalidViewer;
 	if (viewerData->receiveHandler)
 		{
-		RemoveReceiveHandler (viewerData->receiveHandler, (WindowRef)(viewerData->theWindow));
+		RemoveReceiveHandler (viewerData->receiveHandler, (WindowRef)(viewerData->thePort));
 		#if TARGET_API_MAC_CARBON
 			DisposeDragReceiveHandlerUPP (viewerData->receiveHandler);
 		#else
@@ -1955,7 +1979,7 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 		}
 	if (viewerData->trackingHandler)
 		{
-		RemoveTrackingHandler (viewerData->trackingHandler, (WindowRef)(viewerData->theWindow));
+		RemoveTrackingHandler (viewerData->trackingHandler, (WindowRef)(viewerData->thePort));
 		#if TARGET_API_MAC_CARBON
 			DisposeDragTrackingHandlerUPP (viewerData->trackingHandler);
 		#else
@@ -2220,7 +2244,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 	TQ3ViewerData* viewerData = (TQ3ViewerData*)theViewer;
 return kQ3Success;
 	CheckViewerFailure (theViewer);
-	if (!viewerData->theWindow)
+	if (!viewerData->thePort)
 		return kQ3BadResult;
 	theView = viewerData->theView;
 	if (theView == NULL)
@@ -2228,7 +2252,7 @@ return kQ3Success;
 	
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	GetPort (&oldPort);
-	SetPort ((GrafPtr)(viewerData->theWindow));
+	SetPort ((GrafPtr)(viewerData->thePort));
 #endif
 	if (viewerData->flags & kQ3ViewerCanDrawDragBorders)
 		{
@@ -2269,7 +2293,7 @@ return kQ3Success;
 					{
 					Rect r = {0, 0, 0, 0}; // get correct rectangle
 					SInt16 procID = scrollBarProc; // change to slider control if running Mac OS 8 or later
-					viewerData->statusBar = NewControl ((WindowRef)(viewerData->theWindow), &r, "\p", true, 0, 0, 100, procID, 0);
+					viewerData->statusBar = NewControl ((WindowRef)(viewerData->thePort), &r, "\p", true, 0, 0, 100, procID, 0);
 					}
 			#endif
 				}
@@ -2347,14 +2371,14 @@ Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
 		RGBColor myGray = {0xCFFF, 0xCFFF, 0xCFFF};
 		Rect r;
 		GrafPtr oldPort;
-		if (!viewerData->theWindow)
+		if (!viewerData->thePort)
 			return paramErr;
 		r = viewerData->theRect;
 		r.top = viewerData->drawRect.bottom;
 		if (viewerData->flags & kQ3ViewerCanDrawDragBorders)
 			r.top += kQ3DragBorderWidth;
 		GetPort (&oldPort);
-		SetPort ((GrafPtr)viewerData->theWindow);
+		SetPort ((GrafPtr)viewerData->thePort);
 		RGBForeColor (&myGray);
 		PaintRect (&r);
 		ForeColor (blackColor);
@@ -2388,7 +2412,7 @@ Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
 	CheckViewerFailure (theViewer);
 	if (viewerData->flags & kQ3ViewerControllerVisible)
 		{
-		if (!viewerData->theWindow)
+		if (!viewerData->thePort)
 			return kQ3Failure;
 		e3drawtool (viewerData, kQ3ViewerButtonCamera,	eCameraButton);
 		e3drawtool (viewerData, kQ3ViewerButtonTruck,	eTruckButton);
@@ -2692,11 +2716,12 @@ Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	if ((oldFlags & kQ3ViewerDraggingInOff) == 0) // kQ3ViewerDraggingInOff bit WAS changed
 		{
+		WindowRef window = e3_viewer_GetPortWindow(viewer->thePort);
 		if (flags & kQ3ViewerDraggingInOff)
 			{
 			if (viewer->receiveHandler) // was on before
 				{
-				RemoveReceiveHandler (viewer->receiveHandler, (WindowRef)(viewer->theWindow));
+				RemoveReceiveHandler (viewer->receiveHandler, window);
 				#if TARGET_API_MAC_CARBON
 					DisposeDragReceiveHandlerUPP (viewer->receiveHandler);
 				#else
@@ -2706,7 +2731,7 @@ Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 				}
 			if (viewer->trackingHandler) // was on before
 				{
-				RemoveTrackingHandler (viewer->trackingHandler, (WindowRef)(viewer->theWindow));
+				RemoveTrackingHandler (viewer->trackingHandler, window);
 				#if TARGET_API_MAC_CARBON
 					DisposeDragTrackingHandlerUPP (viewer->trackingHandler);
 				#else
@@ -2725,7 +2750,7 @@ Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 					viewer->receiveHandler = NewDragReceiveHandlerProc (e3receivehandler);
 				#endif
 				if (viewer->receiveHandler)
-					InstallReceiveHandler (viewer->receiveHandler, (WindowRef)(viewer->theWindow), theViewer);
+					InstallReceiveHandler (viewer->receiveHandler, window, theViewer);
 				}
 			if (viewer->trackingHandler == NULL) // was not on before
 				{
@@ -2735,7 +2760,7 @@ Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 					viewer->trackingHandler = NewDragTrackingHandlerProc (e3trackinghandler);
 				#endif
 				if (viewer->trackingHandler)
-					InstallTrackingHandler (viewer->trackingHandler, (WindowRef)(viewer->theWindow), theViewer);
+					InstallTrackingHandler (viewer->trackingHandler, window, theViewer);
 				}
 			}
 		}
@@ -3854,7 +3879,7 @@ Q3ViewerEvent(TQ3ViewerObject theViewer, EventRecord *evt)
 			else
 			if (part == inContent)
 				{
-				GrafPtr thePort = (GrafPtr)(viewer->theWindow);
+				GrafPtr thePort = (GrafPtr)(viewer->thePort);
 				GrafPtr oldPort;
 				GetPort (&oldPort);
 				SetPort (thePort);
@@ -3885,7 +3910,7 @@ Q3ViewerEvent(TQ3ViewerObject theViewer, EventRecord *evt)
 		case updateEvt:
 		// Leave these to the Host application
 			{
-			GrafPtr thePort = (GrafPtr)(viewer->theWindow);
+			GrafPtr thePort = (GrafPtr)(viewer->thePort);
 			WindowPtr theWindow = (WindowPtr)evt->message ;
 			if (theWindow == thePort)
 				{
@@ -3899,7 +3924,7 @@ Q3ViewerEvent(TQ3ViewerObject theViewer, EventRecord *evt)
 		*/
 		case activateEvt:
 			{
-			if ((GrafPtr)evt->message == (GrafPtr)(viewer->theWindow))
+			if ((GrafPtr)evt->message == (GrafPtr)(viewer->thePort))
 				{
 				Boolean becomingActive = ((evt->modifiers & activeFlag) == activeFlag);
 				if (becomingActive)
@@ -4046,8 +4071,8 @@ Q3ViewerGetPict(TQ3ViewerObject theViewer)
 						// now make a Picture from the GWorld
 						RgnHandle oldClip;
 						OpenCPicParams pictureHeader;
-						CGrafPtr thePort = GetWindowPort(viewer->theWindow);
-						SetPortWindowPort(viewer->theWindow);
+						CGrafPtr thePort = viewer->thePort;
+						SetPort(thePort);
 						oldClip = NewRgn ();
 						if (oldClip)
 							GetClip (oldClip); // for some reason I need to get and reset the clip region
@@ -4101,19 +4126,20 @@ Q3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port)
 		TQ3DrawContextObject theContext;
 		if ((Q3View_GetDrawContext (viewer->theView, &theContext) == kQ3Success) && theContext)
 			{
-			TQ3Status err = Q3MacDrawContext_SetWindow (theContext, port);
+			WindowRef window = e3_viewer_GetPortWindow(port);
+			TQ3Status err = Q3MacDrawContext_SetWindow (theContext, window);
 			if (err == kQ3Success)
 				err = Q3MacDrawContext_SetGrafPort (theContext, port);
 			Q3Object_Dispose (theContext);
 			if (err == kQ3Success)
 				{
 				e3callallplugins (viewer, kQ3XMethodType_ViewerPluginDrawContextChanged);
-				if (viewer->theWindow)
+				if (viewer->thePort)
 					{
-					// need to unset up a drag handler for viewer->theWindow
+					// need to unset up a drag handler for viewer->thePort
 					if (viewer->receiveHandler)
 						{
-						RemoveReceiveHandler (viewer->receiveHandler, (WindowRef)(viewer->theWindow));
+						RemoveReceiveHandler (viewer->receiveHandler, window);
 						#if TARGET_API_MAC_CARBON
 							DisposeDragReceiveHandlerUPP (viewer->receiveHandler);
 						#else
@@ -4123,7 +4149,7 @@ Q3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port)
 						}
 					if (viewer->trackingHandler)
 						{
-						RemoveTrackingHandler (viewer->trackingHandler, (WindowRef)(viewer->theWindow));
+						RemoveTrackingHandler (viewer->trackingHandler, window);
 						#if TARGET_API_MAC_CARBON
 							DisposeDragTrackingHandlerUPP (viewer->trackingHandler);
 						#else
@@ -4132,7 +4158,7 @@ Q3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port)
 						viewer->trackingHandler = NULL;
 						}
 					}
-				viewer->theWindow = port;
+				viewer->thePort = port;
 				Q3ViewerDraw (theViewer);
 				// need to set up a drag handler for this port if flags specify it
 				if ((viewer->flags & kQ3ViewerDragMode) && ((viewer->flags & kQ3ViewerDraggingInOff) == 0))
@@ -4140,10 +4166,10 @@ Q3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port)
 					OSErr err;
 					viewer->receiveHandler = NewDragReceiveHandlerUPP (e3receivehandler);
 					if (viewer->receiveHandler)
-						err = InstallReceiveHandler (viewer->receiveHandler, (WindowRef)(viewer->theWindow), theViewer);
+						err = InstallReceiveHandler (viewer->receiveHandler, window, theViewer);
 					viewer->trackingHandler = NewDragTrackingHandlerUPP (e3trackinghandler);
 					if (viewer->trackingHandler)
-						err = InstallTrackingHandler (viewer->trackingHandler, (WindowRef)(viewer->theWindow), theViewer);
+						err = InstallTrackingHandler (viewer->trackingHandler, window, theViewer);
 					}
 				return noErr;
 				}
@@ -4160,7 +4186,7 @@ CGrafPtr
 Q3ViewerGetPort(TQ3ViewerObject theViewer)
 	{
 	CheckViewerNULL (theViewer);
-	return ((TQ3ViewerData*)theViewer)->theWindow;
+	return ((TQ3ViewerData*)theViewer)->thePort;
 	}
 
 
@@ -4203,7 +4229,7 @@ HWND
 Q3ViewerGetWindow(TQ3ViewerObject theViewer)
 	{
 	CheckViewerNULL (theViewer);
-	return ((TQ3ViewerData*)theViewer)->theWindow;
+	return ((TQ3ViewerData*)theViewer)->thePort;
 	}
 
 
