@@ -807,12 +807,12 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 		qd3dStatus = e3drawcontext_mac_buildregions(theDrawContext);
 		if (qd3dStatus != kQ3Success)
 			return(qd3dStatus);
-
+		
+		// update paneState, thePane, windowRect fields of TQ3MacDrawContextState
+		e3drawcontext_mac_checkregions(theDrawContext);
 
 		// Update the regions and the state flag
 		e3drawcontext_mac_updateregions(theDrawContext, kQ3XDrawContextValidationAll);
-		instanceData->data.macData.paneState  = instanceData->data.macData.theData.drawContextData.paneState;
-		instanceData->data.macData.thePane    = instanceData->data.macData.theData.drawContextData.pane;
 		instanceData->theState = kQ3XDrawContextValidationAll;
 		}
 
