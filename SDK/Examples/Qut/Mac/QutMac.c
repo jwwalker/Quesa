@@ -1084,10 +1084,10 @@ Qut_CreateWindow(const char		*windowTitle,
 
 
 //=============================================================================
-//		Qut_SelectMetafile : Select a metafile for read.
+//		Qut_SelectMetafileToOpen : Select a metafile for opening.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
-Qut_SelectMetafile(void)
+Qut_SelectMetafileToOpen(void)
 {	Str255				thePrompt = "\pSelect a model:";
 	SFTypeList			fileTypes = { '3DMF', 'TEXT', '3DS ', 'BINA' };
 	const TQ3Int16		numTypes  = 4;
@@ -1182,10 +1182,10 @@ Qut_SelectMetafile(void)
 
 
 //=============================================================================
-//		Qut_SelectSaveMetafile : Select a metafile for writing.
+//		Qut_SelectMetafileToSaveTo : Select a metafile to save to.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
-Qut_SelectSaveMetafile(void)
+Qut_SelectMetafileToSaveTo(void)
 {	Str255				thePrompt = "\pSave a model:";
 	OSType			fileType =  '3DMF';
 	OSType			creator =  'ttxt';// what will be the creator for the viewer?

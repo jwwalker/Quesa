@@ -1767,7 +1767,7 @@ doSaveModel(TQ3ViewObject theView)
 
 
 	// Prompt the user for somewhere to save the file
-	storage = Qut_SelectSaveMetafile();
+	storage = Qut_SelectMetafileToSaveTo();
 
 
 

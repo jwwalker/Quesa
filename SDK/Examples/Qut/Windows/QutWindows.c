@@ -602,10 +602,10 @@ Qut_CreateDrawContext(void)
 
 
 //=============================================================================
-//		Qut_SelectMetafile : Select a metafile for read.
+//		Qut_SelectMetafileToOpen : Select a metafile for opening.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
-Qut_SelectMetafile(void)
+Qut_SelectMetafileToOpen(void)
 {	char				typeFilter[MAX_PATH] = "All Files (*.*)\0*.*\0"
 											   "\0\0";
     char            	thePath[MAX_PATH]    = "";
@@ -645,10 +645,10 @@ Qut_SelectMetafile(void)
 
 
 //=============================================================================
-//		Qut_SelectSaveMetafile : Select a metafile for write.
+//		Qut_SelectMetafileToSaveTo : Select a metafile to save to.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
-Qut_SelectSaveMetafile(void)
+Qut_SelectMetafileToSaveTo(void)
 {	char				typeFilter[MAX_PATH] = "All Files (*.*)\0*.*\0"
 											   "\0\0";
     char            	thePath[MAX_PATH]    = "";

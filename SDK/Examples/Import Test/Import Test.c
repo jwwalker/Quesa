@@ -72,10 +72,10 @@ readModel(void)
 
 
 	// Get the file
-	storageObj = Qut_SelectMetafile();
-	
+	storageObj = Qut_SelectMetafileToOpen();
 	if( storageObj != NULL )
 		return Qut_ReadModel(storageObj);
+
 	return NULL;
 }
 
