@@ -1,7 +1,7 @@
 <html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
 <a name="//apple_ref/c/func/Q3XError_Post"></a>
 <h3><a name="Q3XError_Post">Q3XError_Post</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( void  )
+<blockquote><pre><tt>void  
 Q3XError_Post (
     TQ3Error                      error
 );
@@ -25,7 +25,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XMacintoshError_Post"></a>
 <h3><a name="Q3XMacintoshError_Post">Q3XMacintoshError_Post</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( void  )
+<blockquote><pre><tt>void  
 Q3XMacintoshError_Post (
     OSErr                         macOSErr
 );
@@ -49,7 +49,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XNotice_Post"></a>
 <h3><a name="Q3XNotice_Post">Q3XNotice_Post</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( void  )
+<blockquote><pre><tt>void  
 Q3XNotice_Post (
     TQ3Notice                     notice
 );
@@ -73,7 +73,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectClass_GetLeafType"></a>
 <h3><a name="Q3XObjectClass_GetLeafType">Q3XObjectClass_GetLeafType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3XObjectClass_GetLeafType (
     TQ3XObjectClass               objectClass
 );
@@ -97,7 +97,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectClass_GetMethod"></a>
 <h3><a name="Q3XObjectClass_GetMethod">Q3XObjectClass_GetMethod</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3XFunctionPointer  )
+<blockquote><pre><tt>TQ3XFunctionPointer  
 Q3XObjectClass_GetMethod (
     TQ3XObjectClass               objectClass,
     TQ3XMethodType                methodType
@@ -123,7 +123,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectClass_GetPrivate"></a>
 <h3><a name="Q3XObjectClass_GetPrivate">Q3XObjectClass_GetPrivate</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( void * )
+<blockquote><pre><tt>void * 
 Q3XObjectClass_GetPrivate (
     TQ3XObjectClass               objectClass,
     TQ3Object                     targetObject
@@ -149,7 +149,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectClass_GetType"></a>
 <h3><a name="Q3XObjectClass_GetType">Q3XObjectClass_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XObjectClass_GetType (
     TQ3XObjectClass               objectClass,
     TQ3ObjectType                 *theType
@@ -175,7 +175,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectHierarchy_FindClassByType"></a>
 <h3><a name="Q3XObjectHierarchy_FindClassByType">Q3XObjectHierarchy_FindClassByType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3XObjectClass  )
+<blockquote><pre><tt>TQ3XObjectClass  
 Q3XObjectHierarchy_FindClassByType (
     TQ3ObjectType                 theType
 );
@@ -199,7 +199,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectHierarchy_GetClassVersion"></a>
 <h3><a name="Q3XObjectHierarchy_GetClassVersion">Q3XObjectHierarchy_GetClassVersion</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XObjectHierarchy_GetClassVersion (
     TQ3ObjectType                 objectClassType,
     TQ3XObjectClassVersion        *version
@@ -225,7 +225,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectHierarchy_NewObject"></a>
 <h3><a name="Q3XObjectHierarchy_NewObject">Q3XObjectHierarchy_NewObject</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Object  )
+<blockquote><pre><tt>TQ3Object  
 Q3XObjectHierarchy_NewObject (
     TQ3XObjectClass               objectClass,
     void                          *parameters
@@ -251,7 +251,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectHierarchy_RegisterClass"></a>
 <h3><a name="Q3XObjectHierarchy_RegisterClass">Q3XObjectHierarchy_RegisterClass</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3XObjectClass  )
+<blockquote><pre><tt>TQ3XObjectClass  
 Q3XObjectHierarchy_RegisterClass (
     TQ3ObjectType                 parentType,
     TQ3ObjectType                 *objectType,
@@ -287,7 +287,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectHierarchy_UnregisterClass"></a>
 <h3><a name="Q3XObjectHierarchy_UnregisterClass">Q3XObjectHierarchy_UnregisterClass</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XObjectHierarchy_UnregisterClass (
     TQ3XObjectClass               objectClass
 );
@@ -311,7 +311,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XObject_GetClass"></a>
 <h3><a name="Q3XObject_GetClass">Q3XObject_GetClass</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3XObjectClass  )
+<blockquote><pre><tt>TQ3XObjectClass  
 Q3XObject_GetClass (
     TQ3Object                     object
 );
@@ -335,7 +335,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XSharedLibrary_Register"></a>
 <h3><a name="Q3XSharedLibrary_Register">Q3XSharedLibrary_Register</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XSharedLibrary_Register (
     TQ3XSharedLibraryInfo         *sharedLibraryInfo
 );
@@ -359,7 +359,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XSharedLibrary_Unregister"></a>
 <h3><a name="Q3XSharedLibrary_Unregister">Q3XSharedLibrary_Unregister</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XSharedLibrary_Unregister (
     TQ3Uns32                      sharedLibrary
 );
@@ -383,7 +383,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XWarning_Post"></a>
 <h3><a name="Q3XWarning_Post">Q3XWarning_Post</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( void  )
+<blockquote><pre><tt>void  
 Q3XWarning_Post (
     TQ3Warning                    warning
 );
@@ -405,5 +405,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/13/2001 </a></font></p>
 </body></html>

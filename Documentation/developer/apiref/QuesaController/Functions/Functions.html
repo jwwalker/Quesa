@@ -1,7 +1,7 @@
 <html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
 <a name="//apple_ref/c/func/Q3ControllerState_New"></a>
 <h3><a name="Q3ControllerState_New">Q3ControllerState_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ControllerStateObject  )
+<blockquote><pre><tt>TQ3ControllerStateObject  
 Q3ControllerState_New (
     TQ3ControllerRef              controllerRef
 );
@@ -25,7 +25,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3ControllerState_Restore"></a>
 <h3><a name="Q3ControllerState_Restore">Q3ControllerState_Restore</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ControllerState_Restore (
     TQ3ControllerStateObject      controllerStateObject
 );
@@ -49,7 +49,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3ControllerState_SaveAndReset"></a>
 <h3><a name="Q3ControllerState_SaveAndReset">Q3ControllerState_SaveAndReset</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ControllerState_SaveAndReset (
     TQ3ControllerStateObject      controllerStateObject
 );
@@ -73,7 +73,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_Decommission"></a>
 <h3><a name="Q3Controller_Decommission">Q3Controller_Decommission</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_Decommission (
     TQ3ControllerRef              controllerRef
 );
@@ -97,7 +97,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetActivation"></a>
 <h3><a name="Q3Controller_GetActivation">Q3Controller_GetActivation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_GetActivation (
     TQ3ControllerRef              controllerRef,
     TQ3Boolean                    *active
@@ -123,7 +123,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetButtons"></a>
 <h3><a name="Q3Controller_GetButtons">Q3Controller_GetButtons</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_GetButtons (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      *buttons
@@ -149,7 +149,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetChannel"></a>
 <h3><a name="Q3Controller_GetChannel">Q3Controller_GetChannel</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_GetChannel (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      channel,
@@ -179,7 +179,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetListChanged"></a>
 <h3><a name="Q3Controller_GetListChanged">Q3Controller_GetListChanged</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_GetListChanged (
     TQ3Boolean                    *listChanged,
     TQ3Uns32                      *serialNumber
@@ -205,7 +205,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetSignature"></a>
 <h3><a name="Q3Controller_GetSignature">Q3Controller_GetSignature</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_GetSignature (
     TQ3ControllerRef              controllerRef,
     char                          *signature,
@@ -233,7 +233,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetTrackerOrientation"></a>
 <h3><a name="Q3Controller_GetTrackerOrientation">Q3Controller_GetTrackerOrientation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_GetTrackerOrientation (
     TQ3ControllerRef              controllerRef,
     TQ3Quaternion                 *orientation
@@ -259,7 +259,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetTrackerPosition"></a>
 <h3><a name="Q3Controller_GetTrackerPosition">Q3Controller_GetTrackerPosition</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_GetTrackerPosition (
     TQ3ControllerRef              controllerRef,
     TQ3Point3D                    *position
@@ -285,7 +285,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetValueCount"></a>
 <h3><a name="Q3Controller_GetValueCount">Q3Controller_GetValueCount</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_GetValueCount (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      *valueCount
@@ -311,7 +311,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetValues"></a>
 <h3><a name="Q3Controller_GetValues">Q3Controller_GetValues</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_GetValues (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      valueCount,
@@ -343,7 +343,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_HasTracker"></a>
 <h3><a name="Q3Controller_HasTracker">Q3Controller_HasTracker</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_HasTracker (
     TQ3ControllerRef              controllerRef,
     TQ3Boolean                    *hasTracker
@@ -369,7 +369,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_MoveTrackerOrientation"></a>
 <h3><a name="Q3Controller_MoveTrackerOrientation">Q3Controller_MoveTrackerOrientation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_MoveTrackerOrientation (
     TQ3ControllerRef              controllerRef,
     const TQ3Quaternion           *delta
@@ -395,7 +395,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_MoveTrackerPosition"></a>
 <h3><a name="Q3Controller_MoveTrackerPosition">Q3Controller_MoveTrackerPosition</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_MoveTrackerPosition (
     TQ3ControllerRef              controllerRef,
     const TQ3Vector3D             *delta
@@ -421,7 +421,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_New"></a>
 <h3><a name="Q3Controller_New">Q3Controller_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ControllerRef  )
+<blockquote><pre><tt>TQ3ControllerRef  
 Q3Controller_New (
     const TQ3ControllerData       *controllerData
 );
@@ -445,7 +445,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_Next"></a>
 <h3><a name="Q3Controller_Next">Q3Controller_Next</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_Next (
     TQ3ControllerRef              controllerRef,
     TQ3ControllerRef              *nextControllerRef
@@ -471,7 +471,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetActivation"></a>
 <h3><a name="Q3Controller_SetActivation">Q3Controller_SetActivation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_SetActivation (
     TQ3ControllerRef              controllerRef,
     TQ3Boolean                    active
@@ -497,7 +497,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetButtons"></a>
 <h3><a name="Q3Controller_SetButtons">Q3Controller_SetButtons</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_SetButtons (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      buttons
@@ -523,7 +523,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetChannel"></a>
 <h3><a name="Q3Controller_SetChannel">Q3Controller_SetChannel</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_SetChannel (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      channel,
@@ -553,7 +553,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetTracker"></a>
 <h3><a name="Q3Controller_SetTracker">Q3Controller_SetTracker</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_SetTracker (
     TQ3ControllerRef              controllerRef,
     TQ3TrackerObject              tracker
@@ -579,7 +579,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetTrackerOrientation"></a>
 <h3><a name="Q3Controller_SetTrackerOrientation">Q3Controller_SetTrackerOrientation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_SetTrackerOrientation (
     TQ3ControllerRef              controllerRef,
     const TQ3Quaternion           *orientation
@@ -605,7 +605,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetTrackerPosition"></a>
 <h3><a name="Q3Controller_SetTrackerPosition">Q3Controller_SetTrackerPosition</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_SetTrackerPosition (
     TQ3ControllerRef              controllerRef,
     const TQ3Point3D              *position
@@ -631,7 +631,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetValues"></a>
 <h3><a name="Q3Controller_SetValues">Q3Controller_SetValues</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_SetValues (
     TQ3ControllerRef              controllerRef,
     const float                   *values,
@@ -659,7 +659,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_Track2DCursor"></a>
 <h3><a name="Q3Controller_Track2DCursor">Q3Controller_Track2DCursor</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_Track2DCursor (
     TQ3ControllerRef              controllerRef,
     TQ3Boolean                    *track2DCursor
@@ -685,7 +685,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_Track3DCursor"></a>
 <h3><a name="Q3Controller_Track3DCursor">Q3Controller_Track3DCursor</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Controller_Track3DCursor (
     TQ3ControllerRef              controllerRef,
     TQ3Boolean                    *track3DCursor
@@ -711,7 +711,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3CursorTracker_GetAndClearDeltas"></a>
 <h3><a name="Q3CursorTracker_GetAndClearDeltas">Q3CursorTracker_GetAndClearDeltas</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CursorTracker_GetAndClearDeltas (
     float                         *depth,
     TQ3Quaternion                 *orientation,
@@ -743,7 +743,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3CursorTracker_GetNotifyFunc"></a>
 <h3><a name="Q3CursorTracker_GetNotifyFunc">Q3CursorTracker_GetNotifyFunc</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CursorTracker_GetNotifyFunc (
     TQ3CursorTrackerNotifyFunc    *notifyFunc
 );
@@ -767,7 +767,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3CursorTracker_PrepareTracking"></a>
 <h3><a name="Q3CursorTracker_PrepareTracking">Q3CursorTracker_PrepareTracking</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CursorTracker_PrepareTracking (
     void
 );
@@ -784,7 +784,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3CursorTracker_SetNotifyFunc"></a>
 <h3><a name="Q3CursorTracker_SetNotifyFunc">Q3CursorTracker_SetNotifyFunc</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CursorTracker_SetNotifyFunc (
     TQ3CursorTrackerNotifyFunc    notifyFunc
 );
@@ -808,7 +808,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3CursorTracker_SetTrackDeltas"></a>
 <h3><a name="Q3CursorTracker_SetTrackDeltas">Q3CursorTracker_SetTrackDeltas</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CursorTracker_SetTrackDeltas (
     TQ3Boolean                    trackDeltas
 );
@@ -832,7 +832,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_ChangeButtons"></a>
 <h3><a name="Q3Tracker_ChangeButtons">Q3Tracker_ChangeButtons</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_ChangeButtons (
     TQ3TrackerObject              trackerObject,
     TQ3ControllerRef              controllerRef,
@@ -862,7 +862,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetActivation"></a>
 <h3><a name="Q3Tracker_GetActivation">Q3Tracker_GetActivation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_GetActivation (
     TQ3TrackerObject              trackerObject,
     TQ3Boolean                    *active
@@ -888,7 +888,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetButtons"></a>
 <h3><a name="Q3Tracker_GetButtons">Q3Tracker_GetButtons</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_GetButtons (
     TQ3TrackerObject              trackerObject,
     TQ3Uns32                      *buttons
@@ -914,7 +914,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetEventCoordinates"></a>
 <h3><a name="Q3Tracker_GetEventCoordinates">Q3Tracker_GetEventCoordinates</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_GetEventCoordinates (
     TQ3TrackerObject              trackerObject,
     TQ3Uns32                      timeStamp,
@@ -946,7 +946,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetNotifyThresholds"></a>
 <h3><a name="Q3Tracker_GetNotifyThresholds">Q3Tracker_GetNotifyThresholds</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_GetNotifyThresholds (
     TQ3TrackerObject              trackerObject,
     float                         *positionThresh,
@@ -974,7 +974,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetOrientation"></a>
 <h3><a name="Q3Tracker_GetOrientation">Q3Tracker_GetOrientation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_GetOrientation (
     TQ3TrackerObject              trackerObject,
     TQ3Quaternion                 *orientation,
@@ -1006,7 +1006,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetPosition"></a>
 <h3><a name="Q3Tracker_GetPosition">Q3Tracker_GetPosition</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_GetPosition (
     TQ3TrackerObject              trackerObject,
     TQ3Point3D                    *position,
@@ -1038,7 +1038,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_MoveOrientation"></a>
 <h3><a name="Q3Tracker_MoveOrientation">Q3Tracker_MoveOrientation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_MoveOrientation (
     TQ3TrackerObject              trackerObject,
     TQ3ControllerRef              controllerRef,
@@ -1066,7 +1066,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_MovePosition"></a>
 <h3><a name="Q3Tracker_MovePosition">Q3Tracker_MovePosition</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_MovePosition (
     TQ3TrackerObject              trackerObject,
     TQ3ControllerRef              controllerRef,
@@ -1094,7 +1094,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_New"></a>
 <h3><a name="Q3Tracker_New">Q3Tracker_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3TrackerObject  )
+<blockquote><pre><tt>TQ3TrackerObject  
 Q3Tracker_New (
     TQ3TrackerNotifyFunc          notifyFunc
 );
@@ -1118,7 +1118,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_SetActivation"></a>
 <h3><a name="Q3Tracker_SetActivation">Q3Tracker_SetActivation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_SetActivation (
     TQ3TrackerObject              trackerObject,
     TQ3Boolean                    active
@@ -1144,7 +1144,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_SetEventCoordinates"></a>
 <h3><a name="Q3Tracker_SetEventCoordinates">Q3Tracker_SetEventCoordinates</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_SetEventCoordinates (
     TQ3TrackerObject              trackerObject,
     TQ3Uns32                      timeStamp,
@@ -1176,7 +1176,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_SetNotifyThresholds"></a>
 <h3><a name="Q3Tracker_SetNotifyThresholds">Q3Tracker_SetNotifyThresholds</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_SetNotifyThresholds (
     TQ3TrackerObject              trackerObject,
     float                         positionThresh,
@@ -1204,7 +1204,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_SetOrientation"></a>
 <h3><a name="Q3Tracker_SetOrientation">Q3Tracker_SetOrientation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_SetOrientation (
     TQ3TrackerObject              trackerObject,
     TQ3ControllerRef              controllerRef,
@@ -1232,7 +1232,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_SetPosition"></a>
 <h3><a name="Q3Tracker_SetPosition">Q3Tracker_SetPosition</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Tracker_SetPosition (
     TQ3TrackerObject              trackerObject,
     TQ3ControllerRef              controllerRef,
@@ -1258,5 +1258,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/13/2001 </a></font></p>
 </body></html>

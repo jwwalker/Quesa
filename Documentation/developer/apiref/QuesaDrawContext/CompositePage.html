@@ -4,7 +4,7 @@ Declares the Quesa draw context objects.
  <hr><br><h2>Functions</h2>
 <a name="//apple_ref/c/func/Q3BeDrawContext_GetView"></a>
 <h3><a name="Q3BeDrawContext_GetView">Q3BeDrawContext_GetView</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3BeDrawContext_GetView (
     TQ3DrawContextObject          drawContext,
     BView                         **theView
@@ -29,7 +29,7 @@ Not supported by QD3D.
 <hr>
 <a name="//apple_ref/c/func/Q3BeDrawContext_New"></a>
 <h3><a name="Q3BeDrawContext_New">Q3BeDrawContext_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3DrawContextObject  )
+<blockquote><pre><tt>TQ3DrawContextObject  
 Q3BeDrawContext_New (
     const TQ3BeDrawContextData    *drawContextData
 );
@@ -52,7 +52,7 @@ Not supported by QD3D.
 <hr>
 <a name="//apple_ref/c/func/Q3BeDrawContext_SetView"></a>
 <h3><a name="Q3BeDrawContext_SetView">Q3BeDrawContext_SetView</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3BeDrawContext_SetView (
     TQ3DrawContextObject          drawContext,
     BView                         *theView
@@ -77,7 +77,7 @@ Not supported by QD3D.
 <hr>
 <a name="//apple_ref/c/func/Q3CocoaDrawContext_GetNSView"></a>
 <h3><a name="Q3CocoaDrawContext_GetNSView">Q3CocoaDrawContext_GetNSView</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CocoaDrawContext_GetNSView (
     TQ3DrawContextObject          drawContext,
     void                          **nsView
@@ -102,7 +102,7 @@ Not supported by QD3D.
 <hr>
 <a name="//apple_ref/c/func/Q3CocoaDrawContext_New"></a>
 <h3><a name="Q3CocoaDrawContext_New">Q3CocoaDrawContext_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3DrawContextObject  )
+<blockquote><pre><tt>TQ3DrawContextObject  
 Q3CocoaDrawContext_New (
     const TQ3CocoaDrawContextData *drawContextData
 );
@@ -125,7 +125,7 @@ Not supported by QD3D.
 <hr>
 <a name="//apple_ref/c/func/Q3CocoaDrawContext_SetNSView"></a>
 <h3><a name="Q3CocoaDrawContext_SetNSView">Q3CocoaDrawContext_SetNSView</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CocoaDrawContext_SetNSView (
     TQ3DrawContextObject          drawContext,
     void                          *nsView
@@ -150,7 +150,7 @@ Not supported by QD3D.
 <hr>
 <a name="//apple_ref/c/func/Q3DDSurfaceDrawContext_GetDirectDrawSurface"></a>
 <h3><a name="Q3DDSurfaceDrawContext_GetDirectDrawSurface">Q3DDSurfaceDrawContext_GetDirectDrawSurface</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DDSurfaceDrawContext_GetDirectDrawSurface (
     TQ3DrawContextObject          drawContext,
     TQ3DDSurfaceDescriptor        *ddSurfaceDescriptor
@@ -176,7 +176,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DDSurfaceDrawContext_New"></a>
 <h3><a name="Q3DDSurfaceDrawContext_New">Q3DDSurfaceDrawContext_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3DrawContextObject  )
+<blockquote><pre><tt>TQ3DrawContextObject  
 Q3DDSurfaceDrawContext_New (
     const TQ3DDSurfaceDrawContextData *drawContextData
 );
@@ -200,7 +200,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DDSurfaceDrawContext_SetDirectDrawSurface"></a>
 <h3><a name="Q3DDSurfaceDrawContext_SetDirectDrawSurface">Q3DDSurfaceDrawContext_SetDirectDrawSurface</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DDSurfaceDrawContext_SetDirectDrawSurface (
     TQ3DrawContextObject          drawContext,
     const TQ3DDSurfaceDescriptor  *ddSurfaceDescriptor
@@ -226,7 +226,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_GetClearImageColor"></a>
 <h3><a name="Q3DrawContext_GetClearImageColor">Q3DrawContext_GetClearImageColor</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_GetClearImageColor (
     TQ3DrawContextObject          context,
     TQ3ColorARGB                  *color
@@ -252,7 +252,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_GetClearImageMethod"></a>
 <h3><a name="Q3DrawContext_GetClearImageMethod">Q3DrawContext_GetClearImageMethod</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_GetClearImageMethod (
     TQ3DrawContextObject          context,
     TQ3DrawContextClearImageMethod *method
@@ -278,7 +278,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_GetData"></a>
 <h3><a name="Q3DrawContext_GetData">Q3DrawContext_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_GetData (
     TQ3DrawContextObject          context,
     TQ3DrawContextData            *contextData
@@ -304,7 +304,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_GetDoubleBufferState"></a>
 <h3><a name="Q3DrawContext_GetDoubleBufferState">Q3DrawContext_GetDoubleBufferState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_GetDoubleBufferState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    *state
@@ -330,7 +330,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_GetMask"></a>
 <h3><a name="Q3DrawContext_GetMask">Q3DrawContext_GetMask</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_GetMask (
     TQ3DrawContextObject          context,
     TQ3Bitmap                     *mask
@@ -356,7 +356,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_GetMaskState"></a>
 <h3><a name="Q3DrawContext_GetMaskState">Q3DrawContext_GetMaskState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_GetMaskState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    *state
@@ -382,7 +382,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_GetPane"></a>
 <h3><a name="Q3DrawContext_GetPane">Q3DrawContext_GetPane</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_GetPane (
     TQ3DrawContextObject          context,
     TQ3Area                       *pane
@@ -408,7 +408,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_GetPaneState"></a>
 <h3><a name="Q3DrawContext_GetPaneState">Q3DrawContext_GetPaneState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_GetPaneState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    *state
@@ -434,7 +434,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_GetType"></a>
 <h3><a name="Q3DrawContext_GetType">Q3DrawContext_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3DrawContext_GetType (
     TQ3DrawContextObject          drawContext
 );
@@ -458,7 +458,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_SetClearImageColor"></a>
 <h3><a name="Q3DrawContext_SetClearImageColor">Q3DrawContext_SetClearImageColor</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_SetClearImageColor (
     TQ3DrawContextObject          context,
     const TQ3ColorARGB            *color
@@ -484,7 +484,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_SetClearImageMethod"></a>
 <h3><a name="Q3DrawContext_SetClearImageMethod">Q3DrawContext_SetClearImageMethod</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_SetClearImageMethod (
     TQ3DrawContextObject          context,
     TQ3DrawContextClearImageMethod method
@@ -510,7 +510,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_SetData"></a>
 <h3><a name="Q3DrawContext_SetData">Q3DrawContext_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_SetData (
     TQ3DrawContextObject          context,
     const TQ3DrawContextData      *contextData
@@ -536,7 +536,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_SetDoubleBufferState"></a>
 <h3><a name="Q3DrawContext_SetDoubleBufferState">Q3DrawContext_SetDoubleBufferState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_SetDoubleBufferState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    state
@@ -562,7 +562,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_SetMask"></a>
 <h3><a name="Q3DrawContext_SetMask">Q3DrawContext_SetMask</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_SetMask (
     TQ3DrawContextObject          context,
     const TQ3Bitmap               *mask
@@ -588,7 +588,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_SetMaskState"></a>
 <h3><a name="Q3DrawContext_SetMaskState">Q3DrawContext_SetMaskState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_SetMaskState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    state
@@ -614,7 +614,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_SetPane"></a>
 <h3><a name="Q3DrawContext_SetPane">Q3DrawContext_SetPane</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_SetPane (
     TQ3DrawContextObject          context,
     const TQ3Area                 *pane
@@ -640,7 +640,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DrawContext_SetPaneState"></a>
 <h3><a name="Q3DrawContext_SetPaneState">Q3DrawContext_SetPaneState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DrawContext_SetPaneState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    state
@@ -666,7 +666,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacDrawContext_Get2DLibrary"></a>
 <h3><a name="Q3MacDrawContext_Get2DLibrary">Q3MacDrawContext_Get2DLibrary</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MacDrawContext_Get2DLibrary (
     TQ3DrawContextObject          drawContext,
     TQ3MacDrawContext2DLibrary    *library
@@ -692,7 +692,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacDrawContext_GetGXViewPort"></a>
 <h3><a name="Q3MacDrawContext_GetGXViewPort">Q3MacDrawContext_GetGXViewPort</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MacDrawContext_GetGXViewPort (
     TQ3DrawContextObject          drawContext,
     gxViewPort                    *viewPort
@@ -718,7 +718,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacDrawContext_GetGrafPort"></a>
 <h3><a name="Q3MacDrawContext_GetGrafPort">Q3MacDrawContext_GetGrafPort</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MacDrawContext_GetGrafPort (
     TQ3DrawContextObject          drawContext,
     CGrafPtr                      *grafPort
@@ -744,7 +744,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacDrawContext_GetWindow"></a>
 <h3><a name="Q3MacDrawContext_GetWindow">Q3MacDrawContext_GetWindow</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MacDrawContext_GetWindow (
     TQ3DrawContextObject          drawContext,
     CWindowPtr                    *window
@@ -770,7 +770,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacDrawContext_New"></a>
 <h3><a name="Q3MacDrawContext_New">Q3MacDrawContext_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3DrawContextObject  )
+<blockquote><pre><tt>TQ3DrawContextObject  
 Q3MacDrawContext_New (
     const TQ3MacDrawContextData   *drawContextData
 );
@@ -794,7 +794,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacDrawContext_Set2DLibrary"></a>
 <h3><a name="Q3MacDrawContext_Set2DLibrary">Q3MacDrawContext_Set2DLibrary</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MacDrawContext_Set2DLibrary (
     TQ3DrawContextObject          drawContext,
     TQ3MacDrawContext2DLibrary    library
@@ -820,7 +820,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacDrawContext_SetGXViewPort"></a>
 <h3><a name="Q3MacDrawContext_SetGXViewPort">Q3MacDrawContext_SetGXViewPort</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MacDrawContext_SetGXViewPort (
     TQ3DrawContextObject          drawContext,
     gxViewPort                    viewPort
@@ -846,7 +846,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacDrawContext_SetGrafPort"></a>
 <h3><a name="Q3MacDrawContext_SetGrafPort">Q3MacDrawContext_SetGrafPort</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MacDrawContext_SetGrafPort (
     TQ3DrawContextObject          drawContext,
     CGrafPtr                      grafPort
@@ -872,7 +872,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacDrawContext_SetWindow"></a>
 <h3><a name="Q3MacDrawContext_SetWindow">Q3MacDrawContext_SetWindow</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MacDrawContext_SetWindow (
     TQ3DrawContextObject          drawContext,
     CWindowPtr                    window
@@ -898,7 +898,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PixmapDrawContext_GetPixmap"></a>
 <h3><a name="Q3PixmapDrawContext_GetPixmap">Q3PixmapDrawContext_GetPixmap</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PixmapDrawContext_GetPixmap (
     TQ3DrawContextObject          drawContext,
     TQ3Pixmap                     *pixmap
@@ -924,7 +924,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PixmapDrawContext_New"></a>
 <h3><a name="Q3PixmapDrawContext_New">Q3PixmapDrawContext_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3DrawContextObject  )
+<blockquote><pre><tt>TQ3DrawContextObject  
 Q3PixmapDrawContext_New (
     const TQ3PixmapDrawContextData *contextData
 );
@@ -948,7 +948,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PixmapDrawContext_SetPixmap"></a>
 <h3><a name="Q3PixmapDrawContext_SetPixmap">Q3PixmapDrawContext_SetPixmap</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PixmapDrawContext_SetPixmap (
     TQ3DrawContextObject          drawContext,
     const TQ3Pixmap               *pixmap
@@ -974,7 +974,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Win32DCDrawContext_GetDC"></a>
 <h3><a name="Q3Win32DCDrawContext_GetDC">Q3Win32DCDrawContext_GetDC</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Win32DCDrawContext_GetDC (
     TQ3DrawContextObject          drawContext,
     HDC                           *curHDC
@@ -1000,7 +1000,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Win32DCDrawContext_New"></a>
 <h3><a name="Q3Win32DCDrawContext_New">Q3Win32DCDrawContext_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3DrawContextObject  )
+<blockquote><pre><tt>TQ3DrawContextObject  
 Q3Win32DCDrawContext_New (
     const TQ3Win32DCDrawContextData *drawContextData
 );
@@ -1024,7 +1024,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Win32DCDrawContext_SetDC"></a>
 <h3><a name="Q3Win32DCDrawContext_SetDC">Q3Win32DCDrawContext_SetDC</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Win32DCDrawContext_SetDC (
     TQ3DrawContextObject          drawContext,
     HDC                           newHDC
@@ -1050,7 +1050,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XBuffers_New"></a>
 <h3><a name="Q3XBuffers_New">Q3XBuffers_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3XBufferObject  )
+<blockquote><pre><tt>TQ3XBufferObject  
 Q3XBuffers_New (
     Display                       *dpy,
     TQ3Uns32                      numBuffers,
@@ -1078,7 +1078,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XBuffers_Swap"></a>
 <h3><a name="Q3XBuffers_Swap">Q3XBuffers_Swap</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( void  )
+<blockquote><pre><tt>void  
 Q3XBuffers_Swap (
     Display                       *dpy,
     TQ3XBufferObject              buffers
@@ -1104,7 +1104,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_GetColormap"></a>
 <h3><a name="Q3XDrawContext_GetColormap">Q3XDrawContext_GetColormap</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XDrawContext_GetColormap (
     TQ3DrawContextObject          drawContext,
     Colormap                      *colormap
@@ -1130,7 +1130,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_GetColormapData"></a>
 <h3><a name="Q3XDrawContext_GetColormapData">Q3XDrawContext_GetColormapData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XDrawContext_GetColormapData (
     TQ3DrawContextObject          drawContext,
     TQ3XColormapData              *colormapData
@@ -1156,7 +1156,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_GetDisplay"></a>
 <h3><a name="Q3XDrawContext_GetDisplay">Q3XDrawContext_GetDisplay</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XDrawContext_GetDisplay (
     TQ3DrawContextObject          drawContext,
     Display                       **display
@@ -1182,7 +1182,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_GetDrawable"></a>
 <h3><a name="Q3XDrawContext_GetDrawable">Q3XDrawContext_GetDrawable</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XDrawContext_GetDrawable (
     TQ3DrawContextObject          drawContext,
     Drawable                      *drawable
@@ -1208,7 +1208,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_GetVisual"></a>
 <h3><a name="Q3XDrawContext_GetVisual">Q3XDrawContext_GetVisual</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XDrawContext_GetVisual (
     TQ3DrawContextObject          drawContext,
     Visual                        **visual
@@ -1234,7 +1234,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_New"></a>
 <h3><a name="Q3XDrawContext_New">Q3XDrawContext_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3DrawContextObject  )
+<blockquote><pre><tt>TQ3DrawContextObject  
 Q3XDrawContext_New (
     const TQ3XDrawContextData     *drawContextData
 );
@@ -1258,7 +1258,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_SetColormap"></a>
 <h3><a name="Q3XDrawContext_SetColormap">Q3XDrawContext_SetColormap</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XDrawContext_SetColormap (
     TQ3DrawContextObject          drawContext,
     Colormap                      colormap
@@ -1284,7 +1284,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_SetColormapData"></a>
 <h3><a name="Q3XDrawContext_SetColormapData">Q3XDrawContext_SetColormapData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XDrawContext_SetColormapData (
     TQ3DrawContextObject          drawContext,
     const TQ3XColormapData        *colormapData
@@ -1310,7 +1310,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_SetDisplay"></a>
 <h3><a name="Q3XDrawContext_SetDisplay">Q3XDrawContext_SetDisplay</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XDrawContext_SetDisplay (
     TQ3DrawContextObject          drawContext,
     const Display                 *display
@@ -1336,7 +1336,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_SetDrawable"></a>
 <h3><a name="Q3XDrawContext_SetDrawable">Q3XDrawContext_SetDrawable</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XDrawContext_SetDrawable (
     TQ3DrawContextObject          drawContext,
     Drawable                      drawable
@@ -1362,7 +1362,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3XDrawContext_SetVisual"></a>
 <h3><a name="Q3XDrawContext_SetVisual">Q3XDrawContext_SetVisual</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3XDrawContext_SetVisual (
     TQ3DrawContextObject          drawContext,
     const Visual                  *visual
@@ -1388,7 +1388,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3X_GetVisualInfo"></a>
 <h3><a name="Q3X_GetVisualInfo">Q3X_GetVisualInfo</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( XVisualInfo * )
+<blockquote><pre><tt>XVisualInfo * 
 Q3X_GetVisualInfo (
     Display                       *dpy,
     Screen                        *screen
@@ -1412,5 +1412,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/13/2001 </a></font></p>
 </body></html>

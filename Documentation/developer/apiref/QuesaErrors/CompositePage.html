@@ -4,7 +4,7 @@ Declares the Quesa error manager.
  <hr><br><h2>Functions</h2>
 <a name="//apple_ref/c/func/Q3Error_Get"></a>
 <h3><a name="Q3Error_Get">Q3Error_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Error  )
+<blockquote><pre><tt>TQ3Error  
 Q3Error_Get (
     TQ3Error                      *firstError
 );
@@ -28,7 +28,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Error_IsFatalError"></a>
 <h3><a name="Q3Error_IsFatalError">Q3Error_IsFatalError</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+<blockquote><pre><tt>TQ3Boolean  
 Q3Error_IsFatalError (
     TQ3Error                      error
 );
@@ -52,7 +52,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Error_PlatformGet"></a>
 <h3><a name="Q3Error_PlatformGet">Q3Error_PlatformGet</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Uns32  )
+<blockquote><pre><tt>TQ3Uns32  
 Q3Error_PlatformGet (
     TQ3Uns32                      *firstErr
 );
@@ -73,7 +73,7 @@ Q3Error_PlatformGet (
 <hr>
 <a name="//apple_ref/c/func/Q3Error_PlatformPost"></a>
 <h3><a name="Q3Error_PlatformPost">Q3Error_PlatformPost</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( void  )
+<blockquote><pre><tt>void  
 Q3Error_PlatformPost (
     TQ3Uns32                      theErr
 );
@@ -94,7 +94,7 @@ Q3Error_PlatformPost (
 <hr>
 <a name="//apple_ref/c/func/Q3Error_Register"></a>
 <h3><a name="Q3Error_Register">Q3Error_Register</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Error_Register (
     TQ3ErrorMethod                errorPost,
     TQ3Int32                      reference
@@ -120,7 +120,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Error_ToString"></a>
 <h3><a name="Q3Error_ToString">Q3Error_ToString</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( const char * )
+<blockquote><pre><tt>const char * 
 Q3Error_ToString (
     TQ3Language                   theLanguage,
     TQ3Error                      theError
@@ -143,7 +143,7 @@ Q3Error_ToString (
 <hr>
 <a name="//apple_ref/c/func/Q3MacintoshError_Get"></a>
 <h3><a name="Q3MacintoshError_Get">Q3MacintoshError_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( OSErr  )
+<blockquote><pre><tt>OSErr  
 Q3MacintoshError_Get (
     OSErr                         *firstMacErr
 );
@@ -167,7 +167,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Notice_Get"></a>
 <h3><a name="Q3Notice_Get">Q3Notice_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Notice  )
+<blockquote><pre><tt>TQ3Notice  
 Q3Notice_Get (
     TQ3Notice                     *firstNotice
 );
@@ -191,7 +191,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Notice_Register"></a>
 <h3><a name="Q3Notice_Register">Q3Notice_Register</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Notice_Register (
     TQ3NoticeMethod               noticePost,
     TQ3Int32                      reference
@@ -217,7 +217,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Notice_ToString"></a>
 <h3><a name="Q3Notice_ToString">Q3Notice_ToString</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( const char * )
+<blockquote><pre><tt>const char * 
 Q3Notice_ToString (
     TQ3Language                   theLanguage,
     TQ3Notice                     theError
@@ -240,7 +240,7 @@ Q3Notice_ToString (
 <hr>
 <a name="//apple_ref/c/func/Q3Warning_Get"></a>
 <h3><a name="Q3Warning_Get">Q3Warning_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Warning  )
+<blockquote><pre><tt>TQ3Warning  
 Q3Warning_Get (
     TQ3Warning                    *firstWarning
 );
@@ -264,7 +264,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Warning_Register"></a>
 <h3><a name="Q3Warning_Register">Q3Warning_Register</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Warning_Register (
     TQ3WarningMethod              warningPost,
     TQ3Int32                      reference
@@ -290,7 +290,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Warning_ToString"></a>
 <h3><a name="Q3Warning_ToString">Q3Warning_ToString</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( const char * )
+<blockquote><pre><tt>const char * 
 Q3Warning_ToString (
     TQ3Language                   theLanguage,
     TQ3Warning                    theWarning
@@ -311,5 +311,5 @@ Q3Warning_ToString (
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/13/2001 </a></font></p>
 </body></html>

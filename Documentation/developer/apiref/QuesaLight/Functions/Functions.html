@@ -1,7 +1,7 @@
 <html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
 <a name="//apple_ref/c/func/Q3AmbientLight_GetData"></a>
 <h3><a name="Q3AmbientLight_GetData">Q3AmbientLight_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3AmbientLight_GetData (
     TQ3LightObject                light,
     TQ3LightData                  *lightData
@@ -27,7 +27,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3AmbientLight_New"></a>
 <h3><a name="Q3AmbientLight_New">Q3AmbientLight_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3LightObject  )
+<blockquote><pre><tt>TQ3LightObject  
 Q3AmbientLight_New (
     const TQ3LightData            *lightData
 );
@@ -51,7 +51,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3AmbientLight_SetData"></a>
 <h3><a name="Q3AmbientLight_SetData">Q3AmbientLight_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3AmbientLight_SetData (
     TQ3LightObject                light,
     const TQ3LightData            *lightData
@@ -77,7 +77,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DirectionalLight_GetCastShadowsState"></a>
 <h3><a name="Q3DirectionalLight_GetCastShadowsState">Q3DirectionalLight_GetCastShadowsState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DirectionalLight_GetCastShadowsState (
     TQ3LightObject                light,
     TQ3Boolean                    *castsShadows
@@ -103,7 +103,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DirectionalLight_GetData"></a>
 <h3><a name="Q3DirectionalLight_GetData">Q3DirectionalLight_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DirectionalLight_GetData (
     TQ3LightObject                light,
     TQ3DirectionalLightData       *directionalLightData
@@ -129,7 +129,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DirectionalLight_GetDirection"></a>
 <h3><a name="Q3DirectionalLight_GetDirection">Q3DirectionalLight_GetDirection</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DirectionalLight_GetDirection (
     TQ3LightObject                light,
     TQ3Vector3D                   *direction
@@ -155,7 +155,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DirectionalLight_New"></a>
 <h3><a name="Q3DirectionalLight_New">Q3DirectionalLight_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3LightObject  )
+<blockquote><pre><tt>TQ3LightObject  
 Q3DirectionalLight_New (
     const TQ3DirectionalLightData *directionalLightData
 );
@@ -179,7 +179,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DirectionalLight_SetCastShadowsState"></a>
 <h3><a name="Q3DirectionalLight_SetCastShadowsState">Q3DirectionalLight_SetCastShadowsState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DirectionalLight_SetCastShadowsState (
     TQ3LightObject                light,
     TQ3Boolean                    castsShadows
@@ -205,7 +205,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DirectionalLight_SetData"></a>
 <h3><a name="Q3DirectionalLight_SetData">Q3DirectionalLight_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DirectionalLight_SetData (
     TQ3LightObject                light,
     const TQ3DirectionalLightData *directionalLightData
@@ -231,7 +231,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3DirectionalLight_SetDirection"></a>
 <h3><a name="Q3DirectionalLight_SetDirection">Q3DirectionalLight_SetDirection</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3DirectionalLight_SetDirection (
     TQ3LightObject                light,
     const TQ3Vector3D             *direction
@@ -257,7 +257,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Light_GetBrightness"></a>
 <h3><a name="Q3Light_GetBrightness">Q3Light_GetBrightness</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Light_GetBrightness (
     TQ3LightObject                light,
     float                         *brightness
@@ -283,7 +283,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Light_GetColor"></a>
 <h3><a name="Q3Light_GetColor">Q3Light_GetColor</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Light_GetColor (
     TQ3LightObject                light,
     TQ3ColorRGB                   *color
@@ -309,7 +309,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Light_GetData"></a>
 <h3><a name="Q3Light_GetData">Q3Light_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Light_GetData (
     TQ3LightObject                light,
     TQ3LightData                  *lightData
@@ -335,7 +335,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Light_GetState"></a>
 <h3><a name="Q3Light_GetState">Q3Light_GetState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Light_GetState (
     TQ3LightObject                light,
     TQ3Boolean                    *isOn
@@ -361,7 +361,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Light_GetType"></a>
 <h3><a name="Q3Light_GetType">Q3Light_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3Light_GetType (
     TQ3LightObject                light
 );
@@ -385,7 +385,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Light_SetBrightness"></a>
 <h3><a name="Q3Light_SetBrightness">Q3Light_SetBrightness</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Light_SetBrightness (
     TQ3LightObject                light,
     float                         brightness
@@ -411,7 +411,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Light_SetColor"></a>
 <h3><a name="Q3Light_SetColor">Q3Light_SetColor</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Light_SetColor (
     TQ3LightObject                light,
     const TQ3ColorRGB             *color
@@ -437,7 +437,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Light_SetData"></a>
 <h3><a name="Q3Light_SetData">Q3Light_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Light_SetData (
     TQ3LightObject                light,
     const TQ3LightData            *lightData
@@ -463,7 +463,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Light_SetState"></a>
 <h3><a name="Q3Light_SetState">Q3Light_SetState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Light_SetState (
     TQ3LightObject                light,
     TQ3Boolean                    isOn
@@ -489,7 +489,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PointLight_GetAttenuation"></a>
 <h3><a name="Q3PointLight_GetAttenuation">Q3PointLight_GetAttenuation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PointLight_GetAttenuation (
     TQ3LightObject                light,
     TQ3AttenuationType            *attenuation
@@ -515,7 +515,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PointLight_GetCastShadowsState"></a>
 <h3><a name="Q3PointLight_GetCastShadowsState">Q3PointLight_GetCastShadowsState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PointLight_GetCastShadowsState (
     TQ3LightObject                light,
     TQ3Boolean                    *castsShadows
@@ -541,7 +541,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PointLight_GetData"></a>
 <h3><a name="Q3PointLight_GetData">Q3PointLight_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PointLight_GetData (
     TQ3LightObject                light,
     TQ3PointLightData             *pointLightData
@@ -567,7 +567,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PointLight_GetLocation"></a>
 <h3><a name="Q3PointLight_GetLocation">Q3PointLight_GetLocation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PointLight_GetLocation (
     TQ3LightObject                light,
     TQ3Point3D                    *location
@@ -593,7 +593,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PointLight_New"></a>
 <h3><a name="Q3PointLight_New">Q3PointLight_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3LightObject  )
+<blockquote><pre><tt>TQ3LightObject  
 Q3PointLight_New (
     const TQ3PointLightData       *pointLightData
 );
@@ -617,7 +617,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PointLight_SetAttenuation"></a>
 <h3><a name="Q3PointLight_SetAttenuation">Q3PointLight_SetAttenuation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PointLight_SetAttenuation (
     TQ3LightObject                light,
     TQ3AttenuationType            attenuation
@@ -643,7 +643,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PointLight_SetCastShadowsState"></a>
 <h3><a name="Q3PointLight_SetCastShadowsState">Q3PointLight_SetCastShadowsState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PointLight_SetCastShadowsState (
     TQ3LightObject                light,
     TQ3Boolean                    castsShadows
@@ -669,7 +669,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PointLight_SetData"></a>
 <h3><a name="Q3PointLight_SetData">Q3PointLight_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PointLight_SetData (
     TQ3LightObject                light,
     const TQ3PointLightData       *pointLightData
@@ -695,7 +695,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PointLight_SetLocation"></a>
 <h3><a name="Q3PointLight_SetLocation">Q3PointLight_SetLocation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PointLight_SetLocation (
     TQ3LightObject                light,
     const TQ3Point3D              *location
@@ -721,7 +721,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_GetAttenuation"></a>
 <h3><a name="Q3SpotLight_GetAttenuation">Q3SpotLight_GetAttenuation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_GetAttenuation (
     TQ3LightObject                light,
     TQ3AttenuationType            *attenuation
@@ -747,7 +747,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_GetCastShadowsState"></a>
 <h3><a name="Q3SpotLight_GetCastShadowsState">Q3SpotLight_GetCastShadowsState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_GetCastShadowsState (
     TQ3LightObject                light,
     TQ3Boolean                    *castsShadows
@@ -773,7 +773,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_GetData"></a>
 <h3><a name="Q3SpotLight_GetData">Q3SpotLight_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_GetData (
     TQ3LightObject                light,
     TQ3SpotLightData              *spotLightData
@@ -799,7 +799,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_GetDirection"></a>
 <h3><a name="Q3SpotLight_GetDirection">Q3SpotLight_GetDirection</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_GetDirection (
     TQ3LightObject                light,
     TQ3Vector3D                   *direction
@@ -825,7 +825,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_GetFallOff"></a>
 <h3><a name="Q3SpotLight_GetFallOff">Q3SpotLight_GetFallOff</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_GetFallOff (
     TQ3LightObject                light,
     TQ3FallOffType                *fallOff
@@ -851,7 +851,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_GetHotAngle"></a>
 <h3><a name="Q3SpotLight_GetHotAngle">Q3SpotLight_GetHotAngle</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_GetHotAngle (
     TQ3LightObject                light,
     float                         *hotAngle
@@ -877,7 +877,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_GetLocation"></a>
 <h3><a name="Q3SpotLight_GetLocation">Q3SpotLight_GetLocation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_GetLocation (
     TQ3LightObject                light,
     TQ3Point3D                    *location
@@ -903,7 +903,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_GetOuterAngle"></a>
 <h3><a name="Q3SpotLight_GetOuterAngle">Q3SpotLight_GetOuterAngle</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_GetOuterAngle (
     TQ3LightObject                light,
     float                         *outerAngle
@@ -929,7 +929,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_New"></a>
 <h3><a name="Q3SpotLight_New">Q3SpotLight_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3LightObject  )
+<blockquote><pre><tt>TQ3LightObject  
 Q3SpotLight_New (
     const TQ3SpotLightData        *spotLightData
 );
@@ -953,7 +953,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_SetAttenuation"></a>
 <h3><a name="Q3SpotLight_SetAttenuation">Q3SpotLight_SetAttenuation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_SetAttenuation (
     TQ3LightObject                light,
     TQ3AttenuationType            attenuation
@@ -979,7 +979,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_SetCastShadowsState"></a>
 <h3><a name="Q3SpotLight_SetCastShadowsState">Q3SpotLight_SetCastShadowsState</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_SetCastShadowsState (
     TQ3LightObject                light,
     TQ3Boolean                    castsShadows
@@ -1005,7 +1005,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_SetData"></a>
 <h3><a name="Q3SpotLight_SetData">Q3SpotLight_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_SetData (
     TQ3LightObject                light,
     const TQ3SpotLightData        *spotLightData
@@ -1031,7 +1031,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_SetDirection"></a>
 <h3><a name="Q3SpotLight_SetDirection">Q3SpotLight_SetDirection</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_SetDirection (
     TQ3LightObject                light,
     const TQ3Vector3D             *direction
@@ -1057,7 +1057,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_SetFallOff"></a>
 <h3><a name="Q3SpotLight_SetFallOff">Q3SpotLight_SetFallOff</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_SetFallOff (
     TQ3LightObject                light,
     TQ3FallOffType                fallOff
@@ -1083,7 +1083,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_SetHotAngle"></a>
 <h3><a name="Q3SpotLight_SetHotAngle">Q3SpotLight_SetHotAngle</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_SetHotAngle (
     TQ3LightObject                light,
     float                         hotAngle
@@ -1109,7 +1109,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_SetLocation"></a>
 <h3><a name="Q3SpotLight_SetLocation">Q3SpotLight_SetLocation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_SetLocation (
     TQ3LightObject                light,
     const TQ3Point3D              *location
@@ -1135,7 +1135,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3SpotLight_SetOuterAngle"></a>
 <h3><a name="Q3SpotLight_SetOuterAngle">Q3SpotLight_SetOuterAngle</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3SpotLight_SetOuterAngle (
     TQ3LightObject                light,
     float                         outerAngle
@@ -1159,5 +1159,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/13/2001 </a></font></p>
 </body></html>
