@@ -155,6 +155,28 @@ e3geometry_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
+//      e3geometry_duplicate : Geometry duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geometry_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
+					TQ3Object toObject,   void  * toPrivateData)
+{
+	TQ3GeometryData*	fromInstanceData = (TQ3GeometryData*)fromPrivateData;
+	TQ3GeometryData*	toInstanceData = (TQ3GeometryData*)toPrivateData;
+	
+	toInstanceData->subdivisionStyle = fromInstanceData->subdivisionStyle;
+	toInstanceData->cameraEditIndex = 0;
+	toInstanceData->cachedEditIndex = 0;
+	toInstanceData->cachedObject = NULL;
+	
+	return kQ3Success;
+}
+
+
+
+
+
+//=============================================================================
 //      e3geometry_submit_decomposed : Decompose and submit a geometry.
 //-----------------------------------------------------------------------------
 //		Note :	Manages the cached representation of objects which are not
@@ -568,6 +590,10 @@ e3geometry_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectDelete:
 			theMethod = (TQ3XFunctionPointer) e3geometry_delete;
+			break;
+		
+		case kQ3XMethodTypeObjectDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3geometry_duplicate;
 			break;
 
 		case kQ3XMethodTypeObjectSubmitRender:
