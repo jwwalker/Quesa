@@ -78,9 +78,16 @@ enum
 //      Types
 //-----------------------------------------------------------------------------
 
+class E3ClassInfo ;
+class OpaqueTQ3Object ;
 
 // Nodes in the class tree have all their fields private
 typedef class E3ClassInfo *E3ClassInfoPtr ;
+
+
+typedef Q3_CALLBACK_API_C ( E3ClassInfo*, TQ3XObjectRegisterMethod ) (	TQ3XMetaHandler	newClassMetaHandler,
+																		E3ClassInfo*	newParent ) ;
+
 
 // A single node within the class tree
 class E3ClassInfo
@@ -104,20 +111,30 @@ class E3ClassInfo
 	
 	TQ3ObjectType		ownAndParentTypes [ kQ3MaxBuiltInClassHierarchyDepth ] ;
 	
+	TQ3XObjectRegisterMethod	registerMethod ;
+
+	// This is the last of the normal class data
+	// In memory, this is followed by the method data of each sub-class
+	
 	
 	static TQ3Status	Attach ( E3ClassInfoPtr theChild, E3ClassInfoPtr theParent ) ;
 	void				Detach ( void ) ;	
 	E3ClassInfoPtr		Find ( const char *className ) ;
-	TQ3XFunctionPointer	Find_Method ( TQ3XMethodType methodType, TQ3Boolean canInherit ) ;
 	void				Dump_Class ( FILE *theFile, TQ3Uns32 indent ) ;
 
 public :
 
+						E3ClassInfo	(
+									TQ3XMetaHandler	newClassMetaHandler,
+									E3ClassInfo*	newParent // nil for root class of course
+								 	) ; // constructor	
+	
 	// Retrieve the information for a class
 	E3ClassInfoPtr		GetParent ( void ) ;
 	TQ3Uns32			GetNumChildren ( void ) ;
 	E3ClassInfoPtr		GetChild ( TQ3Uns32 childIndex ) ;
 	TQ3Boolean			IsType ( TQ3ObjectType theType ) ;
+	TQ3XFunctionPointer	Find_Method ( TQ3XMethodType methodType, TQ3Boolean canInherit ) ;
 
 	TQ3ObjectType		GetType () ;
 	const char*			GetName ( void ) ;
@@ -147,11 +164,15 @@ public :
 
 
 	// Register and unregister a class
+	static TQ3Status		RegisterClass (	E3ClassInfo*		newClass,
+											TQ3ObjectType		classType,
+											const char			*className,
+											TQ3Uns32			instanceSize ) ; // New style
 	static TQ3Status		RegisterClass (	TQ3ObjectType		parentClassType,
 											TQ3ObjectType		classType,
 											const char			*className,
 											TQ3XMetaHandler		classMetaHandler,
-											TQ3Uns32			instanceSize ) ;
+											TQ3Int32			instanceSize ) ; // Old style
 	static TQ3Status		RegisterExternalClass (	TQ3ObjectType		parentClassType,
 											TQ3ObjectType		classType,
 											const char			*className,
