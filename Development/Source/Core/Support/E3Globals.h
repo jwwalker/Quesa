@@ -277,16 +277,20 @@ extern "C" {
 #define kQ3XMethodTypeStorageClose					Q3_METHOD_TYPE('Q', 'C', 'l', 's')
 
 
-// Storage methods
-#define kQ3ObjectTypeAttributeSetList				Q3_METHOD_TYPE('r', 'a', 's', 'l')
-#define kQ3ObjectTypeAttributeArray					Q3_METHOD_TYPE('a', 't', 'a', 'r')
-#define kQ3ObjectTypeAttributeSetListGeometry		Q3_METHOD_TYPE('g', 'a', 's', 'l')
-#define kQ3ObjectTypeAttributeSetListFace			Q3_METHOD_TYPE('f', 'a', 's', 'l')
-#define kQ3ObjectTypeAttributeSetListVertex			Q3_METHOD_TYPE('v', 'a', 's', 'l')
-#define kQ3ObjectTypeGeneralPolygonHint				Q3_METHOD_TYPE('g', 'p', 'l', 'h')
-#define kQ3ObjectTypeDisplayGroupState				Q3_METHOD_TYPE('d', 'g', 's', 't')
-#define kQ3ObjectTypeShaderUVTransform				Q3_METHOD_TYPE('s', 'd', 'u', 'v')
-#define kQ3ObjectTypeShaderTransform				Q3_METHOD_TYPE('s', 'd', 'x', 'f')
+// 3DMF object types
+#define kQ3ObjectTypeAttributeSetList				Q3_OBJECT_TYPE('r', 'a', 's', 'l')
+#define kQ3ObjectTypeAttributeArray					Q3_OBJECT_TYPE('a', 't', 'a', 'r')
+#define kQ3ObjectTypeAttributeSetListGeometry		Q3_OBJECT_TYPE('g', 'a', 's', 'l')
+#define kQ3ObjectTypeAttributeSetListFace			Q3_OBJECT_TYPE('f', 'a', 's', 'l')
+#define kQ3ObjectTypeAttributeSetListVertex			Q3_OBJECT_TYPE('v', 'a', 's', 'l')
+#define kQ3ObjectTypeGeneralPolygonHint				Q3_OBJECT_TYPE('g', 'p', 'l', 'h')
+#define kQ3ObjectTypeDisplayGroupState				Q3_OBJECT_TYPE('d', 'g', 's', 't')
+#define kQ3AttributeSetTypeTopCap					Q3_OBJECT_TYPE('t', 'c', 'a', 's')
+#define kQ3AttributeSetTypeBottomCap			Q3_OBJECT_TYPE('b', 'c', 'a', 's')
+#define kQ3AttributeSetTypeFaceCap				Q3_OBJECT_TYPE('f', 'c', 'a', 's')
+#define kQ3ObjectTypeShaderUVTransform				Q3_OBJECT_TYPE('s', 'd', 'u', 'v')
+#define kQ3ObjectTypeShaderTransform				Q3_OBJECT_TYPE('s', 'd', 'x', 'f')
+#define kQ3ObjectTypeGeometryCaps									Q3_OBJECT_TYPE('c', 'a', 'p', 's')
 
 
 

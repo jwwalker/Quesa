@@ -112,12 +112,12 @@ e3read_3dmf_read_pixmap(TQ3StoragePixmap* 	pixmap, TQ3FileObject theFile)
 		return(qd3dStatus);
 	pixmap->pixelType = (TQ3PixelType)imageSize;
 	
-	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, 0x33444D46/*'3DMF'*/);
+	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, kQ3ObjectType3DMF);
 	if(qd3dStatus == kQ3Failure)
 		return(qd3dStatus);
 	pixmap->bitOrder = (TQ3Endian)imageSize;
 	
-	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, 0x33444D46/*'3DMF'*/);
+	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, kQ3ObjectType3DMF);
 	if(qd3dStatus == kQ3Failure)
 		return(qd3dStatus);
 	pixmap->byteOrder = (TQ3Endian)imageSize;
@@ -152,34 +152,6 @@ e3read_3dmf_read_pixmap(TQ3StoragePixmap* 	pixmap, TQ3FileObject theFile)
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
-//      E3Read_3DMF_Set : Creates and read an attribute set from a 3DMF.
-//-----------------------------------------------------------------------------
-#pragma mark -
-TQ3Object
-E3Read_3DMF_Set(TQ3FileObject theFile)
-{	TQ3AttributeSet		theSet;
-
-
-
-	// Create the attribute set
-	theSet = Q3AttributeSet_New();
-	if (theSet == NULL)
-		return(NULL);
-
-
-
-	// Read the elements in to the set
-	while (!Q3File_IsEndOfContainer(theFile, NULL))
-		E3FFormat_3DMF_ReadNextElement(theSet, theFile);
-
-	return(theSet);
-}
-
-
-
-
-
-//=============================================================================
 //      E3Read_3DMF_String_C : Creates and read a C string from a 3DMF.
 //-----------------------------------------------------------------------------
 TQ3Object
@@ -427,7 +399,7 @@ E3Read_3DMF_Attribute_HighlightState(TQ3Object parentObject, TQ3FileObject theFi
 
 
 	// Read the attribute
-	qd3dStatus = E3FFormat_3DMF_ReadFlag (&theValue, theFile, 0x33444D46/*'3DMF'*/);
+	qd3dStatus = E3FFormat_3DMF_ReadFlag (&theValue, theFile, kQ3ObjectType3DMF);
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3Set_Add(parentObject, kQ3AttributeTypeHighlightState, &theValue);
@@ -617,7 +589,7 @@ E3Read_3DMF_Texture_Mipmap(TQ3FileObject    theFile)
 	
 	// Read in mipmap parameters
 	
-	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, 0x33444D46/*'3DMF'*/);
+	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, kQ3ObjectType3DMF);
 	if(qd3dStatus == kQ3Failure)
 		return(NULL);
 	mipmap.useMipmapping = (TQ3Boolean)imageSize;
@@ -630,11 +602,11 @@ E3Read_3DMF_Texture_Mipmap(TQ3FileObject    theFile)
 		return(NULL);
 	mipmap.pixelType = (TQ3PixelType)imageSize;
 	
-	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, 0x33444D46/*'3DMF'*/);
+	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, kQ3ObjectType3DMF);
 	if(qd3dStatus == kQ3Failure)
 		return(NULL);
 	mipmap.bitOrder = (TQ3Endian)imageSize;
-	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, 0x33444D46/*'3DMF'*/);
+	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, kQ3ObjectType3DMF);
 	if(qd3dStatus == kQ3Failure)
 		return(NULL);
 	mipmap.byteOrder = (TQ3Endian)imageSize;
@@ -1576,21 +1548,7 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 	Q3Float32_Read(&geomData.vMin, theFile);
 	Q3Float32_Read(&geomData.vMax, theFile);
 	
-	// This may not be the most elegant way to read the caps, but it works
-	if ( (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) &&
-		(Q3File_IsNextObjectOfType( theFile, Q3_OBJECT_TYPE('c', 'a', 'p', 's') ) == kQ3True) )
-		{
-		TQ3Uns32	temp;
-		Q3Uns32_Read( &temp, theFile );		// Will read 'caps'
-		Q3Uns32_Read( &temp, theFile );		// should read 4, as in 4 bytes coming
-		Q3Uns32_Read( &temp, theFile );		// reads the caps mask
-		geomData.caps = temp;
-		}
 
-// This function is still not completely implemented, as it won't read 
-// the interior, face, or bottom attribute sets.  At least it will now 
-// work on the Quesa logo.
-	
 	
 	// Read in the attributes
 	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
@@ -1598,10 +1556,22 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 		childObject = Q3File_ReadObject(theFile);
 		if (childObject != NULL)
 			{
-			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
+			if(Q3Object_IsType (childObject, kQ3AttributeSetTypeBottomCap)){
+				geomData.bottomAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Object_Dispose(childObject);
+				}
+			else if(Q3Object_IsType (childObject, kQ3AttributeSetTypeFaceCap)){
+				geomData.faceAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Object_Dispose(childObject);
+				}
+			else if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.coneAttributeSet = childObject;
 
+		// the interior attribute set are not defined in the 3DMF Spec
 			else{
+				if(Q3Object_IsType (childObject, kQ3ObjectTypeGeometryCaps)){
+						geomData.caps = E3FFormat_3DMF_GeometryCapsMask_Get(childObject);
+						}
 				Q3Object_Dispose(childObject);
 				}
 			}
@@ -1626,6 +1596,97 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 		
 	if (geomData.coneAttributeSet != NULL)
 		Q3Object_Dispose(geomData.coneAttributeSet);
+		
+	return theObject;
+	
+}
+
+
+
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Geom_Cylinder : Cylinder read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile)
+{	TQ3Object				childObject;
+	TQ3CylinderData				geomData;
+	TQ3Object 				theObject;
+
+
+	// Initialise the geometry data
+	Q3Memory_Clear(&geomData, sizeof(geomData));
+
+
+
+	Q3Vector3D_Read(&geomData.orientation, theFile);
+	Q3Vector3D_Read(&geomData.majorRadius, theFile);
+	Q3Vector3D_Read(&geomData.minorRadius, theFile);
+	Q3Point3D_Read(&geomData.origin, theFile);
+	Q3Float32_Read(&geomData.uMin, theFile);
+	Q3Float32_Read(&geomData.uMax, theFile);
+	Q3Float32_Read(&geomData.vMin, theFile);
+	Q3Float32_Read(&geomData.vMax, theFile);
+	
+
+	
+	// Read in the attributes
+	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+		{
+		childObject = Q3File_ReadObject(theFile);
+		if (childObject != NULL)
+			{
+			if(Q3Object_IsType (childObject, kQ3AttributeSetTypeTopCap)){
+				geomData.topAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Object_Dispose(childObject);
+				}
+			else if(Q3Object_IsType (childObject, kQ3AttributeSetTypeBottomCap)){
+				geomData.bottomAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Object_Dispose(childObject);
+				}
+			else if(Q3Object_IsType (childObject, kQ3AttributeSetTypeFaceCap)){
+				geomData.faceAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Object_Dispose(childObject);
+				}
+			else if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
+				geomData.cylinderAttributeSet = childObject;
+
+		// the interior attribute set are not defined in the 3DMF Spec
+			else{
+				if(Q3Object_IsType (childObject, kQ3ObjectTypeGeometryCaps)){
+						geomData.caps = E3FFormat_3DMF_GeometryCapsMask_Get(childObject);
+						}
+				Q3Object_Dispose(childObject);
+				}
+			}
+		}
+
+
+
+	// Create the geometry
+	theObject = Q3Cylinder_New(&geomData);
+
+
+
+	// Clean up
+	if (geomData.interiorAttributeSet != NULL)
+		Q3Object_Dispose(geomData.interiorAttributeSet);
+		
+	if (geomData.faceAttributeSet != NULL)
+		Q3Object_Dispose(geomData.faceAttributeSet);
+		
+	if (geomData.topAttributeSet != NULL)
+		Q3Object_Dispose(geomData.topAttributeSet);
+		
+	if (geomData.bottomAttributeSet != NULL)
+		Q3Object_Dispose(geomData.bottomAttributeSet);
+		
+	if (geomData.cylinderAttributeSet != NULL)
+		Q3Object_Dispose(geomData.cylinderAttributeSet);
 		
 	return theObject;
 	

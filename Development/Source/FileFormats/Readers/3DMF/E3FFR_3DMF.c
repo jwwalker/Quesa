@@ -44,13 +44,126 @@
 #include "E3FFW_3DMFBin_Writer.h"
 
 
+//=============================================================================
+//      Internal functions
+//-----------------------------------------------------------------------------
+//      e3fformat_3dmf__read_next_element : Read the NextAttribute.
+//							calls the proper method from the Format
+//-----------------------------------------------------------------------------
+static void
+e3fformat_3dmf__read_next_element(TQ3AttributeSet parent,TQ3FileObject theFile)
+{
+	TQ3FileFormatObject			format;
+	TQ3XFFormat_3DMF_ReadNextElementMethod	readNextElement;
+
+	format = E3File_GetFileFormat(theFile);
+	
+
+	readNextElement = (TQ3XFFormat_3DMF_ReadNextElementMethod)
+					E3ClassTree_GetMethod(format->theClass, kE3XMethodType_3DMF_ReadNextElement);
+
+	Q3_ASSERT(readNextElement != NULL);
+	
+	if(readNextElement != NULL)
+		readNextElement(parent,theFile);
+}
 
 
 
 
 //=============================================================================
-//      Internal functions
+//      e3fformat_3dmf_set_read : Creates and read an attribute set from a 3DMF.
 //-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_set_read(TQ3FileObject theFile)
+{TQ3AttributeSet		theSet;
+
+
+
+	// Create the attribute set
+	theSet = E3ClassTree_CreateInstance(kQ3SetTypeAttribute, kQ3False, NULL);
+	if (theSet == NULL)
+		return(NULL);
+
+
+
+	// Read the elements in to the set
+	while (!Q3File_IsEndOfContainer(theFile, NULL))
+		e3fformat_3dmf__read_next_element(theSet, theFile);
+
+	return(theSet);
+
+}
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_attribute_caps_read : Cylinder and Cone attribute Caps read method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_attribute_caps_read_core(TQ3FileObject theFile, TQ3ObjectType	classType)
+{ TQ3Object theSet = NULL;
+	TQ3Object childObject;
+
+	while (!Q3File_IsEndOfContainer(theFile, NULL)){
+
+		childObject = Q3File_ReadObject(theFile);
+		if ((childObject != NULL) && (!Q3Object_IsType (childObject, kQ3SetTypeAttribute))){
+			Q3Object_Dispose(childObject);
+			childObject = NULL;
+			}
+		if(childObject != NULL){
+			// create the object;
+			theSet = E3ClassTree_CreateInstance(classType, kQ3False, &childObject);
+			break;
+			}
+		}
+			
+	return(theSet);
+}
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_topcapsset_read : Creates and read a top caps attribute set from a 3DMF.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_topcapsset_read(TQ3FileObject theFile)
+{
+	return(e3fformat_3dmf_attribute_caps_read_core (theFile, kQ3AttributeSetTypeTopCap));
+}
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_bottomcapsset_read : Creates and read a bottom caps attribute set from a 3DMF.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_bottomcapsset_read(TQ3FileObject theFile)
+{
+	return(e3fformat_3dmf_attribute_caps_read_core (theFile, kQ3AttributeSetTypeBottomCap));
+}
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_facecapsset_read : Creates and read a face caps attribute set from a 3DMF.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static TQ3Object
+e3fformat_3dmf_facecapsset_read(TQ3FileObject theFile)
+{
+	return(e3fformat_3dmf_attribute_caps_read_core (theFile, kQ3AttributeSetTypeFaceCap));
+}
+
+
+
+
+//=============================================================================
 //      delete_attributeset_list : Delete an AttributeSetList.
 //-----------------------------------------------------------------------------
 static void
@@ -115,6 +228,50 @@ e3fformat_3dmf_generalpolygonhint_metahandler(TQ3XMethodType methodType)
 	switch (methodType) {
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_generalpolygonhint_read;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_geometry_caps_read : Cylinder and Cone Caps read method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_geometry_caps_read(TQ3FileObject theFile)
+{
+	TQ3Object	theObject;
+	TQ3Uns32	capsMask = 0;
+	
+	if(E3FFormat_3DMF_ReadFlag (&capsMask, theFile, kQ3ObjectTypeGeometryCaps)!= kQ3Success)
+		return (NULL);
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeGeometryCaps, kQ3False, &capsMask);
+	
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_geometry_caps_metahandler : Cylinder and Cone Caps metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3fformat_3dmf_geometry_caps_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectRead:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_geometry_caps_read;
 			break;
 		}
 	
@@ -1119,11 +1276,41 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 											e3fformat_3dmf_attributearray_metahandler,
 											0);
 
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+											kQ3AttributeSetTypeTopCap,
+											kQ3ClassNameTopCapAttributeSet,
+											NULL,
+											sizeof(TQ3AttributeSet));
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+											kQ3AttributeSetTypeBottomCap,
+											kQ3ClassNameBottomCapAttributeSet,
+											NULL,
+											sizeof(TQ3AttributeSet));
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+											kQ3AttributeSetTypeFaceCap,
+											kQ3ClassNameFaceCapAttributeSet,
+											NULL,
+											sizeof(TQ3AttributeSet));
+
+
+
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeGeneralPolygonHint,
 											kQ3ClassNameGeneralPolygonHint,
 											e3fformat_3dmf_generalpolygonhint_metahandler,
+											sizeof(TQ3Uns32));
+
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+											kQ3ObjectTypeGeometryCaps,
+											kQ3ClassNameCaps,
+											e3fformat_3dmf_geometry_caps_metahandler,
 											sizeof(TQ3Uns32));
 
 	if(qd3dStatus == kQ3Success)
@@ -1154,7 +1341,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 
 
 	// Misc methods
-	E3ClassTree_AddMethodByType(kQ3SharedTypeSet,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Set);
+	E3ClassTree_AddMethodByType(kQ3SharedTypeSet,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_set_read);
 	E3ClassTree_AddMethodByType(kQ3StringTypeCString,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_String_C);
 	E3ClassTree_AddMethodByType(kQ3UnknownTypeBinary,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Unknown_Binary);
 	E3ClassTree_AddMethodByType(kQ3UnknownTypeText,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Unknown_Text);
@@ -1164,7 +1351,10 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	
 	// Attribute methods
 	// override the inheritance problem
-	E3ClassTree_AddMethodByType(kQ3SetTypeAttribute,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Set);
+	E3ClassTree_AddMethodByType(kQ3SetTypeAttribute,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_set_read);
+	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeTopCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_topcapsset_read);
+	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeBottomCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_bottomcapsset_read);
+	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeFaceCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_facecapsset_read);
 	
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSurfaceUV,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SurfaceUV);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeShadingUV,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_ShadingUV);
@@ -1221,6 +1411,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	// the Geometry read Methods
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeBox,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Box);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeCone,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Cone);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeCylinder,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Cylinder);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Ellipsoid);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeGeneralPolygon,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_GeneralPolygon);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeLine,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Line);
@@ -1406,6 +1597,18 @@ E3FFW_3DMF_Unregister(void)
 
 
 //=============================================================================
+//      E3FFormat_3DMF_CapsAttributes_Get : Get the AttributeSet out of a caps wrapper.
+//-----------------------------------------------------------------------------
+TQ3AttributeSet
+E3FFormat_3DMF_CapsAttributes_Get(TQ3Object theObject)
+{
+	return(*(TQ3AttributeSet*)theObject->instanceData);
+}
+
+
+
+
+//=============================================================================
 //      E3FFormat_3DMF_AttributeSetList_Get : Returns the indexth (zero based)
 //											  attribute set.
 //-----------------------------------------------------------------------------
@@ -1570,6 +1773,20 @@ E3FFormat_3DMF_GeneralPolygonHint_Get(TQ3Object theObject)
 
 
 //=============================================================================
+//      E3FFormat_3DMF_GeometryCapsMask_Get : Get a Caps mask.
+//-----------------------------------------------------------------------------
+TQ3EndCap
+E3FFormat_3DMF_GeometryCapsMask_Get(TQ3Object theObject)
+{
+	
+	return((TQ3GeneralPolygonShapeHint)*(TQ3Uns32*)theObject->instanceData);
+}
+
+
+
+
+
+//=============================================================================
 //      E3FFormat_3DMF_DisplayGroupState_Get : Get a DisplayGroupState.
 //-----------------------------------------------------------------------------
 TQ3DisplayGroupState
@@ -1597,33 +1814,7 @@ E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject)
 
 
 //=============================================================================
-//      E3FFormat_3DMF_ReadNextElement : Read the NextAttribute.
-//							calls the proper method from the Format
-//-----------------------------------------------------------------------------
-void
-E3FFormat_3DMF_ReadNextElement(TQ3AttributeSet parent,TQ3FileObject theFile)
-{
-	TQ3FileFormatObject			format;
-	TQ3XFFormat_3DMF_ReadNextElementMethod	readNextElement;
-
-	format = E3File_GetFileFormat(theFile);
-	
-
-	readNextElement = (TQ3XFFormat_3DMF_ReadNextElementMethod)
-					E3ClassTree_GetMethod(format->theClass, kE3XMethodType_3DMF_ReadNextElement);
-
-	Q3_ASSERT(readNextElement != NULL);
-	
-	if(readNextElement != NULL)
-		readNextElement(parent,theFile);
-}
-
-
-
-
-
-//=============================================================================
-//      E3FFormat_3DMF_ReadNextElement : Read a symbolic flag from a metafile.
+//      E3FFormat_3DMF_ReadFlag : Read a symbolic flag from a metafile.
 //							calls the proper method from the Format
 //-----------------------------------------------------------------------------
 TQ3Status

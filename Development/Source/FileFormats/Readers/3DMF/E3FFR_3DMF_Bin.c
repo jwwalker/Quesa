@@ -417,12 +417,12 @@ e3fformat_3dmf_bin_read_header(TQ3FileObject theFile)
 	instanceData->MFData.baseData.currentStoragePosition = 0;
 	result = (TQ3Boolean)(Q3Int32_Read((TQ3Int32*)&head, theFile) != kQ3Failure);
 #if QUESA_HOST_IS_BIG_ENDIAN
-	if(head == 0X33444D46 /*'3DMF'*/)
+	if(head == kQ3ObjectType3DMF)
 		instanceData->MFData.baseData.byteOrder = kQ3EndianBig;
 	else
 		instanceData->MFData.baseData.byteOrder = kQ3EndianLittle;
 #else
-	if(head == 0X33444D46 /*'3DMF'*/)
+	if(head == kQ3ObjectType3DMF)
 		instanceData->MFData.baseData.byteOrder = kQ3EndianLittle;
 	else
 		instanceData->MFData.baseData.byteOrder = kQ3EndianBig;

@@ -55,7 +55,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-TQ3Object		E3Read_3DMF_Set(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_String_C(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Unknown_Binary(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Unknown_Text(TQ3FileObject theFile);
@@ -106,6 +105,7 @@ TQ3Object		E3Read_3DMF_Transform_Reset(TQ3FileObject theFile);
 
 TQ3Object		E3Read_3DMF_Geom_Box(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Cone(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Line(TQ3FileObject theFile);

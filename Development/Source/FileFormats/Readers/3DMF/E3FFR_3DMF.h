@@ -140,9 +140,10 @@ TQ3Status						E3FFormat_3DMF_AttributeSetList_Set(TQ3Object theAttributeSetList
 										TQ3AttributeSet theAttributeSet);
 
 TQ3GeneralPolygonShapeHint	E3FFormat_3DMF_GeneralPolygonHint_Get(TQ3Object theObject);
-TQ3DisplayGroupState		E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject);
+TQ3EndCap										E3FFormat_3DMF_GeometryCapsMask_Get(TQ3Object theObject);
+TQ3DisplayGroupState				E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject);
+TQ3AttributeSet				E3FFormat_3DMF_CapsAttributes_Get(TQ3Object theObject);
 
-void 						E3FFormat_3DMF_ReadNextElement(TQ3AttributeSet parent,TQ3FileObject theFile);
 TQ3Status               	E3FFormat_3DMF_ReadFlag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hint);
 
 
