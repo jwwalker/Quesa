@@ -5065,7 +5065,7 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 
 
 	// The ray intersects the triangle	
-	return(kQ3True);
+	return (hitPoint->w >= 0.0? kQ3True : kQ3False);
 }
 
 
