@@ -4201,10 +4201,25 @@ e3geom_mesh_cache_new(
 {
 #pragma unused(meshObject)
 #pragma unused(view)
-	if(meshPtr->numCorners)
+	const TE3MeshFaceData* 			facePtr;
+	TQ3AttributeSet 				attr;
+	
+
+	if(meshPtr->numCorners || e3mesh_NumFaces(meshPtr) == 1)
 		return e3geom_mesh_cache_new_as_polys(meshPtr);
 	else
+		{
+		facePtr = e3meshFaceArrayOrList_FirstItemConst(&meshPtr->faceArrayOrList);
+		attr = facePtr->attributeSet;
+		facePtr = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, facePtr);
+		while (facePtr != NULL)
+			{ // bail out at first different attributeSet
+			if(facePtr->attributeSet != attr)
+				return e3geom_mesh_cache_new_as_polys(meshPtr);
+			facePtr = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, facePtr);
+			}
 		return e3geom_mesh_cache_new_as_polyhedron(meshPtr);
+		}
 }
 
 
