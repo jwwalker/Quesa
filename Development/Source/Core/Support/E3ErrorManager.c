@@ -231,6 +231,7 @@ E3ErrorManager_GetError(TQ3Error *oldestError, TQ3Error *latestError)
 
 	// Set our flags
 	theGlobals->errMgrClearError = kQ3True;
+	theGlobals->errMgrNeedsClearing = kQ3True;
 }
 
 
@@ -259,6 +260,7 @@ E3ErrorManager_GetWarning(TQ3Warning *oldestWarning, TQ3Warning *latestWarning)
 
 	// Set our flags
 	theGlobals->errMgrClearWarning = kQ3True;
+	theGlobals->errMgrNeedsClearing = kQ3True;
 }
 
 
@@ -287,6 +289,7 @@ E3ErrorManager_GetNotice(TQ3Notice *oldestNotice, TQ3Notice *latestNotice)
 
 	// Set our flags
 	theGlobals->errMgrClearNotice = kQ3True;
+	theGlobals->errMgrNeedsClearing = kQ3True;
 }
 
 
@@ -331,9 +334,9 @@ E3ErrorManager_ClearError(void)
 
 
 	// Clear our state
-	theGlobals->errMgrClearError  = kQ3False;
-	theGlobals->errMgrOldestError = kQ3ErrorNone;
-	theGlobals->errMgrLatestError = kQ3ErrorNone;
+	theGlobals->errMgrClearError  	= kQ3False;
+	theGlobals->errMgrOldestError 	= kQ3ErrorNone;
+	theGlobals->errMgrLatestError 	= kQ3ErrorNone;
 }
 
 

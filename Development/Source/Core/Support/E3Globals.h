@@ -391,6 +391,7 @@ typedef struct E3Globals {
 	TQ3Boolean				errMgrClearWarning;
 	TQ3Boolean				errMgrClearNotice;
 	TQ3Boolean				errMgrClearPlatform;
+	TQ3Boolean				errMgrNeedsClearing;
 	TQ3Boolean				errMgrIsFatalError;
 	TQ3Error				errMgrOldestError;
 	TQ3Warning				errMgrOldestWarning;
@@ -417,6 +418,9 @@ typedef struct E3Globals {
 #endif
 } E3Globals, *E3GlobalsPtr;
 
+// Note : Code should access the globals via E3Globals_Get(); do not access
+//		  them directly (except in E3System.c).
+extern E3Globals gE3Globals;
 
 
 
