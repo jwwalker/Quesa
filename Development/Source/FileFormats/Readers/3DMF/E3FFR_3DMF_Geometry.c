@@ -1798,7 +1798,154 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 TQ3Object
 E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
-{	TQ3Object			childObject;
+{
+#define _READ_MESH_AS_POLYS
+// hack until meshes will be implemeted
+#ifdef _READ_MESH_AS_POLYS
+	TQ3Object			childObject;
+	
+	TQ3Uns32 			numVertices;
+	TQ3Uns32 			numFaces;
+	TQ3Uns32 			numContours;
+	TQ3Int32 			numFaceVertexIndices; // the sign is a flag
+	TQ3Int32 			absFaceVertexIndices; // absolute of above
+	
+	TQ3Vertex3D			vertex;
+	
+	TQ3Object*		faces = NULL;
+	
+	TQ3Uns32			faceCount = 0L;
+	
+	TQ3Uns32			i,j,index;
+	TQ3Boolean			readFailed = kQ3False;
+	
+	
+	TQ3GroupObject 		thePolysGroup;
+	TQ3PolygonData		polyData;
+	TQ3Object 				thePoly;
+	TQ3Vertex3D*			polyVertices;
+
+	TQ3AttributeSet		attributeSet;
+
+
+
+	thePolysGroup = Q3DisplayGroup_New ();
+	if(thePolysGroup == NULL)
+		return NULL;
+	// Read in the numVertices
+	if(Q3Uns32_Read(&numVertices, theFile)!= kQ3Success)
+		return NULL;
+	
+	if(numVertices < 3)
+		return NULL;
+	
+	// allocate the array
+	polyVertices = (TQ3Vertex3D *) E3Memory_AllocateClear(sizeof(TQ3Vertex3D) * numVertices);
+		
+	
+	// read the vertices
+	
+	vertex.attributeSet = NULL;
+	
+	for(i = 0; i< numVertices; i++){
+		if(Q3Point3D_Read(&vertex.point, theFile)!= kQ3Success)
+			{
+			goto cleanUp;
+			}
+		polyVertices[i] = vertex;
+		}
+	
+	// read the number of faces
+	if(Q3Uns32_Read(&numFaces, theFile)!= kQ3Success)
+		{
+		goto cleanUp;
+		readFailed = kQ3True;
+		}
+	// read the number of contours
+	if(Q3Uns32_Read(&numContours, theFile)!= kQ3Success)
+		{
+		goto cleanUp;
+		readFailed = kQ3True;
+		}
+
+	faces = (TQ3Object *) E3Memory_AllocateClear(sizeof(TQ3Object) * numFaces);
+	if(faces == NULL)
+		{
+		goto cleanUp;
+		readFailed = kQ3True;
+		}
+	// read the faces or contours
+	for(i = 0; i< (numFaces + numContours); i++){
+		if(Q3Int32_Read(&numFaceVertexIndices, theFile)!= kQ3Success)
+			{
+			goto cleanUp;
+			readFailed = kQ3True;
+			}
+		//how many vertices?
+		absFaceVertexIndices = E3Num_Abs (numFaceVertexIndices);
+		
+			
+	if(polyVertices != NULL){
+		E3Memory_Clear(&polyData, sizeof(polyData));
+		polyData.numVertices = absFaceVertexIndices;
+		polyData.vertices = (TQ3Vertex3D *)E3Memory_AllocateClear(sizeof(TQ3Vertex3D) * polyData.numVertices);
+		}
+
+		//read the Indices
+		for(j = 0; j< (TQ3Uns32) (absFaceVertexIndices); j++){
+			if(Q3Uns32_Read(&index, theFile)!= kQ3Success)
+				{
+				goto cleanUp;
+				readFailed = kQ3True;
+				}
+			if(polyData.vertices != NULL){
+				polyData.vertices[j] = polyVertices[index];
+				}
+			}
+		// create the face
+			if(polyData.vertices != NULL){
+				thePoly = Q3Polygon_New(&polyData);
+				if(thePoly != NULL){
+					if(numFaceVertexIndices > 0) // it's a face
+						faces[i] = thePoly;
+					Q3Group_AddObject(thePolysGroup,thePoly);
+					Q3Object_Dispose(thePoly);
+					}
+				E3Memory_Free(&polyData.vertices);
+				}
+		}
+
+	// Read in the attributes
+	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+		{
+		childObject = Q3File_ReadObject(theFile);
+		if (childObject != NULL)
+			{
+			if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace)){
+				for(i = 0; i< numFaces; i++){
+					attributeSet = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
+					if(attributeSet != NULL)
+						{
+						Q3Geometry_SetAttributeSet (faces[i], attributeSet);
+						Q3Object_Dispose(attributeSet);
+						}
+					}
+				}
+
+			Q3Object_Dispose(childObject);
+			}
+		}
+
+
+cleanUp:	
+		E3Memory_Free(&polyVertices);
+		E3Memory_Free(&faces);
+	
+	return thePolysGroup;
+	
+	
+#else
+	TQ3Object			childObject;
 	TQ3GeometryObject 	mesh = NULL;
 	
 	TQ3Uns32 			numVertices;
@@ -1831,6 +1978,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 	
 	// allocate the array
 	vertices = (TQ3MeshVertex *) E3Memory_AllocateClear(sizeof(TQ3MeshVertex) * numVertices);
+
 	if(vertices == NULL)
 		return mesh;
 	
@@ -1868,7 +2016,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 		}
 
 	// Allocate the faces Array
-	faces = (TQ3MeshFace *) E3Memory_AllocateClear(sizeof(TQ3MeshFace) * numVertices);
+	faces = (TQ3MeshFace *) E3Memory_AllocateClear(sizeof(TQ3MeshFace) * numFaces);
 	if(faces == NULL)
 		{
 		goto cleanUp;
@@ -1921,7 +2069,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 		if (childObject != NULL)
 			{
 			if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace)){
-				for(i = 0; i< faceCount; i++){
+				for(i = 0; i< numFaces; i++){
 					attributeSet = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
 					if(attributeSet != NULL)
 						{
@@ -1962,6 +2110,8 @@ cleanUp:
 	E3Memory_Free(&faces);
 	
 	return mesh;
+
+#endif
 }
 
 
