@@ -1259,8 +1259,12 @@ ir_state_reset(TQ3InteractiveData *instanceData)
 
 
     // Reset our state
-    instanceData->stateFill    = kQ3FillStyleFilled;
-    instanceData->stateHilight = NULL;
+    instanceData->stateFill        = kQ3FillStyleFilled;
+    instanceData->stateHilight     = NULL;
+    instanceData->stateBackfacing  = kQ3BackfacingStyleBoth;
+    instanceData->stateOrientation = kQ3OrientationStyleCounterClockwise;
+
+    Q3Vector3D_Set(&instanceData->stateLocalCameraViewVector,     0.0f, 0.0f, -1.0f);
     Q3ColorRGB_Set(&instanceData->stateDefaultDiffuseColour,      kQ3ViewDefaultDiffuseColor);
     Q3ColorRGB_Set(&instanceData->stateDefaultSpecularColour,     kQ3ViewDefaultSpecularColor);
     Q3ColorRGB_Set(&instanceData->stateDefaultTransparencyColour, kQ3ViewDefaultTransparency);
@@ -1270,6 +1274,7 @@ ir_state_reset(TQ3InteractiveData *instanceData)
 
 	instanceData->stateCurrentSpecularControl = -1.0f;
 	instanceData->stateTextureActive          = kQ3False;
+	instanceData->stateTextureObject          = 0;
 	instanceData->stateTextureForceWhite      = kQ3False;
 
     instanceData->stateGeomDiffuseColour      = &instanceData->stateDefaultDiffuseColour;
@@ -1324,8 +1329,7 @@ IRRenderer_State_Terminate(TQ3InteractiveData *instanceData)
 
 
 
-	// Flush the texture cache (perhaps only do if enough time has
-	// passed, rather than on each frame?)
+	// Flush the texture cache
 	IRRenderer_State_FlushTextureCache(instanceData, kQ3False);
 
 
@@ -1539,13 +1543,21 @@ TQ3Status
 IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 											TQ3InteractiveData	*instanceData,
 											TQ3Matrix4x4		*theMatrix)
-{
+{	TQ3Vector3D			viewVector = {0.0f, 0.0f, -1.0f};
+	TQ3Matrix4x4		cameraToLocal;
 #pragma unused(theView)
 
 
 
 	// Activate our context
 	GLDrawContext_SetCurrent(instanceData->glContext);
+
+
+
+	// Determine the camera view vector in local coordinates
+	Q3Matrix4x4_Invert(theMatrix,     &cameraToLocal);
+	Q3Vector3D_Transform(&viewVector, &cameraToLocal, &viewVector);
+	Q3Vector3D_Normalize(&viewVector, &instanceData->stateLocalCameraViewVector);
 
 
 
@@ -1621,7 +1633,9 @@ IRRenderer_Update_Style_Backfacing(TQ3ViewObject		theView,
 	//
 	// OpenGL doesn't do automatic flipping, so we have to just treat
 	// that style as being equivalent to kQ3BackfacingStyleBoth.
-	switch (*styleData) {
+	instanceData->stateBackfacing = *styleData;
+
+	switch (instanceData->stateBackfacing) {
 		case kQ3BackfacingStyleRemove:
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_BACK);
@@ -1717,7 +1731,9 @@ IRRenderer_Update_Style_Orientation(TQ3ViewObject			theView,
 
 
 	// Set the front facing direction
-	switch (*styleData) {
+	instanceData->stateOrientation = *styleData;
+	
+	switch (instanceData->stateOrientation) {
 		case kQ3OrientationStyleClockwise:
 			glFrontFace(GL_CW);
 			break;
@@ -2070,8 +2086,9 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 	instanceData->stateTextureActive = (TQ3Boolean) (theTexture != NULL);
 	if (!instanceData->stateTextureActive)
 		{
-		glBindTexture(GL_TEXTURE_2D, 0);
+		instanceData->stateTextureObject = 0;
 		glDisable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, instanceData->stateTextureObject);
 		}
 
 
@@ -2088,8 +2105,9 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 		// Enable the texture object
 		if (qd3dStatus == kQ3Success)
 			{
+			instanceData->stateTextureObject = (GLuint) theTexture;
 			glEnable(GL_TEXTURE_2D);
-			glBindTexture(GL_TEXTURE_2D, (GLuint) theTexture);
+			glBindTexture(GL_TEXTURE_2D, instanceData->stateTextureObject);
 			}
 		}
 

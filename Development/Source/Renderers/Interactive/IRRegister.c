@@ -70,8 +70,9 @@ ir_interactive_delete(TQ3Object theObject, void *privateData)
 
 
 
-	// Flush the texture cache completely
+	// Flush our caches completely
 	IRRenderer_State_FlushTextureCache(instanceData, kQ3True);
+	IRGeometry_FlushPrimCache(NULL, instanceData, kQ3False);
 
 
 

@@ -35,6 +35,7 @@
 //-----------------------------------------------------------------------------
 #include "IRPrefix.h"
 #include "IRRenderer.h"
+#include "IRGeometry.h"
 #include "IRUpdate.h"
 #include "IRLights.h"
 
@@ -182,6 +183,7 @@ IRRenderer_StartPass(TQ3ViewObject			theView,
 	// Initialise our state
 	IRRenderer_State_Initialise(instanceData,  theView);
 	IRRenderer_Lights_Initialise(instanceData, theCamera, theLights);
+	IRGeometry_Initialise(instanceData, theCamera);
 
 	return(kQ3Success);
 }
@@ -202,6 +204,11 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 	// Activate our context
 	GLDrawContext_SetCurrent(instanceData->glContext);
+
+
+
+	// Flush the primitive cache
+	IRGeometry_FlushPrimCache(theView, instanceData, kQ3True);
 
 
 

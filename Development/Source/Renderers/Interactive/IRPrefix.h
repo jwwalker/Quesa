@@ -44,8 +44,46 @@
 
 
 //=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
+typedef enum {
+	kQ3PrimNone									= 0,
+	kQ3PrimTriangle								= 1,
+	kQ3PrimLine									= 2,
+	kQ3PrimPoint								= 3
+} TQ3PrimType;
+
+typedef enum {
+	kQ3PrimFlagNone								= 0,
+	kQ3PrimHaveNormal							= (1 << 0),
+	kQ3PrimHaveUV								= (1 << 1)
+} TQ3PrimFlags;
+
+
+
+
+
+//=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
+// Cached primitive data
+typedef struct TQ3CachedPrim {
+	// State
+	TQ3PrimType				theType;
+	TQ3PrimFlags			theFlags;
+	GLuint					theTexture;
+	float					zMin;
+	float					zMax;
+
+
+	// Data
+	TQ3Point3D				thePoints[3];
+	TQ3ColorARGB			theColours[3];
+	TQ3Vector3D				theNormals[3];
+	TQ3Param2D				theUVs[3];
+} TQ3CachedPrim;
+
+
 // Interactive renderer data
 typedef struct TQ3InteractiveData {
 	// GL state
@@ -63,15 +101,26 @@ typedef struct TQ3InteractiveData {
 	TQ3TextureObject		*textureCache;
 
 
+	// Cached state
+	float					cameraZ;
+	TQ3Uns32				cachedPrimUsed;
+	TQ3Uns32				cachedPrimCount;
+	TQ3CachedPrim			*cachedPrims;
+
+
 	// QD3D state
 	TQ3FillStyle			stateFill;
 	TQ3AttributeSet			stateHilight;
+	TQ3BackfacingStyle		stateBackfacing;
+	TQ3OrientationStyle		stateOrientation;
+	TQ3Vector3D				stateLocalCameraViewVector;
 	TQ3ColorRGB				stateDefaultDiffuseColour;
 	TQ3ColorRGB				stateDefaultSpecularColour;
 	TQ3ColorRGB				stateDefaultTransparencyColour;
 	GLfloat					stateCurrentSpecularColour[4];
 	float					stateCurrentSpecularControl;
 	TQ3Boolean				stateTextureActive;
+	GLuint					stateTextureObject;
 	TQ3Boolean				stateTextureForceWhite;
 
 	TQ3ColorRGB				*stateGeomDiffuseColour;

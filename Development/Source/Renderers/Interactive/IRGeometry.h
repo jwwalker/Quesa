@@ -55,6 +55,15 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+void				IRGeometry_Initialise(
+								TQ3InteractiveData		*instanceData,
+								TQ3CameraObject			theCamera);
+
+void				IRGeometry_FlushPrimCache(
+								TQ3ViewObject			theView,
+								TQ3InteractiveData		*instanceData,
+								TQ3Boolean				renderFlush);
+
 TQ3Status			IRGeometry_Triangle(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
