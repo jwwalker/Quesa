@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,6 +47,7 @@
 #include "E3CustomElements.h"
 #include "E3HashTable.h"
 #include "E3Main.h"
+#include "E3Set.h"
 
 
 
@@ -64,6 +65,116 @@ typedef struct TCEUrlDataPrivate {
 typedef struct TCEPropertyPrivate {
 	E3HashTablePtr	table;
 } TCEPropertyPrivate;
+	
+
+
+class E3PropertyElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TCEPropertyPrivate						instanceData ;
+	} ;
+	
+
+
+class E3NameElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3StringObject							instanceData ;
+	} ;
+	
+
+
+class E3URLElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TCEUrlDataPrivate						instanceData ;
+	} ;
+	
+
+
+#if QUESA_SUPPORT_QUICKTIME
+class E3WireElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	QTAtomContainer							instanceData ;
+	} ;
+#endif
+	
+
+
+class E3BitDepthElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Uns32								instanceData ;
+	} ;
+	
+
+
+class E3BeforeRenderElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3ObjectEventCallback					instanceData ;
+	} ;
+	
+
+
+class E3AfterRenderElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3ObjectEventCallback					instanceData ;
+	} ;
+	
+
+
+class E3BeforePickElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3ObjectEventCallback					instanceData ;
+	} ;
+	
+
+
+class E3AfterPickElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3ObjectEventCallback					instanceData ;
+	} ;
 
 
 
@@ -754,80 +865,80 @@ E3CustomElements_RegisterClass(void)
 
 
 	// Register the classes
-	qd3dStatus = E3ClassTree_RegisterClass(
+	qd3dStatus = E3ClassTree::RegisterClass(
 				kQ3ObjectTypeElement,
 				kQ3ObjectTypeCustomElementProperties,
 				kQ3ClassNameCustomElementProperties,
 				e3propertyelement_metahandler,
-				sizeof(TCEPropertyPrivate));
+				~sizeof(E3PropertyElement));
 
-	qd3dStatus = E3ClassTree_RegisterClass(
+	qd3dStatus = E3ClassTree::RegisterClass(
 				kQ3ObjectTypeElement,
 				kQ3ObjectTypeCustomElementName,
 				kQ3ClassNameCustomElementName,
 				e3nameelement_metahandler,
-				sizeof(TQ3StringObject));
+				~sizeof(E3NameElement));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(
+		qd3dStatus = E3ClassTree::RegisterClass(
 					kQ3ObjectTypeElement,
 					kQ3ObjectTypeCustomElementUrl,
 					kQ3ClassNameCustomElementUrl,
 					e3urlelement_metahandler,
-					sizeof(TCEUrlDataPrivate));
+					~sizeof(E3URLElement));
 
 #if QUESA_SUPPORT_QUICKTIME
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(
+		qd3dStatus = E3ClassTree::RegisterClass(
 					kQ3ObjectTypeElement,
 					kQ3ObjectTypeCustomElementWire,
 					kQ3ClassNameCustomElementWire,
 					e3wireelement_metahandler,
-					sizeof(QTAtomContainer));
+					~sizeof(E3WireElement));
 #endif
 
 	// The depth bits element does not need a metahandler, because it is plain old data
 	// and is never read or written (being attached to renderers, which aren't read or
 	// written).
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(
+		qd3dStatus = E3ClassTree::RegisterClass(
 					kQ3ObjectTypeElement,
 					kQ3ElementTypeDepthBits,
 					kQ3ClassNameCustomElementDepthBits,
 					NULL,
-					sizeof(TQ3Uns32));
+					~sizeof(E3BitDepthElement));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(
+		qd3dStatus = E3ClassTree::RegisterClass(
 					kQ3ObjectTypeElement,
 					kQ3CallbackElementTypeBeforeRender,
 					kQ3ClassNameCustomElementBeforeRender,
 					NULL,
-					sizeof(TQ3ObjectEventCallback) );
+					~sizeof(E3BeforeRenderElement) );
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(
+		qd3dStatus = E3ClassTree::RegisterClass(
 					kQ3ObjectTypeElement,
 					kQ3CallbackElementTypeAfterRender,
 					kQ3ClassNameCustomElementAfterRender,
 					NULL,
-					sizeof(TQ3ObjectEventCallback) );
+					~sizeof(E3AfterRenderElement) );
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(
+		qd3dStatus = E3ClassTree::RegisterClass(
 					kQ3ObjectTypeElement,
 					kQ3CallbackElementTypeBeforePick,
 					kQ3ClassNameCustomElementBeforePick,
 					NULL,
-					sizeof(TQ3ObjectEventCallback) );
+					~sizeof(E3BeforePickElement) );
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(
+		qd3dStatus = E3ClassTree::RegisterClass(
 					kQ3ObjectTypeElement,
 					kQ3CallbackElementTypeAfterPick,
 					kQ3ClassNameCustomElementAfterPick,
 					NULL,
-					sizeof(TQ3ObjectEventCallback) );
+					~sizeof(E3AfterPickElement) );
 
 	return(qd3dStatus);
 }
@@ -847,13 +958,13 @@ E3CustomElements_UnregisterClass(void)
 
 	// Unregister the classes
 #if QUESA_SUPPORT_QUICKTIME
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeCustomElementWire, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementWire, kQ3True);
 #endif
 
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeCustomElementProperties, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeCustomElementName, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeCustomElementUrl,  kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementProperties, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementName, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementUrl,  kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
 
 	return(qd3dStatus);
 }
