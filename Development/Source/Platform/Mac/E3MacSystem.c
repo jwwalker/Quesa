@@ -43,6 +43,7 @@
 	#include <CodeFragments.h>
 	#include <Folders.h>
 	#include <Processes.h>
+	#include <Resources.h>
 #endif
 
 #if TARGET_RT_MAC_MACHO
@@ -73,7 +74,7 @@ pascal OSErr E3MacCFM_Terminate(void);
 //      Internal globals
 //-----------------------------------------------------------------------------
 static AliasHandle gQuesaLib = NULL;
-
+short gShlbResFile = 0;
 
 
 
@@ -198,6 +199,14 @@ E3MacCFM_Initialise(const CFragInitBlock *initBlock)
 		theErr = NewAlias(NULL, initBlock->fragLocator.u.onDisk.fileSpec, &gQuesaLib);
 	else	
 		theErr = noErr;
+
+	// Get the resource fork reference, save that for later too
+	if (initBlock->fragLocator.where == kDataForkCFragLocator)
+		{
+		short oldResFile = CurResFile();
+		gShlbResFile = FSpOpenResFile(initBlock->fragLocator.u.onDisk.fileSpec, fsRdPerm);
+		UseResFile(oldResFile);
+		}
 
 	return(theErr);
 }
