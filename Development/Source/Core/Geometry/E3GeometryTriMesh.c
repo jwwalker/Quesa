@@ -480,8 +480,8 @@ e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 
 	// Finish off the group state (in-line, since we don't make any view state changes)
-	Q3DisplayGroup_SetState(theGroup, kQ3DisplayGroupStateMaskIsInline |
-									  kQ3DisplayGroupStateMaskIsDrawn  |
+	Q3DisplayGroup_SetState(theGroup, kQ3DisplayGroupStateMaskIsInline  |
+									  kQ3DisplayGroupStateMaskIsDrawn   |
 									  kQ3DisplayGroupStateMaskIsWritten |
 									  kQ3DisplayGroupStateMaskIsPicked);
 
@@ -519,9 +519,12 @@ e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 #pragma unused(objectType)
 #pragma unused(theObject)
 
-	//calculate bBox if not set
-	if(instanceData->bBox.isEmpty == kQ3True)
-		Q3BoundingBox_SetFromPoints3D (&instanceData->bBox, instanceData->points, instanceData->numPoints, sizeof(TQ3Point3D));
+
+
+	// Recalculate our bounding box if it hasn't been initialised
+	if (instanceData->bBox.isEmpty == kQ3True)
+		Q3BoundingBox_SetFromPoints3D(&instanceData->bBox, instanceData->points, instanceData->numPoints, sizeof(TQ3Point3D));
+
 
 
 	// Update the bounds
