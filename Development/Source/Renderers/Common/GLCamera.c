@@ -47,115 +47,51 @@
 //      GLCamera_SetProjection : Set the projection matrix.
 //-----------------------------------------------------------------------------
 //		Note :	We assume the correct OpenGL context is already active.
-//
-//				We convert the camera by taking the QD3D view->frustum matrix,
-//				undo any viewport transformation, and re-apply it in reverse
-//				order (OpenGL seems to need the viewport transforms in the
-//				reverse order from that expected by the Interactive Renderer).
 //-----------------------------------------------------------------------------
 void
-GLCamera_SetProjection(TQ3CameraObject theCamera)
-{	float						scaleWidth, scaleHeight, translateX, translateY;
-	TQ3Matrix4x4				viewToFrustum, viewPortMatrix;
-	GLfloat						glMatrixTranslate[16];
-	GLfloat						glMatrixViewport[16];
-	GLfloat						glMatrixScale[16];
-	TQ3OrthographicCameraData	orthographicData;
-	TQ3CameraRange				cameraRange;
-	TQ3CameraViewPort			viewPort;
+GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum)
+{	TQ3Matrix4x4		cameraToNDC, theMatrix;
+	GLfloat				glMatrix[16];
 
 
 
 	// Validate our parameters
-	Q3_REQUIRE(Q3_VALID_PTR(theCamera));
+	Q3_REQUIRE(Q3_VALID_PTR(cameraToFrustum));
 
 
 
-	// Select the matrix to modify
+	// Convert to the OpenGL NDC
+	//
+	// Quesa's canonical viewing frustum ranges from -1 to +1 in x and y,
+	// and 0 to -1 in z (where 0 is the near clipping plane, and -1 is the
+	// far clipping plane.
+	//
+	// The result of OpenGL's GL_PROJECTION transform is NDC, or Normalised
+	// Device Coordinates. These range from -1 to +1 in x and y, but from
+	// -1 (near) to +1 (far) in z.
+	//
+	// So that we don't lose half of our depth buffer precision, we need to
+	// scale and translate Quesa's frustum so that z coordinates will range
+	// from -1 to +1 rather than 0 to -1.
+	//
+	// This can be done by scaling 0..-1 to 0..+2, then translating 0..+2
+	// to -1..+1.
+	Q3Matrix4x4_SetScale(&theMatrix, 1.0f, 1.0f, -2.0f);
+	Q3Matrix4x4_Multiply(cameraToFrustum, &theMatrix, &cameraToNDC);
+
+	Q3Matrix4x4_SetTranslate(&theMatrix, 0.0f, 0.0f, -1.0f);
+	Q3Matrix4x4_Multiply(&cameraToNDC, &theMatrix, &cameraToNDC);
+
+
+
+	// Initialise the matrix
+	GLUtils_ConvertMatrix4x4(&cameraToNDC, glMatrix);
+
+
+
+	// Load the new matrix
 	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-
-
-	// Get the camera range. Apple's OpenGL seems to clip incorrectly if the
-	// hither is less than 0.0003f, no matter where the yon value is, so we
-	// clamp the range to at least that
-	Q3Camera_GetRange(theCamera, &cameraRange);
-    if (cameraRange.hither < 0.0005f)
-    	cameraRange.hither = 0.0005f;
-
-
-
-	// Get the camera view to frustum transform
-	Q3Camera_GetViewToFrustum(theCamera, &viewToFrustum);
-
-
-
-	// If we're using a non-identity view port, we need to undo the effects
-	// of this transform from the view->frustum transform, and then re-apply
-	// them in reverse order (i.e., translate before scaling).
-	Q3Camera_GetViewPort(theCamera, &viewPort);
-	if (viewPort.origin.x != -1.0f || viewPort.origin.y !=  1.0f ||
-		viewPort.width    !=  2.0f || viewPort.height   !=  2.0f)
-		{
-		// Work out the scaling and translation required
-		scaleWidth  = 2.0f / viewPort.width;
-		scaleHeight = 2.0f / viewPort.height;
-
-		translateX = -1.0f - (viewPort.origin.x * scaleWidth);
-		translateY =  1.0f - (viewPort.origin.y * scaleHeight);
-
-
-
-		// Work out the translation, then undo it
-		Q3Matrix4x4_SetTranslate(&viewPortMatrix, translateX, translateY, 0.0f);
-		GLUtils_ConvertMatrix4x4(&viewPortMatrix, glMatrixTranslate);
-
-		Q3Matrix4x4_Invert(&viewPortMatrix, &viewPortMatrix);
-		Q3Matrix4x4_Multiply(&viewToFrustum, &viewPortMatrix, &viewToFrustum);
-
-
-
-		// Work out the scaling, then undo it
- 		Q3Matrix4x4_SetScale(&viewPortMatrix, scaleWidth, scaleHeight, 1.0f);
-		GLUtils_ConvertMatrix4x4(&viewPortMatrix, glMatrixScale);
-
-		Q3Matrix4x4_Invert(&viewPortMatrix, &viewPortMatrix);
-		Q3Matrix4x4_Multiply(&viewToFrustum, &viewPortMatrix, &viewToFrustum);
-
-
-
-		// Pass the viewport distortion to OpenGL, in reverse order
-		glMultMatrixf(glMatrixTranslate);
-		glMultMatrixf(glMatrixScale);
-		}
-
-
-
-	// Special case orthographic cameras, since the QD3D->OpenGL
-	// translation doesn't work for them in its current form
-	if (Q3Camera_GetType(theCamera) == kQ3CameraTypeOrthographic)
-		{
-		Q3OrthographicCamera_GetData(theCamera, &orthographicData);
-		glOrtho(orthographicData.left,   orthographicData.right,
-				orthographicData.bottom, orthographicData.top,
-				cameraRange.hither,      cameraRange.yon);
-		}
-
-
-	// All other cameras are handled with the view->frustum matrix
-	else
-		{
-		GLUtils_ConvertMatrix4x4(&viewToFrustum, glMatrixViewport);
-	
-		glMatrixViewport[0]  *=   cameraRange.yon;
-		glMatrixViewport[5]  *=   cameraRange.yon;
-		glMatrixViewport[10] *= -(cameraRange.yon + cameraRange.hither);
-		glMatrixViewport[11] *=   cameraRange.yon;
-		glMatrixViewport[14] *= -(cameraRange.yon * 2.0f);
-	
-		glMultMatrixf(glMatrixViewport);
-		}
+	glLoadMatrixf(glMatrix);
 }
 
 

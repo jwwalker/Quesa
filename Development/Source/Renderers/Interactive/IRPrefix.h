@@ -92,7 +92,6 @@ typedef struct TQ3TransparentPrim {
 	float					zMin;
 	float					zMax;
 	TQ3Vector3D				cameraSide;
-	TQ3Point3D				cameraWorld;
 	TQ3Boolean				planeIsValid;
 	float					planeConstant;
 
@@ -173,6 +172,8 @@ typedef struct TQ3InteractiveData {
 	TQ3OrientationStyle		stateOrientation;
 	TQ3Point3D				stateLocalCameraPosition;
 	TQ3Vector3D				stateLocalCameraViewVector;
+	TQ3Matrix4x4			stateMatrixLocalToCamera;
+	TQ3Matrix4x4			stateMatrixCameraToFrustum;
 	TQ3ColorRGB				stateDefaultDiffuseColour;
 	TQ3ColorRGB				stateDefaultSpecularColour;
 	TQ3ColorRGB				stateDefaultTransparencyColour;

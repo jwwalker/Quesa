@@ -230,6 +230,10 @@ ir_interactive_matrix(TQ3XMethodType methodType)
 		case kQ3XMethodTypeRendererUpdateMatrixLocalToCamera:
 			theMethod = (TQ3XFunctionPointer) IRRenderer_Update_Matrix_LocalToCamera;
 			break;
+
+		case kQ3XMethodTypeRendererUpdateMatrixCameraToFrustum:
+			theMethod = (TQ3XFunctionPointer) IRRenderer_Update_Matrix_CameraToFrustum;
+			break;
 		}
 	
 	return(theMethod);

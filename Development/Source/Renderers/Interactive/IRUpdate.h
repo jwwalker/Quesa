@@ -70,6 +70,11 @@ TQ3Status			IRRenderer_Update_Matrix_LocalToCamera(
 								TQ3InteractiveData		*instanceData,
 								TQ3Matrix4x4			*theMatrix);
 
+TQ3Status			IRRenderer_Update_Matrix_CameraToFrustum(
+								TQ3ViewObject			theView,
+								TQ3InteractiveData		*instanceData,
+								TQ3Matrix4x4			*theMatrix);
+
 TQ3Status			IRRenderer_Update_Style_Interpolation(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,

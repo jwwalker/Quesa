@@ -43,7 +43,6 @@
 #include "IRLights.h"
 
 #include "GLPrefix.h"
-#include "GLCamera.h"
 #include "GLDrawContext.h"
 #include "GLUtils.h"
 
@@ -222,15 +221,10 @@ IRRenderer_StartPass(TQ3ViewObject			theView,
 
 
 
-	// Set up the projection transform
-	GLCamera_SetProjection(theCamera);
-
-
-
 	// Prepare for another pass
 	IRRenderer_State_StartPass(instanceData,  theView);
 	IRRenderer_Lights_StartPass(instanceData, theCamera, theLights);
-	IRTransBuffer_StartPass(instanceData, theCamera);
+	IRGeometry_StartPass(instanceData, theCamera);
 
 	return(kQ3Success);
 }
