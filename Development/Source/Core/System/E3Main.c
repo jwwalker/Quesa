@@ -1710,7 +1710,18 @@ E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet)
 TQ3Status
 E3Shape_SetSet(TQ3ShapeObject theShape, TQ3SetObject theSet)
 {
-	return E3Object_AddElement( theShape, kQ3ElementTypeSet, &theSet );
+	TQ3Status	q3status;
+	
+	if (theSet == NULL)
+	{
+		q3status = E3Object_ClearElement( theShape, kQ3ElementTypeSet );
+	}
+	else
+	{
+		q3status = E3Object_AddElement( theShape, kQ3ElementTypeSet, &theSet );
+	}
+	
+	return q3status;
 }
 
 
