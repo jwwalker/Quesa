@@ -645,7 +645,7 @@ e3drawcontext_mac_normalizeport(TQ3DrawContextObject theDrawContext)
 
 	// Get the port bounds
 	if (instanceData->data.macData.theData.window != NULL)
-		thePort = GetWindowPort(instanceData->data.macData.theData.window);
+		thePort = GetWindowPort((WindowRef) instanceData->data.macData.theData.window);
 	else
 		thePort = instanceData->data.macData.theData.grafPort;
 
