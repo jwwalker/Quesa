@@ -1251,8 +1251,8 @@ static TQ3Boolean
 e3group_display_acceptobject(TQ3GroupObject group, TQ3Object object)
 {
 #pragma unused (group)
-	return Q3Object_IsDrawable( object ) &&
-		(Q3Object_GetType (object) == kQ3ObjectTypeShared);
+	return (TQ3Boolean) (Q3Object_IsDrawable( object ) &&
+		(Q3Object_GetType (object) == kQ3ObjectTypeShared));
 }
 
 
@@ -1606,7 +1606,7 @@ e3group_display_ordered_getfirstpositionoftype(TQ3GroupObject group, TQ3ObjectTy
 		// Search later lists if appropriate
 		if ( (theIndex == kQ3XOrderIndex_All) && (theStatus == kQ3Failure) )
 		{
-			for (theIndex = kQ3XOrderIndex_First + 1; (theIndex <= kQ3XOrderIndex_Last) &&
+			for (theIndex = (TQ3XOrderIndex)(kQ3XOrderIndex_First + 1); (theIndex <= kQ3XOrderIndex_Last) &&
 				(theStatus == kQ3Failure); ++theIndex)
 			{
 				theStatus = e3group_display_ordered_findfirsttypeonlist( instanceData,
@@ -1647,7 +1647,7 @@ e3group_display_ordered_getlastpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 		// Search earlier lists if appropriate
 		if ( (theIndex == kQ3XOrderIndex_All) && (theStatus == kQ3Failure) )
 		{
-			for (theIndex = kQ3XOrderIndex_Last - 1; (theIndex >= kQ3XOrderIndex_First) &&
+			for (theIndex = (TQ3XOrderIndex)(kQ3XOrderIndex_Last - 1); (theIndex >= kQ3XOrderIndex_First) &&
 				(theStatus == kQ3Failure); --theIndex)
 			{
 				theStatus = e3group_display_ordered_findlasttypeonlist( instanceData,

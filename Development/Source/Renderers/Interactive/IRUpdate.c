@@ -2210,7 +2210,7 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 			fsaaLevel = 0;
 
 		if (!aglSetInteger(instanceData->glContext, ATI_FSAA_SAMPLES, &fsaaLevel))
-			instanceData->glATIAvailableFSAA = false;
+			instanceData->glATIAvailableFSAA = kQ3False;
 		}
 
 	#endif

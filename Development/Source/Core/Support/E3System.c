@@ -213,7 +213,7 @@ E3System_Bottleneck(void)
 	// Decide if we need to clear - we do a bitwise or rather than a logical
 	// or, to avoid C short-cutting the expression and to give us a single
 	// branch for the most common case rather than four tests.
-	needToClear = (theGlobals->errMgrClearError   | theGlobals->errMgrClearWarning |
+	needToClear = (TQ3Boolean)(theGlobals->errMgrClearError   | theGlobals->errMgrClearWarning |
 				   theGlobals->errMgrClearNotice  | theGlobals->errMgrClearPlatform);
 
 
