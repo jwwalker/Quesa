@@ -108,9 +108,9 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 	Rect						portRect, visRect, contentRect;
 	TQ3MacDrawContext2DLibrary	theLibrary;
 	GDHandle					theDevice;
-	TQ3Boolean					isActive;
 	WindowRef					theWindow;
-	RgnHandle					visRgn;				// visible region of window
+	TQ3Boolean					isActive;
+	RgnHandle					visRgn;
 
 
 
@@ -367,12 +367,12 @@ static TQ3XDrawContextValidation
 e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
 	E3GlobalsPtr				theGlobals = E3Globals_Get();
-	TQ3MacDrawContext2DLibrary	theLibrary;
 	Rect						windowRect, paneRect;
 	TQ3XDrawContextValidation	stateChanges;
+	TQ3MacDrawContext2DLibrary	theLibrary;
 	WindowRef					theWindow;
-	RgnHandle					visRgn;				// visible region of window
-
+	RgnHandle					visRgn;
+	
 
 
 	// If a Display Manager notification has occurred, reset everything
@@ -581,6 +581,9 @@ static TQ3Status
 e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3DrawContextUnionData			*instanceData = (TQ3DrawContextUnionData *) privateData;
 	const TQ3MacDrawContextData		*macData      = (const TQ3MacDrawContextData *) paramData;
+	Rect							windowRect, paneRect;
+	TQ3MacDrawContext2DLibrary		theLibrary;
+	WindowRef						theWindow;
 #pragma unused(theObject)
 
 
@@ -588,6 +591,37 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 	// Initialise our instance data
 	instanceData->data.macData.theData = *macData;
 	instanceData->data.macData.visRgn  = NewRgn();
+
+
+
+	// Save the initial window bounds and visible region, watching out for
+	// people who specified QuickDraw when they really wanted a window.
+	theLibrary = instanceData->data.macData.theData.library;
+	if (theLibrary == kQ3Mac2DLibraryQuickDraw            &&
+		instanceData->data.macData.theData.window != NULL &&
+		instanceData->data.macData.theData.window == (CWindowPtr)instanceData->data.macData.theData.grafPort)
+		theLibrary = kQ3Mac2DLibraryNone;
+
+	if (theLibrary == kQ3Mac2DLibraryNone)
+		{
+		// Grab the window
+		theWindow  = (WindowRef) instanceData->data.macData.theData.window;
+
+
+		// Save the window bounds
+		GetWindowBounds(theWindow, kWindowContentRgn, &windowRect);
+		if (instanceData->data.common.paneState)
+			{
+			E3Area_ToRect(&instanceData->data.common.pane, &paneRect);
+			OffsetRect(&paneRect, windowRect.left, windowRect.top);
+			windowRect = paneRect;
+			}
+		instanceData->data.macData.windowRect = windowRect;
+
+
+		// Save the window visible region
+		GetPortVisibleRegion(GetWindowPort(theWindow), instanceData->data.macData.visRgn);
+		}
 
 
 
