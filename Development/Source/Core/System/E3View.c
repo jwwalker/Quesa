@@ -675,7 +675,7 @@ e3view_bounds_box_approx(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 poi
 	
 
 	// Accumulate the bounding box
-	Q3BoundingBox_Union(&localBounds, &instanceData->boundingBox, &instanceData->boundingBox);
+	Q3BoundingBox_Union(&transformedBounds, &instanceData->boundingBox, &instanceData->boundingBox);
 }
 
 
@@ -1089,7 +1089,7 @@ e3view_pick_begin(TQ3ViewObject theView, TQ3PickObject thePick)
 
 		windowPoint3D.x = windowPoint.x;
 		windowPoint3D.y = windowPoint.y;
-		windowPoint3D.z = 0.0;
+		windowPoint3D.z = 0.0f;
 		
 
 
