@@ -2308,6 +2308,12 @@ E3Point2D_Transform(const TQ3Point2D *point2D, const TQ3Matrix3x3 *matrix3x3,
 	neww = x*M(0,2) + y*M(1,2) + M(2,2);
 	#undef M
 
+	if (neww == 0.0f)
+	{
+		E3ErrorManager_PostError( kQ3ErrorInfiniteRationalPoint, kQ3False );
+		neww = 1.0f;
+	}
+
 	if (neww != 1.0f)
 	{
 		float invw = 1.0f / neww;
@@ -2387,6 +2393,12 @@ E3Point3D_Transform(const TQ3Point3D *point3D, const TQ3Matrix4x4 *matrix4x4,
 	result->z = x*M(0,2) + y*M(1,2) + z*M(2,2) + M(3,2);
 	neww = x*M(0,3) + y*M(1,3) + z*M(2,3) + M(3,3);
 	#undef M
+
+	if (neww == 0.0f)
+	{
+		E3ErrorManager_PostError( kQ3ErrorInfiniteRationalPoint, kQ3False );
+		neww = 1.0f;
+	}
 
 	if (neww != 1.0f)
 	{
