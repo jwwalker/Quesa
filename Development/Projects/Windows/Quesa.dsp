@@ -24,7 +24,8 @@ CFG=Quesa - Win32 Debug
 # Begin Project
 # PROP AllowPerConfigDependencies 0
 # PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
+# PROP Scc_LocalPath "Desktop"
+# PROP WCE_FormatVersion ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -43,7 +44,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32_EXPORTING" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QUESA_EXPORTS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../../SDK/Includes/Apple" /I "../../../SDK/Includes/Quesa" /FI"E3WindowsPrefix.h" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "WIN32_EXPORTING" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../../SDK/Includes/Apple" /I "../../../SDK/Includes/Quesa" /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers" /I "../../Source/FileFormats/Writers" /FI"E3WindowsPrefix.h" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "WIN32_EXPORTING" /YX /FD /c
 # SUBTRACT CPP /Fr
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -58,7 +59,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy    ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll    c:\winnt\system32\ 
+PostBuild_Cmds=copy     ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll     c:\winnt\system32\ 
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Quesa - Win32 Debug"
@@ -75,7 +76,7 @@ PostBuild_Cmds=copy    ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll    c:\wi
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32_EXPORTING" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QUESA_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../../SDK/Includes/Apple" /I "../../../SDK/Includes/Quesa" /FI"E3WindowsPrefix.h" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "WIN32_EXPORTING" /FR /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../../SDK/Includes/Apple" /I "../../../SDK/Includes/Quesa" /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers/3dmf" /I "../../Source/FileFormats/Writers/3dmf" /FI"E3WindowsPrefix.h" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "WIN32_EXPORTING" /FR /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -89,7 +90,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy    ..\..\..\SDK\Libraries\Windows\Debug\Quesa.dll    c:\winnt\system32\ 
+PostBuild_Cmds=copy     ..\..\..\SDK\Libraries\Windows\Debug\Quesa.dll     c:\winnt\system32\ 
 # End Special Build Tool
 
 !ENDIF 
@@ -349,18 +350,6 @@ SOURCE=..\..\Source\Core\System\E3Extension.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Source\Core\System\E3FFormat_3DMF.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\Source\Core\System\E3FFormat_3DMF_Bin.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\Source\Core\System\E3FFormat_3DMF_Text.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\Source\Core\System\E3Group.c
 # End Source File
 # Begin Source File
@@ -370,10 +359,6 @@ SOURCE=..\..\Source\Core\System\E3IO.c
 # Begin Source File
 
 SOURCE=..\..\Source\Core\System\E3IOData.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\Source\Core\System\E3IOFileFormat.c
 # End Source File
 # Begin Source File
 
@@ -390,10 +375,6 @@ SOURCE=..\..\Source\Core\System\E3Math.c
 # Begin Source File
 
 SOURCE=..\..\Source\Core\System\E3Pick.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\Source\Core\System\E3Read_3DMF.c
 # End Source File
 # Begin Source File
 
@@ -430,10 +411,6 @@ SOURCE=..\..\Source\Core\System\E3Transform.c
 # Begin Source File
 
 SOURCE=..\..\Source\Core\System\E3View.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\Source\Core\System\E3Write_3DMF.c
 # End Source File
 # End Group
 # End Group
@@ -477,11 +454,11 @@ SOURCE=..\..\Source\Renderers\Common\GLCamera.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Source\Renderers\Common\GLUtils.c
+SOURCE=..\..\Source\Renderers\Common\GLDrawContext.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Source\Renderers\Common\GLDrawContext.c
+SOURCE=..\..\Source\Renderers\Common\GLUtils.c
 # End Source File
 # End Group
 # Begin Group "Generic"
@@ -544,6 +521,59 @@ SOURCE=..\..\Source\Renderers\Wireframe\WFRenderer.c
 SOURCE=..\..\Source\Renderers\Wireframe\WFUpdate.c
 # End Source File
 # End Group
+# End Group
+# Begin Group "FileFormats"
+
+# PROP Default_Filter ""
+# Begin Group "Readers"
+
+# PROP Default_Filter ""
+# Begin Group "3dmf"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF_Bin.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF_Geometry.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF_Text.c
+# End Source File
+# End Group
+# End Group
+# Begin Group "Writers"
+
+# PROP Default_Filter ""
+# Begin Group "3dm"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\Source\FileFormats\Writers\3DMF\E3FFW_3DMFBin_Geometry.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\FileFormats\Writers\3DMF\E3FFW_3DMFBin_Register.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\FileFormats\Writers\3DMF\E3FFW_3DMFBin_Writer.c
+# End Source File
+# End Group
+# End Group
+# Begin Source File
+
+SOURCE=..\..\Source\FileFormats\E3IOFileFormat.c
+# ADD CPP /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers" /I "../../Source/FileFormats/Writers"
+# End Source File
 # End Group
 # End Group
 # End Target
