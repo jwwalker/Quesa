@@ -48,7 +48,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+#if OS_WIN32
+#endif
 //=============================================================================
 //      Internal Types
 //-----------------------------------------------------------------------------
@@ -191,8 +192,8 @@ static TQ3ObjectType sRegisteredType;	// global variable to hold the
 									// signature assigned by Quesa at register time
 static TQ3XObjectClass sRegisteredClass;
 
-static const TQ3Int32 kCameraHint = -2;
-static const TQ3Int32 kLightHint = -1;
+#define kCameraHint  -2
+#define kLightHint  -1
 
 
 //=============================================================================
@@ -314,11 +315,11 @@ deletePointsPolygonData (TpointsPolygonData *pointsPolygons)
 //      parse3DSChunk : recursively parses the file.
 //-----------------------------------------------------------------------------
 static TQ3Boolean
-parse3DSChunk (TQ3FileObject theFile, TQ3Int32 endPos, TparamData *paramData)
+parse3DSChunk (TQ3FileObject theFile, TQ3Uns32 endPos, TparamData *paramData)
 {
 	char buffer[128];
 
-	TQ3Int32 curPos;
+	TQ3Uns32 curPos;
 
 	TQ3Int16 chunkID;
 	TQ3Int32 chunkLength;
@@ -860,7 +861,7 @@ parse3DStudioCallback (TobjectManagerCmd cmd, void *cmdData, void *userData)
 		break;
 #endif
 	case kNewPointsPolygon: {
-			int t;
+			unsigned int t;
 			TpointsPolygonData *polygonData = (TpointsPolygonData *)cmdData;
 			TQ3TriMeshData triMeshData;
 			TQ3GeometryObject triMesh;
@@ -1200,7 +1201,6 @@ e3fformat_3ds_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 //      e3fformat_3ds_runtime_registerclass : Register the classes.
 //-----------------------------------------------------------------------------
-#pragma mark -
 static void
 e3fformat_3ds_runtime_registerclass(void)
 {
@@ -1248,7 +1248,6 @@ e3fformat_3ds_runtime_unregisterclass(void)
 //-----------------------------------------------------------------------------
 //      E3FFormat_Sample_Reader_RegisterClass : Register the classes.
 //-----------------------------------------------------------------------------
-#pragma mark -
 #if ((defined QUESA_REGISTER_BUILTIN_PLUGINS) && (QUESA_REGISTER_BUILTIN_PLUGINS == 0)) 
 TQ3Status
 E3FFormat_3ds_Reader_RegisterClass(void)
@@ -1324,4 +1323,31 @@ E3FFormat_3ds_Reader_Exit(void)
 
 #endif
 
+//=============================================================================
+//      DllMain : DLL exit point for Windows.
+//-----------------------------------------------------------------------------
+#if OS_WIN32
+BOOL APIENTRY
+DllMain( HANDLE hModule, 
+                       DWORD  ul_reason_for_call, 
+                       LPVOID lpReserved
+					 )
+{
+    switch (ul_reason_for_call)
+	{
+		case DLL_PROCESS_ATTACH:
+			e3fformat_3ds_runtime_registerclass();
+			
+			if(sRegisteredClass == NULL)
+			{
+				return FALSE;
+			}
+			break;
+		case DLL_PROCESS_DETACH:
+			e3fformat_3ds_runtime_unregisterclass();
+			break;
+    }
+    return TRUE;
+}
 
+#endif
