@@ -291,7 +291,7 @@ e3geom_pixmapmarker_update_position(TQ3ViewObject theView, const TQ3PixmapMarker
 	// a rasterise camera transform produces z values from 0..1 (near..far)
 	// we need to invert z to place the marker at the correct depth.
 	theOffset.x =  thePoint.x + geomData->xOffset;
-	theOffset.y =  thePoint.y + geomData->xOffset;
+	theOffset.y =  thePoint.y + geomData->yOffset;
 	theOffset.z = -thePoint.z;
 
 	Q3TranslateTransform_Set(theTransform, &theOffset);
