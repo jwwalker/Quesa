@@ -264,16 +264,25 @@ Q3Geometry_Submit(TQ3GeometryObject geometry, TQ3ViewObject view)
 TQ3Object
 Q3Geometry_GetDecomposed(TQ3GeometryObject geometry, TQ3ViewObject view)
 {
-	TQ3Object	decomposed = NULL;
-	
-	
-	
+
+
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(geometry->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, kQ3ShapeTypeGeometry), NULL);
 	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), NULL);
-	
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on geometry
+		return(kQ3Failure);
+
+	if (0) // Further checks on view
+		return(kQ3Failure);
+#endif
+
 
 
 	// Call the bottleneck
@@ -282,19 +291,17 @@ Q3Geometry_GetDecomposed(TQ3GeometryObject geometry, TQ3ViewObject view)
 
 
 	// Call our implementation
-	decomposed = E3Geometry_GetDecomposed( geometry, view );
-
-
-
-	return decomposed;
+	return(E3Geometry_GetDecomposed(geometry, view));
 }
 
 
 
-#pragma mark -
+
+
 //=============================================================================
 //      Q3Box_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3GeometryObject
 Q3Box_New(const TQ3BoxData *boxData)
 {
