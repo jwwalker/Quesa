@@ -66,7 +66,7 @@ extern "C" {
 //      Types
 //-----------------------------------------------------------------------------
 // Geometry data
-class E3Geometry : public TQ3ShapeData
+class E3Geometry : public E3ShapeData
 	{
 	TQ3Uns32					cameraEditIndex;
 	TQ3SubdivisionStyleData		styleSubdivision;

@@ -54,6 +54,48 @@
 
 
 //=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+	
+
+
+class E3LightGroup : public E3Group // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3InfoGroup : public E3Group // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3IOProxyDisplayGroup : public E3DisplayGroup // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3group_new : Group new method.
@@ -2472,21 +2514,21 @@ E3Group_RegisterClass(void)
 												kQ3DisplayGroupTypeIOProxy,
 												kQ3ClassNameGroupDisplayIOProxy,
 												e3group_display_ioproxy_metahandler,
-												~sizeof(E3DisplayGroup));
+												~sizeof(E3IOProxyDisplayGroup));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
 												kQ3GroupTypeLight,
 												kQ3ClassNameGroupLight,
 												e3group_light_metahandler,
-												~sizeof(E3Group));
+												~sizeof(E3LightGroup));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
 												kQ3GroupTypeInfo,
 												kQ3ClassNameGroupInfo,
 												e3group_info_metahandler,
-												~sizeof(E3Group));
+												~sizeof(E3InfoGroup));
 
 	return(qd3dStatus);
 }

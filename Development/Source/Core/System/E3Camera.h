@@ -69,7 +69,7 @@ extern "C" {
 
 
 
-class E3Camera : public TQ3ShapeData
+class E3Camera : public E3ShapeData
 	{
 protected :
 

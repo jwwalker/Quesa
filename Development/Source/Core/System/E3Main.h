@@ -90,7 +90,7 @@ public :
 
 
 
-class TQ3ShapeData : public TQ3SharedData
+class E3ShapeData : public TQ3SharedData
 	{
 	// Currently empty
 	} ;

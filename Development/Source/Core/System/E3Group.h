@@ -119,7 +119,7 @@ typedef struct TQ3XGroupPosition { // 12 bytes overhead per object in a group
 } TQ3XGroupPosition;
 
 
-class E3Group : public TQ3ShapeData
+class E3Group : public E3ShapeData
 	{ // 16 bytes overhead per group
 // initialised in e3group_new
 	TQ3XGroupPosition						listHead ;
