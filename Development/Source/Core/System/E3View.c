@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2003, Quesa Developers.
+        Quesa Copyright © 1999-2004, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         
@@ -98,6 +98,16 @@ typedef enum TQ3ViewStackState TQ3ViewStackState;
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+
+
+typedef Q3_CALLBACK_API_C(TQ3Status,	E3ObjectSubmitRetained)(TQ3ViewObject		theView,
+																TQ3Object			theObject) ;
+typedef Q3_CALLBACK_API_C(TQ3Status,	E3ObjectSubmitImmediate)(TQ3ViewObject		theView,
+																TQ3ObjectType		objectType,
+																const void			*objectData) ;
+
+
+
 // Stack data
 typedef struct TQ3ViewStackItem {
 	// Next stack item
@@ -143,6 +153,8 @@ typedef struct TQ3ViewData {
 	// View state
 	TQ3ViewMode					viewMode;
 	TQ3ViewState				viewState;
+	E3ObjectSubmitRetained		submitRetainedMethod ;
+	E3ObjectSubmitImmediate		submitImmediateMethod ;
 	TQ3Uns32					viewPass;
 	TQ3AttributeSet				viewAttributes;
 	TQ3Boolean					allowGroupCulling;
@@ -189,8 +201,23 @@ typedef struct TQ3ViewData {
 	const void					*endFrameData;
 } TQ3ViewData;
 
+//=============================================================================
+//      Internal function prototypes.
+//-----------------------------------------------------------------------------
 
+static TQ3Status e3View_SubmitRetained_Error ( TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitRetained_Render ( TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitRetained_Pick ( TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitRetained_Write ( TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitRetained_Bounds ( TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitRetained_BadMode ( TQ3ViewObject theView , TQ3Object theObject ) ;
 
+static TQ3Status e3View_SubmitImmediate_Error ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+static TQ3Status e3View_SubmitImmediate_Render ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+static TQ3Status e3View_SubmitImmediate_Pick ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+static TQ3Status e3View_SubmitImmediate_Write ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+static TQ3Status e3View_SubmitImmediate_Bounds ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+static TQ3Status e3View_SubmitImmediate_BadMode ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
 
 
 //=============================================================================
@@ -830,6 +857,36 @@ e3view_submit_begin(TQ3ViewObject theView, TQ3ViewMode viewMode)
 		instanceData->viewMode  = viewMode;
 		instanceData->viewState = kQ3ViewStateSubmitting;
 		instanceData->viewPass  = 1;
+		
+		// Find the appropriate submit method
+		switch ( viewMode )
+			{
+			case kQ3ViewModeDrawing:
+				instanceData->submitRetainedMethod = e3View_SubmitRetained_Render ;
+				instanceData->submitImmediateMethod = e3View_SubmitImmediate_Render ;
+				break;
+
+			case kQ3ViewModePicking:
+				instanceData->submitRetainedMethod = e3View_SubmitRetained_Pick ;
+				instanceData->submitImmediateMethod = e3View_SubmitImmediate_Pick ;
+				break;
+
+			case kQ3ViewModeWriting:
+				instanceData->submitRetainedMethod = e3View_SubmitRetained_Write ;
+				instanceData->submitImmediateMethod = e3View_SubmitImmediate_Write ;
+				break;
+
+			case kQ3ViewModeCalcBounds:
+				instanceData->submitRetainedMethod = e3View_SubmitRetained_Bounds ;
+				instanceData->submitImmediateMethod = e3View_SubmitImmediate_Bounds ;
+				break;
+
+			default:
+				instanceData->submitRetainedMethod = e3View_SubmitRetained_BadMode ;
+				instanceData->submitImmediateMethod = e3View_SubmitImmediate_BadMode ;
+				break;
+			}
+
 		}
 
 	else if (instanceData->viewState == kQ3ViewStateSubmitting)
@@ -855,6 +912,8 @@ e3view_submit_begin(TQ3ViewObject theView, TQ3ViewMode viewMode)
 		{
 		instanceData->viewMode  = kQ3ViewModeInactive;
 		instanceData->viewState = kQ3ViewStateInactive;
+		instanceData->submitRetainedMethod = (E3ObjectSubmitRetained) e3View_SubmitRetained_Error ;
+		instanceData->submitImmediateMethod = e3View_SubmitImmediate_Error ;
 		instanceData->viewPass  = 0;
 		e3view_stack_pop_clean(theView);
 		}
@@ -964,6 +1023,8 @@ e3view_submit_end(TQ3ViewObject theView, TQ3ViewStatus submitStatus)
 	else
 		{
 		instanceData->viewState = kQ3ViewStateInactive;
+		instanceData->submitRetainedMethod = (E3ObjectSubmitRetained) e3View_SubmitRetained_Error ;
+		instanceData->submitImmediateMethod = e3View_SubmitImmediate_Error ;
 		instanceData->viewPass  = 0;
 		}
 
@@ -971,98 +1032,6 @@ e3view_submit_end(TQ3ViewObject theView, TQ3ViewStatus submitStatus)
 
 	// Return the view status
 	return(viewStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      e3view_submit_object : Submit an object to a view.
-//-----------------------------------------------------------------------------
-//		Note :	We dispatch to the appropriate submit routine for the object,
-//				given the current submitting loop.
-//
-//				The leaf type must be explicitly passed in through the
-//				objectType parameter, to allow 'objects' to be submitted in
-//				immediate mode (in which case theObject will be NULL).
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3view_submit_object(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3ViewData					*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3XObjectSubmitMethod		submitMethod;
-	TQ3Status					qd3dStatus;
-	E3ClassInfoPtr				theClass;
-
-
-
-	// Find the object class
-	theClass = E3ClassTree_GetClassByType(objectType);
-	if (theClass == NULL)
-		{
-		E3ErrorManager_PostError(kQ3ErrorInvalidObjectClass, kQ3False);
-		return(kQ3Failure);
-		}
-
-
-
-	// Find the appropriate submit method
-	submitMethod = NULL;
-	switch (instanceData->viewMode) {
-		case kQ3ViewModeDrawing:
-			submitMethod = (TQ3XObjectSubmitMethod)
-							E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectSubmitRender);
-			break;
-
-		case kQ3ViewModePicking:
-			submitMethod = (TQ3XObjectSubmitMethod)
-							E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectSubmitPick);
-			break;
-
-		case kQ3ViewModeWriting:
-			submitMethod = (TQ3XObjectSubmitMethod)
-							E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectSubmitWrite);
-			break;
-
-		case kQ3ViewModeCalcBounds:
-			submitMethod = (TQ3XObjectSubmitMethod)
-							E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectSubmitBounds);
-			break;
-
-		default:
-			Q3_ASSERT(!"Unrecognised view mode");
-			E3ErrorManager_PostError(kQ3ErrorUnsupportedFunctionality, kQ3False);
-			return(kQ3Failure);
-			break;
-		}
-
-
-
-	// If we're picking, update the current hit target. We only do this if we are not
-	// within a decomposed object, as we want to track the object submitted by the
-	// application and not any sub-objects which are submitted to calculate the pick
-	// for that top-level object.
-	if (instanceData->viewMode == kQ3ViewModePicking && instanceData->pickDecomposeCount == 0)
-		E3View_PickStack_SaveObject(theView, theObject);
-
-
-
-	// Call the method
-	if (submitMethod != NULL)
-		qd3dStatus = submitMethod(theView, objectType, theObject, objectData);
-	else
-		qd3dStatus = kQ3Success;
-
-
-
-	// If we're picking, reset the current hit target. Not strictly necessary (since we
-	// will release our reference on the next object or at the end of the picking loop)
-	// but this helps keep our internal state easily debuggable (the tracked object
-	// should always be NULL except when a pick submit method is invoked).
-	if (instanceData->viewMode == kQ3ViewModePicking && instanceData->pickDecomposeCount == 0)
-		E3View_PickStack_SaveObject(theView, NULL);
-	
-	return(qd3dStatus);
 }
 
 
@@ -1302,6 +1271,9 @@ e3view_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
+	instanceData->submitRetainedMethod = e3View_SubmitRetained_Error ;
+	instanceData->submitImmediateMethod = e3View_SubmitImmediate_Error ;
+	
 	instanceData->viewAttributes = Q3AttributeSet_New();
 	if (instanceData->viewAttributes != NULL)
 		{
@@ -1560,48 +1532,156 @@ E3View_UnregisterClass(void)
 
 
 //=============================================================================
-//      E3View_SubmitRetained : Submit an object to a view.
+//      e3View_SubmitRetained_Error : viewState != kQ3ViewStateSubmitting.
 //-----------------------------------------------------------------------------
 #pragma mark -
-TQ3Status
-E3View_SubmitRetained(TQ3ViewObject theView, TQ3Object theObject)
-{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3Status			qd3dStatus = kQ3Success;
-	TQ3Error			theError;
-	TQ3ObjectEventCallback	eventCallback;
-
-
-
-	// Make sure we're in the correct state
-	if (instanceData->viewState != kQ3ViewStateSubmitting)
+static TQ3Status
+e3View_SubmitRetained_Error(TQ3ViewObject theView, TQ3Object theObject)
+	{
+	TQ3ViewData* instanceData = (TQ3ViewData*) theView->instanceData ;
+	TQ3Error theError ;
+	
+ 	// We get called is app writer tries to submit when viewState != kQ3ViewStateSubmitting
+ 	// Error, decide which error to post
+	switch (instanceData->viewMode)
 		{
-		switch (instanceData->viewMode) {
-			case kQ3ViewModeDrawing:
-				theError = kQ3ErrorRenderingNotStarted;
-				break;
-			case kQ3ViewModePicking:
-				theError = kQ3ErrorPickingNotStarted;
-				break;
-			case kQ3ViewModeWriting:
-				theError = kQ3ErrorWriteStateInactive;
-				break;
-			case kQ3ViewModeCalcBounds:
-				theError = kQ3ErrorBoundsNotStarted;
-				break;
-			default:
-				theError = kQ3ErrorViewNotStarted;
-				break;
-			}
-
-		E3ErrorManager_PostError(theError, kQ3False);
-		return(kQ3Failure);
+		case kQ3ViewModeDrawing:
+			theError = kQ3ErrorRenderingNotStarted;
+			break;
+		case kQ3ViewModePicking:
+			theError = kQ3ErrorPickingNotStarted;
+			break;
+		case kQ3ViewModeWriting:
+			theError = kQ3ErrorWriteStateInactive;
+			break;
+		case kQ3ViewModeCalcBounds:
+			theError = kQ3ErrorBoundsNotStarted;
+			break;
+		default:
+			theError = kQ3ErrorViewNotStarted;
+			Q3_ASSERT(!"Unrecognised view mode");
+			E3ErrorManager_PostError(kQ3ErrorUnsupportedFunctionality, kQ3False);
+			return kQ3Failure ;
+			break;
 		}
 
+	E3ErrorManager_PostError(theError, kQ3False);
+	return(kQ3Failure);
+	}
+	
+
+//=============================================================================
+//      e3View_SubmitRetained_Pick : viewMode == kQ3ViewModePicking.
+//-----------------------------------------------------------------------------
+TQ3Status
+e3View_SubmitRetained_Pick(TQ3ViewObject theView, TQ3Object theObject)
+	{
+	TQ3ViewData* instanceData = (TQ3ViewData*) theView->instanceData ;
+	TQ3Status				qd3dStatus = kQ3Success;
+	TQ3XObjectSubmitMethod	submitMethod ;
+	E3ClassInfoPtr			theClass = theObject->theClass ;
+
+	submitMethod = (TQ3XObjectSubmitMethod)
+							E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectSubmitPick);
 
 
+	// Update the current hit target. We only do this if we are not
+	// within a decomposed object, as we want to track the object submitted by the
+	// application and not any sub-objects which are submitted to calculate the pick
+	// for that top-level object.
+	if (instanceData->pickDecomposeCount == 0)
+		E3View_PickStack_SaveObject(theView, theObject);
+		
+	// Call the method
+	if (submitMethod != NULL)
+		qd3dStatus = submitMethod(theView, E3ClassTree_GetType(theClass), theObject, theObject->instanceData );
+
+
+	// Reset the current hit target. Not strictly necessary (since we
+	// will release our reference on the next object or at the end of the picking loop)
+	// but this helps keep our internal state easily debuggable (the tracked object
+	// should always be NULL except when a pick submit method is invoked).
+	if ( instanceData->pickDecomposeCount == 0 )
+		E3View_PickStack_SaveObject(theView, NULL);
+	
+	return(qd3dStatus);
+	}
+	
+	
+
+//=============================================================================
+//      e3View_SubmitRetained_Write : viewMode == kQ3ViewModeWriting.
+//-----------------------------------------------------------------------------
+TQ3Status
+e3View_SubmitRetained_Write(TQ3ViewObject theView, TQ3Object theObject)
+	{
+	TQ3Status				qd3dStatus;
+
+	// Find the appropriate submit method
+	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod)
+							E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodTypeObjectSubmitWrite);
+
+
+
+	// Call the method
+	if (submitMethod != NULL)
+		qd3dStatus = submitMethod(theView, E3ClassTree_GetType(theObject->theClass), theObject, theObject->instanceData);
+	else
+		qd3dStatus = kQ3Success;
+
+	return(qd3dStatus);
+	}
+	
+	
+
+//=============================================================================
+//      e3View_SubmitRetained_Bounds : viewMode == kQ3ViewModeCalcBounds.
+//-----------------------------------------------------------------------------
+TQ3Status
+e3View_SubmitRetained_Bounds(TQ3ViewObject theView, TQ3Object theObject)
+	{
+	TQ3Status				qd3dStatus ;
+
+	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod)
+							E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodTypeObjectSubmitBounds);
+	// Call the method
+	if (submitMethod != NULL)
+		qd3dStatus = submitMethod(theView, E3ClassTree_GetType(theObject->theClass), theObject, theObject->instanceData );
+	else
+		qd3dStatus = kQ3Success;
+
+	return(qd3dStatus);
+	}
+	
+	
+
+//=============================================================================
+//      e3View_SubmitRetained_BadMode : viewMode is none of the above.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3View_SubmitRetained_BadMode(TQ3ViewObject theView, TQ3Object theObject)
+	{
+	Q3_ASSERT(!"Unrecognised view mode");
+	E3ErrorManager_PostError(kQ3ErrorUnsupportedFunctionality, kQ3False);
+	return kQ3Failure ;
+	}
+	
+	
+
+
+
+//=============================================================================
+//      e3View_SubmitRetained_Render : viewMode == kQ3ViewModeDrawing.
+//-----------------------------------------------------------------------------
+TQ3Status
+e3View_SubmitRetained_Render(TQ3ViewObject theView, TQ3Object theObject)
+	{
+	TQ3Status				qd3dStatus = kQ3Success ;
+	TQ3ObjectEventCallback	eventCallback;
+	TQ3XObjectSubmitMethod	submitMethod ;
+	
 	// Call a prerender callback, if appropriate
-	if ( (instanceData->viewMode == kQ3ViewModeDrawing) &&
-		(kQ3Success == Q3Object_GetElement( theView, kQ3CallbackElementTypeBeforeRender,
+	if ( (kQ3Success == Q3Object_GetElement( theView, kQ3CallbackElementTypeBeforeRender,
 			&eventCallback )) )
 		{
 		qd3dStatus = eventCallback( theObject, kQ3CallbackElementTypeBeforeRender, theView );
@@ -1610,14 +1690,23 @@ E3View_SubmitRetained(TQ3ViewObject theView, TQ3Object theObject)
 
 
 	// Submit the object
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = e3view_submit_object(theView, E3ClassTree_GetType(theObject->theClass),
-									  theObject, theObject->instanceData);
+	if (qd3dStatus != kQ3Failure)
+		{
+		submitMethod = (TQ3XObjectSubmitMethod)
+								E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodTypeObjectSubmitRender);
+
+
+		// Call the method
+		if (submitMethod != NULL)
+			qd3dStatus = submitMethod(theView, E3ClassTree_GetType(theObject->theClass), theObject, theObject->instanceData );
+		else
+			qd3dStatus = kQ3Success;
+
+		}
 
 
 	// Call a postrender callback, if appropriate
-	if ( (qd3dStatus == kQ3Success) &&
-		(instanceData->viewMode == kQ3ViewModeDrawing) &&
+	if ( (qd3dStatus != kQ3Failure) &&
 		(kQ3Success == Q3Object_GetElement( theView, kQ3CallbackElementTypeAfterRender,
 			&eventCallback )) )
 		{
@@ -1626,55 +1715,234 @@ E3View_SubmitRetained(TQ3ViewObject theView, TQ3Object theObject)
 
 
 	return(qd3dStatus);
-}
+	}
+	
+
+//=============================================================================
+//      ee3View_SubmitRetained : Submit an object to a view.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_SubmitRetained ( TQ3ViewObject theView , TQ3Object theObject )
+	{
+	return ( (TQ3ViewData*) theView->instanceData )->submitRetainedMethod ( theView , theObject ) ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3View_SubmitImmediate : Submit an immediate mode object to a view.
+//      e3View_SubmitImmediate_Error : viewState != kQ3ViewStateSubmitting.
 //-----------------------------------------------------------------------------
-TQ3Status
-E3View_SubmitImmediate(TQ3ViewObject theView, TQ3ObjectType objectType, const void *objectData)
-{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3Status			qd3dStatus;
-	TQ3Error			theError;
+#pragma mark -
+static TQ3Status
+e3View_SubmitImmediate_Error ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData )
+	{
+	TQ3ViewData* instanceData = (TQ3ViewData*) theView->instanceData ;
+	TQ3Error theError ;
+	
+ 	// We get called is app writer tries to submit when viewState != kQ3ViewStateSubmitting
+ 	// Error, decide which error to post
+	switch (instanceData->viewMode) {
+		case kQ3ViewModeDrawing:
+			theError = kQ3ErrorRenderingNotStarted;
+			break;
+		case kQ3ViewModePicking:
+			theError = kQ3ErrorPickingNotStarted;
+			break;
+		case kQ3ViewModeWriting:
+			theError = kQ3ErrorWriteStateInactive;
+			break;
+		case kQ3ViewModeCalcBounds:
+			theError = kQ3ErrorBoundsNotStarted;
+			break;
+		default:
+			theError = kQ3ErrorViewNotStarted;
+			break;
+		}
+
+	E3ErrorManager_PostError(theError, kQ3False);
+	return(kQ3Failure);
+	}
 
 
-
-	// Make sure we're in the correct state
-	if (instanceData->viewState != kQ3ViewStateSubmitting)
+//=============================================================================
+//      e3View_SubmitImmediate_Render : viewMode == kQ3ViewModeDrawing.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3View_SubmitImmediate_Render ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData )
+	{
+	E3ClassInfoPtr			theClass ;
+	TQ3XObjectSubmitMethod	submitMethod ;
+	TQ3Status				qd3dStatus ;
+	
+	// Find the object class
+	theClass = E3ClassTree_GetClassByType(objectType);
+	if (theClass == NULL)
 		{
-		switch (instanceData->viewMode) {
-			case kQ3ViewModeDrawing:
-				theError = kQ3ErrorRenderingNotStarted;
-				break;
-			case kQ3ViewModePicking:
-				theError = kQ3ErrorPickingNotStarted;
-				break;
-			case kQ3ViewModeWriting:
-				theError = kQ3ErrorWriteStateInactive;
-				break;
-			case kQ3ViewModeCalcBounds:
-				theError = kQ3ErrorBoundsNotStarted;
-				break;
-			default:
-				theError = kQ3ErrorViewNotStarted;
-				break;
-			}
+		E3ErrorManager_PostError(kQ3ErrorInvalidObjectClass, kQ3False);
+		return(kQ3Failure);
+		}
 
-		E3ErrorManager_PostError(theError, kQ3False);
+
+	// Find the appropriate submit method
+	submitMethod = (TQ3XObjectSubmitMethod)
+							E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectSubmitRender);
+
+
+
+	// Call the method
+	if (submitMethod != NULL)
+		qd3dStatus = submitMethod(theView, objectType, nil , objectData);
+	else
+		qd3dStatus = kQ3Success;
+
+
+	return qd3dStatus ;
+	}
+
+
+//=============================================================================
+//      e3View_SubmitImmediate_Pick : viewMode == kQ3ViewModePicking.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3View_SubmitImmediate_Pick ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData )
+	{
+	TQ3ViewData* instanceData = (TQ3ViewData*) theView->instanceData ;
+	E3ClassInfoPtr			theClass ;
+	TQ3XObjectSubmitMethod	submitMethod ;
+	TQ3Status				qd3dStatus ;
+
+	// Find the object class
+	theClass = E3ClassTree_GetClassByType(objectType);
+	if (theClass == NULL)
+		{
+		E3ErrorManager_PostError(kQ3ErrorInvalidObjectClass, kQ3False);
 		return(kQ3Failure);
 		}
 
 
 
-	// Submit the object
-	qd3dStatus = e3view_submit_object(theView, objectType, NULL, objectData);
+	submitMethod = (TQ3XObjectSubmitMethod)
+							E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectSubmitPick);
 
-	return(qd3dStatus);
-}
+
+
+	// Update the current hit target. We only do this if we are not
+	// within a decomposed object, as we want to track the object submitted by the
+	// application and not any sub-objects which are submitted to calculate the pick
+	// for that top-level object.
+	if ( instanceData->pickDecomposeCount == 0 )
+		E3View_PickStack_SaveObject(theView, nil );
+
+	// Call the method
+	if (submitMethod != NULL)
+		qd3dStatus = submitMethod(theView, objectType, nil , objectData);
+	else
+		qd3dStatus = kQ3Success;
+		
+	// Reset the current hit target. Not strictly necessary (since we
+	// will release our reference on the next object or at the end of the picking loop)
+	// but this helps keep our internal state easily debuggable (the tracked object
+	// should always be NULL except when a pick submit method is invoked).
+	if ( instanceData->pickDecomposeCount == 0)
+		E3View_PickStack_SaveObject(theView, NULL);
+
+	return qd3dStatus ;
+	}
+
+
+//=============================================================================
+//      e3View_SubmitImmediate_Write : viewMode == kQ3ViewModeWriting.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3View_SubmitImmediate_Write ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData )
+	{
+	E3ClassInfoPtr			theClass ;
+	TQ3XObjectSubmitMethod	submitMethod ;
+	TQ3Status				qd3dStatus ;
+
+	// Find the object class
+	theClass = E3ClassTree_GetClassByType(objectType);
+	if (theClass == NULL)
+		{
+		E3ErrorManager_PostError(kQ3ErrorInvalidObjectClass, kQ3False);
+		return(kQ3Failure);
+		}
+
+
+
+	submitMethod = (TQ3XObjectSubmitMethod)
+							E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectSubmitWrite);
+
+
+	// Call the method
+	if (submitMethod != NULL)
+		qd3dStatus = submitMethod(theView, objectType, nil , objectData);
+	else
+		qd3dStatus = kQ3Success;
+
+
+	return qd3dStatus ;
+	}
+
+//=============================================================================
+//      e3View_SubmitImmediate_Bounds : viewMode == kQ3ViewModeCalcBounds.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3View_SubmitImmediate_Bounds ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData )
+	{
+	E3ClassInfoPtr			theClass ;
+	TQ3XObjectSubmitMethod	submitMethod ;
+	TQ3Status				qd3dStatus ;
+
+	// Find the object class
+	theClass = E3ClassTree_GetClassByType(objectType);
+	if (theClass == NULL)
+		{
+		E3ErrorManager_PostError(kQ3ErrorInvalidObjectClass, kQ3False);
+		return(kQ3Failure);
+		}
+
+
+
+	submitMethod = (TQ3XObjectSubmitMethod)
+							E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectSubmitBounds);
+
+
+	// Call the method
+	if (submitMethod != NULL)
+		qd3dStatus = submitMethod(theView, objectType, nil , objectData);
+	else
+		qd3dStatus = kQ3Success;
+
+
+	return qd3dStatus ;
+	}
+
+
+//=============================================================================
+//      e3View_SubmitImmediate_BadMode : viewMode is none of the above.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3View_SubmitImmediate_BadMode ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData )
+	{
+	Q3_ASSERT(!"Unrecognised view mode");
+	E3ErrorManager_PostError(kQ3ErrorUnsupportedFunctionality, kQ3False);
+	return(kQ3Failure);
+	}
+
+
+//=============================================================================
+//      E3View_SubmitImmediate : Submit an immediate mode object to a view.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_SubmitImmediate ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) 
+	{
+	TQ3ViewData					*instanceData = (TQ3ViewData *) theView->instanceData;
+	
+	return instanceData->submitImmediateMethod ( theView , objectType , objectData ) ;
+	}
 
 
 
@@ -3231,6 +3499,8 @@ E3View_Cancel(TQ3ViewObject theView)
 	else
 		{
 		instanceData->viewState = kQ3ViewStateCancelled;
+		instanceData->submitRetainedMethod = e3View_SubmitRetained_Error ;
+		instanceData->submitImmediateMethod = e3View_SubmitImmediate_Error ;
 		qd3dStatus = kQ3Success;
 		}
 
@@ -4955,14 +5225,10 @@ E3Pop_New(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3StateOperator_Submit(TQ3StateOperatorObject stateOperator, TQ3ViewObject theView)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Submit the object to the view
-	qd3dStatus = E3View_SubmitRetained(theView, stateOperator);
-
-	return(qd3dStatus);
-}
+	
+	return ( (TQ3ViewData*) theView->instanceData )->submitRetainedMethod ( theView , stateOperator ) ;
+	}
 
 
