@@ -35,6 +35,10 @@
 //-----------------------------------------------------------------------------
 #include <QD3D.h>
 #include <QD3DExtension.h>
+#include <QD3DIO.h>
+#include <QD3DStorage.h>
+
+#include "QuesaIO.h"
 
 
 #include "E3FFormat_Sample.h"
@@ -90,15 +94,28 @@ e3fformat_sample_canread(TQ3StorageObject storage, TQ3ObjectType* theFileFormatF
 	// here you have to scan the storage trying to determine if you can read this file
 	// We are studying a system to pass some more hints, like the FSSpec or type or extension
 	
-	// to access the storage you have to query the storage for its read methods
-	//			see E3FileFormat_GenericReadBinary_Raw for details or the 
-	//				e3fformat_3dmf_bin_canread implementation
+	
+	if (theFileFormatFound == NULL) {
+		return (kQ3False);
+	}
+
+	*theFileFormatFound = kQ3ObjectTypeInvalid;
 	
 	/*
 		
 	if (found magic numbers){
 		result = kQ3True;
 		*theFileFormatFound = myTypeAsRegistered;
+		}
+
+excerpt from the e3fformat_3ds_canread 
+	if(Q3Storage_GetData (storage,0, 2,(unsigned char*)&label, &sizeRead) == kQ3Success){
+
+		if (sizeRead != 2)
+			return kQ3False;
+		if (label == k3dsChunkMain)
+			*theFileFormatFound = sRegisteredType;
+			result = kQ3True;
 		}
 		
 	*/
@@ -135,7 +152,7 @@ e3fformat_sample_read_header(TQ3FileObject theFile)
 	Other uses could be doing a first pass in the file to read and build materials 
 	that will be attached to objects read in the read object Method.
 	
-	remember that you could use the GenericRead routines from E3IOFileFormat
+	remember that you could use the GenericRead routines from QuesaIO.h
 	
 	*/
 	
@@ -186,7 +203,7 @@ e3fformat_sample_readobject(TQ3FileFormatObject format, TQ3FileObject theFile)
 	pay attention at the readInGroup Flag of TQ3FFormatBaseData to know if you have to
 	discard just one element or the entire group (the meaning of element or group is up to you)
 	
-	remember that you could use the GenericRead routines from E3IOFileFormat
+	remember that you could use the GenericRead routines from QuesaIO.h
 	*/
 
 	return (NULL);
@@ -294,35 +311,35 @@ e3fformat_sample_metahandler(TQ3XMethodType methodType)
 
 
 		case kQ3XMethodTypeFFormatFloat32Read:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_32;
+			theMethod = (TQ3XFunctionPointer) Q3FileFormat_GenericReadBinary_32;
 			break;
 
 		case kQ3XMethodTypeFFormatFloat64Read:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_64;
+			theMethod = (TQ3XFunctionPointer) Q3FileFormat_GenericReadBinary_64;
 			break;
 
 		case kQ3XMethodTypeFFormatInt8Read:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_8;
+			theMethod = (TQ3XFunctionPointer) Q3FileFormat_GenericReadBinary_8;
 			break;
 
 		case kQ3XMethodTypeFFormatInt16Read:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_16;
+			theMethod = (TQ3XFunctionPointer) Q3FileFormat_GenericReadBinary_16;
 			break;
 
 		case kQ3XMethodTypeFFormatInt32Read:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_32;
+			theMethod = (TQ3XFunctionPointer) Q3FileFormat_GenericReadBinary_32;
 			break;
 
 		case kQ3XMethodTypeFFormatInt64Read:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_64;
+			theMethod = (TQ3XFunctionPointer) Q3FileFormat_GenericReadBinary_64;
 			break;
 
 		case kQ3XMethodTypeFFormatStringRead:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_String;
+			theMethod = (TQ3XFunctionPointer) Q3FileFormat_GenericReadBinary_String;
 			break;
 
 		case kQ3XMethodTypeFFormatRawRead:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_Raw;
+			theMethod = (TQ3XFunctionPointer) Q3FileFormat_GenericReadBinary_Raw;
 			break;
 */
 		}
