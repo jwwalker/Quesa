@@ -55,7 +55,7 @@
 #define kQ3MacStorage_BufferDirtyFlag						0x0100
 
 #define kQ3MacStorage_BufferSize							4096
-#define kQ3MacStorage_MaxSizeBuffered						512
+#define kQ3MacStorage_MaxSizeBuffered						3072
 #define kQ3MacStorage_BufferInvalid							0xFFFFFFFF
 
 
@@ -69,6 +69,7 @@
 typedef struct TE3_MacStorageData{
 	TQ3Uns8		*buffer;
 	TQ3Uns32	bufferStart; // position of first byte in buffer in disk file
+	TQ3Uns32	validBufferSize; 
 	TQ3Uns32	fileEOF;
 	
 	TQ3Int16 	fsRefNum; 
@@ -94,7 +95,7 @@ typedef struct {
 //-----------------------------------------------------------------------------
 #define e3storage_mac_setFlag(instanceData,   theFlag) (((TE3_MacStorageDataPtr)instanceData)->flags |= (theFlag))
 #define e3storage_mac_clearFlag(instanceData, theFlag) (((TE3_MacStorageDataPtr)instanceData)->flags &= ~(theFlag))
-#define e3storage_mac_hasFlag(instanceData,   theFlag) (((TE3_MacStorageDataPtr)instanceData)->flags & (theFlag) == (theFlag))
+#define e3storage_mac_hasFlag(instanceData,   theFlag) ((((TE3_MacStorageDataPtr)instanceData)->flags & (theFlag)) == (theFlag))
 
 
 
@@ -176,7 +177,75 @@ e3storage_mac_fillbuffer(TQ3StorageObject storage,TE3_MacStorageDataPtr instance
 	}
 		
 	instanceData->bufferStart = offset;
+	instanceData->validBufferSize = ioByteCount;
+	
+	e3storage_mac_clearFlag(instanceData, kQ3MacStorage_BufferDirtyFlag);
 
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3storage_mac_flushbuffer : write buffer to disk.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3storage_mac_flushbuffer(TQ3StorageObject storage,TE3_MacStorageDataPtr instanceData)
+{
+	OSErr	err;
+
+	SInt32	theLength;
+
+	SInt32	ioByteCount = instanceData->validBufferSize;
+	
+
+	if(!e3storage_mac_hasFlag(instanceData, kQ3MacStorage_BufferDirtyFlag)){
+		instanceData->bufferStart = kQ3MacStorage_BufferInvalid;
+		instanceData->validBufferSize = 0;
+		return(kQ3Success);
+		}
+		
+	Q3_REQUIRE_OR_RESULT(instanceData->fsRefNum != -1,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(instanceData->buffer != NULL,kQ3Failure);
+	
+	err = GetEOF(instanceData->fsRefNum, &theLength);
+	if (err != noErr) {
+		E3ErrorManager_PostPlatformError (err);
+		return(kQ3Failure);
+	}
+	// Grow storage 
+	if ((instanceData->bufferStart + ioByteCount) > theLength){
+		err = SetEOF(instanceData->fsRefNum, (instanceData->bufferStart + ioByteCount));
+		if (err != noErr) {
+			E3ErrorManager_PostPlatformError (err);
+			return(kQ3Failure);
+			}
+		}
+
+	err = SetFPos(instanceData->fsRefNum, fsFromStart, instanceData->bufferStart);
+	if (err != noErr) {
+		E3ErrorManager_PostPlatformError (err);
+		return(kQ3Failure);
+	}
+	
+	
+	err = FSWrite(instanceData->fsRefNum, &ioByteCount, instanceData->buffer);
+	if (err != noErr) {
+		E3ErrorManager_PostPlatformError (err);
+		return(kQ3Failure);
+	}
+	Q3_ASSERT(ioByteCount == instanceData->validBufferSize);
+	
+	instanceData->bufferStart = kQ3MacStorage_BufferInvalid;
+	instanceData->validBufferSize = 0;
+	
+	e3storage_mac_clearFlag(instanceData, kQ3MacStorage_BufferDirtyFlag);
+	
+	
+	
+	
 	return(kQ3Success);
 }
 
@@ -218,9 +287,14 @@ e3storage_mac_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize,
 			return (kQ3Failure);
 	
 	if(offset >= instanceData->fileEOF){
-		err = eofErr;
+		E3ErrorManager_PostPlatformError (eofErr);
 		return (kQ3Failure);
 		}
+
+		if(e3storage_mac_hasFlag(parent->instanceData, kQ3MacStorage_BufferDirtyFlag))		
+			if(e3storage_mac_flushbuffer (storage, parent->instanceData) != kQ3Success)
+				return kQ3Failure;
+
 
 	if((offset + ioByteCount) > instanceData->fileEOF){
 		err = eofErr;
@@ -295,9 +369,10 @@ e3storage_mac_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 	TQ3Object parent;
 	TE3_MacStorageDataPtr	instanceData;
 	SInt32	theLength;
+	TQ3Uns8					*src,*dest;
 
 	SInt32	ioByteCount;
-	
+		
 	ioByteCount = dataSize;
 	*sizeWritten = 0UL;
 	err = noErr;
@@ -312,41 +387,82 @@ e3storage_mac_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 	instanceData = (TE3_MacStorageDataPtr)parent->instanceData;
 
 	Q3_REQUIRE_OR_RESULT((instanceData->fsRefNum != -1),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(instanceData->buffer != NULL,kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(!e3storage_mac_hasFlag(instanceData, kQ3MacStorage_ReadOnlyFlag),kQ3Failure);
-	
-	instanceData->bufferStart = kQ3MacStorage_BufferInvalid;
-	
-	err = GetEOF(instanceData->fsRefNum, &theLength);
-	if (err != noErr) {
-		E3ErrorManager_PostPlatformError (err);
-		return(kQ3Failure);
-	}
-	// Grow storage 
-	if ((offset + dataSize) > theLength){
-		err = SetEOF(instanceData->fsRefNum, (offset + dataSize));
+
+
+	// check buffer out of range
+	if((offset < (instanceData->bufferStart + instanceData->validBufferSize)) ||
+		(offset > (instanceData->bufferStart + kQ3MacStorage_BufferSize)) ||
+		(offset + dataSize > (instanceData->bufferStart + kQ3MacStorage_BufferSize))){
+		
+		if(e3storage_mac_flushbuffer (storage, instanceData) != kQ3Success)
+			return kQ3Failure;
+		
+		instanceData->bufferStart = offset;
+		}
+	// we have a valid buffer
+	if( dataSize >= kQ3MacStorage_MaxSizeBuffered){// write directly
+		if(e3storage_mac_hasFlag(parent->instanceData, kQ3MacStorage_BufferDirtyFlag))		
+			if(e3storage_mac_flushbuffer (storage, parent->instanceData) != kQ3Success)
+				return kQ3Failure;
+		
+		err = GetEOF(instanceData->fsRefNum, &theLength);
 		if (err != noErr) {
 			E3ErrorManager_PostPlatformError (err);
 			return(kQ3Failure);
-			}
 		}
+		// Grow storage 
+		if ((offset + dataSize) > theLength){
+			err = SetEOF(instanceData->fsRefNum, (offset + dataSize));
+			if (err != noErr) {
+				E3ErrorManager_PostPlatformError (err);
+				return(kQ3Failure);
+				}
+			}
+	
+		err = SetFPos(instanceData->fsRefNum, fsFromStart, offset);
+		if (err != noErr) {
+			E3ErrorManager_PostPlatformError (err);
+			return(kQ3Failure);
+		}
+		
+		
+		err = FSWrite(instanceData->fsRefNum, &ioByteCount, data);
+		if (err != noErr) {
+			E3ErrorManager_PostPlatformError (err);
+			return(kQ3Failure);
+		}
+		}
+	else{	 // copy it to buffer
+		dest = ((TQ3Uns8*)instanceData->buffer) + (offset - instanceData->bufferStart);
+		src = (TQ3Uns8*)data;
+		switch(dataSize){
+			case sizeof(TQ3Uns8):
+				*dest = *src;
+				break;
+			case sizeof(TQ3Uns16):
+				*((TQ3Uns16*)dest) = *((TQ3Uns16*)src);
+				break;
+			case sizeof(TQ3Uns32):
+				*((TQ3Uns32*)dest) = *((TQ3Uns32*)src);
+				break;
+			case sizeof(double):
+				*((double*)dest) = *((double*)src);
+				break;
+			default:
+				memcpy(dest,src,dataSize);
+				break;
+			}
+			instanceData->validBufferSize += dataSize;
+			e3storage_mac_setFlag(instanceData, kQ3MacStorage_BufferDirtyFlag);
 
-	err = SetFPos(instanceData->fsRefNum, fsFromStart, offset);
-	if (err != noErr) {
-		E3ErrorManager_PostPlatformError (err);
-		return(kQ3Failure);
-	}
-	
-	
-	err = FSWrite(instanceData->fsRefNum, &ioByteCount, data);
-	if (err != noErr) {
-		E3ErrorManager_PostPlatformError (err);
-		return(kQ3Failure);
-	}
-	
+		}
 	*sizeWritten = ioByteCount;
-	
+
 
 	return(kQ3Success);
+	
 }
 
 
@@ -523,8 +639,14 @@ e3storage_mac_fsspec_close(TQ3StorageObject storage)
 		}
 	
 	if (((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum != -1) {
+	
+		if(e3storage_mac_hasFlag(parent->instanceData, kQ3MacStorage_BufferDirtyFlag))
+			e3storage_mac_flushbuffer (storage, parent->instanceData);
+		
 		err = FSClose(((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum);
+		
 		((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum = -1;
+		
 		if(err != noErr)
 			{
 			E3ErrorManager_PostPlatformError (err);
