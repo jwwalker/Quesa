@@ -1355,6 +1355,26 @@ e3element_metahandler(TQ3XMethodType methodType)
 //      E3Set_RegisterClass : Register the class.
 //-----------------------------------------------------------------------------
 #pragma mark -
+TQ3ElementObject
+E3Set_FindElement(TQ3SetObject theSet, TQ3ElementType theType)
+{	TQ3SetData			*instanceData;
+
+
+	// Find the instance data
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
+	if (instanceData == NULL)
+		return (NULL);
+
+	return (e3set_find_element(instanceData, theType));
+}
+
+
+
+
+
+//=============================================================================
+//      E3Set_RegisterClass : Register the class.
+//-----------------------------------------------------------------------------
 TQ3Status
 E3Set_RegisterClass(void)
 {	TQ3Status		qd3dStatus;

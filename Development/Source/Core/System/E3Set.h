@@ -55,6 +55,8 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+TQ3ElementObject	E3Set_FindElement(TQ3SetObject theSet, TQ3ElementType theType);
+
 TQ3Status			E3Set_RegisterClass(void);
 TQ3Status			E3Set_UnregisterClass(void);
 

@@ -390,22 +390,6 @@ e3ffw_3DMF_transform_quaternion_write(const TQ3Quaternion *object,
 
 
 //=============================================================================
-//      e3ffw_3DMF_set_traverse : Set traverse method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3ffw_3DMF_set_traverse(TQ3Object theSet,
-					 void *data,
-					 TQ3ViewObject view)
-{
-	#pragma unused(data)
-	return E3Set_SubmitElements( theSet, view );
-}
-
-
-
-
-
-//=============================================================================
 //      Attributes
 //-----------------------------------------------------------------------------
 //      e3ffw_3DMF_attributeset_traverse : AttributeSet traverse method.
@@ -515,13 +499,17 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					break;
 					
 				case kQ3ObjectTypeAttributeSurfaceShader:
-				default:	// this was dangerous, yes but we have to submit custom elements too
 					qd3dstatus = Q3Set_Get (theSet, classType, &subObject);
 					if(qd3dstatus == kQ3Success)
 						{
 						qd3dstatus = Q3Object_Submit (subObject, view);
 						Q3Object_Dispose( subObject );
 						}
+					break;
+				default:
+					subObject = E3Set_FindElement(theSet, classType);
+					if(subObject != NULL)
+						qd3dstatus = Q3Object_Submit (subObject, view);
 					break;
 			}	// end switch
 		
@@ -2788,6 +2776,34 @@ E3FFW_3DMF_TriMesh(TQ3ViewObject				theView,
 
 
 
+//=============================================================================
+//      E3FFW_3DMF_UnknownBin : Unknown Binary handler.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_UnknownBin(TQ3ViewObject				theView,
+					TE3FFormatW3DMF_Data	*instanceData,
+					TQ3GeometryObject		theGeom,
+					TE3UnknownBinary_Data	*objectData)
+{
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3UnknownTypeBinary, (void*)objectData);
+}
+
+
+//=============================================================================
+//      E3FFW_3DMF_UnknownText : Unknown Text handler.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_UnknownText(TQ3ViewObject				theView,
+					TE3FFormatW3DMF_Data	*instanceData,
+					TQ3GeometryObject		theGeom,
+					TQ3UnknownTextData			*objectData)
+{
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3UnknownTypeText, (void*)objectData);
+}
+
+
+
+
 
 //=============================================================================
 //      E3FFW_3DMF_RegisterGeom : Register the geometry traverse & write methods.
@@ -2815,7 +2831,7 @@ E3FFW_3DMF_RegisterGeom(void)
 
 	// the Attribute write Methods
 
-	E3ClassTree_AddMethodByType(kQ3SharedTypeSet,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_set_traverse);
+	E3ClassTree_AddMethodByType(kQ3SharedTypeSet,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_attributeset_traverse);
 	E3ClassTree_AddMethodByType(kQ3SetTypeAttribute,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_attributeset_traverse);
 
 
