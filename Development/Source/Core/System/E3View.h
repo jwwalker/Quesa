@@ -159,6 +159,9 @@ TQ3Status				E3View_SetIdleProgressMethod(TQ3ViewObject theView, TQ3ViewIdleProg
 TQ3Status				E3View_SetEndFrameMethod(TQ3ViewObject theView, TQ3ViewEndFrameMethod endFrame, void *endFrameData);
 TQ3Boolean				E3View_IsBoundingBoxVisible(TQ3ViewObject theView, const TQ3BoundingBox *theBBox);
 TQ3Status				E3View_AllowAllGroupCulling(TQ3ViewObject theView, TQ3Boolean allowCulling);
+TQ3Status				E3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point3D *worldPoint);
+TQ3Status				E3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point2D *windowPoint);
+TQ3Status				E3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoint, TQ3Point2D *windowPoint);
 TQ3Status				E3View_SetDrawContext(TQ3ViewObject theView, TQ3DrawContextObject drawContext);
 TQ3Status				E3View_GetDrawContext(TQ3ViewObject theView, TQ3DrawContextObject *drawContext);
 TQ3Status				E3View_GetLocalToWorldMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix);

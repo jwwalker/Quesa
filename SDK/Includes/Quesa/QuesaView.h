@@ -710,6 +710,90 @@ Q3View_AllowAllGroupCulling (
 
 /*!
  *  @function
+ *      Q3View_TransformLocalToWorld
+ *  @discussion
+ *      Transforms a point from local to world coordinates.
+ *
+ *      May only be called within a view submitting loop.
+ *
+ *      Not supported by QD3D.
+ *
+ *  @param theView          The view currently being submitted to.
+ *  @param localPoint       The point to transform, in local coordinates.
+ *  @param worldPoint       The transformed point, in world coordinates.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3View_TransformLocalToWorld (
+    TQ3ViewObject                 theView,
+    const TQ3Point3D              *localPoint,
+    TQ3Point3D                    *worldPoint
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3View_TransformLocalToWindow
+ *  @discussion
+ *      Transforms a point from local to window (pixel) coordinates.
+ *
+ *      May only be called within a view submitting loop.
+ *
+ *      Not supported by QD3D.
+ *
+ *  @param theView          The view currently being submitted to.
+ *  @param localPoint       The point to transform, in local coordinates.
+ *  @param windowPoint      The transformed point, in window coordinates.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3View_TransformLocalToWindow (
+    TQ3ViewObject                 theView,
+    const TQ3Point3D              *localPoint,
+    TQ3Point2D                    *windowPoint
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3View_TransformWorldToWindow
+ *  @discussion
+ *      Transforms a point from world to window (pixel) coordinates.
+ *
+ *      May only be called within a view submitting loop.
+ *
+ *      Not supported by QD3D.
+ *
+ *  @param theView          The view currently being submitted to.
+ *  @param worldPoint       The point to transform, in world coordinates.
+ *  @param windowPoint      The transformed point, in window coordinates.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3View_TransformWorldToWindow (
+    TQ3ViewObject                 theView,
+    const TQ3Point3D              *worldPoint,
+    TQ3Point2D                    *windowPoint
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
  *      Q3View_SetDrawContext
  *  @discussion
  *      One-line description of this function.

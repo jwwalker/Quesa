@@ -1119,6 +1119,135 @@ Q3View_AllowAllGroupCulling(TQ3ViewObject view, TQ3Boolean allowCulling)
 
 
 //=============================================================================
+//      Q3View_TransformLocalToWorld : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point3D *worldPoint)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theView->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theView, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(localPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(worldPoint), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theView
+		return(kQ3Failure);
+
+	if (0) // Further checks on localPoint
+		return(kQ3Failure);
+
+	if (0) // Further checks on worldPoint
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3View_TransformLocalToWorld(theView, localPoint, worldPoint));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3View_TransformLocalToWindow : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point2D *windowPoint)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theView->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theView, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(localPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(windowPoint), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theView
+		return(kQ3Failure);
+
+	if (0) // Further checks on localPoint
+		return(kQ3Failure);
+
+	if (0) // Further checks on windowPoint
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3View_TransformLocalToWindow(theView, localPoint, windowPoint));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3View_TransformWorldToWindow : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoint, TQ3Point2D *windowPoint)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theView->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theView, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(worldPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(windowPoint), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theView
+		return(kQ3Failure);
+
+	if (0) // Further checks on worldPoint
+		return(kQ3Failure);
+
+	if (0) // Further checks on windowPoint
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3View_TransformWorldToWindow(theView, worldPoint, windowPoint));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3View_SetDrawContext : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
