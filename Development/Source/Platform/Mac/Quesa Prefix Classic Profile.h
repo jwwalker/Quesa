@@ -36,6 +36,7 @@
 //      Quesa build constants
 //-----------------------------------------------------------------------------
 #define QUESA_OS_MACINTOSH				1
+#define Q3_EXPORT_SYMBOLS				1
 #define Q3_DEBUG						0
 #define Q3_PROFILE						1
 
