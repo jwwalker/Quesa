@@ -8,7 +8,7 @@ we should rearrange files a bit, before be able to build the Unix port.
 (unix specific ports are available that doesn't need this rearrange 
 	see <http://www.quesa.org/info/download.html>)
 
-to build the Quesa library for your system follow this steps
+to build the Quesa library for your system follow these steps
 
 - set your current directory to ./Development/Projects/Unix/Scripts
 
@@ -27,7 +27,18 @@ now we can create the unix build system, the Quesa library and examples
 		[machine:Projects/Unix/Scripts] me% sh buildUnix.sh
 
 in order the buildUnix.sh script to work, you ought to have installed in your system 
-version 1.6 or later of the GNU build system (automake, autoconf, ecc)
+version 1.6 or later of the GNU build system (automake, autoconf, ecc),
+also be sure to have installed in your system the X11, mesa3d and glut headers and libraries.
+
+	things that could fail:
+		aclocal complains because the undefined macro AM_PATH_GTK
+			if gtk is installed search a file called gtk.m4 and pass its directory
+			to aclocal as parameter es.
+				aclocal -I /usr/local/share/aclocal
+
+		configure complains because doesn't find gtk-config
+			search gtk-config and add its parent directory to your PATH environment variable
+
 
 buildUnix.sh will create the GNU build system for both the library and the samples, 
 and builds the library.
