@@ -72,7 +72,7 @@ qutFuncAppIdle	         	    gFuncAppIdle       = NULL;
 qutFuncAppRedraw	            gFuncAppRedraw     = NULL;
 
 static TQ3Uns32                 gFrameCount        = 0;
-static TQ3Uns32                 gStartTime         = 0;
+static clock_t					gStartTime         = 0;
 
 static TQ3FillStyle             gStyleFill;
 static TQ3BackfacingStyle       gStyleBackfacing;
@@ -599,7 +599,7 @@ Qut_ReadModel(TQ3StorageObject  storageObj)
 #pragma mark -
 void
 Qut_RenderFrame(void)
-{   TQ3Uns32    elapsedTime;
+{   clock_t		elapsedTime;
     TQ3Status   qd3dStatus;
 
 
@@ -612,7 +612,7 @@ Qut_RenderFrame(void)
 
     // Save the start time if this is the first update
     if (gFrameCount == 0)
-        gStartTime = (TQ3Uns32) clock();
+        gStartTime = clock();
 
 
 
@@ -649,7 +649,7 @@ Qut_RenderFrame(void)
     // time it took to render them and from that the FPS. Since we can only
     // rely on CLOCKS_PER_SEC timing with ANSI C, we need to accumulate the
     // time over a number of frames to get an accurate rate
-    elapsedTime = ((TQ3Uns32) clock()) - gStartTime;
+    elapsedTime = clock() - gStartTime;
     gFrameCount++;
 
     if (gFrameCount > kFPSUpdateCount || elapsedTime > kFPSUpdateTime)
