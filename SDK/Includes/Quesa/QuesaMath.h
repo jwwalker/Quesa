@@ -3627,6 +3627,63 @@ Q3Ray3D_IntersectTriangle (
 
 
 //=============================================================================
+//      General math functions
+//-----------------------------------------------------------------------------
+/*!
+ *  @function
+ *      Q3Math_SquareRoot
+ *  @discussion
+ *      Obtain a fast, but possibly inaccurate, square root.
+ *
+ *      The available precision depends on the current architecture, but will
+ *      suffice for most non-accumulating 3D operations. If a reliable degree
+ *      of precision is required, sqrt() should be used instead.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param x                The number whose square root should be returned.
+ *  @result                 Approximate square root of x.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( float  )
+Q3Math_SquareRoot (
+    float                         x
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3Math_InvSquareRoot
+ *  @discussion
+ *      Obtain a fast, but possibly inaccurate, invser square root.
+ *
+ *      The available precision depends on the current architecture, but will
+ *      suffice for most non-accumulating 3D operations. If a reliable degree
+ *      of precision is required, 1.0/sqrt() should be used instead.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param x                The number whose inverse square root should be returned.
+ *  @result                 Approximate inverse square root of x.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( float  )
+Q3Math_InvSquareRoot (
+    float                         x
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+
+
+//=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
 #pragma enumsalwaysint reset
