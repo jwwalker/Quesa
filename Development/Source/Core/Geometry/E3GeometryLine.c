@@ -290,7 +290,7 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 
 
 		// Record the hit
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitXYZ, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, NULL, NULL, NULL);
 		}
 
 	return(qd3dStatus);
@@ -325,7 +325,7 @@ e3geom_line_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Ob
 
 	// See if we fall within the pick
 	if (E3Rect_ContainsLine(&pickData.rect, &windowPoints[0], &windowPoints[1]))
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
 
 	return(qd3dStatus);
 }
@@ -374,7 +374,7 @@ e3geom_line_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Obje
 
 	// See if we fall within the pick
 	if (d <= pickData.edgeTolerance)
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &worldSegment[0], NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldSegment[0], NULL, NULL, NULL);
 
 	return(qd3dStatus);
 }

@@ -609,7 +609,7 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject			theView,
 
 
 			// Record the hit
-			qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitXYZ, &hitNormal, resultUV, NULL);
+			qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, &hitNormal, resultUV, NULL);
 
 
 			// Clean up
@@ -690,7 +690,7 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject			theView,
 			E3Rect_ContainsLine(theRect, &triVertices[0], &triVertices[2]) ||
 			E3Rect_ContainsLine(theRect, &triVertices[1], &triVertices[2]))
 			{
-			qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+			qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
 			break;
 			}
 		}

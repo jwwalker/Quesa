@@ -170,7 +170,7 @@ e3geom_triangle_pick_with_ray(TQ3ViewObject			theView,
 
 
 		// Record the hit
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitXYZ, &hitNormal, resultUV, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, &hitNormal, resultUV, NULL);
 		}
 
 	return(qd3dStatus);
@@ -233,7 +233,7 @@ e3geom_triangle_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, T
 	if (E3Rect_ContainsLine(&pickData.rect, &windowPoints[0], &windowPoints[1]) ||
 		E3Rect_ContainsLine(&pickData.rect, &windowPoints[0], &windowPoints[2]) ||
 		E3Rect_ContainsLine(&pickData.rect, &windowPoints[1], &windowPoints[2]))
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
 
 	return(qd3dStatus);
 }

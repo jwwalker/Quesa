@@ -353,7 +353,7 @@ e3geom_pixmapmarker_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePi
 
 	// See if we fall within the pick
 	if (e3geom_pixmapmarker_pixel_is_set(instanceData, (TQ3Int32) markerPixel.x, (TQ3Int32) markerPixel.y))
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
 
 	return(qd3dStatus);
 }
@@ -403,7 +403,7 @@ e3geom_pixmapmarker_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePic
 				{
 				if (e3geom_pixmapmarker_pixel_is_set(instanceData, x, y))
 					{
-					qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, NULL, NULL, NULL, NULL);
+					qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
 					return(qd3dStatus);
 					}
 				}

@@ -106,8 +106,12 @@ TQ3BoundingMethod		E3View_GetBoundingMethod(TQ3ViewObject theView);
 void					E3View_GetRayThroughPickPoint(TQ3ViewObject theView, TQ3Ray3D *theRay);
 void					E3View_UpdateBounds(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 pointStride, const TQ3Point3D *thePoints);
 TQ3Status				E3View_PickStack_PushGroup(TQ3ViewObject theView, TQ3GroupObject theGroup);
-TQ3HitPath				*E3View_PickStack_CurrentPath(TQ3ViewObject theView);
-void					E3View_PickStack_UpdatePosition(TQ3ViewObject theView, TQ3GroupPosition thePosition);
+TQ3HitPath				*E3View_PickStack_GetPickedPath(TQ3ViewObject theView);
+TQ3Object				E3View_PickStack_GetPickedObject(TQ3ViewObject theView);
+void					E3View_PickStack_SavePosition(TQ3ViewObject theView, TQ3GroupPosition thePosition);
+void					E3View_PickStack_SaveObject(TQ3ViewObject theView, TQ3Object theObject);
+void					E3View_PickStack_BeginDecomposedObject(TQ3ViewObject theView);
+void					E3View_PickStack_EndDecomposedObject(TQ3ViewObject theView);
 void					E3View_PickStack_PopGroup(TQ3ViewObject theView);
 
 void							E3View_State_InitGroupMatrix(TQ3ViewObject theView);

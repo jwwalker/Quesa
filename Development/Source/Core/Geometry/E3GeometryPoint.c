@@ -147,7 +147,7 @@ e3geom_point_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3
 		(windowPoint.y <= (pickData.point.y + pickData.vertexTolerance)))
 		{
 		Q3View_TransformLocalToWorld(theView, &instanceData->point, &hitXYZ);
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitXYZ, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, NULL, NULL, NULL);
 		}
 
 	return(qd3dStatus);
@@ -185,7 +185,7 @@ e3geom_point_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 		(windowPoint.y >= pickData.rect.min.y) && (windowPoint.y <= pickData.rect.max.y))
 		{
 		Q3View_TransformLocalToWorld(theView, &instanceData->point, &hitXYZ);
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitXYZ, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, NULL, NULL, NULL);
 		}
 
 	return(qd3dStatus);
@@ -221,7 +221,7 @@ e3geom_point_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Obj
 
 	// See if we fall within the pick
 	if (Q3Ray3D_IntersectSphere(&pickData.ray, &theSphere, &hitHYZ))
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, theObject, &hitHYZ, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitHYZ, NULL, NULL, NULL);
 
 	return(qd3dStatus);
 }

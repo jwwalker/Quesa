@@ -72,7 +72,6 @@ TQ3Status				E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3
 
 TQ3Status				E3Pick_RecordHit(TQ3PickObject        		thePick,
 											TQ3ViewObject     		theView,
-											TQ3Object         		hitObject,
 											const TQ3Point3D  		*hitXYZ,
 											const TQ3Vector3D 		*hitNormal,
 											const TQ3Param2D  		*hitUV,

@@ -302,10 +302,23 @@ e3geometry_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theOb
 
 
 
+	// Tell the view we're about to start a decomposed object. This causes the view
+	// to save the current object as the 'target' for successful picks, rather than
+	// one of the geometry objects which act as the decomposed form of the target.
+	E3View_PickStack_BeginDecomposedObject(theView);
+
+
+
 	// Since our geometry can't pick itself, submit a decomposed version.
 	// This will recurse as required, until eventually something which
 	// can pick itself is reached.
 	qd3dStatus = e3geometry_submit_decomposed(theView, objectType, theObject, objectData);
+
+
+
+	// Tell the view we've finished a decomposed object
+	E3View_PickStack_EndDecomposedObject(theView);
+
 	return(qd3dStatus);
 }
 

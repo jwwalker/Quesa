@@ -136,7 +136,6 @@ static void
 e3pick_hit_initialise(TQ3PickHit				*theHit,
 						TQ3PickObject			thePick,
 						TQ3ViewObject			theView,
-						TQ3Object				hitObject,
 						const TQ3Point3D		*hitXYZ,
 						const TQ3Vector3D		*hitNormal,
 						const TQ3Param2D		*hitUV,
@@ -155,7 +154,6 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	Q3_REQUIRE(Q3_VALID_PTR(theHit));
 	Q3_REQUIRE(Q3_VALID_PTR(thePick));
 	Q3_REQUIRE(Q3_VALID_PTR(theView));
-	Q3_REQUIRE(Q3_VALID_PTR(hitObject));
 
 
 
@@ -179,7 +177,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	// Save the path to the hit object
 	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskPath))
 		{
-		currentPath = E3View_PickStack_CurrentPath(theView);
+		currentPath = E3View_PickStack_GetPickedPath(theView);
 		qd3dStatus  = e3pick_hit_duplicate_path(currentPath, &theHit->pickedPath);
 		if (qd3dStatus == kQ3Success)
 			theHit->validMask |= kQ3PickDetailMaskPath;
@@ -190,8 +188,9 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	// Save the hit object
 	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskObject))
 		{
-		theHit->pickedObject = Q3Shared_GetReference(hitObject);
-		theHit->validMask   |= kQ3PickDetailMaskObject;
+		theHit->pickedObject = E3View_PickStack_GetPickedObject(theView);
+		if (theHit->pickedObject != NULL)
+			theHit->validMask |= kQ3PickDetailMaskObject;
 		}
 
 
@@ -1229,7 +1228,6 @@ E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pi
 TQ3Status
 E3Pick_RecordHit(TQ3PickObject				thePick,
 					TQ3ViewObject			theView,
-					TQ3Object				hitObject,
 					const TQ3Point3D		*hitXYZ,
 					const TQ3Vector3D		*hitNormal,
 					const TQ3Param2D		*hitUV,
@@ -1244,7 +1242,6 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(thePick),   kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theView),   kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(hitObject), kQ3Failure);
 
 
 
@@ -1256,8 +1253,7 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 
 
 	// Fill out the data for the hit
-	e3pick_hit_initialise(theHit, thePick, theView, hitObject,
-						  hitXYZ, hitNormal, hitUV, hitShape);
+	e3pick_hit_initialise(theHit, thePick, theView, hitXYZ, hitNormal, hitUV, hitShape);
 
 
 

@@ -886,7 +886,7 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 
 			// If we're picking, update the view
 			if (viewMode == kQ3ViewModePicking)
-				E3View_PickStack_UpdatePosition(theView, thePosition);
+				E3View_PickStack_SavePosition(theView, thePosition);
 
 
 
