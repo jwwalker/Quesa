@@ -129,6 +129,9 @@ typedef struct TQ3InteractiveData {
 	void					*glContext;
 	TQ3Boolean				glATICheckedFSAA;
 	TQ3Boolean				glATIAvailableFSAA;
+	TQ3Boolean				glClientStateNormal;
+	TQ3Boolean				glClientStateColor;
+	TQ3Boolean				glClientStateUV;
 	TQ3Uns32				rendererEditIndex;
 	TQ3GLExtensions			glExtensions;
 
