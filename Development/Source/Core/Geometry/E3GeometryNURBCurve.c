@@ -1117,7 +1117,25 @@ E3NURBCurve_GetKnot(TQ3GeometryObject theNurbCurve, TQ3Uns32 knotIndex, float *k
 	E3NURBCurve* nurbCurve = (E3NURBCurve*) theNurbCurve ;
 
 	// Copy the knot from knots to knotValue
-	Q3Memory_Copy ( & nurbCurve->instanceData.knots[ knotIndex ], knotValue, sizeof ( float ) ) ;
+	Q3Memory_Copy ( & nurbCurve->instanceData.knots [ knotIndex ], knotValue, sizeof ( float ) ) ;
+
+	return kQ3Success ;
+	}
+
+
+
+
+
+//=============================================================================
+//      E3NURBCurve_GetNumVertices : Gets a NURB curve number of vertices.
+//-----------------------------------------------------------------------------
+//		Note : Untested
+//-----------------------------------------------------------------------------
+TQ3Status
+E3NURBCurve_GetNumPoints ( TQ3GeometryObject theNurbCurve, TQ3Uns32* numPoints )
+	{
+	if ( numPoints )
+		*numPoints = ( (E3NURBCurve*) theNurbCurve )->instanceData.numPoints ;
 
 	return kQ3Success ;
 	}
