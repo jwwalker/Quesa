@@ -54,12 +54,13 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint on
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-#pragma enumsalwaysint on
 
 
 
@@ -107,7 +108,25 @@ typedef struct TQ3CameraRange {
 } TQ3CameraRange;
 
 
-// Camera viewport
+/*!
+ *  @struct
+ *      TQ3CameraViewPort
+ *  @discussion
+ *      Describes the viewport for a camera.
+ *
+ *      The camera viewport is the rectangular area of the view plane which is
+ *      mapped to the rendered area of the current draw context. The default
+ *      mapping is a square of size 2.0x2.0, with the top left corner anchored
+ *      at {-1.0, 1.0}.
+ *
+ *      By adjusting the viewport, it is possible to control which area of the
+ *      camera's view is rendered (e.g., to divide an image into a series of
+ *      horizontal strips for printing).
+ *
+ *  @field origin           The origin for the viewport.
+ *  @field width            The width of the viewport.
+ *  @field height           The width of the viewport.
+ */
 typedef struct TQ3CameraViewPort {
     TQ3Point2D                                  origin;
     float                                       width;
@@ -115,7 +134,20 @@ typedef struct TQ3CameraViewPort {
 } TQ3CameraViewPort;
 
 
-// Camera data
+/*!
+ *  @struct
+ *      TQ3CameraData
+ *  @discussion
+ *      Describes the common state for a camera.
+ *
+ *      The common camera state includes its position and orientation within
+ *      the world (placement), the near and far clipping planes (range), and
+ *      the current viewport.
+ *
+ *  @field placement        The position and orientation of the camera.
+ *  @field range            The near and far clipping planes of the camera.
+ *  @field viewPort         The viewport for the camera.
+ */
 typedef struct TQ3CameraData {
     TQ3CameraPlacement                          placement;
     TQ3CameraRange                              range;
@@ -123,7 +155,23 @@ typedef struct TQ3CameraData {
 } TQ3CameraData;
 
 
-// Orthographic camera data
+/*!
+ *  @struct
+ *      TQ3OrthographicCameraData
+ *  @discussion
+ *      Describes the state for an orthographic camera.
+ *
+ *      An orthographic camera is defined by four view planes, which form a
+ *      box aligned with the camera view direction. These planes are defined
+ *      by distances relative to the coordinate system formed by the camera
+ *      location and its view direction.
+ *
+ *  @field cameraData       The common state for the camera.
+ *  @field left             The left side of the view volume.
+ *  @field top              The top side of the view volume.
+ *  @field right            The right side of the view volume.
+ *  @field bottom           The bottom side of the view volume.
+ */
 typedef struct TQ3OrthographicCameraData {
     TQ3CameraData                               cameraData;
     float                                       left;
@@ -133,7 +181,26 @@ typedef struct TQ3OrthographicCameraData {
 } TQ3OrthographicCameraData;
 
 
-// Perspective view plane camera data
+/*!
+ *  @struct
+ *      TQ3ViewPlaneCameraData
+ *  @discussion
+ *      Describes the state for a view plane camera.
+ *
+ *      A view plane camera is a perspective camera which allows the specification
+ *      of an off-center viewing frustum.
+ *
+ *      The frustum is formed by following the camera view direction for a given
+ *      distance, then taking the specified square on that plane. The frustum
+ *      extends from the camera position through the four edges of this square.
+ *
+ *  @field cameraData                The common state for the camera.
+ *  @field viewPlane                 The distance from the camera to the view plane.
+ *  @field halfWidthAtViewPlane      The half-width of the square on the view plane.
+ *  @field halfHeightAtViewPlane     The half-height of the square on the view plane.
+ *  @field centerXOnViewPlane        The x-center of the square on the view plane.
+ *  @field centerYOnViewPlane        The y-center of the square on the view plane.
+ */
 typedef struct TQ3ViewPlaneCameraData {
     TQ3CameraData                               cameraData;
     float                                       viewPlane;
@@ -144,7 +211,23 @@ typedef struct TQ3ViewPlaneCameraData {
 } TQ3ViewPlaneCameraData;
 
 
-// Perspective view angle camera data
+/*!
+ *  @struct
+ *      TQ3ViewAngleAspectCameraData
+ *  @discussion
+ *      Describes the state for a traditional perspective camera.
+ *
+ *      A view angle aspect camera is a perspective camera defined by a field of
+ *      view angle and an aspect ratio.
+ *
+ *      The field of view angle must be a positive angle in radians. The aspect
+ *      ratio should be greater than 1.0 if the field of view is vertical, and
+ *      less than 1.0 if the field of view is horizontal.
+ *
+ *  @field cameraData       The common state for the camera.
+ *  @field fov              The field of view of the camera, in radians.
+ *  @field aspectRatioXToY  The horizontal-to-vertical aspect ratio of the camera.
+ */
 typedef struct TQ3ViewAngleAspectCameraData {
     TQ3CameraData                               cameraData;
     float                                       fov;
@@ -1053,13 +1136,14 @@ Q3ViewAngleAspectCamera_GetAspectRatio (
 );
 
 
-#pragma enumsalwaysint reset
 
 
 
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint reset
+
 #ifdef __cplusplus
 }
 #endif
