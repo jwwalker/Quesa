@@ -44,9 +44,19 @@ extern "C" {
 
 
 //=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+typedef TQ3AttributeSet (*E3GetSetForGatherProc)(void *userData, TQ3Uns32 setIndex);
+
+
+
+
+
+//=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
 #define E3Rect_GetWidth(_r)					(TQ3Uns32) ((_r)->right  - (_r)->left)
+
 #define E3Rect_GetHeight(_r)				(TQ3Uns32) ((_r)->bottom - (_r)->top)
 
 #define E3Area_FromRect(_area, _rect)											\
@@ -130,21 +140,37 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 void		E3Shared_Acquire(TQ3SharedObject *newRef, TQ3SharedObject theObject);
+
 void		E3Shared_Replace(TQ3SharedObject *origObject, TQ3SharedObject newObject);
+
 TQ3Status	E3Bitmap_Replace(const TQ3Bitmap *original, TQ3Bitmap *copy, TQ3Boolean isCopyInternal);
+
 void		E3AttributeSet_Combine(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3AttributeSet *result);
+
 void		E3Geometry_AddNormalIndicators(TQ3GroupObject group, TQ3Uns32 numPoints, const TQ3Point3D *points, const TQ3Vector3D *normals);
+
 TQ3Boolean	E3Matrix4x4_IsIdentity(const TQ3Matrix4x4 *theMatrix);
+
 TQ3Boolean	E3CString_IsEqual(const char *str_a, const char *str_b);
+
 TQ3Boolean	E3Rect_ClipLine(const TQ3Area *theRect, TQ3Point2D *lineStart, TQ3Point2D *lineEnd);
+
 TQ3Boolean	E3Rect_ContainsLine(const TQ3Area *theRect, const TQ3Point2D *lineStart, const TQ3Point2D *lineEnd);
+
 TQ3Boolean	E3Rect_IntersectRect(const TQ3Area *rect1, const TQ3Area *rect2);
+
 void		E3Triangle_InterpolateHit(const TQ3TriangleData		*triangleData,
 										const TQ3Param3D		*theHit,
 										TQ3Point3D				*hitXYZ,
 										TQ3Vector3D				*hitNormal,
 										TQ3Param2D				*hitUV,
 										TQ3Boolean				*haveUV);
+
+TQ3Boolean	E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
+											E3GetSetForGatherProc		userCallback,
+											void						*userData,
+											TQ3TriMeshAttributeData		*theAttribute,
+											TQ3AttributeType			attributeType);
 
 
 
