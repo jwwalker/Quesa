@@ -4731,9 +4731,6 @@ E3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2,
 	TQ3BoundingSphere *result)
 {
 
-	//	Approach: find the points on each sphere farthest from the other sphere
-	//	by using similar triangles.  The union sphere has center halfway
-	//	between these points, with radius of half their distance.
 
 	if (s1->isEmpty)
 	{
@@ -4750,33 +4747,20 @@ E3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2,
 		}
 		else
 		{
-			float x1=s1->origin.x, y1=s1->origin.y, z1=s1->origin.z;
-			float x2=s2->origin.x, y2=s2->origin.y, z2=s2->origin.z;
-			// find the deltas between their centers, and the distance.
-			float dx = x2-x1, dy = y2-y1, dz = z2-z1, dist = Q3Math_SquareRoot(dx*dx + dy*dy + dz*dz);
-			
+		 float dist = Q3FastPoint3D_Distance(&s1->origin, &s2->origin);
+		 
 			if (dist > kQ3RealZero)
 			{
-				// find the far points.
-				float factor = s1->radius / dist;
-				float fx1 = x1 - dx*factor;
-				float fy1 = y1 - dy*factor;
-				float fz1 = z1 - dz*factor;
-				
-				factor = s2->radius / dist;
-				{
-					float fx2 = x2 + dx*factor;
-					float fy2 = y2 + dy*factor;
-					float fz2 = z2 + dz*factor;
-					// finish the job.
-					result->origin.x = (fx1+fx2)/2;
-					result->origin.y = (fy1+fy2)/2;
-					result->origin.z = (fz1+fz2)/2;
-					dx = fx1-fx2;
-					dy = fy1-fy2;
-					dz = fz1-fz2;
-				}
-				result->radius = Q3Math_SquareRoot(dx*dx + dy*dy + dz*dz) / 2.0f;
+			 float finalRadius = (dist + s1->radius + s2->radius)/2.0f;
+			 finalRadius = E3Num_Max(s1->radius,finalRadius);
+			 finalRadius = E3Num_Max(s2->radius,finalRadius);
+			 
+			 Q3FastPoint3D_RRatio(&s1->origin, &s2->origin,
+			 			((finalRadius - s2->radius)/dist),
+			 			((dist - (finalRadius - s2->radius))/dist),
+			 			&result->origin);
+			
+			 result->radius = finalRadius;
 			}
 			else
 			{
