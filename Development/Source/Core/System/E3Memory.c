@@ -69,8 +69,154 @@
 
 
 //=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+// Slab parameter data
+typedef struct TQ3SlabParams {
+	TQ3Uns32				itemSize;
+	TQ3Uns32				numItems;
+	const void				*itemData;
+} TQ3SlabParams;
+
+
+// Slab instance data
+typedef struct TQ3SlabData {
+	TQ3Uns32				numItems;
+	TQ3Uns32				itemSize;
+	TQ3Uns32				dataSize;
+	void					*theData;
+} TQ3SlabData;
+
+
+
+
+
+//=============================================================================
+//      Internal functions
+//-----------------------------------------------------------------------------
+//      e3slab_new : Slab class new method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3slab_new(TQ3Object theObject, void *privateData, const void *paramData)
+{	TQ3SlabData			*instanceData = (TQ3SlabData   *) privateData;
+	TQ3SlabParams		*params       = (TQ3SlabParams *) paramData;
+	TQ3Status			qd3dStatus    = kQ3Success;
+	void				*theData;
+#pragma unused(theObject)
+
+
+
+	// Initialise our instance data
+	instanceData->numItems = params->numItems;
+	instanceData->itemSize = params->itemSize;
+
+
+
+	// Allocate any initial data
+	if (instanceData->numItems != 0)
+		{
+		theData    = Q3SlabMemory_AppendData(theObject, instanceData->numItems, params->itemData);
+		qd3dStatus = (theData != NULL ? kQ3Success : kQ3Failure);
+		}
+	
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3slab_delete : Slab class delete method.
+//-----------------------------------------------------------------------------
+static void
+e3slab_delete(TQ3Object theObject, void *privateData)
+{	TQ3SlabData		*instanceData = (TQ3SlabData *) privateData;
+#pragma unused(theObject)
+
+
+
+	// Dispose of our instance data
+	Q3Memory_Free(&instanceData->theData);
+}
+
+
+
+
+
+//=============================================================================
+//      e3sab_metahandler : Slab class metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3slab_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectNew:
+			theMethod = (TQ3XFunctionPointer) e3slab_new;
+			break;
+
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3slab_delete;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
+//      E3Memory_RegisterClass : Register the memory classes.
+//-----------------------------------------------------------------------------
+#pragma mark -
+TQ3Status
+E3Memory_RegisterClass(void)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Register the memory classes
+	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+											kQ3ObjectTypeSlab,
+											kQ3ClassNameSlab,
+											e3slab_metahandler,
+											sizeof(TQ3SlabData));
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Memory_UnregisterClass : Unregister the memory classes.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Memory_UnregisterClass(void)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Unregister the memory classes
+	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeSlab, kQ3True);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
 //      E3Memory_Allocate : Allocate an uninitialised block of memory.
 //-----------------------------------------------------------------------------
 void *
@@ -449,7 +595,7 @@ E3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
 //-----------------------------------------------------------------------------
 #if Q3_DEBUG
 TQ3Status
-E3Memory_StartRecording()
+E3Memory_StartRecording(void)
 {
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
 	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
@@ -469,7 +615,7 @@ E3Memory_StartRecording()
 //-----------------------------------------------------------------------------
 #if Q3_DEBUG
 TQ3Status
-E3Memory_StopRecording()
+E3Memory_StopRecording(void)
 {
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
 	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
@@ -489,7 +635,7 @@ E3Memory_StopRecording()
 //-----------------------------------------------------------------------------
 #if Q3_DEBUG
 TQ3Boolean
-E3Memory_IsRecording()
+E3Memory_IsRecording(void)
 {
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
 
@@ -506,7 +652,7 @@ E3Memory_IsRecording()
 //-----------------------------------------------------------------------------
 #if Q3_DEBUG
 TQ3Status
-E3Memory_ForgetRecording()
+E3Memory_ForgetRecording(void)
 {
 	TQ3Object		anObject, nextObject;
 	TQ3ObjectData*	leakRec;
@@ -550,7 +696,7 @@ E3Memory_ForgetRecording()
 //-----------------------------------------------------------------------------
 #if Q3_DEBUG
 TQ3Uns32
-E3Memory_CountRecords()
+E3Memory_CountRecords(void)
 {
 	TQ3Uns32	numRecords = 0;
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
@@ -732,3 +878,131 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 	return kQ3Success;
 }
 #endif
+
+
+
+
+
+//=============================================================================
+//      E3SlabMemory_New : Create a new memory slab object.
+//-----------------------------------------------------------------------------
+TQ3SlabObject
+E3SlabMemory_New(TQ3Uns32 itemSize, TQ3Uns32 numItems, const void *itemData)
+{	TQ3SlabParams	paramData;
+	TQ3Object		theObject;
+
+
+
+	// Set up the parmaeters
+	paramData.itemSize = itemSize;
+	paramData.numItems = numItems;
+	paramData.itemData = itemData;
+
+
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeSlab, kQ3False, &paramData);
+
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      E3SlabMemory_GetData : Get the data for an item from a memory slab.
+//-----------------------------------------------------------------------------
+void *
+E3SlabMemory_GetData(TQ3SlabObject theSlab, TQ3Uns32 itemIndex)
+{	TQ3SlabData		*instanceData = (TQ3SlabData *) theSlab->instanceData;
+	TQ3Uns8			*theData;
+
+
+
+	// Get the data for the item
+	theData = ((TQ3Uns8 *) instanceData->theData) + (itemIndex * instanceData->itemSize);
+
+	return((void *) theData);
+}
+
+
+
+
+
+//=============================================================================
+//      E3SlabMemory_AppendData : Append items to a memory slab.
+//-----------------------------------------------------------------------------
+void *
+E3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *itemData)
+{	TQ3SlabData		*instanceData = (TQ3SlabData *) theSlab->instanceData;
+	TQ3Status		qd3dStatus;
+	void			*theData;
+	TQ3Uns32		oldCount;
+
+
+
+	// Grow the slab
+	oldCount   = Q3SlabMemory_GetCount(theSlab);
+	qd3dStatus = Q3SlabMemory_SetCount(theSlab, oldCount + numItems);
+	if (qd3dStatus != kQ3Success)
+		return(NULL);
+
+
+
+	// Initialise the items
+	theData = Q3SlabMemory_GetData(theSlab, oldCount);
+	if (itemData != NULL)
+		Q3Memory_Copy(itemData, theData, numItems * instanceData->itemSize);
+
+	return(theData);
+}
+
+
+
+
+
+//=============================================================================
+//      E3SlabMemory_GetCount : Get the number of items in a memory slab.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+E3SlabMemory_GetCount(TQ3SlabObject theSlab)
+{	TQ3SlabData		*instanceData = (TQ3SlabData *) theSlab->instanceData;
+
+
+
+	// Get our size
+	return(instanceData->numItems);
+}
+
+
+
+
+
+//=============================================================================
+//      E3SlabMemory_SetCount : Set the number of items in a memory slab.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3SlabMemory_SetCount(TQ3SlabObject theSlab, TQ3Uns32 numItems)
+{	TQ3SlabData		*instanceData = (TQ3SlabData *) theSlab->instanceData;
+	TQ3Status		qd3dStatus;
+	TQ3Uns32		newSize;
+
+
+
+	// Resize the slab data
+	//
+	// Maps directly to realloc for now - should examine previous usage and pre-allocate
+	// larger chunks if required (e.g., if detect lots of grow-by-one allocations for a
+	// fairly small itemSize).
+	newSize    = instanceData->itemSize * numItems;
+	qd3dStatus = Q3Memory_Reallocate(&instanceData->theData, newSize);
+	if (qd3dStatus == kQ3Success)
+		{
+		instanceData->numItems = numItems;
+		instanceData->dataSize = newSize;
+		}
+	
+	return(qd3dStatus);
+}
+

@@ -337,9 +337,8 @@ Q3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
 //=============================================================================
 //      Q3Memory_StartRecording : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#if QUESA_ALLOW_QD3D_EXTENSIONS
 TQ3Status
-Q3Memory_StartRecording()
+Q3Memory_StartRecording(void)
 {
 	#if Q3_DEBUG
 		// Call the bottleneck
@@ -354,7 +353,6 @@ Q3Memory_StartRecording()
 		return kQ3Failure;
 	#endif
 }
-#endif
 
 
 
@@ -363,9 +361,8 @@ Q3Memory_StartRecording()
 //=============================================================================
 //      Q3Memory_StopRecording : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#if QUESA_ALLOW_QD3D_EXTENSIONS
 TQ3Status
-Q3Memory_StopRecording()
+Q3Memory_StopRecording(void)
 {
 	#if Q3_DEBUG
 		// Call the bottleneck
@@ -380,7 +377,6 @@ Q3Memory_StopRecording()
 		return kQ3Failure;
 	#endif
 }
-#endif
 
 
 
@@ -389,9 +385,8 @@ Q3Memory_StopRecording()
 //=============================================================================
 //      Q3Memory_IsRecording : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#if QUESA_ALLOW_QD3D_EXTENSIONS
 TQ3Boolean
-Q3Memory_IsRecording()
+Q3Memory_IsRecording(void)
 {
 	#if Q3_DEBUG
 		// Call the bottleneck
@@ -406,7 +401,6 @@ Q3Memory_IsRecording()
 		return kQ3False;
 	#endif
 }
-#endif
 
 
 
@@ -415,9 +409,8 @@ Q3Memory_IsRecording()
 //=============================================================================
 //      Q3Memory_ForgetRecording : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#if QUESA_ALLOW_QD3D_EXTENSIONS
 TQ3Status
-Q3Memory_ForgetRecording()
+Q3Memory_ForgetRecording(void)
 {
 	#if Q3_DEBUG
 		// Call the bottleneck
@@ -431,7 +424,6 @@ Q3Memory_ForgetRecording()
 		return kQ3Failure;
 	#endif
 }
-#endif
 
 
 
@@ -440,9 +432,8 @@ Q3Memory_ForgetRecording()
 //=============================================================================
 //      Q3Memory_DumpRecording : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#if QUESA_ALLOW_QD3D_EXTENSIONS
 TQ3Uns32
-Q3Memory_CountRecords()
+Q3Memory_CountRecords(void)
 {
 	#if Q3_DEBUG
 		// Call the bottleneck
@@ -457,7 +448,6 @@ Q3Memory_CountRecords()
 		return 0;
 	#endif
 }
-#endif
 
 
 
@@ -466,7 +456,6 @@ Q3Memory_CountRecords()
 //=============================================================================
 //      Q3Memory_NextRecordedObject : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#if QUESA_ALLOW_QD3D_EXTENSIONS
 TQ3Object
 Q3Memory_NextRecordedObject( TQ3Object inObject )
 {
@@ -483,7 +472,6 @@ Q3Memory_NextRecordedObject( TQ3Object inObject )
 		return NULL;
 	#endif
 }
-#endif
 
 
 
@@ -492,7 +480,6 @@ Q3Memory_NextRecordedObject( TQ3Object inObject )
 //=============================================================================
 //      Q3Memory_DumpRecording : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#if QUESA_ALLOW_QD3D_EXTENSIONS
 TQ3Status
 Q3Memory_DumpRecording( const char* fileName, const char* memo )
 {
@@ -516,4 +503,200 @@ Q3Memory_DumpRecording( const char* fileName, const char* memo )
 		return kQ3Failure;
 	#endif
 }
+
+
+
+
+
+//=============================================================================
+//      Q3SlabMemory_New : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3SlabObject
+Q3SlabMemory_New(TQ3Uns32 itemSize, TQ3Uns32 numItems, const void *itemData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(itemSize != 0, NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on itemSize
+		return(NULL);
+
+	if (0) // Further checks on numItems
+		return(NULL);
+
+	if (0) // Further checks on itemData
+		return(NULL);
 #endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3SlabMemory_New(itemSize, numItems, itemData));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3SlabMemory_GetData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+void *
+Q3SlabMemory_GetData(TQ3SlabObject theSlab, TQ3Uns32 itemIndex)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theSlab->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), NULL);
+	Q3_REQUIRE_OR_RESULT(itemIndex < Q3SlabMemory_GetCount(theSlab), NULL);
+	
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theSlab
+		return(NULL);
+
+	if (0) // Further checks on itemIndex
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3SlabMemory_GetData(theSlab, itemIndex));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3SlabMemory_AppendData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+void *
+Q3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *itemData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theSlab->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), NULL);
+	
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theSlab
+		return(NULL);
+
+	if (0) // Further checks on numItems
+		return(NULL);
+
+	if (0) // Further checks on itemData
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3SlabMemory_AppendData(theSlab, numItems, itemData));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3SlabMemory_GetCount : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+Q3SlabMemory_GetCount(TQ3SlabObject theSlab)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theSlab->quesaTag == kQ3ObjectTypeQuesa, 0);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), 0);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theSlab
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3SlabMemory_GetCount(theSlab));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3SlabMemory_SetCount : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3SlabMemory_SetCount(TQ3SlabObject theSlab, TQ3Uns32 numItems)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theSlab->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theSlab
+		return(NULL);
+
+	if (0) // Further checks on numItems
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3SlabMemory_SetCount(theSlab, numItems));
+}
+
+
+
+

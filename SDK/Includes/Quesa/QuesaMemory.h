@@ -455,6 +455,166 @@ Q3Memory_DumpRecording(
 
 
 
+/*!
+ *  @function
+ *      Q3SlabMemory_New
+ *  
+ *  @discussion
+ *      Create a new memory slab object.
+ *
+ *      A slab may be created with an initial number of allocated items, which can
+ *      be optionally initialised with supplied data.
+ *
+ *      Either numItems or itemData may be 0 (or NULL, respectively), however if
+ *      itemData is non-NULL then numItems should be non-zero.
+ *
+ *      The itemSize parameter must be non-zero.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @itemSize               The size of each item within the slab.
+ *  @numitems               The initial number of items in the slab.
+ *  @itemData               The data to initialise the new items, or NULL.
+ *  @result                 The new slab object.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3SlabObject )
+Q3SlabMemory_New(
+    TQ3Uns32                      itemSize,
+    TQ3Uns32                      numItems,
+    const void                    *itemData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3SlabMemory_GetData
+ *  
+ *  @discussion
+ *      Get a pointer to the data for an item within a slab.
+ *
+ *      Items are stored contiguously within a slab, and are indexed from 0.
+ *
+ *      The item index must be between 0 and the number of items in the slab,
+ *      which can be obtained with Q3SlabMemory_GetCount.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @theSlab                The slab to query.
+ *  @itemIndex              The index of the item within the slab.
+ *  @result                 A pointer to the specified item within the slab.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( void * )
+Q3SlabMemory_GetData(
+    TQ3SlabObject                 theSlab,
+    TQ3Uns32                      itemIndex
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+/*!
+ *  @function
+ *      Q3SlabMemory_AppendData
+ *  
+ *  @discussion
+ *      Append items to the end of a slab.
+ *
+ *      The slab will be grown as required, and the specified number of items
+ *      will be appended to the end of the slab. A pointer to the newly-added
+ *      items within the slab will be returned, or NULL on failure.
+ *
+ *      The slab may move in memory when it is grown, and any existing pointers
+ *      into the slab should be invalidated.
+ *
+ *
+ *      If itemData is non-NULL, it is assumed to point to a contiguous block
+ *      of item data. This data is copied into the slab to initialise the new
+ *      items.
+ *
+ *      If no initialisation data is supplied, the contents of the items will
+ *      be left uninitialised.
+ *
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @theSlab                The slab to update.
+ *  @numItems               The number of items to append.
+ *  @itemData               The data to initialise the new items, or NULL.
+ *  @result                 A pointer to the first newly-added item within the slab.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( void * )
+Q3SlabMemory_AppendData(
+    TQ3SlabObject                 theSlab,
+    TQ3Uns32                      numItems,
+    const void                    *itemData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+/*!
+ *  @function
+ *      Q3SlabMemory_GetCount
+ *  
+ *  @discussion
+ *      Get the number of items within a slab.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @theSlab                The slab to query.
+ *  @result                 The number of items within the slab.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Uns32 )
+Q3SlabMemory_GetCount(
+    TQ3SlabObject                 theSlab
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3SlabMemory_SetCount
+ *  
+ *  @discussion
+ *      Set the number of items within a slab.
+ *
+ *      Existing items within the slab will be preserved when the slab is
+ *      grown, and lost when the slab is shrunk.
+ *
+ *      The slab may move in memory on any resize operation, and pointers
+ *      into the slab should be invalidated.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @theSlab                The slab to update.
+ *  @numItems               The number of items required in the slab.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status )
+Q3SlabMemory_SetCount(
+    TQ3SlabObject                 theSlab,
+    TQ3Uns32                      numItems
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
 
 
 //=============================================================================
