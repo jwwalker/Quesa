@@ -616,14 +616,18 @@ Qut_SelectMetafile(void)
 
 
 
-	// Otherwise, use Standard File
+	// Otherwise, use Standard File (but not on Carbon!)
 	else
 		{
+#if TARGET_API_MAC_CARBON
+		return(NULL);
+#else
 		StandardGetFile(NULL, numTypes, fileTypes, &sfReply);
 		if (!sfReply.sfGood)
 			return(NULL);
 		
 		theFSSpec = sfReply.sfFile;
+#endif
 		}
 
 
@@ -695,14 +699,18 @@ Qut_SelectPictureFile(void *theFile, TQ3Uns32 fileLen)
 
 
 
-	// Otherwise, use Standard File
+	// Otherwise, use Standard File (but not on Carbon!)
 	else
 		{
+#if TARGET_API_MAC_CARBON
+		return(kQ3Failure);
+#else
 		StandardGetFile(NULL, -1, NULL, &sfReply);
 		if (!sfReply.sfGood)
 			return(kQ3Failure);
 
 		memcpy(theFile, &sfReply.sfFile, sizeof(FSSpec));
+#endif
 		}
 
 	return(kQ3Success);
