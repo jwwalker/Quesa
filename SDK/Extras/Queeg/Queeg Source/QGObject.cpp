@@ -1,4 +1,3 @@
-
 /*  NAME:
         QGObject.cpp
         
@@ -7,9 +6,9 @@
 		and provides routines for movement and collision detection
 
     COPYRIGHT:
-        Queeg/Quesa Copyright © 1999-2001, Queeg/Quesa Developers.
+        Quesa Copyright © 1999-2002, Quesa Developers.
         
-        For the list of Queeg/Quesa Developers, and contact details, see:
+        For the list of Quesa Developers, and contact details, see:
         
             Documentation/contributors.html
 

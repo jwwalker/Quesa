@@ -4,8 +4,33 @@
     DESCRIPTION:
         Metrowerks MSL allocator overrides.
 
+		When building Quesa as a shared library, we want Quesa to be able to allocate
+		memory from the global heap rather than sharing the application's memory
+		partition.  When Quesa is a static library, it will use the same malloc as
+		the application.
+	
+		When running under Mac OS X, application memory partitions don't exist, so
+		we can use NewPtr instead of TempNewHandle.  Besides being more efficient,
+		this makes it easier to debug with MallocDebug.
+	
+	
+		If you are debugging, or building for Mac OS X only, you may want to rebuild
+		the MSL C library with the macro _MSL_OS_DIRECT_MALLOC defined.  This
+		basically makes malloc call __sys_alloc directly, instead of suballocating
+		from big pools allocated with __sys_alloc.  If you use this option, be
+		warned that as of CodeWarrior Pro 7, there is a bug in the implementation of
+		realloc.  If you call realloc( ptr, 0 ), it fails to call free( ptr ).
+	
+		If you use the usual pooled malloc configuration, you may want to comment
+		out the line:
+
+				#define _MSL_USE_FIX_MALLOC_POOLS
+
+		in alloc.c.  In my experience, that makes memory allocation behave more
+		predictably.
+
     COPYRIGHT:
-        Quesa Copyright © 1999-2001, Quesa Developers.
+        Quesa Copyright © 1999-2002, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         
@@ -41,38 +66,7 @@
 
 #include <pool_alloc.h>
 
-/*
-	============================================================================
-	Purpose
-	
-	When building Quesa as a shared library, we want Quesa to be able to allocate
-	memory from the global heap rather than sharing the application's memory
-	partition.  When Quesa is a static library, it will use the same malloc as
-	the application.
-	
-	When running under Mac OS X, application memory partitions don't exist, so
-	we can use NewPtr instead of TempNewHandle.  Besides being more efficient,
-	this makes it easier to debug with MallocDebug.
-	
-	
-	MSL notes
-	
-	If you are debugging, or building for Mac OS X only, you may want to rebuild
-	the MSL C library with the macro _MSL_OS_DIRECT_MALLOC defined.  This
-	basically makes malloc call __sys_alloc directly, instead of suballocating
-	from big pools allocated with __sys_alloc.  If you use this option, be
-	warned that as of CodeWarrior Pro 7, there is a bug in the implementation of
-	realloc.  If you call realloc( ptr, 0 ), it fails to call free( ptr ).
-	
-	If you use the usual pooled malloc configuration, you may want to comment
-	out the line
-		#define _MSL_USE_FIX_MALLOC_POOLS
-	in alloc.c.  In my experience, that makes memory allocation behave more
-	predictably.
-	
-	-- JWWalker 3 Dec 2001
-	============================================================================
-*/
+
 
 
 
@@ -92,11 +86,16 @@
 // Alignment - see Tech Note 1174
 #define AlignPtrToBoundary(_rawPtr, _align)		(Ptr) ((((TQ3Uns32) _rawPtr)+(_align)-1) & ~((_align)-1))
 
+
+
+
+
 //=============================================================================
 //      IsMemoryPartitioned : Determine whether the Mac memory allocator
 //			pays attention to the memory partition in the SIZE resource.
 //-----------------------------------------------------------------------------
 #if !QUESA_BUILD_AS_STATIC_LIBRARY
+
 static Boolean IsMemoryPartitioned()
 {
 	static Boolean	sDidCheck = false;
@@ -110,7 +109,11 @@ static Boolean IsMemoryPartitioned()
 	}
 	return sIsPartitioned;
 }
+
 #endif
+
+
+
 
 
 //=============================================================================
@@ -186,6 +189,10 @@ __sys_alloc(__std(size_t) theSize)
 
 #endif // QUESA_BUILD_AS_STATIC_LIBRARY
 
+
+
+
+
 //=============================================================================
 //      __sys_pointer_size : Free a block of memory.
 //-----------------------------------------------------------------------------
@@ -193,6 +200,7 @@ __sys_alloc(__std(size_t) theSize)
 //		Note : We only want to override MSL when building as a shared library.
 //-----------------------------------------------------------------------------
 #if !QUESA_BUILD_AS_STATIC_LIBRARY
+
 __std(size_t) __sys_pointer_size(void* ptr)
 {
 	if (IsMemoryPartitioned())
@@ -204,7 +212,11 @@ __std(size_t) __sys_pointer_size(void* ptr)
 	else
 		return GetPtrSize( (Ptr)ptr );
 }
+
 #endif // QUESA_BUILD_AS_STATIC_LIBRARY
+
+
+
 
 
 //=============================================================================

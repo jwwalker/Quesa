@@ -5,7 +5,7 @@
         Header file for E3View.c.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2001, Quesa Developers.
+        Quesa Copyright © 1999-2002, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         
@@ -127,7 +127,7 @@ void							E3View_State_SetStyleReceiveShadows(TQ3ViewObject theView, TQ3Boolean
 void							E3View_State_SetStyleFill(TQ3ViewObject theView, TQ3FillStyle fillStyle);
 void							E3View_State_SetStyleBackfacing(TQ3ViewObject theView, TQ3BackfacingStyle backfacingStyle);
 void							E3View_State_SetStyleInterpolation(TQ3ViewObject theView, TQ3InterpolationStyle interpolationStyle);
-void							E3View_State_SetStyleHighlight(TQ3ViewObject theView, TQ3AttributeSet interpolationStyle); // Fred, 20/08/2001
+void							E3View_State_SetStyleHighlight(TQ3ViewObject theView, TQ3AttributeSet interpolationStyle);
 void							E3View_State_SetStyleOrientation(TQ3ViewObject theView, TQ3OrientationStyle frontFacingDirection);
 void							E3View_State_SetStyleAntiAlias(TQ3ViewObject theView, const TQ3AntiAliasStyleData *theData);
 void							E3View_State_SetStyleFog(TQ3ViewObject theView, const TQ3FogStyleData *theData);

@@ -1,4 +1,3 @@
-
 /*  NAME:
          QGCamera.cpp
         
@@ -6,9 +5,9 @@
 		A basic test of the Queeg (game utility) classes.
 
     COPYRIGHT:
-        Queeg/Quesa Copyright © 1999-2001, Queeg/Quesa Developers.
+        Quesa Copyright © 1999-2002, Quesa Developers.
         
-        For the list of Queeg/Quesa Developers, and contact details, see:
+        For the list of Quesa Developers, and contact details, see:
         
             Documentation/contributors.html
 

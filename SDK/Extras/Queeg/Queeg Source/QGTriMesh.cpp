@@ -1,4 +1,3 @@
-
 /*  NAME:
         QGTriMesh.cpp
         
@@ -6,9 +5,9 @@
 		Class for loading and manipulating trimesh structures
 
     COPYRIGHT:
-        Queeg/Quesa Copyright © 1999-2001, Queeg/Quesa Developers.
+        Quesa Copyright © 1999-2002, Quesa Developers.
         
-        For the list of Queeg/Quesa Developers, and contact details, see:
+        For the list of Quesa Developers, and contact details, see:
         
             Documentation/contributors.html
 
@@ -31,17 +30,18 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-
-
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-
 #include "QGTriMesh.h"
 #include "QueegMacros.h"
 #include "QGUtils.h"
+
 #include <math.h>
-#include <string.h>	// defines memcpy
+#include <string.h>
+
+
+
 
 
 //=============================================================================
@@ -50,6 +50,9 @@
 #ifndef SWAP
 #define SWAP(a,b) a ^= b; b ^= a; a ^= b
 #endif
+
+
+
 
 
 //=============================================================================
@@ -138,6 +141,10 @@ QGTriMesh::QGTriMesh( TQ3Uns32 qtyVertices, TQ3Uns32 qtyTriangles,
 			= mTriMeshData.numVertexAttributeTypes = mTriMeshData.numTriangleAttributeTypes = 0;
 	}		
 }
+
+
+
+
 
 //=============================================================================
 //      QGTriMesh::QGTriMesh :	Construct a trimesh object a TQ3TriMesh.
@@ -284,6 +291,10 @@ QGTriMesh::QGTriMesh(TQ3GeometryObject srcObj)
 	Q3TriMesh_EmptyData( &srcData );
 }
 
+
+
+
+
 //=============================================================================
 //      QGTriMesh::QGTriMesh :	Construct a trimesh object another one
 //			(i.e., this is a copy-constructor).
@@ -372,6 +383,10 @@ QGTriMesh::QGTriMesh(const QGTriMesh &src)
 	mBoundsDirty = src.mBoundsDirty;
 }
 
+
+
+
+
 //=============================================================================
 //      QGTriMesh::~QGTriMesh :	Dispose of a trimesh object.
 //-----------------------------------------------------------------------------
@@ -393,6 +408,10 @@ QGTriMesh::~QGTriMesh()
 	}
 }
 
+
+
+
+
 //=============================================================================
 //      QGTriMesh::BuildMesh :	An empty function which may be used as
 //			a standard interface for derived classes to construct their
@@ -404,6 +423,10 @@ void QGTriMesh::BuildMesh()
 		DEBUGSTR("\pBuildMesh() called on base QGTriMesh!");
 	#endif
 }
+
+
+
+
 
 //=============================================================================
 //      QGTriMesh::Submit :	Recalculate the bounding box if needed, then
@@ -417,6 +440,10 @@ TQ3Status QGTriMesh::Submit(const TQ3ViewObject& view)
 	// then, sumbit the TQ3TriMeshData
 	return Q3TriMesh_Submit( &mTriMeshData, view );
 }
+
+
+
+
 
 //=============================================================================
 //      QGTriMesh::ComputeNormals :	Calculates triangle and vertex normals
@@ -464,6 +491,9 @@ void QGTriMesh::ComputeNormals( TQ3Boolean doVertexNormals )
 }
 
 
+
+
+
 //=============================================================================
 //      QGTriMesh::Move : Shifts all the vertex coordinates in X, Y, and Z.
 //-----------------------------------------------------------------------------
@@ -481,6 +511,10 @@ void QGTriMesh::Move(const float dx, const float dy, const float dz)
 	mBoundsDirty = kQ3True;		// note that we now need to recompute the bounding box
 						// OFI: shift it manually here
 }
+
+
+
+
 
 //=============================================================================
 //      QGTriMesh::Scale : Multiplies all the vertex coordinates by the
@@ -500,6 +534,10 @@ void QGTriMesh::Scale(const float scaleFactor)
 	}
 	mBoundsDirty = kQ3True;		// note that we now need to recompute the bounding box
 }
+
+
+
+
 
 //=============================================================================
 //      QGTriMesh::Scale : Multiplies all the vertex coordinates by the
@@ -526,6 +564,10 @@ void QGTriMesh::Scale(const float scaleX, const float scaleY, const float scaleZ
 	ComputeNormals(kQ3False);
 	mBoundsDirty = kQ3True;		// note that we now need to recompute the bounding box
 }
+
+
+
+
 
 //=============================================================================
 //      QGTriMesh::Transform : Transforms all vertex coordinates by an
@@ -567,6 +609,10 @@ void QGTriMesh::Transform( const TQ3Matrix4x4& transform )
 	// significant OFI: transform the bounding box as well!
 }
 
+
+
+
+
 //=============================================================================
 //      QGTriMesh::FlipSurface : Inverts all the faces in the trimesh,
 //			so that the back surface becomes the front.
@@ -578,6 +624,7 @@ void QGTriMesh::FlipSurface()
 		SWAP(mTriMeshData.triangles[i].pointIndices[0], mTriMeshData.triangles[i].pointIndices[1]);
 	}
 }
+
 
 
 
