@@ -44,13 +44,6 @@
 
 #define __QD3DCUSTOMELEMENTS__
 
-// QuickTime type
-#if QUESA_OS_MACINTOSH
-	#include <Movies.h>
-#else
-	typedef char								**QTAtomContainer;
-#endif // QUESA_OS_MAC
-
 
 
 
@@ -172,6 +165,8 @@ CEUrlElement_EmptyData (
 
 
 
+#if QUESA_SUPPORT_QUICKTIME
+
 /*
  *	CEWireElement_SetData
  *		Description of function
@@ -204,6 +199,8 @@ EXTERN_API_C ( TQ3Status  )
 CEWireElement_EmptyData (
 	QTAtomContainer               *wireData
 );
+
+#endif // QUESA_SUPPORT_QUICKTIME
 
 
 

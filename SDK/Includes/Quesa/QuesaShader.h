@@ -44,10 +44,6 @@
 
 #define __QD3DSHADER__
 
-#if QUESA_SUPPORT_QUICKTIME
-	#include <Movies.h>
-#endif
-
 
 
 
