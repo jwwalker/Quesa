@@ -145,7 +145,7 @@ typedef enum TQ3AttributeTypes {
  *  @constant kQ3XAttributeMaskInherited            Inherited attributes mask.
  *  @constant kQ3XAttributeMaskInterpolated         Interpolated attributes mask.
  */
-typedef enum TQ3XAttributeMask {
+enum {
     kQ3XAttributeMaskNone                       = 0,
     kQ3XAttributeMaskSurfaceUV                  = (1 << (kQ3AttributeTypeSurfaceUV          - 1)),
     kQ3XAttributeMaskShadingUV                  = (1 << (kQ3AttributeTypeShadingUV          - 1)),
@@ -170,8 +170,9 @@ typedef enum TQ3XAttributeMask {
                                                   kQ3XAttributeMaskTransparencyColor  |
                                                   kQ3XAttributeMaskSurfaceTangent,
     kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
-} TQ3XAttributeMask;
+};
 
+typedef TQ3Uns32	TQ3XAttributeMask;
 
 /*!
  *	@enum
