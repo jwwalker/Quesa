@@ -69,59 +69,35 @@ development environments. Supported environments are:
 	<li>gcc (Linux/Be)
 </ul>
 
-<p>
-To build Quesa, you will also need to obtain the QuickDraw&#8482; 3D 1.6 headers
-from Apple.
-</p>
-
 
 <h4>Building Quesa on Mac OS</h4>
 <p>
 Mac OS developers will normally be using CodeWarrior as their development environment.
-Unfortunately CodeWarrior Pro 5 includes the headers for QD3D 1.5, whereas Quesa
-implements the 1.6 API.
-</p>
+Unfortunately CodeWarrior Pro 5 does not include the OpenGL SDK from Apple, and
+so this must be installed separately.
 
 <p>
-To obtain the 1.6 headers, you must download the QuickDraw&#8482; 3D 1.6 SDK, which
-can be found
-<a href="ftp://ftp.apple.com//developer/Development_Kits/QuickDraw_3D/QuickDraw_3D_SDK/">here</a>.
-</p>
-
-<p>
-You will also need to obtain the OpenGL 1.0 SDK from Apple, which can be found
+The OpenGL 1.0 SDK from Apple can be found
 <a href="ftp://ftp.apple.com/developer/Development_Kits/OpenGL_1.0_SDK.sit.hqx">here</a>.
 </p>
 
 <p>
-Place the QuickDraw&#8482; 3D 1.6 headers, the OpenGL 1.0 headers, and the Open GL 1.0
-stub libraries in your "Quesa/SDK/Includes/Apple" folder, or in the appropriate location
+Place the OpenGL headers and stub libraries within the appropriate location
 for your development environment.
 <p>
 
 
 <h4>Building Quesa on other platforms</h4>
 <p>
-For other platforms, you should obtain the headers by downloading the
-<a href="ftp://ftp.apple.com//developer/Quicktime/qtwsdk.zip">QuickTime SDK</a>
-for Windows.
-</p>
-
-<p>
-After downloading the QuickTime SDK, copy the contents of the "CIncludes" folder in the
-archive to the "SDK/Includes/Apple/" folder within Quesa.
-</p>
-
-<p>
-If you are using Unix, unpack the archive with "<tt>unzip -a qtwsdk.zip</tt>" to convert
-the line endings from DOS to Unix format.
-</p>
-
-<p>
-You will also need to obtain the appropriate OpenGL headers and libraries for your platform,
+For other platforms you should also obtain appropriate OpenGL headers and libraries,
 although these will often be supplied by your compiler vendor.
 </p>
 
+<p>
+If you do not have access to OpenGL on your platform, you may want to try the
+<a href="http://mesa3d.sourceforge.net/">Mesa</a> implementation (which fully
+supports Quesa).
+</p>
 
 
 <h3>Porting Quesa</h3>

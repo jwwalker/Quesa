@@ -57,39 +57,9 @@
 
 <h3>Todo</h3>
 <p>
-The following tasks are currently being worked on:
-</p>
-
-
-<table border=1 width=80% align=center>
-<tr><th width=100>Owner</th><th>Task</th></tr>
-<tr><td>Jose Cruanyes</td><td>
-Implementing 3DMF/3DS importers/exporters.
-</td></tr>
-
-<tr><td>Dair Grant</td><td>
-Finishing Interactive Renderer.
-</td></tr>
-
-<tr><td>Joseph Strout</td><td>
-Continuing implementation of the Queeg framework.
-</td></tr>
-</table>
-
-<p>
-Note that this list is only updated on each release, and so may not be completely
-up to date: if in doubt, check with the mailing list.
-</p>
-
-<p>
-Contact details for developers can be found on the
-<a href="../other/contributors.html">contributors</a> page.
-</p>
-
-
-<h3>Future Projects</h3>
-<p>
-The following items have not been claimed, but are listed here in case you want to help.
+Any items listed here are available for developers to work on. If you want to
+work on a particular item, or have suggestions for other items to be added,
+please let the mailing list know.
 </p>
 
 <p>
@@ -102,8 +72,8 @@ start and more general wish-list items towards the end.
 
 	<li>Test all functions on the 'Testing' list.
 
-	<li>Implement remaining kQ3XMethodTypeCameraFrustumMatrix camera methods (for
-		orthographic and view plane cameras).
+	<li>Implement remaining kQ3XMethodTypeCameraFrustumMatrix camera method for
+		view plane cameras.
 
 	<li>Glue functions should make use of the Error Manager to report errors, and should
 		include additional tests in debug builds.
@@ -114,9 +84,6 @@ start and more general wish-list items towards the end.
 		on Mac OS.
 
 	<li>Be OpenGL support.
-
-	<li>Non-Apple headers, to allow development without Universal Headers (particularly
-	    useful for Unix and Be ports, where the Universal Headers aren't easily available).
 
 	<li>NURB Patch, add support for vertex normals and UV texture mapping.
 	
@@ -133,31 +100,31 @@ start and more general wish-list items towards the end.
 	<li>Error Manager, be able to turn a TQ3Error/TQ3Warning/TQ3Notice into a string suitable
 		for displaying in a dialog.
 
-	<li>QD3DLight.h, An 'eye' light type.
+	<li>QuesaLight.h, An 'eye' light type.
 
-	<li>QD3DLight.h, Be able to put lights in non-light groups.
+	<li>QuesaLight.h, Be able to put lights in non-light groups.
 
-	<li>QD3DMath.h, #define to enable inline versions of simple routines.
+	<li>QuesaMath.h, #define to enable inline versions of simple routines.
 
-	<li>QD3DShader.h, Q3ColorARGB_Luminance, to take a TQ3ColorARGB.
+	<li>QuesaShader.h, Q3ColorARGB_Luminance, to take a TQ3ColorARGB.
 
-	<li>QD3DStyle.h, A 'cast shadow' style to complement the 'receive shadow' style.
+	<li>QuesaStyle.h, A 'cast shadow' style to complement the 'receive shadow' style.
 
-	<li>QD3DStyle.h, Be able to set fill style independently for backfacing and frontfacing polygons.
+	<li>QuesaStyle.h, Be able to set fill style independently for backfacing and frontfacing polygons.
 
-	<li>QD3DStyle.h, A 'kQ3AntiAliasModeMaskPoints' style as per OpenGL.
+	<li>QuesaStyle.h, A 'kQ3AntiAliasModeMaskPoints' style as per OpenGL.
 
-	<li>QD3DView.h, Q3View_GetFogStyleState to access fog style state.
+	<li>QuesaView.h, Q3View_GetFogStyleState to access fog style state.
 
-	<li>QD3DView.h, Q3View_GetAllowAllGroupCulling to access group culling state.
+	<li>QuesaView.h, Q3View_GetAllowAllGroupCulling to access group culling state.
 
-	<li>QD3DStyle.h, subdivision style that allows use of c2 in world and screen space
+	<li>QuesaStyle.h, subdivision style that allows use of c2 in world and screen space
 		subdivision, allows things like torus to control subdivision in both u and v.
 
 	<li>Behaviours, to be able to associate some sort of behaviour with a TQ3Object, and for that
 		behaviour to be invoked automatically during rendering.
 	 
-	<li>File importers. 3DMF and 3DS are planned, DXF and VRML have been proposed.
+	<li>File importers. 3DMF and 3DS are being worked on, DXF and VRML have been proposed.
 	
 	<li>API extension, generate a group of normal indicators for a geometry (currently
 	    implemented internally, but not published).
@@ -174,7 +141,7 @@ start and more general wish-list items towards the end.
 	
 	<li>Multithreading support.
 	
-	<li>Additional plug-in renderers (e.g., POV-Ray, or Direct3D).
+	<li>Additional plug-in renderers (e.g., Direct3D).
 	
 	<li>Non-Apple documentation.
 	
