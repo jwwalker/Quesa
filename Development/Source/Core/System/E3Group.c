@@ -408,14 +408,23 @@ e3group_getfirstpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gr
 	
 	finish = &instanceData->listHead;
 	pos = instanceData->listHead.next;
-	while (pos != finish)
+
+	if (isType == kQ3ObjectTypeShared)
 		{
-		if (Q3Object_IsType (pos->object, isType))
-			{
+		if (pos != finish)
 			*position = (TQ3GroupPosition)pos;
-			break;
+		}
+	else
+		{
+		while (pos != finish)
+			{
+			if (Q3Object_IsType (pos->object, isType))
+				{
+				*position = (TQ3GroupPosition)pos;
+				break;
+				}
+			pos = pos->next;
 			}
-		pos = pos->next;
 		}
 
 	return(kQ3Success);
@@ -441,15 +450,25 @@ e3group_getlastpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 	
 	finish = &instanceData->listHead;
 	pos = instanceData->listHead.prev;
-	while (pos != finish)
+
+	if (isType == kQ3ObjectTypeShared)
 		{
-		if (Q3Object_IsType (pos->object, isType))
-			{
+		if (pos != finish)
 			*position = (TQ3GroupPosition)pos;
-			break;
-			}
-		pos = pos->prev;
 		}
+	else
+		{
+		while (pos != finish)
+			{
+			if (Q3Object_IsType (pos->object, isType))
+				{
+				*position = (TQ3GroupPosition)pos;
+				break;
+				}
+			pos = pos->prev;
+			}
+		}
+
 
 	return(kQ3Success);
 }
@@ -477,14 +496,23 @@ e3group_getnextpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 	pos = (TQ3XGroupPosition*)*position;
 	pos = pos->next;
 	*position = NULL;
-	while (pos != finish)
+	
+	if (isType == kQ3ObjectTypeShared)
 		{
-		if (Q3Object_IsType (pos->object, isType))
-			{
+		if (pos != finish)
 			*position = (TQ3GroupPosition)pos;
-			break;
+		}
+	else
+		{
+		while (pos != finish)
+			{
+			if (Q3Object_IsType (pos->object, isType))
+				{
+				*position = (TQ3GroupPosition)pos;
+				break;
+				}
+			pos = pos->next;
 			}
-		pos = pos->next;
 		}
 
 	return(kQ3Success);
@@ -511,14 +539,23 @@ e3group_getprevpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 	pos = (TQ3XGroupPosition*)*position;
 	pos = pos->prev;
 	*position = NULL;
-	while (pos != finish)
+
+	if (isType == kQ3ObjectTypeShared)
 		{
-		if (Q3Object_IsType (pos->object, isType))
-			{
+		if (pos != finish)
 			*position = (TQ3GroupPosition)pos;
-			break;
+		}
+	else
+		{
+		while (pos != finish)
+			{
+			if (Q3Object_IsType (pos->object, isType))
+				{
+				*position = (TQ3GroupPosition)pos;
+				break;
+				}
+			pos = pos->prev;
 			}
-		pos = pos->prev;
 		}
 
 	return(kQ3Success);
