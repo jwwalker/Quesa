@@ -68,6 +68,8 @@ e3drawcontext_cocoa_new(TQ3Object theObject, void *privateData, const void *para
 	// Initialise our instance data
 	instanceData->data.cocoaData.theData = *cocoaData;
 
+	E3DrawContext_InitaliseData(&instanceData->data.cocoaData.theData.drawContextData);
+
 
 
 	// Register our notification callback

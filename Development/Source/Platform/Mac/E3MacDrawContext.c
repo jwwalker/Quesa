@@ -720,6 +720,8 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 	instanceData->data.macData.paneState = macData->drawContextData.paneState;
 	instanceData->data.macData.thePane   = macData->drawContextData.pane;
 
+	E3DrawContext_InitaliseData(&instanceData->data.macData.theData.drawContextData);
+
 
 
 	// Save the initial window bounds and visible region, watching out for

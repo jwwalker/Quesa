@@ -66,6 +66,8 @@ e3drawcontext_pixmap_new(TQ3Object theObject, void *privateData, const void *par
 	// Initialise our instance data
 	instanceData->data.pixmapData = *pixmapData;
 
+	E3DrawContext_InitaliseData(&instanceData->data.pixmapData.drawContextData);
+
 	return(kQ3Success);
 }
 
@@ -330,6 +332,35 @@ E3DrawContext_UnregisterClass(void)
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3SharedTypeDrawContext, kQ3True);
 
 	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3DrawContext_InitaliseData : Initialise the data for a draw context.
+//-----------------------------------------------------------------------------
+void
+E3DrawContext_InitaliseData(TQ3DrawContextData *drawContextData)
+{
+
+
+	// Initialise the data
+	//
+	// The draw context structure contains two optional fields. The values
+	// marked by these fields are normalised on creation, to ensure that
+	// we always return consistent values to apps if they later query our
+	// state.
+	//
+	// In addition, this ensures that the mask bitmap field is left in a
+	// state where it can be safely replaced without attempting to dispose
+	// of an invalid bitmap.
+	if (drawContextData->paneState == kQ3False)
+		Q3Memory_Clear(&drawContextData->pane, sizeof(drawContextData->pane));
+
+	if (drawContextData->maskState == kQ3False)
+		Q3Memory_Clear(&drawContextData->mask, sizeof(drawContextData->mask));
 }
 
 
