@@ -71,7 +71,7 @@ typedef struct TQ3StringIdentifier {
 //			linkers to pool the common strings.
 //-----------------------------------------------------------------------------
 static TQ3StringIdentifier gEnglishStringTable_Error[] = {
-	{ kQ3ErrorNone,									"Quesa Error: " "None" },
+	{ kQ3ErrorNone,									"Quesa Error: " "No error" },
 	{ kQ3ErrorInternalError,						"Quesa Error: " "Internal error" },
 	{ kQ3ErrorNoRecovery,							"Quesa Error: " "No recovery" },
 	{ kQ3ErrorLastFatalError,						"Quesa Error: " "Last fatal error" },
@@ -105,8 +105,8 @@ static TQ3StringIdentifier gEnglishStringTable_Error[] = {
 	{ kQ3ErrorNoExtensionsFolder,					"Quesa Error: " "No extensions folder" },
 	{ kQ3ErrorExtensionError,						"Quesa Error: " "Extension error" },
 	{ kQ3ErrorPrivateExtensionError,				"Quesa Error: " "Private extension error" },
-	{ kQ3ErrorDegenerateGeometry,					"Quesa Error: " "Degenerate geometry" },
-	{ kQ3ErrorGeometryInsufficientNumberOfPoints,	"Quesa Error: " "Geometry insufficient number of points" },
+	{ kQ3ErrorDegenerateGeometry,					"Quesa Error: " "Degenerate geometry detected" },
+	{ kQ3ErrorGeometryInsufficientNumberOfPoints,	"Quesa Error: " "Geometry has an insufficient number of points" },
 	{ kQ3ErrorNoStorageSetForFile,					"Quesa Error: " "No storage set for file" },
 	{ kQ3ErrorEndOfFile,							"Quesa Error: " "End of file" },
 	{ kQ3ErrorFileCancelled,						"Quesa Error: " "File cancelled" },
@@ -178,9 +178,9 @@ static TQ3StringIdentifier gEnglishStringTable_Error[] = {
 	{ kQ3ErrorBadDrawContextFlag,					"Quesa Error: " "Bad draw context flag" },
 	{ kQ3ErrorBadDrawContext,						"Quesa Error: " "Bad draw context" },
 	{ kQ3ErrorUnsupportedPixelDepth,				"Quesa Error: " "Unsupported pixel depth" },
-	{ kQ3ErrorController,							"Quesa Error: " "Controller" },
-	{ kQ3ErrorTracker,								"Quesa Error: " "Tracker" },
-	{ kQ3ErrorWin32Error,							"Quesa Error: " "Win32Error" },
+	{ kQ3ErrorController,							"Quesa Error: " "Controller error" },
+	{ kQ3ErrorTracker,								"Quesa Error: " "Tracker error" },
+	{ kQ3ErrorWin32Error,							"Quesa Error: " "Windows error" },
 	{ kQ3ErrorTypeAlreadyExistsAndHasSubclasses,	"Quesa Error: " "Type already exists and has subclasses" },
 	{ kQ3ErrorTypeAlreadyExistsAndOtherClassesDependOnIt,	"Quesa Error: " "Type already exists and other classes depend on it" },
 	{ kQ3ErrorTypeAlreadyExistsAndHasObjectInstances,		"Quesa Error: " "Type already exists and has object instances" },
@@ -193,7 +193,7 @@ static TQ3StringIdentifier gEnglishStringTable_Error[] = {
 
 
 static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
-	{ kQ3WarningNone,								"Quesa Warning: " "None" },
+	{ kQ3WarningNone,								"Quesa Warning: " "No warning" },
 	{ kQ3WarningInternalException,					"Quesa Warning: " "Internal exception" },
 	{ kQ3WarningNoObjectSupportForDuplicateMethod,	"Quesa Warning: " "No object support for duplicate method" },
 	{ kQ3WarningNoObjectSupportForDrawMethod,		"Quesa Warning: " "No object support for draw method" },
@@ -238,7 +238,7 @@ static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
 
 
 static TQ3StringIdentifier gEnglishStringTable_Notice[] = {
-	{ kQ3NoticeNone,								"Quesa Notice: " "None" },
+	{ kQ3NoticeNone,								"Quesa Notice: " "No notice" },
 	{ kQ3NoticeDataAlreadyEmpty,					"Quesa Notice: " "Data already empty" },
 	{ kQ3NoticeMethodNotSupported,					"Quesa Notice: " "Method not supported" },
 	{ kQ3NoticeObjectAlreadySet,					"Quesa Notice: " "Object already set" },
