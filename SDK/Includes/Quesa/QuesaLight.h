@@ -67,7 +67,20 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Attenuation type
+/*!
+ *  @enum
+ *      TQ3AttenuationType
+ *  @discussion
+ *      Light attenuation methods.
+ *
+ *      The attenuation of a light controls how the intensity of the light
+ *      is diminished over distance. In the real world, the itensity of a
+ *      light source is attenuated as 1/(d*d).
+ *
+ *  @constant kQ3AttenuationTypeNone                      Intensity is not attenuated.
+ *  @constant kQ3AttenuationTypeInverseDistance           Intensity is attenuated as 1/d.
+ *  @constant kQ3AttenuationTypeInverseDistanceSquared    Intensity is attenuated as 1/(d*d).
+ */
 typedef enum {
     kQ3AttenuationTypeNone                      = 0,
     kQ3AttenuationTypeInverseDistance           = 1,
@@ -75,7 +88,21 @@ typedef enum {
 } TQ3AttenuationType;
 
 
-// Fall-off type
+/*!
+ *  @enum
+ *      TQ3FallOffType
+ *  @discussion
+ *      Light fall-off methods.
+ *
+ *      The fall-off value of a light controls how the intensity of the light
+ *      varies from the edge of the hot angle (where the light is at full intensity)
+ *      to the outer angle (where the light intensity falls to zero).
+ *
+ *  @constant kQ3FallOffTypeNone           Intensity does not fall off.
+ *  @constant kQ3FallOffTypeLinear         Intensity falls off linearly.
+ *  @constant kQ3FallOffTypeExponential    Intensity falls off exponentially.
+ *  @constant kQ3FallOffTypeCosine         Intensity falls off as the cosine of the angle.
+ */
 typedef enum {
     kQ3FallOffTypeNone                          = 0,
     kQ3FallOffTypeLinear                        = 1,
@@ -90,7 +117,19 @@ typedef enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Light data
+/*!
+ *  @struct
+ *      TQ3LightData
+ *  @discussion
+ *      Describes the common state for a light.
+ *
+ *      The common light state includes the on/off state, brightness, and color.
+ *      Brightness and color values should be between 0.0 and 1.0 inclusive.
+ *
+ *  @field isOn             Controls if the light is active or not.
+ *  @field brightness       The brightness of the light.
+ *  @field color            The colour of the light.
+ */
 typedef struct TQ3LightData {
     TQ3Boolean                                  isOn;
     float                                       brightness;
@@ -98,7 +137,19 @@ typedef struct TQ3LightData {
 } TQ3LightData;
 
 
-// Directional light data
+/*!
+ *  @struct
+ *      TQ3DirectionalLightData
+ *  @discussion
+ *      Describes the state for a directional light.
+ *
+ *      A directional light is defined by a vector, which indicates the
+ *      world-space direction away from the light source.
+ *
+ *  @field lightData        The common state for the light.
+ *  @field castsShadows     Indicates if the light casts shadows.
+ *  @field direction        The direction of the light.
+ */
 typedef struct TQ3DirectionalLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
@@ -106,7 +157,21 @@ typedef struct TQ3DirectionalLightData {
 } TQ3DirectionalLightData;
 
 
-// Point light data
+/*!
+ *  @struct
+ *      TQ3PointLightData
+ *  @discussion
+ *      Describes the state for a point light.
+ *
+ *      A point light is defined by a coordinate in world space, and an
+ *      attenuation value which controls how the light diminishes with
+ *      distance.
+ *
+ *  @field lightData        The common state for the light.
+ *  @field castsShadows     Indicates if the light casts shadows.
+ *  @field attenuation      The attenuation style of the light.
+ *  @field location         The location of the light.
+ */
 typedef struct TQ3PointLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
@@ -115,7 +180,39 @@ typedef struct TQ3PointLightData {
 } TQ3PointLightData;
 
 
-// Spot light data
+/*!
+ *  @struct
+ *      TQ3SpotLightData
+ *  @discussion
+ *      Describes the state for a spot light.
+ *
+ *      A spot light is defined by a coordinate in world space, a vector
+ *      away from that coordinate, and an attenuation value which controls
+ *      how the light diminishes with distance.
+ *
+ *      A spot light casts a cone of light, where the cone is defined by
+ *      two angles. The hot angle is the angle from the center of the light
+ *      cone to the point where the light intensity starts to drop, and the
+ *      outerAngle is the angle from the center of the light to the point
+ *      where the light intensity has fallen to zero.
+ *
+ *      The way the light intensity diminishes between the hotAngle and
+ *      outerAngle values is controlled by the light fallOff value.
+ *
+ *      Both hotAngle and outerAngle are half-angles from the center of the
+ *      light cone, and are specified in radians. They both range from 0.0
+ *      to kQ3Pi/2.0 (inclusive), and the outerAngle must be equal than or
+ *      greater to the hotAngle.
+ *
+ *  @field lightData        The common state for the light.
+ *  @field castsShadows     Indicates if the light casts shadows.
+ *  @field attenuation      The attenuation style of the light.
+ *  @field location         The location of the light.
+ *  @field direction        The direction of the light.
+ *  @field hotAngle         The half-angle where the light intensity starts to drop.
+ *  @field outerAngle       The half-angle where the light intensity reaches zero.
+ *  @field fallOff          The fall off between the hotAngle and the outerAngle.
+ */
 typedef struct TQ3SpotLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
@@ -138,13 +235,12 @@ typedef struct TQ3SpotLightData {
  *  @function
  *      Q3Light_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns kQ3ObjectTypeInvalid if the light type is unknown.
  *
- *  @param light            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @result                 The type of the light object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Light_GetType (
@@ -157,14 +253,11 @@ Q3Light_GetType (
  *  @function
  *      Q3Light_GetState
  *  @discussion
- *      One-line description of this function.
+ *      Get the on/off state of a light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param isOn             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param isOn             Receives true/false as the light is on.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Light_GetState (
@@ -178,14 +271,11 @@ Q3Light_GetState (
  *  @function
  *      Q3Light_GetBrightness
  *  @discussion
- *      One-line description of this function.
+ *      Get the brightness of a light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param brightness       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param brightness       Receives the brightness of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Light_GetBrightness (
@@ -199,14 +289,11 @@ Q3Light_GetBrightness (
  *  @function
  *      Q3Light_GetColor
  *  @discussion
- *      One-line description of this function.
+ *      Get the color of a light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param color            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param color            Receives the color of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Light_GetColor (
@@ -220,14 +307,11 @@ Q3Light_GetColor (
  *  @function
  *      Q3Light_SetState
  *  @discussion
- *      One-line description of this function.
+ *      Set the on/off state for a light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param isOn             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param isOn             True or false as the light is on.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Light_SetState (
@@ -241,14 +325,11 @@ Q3Light_SetState (
  *  @function
  *      Q3Light_SetBrightness
  *  @discussion
- *      One-line description of this function.
+ *      Set the brightness of a light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param brightness       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param brightness       The new brightness for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Light_SetBrightness (
@@ -262,14 +343,11 @@ Q3Light_SetBrightness (
  *  @function
  *      Q3Light_SetColor
  *  @discussion
- *      One-line description of this function.
+ *      Set the color of a light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param color            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param color            The new color for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Light_SetColor (
@@ -283,14 +361,11 @@ Q3Light_SetColor (
  *  @function
  *      Q3Light_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the common state of a light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param lightData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param lightData        Receives the common state of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Light_GetData (
@@ -304,14 +379,11 @@ Q3Light_GetData (
  *  @function
  *      Q3Light_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the common state for a light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param lightData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param lightData        The new common state for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Light_SetData (
@@ -325,13 +397,10 @@ Q3Light_SetData (
  *  @function
  *      Q3AmbientLight_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new ambient light object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param lightData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param lightData        The data for the light object.
+ *  @result                 The new light object.
  */
 EXTERN_API_C ( TQ3LightObject  )
 Q3AmbientLight_New (
@@ -344,14 +413,11 @@ Q3AmbientLight_New (
  *  @function
  *      Q3AmbientLight_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data for an ambient light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param lightData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param lightData        Receives the data of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AmbientLight_GetData (
@@ -365,14 +431,11 @@ Q3AmbientLight_GetData (
  *  @function
  *      Q3AmbientLight_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for an ambient light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param lightData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param lightData        The new data for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AmbientLight_SetData (
@@ -386,13 +449,10 @@ Q3AmbientLight_SetData (
  *  @function
  *      Q3DirectionalLight_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new directional light object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param directionalLightData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param directionalLightData    The data for the light object.
+ *  @result                        The new light object.
  */
 EXTERN_API_C ( TQ3LightObject  )
 Q3DirectionalLight_New (
@@ -405,14 +465,11 @@ Q3DirectionalLight_New (
  *  @function
  *      Q3DirectionalLight_GetCastShadowsState
  *  @discussion
- *      One-line description of this function.
+ *      Get the cast-shadow state of a directional light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param castsShadows     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param castsShadows     Receives true or false as the light casts shadows.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_GetCastShadowsState (
@@ -426,14 +483,11 @@ Q3DirectionalLight_GetCastShadowsState (
  *  @function
  *      Q3DirectionalLight_GetDirection
  *  @discussion
- *      One-line description of this function.
+ *      Get the direction of a directional light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param direction        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param direction        Receives the direction of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_GetDirection (
@@ -447,14 +501,11 @@ Q3DirectionalLight_GetDirection (
  *  @function
  *      Q3DirectionalLight_SetCastShadowsState
  *  @discussion
- *      One-line description of this function.
+ *      Set the cast-shadow state of a directional light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param castsShadows     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param castsShadows     True or false as the light casts shadows.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_SetCastShadowsState (
@@ -468,14 +519,11 @@ Q3DirectionalLight_SetCastShadowsState (
  *  @function
  *      Q3DirectionalLight_SetDirection
  *  @discussion
- *      One-line description of this function.
+ *      Set the direction of a directional light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param direction        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param direction        The new direction for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_SetDirection (
@@ -489,14 +537,11 @@ Q3DirectionalLight_SetDirection (
  *  @function
  *      Q3DirectionalLight_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data for a directional light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param directionalLightData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light                   The light to query.
+ *  @param directionalLightData    Receives the data of the light.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_GetData (
@@ -510,14 +555,11 @@ Q3DirectionalLight_GetData (
  *  @function
  *      Q3DirectionalLight_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a directional light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param directionalLightData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light                   The light to update.
+ *  @param directionalLightData    The new data for the light.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_SetData (
@@ -531,13 +573,10 @@ Q3DirectionalLight_SetData (
  *  @function
  *      Q3PointLight_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new point light object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pointLightData   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pointLightData   The data for the light object.
+ *  @result                 The new light object.
  */
 EXTERN_API_C ( TQ3LightObject  )
 Q3PointLight_New (
@@ -550,14 +589,11 @@ Q3PointLight_New (
  *  @function
  *      Q3PointLight_GetCastShadowsState
  *  @discussion
- *      One-line description of this function.
+ *      Get the cast-shadow state of a point light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param castsShadows     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param castsShadows     Receives true or false as the light casts shadows.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PointLight_GetCastShadowsState (
@@ -571,14 +607,11 @@ Q3PointLight_GetCastShadowsState (
  *  @function
  *      Q3PointLight_GetAttenuation
  *  @discussion
- *      One-line description of this function.
+ *      Get the attenuation of a point light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param attenuation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param attenuation      Receives the attenuation of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PointLight_GetAttenuation (
@@ -592,14 +625,11 @@ Q3PointLight_GetAttenuation (
  *  @function
  *      Q3PointLight_GetLocation
  *  @discussion
- *      One-line description of this function.
+ *      Get the location of a point light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param location         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param location         Receives the location of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PointLight_GetLocation (
@@ -613,14 +643,11 @@ Q3PointLight_GetLocation (
  *  @function
  *      Q3PointLight_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data for a point light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param pointLightData   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param pointLightData   Receives the data of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PointLight_GetData (
@@ -634,14 +661,11 @@ Q3PointLight_GetData (
  *  @function
  *      Q3PointLight_SetCastShadowsState
  *  @discussion
- *      One-line description of this function.
+ *      Set the cast-shadow state of a point light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param castsShadows     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param castsShadows     True or false as the light casts shadows.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PointLight_SetCastShadowsState (
@@ -655,14 +679,11 @@ Q3PointLight_SetCastShadowsState (
  *  @function
  *      Q3PointLight_SetAttenuation
  *  @discussion
- *      One-line description of this function.
+ *      Set the attenuation of a point light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param attenuation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param attenuation      The new attenuation for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PointLight_SetAttenuation (
@@ -676,14 +697,11 @@ Q3PointLight_SetAttenuation (
  *  @function
  *      Q3PointLight_SetLocation
  *  @discussion
- *      One-line description of this function.
+ *      Set the location of a point light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param location         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param location         The new location for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PointLight_SetLocation (
@@ -697,14 +715,11 @@ Q3PointLight_SetLocation (
  *  @function
  *      Q3PointLight_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a point light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param pointLightData   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param pointLightData   The new data for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PointLight_SetData (
@@ -718,13 +733,10 @@ Q3PointLight_SetData (
  *  @function
  *      Q3SpotLight_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new spot light object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param spotLightData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param spotLightData    The data for the light object.
+ *  @result                 The new light object.
  */
 EXTERN_API_C ( TQ3LightObject  )
 Q3SpotLight_New (
@@ -737,14 +749,11 @@ Q3SpotLight_New (
  *  @function
  *      Q3SpotLight_GetCastShadowsState
  *  @discussion
- *      One-line description of this function.
+ *      Get the cast-shadow state of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param castsShadows     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param castsShadows     Receives true or false as the light casts shadows.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetCastShadowsState (
@@ -758,14 +767,11 @@ Q3SpotLight_GetCastShadowsState (
  *  @function
  *      Q3SpotLight_GetAttenuation
  *  @discussion
- *      One-line description of this function.
+ *      Get the attenuation of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param attenuation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param attenuation      Receives the attenuation of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetAttenuation (
@@ -779,14 +785,11 @@ Q3SpotLight_GetAttenuation (
  *  @function
  *      Q3SpotLight_GetLocation
  *  @discussion
- *      One-line description of this function.
+ *      Get the location of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param location         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param location         Receives the location of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetLocation (
@@ -800,14 +803,11 @@ Q3SpotLight_GetLocation (
  *  @function
  *      Q3SpotLight_GetDirection
  *  @discussion
- *      One-line description of this function.
+ *      Get the direction of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param direction        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param direction        Receives the direction of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetDirection (
@@ -821,14 +821,11 @@ Q3SpotLight_GetDirection (
  *  @function
  *      Q3SpotLight_GetHotAngle
  *  @discussion
- *      One-line description of this function.
+ *      Get the hot angle of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param hotAngle         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param hotAngle         Receives the hot angle of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetHotAngle (
@@ -842,14 +839,11 @@ Q3SpotLight_GetHotAngle (
  *  @function
  *      Q3SpotLight_GetOuterAngle
  *  @discussion
- *      One-line description of this function.
+ *      Get the outer angle of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param outerAngle       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param outerAngle       Receives the outer angle of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetOuterAngle (
@@ -863,14 +857,11 @@ Q3SpotLight_GetOuterAngle (
  *  @function
  *      Q3SpotLight_GetFallOff
  *  @discussion
- *      One-line description of this function.
+ *      Get the fall off of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param fallOff          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param fallOff          Receives the fall off value of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetFallOff (
@@ -884,14 +875,11 @@ Q3SpotLight_GetFallOff (
  *  @function
  *      Q3SpotLight_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data for a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param spotLightData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to query.
+ *  @param spotLightData    Receives the data of the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetData (
@@ -905,14 +893,11 @@ Q3SpotLight_GetData (
  *  @function
  *      Q3SpotLight_SetCastShadowsState
  *  @discussion
- *      One-line description of this function.
+ *      Set the cast-shadow state of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param castsShadows     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param castsShadows     True or false as the light casts shadows.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetCastShadowsState (
@@ -926,14 +911,11 @@ Q3SpotLight_SetCastShadowsState (
  *  @function
  *      Q3SpotLight_SetAttenuation
  *  @discussion
- *      One-line description of this function.
+ *      Set the attenuation for a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param attenuation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param attenuation      The new attenuation for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetAttenuation (
@@ -947,14 +929,11 @@ Q3SpotLight_SetAttenuation (
  *  @function
  *      Q3SpotLight_SetLocation
  *  @discussion
- *      One-line description of this function.
+ *      Set the location for a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param location         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param location         The new location for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetLocation (
@@ -968,14 +947,11 @@ Q3SpotLight_SetLocation (
  *  @function
  *      Q3SpotLight_SetDirection
  *  @discussion
- *      One-line description of this function.
+ *      Set the direction of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param direction        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param direction        The new direction for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetDirection (
@@ -989,14 +965,11 @@ Q3SpotLight_SetDirection (
  *  @function
  *      Q3SpotLight_SetHotAngle
  *  @discussion
- *      One-line description of this function.
+ *      Set the hot angle of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param hotAngle         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param hotAngle         The new hot angle for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetHotAngle (
@@ -1010,14 +983,11 @@ Q3SpotLight_SetHotAngle (
  *  @function
  *      Q3SpotLight_SetOuterAngle
  *  @discussion
- *      One-line description of this function.
+ *      Set the outer angle of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param outerAngle       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param outerAngle       The new outer angle for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetOuterAngle (
@@ -1031,14 +1001,11 @@ Q3SpotLight_SetOuterAngle (
  *  @function
  *      Q3SpotLight_SetFallOff
  *  @discussion
- *      One-line description of this function.
+ *      Set the fall off of a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param fallOff          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param fallOff          The new fall off value for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetFallOff (
@@ -1052,14 +1019,11 @@ Q3SpotLight_SetFallOff (
  *  @function
  *      Q3SpotLight_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a spot light.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param light            Description of the parameter.
- *  @param spotLightData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param light            The light to update.
+ *  @param spotLightData    The new data for the light.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetData (
