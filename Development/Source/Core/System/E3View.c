@@ -588,7 +588,7 @@ e3view_stack_pop_clean(TQ3ViewObject theView)
 
 	// And release the stack memory
 	qd3dStatus = Q3Memory_Reallocate(&instanceData->stackState, 0);
-	Q3_ASSERT(kQ3Success != qd3dStatus);
+	Q3_ASSERT(kQ3Success == qd3dStatus);
 	if (kQ3Success == qd3dStatus)
 		instanceData->stackAllocCount = 0;
 }
