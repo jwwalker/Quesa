@@ -39,6 +39,7 @@
 #include "IRGeometry.h"
 #include "IRGeometryTriMesh.h"
 #include "IRTexture.h"
+#include "IRTriBuffer.h"
 #include "IRTransparent.h"
 #include "IRUpdate.h"
 
@@ -68,17 +69,22 @@
 //-----------------------------------------------------------------------------
 static TQ3Status
 ir_interactive_new(TQ3Object theObject, void *privateData, void *paramData)
-{
+{	TQ3InteractiveData		*instanceData = (TQ3InteractiveData *) privateData;
+	TQ3Status				qd3dStatus;
 #pragma unused(privateData)
 #pragma unused(paramData)
 
 
 
-	// Our instance data has already been cleared to 0, so we
-	// simply need to adjust our state to match Apple's IR.
+	// Initialise our instance data
 	Q3InteractiveRenderer_SetRAVETextureFilter(theObject, kQATextureFilter_Mid);
 
-	return(kQ3Success);
+
+
+	// Initialise the renderer
+	qd3dStatus = IRTriBuffer_Initialize(instanceData);
+
+	return(qd3dStatus);
 }
 
 
@@ -95,7 +101,8 @@ ir_interactive_delete(TQ3Object theObject, void *privateData)
 
 
 
-	// Flush our caches completely
+	// Dispose of our state
+	IRTriBuffer_Terminate(instanceData);
 	IRRenderer_Texture_Terminate(instanceData);
 	IRGeometry_Terminate(instanceData);
 	IRGeometry_Transparent_Terminate(instanceData);
