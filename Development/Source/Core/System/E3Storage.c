@@ -205,10 +205,17 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 {	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) privateData;
 	TQ3Uns8					*passedBuffer;
 	
-	if(paramData != NULL)
-		*instanceData = *((const TE3_MemoryStorageData *)paramData);
+	// The only case in which we will be called with NULL for paramData is when
+	// an object of type kQ3MemoryStorageTypeHandle is being constructed.
+	// Handle storage is a subclass of memory storage only superfically, i.e.,
+	// it has a completely separate implementation.  Therefore we may as well
+	// leave the initial zero values in the memory storage instance data.
+	if (paramData == NULL)
+		return kQ3Success;
+	
+	*instanceData = *((const TE3_MemoryStorageData *)paramData);
 
-	if(instanceData->ownBuffer == kQ3True){
+	if (instanceData->ownBuffer == kQ3True){
 		// called from _New
 		if ( instanceData->buffer != NULL ){
 			// copy the buffer
@@ -226,23 +233,22 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 		else{
 			// called with buffer == NULL, allocate our own
 			// check validSize parameter
-			instanceData->bufferSize = 0L;
 			if(instanceData->validSize < kE3MemoryStorageMinimumGrowSize){
-				instanceData->validSize = 0L;
 				instanceData->growSize = kE3MemoryStorageDefaultGrowSize;
 				}
 			else{
 				instanceData->growSize = instanceData->validSize;
-				instanceData->validSize = 0L;
 				}
+			
+			instanceData->validSize = 0L;
 				
 			instanceData->buffer = (TQ3Uns8*)Q3Memory_Allocate( instanceData->growSize ) ;
 
 			if (instanceData->buffer == NULL){
+				instanceData->bufferSize = 0L;
 				return(kQ3Failure);						
 				}
 			instanceData->bufferSize = instanceData->growSize;
-			instanceData->validSize = instanceData->growSize;
 			}
 		}
 	else{
@@ -521,7 +527,7 @@ e3storage_path_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 	// CodeWarrior's standard library, fseek always flushes the buffer.)
 	if ((TQ3Int32) offset != ftell( instanceData->theFile ))
 		{
-		if (fseek(instanceData->theFile, offset, SEEK_SET))
+		if (fseek(instanceData->theFile, (long)offset, SEEK_SET))
 			return(kQ3Failure);
 		}
 
@@ -555,7 +561,7 @@ e3storage_path_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSiz
 
 
 	// Seek to the offset, and write the data
-	if (fseek(instanceData->theFile, offset, SEEK_SET))
+	if (fseek(instanceData->theFile, (long)offset, SEEK_SET))
 		return(kQ3Failure);
 
 	*sizeWritten = fwrite(data, 1, dataSize, instanceData->theFile);
