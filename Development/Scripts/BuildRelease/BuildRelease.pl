@@ -518,6 +518,7 @@ sub removeBinaryFiles
 	# Add temporary files scheduled to be removed from CVS
 	push(@theFiles, $releaseDir . ":Development:Projects:Mac:Experimental:");
 	push(@theFiles, $releaseDir . ":Development:VersionControl:");
+	push(@theFiles, $releaseDir . ":Development:Source:Platform:Windows:Quesa Viewer:");
 	push(@theFiles, $releaseDir . ":SDK:Examples:Background Test:Experimental:");
 	push(@theFiles, $releaseDir . ":SDK:Examples:Camera Test:Experimental:");
 	push(@theFiles, $releaseDir . ":SDK:Examples:Dump Group:Experimental:");
