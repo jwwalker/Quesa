@@ -74,6 +74,137 @@ e3geom_polyhedron_set_edge(TQ3TriMeshEdgeData			*theEdge,
 
 
 //=============================================================================
+//      e3geom_polyhedron_add_triangle_attribute : Populate an attribute array.
+//-----------------------------------------------------------------------------
+//		Note :	Given an attribute type, we collect the data for the triangles
+//				and create the appropriate attribute data for the TriMesh.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+e3geom_polyhedron_add_triangle_attribute(const TQ3PolyhedronData		*instanceData,
+											TQ3TriMeshAttributeData		*triMeshAttribute,
+											TQ3AttributeType			attributeType)
+{	TQ3Uns32				n, attributeSize;
+	TQ3Boolean				foundAttribute;
+	TQ3AttributeSet			theAttributes;
+	void					*dataPtr;
+	E3ClassInfoPtr			theClass;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(instanceData),     kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshAttribute), kQ3False);
+
+
+
+	// Determine if any of the triangles of the polyhedron contain this attribute. If
+	// none of them do, we can skip it - but if one of them does, they all must
+	// (since we're using a TriMesh).
+	foundAttribute = kQ3False;
+	for (n = 0; n < instanceData->numTriangles && !foundAttribute; n++)
+		{
+		if (instanceData->triangles[n].triangleAttributeSet != NULL &&
+			Q3AttributeSet_Contains(instanceData->triangles[n].triangleAttributeSet, attributeType))
+			foundAttribute = kQ3True;
+		}
+
+	if (!foundAttribute)
+		return(kQ3False);
+
+
+
+	// Work out the size of data used for the attribute
+	theClass = E3ClassTree_GetClassByType(E3Attribute_AttributeToClassType(attributeType));
+	if (theClass == NULL)
+		return(kQ3False);
+	
+	attributeSize = E3ClassTree_GetInstanceSize(theClass);
+
+
+
+	// Set up the attribute array within the TriMesh
+	triMeshAttribute->attributeType     = attributeType;
+	triMeshAttribute->data              = Q3Memory_AllocateClear(instanceData->numTriangles * attributeSize);
+	triMeshAttribute->attributeUseArray = NULL;
+
+	if (triMeshAttribute->data == NULL)
+		return(kQ3False);
+
+
+
+	// Set up the values within the attribute array
+	for (n = 0; n < instanceData->numTriangles; n++)
+		{
+		// Figure out where the data should be stored
+		dataPtr = ((TQ3Uns8 *) triMeshAttribute->data) + (n * attributeSize);
+
+
+
+		// Get the final attribute set for this triangle
+		E3AttributeSet_Combine(instanceData->polyhedronAttributeSet, instanceData->triangles[n].triangleAttributeSet, &theAttributes);
+		if (theAttributes != NULL)
+			{
+			// If the attribute is present, get the value
+			if (Q3AttributeSet_Contains(theAttributes, attributeType))
+				Q3AttributeSet_Get(theAttributes, attributeType, dataPtr);
+			
+			// Or use a default
+			else
+				{
+				switch (attributeType) {
+					case kQ3AttributeTypeAmbientCoefficient:
+						*((float *) dataPtr) = kQ3ViewDefaultAmbientCoefficient;
+						break;
+
+					case kQ3AttributeTypeDiffuseColor:
+						Q3ColorRGB_Set((TQ3ColorRGB *) dataPtr, kQ3ViewDefaultDiffuseColor);
+						break;
+						
+					case kQ3AttributeTypeSpecularColor:
+						Q3ColorRGB_Set((TQ3ColorRGB *) dataPtr, kQ3ViewDefaultSpecularColor);
+						break;
+
+					case kQ3AttributeTypeSpecularControl:
+						*((float *) dataPtr) = kQ3ViewDefaultSpecularControl;
+						break;
+
+					case kQ3AttributeTypeTransparencyColor:
+						Q3ColorRGB_Set((TQ3ColorRGB *) dataPtr, kQ3ViewDefaultTransparency);
+						break;
+					
+					case kQ3AttributeTypeNormal:
+						// Assume anything will beOK
+						Q3Vector3D_Set((TQ3Vector3D *) dataPtr, 0.0f, 1.0f, 0.0f);
+						break;
+
+					case kQ3AttributeTypeHighlightState:
+						*((TQ3Switch *) dataPtr) = kQ3ViewDefaultHighlightState;
+						break;
+
+					case kQ3AttributeTypeSurfaceUV: 
+					case kQ3AttributeTypeShadingUV: 
+					case kQ3AttributeTypeSurfaceTangent: 
+					case kQ3AttributeTypeSurfaceShader:
+					default:
+						// Assume 0s will be OK
+						break;
+					}
+				}
+			
+			
+			// Clean up
+			Q3Object_Dispose(theAttributes);
+			}
+		}
+	
+	return(kQ3True);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_polyhedron_add_vertex_attribute : Populate an attribute array.
 //-----------------------------------------------------------------------------
 //		Note :	Given an attribute type, we collect the data for the vertices
@@ -413,7 +544,8 @@ e3geom_polyhedron_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3PolyhedronData *geomData)
-{	TQ3TriMeshAttributeData		vertexAttributes[kQ3AttributeTypeNumTypes];
+{	TQ3TriMeshAttributeData		triangleAttributes[kQ3AttributeTypeNumTypes];
+	TQ3TriMeshAttributeData		vertexAttributes[kQ3AttributeTypeNumTypes];
 	TQ3TriMeshAttributeData		edgeAttributes[kQ3AttributeTypeNumTypes];
 	TQ3TriMeshAttributeData		*vertexColours;
 	TQ3Uns32					n, m, numEdges;
@@ -538,6 +670,42 @@ e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, co
 	triMeshData.triMeshAttributeSet       = geomData->polyhedronAttributeSet;
 
 	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox, triMeshData.points, triMeshData.numPoints, sizeof(TQ3Point3D));
+
+
+
+	// Set up the triangle attributes
+	n = 0;
+
+	if (e3geom_polyhedron_add_triangle_attribute(geomData, &triangleAttributes[n], kQ3AttributeTypeNormal))
+		n++;
+		
+	if (e3geom_polyhedron_add_triangle_attribute(geomData, &triangleAttributes[n], kQ3AttributeTypeAmbientCoefficient))
+		n++;
+
+	if (e3geom_polyhedron_add_triangle_attribute(geomData, &triangleAttributes[n], kQ3AttributeTypeDiffuseColor))
+		n++;
+		
+	if (e3geom_polyhedron_add_triangle_attribute(geomData, &triangleAttributes[n], kQ3AttributeTypeSpecularColor))
+		n++;
+		
+	if (e3geom_polyhedron_add_triangle_attribute(geomData, &triangleAttributes[n], kQ3AttributeTypeSpecularControl))
+		n++;
+		
+	if (e3geom_polyhedron_add_triangle_attribute(geomData, &triangleAttributes[n], kQ3AttributeTypeTransparencyColor))
+		n++;
+		
+	if (e3geom_polyhedron_add_triangle_attribute(geomData, &triangleAttributes[n], kQ3AttributeTypeHighlightState))
+		n++;
+		
+	if (e3geom_polyhedron_add_triangle_attribute(geomData, &triangleAttributes[n], kQ3AttributeTypeSurfaceShader))
+		n++;
+
+	Q3_ASSERT(n < (sizeof(triangleAttributes) / sizeof(TQ3TriMeshAttributeData)));
+	if (n != 0)
+		{
+		triMeshData.numTriangleAttributeTypes = n;
+		triMeshData.triangleAttributeTypes    = triangleAttributes;
+		}
 
 
 
