@@ -29,6 +29,39 @@
 
 
 <h3>Plug-in Renderers</h3>
+<h4>Required Geometries</h4>
+<p>
+Plug-in renderers are required to support the following geometry types:
+</p>
+
+<ul>
+	<li>Triangle</li>
+	<li>Line</li>
+	<li>Point</li>
+</ul>
+
+<p>
+Under QD3D, plug-in renderers were also required to support Marker and Pixmap Marker
+geometries. Provided a renderer supports updates to the camera->frustum transformation
+during the course of a scene, these geometries will be provided automatically by Quesa.
+</p>
+
+<p>
+To improve performance it is recomended that plug-in renderers also support:
+</p>
+
+<ul>
+	<li>TriMesh</li>
+	<li>PolyLine</li>
+</ul>
+
+<p>
+These geometries allow batches of triangles and lines to be submitted as a single object,
+which greatly reduces the per-primitive processing overhead.
+</p>
+
+
+
 <h4>Notes</h4>
 <p>
 Unlike QD3D, plug-in renderers running under Quesa can assume that the triangle and vertex normals
@@ -40,6 +73,8 @@ associated with other geometric objects will not be normalized.
 Plug-in metahandlers, and the methods they return, may be cached internally by Quesa. Under QD3D
 methods were always cached, however plug-ins should not rely on this behaviour when hosted by Quesa.
 </p>
+
+
 
 
 
