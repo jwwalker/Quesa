@@ -513,7 +513,7 @@ Q3Matrix3x3_SetRotate (
 </pre></blockquote>
 <p>Set a 3x3 matrix to rotate about the origin.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1320,7 +1320,7 @@ Q3Point2D_CrossProductTri (
 <p>Return the length of the cross product of a triangle specified by
 three 2D points, that is, of the vectors p2-p1 and p3-p2.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1489,7 +1489,7 @@ Q3Point2D_To2DTransformArray (
 When you have many points to transform, this is a more efficient
 alternative to calling Q3Point2D_Transform repeatedly.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1853,7 +1853,7 @@ Q3Point3D_To3DTransformArray (
 When you have many points to transform, this is a more efficient
 alternative to calling Q3Point3D_Transform repeatedly.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2736,7 +2736,7 @@ Q3RationalPoint3D_To3DTransformArray (
 When you have many points to transform, this is a more efficient
 alternative to calling Q3RationalPoint3D_Transform repeatedly.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2765,7 +2765,7 @@ Q3RationalPoint3D_ToVector2D (
 </pre></blockquote>
 <p>Convert 3D rational point to 2D vector, discarding w.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2791,7 +2791,7 @@ Q3RationalPoint3D_Transform (
 </pre></blockquote>
 <p>Transform 3D rational point by 3x3 matrix.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3026,7 +3026,7 @@ Q3RationalPoint4D_ToVector3D (
 </pre></blockquote>
 <p>Convert 4D rational point to 3D vector, discarding w.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3080,7 +3080,7 @@ intersection occurs, the point of intersection is returned.
 <br><br>
 The direction vector of the ray must be normalised.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3110,7 +3110,7 @@ of intersection if found.
 <br><br>
 The direction vector of the ray must be normalised.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3159,7 +3159,7 @@ Similar calculations can be made for vertex normals, UVs, or any
 other vertex attribute. The w component of hitPoint is set to the
 distance along the ray at which the intersection occurs.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3338,7 +3338,7 @@ vectors by length, or comparing a vector to a cut-off length).  But
 finding the squared length is much faster, since it avoids a costly
 square root computation.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3492,7 +3492,7 @@ Q3Vector2D_To2DTransformArray (
 When you have many vectors to transform, this is a more efficient
 alternative to calling Q3Vector2D_Transform repeatedly.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3549,7 +3549,7 @@ Q3Vector2D_ToRationalPoint3D (
 </pre></blockquote>
 <p>Convert 2D vector to 3D rational point, setting w to 0.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3705,7 +3705,7 @@ vectors by length, or comparing a vector to a cut-off length).  But
 finding the squared length is much faster, since it avoids a costly
 square root computation.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3890,7 +3890,7 @@ Q3Vector3D_To3DTransformArray (
 When you have many vectors to transform, this is a more efficient
 alternative to calling Q3Vector3D_Transform repeatedly.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3919,7 +3919,7 @@ Q3Vector3D_ToRationalPoint4D (
 </pre></blockquote>
 <p>Convert 3D vector to 4D rational point, setting w to 0.
 <br><br>
-Not supported by QD3D.
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3991,5 +3991,5 @@ Note that for correct results, the quaternion should be normalized.
 <b>Result:</b> Convenience copy of result parameter.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
 </body></html>

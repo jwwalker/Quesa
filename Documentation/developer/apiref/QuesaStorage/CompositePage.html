@@ -11,18 +11,20 @@ Q3BeStorage_Get (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.
+<p>Get the BFile for a Be storage object.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theStorage</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theStorage</tt></td><td>The storage object to query.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>Receives the BFile.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3BeStorage_New"></a>
@@ -33,17 +35,19 @@ Q3BeStorage_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.
+<p>Create a new Be BFile storage object.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A valid BFile.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The new Be storage object.
+<b>Result:</b> The new storage object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3BeStorage_Set"></a>
@@ -55,18 +59,20 @@ Q3BeStorage_Set (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.
+<p>Set the BFile for a Be storage object.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theStorage</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theStorage</tt></td><td>The storage object to update.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The new BFile for the storage object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FSSpecStorage_Get"></a>
@@ -89,7 +95,7 @@ Q3FSSpecStorage_Get (
 <tr valign=top><td><tt>fs</tt></td><td>On output, a file system specification.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FSSpecStorage_New"></a>
@@ -138,7 +144,7 @@ The storage must be closed at the time you call this.
 <tr valign=top><td><tt>fs</tt></td><td>The new file system specification.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3HandleStorage_Get"></a>
@@ -163,7 +169,7 @@ Q3HandleStorage_Get (
 <tr valign=top><td><tt>validSize</tt></td><td>On output, the valid size in bytes of the storage.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3HandleStorage_New"></a>
@@ -222,7 +228,7 @@ object is disposed.
 <tr valign=top><td><tt>validSize</tt></td><td>Size in bytes of the specified buffer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MacintoshStorage_Get"></a>
@@ -246,7 +252,7 @@ Q3MacintoshStorage_Get (
 associated with the storage.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MacintoshStorage_GetType"></a>
@@ -322,7 +328,7 @@ This cannot be used when the storage is open.
 Mac file.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MemoryStorage_GetBuffer"></a>
@@ -357,7 +363,7 @@ in the storage object.</td></tr>
 <tr valign=top><td><tt>bufferSize</tt></td><td>On output, the size of the buffer in bytes.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MemoryStorage_GetType"></a>
@@ -473,7 +479,7 @@ or Q3MemoryStorage_NewBuffer), it will own its own memory afterward.
 storage, or initial memory size if buffer was NULL.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MemoryStorage_SetBuffer"></a>
@@ -505,7 +511,7 @@ of an internally allocated buffer.</td></tr>
 <tr valign=top><td><tt>bufferSize</tt></td><td>Size in bytes of the buffer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3PathStorage_Get"></a>
@@ -517,10 +523,12 @@ Q3PathStorage_Get (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.  Finds the path associated with a path storage object.
+<p>Finds the path associated with a path storage object.
 <br><br>
 The path returned by this function could be up to 1024 bytes long.
 Be sure to allocate enough space for it.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -528,10 +536,10 @@ Be sure to allocate enough space for it.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theStorage</tt></td><td>A path storage object.</td></tr>
-<tr valign=top><td><tt>pathName</tt></td><td>On output, the path as a NUL-terminated string.</td></tr>
+<tr valign=top><td><tt>pathName</tt></td><td>On output, the path as a NULL-terminated string.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3PathStorage_New"></a>
@@ -542,7 +550,7 @@ Q3PathStorage_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.  Creates a storage object of type kQ3StorageTypePath.
+<p>Creates a storage object of type kQ3StorageTypePath.
 This type of storage is associated with a file specified by a path name,
 and is intended to replace the poorly-named "Unix path" storage.
 <br><br>
@@ -550,15 +558,17 @@ The exact format of permissible paths is platform-dependent.  For example,
 in a Mac version of Quesa built with the Metrowerks Standard Library,
 the path is colon-separated and assumed to be in the system encoding.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pathName</tt></td><td>A NUL-terminated pathname, as might be passed to fopen.</td></tr>
+<tr valign=top><td><tt>pathName</tt></td><td>A NULL-terminated pathname, as might be passed to fopen.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3PathStorage_Set"></a>
@@ -570,7 +580,9 @@ Q3PathStorage_Set (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.  Changes the path associated with a path storage object.
+<p>Changes the path associated with a path storage object.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -578,10 +590,10 @@ Q3PathStorage_Set (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theStorage</tt></td><td>A path storage object.</td></tr>
-<tr valign=top><td><tt>pathName</tt></td><td>A NUL-terminated pathname.</td></tr>
+<tr valign=top><td><tt>pathName</tt></td><td>A NULL-terminated pathname.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Storage_GetData"></a>
@@ -614,7 +626,7 @@ the file must be closed.
 <tr valign=top><td><tt>sizeRead</tt></td><td>On output, number of bytes actually received.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Storage_GetSize"></a>
@@ -641,7 +653,7 @@ must be open.
 <tr valign=top><td><tt>size</tt></td><td>On output, receives the size.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Storage_GetType"></a>
@@ -698,7 +710,7 @@ to accommodate the new data.
 normally the same as dataSize.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3UnixPathStorage_Get"></a>
@@ -721,10 +733,10 @@ Be sure to allocate enough space for it.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>storage</tt></td><td>A Unix path storage object.</td></tr>
-<tr valign=top><td><tt>pathName</tt></td><td>On output, a NUL-terminated path.</td></tr>
+<tr valign=top><td><tt>pathName</tt></td><td>On output, a NULL-terminated path.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3UnixPathStorage_New"></a>
@@ -744,7 +756,7 @@ The Quesa extension Q3PathStorage_New may be used in place of this.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pathName</tt></td><td>A NUL-terminated file system path.</td></tr>
+<tr valign=top><td><tt>pathName</tt></td><td>A NULL-terminated file system path.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> The new storage object.
@@ -767,10 +779,10 @@ Q3UnixPathStorage_Set (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>storage</tt></td><td>A Unix path storage object.</td></tr>
-<tr valign=top><td><tt>pathName</tt></td><td>A NUL-terminated file system path.</td></tr>
+<tr valign=top><td><tt>pathName</tt></td><td>A NULL-terminated file system path.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> The error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Win32Storage_Get"></a>
@@ -782,21 +794,18 @@ Q3Win32Storage_Get (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the file handle for a Win32 storage object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>hFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>storage</tt></td><td>The storage object to query.</td></tr>
+<tr valign=top><td><tt>hFile</tt></td><td>Receives the file handle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Win32Storage_New"></a>
@@ -807,20 +816,17 @@ Q3Win32Storage_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new Win32 storage object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>hFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>hFile</tt></td><td>A valid file handle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new storage object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Win32Storage_Set"></a>
@@ -832,22 +838,19 @@ Q3Win32Storage_Set (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the file handle for a Win32 storage object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>hFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>storage</tt></td><td>The storage object to update.</td></tr>
+<tr valign=top><td><tt>hFile</tt></td><td>The new file handle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
 </body></html>

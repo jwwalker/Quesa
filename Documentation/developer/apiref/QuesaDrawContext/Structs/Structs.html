@@ -1,0 +1,271 @@
+<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
+<a name="//apple_ref/c/tag/TQ3BeDrawContextData"></a>
+<h3><a name="TQ3BeDrawContextData">TQ3BeDrawContextData</a></h3>
+<blockquote><pre>
+typedef struct TQ3BeDrawContextData {
+    TQ3DrawContextData                          drawContextData;
+    BView                                       *theView;
+} TQ3BeDrawContextData;
+</pre>
+</blockquote>
+<p>Describes the state for a Be draw context.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
+<tr valign=top><td><tt>theView</tt></td><td>The BView to render to.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3CocoaDrawContextData"></a>
+<h3><a name="TQ3CocoaDrawContextData">TQ3CocoaDrawContextData</a></h3>
+<blockquote><pre>
+typedef struct TQ3CocoaDrawContextData {
+    TQ3DrawContextData                          drawContextData;
+    void                                        *nsView;
+} TQ3CocoaDrawContextData;
+</pre>
+</blockquote>
+<p>Describes the state for a Cocoa draw context.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
+<tr valign=top><td><tt>nsView</tt></td><td>The NSView to render to.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3DDSurfaceDescriptor"></a>
+<h3><a name="TQ3DDSurfaceDescriptor">TQ3DDSurfaceDescriptor</a></h3>
+<blockquote><pre>
+typedef struct TQ3DDSurfaceDescriptor {
+    TQ3DirectDrawObjectSelector                 objectSelector;
+
+    union {
+        LPDIRECTDRAW                            lpDirectDraw;
+        LPDIRECTDRAW2                           lpDirectDraw2;
+    };
+</pre>
+</blockquote>
+<p>Describes the type of DirectDraw objects to be used for rendering.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>objectSelector</tt></td><td>Indicates the type of interface which has been supplied.</td><tr>
+<tr valign=top><td><tt>lpDirectDraw</tt></td><td>A DIRECTDRAW interface object.</td><tr>
+<tr valign=top><td><tt>lpDirectDraw2</tt></td><td>A DIRECTDRAW2 interface object.</td><tr>
+<tr valign=top><td><tt>lpDirectDrawSurface</tt></td><td>A DIRECTDRAWSURFACE interface object.</td><tr>
+<tr valign=top><td><tt>lpDirectDrawSurface2</tt></td><td>A DIRECTDRAWSURFACE2 interface object.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3DDSurfaceDrawContextData"></a>
+<h3><a name="TQ3DDSurfaceDrawContextData">TQ3DDSurfaceDrawContextData</a></h3>
+<blockquote><pre>
+typedef struct TQ3DDSurfaceDrawContextData {
+    TQ3DrawContextData                          drawContextData;
+    TQ3DDSurfaceDescriptor                      ddSurfaceDescriptor;
+} TQ3DDSurfaceDrawContextData;
+</pre>
+</blockquote>
+<p>Describes the state for a Windows DirectDraw draw context.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
+<tr valign=top><td><tt>ddSurfaceDescriptor</tt></td><td>Describes the DirectDraw surface to render to.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3DrawContextData"></a>
+<h3><a name="TQ3DrawContextData">TQ3DrawContextData</a></h3>
+<blockquote><pre>
+typedef struct TQ3DrawContextData {
+    TQ3DrawContextClearImageMethod              clearImageMethod;
+    TQ3ColorARGB                                clearImageColor;
+    TQ3Area                                     pane;
+    TQ3Boolean                                  paneState;
+    TQ3Bitmap                                   mask;
+    TQ3Boolean                                  maskState;
+    TQ3Boolean                                  doubleBufferState;
+} TQ3DrawContextData;
+</pre>
+</blockquote>
+<p>Describes the common state for a draw context.
+<br><br>
+If paneState is false, the draw context has an implicit pane which fills
+the entire window/destination surface. Under Quesa, querying a draw
+context object with Q3DrawContext_GetPane will return this implicit pane
+if not pane has been assigned (this feature is not available in QD3D).
+<br><br>
+The mask and maskState fields are currently ignored by Quesa's interactive
+renderers.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>clearImageMethod</tt></td><td>How the draw context should be cleared on each frame.</td><tr>
+<tr valign=top><td><tt>clearImageColor</tt></td><td>The clear colour to use if clearImageMethod is kQ3ClearMethodWithColor.</td><tr>
+<tr valign=top><td><tt>pane</tt></td><td>The area within the draw context which will be rendered to.</td><tr>
+<tr valign=top><td><tt>paneState</tt></td><td>Indicates if the pane field is used.</td><tr>
+<tr valign=top><td><tt>mask</tt></td><td>The clipping mask to be applied for rendering.</td><tr>
+<tr valign=top><td><tt>maskState</tt></td><td>indicates if the clipping mask is used.</td><tr>
+<tr valign=top><td><tt>doubleBufferState</tt></td><td>Indicates if rendering will be double-buffered.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3MacDrawContextData"></a>
+<h3><a name="TQ3MacDrawContextData">TQ3MacDrawContextData</a></h3>
+<blockquote><pre>
+typedef struct TQ3MacDrawContextData {
+    TQ3DrawContextData                          drawContextData;
+    CWindowPtr                                  window;
+    TQ3MacDrawContext2DLibrary                  library;
+    gxViewPort                                  viewPort;
+    CGrafPtr                                    grafPort;
+} TQ3MacDrawContextData;
+</pre>
+</blockquote>
+<p>Describes the state for a Mac OS draw context.
+<br><br>
+The library, viewPort, and grafPort fields are not supported by Quesa.
+Rendering to an off-screen GWorld can be achieved by rendering to a
+suitably constructed Pixmap draw context.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
+<tr valign=top><td><tt>window</tt></td><td>The window to render to.</td><tr>
+<tr valign=top><td><tt>library</tt></td><td>The library to use for rendering.</td><tr>
+<tr valign=top><td><tt>viewPort</tt></td><td>The QuickDraw GX port to render to.</td><tr>
+<tr valign=top><td><tt>grafPort</tt></td><td>The QuickDraw port to render to.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PixmapDrawContextData"></a>
+<h3><a name="TQ3PixmapDrawContextData">TQ3PixmapDrawContextData</a></h3>
+<blockquote><pre>
+typedef struct TQ3PixmapDrawContextData {
+    TQ3DrawContextData                          drawContextData;
+    TQ3Pixmap                                   pixmap;
+} TQ3PixmapDrawContextData;
+</pre>
+</blockquote>
+<p>Describes the state for a pixmap draw context.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
+<tr valign=top><td><tt>pixmap</tt></td><td>The pixmap to render to.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Win32DCDrawContextData"></a>
+<h3><a name="TQ3Win32DCDrawContextData">TQ3Win32DCDrawContextData</a></h3>
+<blockquote><pre>
+typedef struct TQ3Win32DCDrawContextData {
+    TQ3DrawContextData                          drawContextData;
+    HDC                                         hdc;
+} TQ3Win32DCDrawContextData;
+</pre>
+</blockquote>
+<p>Describes the state for a Windows HDC draw context.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
+<tr valign=top><td><tt>hdc</tt></td><td>The HDC to render to.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3XColormapData"></a>
+<h3><a name="TQ3XColormapData">TQ3XColormapData</a></h3>
+<blockquote><pre>
+typedef struct TQ3XColormapData {
+    TQ3Int32                                    baseEntry;
+    TQ3Int32                                    maxRed;
+    TQ3Int32                                    maxGreen;
+    TQ3Int32                                    maxBlue;
+    TQ3Int32                                    multRed;
+    TQ3Int32                                    multGreen;
+    TQ3Int32                                    multBlue;
+} TQ3XColormapData;
+</pre>
+</blockquote>
+<p>The colormap entry for an X11 draw context.
+<br><br>
+Note - no QD3D documentation could be found for this type. The purpose
+of the fields have been assumed.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>baseEntry</tt></td><td>The base entry.</td><tr>
+<tr valign=top><td><tt>maxRed</tt></td><td>The maximum red value.</td><tr>
+<tr valign=top><td><tt>maxGreen</tt></td><td>The maximum green value.</td><tr>
+<tr valign=top><td><tt>maxBlue</tt></td><td>The maximum blue value.</td><tr>
+<tr valign=top><td><tt>multRed</tt></td><td>The red multiplier value.</td><tr>
+<tr valign=top><td><tt>multGreen</tt></td><td>The green multiplier value.</td><tr>
+<tr valign=top><td><tt>multBlue</tt></td><td>The blue multiplier value.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3XDrawContextData"></a>
+<h3><a name="TQ3XDrawContextData">TQ3XDrawContextData</a></h3>
+<blockquote><pre>
+typedef struct TQ3XDrawContextData {
+    TQ3DrawContextData                          contextData;
+    Display                                     *display;
+    Drawable                                    drawable;
+    Visual                                      *visual;
+    Colormap                                    cmap;
+    TQ3XColormapData                            *colorMapData;
+} TQ3XDrawContextData;
+</pre>
+</blockquote>
+<p>Describes the state for an X11 DirectDraw draw context.
+<br><br>
+Note - no QD3D documentation could be found for this type. The purpose
+of the fields have been assumed.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
+<tr valign=top><td><tt>display</tt></td><td>The X11 Display.</td><tr>
+<tr valign=top><td><tt>drawable</tt></td><td>The X11 Drawable.</td><tr>
+<tr valign=top><td><tt>visual</tt></td><td>The X11 visual.</td><tr>
+<tr valign=top><td><tt>cmap</tt></td><td>The X11 color map.</td><tr>
+<tr valign=top><td><tt>colorMapData</tt></td><td>The X11 color map data.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+</body></html>
