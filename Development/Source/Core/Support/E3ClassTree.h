@@ -134,7 +134,9 @@ public :
 	TQ3Uns32			GetNumChildren ( void ) ;
 	E3ClassInfoPtr		GetChild ( TQ3Uns32 childIndex ) ;
 	TQ3Boolean			IsType ( TQ3ObjectType theType ) ;
-	TQ3XFunctionPointer	Find_Method ( TQ3XMethodType methodType, TQ3Boolean canInherit ) ;
+	TQ3Boolean			IsClass ( TQ3ObjectType queryClass, TQ3Int32 queryDepth )
+		{ return (TQ3Boolean) ( ownAndParentTypes [ queryDepth ] == queryClass ) ; }
+	TQ3XFunctionPointer	Find_Method ( TQ3XMethodType methodType, TQ3Boolean canInherit = kQ3True ) ;
 
 	TQ3ObjectType		GetType () ;
 	const char*			GetName ( void ) ;

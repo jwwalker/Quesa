@@ -61,6 +61,7 @@ class E3Ellipse : public E3Geometry // This is a leaf class so no other classes 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeEllipse, E3Ellipse, E3Geometry )
 public :
 
 	TQ3EllipseData			instanceData ;
@@ -328,19 +329,12 @@ e3geom_ellipse_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryEllipse_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeEllipse,
-											kQ3ClassNameGeometryEllipse,
-											e3geom_ellipse_metahandler,
-											sizeof(E3Ellipse));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryEllipse,
+								e3geom_ellipse_metahandler,
+								E3Ellipse ) ;
+	}
 
 
 

@@ -62,6 +62,7 @@ class E3TriGrid : public E3Geometry // This is a leaf class so no other classes 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeTriGrid, E3Triangle, E3Geometry )
 public :
 
 	TQ3TriGridData			instanceData ;
@@ -586,19 +587,12 @@ e3geom_trigrid_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryTriGrid_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeTriGrid,
-											kQ3ClassNameGeometryTriGrid,
-											e3geom_trigrid_metahandler,
-											sizeof(E3TriGrid));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryTriGrid,
+								e3geom_trigrid_metahandler,
+								E3TriGrid ) ;
+	}
 
 
 

@@ -83,6 +83,7 @@ class E3TriMesh : public E3Geometry // This is a leaf class so no other classes 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeTriMesh, E3TriMesh, E3Geometry )
 public :
 
 	TQ3TriMeshInstanceData			instanceData ;
@@ -1358,18 +1359,12 @@ e3geom_trimesh_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryTriMesh_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeTriMesh,
-											kQ3ClassNameGeometryTriMesh,
-											e3geom_trimesh_metahandler,
-											sizeof(E3TriMesh));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryTriMesh,
+								e3geom_trimesh_metahandler,
+								E3TriMesh ) ;
+	}
 
 
 

@@ -62,6 +62,7 @@ class E3Cone : public E3Geometry // This is a leaf class so no other classes use
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeCone, E3Cone, E3Geometry )
 public :
 
 	TQ3ConeData			instanceData ;
@@ -939,19 +940,12 @@ e3geom_cone_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryCone_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeCone,
-											kQ3ClassNameGeometryCone,
-											e3geom_cone_metahandler,
-											sizeof(E3Cone));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryCone,
+								e3geom_cone_metahandler,
+								E3Cone ) ;
+	}
 
 
 

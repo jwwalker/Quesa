@@ -62,6 +62,7 @@ class E3Point : public E3Geometry // This is a leaf class so no other classes us
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypePoint, E3Point, E3Geometry )
 public :
 
 	TQ3PointData			instanceData ;
@@ -391,19 +392,12 @@ e3geom_point_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryPoint_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-												kQ3GeometryTypePoint,
-												kQ3ClassNameGeometryPoint,
-												e3geom_point_metahandler,
-												sizeof(E3Point));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryPoint,
+								e3geom_point_metahandler,
+								E3Point ) ;
+	}
 
 
 

@@ -103,9 +103,11 @@ E3GeometryInfo::E3GeometryInfo	(
 				E3ClassInfo*	newParent // nil for root class of course
 			 	)
 		: E3ShapeInfo ( newClassMetaHandler, newParent ) ,
-		cacheIsValid		( (TQ3XGeomCacheIsValidMethod)		Find_Method ( kQ3XMethodTypeGeomCacheIsValid , kQ3True ) ) ,
-		cacheUpdate			( (TQ3XGeomCacheUpdateMethod)		Find_Method ( kQ3XMethodTypeGeomCacheUpdate , kQ3True ) )
-		 
+		cacheIsValid		( (TQ3XGeomCacheIsValidMethod)		Find_Method ( kQ3XMethodTypeGeomCacheIsValid ) ) ,
+		cacheUpdate			( (TQ3XGeomCacheUpdateMethod)		Find_Method ( kQ3XMethodTypeGeomCacheUpdate ) ) ,
+		cacheNew			( (TQ3XGeomCacheNewMethod)			Find_Method ( kQ3XMethodTypeGeomCacheNew ) ) ,
+		getAttribute		( (TQ3XGeomGetAttributeMethod)		Find_Method ( kQ3XMethodTypeGeomGetAttribute ) ) ,
+		getPublicData		( (TQ3XGeomGetPublicDataMethod)		Find_Method ( kQ3XMethodTypeGeomGetPublicData ) )		 
 	{
 
 	} ;
@@ -134,8 +136,7 @@ static TQ3AttributeSet *
 e3geometry_get_attributes(TQ3GeometryObject theGeom)
 	{
 	// Get the geometry attribute method
-	TQ3XGeomGetAttributeMethod getAttribute = (TQ3XGeomGetAttributeMethod)
-							theGeom->GetMethod ( kQ3XMethodTypeGeomGetAttribute ) ;
+	TQ3XGeomGetAttributeMethod getAttribute = ( (E3GeometryInfo*) theGeom->GetClass () )->getAttribute ;
 	if ( getAttribute == NULL )
 		return NULL ;
 
@@ -221,19 +222,15 @@ e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 // N.B. e3geometry_submit_decomposed is not really a method of E3Geometry as theObject is often nil
 TQ3Status
 e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3Status						qd3dStatus  = kQ3Failure;
-	E3ClassInfoPtr					theClass;
-
+	{
+	TQ3Status qd3dStatus  = kQ3Failure ;
 
 
 	// Get the class for the geometry
-	if (theObject != NULL)
-		theClass = theObject->GetClass () ;
-	else
-		theClass = E3ClassTree::GetClass ( objectType ) ;
+	E3GeometryInfo* theClass = (E3GeometryInfo*) ( theObject != NULL ? theObject->GetClass () : E3ClassTree::GetClass ( objectType ) ) ;
 
-	if (theClass == NULL)
-		return(kQ3Failure);
+	if ( theClass == NULL || ! Q3_CLASS_INFO_IS_CLASS ( theClass , E3Geometry ) )
+		return kQ3Failure ;
 
 
 
@@ -241,7 +238,7 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 	if ( theObject != NULL )
 		{
 		// Check we have the methods we need
-		if ( ( (E3GeometryInfo*) theClass )->cacheIsValid == NULL || ( (E3GeometryInfo*) theClass )->cacheUpdate == NULL)
+		if ( theClass->cacheIsValid == NULL || theClass->cacheUpdate == NULL)
 			return kQ3Failure ;
 
 
@@ -252,8 +249,8 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 
 
 		// Rebuild the cached object if it's out of date
-		if ( ! ( (E3GeometryInfo*) theClass )->cacheIsValid ( theView, objectType, theObject, objectData, instanceData->cachedObject ) )
-			( (E3GeometryInfo*) theClass )->cacheUpdate(theView, objectType, theObject, objectData, &instanceData->cachedObject);
+		if ( ! theClass->cacheIsValid ( theView, objectType, theObject, objectData, instanceData->cachedObject ) )
+			theClass->cacheUpdate(theView, objectType, theObject, objectData, &instanceData->cachedObject);
 
 
 
@@ -276,23 +273,22 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 	// -dair
 	else
 		{
-		// Find the new method
-		TQ3XGeomCacheNewMethod cacheNew = (TQ3XGeomCacheNewMethod) theClass->GetMethod ( kQ3XMethodTypeGeomCacheNew ) ;
-		if (cacheNew == NULL)
-			return(kQ3Failure);
+		// Check we have a method
+		if ( theClass->cacheNew == NULL )
+			return kQ3Failure ;
 		
 		
 		// Create a temporary object, submit it, and clean up
-		TQ3Object tmpObject = cacheNew(theView, theObject, objectData);
-		if (tmpObject == NULL)
-			return(kQ3Failure);
+		TQ3Object tmpObject = theClass->cacheNew ( theView, theObject, objectData ) ;
+		if ( tmpObject == NULL )
+			return kQ3Failure ;
 		
 		qd3dStatus = Q3Object_Submit(tmpObject, theView);
 		Q3Object_Dispose(tmpObject);
 		}
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -303,13 +299,7 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3XGeomGetPublicDataMethod		getPublicData;
-	TQ3Boolean						geomSupported;
-	const void						*publicData;
-	TQ3Status						qd3dStatus;
-
-
-
+	{
 	// Get the public data for the geometry object
 	//
 	// The pointer submitted to renderers must be of the public data structure for
@@ -318,32 +308,30 @@ e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 	// We can use the geometry's GetPublicData method to retrieve the data for the
 	// renderer. For immediate mode submits, or objects without this method, we can
 	// use the supplied data directly.
-	publicData = objectData;
+	const void* publicData = objectData ;
 
-	if (theObject != NULL)
-		{
-		getPublicData = (TQ3XGeomGetPublicDataMethod) theObject->GetMethod ( kQ3XMethodTypeGeomGetPublicData ) ;
-		if (getPublicData != NULL)
-			publicData = getPublicData(theObject);
-		}
+	if ( theObject != NULL )
+		if ( TQ3XGeomGetPublicDataMethod getPublicData = ( (E3GeometryInfo*) ( theObject->GetClass () ) )->getPublicData )
+			publicData = getPublicData ( theObject ) ;
 
 
 
 	// Submit the geometry
 	//
 	// Note that we always pass the public data to renderers.
-	qd3dStatus = E3Renderer_Method_SubmitGeometry(theView, objectType, &geomSupported, theObject, publicData);
+	TQ3Boolean geomSupported ;
+	TQ3Status qd3dStatus = E3Renderer_Method_SubmitGeometry(theView, objectType, &geomSupported, theObject, publicData);
 
 
 
 	// If it's not supported, try and decompose it
 	//
 	// Note that we pass the instance data on if we need to decompose.
-	if (!geomSupported)
-		qd3dStatus = e3geometry_submit_decomposed(theView, objectType, theObject, objectData);
+	if ( ! geomSupported )
+		qd3dStatus = e3geometry_submit_decomposed ( theView, objectType, theObject, objectData ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -425,13 +413,7 @@ e3geometry_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3Boolean						geomSupported;
-	TQ3XGeomGetPublicDataMethod		getPublicData;
-	const void						*publicData;
-	TQ3Status						qd3dStatus;
-
-
-
+	{
 	// Get the public data for the geometry object
 	//
 	// The pointer submitted to file formats must be of the public data structure for
@@ -440,32 +422,30 @@ e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theO
 	// We can use the geometry's GetPublicData method to retrieve the data for the
 	// renderer. For immediate mode submits, or objects without this method, we can
 	// use the supplied data directly.
-	publicData = objectData;
+	const void* publicData = objectData ;
 
-	if (theObject != NULL)
-		{
-		getPublicData = (TQ3XGeomGetPublicDataMethod) theObject->GetMethod ( kQ3XMethodTypeGeomGetPublicData ) ;
-		if (getPublicData != NULL)
-			publicData = getPublicData(theObject);
-		}
+	if ( theObject != NULL )
+		if ( TQ3XGeomGetPublicDataMethod getPublicData = ( (E3GeometryInfo*) ( theObject->GetClass () ) )->getPublicData )
+			publicData = getPublicData ( theObject ) ;
 
 
 
 	// Submit the geometry
-	qd3dStatus = E3FileFormat_Method_SubmitGeometry(theView,
-													objectType,
-													&geomSupported,
-													theObject,
-													publicData);
+	TQ3Boolean geomSupported ;
+	TQ3Status qd3dStatus = E3FileFormat_Method_SubmitGeometry ( theView,
+																objectType,
+																&geomSupported,
+																theObject,
+																publicData ) ;
 
 
 
 	// If it's not supported, try and decompose it
-	if (!geomSupported)
-		qd3dStatus = e3geometry_submit_decomposed(theView, objectType, theObject, objectData);
+	if ( ! geomSupported )
+		qd3dStatus = e3geometry_submit_decomposed ( theView, objectType, theObject, objectData ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -637,13 +617,9 @@ e3geometry_cache_update(TQ3ViewObject theView,
 
 
 	// Find the class, and the appropriate method
-	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectType ) ;
+	E3GeometryInfo* theClass = (E3GeometryInfo*) E3ClassTree::GetClass ( objectType ) ;
 	if ( theClass == NULL )
 		return ;
-
-	TQ3XGeomCacheNewMethod cacheNew = (TQ3XGeomCacheNewMethod) theClass->GetMethod ( kQ3XMethodTypeGeomCacheNew ) ;
-
-
 
 	// Get rid of the existing cached object, if any
 	if ( *cachedGeom != NULL )
@@ -652,8 +628,8 @@ e3geometry_cache_update(TQ3ViewObject theView,
 
 
 	// If we can create a cached geometry, create it
-	if ( cacheNew != NULL )
-		*cachedGeom = cacheNew ( theView, theGeom, geomData ) ;
+	if ( theClass->cacheNew != NULL )
+		*cachedGeom = theClass->cacheNew ( theView, theGeom, geomData ) ;
 	}
 
 
@@ -952,7 +928,7 @@ E3Geometry_GetDecomposed( TQ3GeometryObject theGeom, TQ3ViewObject view )
 
 
 	// Find the method we need
-	TQ3XGeomCacheNewMethod cacheNew = (TQ3XGeomCacheNewMethod) theGeom->GetMethod ( kQ3XMethodTypeGeomCacheNew ) ;
+	TQ3XGeomCacheNewMethod cacheNew = ( (E3GeometryInfo*) ( theGeom->GetClass () ) )->cacheNew ;
 	if ( cacheNew == NULL )
 		return NULL ;
 

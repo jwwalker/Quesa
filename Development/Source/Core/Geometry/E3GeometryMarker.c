@@ -63,6 +63,7 @@ class E3Marker : public E3Geometry // This is a leaf class so no other classes u
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeMarker, E3Marker, E3Geometry )
 public :
 
 	TQ3MarkerData			instanceData ;
@@ -532,19 +533,12 @@ e3geom_marker_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryMarker_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeMarker,
-											kQ3ClassNameGeometryMarker,
-											e3geom_marker_metahandler,
-											sizeof(E3Marker));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryMarker,
+								e3geom_marker_metahandler,
+								E3Marker ) ;
+	}
 
 
 

@@ -230,6 +230,7 @@ class E3Mesh : public E3Geometry // This is a leaf class so no other classes use
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeMesh, E3Mesh, E3Geometry )
 public :
 
 	TE3MeshData			instanceData ; // N.B. NOT TQ3MeshData
@@ -4414,19 +4415,12 @@ e3geom_mesh_metahandler(
 #pragma mark -
 TQ3Status
 E3GeometryMesh_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeMesh,
-											kQ3ClassNameGeometryMesh,
-											e3geom_mesh_metahandler,
-											sizeof(E3Mesh));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryMesh,
+								e3geom_mesh_metahandler,
+								E3Mesh ) ;
+	}
 
 
 

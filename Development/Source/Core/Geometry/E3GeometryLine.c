@@ -62,6 +62,7 @@ class E3Line : public E3Geometry // This is a leaf class so no other classes use
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeLine, E3Line, E3Geometry )
 public :
 
 	TQ3LineData			instanceData ;
@@ -638,19 +639,12 @@ e3geom_line_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryLine_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass (	kQ3ShapeTypeGeometry,
-												kQ3GeometryTypeLine,
-												kQ3ClassNameGeometryLine,
-												e3geom_line_metahandler,
-												sizeof(E3Line));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryLine,
+								e3geom_line_metahandler,
+								E3Line ) ;
+	}
 
 
 

@@ -64,6 +64,7 @@ class E3GeneralPolygon : public E3Geometry // This is a leaf class so no other c
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeGeneralPolygon, E3GeneralPolygon, E3Geometry )
 public :
 
 	TQ3GeneralPolygonData	instanceData ;
@@ -376,19 +377,12 @@ e3geom_generalpolygon_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryGeneralPolygon_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeGeneralPolygon,
-											kQ3ClassNameGeometryGeneralPolygon,
-											e3geom_generalpolygon_metahandler,
-											sizeof(E3GeneralPolygon));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryGeneralPolygon,
+								e3geom_generalpolygon_metahandler,
+								E3GeneralPolygon ) ;
+	}
 
 
 

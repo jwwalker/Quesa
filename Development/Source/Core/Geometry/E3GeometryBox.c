@@ -63,6 +63,7 @@ class E3Box : public E3Geometry // This is a leaf class so no other classes use 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeBox, E3Box, E3Geometry )
 public :
 
 	TQ3BoxData			instanceData ;
@@ -582,19 +583,12 @@ e3geom_box_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryBox_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeBox,
-											kQ3ClassNameGeometryBox,
-											e3geom_box_metahandler,
-											sizeof(E3Box));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryBox,
+								e3geom_box_metahandler,
+								E3Box ) ;
+	}
 
 
 
