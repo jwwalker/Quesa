@@ -171,7 +171,7 @@ E3Pool_AllocateTagged(
 
 		// Determine item after last item in block
 		currItemPtr = (TE3PoolItem*) newBlockPtr;
-		((char*) currItemPtr) += itemOffset + itemSize*blockLength;
+		((char*&) currItemPtr) += itemOffset + itemSize*blockLength;
     	
     	// If required, reserve one item for tag
     	numItems = blockLength;
@@ -180,7 +180,7 @@ E3Pool_AllocateTagged(
 
 		// Link items into pool's list of free items
 		nextItemPtr = NULL;
-		for ( ; ((char*) currItemPtr) -= itemSize, numItems > 0; nextItemPtr = currItemPtr, --numItems)
+		for ( ; ((char*&) currItemPtr) -= itemSize, numItems > 0; nextItemPtr = currItemPtr, --numItems)
 			currItemPtr->nextFreeItemPtr_private = nextItemPtr;
 		poolPtr->headFreeItemPtr_private = nextItemPtr;
 		
@@ -269,7 +269,7 @@ E3PoolItem_Tag(
 	// Thus E3Pool_AllocateTagged() should make the FIRST item in each block a tag.
 
 	tagItemPtr = itemPtr;
-	while (((const char*) tagItemPtr) -= itemSize, (*isTagItemFunc)(tagItemPtr) == kQ3False)
+	while (((const char*&) tagItemPtr) -= itemSize, (*isTagItemFunc)(tagItemPtr) == kQ3False)
 		;
 
 	return(tagItemPtr);
