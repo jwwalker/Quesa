@@ -286,11 +286,11 @@ extern "C" {
 #define kQ3ObjectTypeGeneralPolygonHint				Q3_OBJECT_TYPE('g', 'p', 'l', 'h')
 #define kQ3ObjectTypeDisplayGroupState				Q3_OBJECT_TYPE('d', 'g', 's', 't')
 #define kQ3AttributeSetTypeTopCap					Q3_OBJECT_TYPE('t', 'c', 'a', 's')
-#define kQ3AttributeSetTypeBottomCap			Q3_OBJECT_TYPE('b', 'c', 'a', 's')
-#define kQ3AttributeSetTypeFaceCap				Q3_OBJECT_TYPE('f', 'c', 'a', 's')
+#define kQ3AttributeSetTypeBottomCap				Q3_OBJECT_TYPE('b', 'c', 'a', 's')
+#define kQ3AttributeSetTypeFaceCap					Q3_OBJECT_TYPE('f', 'c', 'a', 's')
 #define kQ3ObjectTypeShaderUVTransform				Q3_OBJECT_TYPE('s', 'd', 'u', 'v')
 #define kQ3ObjectTypeShaderTransform				Q3_OBJECT_TYPE('s', 'd', 'x', 'f')
-#define kQ3ObjectTypeGeometryCaps									Q3_OBJECT_TYPE('c', 'a', 'p', 's')
+#define kQ3ObjectTypeGeometryCaps					Q3_OBJECT_TYPE('c', 'a', 'p', 's')
 
 
 
