@@ -1158,6 +1158,9 @@ E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType)
 //=============================================================================
 //      E3ClassTree_GetLeafObject : Get the leaf object for an object.
 //-----------------------------------------------------------------------------
+//		Note : Not available in release builds.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
 TQ3Object
 E3ClassTree_GetLeafObject(TQ3Object theObject)
 {
@@ -1169,6 +1172,7 @@ E3ClassTree_GetLeafObject(TQ3Object theObject)
 	
 	return(theObject);
 }
+#endif
 
 
 
