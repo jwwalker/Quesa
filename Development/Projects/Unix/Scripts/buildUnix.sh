@@ -23,13 +23,38 @@
 #
 #
 
+# make sure we're on the correct directory
 pushd ../../Unix || exit
 
+# create the build system for libquesa
+######################################
 aclocal
 automake --add-missing
 automake
 autoconf
 ./configure
+
+# create the build system for the examples
+######################################
+
+pushd Examples || exit
+
+# make sure we can find gtk-config
+PATH=${PATH}:/usr/local/bin
+
+export PATH
+
+# make sure we can find gtk.m4
+aclocal -I /usr/local/share/aclocal
+automake --add-missing
+automake
+autoconf
+./configure
+
+popd
+
+# build libquesa
+######################################
 make
 
 popd
