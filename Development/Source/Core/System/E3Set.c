@@ -65,15 +65,35 @@
 const TQ3Uns32 kSetTableSize									= 6;
 
 
-
+#define e3attribute_type_to_mask(theType) (((theType  > kQ3AttributeTypeNone ) && (theType < kQ3AttributeTypeNumTypes))? \
+								(1 << (theType - 1)):kQ3XAttributeMaskCustomAttribute)
 
 
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
 // Set instance data
+typedef struct TQ3SetAttributes {
+	
+	TQ3Vector3D			normal;
+	TQ3Switch			highlightState;
+	TQ3Tangent2D		surfaceTangent;
+	TQ3Param2D 			surfaceUV;
+	TQ3ColorRGB			diffuseColor;
+	float				ambientCoeficient;
+	TQ3ColorRGB			specularColor;
+	float				specularControl;
+	TQ3Param2D 			shadingUV;
+	TQ3SurfaceShaderObject surfaceShader;
+	TQ3ColorRGB			trasparencyColor;
+} TQ3SetAttributes;
+
 typedef struct TQ3SetData {
+	
+	TQ3SetAttributes	attributes;
+	
 	E3HashTablePtr		theTable;			// Elements in set, keyed by type
+
 	TQ3Uns32			scanEditIndex;		// Set edit index while scanning
 	TQ3Uns32			scanCount;			// Size of scanResults
 	TQ3Uns32			scanIndex;			// Current index into scanResults
@@ -180,7 +200,7 @@ e3set_clear_elements(TQ3SetData *instanceData)
 	if (instanceData->theTable != NULL)
 		{
 		E3HashTable_Destroy(&instanceData->theTable);
-		instanceData->theTable = E3HashTable_Create(kSetTableSize);
+		instanceData->theTable = NULL;
 		}
 
 }
@@ -378,7 +398,7 @@ e3set_delete(TQ3Object theObject, void *privateData)
 
 
 	// Empty the set
-	Q3Set_Empty(theObject);
+	E3Set_Empty(theObject);
 
 
 
@@ -417,6 +437,11 @@ e3set_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 	// Initialise the instance data of the new object
 	toInstanceData->theTable = NULL;
+	toInstanceData->theMask = fromInstanceData->theMask;
+	toInstanceData->attributes = fromInstanceData->attributes;
+	if(toInstanceData->attributes.surfaceShader != NULL)
+		toInstanceData->attributes.surfaceShader = Q3Shared_GetReference(toInstanceData->attributes.surfaceShader);
+	
 	
 
 
@@ -426,7 +451,7 @@ e3set_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 		qd3dStatus = e3set_iterate_elements((TQ3SetData *) fromInstanceData, e3set_iterator_duplicate, toInstanceData);
 		if (qd3dStatus != kQ3Success)
 			{
-			Q3Set_Empty(toObject);
+			E3Set_Empty(toObject);
 
 			if (toInstanceData->theTable != NULL)
 				E3HashTable_Destroy(&toInstanceData->theTable);
@@ -571,7 +596,7 @@ e3attributeset_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 
 
 	// Submit the attribute set
-	qd3dStatus = Q3AttributeSet_Submit(theObject, theView);
+	qd3dStatus = E3Set_SubmitElements(theObject, theView);
 
 	return(qd3dStatus);
 }
@@ -1274,68 +1299,6 @@ e3attribute_surfaceshader_metahandler(TQ3XMethodType methodType)
 
 
 
-//=============================================================================
-//      e3attribute_type_to_mask : Convert an attribute type to a mask.
-//-----------------------------------------------------------------------------
-#pragma mark -
-static TQ3XAttributeMask
-e3attribute_type_to_mask(TQ3AttributeType theType)
-{	TQ3XAttributeMask	theMask;
-
-
-
-	// Validate our parameters
-	Q3_ASSERT(theType != kQ3AttributeTypeNone);
-
-
-
-	// Convert the type to the appropriate mask
-	theMask = kQ3XAttributeMaskNone;
-	switch (theType) {
-		case kQ3ObjectTypeAttributeSurfaceUV:
-			theMask |= kQ3XAttributeMaskSurfaceUV;
-			break;
-		case kQ3ObjectTypeAttributeShadingUV:
-			theMask |= kQ3XAttributeMaskShadingUV;
-			break;
-		case kQ3ObjectTypeAttributeNormal:
-			theMask |= kQ3XAttributeMaskNormal;
-			break;
-		case kQ3ObjectTypeAttributeAmbientCoefficient:
-			theMask |= kQ3XAttributeMaskAmbientCoefficient;
-			break;
-		case kQ3ObjectTypeAttributeDiffuseColor:
-			theMask |= kQ3XAttributeMaskDiffuseColor;
-			break;
-		case kQ3ObjectTypeAttributeSpecularColor:
-			theMask |= kQ3XAttributeMaskSpecularColor;
-			break;
-		case kQ3ObjectTypeAttributeSpecularControl:
-			theMask |= kQ3XAttributeMaskSpecularControl;
-			break;
-		case kQ3ObjectTypeAttributeTransparencyColor:
-			theMask |= kQ3XAttributeMaskTransparencyColor;
-			break;
-		case kQ3ObjectTypeAttributeSurfaceTangent:
-			theMask |= kQ3XAttributeMaskSurfaceTangent;
-			break;
-		case kQ3ObjectTypeAttributeHighlightState:
-			theMask |= kQ3XAttributeMaskHighlightState;
-			break;
-		case kQ3ObjectTypeAttributeSurfaceShader:
-			theMask |= kQ3XAttributeMaskSurfaceShader;
-			break;
-		default:
-			theMask |= kQ3XAttributeMaskCustomAttribute;
-			break;
-		}
-
-	return(theMask);
-}
-
-
-
-
 
 #pragma mark -
 //=============================================================================
@@ -1547,7 +1510,7 @@ E3Set_UnregisterClass(void)
 TQ3ElementObject
 E3Set_AccessElementData(TQ3SetObject theSet, TQ3ElementType theType, TQ3Uns32 *dataSize, void **data)
 {	TQ3SetData			*instanceData;
-	TQ3ElementObject	theElement;
+	TQ3ElementObject	theElement = NULL;
 	E3ClassInfoPtr		theClass;
 
 
@@ -1572,19 +1535,73 @@ E3Set_AccessElementData(TQ3SetObject theSet, TQ3ElementType theType, TQ3Uns32 *d
 
 
 
-	// Find the element
-	theElement = e3set_find_element(instanceData, theType);
-	if (theElement != NULL)
-		{
-		// Find the class for the element
-		theClass = theElement->theClass;
-		if (theClass == NULL)
-			return(NULL);
+	if ((theType  < kQ3AttributeTypeNone ) || (theType > kQ3AttributeTypeNumTypes))
+		theType = E3Attribute_ClassToAttributeType(theType);
+
+	if ((theType  > kQ3AttributeTypeNone ) && (theType < kQ3AttributeTypeNumTypes))
+		if ((instanceData->theMask & e3attribute_type_to_mask(theType)) == 0)
+			return (NULL);
+			
+	switch (theType) {
+		case kQ3AttributeTypeSurfaceUV:
+			*data = &instanceData->attributes.surfaceUV;
+			*dataSize = sizeof(instanceData->attributes.surfaceUV);
+			break;
+		case kQ3AttributeTypeShadingUV:
+			*data = &instanceData->attributes.shadingUV;
+			*dataSize = sizeof(instanceData->attributes.shadingUV);
+			break;
+		case kQ3AttributeTypeNormal:
+			*data = &instanceData->attributes.normal;
+			*dataSize = sizeof(instanceData->attributes.normal);
+			break;
+		case kQ3AttributeTypeAmbientCoefficient:
+			*data = &instanceData->attributes.ambientCoeficient;
+			*dataSize = sizeof(instanceData->attributes.ambientCoeficient);
+			break;
+		case kQ3AttributeTypeDiffuseColor:
+			*data = &instanceData->attributes.diffuseColor;
+			*dataSize = sizeof(instanceData->attributes.diffuseColor);
+			break;
+		case kQ3AttributeTypeSpecularColor:
+			*data = &instanceData->attributes.specularColor;
+			*dataSize = sizeof(instanceData->attributes.specularColor);
+			break;
+		case kQ3AttributeTypeSpecularControl:
+			*data = &instanceData->attributes.specularControl;
+			*dataSize = sizeof(instanceData->attributes.specularControl);
+			break;
+		case kQ3AttributeTypeTransparencyColor:
+			*data = &instanceData->attributes.trasparencyColor;
+			*dataSize = sizeof(instanceData->attributes.trasparencyColor);
+			break;
+		case kQ3AttributeTypeSurfaceTangent:
+			*data = &instanceData->attributes.surfaceTangent;
+			*dataSize = sizeof(instanceData->attributes.surfaceTangent);
+			break;
+		case kQ3AttributeTypeHighlightState:
+			*data = &instanceData->attributes.highlightState;
+			*dataSize = sizeof(instanceData->attributes.highlightState);
+			break;
+		case kQ3AttributeTypeSurfaceShader:
+			*data = &instanceData->attributes.surfaceShader;
+			*dataSize = sizeof(instanceData->attributes.surfaceShader);
+			break;
+		default:
+			// Find the element
+			theElement = e3set_find_element(instanceData, theType);
+			if (theElement != NULL)
+				{
+				// Find the class for the element
+				theClass = theElement->theClass;
+				if (theClass == NULL)
+					return(NULL);
 
 
-		// Return the size and pointer for the data for the element
-		*dataSize = E3ClassTree_GetInstanceSize(theClass);
-		*data     = theElement->instanceData;
+				// Return the size and pointer for the data for the element
+				*dataSize = E3ClassTree_GetInstanceSize(theClass);
+				*data     = theElement->instanceData;
+				}
 		}
 	
 	return(theElement);
@@ -1635,7 +1652,7 @@ TQ3Status
 E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 {	TQ3XElementCopyReplaceMethod		copyReplaceMethod;
 	TQ3SetData							*instanceData;
-	TQ3Status							qd3dStatus;
+	TQ3Status							qd3dStatus = kQ3Success;
 	TQ3ElementObject					theElement;
 	TQ3Uns32							dataSize;
 
@@ -1646,34 +1663,77 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
-	theType = E3Attribute_AttributeToClassType(theType);
 
+	if ((theType  < kQ3AttributeTypeNone ) || (theType > kQ3AttributeTypeNumTypes))
+		theType = E3Attribute_ClassToAttributeType(theType);
 
-	// Find the element, and replace its data if it exists
-	theElement = e3set_find_element(instanceData, theType);
-	if (theElement != NULL)
-		{
-		copyReplaceMethod = (TQ3XElementCopyReplaceMethod) E3ClassTree_GetMethod(theElement->theClass,
-														   kQ3XMethodTypeElementCopyReplace);
-		if (copyReplaceMethod != NULL)
-			qd3dStatus = copyReplaceMethod(data, theElement->instanceData);
-		else
-			{
-			dataSize = E3ClassTree_GetInstanceSize(theElement->theClass);
-			Q3Memory_Copy(data, theElement->instanceData, dataSize);
-			qd3dStatus = kQ3Success;
-			}
+	switch (theType) {
+		case kQ3AttributeTypeSurfaceUV:
+			instanceData->attributes.surfaceUV = *((TQ3Param2D*)data);
+			break;
+		case kQ3AttributeTypeShadingUV:
+			instanceData->attributes.shadingUV = *((TQ3Param2D*)data);
+			break;
+		case kQ3AttributeTypeNormal:
+			instanceData->attributes.normal = *((TQ3Vector3D*)data);
+			break;
+		case kQ3AttributeTypeAmbientCoefficient:
+			instanceData->attributes.ambientCoeficient = *((float*)data);
+			break;
+		case kQ3AttributeTypeDiffuseColor:
+			instanceData->attributes.diffuseColor = *((TQ3ColorRGB*)data);
+			break;
+		case kQ3AttributeTypeSpecularColor:
+			instanceData->attributes.specularColor = *((TQ3ColorRGB*)data);
+			break;
+		case kQ3AttributeTypeSpecularControl:
+			instanceData->attributes.specularControl = *((float*)data);
+			break;
+		case kQ3AttributeTypeTransparencyColor:
+			instanceData->attributes.trasparencyColor = *((TQ3ColorRGB*)data);
+			break;
+		case kQ3AttributeTypeSurfaceTangent:
+			instanceData->attributes.surfaceTangent = *((TQ3Tangent2D*)data);
+			break;
+		case kQ3AttributeTypeHighlightState:
+			instanceData->attributes.highlightState = *((TQ3Switch*)data);
+			break;
+		case kQ3AttributeTypeSurfaceShader:
 		
-		}
-	else
-		{
-		// We don't have an existing element, so instantiate a new one
-		theElement = E3ClassTree_CreateInstance(theType, kQ3False, data);
-		if (theElement == NULL)
-			return(kQ3Failure);
+			if(instanceData->attributes.surfaceShader != NULL)
+				Q3Object_Dispose(instanceData->attributes.surfaceShader);
+				
+			instanceData->attributes.surfaceShader = *((TQ3SurfaceShaderObject*)data);
+			Q3Shared_GetReference(instanceData->attributes.surfaceShader);
+			break;
+		default:
+			// Find the element, and replace its data if it exists
+			theElement = e3set_find_element(instanceData, theType);
+			if (theElement != NULL)
+				{
+				copyReplaceMethod = (TQ3XElementCopyReplaceMethod) E3ClassTree_GetMethod(theElement->theClass,
+																   kQ3XMethodTypeElementCopyReplace);
+				if (copyReplaceMethod != NULL)
+					qd3dStatus = copyReplaceMethod(data, theElement->instanceData);
+				else
+					{
+					dataSize = E3ClassTree_GetInstanceSize(theElement->theClass);
+					Q3Memory_Copy(data, theElement->instanceData, dataSize);
+					qd3dStatus = kQ3Success;
+					}
+				
+				}
+			else
+				{
+				// We don't have an existing element, so instantiate a new one
+				theElement = E3ClassTree_CreateInstance(theType, kQ3False, data);
+				if (theElement == NULL)
+					return(kQ3Failure);
 
-		// And add it to the set
-		qd3dStatus = e3set_add_element(instanceData, theType, theElement);
+				// And add it to the set
+				qd3dStatus = e3set_add_element(instanceData, theType, theElement);
+				}
+			break;
 		}
 
 
@@ -1696,37 +1756,85 @@ TQ3Status
 E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 {	TQ3XElementCopyGetMethod	copyGetMethod;
 	void						*elementData;
-	TQ3Status					qd3dStatus;
+	TQ3Status					qd3dStatus = kQ3Success;
+	TQ3SetData							*instanceData;
 	TQ3ElementObject			theElement;
 	TQ3Uns32					dataSize;
 
-
-	theType    = E3Attribute_AttributeToClassType(theType);
-
-	// Get the size and pointer for the data for the element
-	theElement = E3Set_AccessElementData(theSet, theType, &dataSize, &elementData);
-	if (theElement == NULL)
+	// Find the instance data
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
+	if (instanceData == NULL)
 		return(kQ3Failure);
 
 
+	if ((theType  < kQ3AttributeTypeNone ) || (theType > kQ3AttributeTypeNumTypes))
+		theType = E3Attribute_ClassToAttributeType(theType);
 
-	// If there's nothing to copy, bail. It is OK for dataSize to be 0, as the
-	// mere presence of an attribute can itself carry information.
-	if (dataSize == 0)
-		return(kQ3Success);
+	if ((theType  > kQ3AttributeTypeNone ) && (theType < kQ3AttributeTypeNumTypes))
+		if ((instanceData->theMask & e3attribute_type_to_mask(theType)) == 0)
+			return (kQ3Failure);
+			
+	switch (theType) {
+		case kQ3AttributeTypeSurfaceUV:
+			*((TQ3Param2D*)data) = instanceData->attributes.surfaceUV;
+			break;
+		case kQ3AttributeTypeShadingUV:
+			*((TQ3Param2D*)data) = instanceData->attributes.shadingUV;
+			break;
+		case kQ3AttributeTypeNormal:
+			*((TQ3Vector3D*)data) = instanceData->attributes.normal;
+			break;
+		case kQ3AttributeTypeAmbientCoefficient:
+			*((float*)data) = instanceData->attributes.ambientCoeficient;
+			break;
+		case kQ3AttributeTypeDiffuseColor:
+			*((TQ3ColorRGB*)data) = instanceData->attributes.diffuseColor;
+			break;
+		case kQ3AttributeTypeSpecularColor:
+			*((TQ3ColorRGB*)data) = instanceData->attributes.specularColor;
+			break;
+		case kQ3AttributeTypeSpecularControl:
+			*((float*)data) = instanceData->attributes.specularControl;
+			break;
+		case kQ3AttributeTypeTransparencyColor:
+			*((TQ3ColorRGB*)data) = instanceData->attributes.trasparencyColor;
+			break;
+		case kQ3AttributeTypeSurfaceTangent:
+			*((TQ3Tangent2D*)data) = instanceData->attributes.surfaceTangent;
+			break;
+		case kQ3AttributeTypeHighlightState:
+			*((TQ3Switch*)data) = instanceData->attributes.highlightState;
+			break;
+		case kQ3AttributeTypeSurfaceShader:
+			*((TQ3SurfaceShaderObject*)data) = Q3Shared_GetReference(instanceData->attributes.surfaceShader);
+			break;
+		default:
+
+			// Get the size and pointer for the data for the element
+			theElement = E3Set_AccessElementData(theSet, theType, &dataSize, &elementData);
+			if (theElement == NULL)
+				return(kQ3Failure);
 
 
 
-	// Copy the element data
-	copyGetMethod = (TQ3XElementCopyGetMethod) E3ClassTree_GetMethod(theElement->theClass,
-														  kQ3XMethodTypeElementCopyGet);
-	if (copyGetMethod != NULL)
-		qd3dStatus = copyGetMethod((void *) elementData, (void *) data);
-	else
-		{
-		Q3Memory_Copy(elementData, data, dataSize);
-		qd3dStatus = kQ3Success;
-		}
+			// If there's nothing to copy, bail. It is OK for dataSize to be 0, as the
+			// mere presence of an attribute can itself carry information.
+			if (dataSize == 0)
+				return(kQ3Success);
+
+
+
+			// Copy the element data
+			copyGetMethod = (TQ3XElementCopyGetMethod) E3ClassTree_GetMethod(theElement->theClass,
+																  kQ3XMethodTypeElementCopyGet);
+			if (copyGetMethod != NULL)
+				qd3dStatus = copyGetMethod((void *) elementData, (void *) data);
+			else
+				{
+				Q3Memory_Copy(elementData, data, dataSize);
+				qd3dStatus = kQ3Success;
+				}
+			}
 	
 	return(qd3dStatus);
 }
@@ -1760,25 +1868,71 @@ E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject 
 
 
 
-	// Find the element to copy
-	srcElement = e3set_find_element(srcInstanceData, theType);
-	if (srcElement == NULL)
-		return(kQ3Failure);
+	if ((theType  < kQ3AttributeTypeNone ) || (theType > kQ3AttributeTypeNumTypes))
+		theType = E3Attribute_ClassToAttributeType(theType);
+
+	if ((theType  > kQ3AttributeTypeNone ) && (theType < kQ3AttributeTypeNumTypes))
+		if ((srcInstanceData->theMask & e3attribute_type_to_mask(theType)) == 0)
+			return (kQ3Failure);
+			
+	switch (theType) {
+		case kQ3AttributeTypeSurfaceUV:
+			dstInstanceData->attributes.surfaceUV = srcInstanceData->attributes.surfaceUV;
+			break;
+		case kQ3AttributeTypeShadingUV:
+			dstInstanceData->attributes.shadingUV = srcInstanceData->attributes.shadingUV;
+			break;
+		case kQ3AttributeTypeNormal:
+			dstInstanceData->attributes.normal = srcInstanceData->attributes.normal;
+			break;
+		case kQ3AttributeTypeAmbientCoefficient:
+			dstInstanceData->attributes.ambientCoeficient = srcInstanceData->attributes.ambientCoeficient;
+			break;
+		case kQ3AttributeTypeDiffuseColor:
+			dstInstanceData->attributes.diffuseColor = srcInstanceData->attributes.diffuseColor;
+			break;
+		case kQ3AttributeTypeSpecularColor:
+			dstInstanceData->attributes.specularColor = srcInstanceData->attributes.specularColor;
+			break;
+		case kQ3AttributeTypeSpecularControl:
+			dstInstanceData->attributes.specularControl = srcInstanceData->attributes.specularControl;
+			break;
+		case kQ3AttributeTypeTransparencyColor:
+			dstInstanceData->attributes.trasparencyColor = srcInstanceData->attributes.trasparencyColor;
+			break;
+		case kQ3AttributeTypeSurfaceTangent:
+			dstInstanceData->attributes.surfaceTangent = srcInstanceData->attributes.surfaceTangent;
+			break;
+		case kQ3AttributeTypeHighlightState:
+			dstInstanceData->attributes.highlightState = srcInstanceData->attributes.highlightState;
+			break;
+		case kQ3AttributeTypeSurfaceShader:
+			if(dstInstanceData->attributes.surfaceShader != NULL)
+				Q3Object_Dispose(dstInstanceData->attributes.surfaceShader);
+			dstInstanceData->attributes.surfaceShader = Q3Shared_GetReference(srcInstanceData->attributes.surfaceShader);
+			break;
+		default:
+
+			// Find the element to copy
+			srcElement = e3set_find_element(srcInstanceData, theType);
+			if (srcElement == NULL)
+				return(kQ3Failure);
 
 
 
-	// If the destination has an element of this type, remove it
-	Q3Set_Clear(destSet, theType);
+			// If the destination has an element of this type, remove it
+			E3Set_Clear(destSet, theType);
 
 
 
-	// Duplicate the element, and add it to the set
-	dstElement = Q3Object_Duplicate(srcElement);
-	if (dstElement != NULL)
-		qd3dStatus = e3set_add_element(dstInstanceData, theType, dstElement);
-	else
-		qd3dStatus = kQ3Failure;
-	
+			// Duplicate the element, and add it to the set
+			dstElement = Q3Object_Duplicate(srcElement);
+			if (dstElement != NULL)
+				qd3dStatus = e3set_add_element(dstInstanceData, theType, dstElement);
+			else
+				qd3dStatus = kQ3Failure;
+			}
+			
 	return(qd3dStatus);
 }
 
@@ -1794,26 +1948,23 @@ E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 {	TQ3SetData			*instanceData;
 	TQ3ElementObject	theElement;
 	TQ3Boolean				inSet;
+	TQ3XAttributeMask	mask;
 
 
 	// Find the instance data
 	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3False);
-	
+		
+	if ((theType  < kQ3AttributeTypeNone ) || (theType > kQ3AttributeTypeNumTypes))
+		theType =	E3Attribute_ClassToAttributeType(theType);
 	// Built-in attributes
 	if ((theType  > kQ3AttributeTypeNone ) && (theType < kQ3AttributeTypeNumTypes))
 		{
 		// Test the mask
-		theType = E3Attribute_AttributeToClassType(theType);
+		mask = ( e3attribute_type_to_mask(theType));
+		mask = ((instanceData->theMask & e3attribute_type_to_mask(theType)) != 0);
 		inSet = (TQ3Boolean) ((instanceData->theMask & e3attribute_type_to_mask(theType)) != 0);
-
-
-#if Q3_DEBUG
-		// In debug builds, double-check the underlying set
-		theElement = e3set_find_element(instanceData, theType);
-		Q3_ASSERT(inSet == (TQ3Boolean) (theElement != NULL));
-#endif
 		}
 	
 	// Custom attributes
@@ -1846,20 +1997,36 @@ E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 		return(kQ3Failure);
 
 
-	theType    = E3Attribute_AttributeToClassType(theType);
+	if ((theType  < kQ3AttributeTypeNone ) || (theType > kQ3AttributeTypeNumTypes))
+		theType = E3Attribute_ClassToAttributeType(theType);
 
-	// Remove the element
-	theElement = e3set_remove_element(instanceData, theType);
-	if (theElement != NULL)
+	if ((theType  > kQ3AttributeTypeNone ) && (theType < kQ3AttributeTypeNumTypes))
 		{
-		Q3Object_Dispose(theElement);
+		if ((instanceData->theMask & e3attribute_type_to_mask(theType)) == 0)
+			return (kQ3Failure);
+			
+		if(theType == kQ3AttributeTypeSurfaceShader)
+			Q3Object_Dispose(instanceData->attributes.surfaceShader);
+
 		Q3Shared_Edited(theSet);
 		instanceData->theMask &= ~e3attribute_type_to_mask(theType);
 		return(kQ3Success);
 		}
 	else
 		{
-		return(kQ3Failure);
+
+		// Remove the element
+		theElement = e3set_remove_element(instanceData, theType);
+		if (theElement != NULL)
+			{
+			Q3Object_Dispose(theElement);
+			Q3Shared_Edited(theSet);
+			return(kQ3Success);
+			}
+		else
+			{
+			return(kQ3Failure);
+			}
 		}
 
 }
@@ -1878,10 +2045,16 @@ E3Set_Empty(TQ3SetObject theSet)
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
+	if(instanceData->attributes.surfaceShader != NULL){
+		Q3Object_Dispose(instanceData->attributes.surfaceShader);
+		instanceData->attributes.surfaceShader = NULL;
+		}
 
 	// Remove the elements from the set
-	e3set_iterate_elements(instanceData, e3set_iterator_delete, NULL);
-	e3set_clear_elements(instanceData);
+	if (instanceData->theTable != NULL){
+		e3set_iterate_elements(instanceData, e3set_iterator_delete, NULL);
+		e3set_clear_elements(instanceData);
+		}
 	
 	Q3Shared_Edited(theSet);
 
@@ -1912,6 +2085,7 @@ TQ3Status
 E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 {	TQ3SetData			*instanceData;
 	TQ3Uns32			editIndex;
+	TQ3XAttributeMask	mask;
 
 
 
@@ -1921,7 +2095,6 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 		return(kQ3Failure);
 
 
-	*theType   = E3Attribute_AttributeToClassType(*theType);
 
 	// Get the edit index for the set
 	editIndex = Q3Shared_GetEditIndex(theSet);
@@ -1936,10 +2109,48 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 		instanceData->scanCount     = 0;
 		instanceData->scanIndex     = 0;
 		Q3Memory_Free(&instanceData->scanResults);
+		
+		// put in the built-in attributes
+		if(instanceData->theMask != kQ3XAttributeMaskNone){
+			mask = instanceData->theMask;
+			if((mask & kQ3XAttributeMaskSurfaceUV) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSurfaceUV, NULL, NULL);
 
+			if((mask & kQ3XAttributeMaskShadingUV) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeShadingUV, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskNormal) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeNormal, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskAmbientCoefficient) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeAmbientCoefficient, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskDiffuseColor) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeDiffuseColor, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskSpecularColor) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSpecularColor, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskSpecularControl) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSpecularControl, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskTransparencyColor) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeTransparencyColor, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskSurfaceTangent) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSurfaceTangent, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskHighlightState) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeHighlightState, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskSurfaceShader) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSurfaceShader, NULL, NULL);
+
+			}
 
 		// Build the array of types in the set
-		e3set_iterate_elements(instanceData, e3set_iterator_scan_types, NULL);
+		if (instanceData->theTable != NULL)
+			e3set_iterate_elements(instanceData, e3set_iterator_scan_types, NULL);
 		}
 	
 	
@@ -2016,8 +2227,8 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 TQ3Status
 E3Set_SubmitElements( TQ3SetObject inSet, TQ3ViewObject inView )
 {	TQ3SetData					*instanceData;
-	TQ3Status					qd3dStatus;
-
+	TQ3Status					qd3dStatus = kQ3Success;
+	TQ3XAttributeMask	mask;
 
 
 	// Find the instance data
@@ -2029,7 +2240,45 @@ E3Set_SubmitElements( TQ3SetObject inSet, TQ3ViewObject inView )
 
 	// Submit the elements in the set
 
-	qd3dStatus = e3set_iterate_elements(instanceData, e3set_iterator_submit, &inView);
+		if(instanceData->theMask != kQ3XAttributeMaskNone){
+			mask = instanceData->theMask;
+			if(((mask & kQ3XAttributeMaskSurfaceUV) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeSurfaceUV, &instanceData->attributes.surfaceUV);
+
+			if(((mask & kQ3XAttributeMaskShadingUV) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeShadingUV, &instanceData->attributes.shadingUV);
+
+			if(((mask & kQ3XAttributeMaskNormal) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeNormal, &instanceData->attributes.normal);
+
+			if(((mask & kQ3XAttributeMaskAmbientCoefficient) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeAmbientCoefficient, &instanceData->attributes.ambientCoeficient);
+
+			if(((mask & kQ3XAttributeMaskDiffuseColor) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeDiffuseColor, &instanceData->attributes.diffuseColor);
+
+			if(((mask & kQ3XAttributeMaskSpecularColor) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeSpecularColor, &instanceData->attributes.specularColor);
+
+			if(((mask & kQ3XAttributeMaskSpecularControl) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeSpecularControl, &instanceData->attributes.specularControl);
+
+			if(((mask & kQ3XAttributeMaskTransparencyColor) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeTransparencyColor, &instanceData->attributes.trasparencyColor);
+
+			if(((mask & kQ3XAttributeMaskSurfaceTangent) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeSurfaceTangent, &instanceData->attributes.surfaceTangent);
+
+			if(((mask & kQ3XAttributeMaskHighlightState) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeHighlightState, &instanceData->attributes.highlightState);
+
+			if(((mask & kQ3XAttributeMaskSurfaceShader) != 0) && (qd3dStatus == kQ3Success))
+				qd3dStatus = E3View_SubmitImmediate(inView, kQ3ObjectTypeAttributeSurfaceShader, &instanceData->attributes.surfaceShader);
+
+			}
+
+		if ((instanceData->theTable != NULL) && (qd3dStatus == kQ3Success))
+			qd3dStatus = e3set_iterate_elements(instanceData, e3set_iterator_submit, &inView);
 	
 	return(qd3dStatus);
 }
@@ -2202,10 +2451,10 @@ E3AttributeSet_New(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3AttributeSet result)
-{	TQ3SetData							*parentInstanceData, *childInstanceData;
+{	TQ3SetData							*parentInstanceData, *childInstanceData, *resultInstanceData;
 	TQ3Status							qd3dStatus;
 	TQ3AttributeSetInheritParamInfo		paramInfo;
-
+	TQ3XAttributeMask	mask;
 
 
 	// Empty the final attribute set
@@ -2216,10 +2465,11 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 
 
 	// Find the instance data
+	resultInstanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(result, kQ3SharedTypeSet);
 	parentInstanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(parent, kQ3SharedTypeSet);
 	childInstanceData  = (TQ3SetData *) E3ClassTree_FindInstanceData(child,  kQ3SharedTypeSet);
 
-	if (parentInstanceData == NULL || childInstanceData == NULL)
+	if (parentInstanceData == NULL || resultInstanceData == NULL || childInstanceData == NULL)
 		return(kQ3Failure);
 
 
@@ -2227,9 +2477,18 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 	// Iterate over the child
 	if (qd3dStatus == kQ3Success)
 		{
-		paramInfo.theResult = result;
-		paramInfo.isChild   = kQ3True;
-		qd3dStatus          = e3set_iterate_elements(childInstanceData, e3attributeset_iterator_inherit, &paramInfo);
+		
+		resultInstanceData->theMask = childInstanceData->theMask;
+		resultInstanceData->attributes = childInstanceData->attributes;
+		if(resultInstanceData->attributes.surfaceShader != NULL)
+			resultInstanceData->attributes.surfaceShader = Q3Shared_GetReference(childInstanceData->attributes.surfaceShader);
+
+		if(childInstanceData->theTable != NULL)
+			{
+			paramInfo.theResult = result;
+			paramInfo.isChild   = kQ3True;
+			qd3dStatus = e3set_iterate_elements(childInstanceData, e3attributeset_iterator_inherit, &paramInfo);
+			}
 		}
 
 
@@ -2237,9 +2496,51 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 	// Iterate over the parent
 	if (qd3dStatus == kQ3Success)
 		{
-		paramInfo.theResult = result;
-		paramInfo.isChild   = kQ3False;
-		qd3dStatus          = e3set_iterate_elements(parentInstanceData, e3attributeset_iterator_inherit, &paramInfo);
+
+		if(parentInstanceData->theMask != kQ3XAttributeMaskNone){
+			mask = ~childInstanceData->theMask;
+			mask &= parentInstanceData->theMask;
+			if((mask & kQ3XAttributeMaskSurfaceUV) != 0)
+				resultInstanceData->attributes.surfaceUV  = parentInstanceData->attributes.surfaceUV;
+
+			if((mask & kQ3XAttributeMaskShadingUV) != 0)
+				resultInstanceData->attributes.shadingUV = parentInstanceData->attributes.shadingUV;
+
+			if((mask & kQ3XAttributeMaskNormal) != 0)
+				resultInstanceData->attributes.normal = parentInstanceData->attributes.normal;
+
+			if((mask & kQ3XAttributeMaskAmbientCoefficient) != 0)
+				resultInstanceData->attributes.ambientCoeficient = parentInstanceData->attributes.ambientCoeficient;
+
+			if((mask & kQ3XAttributeMaskDiffuseColor) != 0)
+				resultInstanceData->attributes.diffuseColor = parentInstanceData->attributes.diffuseColor;
+
+			if((mask & kQ3XAttributeMaskSpecularColor) != 0)
+				resultInstanceData->attributes.specularColor = parentInstanceData->attributes.specularColor;
+
+			if((mask & kQ3XAttributeMaskSpecularControl) != 0)
+				resultInstanceData->attributes.specularControl = parentInstanceData->attributes.specularControl;
+
+			if((mask & kQ3XAttributeMaskTransparencyColor) != 0)
+				resultInstanceData->attributes.trasparencyColor = parentInstanceData->attributes.trasparencyColor;
+
+			if((mask & kQ3XAttributeMaskSurfaceTangent) != 0)
+				resultInstanceData->attributes.surfaceTangent = parentInstanceData->attributes.surfaceTangent;
+
+			if((mask & kQ3XAttributeMaskHighlightState) != 0)
+				resultInstanceData->attributes.highlightState = parentInstanceData->attributes.highlightState;
+
+			if((mask & kQ3XAttributeMaskSurfaceShader) != 0)
+				resultInstanceData->attributes.surfaceShader = Q3Shared_GetReference(parentInstanceData->attributes.surfaceShader);
+
+			}
+
+		if(parentInstanceData->theTable != NULL)
+			{
+			paramInfo.theResult = result;
+			paramInfo.isChild   = kQ3False;
+			qd3dStatus          = e3set_iterate_elements(parentInstanceData, e3attributeset_iterator_inherit, &paramInfo);
+			}
 		}
 	
 	return(qd3dStatus);
