@@ -113,6 +113,7 @@ TQ3Uns8				*IRRenderer_Texture_ConvertSize(
 
 TQ3Uns8				*IRRenderer_Texture_ConvertImage(
 								TQ3StorageObject		theStorage,
+								TQ3Uns32				storageOffset,
 								TQ3PixelType			srcPixelType,
 								TQ3Uns32				srcWidth,
 								TQ3Uns32				srcHeight,
