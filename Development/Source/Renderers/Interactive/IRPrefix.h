@@ -119,12 +119,18 @@ typedef struct TQ3TransparentPrim {
 } TQ3TransparentPrim;
 
 
+// GL texture filter
+typedef struct TQ3QualityFilter {
+	GLuint					magFilter;
+	GLuint					minFilter;
+} TQ3QualityFilter;
+
 
 // Cached texture data
 typedef struct TQ3CachedTexture {
 	TQ3TextureObject		theTexture;
 	TQ3Matrix3x3			theTransform;
-	GLuint					qualityFilter;
+	TQ3QualityFilter		qualityFilter;
 	TQ3Uns32				editIndexShader;
 	TQ3Uns32				editIndexTexture;
 	TQ3Uns32				editIndexStorage;
