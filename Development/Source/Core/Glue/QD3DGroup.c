@@ -167,7 +167,7 @@ Q3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 
 
 	// Call our implementation
-	return(E3Group_AddObject(group, object));
+	return ( (E3Group*) group )->AddObject ( object ) ;
 }
 
 
@@ -178,12 +178,12 @@ Q3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 //      Q3Group_AddObjectAndDispose : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3GroupPosition
-Q3Group_AddObjectAndDispose(TQ3GroupObject theGroup, TQ3Object *theObject)
+Q3Group_AddObjectAndDispose(TQ3GroupObject group, TQ3Object *theObject)
 {
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theGroup, kQ3ShapeTypeGroup), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
 	
 	if (theObject != NULL && *theObject != NULL)
 		Q3_REQUIRE_OR_RESULT((*theObject)->IsObjectValid (), NULL);
@@ -207,7 +207,7 @@ Q3Group_AddObjectAndDispose(TQ3GroupObject theGroup, TQ3Object *theObject)
 
 
 	// Call our implementation
-	return(E3Group_AddObjectAndDispose(theGroup, theObject));
+	return ( (E3Group*) group )->AddObjectAndDispose ( theObject ) ;
 }
 
 
@@ -248,7 +248,7 @@ Q3Group_AddObjectBefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Obje
 
 
 	// Call our implementation
-	return(E3Group_AddObjectBefore(group, position, object));
+	return ( (E3Group*) group )->AddObjectBefore ( position, object ) ;
 }
 
 
@@ -289,7 +289,7 @@ Q3Group_AddObjectAfter(TQ3GroupObject group, TQ3GroupPosition position, TQ3Objec
 
 
 	// Call our implementation
-	return(E3Group_AddObjectAfter(group, position, object));
+	return ( (E3Group*) group )->AddObjectAfter ( position, object ) ;
 }
 
 
@@ -330,7 +330,7 @@ Q3Group_GetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Ob
 
 
 	// Call our implementation
-	return(E3Group_GetPositionObject(group, position, object));
+	return ( (E3Group*) group )->GetPositionObject ( position, object ) ;
 }
 
 
@@ -371,7 +371,7 @@ Q3Group_SetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Ob
 
 
 	// Call our implementation
-	return(E3Group_SetPositionObject(group, position, object));
+	return ( (E3Group*) group )->SetPositionObject ( position, object ) ;
 }
 
 
@@ -408,7 +408,7 @@ Q3Group_RemovePosition(TQ3GroupObject group, TQ3GroupPosition position)
 
 
 	// Call our implementation
-	return(E3Group_RemovePosition(group, position));
+	return ( (E3Group*) group )->RemovePosition ( position ) ;
 }
 
 
@@ -446,7 +446,7 @@ Q3Group_GetFirstPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Call our implementation
-	return(E3Group_GetFirstPosition(group, position));
+	return ( (E3Group*) group )->GetFirstPosition ( position ) ;
 }
 
 
@@ -484,7 +484,7 @@ Q3Group_GetLastPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Call our implementation
-	return(E3Group_GetLastPosition(group, position));
+	return ( (E3Group*) group )->GetLastPosition ( position ) ;
 }
 
 
@@ -522,7 +522,7 @@ Q3Group_GetNextPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Call our implementation
-	return(E3Group_GetNextPosition(group, position));
+	return ( (E3Group*) group )->GetNextPosition ( position ) ;
 }
 
 
@@ -560,7 +560,7 @@ Q3Group_GetPreviousPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Call our implementation
-	return(E3Group_GetPreviousPosition(group, position));
+	return ( (E3Group*) group )->GetPreviousPosition ( position ) ;
 }
 
 
@@ -598,7 +598,7 @@ Q3Group_CountObjects(TQ3GroupObject group, TQ3Uns32 *nObjects)
 
 
 	// Call our implementation
-	return(E3Group_CountObjects(group, nObjects));
+	return ( (E3Group*) group )->CountObjects ( nObjects ) ;
 }
 
 
@@ -632,7 +632,7 @@ Q3Group_EmptyObjects(TQ3GroupObject group)
 
 
 	// Call our implementation
-	return(E3Group_EmptyObjects(group));
+	return ( (E3Group*) group )->EmptyObjects () ;
 }
 
 
@@ -673,7 +673,7 @@ Q3Group_GetFirstPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gr
 
 
 	// Call our implementation
-	return(E3Group_GetFirstPositionOfType(group, isType, position));
+	return ( (E3Group*) group )->GetFirstPositionOfType ( isType, position ) ;
 }
 
 
@@ -714,7 +714,7 @@ Q3Group_GetLastPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 
 
 	// Call our implementation
-	return(E3Group_GetLastPositionOfType(group, isType, position));
+	return ( (E3Group*) group )->GetLastPositionOfType ( isType, position ) ;
 }
 
 
@@ -755,7 +755,7 @@ Q3Group_GetNextPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 
 
 	// Call our implementation
-	return(E3Group_GetNextPositionOfType(group, isType, position));
+	return ( (E3Group*) group )->GetNextPositionOfType ( isType, position ) ;
 }
 
 
@@ -796,7 +796,7 @@ Q3Group_GetPreviousPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ
 
 
 	// Call our implementation
-	return(E3Group_GetPreviousPositionOfType(group, isType, position));
+	return ( (E3Group*) group )->GetPreviousPositionOfType ( isType, position ) ;
 }
 
 
@@ -837,7 +837,7 @@ Q3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 
 
 
 	// Call our implementation
-	return(E3Group_CountObjectsOfType(group, isType, nObjects));
+	return ( (E3Group*) group )->CountObjectsOfType ( isType, nObjects ) ;
 }
 
 
@@ -874,7 +874,7 @@ Q3Group_EmptyObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType)
 
 
 	// Call our implementation
-	return(E3Group_EmptyObjectsOfType(group, isType));
+	return ( (E3Group*) group )->EmptyObjectsOfType ( isType ) ;
 }
 
 
@@ -916,7 +916,7 @@ Q3Group_GetFirstObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupP
 
 
 	// Call our implementation
-	return(E3Group_GetFirstObjectPosition(group, object, position));
+	return ( (E3Group*) group )->GetFirstObjectPosition ( object, position ) ;
 }
 
 
@@ -958,7 +958,7 @@ Q3Group_GetLastObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 
 	// Call our implementation
-	return(E3Group_GetLastObjectPosition(group, object, position));
+	return ( (E3Group*) group )->GetLastObjectPosition ( object, position ) ;
 }
 
 
@@ -1000,7 +1000,7 @@ Q3Group_GetNextObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 
 	// Call our implementation
-	return(E3Group_GetNextObjectPosition(group, object, position));
+	return ( (E3Group*) group )->GetNextObjectPosition ( object, position ) ;
 }
 
 
@@ -1042,7 +1042,7 @@ Q3Group_GetPreviousObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3Gro
 
 
 	// Call our implementation
-	return(E3Group_GetPreviousObjectPosition(group, object, position));
+	return ( (E3Group*) group )->GetPreviousObjectPosition ( object, position ) ;
 }
 
 
