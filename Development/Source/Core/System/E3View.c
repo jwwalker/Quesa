@@ -1614,29 +1614,49 @@ e3View_SubmitRetained_Pick(TQ3ViewObject theView, TQ3Object theObject)
 	TQ3Status				qd3dStatus = kQ3Success;
 	TQ3XObjectSubmitMethod	submitMethod ;
 	E3ClassInfoPtr			theClass = theObject->theClass ;
+	TQ3ObjectEventCallback	eventCallback;
 
 	submitMethod = (TQ3XObjectSubmitMethod)
 							E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectSubmitPick);
 
 
-	// Update the current hit target. We only do this if we are not
-	// within a decomposed object, as we want to track the object submitted by the
-	// application and not any sub-objects which are submitted to calculate the pick
-	// for that top-level object.
-	if (instanceData->pickDecomposeCount == 0)
-		E3View_PickStack_SaveObject(theView, theObject);
-		
-	// Call the method
-	if (submitMethod != NULL)
-		qd3dStatus = submitMethod(theView, E3ClassTree_GetType(theClass), theObject, theObject->instanceData );
+	// Call a presubmit callback, if appropriate
+	if ( (kQ3Success == Q3Object_GetElement( theView, kQ3CallbackElementTypeBeforePick,
+			&eventCallback )) )
+		{
+		qd3dStatus = eventCallback( theObject, kQ3CallbackElementTypeBeforePick, theView );
+		}
+
+	if (qd3dStatus == kQ3Success)
+		{
+		// Update the current hit target. We only do this if we are not
+		// within a decomposed object, as we want to track the object submitted by the
+		// application and not any sub-objects which are submitted to calculate the pick
+		// for that top-level object.
+		if (instanceData->pickDecomposeCount == 0)
+			E3View_PickStack_SaveObject(theView, theObject);
+			
+		// Call the method
+		if (submitMethod != NULL)
+			qd3dStatus = submitMethod(theView, E3ClassTree_GetType(theClass), theObject, theObject->instanceData );
 
 
-	// Reset the current hit target. Not strictly necessary (since we
-	// will release our reference on the next object or at the end of the picking loop)
-	// but this helps keep our internal state easily debuggable (the tracked object
-	// should always be NULL except when a pick submit method is invoked).
-	if ( instanceData->pickDecomposeCount == 0 )
-		E3View_PickStack_SaveObject(theView, NULL);
+		// Reset the current hit target. Not strictly necessary (since we
+		// will release our reference on the next object or at the end of the picking loop)
+		// but this helps keep our internal state easily debuggable (the tracked object
+		// should always be NULL except when a pick submit method is invoked).
+		if ( instanceData->pickDecomposeCount == 0 )
+			E3View_PickStack_SaveObject(theView, NULL);
+
+
+		// Call a postsubmit callback, if appropriate
+		if ( (qd3dStatus != kQ3Failure) &&
+			(kQ3Success == Q3Object_GetElement( theView, kQ3CallbackElementTypeAfterPick,
+				&eventCallback )) )
+			{
+			(void) eventCallback( theObject, kQ3CallbackElementTypeAfterPick, theView );
+			}
+		}
 	
 	return(qd3dStatus);
 	}
@@ -1744,7 +1764,7 @@ e3View_SubmitRetained_Render(TQ3ViewObject theView, TQ3Object theObject)
 		(kQ3Success == Q3Object_GetElement( theView, kQ3CallbackElementTypeAfterRender,
 			&eventCallback )) )
 		{
-		(void) eventCallback( theObject, kQ3CallbackElementTypeBeforeRender, theView );
+		(void) eventCallback( theObject, kQ3CallbackElementTypeAfterRender, theView );
 		}
 
 
@@ -2332,6 +2352,12 @@ E3View_PickStack_PushGroup(TQ3ViewObject theView, TQ3GroupObject theGroup)
 
 
 
+	// If we are inside a decomposed object, never mind
+	if (instanceData->pickDecomposeCount > 0)
+		return kQ3Success;
+
+
+
 	// If we don't have a root group yet, this is a top-level group.
 	// So save this group as the root group in the pick path.
 	if (pickedPath->rootGroup == NULL)
@@ -2437,6 +2463,12 @@ E3View_PickStack_SavePosition(TQ3ViewObject theView, TQ3GroupPosition thePositio
 
 
 
+	// If we are inside a decomposed object, never mind
+	if (instanceData->pickDecomposeCount > 0)
+		return;
+
+
+
 	// Make sure that there's at least one slot defined
 	Q3_ASSERT(pickedPath->depth     != 0);
 	Q3_ASSERT(pickedPath->positions != NULL);
@@ -2463,6 +2495,7 @@ E3View_PickStack_SaveObject(TQ3ViewObject theView, TQ3Object theObject)
 
 	// Validate our state
 	Q3_ASSERT(instanceData->viewMode == kQ3ViewModePicking);
+	Q3_ASSERT( instanceData->pickDecomposeCount == 0 );
 
 
 
@@ -2544,6 +2577,12 @@ E3View_PickStack_PopGroup(TQ3ViewObject theView)
 
 	// Validate our state
 	Q3_ASSERT(instanceData->viewMode == kQ3ViewModePicking);
+
+
+
+	// If we are inside a decomposed object, never mind
+	if (instanceData->pickDecomposeCount > 0)
+		return;
 
 
 
@@ -2712,6 +2751,7 @@ E3View_State_SetMatrix(TQ3ViewObject			theView,
 		{
 		Q3_ASSERT(Q3_VALID_PTR(worldToCamera));
 		stateChange                                  |= kQ3ViewStateMatrixWorldToCamera;
+		Q3_ASSERT( isfinite( worldToCamera->value[0][0] ) );
 		instanceData->viewStack->matrixWorldToCamera = *worldToCamera;
 		}
 	
