@@ -38,6 +38,8 @@
 #include "QuesaCamera.h"
 #include "QuesaRenderer.h"
 #include "QuesaMath.h"
+#include "QuesaLight.h"
+#include "QuesaDrawContext.h"
 #include "QuesaViewer.h"
 
 #include "E3Viewer.h"
@@ -48,6 +50,7 @@
 
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	#include <ToolUtils.h>
+	#include <ColorPicker.h>
 #endif
 
 // ANSI C does not allow anonymous function parameters.
@@ -302,6 +305,13 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAddDragFlavorsMethod )(TQ3Vi
 static TQ3Point2D gStartPt; // this variable can be shared amongst all tools as it is only used during tracking
 
 
+
+//=============================================================================
+//      Function prototypes
+//-----------------------------------------------------------------------------
+// dair, temporary hack - will be cleaned up post d14
+TQ3Status	
+E3ViewerGetGroupBounds(TQ3ViewerObject theViewer, TQ3BoundingBox* bounds);
 
 
 
@@ -653,7 +663,7 @@ static TQ3Status DoDollyToolMove (TQ3ViewerObject theViewer, TQ3Point2D* delta)
 				if (Q3Camera_GetData (theCamera, &theData) == kQ3Success)
 					{
 					TQ3BoundingBox bounds;
-					if (Q3ViewerGetGroupBounds (theViewer, &bounds) == kQ3Success)
+					if (E3ViewerGetGroupBounds (theViewer, &bounds) == kQ3Success)
 						{
 						TQ3Vector3D v;
 						TQ3Matrix4x4 mat;
@@ -772,7 +782,7 @@ static TQ3Status DoTruckToolMove (TQ3ViewerObject theViewer, float delta)
 				if (Q3Camera_GetData (theCamera, &theData) == kQ3Success)
 					{
 					TQ3BoundingBox bounds;
-					if (Q3ViewerGetGroupBounds (theViewer, &bounds) == kQ3Success)
+					if (E3ViewerGetGroupBounds (theViewer, &bounds) == kQ3Success)
 						{
 						TQ3Vector3D v;
 						TQ3Matrix4x4 mat;
