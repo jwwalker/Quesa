@@ -160,7 +160,10 @@ ir_texture_usemipmapping(TQ3TextureObject theTexture)
 			// Get the mipmap data
 			qd3dStatus = Q3MipmapTexture_GetMipmap(theTexture, &theMipmap);
 			if (qd3dStatus == kQ3Success)
+				{
 				useMipmapping = theMipmap.useMipmapping;
+				Q3Object_Dispose( theMipmap.image );
+				}
 			break;
 
 		case kQ3TextureTypeCompressedPixmap:
