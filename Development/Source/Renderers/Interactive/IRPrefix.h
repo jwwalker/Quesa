@@ -175,6 +175,12 @@ typedef struct TQ3InteractiveData {
 	TQ3Uns32				triMeshSize;
 	TQ3Uns8					*triMeshData;
 	
+	
+	// TriBuffer state
+	TQ3Boolean				triBufferActive;
+	TQ3FVertexFlags			triBufferFlags;
+	TQ3SlabObject			triBufferSlab;
+	
 
 	// QD3D state
 	TQ3FillStyle			stateFill;
