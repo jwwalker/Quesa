@@ -752,63 +752,75 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 		
 		default:
 			{
-			// find the proper class
-			if(objectType < 0)// custom object
-				// find it via the types array
-				for(i = 0; i < instanceData->typesNum ; i++)
-					{
-					if(instanceData->types[i].typeID == objectType)
+			if(objectType != 0){
+				// find the proper class
+				if(objectType < 0) {// custom object
+					// find it via the types array
+					for(i = 0; i < instanceData->typesNum ; i++)
 						{
-						theClass = E3ClassTree_GetClassByName(instanceData->types[i].typeName);
-						break;
+						if(instanceData->types[i].typeID == objectType)
+							{
+							theClass = E3ClassTree_GetClassByName(instanceData->types[i].typeName);
+							break;
+							}
 						}
 					}
-			else
-				if(objectType != 0)
+				else // built-in object
 					theClass = E3ClassTree_GetClassByType(objectType);
 				
-			E3FFormat_3DMF_Bin_Check_ContainerEnd(instanceData);
-			if(theClass == NULL){
-				instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
-				result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
-				instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
-				}
-			else{
-				// find the read Object method for the class and call it
-				readMethod = (TQ3XObjectReadMethod)E3ClassTree_GetMethod (theClass, kQ3XMethodTypeObjectRead);
-				if (readMethod != NULL)
-					{
-					result = readMethod(theFile);
-					if(result != NULL && tocEntryIndex >= 0){
-						// save in TOC
-						instanceData->MFData.toc->tocEntries[tocEntryIndex].objType = Q3Object_GetType(result);
-						E3Shared_Replace(&instanceData->MFData.toc->tocEntries[tocEntryIndex].object, result);
-						}
-					// align position (just in case)
-					instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
-					}
-				else
-					{
-					TQ3XObjectReadDataMethod	readData;
-					readData = (TQ3XObjectReadDataMethod)E3ClassTree_GetMethod (theClass,
-						kQ3XMethodTypeObjectReadData);
-					if (readData != NULL)
-						{
-						result = Q3Set_New();
-						if (result != NULL)
-							{
-							readData( result, theFile );
-							}
-						instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
-						}
-					else
-						{
+				E3FFormat_3DMF_Bin_Check_ContainerEnd(instanceData);
+				
+				if(theClass == NULL){
+				
+					if(objectType < 0) {// custom object
 						instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
 						result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
 						instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
 						}
+					else // corrupted. finish here
+						instanceData->MFData.baseData.currentStoragePosition = instanceData->MFData.baseData.logicalEOF;
 					}
-				}
+					
+				else{
+						// find the read Object method for the class and call it
+						readMethod = (TQ3XObjectReadMethod)E3ClassTree_GetMethod (theClass, kQ3XMethodTypeObjectRead);
+						if (readMethod != NULL)
+							{
+							result = readMethod(theFile);
+							if(result != NULL && tocEntryIndex >= 0){
+								// save in TOC
+								instanceData->MFData.toc->tocEntries[tocEntryIndex].objType = Q3Object_GetType(result);
+								E3Shared_Replace(&instanceData->MFData.toc->tocEntries[tocEntryIndex].object, result);
+								}
+							// align position (just in case)
+							instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
+							}
+						else
+							{
+							TQ3XObjectReadDataMethod	readData;
+							readData = (TQ3XObjectReadDataMethod)E3ClassTree_GetMethod (theClass,
+								kQ3XMethodTypeObjectReadData);
+							if (readData != NULL)
+								{
+								result = Q3Set_New();
+								if (result != NULL)
+									{
+									readData( result, theFile );
+									}
+								instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
+								}
+							else
+								{
+								// probably Quesa Fault, just jump the data
+								//instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
+								//result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
+								instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
+								}
+							}
+						}
+					}
+				else // corrupted. finish here
+					instanceData->MFData.baseData.currentStoragePosition = instanceData->MFData.baseData.logicalEOF;
 			break;
 			} /* default */
 		} /* switch(objectType) */
