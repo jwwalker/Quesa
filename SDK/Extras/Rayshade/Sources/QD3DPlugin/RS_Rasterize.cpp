@@ -200,13 +200,20 @@ TRSRasterizer	*RSRasterizer_Create(
 		case kQ3DrawContextTypeWin32DC:
 		{
 			HDC		theHDC;
+			HWND	theWindow;
+			RECT	windowRect;
 
 			theStatus = Q3Win32DCDrawContext_GetDC (theDrawContext,&theHDC);
 			if ((theStatus != kQ3Success) || (theHDC == NULL))
 				goto cleanup;
 			result->hdc = theHDC;
 			result->type = kQ3DrawContextTypeWin32DC;
-
+			theWindow = WindowFromDC( theHDC );
+			GetClientRect( theWindow, &windowRect );
+			theArea.min.x = windowRect.left;
+			theArea.min.y = windowRect.top;
+			theArea.max.x = windowRect.right;
+			theArea.max.y = windowRect.bottom;
 			break;
 		}
 #endif
