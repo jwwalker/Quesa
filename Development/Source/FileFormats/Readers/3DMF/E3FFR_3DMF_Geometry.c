@@ -915,7 +915,7 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 				Q3Object_Dispose(childObject);
 				}
 			else if(Q3Object_IsType (childObject, kQ3ObjectTypeShaderUVTransform)){
-				Q3Matrix3x3_Copy ((TQ3Matrix3x3*)childObject->instanceData, &uvTransform);
+				Q3Matrix3x3_Copy((TQ3Matrix3x3*) E3ClassTree_FindInstanceData(childObject, kQ3ObjectTypeShaderUVTransform), &uvTransform);
 				Q3Object_Dispose(childObject);
 				}
 #if 0
@@ -3603,7 +3603,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 
 	// let know the system we're reading a trimesh
 	format = E3File_GetFileFormat(theFile);
-	((TE3FFormat3DMF_Data*)format->instanceData)->currentTriMesh = &geomData;
+	((TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf))->currentTriMesh = &geomData;
 	
 	
 	
@@ -3876,7 +3876,7 @@ cleanUp:
 									// the memory, but since we're using the Quesa memory
 									// allocators it's fine to use it here
 		
-	((TE3FFormat3DMF_Data*)format->instanceData)->currentTriMesh = NULL;
+	((TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf))->currentTriMesh = NULL;
 	return theObject;
 }
 
