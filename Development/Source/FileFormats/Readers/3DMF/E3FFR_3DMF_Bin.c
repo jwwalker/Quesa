@@ -679,6 +679,7 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 			}
 
 		case 0x636E7472: /* cntr - Container */
+		case 0x62676E67: /* bgng - BeginGroup */
 			{
 			previousContainer = instanceData->containerEnd;
 			instanceData->containerEnd = instanceData->MFData.baseData.currentStoragePosition + objectSize;
@@ -697,34 +698,8 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 			//now Skip Child Objects not still read
 			instanceData->MFData.baseData.currentStoragePosition = instanceData->containerEnd;
 			instanceData->containerEnd = previousContainer;
-			break;
-			} /* Container*/
-			
-		case 0x62676E67: /* bgng - BeginGroup */
-			{
-			if(instanceData->MFData.baseData.readInGroup == kQ3True) // we have to return the whole group
+			if(objectType == 0x62676E67 && instanceData->MFData.baseData.readInGroup == kQ3True)
 				{
-				// read the group object
-				instanceData->MFData.baseData.groupDeepCounter++;
-				result = Q3File_ReadObject (theFile);
-				
-				// Read the display group state (dgst) object, if any
-				if(Q3File_GetNextObjectType(theFile) == kQ3ObjectTypeDisplayGroupState){
-					childObject = Q3File_ReadObject(theFile);
-					if(childObject){
-						Q3DisplayGroup_SetState (result, E3FFormat_3DMF_DisplayGroupState_Get(childObject));
-						Q3Object_Dispose(childObject);
-						}
-					}
-				else if (Q3Object_IsType(result, kQ3GroupTypeDisplay))
-					{
-					// Set the default state specified in the 3D Metafile Reference
-					Q3DisplayGroup_SetState( result, kQ3DisplayGroupStateMaskIsDrawn |
-						kQ3DisplayGroupStateMaskUseBoundingBox |
-						kQ3DisplayGroupStateMaskUseBoundingSphere |
-						kQ3DisplayGroupStateMaskIsPicked |
-						kQ3DisplayGroupStateMaskIsWritten );
-					}
 					
 				if((result == NULL) || (Q3Object_IsType(result, kQ3ShapeTypeGroup) == kQ3False))
 					break;
@@ -749,17 +724,12 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 						Q3Object_Dispose(childObject);
 						}
 					}
-				instanceData->MFData.baseData.groupDeepCounter--;
-				Q3_ASSERT(instanceData->MFData.baseData.groupDeepCounter >= 0);
+
 				}
-			else // instanceData->readInGroup == kQ3False, we have to return the single elements
-				{
-				// read the group object and continue normally
-				result = Q3File_ReadObject (theFile);
-				}
+				
 			break;
-			} /* BeginGroup */
-		
+			} /* Container*/
+			
 		default:
 			{
 			if(objectType != 0){

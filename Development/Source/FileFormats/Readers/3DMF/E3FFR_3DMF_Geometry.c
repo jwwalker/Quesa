@@ -264,6 +264,36 @@ e3read_3dmf_spreadarray_uns8to32( TQ3Uns32 numNums, void* ioData )
 
 
 //=============================================================================
+//      e3read_3dmf_group_subobjects : read the subobjects of a BeginGroup object.
+//-----------------------------------------------------------------------------
+static void
+e3read_3dmf_group_subobjects( TQ3Object theGroup, TQ3FileObject theFile )
+{
+	TQ3Object			childObject;
+	TQ3SetObject		elementSet = NULL;
+
+	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+		childObject = Q3File_ReadObject(theFile);
+		if(childObject != NULL){
+			if(Q3Object_IsType (childObject, kQ3ObjectTypeDisplayGroupState))
+				{
+				Q3DisplayGroup_SetState (theGroup, E3FFormat_3DMF_DisplayGroupState_Get(childObject));
+				Q3Object_Dispose(childObject);
+				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
+			else
+				Q3Object_Dispose(childObject);
+			}
+		}
+
+	e3read_3dmf_apply_element_set( theGroup, elementSet );
+	
+}
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3Read_3DMF_String_C : Creates and read a C string from a 3DMF.
@@ -546,8 +576,6 @@ E3Read_3DMF_Attribute_HighlightState(TQ3Object parentObject, TQ3FileObject theFi
 //=============================================================================
 //      E3Read_3DMF_Group_Display_IOProxy : io proxy read object method.
 //-----------------------------------------------------------------------------
-//		Note : Nothing to read, just create the object
-//-----------------------------------------------------------------------------
 TQ3Object
 E3Read_3DMF_Group_Display_IOProxy(TQ3FileObject theFile)
 {
@@ -558,6 +586,10 @@ E3Read_3DMF_Group_Display_IOProxy(TQ3FileObject theFile)
 
 	// Create the object
 	theObject = Q3IOProxyDisplayGroup_New();
+	
+	if(NULL != theObject)
+		e3read_3dmf_group_subobjects( theObject, theFile );
+
 	return(theObject);
 }
 
@@ -568,8 +600,6 @@ E3Read_3DMF_Group_Display_IOProxy(TQ3FileObject theFile)
 //=============================================================================
 //      E3Read_3DMF_Group_Display : display read object method.
 //-----------------------------------------------------------------------------
-//		Note : Nothing to read, just create the object
-//-----------------------------------------------------------------------------
 TQ3Object
 E3Read_3DMF_Group_Display(TQ3FileObject theFile)
 {
@@ -579,6 +609,17 @@ E3Read_3DMF_Group_Display(TQ3FileObject theFile)
 	theObject = Q3DisplayGroup_New();
 	
 		
+	// Set the default state specified in the 3D Metafile Reference
+	Q3DisplayGroup_SetState( theObject, kQ3DisplayGroupStateMaskIsDrawn |
+		kQ3DisplayGroupStateMaskUseBoundingBox |
+		kQ3DisplayGroupStateMaskUseBoundingSphere |
+		kQ3DisplayGroupStateMaskIsPicked |
+		kQ3DisplayGroupStateMaskIsWritten );
+		
+	
+	if(NULL != theObject)
+		e3read_3dmf_group_subobjects( theObject, theFile );
+
 	return(theObject);
 }
 
@@ -589,8 +630,6 @@ E3Read_3DMF_Group_Display(TQ3FileObject theFile)
 //=============================================================================
 //      E3Read_3DMF_Group_Display_Ordered : Ordered display read object method.
 //-----------------------------------------------------------------------------
-//		Note : Nothing to read, just create the object
-//-----------------------------------------------------------------------------
 TQ3Object
 E3Read_3DMF_Group_Display_Ordered(TQ3FileObject theFile)
 {
@@ -600,6 +639,17 @@ E3Read_3DMF_Group_Display_Ordered(TQ3FileObject theFile)
 	theObject = Q3OrderedDisplayGroup_New();
 	
 		
+	// Set the default state specified in the 3D Metafile Reference
+	Q3DisplayGroup_SetState( theObject, kQ3DisplayGroupStateMaskIsDrawn |
+		kQ3DisplayGroupStateMaskUseBoundingBox |
+		kQ3DisplayGroupStateMaskUseBoundingSphere |
+		kQ3DisplayGroupStateMaskIsPicked |
+		kQ3DisplayGroupStateMaskIsWritten );
+
+	
+	if(NULL != theObject)
+		e3read_3dmf_group_subobjects( theObject, theFile );
+
 	return(theObject);
 }
 
@@ -609,8 +659,6 @@ E3Read_3DMF_Group_Display_Ordered(TQ3FileObject theFile)
 
 //=============================================================================
 //      E3Read_3DMF_Group_Info : info group read object method.
-//-----------------------------------------------------------------------------
-//		Note : Nothing to read, just create the object
 //-----------------------------------------------------------------------------
 TQ3Object
 E3Read_3DMF_Group_info(TQ3FileObject theFile)
@@ -622,6 +670,10 @@ E3Read_3DMF_Group_info(TQ3FileObject theFile)
 
 	// Create the object
 	theObject = Q3InfoGroup_New();
+	
+	if(NULL != theObject)
+		e3read_3dmf_group_subobjects( theObject, theFile );
+
 	return(theObject);
 }
 
@@ -631,8 +683,6 @@ E3Read_3DMF_Group_info(TQ3FileObject theFile)
 
 //=============================================================================
 //      E3Read_3DMF_Group_Light : light group read object method.
-//-----------------------------------------------------------------------------
-//		Note : Nothing to read, just create the object
 //-----------------------------------------------------------------------------
 TQ3Object
 E3Read_3DMF_Group_Light(TQ3FileObject theFile)
@@ -644,6 +694,10 @@ E3Read_3DMF_Group_Light(TQ3FileObject theFile)
 
 	// Create the object
 	theObject = Q3LightGroup_New();
+	
+	if(NULL != theObject)
+		e3read_3dmf_group_subobjects( theObject, theFile );
+
 	return(theObject);
 }
 
@@ -654,18 +708,19 @@ E3Read_3DMF_Group_Light(TQ3FileObject theFile)
 //=============================================================================
 //      E3Read_3DMF_Group : Group read object method.
 //-----------------------------------------------------------------------------
-//		Note : Nothing to read, just create the object
-//-----------------------------------------------------------------------------
 TQ3Object
 E3Read_3DMF_Group(TQ3FileObject theFile)
 {
-#pragma unused (theFile)
 	TQ3Object		theObject;
 
 
 
 	// Create the object
 	theObject = Q3Group_New();
+	
+	if(NULL != theObject)
+		e3read_3dmf_group_subobjects( theObject, theFile );
+
 	return(theObject);
 }
 
