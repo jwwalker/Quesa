@@ -1454,8 +1454,8 @@ e3fformat_3dmf_normalarray_validate( TQ3Uns32 numVectors, TQ3Vector3D* normals )
 	TQ3Vector3D*	theVector;
 	TQ3Boolean	postedWarning = kQ3False;
 	
-	maxComponent = sqrtf( kQ3MaxFloat / 4.0f );
-	minComponent = sqrtf( kQ3MinFloat / 4.0f );
+	maxComponent = (float)sqrt( (double)(kQ3MaxFloat / 4.0f) );
+	minComponent = (float)sqrt( (double)(kQ3MinFloat / 4.0f) );
 	
 	for (i = 0; i < numVectors; ++i)
 	{
