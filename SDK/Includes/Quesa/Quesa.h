@@ -59,12 +59,11 @@
 
 
 // Be
-#if (__dest_os == __be_os)
+#if defined(__dest_os) && defined(__be_os) && (__dest_os == __be_os)
 	#ifndef QUESA_OS_BE
 		#define QUESA_OS_BE						1
 	#endif
 #endif
-
 
 
 
