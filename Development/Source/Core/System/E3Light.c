@@ -55,7 +55,7 @@
 #include "E3Main.h"
 
 #include <cstring>
-
+using namespace std;
 
 
 //=============================================================================
@@ -188,7 +188,7 @@ e3light_ambient_read ( TQ3FileObject theFile )
 				{
 				case kQ3LightData :
 					{
-					std::memcpy( &lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
+					memcpy( &lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
 					break ;
 					}
 				}
@@ -273,7 +273,7 @@ e3light_directional_read ( TQ3FileObject theFile )
 				{
 				case kQ3LightData :
 					{
-					std::memcpy( &lightData.lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
+					memcpy( &lightData.lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
 					break ;
 					}
 				}
@@ -359,7 +359,7 @@ e3light_point_read ( TQ3FileObject theFile )
 				{
 				case kQ3LightData :
 					{
-					std::memcpy( &lightData.lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
+					memcpy( &lightData.lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
 					break ;
 					}
 				}
@@ -454,7 +454,7 @@ e3light_spot_read ( TQ3FileObject theFile )
 				{
 				case kQ3LightData :
 					{
-					std::memcpy( &lightData.lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
+					memcpy( &lightData.lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
 					break ;
 					}
 				}

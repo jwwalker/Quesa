@@ -55,7 +55,7 @@
 #include "E3Camera.h"
 
 #include <cstring>
-
+using namespace std;
 
 
 
@@ -181,17 +181,17 @@ e3camera_orthographic_read ( TQ3FileObject theFile )
 				{
 				case kQ3CameraPlacment :
 					{
-					std::memcpy( &cameraData.cameraData.placement, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraPlacement ) ) ;
+					memcpy( &cameraData.cameraData.placement, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraPlacement ) ) ;
 					break ;
 					}
 				case kQ3CameraRange :
 					{
-					std::memcpy( &cameraData.cameraData.range, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraRange ) ) ;
+					memcpy( &cameraData.cameraData.range, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraRange ) ) ;
 					break ;
 					}
 				case kQ3CameraViewPort :
 					{
-					std::memcpy( &cameraData.cameraData.viewPort, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraViewPort ) ) ;
+					memcpy( &cameraData.cameraData.viewPort, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraViewPort ) ) ;
 					break ;
 					}
 				}
@@ -302,17 +302,17 @@ e3camera_viewplane_read ( TQ3FileObject theFile )
 				{
 				case kQ3CameraPlacment :
 					{
-					std::memcpy( &cameraData.cameraData.placement, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraPlacement ) ) ;
+					memcpy( &cameraData.cameraData.placement, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraPlacement ) ) ;
 					break ;
 					}
 				case kQ3CameraRange :
 					{
-					std::memcpy( &cameraData.cameraData.range, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraRange ) ) ;
+					memcpy( &cameraData.cameraData.range, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraRange ) ) ;
 					break ;
 					}
 				case kQ3CameraViewPort :
 					{
-					std::memcpy( &cameraData.cameraData.viewPort, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraViewPort ) ) ;
+					memcpy( &cameraData.cameraData.viewPort, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraViewPort ) ) ;
 					break ;
 					}
 				}
@@ -426,17 +426,17 @@ e3camera_viewangle_read ( TQ3FileObject theFile )
 				{
 				case kQ3CameraPlacment :
 					{
-					std::memcpy( &cameraData.cameraData.placement, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraPlacement ) ) ;
+					memcpy( &cameraData.cameraData.placement, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraPlacement ) ) ;
 					break ;
 					}
 				case kQ3CameraRange :
 					{
-					std::memcpy( &cameraData.cameraData.range, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraRange ) ) ;
+					memcpy( &cameraData.cameraData.range, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraRange ) ) ;
 					break ;
 					}
 				case kQ3CameraViewPort :
 					{
-					std::memcpy( &cameraData.cameraData.viewPort, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraViewPort ) ) ;
+					memcpy( &cameraData.cameraData.viewPort, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraViewPort ) ) ;
 					break ;
 					}
 				}
