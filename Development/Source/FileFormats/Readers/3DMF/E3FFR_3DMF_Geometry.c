@@ -2722,7 +2722,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 			else if(Q3Object_IsType (childObject, kQ3ObjectTypeMeshCorners)){
 				E3FFormat_3DMF_MeshCorners_Assign (childObject, mesh, numFaces, faces, numVertices, vertices);
 				}
-			else if(Q3Object_IsType (childObject, kQ3ObjectTypeMeshCorners)){
+			else if(Q3Object_IsType (childObject, kQ3ObjectTypeMeshEdges)){
 				E3FFormat_3DMF_MeshEdges_Assign (childObject, mesh, numVertices, vertices);
 				}
 			Q3Object_Dispose(childObject);
