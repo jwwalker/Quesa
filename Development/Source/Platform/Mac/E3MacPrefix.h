@@ -39,6 +39,7 @@
 	#include <Carbon/Carbon.h>
 #else
 	#include <Displays.h>
+	#include <Gestalt.h>
 #endif
 
 
