@@ -92,8 +92,8 @@
 #define kQ3MajorVersion             0x01            // Major version for build
 #define kQ3MinorVersion             0x60            // Minor version for build
 #define kQ3ReleaseType              kDevelopment    // Release type for build
-#define kQ3PrereleaseVersion        0x13            // Prerelease version for build
-#define kQ3StringVersion            "1.6d19"        // Stringified version of above
+#define kQ3PrereleaseVersion        0x14            // Prerelease version for build
+#define kQ3StringVersion            "1.6d20"        // Stringified version of above
 
 #ifndef PLIST_COMPILER
 #define kQ3PackedVersion            E3_FOUR_BYTE_CONSTANT(kQ3MajorVersion,  \
