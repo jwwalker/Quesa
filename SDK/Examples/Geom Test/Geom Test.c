@@ -2328,8 +2328,10 @@ appRender(TQ3ViewObject theView)
 void
 App_Initialise(void)
 {
+
+
 	// Watch for leaks (Quesa only)
-	#ifdef QUESA_HDR
+	#if !defined(QUT_MAC_HDR) || TARGET_API_MAC_CARBON
 	Q3Memory_StartRecording();
 	#endif
 
