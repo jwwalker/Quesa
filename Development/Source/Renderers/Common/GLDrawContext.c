@@ -994,9 +994,9 @@ gldrawcontext_be_updatepos(void *glContext)
 #pragma mark -
 void *
 GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags)
-{	void			*glContext;
+{	TQ3Uns32			preferredDepthBits = 32;
+	void				*glContext;
 	TQ3RendererObject	theRenderer;
-	TQ3Uns32		preferredDepthBits = 16;
 
 
 
@@ -1009,10 +1009,10 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 	Q3View_GetRenderer(theView, &theRenderer);
 	if (theRenderer != NULL)
 	{
-		Q3Object_GetElement( theRenderer, kQ3ElementTypeDepthBits,
-			&preferredDepthBits );
-		Q3Object_Dispose( theRenderer );
+		Q3Object_GetElement( theRenderer, kQ3ElementTypeDepthBits, &preferredDepthBits );
+		Q3Object_Dispose(    theRenderer );
 	}
+
 
 
 	// Create the context
