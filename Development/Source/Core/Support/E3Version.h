@@ -80,8 +80,8 @@
 #define kQ3MajorVersion             0x01            // Major version for build
 #define kQ3MinorVersion             0x60            // Minor version for build
 #define kQ3ReleaseType              kDevelopment    // Release type for build
-#define kQ3PrereleaseVersion        0x17            // Prerelease version for build
-#define kQ3StringVersion            "1.6d17"        // Stringified version of above
+#define kQ3PrereleaseVersion        0x18            // Prerelease version for build
+#define kQ3StringVersion            "1.6d18"        // Stringified version of above
 #define kQ3PackedVersion            E3_FOUR_BYTE_CONSTANT(kQ3MajorVersion,  \
                                                           kQ3MinorVersion,  \
                                                           kQ3ReleaseType,   \
