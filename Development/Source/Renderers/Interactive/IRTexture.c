@@ -1555,8 +1555,13 @@ IRRenderer_Texture_ConvertSize(TQ3Uns32			srcWidth,
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstWidth),             NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstHeight),            NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstRowBytes),          NULL);
+
+
+	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxGLSize);
 	Q3_REQUIRE_OR_RESULT(!ir_texture_is_power_of_2(srcWidth) ||
-						 !ir_texture_is_power_of_2(srcHeight), NULL);
+						 !ir_texture_is_power_of_2(srcHeight) ||
+						 (srcWidth > maxGLSize) ||
+						 (srcHeight > maxGLSize), NULL);
 
 
 
@@ -1568,15 +1573,15 @@ IRRenderer_Texture_ConvertSize(TQ3Uns32			srcWidth,
 
 
 	// Work out how large the image should be. We scale up rather
-	// than down, resizing the image to the next largest power of 2.
-	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxGLSize);
+	// than down, unless the OpenGL texture size limit gets in the way,
+	// resizing the image to the next largest power of 2.
 	theWidth  = 1;
 	theHeight = 1;
 
-	while (theWidth < srcWidth && theWidth <= (TQ3Uns32) maxGLSize)
+	while (theWidth < srcWidth && theWidth*2 <= (TQ3Uns32) maxGLSize)
 		theWidth *= 2;
 		
-	while (theHeight < srcHeight && theHeight <= (TQ3Uns32) maxGLSize)
+	while (theHeight < srcHeight && theHeight*2 <= (TQ3Uns32) maxGLSize)
 		theHeight *= 2;
 
 
@@ -1629,6 +1634,7 @@ IRRenderer_Texture_ConvertImage(TQ3StorageObject	theStorage,
 								GLint				*glPixelType)
 {	TQ3Uns8			*qd3dBasePtr, *depthBasePtr, *sizeBasePtr;
 	TQ3Boolean		wasCopied;
+	GLint			maxTxSize;	
 
 
 
@@ -1678,8 +1684,10 @@ IRRenderer_Texture_ConvertImage(TQ3StorageObject	theStorage,
 
 
 
-	// If the image isn't a power of 2 in size, we also need to resize it		
-	if (!ir_texture_is_power_of_2(srcWidth) || !ir_texture_is_power_of_2(srcHeight))
+	// If the image isn't a power of 2 in size or is too big, we also need to resize it		
+	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &maxTxSize );
+	if (!ir_texture_is_power_of_2(srcWidth) || !ir_texture_is_power_of_2(srcHeight) ||
+		(srcWidth > maxTxSize) || (srcHeight > maxTxSize) )
 		{
 		// Resize the image
 		sizeBasePtr = IRRenderer_Texture_ConvertSize(srcWidth, srcHeight, srcRowBytes, depthBasePtr,
