@@ -46,8 +46,7 @@
 //		Note : Code should access these via E3Globals_Get(); do not access
 //				them directly (except in E3System.c).
 //-----------------------------------------------------------------------------
-E3Globals		gE3Globals = 
-{
+E3Globals gE3Globals = {
 	0,						// systemInitialised;
 	0,						// systemRefCount;
 	0,						// classTree;
@@ -85,6 +84,9 @@ E3Globals		gE3Globals =
 };
 
 
+
+
+
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
@@ -96,6 +98,8 @@ E3Globals		gE3Globals =
 E3GlobalsPtr
 E3Globals_Get(void)
 {
+
+
 	// Return the globals
 	return(&gE3Globals);
 }
