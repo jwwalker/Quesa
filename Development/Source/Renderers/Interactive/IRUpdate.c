@@ -1633,6 +1633,24 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 	// Set up the model-view transform
 	GLCamera_SetModelView(theMatrix);
 
+
+
+	// Adjust the normalisation state. If the current transform doesn't have a
+	// scale component, we can turn off automatic normalization - our current
+	// assumption is that incoming geometry will have normalized vertex normals,
+	// and this will be true for any triangulated geometries we create to
+	// represent the implicit geometries.
+	//
+	// We may want to change this, although leaving normalization on all the
+	// time will have about a 4% performance hit.
+	if (theMatrix->value[0][0] != 1.0f ||
+		theMatrix->value[1][1] != 1.0f ||
+		theMatrix->value[2][2] != 1.0f ||
+		theMatrix->value[3][3] != 1.0f)
+		glEnable(GL_NORMALIZE);
+	else
+		glDisable(GL_NORMALIZE);
+
 	return(kQ3Success);
 }
 

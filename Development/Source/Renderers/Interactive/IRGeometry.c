@@ -384,7 +384,11 @@ ir_geom_cache_prim_add(TQ3ViewObject			theView,
 		{
 		// Initialise the normal, if present (possible optimisation, if the
 		// normals were obtained from the triangle normal then perhaps just
-		// transform and normalise once?)
+		// transform and normalise once?).
+		//
+		// Note that we _must_ store normalised normals at this point, since
+		// GL_NORMALIZE will be turned off at this point (since no transform
+		// is in effect, which is what we use to decide when to turn it on).
 		if (theFlags & kQ3PrimHaveNormal)
 			{
 			Q3Vector3D_Transform(theNormals[n], &localToWorld, &thePrim->theNormals[n]);
@@ -1197,7 +1201,11 @@ IRGeometry_FlushPrimCache(TQ3ViewObject				theView,
 		// transform that was active when the rendering loop ended. We need
 		// to do this since the primitives have already been transformed
 		// into world coordinates, so we don't want to transform them twice.
+		//
+		// We can also turn off GL_NORMALIZE, since the vertex normals are
+		// normalized when we transform them into world coordinates.
 		Q3ResetTransform_Submit(theView);
+		glDisable(GL_NORMALIZE);
 
 
 
