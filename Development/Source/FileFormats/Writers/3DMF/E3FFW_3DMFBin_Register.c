@@ -364,7 +364,7 @@ e3ffw_3dmf_metahandler(TQ3XMethodType methodType)
 
 		// object submit
 		case kQ3XMethodTypeFFormatSubmitObject:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_WriteObject;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TraverseObject;
 			break;
 
 		case kQ3XMethodTypeFFormatSubmitGroup:

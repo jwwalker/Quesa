@@ -564,22 +564,6 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 
 
 //=============================================================================
-//      E3FFW_3DMF_Void_Traverse: The traverse method for zero data classes.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3FFW_3DMF_WriteObject(TQ3ViewObject			theView,
-					TE3FFormatW3DMF_Data		*fileFormatPrivate,
-					TQ3Object		theObject,
-					TQ3ObjectType	objectType,
-					const void		*objectData)
-{
-	
-	return E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, theObject, objectType, objectData);
-}
-
-
-
-//=============================================================================
 //      E3FFW_3DMF_TraverseObject: Do the traverse.
 //-----------------------------------------------------------------------------
 //      this is the bottleneck for any 3DMF writing,
