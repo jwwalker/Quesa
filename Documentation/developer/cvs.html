@@ -1,3 +1,5 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
 <!--=========================================================================-->
 <!-- Page Header                                                             -->
 <!--=========================================================================-->
@@ -7,9 +9,14 @@
 </head>
 <body bgcolor=white text=black background="../images/logo_gray.gif">
 
-<p align=center>
-<a href="../index.html"><img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
-</p>
+<div style="position:absolute; top:30px; left:10px">
+<a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=45158&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo"></a>
+</div>
+
+<div style="text-align:center">
+<a href="../index.html">
+<img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
+</div>
 
 
 
@@ -79,8 +86,7 @@ CVS client for your development machine.
 
 <p>
 To check code in to the Quesa CVS server, a Quesa editor-level account
-is required. These accounts are currently for steering committee members
-only, and are granted to additional developers as necessary. When you have
+is required. These accounts are currently for steering committee members, and are granted to additional developers as necessary. When you have
 updated source code to submit, please send it by email to the appropriate
 <a href="../other/contributors.html">steering committee member</a>.
 </p>
@@ -103,11 +109,11 @@ Once you have a CVS client, you should set your cvsroot to:
 </p>
 
 <p>
-<dd>anonymous@cvs.designcommunity.com:/cvsroot</dd>
+<dd>anonymous@cvs.sourceforge.net:/cvsroot/quesa</dd>
 </p>
 
 <p>
-You should set your user name to "anonymous", and your password "anonymous".
+You should set your user name to "anonymous", and your password "".
 </p>
 
 <p>
@@ -123,7 +129,7 @@ The following clients are available for Mac OS:
 </p>
 
 <ul>
-	<li><a href="http://www.maccvs.org/download.html">MacCVS Pro</a> (recommended)
+	<li><a href="http://sourceforge.net/projects/maccvspro/">MacCVS Pro</a> (recommended)
 	<li><a href="http://www.wincvs.org/download.html">MacCVS</a>
 	<li><a href="http://www.glink.net.hk/~jb/MacCVSClient/">MacCVSClient</a>
 </ul>
@@ -150,7 +156,7 @@ Unix clients can be obtained from:
 <h3>Mac OS Client Details</h3>
 <p>
 MacCVS Pro users can obtain a pre-configured CVS session file
-<a href="http://www.quesa.org/info/files/quesa.cvs.sit">here</a>. Open this session file, select "Session
+<a href="http://quesa.sourceforge.net/info/files/quesa.cvs.sit">here</a>. Open this session file, select "Session
 Settings..." from the Edit menu, and click the "Local Tree Directory" button to
 select where you want the source to be downloaded to.
 </p>
@@ -207,11 +213,11 @@ An example session showing how to log in to the CVS server and extract the
 latest source is:
 </p>
 
-<pre>   [dair@zoidberg]$ cvs -d :pserver:anonymous@cvs.designcommunity.com:/cvsroot login
-   (Logging in to anonymous@cvs.designcommunity.com)
-   CVS password: anonymous
+<pre>   [dair@zoidberg]$ cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/quesa login
+   (Logging in to anonymous@cvs.sourceforge.net)
+   CVS password:
 
-   [dair@zoidberg]$ cvs -d :pserver:anonymous@cvs.designcommunity.com:/cvsroot -z 9 co quesa</pre>
+   [dair@zoidberg]$ cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/quesa -z 9 co quesa</pre>
 
 <p>
 To check out updates to the source, you should only need to run the second
@@ -238,7 +244,7 @@ command again - the login details should be saved automatically.
 <tr>
 <td colspan=2 align=center>
 <font size="-1">
-Quesa Web Site hosted by <a href="http://www.DesignCommunity.com/home.html">DesignCommunity.com</a>
+Quesa Web Site hosted by <a href="http://sourceforge.net">SourceForge</a>
 </font>
 </td>
 </tr>
