@@ -769,31 +769,31 @@ ir_state_adjust_gl(TQ3InteractiveData *instanceData)
 			specularControl                           = instanceData->stateCurrentSpecularControl;
 			
 			if (specularControl < 0.5f)
-            	specularControl *= 0.0f;
+	           	specularControl = 0.0f;
 
 			else if (specularControl < 1.0f)
-            	specularControl *= 1.0f;
+    	       	specularControl = 1.0f;
 
 			else if (specularControl < 2.0f)
-            	specularControl *= 1.5f;
+        	   	specularControl = 1.5f;
 
 			else if (specularControl < 5.0f)
-            	specularControl *= 2.5f;
+	           	specularControl = 2.5f;
 
 			else if (specularControl < 10.0f)
-            	specularControl *= 4.0f;
+    	       	specularControl = 4.0f;
 
 			else if (specularControl < 15.0f)
-				specularControl *= 12.0f;
+				specularControl = 12.0f;
 
 			else if (specularControl < 20.0f)
-				specularControl *= 30.0f;
+				specularControl = 30.0f;
 
 			else if (specularControl < 25.0f)
-				specularControl *= 80.0f;
+				specularControl = 80.0f;
 
 			else
-            	specularControl = 128.0f;
+        	   	specularControl = 128.0f;
 
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &specularControl);
 			}
