@@ -1028,11 +1028,6 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 	
 	TQ3Object				childObject;
 	
-	TQ3Param2D				*elemParam2D;
-	TQ3Vector3D				*elemVector3D;
-	TQ3Float32				*elemFloat;
-	TQ3ColorRGB				*elemColor;
-	TQ3Tangent2D			*elemTangent;
 	TQ3Int32				*elemSwitch;
 	TQ3Object				*elemObject;
 	
@@ -1099,23 +1094,16 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Param2D) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
-			elemParam2D = (TQ3Param2D *)theAttribute->data;
-			for(i = 0; i< numElems;i++){
-				Q3Float32_Read(&elemParam2D->u,theFile);
-				Q3Float32_Read(&elemParam2D->v,theFile);
-				elemParam2D++;
-				}
+			if (Q3Float32_ReadArray( numElems * 2, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
+				return NULL;
 			break;
 			
 		case kQ3AttributeTypeNormal:			// TQ3Vector3D
 			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Vector3D) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
-			elemVector3D = (TQ3Vector3D *)theAttribute->data;
-			for(i = 0; i< numElems;i++){
-				Q3Vector3D_Read(elemVector3D,theFile);
-				elemVector3D++;
-				}
+			if (Q3Float32_ReadArray( numElems * 3, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
+				return NULL;
 			break;
 			
 		case kQ3AttributeTypeAmbientCoefficient:// float
@@ -1123,11 +1111,8 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			theAttribute->data = Q3Memory_Allocate(sizeof(float) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
-			elemFloat = (float *)theAttribute->data;
-			for(i = 0; i< numElems;i++){
-				Q3Float32_Read(elemFloat,theFile);
-				elemFloat++;
-				}
+			if (Q3Float32_ReadArray( numElems, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
+				return NULL;
 			break;
 			
 		case kQ3AttributeTypeDiffuseColor:		// TQ3ColorRGB
@@ -1136,25 +1121,16 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3ColorRGB) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
-			elemColor = (TQ3ColorRGB *)theAttribute->data;
-			for(i = 0; i< numElems;i++){
-				Q3Float32_Read(&elemColor->r,theFile);
-				Q3Float32_Read(&elemColor->g,theFile);
-				Q3Float32_Read(&elemColor->b,theFile);
-				elemColor++;
-				}
+			if (Q3Float32_ReadArray( numElems * 3, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
+				return NULL;
 			break;
 			
 		case kQ3AttributeTypeSurfaceTangent:	//	TQ3Tangent2D
 			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Tangent2D) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
-			elemTangent = (TQ3Tangent2D *)theAttribute->data;
-			for(i = 0; i< numElems;i++){
-				Q3Vector3D_Read(&elemTangent->uTangent,theFile);
-				Q3Vector3D_Read(&elemTangent->vTangent,theFile);
-				elemTangent++;
-				}
+			if (Q3Float32_ReadArray( numElems * 6, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
+				return NULL;
 			break;
 			
 		case kQ3AttributeTypeHighlightState:	//	TQ3Switch
