@@ -448,7 +448,6 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 
 
 
-
 //=============================================================================
 //      e3geom_torus_get_attribute : Torus get attribute set pointer.
 //-----------------------------------------------------------------------------
