@@ -1576,19 +1576,17 @@ failure:
 static
 TE3MeshCornerData*
 e3meshVertex_FaceCorner(
-	TE3MeshVertexData* vertexPtr,
-	TE3MeshData* meshPtr,
-	TE3MeshFaceData* facePtr)
+	const TE3MeshVertexData* vertexPtr,
+	const TE3MeshFaceData* facePtr)
 {
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(vertexPtr);
-	Q3_ASSERT_VALID_PTR(meshPtr);
 	Q3_ASSERT_VALID_PTR(facePtr);
 
 	return(e3meshCornerArrayOrList_Find(
 		&vertexPtr->cornerArrayOrList,
 		E3_DOWN_CAST(TQ3Boolean (*)(const TE3MeshCornerData*, void*), &e3meshCorner_HasFace),
-		facePtr));
+		(void*)facePtr));
 }
 
 
@@ -3780,16 +3778,185 @@ e3geom_mesh_duplicate(
 
 
 //=============================================================================
-//      e3geom_mesh_cache_new : Mesh cache new method.
+//      e3geom_mesh_cache_new_as_polys : Mesh cache new method.
 //-----------------------------------------------------------------------------
 static
 TQ3Object
-e3geom_mesh_cache_new(
-	TQ3ViewObject view,
-	TQ3GeometryObject meshObject,
+e3geom_mesh_cache_new_as_polys(
 	const TE3MeshData* meshPtr)
 {
-#pragma unused(view)
+#define _MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW 16
+
+	const TE3MeshFaceData* 			facePtr;
+	const TE3MeshContourData* 		contourPtr;
+	const TE3MeshVertexPtr* 		vertexHdl;
+	const TE3MeshCornerData* 		cornerPtr;
+	
+	TQ3GroupObject 					thePolysGroup = NULL;
+	TQ3GeneralPolygonData			polyData;
+	TQ3Object						*objectsToDelete;
+	TQ3Uns32						numObjectsToDelete;
+	TQ3Uns32						allocatedObjectsToDelete;
+	TQ3Vertex3D						*currentVertex;
+	TQ3Object 						thePoly;
+	TQ3Uns32						i,j;
+	
+	
+    polyData.contours = NULL;
+    polyData.shapeHint = kQ3GeneralPolygonShapeHintComplex;
+    polyData.generalPolygonAttributeSet = NULL;
+    
+
+
+	thePolysGroup = Q3OrderedDisplayGroup_New ();
+	if(thePolysGroup == NULL)
+		return NULL;
+	
+	objectsToDelete = Q3Memory_Allocate(_MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW * sizeof(TQ3Object));
+	if(objectsToDelete == NULL)
+		return thePolysGroup;
+		
+	allocatedObjectsToDelete = _MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW;
+	
+	// add the mesh attribute Set to the group
+	if(meshPtr->attributeSet != NULL)
+		Q3Group_AddObject(thePolysGroup,meshPtr->attributeSet);
+		
+	numObjectsToDelete = 0;
+		
+	
+	for (facePtr = e3meshFaceArrayOrList_FirstItemConst(&meshPtr->faceArrayOrList);
+		facePtr != NULL;
+		facePtr = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, facePtr))
+		{
+		numObjectsToDelete = 0;
+		
+		polyData.numContours = e3meshFace_NumContours(facePtr);
+		polyData.contours = Q3Memory_AllocateClear(polyData.numContours * sizeof(TQ3GeneralPolygonContourData));
+		if(polyData.contours == NULL)
+			goto cleanup;
+		
+	    polyData.generalPolygonAttributeSet = facePtr->attributeSet;
+		
+		for (contourPtr = e3meshContourArrayOrList_FirstItemConst(&facePtr->contourArrayOrList), i = 0;
+			contourPtr != NULL;
+			contourPtr = e3meshContourArrayOrList_NextItemConst(&facePtr->contourArrayOrList, contourPtr), ++i)
+			{
+			polyData.contours[i].numVertices = e3meshContour_NumVertices(contourPtr);
+			polyData.contours[i].vertices = Q3Memory_Allocate(polyData.contours[i].numVertices * sizeof(TQ3Vertex3D));
+			if(polyData.contours == NULL)
+				goto cleanup;
+
+
+			for (vertexHdl = e3meshVertexPtrArray_FirstItemConst(&contourPtr->vertexPtrArray), j = 0;
+				vertexHdl != NULL;
+				vertexHdl = e3meshVertexPtrArray_NextItemConst(&contourPtr->vertexPtrArray, vertexHdl), ++j)
+				{
+
+				currentVertex = &polyData.contours[i].vertices[j];
+				currentVertex->point = (*vertexHdl)->point;
+				currentVertex->attributeSet = (*vertexHdl)->attributeSet;
+
+				cornerPtr = e3meshVertex_FaceCorner(*vertexHdl, facePtr);
+				if(cornerPtr != NULL)
+					{
+					if(cornerPtr->attributeSet != NULL)
+						{
+						if(currentVertex->attributeSet != NULL)
+							{
+							currentVertex->attributeSet = Q3AttributeSet_New();
+							if(currentVertex->attributeSet == NULL)
+								{
+								currentVertex->attributeSet = (*vertexHdl)->attributeSet;
+								}
+							else
+								{
+								if((1 + numObjectsToDelete) > allocatedObjectsToDelete)
+									{
+									if(Q3Memory_Reallocate(&objectsToDelete, (allocatedObjectsToDelete + _MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW)*sizeof(TQ3Object)) != kQ3Success)
+										goto cleanup;
+										
+									allocatedObjectsToDelete += _MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW;
+									}
+									
+								objectsToDelete[numObjectsToDelete] = currentVertex->attributeSet;
+								numObjectsToDelete++;
+								
+								Q3AttributeSet_Inherit((*vertexHdl)->attributeSet, cornerPtr->attributeSet, currentVertex->attributeSet);
+								}
+							}
+						else
+							{
+							currentVertex->attributeSet = cornerPtr->attributeSet;
+							}
+						}
+					}
+					
+				}
+						
+			}
+			
+		thePoly = Q3GeneralPolygon_New(&polyData);
+		if(thePoly != NULL){
+			Q3Group_AddObject(thePolysGroup,thePoly);
+			Q3Object_Dispose(thePoly);
+			}
+			
+		while(numObjectsToDelete > 0)
+			{
+			numObjectsToDelete --;
+			Q3Object_Dispose(objectsToDelete[numObjectsToDelete]);
+			};
+			
+		if(polyData.contours != NULL)
+			{
+			for(i = 0; i < polyData.numContours; i++)
+				{
+				if(polyData.contours[i].vertices != NULL)
+					Q3Memory_Free(&polyData.contours[i].vertices);
+				}
+			Q3Memory_Free(&polyData.contours);
+			}
+		}
+		
+cleanup:	
+	while(numObjectsToDelete > 0)
+		{
+		numObjectsToDelete --;
+		Q3Object_Dispose(objectsToDelete[numObjectsToDelete]);
+		};
+		
+	if(objectsToDelete != NULL)	
+		Q3Memory_Free(&objectsToDelete);
+		
+	if(polyData.contours != NULL)
+		{
+		for(i = 0; i < polyData.numContours; i++)
+			{
+			if(polyData.contours[i].vertices != NULL)
+				Q3Memory_Free(&polyData.contours[i].vertices);
+			}
+		Q3Memory_Free(&polyData.contours);
+		}
+	
+	return thePolysGroup;
+
+#undef _MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW
+
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_mesh_cache_new_as_polyhedron : Mesh cache new method.
+//-----------------------------------------------------------------------------
+static
+TQ3Object
+e3geom_mesh_cache_new_as_polyhedron(
+	const TE3MeshData* meshPtr)
+{
 /*
 	TQ3GeometryObject polyhedron;
 	TQ3PolyhedronData polyhedronData;	
@@ -3917,6 +4084,8 @@ cleanup_1:
 	TQ3PolyhedronData polyhedronData;	
 	const TE3MeshVertexData* firstMeshVertexPtr;
 	TQ3Uns32 vertexIdx;
+	TQ3Uns32 triangleIndex;
+	const TE3MeshFaceData* facePtr;
 
 	// Assume unable to create polyhedron
 	polyhedron = NULL;
@@ -3979,9 +4148,29 @@ cleanup_1:
 
 	// Set polyhedron attribute set
 	polyhedronData.polyhedronAttributeSet = meshPtr->attributeSet;
-
+	
+	if(polyhedronData.numTriangles == 0){
+		//something has failed with tesselation probably a non planar face, lets try to create a fan
+		facePtr = e3meshFaceArrayOrList_FirstItemConst(&meshPtr->faceArrayOrList);
+		if(facePtr)
+			{
+			polyhedronData.numTriangles = polyhedronData.numVertices - 2;
+			polyhedronData.triangles = (TQ3PolyhedronTriangleData *) Q3Memory_AllocateClear(polyhedronData.numTriangles * sizeof(TQ3PolyhedronTriangleData));
+			for (triangleIndex = 0; triangleIndex < polyhedronData.numTriangles; ++triangleIndex)
+				{
+				polyhedronData.triangles[triangleIndex].vertexIndices[0] = 0;
+				polyhedronData.triangles[triangleIndex].vertexIndices[1] = triangleIndex + 1;
+				polyhedronData.triangles[triangleIndex].vertexIndices[2] = triangleIndex + 2;
+				polyhedronData.triangles[triangleIndex].triangleAttributeSet = facePtr->attributeSet;
+				}
+			polyhedron = Q3Polyhedron_New(&polyhedronData);
+			Q3Memory_Free(&polyhedronData.triangles);
+			}
+		
+	}
+	else
 	// Create the polyhedron and clean up
-	polyhedron = Q3Polyhedron_New(&polyhedronData);
+		polyhedron = Q3Polyhedron_New(&polyhedronData);
 
 cleanup_4:
 
@@ -3994,6 +4183,28 @@ cleanup_2:
 cleanup_1:
 	
 	return(polyhedron);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_mesh_cache_new : Mesh cache new method.
+//-----------------------------------------------------------------------------
+static
+TQ3Object
+e3geom_mesh_cache_new(
+	TQ3ViewObject view,
+	TQ3GeometryObject meshObject,
+	const TE3MeshData* meshPtr)
+{
+#pragma unused(meshObject)
+#pragma unused(view)
+	if(meshPtr->numCorners)
+		return e3geom_mesh_cache_new_as_polys(meshPtr);
+	else
+		return e3geom_mesh_cache_new_as_polyhedron(meshPtr);
 }
 
 
@@ -6574,7 +6785,6 @@ E3Mesh_GetCornerAttributeSet(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3AttributeSet* attributeSetPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
 	TE3MeshVertexData* vertexPtr;
 	TE3MeshFaceData* facePtr;
 	TE3MeshCornerData* cornerPtr;
@@ -6588,7 +6798,7 @@ E3Mesh_GetCornerAttributeSet(
 		goto failure;
 
 	// Get corner
-	cornerPtr = e3meshVertex_FaceCorner(vertexPtr, meshPtr, facePtr);
+	cornerPtr = e3meshVertex_FaceCorner(vertexPtr, facePtr);
 	
 	// Get attribute set
 	if (cornerPtr == NULL)
@@ -6635,7 +6845,7 @@ E3Mesh_SetCornerAttributeSet(
 		goto failure;
 
 	// Get old corner, attribute set and face count
-	if ((oldCornerPtr = e3meshVertex_FaceCorner(vertexPtr, meshPtr, facePtr)) == NULL)
+	if ((oldCornerPtr = e3meshVertex_FaceCorner(vertexPtr, facePtr)) == NULL)
 	{
 		oldAttributeSet = NULL;
 		oldFaceCount = 0;
