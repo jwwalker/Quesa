@@ -260,14 +260,14 @@ e3view_stack_update(TQ3ViewObject theView, TQ3ViewStackState stateChange)
 	// If the stack is empty, we're done
 	if (instanceData->stackCount == 0)
 		{
-		// If we're drawing, flush any references the renderer might have to shared objects
+/*		// If we're drawing, flush any references the renderer might have to shared objects
 		if (instanceData->viewMode == kQ3ViewModeDrawing)
 			{
 			E3Renderer_Method_UpdateShader(theView,    kQ3ShaderTypeIllumination,     NULL);
 			E3Renderer_Method_UpdateShader(theView,    kQ3ShaderTypeSurface,          NULL);
 			E3Renderer_Method_UpdateStyle(theView,     kQ3StyleTypeHighlight,         NULL);
 			E3Renderer_Method_UpdateAttribute(theView, kQ3AttributeTypeSurfaceShader, NULL);
-			}
+			}*/
 		return(kQ3Success);
 		}
 
@@ -810,62 +810,6 @@ e3view_submit_begin(TQ3ViewObject theView, TQ3ViewMode viewMode)
 	return(qd3dStatus);
 }
 
-
-
-
-
-//=============================================================================
-//      e3view_submit_end : End a submit loop.
-//-----------------------------------------------------------------------------
-//		Note :	If the current view state is within a submitting a loop, the
-//				submitStatus value is used as the result of the submit loop.
-//-----------------------------------------------------------------------------
-static TQ3ViewStatus
-e3view_submit_end(TQ3ViewObject theView, TQ3ViewStatus submitStatus)
-{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3ViewStatus		viewStatus;
-
-
-
-	// End the pass
-	if (instanceData->viewState == kQ3ViewStateCancelled)
-		viewStatus = kQ3ViewStatusCancelled;
-
-	else if (instanceData->viewState == kQ3ViewStateSubmitting)
-		viewStatus = submitStatus;
-
-	else
-		viewStatus = kQ3ViewStatusDone;
-
-
-
-	// Pop the view stack
-	e3view_stack_pop_clean(theView);
-
-
-
-	// Update the view state
-	if (viewStatus == kQ3ViewStatusRetraverse)
-		{
-		instanceData->viewState = kQ3ViewStateSubmitting;
-		instanceData->viewPass++;
-		}
-	else
-		{
-		instanceData->viewState = kQ3ViewStateInactive;
-		instanceData->viewPass  = 0;
-		}
-
-
-
-	// Return the view status
-	return(viewStatus);
-}
-
-
-
-
-
 //=============================================================================
 //      e3view_submit_initial_state : Submit the initial state to a view.
 //-----------------------------------------------------------------------------
@@ -896,6 +840,73 @@ e3view_submit_initial_state(TQ3ViewObject theView)
 }
 
 
+
+
+
+//=============================================================================
+//      e3view_submit_end : End a submit loop.
+//-----------------------------------------------------------------------------
+//		Note :	If the current view state is within a submitting a loop, the
+//				submitStatus value is used as the result of the submit loop.
+//-----------------------------------------------------------------------------
+static TQ3ViewStatus
+e3view_submit_end(TQ3ViewObject theView, TQ3ViewStatus submitStatus)
+{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3ViewStatus		viewStatus;
+	TQ3Status			qd3dStatus;
+
+
+
+	// End the pass
+	if (instanceData->viewState == kQ3ViewStateCancelled)
+		viewStatus = kQ3ViewStatusCancelled;
+
+	else if (instanceData->viewState == kQ3ViewStateSubmitting)
+		viewStatus = submitStatus;
+
+	else
+		viewStatus = kQ3ViewStatusDone;
+
+
+
+	// Pop the view stack
+	e3view_stack_pop_clean(theView);
+
+
+
+	// Update the view state
+	if (viewStatus == kQ3ViewStatusRetraverse)
+		{
+		instanceData->viewState = kQ3ViewStateSubmitting;
+		instanceData->viewPass++;
+		qd3dStatus = e3view_submit_begin(theView, instanceData->viewMode);
+		
+		if (qd3dStatus == kQ3Success){
+			// Start Pass
+			instanceData->rendererFinishedFrame = kQ3False;
+			E3Renderer_Method_StartPass(theView, instanceData->theCamera,
+				 instanceData->theLights);
+			}
+	
+		// Submit the initial state
+		if (qd3dStatus == kQ3Success)
+			qd3dStatus = e3view_submit_initial_state(theView);
+			
+		// stop rendering
+		if (qd3dStatus != kQ3Success)
+			viewStatus = kQ3ViewStatusCancelled;
+		}
+	else
+		{
+		instanceData->viewState = kQ3ViewStateInactive;
+		instanceData->viewPass  = 0;
+		}
+
+
+
+	// Return the view status
+	return(viewStatus);
+}
 
 
 
