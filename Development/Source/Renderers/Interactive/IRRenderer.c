@@ -142,6 +142,16 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 				if (GLDrawContext_UpdateWindowPosition(instanceData->glContext))
 					drawContextFlags &= ~kQ3XDrawContextValidationWindowPosition;
 				}
+
+			if (drawContextFlags & (kQ3XDrawContextValidationWindowSize |
+				kQ3XDrawContextValidationPane))
+				{
+				if (GLDrawContext_UpdateSize(theDrawContext, instanceData->glContext) == kQ3Success)
+					{
+					drawContextFlags &= ~kQ3XDrawContextValidationWindowSize;
+					drawContextFlags &= ~kQ3XDrawContextValidationPane;
+					}
+				}
 			}
 
 
