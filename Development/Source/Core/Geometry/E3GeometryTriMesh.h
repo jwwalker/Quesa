@@ -66,6 +66,8 @@ TQ3Status			E3TriMesh_EmptyData(TQ3TriMeshData *triMeshData);
 TQ3Status			E3TriMesh_LockData(TQ3GeometryObject triMesh, TQ3Boolean readOnly, TQ3TriMeshData **triMeshData);
 TQ3Status			E3TriMesh_UnlockData(TQ3GeometryObject triMesh);
 
+void				E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle theOrientation);
+
 
 
 
