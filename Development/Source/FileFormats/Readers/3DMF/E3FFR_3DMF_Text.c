@@ -881,7 +881,7 @@ e3fformat_3dmf_text_read_toc( TQ3FileFormatObject format, TE3FFormat3DMF_Text_Da
 {
 	std::string	tocLabel( inTOCLabel );
 	
-	if ( (not tocLabel.empty()) && (tocLabel[ tocLabel.size() - 1 ] == '>'))
+	if ( (! tocLabel.empty()) && (tocLabel[ tocLabel.size() - 1 ] == '>'))
 	{
 		tocLabel.resize( tocLabel.size() - 1 );	// erase the final '>'
 		LabelToOffsetMap::const_iterator	labelIter = instanceData->mLabelMap->find( tocLabel );
@@ -932,17 +932,18 @@ e3fformat_3dmf_text_read_toc( TQ3FileFormatObject format, TE3FFormat3DMF_Text_Da
 					theStatus = e3fformat_3dmf_text_readitem( format, buffer, sizeof(buffer), &charsRead );
 					Q3_REQUIRE( theStatus == kQ3Success );
 				}
-				if ( (not refLabel.empty()) && (refLabel[ refLabel.size() - 1 ] == '>') )
+				if ( (! refLabel.empty()) && (refLabel[ refLabel.size() - 1 ] == '>') )
 				{
 					refLabel.resize( refLabel.size() - 1 );
 					labelIter = instanceData->mLabelMap->find( refLabel );
 					if (labelIter != instanceData->mLabelMap->end())
 					{
-						TOCEntry	tocEntry = {
-							refID,
-							labelIter->second,
-							CQ3ObjectRef()
-						};
+						TOCEntry	tocEntry;
+						
+						tocEntry.refID = refID;
+						tocEntry.objLocation = labelIter->second;
+						tocEntry.object = CQ3ObjectRef();
+						
 						instanceData->mTOC->push_back( tocEntry );
 					}
 				}

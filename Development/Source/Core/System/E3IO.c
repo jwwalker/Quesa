@@ -784,7 +784,7 @@ E3File_IsEndOfData(TQ3FileObject theFile)
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3True);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3True);
-	Q3_REQUIRE_OR_RESULT((instanceData->mode <= kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream),kQ3True); // only for 3DMF
+	Q3_REQUIRE_OR_RESULT((instanceData->mode <= (kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream)),kQ3True); // only for 3DMF
 	
 	fformatData = (TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
@@ -808,7 +808,7 @@ E3File_IsEndOfContainer(TQ3FileObject theFile, TQ3Object rootObject)
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3True);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3True);
-	Q3_REQUIRE_OR_RESULT((instanceData->mode <= kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream),kQ3True); // only for 3DMF
+	Q3_REQUIRE_OR_RESULT((instanceData->mode <= (kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream)),kQ3True); // only for 3DMF
 	
 	fformatData = (TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
@@ -890,7 +890,7 @@ E3File_SetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState readGroupStat
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->mode <= kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream),kQ3Failure); // only for 3DMF
+	Q3_REQUIRE_OR_RESULT((instanceData->mode <= (kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream)),kQ3Failure); // only for 3DMF
 	Q3_REQUIRE_OR_RESULT((readGroupState == kQ3FileReadWholeGroup) ||
 						(readGroupState == kQ3FileReadObjectsInGroup),kQ3Failure);
 	
@@ -920,7 +920,7 @@ E3File_GetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState *readGroupSta
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->mode <= kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream),kQ3Failure); // only for 3DMF
+	Q3_REQUIRE_OR_RESULT((instanceData->mode <= (kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream)),kQ3Failure); // only for 3DMF
 	
 	fformatData = (TQ3FFormatBaseData*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
