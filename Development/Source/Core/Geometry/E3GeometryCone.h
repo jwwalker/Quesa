@@ -76,6 +76,8 @@ TQ3Status			E3Cone_SetBottomAttributeSet(TQ3GeometryObject theCone, TQ3Attribute
 TQ3Status			E3Cone_GetBottomAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet *bottomAttributeSet);
 TQ3Status			E3Cone_SetFaceAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet faceAttributeSet);
 TQ3Status			E3Cone_GetFaceAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet *faceAttributeSet);
+TQ3Status			E3Cone_SetInteriorAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet intAttributeSet);
+TQ3Status			E3Cone_GetInteriorAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet *intAttributeSet);
 TQ3Status			E3Cone_EmptyData(TQ3ConeData *coneData);
 
 
