@@ -50,28 +50,6 @@
 extern "C" {
 #endif
 
-//=============================================================================
-//      Types
-//-----------------------------------------------------------------------------
-
-// method Types
-
-#define kQ3XMethodTypeStorageReadData				Q3_METHOD_TYPE('Q', 'r', 'e', 'a')
-#define kQ3XMethodTypeStorageWriteData				Q3_METHOD_TYPE('Q', 'w', 'r', 'i')
-#define kQ3XMethodTypeStorageGetSize				Q3_METHOD_TYPE('Q', 'G', 's', 'z')
-
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageReadDataMethod)(TQ3StorageObject storage,
-																TQ3Uns32		offset,
-																TQ3Uns32		dataSize,
-																TQ3Uns8			*data,
-																TQ3Uns32		*sizeRead);
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageWriteDataMethod)(TQ3StorageObject storage,
-																TQ3Uns32		offset,
-																TQ3Uns32		dataSize,
-																const TQ3Uns8	*data,
-																TQ3Uns32		*sizeWritten);
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageGetSizeMethod)(TQ3StorageObject storage, unsigned long *size);
-
 
 
 //=============================================================================
