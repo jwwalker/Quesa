@@ -274,6 +274,13 @@ enum {
 };
 
 
+// Languages
+typedef enum {
+	kQ3LanguageDefault							= 0,
+	kQ3LanguageEnglishUS						= 1
+} TQ3Language;
+
+
 // Boolean
 typedef enum {
 	kQ3False									= 0,

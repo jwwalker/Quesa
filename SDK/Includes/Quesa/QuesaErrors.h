@@ -387,6 +387,48 @@ Q3Error_PlatformPost (
 
 
 
+/*
+ *	Q3Error_ToString
+ *		Convert a TQ3Error to a text description.
+ *
+ *		Note : Not supported by QD3D.
+ */
+EXTERN_API_C ( const char * )
+Q3Error_ToString (
+	TQ3Language                   theLanguage,
+	TQ3Error                      theError
+);
+
+
+
+/*
+ *	Q3Warning_ToString
+ *		Convert a TQ3Warning to a text description.
+ *
+ *		Note : Not supported by QD3D.
+ */
+EXTERN_API_C ( const char * )
+Q3Warning_ToString (
+	TQ3Language                   theLanguage,
+	TQ3Warning                    theWarning
+);
+
+
+
+/*
+ *	Q3Notice_ToString
+ *		Convert a TQ3Notice to a text description.
+ *
+ *		Note : Not supported by QD3D.
+ */
+EXTERN_API_C ( const char * )
+Q3Notice_ToString (
+	TQ3Language                   theLanguage,
+	TQ3Notice                     theError
+);
+
+
+
 
 
 //=============================================================================

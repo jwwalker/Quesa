@@ -307,6 +307,54 @@ Q3Error_PlatformPost(TQ3Uns32 theErr)
 
 
 //=============================================================================
+//      Q3Error_ToString : Quesa API entry point.
+//-----------------------------------------------------------------------------
+const char *
+Q3Error_ToString(TQ3Language theLanguage, TQ3Error theError)
+{
+
+
+	// Call our implementation
+	return(E3Error_ToString(theLanguage, theError));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Warning_ToString : Quesa API entry point.
+//-----------------------------------------------------------------------------
+const char *
+Q3Warning_ToString(TQ3Language theLanguage, TQ3Warning theWarning)
+{
+
+
+	// Call our implementation
+	return(E3Warning_ToString(theLanguage, theWarning));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Notice_ToString : Quesa API entry point.
+//-----------------------------------------------------------------------------
+const char *
+Q3Notice_ToString(TQ3Language theLanguage, TQ3Notice theNotice)
+{
+
+
+	// Call our implementation
+	return(E3Notice_ToString(theLanguage, theNotice));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3MacintoshError_Get : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
