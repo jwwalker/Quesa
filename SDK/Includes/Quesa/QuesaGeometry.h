@@ -1158,7 +1158,9 @@ typedef struct TQ3TriMeshData {
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
-// Mesh iterators
+/*!
+	@functiongroup	Mesh Iterator Macros
+*/
 /*!
  *	@function		Q3ForEachMeshComponent
  *	@discussion
@@ -1385,6 +1387,10 @@ typedef struct TQ3TriMeshData {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 /*!
+	@functiongroup	Geometry Functions
+*/
+
+/*!
  *  @function
  *      Q3Geometry_GetType
  *  @discussion
@@ -1510,6 +1516,12 @@ Q3Geometry_GetDecomposed (
 );
 
 #endif
+
+
+
+/*!
+	@functiongroup	Box Functions
+*/
 
 
 
@@ -1802,6 +1814,12 @@ Q3Box_SetFaceAttributeSet (
     TQ3Uns32                      faceIndex,
     TQ3AttributeSet               faceAttributeSet
 );
+
+
+
+/*!
+	@functiongroup	Cone Functions
+*/
 
 
 
@@ -2202,6 +2220,12 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_EmptyData (
     TQ3ConeData                   *coneData
 );
+
+
+
+/*!
+	@functiongroup	Cylinder Functions
+*/
 
 
 
@@ -2642,6 +2666,12 @@ Q3Cylinder_EmptyData (
 
 
 /*!
+	@functiongroup	Disk Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3Disk_New
  *  @discussion
@@ -2841,6 +2871,12 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_EmptyData (
     TQ3DiskData                   *diskData
 );
+
+
+
+/*!
+	@functiongroup	Ellipse Functions
+*/
 
 
 
@@ -3045,6 +3081,12 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_EmptyData (
     TQ3EllipseData                *ellipseData
 );
+
+
+
+/*!
+	@functiongroup	Ellipsoid Functions
+*/
 
 
 
@@ -3289,6 +3331,12 @@ Q3Ellipsoid_EmptyData (
 
 
 /*!
+	@functiongroup	General Polygon Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3GeneralPolygon_New
  *  @discussion
@@ -3509,6 +3557,12 @@ Q3GeneralPolygon_GetShapeHint (
 
 
 /*!
+	@functiongroup	Line Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3Line_New
  *  @discussion
@@ -3680,6 +3734,12 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_EmptyData (
     TQ3LineData                   *lineData
 );
+
+
+
+/*!
+	@functiongroup	Marker Functions
+*/
 
 
 
@@ -3932,6 +3992,12 @@ Q3Marker_SetBitmap (
     TQ3GeometryObject             marker,
     const TQ3Bitmap               *bitmap
 );
+
+
+
+/*!
+	@functiongroup	Mesh Functions
+*/
 
 
 
@@ -5403,6 +5469,12 @@ Q3Mesh_NextContourFace (
 
 
 /*!
+	@functiongroup	NURB Curve Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3NURBCurve_New
  *  @discussion
@@ -5571,6 +5643,12 @@ Q3NURBCurve_GetKnot (
     TQ3Uns32                      knotIndex,
     float                         *knotValue
 );
+
+
+
+/*!
+	@functiongroup	NURB Patch Functions
+*/
 
 
 
@@ -5787,6 +5865,12 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_EmptyData (
     TQ3NURBPatchData              *nurbPatchData
 );
+
+
+
+/*!
+	@functiongroup	Pixmap Marker Functions
+*/
 
 
 
@@ -6033,6 +6117,12 @@ Q3PixmapMarker_SetPixmap (
 
 
 /*!
+	@functiongroup	Point Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3Point_New
  *  @discussion
@@ -6160,6 +6250,12 @@ Q3Point_GetPosition (
     TQ3GeometryObject             point,
     TQ3Point3D                    *position
 );
+
+
+
+/*!
+	@functiongroup	Polygon Functions
+*/
 
 
 
@@ -6332,6 +6428,12 @@ Q3Polygon_SetVertexAttributeSet (
     TQ3Uns32                      index,
     TQ3AttributeSet               attributeSet
 );
+
+
+
+/*!
+	@functiongroup	Polyhedron Functions
+*/
 
 
 
@@ -6588,6 +6690,12 @@ Q3Polyhedron_SetEdgeData (
 
 
 /*!
+	@functiongroup	PolyLine Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3PolyLine_New
  *  @discussion
@@ -6796,6 +6904,12 @@ Q3PolyLine_SetSegmentAttributeSet (
     TQ3Uns32                      index,
     TQ3AttributeSet               attributeSet
 );
+
+
+
+/*!
+	@functiongroup	Torus Functions
+*/
 
 
 
@@ -7076,6 +7190,12 @@ Q3Torus_EmptyData (
 
 
 /*!
+	@functiongroup	Triangle Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3Triangle_New
  *  @discussion
@@ -7244,6 +7364,12 @@ Q3Triangle_SetVertexAttributeSet (
     TQ3Uns32                      index,
     TQ3AttributeSet               attributeSet
 );
+
+
+
+/*!
+	@functiongroup	TriGrid Functions
+*/
 
 
 
@@ -7468,6 +7594,12 @@ Q3TriGrid_SetFacetAttributeSet (
 
 
 /*!
+	@functiongroup	TriMesh Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3TriMesh_New
  *  @discussion
@@ -7626,6 +7758,10 @@ Q3TriMesh_UnlockData (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 
