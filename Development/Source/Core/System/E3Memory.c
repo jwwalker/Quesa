@@ -65,6 +65,11 @@
 #define kMemoryFreed									((TQ3Uns8) 0xCD)
 
 
+// Slab threshold
+const TQ3Uns32 kSlabSmallItemSize						= 256;
+const TQ3Uns32 kSlabSmallGrowSize						= 16 * 1024;
+
+
 
 
 
@@ -982,26 +987,73 @@ E3SlabMemory_GetCount(TQ3SlabObject theSlab)
 //=============================================================================
 //      E3SlabMemory_SetCount : Set the number of items in a memory slab.
 //-----------------------------------------------------------------------------
+//		Note :	This is the core routine to modify the behaviour of slabs. The
+//				other slab APIs either return existing state, or call us to set
+//				the required size of a slab.
+//
+//				Pre-allocation and deallocation strategies are determined by
+//				this routine.
+//
+//
+//				Slabs currently assumed they are used for storing numerous
+//				relatively small items, which will be accumulated over time
+//				before the slab is periodically emptied.
+//
+//				Our current implementation therefore assumes it can treat a
+//				slab as a (very) lazy free-list, by growing as required to
+//				satisfy larger item counts and ignoring requests to shrink.
+//
+//				This does mean that callers may need to periodically dispose
+//				of their slab objects and re-create them if they want to force
+//				slab memory to be deallocated.
+//
+//				Alternatively we could introduce an explicit flush API, or keep
+//				stats on the usage of a slab (time between allocations, item
+//				size, etc) and determine if a slab should periodically shrink
+//				its storage.
+//-----------------------------------------------------------------------------
 TQ3Status
 E3SlabMemory_SetCount(TQ3SlabObject theSlab, TQ3Uns32 numItems)
 {	TQ3SlabData		*instanceData = (TQ3SlabData *) theSlab->instanceData;
+	TQ3Uns32		theSize, growSize;
 	TQ3Status		qd3dStatus;
-	TQ3Uns32		newSize;
 
 
 
-	// Resize the slab data
-	//
-	// Maps directly to realloc for now - should examine previous usage and pre-allocate
-	// larger chunks if required (e.g., if detect lots of grow-by-one allocations for a
-	// fairly small itemSize).
-	newSize    = instanceData->itemSize * numItems;
-	qd3dStatus = Q3Memory_Reallocate(&instanceData->theData, newSize);
-	if (qd3dStatus == kQ3Success)
+	// Calculate the size we need
+	qd3dStatus = kQ3Success;
+	theSize    = instanceData->itemSize * numItems;
+
+
+
+	// Grow the slab if required
+	if (theSize > instanceData->dataSize)
 		{
-		instanceData->numItems = numItems;
-		instanceData->dataSize = newSize;
+		// Determine how much we should grow
+		//
+		// If the item size is small enough, we pre-allocate space to reduce the
+		// number of allocations needed to grow the slab over its lifetime. If
+		// the item size is beyond the threshold, we simply grow to fit.
+		if (instanceData->itemSize <= kSlabSmallItemSize)
+			{
+			growSize = theSize - instanceData->dataSize;
+			growSize = E3Num_Max(growSize, kSlabSmallGrowSize);
+			theSize  = instanceData->dataSize + growSize;
+			}
+
+
+
+		// Grow the slab
+		qd3dStatus = Q3Memory_Reallocate(&instanceData->theData, theSize);
+		if (qd3dStatus == kQ3Success)
+			instanceData->dataSize = theSize;
 		}
+
+
+
+	// Update the slab
+	if (qd3dStatus == kQ3Success)
+		instanceData->numItems = numItems;
 	
 	return(qd3dStatus);
 }
