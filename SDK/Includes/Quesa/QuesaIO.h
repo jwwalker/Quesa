@@ -131,6 +131,7 @@ enum {
 
     // Write
     kQ3XMethodTypeFFormatSubmitGroup            = Q3_METHOD_TYPE('F', 'w', 'g', 'r'),
+    kQ3XMethodTypeFFormatSubmitObject           = Q3_METHOD_TYPE('F', 'w', 'o', 'b'),
 
     // Used for Q3XXX_WriteMethods, no strict need to override to implement a new format
     kQ3XMethodTypeFFormatFloat32Write           = Q3_METHOD_TYPE('F', 'f', '3', 'w'),
@@ -201,10 +202,13 @@ typedef CALLBACK_API_C(TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod)   
 
 
 // Method types - file format write
-typedef CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitGroupMethod)(
+
+typedef CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitObjectMethod)(
                             TQ3ViewObject       theView,
                             void                *fileFormatPrivate,
-                            TQ3GroupObject   theGroup);
+                            TQ3Object						theObject,
+														TQ3ObjectType				objectType,
+														const void					*objectData);
 
 // Method types - used for Q3XXX_ReadMethods (not required when implementing a new format)
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadMethod)   (TQ3FileFormatObject format, TQ3Float32* data);
