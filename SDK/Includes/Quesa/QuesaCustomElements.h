@@ -159,10 +159,20 @@ typedef enum {
  *						The callback will be called just after each retained object
  *						is passed to the renderer.  The callback's status result
  *						is ignored.
+ *	@constant	kQ3CallbackElementTypeBeforePick
+ *						The callback will be called just before each retained object
+ *						is submitted for picking.  If the callback returns
+ *						kQ3Failure, then the object will not be submitted.
+ *	@constant	kQ3CallbackElementTypeAfterPick
+ *						The callback will be called just after each retained object
+ *						is submitted for picking.  The callback's status result
+ *						is ignored.
  */
 typedef enum {
 	kQ3CallbackElementTypeBeforeRender			=	Q3_OBJECT_TYPE(0xF0, 'b', 'r', 'e'),
-	kQ3CallbackElementTypeAfterRender			=	Q3_OBJECT_TYPE(0xF0, 'a', 'r', 'e')
+	kQ3CallbackElementTypeAfterRender			=	Q3_OBJECT_TYPE(0xF0, 'a', 'r', 'e'),
+	kQ3CallbackElementTypeBeforePick			=	Q3_OBJECT_TYPE(0xF0, 'b', 'p', 'k'),
+	kQ3CallbackElementTypeAfterPick				=	Q3_OBJECT_TYPE(0xF0, 'a', 'p', 'k')
 } TQ3EventCallbackElementTypes;
 
 #endif
