@@ -1046,6 +1046,7 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 	// based on an application-supplied normal rather than the geometric normal.
 	GLDrawContext_SetClearFlags(theDrawContext, clearFlags);
 	GLDrawContext_SetBackgroundColour(theDrawContext);
+	GLDrawContext_SetDepthState(theDrawContext);
 
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
@@ -1179,13 +1180,40 @@ GLDrawContext_SetCurrent(void *glContext, TQ3Boolean forceSet)
 void
 GLDrawContext_SetClearFlags(TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags)
 {	TQ3DrawContextClearImageMethod	clearImageMethod;
+	TQ3Boolean	clearDepthFlag;
+	TQ3Status	status;
+	TQ3Float64	clearDepthValue;
 
 
 
-	// Update the clear flags
+	*clearFlags = 0;
+	
+	
+	
+	// Depth buffer
+	status = Q3Object_GetProperty( theDrawContext, kQ3DrawContextPropertyClearDepthBufferFlag,
+		sizeof(clearDepthFlag), NULL, &clearDepthFlag );
+	
+	if ( (status == kQ3Failure) || (clearDepthFlag == kQ3True) )
+		{
+		*clearFlags = GL_DEPTH_BUFFER_BIT;
+		
+		status = Q3Object_GetProperty( theDrawContext,
+			kQ3DrawContextPropertyClearDepthBufferValue,
+			sizeof(clearDepthValue), NULL, &clearDepthValue );
+		
+		if (status == kQ3Failure)
+			{
+			clearDepthValue = 1.0;
+			}
+		
+		glClearDepth( clearDepthValue );
+		}
+
+
+
+	// Color buffer
 	Q3DrawContext_GetClearImageMethod(theDrawContext, &clearImageMethod);
-
-	*clearFlags = GL_DEPTH_BUFFER_BIT;
 
 	if (clearImageMethod == kQ3ClearMethodWithColor)
 		{
@@ -1212,6 +1240,53 @@ GLDrawContext_SetBackgroundColour(TQ3DrawContextObject theDrawContext)
 	// Update the clear colour
 	Q3DrawContext_GetClearImageColor(theDrawContext, &theColour);
 	glClearColor(theColour.r, theColour.g, theColour.b, theColour.a);
+}
+
+
+
+
+
+//=============================================================================
+//		GLDrawContext_SetDepthState : Set the state of depth testing.
+//-----------------------------------------------------------------------------
+void
+GLDrawContext_SetDepthState( TQ3DrawContextObject	theDrawContext)
+{
+	TQ3Status	status;
+	TQ3Boolean	writable;
+	TQ3Uns32	compareFunc;
+	
+	
+	
+	// Turn on depth testing
+	glEnable( GL_DEPTH_TEST );
+	
+	
+	
+	// Is the depth buffer writable?
+	status = Q3Object_GetProperty( theDrawContext,
+			kQ3DrawContextPropertyWritableDepthBuffer,
+			sizeof(writable), NULL, &writable );
+	if ( (status == kQ3Failure) || writable )
+	{
+		glDepthMask( GL_TRUE );
+	}
+	else
+	{
+		glDepthMask( GL_FALSE );
+	}
+	
+	
+	
+	// Set the rule for when a fragment wins the depth test.
+	status = Q3Object_GetProperty( theDrawContext,
+			kQ3DrawContextPropertyGLDepthFunc,
+			sizeof(compareFunc), NULL, &compareFunc );
+	if (status == kQ3Failure)
+	{
+		compareFunc = GL_LESS;
+	}
+	glDepthFunc( compareFunc );
 }
 
 
