@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3TriGrid : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3TriGridData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -504,14 +521,11 @@ e3geom_trigrid_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 //      e3geom_trigrid_get_attribute : TriGrid get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_trigrid_get_attribute(TQ3GeometryObject theObject)
-{	TQ3TriGridData		*instanceData = (TQ3TriGridData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeTriGrid);
-
-
-
+e3geom_trigrid_get_attribute ( E3TriGrid* triGrid )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->triGridAttributeSet);
-}
+	return & triGrid->instanceData.triGridAttributeSet ;
+	}
 
 
 
@@ -577,11 +591,11 @@ E3GeometryTriGrid_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeTriGrid,
 											kQ3ClassNameGeometryTriGrid,
 											e3geom_trigrid_metahandler,
-											sizeof(TQ3TriGridData));
+											~sizeof(E3TriGrid));
 
 	return(qd3dStatus);
 }
@@ -600,7 +614,7 @@ E3GeometryTriGrid_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeTriGrid, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeTriGrid, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -652,20 +666,19 @@ E3TriGrid_Submit(const TQ3TriGridData *triGridData, TQ3ViewObject theView)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_SetData(TQ3GeometryObject triGrid, const TQ3TriGridData *triGridData)
-{	TQ3TriGridData		*instanceData = (TQ3TriGridData *) E3ClassTree_FindInstanceData(triGrid, kQ3GeometryTypeTriGrid);
-	TQ3Status			qd3dStatus;
-
+E3TriGrid_SetData(TQ3GeometryObject theTriGrid, const TQ3TriGridData *triGridData)
+	{
+	E3TriGrid* triGrid = (E3TriGrid*) theTriGrid ;
 
 	// first, free the old data
-	e3geom_trigrid_disposedata(instanceData);
+	e3geom_trigrid_disposedata ( & triGrid->instanceData ); 
 
 	// then copy in the new data
-	qd3dStatus = e3geom_trigrid_copydata(triGridData, instanceData, kQ3False);
-	Q3Shared_Edited(triGrid);
+	TQ3Status qd3dStatus = e3geom_trigrid_copydata ( triGridData, & triGrid->instanceData, kQ3False ) ;
+	Q3Shared_Edited ( triGrid ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -677,21 +690,16 @@ E3TriGrid_SetData(TQ3GeometryObject triGrid, const TQ3TriGridData *triGridData)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_GetData(TQ3GeometryObject triGrid, TQ3TriGridData *triGridData)
-{	TQ3TriGridData		*instanceData = (TQ3TriGridData *) E3ClassTree_FindInstanceData(triGrid, kQ3GeometryTypeTriGrid);
-	TQ3Status			qd3dStatus;
-
-
+E3TriGrid_GetData(TQ3GeometryObject theTriGrid, TQ3TriGridData *triGridData)
+	{
+	E3TriGrid* triGrid = (E3TriGrid*) theTriGrid ;
 
 	// Copy the data out of the TriGrid
-	triGridData->facetAttributeSet   = NULL;
-	triGridData->triGridAttributeSet = NULL;
+	triGridData->facetAttributeSet   = NULL ;
+	triGridData->triGridAttributeSet = NULL ;
 
-	qd3dStatus = e3geom_trigrid_copydata(instanceData, triGridData, kQ3False);
-
-	return(qd3dStatus);
-
-}
+	return e3geom_trigrid_copydata ( & triGrid->instanceData, triGridData, kQ3False ) ;
+	}
 
 
 
@@ -721,15 +729,15 @@ E3TriGrid_EmptyData(TQ3TriGridData *trigridData)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex,
+E3TriGrid_GetVertexPosition(TQ3GeometryObject theTriGrid, TQ3Uns32 rowIndex,
 			TQ3Uns32 columnIndex, TQ3Point3D *position)
-{
-	TQ3TriGridData		*trigridData = (TQ3TriGridData *) E3ClassTree_FindInstanceData(triGrid, kQ3GeometryTypeTriGrid);
-	TQ3Uns32 idx = rowIndex * trigridData->numColumns + columnIndex;
-	*position = trigridData->vertices[idx].point;
+	{
+	E3TriGrid* triGrid = (E3TriGrid*) theTriGrid ;
+	TQ3Uns32 idx = rowIndex * triGrid->instanceData.numColumns + columnIndex ;
+	*position = triGrid->instanceData.vertices [ idx ].point ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -742,16 +750,16 @@ E3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex,
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex,
+E3TriGrid_SetVertexPosition(TQ3GeometryObject theTriGrid, TQ3Uns32 rowIndex,
 			TQ3Uns32 columnIndex, const TQ3Point3D *position)
-{
-	TQ3TriGridData		*trigridData = (TQ3TriGridData *) E3ClassTree_FindInstanceData(triGrid, kQ3GeometryTypeTriGrid);
-	TQ3Uns32 idx = rowIndex * trigridData->numColumns + columnIndex;
-	trigridData->vertices[idx].point = *position;
+	{
+	E3TriGrid* triGrid = (E3TriGrid*) theTriGrid ;
+	TQ3Uns32 idx = rowIndex * triGrid->instanceData.numColumns + columnIndex ;
+	triGrid->instanceData.vertices [ idx ].point = *position ;
 	
-	Q3Shared_Edited(triGrid);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( triGrid ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -764,15 +772,15 @@ E3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex,
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex,
+E3TriGrid_GetVertexAttributeSet(TQ3GeometryObject theTriGrid, TQ3Uns32 rowIndex,
 			TQ3Uns32 columnIndex, TQ3AttributeSet *attributeSet)
-{
-	TQ3TriGridData		*trigridData = (TQ3TriGridData *) E3ClassTree_FindInstanceData(triGrid, kQ3GeometryTypeTriGrid);
-	TQ3Uns32 idx = rowIndex * trigridData->numColumns + columnIndex;
-	E3Shared_Acquire(attributeSet, trigridData->vertices[idx].attributeSet);
+	{
+	E3TriGrid* triGrid = (E3TriGrid*) theTriGrid ;
+	TQ3Uns32 idx = rowIndex * triGrid->instanceData.numColumns + columnIndex ;
+	E3Shared_Acquire ( attributeSet, triGrid->instanceData.vertices [ idx ].attributeSet ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -785,15 +793,15 @@ E3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex,
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3AttributeSet attributeSet)
-{
-	TQ3TriGridData		*trigridData = (TQ3TriGridData *) E3ClassTree_FindInstanceData(triGrid, kQ3GeometryTypeTriGrid);
-	TQ3Uns32 idx = rowIndex * trigridData->numColumns + columnIndex;
-	E3Shared_Replace(&trigridData->vertices[idx].attributeSet, attributeSet);
+E3TriGrid_SetVertexAttributeSet(TQ3GeometryObject theTriGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3AttributeSet attributeSet)
+	{
+	E3TriGrid* triGrid = (E3TriGrid*) theTriGrid ;
+	TQ3Uns32 idx = rowIndex * triGrid->instanceData.numColumns + columnIndex ;
+	E3Shared_Replace ( & triGrid->instanceData.vertices [ idx ].attributeSet, attributeSet ) ;
 
-	Q3Shared_Edited(triGrid);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( triGrid ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -805,16 +813,17 @@ E3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex,
+E3TriGrid_GetFacetAttributeSet(TQ3GeometryObject theTriGrid, TQ3Uns32 faceIndex,
 			TQ3AttributeSet *facetAttributeSet)
-{
-	TQ3TriGridData		*trigridData = (TQ3TriGridData *) E3ClassTree_FindInstanceData(triGrid, kQ3GeometryTypeTriGrid);
-	if (trigridData->facetAttributeSet) {
-		E3Shared_Acquire(facetAttributeSet, trigridData->facetAttributeSet[faceIndex]);
-	} else *facetAttributeSet = NULL;
+	{
+	E3TriGrid* triGrid = (E3TriGrid*) theTriGrid ;
+	if  (triGrid->instanceData.facetAttributeSet )
+		E3Shared_Acquire ( facetAttributeSet, triGrid->instanceData.facetAttributeSet [ faceIndex ] ) ;
+	else
+		*facetAttributeSet = NULL ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -826,14 +835,15 @@ E3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex,
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_SetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex,
+E3TriGrid_SetFacetAttributeSet(TQ3GeometryObject theTriGrid, TQ3Uns32 faceIndex,
 			TQ3AttributeSet facetAttributeSet)
-{
-	TQ3TriGridData		*trigridData = (TQ3TriGridData *) E3ClassTree_FindInstanceData(triGrid, kQ3GeometryTypeTriGrid);
-	if (trigridData->facetAttributeSet) {
-		E3Shared_Replace(&trigridData->facetAttributeSet[faceIndex], facetAttributeSet);
-	} else return(kQ3Failure);	
+	{
+	E3TriGrid* triGrid = (E3TriGrid*) theTriGrid ;
+	if ( triGrid->instanceData.facetAttributeSet == NULL )
+		return kQ3Failure ;	
+	
+	E3Shared_Replace ( & triGrid->instanceData.facetAttributeSet [ faceIndex ], facetAttributeSet ) ;
 
-	Q3Shared_Edited(triGrid);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( triGrid ) ;
+	return kQ3Success ;
+	}
