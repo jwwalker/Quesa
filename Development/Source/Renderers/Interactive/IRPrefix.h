@@ -122,7 +122,7 @@ typedef struct TQ3QualityFilter {
 
 // Cached texture data
 typedef struct TQ3CachedTexture {
-	TQ3TextureObject		theTexture;
+	TQ3TextureObject		cachedTextureObject;
 	TQ3Matrix3x3			theTransform;
 	TQ3QualityFilter		qualityFilter;
 	TQ3Uns32				editIndexShader;
@@ -148,16 +148,12 @@ typedef struct TQ3InteractiveData {
 	TQ3Uns32				rendererEditIndex;
 	TQ3Uns32				drawContextEditIndex;
 	TQ3GLExtensions			glExtensions;
+	struct TQ3TextureCache*	textureCache;
 
 
 	// Light state
 	TQ3Uns32				lightCount;
 	GLfloat					glAmbientLight[4];
-
-
-	// Texture state
-	TQ3Uns32				cachedTextureCount;
-	TQ3CachedTexture		*cachedTextures;
 
 
 	// Camera state
