@@ -59,6 +59,50 @@ E3FFW_3DMF_StartFile(TQ3ViewObject				theView,
 
 
 
+//=============================================================================
+//      E3FFW_3DMF_Group : handle groups.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_Group(TQ3ViewObject       theView,
+						void                *fileFormatPrivate,
+						TQ3GroupObject   theGroup)
+{
+	TQ3Status							qd3dStatus;
+	TQ3GroupPosition					position;
+	TQ3Object							subObject;
+	TQ3DisplayGroupState				groupState;
+	
+	if(Q3Group_GetType (theGroup) == kQ3GroupTypeDisplay){
+		Q3DisplayGroup_GetState (theGroup, &groupState);
+		if((groupState & kQ3DisplayGroupStateMaskIsWritten) != kQ3DisplayGroupStateMaskIsWritten)
+			return kQ3Success;
+		}
+		
+ 	// submit the group start tag
+	qd3dStatus = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, theGroup, Q3Object_GetLeafType (theGroup), theGroup->instanceData);
+	
+ 	// submit the group contents
+	for(Q3Group_GetFirstPosition (theGroup, &position);
+		(position != NULL);
+		Q3Group_GetNextPosition (theGroup, &position)){
+		qd3dStatus = Q3Group_GetPositionObject (theGroup, position, &subObject);
+		if(qd3dStatus != kQ3Success)
+			break;
+		qd3dStatus = Q3Object_Submit (subObject, theView);
+		
+		Q3Object_Dispose (subObject);
+		
+		if(qd3dStatus != kQ3Success)
+			break;
+		}
+		
+ 	// submit the group end tag
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, 0x656E6467 /* endg - EndGroup*/, NULL);
+
+
+    return(qd3dStatus);
+}
 
 
 
@@ -76,6 +120,7 @@ E3FFW_3DMF_Cancel(TQ3ViewObject theView, TE3FFormatW3DMF_Data *instanceData)
 }
 
 
+
 //=============================================================================
 //      e3ffw_3DMF_write_objects: unroll the stack and do the real write.
 //-----------------------------------------------------------------------------
@@ -87,35 +132,59 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 	TQ3Size size;
 	int i,j;
 	E3ClassInfoPtr theClass = NULL;
+	TQ3ObjectType container;
 #if Q3_DEBUG
 	TQ3Uns32 pos;
 #endif
 
 	for(i=0; i<instanceData->stackCount; i++){
+	
+		container = 0;
+		
 		if(qd3dStatus == kQ3Success){
-			if(i < instanceData->stackCount-1){
-				if(instanceData->stack[i+1].level > instanceData->stack[i].level){
-				
-					qd3dStatus = Q3Uns32_Write(0x636E7472 /* cntr - Container */,theFile);
-					if(qd3dStatus == kQ3Success){
+			//
+			// check for groups
+			//
+			switch (instanceData->stack[i].objectType) {
+				case kQ3GroupTypeDisplay:
+				case kQ3DisplayGroupTypeOrdered:
+				case kQ3DisplayGroupTypeIOProxy:
+				case kQ3GroupTypeLight:
+				case kQ3GroupTypeInfo:
+				case kQ3ShapeTypeGroup:
+					container = 0x62676E67; /* bgng - BeginGroup */
+					Q3_ASSERT(instanceData->stack[i].level == 0);
+					break;
+				default:
+					if(i < instanceData->stackCount-1)
+						if(instanceData->stack[i+1].level > instanceData->stack[i].level)
+							container = 0x636E7472; /* cntr - Container */
+			}
+			
 					
-						//compute container size
-						size = instanceData->stack[i].level; //the container object size
-						size += 8; // the container object type & size
-						j=i+1;
-						while(j < instanceData->stackCount)
-							if(instanceData->stack[j].level > instanceData->stack[i].level)
-								break;
-							else{
-								size += instanceData->stack[j].level; //the contained object size
-								size += 8; // the contained object type & size
-								j++;
-								}
-						//write container size
-						qd3dStatus = Q3Uns32_Write(size,theFile);
-						}
+					
+			if(container != 0){
+					
+				qd3dStatus = Q3Uns32_Write(container,theFile);
+				if(qd3dStatus == kQ3Success){
+				
+					//compute container size
+					size = instanceData->stack[i].size; //the container object size
+					size += 8; // the container object type & size
+					j=i+1;
+					while(j < instanceData->stackCount)
+						if(instanceData->stack[j].level < instanceData->stack[i].level)
+							break;
+						else{
+							size += instanceData->stack[j].size; //the contained object size
+							size += 8; // the contained object type & size
+							j++;
+							}
+					//write container size
+					qd3dStatus = Q3Uns32_Write(size,theFile);
 					}
 				}
+				
 				//write class
 				if(qd3dStatus == kQ3Success)
 					qd3dStatus = Q3Uns32_Write(instanceData->stack[i].objectType,theFile);
@@ -136,6 +205,7 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 			//call deletedata if any
 			if(instanceData->stack[i].deleteData != NULL)
 				instanceData->stack[i].deleteData(instanceData->stack[i].data);
+			
 		}
 	
 	return (qd3dStatus);
@@ -188,7 +258,7 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 	instanceData->baseData.groupDeepCounter--;
 	instanceData->lastObjectType = old_lastObjectType;
 	
-	if(instanceData->baseData.groupDeepCounter == 0){ // we're again in the root object
+	if((instanceData->baseData.groupDeepCounter == 0) && (qd3dStatus == kQ3Success)){ // we're again in the root object
 		if(instanceData->stackCount != 0){
 			qd3dStatus = e3ffw_3DMF_write_objects (instanceData,theFile);
 			// clean the stack
@@ -210,7 +280,7 @@ TQ3Status
 E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDeleteMethod deleteData)
 {
 	TQ3FileFormatObject		theFormat;
-	E3ClassInfoPtr theClass = NULL;
+	E3ClassInfoPtr 			theClass = NULL;
 	TE3FFormatW3DMF_Data	*instanceData;
 	TQ33DMFWStackItem		*newItem;
 	TQ3Status				qd3dStatus;
@@ -276,13 +346,90 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3Uns32 size, void *data, TQ3XDataDeleteMethod deleteData)
-{
+{	TQ3Status				qd3dStatus = kQ3Success;
+	TQ3ObjectType			old_lastObjectType;
+	TQ3FileFormatObject		theFormat;
+	TE3FFormatW3DMF_Data	*instanceData;
+	TQ3ObjectType			objectType;
 
+	TQ3FileObject theFile = E3View_AccessFile (view);
+	
+	theFormat = E3View_AccessFileFormat(view);
+	instanceData = (TE3FFormatW3DMF_Data *) theFormat->instanceData;
+	
+	qd3dStatus = Q3XObjectClass_GetType (objectClass, &objectType);
 
-	// To be implemented...
-	return(kQ3Failure);
+	if(qd3dStatus != kQ3Success)
+		return qd3dStatus;
+			
+			
+	// mark our level
+	instanceData->baseData.groupDeepCounter++;
+	old_lastObjectType = instanceData->lastObjectType;
+	instanceData->lastObjectType = objectType;
+	
+	// push data on the stack
+	qd3dStatus = Q3XView_SubmitWriteData (view, size, data, deleteData);
+	
+	instanceData->baseData.groupDeepCounter--;
+	instanceData->lastObjectType = old_lastObjectType;
+	
+	if((instanceData->baseData.groupDeepCounter == 0) && (qd3dStatus == kQ3Success)){
+		if(instanceData->stackCount != 0){
+			qd3dStatus = e3ffw_3DMF_write_objects (instanceData,theFile);
+			// clean the stack
+			instanceData->stackCount = 0;
+			E3Memory_Free(&instanceData->stack);
+			}
+		}
+	return (qd3dStatus);
+	
+	
 }
 
+
+
+//=============================================================================
+//      E3FFW_3DMF_Void_Traverse: The traverse method for zero data classes.
+//-----------------------------------------------------------------------------
+
+TQ3Status
+E3FFW_3DMF_Void_Traverse(TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	#pragma unused(data)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
+	
+	return qd3dstatus;
+}
+
+//=============================================================================
+//      E3FFW_3DMF_32_Write: The Generic write method for 32 bits Data.
+//-----------------------------------------------------------------------------
+
+TQ3Status
+E3FFW_3DMF_32_Write(const void *object,
+				TQ3FileObject theFile)
+{
+	
+	return Q3Uns32_Write(*((TQ3Uns32*)object),theFile);
+	
+}
+
+//=============================================================================
+//      E3FFW_3DMF_Default_Delete: The Generic delete method.
+//-----------------------------------------------------------------------------
+
+void
+E3FFW_3DMF_Default_Delete(void *data)
+{	void 	**dataPtr = &data;
+
+	 E3Memory_Free(dataPtr);
+	
+}
 
 
 //=============================================================================
@@ -303,7 +450,7 @@ E3FFW_3DMF_Traverse(TQ3Object object,
 }
 
 //=============================================================================
-//      E3FFW_3DMF_Traverse: The write method for the 3DMF root class.
+//      E3FFW_3DMF_Write: The write method for the 3DMF root class.
 //-----------------------------------------------------------------------------
 
 TQ3Status
@@ -333,5 +480,74 @@ E3FFW_3DMF_Write(const void *object,
 	
 	
 	return(writeStatus);
+}
+
+
+//=============================================================================
+//      E3FFW_3DMF_DisplayGroup_Traverse: The traverse method for the DisplayGroup class.
+//-----------------------------------------------------------------------------
+
+TQ3Status
+E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(data)
+	TQ3DisplayGroupState			state;
+	TQ3DisplayGroupState			*writeState;
+	TQ3XObjectClass					displayGroupStateClass;
+	TQ3DisplayGroupState			defaultState = kQ3DisplayGroupStateMaskIsDrawn | kQ3DisplayGroupStateMaskIsPicked
+							| kQ3DisplayGroupStateMaskIsWritten;
+	
+	
+	TQ3Status qd3dStatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
+	
+	if(qd3dStatus != kQ3Success)
+		return qd3dStatus;
+			
+	if(object != NULL){
+		qd3dStatus = Q3DisplayGroup_GetState(object, &state);
+		
+		if(qd3dStatus != kQ3Success)
+			return qd3dStatus;
+		
+		if(state != defaultState){	
+			writeState = E3Memory_Allocate(sizeof(TQ3DisplayGroupState));
+			
+			if(writeState){
+					
+				*writeState = 0;
+				
+				// Why the memory layout of the group state flags is different fron those in disk  ????
+				
+				
+				if((state & kQ3DisplayGroupStateMaskIsInline) == kQ3DisplayGroupStateMaskIsInline)
+					*writeState |= 0x01; // inline
+				
+				if((state & kQ3DisplayGroupStateMaskIsDrawn) != kQ3DisplayGroupStateMaskIsDrawn)
+					*writeState |= 0x02; // dont draw
+				
+				if((state & kQ3DisplayGroupStateMaskUseBoundingBox) != kQ3DisplayGroupStateMaskUseBoundingBox)
+					*writeState |= 0x04; // no Bounding Box
+				
+				if((state & kQ3DisplayGroupStateMaskUseBoundingSphere) != kQ3DisplayGroupStateMaskUseBoundingSphere)
+					*writeState |= 0x08; // no Bounding Sphere
+				
+				if((state & kQ3DisplayGroupStateMaskIsPicked) != kQ3DisplayGroupStateMaskIsPicked)
+					*writeState |= 0x10; // dont pick
+				
+					
+				displayGroupStateClass = Q3XObjectHierarchy_FindClassByType (kQ3ObjectTypeDisplayGroupState);
+				
+				if(displayGroupStateClass != NULL)
+					qd3dStatus = E3XView_SubmitSubObjectData (view, displayGroupStateClass, 4, writeState, E3FFW_3DMF_Default_Delete);
+				}
+			else{
+				return kQ3Failure;
+				}
+			}
+		}
+		
+	return qd3dStatus;
 }
 

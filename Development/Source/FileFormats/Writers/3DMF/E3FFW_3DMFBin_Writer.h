@@ -64,6 +64,11 @@ TQ3Status			E3FFW_3DMF_StartFile(
 						TE3FFormatW3DMF_Data		*instanceData,
 						TQ3DrawContextObject	theDrawContext);
 								
+TQ3Status
+E3FFW_3DMF_Group(TQ3ViewObject       theView,
+						void                *fileFormatPrivate,
+						TQ3GroupObject   theGroup);
+
 void				E3FFW_3DMF_Cancel(
 								TQ3ViewObject			theView,
 								TE3FFormatW3DMF_Data		*instanceData);
@@ -78,10 +83,16 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 
 
 
-// Write methods for the 3DMF root object
+// Write methods for the 3DMF root object and other support classes
+
+TQ3Status			E3FFW_3DMF_Void_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
+void					E3FFW_3DMF_Default_Delete(void *data);
+TQ3Status			E3FFW_3DMF_32_Write(const void *object,  TQ3FileObject theFile);
 
 TQ3Status			E3FFW_3DMF_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
 TQ3Status			E3FFW_3DMF_Write(const void *object,  TQ3FileObject theFile);
+
+TQ3Status			E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
 
 //=============================================================================
 //		C++ postamble

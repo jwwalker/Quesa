@@ -736,6 +736,9 @@ e3fformat_3dmf_endgroup_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_endgroup_read;
 			break;
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse;
+			break;
 		}
 
 	return(theMethod);
@@ -942,7 +945,6 @@ E3FFW_3DMF_Register(void)
 	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
 	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
 	
-	// Register the end group class
 
 	// Misc methods
 	
@@ -951,6 +953,15 @@ E3FFW_3DMF_Register(void)
 
 	// the Group write Methods
 
+	E3ClassTree_AddMethodByType(kQ3ShapeTypeGroup,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	E3ClassTree_AddMethodByType(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	//E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeOrdered,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	//E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeIOProxy,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	E3ClassTree_AddMethodByType(kQ3GroupTypeLight,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	E3ClassTree_AddMethodByType(kQ3GroupTypeInfo,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+
+	E3ClassTree_AddMethodByType(kQ3ObjectTypeDisplayGroupState,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
+	
 	// the Style write Methods
 
 	// the Transform write Methods
@@ -1118,14 +1129,16 @@ E3FFormat_3DMF_GeneralPolygonHint_Get(TQ3Object theObject)
 TQ3DisplayGroupState
 E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject)
 {
-	TQ3Uns32 resultState = kQ3DisplayGroupStateMaskIsDrawn | kQ3DisplayGroupStateMaskIsPicked;
+	TQ3DisplayGroupState resultState = kQ3DisplayGroupStateMaskIsDrawn | kQ3DisplayGroupStateMaskIsPicked
+													| kQ3DisplayGroupStateMaskIsWritten;
 	TQ3Uns32 state = *(TQ3Uns32*)theObject->instanceData;
 	
-	resultState |= (state & 1); // inline
+	if((state & 0x01) == 0x01) // inline
+		resultState |= kQ3DisplayGroupStateMaskIsInline;
 	
 	if((state & 0x02) == 0x02) // dont draw
 		resultState &= ~kQ3DisplayGroupStateMaskIsDrawn;
-	
+		
 	if((state & 0x10) == 0x10) // dont pick
 		resultState &= ~kQ3DisplayGroupStateMaskIsPicked;
 	

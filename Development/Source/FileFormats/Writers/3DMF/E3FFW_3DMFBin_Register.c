@@ -197,7 +197,6 @@ e3ffw_3dmfbin_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns3
 
 
 
-
 //=============================================================================
 //      e3ffw_3dmfbin_metahandler : Writer metahandler.
 //-----------------------------------------------------------------------------
@@ -251,6 +250,11 @@ e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeFFormatRawWrite:
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_Raw;
+			break;
+
+		// group submit
+		case kQ3XMethodTypeFFormatSubmitGroup:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Group;
 			break;
 
 		default: // get the geometry
