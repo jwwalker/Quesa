@@ -203,6 +203,12 @@ QD3D implementation might - docs on this element's behaviour are needed.
 Q3View_Sync does not work correctly with QD3D interactive renderer, possible bug
 in QD3D 1.6 renderer.
 </td></tr>
+
+<tr><td>Possible</td><td>00038</td><td>
+Duplicating geometry objects does not duplicate their attribute set data correctly
+(some geometries duplicate the attribute sets, some just create new references
+to the existing data).
+</td></tr>
 </table>
 
 <p>
