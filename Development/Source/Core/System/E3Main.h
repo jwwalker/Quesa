@@ -80,6 +80,7 @@ TQ3Boolean			E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType);
 TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);
 TQ3SharedObject		E3Shared_GetReference(TQ3SharedObject sharedObject);
 TQ3Boolean			E3Shared_IsReferenced(TQ3SharedObject sharedObject);
+TQ3Uns32			E3Shared_GetReferenceCount( TQ3SharedObject sharedObject );
 TQ3Uns32			E3Shared_GetEditIndex(TQ3SharedObject sharedObject);
 TQ3Status			E3Shared_Edited(TQ3SharedObject sharedObject);
 
