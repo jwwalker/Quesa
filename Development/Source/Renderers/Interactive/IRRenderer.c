@@ -193,7 +193,8 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 
 
 	// Clear the context
-	glClear(instanceData->glClearFlags);
+	if (instanceData->glClearFlags != 0)
+		glClear(instanceData->glClearFlags);
 
 	return(kQ3Success);
 }
@@ -209,7 +210,9 @@ TQ3Status
 IRRenderer_EndFrame(TQ3ViewObject			theView,
 					TQ3InteractiveData		*instanceData,
 					TQ3DrawContextObject	theDrawContext)
-{	TQ3Status		qd3dStatus;
+{
+	#pragma unused( theDrawContext )
+	TQ3Status		qd3dStatus;
 
 
 
