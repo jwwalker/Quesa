@@ -47,9 +47,10 @@
 #include <QD3DIO.h>
 #include <QD3DRenderer.h>
 
-
-
-
+// we sould move test like this to a Quesa.h file
+#ifndef QUESA_HOST_IS_BIG_ENDIAN
+	#define QUESA_HOST_IS_BIG_ENDIAN TARGET_RT_BIG_ENDIAN
+#endif
 
 //=============================================================================
 //		C++ preamble
