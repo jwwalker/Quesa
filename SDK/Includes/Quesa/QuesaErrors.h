@@ -379,6 +379,11 @@ typedef enum {
  *	@constant kQ3WarningNormalCanNotBeFlipped              Normal can not be flipped as they would under QD3D. Not available in QD3D.
  *	@constant kQ3WarningTriMeshTriangleNotNormalized       TriMesh triangle normal is not normalized. Not available in QD3D.
  *	@constant kQ3WarningTriMeshVertexNotNormalized         TriMesh vertex normal is not normalized. Not available in QD3D.
+ *	@constant kQ3WarningReadInfiniteFloatingPointNumber    Floating-point number read from file was
+ *                                                         infinite or NaN.  Not available in QD3D.
+ *	@constant kQ3WarningReadBadNormalVector                A supposed normal vector has components so
+ *                                                         large or small that it cannot be normalized.
+ *                                                         Not available in QD3D.
  */
 typedef enum {
     kQ3WarningNone                              = 0,
@@ -425,10 +430,12 @@ typedef enum {
     kQ3WarningInvalidObjectInGroupMetafile      = -28261,
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-	kQ3WarningQuaternionNotNormalized           = -28260,
-	kQ3WarningNormalCanNotBeFlipped             = -28259,
-	kQ3WarningTriMeshTriangleNotNormalized      = -28258,
-	kQ3WarningTriMeshVertexNotNormalized        = -28257,
+    kQ3WarningQuaternionNotNormalized           = -28260,
+    kQ3WarningNormalCanNotBeFlipped             = -28259,
+    kQ3WarningTriMeshTriangleNotNormalized      = -28258,
+    kQ3WarningTriMeshVertexNotNormalized        = -28257,
+    kQ3WarningReadInfiniteFloatingPointNumber   = -28256,
+    kQ3WarningReadBadNormalVector               = -28255,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3WarningLast,
