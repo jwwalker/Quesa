@@ -217,8 +217,10 @@ E3MacCFM_Terminate(void)
 {
 
 
-	// Make sure Quesa has been shut down by the app
-	if (Q3IsInitialized())
+	// Make sure Quesa has been shut down by the app. We keep polling
+	// Q3IsInitialized until it returns false, to make sure we decrement
+	// the system reference count down to 0.
+	while (Q3IsInitialized())
 		Q3Exit();
 
 
