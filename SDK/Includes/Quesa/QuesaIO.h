@@ -37,10 +37,16 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DDrawContext.h"
-#include "QD3DView.h"
+#include "QuesaDrawContext.h"
+#include "QuesaView.h"
 #include "QuesaRenderer.h"
 
+// be sure QD3DIO.h is not included
+#ifdef __QD3DIO__
+#error
+#endif
+// avoid the inclusion of QD3DIO.h
+#define __QD3DIO__
 
 
 

@@ -37,7 +37,14 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DMath.h"
+// be sure QD3DMath.h is not included
+#ifdef __QD3DMATH__
+#error
+#endif
+// avoid the inclusion of QD3DMath.h
+#define __QD3DMATH__
+
+#include <float.h>
 
 
 
@@ -51,40 +58,42 @@ extern "C" {
 #endif
 
 
-
-
-
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
 
+#ifdef FLT_EPSILON
+	#define kQ3RealZero					(FLT_EPSILON)
+#else
+	#define kQ3RealZero					((TQ3Float32) 1.19209290e-07)
+#endif
 
+#ifdef FLT_MAX
+	#define kQ3MaxFloat					(FLT_MAX)
+#else
+	#define kQ3MaxFloat					((TQ3Float32) 3.40282347e+38)
+#endif
 
-
-
-//=============================================================================
-//      Types
-//-----------------------------------------------------------------------------
-// Types go here
-
-
-
+#define kQ3Pi									((TQ3Float32) 3.1415926535898)
+#define kQ32Pi								((TQ3Float32) (2.0 * 3.1415926535898))
+#define kQ3PiOver2						((TQ3Float32) (3.1415926535898 / 2.0))
+#define kQ33PiOver2						((TQ3Float32) (3.0 * 3.1415926535898 / 2.0))
 
 
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
-// Macros go here
 
-
+#define Q3Math_DegreesToRadians(_x)		((TQ3Float32) ((_x) *  kQ3Pi / 180.0f))
+#define Q3Math_RadiansToDegrees(_x)		((TQ3Float32) ((_x) * 180.0f / kQ3Pi))
+#define Q3Math_Min(_x,_y)							((_x) <= (_y) ? (_x) : (_y))
+#define Q3Math_Max(_x,_y)							((_x) >= (_y) ? (_x) : (_y))
 
 
 
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 /*
  *	Q3Point2D_Set
@@ -1794,8 +1803,6 @@ Q3BoundingSphere_SetFromRationalPoints4D (
 	TQ3Uns32                      numPoints,
 	TQ3Uns32                      structSize
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

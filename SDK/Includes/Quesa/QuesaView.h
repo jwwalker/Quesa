@@ -40,7 +40,13 @@
 #include "QuesaStyle.h"
 #include "QuesaSet.h"
 
-#include "QD3DView.h"
+// be sure QD3DView.h is not included
+#ifdef __QD3DVIEW__
+#error
+#endif
+// avoid the inclusion of QD3DView.h
+#define __QD3DVIEW__
+
 
 
 
@@ -60,17 +66,36 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+typedef enum {
+	kQ3ViewStatusDone					= 0,
+	kQ3ViewStatusRetraverse		= 1,
+	kQ3ViewStatusError				= 2,
+	kQ3ViewStatusCancelled		= 3
+} TQ3ViewStatus;
 
 
+#define kQ3ViewDefaultAmbientCoefficient		1.0f
+#define kQ3ViewDefaultDiffuseColor					1.0f, 1.0f, 1.0f
+#define kQ3ViewDefaultSpecularColor					0.5f, 0.5f, 0.5f
+#define kQ3ViewDefaultSpecularControl				4.0f
+#define kQ3ViewDefaultTransparency					1.0f, 1.0f, 1.0f
+#define kQ3ViewDefaultHighlightState				kQ3Off
+#define kQ3ViewDefaultHighlightColor				1.0f, 0.0f, 0.0f
+#define kQ3ViewDefaultSubdivisionMethod			kQ3SubdivisionMethodScreenSpace
+#define kQ3ViewDefaultSubdivisionC1					20.0f
+#define kQ3ViewDefaultSubdivisionC2					20.0f
 
 
 
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
 
+// Method types
+
+typedef CALLBACK_API_C(TQ3Status, TQ3ViewIdleMethod)						(TQ3ViewObject view, const void *idlerData);
+typedef CALLBACK_API_C(TQ3Status, TQ3ViewIdleProgressMethod)		(TQ3ViewObject view, const void *idlerData, TQ3Uns32 current, TQ3Uns32 completed);
+typedef CALLBACK_API_C(void,			TQ3ViewEndFrameMethod)				(TQ3ViewObject view, void *endFrameData);
 
 
 
@@ -87,7 +112,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 /*
  *	Q3View_New
@@ -655,8 +679,6 @@ Q3View_GetAttributeState (
 	TQ3AttributeType              attributeType,
 	void                          *data
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

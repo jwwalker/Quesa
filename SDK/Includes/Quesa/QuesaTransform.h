@@ -37,7 +37,13 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DTransform.h"
+
+// be sure QD3DTransform.h is not included
+#ifdef __QD3DTRANSFORM__
+#error
+#endif
+// avoid the inclusion of QD3DTransform.h
+#define __QD3DTRANSFORM__
 
 
 
@@ -52,39 +58,33 @@ extern "C" {
 
 
 
-
-
-//=============================================================================
-//      Constants
-//-----------------------------------------------------------------------------
-// Constants go here
-
-
-
-
-
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+typedef struct {
+	TQ3Axis 							axis;
+	TQ3Float32 						radians;
+} TQ3RotateTransformData;
 
 
+typedef struct {
+	TQ3Axis 							axis;
+	TQ3Float32 						radians;
+	TQ3Point3D 						about;
+} TQ3RotateAboutPointTransformData;
 
 
-
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
-
-
+typedef struct {
+	TQ3Point3D 						origin;
+	TQ3Vector3D 					orientation;
+	TQ3Float32 						radians;
+} TQ3RotateAboutAxisTransformData;
 
 
 
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 /*
  *	Q3Transform_GetType
@@ -661,9 +661,6 @@ EXTERN_API_C ( TQ3Status  )
 Q3ResetTransform_Submit (
 	TQ3ViewObject                 view
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 
 
 

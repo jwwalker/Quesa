@@ -37,7 +37,33 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DStorage.h"
+// be sure QD3DStorage.h is not included
+#ifdef __QD3DSTORAGE__
+#error
+#endif
+// avoid the inclusion of QD3DStorage.h
+#define __QD3DSTORAGE__
+
+#if QUESA_OS_MACINTOSH
+
+	#ifndef __MACTYPES__
+		#include <MacTypes.h>
+	#endif
+
+	#ifndef __FILES__
+		#include <Files.h>
+	#endif
+
+#elif QUESA_OS_WIN32
+
+	#ifndef _WINDOWS_
+		#include <Windows.h>
+	#endif
+	
+#endif
+
+#include <stdio.h>
+
 
 
 
@@ -49,36 +75,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-
-
-//=============================================================================
-//      Constants
-//-----------------------------------------------------------------------------
-// Constants go here
-
-
-
-
-
-//=============================================================================
-//      Types
-//-----------------------------------------------------------------------------
-// Types go here
-
-
-
-
-
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
-
-
-
 
 
 //=============================================================================
@@ -120,7 +116,6 @@ Q3PathStorage_Get (
 
 
 
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 /*
  *	Q3Storage_GetType
@@ -500,9 +495,6 @@ Q3UnixPathStorage_Get (
 );
 
 #endif // QUESA_OS_UNIX
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 
 
 

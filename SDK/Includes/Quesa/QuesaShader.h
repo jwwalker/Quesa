@@ -37,8 +37,18 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DShader.h"
+// be sure QD3DShader.h is not included
+#ifdef __QD3DSHADER__
+#error
+#endif
+// avoid the inclusion of QD3DShader.h
+#define __QD3DSHADER__
 
+#if QUESA_SUPPORT_QUICKTIME
+	#ifndef __MOVIES__
+		#include <Movies.h>
+	#endif
+#endif
 
 
 
@@ -57,26 +67,10 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
-
-
-
-
-
-//=============================================================================
-//      Types
-//-----------------------------------------------------------------------------
-// Types go here
-
-
-
-
-
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
-
+typedef enum {
+	kQ3ShaderUVBoundaryWrap			= 0,
+	kQ3ShaderUVBoundaryClamp		= 1
+	} TQ3ShaderUVBoundary;
 
 
 
@@ -84,7 +78,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 /*
  *	Q3ColorRGB_Set
@@ -493,7 +486,7 @@ Q3MipmapTexture_SetMipmap (
 );
 
 
-
+#if QUESA_SUPPORT_QUICKTIME
 /*
  *	Q3CompressedPixmapTexture_New
  *		Description of function
@@ -543,7 +536,7 @@ Q3CompressedPixmapTexture_CompressImage (
 	CodecQ                        codecQuality
 );
 
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
+#endif // QUESA_SUPPORT_QUICKTIME
 
 
 
