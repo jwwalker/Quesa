@@ -12392,3 +12392,78 @@ Q3TriMesh_EmptyData(TQ3TriMeshData *triMeshData)
 
 
 
+//=============================================================================
+//      Q3TriMesh_LockData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3TriMesh_LockData(TQ3GeometryObject triMesh, TQ3Boolean readOnly, TQ3TriMeshData **triMeshData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(triMesh->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triMesh, kQ3ShapeTypeGeometry), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshData), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on triMesh
+		return(kQ3Failure);
+
+	if (0) // Further checks on readOnly
+		return(kQ3Failure);
+
+	if (0) // Further checks on triMeshData
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3TriMesh_LockData(triMesh, readOnly, triMeshData));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3TriMesh_UnlockData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3TriMesh_UnlockData(TQ3GeometryObject triMesh)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(triMesh->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triMesh, kQ3ShapeTypeGeometry), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on triMesh
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3TriMesh_UnlockData(triMesh));
+}
+
+
+

@@ -63,6 +63,8 @@ TQ3Status			E3TriMesh_Submit(const TQ3TriMeshData *triMeshData, TQ3ViewObject th
 TQ3Status			E3TriMesh_SetData(TQ3GeometryObject triMesh, const TQ3TriMeshData *triMeshData);
 TQ3Status			E3TriMesh_GetData(TQ3GeometryObject triMesh, TQ3TriMeshData *triMeshData);
 TQ3Status			E3TriMesh_EmptyData(TQ3TriMeshData *triMeshData);
+TQ3Status			E3TriMesh_LockData(TQ3GeometryObject triMesh, TQ3Boolean readOnly, TQ3TriMeshData **triMeshData);
+TQ3Status			E3TriMesh_UnlockData(TQ3GeometryObject triMesh);
 
 
 
