@@ -38,7 +38,6 @@
 #include "Quesa.h"
 #include "QuesaGroup.h"
 
-
 #include "QD3DViewer.h"
 #include "QD3DWinViewer.h"
 

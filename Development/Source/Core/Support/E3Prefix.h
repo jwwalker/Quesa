@@ -35,23 +35,24 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-
-
-
+// Quesa (public)
 #include "Quesa.h"
 
 
-
-// Quesa (private, platform specific for platforms without makefiles)
+// Quesa (private, platform specific)
 #if QUESA_OS_MACINTOSH
 	#include "E3MacPrefix.h"
+
 #elif QUESA_OS_WIN32
 	#include "E3WindowsPrefix.h"
+
 #elif QUESA_OS_UNIX
 	#include "E3UnixPrefix.h"
+
 #elif QUESA_OS_BE
 	#include "E3BePrefix.h"
 #endif
+
 
 // Quesa (public)
 #include "QuesaCamera.h"
@@ -74,7 +75,6 @@
 #include "QuesaStyle.h"
 #include "QuesaTransform.h"
 #include "QuesaView.h"
-
 
 
 // Quesa (private, platform independent)
