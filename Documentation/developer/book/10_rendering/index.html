@@ -4,7 +4,7 @@
 <html>
 <head>
 	<title>Using Quesa - Rendering Scenes</title>
-	<link rel=stylesheet href="css/style.css" type="text/css">
+	<link rel=stylesheet href="../css/style.css" type="text/css">
 </head>
 <body>
 
@@ -23,7 +23,45 @@
 	<li>QuesaStyle.h</li>
 </ol>
  
- 
+A 3D scene is rendered (i.e. drawn) into a TQ3ViewObject using the following steps:
+
+<ol>
+	<li>Call <a href="../../apiref/QuesaView/Functions/Functions.html#Q3View_StartRendering">Q3View_StartRendering</a> on the view to begin rendering
+	<li>Submit all the objects that comprise the scene
+	<li>Call <a href="../../apiref/QuesaView/Functions/Functions.html#Q3View_EndRendering">Q3View_EndRendering</a>, and if the result is kQ3ViewStatusRetraverse,
+		go back to step 2
+</ol>
+
+This loop (steps 2 and 3 above) is known as the <i>submit loop</i>, and is necessary because some renderers may need to make multiple passes over your objects for certain scenes (for example, translucent objects often have to be re-rendered after all the opaque objects for proper blending).  Typically the renderer will only need one or two passes through the loop, but occasionally even more may be necessary.
+
+<p>
+(Submit loops are used in other contexts as well, such as when <a href="../11_loadsave/index.html">saving data to a file</a>, computing a bounding box or sphere, or picking an object at a given location.)
+
+<p>The following example shows C++ code for rendering a scene.  Variables such as mView, mObjects, and so on, are member variables defined elsewhere.  Note that while the example shows the styles, background, shader, and objects as being separate, they could just as well be combined into a TQ3DisplayGroup and submitted at once.
+
+<hr><h4>Example: Rendering a scene</h4>
+<pre>
+	if (Q3View_StartRendering( mView ) == kQ3Failure) return kQ3Failure;
+	
+	do {
+		// submit styles (i.e., rendering preferences)
+		Q3InterpolationStyle_Submit( mInterpolationStyle, mView );
+		Q3BackfacingStyle_Submit( mBackfacingStyle, mView );
+		Q3FillStyle_Submit( mFillStyle, mView );
+		if (mUseFog) Q3FogStyle_Submit( &mFogStyleData, mView );
+		
+		// submit things we want to appear with no shading, e.g. the background
+		Q3Object_Submit( mBackground, mView );
+
+		// submit shader
+		Q3Shader_Submit( mShader, mView );
+
+		// submit scene
+		Q3Object_Submit( mObjects, mView ) ;
+
+		// repeat rendering loop while we need to retraverse
+	} while (kQ3ViewStatusRetraverse == Q3View_EndRendering( mView ));
+</pre><hr>
  
 <h3>Renderer Objects</h3>
 <h4>Transform Methods</h4>
