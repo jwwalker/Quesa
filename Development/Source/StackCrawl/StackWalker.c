@@ -11,9 +11,16 @@
 	  
 	* For some reason, all the names returned by GetStackCrawl were
 	  prefixed with a period, which I have removed.
+
+	Further changes by dair, to allow compilation on Windows/Unix.
 */
-#include <ConditionalMacros.h>
-#include <Memory.h>
+#include "E3Prefix.h"
+
+#if QUESA_OS_MACINTOSH
+	#include <ConditionalMacros.h>
+	#include <Memory.h>
+#endif
+
 #include "StackWalker.h"
 //#include "benchmark.h"
 
@@ -21,7 +28,9 @@
 	#pragma profile on
 #endif
 
-#if TARGET_CPU_PPC	/* JWWalker: was GENERATINGPOWERPC, which is obsolete */
+#if QUESA_OS_MACINTOSH
+
+#if TARGET_RT_MAC_CFM	/* JWWalker: was GENERATINGPOWERPC, which is obsolete */
 
 typedef struct TracebackTable
 	{
@@ -154,7 +163,22 @@ void GetCallerName( const char** outName, short* outLength, short steps )
 		}
 	}
 
-#endif
+#endif // TARGET_RT_MAC_CFM
+
+#else
+
+// Portable stub
+void GetCallerName( const char** outName, short* outLength, short steps )
+{
+	strcpy(*outName, "Unknown");
+	*outLength = strlen(*outName);
+}
+
+#endif // QUESA_OS_MACINTOSH
+
+
+
+
 
 void GetStackCrawl( short depth, char* buffer, long* ioBufferSize )
 	{
@@ -176,7 +200,7 @@ void GetStackCrawl( short depth, char* buffer, long* ioBufferSize )
 			name += 1;
 			length -= 1;
 		}
-		BlockMoveData( name, buffer+current, length );
+		memcpy( buffer+current, name, length );
 		buffer[ current+length ] = 13;
 		current += length+1;
 		}
