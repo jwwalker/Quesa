@@ -2267,38 +2267,6 @@ E3XElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElemen
 
 
 //=============================================================================
-//      E3XElement_EmptyData : Dispose of element data.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3XElement_EmptyData( TQ3ElementType elementType, void* data )
-{
-	TQ3Status	result = kQ3Failure;
-	TQ3XObjectClass		theClass;
-	TQ3XElementDeleteMethod	deleteMethod;
-	
-	
-	theClass = Q3XObjectHierarchy_FindClassByType( elementType );
-	
-	if (theClass != NULL)
-		{
-		deleteMethod = (TQ3XElementDeleteMethod) Q3XObjectClass_GetMethod(
-			theClass, kQ3XMethodTypeElementDelete );
-		
-		if (deleteMethod != NULL)
-			{
-			result = deleteMethod( data );
-			}
-		}
-	
-	return result;
-}
-
-
-
-
-
-
-//=============================================================================
 //      E3XAttributeClass_Register : Register an attribute class.
 //-----------------------------------------------------------------------------
 TQ3XObjectClass
