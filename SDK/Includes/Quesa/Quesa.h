@@ -848,6 +848,21 @@ typedef struct {
 
 /*!
  *  @struct
+ *      TQ3Sphere
+ *  @discussion
+ *      Fundamental sphere type.
+ *
+ *  @field origin           Origin of sphere.
+ *  @field radius           Radius of sphere.
+ */
+typedef struct {
+    TQ3Point3D                                  origin;
+    float                                       radius;
+} TQ3Sphere;
+
+
+/*!
+ *  @struct
  *      TQ3Param2D
  *  @discussion
  *      Fundamental 2D parametric point type.
