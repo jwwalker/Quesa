@@ -725,7 +725,7 @@ E3Memory_CountRecords(void)
 		
 		while (anObject != theGlobals->listHead)
 		{
-			Q3_ASSERT( anObject->quesaTag == kQ3ObjectTypeQuesa );
+			Q3_ASSERT( E3ClassTree_IsObjectValid(anObject) );
 			numRecords += 1;
 			anObject = NEXTLINK( anObject );
 		}
@@ -840,7 +840,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 		
 		while (anObject != theGlobals->listHead)
 		{
-			Q3_ASSERT( anObject->quesaTag == kQ3ObjectTypeQuesa );
+			Q3_ASSERT( E3ClassTree_IsObjectValid(anObject) );
 			nextObject = NEXTLINK( anObject );
 			leakRec = (TQ3ObjectData*) (anObject->instanceData);
 			

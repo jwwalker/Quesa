@@ -220,7 +220,7 @@ Q3Geometry_Submit(TQ3GeometryObject geometry, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(geometry->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(geometry), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 #if !QUESA_BUILD_AS_BINARY_COMPATIBLE
