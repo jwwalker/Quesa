@@ -136,6 +136,10 @@ e3shader_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectDuplicate:
 			theMethod = (TQ3XFunctionPointer) e3shader_duplicate;
 			break;
+
+		case kQ3XMethodTypeObjectIsDrawable:
+			theMethod = (TQ3XFunctionPointer) kQ3True;
+			break;
 		}
 	
 	return(theMethod);

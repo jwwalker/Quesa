@@ -38,11 +38,29 @@
 #include "E3View.h"
 
 
-
-
-
 //=============================================================================
 //      Internal functions
+//=============================================================================
+//      e3style_metahandler : Style metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3style_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectIsDrawable:
+			theMethod = (TQ3XFunctionPointer) kQ3True;
+			break;
+		}
+	
+	return(theMethod);
+}
+#pragma mark -
+
+
+
 //-----------------------------------------------------------------------------
 //      e3style_subdivision_submit : Subdivision submit method.
 //-----------------------------------------------------------------------------
@@ -575,7 +593,7 @@ E3Style_RegisterClass(void)
 	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShape,
 											kQ3ShapeTypeStyle,
 											kQ3ClassNameStyle,
-											NULL,
+											e3style_metahandler,
 											0);
 
 	if (qd3dStatus == kQ3Success)
