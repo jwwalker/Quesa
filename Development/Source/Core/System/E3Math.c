@@ -9,7 +9,7 @@
 
     COPYRIGHT:
         Quesa Copyright © 1999-2000, Quesa Developers.
-        
+
         For the list of Quesa Developers, and contact details, see:
         
             Documentation/contributors.html
