@@ -210,7 +210,7 @@ Q3Memory_Clear (
  *
  *				In non-debug builds, this function does nothing.
  *
- *	@result		Error status of the function.
+ *	@result		Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 EXTERN_API_C ( TQ3Status )
@@ -228,7 +228,7 @@ Q3Memory_StartRecording();
  *
  *				In non-debug builds, this function does nothing.
  *
- *	@result		Error status of the function.
+ *	@result		Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 EXTERN_API_C ( TQ3Status )
@@ -262,7 +262,7 @@ Q3Memory_IsRecording();
  *
  *				In non-debug builds, this function does nothing.
  *
- *	@result		Error status of the function.
+ *	@result		Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 EXTERN_API_C ( TQ3Status )
@@ -280,7 +280,7 @@ Q3Memory_ForgetRecording();
  *
  *				In non-debug builds, this function returns 0.
  *
- *	@result		Error status of the function.
+ *	@result		Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 EXTERN_API_C ( TQ3Uns32 )
@@ -340,7 +340,7 @@ Q3Memory_NextRecordedObject( TQ3Object inObject );
  *	@param		fileName	Name of memory dump file.
  *	@param		memo		Text written at start of dump for identification.
  *							May be NULL.
- *	@result		Error status of the function.
+ *	@result		Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 EXTERN_API_C ( TQ3Status )
