@@ -37,6 +37,9 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 
+#if TARGET_API_MAC_CARBON
+	#include <CarbonHeaders.c>
+#endif
 
 #pragma mark SHARED FUNCTIONS
 #pragma mark -
@@ -164,18 +167,19 @@ void ZeroScrap()
 long GetScrap(Handle destHandle, ResType theType, long *scrapOffset)
 {
 	ScrapRef scrap;
+	ScrapFlavorFlags flags;
+	Size byteCount;
+
 	GetCurrentScrap(&scrap);
 
 	// Check to see if the scrap type exists.
-	ScrapFlavorFlags flags;
 	GetScrapFlavorFlags(scrap, theType, &flags);
 	
 	// Get the size.
-	Size byteCount;
 	GetScrapFlavorSize(scrap, theType, &byteCount);
 
 	// If have a valid handle, get data.
-	if (destHandle and byteCount > 0) {
+	if (destHandle && byteCount > 0) {
 		SetHandleSize(destHandle, byteCount);
 		if (MemError()) {
 			SysBeep(3); // couldn't resize handle; TO-DO: report error to user.
