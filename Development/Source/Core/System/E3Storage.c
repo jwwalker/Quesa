@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -63,52 +63,29 @@
 
 
 //=============================================================================
-//      Internal types
-//-----------------------------------------------------------------------------
-// Memory storage
-typedef struct TE3_MemoryStorageData {
-	TQ3Uns8			*buffer;
-	TQ3Boolean		ownBuffer;
-	TQ3Uns32		bufferSize;
-	TQ3Uns32		validSize;
-	TQ3Uns32		growSize;
-} TE3_MemoryStorageData;
-
-
-// Path storage
-typedef struct TQ3PathStorageData {
-	char		*thePath;
-	FILE		*theFile;
-} TQ3PathStorageData;
-
-
-
-
-
-//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3storage_memory_read : Read data from the storage object.
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_memory_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
-	TQ3Uns32 		bytesToRead = dataSize;
+TQ3Status
+e3storage_memory_read ( E3MemoryStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
+	{	
+	*sizeRead = 0 ;
 	
-	*sizeRead = 0;
-	
-	if(offset >= instanceData->validSize)
-		return(kQ3Failure);
+	if ( offset >= storage->memoryDetails.validSize )
+		return kQ3Failure ;
 		
-	if(offset + bytesToRead > instanceData->validSize)
-		bytesToRead = instanceData->validSize - offset;
+	TQ3Uns32 bytesToRead = dataSize ;
+	
+	if ( offset + bytesToRead > storage->memoryDetails.validSize )
+		bytesToRead = storage->memoryDetails.validSize - offset ;
 		
-	Q3Memory_Copy(&instanceData->buffer[offset],data,bytesToRead);
+	Q3Memory_Copy ( & storage->memoryDetails.buffer [ offset ], data, bytesToRead ) ;
 	
-	*sizeRead = bytesToRead;
+	*sizeRead = bytesToRead ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -118,32 +95,28 @@ e3storage_memory_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSi
 //	it does it if it owns the storage,
 //  tries to allocate at least the requestedSize and do it in instanceData->growSize chunks
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_memory_grow(TQ3StorageObject storage, TQ3Uns32 requestedSize)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
-	TQ3Status				qd3dStatus;
-	TQ3Uns32				newSize;
-	TQ3Uns32				expSize;
-	
-	if((instanceData->ownBuffer == kQ3True) && 
-		(requestedSize > instanceData->bufferSize))
-	{
+TQ3Status
+e3storage_memory_grow ( E3MemoryStorage* storage, TQ3Uns32 requestedSize )
+	{	
+	if ( ( storage->memoryDetails.ownBuffer != kQ3False )
+	&& ( requestedSize > storage->memoryDetails.bufferSize ) )
+		{
 		// Grow at least to twice the previous size.
-		expSize = instanceData->bufferSize * 2;
-		newSize = E3Num_Max( requestedSize, expSize );
+		TQ3Uns32 expSize = storage->memoryDetails.bufferSize * 2 ;
+		TQ3Uns32 newSize = E3Num_Max( requestedSize, expSize ) ;
 
 		// Round up to next multiple of growSize.
-		newSize = ((newSize / instanceData->growSize) + 1) * instanceData->growSize;
+		newSize = ( ( newSize / storage->memoryDetails.growSize ) + 1 ) * storage->memoryDetails.growSize ;
 		
-		qd3dStatus = Q3Memory_Reallocate(&instanceData->buffer,newSize);
-		if (qd3dStatus != kQ3Success)
-			return(kQ3Failure);
+		TQ3Status qd3dStatus = Q3Memory_Reallocate( & storage->memoryDetails.buffer, newSize ) ;
+		if ( qd3dStatus == kQ3Failure )
+			return kQ3Failure ;
 		
-		instanceData->bufferSize = newSize;
-	}
+		storage->memoryDetails.bufferSize = newSize ;
+		}
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -151,49 +124,45 @@ e3storage_memory_grow(TQ3StorageObject storage, TQ3Uns32 requestedSize)
 //=============================================================================
 //      e3storage_memory_write : Write data to the storage object.
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_memory_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
-{	TE3_MemoryStorageData	*instanceData = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
-	TQ3Uns32 				bytesToWrite;
-
-
-
+TQ3Status
+e3storage_memory_write ( E3MemoryStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten )
+	{
 	// Initialise a return value
-	*sizeWritten = 0;
-	bytesToWrite = dataSize;
+	*sizeWritten = 0 ;
+	TQ3Uns32 bytesToWrite = dataSize ;
 
   
 	// Try to grow the buffer
-	if (offset + bytesToWrite > instanceData->bufferSize)
-		if (e3storage_memory_grow(storage, offset + bytesToWrite) != kQ3Success)
-			return(kQ3Failure);
+	if ( offset + bytesToWrite > storage->memoryDetails.bufferSize )
+		if ( e3storage_memory_grow ( storage, offset + bytesToWrite ) == kQ3Failure )
+			return kQ3Failure ;
 
 
 
 	// Make sure we have enough space to write something
-	if ((bytesToWrite > 0) && (offset  >= instanceData->bufferSize))
-		return(kQ3Failure);
+	if ( ( bytesToWrite > 0 ) && ( offset  >= storage->memoryDetails.bufferSize ) )
+		return kQ3Failure ;
 
 
 
 	// Work out how much we should copy
-	if (offset + bytesToWrite > instanceData->bufferSize)
-		bytesToWrite = instanceData->bufferSize - offset;
+	if ( offset + bytesToWrite > storage->memoryDetails.bufferSize )
+		bytesToWrite = storage->memoryDetails.bufferSize - offset ;
 
 
 
 	// Copy the block
-	if (bytesToWrite > 0)
-		Q3Memory_Copy(data, &instanceData->buffer[offset], bytesToWrite);
+	if ( bytesToWrite > 0 )
+		Q3Memory_Copy ( data, & storage->memoryDetails.buffer [ offset ], bytesToWrite ) ;
 	
 	
-	if(instanceData->validSize < offset + bytesToWrite) // shift EOF
-		instanceData->validSize = offset + bytesToWrite;
+	if ( storage->memoryDetails.validSize < offset + bytesToWrite ) // shift EOF
+		storage->memoryDetails.validSize = offset + bytesToWrite ;
 	
-	*sizeWritten = bytesToWrite;
+	*sizeWritten = bytesToWrite ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -202,14 +171,13 @@ e3storage_memory_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataS
 //=============================================================================
 //      e3storage_memory_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_memory_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
-
-	*size = instanceData->validSize;
+TQ3Status
+e3storage_memory_getsize ( E3MemoryStorage* storage, TQ3Uns32 *size )
+	{
+	*size = storage->memoryDetails.validSize ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -461,28 +429,25 @@ e3storage_path_delete(TQ3Object storage, void *privateData)
 //=============================================================================
 //      e3storage_path_open : Open the storage object.
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_path_open(TQ3StorageObject storage, TQ3Boolean forWriting)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypePath);
-
-
-
+TQ3Status
+e3storage_path_open ( E3PathStorage* storage, TQ3Boolean forWriting )
+	{
 	// Make sure the file isn't already open
-	if (instanceData->theFile != NULL)
+	if ( storage->pathDetails.theFile != NULL )
 		{
-		E3ErrorManager_PostError(kQ3ErrorFileAlreadyOpen, kQ3False);
-		return(kQ3Failure);
+		E3ErrorManager_PostError ( kQ3ErrorFileAlreadyOpen, kQ3False ) ;
+		return kQ3Failure ;
 		}
 
 
 
 	// Open the file		
-	instanceData->theFile = fopen(instanceData->thePath, forWriting ? "wb+" : "rb");
-	if (instanceData->theFile == NULL)
-		return(kQ3Failure);
+	storage->pathDetails.theFile = fopen ( storage->pathDetails.thePath, forWriting ? "wb+" : "rb" ) ;
+	if ( storage->pathDetails.theFile == NULL )
+		return kQ3Failure ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -491,27 +456,24 @@ e3storage_path_open(TQ3StorageObject storage, TQ3Boolean forWriting)
 //=============================================================================
 //      e3storage_path_close : Close the storage object.
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_path_close(TQ3StorageObject storage)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypePath);
-
-
-
+TQ3Status
+e3storage_path_close ( E3PathStorage* storage )
+	{
 	// Make sure the file is open
-	if (instanceData->theFile == NULL)
+	if ( storage->pathDetails.theFile == NULL )
 		{
-		E3ErrorManager_PostError(kQ3ErrorFileNotOpen, kQ3False);
-		return(kQ3Failure);
+		E3ErrorManager_PostError ( kQ3ErrorFileNotOpen, kQ3False ) ;
+		return kQ3Failure ;
 		}
 
 
 
 	// Close the file		
-	fclose(instanceData->theFile);
-	instanceData->theFile = NULL;
+	fclose ( storage->pathDetails.theFile ) ;
+	storage->pathDetails.theFile = NULL ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -520,47 +482,47 @@ e3storage_path_close(TQ3StorageObject storage)
 //=============================================================================
 //      e3storage_path_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_path_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypePath);
+TQ3Status
+e3storage_path_getsize ( E3PathStorage* storage, TQ3Uns32 *size )
+	{
 	fpos_t					oldPos;
 
 
 
 	// Make sure the file is open
-	if (instanceData->theFile == NULL)
+	if ( storage->pathDetails.theFile == NULL )
 		{
-		E3ErrorManager_PostError(kQ3ErrorFileNotOpen, kQ3False);
-		return(kQ3Failure);
+		E3ErrorManager_PostError ( kQ3ErrorFileNotOpen, kQ3False ) ;
+		return kQ3Failure ;
 		}
 
 
 
 	// Get the current position in the file
-	if (fgetpos(instanceData->theFile, &oldPos))
-		return(kQ3Failure);
+	if ( fgetpos ( storage->pathDetails.theFile, &oldPos ) )
+		return kQ3Failure ;
 
 
 
 	// Seek to the end and get the position there. Not that using ftell rather
 	// than fgetpos limits us to 2147483647 byte files, but casting an fpos_t
 	// to a 32-bit integer is not valid on some Unix systems.
-	if (fseek(instanceData->theFile, 0, SEEK_END))
-		return(kQ3Failure);
+	if ( fseek ( storage->pathDetails.theFile, 0, SEEK_END ) )
+		return kQ3Failure ;
 
-	*size = (TQ3Uns32) ftell(instanceData->theFile);
+	*size = (TQ3Uns32) ftell ( storage->pathDetails.theFile ) ;
 
-	if (fseek(instanceData->theFile, 0, SEEK_SET))
-		return(kQ3Failure);
+	if ( fseek ( storage->pathDetails.theFile, 0, SEEK_SET ) )
+		return kQ3Failure ;
 
 
 
 	// Restore the previous position in the file
-	if (fsetpos(instanceData->theFile, &oldPos))
-		return(kQ3Failure);
+	if ( fsetpos ( storage->pathDetails.theFile, &oldPos ) )
+		return kQ3Failure ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -571,17 +533,14 @@ e3storage_path_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 //-----------------------------------------------------------------------------
 //		Note : Currently unbuffered - may cause performance problems.
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_path_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypePath);
-
-
-
+TQ3Status
+e3storage_path_read ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
+	{
 	// Make sure the file is open
-	if (instanceData->theFile == NULL)
+	if ( storage->pathDetails.theFile == NULL )
 		{
-		E3ErrorManager_PostError(kQ3ErrorFileNotOpen, kQ3False);
-		return(kQ3Failure);
+		E3ErrorManager_PostError ( kQ3ErrorFileNotOpen, kQ3False ) ;
+		return kQ3Failure ;
 		}
 
 
@@ -589,16 +548,16 @@ e3storage_path_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 	// Seek to the offset, and read the data
 	// (The ftell is needed because in the Windows version of
 	// CodeWarrior's standard library, fseek always flushes the buffer.)
-	if ((TQ3Int32) offset != ftell( instanceData->theFile ))
+	if ( (TQ3Int32) offset != ftell ( storage->pathDetails.theFile ) )
 		{
-		if (fseek(instanceData->theFile, (long)offset, SEEK_SET))
-			return(kQ3Failure);
+		if ( fseek ( storage->pathDetails.theFile, (long) offset, SEEK_SET ) )
+			return kQ3Failure ;
 		}
 
-	*sizeRead = fread(data, 1, dataSize, instanceData->theFile);
+	*sizeRead = fread ( data, 1, dataSize, storage->pathDetails.theFile ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -609,29 +568,26 @@ e3storage_path_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 //-----------------------------------------------------------------------------
 //		Note : Currently unbuffered - may cause performance problems.
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_path_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypePath);
-
-
-
+TQ3Status
+e3storage_path_write ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten )
+	{
 	// Make sure the file is open
-	if (instanceData->theFile == NULL)
+	if ( storage->pathDetails.theFile == NULL )
 		{
-		E3ErrorManager_PostError(kQ3ErrorFileNotOpen, kQ3False);
-		return(kQ3Failure);
+		E3ErrorManager_PostError ( kQ3ErrorFileNotOpen, kQ3False ) ;
+		return kQ3Failure ;
 		}
 
 
 
 	// Seek to the offset, and write the data
-	if (fseek(instanceData->theFile, (long)offset, SEEK_SET))
-		return(kQ3Failure);
+	if ( fseek ( storage->pathDetails.theFile, (long)offset, SEEK_SET ) )
+		return kQ3Failure ;
 
-	*sizeWritten = fwrite(data, 1, dataSize, instanceData->theFile);
+	*sizeWritten = fwrite ( data, 1, dataSize, storage->pathDetails.theFile ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -697,19 +653,19 @@ E3Storage_RegisterClass(void)
 
 
 	// Register the storage classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 											kQ3SharedTypeStorage,
 											kQ3ClassNameStorage,
 											NULL,
-											0);
+											~sizeof(E3Storage));
 
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeStorage,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeStorage,
 												kQ3StorageTypeMemory,
 												kQ3ClassNameStorageMemory,
 												e3storage_memory_metahandler,
-												sizeof(TE3_MemoryStorageData));
+												~sizeof(E3MemoryStorage));
 
 
 	if (qd3dStatus == kQ3Success)
@@ -717,7 +673,7 @@ E3Storage_RegisterClass(void)
 												kQ3StorageTypePath,
 												kQ3ClassNameStoragePath,
 												e3storage_path_metahandler,
-												sizeof(TQ3PathStorageData));
+												~sizeof(E3PathStorage));
 
 
 
@@ -750,9 +706,9 @@ E3Storage_UnregisterClass(void)
 {	TQ3Status		qd3dStatus;
 
 
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3SharedTypeStorage, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StorageTypeMemory, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StorageTypePath,   kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeStorage, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypeMemory, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypePath,   kQ3True);
 
 
 #if QUESA_OS_MACINTOSH
@@ -777,12 +733,10 @@ E3Storage_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3Storage_GetType(TQ3StorageObject storage)
-{
-
-
+	{
 	// Return the type
-	return(E3ClassTree_GetObjectType(storage, kQ3SharedTypeStorage));
-}
+	return storage->GetObjectType ( kQ3SharedTypeStorage ) ;
+	}
 
 
 
@@ -793,16 +747,15 @@ E3Storage_GetType(TQ3StorageObject storage)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size)
-{
-	TQ3Status result = kQ3Failure;
+	{
+	TQ3Status result = kQ3Failure ;
 	// get the subclass method;
-	TQ3XStorageGetSizeMethod getEOF_Method;
-	getEOF_Method = (TQ3XStorageGetSizeMethod) E3ClassTree_GetMethodByObject(storage, kQ3XMethodTypeStorageGetSize);
-	if (getEOF_Method != NULL)
-		result = getEOF_Method(storage, size);
+	TQ3XStorageGetSizeMethod getEOF_Method = (TQ3XStorageGetSizeMethod) storage->GetMethod ( kQ3XMethodTypeStorageGetSize ) ;
+	if ( getEOF_Method != NULL )
+		result = getEOF_Method ( storage, size ) ;
 	
-	return (result);
-}
+	return result ;
+	}
 
 
 
@@ -813,16 +766,15 @@ E3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
-{
-	TQ3Status result = kQ3Failure;
+	{
+	TQ3Status result = kQ3Failure ;
 	// get the subclass method;
-	TQ3XStorageReadDataMethod getData_Method;
-	getData_Method = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethodByObject(storage, kQ3XMethodTypeStorageReadData);
-	if (getData_Method != NULL)
-		result = getData_Method(storage, offset, dataSize, data, sizeRead);
+	TQ3XStorageReadDataMethod getData_Method = (TQ3XStorageReadDataMethod) storage->GetMethod ( kQ3XMethodTypeStorageReadData ) ;
+	if ( getData_Method != NULL )
+		result = getData_Method ( storage, offset, dataSize, data, sizeRead ) ;
 	
-	return (result);
-}
+	return result;
+	}
 
 
 
@@ -836,19 +788,17 @@ E3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
-{
-	
-	TQ3Status result = kQ3Failure;
+	{
+	TQ3Status result = kQ3Failure ;
 	// get the subclass method;
-	TQ3XStorageWriteDataMethod setData_Method;
-	setData_Method = (TQ3XStorageWriteDataMethod) E3ClassTree_GetMethodByObject(storage, kQ3XMethodTypeStorageWriteData);
-	if (setData_Method != NULL)
-		result = setData_Method(storage, offset, dataSize, data, sizeWritten);
+	TQ3XStorageWriteDataMethod setData_Method = (TQ3XStorageWriteDataMethod) storage->GetMethod ( kQ3XMethodTypeStorageWriteData ) ;
+	if ( setData_Method != NULL )
+		result = setData_Method ( storage, offset, dataSize, data, sizeWritten ) ;
 
-	Q3Shared_Edited(storage);
+	Q3Shared_Edited ( storage ) ;
 	
-	return (result);
-}
+	return result ;
+	}
 
 
 
@@ -860,12 +810,10 @@ E3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, 
 #pragma mark -
 TQ3ObjectType
 E3MemoryStorage_GetType(TQ3StorageObject storage)
-{
-
-
+	{
 	// Return the type
-	return(E3ClassTree_GetObjectType(storage, kQ3StorageTypeMemory));
-}
+	return storage->GetObjectType ( kQ3StorageTypeMemory ) ;
+	}
 
 
 
@@ -876,21 +824,19 @@ E3MemoryStorage_GetType(TQ3StorageObject storage)
 //-----------------------------------------------------------------------------
 TQ3StorageObject
 E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize)
-{	TQ3Object				theObject;
-	TE3_MemoryStorageData	objectData;
+	{
+	TE3_MemoryStorageData	objectData ;
 	
-	objectData.buffer = (TQ3Uns8 *)buffer;
-	objectData.ownBuffer = kQ3True;
-	objectData.bufferSize = validSize;
-	objectData.validSize = validSize;
-	objectData.growSize = kE3MemoryStorageDefaultGrowSize;
+	objectData.buffer = (TQ3Uns8 *)buffer ;
+	objectData.ownBuffer = kQ3True ;
+	objectData.bufferSize = validSize ;
+	objectData.validSize = validSize ;
+	objectData.growSize = kE3MemoryStorageDefaultGrowSize ;
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StorageTypeMemory, kQ3False, &objectData);
-
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance ( kQ3StorageTypeMemory, kQ3False, &objectData ) ;
+	}
 
 
 
@@ -900,51 +846,47 @@ E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize)
 //      E3MemoryStorage_Set : Sets the buffer for a storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Uns32 validSize)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
-	TQ3Status				qd3dStatus;
-	
-
-
+E3MemoryStorage::Set ( const unsigned char *buffer, TQ3Uns32 validSize )
+	{
 	// If we don't own our buffer, reset our state
-	if (!instanceData->ownBuffer)
+	if ( ! memoryDetails.ownBuffer )
 		{
-		Q3Memory_Clear(instanceData, sizeof(TE3_MemoryStorageData));
-		instanceData->ownBuffer = kQ3True;
+		Q3Memory_Clear ( &memoryDetails, sizeof ( TE3_MemoryStorageData ) ) ;
+		memoryDetails.ownBuffer = kQ3True ;
 		}
 
 
 
 	// If we need to grow our buffer, do so
-	if (instanceData->bufferSize < validSize)
+	if ( memoryDetails.bufferSize < validSize )
 		{
-		qd3dStatus = Q3Memory_Reallocate(&instanceData->buffer, validSize);
-		if (qd3dStatus != kQ3Success)
-			return(kQ3Failure);
+		TQ3Status qd3dStatus = Q3Memory_Reallocate ( & memoryDetails.buffer, validSize ) ;
+		if ( qd3dStatus == kQ3Failure )
+			return kQ3Failure ;
 		
-		instanceData->bufferSize = validSize;
+		memoryDetails.bufferSize = validSize ;
 		}
 
 
 
 	// Verify that we do have a buffer, we own it, and it's large enough
-	Q3_ASSERT(Q3_VALID_PTR(instanceData->buffer));
-	Q3_ASSERT(instanceData->ownBuffer);
-	Q3_ASSERT(instanceData->bufferSize >= validSize);
+	Q3_ASSERT(Q3_VALID_PTR( memoryDetails.buffer) ) ;
+	Q3_ASSERT( memoryDetails.ownBuffer ) ;
+	Q3_ASSERT( memoryDetails.bufferSize >= validSize ) ;
 
 
 
 	// Copy the data into the buffer
-	if (buffer != NULL)
-		Q3Memory_Copy(buffer, instanceData->buffer, validSize);
+	if ( buffer != NULL) 
+		Q3Memory_Copy ( buffer, memoryDetails.buffer, validSize ); 
 
-	instanceData->validSize = validSize;
-	instanceData->growSize  = kE3MemoryStorageDefaultGrowSize;
+	memoryDetails.validSize = validSize ;
+	memoryDetails.growSize  = kE3MemoryStorageDefaultGrowSize ;
 
-	Q3Shared_Edited(storage);
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -955,22 +897,20 @@ E3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Un
 //-----------------------------------------------------------------------------
 TQ3StorageObject
 E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize)
-{	TQ3Object				theObject;
-	TE3_MemoryStorageData	objectData;
+	{
+	TE3_MemoryStorageData	objectData ;
 	
-	objectData.buffer = buffer;
-	objectData.ownBuffer = kQ3False;
-	objectData.bufferSize = bufferSize;
-	objectData.validSize = validSize;
-	objectData.growSize = validSize;
+	objectData.buffer = buffer ;
+	objectData.ownBuffer = kQ3False ;
+	objectData.bufferSize = bufferSize ;
+	objectData.validSize = validSize ;
+	objectData.growSize = validSize ;
 
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StorageTypeMemory, kQ3False, &objectData);
-
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance ( kQ3StorageTypeMemory, kQ3False, &objectData ) ;
+	}
 
 
 
@@ -980,15 +920,15 @@ E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bu
 //      E3MemoryStorage_SetBuffer : Set the data for a storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
+E3MemoryStorage::SetBuffer ( unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize )
+	{
 	TQ3Status				qd3dStatus;
 
 
 
 	// If no buffer has been supplied, use our own
-	if (buffer == NULL)
-		qd3dStatus = Q3MemoryStorage_Set(storage, buffer, validSize);
+	if ( buffer == NULL )
+		qd3dStatus = Q3MemoryStorage_Set ( this, buffer, validSize ) ;
 
 
 
@@ -996,23 +936,23 @@ E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Un
 	else
 		{
 		// First check to see if we currently own the buffer...
-		if (instanceData->ownBuffer == kQ3True)
+		if ( memoryDetails.ownBuffer == kQ3True )
 			{
 			// If the buffer has changed, we're no longer going to own it so we need to
 			// release it. If the buffer is the same, we don't want to do anything - we're
 			// just being called because the app has touched the contents and is calling
 			// us for the side effect of calling Q3Shared_Edited).
-			if (instanceData->buffer != buffer)
+			if ( memoryDetails.buffer != buffer )
 				{
 				// Make sure the app isn't trying to change anything they shouldn't: since
 				// we own the buffer, the app shouldn't be trying to resize it on us.
-				Q3_ASSERT(instanceData->bufferSize == bufferSize);
-				Q3_ASSERT(instanceData->validSize  == validSize);
+				Q3_ASSERT( memoryDetails.bufferSize == bufferSize ) ;
+				Q3_ASSERT( memoryDetails.validSize  == validSize ) ;
 
 
 				// Release the buffer
-				instanceData->ownBuffer = kQ3False;
-				Q3Memory_Free(&instanceData->buffer);
+				memoryDetails.ownBuffer = kQ3False;
+				Q3Memory_Free(  & memoryDetails.buffer ) ;
 				}
 			}
 
@@ -1021,18 +961,18 @@ E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Un
 		// Update our state. Note that we leave ownBuffer unchanged: we either reset
 		// it to false above (in which case the new buffer is owned by the app), or
 		// the previous owner still owns it.
-		instanceData->buffer     = buffer;
-		instanceData->bufferSize = bufferSize;
-		instanceData->validSize  = validSize;
-		instanceData->growSize   = kE3MemoryStorageDefaultGrowSize;
+		memoryDetails.buffer     = buffer ;
+		memoryDetails.bufferSize = bufferSize ;
+		memoryDetails.validSize  = validSize ;
+		memoryDetails.growSize   = kE3MemoryStorageDefaultGrowSize ;
 		
 		qd3dStatus = kQ3Success;
 		}
 
-	Q3Shared_Edited(storage);
+	Q3Shared_Edited ( this ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -1045,18 +985,17 @@ E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Un
 //				Renderer calls us with some parameters as NULL.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
-
-	if(buffer != NULL)
-		*buffer = instanceData->buffer;
-	if(validSize != NULL)
-		*validSize = instanceData->validSize;
-	if(bufferSize != NULL)
-		*bufferSize = instanceData->bufferSize;
+E3MemoryStorage::GetBuffer ( unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize )
+	{
+	if ( buffer != NULL )
+		*buffer = memoryDetails.buffer ;
+	if ( validSize != NULL )
+		*validSize = memoryDetails.validSize ;
+	if ( bufferSize != NULL )
+		*bufferSize = memoryDetails.bufferSize ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1067,15 +1006,10 @@ E3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3U
 //-----------------------------------------------------------------------------
 TQ3StorageObject
 E3PathStorage_New(const char *pathName)
-{	TQ3Object			theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StorageTypePath, kQ3False, pathName);
-
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance ( kQ3StorageTypePath, kQ3False, pathName ) ;
+	}
 
 
 
@@ -1085,36 +1019,31 @@ E3PathStorage_New(const char *pathName)
 //      E3PathStorage_Set : Set the path for a path storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(theStorage, kQ3StorageTypePath);
-	char					*newPath;
-	TQ3Uns32				pathLen;
-
-
-
+E3PathStorage:: Set( const char *pathName )
+	{
 	// Take a copy of the new path
-	pathLen = strlen(pathName);
-	newPath = (char *) Q3Memory_Allocate(pathLen + 1);
-	if (newPath == NULL)
-		return(kQ3Failure);
+	TQ3Uns32 pathLen = strlen ( pathName)  ;
+	char* newPath = (char*) Q3Memory_Allocate ( pathLen + 1 ) ;
+	if ( newPath == NULL )
+		return kQ3Failure ;
 
 
 
 	// Clean up the instance data
-	if (instanceData->thePath != NULL)
-		Q3Memory_Free(&instanceData->thePath);
+	if ( pathDetails.thePath != NULL )
+		Q3Memory_Free( & pathDetails.thePath ) ;
 
-	if (instanceData->theFile != NULL)
-		fclose(instanceData->theFile);
+	if ( pathDetails.theFile != NULL )
+		fclose ( pathDetails.theFile ) ;
 
 
 
 	// Update the instance data
-	instanceData->thePath = newPath;
-	instanceData->theFile = NULL;
+	pathDetails.thePath = newPath ;
+	pathDetails.theFile = NULL ;
 
-	return(kQ3Success);	
-}
+	return kQ3Success ;	
+	}
 
 
 
@@ -1124,14 +1053,11 @@ E3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName)
 //      E3PathStorage_Get : Get the path for a path storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PathStorage_Get(TQ3StorageObject theStorage, char *pathName)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(theStorage, kQ3StorageTypePath);
-
-
-
+E3PathStorage::Get ( char *pathName )
+	{
 	// Return the path
-	strncpy(pathName, instanceData->thePath, kQ3StringMaximumLength);
+	strncpy ( pathName, pathDetails.thePath, kQ3StringMaximumLength ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 

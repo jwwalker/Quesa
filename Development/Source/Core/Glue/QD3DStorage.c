@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -352,7 +352,7 @@ Q3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Un
 
 
 	// Call our implementation
-	return(E3MemoryStorage_Set(storage, buffer, validSize));
+	return ( (E3MemoryStorage*) storage )->Set ( buffer, validSize ) ;
 }
 
 
@@ -437,7 +437,7 @@ Q3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Un
 
 
 	// Call our implementation
-	return(E3MemoryStorage_SetBuffer(storage, buffer, validSize, bufferSize));
+	return ( (E3MemoryStorage*) storage )->SetBuffer ( buffer, validSize, bufferSize ) ;
 }
 
 
@@ -493,7 +493,7 @@ Q3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3U
 
 
 	// Call our implementation
-	return(E3MemoryStorage_GetBuffer(storage, buffer, validSize, bufferSize));
+	return ( (E3MemoryStorage*) storage )->GetBuffer ( buffer, validSize, bufferSize ) ;
 }
 
 
@@ -569,7 +569,7 @@ Q3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName)
 
 
 	// Call our implementation
-	return(E3PathStorage_Set(theStorage, pathName));
+	return ( (E3PathStorage*) theStorage )->Set ( pathName ) ;
 }
 #endif
 
@@ -610,7 +610,7 @@ Q3PathStorage_Get(TQ3StorageObject theStorage, char *pathName)
 
 
 	// Call our implementation
-	return(E3PathStorage_Get(theStorage, pathName));
+	return ( (E3PathStorage*) theStorage )->Get ( pathName ) ;
 }
 #endif
 

@@ -5,7 +5,7 @@
         Header file for E3Storage.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,7 +48,7 @@
 // Include files go here
 
 
-
+#include "E3Main.h"
 
 
 //=============================================================================
@@ -63,6 +63,71 @@ extern "C" {
 
 
 //=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+// Memory storage
+typedef struct TE3_MemoryStorageData {
+	TQ3Uns8			*buffer;
+	TQ3Boolean		ownBuffer;
+	TQ3Uns32		bufferSize;
+	TQ3Uns32		validSize;
+	TQ3Uns32		growSize;
+} TE3_MemoryStorageData;
+
+
+// Path storage
+typedef struct TQ3PathStorageData {
+	char		*thePath;
+	FILE		*theFile;
+} TQ3PathStorageData;
+
+
+
+class E3Storage : public E3Shared
+	{
+	// No new instance data for this class
+	
+public :
+
+	} ;
+
+
+
+class E3MemoryStorage : public E3Storage
+	{
+	TE3_MemoryStorageData		memoryDetails ;
+	
+public :
+	TQ3Status					Set ( const unsigned char *buffer, TQ3Uns32 validSize ) ;
+	TQ3Status					SetBuffer ( unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize ) ;
+	TQ3Status					GetBuffer ( unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize ) ;
+	
+
+	friend TQ3Status			e3storage_memory_read ( E3MemoryStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead ) ;
+	friend TQ3Status			e3storage_memory_grow ( E3MemoryStorage* storage, TQ3Uns32 requestedSize ) ;
+	friend TQ3Status			e3storage_memory_write ( E3MemoryStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten ) ;
+	friend TQ3Status			e3storage_memory_getsize ( E3MemoryStorage* storage, TQ3Uns32 *size ) ;
+	} ;
+
+
+
+class E3PathStorage : public E3Storage
+	{
+	TQ3PathStorageData		pathDetails ;
+	
+public :
+	TQ3Status					Set ( const char* pathName ) ;
+	TQ3Status					Get ( char* pathName)  ;
+
+
+	friend TQ3Status			e3storage_path_open ( E3PathStorage* storage, TQ3Boolean forWriting ) ;
+	friend TQ3Status			e3storage_path_close ( E3PathStorage* storage ) ;
+	friend TQ3Status			e3storage_path_getsize ( E3PathStorage* storage, TQ3Uns32 *size ) ;
+	friend TQ3Status			e3storage_path_read ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead ) ;
+	friend TQ3Status			e3storage_path_write ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten ) ;
+	} ;
+
+//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Cross platform
@@ -75,13 +140,8 @@ TQ3Status			E3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns3
 TQ3Status			E3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten);
 TQ3ObjectType		E3MemoryStorage_GetType(TQ3StorageObject storage);
 TQ3StorageObject	E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize);
-TQ3Status			E3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Uns32 validSize);
 TQ3StorageObject	E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize);
-TQ3Status			E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize);
-TQ3Status			E3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize);
 TQ3StorageObject	E3PathStorage_New(const char *pathName);
-TQ3Status			E3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName);
-TQ3Status			E3PathStorage_Get(TQ3StorageObject theStorage, char *pathName);
 
 
 // Mac specific
