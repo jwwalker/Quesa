@@ -511,16 +511,23 @@ E3Int8_Read(TQ3Int8 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Int8_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Int8_Write : Write a TQ3Int8.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Int8_Write(TQ3Int8 data, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3XFFormatInt8WriteMethod 		int8Write;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
+	int8Write = (TQ3XFFormatInt8WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatInt8Write);
+
+	if (int8Write != NULL)
+		return int8Write(instanceData->format,data);
+
 	return(kQ3Failure);
 }
 
@@ -554,16 +561,23 @@ E3Int16_Read(TQ3Int16 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Int16_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Int16_Write : Write a TQ3Int16.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Int16_Write(TQ3Int16 data, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3XFFormatInt16WriteMethod 		int16Write;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
+	int16Write = (TQ3XFFormatInt16WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatInt16Write);
+
+	if(int16Write != NULL)
+		return int16Write(instanceData->format,data);
+
 	return(kQ3Failure);
 }
 
@@ -597,16 +611,23 @@ E3Int32_Read(TQ3Int32 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Int32_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Int32_Write : Read a TQ3Int32.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Int32_Write(TQ3Int32 data, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3XFFormatInt32WriteMethod 		int32Write;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
+	int32Write = (TQ3XFFormatInt32WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatInt32Write);
+
+	if(int32Write != NULL)
+		return int32Write(instanceData->format,data);
+
 	return(kQ3Failure);
 }
 
@@ -628,17 +649,12 @@ E3Uns64_Read(TQ3Uns64 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Uns64_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Uns64_Write : Write a TQ3Uns64.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Uns64_Write(TQ3Uns64 data, TQ3FileObject theFile)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return Q3Int64_Write (*((TQ3Int64*)&data), theFile);
 }
 
 
@@ -671,16 +687,23 @@ E3Int64_Read(TQ3Int64 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Int64_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Int64_Write : Write a TQ3Int64.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Int64_Write(TQ3Int64 data, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3XFFormatInt64WriteMethod 		int64Write;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
+	int64Write = (TQ3XFFormatInt64WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatInt64Write);
+
+	if(int64Write != NULL)
+		return int64Write(instanceData->format,data);
+
 	return(kQ3Failure);
 }
 
@@ -714,16 +737,23 @@ E3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Float32_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Float32_Write : Write a TQ3Float32.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Float32_Write(TQ3Float32 data, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
+	float32Write = (TQ3XFFormatFloat32WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
+
+	if(float32Write != NULL)
+		return float32Write(instanceData->format,data);
+
 	return(kQ3Failure);
 }
 
@@ -757,16 +787,23 @@ E3Float64_Read(TQ3Float64 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Float64_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Float64_Write : Write a TQ3Float64.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Float64_Write(TQ3Float64 data, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3XFFormatFloat64WriteMethod 	float64Write;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
+	float64Write = (TQ3XFFormatFloat64WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat64Write);
+
+	if(float64Write != NULL)
+		return float64Write(instanceData->format,data);
+
 	return(kQ3Failure);
 }
 
@@ -817,16 +854,23 @@ E3String_Read(char *data, unsigned long *length, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3String_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3String_Write : Write a string.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3String_Write(const char *data, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3XFFormatStringWriteMethod 	stringWrite;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
+	stringWrite = (TQ3XFFormatStringWriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatStringWrite);
+
+	if(stringWrite != NULL)
+		return stringWrite(instanceData->format,data);
+
 	return(kQ3Failure);
 }
 
@@ -860,16 +904,23 @@ E3RawData_Read(unsigned char *data, unsigned long size, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3RawData_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3RawData_Write : Write a block of raw data.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RawData_Write(const unsigned char *data, unsigned long size, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3XFFormatRawWriteMethod	 	rawWrite;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
+	rawWrite = (TQ3XFFormatRawWriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatRawWrite);
+
+	if(rawWrite != NULL)
+		return rawWrite(instanceData->format,data,size);
+
 	return(kQ3Failure);
 }
 
@@ -907,17 +958,28 @@ E3Point2D_Read(TQ3Point2D *point2D, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Point2D_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Point2D_Write : Write a TQ3Point2D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Point2D_Write(const TQ3Point2D *point2D, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3Status						result        = kQ3Failure;
+	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
-	return(kQ3Failure);
+	float32Write = (TQ3XFFormatFloat32WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
+
+	if(float32Write != NULL){
+		result = float32Write(instanceData->format,point2D->x);
+		if(result == kQ3Success)
+			result = float32Write(instanceData->format,point2D->y);
+		}
+
+	return(result);
 }
 
 
@@ -956,17 +1018,30 @@ E3Point3D_Read(TQ3Point3D *point3D, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Point3D_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Point3D_Write : Write a TQ3Point3D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Point3D_Write(const TQ3Point3D *point3D, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3Status						result = kQ3Failure;
+	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
-	return(kQ3Failure);
+	float32Write = (TQ3XFFormatFloat32WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
+
+	if(float32Write != NULL){
+		result = float32Write(instanceData->format,point3D->x);
+		if(result == kQ3Success)
+			result = float32Write(instanceData->format,point3D->y);
+		if(result == kQ3Success)
+			result = float32Write(instanceData->format,point3D->z);
+		}
+
+	return(result);
 }
 
 
@@ -1005,17 +1080,30 @@ E3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3RationalPoint3D_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3RationalPoint3D_Write : Write a TQ3RationalPoint3D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3Status						result = kQ3Failure;
+	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
-	return(kQ3Failure);
+	float32Write = (TQ3XFFormatFloat32WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
+
+	if(float32Write != NULL){
+		result = float32Write(instanceData->format,point3D->x);
+		if(result == kQ3Success)
+			result = float32Write(instanceData->format,point3D->y);
+		if(result == kQ3Success)
+			result = float32Write(instanceData->format,point3D->w);
+		}
+
+	return(result);
 }
 
 
@@ -1023,7 +1111,7 @@ E3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, TQ3FileObject theFile
 
 
 //=============================================================================
-//      E3RationalPoint4D_Read : Write a TQ3RationalPoint4D.
+//      E3RationalPoint4D_Read : Read a TQ3RationalPoint4D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, TQ3FileObject theFile)
@@ -1056,17 +1144,32 @@ E3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3RationalPoint4D_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3RationalPoint4D_Write : Write a TQ3RationalPoint4D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3Status						result = kQ3Failure;
+	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
-	return(kQ3Failure);
+	float32Write = (TQ3XFFormatFloat32WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
+
+	if(float32Write != NULL){
+		result = float32Write(instanceData->format,point4D->x);
+		if(result == kQ3Success)
+			result = float32Write(instanceData->format,point4D->y);
+		if(result == kQ3Success)
+			result = float32Write(instanceData->format,point4D->z);
+		if(result == kQ3Success)
+			result = float32Write(instanceData->format,point4D->w);
+		}
+
+	return(result);
 }
 
 
@@ -1158,17 +1261,31 @@ E3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Matrix4x4_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Matrix4x4_Write : Write a TQ3Matrix4x4.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 {
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3Status						result = kQ3Failure;
+	TQ3XFFormatFloat32WriteMethod 	float32Write;
+	TQ3Uns32						i,j;
 
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	// To be implemented...
-	return(kQ3Failure);
+	float32Write = (TQ3XFFormatFloat32WriteMethod)
+					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
+
+	if(float32Write != NULL){
+		result = kQ3Success;
+		
+		for( i = 0; ((i< 4) && (result == kQ3Success)); i++)
+			for( j = 0; ((j< 4) && (result == kQ3Success)); j++)
+				result = float32Write(instanceData->format,matrix4x4->value[i][j]);
+		}
+
+	return(result);
 }
 
 
@@ -1195,17 +1312,18 @@ E3Tangent2D_Read(TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Tangent2D_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Tangent2D_Write : Write a TQ3Tangent2D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Tangent2D_Write(const TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 {
+	TQ3Status result = kQ3Failure;
+	
+	result = Q3Vector3D_Write (&tangent2D->uTangent, theFile);
+	if(result == kQ3Success)
+		result = Q3Vector3D_Write (&tangent2D->vTangent, theFile);
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(result);
 }
 
 
@@ -1234,17 +1352,20 @@ E3Tangent3D_Read(TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Tangent3D_Write : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Tangent3D_Write : Write a TQ3Tangent3D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Tangent3D_Write(const TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 {
+	TQ3Status result = kQ3Failure;
+	
+	result = Q3Vector3D_Write (&tangent3D->uTangent, theFile);
+	if(result == kQ3Success)
+		result = Q3Vector3D_Write (&tangent3D->vTangent, theFile);
+	if(result == kQ3Success)
+		result = Q3Vector3D_Write (&tangent3D->wTangent, theFile);
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(result);
 }
 
 
