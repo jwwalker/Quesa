@@ -82,7 +82,7 @@ public :
 													E3ClassInfo*	newParent
 					 								) ; // constructor	
 	friend class E3Set ;
-	friend class OpaqueTQ3Object ;
+	friend struct OpaqueTQ3Object ;
 	} ;
 
 
