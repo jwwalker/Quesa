@@ -65,7 +65,19 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Subdivision style
+/*!
+ *  @enum
+ *      TQ3SubdivisionMethod
+ *  @discussion
+ *      Subdivision methods.
+ *
+ *  @constant kQ3SubdivisionMethodConstant      Surfaces are divided into the specified
+ *                                              number of segments.
+ *  @constant kQ3SubdivisionMethodWorldSpace    Surfaces are divided into segments smaller
+ *                                              than the specified size in world-space.
+ *  @constant kQ3SubdivisionMethodScreenSpace   Surfaces are divided into segments smaller
+ *                                              than the specified size in pixels.
+ */
 typedef enum {
     kQ3SubdivisionMethodConstant                = 0,
     kQ3SubdivisionMethodWorldSpace              = 1,
@@ -73,7 +85,17 @@ typedef enum {
 } TQ3SubdivisionMethod;
 
 
-// Pick parts mask
+/*!
+ *  @enum
+ *      TQ3PickPartsMasks
+ *  @discussion
+ *      Indicates the kind of objects placed in a hit list.
+ *
+ *  @constant kQ3PickPartsObject                The hit list contains whole objects.
+ *  @constant kQ3PickPartsMaskFace              The hit list contains faces.
+ *  @constant kQ3PickPartsMaskEdge              The hit list contains edges.
+ *  @constant kQ3PickPartsMaskVertex            The hit list contains vertices.
+ */
 typedef enum {
     kQ3PickPartsObject                          = 0,
     kQ3PickPartsMaskFace                        = (1 << 0),
@@ -82,7 +104,16 @@ typedef enum {
 } TQ3PickPartsMasks;
 
 
-// Fill style
+/*!
+ *  @enum
+ *      TQ3FillStyle
+ *  @discussion
+ *      Fill styles.
+ *
+ *  @constant kQ3FillStyleFilled                Shapes are rendered as filled surfaces.
+ *  @constant kQ3FillStyleEdges                 Shapes are rendered as sets of lines.
+ *  @constant kQ3FillStylePoints                Shapes are rendered as sets of points.
+ */
 typedef enum {
     kQ3FillStyleFilled                          = 0,
     kQ3FillStyleEdges                           = 1,
@@ -90,7 +121,19 @@ typedef enum {
 } TQ3FillStyle;
 
 
-// Backfacing style
+/*!
+ *  @enum
+ *      TQ3BackfacingStyle
+ *  @discussion
+ *      Backfacing styles.
+ *
+ *  @constant kQ3BackfacingStyleBoth            Both backfacing and front facing surfaces
+ *                                              are rendered.
+ *  @constant kQ3BackfacingStyleRemove          Backfacing surfaces are removed before rendering.
+ *  @constant kQ3BackfacingStyleFlip            Both backfacing and front facing surfaces are
+ *                                              rendered, and the surface normals of backfacing
+ *                                              surfaces are inverted before rendering.
+ */
 typedef enum {
     kQ3BackfacingStyleBoth                      = 0,
     kQ3BackfacingStyleRemove                    = 1,
@@ -98,7 +141,18 @@ typedef enum {
 } TQ3BackfacingStyle;
 
 
-// Interpolation style
+/*!
+ *  @enum
+ *      TQ3InterpolationStyle
+ *  @discussion
+ *      Interpolation styles.
+ *
+ *  @constant kQ3InterpolationStyleNone         Faces are rendered with a uniform illumination.
+ *  @constant kQ3InterpolationStyleVertex       Individual vertices are shaded, and their values
+ *                                              are interpolated across each face.
+ *  @constant kQ3InterpolationStylePixel        Individual pixels are shaded. Is not typically
+ *                                              supported by interactive renderers.
+ */
 typedef enum {
     kQ3InterpolationStyleNone                   = 0,
     kQ3InterpolationStyleVertex                 = 1,
@@ -106,21 +160,49 @@ typedef enum {
 } TQ3InterpolationStyle;
 
 
-// Orientation style
+/*!
+ *  @enum
+ *      TQ3OrientationStyle
+ *  @discussion
+ *      Defines the "front facing" side of polygons.
+ *
+ *  @constant kQ3OrientationStyleCounterClockwise   The front face is defined as CCW order.
+ *  @constant kQ3OrientationStyleClockwise          The front face is defined as CW order.
+ */
 typedef enum {
     kQ3OrientationStyleCounterClockwise         = 0,
     kQ3OrientationStyleClockwise                = 1
 } TQ3OrientationStyle;
 
 
-// Anti-alias style
+/*!
+ *  @enum
+ *      TQ3AntiAliasModeMasks
+ *  @discussion
+ *      Anti-alias style selectors.
+ *
+ *  @constant kQ3AntiAliasModeMaskEdges         Apply anti-aliasing to wireframe objects.
+ *  @constant kQ3AntiAliasModeMaskFilled        Apply anti-aliasing to filled objects.
+ *  @constant kQ3AntiAliasModeMaskFullScreen    Apply global anti-aliasing (e.g., FSAA).
+ */
 typedef enum {
     kQ3AntiAliasModeMaskEdges                   = (1 << 0),
-    kQ3AntiAliasModeMaskFilled                  = (1 << 1)
+    kQ3AntiAliasModeMaskFilled                  = (1 << 1),
+    kQ3AntiAliasModeMaskFullScreen              = (1 << 2)
 } TQ3AntiAliasModeMasks;
 
 
-// Fog style
+/*!
+ *  @enum
+ *      TQ3FogMode
+ *  @discussion
+ *      Indicates how fog increases in density with distance.
+ *
+ *  @constant kQ3FogModeLinear                  Fog == (End - Z) / (End - Start)
+ *  @constant kQ3FogModeExponential             Fog == exp(-Density * z)
+ *  @constant kQ3FogModeExponentialSquared      Fog == exp(-Density * z * Density * Z).
+ *  @constant kQ3FogModeAlpha                   Fog == Vertex Alpha
+ */
 typedef enum {
     kQ3FogModeLinear                            = 0,
     kQ3FogModeExponential                       = 1,
