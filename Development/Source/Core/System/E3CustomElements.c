@@ -46,6 +46,7 @@
 #include "E3Prefix.h"
 #include "E3CustomElements.h"
 #include "E3HashTable.h"
+#include "E3Main.h"
 
 
 
@@ -939,6 +940,7 @@ E3Object_RemoveProperty( TQ3Object object, TQ3ObjectType propType )
 		{
 			Q3Memory_Free( &theItem );
 			E3HashTable_Remove( theData.table, propType );
+			E3Shared_Edited( object );
 		}
 	}
 	return status;
@@ -1003,6 +1005,10 @@ E3Object_SetProperty( TQ3Object object, TQ3ObjectType propType,
 			if (status == kQ3Failure)
 			{
 				Q3Memory_Free( &itemContainer );
+			}
+			else
+			{
+				E3Shared_Edited( object );
 			}
 		}
 	}
