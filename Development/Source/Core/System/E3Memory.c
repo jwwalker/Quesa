@@ -676,7 +676,7 @@ TQ3Status
 E3Memory_ForgetRecording(void)
 {
 	TQ3Object		anObject, nextObject;
-	TQ3ObjectData*	leakRec;
+	OpaqueTQ3Object*	leakRec;
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
 	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
 	
@@ -690,7 +690,7 @@ E3Memory_ForgetRecording(void)
 			NEXTLINK( anObject ) = NULL;
 			PREVLINK( anObject ) = NULL;
 			
-			leakRec = (TQ3ObjectData*) E3ClassTree_FindInstanceData(anObject, kQ3ObjectTypeRoot);
+			leakRec = (OpaqueTQ3Object*) E3ClassTree_FindInstanceData(anObject, kQ3ObjectTypeRoot);
 			
 			if ( leakRec->stackCrawl != NULL )
 			{
@@ -753,7 +753,7 @@ TQ3Object
 E3Memory_NextRecordedObject( TQ3Object inObject )
 {
 	TQ3Object	theNext = NULL;
-	TQ3ObjectData*	instanceData;
+	OpaqueTQ3Object*	instanceData;
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
 	
 	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, NULL );
@@ -766,7 +766,7 @@ E3Memory_NextRecordedObject( TQ3Object inObject )
 	}
 	else
 	{
-		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData( inObject, kQ3ObjectTypeRoot );
+		instanceData = (OpaqueTQ3Object *) E3ClassTree_FindInstanceData( inObject, kQ3ObjectTypeRoot );
 		if (instanceData != NULL)
 		{
 			theNext = instanceData->next;
@@ -801,7 +801,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 	FILE*			dumpFile;
 	TQ3ObjectType	theType;
 	TQ3ObjectClassNameString	className;
-	TQ3ObjectData*	leakRec;
+	OpaqueTQ3Object*	leakRec;
 	time_t			theTime;
 	const char*		timeStr;
 	char			timeStrCopy[100];
@@ -842,7 +842,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 		{
 			Q3_ASSERT( E3ClassTree_IsObjectValid(anObject) );
 			nextObject = NEXTLINK( anObject );
-			leakRec = (TQ3ObjectData*) E3ClassTree_FindInstanceData(anObject, kQ3ObjectTypeLeaf);
+			leakRec = (OpaqueTQ3Object*) E3ClassTree_FindInstanceData(anObject, kQ3ObjectTypeLeaf);
 			
 			// anObject currently points to a root object, find the leaf
 			anObject = E3ClassTree_GetLeafObject(anObject);

@@ -57,22 +57,12 @@ extern "C" {
 //      Types
 //-----------------------------------------------------------------------------
 
-// root object data
-typedef struct TQ3ObjectData
-{
-	TQ3SetObject	theSet;
-#if Q3_DEBUG
-	TQ3Object					prev;
-	TQ3Object					next;
-	struct TQ3StackCrawlRec*	stackCrawl;
-#endif
-} TQ3ObjectData;
 
 
 #if Q3_DEBUG
 
-#define		PREVLINK(rootobj)	((TQ3ObjectData*)E3ClassTree_FindInstanceData(rootobj, kQ3ObjectTypeRoot))->prev
-#define		NEXTLINK(rootobj)	((TQ3ObjectData*)E3ClassTree_FindInstanceData(rootobj, kQ3ObjectTypeRoot))->next
+#define		PREVLINK(rootobj)	rootobj->prev
+#define		NEXTLINK(rootobj)	rootobj->next
 
 #endif
 
