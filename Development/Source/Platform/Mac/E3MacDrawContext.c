@@ -695,7 +695,7 @@ e3drawcontext_mac_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *t
 
 
 	// Get our window and its bounds
-	theWindow = instanceData->data.macData.theData.window;
+	theWindow = (WindowRef) instanceData->data.macData.theData.window;
 	Q3_ASSERT_VALID_PTR(theWindow);
 	GetPortBounds(GetWindowPort(theWindow), &theRect);
 
