@@ -112,8 +112,9 @@ QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePath )
 	TQ3Object			memStorage = NULL;
 	unsigned char		p[5];
 	unsigned char*		theBuffer;
-	TQ3Uns32			bufferSize, validSize;
+	TQ3Uns32			bufferSize;
 	TQ3StoragePixmap	thePixMap;
+	TQ3PixelType		pixelType;
 	
 	theFile = fopen( inFilePath, "rb" );
 	if (theFile != NULL)
@@ -158,11 +159,11 @@ QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePath )
 			// Make a storage object to hold the pixels.
 			bytesPerPixel = theHeader.bitsPerPixel / 8;
 			numPixels = theHeader.width * theHeader.height;
-			memStorage = Q3MemoryStorage_New( NULL, numPixels * bytesPerPixel );
-			if (memStorage != NULL)
+			bufferSize = numPixels * bytesPerPixel;
+			theBuffer = malloc( bufferSize );
+			if (theBuffer != NULL)
 			{
 				// Read the image.
-				Q3MemoryStorage_GetBuffer( memStorage, &theBuffer, &validSize, &bufferSize );
 				n = 0;
 				while ( (n < numPixels) && (!feof(theFile)) && (!ferror(theFile)) )
 				{
@@ -210,32 +211,69 @@ QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePath )
 					}
 				}
 				
-				// Create the texture object
-				thePixMap.image = memStorage;
-				thePixMap.width = theHeader.width;
-				thePixMap.height = theHeader.height;
-				thePixMap.rowBytes = rowBytes;
-				thePixMap.pixelSize = bytesPerPixel;
+				// Set the pixel type
 				switch (bytesPerPixel)
 				{
 					case 2:
-						thePixMap.pixelType = kQ3PixelTypeRGB16;
+						pixelType = kQ3PixelTypeRGB16;
 						break;
 						
 					case 3:
-						thePixMap.pixelType = kQ3PixelTypeRGB24;
+						pixelType = kQ3PixelTypeRGB24;
 						break;
 						
 					case 4:
-						thePixMap.pixelType = kQ3PixelTypeRGB32;
+						pixelType = kQ3PixelTypeARGB32;
 						break;
 				}
-				thePixMap.bitOrder = kQ3EndianLittle;
-				thePixMap.byteOrder = kQ3EndianLittle;
 				
-				theTexture = Q3PixmapTexture_New( &thePixMap );
+			#if TARGET_API_MAC_OS8
+				// QD3D on Mac does not support kQ3PixelTypeRGB24, and also appears to
+				// ignore the byte order, so we must convert to kQ3PixelTypeRGB32 in
+				// big-endian order.
+				if (pixelType == kQ3PixelTypeRGB24)
+				{
+					unsigned char*	bigBuffer = malloc( numPixels * 4 );
+					if (bigBuffer != NULL)
+					{
+						pixelType = kQ3PixelTypeRGB32;
+						
+						for (i = 0; i < numPixels; ++i)
+						{
+							bigBuffer[4*i + 3] = theBuffer[3*i];
+							bigBuffer[4*i + 2] = theBuffer[3*i + 1];
+							bigBuffer[4*i + 1] = theBuffer[3*i + 2];
+						}
+						
+						bytesPerPixel = 4;
+						rowBytes = theHeader.width * bytesPerPixel;
+						bufferSize = numPixels * bytesPerPixel;
+						free( theBuffer );
+						theBuffer = bigBuffer;
+					}
+				}
+			#endif
 				
-				Q3Object_Dispose( memStorage );
+				// Create a memory storage object holding a copy of the buffer
+				memStorage = Q3MemoryStorage_New( theBuffer, bufferSize );
+				
+				if (memStorage != NULL)
+				{
+					// Create the texture object
+					thePixMap.image = memStorage;
+					thePixMap.width = theHeader.width;
+					thePixMap.height = theHeader.height;
+					thePixMap.rowBytes = rowBytes;
+					thePixMap.pixelSize = bytesPerPixel;
+					thePixMap.bitOrder = kQ3EndianLittle;
+					thePixMap.byteOrder = kQ3EndianLittle;
+					thePixMap.pixelType = pixelType;
+					
+					theTexture = Q3PixmapTexture_New( &thePixMap );
+					
+					Q3Object_Dispose( memStorage );
+				}
+				free( theBuffer );
 			}
 		}
 		
