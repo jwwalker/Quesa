@@ -254,6 +254,11 @@ Q3Memory_Initialize(void *thePtr, TQ3Uns32 theSize, TQ3Uns8 theValue)
 //=============================================================================
 //      Q3Memory_Clear : Quesa API entry point.
 //-----------------------------------------------------------------------------
+//		Note :	Unlike other API calls, this one does not call the system
+//				bottleneck. E3System_Bottleneck needs to call us to initialise
+//				the global Quesa state, and if we call it from here we will
+//				recurse.
+//-----------------------------------------------------------------------------
 void
 Q3Memory_Clear(void *thePtr, TQ3Uns32 theSize)
 {
@@ -276,8 +281,7 @@ Q3Memory_Clear(void *thePtr, TQ3Uns32 theSize)
 
 
 
-	// Call the bottleneck
-	E3System_Bottleneck();
+	// Do not call the system bottleneck - we would recurse forever
 
 
 
