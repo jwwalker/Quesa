@@ -681,7 +681,7 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	TQ3GroupObject		theGroup;
 	TQ3Uns32			sides = 10;
 	TQ3Uns32			bands = 10;
-	TQ3Vector3D			majXMinor, workVec;
+	TQ3Vector3D			workVec;
 	TQ3SubdivisionStyleData subdivisionData;
 	TQ3ConeData			faceData;
 	TQ3Boolean			isTipPresent;
@@ -752,12 +752,31 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 	// Test whether the geometry is degenerate.
-	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->minorRadius, &majXMinor );
-	dotCross = Q3Vector3D_Dot( &geomData->orientation, &majXMinor );
-	if (E3Float_Abs( dotCross ) < kQ3RealZero)
+	// This takes a bit of care.  One might think it would suffice to compute
+	// the triple product of the 3 axis vectors.  But if they are somewhat
+	// small, say length 0.003, and orthogonal, then the triple product will
+	// be less than kQ3RealZero.
+	if ( (Q3Vector3D_Length(&geomData->majorRadius) < kQ3RealZero) ||
+		(Q3Vector3D_Length(&geomData->minorRadius) < kQ3RealZero) ||
+		(Q3Vector3D_Length(&geomData->orientation) < kQ3RealZero) )
 	{
 		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
 		return theGroup;
+	}
+	else
+	{
+		TQ3Vector3D		majNorm, minNorm, orientNorm, majXMinor;
+		
+		Q3Vector3D_Normalize( &geomData->majorRadius, &majNorm );
+		Q3Vector3D_Normalize( &geomData->minorRadius, &minNorm );
+		Q3Vector3D_Normalize( &geomData->orientation, &orientNorm );
+		Q3Vector3D_Cross( &majNorm, &minNorm, &majXMinor );
+		dotCross = Q3Vector3D_Dot( &orientNorm, &majXMinor );
+		if (E3Float_Abs( dotCross ) < kQ3RealZero)
+		{
+			E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
+			return theGroup;
+		}
 	}
 
 
