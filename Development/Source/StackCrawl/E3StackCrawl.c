@@ -37,25 +37,30 @@
 #include "QuesaMemory.h"
 #include <cstring>
 
-#if macintosh
+#if QUESA_OS_MACINTOSH
 	#include "StackWalker.h"
 	#include <ConditionalMacros.h>
 #endif
 
+
+
+
+
 //=============================================================================
 //      Internal types
-//-----------------------------------------------------------------------------
-typedef struct TQ3StackCrawlRec
-{
-	TQ3Uns16	numberOfNames;
-	char		nameData[2];		// actually variable size
-} TQ3StackCrawlRec;
 //-----------------------------------------------------------------------------
 //      A stack crawl record is a variable-sized chunk of memory.
 //		The nameData field consists of a certain number of NUL-terminated
 //		strings.  This is intended to minimize memory usage, at some
 //		expense in convenience.
 //-----------------------------------------------------------------------------
+typedef struct TQ3StackCrawlRec
+{
+	TQ3Uns16	numberOfNames;
+	char		nameData[2];		// actually variable size
+} TQ3StackCrawlRec;
+
+
 
 
 
@@ -67,11 +72,11 @@ const TQ3Uns32	kMaxCrawlBuffer	= 2048;
 
 
 
+
+
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
-
-//=============================================================================
 //      E3StackCrawl_New:	Create a stack crawl record for the caller of this.
 //-----------------------------------------------------------------------------
 TQ3StackCrawl
@@ -79,7 +84,7 @@ E3StackCrawl_New()
 {
 	TQ3StackCrawl	theCrawl = NULL;
 	
-#if TARGET_RT_MAC_CFM
+#if QUESA_OS_MACINTOSH
 	char*	rawCrawl = (char*) Q3Memory_Allocate( kMaxCrawlBuffer );
 	if (rawCrawl != NULL)
 	{
@@ -134,6 +139,7 @@ E3StackCrawl_New()
 
 
 
+
 //=============================================================================
 //      E3StackCrawl_Count:	Return the number of names in a stack crawl.
 //-----------------------------------------------------------------------------
@@ -149,6 +155,8 @@ E3StackCrawl_Count( TQ3StackCrawl inCrawl )
 	
 	return theCount;
 }
+
+
 
 
 
@@ -176,6 +184,8 @@ E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex )
 	
 	return theName;
 }
+
+
 
 
 
