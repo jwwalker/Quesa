@@ -159,7 +159,6 @@ e3group_new(TQ3Object theObject, void *privateData, const void *paramData)
 static void
 e3group_delete(TQ3Object theObject, void *privateData)
 {
-#pragma unused(theObject)
 #pragma unused(privateData)
 
 
@@ -567,7 +566,7 @@ e3group_countobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 
 
 
 //=============================================================================
-//      e3group_emptyobjectsoftype : Group count objects of type method.
+//      e3group_emptyobjectsoftype : Group empty objects of type method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType)
@@ -2012,6 +2011,13 @@ e3group_display_ordered_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3group_display_ordered_new;
 			break;
+
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3group_delete;
+			// We do need this here, even though it is also in the plain group metahandler,
+			// because if it is called as a Group method it won't see the members of
+			// the group.
+			break;		
 
 		case kQ3XMethodType_GroupAddObject:
 			theMethod = (TQ3XFunctionPointer) e3group_display_ordered_addobject;
