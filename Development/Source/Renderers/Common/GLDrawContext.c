@@ -82,7 +82,7 @@ typedef struct WinGLContext {
 	HGLRC			glContext;
 	HBITMAP 		backBuffer;
 	BYTE			*pBits;
-	TQ3Pixmap pixmap;
+	TQ3Pixmap		pixmap;
 } WinGLContext;
 #endif
 
@@ -602,7 +602,9 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
 	TQ3Int32				pfdFlags;
 	BITMAPINFOHEADER		bmih;
 	BYTE					colorBits = 0;
-
+	TQ3Int32				windowHeight;
+	HWND					theWindow;
+	RECT					windowRect;
 
 
 	// Allocate the context structure
@@ -621,6 +623,12 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
 			qd3dStatus = Q3Win32DCDrawContext_GetDC(theDrawContext, &theContext->theDC);
 			if (qd3dStatus != kQ3Success || theContext->theDC == NULL)
 				goto fail;
+			
+			theWindow = WindowFromDC( theContext->theDC );
+			if (theWindow == NULL)
+				goto fail;
+			GetClientRect( theWindow, &windowRect );
+			windowHeight = windowRect.bottom - windowRect.top;
 
 			pfdFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
 			break;
@@ -642,6 +650,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
 			bmih.biPlanes = 1;
 			bmih.biBitCount = (unsigned short)theContext->pixmap.pixelSize;
 			bmih.biCompression = BI_RGB;
+			windowHeight = bmih.biHeight;
 
 			colorBits = (BYTE)bmih.biBitCount;
 			
@@ -722,10 +731,21 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
 
 	// Set the viewport
 	if (drawContextData.paneState)
+	{
 		glViewport((TQ3Uns32)  drawContextData.pane.min.x,
-				   (TQ3Uns32)  drawContextData.pane.min.y,
+				   (TQ3Uns32)  (windowHeight - drawContextData.pane.max.y),
 				   (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x),
 				   (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y));
+		glEnable( GL_SCISSOR_TEST );
+		glScissor((TQ3Uns32)  drawContextData.pane.min.x,
+				   (TQ3Uns32)  (windowHeight - drawContextData.pane.max.y),
+				   (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x),
+				   (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y));
+	}
+	else
+	{
+		glDisable( GL_SCISSOR_TEST );
+	}
 
 
 
@@ -747,16 +767,35 @@ fail:
 static void
 gldrawcontext_win_destroy(void *glContext)
 {	WinGLContext		*theContext = (WinGLContext *) glContext;
+	int	success;
 
 
 
 	// Close down the context
-	wglMakeCurrent(NULL, NULL);
+	success = wglMakeCurrent(NULL, NULL);
+	#if Q3_DEBUG
+		if (!success)
+		{
+			TQ3Int32	error = GetLastError();
+			char		theString[kQ3StringMaximumLength];
+			sprintf( theString, "wglMakeCurrent error %d in gldrawcontext_win_destroy.", error );
+			E3Assert( __FILE__, __LINE__, theString );
+		}
+	#endif
 
 
 
 	// Destroy the context
-	wglDeleteContext(theContext->glContext);
+	success = wglDeleteContext(theContext->glContext);
+	#if Q3_DEBUG
+		if (!success)
+		{
+			TQ3Int32	error = GetLastError();
+			char		theString[kQ3StringMaximumLength];
+			sprintf( theString, "wglDeleteContext error %d in gldrawcontext_win_destroy.", error );
+			E3Assert( __FILE__, __LINE__, theString );
+		}
+	#endif
 
 
 
@@ -856,7 +895,19 @@ gldrawcontext_win_setcurrent(void *glContext, TQ3Boolean forceSet)
 	if (forceSet                                    ||
 		wglGetCurrentDC()      != theContext->theDC ||
 		wglGetCurrentContext() != theContext->glContext)
-		wglMakeCurrent(theContext->theDC, theContext->glContext);
+	{
+		int	success = wglMakeCurrent(theContext->theDC, theContext->glContext);
+	
+	#if Q3_DEBUG
+		if (!success)
+		{
+			TQ3Int32	error = GetLastError();
+			char		theString[kQ3StringMaximumLength];
+			sprintf( theString, "wglMakeCurrent error %d in gldrawcontext_win_setcurrent.", error );
+			E3Assert( __FILE__, __LINE__, theString );
+		}
+	#endif
+	}
 }
 
 
