@@ -69,15 +69,42 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Viewer state flags (Q3ViewerGetState/Q3WinViewerGetState)
+/*!
+ *  @enum
+ *      Viewer state flags.
+ *
+ *  @constant kQ3ViewerStateEmpty        Set if the viewer does not contain a model.
+ *  @constant kQ3ViewerStateHasModel     Set if the viewer does contain a model.
+ *  @constant kQ3ViewerStateHasUndo      Set if the viewer can undo the last action.
+ */
 enum {
-    kQ3ViewerEmpty                              = 0,
-    kQ3ViewerHasModel                           = (1 << 0),
-    kQ3ViewerHasUndo                            = (1 << 1)
+	// Quesa constants
+	kQ3ViewerStateEmpty                         = 0,
+    kQ3ViewerStateHasModel                      = (1 << 0),
+    kQ3ViewerStateHasUndo                       = (1 << 1)
+
+	// QD3D constants - deprecated
+#if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+    kQ3ViewerEmpty                              = kQ3ViewerStateEmpty,
+    kQ3ViewerHasModel                           = kQ3ViewerStateHasModel,
+    kQ3ViewerHasUndo                            = kQ3ViewerStateHasUndo
+#endif // QUESA_OS_MACINTOSH || QUESA_OS_WIN32
 };
 
 
-// Viewer cameras
+/*!
+ *  @enum
+ *      Viewer camera flags for Q3Viewer_SetCameraByView.
+ *
+ *  @constant kQ3ViewerCameraRestore     Sets the camera view to its original position.
+ *  @constant kQ3ViewerCameraFit         Sets the camera view so that the 3D model fits entirely within the window.
+ *  @constant kQ3ViewerCameraFront       Sets the camera to look at the front of the model.
+ *  @constant kQ3ViewerCameraBack        Sets the camera to look at the back of the model.
+ *  @constant kQ3ViewerCameraLeft        Sets the camera to look at the left of the model.
+ *  @constant kQ3ViewerCameraRight       Sets the camera to look at the right of the model.
+ *  @constant kQ3ViewerCameraTop         Sets the camera to look at the top of the model.
+ *  @constant kQ3ViewerCameraBottom      Sets the camera to look at the bottom of the model.
+ */
 typedef enum {
     kQ3ViewerCameraRestore                      = 0,
     kQ3ViewerCameraFit                          = 1,
@@ -88,6 +115,58 @@ typedef enum {
     kQ3ViewerCameraTop                          = 6,
     kQ3ViewerCameraBottom                       = 7
 } TQ3ViewerCameraView;
+
+
+/*!
+ *  @enum
+ *      Viewer flags.
+ *
+ *  @constant kQ3ViewerFlagDefault             The default viewer configuration.
+ *  @constant kQ3ViewerFlagButtonCamera        Displays the camera button in the control strip.
+ *  @constant kQ3ViewerFlagButtonTruck         Displays the distance mode button in the control strip.
+ *  @constant kQ3ViewerFlagButtonOrbit         Displays the orbit mode button in the control strip.
+ *  @constant kQ3ViewerFlagButtonZoom          Displays the zoom mode button in the control strip.
+ *  @constant kQ3ViewerFlagButtonDolly         Displays the move mode button in the control strip.
+ *  @constant kQ3ViewerFlagButtonReset         Displays the camera reset button in the control strip.
+ *  @constant kQ3ViewerFlagButtonOptions       Displays the viewer options button in the control strip
+ *  @constant kQ3ViewerFlagDragMode            Enables drag and drop mode.
+ *  @constant kQ3ViewerFlagDraggingOff         If set, disables drag and drop mode.
+ *  @constant kQ3ViewerFlagDraggingInOff       If set, disables dragging in to the viewer.
+ *  @constant kQ3ViewerFlagDraggingOutOff      If set, disables dragging out of the viewer.
+ *  @constant kQ3ViewerFlagDrawFrame           Displays a one-pixel frame within the viewer.
+ *  @constant kQ3ViewerFlagDrawGrowBox         Displays a grow box on the viewer window (Mac OS only).
+ *  @constant kQ3ViewerFlagDrawDragBorder      Displays a drag border within the viewer.
+ *  @constant kQ3ViewerFlagActive              Indicates the viewer is active.
+ *  @constant kQ3ViewerFlagShowBadge           Displays a badge when the control strip is hidden.
+ *  @constant kQ3ViewerFlagShowControlStrip    Displays the control strip.
+ *  @constant kQ3ViewerFlagOutputTextMode      If set, 3D data will be written/returned in text mode.
+ *  @constant kQ3ViewerFlagPaneGrowBox         Displays a grow box within the viewer.
+ */
+enum {
+    kQ3ViewerFlagDefault                        = (1 << 0)
+    kQ3ViewerFlagButtonCamera                   = (1 << 1),
+    kQ3ViewerFlagButtonTruck                    = (1 << 2),
+    kQ3ViewerFlagButtonOrbit                    = (1 << 3),
+    kQ3ViewerFlagButtonZoom                     = (1 << 4),
+    kQ3ViewerFlagButtonDolly                    = (1 << 5),
+    kQ3ViewerFlagButtonReset                    = (1 << 6),
+    kQ3ViewerFlagButtonOptions                  = (1 << 7),
+    // 8 to 9, reserved for future buttons
+    kQ3ViewerFlagDragMode                       = (1 << 10),
+    kQ3ViewerFlagDraggingOff                    = (1 << 11),
+    kQ3ViewerFlagDraggingInOff                  = (1 << 12),
+    kQ3ViewerFlagDraggingOutOff                 = (1 << 13),
+    kQ3ViewerFlagDrawFrame                      = (1 << 14),
+    kQ3ViewerFlagDrawGrowBox                    = (1 << 15),
+    kQ3ViewerFlagDrawDragBorder                 = (1 << 16),
+    // 17 to 19, reserved for future expansion
+    kQ3ViewerFlagActive                         = (1 << 20),
+    kQ3ViewerFlagShowBadge                      = (1 << 21),
+    kQ3ViewerFlagShowControlStrip               = (1 << 22),
+    kQ3ViewerFlagOutputTextMode                 = (1 << 23),
+    kQ3ViewerFlagPaneGrowBox                    = (1 << 24),
+    // 25 to 31, reserved for future expansion
+};
 
 
 
@@ -154,13 +233,27 @@ enum {
 
 
 // WM_NOTIFY messages
-#define Q3VNM_DROPFILES                         0x5000
-#define Q3VNM_CANUNDO                           0x5001
-#define Q3VNM_DRAWCOMPLETE                      0x5002
-#define Q3VNM_SETVIEW                           0x5003
-#define Q3VNM_SETVIEWNUMBER                     0x5004
-#define Q3VNM_BUTTONSET                         0x5005
-#define Q3VNM_BADGEHIT                          0x5006
+/*!
+ *  @enum
+ *      WM_NOTIFY messages. Windows specific.
+ *
+ *  @constant Q3VNM_DROPFILES           Files have been dropped on the viewer.
+ *  @constant Q3VNM_CANUNDO             The viewer can undo.
+ *  @constant Q3VNM_DRAWCOMPLETE        The viewer has finished drawing.
+ *  @constant Q3VNM_SETVIEW             A new view has been set.
+ *  @constant Q3VNM_SETVIEWNUMBER       A new view has been set by index.
+ *  @constant Q3VNM_BUTTONSET           The active button has changed.
+ *  @constant Q3VNM_BADGEHIT            The viewer badge has been clicked.
+ */
+enum {
+    Q3VNM_DROPFILES                             = 0x5000,
+    Q3VNM_CANUNDO                               = 0x5001,
+    Q3VNM_DRAWCOMPLETE                          = 0x5002,
+    Q3VNM_SETVIEW                               = 0x5003,
+    Q3VNM_SETVIEWNUMBER                         = 0x5004,
+    Q3VNM_BUTTONSET                             = 0x5005,
+    Q3VNM_BADGEHIT                              = 0x5006
+};
 
 
 // Window class name (can be passed to CreateWindow/CreateWindowEx)
@@ -169,6 +262,7 @@ enum {
 
 // Clipboard type
 #define kQ3ViewerClipboardFormat                "QuickDraw 3D Metafile"
+
 
 #endif // QUESA_OS_WIN32
 
@@ -179,15 +273,51 @@ enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// The Viewer object is opaque
-typedef void *TQ3ViewerObject;
+// Callbacks
+/*!
+ *  @struct
+ *      TQ3ViewerDrawCallbackMethod
+ *  @discussion
+ *		Callback which is invoked by the viewer after it draws any part of itself,
+ *		including the control strip.
+ *
+ *  @field theViewer        Viewer object.
+ *  @field userData         User supplied data parameter.
+ */
+typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerDrawCallbackMethod)(
+                            TQ3ViewerObject     theViewer,
+                            const void          *userData);
 
 
-// Viewer callbacks
+/*!
+ *  @struct
+ *      TQ3ViewerWindowResizeCallbackMethod
+ *  @discussion
+ *		Callback which is invoked by the viewer when the user clicks and drags
+ *		in the resize region for its window. By default, the viewer will handle
+ *		this operation and resize the window, however this callback can be used
+ *		to override this behaviour.
+ *
+ *		The callback should handle all mouse tracking, resizing, and invalidating
+ *		of the viewer window.
+ *
+ *  @field theViewer        Viewer object.
+ *  @field userData         User supplied data parameter.
+ */
 typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerWindowResizeCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
 
+
+/*!
+ *  @struct
+ *      TQ3ViewerPaneResizeNotifyCallbackMethod
+ *  @discussion
+ *		Callback which is invoked by the viewer when its window is resized.
+ *
+ *  @field theViewer        Viewer object.
+ *  @field userData         User supplied data parameter.
+ */
 typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerPaneResizeNotifyCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
@@ -201,7 +331,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerPaneResizeNotifyCallbackMet
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
 
-// Viewer callbacks
+// Viewer callback
 typedef CALLBACK_API_C(OSErr,               TQ3ViewerDrawingCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
@@ -218,28 +348,65 @@ typedef CALLBACK_API_C(OSErr,               TQ3ViewerDrawingCallbackMethod)(
 //-----------------------------------------------------------------------------
 #if QUESA_OS_WIN32
 
-// Viewer callbacks
-typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerDrawingCallbackMethod)(
-                            TQ3ViewerObject     theViewer,
-                            const void          *userData);
+// Viewer callback
+typedef TQ3ViewerDrawCallbackMethod TQ3ViewerDrawingCallbackMethod;
 
 
-// Viewer types
+// WM_NOTIFY types
+/*!
+ *  @struct
+ *      TQ3ViewerDropFiles
+ *  @discussion
+ *		WM_NOTIFY message when files are dropped on the viewer.
+ *
+ *  @field nmhdr            Unknown.
+ *  @field hDrop            The dropped files.
+ */
 typedef struct {
     NMHDR                           nmhdr;
     HANDLE                          hDrop;
 } TQ3ViewerDropFiles;
 
+
+/*!
+ *  @struct
+ *      TQ3ViewerSetView
+ *  @discussion
+ *		WM_NOTIFY message when a view is set in the viewer.
+ *
+ *  @field nmhdr            Unknown.
+ *  @field view             The new view.
+ */
 typedef struct {
     NMHDR                           nmhdr;
     TQ3ViewerCameraView             view;
 } TQ3ViewerSetView;
 
+
+/*!
+ *  @struct
+ *      TQ3ViewerSetViewNumber
+ *  @discussion
+ *		WM_NOTIFY message when a view is set in the viewer by index.
+ *
+ *  @field nmhdr            Unknown.
+ *  @field number           The new view index.
+ */
 typedef struct {
     NMHDR                           nmhdr;
     TQ3Uns32                        number;
 } TQ3ViewerSetViewNumber;
 
+
+/*!
+ *  @struct
+ *      TQ3ViewerButtonSet
+ *  @discussion
+ *		WM_NOTIFY message when a viewer button is selected.
+ *
+ *  @field nmhdr            Unknown.
+ *  @field hDrop            The button index.
+ */
 typedef struct {
     NMHDR                           nmhdr;
     TQ3Uns32                        button;
@@ -253,7 +420,1301 @@ typedef struct {
 
 
 //=============================================================================
-//      Mac OS function prototypes
+//      Quesa Viewer - Function prototypes
+//-----------------------------------------------------------------------------
+/*!
+ *  @function
+ *      Q3Viewer_GetVersion
+ *  @discussion
+ *      Returns the major and minor version number of the Quesa viewer.
+ *
+ *      For example, if the revision is 1.6a23 (= 1.6.0a23), returns 1
+ *      as the major revision level and 6 as the minor revision level:
+ *      The final 0 in the minor revision level is omitted.
+ *      If the revision is 1.61a23 (= 1.6.1a23), returns 1 as the major
+ *      revision level and 61 as the minor revision level.
+ *
+ *		See also the Q3Viewer_GetReleaseVersion function.
+ *
+ *  @param majorRevision    Receives the major version number.
+ *  @param minorRevision    Receives the minor version number.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetVersion (
+    TQ3Uns32                      *majorRevision,
+    TQ3Uns32                      *minorRevision
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetReleaseVersion
+ *  @discussion
+ *      Returns the version number of the Quesa viewer, in <code>'vers'</code>
+ *		format.
+ *
+ *      The four bytes contain 1) the major revision level, 2) the minor revision,
+ *      3) the development stage, and 4) the prerelease revision level, respectively.
+ *      The three revision levels are each represented in binary coded decimal.
+ *      The development stage can be development (0x20), alpha (0x40), beta (0x60)
+ *      or release (0x80).
+ *
+ *      For example, if the revision is 1.61a23 (= 1.6.1a23), returns 0x01614023.
+ *      For more information, see the description of the <code>'vers'</code> resource
+ *      in the book <i>Inside Macintosh: Macintosh Toolbox Essentials.</i>
+ *
+ *		See also the Q3Viewer_GetVersion function.
+ *
+ *  @param releaseRevision  Receives the version data.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetReleaseVersion (
+    TQ3Uns32                      *releaseRevision
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_New
+ *  @discussion
+ *      Creates a new Viewer object. Should be disposed of with Q3Viewer_Dispose
+ *		or Q3Object_Dispose.
+ *
+ *		On Mac OS, the window parameter should be a WindowRef. On Windows, it
+ *		should be an HWND.
+ *
+ *		Note that Q3Viewer_New requires kQ3ViewerFlagXXXX constants for the flags
+ *		parameter, not the QuickDraw 3D style kQ3ViewerXXXX constants.
+ *
+ *  @param theWindow        The window to which the viewer should be attached.
+ *  @param theRect          Area of bounding rectangle within the window.
+ *  @param theFlags         Flags for the viewer. Use kQ3ViewerFlagDefault for the default attributes.
+ *  @result                 Newly created Viewer object, or <code>NULL</code> if the Viewer could not be created.
+ */
+EXTERN_API_C ( TQ3ViewerObject )
+Q3Viewer_New(
+    const void                    *theWindow,
+    const TQ3Area                 *theRect,
+    TQ3Uns32                      theFlags
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_Dispose
+ *  @discussion
+ *      Disposes of a Viewer object.
+ *
+ *  @param theViewer        Viewer created with Q3Viewer_New.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_Dispose (
+    TQ3ViewerObject               theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_UseFile
+ *  @discussion
+ *      Load data from a 3D model file into the Viewer.
+ *
+ *		On Mac OS, the file reference parameter should be a Mac OS file reference
+ *		obtained from, e.g., FSOpen. On Windows, it should be a HANDLE to the
+ *		open file. The file must be opened for reading.
+ *
+ *		See also: <code>Q3Viewer_UseData</code> and <code>Q3Viewer_UseGroup</code>.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param fileRef          Reference to a file opened for reading.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_UseFile (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       fileRef
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_UseData
+ *  @discussion
+ *      Loads 3D scene data in memory into the Viewer.
+ *
+ *		The given data buffer is copied by the Viewer; the caller is responsible
+ *		for disposing of it and may do so immediately after this call.
+ *
+ *		See also: <code>Q3Viewer_UseFile</code> and <code>Q3Viewer_UseGroup</code>.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theData          Pointer to a buffer containing scene data.
+ *  @param dataSize         Length of the data buffer in bytes.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_UseData (
+    TQ3ViewerObject                theViewer,
+    const void                     *theData,
+    TQ3Uns32                       dataSize
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_UseGroup
+ *  @discussion
+ *      Loads 3D scene data within a TQ3GroupObject into the Viewer.
+ *
+ *		See also: <code>Q3Viewer_UseFile</code>, <code>Q3Viewer_UseData</code>.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theGroup         Model data to load.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_UseGroup (
+    TQ3ViewerObject                theViewer,
+    TQ3GroupObject                 theGroup
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetGroup
+ *  @discussion
+ *      Returns a reference to the 3D model data being used by the Viewer.
+ *
+ *		The reference count of the TQ3GroupObject returned is incremented
+ *		by this call.  Therefore, you should call Q3Object_Dispose on the
+ *		returned object when you're with it.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Group containing 3D model data.
+ */
+EXTERN_API_C ( TQ3GroupObject )
+Q3Viewer_GetGroup (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_WriteFile
+ *  @discussion
+ *      Write the 3D model data contained by the Viewer out to a file.
+ *
+ *		On Mac OS, the file reference parameter should be a Mac OS file reference
+ *		obtained from, e.g., FSOpen. On Windows, it should be a HANDLE to the
+ *		open file. The file must be opened for writing.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param fileRef          Reference to a file opened for writing.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_WriteFile (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       fileRef
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_WriteData
+ *  @discussion
+ *      Flattens the 3D scene contained by the viewer into an internal block of
+ *		data and provides access to that data.
+ *
+ *		The pointer returned is to memory allocated internally by the viewer.
+ *		This memory must not be disposed of by your application, and will
+ *		be released when the viewer object is disposed of.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theData          Receives a pointer to a buffer containing the scene data.
+ *  @param dataSize         Receives the length of the data buffer in bytes.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_WriteData (
+    TQ3ViewerObject                theViewer,
+    void                           **theData,
+    TQ3Uns32                       *dataSize
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_Draw
+ *  @discussion
+ *      Forces the viewer to redraw itself.
+ *
+ *		Should be called after the changing the Viewer's flags or visible features.
+ *		For example, to move or resize a Viewer, call <code>Q3Viewer_SetBounds</code>
+ *		followed by <code>Q3Viewer_Draw</code>.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_Draw (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_DrawContent
+ *  @discussion
+ *      Redraws the content area (i.e. the 3D view) of the given Viewer.
+ *
+ *		You should call this function if you directly modify the 3D model
+ *		associated with the Viewer.  In such a case, it's more efficient to
+ *		call this function than <code>Q3Viewer_Draw</code>, which also redraws
+ *		other user interface elements (such as control buttons).
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_DrawContent (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_DrawControlStrip
+ *  @discussion
+ *      Redraws the user interface controls of the given Viewer.
+ *
+ *		Call this function when you want to redraw the controls, without
+ *		re-rendering the 3D view.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_DrawControlStrip (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetButtonRect
+ *  @discussion
+ *      Gets the rectangle that encloses a Viewer control button.
+ *
+ *		E.g., to obtain the location of the camera button within a viewer's
+ *		control strip, use the kQ3ViewerButtonCamera constant.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theButton        The button to query.
+ *  @param theRect          Receives the rectangle covered by the button.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetButtonRect (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       theButton,
+    TQ3Area                        *theRect
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetCurrentButton
+ *  @discussion
+ *      Gets the currently selected mode button of a viewer.
+ *
+ *		A Viewer object always has a "mode" which determines how mouse
+ *		drags in the content area are interpreted.  Modes are selected
+ *		by clicking on one of the mode buttons; this function tells
+ *		you which one is currently active.  The result will be one of
+ *		the following:
+ *
+ *			<code>kQ3ViewerButtonTruck
+ *			kQ3ViewerButtonOrbit
+ *			kQ3ViewerButtonZoom
+ *			kQ3ViewerButtonDolly</code>
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 The currently active mode button.
+ */
+EXTERN_API_C ( TQ3Uns32 )
+Q3Viewer_GetCurrentButton (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetCurrentButton
+ *  @discussion
+ *      Sets the currently selected mode button of a viewer.
+ *
+ *		A Viewer object always has a "mode" which determines how mouse
+ *		drags in the content area are interpreted.  Modes are selected
+ *		by clicking on one of the mode buttons; this function has
+ *		exactly the same effect as a click on the specified button.
+ *		The <code>button</code> parameter should be one of the following:
+ *
+ *			<code>kQ3ViewerButtonTruck
+ *			kQ3ViewerButtonOrbit
+ *			kQ3ViewerButtonZoom
+ *			kQ3ViewerButtonDolly</code>
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theButton        The button to make active.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetCurrentButton (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       theButton
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetBackgroundColor
+ *  @discussion
+ *      Gets the background color of a viewer.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theColor         Receives the background colour of the viewer.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetBackgroundColor (
+    TQ3ViewerObject                theViewer,
+    TQ3ColorARGB                   *theColor
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetBackgroundColor
+ *  @discussion
+ *      Sets the background color of a viewer.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theColor         The new background colour.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetBackgroundColor (
+    TQ3ViewerObject                theViewer,
+    const TQ3ColorARGB             *theColor
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetView
+ *  @discussion
+ *      Returns the view object associated with the given Viewer.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 View object associated with this Viewer.
+ */
+EXTERN_API_C ( TQ3ViewObject )
+Q3Viewer_GetView (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_RestoreView
+ *  @discussion
+ *      Resets the viewer camera according to the settings in the associated
+ *		view hints object.  If there are no view hints, resets the camera
+ *		to a standard default state.
+ *
+ *		This has the same effect as clicking the reset button in the
+ *		viewer controls.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_RestoreView (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetFlags
+ *  @discussion
+ *		Gets the flags for a viewer.
+ *
+ *		Note that Q3Viewer_GetFlags returns kQ3ViewerFlagXXXX constants,
+ *		not the QuickDraw 3D style kQ3ViewerXXXX constants.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Current feature flags.
+ */
+EXTERN_API_C ( TQ3Uns32 )
+Q3Viewer_GetFlags (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetFlags
+ *  @discussion
+ *      Sets the flags for a viewer.
+ *
+ *		Note that Q3Viewer_SetFlags requires kQ3ViewerFlagXXXX constants,
+ *		not the QuickDraw 3D style kQ3ViewerXXXX constants.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theFlags         the Flags to set.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetFlags (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       theFlags
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetBounds
+ *  @discussion
+ *      Gets the current bounding rectangle of the Viewer pane.
+ *
+ *		The bounding rectangle determines where the Viewer draws itself
+ *		within its window.  The bounds are in window coordinates, and include
+ *		both the rendered area and the control strip.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theRect          Receives the bounding rectangle within the window.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetBounds (
+    TQ3ViewerObject                theViewer,
+    TQ3Area                        *theRect
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetBounds
+ *  @discussion
+ *      Sets the bounding rectangle for the Viewer pane.
+ *
+ *		The bounding rectangle determines where the Viewer draws itself
+ *		within its window.  The bounds are in window coordinates, and include
+ *		both the rendered area and the control strip.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theRect          The new bounding rectangle within the window.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetBounds (
+    TQ3ViewerObject                theViewer,
+    const TQ3Area                  *theRect
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetDimension
+ *  @discussion
+ *      Get the dimensions of model space in a Viewer's view hints object.
+ *
+ *		If the specified Viewer has no view hints, then this function just
+ *		returns the actual width and height of the viewer pane.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theWidth         Receives the hinted width.
+ *  @param theHeight        Receives the hinted height.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetDimension (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       *theWidth,
+    TQ3Uns32                       *theHeight
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetDimension
+ *  @discussion
+ *      Sets the dimensions of model space in a Viewer's view hints object.
+ *
+ *		This might be useful if you were then going to write a 3DMF file
+ *		of the Viewer data; presumably it could store this hint in that file.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theWidth         Desired width of the viewer pane.
+ *  @param theHeight        Desired height of the viewer pane.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetDimension (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       theWidth,
+    TQ3Uns32                       theHeight
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetMinimumDimension
+ *  @discussion
+ *      Gets the minimum allowable size of the viewer pane.
+ *
+ *		The returned size will take into account the currently displayed
+ *		buttons in the controller strip.  If you allow the viewer pane
+ *		(or its window) to be resized, you should not allow it to be
+ *		resized smaller than the values returned by this function.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theWidth         Receives the minimum viewer width.
+ *  @param theHeight        Receives the minimum viewer height.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetMinimumDimension (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       *theWidth,
+    TQ3Uns32                       *theHeight
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetWindow
+ *  @discussion
+ *      Gets the window into which the viewer draws.
+ *
+ *		If NULL is returned, the viewer is not associated with any window.
+ *
+ *		On Mac OS, the window returned will be a WindowRef. On Windows, it
+ *		will be an HWND.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 The window used by the viewer.
+ */
+EXTERN_API_C ( void * )
+Q3Viewer_GetWindow (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetWindow
+ *  @discussion
+ *      Sets the window into which the viewer draws.
+ *
+ *		On Mac OS, the window parameter should be a WindowRef. On Windows, it
+ *		should be an HWND.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theWindow        The window to which the viewer should draw.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetWindow (
+    TQ3ViewerObject                theViewer,
+    const void                     *theWindow
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetViewer
+ *  @discussion
+ *      Obtains the viewer object, if any, which is associated with a window.
+ *
+ *		If more than one viewer is using a window, the result is undefined:
+ *		a valid viewer object will be returned, however it may not be the
+ *		first viewer associated with the window.
+ *
+ *		On Mac OS, the window parameter should be a WindowRef. On Windows, it
+ *		should be an HWND.
+ *
+ *  @param theWindow        The window to query.
+ *  @result                 The associated viewer, or NULL if no viewer was found.
+ */
+EXTERN_API_C ( TQ3ViewerObject )
+Q3Viewer_GetViewer (
+    const void                     *theWindow
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetControlStripWindow
+ *  @discussion
+ *      Gets the window into which the viewer control strip draws.
+ *
+ *		On Mac OS, the window returned will be the WindowRef used by the main
+ *		viewer. On Windows, it will be an HWND for the child window used by
+ *		the control strip.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 The window used by the viewer.
+ */
+EXTERN_API_C ( void * )
+Q3Viewer_GetControlStripWindow (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_AdjustCursor
+ *  @discussion
+ *      Adjusts the mouse cursor for a viewer.
+ *
+ *		Should be called when the mouse moves into the viewer area, but may
+ *		be called for any coordinate. Allows the Viewer to change the cursor
+ *		as appropriate for the Viewer mode and cursor location.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param hPos             Horizontal location of the cursor.
+ *  @param vPos             Vertical location of the cursor.
+ *  @result                 Returns as the cursor was changed by the viewer.
+ */
+EXTERN_API_C ( TQ3Boolean )
+Q3Viewer_AdjustCursor (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       hPos,
+    TQ3Uns32                       vPos
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_CursorChanged
+ *  @discussion
+ *      Notifies the Viewer that you have changed the cursor.
+ *
+ *		If you change the cursor within your application, notify the active
+ *		viewer using this routine.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_CursorChanged (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetState
+ *  @discussion
+ *      Returns a set of status bits indicating the viewer state.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 The viewer status.
+ */
+EXTERN_API_C ( TQ3Uns32 )
+Q3Viewer_GetState (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_EditCut
+ *  @discussion
+ *      Executes the Cut editing command.
+ *
+ *		Call this function in response to the user selecting the standard
+ *		Cut command when the viewer has the focus.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_EditCut (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_EditCopy
+ *  @discussion
+ *      Executes the Copy editing command.
+ *
+ *		Call this function in response to the user selecting the standard
+ *		Copy command when the viewer has the focus.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_EditCopy (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_EditPaste
+ *  @discussion
+ *      Executes the Paste editing command.
+ *
+ *		Call this function in response to the user selecting the standard
+ *		Paste command when the viewer has the focus.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_EditPaste (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_EditClear
+ *  @discussion
+ *      Executes the Clear editing command.
+ *
+ *		Call this function in response to the user selecting the standard
+ *		Clear command when the viewer has the focus.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_EditClear (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_EditUndo
+ *  @discussion
+ *      Executes the Undo editing command.
+ *
+ *		Call this function in response to the user selecting the standard
+ *		Undo command when the viewer has the focus.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_EditUndo (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetUndoString
+ *  @discussion
+ *      Gets text for the current Undo operation.
+ *
+ *		This function stores the name of the current Undoable operation
+ *		in the user-supplied character buffer.  The text should be
+ *		localized to the user's preferred language (but probably is not,
+ *		in Quesa 1.6 at least).  Note that this text does not contain
+ *		the "Undo" word itself, but only the name of the operation.  So
+ *		if you want to use this to set the text of a menu item, you'll
+ *		need to prefix it with "Undo " yourself.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theBuffer        Pointer to a character buffer.
+ *  @param bufferSize       On entry, the buffer size; on exit, the text length.
+ *  @result                 Returns as there is an Undoable operation.
+ */
+EXTERN_API_C ( TQ3Boolean )
+Q3Viewer_GetUndoString (
+    TQ3ViewerObject                theViewer,
+    char                           *theBuffer,
+    TQ3Uns32                       *bufferSize
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetCameraCount
+ *  @discussion
+ *      Returns how many cameras are supplied by the Viewer's view hints.
+ *
+ *		Model files may contain view hints which provide things such as
+ *		"good" camera positions.  This function will report how many
+ *		such cameras are suggested.  If there are no view hints associated
+ *		with the Viewer, then this function returns 0.
+ *
+ *		See also <code>Q3Viewer_SetCameraByNumber</code>.
+ 
+ *  @param theViewer        Viewer object.
+ *  @param cameraCount      Receives the camera count.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetCameraCount (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       *cameraCount
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetCameraByNumber
+ *  @discussion
+ *      Sets the view to a camera in the Viewer's view hints.
+ *
+ *		Model files may contain view hints which provide things such as
+ *		"good" camera positions.  This function selects one of those cameras.
+ *		The camera number supplied is 1-based, and the value must be less
+ *		than or equal to the result of <code>Q3Viewer_GetCameraCount</code>.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param cameraIndex      1-based index of camera to select.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetCameraByNumber (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       cameraIndex
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetCameraByView
+ *  @discussion
+ *      Sets the camera to one of the predefined views.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param viewType         A constant selecting one of the predefined views.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetCameraByView (
+    TQ3ViewerObject                theViewer,
+    TQ3ViewerCameraView            viewType
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_EventMouseDown
+ *  @discussion
+ *      Should be called to handle a mouse-down event within the viewer.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param hPos             Horizontal global (screen) location of mouse down.
+ *  @param vPos             Vertical global (screen) location of mouse down.
+ *  @result                 Returns as the Viewer handled the event.
+ */
+EXTERN_API_C ( TQ3Boolean )
+Q3Viewer_EventMouseDown (
+    TQ3ViewerObject                theViewer,
+    TQ3Int32                       hPos,
+    TQ3Int32                       vPos
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_EventMouseTrack
+ *  @discussion
+ *      Should be called to handle a mouse-move event within the viewer
+ *		after a previous call to <code>Q3Viewer_EventMouseDown</code>
+ *		has returned true.
+ *
+ *		Should be called repeatedly until the mouse is released.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param hPos             Horizontal global (screen) location of mouse down.
+ *  @param vPos             Vertical global (screen) location of mouse down.
+ *  @result                 Returns as the Viewer handled the event.
+ */
+EXTERN_API_C ( TQ3Boolean )
+Q3Viewer_EventMouseTrack (
+    TQ3ViewerObject                theViewer,
+    TQ3Int32                       hPos,
+    TQ3Int32                       vPos
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_EventMouseUp
+ *  @discussion
+ *      Should be called to handle a mouse-up event within the viewer
+ *		after a previous call to <code>Q3Viewer_EventMouseDown</code>
+ *		has returned true.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param hPos             Horizontal global (screen) location of mouse down.
+ *  @param vPos             Vertical global (screen) location of mouse down.
+ *  @result                 Returns as the Viewer handled the event.
+ */
+EXTERN_API_C ( TQ3Boolean )
+Q3Viewer_EventMouseUp (
+    TQ3ViewerObject                theViewer,
+    TQ3Int32                       hPos,
+    TQ3Int32                       vPos
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_EventKeyboard
+ *  @discussion
+ *      Should be called to handle a key-down, key-up, or auto-key event
+ *		within the viewer when the viewer has the focus.
+ *
+ *		On Mac OS, theEvent should be a pointer to an EventRecord for the
+ *		event. On Windows, this function is not currently supported.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theEvent         The keyboard event.
+ *  @param vPos             Vertical global (screen) location of mouse down.
+ *  @result                 Returns as the Viewer handled the event.
+ */
+EXTERN_API_C ( TQ3Boolean )
+Q3Viewer_EventKeyboard (
+    TQ3ViewerObject                theViewer,
+    const void                     *theEvent
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetRendererType
+ *  @discussion
+ *      Gets the renderer type currently used by the Viewer.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param rendererType     Receives the current renderer type.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetRendererType (
+    TQ3ViewerObject                theViewer,
+    TQ3ObjectType                  *rendererType
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetRendererType
+ *  @discussion
+ *      Sets the renderer type used by the Viewer.
+ *
+ *		Calling this function is equivalent to selecting one of the renderers
+ *		from the pop-up menu on the Options control button.  The object type
+ *		must be associated with one of the installed renderers.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param rendererType     Type of renderer to use.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetRendererType (
+    TQ3ViewerObject                theViewer,
+    TQ3ObjectType                  rendererType
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetBrightness
+ *  @discussion
+ *      Gets the the intensity of lighting used on the model.
+ *
+ *		The brightness is specified as a float, ranging from 0.0
+ *		for no illumination to 1.0 for full illumination.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theBrightness    Receives the current brightness.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetBrightness (
+    TQ3ViewerObject                theViewer,
+    float                          *theBrightness
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetBrightness
+ *  @discussion
+ *      Sets the the intensity of lighting used on the model.
+ *
+ *		The brightness is specified as a float, ranging from 0.0
+ *		for no illumination to 1.0 for full illumination.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theBrightness    The desired brightness.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetBrightness (
+    TQ3ViewerObject                theViewer,
+    float                          theBrightness
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetRemoveBackfaces
+ *  @discussion
+ *      Gets the current backface removal state of a Viewer.
+ *
+ *		Use this function to discover how the Viewer handles polygons which
+ *		face away from the camera.  If backface removal is on, such polygons
+ *		will not be drawn. If it is off then all polygons are drawn, even if
+ *		they face away from the camera.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param removeBackfaces  Receives the current backfacing state.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetRemoveBackfaces (
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     *removeBackfaces
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetRemoveBackfaces
+ *  @discussion
+ *      Sets the current backface removal state of a Viewer.
+ *
+ *		Use this function to control how the Viewer handles polygons which
+ *		face away from the camera.  If backface removal is on, such polygons
+ *		will not be drawn. If it is off then all polygons are drawn, even if
+ *		they face away from the camera.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param removeBackfaces  The new backfacing state.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetRemoveBackfaces (
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     removeBackfaces
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetPhongShading
+ *  @discussion
+ *      Gets the current phong shading state of a Viewer.
+ *
+ *		Phong shading is generally slower but produces a more realistic effect,
+ *		particularly where highlights are concerned.
+ *
+ *		Not all renderers support phong shading. Even if phong shading is turned
+ *		on, the renderer may choose to ignore it when producing the image.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param phongShading     Receives the current phong shading state.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetPhongShading (
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     *phongShading
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetPhongShading
+ *  @discussion
+ *      Sets the current phong shading state of a Viewer.
+ *
+ *		Phong shading is generally slower but produces a more realistic effect,
+ *		particularly where highlights are concerned.
+ *
+ *		Not all renderers support phong shading. Even if phong shading is turned
+ *		on, the renderer may choose to ignore it when producing the image.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param phongShading     The new phong shading state.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_GetPhongShading (
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     phongShading
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetImage
+ *  @discussion
+ *      Gets a 2D copy of the current Viewer image, which can be copied to the
+ *		clipboard or saved to a file.
+ *
+ *		On Mac OS, the pointer returned is to a PicHandle. This handle must be
+ *		disposed of with DisposeHandle by the caller when no longer required.
+ *
+ *		On Windows, the pointer returned is to an HBITMAP. This must be disposed
+ *		of by the caller when no longer required.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 The 2D image currently displayed by the viewer.
+ */
+EXTERN_API_C ( void * )
+Q3Viewer_GetImage (
+    TQ3ViewerObject                theViewer
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetCallbackDraw
+ *  @discussion
+ *      Gets the current post-drawing callback for the viewer.
+ *
+ *		If no callback has been set, will return NULL.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 The current post-drawing callback.
+ */
+EXTERN_API_C ( TQ3ViewerDrawCallbackMethod )
+Q3Viewer_GetCallbackDraw (
+    TQ3ViewerObject                theViewer,
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetCallbackDraw
+ *  @discussion
+ *      Sets a post-drawing callback for the viewer.
+ *
+ *		The callback is invoked by the viewer after it draws any part of itself,
+ *		including the control strip. The userData parameter will be supplied to
+ *		the callback unchanged.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theCallback      Pointer to a post-drawing callback.
+ *  @param userData         A pointer passed to the callback routine.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetCallbackDraw (
+    TQ3ViewerObject                theViewer,
+    TQ3ViewerDrawCallbackMethod    theCallback,
+    const void                     *userData
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetCallbackResize
+ *  @discussion
+ *      Gets the current resizing callback for the viewer.
+ *
+ *		If no callback has been set, will return NULL.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 The current resizing callback.
+ */
+EXTERN_API_C ( TQ3ViewerWindowResizeCallbackMethod )
+Q3Viewer_GetCallbackResize (
+    TQ3ViewerObject                theViewer,
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetCallbackResize
+ *  @discussion
+ *      Sets a resizing callback for the viewer.
+ *
+ *		The callback is invoked by the viewer when the user clicks and drags
+ *		in the resize region for its window. By default, the viewer will handle
+ *		this operation and resize the window, however this callback can be used
+ *		to override this behaviour.
+ *
+ *		The callback should handle all mouse tracking, resizing, and invalidating
+ *		of the viewer window.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theCallback      Pointer to a resize callback.
+ *  @param userData         A pointer passed to the callback routine.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetCallbackResize (
+    TQ3ViewerObject                      theViewer,
+    TQ3ViewerWindowResizeCallbackMethod  theCallback,
+    const void                           *userData
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_GetCallbackResizeNotify
+ *  @discussion
+ *      Gets the current resize notification callback for the viewer.
+ *
+ *		If no callback has been set, will return NULL.
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 The current resize notification callback.
+ */
+EXTERN_API_C ( TQ3ViewerPaneResizeNotifyCallbackMethod )
+Q3Viewer_GetCallbackResize (
+    TQ3ViewerObject                theViewer,
+);
+
+
+/*!
+ *  @function
+ *      Q3Viewer_SetCallbackResizeNotify
+ *  @discussion
+ *      Sets a resize notification callback for the viewer.
+ *
+ *		The callback is invoked by the viewer when its window is resized.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param theCallback      Pointer to a resize notification callback.
+ *  @param userData         A pointer passed to the callback routine.
+ *  @result                 Success or failure of the operation.
+ */
+EXTERN_API_C ( TQ3Status )
+Q3Viewer_SetCallbackResize (
+    TQ3ViewerObject                          theViewer,
+    TQ3ViewerPaneResizeNotifyCallbackMethod  theCallback,
+    const void                               *userData
+);
+
+
+
+
+
+//=============================================================================
+//      QD3D Viewer - Mac OS function prototypes
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
 
@@ -1527,7 +2988,7 @@ Q3ViewerGetPhongShading (
 
 
 //=============================================================================
-//      Windows function prototypes
+//      QD3D Viewer - Windows function prototypes
 //-----------------------------------------------------------------------------
 #if QUESA_OS_WIN32
 
