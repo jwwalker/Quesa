@@ -236,9 +236,10 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	// for the closing triangle (since it is not easy to convince any renderer to
 	// have multiple uvs for a vertex)
 	//
-	numpoints = (upts + 3) * (vpts + 1);
-	numtriangles = upts * (vpts-1) * 2 	// rows between circles
-				 + upts * 2;			// north and south caps
+	numpoints = ((upts + 1) * 2) +			// poles
+				((upts + 1) * (vpts + 1));	// sides
+	numtriangles = upts * (vpts-1) * 2 		// rows between circles
+				 + upts * 2;				// north and south caps
 
 
 
