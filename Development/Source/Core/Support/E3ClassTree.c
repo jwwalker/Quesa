@@ -722,6 +722,10 @@ E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 			Q3Memory_Free(&theObject);
 			return(NULL);
 			}
+		
+		#if Q3_DEBUG
+		theObject->parentObject->childObject = theObject;
+		#endif
 		}
 
 
