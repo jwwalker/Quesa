@@ -46,8 +46,7 @@
 //-----------------------------------------------------------------------------
 // Internal constants go here
 
-#define kQ3SharedTypeControllerState 0
-#define kQ3SharedTypeTracker 0
+
 
 
 
