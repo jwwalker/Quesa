@@ -56,7 +56,7 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Create/Destroy a GL context
-void		*GLDrawContext_New(TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags);
+void		*GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags);
 void		GLDrawContext_Destroy(void **glContext);
 
 
