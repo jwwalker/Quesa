@@ -83,6 +83,7 @@ class E3Binary3DMFWriter_S : public E3FileFormatWriter  // This is a leaf class 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatWriterType3DMFStreamBin, E3Binary3DMFWriter_S, E3FileFormatWriter )
 public :
 
 	TE3FFormatW3DMF_Data				instanceData ;
@@ -95,6 +96,7 @@ class E3Binary3DMFWriter_N : public E3FileFormatWriter  // This is a leaf class 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatWriterType3DMFNormalBin, E3Binary3DMFWriter_N, E3FileFormatWriter )
 public :
 
 	TE3FFormatW3DMF_Data				instanceData ;
@@ -107,6 +109,7 @@ class E3Binary3DMFWriter_D : public E3FileFormatWriter  // This is a leaf class 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatWriterType3DMFDatabaseBin, E3Binary3DMFWriter_D, E3FileFormatWriter )
 public :
 
 	TE3FFormatW3DMF_Data				instanceData ;
@@ -119,6 +122,7 @@ class E3Binary3DMFWriter_DS : public E3FileFormatWriter  // This is a leaf class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatWriterType3DMFDatabaseStreamBin, E3Binary3DMFWriter_DS, E3FileFormatWriter )
 public :
 
 	TE3FFormatW3DMF_Data				instanceData ;
@@ -131,6 +135,7 @@ class E3Binary3DMFWriter_SW : public E3FileFormatWriter  // This is a leaf class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatWriterType3DMFStreamBinSwap, E3Binary3DMFWriter_SW, E3FileFormatWriter )
 public :
 
 	TE3FFormatW3DMF_Data				instanceData ;
@@ -143,6 +148,7 @@ class E3Binary3DMFWriter_NW : public E3FileFormatWriter  // This is a leaf class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatWriterType3DMFNormalBinSwap, E3Binary3DMFWriter_NW, E3FileFormatWriter )
 public :
 
 	TE3FFormatW3DMF_Data				instanceData ;
@@ -155,6 +161,7 @@ class E3Binary3DMFWriter_DW : public E3FileFormatWriter  // This is a leaf class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatWriterType3DMFDatabaseBinSwap, E3Binary3DMFWriter_DW, E3FileFormatWriter )
 public :
 
 	TE3FFormatW3DMF_Data				instanceData ;
@@ -167,6 +174,7 @@ class E3Binary3DMFWriter_DSW : public E3FileFormatWriter  // This is a leaf clas
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatWriterType3DMFDatabaseStreamBinSwap, E3Binary3DMFWriter_DSW, E3FileFormatWriter )
 public :
 
 	TE3FFormatW3DMF_Data				instanceData ;
@@ -833,62 +841,46 @@ E3FFW_3DMFBin_Register(void)
 
 
 // the native formats
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
-											kQ3FFormatWriterType3DMFStreamBin,
-											kQ3ClassNameFileFormatW_3DMF_S_Bin,
-											e3ffw_3dmfbin_S_metahandler,
-											sizeof(E3Binary3DMFWriter_S));
+	qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatW_3DMF_S_Bin,
+										e3ffw_3dmfbin_S_metahandler,
+										E3Binary3DMFWriter_S ) ;
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
-											kQ3FFormatWriterType3DMFNormalBin,
-											kQ3ClassNameFileFormatW_3DMF_N_Bin,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatW_3DMF_N_Bin,
 											e3ffw_3dmfbin_N_metahandler,
-											sizeof(E3Binary3DMFWriter_N));
+											E3Binary3DMFWriter_N ) ;
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
-											kQ3FFormatWriterType3DMFDatabaseBin,
-											kQ3ClassNameFileFormatW_3DMF_D_Bin,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatW_3DMF_D_Bin,
 											e3ffw_3dmfbin_D_metahandler,
-											sizeof(E3Binary3DMFWriter_D));
+											E3Binary3DMFWriter_D ) ;
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
-											kQ3FFormatWriterType3DMFDatabaseStreamBin,
-											kQ3ClassNameFileFormatW_3DMF_DS_Bin,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatW_3DMF_DS_Bin,
 											e3ffw_3dmfbin_DS_metahandler,
-											sizeof(E3Binary3DMFWriter_DS));
+											E3Binary3DMFWriter_DS ) ;
 
 // the swapped formats
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
-											kQ3FFormatWriterType3DMFStreamBinSwap,
-											kQ3ClassNameFileFormatW_3DMF_SW_Bin,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatW_3DMF_SW_Bin,
 											e3ffw_3dmfbin_SW_metahandler,
-											sizeof(E3Binary3DMFWriter_SW));
+											E3Binary3DMFWriter_SW ) ;
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
-											kQ3FFormatWriterType3DMFNormalBinSwap,
-											kQ3ClassNameFileFormatW_3DMF_NW_Bin,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatW_3DMF_NW_Bin,
 											e3ffw_3dmfbin_NW_metahandler,
-											sizeof(E3Binary3DMFWriter_NW));
+											E3Binary3DMFWriter_NW ) ;
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
-											kQ3FFormatWriterType3DMFDatabaseBinSwap,
-											kQ3ClassNameFileFormatW_3DMF_DW_Bin,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatW_3DMF_DW_Bin,
 											e3ffw_3dmfbin_DW_metahandler,
-											sizeof(E3Binary3DMFWriter_DW));
+											E3Binary3DMFWriter_DW ) ;
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
-											kQ3FFormatWriterType3DMFDatabaseStreamBinSwap,
-											kQ3ClassNameFileFormatW_3DMF_DSW_Bin,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatW_3DMF_DSW_Bin,
 											e3ffw_3dmfbin_DSW_metahandler,
-											sizeof(E3Binary3DMFWriter_DSW));
+											E3Binary3DMFWriter_DSW ) ;
 
 	return(qd3dStatus);
 }

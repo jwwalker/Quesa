@@ -106,6 +106,8 @@ typedef struct TE3FileData {
 
 class E3File : public E3Shared
 	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeFile, E3File, E3Shared )
+
 	TE3FileData				instanceData ;
 	
 public :

@@ -120,6 +120,7 @@ class E3Text3DMFReader : public E3FileFormatReader  // This is a leaf class so n
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatReaderType3DMFText, E3Text3DMFReader, E3FileFormatReader )
 public :
 
 	TE3FFormat3DMF_Text_Data			instanceData ;
@@ -1567,11 +1568,9 @@ E3FFormat_3DMF_Text_Reader_RegisterClass(void)
 
 
 
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeReader,
-											kQ3FFormatReaderType3DMFText,
-											kQ3ClassNameFileFormatR_3DMF_Text,
-											e3fformat_3dmf_text_metahandler,
-											sizeof(E3Text3DMFReader));
+	qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatR_3DMF_Text,
+										e3fformat_3dmf_text_metahandler,
+										E3Text3DMFReader ) ;
 
 	return(qd3dStatus);
 }
