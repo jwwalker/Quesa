@@ -295,7 +295,7 @@ e3geom_generalpolygon_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_generalpolygon_get_attribute(TQ3GeometryObject theObject)
-{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) theObject->instanceData;
+{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeGeneralPolygon);
 
 
 
@@ -441,7 +441,7 @@ E3GeneralPolygon_Submit(const TQ3GeneralPolygonData *generalPolygonData, TQ3View
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolygonData *generalPolygonData)
-{	TQ3GeneralPolygonData			*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
+{	TQ3GeneralPolygonData			*instanceData = (TQ3GeneralPolygonData *) E3ClassTree_FindInstanceData(generalPolygon, kQ3GeometryTypeGeneralPolygon);
 	TQ3Status						qd3dStatus;
 
 	
@@ -464,7 +464,7 @@ E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolyg
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GeneralPolygon_GetData(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonData *generalPolygonData)
-{	TQ3GeneralPolygonData			*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
+{	TQ3GeneralPolygonData			*instanceData = (TQ3GeneralPolygonData *) E3ClassTree_FindInstanceData(generalPolygon, kQ3GeometryTypeGeneralPolygon);
 	TQ3Status						qd3dStatus;
 
 
@@ -510,7 +510,7 @@ E3GeneralPolygon_EmptyData(TQ3GeneralPolygonData *generalPolygonData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3Point3D *position)
-{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
+{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) E3ClassTree_FindInstanceData(generalPolygon, kQ3GeometryTypeGeneralPolygon);
 
 
 
@@ -529,7 +529,7 @@ E3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 co
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, const TQ3Point3D *position)
-{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
+{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) E3ClassTree_FindInstanceData(generalPolygon, kQ3GeometryTypeGeneralPolygon);
 
 
 
@@ -550,7 +550,7 @@ E3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 co
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3AttributeSet *attributeSet)
-{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
+{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) E3ClassTree_FindInstanceData(generalPolygon, kQ3GeometryTypeGeneralPolygon);
 
 
 
@@ -569,7 +569,7 @@ E3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns3
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3AttributeSet attributeSet)
-{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
+{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) E3ClassTree_FindInstanceData(generalPolygon, kQ3GeometryTypeGeneralPolygon);
 
 
 
@@ -590,7 +590,7 @@ E3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns3
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GeneralPolygon_GetShapeHint(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonShapeHint *shapeHint)
-{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
+{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) E3ClassTree_FindInstanceData(generalPolygon, kQ3GeometryTypeGeneralPolygon);
 
 
 
@@ -609,7 +609,7 @@ E3GeneralPolygon_GetShapeHint(TQ3GeometryObject generalPolygon, TQ3GeneralPolygo
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GeneralPolygon_SetShapeHint(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonShapeHint shapeHint)
-{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
+{	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) E3ClassTree_FindInstanceData(generalPolygon, kQ3GeometryTypeGeneralPolygon);
 
 
 

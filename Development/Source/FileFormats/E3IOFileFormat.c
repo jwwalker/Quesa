@@ -140,7 +140,7 @@ E3FileFormat_UnregisterClass()
 TQ3Status 
 E3FileFormat_Init(TQ3FileFormatObject theFileFormat, TQ3StorageObject storage)
 {
-	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) theFileFormat->instanceData;
+	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) E3ClassTree_FindInstanceData(theFileFormat, kQ3ObjectTypeLeaf);
 
 	E3Shared_Replace(&instanceData->storage, storage);
 
@@ -168,7 +168,7 @@ E3FileFormat_Init(TQ3FileFormatObject theFileFormat, TQ3StorageObject storage)
 TQ3Status 
 E3FileFormat_Terminate(TQ3FileFormatObject theFileFormat)
 {
-	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) theFileFormat->instanceData;
+	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) E3ClassTree_FindInstanceData(theFileFormat, kQ3ObjectTypeLeaf);
 
 	E3Shared_Replace(&instanceData->storage, NULL);
 
@@ -193,7 +193,7 @@ E3FileFormat_Terminate(TQ3FileFormatObject theFileFormat)
 TQ3FileFormatObject 
 E3File_GetFileFormat(TQ3FileObject theFile)
 {
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 
 	
 	return(instanceData->format);
@@ -352,7 +352,7 @@ E3FileFormat_GenericReadBinary_StringPadded(TQ3FileFormatObject format, char* da
 {
 	TQ3Uns32 					sizeRead = 0;
 	TQ3Status 					result = kQ3Failure;
-	TQ3FFormatBaseData			*instanceData = (TQ3FFormatBaseData *) format->instanceData;
+	TQ3FFormatBaseData			*instanceData = (TQ3FFormatBaseData *) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf);
 	TQ3XStorageReadDataMethod	dataRead;
 	TQ3Uns32					startOffset;
 	TQ3Uns32					bufferSize = *ioLength;
@@ -360,8 +360,7 @@ E3FileFormat_GenericReadBinary_StringPadded(TQ3FileFormatObject format, char* da
 	char* 						dataPtr = data;
 	char 						lastChar;
 
-	dataRead = (TQ3XStorageReadDataMethod)
-					E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageReadData);
+	dataRead = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageReadData);
 
 	*ioLength = 0;
 	
@@ -424,11 +423,10 @@ E3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char* da
 {
 	TQ3Uns32 sizeRead = 0;
 	TQ3Status result = kQ3Failure;
-	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) format->instanceData;
+	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf);
 	TQ3XStorageReadDataMethod	dataRead;
 
-	dataRead = (TQ3XStorageReadDataMethod)
-					E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageReadData);
+	dataRead = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageReadData);
 
 	if( dataRead != NULL)
 		result = dataRead(instanceData->storage,
@@ -560,7 +558,7 @@ E3FileFormat_GenericReadBinSwap_64(TQ3FileFormatObject format, TQ3Int64* data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FileFormat_GenericReadText_SkipBlanks(TQ3FileFormatObject format)
-{	TQ3FFormatBaseData			*instanceData = (TQ3FFormatBaseData *) format->instanceData;
+{	TQ3FFormatBaseData			*instanceData = (TQ3FFormatBaseData *) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf);
 	TQ3Status					result        = kQ3Success;
 	TQ3Uns32					sizeRead      = 0;
 	TQ3XStorageReadDataMethod	dataRead;
@@ -569,7 +567,7 @@ E3FileFormat_GenericReadText_SkipBlanks(TQ3FileFormatObject format)
 
 
 	// Get the read method
-	dataRead = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageReadData);
+	dataRead = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageReadData);
 	if (dataRead == NULL)
 		return(kQ3Failure);
 
@@ -614,14 +612,13 @@ E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject format,char* buf
 	TQ3Uns32 index = 0;
 	TQ3Uns32 i;
 	TQ3Status result = kQ3Failure;
-	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) format->instanceData;
+	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf);
 	TQ3XStorageReadDataMethod	dataRead;
 
 	if(foundChar)
 		*foundChar = -1;
 
-	dataRead = (TQ3XStorageReadDataMethod)
-					E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageReadData);
+	dataRead = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageReadData);
 	
 	// The read method may post an error if we try to read beyond the end of file
 	maxLen = E3Num_Min( maxLen, instanceData->logicalEOF - instanceData->currentStoragePosition );
@@ -766,11 +763,10 @@ E3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format,const unsigned ch
 {
 	TQ3Uns32 sizeWrite = 0;
 	TQ3Status result = kQ3Failure;
-	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) format->instanceData;
+	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf);
 	TQ3XStorageWriteDataMethod	dataWrite;
 
-	dataWrite = (TQ3XStorageWriteDataMethod)
-					E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageWriteData);
+	dataWrite = (TQ3XStorageWriteDataMethod) E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageWriteData);
 
 	if( dataWrite != NULL)
 		result = dataWrite(instanceData->storage,
@@ -866,8 +862,7 @@ E3FileFormat_HasModalConfigure(TQ3FileFormatObject theFormat)
 
 
 	// Return as the method is defined or not
-	return((TQ3Boolean) (E3ClassTree_GetMethod(theFormat->theClass,
-										 		kQ3XMethodTypeRendererModalConfigure) != NULL));
+	return((TQ3Boolean) (E3ClassTree_GetMethodByObject(theFormat, kQ3XMethodTypeRendererModalConfigure) != NULL));
 }
 
 
@@ -885,16 +880,14 @@ E3FileFormat_ModalConfigure(TQ3FileFormatObject theFormat, TQ3DialogAnchor dialo
 
 
 	// Find the method
-	modalConfigure = (TQ3XRendererModalConfigureMethod)
-						E3ClassTree_GetMethod(theFormat->theClass,
-											  kQ3XMethodTypeRendererModalConfigure);
+	modalConfigure = (TQ3XRendererModalConfigureMethod) E3ClassTree_GetMethodByObject(theFormat, kQ3XMethodTypeRendererModalConfigure);
 	if (modalConfigure == NULL)
 		return(kQ3Failure);
 
 
 
 	// Call the method
-	qd3dStatus = modalConfigure(theFormat, dialogAnchor, canceled, theFormat->instanceData);
+	qd3dStatus = modalConfigure(theFormat, dialogAnchor, canceled, E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf));
 
 	return(qd3dStatus);
 }
@@ -961,9 +954,7 @@ E3FileFormat_GetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *
 
 
 	// Find the method
-	getConfigData = (TQ3XRendererGetConfigurationDataMethod)
-						E3ClassTree_GetMethod(theFormat->theClass,
-											  kQ3XMethodTypeRendererGetConfigurationData);
+	getConfigData = (TQ3XRendererGetConfigurationDataMethod) E3ClassTree_GetMethodByObject(theFormat, kQ3XMethodTypeRendererGetConfigurationData);
 	if (getConfigData == NULL)
 		return(kQ3Failure);
 
@@ -974,7 +965,7 @@ E3FileFormat_GetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *
 								dataBuffer,
 								bufferSize,
 								actualDataSize,
-								theFormat->instanceData);
+								E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf));
 
 	return(qd3dStatus);
 }
@@ -994,9 +985,7 @@ E3FileFormat_SetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *
 
 
 	// Find the method
-	setConfigData = (TQ3XRendererSetConfigurationDataMethod)
-						E3ClassTree_GetMethod(theFormat->theClass,
-											  kQ3XMethodTypeRendererSetConfigurationData);
+	setConfigData = (TQ3XRendererSetConfigurationDataMethod) E3ClassTree_GetMethodByObject(theFormat, kQ3XMethodTypeRendererSetConfigurationData);
 	if (setConfigData == NULL)
 		return(kQ3Failure);
 
@@ -1006,7 +995,7 @@ E3FileFormat_SetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *
 	qd3dStatus = setConfigData(theFormat,
 								dataBuffer,
 								bufferSize,
-								theFormat->instanceData);
+								E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf));
 
 	Q3Shared_Edited(theFormat);
 
@@ -1034,16 +1023,14 @@ E3FileFormat_Method_StartFile(TQ3ViewObject theView)
 
 
 	// Find the method
-	startFile = (TQ3XRendererStartFrameMethod)
-					E3ClassTree_GetMethod(theFormat->theClass,
-										  kQ3XMethodTypeRendererStartFrame);
+	startFile = (TQ3XRendererStartFrameMethod) E3ClassTree_GetMethodByObject(theFormat, kQ3XMethodTypeRendererStartFrame);
 	if (startFile == NULL)
 		return(kQ3Success);
 
 
 
 	// Call the method
-	qd3dStatus = startFile(theView, theFormat->instanceData, NULL);
+	qd3dStatus = startFile(theView, E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf), NULL);
 
 	return(qd3dStatus);
 }
@@ -1068,16 +1055,14 @@ E3FileFormat_Method_EndFile(TQ3ViewObject theView)
 
 
 	// Find the method
-	endFrame = (TQ3XRendererEndFrameMethod)
-					E3ClassTree_GetMethod(theFormat->theClass,
-										  kQ3XMethodTypeRendererEndFrame);
+	endFrame = (TQ3XRendererEndFrameMethod) E3ClassTree_GetMethodByObject(theFormat, kQ3XMethodTypeRendererEndFrame);
 	if (endFrame == NULL)
 		return(kQ3Success);
 
 
 
 	// Call the method
-	qd3dStatus = endFrame(theView, theFormat->instanceData, NULL);
+	qd3dStatus = endFrame(theView, E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf), NULL);
 
 	return(qd3dStatus);
 }
@@ -1104,16 +1089,14 @@ E3FileFormat_Method_StartPass(TQ3ViewObject theView)
 
 
 	// Find the method
-	startPass = (TQ3XRendererStartPassMethod)
-					E3ClassTree_GetMethod(theFormat->theClass,
-										  kQ3XMethodTypeRendererStartPass);
+	startPass = (TQ3XRendererStartPassMethod) E3ClassTree_GetMethodByObject(theFormat, kQ3XMethodTypeRendererStartPass);
 	if (startPass == NULL)
 		return(kQ3Success);
 
 
 
 	// Call the method
-	qd3dStatus = startPass(theView, theFormat->instanceData, NULL, NULL);
+	qd3dStatus = startPass(theView, E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf), NULL, NULL);
 
 	return(qd3dStatus);
 }
@@ -1140,16 +1123,14 @@ E3FileFormat_Method_EndPass(TQ3ViewObject theView)
 
 
 	// Find the method
-	endPass = (TQ3XRendererEndPassMethod)
-					E3ClassTree_GetMethod(theFormat->theClass,
-										  kQ3XMethodTypeRendererEndPass);
+	endPass = (TQ3XRendererEndPassMethod) E3ClassTree_GetMethodByObject(theFormat, kQ3XMethodTypeRendererEndPass);
 	if (endPass == NULL)
 		return(kQ3ViewStatusDone);
 
 
 
 	// Call the method
-	viewStatus = endPass(theView, theFormat->instanceData);
+	viewStatus = endPass(theView, E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf));
 
 	return(viewStatus);
 }
@@ -1180,13 +1161,12 @@ E3FileFormat_Method_SubmitObject(TQ3ViewObject	theView,
 
 	
 	// Find the method 
-	submitObject = (TQ3XFileFormatSubmitObjectMethod)
-					E3ClassTree_GetMethod(theFormat->theClass,kQ3XMethodTypeFFormatSubmitObject);
+	submitObject = (TQ3XFileFormatSubmitObjectMethod) E3ClassTree_GetMethodByObject(theFormat, kQ3XMethodTypeFFormatSubmitObject);
 
 
 	// Call the method
 	if (submitObject != NULL)
-		qd3dStatus = submitObject(theView, theFormat->instanceData, object, objectType, objectData);
+		qd3dStatus = submitObject(theView, E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf), object, objectType, objectData);
 
 	return(qd3dStatus);
 }
@@ -1216,8 +1196,7 @@ E3FileFormat_Method_SubmitGeometry(TQ3ViewObject		theView,
 
 
 	// Find the method
-	submitGeom = (TQ3XRendererSubmitGeometryMethod)
-					E3ClassTree_GetMethod(theFormat->theClass, geomType);
+	submitGeom = (TQ3XRendererSubmitGeometryMethod) E3ClassTree_GetMethodByObject(theFormat, geomType);
 
 
 
@@ -1228,7 +1207,7 @@ E3FileFormat_Method_SubmitGeometry(TQ3ViewObject		theView,
 
 	// Call the method
 	if (submitGeom != NULL)
-		qd3dStatus = submitGeom(theView, theFormat->instanceData, theGeom, geomData);
+		qd3dStatus = submitGeom(theView, E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf), theGeom, geomData);
 
 	return(qd3dStatus);
 }
@@ -1259,8 +1238,7 @@ E3FileFormat_Method_SubmitGroup(TQ3ViewObject	theView,
 
 
 	// Find the method
-	submitGroup = (TQ3XFileFormatSubmitObjectMethod)
-					E3ClassTree_GetMethod(theFormat->theClass, kQ3XMethodTypeFFormatSubmitGroup);
+	submitGroup = (TQ3XFileFormatSubmitObjectMethod) E3ClassTree_GetMethodByObject(theFormat, kQ3XMethodTypeFFormatSubmitGroup);
 
 
 
@@ -1268,7 +1246,7 @@ E3FileFormat_Method_SubmitGroup(TQ3ViewObject	theView,
 
 	// Call the method
 	if (submitGroup != NULL)
-		qd3dStatus = submitGroup(theView, theFormat->instanceData, group, groupType , groupData);
+		qd3dStatus = submitGroup(theView, E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf), group, groupType , groupData);
 	else
 		{ // submit the group contents
 			for(Q3Group_GetFirstPosition (group, &position);

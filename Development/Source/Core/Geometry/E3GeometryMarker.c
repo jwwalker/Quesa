@@ -452,7 +452,7 @@ e3geom_marker_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_marker_get_attribute(TQ3GeometryObject theObject)
-{	TQ3MarkerData		*instanceData = (TQ3MarkerData *) theObject->instanceData;
+{	TQ3MarkerData		*instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeMarker);
 
 
 
@@ -598,7 +598,7 @@ E3Marker_Submit(const TQ3MarkerData *markerData, TQ3ViewObject theView)
 TQ3Status
 E3Marker_SetData(TQ3GeometryObject theMarker, const TQ3MarkerData *markerData)
 {
-	TQ3MarkerData *		instanceData = (TQ3MarkerData *) theMarker->instanceData;
+	TQ3MarkerData *		instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
 
 	//set the data
 	instanceData->location	= markerData->location ;
@@ -626,7 +626,7 @@ E3Marker_SetData(TQ3GeometryObject theMarker, const TQ3MarkerData *markerData)
 TQ3Status
 E3Marker_GetData(TQ3GeometryObject theMarker, TQ3MarkerData *markerData)
 {
-	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) theMarker->instanceData;
+	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
 	
 	markerData->location	= instanceData->location ;
 	markerData->xOffset		= instanceData->xOffset ;
@@ -674,7 +674,7 @@ E3Marker_EmptyData(TQ3MarkerData *markerData)
 TQ3Status
 E3Marker_GetPosition(TQ3GeometryObject theMarker, TQ3Point3D *location)
 {
-	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) theMarker->instanceData;
+	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
 	
 	
 	//get the location
@@ -693,7 +693,7 @@ E3Marker_GetPosition(TQ3GeometryObject theMarker, TQ3Point3D *location)
 TQ3Status
 E3Marker_SetPosition(TQ3GeometryObject theMarker, const TQ3Point3D *location)
 {
-	TQ3MarkerData *		instanceData = (TQ3MarkerData *) theMarker->instanceData;
+	TQ3MarkerData *		instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
 	
 	
 	//set the location
@@ -714,7 +714,7 @@ E3Marker_SetPosition(TQ3GeometryObject theMarker, const TQ3Point3D *location)
 TQ3Status
 E3Marker_GetXOffset(TQ3GeometryObject theMarker, TQ3Int32 *xOffset)
 {
-	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) theMarker->instanceData;
+	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
 
 
 	//get the horizontal offset
@@ -733,7 +733,7 @@ E3Marker_GetXOffset(TQ3GeometryObject theMarker, TQ3Int32 *xOffset)
 TQ3Status
 E3Marker_SetXOffset(TQ3GeometryObject theMarker, TQ3Int32 xOffset)
 {
-	TQ3MarkerData *		instanceData = (TQ3MarkerData *) theMarker->instanceData;
+	TQ3MarkerData *		instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
 
 
 	//set the horizontal offset
@@ -754,7 +754,7 @@ E3Marker_SetXOffset(TQ3GeometryObject theMarker, TQ3Int32 xOffset)
 TQ3Status
 E3Marker_GetYOffset(TQ3GeometryObject theMarker, TQ3Int32 *yOffset)
 {
-	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) theMarker->instanceData;
+	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
 	
 	
 	//get the vertical offset
@@ -773,7 +773,7 @@ E3Marker_GetYOffset(TQ3GeometryObject theMarker, TQ3Int32 *yOffset)
 TQ3Status
 E3Marker_SetYOffset(TQ3GeometryObject theMarker, TQ3Int32 yOffset)
 {
-	TQ3MarkerData *		instanceData = (TQ3MarkerData *) theMarker->instanceData;
+	TQ3MarkerData *		instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
 
 
 	//set the vertical offset of a marker
@@ -794,7 +794,7 @@ E3Marker_SetYOffset(TQ3GeometryObject theMarker, TQ3Int32 yOffset)
 TQ3Status
 E3Marker_GetBitmap(TQ3GeometryObject theMarker, TQ3Bitmap *bitmap)
 {
-	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) theMarker->instanceData;
+	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
 	
 	//get the bitmap
 	return(E3Bitmap_Replace( &instanceData->bitmap, bitmap, kQ3False ));
@@ -810,7 +810,7 @@ E3Marker_GetBitmap(TQ3GeometryObject theMarker, TQ3Bitmap *bitmap)
 TQ3Status
 E3Marker_SetBitmap(TQ3GeometryObject theMarker, const TQ3Bitmap *bitmap)
 {
-	TQ3MarkerData *		instanceData = (TQ3MarkerData *) theMarker->instanceData;
+	TQ3MarkerData *		instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
 	TQ3Status			qd3dStatus;
 
 

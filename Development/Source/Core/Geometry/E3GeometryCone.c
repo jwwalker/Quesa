@@ -863,7 +863,7 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_cone_get_attribute(TQ3GeometryObject theObject)
-{	TQ3ConeData		*instanceData = (TQ3ConeData *) theObject->instanceData;
+{	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeCone);
 
 
 
@@ -1021,7 +1021,7 @@ E3Cone_Submit(const TQ3ConeData *coneData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cone_SetData(TQ3GeometryObject theCone, const TQ3ConeData *coneData)
-{	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+{	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 	TQ3Status		qd3dStatus;
 
 
@@ -1047,7 +1047,7 @@ E3Cone_SetData(TQ3GeometryObject theCone, const TQ3ConeData *coneData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cone_GetData(TQ3GeometryObject theCone, TQ3ConeData *coneData)
-{	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+{	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 	TQ3Status		qd3dStatus;
 
 
@@ -1072,7 +1072,7 @@ E3Cone_GetData(TQ3GeometryObject theCone, TQ3ConeData *coneData)
 TQ3Status
 E3Cone_SetOrigin(TQ3GeometryObject theCone, const TQ3Point3D *origin)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	Q3Memory_Copy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
 
@@ -1090,7 +1090,7 @@ E3Cone_SetOrigin(TQ3GeometryObject theCone, const TQ3Point3D *origin)
 TQ3Status
 E3Cone_SetOrientation(TQ3GeometryObject theCone, const TQ3Vector3D *orientation)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	Q3Memory_Copy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
 
@@ -1108,7 +1108,7 @@ E3Cone_SetOrientation(TQ3GeometryObject theCone, const TQ3Vector3D *orientation)
 TQ3Status
 E3Cone_SetMajorRadius(TQ3GeometryObject theCone, const TQ3Vector3D *majorRadius)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	Q3Memory_Copy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
 
@@ -1126,7 +1126,7 @@ E3Cone_SetMajorRadius(TQ3GeometryObject theCone, const TQ3Vector3D *majorRadius)
 TQ3Status
 E3Cone_SetMinorRadius(TQ3GeometryObject theCone, const TQ3Vector3D *minorRadius)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	Q3Memory_Copy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
 
@@ -1144,7 +1144,7 @@ E3Cone_SetMinorRadius(TQ3GeometryObject theCone, const TQ3Vector3D *minorRadius)
 TQ3Status
 E3Cone_GetOrigin(TQ3GeometryObject theCone, TQ3Point3D *origin)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	Q3Memory_Copy( &instanceData->origin, origin, sizeof(TQ3Point3D) );
 	return(kQ3Success);
@@ -1160,7 +1160,7 @@ E3Cone_GetOrigin(TQ3GeometryObject theCone, TQ3Point3D *origin)
 TQ3Status
 E3Cone_GetOrientation(TQ3GeometryObject theCone, TQ3Vector3D *orientation)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	Q3Memory_Copy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
@@ -1176,7 +1176,7 @@ E3Cone_GetOrientation(TQ3GeometryObject theCone, TQ3Vector3D *orientation)
 TQ3Status
 E3Cone_GetMajorRadius(TQ3GeometryObject theCone, TQ3Vector3D *majorRadius)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	Q3Memory_Copy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
@@ -1192,7 +1192,7 @@ E3Cone_GetMajorRadius(TQ3GeometryObject theCone, TQ3Vector3D *majorRadius)
 TQ3Status
 E3Cone_GetMinorRadius(TQ3GeometryObject theCone, TQ3Vector3D *minorRadius)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	Q3Memory_Copy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
@@ -1211,7 +1211,7 @@ E3Cone_GetMinorRadius(TQ3GeometryObject theCone, TQ3Vector3D *minorRadius)
 TQ3Status
 E3Cone_SetCaps(TQ3GeometryObject theCone, TQ3EndCap caps)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	instanceData->caps = caps;
 
@@ -1229,7 +1229,7 @@ E3Cone_SetCaps(TQ3GeometryObject theCone, TQ3EndCap caps)
 TQ3Status
 E3Cone_GetCaps(TQ3GeometryObject theCone, TQ3EndCap *caps)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	*caps = instanceData->caps;
 	return(kQ3Success);
@@ -1246,7 +1246,7 @@ E3Cone_GetCaps(TQ3GeometryObject theCone, TQ3EndCap *caps)
 TQ3Status
 E3Cone_SetBottomAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet bottomAttributeSet)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	E3Shared_Replace(&instanceData->bottomAttributeSet, bottomAttributeSet);
 
@@ -1265,7 +1265,7 @@ E3Cone_SetBottomAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet bottomAt
 TQ3Status
 E3Cone_GetBottomAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet *bottomAttributeSet)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	E3Shared_Acquire(bottomAttributeSet, instanceData->bottomAttributeSet);
 	return(kQ3Success);
@@ -1282,7 +1282,7 @@ E3Cone_GetBottomAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet *bottomA
 TQ3Status
 E3Cone_SetFaceAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet faceAttributeSet)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	E3Shared_Replace(&instanceData->faceAttributeSet, faceAttributeSet);
 
@@ -1301,7 +1301,7 @@ E3Cone_SetFaceAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet faceAttrib
 TQ3Status
 E3Cone_GetFaceAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet *faceAttributeSet)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	E3Shared_Acquire(faceAttributeSet, instanceData->faceAttributeSet);
 	return(kQ3Success);
@@ -1318,7 +1318,7 @@ E3Cone_GetFaceAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet *faceAttri
 TQ3Status
 E3Cone_SetInteriorAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet intAttributeSet)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	E3Shared_Replace(&instanceData->interiorAttributeSet, intAttributeSet);
 
@@ -1337,7 +1337,7 @@ E3Cone_SetInteriorAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet intAtt
 TQ3Status
 E3Cone_GetInteriorAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet *intAttributeSet)
 {
-	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+	TQ3ConeData		*instanceData = (TQ3ConeData *) E3ClassTree_FindInstanceData(theCone, kQ3GeometryTypeCone);
 
 	E3Shared_Acquire(intAttributeSet, instanceData->interiorAttributeSet);
 	return(kQ3Success);

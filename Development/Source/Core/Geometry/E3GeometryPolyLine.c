@@ -331,7 +331,7 @@ e3geom_polyline_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_polyline_get_attribute(TQ3GeometryObject theObject)
-{	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) theObject->instanceData;
+{	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypePolyLine);
 
 
 
@@ -473,7 +473,7 @@ E3PolyLine_Submit(const TQ3PolyLineData *polyLineData, TQ3ViewObject theView)
 TQ3Status
 E3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineData)
 {
-	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) polyLine->instanceData;
+	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
 	TQ3Status				q3status;
 	
 	
@@ -498,7 +498,7 @@ E3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineDa
 TQ3Status
 E3PolyLine_GetData(TQ3GeometryObject polyLine, TQ3PolyLineData *polyLineData)
 {
-	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) polyLine->instanceData;
+	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
 	TQ3Status	q3status;
 	
 	
@@ -557,7 +557,7 @@ TQ3Status
 E3PolyLine_GetVertexPosition(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
 								TQ3Point3D *position)
 {
-	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) polyLine->instanceData;
+	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
 	
 	*position = instanceData->vertices[index].point ;
 	
@@ -575,7 +575,7 @@ TQ3Status
 E3PolyLine_SetVertexPosition(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
 								const TQ3Point3D *position)
 {
-	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) polyLine->instanceData;
+	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
 	
 	instanceData->vertices[index].point = *position ;
 
@@ -595,7 +595,7 @@ TQ3Status
 E3PolyLine_GetVertexAttributeSet(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
 									TQ3AttributeSet *attributeSet)
 {
-	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) polyLine->instanceData;
+	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
 		
 	//return the attribute set
 	E3Shared_Acquire(attributeSet, instanceData->vertices[index].attributeSet) ;
@@ -614,7 +614,7 @@ TQ3Status
 E3PolyLine_SetVertexAttributeSet(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
 									TQ3AttributeSet attributeSet)
 {
-	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) polyLine->instanceData;
+	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
 	
 	E3Shared_Replace(&instanceData->vertices[index].attributeSet, attributeSet) ;
 
@@ -635,7 +635,7 @@ E3PolyLine_SetVertexAttributeSet(	TQ3GeometryObject polyLine, TQ3Uns32 index,
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
-{	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) polyLine->instanceData;
+{	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
 
 
 
@@ -657,7 +657,7 @@ E3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet attributeSet)
-{	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) polyLine->instanceData;
+{	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
 
 
 

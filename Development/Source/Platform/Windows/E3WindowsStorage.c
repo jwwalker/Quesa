@@ -93,7 +93,7 @@ e3storage_win32_new(TQ3Object theObject, void *privateData, const void *paramDat
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_win32_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) storage->instanceData;
+{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeWin32);
 	DWORD					fileSize;
 
 
@@ -131,7 +131,7 @@ e3storage_win32_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_win32_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) storage->instanceData;
+{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeWin32);
 	BOOL					theResult;
 	DWORD					newPos;
 
@@ -172,7 +172,7 @@ e3storage_win32_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSiz
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_win32_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) storage->instanceData;
+{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeWin32);
 	BOOL					theResult;
 	DWORD					newPos;
 
@@ -310,7 +310,7 @@ E3Win32Storage_New(HANDLE hFile)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Win32Storage_Set(TQ3StorageObject storage, HANDLE hFile)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) storage->instanceData;
+{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeWin32);
 
 
 
@@ -335,7 +335,7 @@ E3Win32Storage_Set(TQ3StorageObject storage, HANDLE hFile)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Win32Storage_Get(TQ3StorageObject storage, HANDLE *hFile)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) storage->instanceData;
+{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeWin32);
 
 
 

@@ -61,7 +61,7 @@
 //
 // For transitioning to private implementation.
 #ifndef QUESA_OBJECTS_ARE_OPAQUE
-	#define QUESA_OBJECTS_ARE_OPAQUE							0
+	#define QUESA_OBJECTS_ARE_OPAQUE							1
 #endif
 
 

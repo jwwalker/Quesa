@@ -73,8 +73,7 @@ e3fformat_3dmf_read_next_element(TQ3AttributeSet parent,TQ3FileObject theFile)
 	format = E3File_GetFileFormat(theFile);
 	
 
-	readNextElement = (TQ3XFFormat_3DMF_ReadNextElementMethod)
-					E3ClassTree_GetMethod(format->theClass, kE3XMethodType_3DMF_ReadNextElement);
+	readNextElement = (TQ3XFFormat_3DMF_ReadNextElementMethod) E3ClassTree_GetMethodByObject(format, kE3XMethodType_3DMF_ReadNextElement);
 
 	Q3_ASSERT(readNextElement != NULL);
 	
@@ -846,7 +845,7 @@ e3fformat_3dmf_shaderuvtransform_read(TQ3FileObject theFile)
 	
 	if(theObject){
 	
-		instanceData = (TQ3Matrix3x3 *) theObject->instanceData;
+		instanceData = (TQ3Matrix3x3 *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeShaderUVTransform);
 	
 		for( i = 0; ((i< 3) && (result == kQ3Success)); i++)
 			for( j = 0; ((j< 3) && (result == kQ3Success)); j++)
@@ -1531,7 +1530,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 	TQ3FileFormatObject		format;
 
 	format = E3File_GetFileFormat(theFile);
-	geomData = ((TE3FFormat3DMF_Data*)format->instanceData)->currentTriMesh;
+	geomData = ((TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf))->currentTriMesh;
 	
 	Q3_REQUIRE_OR_RESULT(geomData != NULL, NULL);
 	
@@ -2298,7 +2297,7 @@ E3FFW_3DMF_Unregister(void)
 TQ3AttributeSet
 E3FFormat_3DMF_CapsAttributes_Get(TQ3Object theObject)
 {
-	return(*(TQ3AttributeSet*)theObject->instanceData);
+	return(*(TQ3AttributeSet*)E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf));
 }
 
 
@@ -2606,7 +2605,7 @@ TQ3GeneralPolygonShapeHint
 E3FFormat_3DMF_GeneralPolygonHint_Get(TQ3Object theObject)
 {
 	
-	return((TQ3GeneralPolygonShapeHint)*(TQ3Uns32*)theObject->instanceData);
+	return((TQ3GeneralPolygonShapeHint)*(TQ3Uns32*)E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf));
 }
 
 
@@ -2620,7 +2619,7 @@ TQ3EndCap
 E3FFormat_3DMF_GeometryCapsMask_Get(TQ3Object theObject)
 {
 	
-	return((TQ3GeneralPolygonShapeHint)*(TQ3Uns32*)theObject->instanceData);
+	return((TQ3GeneralPolygonShapeHint)*(TQ3Uns32*)E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf));
 }
 
 
@@ -2636,7 +2635,7 @@ E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject)
 	TQ3DisplayGroupState resultState = kQ3DisplayGroupStateMaskIsDrawn |
 		kQ3DisplayGroupStateMaskIsPicked | kQ3DisplayGroupStateMaskIsWritten |
 		kQ3DisplayGroupStateMaskUseBoundingBox | kQ3DisplayGroupStateMaskUseBoundingSphere;
-	TQ3Uns32 state = *(TQ3Uns32*)theObject->instanceData;
+	TQ3Uns32 state = *(TQ3Uns32*)E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf);
 	
 	if((state & 0x01) == 0x01) // inline
 		resultState |= kQ3DisplayGroupStateMaskIsInline;
@@ -2677,8 +2676,7 @@ E3FFormat_3DMF_ReadFlag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hint
 	format = E3File_GetFileFormat(theFile);
 	
 
-	readFlag = (TQ3XFFormat_3DMF_ReadFlagMethod)
-					E3ClassTree_GetMethod(format->theClass, kE3XMethodType_3DMF_ReadFlag);
+	readFlag = (TQ3XFFormat_3DMF_ReadFlagMethod) E3ClassTree_GetMethodByObject(format, kE3XMethodType_3DMF_ReadFlag);
 
 	Q3_ASSERT(readFlag != NULL);
 	

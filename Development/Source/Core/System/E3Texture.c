@@ -158,7 +158,7 @@ e3texture_pixmap_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static void
 e3texture_pixmap_dimensions(TQ3TextureObject theTexture, TQ3Point2D *theDimensions)
-{	TQ3StoragePixmap		*instanceData = (TQ3StoragePixmap *) theTexture->instanceData;
+{	TQ3StoragePixmap		*instanceData = (TQ3StoragePixmap *) E3ClassTree_FindInstanceData(theTexture, kQ3TextureTypePixmap);
 
 
 
@@ -322,7 +322,7 @@ e3texture_mipmap_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static void
 e3texture_mipmap_dimensions(TQ3TextureObject theTexture, TQ3Point2D *theDimensions)
-{	TQ3Mipmap		*instanceData = (TQ3Mipmap *) theTexture->instanceData;
+{	TQ3Mipmap		*instanceData = (TQ3Mipmap *) E3ClassTree_FindInstanceData(theTexture, kQ3TextureTypeMipmap);
 
 
 
@@ -477,7 +477,7 @@ e3texture_compressed_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static void
 e3texture_compressed_dimensions(TQ3TextureObject theTexture, TQ3Point2D *theDimensions)
-{	TQ3CompressedPixmap		*instanceData = (TQ3CompressedPixmap *) theTexture->instanceData;
+{	TQ3CompressedPixmap		*instanceData = (TQ3CompressedPixmap *) E3ClassTree_FindInstanceData(theTexture, kQ3TextureTypeCompressedPixmap);
 
 
 
@@ -553,7 +553,7 @@ E3Texture_RegisterClass(void)
 												kQ3TextureTypePixmap,
 												kQ3ClassNameTexturePixmap,
 												e3texture_pixmap_metahandler,
-												sizeof(TQ3StoragePixmap)) ;
+												sizeof(TQ3StoragePixmap));
 
 
 	// register mipmap texture
@@ -562,7 +562,7 @@ E3Texture_RegisterClass(void)
 												kQ3TextureTypeMipmap,
 												kQ3ClassNameTextureMipmap,
 												e3texture_mipmap_metahandler,
-												sizeof(TQ3Mipmap)) ;
+												sizeof(TQ3Mipmap));
 
 
 	// register compressed texture
@@ -571,7 +571,7 @@ E3Texture_RegisterClass(void)
 												kQ3TextureTypeCompressedPixmap,
 												kQ3ClassNameTextureCompressed,
 												e3texture_compressed_metahandler,
-												sizeof(TQ3CompressedPixmap)) ;
+												sizeof(TQ3CompressedPixmap));
 
 	return(qd3dStatus) ;
 }
@@ -631,7 +631,7 @@ E3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
 
 	// Find the method
 	textureDimensions = (TQ3XTextureDimensionsMethod)
-							E3ClassTree_GetMethod(texture->theClass, kQ3XMethodTypeTextureDimensions);
+							E3ClassTree_GetMethodByObject(texture, kQ3XMethodTypeTextureDimensions);
 	if (textureDimensions == NULL)
 		{
 		*width = 0;
@@ -664,7 +664,7 @@ E3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height)
 
 	// Find the method
 	textureDimensions = (TQ3XTextureDimensionsMethod)
-							E3ClassTree_GetMethod(texture->theClass, kQ3XMethodTypeTextureDimensions);
+							E3ClassTree_GetMethodByObject(texture, kQ3XMethodTypeTextureDimensions);
 	if (textureDimensions == NULL)
 		{
 		*height = 0;
@@ -709,9 +709,8 @@ E3PixmapTexture_New(const TQ3StoragePixmap *pixmap)
 //      E3PixmapTexture_GetPixmap :	Get the pixmap of a pixmap texture.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapTexture_GetPixmap(TQ3TextureObject texture, TQ3StoragePixmap *pixmap)
-{
-	TQ3StoragePixmap *	instanceData	= (TQ3StoragePixmap *) texture->instanceData ;
+E3PixmapTexture_GetPixmap(TQ3TextureObject theTexture, TQ3StoragePixmap *pixmap)
+{	TQ3StoragePixmap		*instanceData = (TQ3StoragePixmap *) E3ClassTree_FindInstanceData(theTexture, kQ3TextureTypePixmap);
 
 
 
@@ -738,9 +737,8 @@ E3PixmapTexture_GetPixmap(TQ3TextureObject texture, TQ3StoragePixmap *pixmap)
 //      E3PixmapTexture_SetPixmap :	Set the pixmap of a pixmap texture.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapTexture_SetPixmap(TQ3TextureObject texture, const TQ3StoragePixmap *pixmap)
-{
-	TQ3StoragePixmap *	instanceData	= (TQ3StoragePixmap *) texture->instanceData ;
+E3PixmapTexture_SetPixmap(TQ3TextureObject theTexture, const TQ3StoragePixmap *pixmap)
+{	TQ3StoragePixmap		*instanceData = (TQ3StoragePixmap *) E3ClassTree_FindInstanceData(theTexture, kQ3TextureTypePixmap);
 	
 	
 	//set the fields of the pixmap storage
@@ -755,7 +753,7 @@ E3PixmapTexture_SetPixmap(TQ3TextureObject texture, const TQ3StoragePixmap *pixm
 	//set the image data
 	E3Shared_Replace( &instanceData->image, pixmap->image ) ;
 
-	Q3Shared_Edited(texture);
+	Q3Shared_Edited(theTexture);
 	
 	return(kQ3Success);
 }
@@ -789,9 +787,8 @@ E3MipmapTexture_New(const TQ3Mipmap *mipmap)
 //      E3MipmapTexture_GetMipmap :	Get the mipmap of a mipmap texture.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MipmapTexture_GetMipmap(TQ3TextureObject texture, TQ3Mipmap *mipmap)
-{
-	TQ3Mipmap *		instanceData	= (TQ3Mipmap *) texture->instanceData ;	
+E3MipmapTexture_GetMipmap(TQ3TextureObject theTexture, TQ3Mipmap *mipmap)
+{	TQ3Mipmap		*instanceData = (TQ3Mipmap *) E3ClassTree_FindInstanceData(theTexture, kQ3TextureTypeMipmap);	
 
 
 
@@ -829,9 +826,8 @@ E3MipmapTexture_GetMipmap(TQ3TextureObject texture, TQ3Mipmap *mipmap)
 //      E3MipmapTexture_SetMipmap :	Set the mipmap of a mipmap texture.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MipmapTexture_SetMipmap(TQ3TextureObject texture, const TQ3Mipmap *mipmap)
-{
-	TQ3Mipmap *			instanceData	= (TQ3Mipmap *) texture->instanceData ;	
+E3MipmapTexture_SetMipmap(TQ3TextureObject theTexture, const TQ3Mipmap *mipmap)
+{	TQ3Mipmap		*instanceData = (TQ3Mipmap *) E3ClassTree_FindInstanceData(theTexture, kQ3TextureTypeMipmap);	
 
 
 
@@ -858,7 +854,7 @@ E3MipmapTexture_SetMipmap(TQ3TextureObject texture, const TQ3Mipmap *mipmap)
 	// set the texture storage
 	E3Shared_Replace( &instanceData->image, mipmap->image ) ;
 
-	Q3Shared_Edited(texture);
+	Q3Shared_Edited(theTexture);
 	
 	return(kQ3Success);
 }
@@ -881,16 +877,12 @@ E3CompressedPixmapTexture_New(const TQ3CompressedPixmap *compressedPixmap)
 
 
 	// Create the object	
-#if QUESA_SUPPORT_QUICKTIME
 	compressedTexture = E3ClassTree_CreateInstance(kQ3TextureTypeCompressedPixmap, kQ3False, compressedPixmap);
-#else
-
-	compressedTexture = NULL;
-	E3ErrorManager_PostError(kQ3ErrorUnimplemented, kQ3False);
-#endif
 
 	return(compressedTexture);
 }
+
+#endif // QUESA_SUPPORT_QUICKTIME
 
 
 
@@ -901,18 +893,15 @@ E3CompressedPixmapTexture_New(const TQ3CompressedPixmap *compressedPixmap)
 //														texture of a compressed
 //														pixmap texture.
 //-----------------------------------------------------------------------------
-TQ3Status
-E3CompressedPixmapTexture_GetCompressedPixmap(	TQ3TextureObject texture,
-												TQ3CompressedPixmap *compressedPixmap)
-{
 #if QUESA_SUPPORT_QUICKTIME
-	TQ3CompressedPixmap *		instanceData = (TQ3CompressedPixmap *) texture->instanceData;
-#endif
+TQ3Status
+E3CompressedPixmapTexture_GetCompressedPixmap(	TQ3TextureObject theTexture,
+												TQ3CompressedPixmap *compressedPixmap)
+{	TQ3CompressedPixmap		*instanceData = (TQ3CompressedPixmap *) E3ClassTree_FindInstanceData(theTexture, kQ3TextureTypeCompressedPixmap);
 
 
 
 	// get the fields
-#if QUESA_SUPPORT_QUICKTIME
 	compressedPixmap->imageDescByteOrder	= instanceData->imageDescByteOrder ;
 	compressedPixmap->makeMipmaps			= instanceData->makeMipmaps ;
 	compressedPixmap->width					= instanceData->width ;
@@ -927,13 +916,9 @@ E3CompressedPixmapTexture_GetCompressedPixmap(	TQ3TextureObject texture,
 	E3Shared_Acquire(&compressedPixmap->imageDesc,       instanceData->imageDesc);
 
 	return(kQ3Success);
-#else
-
-	Q3Memory_Clear(compressedPixmap, sizeof(TQ3CompressedPixmap));
-	E3ErrorManager_PostError(kQ3ErrorUnimplemented, kQ3False);
-	return(kQ3Failure);
-#endif
 }
+
+#endif // QUESA_SUPPORT_QUICKTIME
 
 
 
@@ -944,18 +929,16 @@ E3CompressedPixmapTexture_GetCompressedPixmap(	TQ3TextureObject texture,
 //														texture of a compressed
 //														pixmap texture.
 //-----------------------------------------------------------------------------
-TQ3Status
-E3CompressedPixmapTexture_SetCompressedPixmap(	TQ3TextureObject texture,
-												const TQ3CompressedPixmap *compressedPixmap)
-{
 #if QUESA_SUPPORT_QUICKTIME
-	TQ3CompressedPixmap *		instanceData	= (TQ3CompressedPixmap *) texture->instanceData;
-#endif
+
+TQ3Status
+E3CompressedPixmapTexture_SetCompressedPixmap(	TQ3TextureObject theTexture,
+												const TQ3CompressedPixmap *compressedPixmap)
+{	TQ3CompressedPixmap		*instanceData = (TQ3CompressedPixmap *) E3ClassTree_FindInstanceData(theTexture, kQ3TextureTypeCompressedPixmap);
 
 
 
 	// get the fields
-#if QUESA_SUPPORT_QUICKTIME
 	instanceData->imageDescByteOrder	= compressedPixmap->imageDescByteOrder ;
 	instanceData->makeMipmaps			= compressedPixmap->makeMipmaps ;
 	instanceData->width					= compressedPixmap->width ;
@@ -969,15 +952,12 @@ E3CompressedPixmapTexture_SetCompressedPixmap(	TQ3TextureObject texture,
 	E3Shared_Replace( &instanceData->compressedImage, compressedPixmap->compressedImage ) ;
 	E3Shared_Replace( &instanceData->imageDesc, compressedPixmap->imageDesc ) ;	
 
-	Q3Shared_Edited(texture);
+	Q3Shared_Edited(theTexture);
 
 	return(kQ3Success);
-#else
-
-	E3ErrorManager_PostError(kQ3ErrorUnimplemented, kQ3False);
-	return(kQ3Failure);
-#endif
 }
+
+#endif // QUESA_SUPPORT_QUICKTIME
 
 
 
@@ -997,6 +977,8 @@ E3CompressedPixmapTexture_SetCompressedPixmap(	TQ3TextureObject texture,
 //
 //				The other fields are not initialised (as per the docs).
 //-----------------------------------------------------------------------------
+#if QUESA_SUPPORT_QUICKTIME
+
 TQ3Status
 E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap, 
 										PixMapHandle 			sourcePixMap, 
@@ -1008,7 +990,6 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 
 
 	// If we support QuickTime, compress the image
-#if QUESA_SUPPORT_QUICKTIME
 	ImageDescriptionHandle	imageDescH 			= NULL;
 	TQ3Int32				maxCompressedSize	= 0;
 	Handle					compressedDataH		= NULL;
@@ -1147,14 +1128,12 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 	DisposeHandle( compressedDataH ) ;
 	
 	return(kQ3Success) ;
-
-
-
-#else
-
-	E3ErrorManager_PostError(kQ3ErrorUnimplemented, kQ3False);
-	return(kQ3Failure);
-#endif
 }
 
 #endif // QUESA_SUPPORT_QUICKTIME
+
+
+
+
+
+

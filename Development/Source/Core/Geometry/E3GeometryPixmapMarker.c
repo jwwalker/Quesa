@@ -756,7 +756,7 @@ e3geom_pixmapmarker_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3O
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_pixmapmarker_get_attribute(TQ3GeometryObject theObject)
-{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) theObject->instanceData;
+{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypePixmapMarker);
 
 
 
@@ -908,8 +908,8 @@ E3PixmapMarker_Submit(const TQ3PixmapMarkerData *pixmapMarkerData, TQ3ViewObject
 //      E3PixmapMarker_SetData : Set the data for a pixmap marker.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_SetData(TQ3GeometryObject theGeom, const TQ3PixmapMarkerData *pixmapMarkerData)
-{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) theGeom->instanceData;
+E3PixmapMarker_SetData(TQ3GeometryObject pixmapMarker, const TQ3PixmapMarkerData *pixmapMarkerData)
+{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
 
 
 
@@ -928,7 +928,7 @@ E3PixmapMarker_SetData(TQ3GeometryObject theGeom, const TQ3PixmapMarkerData *pix
 	E3Shared_Replace(&instanceData->pixmap.image, pixmapMarkerData->pixmap.image);
 	E3Shared_Replace(&instanceData->pixmapMarkerAttributeSet, pixmapMarkerData->pixmapMarkerAttributeSet);
 
-	Q3Shared_Edited(theGeom);
+	Q3Shared_Edited(pixmapMarker);
 
 	return(kQ3Success);
 }
@@ -941,8 +941,8 @@ E3PixmapMarker_SetData(TQ3GeometryObject theGeom, const TQ3PixmapMarkerData *pix
 //      E3PixmapMarker_GetData : Get the data for a pixmap marker.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_GetData(TQ3GeometryObject theGeom, TQ3PixmapMarkerData *pixmapMarkerData)
-{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) theGeom->instanceData;
+E3PixmapMarker_GetData(TQ3GeometryObject pixmapMarker, TQ3PixmapMarkerData *pixmapMarkerData)
+{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
 
 
 
@@ -993,7 +993,7 @@ E3PixmapMarker_EmptyData(TQ3PixmapMarkerData *pixmapMarkerData)
 TQ3Status
 E3PixmapMarker_GetPosition(TQ3GeometryObject pixmapMarker, TQ3Point3D *position)
 {
-	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) pixmapMarker->instanceData;
+	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
 	
 	
 	//get the position
@@ -1012,7 +1012,7 @@ E3PixmapMarker_GetPosition(TQ3GeometryObject pixmapMarker, TQ3Point3D *position)
 TQ3Status
 E3PixmapMarker_SetPosition(TQ3GeometryObject pixmapMarker, const TQ3Point3D *position)
 {
-	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) pixmapMarker->instanceData;
+	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
 	
 	//set the position
 	instanceData->position = *position ;	
@@ -1032,7 +1032,7 @@ E3PixmapMarker_SetPosition(TQ3GeometryObject pixmapMarker, const TQ3Point3D *pos
 TQ3Status
 E3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *xOffset)
 {
-	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) pixmapMarker->instanceData;
+	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
 	
 	
 	//get the horizontal offset
@@ -1051,7 +1051,7 @@ E3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *xOffset)
 TQ3Status
 E3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 xOffset)
 {
-	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) pixmapMarker->instanceData;
+	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
 	
 	
 	//set the horizontal offset
@@ -1072,7 +1072,7 @@ E3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 xOffset)
 TQ3Status
 E3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *yOffset)
 {
-	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) pixmapMarker->instanceData;
+	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
 	
 	//get the vertical offset
 	*yOffset = instanceData->yOffset ;
@@ -1090,7 +1090,7 @@ E3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *yOffset)
 TQ3Status
 E3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 yOffset)
 {
-	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) pixmapMarker->instanceData;
+	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
 	
 	//set the vertical offset
 	instanceData->yOffset = yOffset ;
@@ -1109,7 +1109,7 @@ E3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 yOffset)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PixmapMarker_GetPixmap(TQ3GeometryObject pixmapMarker, TQ3StoragePixmap *pixmap)
-{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) pixmapMarker->instanceData;
+{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
 
 
 
@@ -1130,7 +1130,7 @@ E3PixmapMarker_GetPixmap(TQ3GeometryObject pixmapMarker, TQ3StoragePixmap *pixma
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PixmapMarker_SetPixmap(TQ3GeometryObject pixmapMarker, const TQ3StoragePixmap *pixmap)
-{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) pixmapMarker->instanceData;
+{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
 
 
 

@@ -474,7 +474,7 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_torus_get_attribute(TQ3GeometryObject theObject)
-{	TQ3TorusData		*instanceData = (TQ3TorusData *) theObject->instanceData;
+{	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeTorus);
 
 
 
@@ -633,7 +633,7 @@ E3Torus_Submit(const TQ3TorusData *torusData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Torus_SetData(TQ3GeometryObject theTorus, const TQ3TorusData *torusData)
-{	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+{	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 	TQ3Status		qd3dStatus;
 
 
@@ -659,7 +659,7 @@ E3Torus_SetData(TQ3GeometryObject theTorus, const TQ3TorusData *torusData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Torus_GetData(TQ3GeometryObject theTorus, TQ3TorusData *torusData)
-{	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+{	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 	TQ3Status		qd3dStatus;
 
 
@@ -682,7 +682,7 @@ E3Torus_GetData(TQ3GeometryObject theTorus, TQ3TorusData *torusData)
 TQ3Status
 E3Torus_SetOrigin(TQ3GeometryObject theTorus, const TQ3Point3D *origin)
 {
-	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 
 	Q3Memory_Copy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
 
@@ -700,7 +700,7 @@ E3Torus_SetOrigin(TQ3GeometryObject theTorus, const TQ3Point3D *origin)
 TQ3Status
 E3Torus_SetOrientation(TQ3GeometryObject theTorus, const TQ3Vector3D *orientation)
 {
-	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 
 	Q3Memory_Copy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
 
@@ -718,7 +718,7 @@ E3Torus_SetOrientation(TQ3GeometryObject theTorus, const TQ3Vector3D *orientatio
 TQ3Status
 E3Torus_SetMajorRadius(TQ3GeometryObject theTorus, const TQ3Vector3D *majorRadius)
 {
-	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 
 	Q3Memory_Copy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
 
@@ -736,7 +736,7 @@ E3Torus_SetMajorRadius(TQ3GeometryObject theTorus, const TQ3Vector3D *majorRadiu
 TQ3Status
 E3Torus_SetMinorRadius(TQ3GeometryObject theTorus, const TQ3Vector3D *minorRadius)
 {
-	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 
 	Q3Memory_Copy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
 
@@ -754,7 +754,7 @@ E3Torus_SetMinorRadius(TQ3GeometryObject theTorus, const TQ3Vector3D *minorRadiu
 TQ3Status
 E3Torus_GetOrigin(TQ3GeometryObject theTorus, TQ3Point3D *origin)
 {
-	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 
 	Q3Memory_Copy( &instanceData->origin,  origin,sizeof(TQ3Point3D) );
 	return(kQ3Success);
@@ -770,7 +770,7 @@ E3Torus_GetOrigin(TQ3GeometryObject theTorus, TQ3Point3D *origin)
 TQ3Status
 E3Torus_GetOrientation(TQ3GeometryObject theTorus, TQ3Vector3D *orientation)
 {
-	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 
 	Q3Memory_Copy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
@@ -786,7 +786,7 @@ E3Torus_GetOrientation(TQ3GeometryObject theTorus, TQ3Vector3D *orientation)
 TQ3Status
 E3Torus_GetMajorRadius(TQ3GeometryObject theTorus, TQ3Vector3D *majorRadius)
 {
-	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 
 	Q3Memory_Copy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
@@ -802,7 +802,7 @@ E3Torus_GetMajorRadius(TQ3GeometryObject theTorus, TQ3Vector3D *majorRadius)
 TQ3Status
 E3Torus_GetMinorRadius(TQ3GeometryObject theTorus, TQ3Vector3D *minorRadius)
 {
-	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 
 	Q3Memory_Copy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
@@ -816,7 +816,7 @@ E3Torus_GetMinorRadius(TQ3GeometryObject theTorus, TQ3Vector3D *minorRadius)
 TQ3Status
 E3Torus_SetRatio(TQ3GeometryObject theTorus, float ratio)
 {
-	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 
 	instanceData->ratio = ratio;
 	return(kQ3Success);
@@ -829,7 +829,7 @@ E3Torus_SetRatio(TQ3GeometryObject theTorus, float ratio)
 TQ3Status
 E3Torus_GetRatio(TQ3GeometryObject theTorus, float *ratio)
 {
-	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
+	TQ3TorusData		*instanceData = (TQ3TorusData *) E3ClassTree_FindInstanceData(theTorus, kQ3GeometryTypeTorus);
 
 	*ratio = instanceData->ratio;
 	return(kQ3Success);

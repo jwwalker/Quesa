@@ -563,7 +563,7 @@ e3geom_line_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object th
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_line_get_attribute(TQ3GeometryObject theObject)
-{	TQ3LineData			*instanceData = (TQ3LineData *) theObject->instanceData;
+{	TQ3LineData			*instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeLine);
 
 
 
@@ -707,7 +707,7 @@ E3Line_Submit(const TQ3LineData *lineData, TQ3ViewObject theView)
 TQ3Status
 E3Line_GetData(TQ3GeometryObject theLine, TQ3LineData *lineData)
 {
-	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
+	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
 
 	e3geom_line_copydata( instanceData, lineData, kQ3False );
 	
@@ -724,7 +724,7 @@ E3Line_GetData(TQ3GeometryObject theLine, TQ3LineData *lineData)
 TQ3Status
 E3Line_SetData(TQ3GeometryObject theLine, const TQ3LineData *lineData)
 {
-	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
+	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
 	TQ3Status			q3status;
 
 	
@@ -747,7 +747,7 @@ E3Line_SetData(TQ3GeometryObject theLine, const TQ3LineData *lineData)
 TQ3Status
 E3Line_GetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3Point3D *position)
 {
-	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
+	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
 
 	//get the position	
 	*position = instanceData->vertices[index].point ;
@@ -765,7 +765,7 @@ E3Line_GetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3Point3D *
 TQ3Status
 E3Line_SetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, const TQ3Point3D *position)
 {
-	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
+	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
 	
 	
 	//set the position
@@ -785,7 +785,7 @@ E3Line_SetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, const TQ3Poi
 TQ3Status
 E3Line_GetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {
-	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
+	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
 
 
 	// Return the attribute set
@@ -804,7 +804,7 @@ E3Line_GetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3Attri
 TQ3Status
 E3Line_SetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {
-	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
+	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
 
 
 	// Set the attribute set

@@ -498,7 +498,7 @@ e3geom_box_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_box_get_attribute(TQ3GeometryObject theObject)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theObject->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeBox);
 
 
 
@@ -657,7 +657,7 @@ E3Box_Submit(const TQ3BoxData *boxData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_SetData(TQ3GeometryObject theBox, const TQ3BoxData *boxData)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 	TQ3Uns32		n;
 
 
@@ -710,7 +710,7 @@ E3Box_SetData(TQ3GeometryObject theBox, const TQ3BoxData *boxData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetData(TQ3GeometryObject theBox, TQ3BoxData *boxData)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 	TQ3Uns32		n;
 
 
@@ -778,7 +778,7 @@ E3Box_EmptyData(TQ3BoxData *boxData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_SetOrigin(TQ3GeometryObject theBox, const TQ3Point3D *origin)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 
 
 
@@ -799,7 +799,7 @@ E3Box_SetOrigin(TQ3GeometryObject theBox, const TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_SetOrientation(TQ3GeometryObject theBox, const TQ3Vector3D *orientation)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 
 
 
@@ -820,7 +820,7 @@ E3Box_SetOrientation(TQ3GeometryObject theBox, const TQ3Vector3D *orientation)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_SetMajorAxis(TQ3GeometryObject theBox, const TQ3Vector3D *majorAxis)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 
 
 
@@ -841,7 +841,7 @@ E3Box_SetMajorAxis(TQ3GeometryObject theBox, const TQ3Vector3D *majorAxis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_SetMinorAxis(TQ3GeometryObject theBox, const TQ3Vector3D *minorAxis)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 
 
 
@@ -862,7 +862,7 @@ E3Box_SetMinorAxis(TQ3GeometryObject theBox, const TQ3Vector3D *minorAxis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetOrigin(TQ3GeometryObject theBox, TQ3Point3D *origin)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 
 
 
@@ -881,7 +881,7 @@ E3Box_GetOrigin(TQ3GeometryObject theBox, TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetOrientation(TQ3GeometryObject theBox, TQ3Vector3D *orientation)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 
 
 
@@ -900,7 +900,7 @@ E3Box_GetOrientation(TQ3GeometryObject theBox, TQ3Vector3D *orientation)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetMajorAxis(TQ3GeometryObject theBox, TQ3Vector3D *majorAxis)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 
 
 
@@ -919,7 +919,7 @@ E3Box_GetMajorAxis(TQ3GeometryObject theBox, TQ3Vector3D *majorAxis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetMinorAxis(TQ3GeometryObject theBox, TQ3Vector3D *minorAxis)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 
 
 
@@ -938,7 +938,7 @@ E3Box_GetMinorAxis(TQ3GeometryObject theBox, TQ3Vector3D *minorAxis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3AttributeSet *faceAttributeSet)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 
 
 
@@ -960,7 +960,7 @@ E3Box_GetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3Attri
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_SetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3AttributeSet faceAttributeSet)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
+{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
 
 
 
