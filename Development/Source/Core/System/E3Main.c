@@ -53,8 +53,12 @@
 #include "E3Shader.h"
 #include "E3Texture.h"
 #include "E3CustomElements.h"
-#include "E3Viewer.h"
 #include "E3IOFileFormat.h"
+
+#if !QUESA_OS_COCOA
+// Viewer not supported on Cocoa yet
+#include "E3Viewer.h"
+#endif
 
 
 
@@ -501,8 +505,11 @@ E3Initialize(void)
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3CustomElements_RegisterClass();
 
+		#if !QUESA_OS_COCOA
+		// Viewer not supported on Cocoa yet
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3Viewer_RegisterClass();
+		#endif
 		
 
 
@@ -564,8 +571,10 @@ E3Exit(void)
 		E3System_UnloadPlugins();
 
 
-		// Terminate Quesa
+		// Terminate Quesa - note the Viewer isn't supported on Cocoa yet
+		#if !QUESA_OS_COCOA
 		qd3dStatus = E3Viewer_UnregisterClass();
+		#endif
 		qd3dStatus = E3CustomElements_UnregisterClass();
 		qd3dStatus = E3Pick_UnregisterClass();
 		qd3dStatus = E3File_UnregisterClass();
