@@ -269,7 +269,8 @@ gldrawcontext_mac_setcurrent(void *glContext)
 
 
 	// Activate the context
-	aglSetCurrentContext((AGLContext) glContext);
+	if (aglGetCurrentContext() != (AGLContext) glContext)
+		aglSetCurrentContext((AGLContext) glContext);
 }
 #endif // OS_MACINTOSH
 
@@ -433,7 +434,9 @@ gldrawcontext_x11_setcurrent(void *glContext)
 
 
 	// Activate the context
-	glXMakeCurrent(theContext->theDisplay, theContext->glDrawable, theContext->glContext);
+	if (glXGetCurrentContext()  != theContext->glContext ||
+		glXGetCurrentDrawable() != theContext->glDrawable)
+		glXMakeCurrent(theContext->theDisplay, theContext->glDrawable, theContext->glContext);
 }
 #endif // OS_UNIX
 
@@ -599,7 +602,9 @@ gldrawcontext_win_setcurrent(void *glContext)
 
 
 	// Activate the context
-	wglMakeCurrent(theContext->theDC, theContext->glContext);
+	if (wglGetCurrentDC()      != theContext->theDC ||
+		wglGetCurrentContext() != theContext->glContext)
+		wglMakeCurrent(theContext->theDC, theContext->glContext);
 }
 #endif // OS_WIN32
 
