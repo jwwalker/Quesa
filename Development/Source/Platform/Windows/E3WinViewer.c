@@ -30,13 +30,23 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
+
+/* To do:
+		- Cursor appearance
+		- badge
+		- Undo
+		- Cameras
+		- move the rest of the unimplemented routines from QD3DWinViewer
+		- implementation of the "virtual system callbacks", i.e. the E3SysViewer... routines
+*/
+
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Viewer.h"
 #include "E3WinViewer.h"
-
+#include <commctrl.h>
 
 
 
@@ -49,6 +59,8 @@
 
 HINSTANCE gDllInstance;// the global reference to the DLL
 
+#define ID_TOOLBAR 117
+#define IDB_TOOLBAR 117
 
 
 
@@ -67,14 +79,133 @@ HINSTANCE gDllInstance;// the global reference to the DLL
 // Internal macros go here
 
 
-static const char* e3_viewer_window_class_name()
+static unsigned long e3_button_item_to_quesa( TQ3ViewerObject viewer, unsigned long item )
 {
-#if __REALQD3D__
-	return "QD3DViewerWindow";// from Spy
-#else
-	return "QuesaViewerWindow";
-#endif
+	TBBUTTON info;
+	LRESULT win_res= SendMessage
+	( E3WinViewerGetControlStrip(viewer)
+	, TB_GETBUTTON 
+    , (WPARAM) item
+    , (LPARAM) (LPTBBUTTON) &info
+	);
+	if (win_res == 0) return 0;
+
+	return info.idCommand;
 }
+
+
+static unsigned long e3_button_quesa_to_item( TQ3ViewerObject viewer, unsigned long quesa )
+{
+	LRESULT win_res= 0;
+	TBBUTTONINFO info;
+		info.cbSize= sizeof(info);
+		info.dwMask= 0;
+
+	win_res= SendMessage
+	( E3WinViewerGetControlStrip(viewer)
+	, TB_GETBUTTONINFO
+    , (WPARAM)(INT) quesa
+    , (LPARAM)(LPTBBUTTONINFO) &info
+	);
+
+	return win_res;
+}
+
+
+static TQ3Boolean e3_is_quesa_button(unsigned long theButton, unsigned long theQuesaButton, TQ3Uns32 theFlags, TQ3Uns32* n )
+{
+	if (theButton == theQuesaButton)
+		return(kQ3True);
+	if (theFlags & theQuesaButton)
+		(*n)++;
+	return (kQ3False);
+}
+
+
+static unsigned long e3_button_quesa_to_app( TQ3ViewerObject viewer, unsigned long theButton )
+{
+	// Some strange thing.
+	//
+	// In my testing application (from Apple) one does input kQ3... buttons.
+	// The Q3Viewer method however does use "application" buttons as
+	// input, i.e. the numbering which the user does see on the screen.
+	// Is there really such a difference between the Mac and the Win button 
+	// numbering scheme? I will check it when nobody else does.
+	//
+	// This code tries to make the conversion. Essentially it is
+	// e3_viewer_button_to_external from E3Viewer.c
+	TQ3Uns32 flags= Q3WinViewerGetFlags(viewer);
+	TQ3Uns32			n= 0;
+
+#define _check(b) if (e3_is_quesa_button(theButton, b, flags, &n )) return n;
+	_check(kQ3ViewerButtonCamera);
+	_check(kQ3ViewerButtonTruck);
+	_check(kQ3ViewerButtonOrbit);
+	_check(kQ3ViewerButtonZoom);
+	_check(kQ3ViewerButtonDolly);
+	_check(kQ3ViewerButtonReset);
+	_check(kQ3ViewerButtonOptions);
+#undef _check
+
+	return(theButton);
+}
+
+
+static TQ3Boolean e3_is_app_button(unsigned long theButton, unsigned long theQuesaButton, TQ3Uns32 theFlags, TQ3Uns32* n )
+{
+	if (theFlags & theQuesaButton)
+	{
+		if (theButton == *n) return(kQ3True);
+		(*n)++;
+	}
+	return (kQ3False);
+}
+
+
+static unsigned long e3_button_app_to_quesa( TQ3ViewerObject viewer, unsigned long app )
+{
+	TQ3Uns32 flags= Q3WinViewerGetFlags(viewer);
+	TQ3Uns32			n= 0;
+#define _check(b) if (e3_is_app_button(app, b, flags, &n )) return b;
+	_check(kQ3ViewerButtonCamera);
+	_check(kQ3ViewerButtonTruck);
+	_check(kQ3ViewerButtonOrbit);
+	_check(kQ3ViewerButtonZoom);
+	_check(kQ3ViewerButtonDolly);
+	_check(kQ3ViewerButtonReset);
+	_check(kQ3ViewerButtonOptions);
+#undef _check
+
+	return 0;
+}
+
+
+
+static void e3_check_button( HWND controlStrip, unsigned int idButton )
+{
+	SendMessage
+		( controlStrip
+		, TB_CHECKBUTTON 
+		, (WPARAM) idButton
+		, (LPARAM) MAKELONG(1, 0)
+		); 
+}
+
+
+static void e3_show_button( HWND controlStrip, TQ3Uns32 flags, TQ3Uns32 idButton )
+{
+	SendMessage
+		( controlStrip
+		, TB_HIDEBUTTON 
+		, (WPARAM) idButton
+		, (LPARAM) MAKELONG((idButton & flags) == 0, 0)
+		); 
+}
+
+
+
+
+
 
 
 //=============================================================================
@@ -88,10 +219,7 @@ static const char* e3_viewer_window_class_name()
 TQ3Status
 E3WinViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return Q3ViewerGetVersion(majorRevision,minorRevision);
 }
 
 
@@ -106,10 +234,7 @@ E3WinViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 TQ3Status
 E3WinViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return Q3ViewerGetReleaseVersion(releaseRevision);
 }
 
 
@@ -124,8 +249,6 @@ E3WinViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 //
 //		To do:
 //		-- investigation of the correct handling of the rect parameter
-//		-- control buttons
-//		-- badge
 //-----------------------------------------------------------------------------
 
 TQ3ViewerObject
@@ -133,13 +256,14 @@ E3WinViewerNew(HWND window, const RECT *rect, TQ3Uns32 flags)
 {
 	TQ3ViewerObject theViewer;
 
+	// Create the dawing pane
 	HWND thePort= CreateWindowEx
 		( WS_EX_LEFT
 			| WS_EX_CONTROLPARENT
 			| WS_EX_RIGHTSCROLLBAR
 			| WS_EX_ACCEPTFILES 
 			// extended window style, from Spy
-		,  e3_viewer_window_class_name() // pointer to registered class name
+		,  kQ3ViewerClassName // pointer to registered class name
 		, "" // pointer to window name
 		, WS_CHILD
 			| WS_VISIBLE
@@ -157,10 +281,62 @@ E3WinViewerNew(HWND window, const RECT *rect, TQ3Uns32 flags)
 		, 0        // pointer to window-creation data
 	);
  
+
+	// The buttons of the viewer control strip
+#define _button(n,q) 		{n, q, TBSTATE_ENABLED | TBSTATE_HIDDEN, TBSTYLE_BUTTON, 0L, 0}
+#define _button_group(n,q) 		{n, q, TBSTATE_ENABLED | TBSTATE_HIDDEN, TBSTYLE_BUTTON|TBSTYLE_CHECKGROUP, 0L, 0}	
+#define _separator()  {7, 0, TBSTATE_ENABLED, TBSTYLE_SEP, 0L, 0}
+	TBBUTTON tbButtons [] = 
+	{
+		_separator(),
+		_button(0,kQ3ViewerButtonCamera),
+		_separator(),
+		_button_group(1, kQ3ViewerButtonTruck),
+		_button_group(2, kQ3ViewerButtonOrbit),
+		_button_group(3, kQ3ViewerButtonZoom),
+		_button_group(4, kQ3ViewerButtonDolly),
+		_separator(),
+		_button(5, kQ3ViewerButtonReset),
+		_button(6, kQ3ViewerButtonOptions)
+	};
+#undef _separator
+#undef _button
+#undef _button_group
+
+	// Create the control strip.
+	// It is - like the Apple viewer - a child window of the drawing pane.
+	HWND hWndToolbar = CreateToolbarEx 
+		( thePort // parent
+		, WS_CHILD 
+			| WS_CLIPSIBLINGS 
+			| WS_VISIBLE 
+			| TBSTYLE_TOOLTIPS 
+			| CCS_BOTTOM  // window style
+		, ID_TOOLBAR // toolbar ID
+		, 1 // number of bitmaps
+		, gDllInstance  // mod instance
+		, IDB_TOOLBAR // resource ID for bitmap
+		, (LPCTBBUTTON)&tbButtons // address of buttons
+		, 10 //24, // number of buttons
+		, 31, 24 //16, 16, // width & height of buttons
+		, 31, 30 //16, 16, // width & height of bitmaps
+		, sizeof (TBBUTTON) // structure size
+		);
+
+	// Recalculate the size of the tool bar
+	SendMessage(hWndToolbar,TB_AUTOSIZE,0,0);
+
+	// Set the notification receiver
+	SendMessage(hWndToolbar,TB_SETPARENT,(WPARAM) thePort,0);
+
+	// Create the Quesa viewer data
 	theViewer= Q3ViewerNew(thePort,rect,flags);
 	if (theViewer)
 	{
+		// This comes handy in Windows:
+		// We can assign several properties to our window.
 		SetProp(thePort,"Q3ViewerObject",theViewer);
+		SetProp(thePort,"Q3ControlStrip",hWndToolbar);
 	}
 	return theViewer;
 }
@@ -177,10 +353,7 @@ E3WinViewerNew(HWND window, const RECT *rect, TQ3Uns32 flags)
 TQ3Status
 E3WinViewerDispose(TQ3ViewerObject viewer)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return Q3ViewerDispose(viewer);
 }
 
 
@@ -195,10 +368,7 @@ E3WinViewerDispose(TQ3ViewerObject viewer)
 TQ3Status
 E3WinViewerUseFile(TQ3ViewerObject viewer, HANDLE fileHandle)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerUseFile(viewer, fileHandle));
 }
 
 
@@ -213,10 +383,7 @@ E3WinViewerUseFile(TQ3ViewerObject viewer, HANDLE fileHandle)
 TQ3Status
 E3WinViewerUseData(TQ3ViewerObject viewer, void *data, TQ3Uns32 size)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerUseData(viewer, data, size));
 }
 
 
@@ -231,10 +398,7 @@ E3WinViewerUseData(TQ3ViewerObject viewer, void *data, TQ3Uns32 size)
 TQ3Status
 E3WinViewerWriteFile(TQ3ViewerObject viewer, HANDLE fileHandle)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerWriteFile(viewer, fileHandle));
 }
 
 
@@ -249,10 +413,7 @@ E3WinViewerWriteFile(TQ3ViewerObject viewer, HANDLE fileHandle)
 TQ3Status
 E3WinViewerWriteData(TQ3ViewerObject viewer, void *data, TQ3Uns32 dataSize, TQ3Uns32 *actualDataSize)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerWriteData(viewer, data, dataSize, actualDataSize));
 }
 
 
@@ -267,10 +428,11 @@ E3WinViewerWriteData(TQ3ViewerObject viewer, void *data, TQ3Uns32 dataSize, TQ3U
 TQ3Status
 E3WinViewerDraw(TQ3ViewerObject viewer)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	TQ3Status status;
+	status = Q3WinViewerDrawControlStrip (viewer);
+	if (status == kQ3Success)
+		status = Q3WinViewerDrawContent (viewer);
+	return status;
 }
 
 
@@ -285,10 +447,7 @@ E3WinViewerDraw(TQ3ViewerObject viewer)
 TQ3Status
 E3WinViewerDrawContent(TQ3ViewerObject viewer)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerDrawContent(viewer));
 }
 
 
@@ -303,10 +462,37 @@ E3WinViewerDrawContent(TQ3ViewerObject viewer)
 TQ3Status
 E3WinViewerDrawControlStrip(TQ3ViewerObject viewer)
 {
+	TQ3Status status;
+	HWND controlStrip= E3WinViewerGetControlStrip(viewer);
+	TQ3Uns32 flags= Q3WinViewerGetFlags(viewer);
+	TQ3Boolean visible= (flags&kQ3ViewerControllerVisible) != 0;
+	if (visible)
+	{
+		ShowWindow(controlStrip,SW_SHOW);
+		{
+			unsigned long currentButton= Q3WinViewerGetCurrentButton(viewer);
+			
+#define _show( idButton ) e3_show_button( controlStrip, flags, idButton )
+			_show(kQ3ViewerButtonCamera);
+			_show(kQ3ViewerButtonTruck);
+			_show(kQ3ViewerButtonOrbit);
+			_show(kQ3ViewerButtonZoom);
+			_show(kQ3ViewerButtonDolly);
+			_show(kQ3ViewerButtonReset);
+			_show(kQ3ViewerButtonOptions);
+#undef _show
+			
+			e3_check_button(controlStrip,currentButton);
+		}
+	}
+	else
+	{
+		ShowWindow(controlStrip,SW_HIDE);
+	}
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	status= Q3ViewerDrawControlStrip(viewer);
+	SendMessage(controlStrip,TB_AUTOSIZE,0,0);
+	return status;
 }
 
 
@@ -321,10 +507,7 @@ E3WinViewerDrawControlStrip(TQ3ViewerObject viewer)
 BOOL
 E3WinViewerMouseDown(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
-
-
-	// To be implemented...
-	return(FALSE);
+	return(Q3ViewerMouseDown(viewer, x, y));
 }
 
 
@@ -339,10 +522,7 @@ E3WinViewerMouseDown(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 BOOL
 E3WinViewerContinueTracking(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
-
-
-	// To be implemented...
-	return(FALSE);
+	return(Q3ViewerContinueTracking(viewer, x, y));
 }
 
 
@@ -357,10 +537,7 @@ E3WinViewerContinueTracking(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 BOOL
 E3WinViewerMouseUp(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
-
-
-	// To be implemented...
-	return(FALSE);
+	return(Q3ViewerMouseUp(viewer, x, y));
 }
 
 
@@ -423,10 +600,14 @@ E3WinViewerGetBitmap(TQ3ViewerObject viewer)
 TQ3Status
 E3WinViewerGetButtonRect(TQ3ViewerObject viewer, TQ3Uns32 button, RECT *rectangle)
 {
+	LRESULT win_res= SendMessage
+	( E3WinViewerGetControlStrip(viewer)
+	, TB_GETITEMRECT
+    , (WPARAM) e3_button_quesa_to_item(viewer,button)
+    , (LPARAM) (LPRECT) rectangle
+	);
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(win_res == 1 ? kQ3Success: kQ3Failure);
 }
 
 
@@ -441,10 +622,7 @@ E3WinViewerGetButtonRect(TQ3ViewerObject viewer, TQ3Uns32 button, RECT *rectangl
 TQ3Uns32
 E3WinViewerGetCurrentButton(TQ3ViewerObject viewer)
 {
-
-
-	// To be implemented...
-	return(0);
+	return e3_button_app_to_quesa(viewer,Q3ViewerGetCurrentButton(viewer));
 }
 
 
@@ -459,10 +637,12 @@ E3WinViewerGetCurrentButton(TQ3ViewerObject viewer)
 TQ3Status
 E3WinViewerSetCurrentButton(TQ3ViewerObject viewer, TQ3Uns32 button)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	TQ3Status status= Q3ViewerSetCurrentButton(viewer, e3_button_quesa_to_app(viewer,button));
+	if (status == kQ3Success)
+	{
+		Q3WinViewerDrawControlStrip(viewer);
+	}
+	return status;
 }
 
 
@@ -513,10 +693,7 @@ E3WinViewerGetGroup(TQ3ViewerObject viewer)
 TQ3Status
 E3WinViewerSetBackgroundColor(TQ3ViewerObject viewer, TQ3ColorARGB *color)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerSetBackgroundColor(viewer, color));
 }
 
 
@@ -531,10 +708,7 @@ E3WinViewerSetBackgroundColor(TQ3ViewerObject viewer, TQ3ColorARGB *color)
 TQ3Status
 E3WinViewerGetBackgroundColor(TQ3ViewerObject viewer, TQ3ColorARGB *color)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerGetBackgroundColor(viewer, color));
 }
 
 
@@ -585,10 +759,11 @@ E3WinViewerRestoreView(TQ3ViewerObject viewer)
 TQ3Status
 E3WinViewerSetFlags(TQ3ViewerObject viewer, TQ3Uns32 flags)
 {
+	TQ3Status status= (Q3ViewerSetFlags(viewer, flags));
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	Q3_ASSERT(Q3WinViewerGetCurrentButton(viewer)&Q3WinViewerGetFlags(viewer));
+	Q3WinViewerDrawControlStrip(viewer);
+	return status;
 }
 
 
@@ -603,10 +778,7 @@ E3WinViewerSetFlags(TQ3ViewerObject viewer, TQ3Uns32 flags)
 TQ3Uns32
 E3WinViewerGetFlags(TQ3ViewerObject viewer)
 {
-
-
-	// To be implemented...
-	return(0);
+	return(Q3ViewerGetFlags(viewer));
 }
 
 
@@ -630,11 +802,11 @@ E3WinViewerSetBounds(TQ3ViewerObject viewer, RECT *bounds)
 	ok= SetWindowPos(
 		wnd,             // handle to window
 		0,  // placement-order handle
-		0,                 // horizontal position
-		0,                 // vertical position
+		bounds->left,                 // horizontal position
+		bounds->top,                 // vertical position
 		bounds->right-bounds->left,                // width
 		bounds->bottom-bounds->top,                // height
-		SWP_NOMOVE            // window-positioning flags
+		0            // window-positioning flags
 	);
 	if (!ok) return kQ3Failure;
  
@@ -654,10 +826,7 @@ E3WinViewerSetBounds(TQ3ViewerObject viewer, RECT *bounds)
 TQ3Status
 E3WinViewerGetBounds(TQ3ViewerObject viewer, RECT *bounds)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerGetBounds(viewer, bounds));
 }
 
 
@@ -672,10 +841,24 @@ E3WinViewerGetBounds(TQ3ViewerObject viewer, RECT *bounds)
 TQ3Status
 E3WinViewerSetDimension(TQ3ViewerObject viewer, TQ3Uns32 width, TQ3Uns32 height)
 {
+	HWND wnd;
+	BOOL ok;
+	wnd= Q3WinViewerGetWindow(viewer);
+	if (wnd == 0) return kQ3Failure;
+	
+	ok= SetWindowPos(
+		wnd,             // handle to window
+		0,  // placement-order handle
+		0,                 // horizontal position
+		0,                 // vertical position
+		width,                // width
+		height,                // height
+		SWP_NOMOVE            // window-positioning flags
+	);
+	if (!ok) return kQ3Failure;
+ 
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerSetDimension(viewer,width,height));
 }
 
 
@@ -690,10 +873,7 @@ E3WinViewerSetDimension(TQ3ViewerObject viewer, TQ3Uns32 width, TQ3Uns32 height)
 TQ3Status
 E3WinViewerGetDimension(TQ3ViewerObject viewer, TQ3Uns32 *width, TQ3Uns32 *height)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerGetDimension(viewer, width, height));
 }
 
 
@@ -708,10 +888,7 @@ E3WinViewerGetDimension(TQ3ViewerObject viewer, TQ3Uns32 *width, TQ3Uns32 *heigh
 TQ3Status
 E3WinViewerGetMinimumDimension(TQ3ViewerObject viewer, TQ3Uns32 *width, TQ3Uns32 *height)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return (Q3ViewerGetMinimumDimension(viewer, width, height));
 }
 
 
@@ -774,10 +951,7 @@ E3WinViewerGetViewer(HWND theWindow)
 HWND
 E3WinViewerGetControlStrip(TQ3ViewerObject viewer)
 {
-
-
-	// To be implemented...
-	return(NULL);
+	return (HWND)GetProp(Q3WinViewerGetWindow(viewer),"Q3ControlStrip");
 }
 
 
@@ -828,10 +1002,7 @@ E3WinViewerCursorChanged(TQ3ViewerObject viewer)
 TQ3Uns32
 E3WinViewerGetState(TQ3ViewerObject viewer)
 {
-
-
-	// To be implemented...
-	return(0);
+	return(Q3ViewerGetState(viewer));
 }
 
 
@@ -902,7 +1073,7 @@ static TQ3Status set_3dmf_clip( TQ3ViewerObject viewer )
 
 	if (success == kQ3Success)
 	{
-		fmt3dmf= RegisterClipboardFormat("Quickdraw 3D Metafile");
+		fmt3dmf= RegisterClipboardFormat(kQ3ViewerClipboardFormat);
 		SetClipboardData(fmt3dmf, data);
 	}
 
@@ -994,7 +1165,7 @@ E3WinViewerPaste(TQ3ViewerObject viewer)
 	// We only accept 3DMF data:
 	//
 	// Q3WinViewerSetData(viewer,data);
-	fmt3dmf= RegisterClipboardFormat("Quickdraw 3D Metafile");
+	fmt3dmf= RegisterClipboardFormat(kQ3ViewerClipboardFormat);
 	data= GetClipboardData(fmt3dmf);
 	if (data)
 	{	
@@ -1065,10 +1236,7 @@ E3WinViewerGetUndoString(TQ3ViewerObject viewer, char *theString, TQ3Uns32 strin
 TQ3Status
 E3WinViewerGetCameraCount(TQ3ViewerObject viewer, TQ3Uns32 *count)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerGetCameraCount(viewer, count));
 }
 
 
@@ -1083,6 +1251,7 @@ E3WinViewerGetCameraCount(TQ3ViewerObject viewer, TQ3Uns32 *count)
 TQ3Status
 E3WinViewerSetCameraNumber(TQ3ViewerObject viewer, TQ3Uns32 cameraNo)
 {
+	// return(Q3ViewerSetCameraNumber(viewer, cameraNo));
 
 
 	// To be implemented...
@@ -1101,6 +1270,7 @@ E3WinViewerSetCameraNumber(TQ3ViewerObject viewer, TQ3Uns32 cameraNo)
 TQ3Status
 E3WinViewerSetCameraView(TQ3ViewerObject viewer, TQ3ViewerCameraView viewType)
 {
+//	return(Q3ViewerSetCameraView(viewer, viewType));
 
 
 	// To be implemented...
@@ -1118,6 +1288,11 @@ LRESULT CALLBACK ViewerWndProc(
 		PAINTSTRUCT ps;
 		HDC hdc;
 		TQ3ViewerObject theViewer;
+		HWND controlStrip;
+		int fwKeys;
+	    int idCtrl; 
+		LPNMHDR pnmh; 
+		LPNMMOUSE lpnmmouse;
 
         switch (message) 
 		{
@@ -1131,7 +1306,50 @@ LRESULT CALLBACK ViewerWndProc(
 				}
 				break;
 
+			case WM_LBUTTONDOWN:
+				theViewer= E3WinViewerGetViewer(hWnd);
+				Q3WinViewerMouseDown(theViewer,LOWORD(lParam),HIWORD(lParam));
+				break;
+
+			case WM_LBUTTONUP:
+				theViewer= E3WinViewerGetViewer(hWnd);
+				Q3WinViewerMouseUp(theViewer,LOWORD(lParam),HIWORD(lParam));
+				break;
+
+			case WM_MOUSEMOVE:
+				theViewer= E3WinViewerGetViewer(hWnd);
+				fwKeys = wParam;        // key flags 
+				if (fwKeys&MK_LBUTTON)
+				{
+					Q3WinViewerContinueTracking(theViewer,LOWORD(lParam),HIWORD(lParam));
+				}
+				break;
+
+			case WM_NOTIFY:
+				// Handling of button clicks
+				idCtrl = (int) wParam; 
+				pnmh = (LPNMHDR) lParam; 
+				if (pnmh->code == NM_CLICK)
+				{
+					controlStrip= E3WinViewerGetControlStrip(E3WinViewerGetViewer(hWnd));
+					if (pnmh->hwndFrom == controlStrip)
+					{
+					    lpnmmouse = (LPNMMOUSE) lParam;
+						Q3WinViewerSetCurrentButton(E3WinViewerGetViewer(hWnd),lpnmmouse->dwItemSpec);
+					}
+				}
+				break;
+
+			case WM_SIZE:
+				controlStrip= E3WinViewerGetControlStrip(E3WinViewerGetViewer(hWnd));
+				SendMessage(controlStrip,TB_AUTOSIZE,0,0);
+				break;
+
+			// case WM_KEY
+			// 
+
 // should we answer to WM_DESTROY ???
+// e.g. by calling ViewerDispose
 
             default:          // Passes it on if unproccessed
                     return (DefWindowProc(hWnd, message, wParam, lParam));
@@ -1164,12 +1382,10 @@ TQ3Status E3WinViewerRegisterWindowClasses(HINSTANCE hInstance)
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);// from Spy
     wc.hbrBackground = (HBRUSH)(COLOR_WINDOW);// from Spy
     wc.lpszMenuName  = 0; 
-	wc.lpszClassName = e3_viewer_window_class_name();
+	wc.lpszClassName = kQ3ViewerClassName;
 	wc.hIconSm= 0;
 	
     success = RegisterClassEx(&wc);
-
-// Todo: ToolbarWindow32
 
 	return success > 0 ? kQ3ErrorNone : kQ3Failure;
 }
@@ -1181,24 +1397,23 @@ TQ3Status E3WinViewerRegisterWindowClasses(HINSTANCE hInstance)
 // but for now it does help here.
 BOOL WINAPI DllMain(
   HINSTANCE hinstDLL,  // handle to DLL module
-  DWORD fdwReason,     // reason for calling function
+  DWORD ul_reason_for_call,     // reason for calling function
   LPVOID lpvReserved   // reserved
 )
 {
 	gDllInstance= hinstDLL;
-	if (fdwReason == DLL_PROCESS_ATTACH)
+    switch (ul_reason_for_call)
 	{
+	case DLL_PROCESS_ATTACH:
 		if (E3WinViewerRegisterWindowClasses(hinstDLL) != kQ3ErrorNone)
 		{
 			return FALSE;
 		}
-
- 
-#if 0
-		UINT RegisterClipboardFormat(
-  LPCTSTR lpszFormat   // address of name string
-);
-#endif
+		break;
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+	case DLL_PROCESS_DETACH:
+		break;
 	}
 	return TRUE;
 }
