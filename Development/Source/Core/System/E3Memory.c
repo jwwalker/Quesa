@@ -385,7 +385,6 @@ E3Memory_Free(void **thePtr)
 TQ3Status
 E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 {	void			*realPtr, *newPtr;
-	TQ3Uns32		oldSize, copySize;
 	TQ3Status		qd3dStatus;
 
 
@@ -425,14 +424,12 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 		newPtr = Q3Memory_Allocate( newSize );
 		if ( (newPtr != NULL) && (realPtr != NULL) )	// resize
 			{
-			oldSize = *(TQ3Uns32*) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
-			copySize = E3Num_Min( oldSize, newSize );
+			TQ3Uns32 oldSize = *(TQ3Uns32*) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
+			TQ3Uns32 copySize = E3Num_Min( oldSize, newSize );
 			Q3Memory_Copy( realPtr, newPtr, copySize );
 			Q3Memory_Free( thePtr );
 			}
 	#else
-		// Suppress compiler warning
-		oldSize; copySize;
 
 
 		// Or just reallocate with realloc
