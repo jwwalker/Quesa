@@ -37,7 +37,6 @@
 #include "WFRenderer.h"
 
 #include "GLPrefix.h"
-#include "GLCamera.h"
 #include "GLDrawContext.h"
 
 
@@ -202,17 +201,9 @@ WFRenderer_StartPass(TQ3ViewObject			theView,
 						TQ3GroupObject		theLights)
 {
 #pragma unused(theView)
+#pragma unused(instanceData)
+#pragma unused(theCamera)
 #pragma unused(theLights)
-
-
-
-	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
-
-
-
-	// Set up the projection transform
-	GLCamera_SetProjection(theCamera);
 
 	return(kQ3Success);
 }

@@ -76,6 +76,8 @@ ir_state_reset(TQ3InteractiveData *instanceData)
 
     Q3Point3D_Set( &instanceData->stateLocalCameraPosition,       0.0f, 0.0f,  0.0f);
     Q3Vector3D_Set(&instanceData->stateLocalCameraViewVector,     0.0f, 0.0f, -1.0f);
+    Q3Matrix4x4_SetIdentity(&instanceData->stateMatrixLocalToCamera);
+    Q3Matrix4x4_SetIdentity(&instanceData->stateMatrixCameraToFrustum);
     Q3ColorRGB_Set(&instanceData->stateDefaultDiffuseColour,      kQ3ViewDefaultDiffuseColor);
     Q3ColorRGB_Set(&instanceData->stateDefaultSpecularColour,     kQ3ViewDefaultSpecularColor);
     Q3ColorRGB_Set(&instanceData->stateDefaultTransparencyColour, kQ3ViewDefaultTransparency);
@@ -236,6 +238,11 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 
 
 
+	// Update our state
+	instanceData->stateMatrixLocalToCamera = *theMatrix;
+
+
+
 	// Determine the camera position and view vector in local coordinates
 	Q3Matrix4x4_Invert(theMatrix, &cameraToLocal);
 
@@ -245,7 +252,7 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 
 
 
-	// Set up the model-view transform
+	// Set the model-view transform
 	GLCamera_SetModelView(theMatrix);
 
 
@@ -267,6 +274,44 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 		glEnable(GL_NORMALIZE);
 	else
 		glDisable(GL_NORMALIZE);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      IRRenderer_Update_Matrix_CameraToFrustum : Update our state.
+//-----------------------------------------------------------------------------
+TQ3Status
+IRRenderer_Update_Matrix_CameraToFrustum(TQ3ViewObject			theView,
+											TQ3InteractiveData	*instanceData,
+											TQ3Matrix4x4		*theMatrix)
+{
+#pragma unused(theView)
+
+
+
+	// Activate our context
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
+
+
+
+	// Flush any buffered triangles
+	if (instanceData->triBufferActive)
+		IRTriBuffer_Draw(theView, instanceData);
+
+
+
+	// Update our state
+	instanceData->stateMatrixCameraToFrustum = *theMatrix;
+
+
+
+	// Set the projection transform
+	GLCamera_SetProjection(theMatrix);
 
 	return(kQ3Success);
 }

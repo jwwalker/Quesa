@@ -73,8 +73,35 @@ WFRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 
 
 
-	// Set up the model-view transform
+	// Set the model-view transform
 	GLCamera_SetModelView(theMatrix);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      WFRenderer_Update_Matrix_CameraToFrustum : Update our state.
+//-----------------------------------------------------------------------------
+TQ3Status
+WFRenderer_Update_Matrix_CameraToFrustum(TQ3ViewObject			theView,
+											TQ3WireframeData	*instanceData,
+											TQ3Matrix4x4		*theMatrix)
+{
+#pragma unused(theView)
+
+
+
+	// Activate our context
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
+
+
+
+	// Set the projection transform
+	GLCamera_SetProjection(theMatrix);
 
 	return(kQ3Success);
 }

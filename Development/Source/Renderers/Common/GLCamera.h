@@ -56,7 +56,7 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Set the projection transform
-void		GLCamera_SetProjection(TQ3CameraObject theCamera);
+void		GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum);
 
 
 // Set the model-view transform

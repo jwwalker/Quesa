@@ -60,6 +60,11 @@ TQ3Status			WFRenderer_Update_Matrix_LocalToCamera(
 								TQ3WireframeData		*instanceData,
 								TQ3Matrix4x4			*theMatrix);
 
+TQ3Status			WFRenderer_Update_Matrix_CameraToFrustum(
+								TQ3ViewObject			theView,
+								TQ3WireframeData		*instanceData,
+								TQ3Matrix4x4			*theMatrix);
+
 TQ3Status			WFRenderer_Update_Style_Backfacing(
 								TQ3ViewObject			theView,
 								TQ3WireframeData		*instanceData,
