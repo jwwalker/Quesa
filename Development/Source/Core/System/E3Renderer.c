@@ -322,10 +322,34 @@ E3Renderer_UnregisterClass(void)
 
 
 
+
+//=============================================================================
+//      E3Renderer_IsOfMyClass : Check if object pointer is valid and of type renderer
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3SharedTypeRenderer )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+#pragma mark -
+TQ3Boolean
+E3Renderer_IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Renderer ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
 //=============================================================================
 //      E3Renderer_Method_StartFrame : Call the start frame method.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3Status
 E3Renderer_Method_StartFrame(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext)
 	{
