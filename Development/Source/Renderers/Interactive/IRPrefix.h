@@ -46,6 +46,7 @@
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
+// Primitive types
 typedef enum {
 	kQ3PrimNone									= 0,
 	kQ3PrimTriangle								= 1,
@@ -53,25 +54,33 @@ typedef enum {
 	kQ3PrimPoint								= 3
 } TQ3PrimType;
 
+
+// Primitive flags
 typedef enum {
 	kQ3PrimFlagNone								= 0,
 	kQ3PrimHaveNormal							= (1 << 0),
 	kQ3PrimHaveUV								= (1 << 1)
 } TQ3PrimFlags;
 
+
+// Triangle flags
 typedef enum {
-	kQ3TriFlagCulled							= 0,
-	kQ3TriFlagVisible							= (1 << 0),
-	kQ3TriFlagFlipped							= (1 << 1),
-	kQ3TriFlagTransparent						= (1 << 2)
+	kQ3TriFlagNone								= 0,
+	kQ3TriFlagCulled							= (1 << 1),
+	kQ3TriFlagVisible							= (1 << 2),
+	kQ3TriFlagFlipped							= (1 << 3),
+	kQ3TriFlagTransparent						= (1 << 4)
 } TQ3TriFlags;
 
+
+// Flexible Vertex flags
 typedef enum {
-	kQ3VertexFlagNone							= 0,
-	kQ3VertexHaveColour							= (1 << 0),
-	kQ3VertexHaveNormal							= (1 << 1),
-	kQ3VertexHaveUV								= (1 << 2)
-} TQ3VertexFlags;
+	kQ3FVertexFlagNone							= 0,
+	kQ3FVertexHaveNormal						= (1 << 0),
+	kQ3FVertexHaveUV							= (1 << 1),
+	kQ3FVertexHaveDiffuse						= (1 << 2),
+	kQ3FVertexHaveTransparency					= (1 << 3)
+} TQ3FVertexFlags;
 
 
 
@@ -80,6 +89,17 @@ typedef enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
+// Flexible vertex
+typedef struct TQ3FVertex3D {
+	TQ3FVertexFlags			theFlags;
+	TQ3Point3D				thePoint;
+	TQ3Vector3D				theNormal;
+	TQ3Param2D				theUV;
+	TQ3ColorRGB				colourDiffuse;
+	TQ3ColorRGB				colourTransparency;
+} TQ3FVertex3D;
+
+
 // Transparent primitive data
 typedef struct TQ3TransparentPrim {
 	// State
@@ -145,6 +165,11 @@ typedef struct TQ3InteractiveData {
 	TQ3Uns32				transparentPrimCount;
 	TQ3Uns32				transparentPrimUsed;
 	TQ3TransparentPrim		*transparentPrims;
+
+
+	// Geometry state
+	TQ3Uns32				geomSize;
+	TQ3Uns8					*geomData;
 
 
 	// TriMesh state
