@@ -30,12 +30,14 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __QUESA__
-#define __QUESA__
+#ifndef QUESA_HDR
+#define QUESA_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-// Include files go here
+#include "QuesaIO.h"
+
+#include "QD3D.h"
 
 
 
