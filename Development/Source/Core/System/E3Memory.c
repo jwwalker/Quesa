@@ -192,7 +192,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 
 	// Assume we don't need to pad
-	padSize = 0;
+	padSize = Q3_MEMORY_HEADER;
 
 
 
@@ -214,14 +214,11 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 		// If we're going to free the block, fill it with rubbish first
 		if (newSize == 0)
 			{
+			padSize = 0;
 			Q3_ASSERT(theSize != 0);
 			E3Memory_Initialize(realPtr, theSize + Q3_MEMORY_HEADER, kMemoryUninitialised);
 			}
 
-
-		// Otherwise, bump up the pad size to include the header
-		else
-			padSize = Q3_MEMORY_HEADER;
 #endif
 		}
 
