@@ -391,15 +391,92 @@ e3shader_texture_metahandler(TQ3XMethodType methodType)
 TQ3ColorARGB *
 E3ColorARGB_Set(TQ3ColorARGB *color, float a, float r, float g, float b)
 {
-
-
-	// Initialise the colour
-	color->a = a;
-	color->r = r;
-	color->g = g;
-	color->b = b;
-
+	Q3FastColorARGB_Set(color, a, r, g, b);
 	return(color);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ColorARGB_Add : Add two TQ3ColorARGBs.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+E3ColorARGB_Add(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *result)
+{
+	Q3FastColorARGB_Add(c1, c2, result);
+	return(result);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ColorARGB_Subtract : Subtract two TQ3ColorARGBs.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+E3ColorARGB_Subtract(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *result)
+{
+	Q3FastColorARGB_Subtract(c1, c2, result);
+	return(result);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ColorARGB_Scale : Scale the components of a TQ3ColorARGB.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+E3ColorARGB_Scale(const TQ3ColorARGB *color, float scale, TQ3ColorARGB *result)
+{
+	Q3FastColorARGB_Scale(color, scale, result);
+	return(result);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ColorARGB_Clamp : Clamp a TQ3ColorARGB.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+E3ColorARGB_Clamp(const TQ3ColorARGB *color, TQ3ColorARGB *result)
+{
+	Q3FastColorARGB_Clamp(color, result);
+	return(result);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ColorARGB_Lerp : Perform a linear interpolation between two colours.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+E3ColorARGB_Lerp(const TQ3ColorARGB *first, const TQ3ColorARGB *last, float alpha, TQ3ColorARGB *result)
+{
+	Q3FastColorARGB_Lerp(first, last, alpha, result);
+	return(result);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ColorARGB_Accumulate : Accumulate src into result.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+E3ColorARGB_Accumulate(const TQ3ColorARGB *src, TQ3ColorARGB *result)
+{
+	Q3FastColorARGB_Accumulate(src, result);
+	return(result);
 }
 
 
@@ -412,13 +489,7 @@ E3ColorARGB_Set(TQ3ColorARGB *color, float a, float r, float g, float b)
 TQ3ColorRGB *
 E3ColorRGB_Set(TQ3ColorRGB *color, float r, float g, float b)
 {
-
-
-	// Initialise the colour
-	color->r = r;
-	color->g = g;
-	color->b = b;
-
+	Q3FastColorRGB_Set(color, r, g, b);
 	return(color);
 }
 
@@ -432,13 +503,7 @@ E3ColorRGB_Set(TQ3ColorRGB *color, float r, float g, float b)
 TQ3ColorRGB *
 E3ColorRGB_Add(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result)
 {
-
-
-	// Add c1 to c2
-	result->r = c1->r + c2->r;
-	result->g = c1->g + c2->g;
-	result->b = c1->b + c2->b;
-
+	Q3FastColorRGB_Add(c1, c2, result);
 	return(result);
 }
 
@@ -452,13 +517,7 @@ E3ColorRGB_Add(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result
 TQ3ColorRGB *
 E3ColorRGB_Subtract(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result)
 {
-
-
-	// Subtract c2 from c1
-	result->r = c2->r - c1->r;
-	result->g = c2->g - c1->g;
-	result->b = c2->b - c1->b;
-
+	Q3FastColorRGB_Subtract(c1, c2, result);
 	return(result);
 }
 
@@ -472,13 +531,7 @@ E3ColorRGB_Subtract(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *r
 TQ3ColorRGB *
 E3ColorRGB_Scale(const TQ3ColorRGB *color, float scale, TQ3ColorRGB *result)
 {
-
-
-	// Scale the colour
-	result->r = color->r * scale;
-	result->g = color->g * scale;
-	result->b = color->b * scale;
-
+	Q3FastColorRGB_Scale(color, scale, result);
 	return(result);
 }
 
@@ -492,13 +545,7 @@ E3ColorRGB_Scale(const TQ3ColorRGB *color, float scale, TQ3ColorRGB *result)
 TQ3ColorRGB *
 E3ColorRGB_Clamp(const TQ3ColorRGB *color, TQ3ColorRGB *result)
 {
-
-
-	// Clamp the colour
-	result->r = E3Num_Max(0.0f, (E3Num_Min(color->r, 1.0f)));
-	result->g = E3Num_Max(0.0f, (E3Num_Min(color->g, 1.0f)));
-	result->b = E3Num_Max(0.0f, (E3Num_Min(color->b, 1.0f)));
-
+	Q3FastColorRGB_Clamp(color, result);
 	return(result);
 }
 
@@ -512,13 +559,7 @@ E3ColorRGB_Clamp(const TQ3ColorRGB *color, TQ3ColorRGB *result)
 TQ3ColorRGB *
 E3ColorRGB_Lerp(const TQ3ColorRGB *first, const TQ3ColorRGB *last, float alpha, TQ3ColorRGB *result)
 {
-
-
-	// Interpolate the colours
-	result->r = first->r + ((last->r - first->r) * alpha);	
-	result->g = first->g + ((last->g - first->g) * alpha);	
-	result->b = first->b + ((last->b - first->b) * alpha);	
-
+	Q3FastColorRGB_Lerp(first, last, alpha, result);
 	return(result);
 }
 
@@ -532,13 +573,7 @@ E3ColorRGB_Lerp(const TQ3ColorRGB *first, const TQ3ColorRGB *last, float alpha, 
 TQ3ColorRGB *
 E3ColorRGB_Accumulate(const TQ3ColorRGB *src, TQ3ColorRGB *result)
 {
-
-
-	// Accumulate src into result
-	result->r += src->r;
-	result->g += src->g;
-	result->b += src->b;
-
+	Q3FastColorRGB_Accumulate(src, result);
 	return(result);
 }
 
@@ -554,13 +589,7 @@ E3ColorRGB_Accumulate(const TQ3ColorRGB *src, TQ3ColorRGB *result)
 float *
 E3ColorRGB_Luminance(const TQ3ColorRGB *color, float *luminance)
 {
-
-
-	// Calculate the luminance
-	*luminance = (color->r * 0.30078125f) +
-				 (color->g * 0.58984375f) +
-				 (color->b * 0.109375f);
-
+	Q3FastColorRGB_Luminance(color, luminance);
 	return(luminance);
 }
 

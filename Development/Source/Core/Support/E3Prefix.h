@@ -35,8 +35,8 @@
 //=============================================================================
 //      External build constants
 //-----------------------------------------------------------------------------
-// Enable inline APIs
-#ifndef QUESA_ALLOW_INLINE_APIS
+// Enable inline APIs in non-debug builds
+#if !defined(QUESA_ALLOW_INLINE_APIS) && !Q3_DEBUG
 	#define QUESA_ALLOW_INLINE_APIS								1
 #endif
 

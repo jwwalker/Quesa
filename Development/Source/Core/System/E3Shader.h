@@ -56,6 +56,13 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 TQ3ColorARGB *			E3ColorARGB_Set(TQ3ColorARGB *color, float a, float r, float g, float b);
+TQ3ColorARGB *			E3ColorARGB_Add(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *result);
+TQ3ColorARGB *			E3ColorARGB_Subtract(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *result);
+TQ3ColorARGB *			E3ColorARGB_Scale(const TQ3ColorARGB *color, float scale, TQ3ColorARGB *result);
+TQ3ColorARGB *			E3ColorARGB_Clamp(const TQ3ColorARGB *color, TQ3ColorARGB *result);
+TQ3ColorARGB *			E3ColorARGB_Lerp(const TQ3ColorARGB *first, const TQ3ColorARGB *last, float alpha, TQ3ColorARGB *result);
+TQ3ColorARGB *			E3ColorARGB_Accumulate(const TQ3ColorARGB *src, TQ3ColorARGB *result);
+
 TQ3ColorRGB *			E3ColorRGB_Set(TQ3ColorRGB *color, float r, float g, float b);
 TQ3ColorRGB *			E3ColorRGB_Add(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result);
 TQ3ColorRGB *			E3ColorRGB_Subtract(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result);

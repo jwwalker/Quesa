@@ -47,6 +47,7 @@
 
 #define __QD3DMATH__
 
+#include <math.h>
 #include <float.h>
 
 
@@ -159,6 +160,8 @@ Q3Vector3D_Set (
  *  @discussion
  *      Set a 2D point.
  *
+ *      Available in inline form as Q3FastPoint2D_Set.
+ *
  *  @param point2D          Address of point to set (may be NULL).
  *  @param x                X coordinate to set into vector2D.
  *  @param y                Y coordinate to set into vector2D.
@@ -179,6 +182,8 @@ Q3Point2D_Set (
  *  @discussion
  *      Set a 2D parameterization value (i.e., a UV coordinate).
  *
+ *      Available in inline form as Q3FastParam2D_Set.
+ *
  *  @param param2D          Address of param2D to set (may be NULL).
  *  @param u                U coordinate to set into param2D.
  *  @param v                V coordinate to set into param2D.
@@ -198,6 +203,8 @@ Q3Param2D_Set (
  *      Q3RationalPoint3D_Set
  *  @discussion
  *      Set a 3D rational point (x,y,w).
+ *
+ *      Available in inline form as Q3FastRationalPoint3D_Set.
  *
  *  @param rationalPoint3D  Address of rational point to set (may be NULL).
  *  @param x                X coordinate to set into rationalPoint3D.
@@ -221,6 +228,8 @@ Q3RationalPoint3D_Set (
  *  @discussion
  *      Set a 3D point.
  *
+ *      Available in inline form as Q3FastPoint3D_Set.
+ *
  *  @param point3D          Address of point to set (may be NULL).
  *  @param x                X coordinate to set into point3D.
  *  @param y                Y coordinate to set into point3D.
@@ -242,6 +251,8 @@ Q3Point3D_Set (
  *      Q3RationalPoint4D_Set
  *  @discussion
  *      Set a 4D rational point (x,y,z,w).
+ *
+ *      Available in inline form as Q3FastRationalPoint4D_Set.
  *
  *  @param rationalPoint4D  Address of rational point to set.
  *  @param x                X coordinate to set into rationalPoint4D.
@@ -266,6 +277,8 @@ Q3RationalPoint4D_Set (
  *  @discussion
  *      Set a 2D polar-coordinates point.
  *
+ *      Available in inline form as Q3FastPolarPoint_Set.
+ *
  *  @param polarPoint       Address of point to set (may be NULL).
  *  @param r                Radius coordinate to set into polarPoint.
  *  @param theta            Angle coordinate (in radians) to set into polarPoint.
@@ -285,6 +298,8 @@ Q3PolarPoint_Set (
  *      Q3SphericalPoint_Set
  *  @discussion
  *      Set a 3D spherical-coordinates point.
+ *
+ *      Available in inline form as Q3FastSphericalPoint_Set.
  *
  *  @param sphericalPoint   Address of point to set (may be NULL).
  *  @param rho              Rho coordinate to set into sphericalPoint.
@@ -318,6 +333,8 @@ Q3SphericalPoint_Set (
  *		implementation was really intended to convert a 2D vector into a 3D
  *		rational point -- see QDPoint2D_To3D, which does exactly that.
  *
+ *      Available in inline form as Q3FastVector2D_To3D.
+ *
  *  @param vector2D         Address of 2D vector to convert.
  *  @param result           Address of 3D vector to set.
  *  @result                 Convenience copy of result parameter.
@@ -335,6 +352,8 @@ Q3Vector2D_To3D (
  *      Q3Vector2D_ToRationalPoint3D
  *  @discussion
  *		Convert 2D vector to 3D rational point, setting w to 0.
+ *
+ *      Available in inline form as Q3FastVector2D_ToRationalPoint3D.
  *
  *      <em>This function is not available in QD3D.</em>
  *
@@ -366,6 +385,8 @@ Q3Vector2D_ToRationalPoint3D (
  *		2D vector -- see E3RationalPoint3D_To2D, which does the same thing
  *		for a 2D point.
  *
+ *      Available in inline form as Q3FastVector3D_To2D.
+ *
  *  @param vector3D         Address of 3D vector to convert.
  *  @param result           Address of 2D vector to set.
  *  @result                 Convenience copy of result parameter.
@@ -383,6 +404,8 @@ Q3Vector3D_To2D (
  *      Q3RationalPoint3D_ToVector2D
  *  @discussion
  *		Convert 3D rational point to 2D vector, discarding w.
+ *
+ *      Available in inline form as Q3FastRationalPoint3D_ToVector2D.
  *
  *      <em>This function is not available in QD3D.</em>
  *
@@ -408,6 +431,8 @@ Q3RationalPoint3D_ToVector2D (
  *  @discussion
  *		Convert 3D vector to 4D rational point, setting w to 0.
  *
+ *      Available in inline form as Q3FastVector3D_ToRationalPoint4D.
+ *
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param vector3D         Address of 3D vector to convert.
@@ -431,6 +456,8 @@ Q3Vector3D_ToRationalPoint4D (
  *      Q3RationalPoint4D_ToVector3D
  *  @discussion
  *		Convert 4D rational point to 3D vector, discarding w.
+ *
+ *      Available in inline form as Q3FastRationalPoint4D_ToVector3D.
  *
  *      <em>This function is not available in QD3D.</em>
  *
@@ -461,6 +488,8 @@ Q3RationalPoint4D_ToVector3D (
  *      there is no difference, but at the source code level the Apple
  *      version forces the use of the incorrect type or type casting.
  *
+ *      Available in inline form as Q3FastPoint2D_To3D.
+ *
  *  @param point2D          Address of 2D point to convert.
  *  @param result           Address of 3D rational point to set.
  *  @result                 Convenience copy of result parameter.
@@ -478,6 +507,8 @@ Q3Point2D_To3D (
  *      Q3RationalPoint3D_To2D
  *  @discussion
  *      Convert rational 3D point to 2D, dividing by w.
+ *
+ *      Available in inline form as Q3FastRationalPoint3D_To2D.
  *
  *  @param rationalPoint3D  Address of rational 3D point to convert.
  *  @param result           Address of 2D point to set.
@@ -497,6 +528,8 @@ Q3RationalPoint3D_To2D (
  *  @discussion
  *      Convert 3D point to rational 4D, setting w to 1.
  *
+ *      Available in inline form as Q3FastPoint3D_To4D.
+ *
  *  @param point3D          Address of 3D point to convert.
  *  @param result           Address of rational 4D point to set.
  *  @result                 Convenience copy of result parameter.
@@ -514,6 +547,8 @@ Q3Point3D_To4D (
  *      Q3RationalPoint4D_To3D
  *  @discussion
  *      Convert rational 4D point to 3D, dividing by w.
+ *
+ *      Available in inline form as Q3FastRationalPoint4D_To3D.
  *
  *  @param rationalPoint4D  Address of rational 4D point to convert.
  *  @param result           Address of 3D point to set.
@@ -559,6 +594,8 @@ Q3Point2D_ToPolar (
  *      Convert 2D polar point to cartesian coordinates.
  *
  *      The angle (theta) here is measured counter-clockwise from the +x axis.
+ *
+ *      Available in inline form as Q3FastPolarPoint_ToPoint2D.
  *
  *  @param polarPoint       Address of polar point to convert.
  *  @param result           Address of 2D cartesian point to set.
@@ -619,6 +656,8 @@ Q3SphericalPoint_ToPoint3D (
  *  @discussion
  *      Return the dot product of two 2D vectors.
  *
+ *      Available in inline form as Q3FastVector2D_Dot.
+ *
  *  @param v1               Address of first vector.
  *  @param v2               Address of second vector.
  *  @result                 Dot product of the two vectors.
@@ -636,6 +675,8 @@ Q3Vector2D_Dot (
  *      Q3Vector3D_Dot
  *  @discussion
  *      Return the dot product of two 3D vectors.
+ *
+ *      Available in inline form as Q3FastVector3D_Dot.
  *
  *  @param v1               Address of first vector.
  *  @param v2               Address of second vector.
@@ -700,6 +741,8 @@ Q3Vector3D_DotArray(
  *		Equivalently, we assume that the 2D vectors are really 3D vectors with
  *		z=0, then return the z coordinate of the cross product (0,0,z).
  *
+ *      Available in inline form as Q3FastVector2D_Cross.
+ *
  *  @param v1               Address of first vector.
  *  @param v2               Address of second vector.
  *  @result                 Length of the 2D cross product.
@@ -720,6 +763,8 @@ Q3Vector2D_Cross (
  *		three 2D points, that is, of the vectors p2-p1 and p3-p2.
  *
  *      <em>This function is not available in QD3D.</em>
+ *
+ *      Available in inline form as Q3FastPoint2D_CrossProductTri.
  *
  *  @param p1               Address of one point in the triangle.
  *  @param p2               Address of a second point in the triangle.
@@ -745,6 +790,8 @@ Q3Point2D_CrossProductTri (
  *  @discussion
  *      Return 3D cross product of two 3D vectors.
  *
+ *      Available in inline form as Q3FastVector3D_Cross.
+ *
  *  @param v1               Address of first vector.
  *  @param v2               Address of second vector.
  *  @param result           Address of vector to set with the result;
@@ -766,6 +813,8 @@ Q3Vector3D_Cross (
  *  @discussion
  *      Return the cross product of triangle triangle defined by three
  *		3D points, that is, of the vectors p2-p1 and p3-p2.
+ *
+ *      Available in inline form as Q3FastPoint3D_CrossProductTri.
  *
  *  @param p1               Address of one point in the triangle.
  *  @param p2               Address of a second point in the triangle.
@@ -833,6 +882,8 @@ Q3Triangle_CrossProductArray(
  *  @discussion
  *      Return length of 2D vector.
  *
+ *      Available in inline form as Q3FastVector2D_Length.
+ *
  *  @param vector2D         Address of vector to get length of.
  *  @result                 Length of the given vector.
  */
@@ -854,6 +905,8 @@ Q3Vector2D_Length (
  *		vectors by length, or comparing a vector to a cut-off length).  But
  *		finding the squared length is much faster, since it avoids a costly
  *		square root computation.
+ *
+ *      Available in inline form as Q3FastVector2D_LengthSquared.
  *
  *      <em>This function is not available in QD3D.</em>
  *
@@ -877,6 +930,8 @@ Q3Vector2D_LengthSquared (
  *  @discussion
  *      Return length of 2D vector.
  *
+ *      Available in inline form as Q3FastVector3D_Length.
+ *
  *  @param vector3D         Address of vector to get length of.
  *  @result                 Length of the given vector.
  */
@@ -898,6 +953,8 @@ Q3Vector3D_Length (
  *		vectors by length, or comparing a vector to a cut-off length).  But
  *		finding the squared length is much faster, since it avoids a costly
  *		square root computation.
+ *
+ *      Available in inline form as Q3FastVector3D_LengthSquared.
  *
  *      <em>This function is not available in QD3D.</em>
  *
@@ -926,6 +983,8 @@ Q3Vector3D_LengthSquared (
  *  @discussion
  *      Return Euclidean distance between two 2D points.
  *
+ *      Available in inline form as Q3FastPoint2D_Distance.
+ *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
  *  @result                 Distance between the given points.
@@ -943,6 +1002,8 @@ Q3Point2D_Distance (
  *      Q3Point2D_DistanceSquared
  *  @discussion
  *      Return the squared Euclidean distance between two 2D points.
+ *
+ *      Available in inline form as Q3FastPoint2D_DistanceSquared.
  *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
@@ -962,6 +1023,8 @@ Q3Point2D_DistanceSquared (
  *  @discussion
  *      Return Euclidean distance between two UV parameter points.
  *
+ *      Available in inline form as Q3FastParam2D_Distance.
+ *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
  *  @result                 Distance between the given points.
@@ -979,6 +1042,8 @@ Q3Param2D_Distance (
  *      Q3Param2D_DistanceSquared
  *  @discussion
  *      Return the squared Euclidean distance between two UV parameter points.
+ *
+ *      Available in inline form as Q3FastParam2D_DistanceSquared.
  *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
@@ -1000,6 +1065,8 @@ Q3Param2D_DistanceSquared (
  *
  *      This operation makes no sense mathematically, but is included
  *		for backwards compatibility with QD3D.
+ *
+ *      Available in inline form as Q3FastRationalPoint3D_Distance.
  *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
@@ -1023,6 +1090,8 @@ Q3RationalPoint3D_Distance (
  *      This operation makes no sense mathematically, but is included
  *		for backwards compatibility with QD3D.
  *
+ *      Available in inline form as Q3FastRationalPoint3D_DistanceSquared.
+ *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
  *  @result                 Square of the distance between the given points, 
@@ -1042,6 +1111,8 @@ Q3RationalPoint3D_DistanceSquared (
  *  @discussion
  *      Return Euclidean distance between two 3D points.
  *
+ *      Available in inline form as Q3FastPoint3D_Distance.
+ *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
  *  @result                 Distance between the given points.
@@ -1059,6 +1130,8 @@ Q3Point3D_Distance (
  *      Q3Point3D_DistanceSquared
  *  @discussion
  *      Return the squared Euclidean distance between two 3D points.
+ *
+ *      Available in inline form as Q3FastPoint3D_DistanceSquared.
  *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
@@ -1081,6 +1154,8 @@ Q3Point3D_DistanceSquared (
  *      This operation makes no sense mathematically, but is included
  *		for backwards compatibility with QD3D.
  *
+ *      Available in inline form as Q3FastRationalPoint4D_Distance.
+ *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
  *  @result                 Distance between the given points, treating
@@ -1102,6 +1177,8 @@ Q3RationalPoint4D_Distance (
  *
  *      This operation makes no sense mathematically, but is included
  *		for backwards compatibility with QD3D.
+ *
+ *      Available in inline form as Q3FastRationalPoint4D_DistanceSquared.
  *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
@@ -1127,6 +1204,8 @@ Q3RationalPoint4D_DistanceSquared (
  *  @discussion
  *      Scale a 2D vector by a factor of -1.
  *
+ *      Available in inline form as Q3FastVector2D_Negate.
+ *
  *  @param vector2D         Address of vector to negate.
  *  @param result           Address of vector to set (may be the same as vector2D).
  *  @result                 Convenience copy of result parameter.
@@ -1144,6 +1223,8 @@ Q3Vector2D_Negate (
  *      Q3Vector3D_Negate
  *  @discussion
  *      Scale a 3D vector by a factor of -1.
+ *
+ *      Available in inline form as Q3FastVector3D_Negate.
  *
  *  @param vector3D         Address of vector to negate.
  *  @param result           Address of vector to set (may be the same as vector3D).
@@ -1168,6 +1249,8 @@ Q3Vector3D_Negate (
  *  @discussion
  *      Scale a 2D vector by the given factor.
  *
+ *      Available in inline form as Q3FastVector2D_Scale.
+ *
  *  @param vector2D         Address of vector to scale.
  *  @param scalar           Scaling factor.
  *  @param result           Address of vector to set (may be the same as vector2D).
@@ -1187,6 +1270,8 @@ Q3Vector2D_Scale (
  *      Q3Vector3D_Scale
  *  @discussion
  *      Scale a 3D vector by the given factor.
+ *
+ *      Available in inline form as Q3FastVector3D_Scale.
  *
  *  @param vector3D         Address of vector to scale.
  *  @param scalar           Scaling factor.
@@ -1215,6 +1300,8 @@ Q3Vector3D_Scale (
  *
  *      To obtain valid results, the length of vector2D must not be 0.
  *
+ *      Available in inline form as Q3FastVector2D_Normalize.
+ *
  *  @param vector2D         Address of vector to normalize.
  *  @param result           Address of vector to set (may be the same as vector2D).
  *  @result                 Convenience copy of result parameter.
@@ -1234,6 +1321,8 @@ Q3Vector2D_Normalize (
  *      Scale a 3D vector to length 1.
  *
  *      To obtain valid results, the length of vector3D must not be 0.
+ *
+ *      Available in inline form as Q3FastVector3D_Normalize.
  *
  *  @param vector3D         Address of vector to normalize.
  *  @param result           Address of vector to set (may be the same as vector3D).
@@ -1258,6 +1347,8 @@ Q3Vector3D_Normalize (
  *  @discussion
  *      Add two 2D vectors.
  *
+ *      Available in inline form as Q3FastVector2D_Add.
+ *
  *  @param v1               Address of first vector to add.
  *  @param v2               Address of second vector to add.
  *  @param result           Address of vector to set (may be the same as v1 and/or v2).
@@ -1277,6 +1368,8 @@ Q3Vector2D_Add (
  *      Q3Vector3D_Add
  *  @discussion
  *      Add two 3D vectors.
+ *
+ *      Available in inline form as Q3FastVector3D_Add.
  *
  *  @param v1               Address of first vector to add.
  *  @param v2               Address of second vector to add.
@@ -1298,6 +1391,8 @@ Q3Vector3D_Add (
  *  @discussion
  *      Subtract 2D vector v2 from v1.
  *
+ *      Available in inline form as Q3FastVector2D_Subtract.
+ *
  *  @param v1               Address of first vector.
  *  @param v2               Address of vector to subtract from v1.
  *  @param result           Address of vector to set (may be the same as v1 and/or v2).
@@ -1317,6 +1412,8 @@ Q3Vector2D_Subtract (
  *      Q3Vector3D_Subtract
  *  @discussion
  *      Subtract 3D vector v2 from v1.
+ *
+ *      Available in inline form as Q3FastVector3D_Subtract.
  *
  *  @param v1               Address of first vector.
  *  @param v2               Address of vector to subtract from v1.
@@ -1343,6 +1440,7 @@ Q3Vector3D_Subtract (
  *  @discussion
  *      Add a 2D vector to a point.
  *
+ *      Available in inline form as Q3FastPoint2D_Vector2D_Add.
  *
  *  @param point2D          Address of a point.
  *  @param vector2D         Address of a vector to add.
@@ -1364,6 +1462,8 @@ Q3Point2D_Vector2D_Add (
  *  @discussion
  *      Add a 2D vector to a parametric (UV) point.
  *
+ *      Available in inline form as Q3FastParam2D_Vector2D_Add.
+ *
  *  @param param2D          Address of a 2D parametric point.
  *  @param vector2D         Address of a vector to add.
  *  @param result           Address of point to set (may be the same as param2D).
@@ -1383,6 +1483,8 @@ Q3Param2D_Vector2D_Add (
  *      Q3Point3D_Vector3D_Add
  *  @discussion
  *      Add a 3D vector to a point.
+ *
+ *      Available in inline form as Q3FastPoint3D_Vector3D_Add.
  *
  *  @param point3D          Address of a point.
  *  @param vector3D         Address of a vector to add.
@@ -1404,6 +1506,8 @@ Q3Point3D_Vector3D_Add (
  *  @discussion
  *      Subtract a 2D vector from a point.
  *
+ *      Available in inline form as Q3FastPoint2D_Vector2D_Subtract.
+ *
  *  @param point2D          Address of a point.
  *  @param vector2D         Address of a vector to subtract.
  *  @param result           Address of point to set (may be the same as point2D).
@@ -1424,6 +1528,8 @@ Q3Point2D_Vector2D_Subtract (
  *  @discussion
  *      Subtract a 2D vector from a parametric (UV) point.
  *
+ *      Available in inline form as Q3FastParam2D_Vector2D_Subtract.
+ *
  *  @param param2D          Address of a 2D parametric point.
  *  @param vector2D         Address of a vector to subtract.
  *  @param result           Address of point to set (may be the same as param2D).
@@ -1443,6 +1549,8 @@ Q3Param2D_Vector2D_Subtract (
  *      Q3Point3D_Vector3D_Subtract
  *  @discussion
  *      Subtract 3D vector from point.
+ *
+ *      Available in inline form as Q3FastPoint3D_Vector3D_Subtract.
  *
  *  @param point3D          Address of a point.
  *  @param vector3D         Address of a vector to subtract.
@@ -1469,6 +1577,8 @@ Q3Point3D_Vector3D_Subtract (
  *  @discussion
  *      Subtract the 2D point p2 from p1.
  *
+ *      Available in inline form as Q3FastPoint2D_Subtract.
+ *
  *  @param p1               Address of a point.
  *  @param p2               Address of point to subtract.
  *  @param result           Address of a vector to set with (p1-p2).
@@ -1489,6 +1599,8 @@ Q3Point2D_Subtract (
  *  @discussion
  *      Subtract 2D parametric point p2 from p1.
  *
+ *      Available in inline form as Q3FastParam2D_Subtract.
+ *
  *  @param p1               Address of a point.
  *  @param p2               Address of point to subtract.
  *  @param result           Address of a vector to set with (p1-p2).
@@ -1508,6 +1620,8 @@ Q3Param2D_Subtract (
  *      Q3Point3D_Subtract
  *  @discussion
  *      Subtract 3D point p2 from p1.
+ *
+ *      Available in inline form as Q3FastPoint3D_Subtract.
  *
  *  @param p1               Address of a point.
  *  @param p2               Address of a point to subtract.
@@ -1545,6 +1659,8 @@ Q3Point3D_Subtract (
  *
  *		As usual, we do as QD3D does, not as the docs say.
  *
+ *      Available in inline form as Q3FastPoint2D_RRatio.
+ *
  *  @param p1               Address of one end of a line segment.
  *  @param p2               Address of the other end of a line segment.
  *  @param r1               Weight given to point p1.
@@ -1573,6 +1689,8 @@ Q3Point2D_RRatio (
  *		Put another way, this function gives you the weighted average of points
  *		p1 and p2, with the weights given by r1 and r2.  (Note that r1+r2 must
  *		be nonzero.)
+ *
+ *      Available in inline form as Q3FastParam2D_RRatio.
  *
  *  @param p1               Address of one end of a line segment.
  *  @param p2               Address of the other end of a line segment.
@@ -1609,6 +1727,8 @@ Q3Param2D_RRatio (
  *
  *		As usual, we do as QD3D does, not as the docs say.
  *
+ *      Available in inline form as Q3FastPoint3D_RRatio.
+ *
  *  @param p1               Address of one end of a line segment.
  *  @param p2               Address of the other end of a line segment.
  *  @param r1               Weight given to point p1.
@@ -1643,6 +1763,8 @@ Q3Point3D_RRatio (
  *		the weight of p1, and r2 is the weight of p2.
  *
  *		As usual, we do as QD3D does, not as the docs say.
+ *
+ *      Available in inline form as Q3FastRationalPoint4D_RRatio.
  *
  *  @param p1               Address of one end of a line segment.
  *  @param p2               Address of the other end of a line segment.
@@ -2752,6 +2874,8 @@ Q3Matrix4x4_Multiply (
  *  @discussion
  *      Set a quaternion with its individual w, x, y, and z components.
  *
+ *      Available in inline form as Q3FastQuaternion_Set.
+ *
  *  @param quaternion       Address of a quaternion to set.
  *  @param w                Value for w component.
  *  @param x                Value for x component.
@@ -2775,6 +2899,8 @@ Q3Quaternion_Set (
  *      Q3Quaternion_SetIdentity
  *  @discussion
  *      Set a quaternion to the identity value (1,0,0,0).
+ *
+ *      Available in inline form as Q3FastQuaternion_SetIdentity.
  *
  *  @param quaternion       Address of a quaternion to set.
  *  @result                 Convenience copy of result parameter.
@@ -2943,6 +3069,8 @@ Q3Quaternion_SetMatrix (
  *  @discussion
  *      Copy a quaternion.
  *
+ *      Available in inline form as Q3FastQuaternion_Copy.
+ *
  *  @param quaternion       Address of source quaternion.
  *  @param result           Address of destination quaternion (may be the same as the first parameter).
  *  @result                 Convenience copy of result parameter.
@@ -2983,6 +3111,8 @@ Q3Quaternion_IsIdentity (
  *  @discussion
  *      Return the dot product of q1 and q2.
  *
+ *      Available in inline form as Q3FastQuaternion_Dot.
+ *
  *  @param q1               Address of one quaternion.
  *  @param q2               Address of another quaternion (may be the same as q1).
  *  @result                 Dot product of q1 and q2.
@@ -3005,6 +3135,8 @@ Q3Quaternion_Dot (
  *		quaternions, to keep accumulated error from causing your
  *		quaternion values to "blow up".
  *
+ *      Available in inline form as Q3FastQuaternion_Normalize.
+ *
  *  @param quaternion       Address of a quaternion to normalize.
  *  @param result           Address of quaternion to set (may be the same as the first parameter).
  *  @result                 Convenience copy of result parameter.
@@ -3025,6 +3157,8 @@ Q3Quaternion_Normalize (
  *
  *		For correct results, the quaternion should be normalized
  *		before inverting.
+ *
+ *      Available in inline form as Q3FastQuaternion_Invert.
  *
  *  @param quaternion       Address of a quaternion to invert.
  *  @param result           Address of quaternion to set (may be the same as the first parameter).
@@ -3156,6 +3290,8 @@ Q3Quaternion_InterpolateLinear (
  *		that result.  (You could even pass null for both, but that would be
  *		rather pointless.)
  *
+ *      <em>This function is not available in QD3D.</em>
+ *
  *  @param quaternion       Address of a quaternion to inspect.
  *  @param outAxis          Address of a vector to set to the rotation axis (may be null).
  *  @param outAngle         Address of a float to set to the rotation angle (may be null).
@@ -3227,6 +3363,8 @@ Q3Point3D_TransformQuaternion (
  *  @discussion
  *      Set a bounding box.
  *
+ *      Available in inline form as Q3FastBoundingBox_Set.
+ *
  *  @param bBox             Address of bounding box to set.
  *  @param min              Address of point indicating minimum X, Y, and Z.
  *  @param max              Address of point indicating maximum X, Y, and Z.
@@ -3292,6 +3430,8 @@ Q3BoundingBox_SetFromRationalPoints4D (
  *      Q3BoundingBox_Copy
  *  @discussion
  *      Copy a bounding box.
+ *
+ *      Available in inline form as Q3BFastoundingBox_Copy.
  *
  *  @param bBox             Address of source bounding box.
  *  @param result           Address of bounding box to set (may be the same as bBox).
@@ -3376,6 +3516,8 @@ Q3BoundingBox_UnionRationalPoint4D (
  *  @discussion
  *      Set a bounding sphere.
  *
+ *      Available in inline form as Q3FastBoundingSphere_Set.
+ *
  *  @param bSphere          Address of bounding sphere to set.
  *  @param origin           Address of point indicating sphere origin.
  *  @param radius           Sphere radius.
@@ -3441,6 +3583,8 @@ Q3BoundingSphere_SetFromRationalPoints4D (
  *      Q3BoundingSphere_Copy
  *  @discussion
  *      Copy a bounding sphere.
+ *
+ *      Available in inline form as Q3FastBoundingSphere_Copy.
  *
  *  @param bSphere          Address of source bounding sphere.
  *  @param result           Address of bounding sphere to set (may be the same as bSphere).
@@ -3690,6 +3834,10 @@ Q3Math_InvSquareRoot (
 //=============================================================================
 //      Inline APIs
 //-----------------------------------------------------------------------------
+//		Note : Preserve the order of functions when adding new inline APIs.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 // Implementation
 #define __Q3FastVector2D_Set(_v, _x, _y)									\
 	do																		\
@@ -3708,9 +3856,600 @@ Q3Math_InvSquareRoot (
 		}																	\
 	while (0)
 
+#define __Q3FastPoint2D_Set(_p, _x, _y)										\
+	do																		\
+		{																	\
+		(_p)->x = (_x);														\
+		(_p)->y = (_y);														\
+		}																	\
+	while (0)
+
+#define __Q3FastParam2D_Set(_p, _u, _v)										\
+	do																		\
+		{																	\
+		(_p)->u = (_u);														\
+		(_p)->v = (_v);														\
+		}																	\
+	while (0)
+
+#define __Q3FastRationalPoint3D_Set(_p, _x, _y, _w)							\
+	do																		\
+		{																	\
+		(_p)->x = (_x);														\
+		(_p)->y = (_y);														\
+		(_p)->w = (_w);														\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint3D_Set(_p, _x, _y, _z)									\
+	do																		\
+		{																	\
+		(_p)->x = (_x);														\
+		(_p)->y = (_y);														\
+		(_p)->z = (_z);														\
+		}																	\
+	while (0)
+
+#define __Q3FastRationalPoint4D_Set(_p, _x, _y, _z, _w)						\
+	do																		\
+		{																	\
+		(_p)->x = (_x);														\
+		(_p)->y = (_y);														\
+		(_p)->z = (_z);														\
+		(_p)->w = (_w);														\
+		}																	\
+	while (0)
+
+#define __Q3FastPolarPoint_Set(_p, _r, _theta)								\
+	do																		\
+		{																	\
+		(_p)->r     = (_r);													\
+		(_p)->theta = (_theta);												\
+		}																	\
+	while (0)
+
+#define __Q3FastSphericalPoint_Set(_p, _rho, _theta, _phi)					\
+	do																		\
+		{																	\
+		(_p)->rho   = (_rho);												\
+		(_p)->theta = (_theta);												\
+		(_p)->phi   = (_phi);												\
+		}																	\
+	while (0)
+
+#define __Q3FastVector2D_To3D(_v1, _v2)										\
+	do																		\
+		{																	\
+		(_v2)->x = (_v1)->x;												\
+		(_v2)->y = (_v1)->y;												\
+		(_v2)->z = 1.0f;													\
+		}																	\
+	while (0)
+
+
+#define __Q3FastVector2D_ToRationalPoint3D(_v, _p)							\
+	do																		\
+		{																	\
+		(_p)->x = (_v)->x;													\
+		(_p)->y = (_v)->y;													\
+		(_p)->w = 0.0f;														\
+		}																	\
+	while (0)
+
+#define __Q3FastVector3D_To2D(_v1, _v2)										\
+	do																		\
+		{																	\
+		float invZ = 1.0f / (_v1)->z;										\
+		(_v2)->x = (_v1)->x * invZ;											\
+		(_v2)->y = (_v1)->y * invZ;											\
+		}																	\
+	while (0)
+
+#define __Q3FastRationalPoint3D_ToVector2D(_p, _v)							\
+	do																		\
+		{																	\
+		(_v)->x = (_p)->x;													\
+		(_v)->y = (_p)->y;													\
+		}																	\
+	while (0)
+	
+#define __Q3FastVector3D_ToRationalPoint4D(_v, _p)							\
+	do																		\
+		{																	\
+		(_p)->x = (_v)->x;													\
+		(_p)->y = (_v)->y;													\
+		(_p)->z = (_v)->z;													\
+		(_p)->w = 0.0f;														\
+		}																	\
+	while (0)
+
+#define __Q3FastRationalPoint4D_ToVector3D(_p, _v)							\
+	do																		\
+		{																	\
+		(_v)->x = (_p)->x;													\
+		(_v)->y = (_p)->y;													\
+		(_v)->z = (_p)->z;													\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint2D_To3D(_p1, _p2)										\
+	do																		\
+		{																	\
+		(_p2)->x = (_p1)->x;												\
+		(_p2)->y = (_p1)->y;												\
+		(_p2)->w = 1.0f;													\
+		}																	\
+	while (0)
+
+#define __Q3FastRationalPoint3D_To2D(_p1, _p2)								\
+	do																		\
+		{																	\
+		float invW = 1.0f / (_p1)->w;										\
+		(_p2)->x = (_p1)->x * invW;											\
+		(_p2)->y = (_p1)->y * invW;											\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint3D_To4D(_p1, _p2)										\
+	do																		\
+		{																	\
+		(_p2)->x = (_p1)->x;												\
+		(_p2)->y = (_p1)->y;												\
+		(_p2)->z = (_p1)->z;												\
+		(_p2)->w = 1.0f;													\
+		}																	\
+	while (0)
+
+#define __Q3FastRationalPoint4D_To3D(_p1, _p2)								\
+	do																		\
+		{																	\
+		float invW = 1.0f / (_p1)->w;										\
+		(_p2)->x = (_p1)->x * invW;											\
+		(_p2)->y = (_p1)->y * invW;											\
+		(_p2)->z = (_p1)->z * invW;											\
+		}																	\
+	while (0)
+
+#define __Q3FastPolarPoint_ToPoint2D(_p1, _p2)								\
+	do																		\
+		{																	\
+		(_p2)->x = (_p1)->r * ((float) cos((_p1)->theta));					\
+		(_p2)->y = (_p1)->r * ((float) sin((_p1)->theta));					\
+		}																	\
+	while (0)
+
+#define __Q3FastVector2D_Dot(_v1, _v2)										\
+	(																		\
+		((_v1)->x * (_v2)->x) +												\
+		((_v1)->y * (_v2)->y)												\
+	)																		\
+
+#define __Q3FastVector3D_Dot(_v1, _v2)										\
+	(																		\
+		((_v1)->x * (_v2)->x) +												\
+		((_v1)->y * (_v2)->y) +												\
+		((_v1)->z * (_v2)->z)												\
+	)																		\
+
+#define __Q3FastVector2D_Cross(_v1, _v2)									\
+	(																		\
+		((_v1)->x * (_v2)->y) -												\
+		((_v1)->y * (_v2)->x)												\
+	)																		\
+
+#define __Q3FastPoint2D_CrossProductTri(_p1, _p2, _p3)						\
+	(																		\
+		(((_p2)->x - (_p1)->x) * ((_p3)->x - (_p2)->x)) -					\
+		(((_p2)->y - (_p1)->y) * ((_p3)->y - (_p2)->y))						\
+	)																		\
+
+#define __Q3FastVector3D_Cross(_v1, _v2, _r)								\
+	do																		\
+		{																	\
+		float rx = ((_v1)->y * (_v2)->z) - ((_v1)->z * (_v2)->y);			\
+        float ry = ((_v1)->z * (_v2)->x) - ((_v1)->x * (_v2)->z);			\
+        float rz = ((_v1)->x * (_v2)->y) - ((_v1)->y * (_v2)->x);			\
+        																	\
+        (_r)->x = rx;														\
+        (_r)->y = ry;														\
+        (_r)->z = rz;														\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint3D_CrossProductTri(_p1, _p2, _p3, _r)					\
+	do																		\
+		{																	\
+		float _v1_x = (_p2)->x - (_p1)->x;									\
+		float _v1_y = (_p2)->y - (_p1)->y;									\
+		float _v1_z = (_p2)->z - (_p1)->z;									\
+																			\
+		float _v2_x = (_p3)->x - (_p2)->x;									\
+		float _v2_y = (_p3)->y - (_p2)->y;									\
+		float _v2_z = (_p3)->z - (_p2)->z;									\
+																			\
+		(_r)->x = (_v1_y * _v2_z) - (_v1_z * _v2_y);						\
+        (_r)->y = (_v1_z * _v2_x) - (_v1_x * _v2_z);						\
+        (_r)->z = (_v1_x * _v2_y) - (_v1_y * _v2_x);						\
+		}																	\
+	while (0)
+
+#define __Q3FastVector2D_Length(_v)											\
+	(																		\
+		(float) sqrt(__Q3FastVector2D_LengthSquared(_v))					\
+	)																		\
+
+#define __Q3FastVector2D_LengthSquared(_v)									\
+	(																		\
+		((_v)->x * (_v)->x) +												\
+		((_v)->y * (_v)->y)													\
+	)																		\
+
+#define __Q3FastVector3D_Length(_v)											\
+	(																		\
+		(float) sqrt(__Q3FastVector3D_LengthSquared(_v))					\
+	)																		\
+
+#define __Q3FastVector3D_LengthSquared(_v)									\
+	(																		\
+		((_v)->x * (_v)->x) +												\
+		((_v)->y * (_v)->y)	+												\
+		((_v)->z * (_v)->z)													\
+	)																		\
+
+#define __Q3FastPoint2D_Distance(_p1, _p2)									\
+	(																		\
+		(float) sqrt(__Q3FastPoint2D_DistanceSquared(_p1, _p2))				\
+	)																		\
+
+#define __Q3FastPoint2D_DistanceSquared(_p1, _p2)							\
+	(																		\
+		(((_p1)->x - (_p2)->x) * ((_p1)->x - (_p2)->x))	+					\
+		(((_p1)->y - (_p2)->y) * ((_p1)->y - (_p2)->y))						\
+	)																		\
+
+#define __Q3FastParam2D_Distance(_p1, _p2)									\
+	(																		\
+		__Q3FastPoint2D_Distance((const TQ3Point2D*) _p1,					\
+							     (const TQ3Point2D*) _p2)					\
+	)																		\
+
+#define __Q3FastParam2D_DistanceSquared(_p1, _p2)							\
+	(																		\
+		__Q3FastPoint2D_DistanceSquared((const TQ3Point2D*) _p1,			\
+									    (const TQ3Point2D*) _p2)			\
+	)																		\
+
+#define __Q3FastRationalPoint3D_Distance(_p1, _p2)							\
+	(																		\
+		(float) sqrt(__Q3FastRationalPoint3D_DistanceSquared(_p1, _p2))		\
+	)																		\
+
+#define __Q3FastRationalPoint3D_DistanceSquared(_p1, _p2)					\
+	(																		\
+		(((_p1)->x - (_p2)->x) * ((_p1)->x - (_p2)->x))	+					\
+		(((_p1)->y - (_p2)->y) * ((_p1)->y - (_p2)->y))	+					\
+		(((_p1)->w - (_p2)->w) * ((_p1)->w - (_p2)->w))						\
+	)																		\
+
+#define __Q3FastPoint3D_Distance(_p1, _p2)									\
+	(																		\
+		(float) sqrt(__Q3FastPoint3D_DistanceSquared(_p1, _p2))				\
+	)																		\
+
+#define __Q3FastPoint3D_DistanceSquared(_p1, _p2)							\
+	(																		\
+		(((_p1)->x - (_p2)->x) * ((_p1)->x - (_p2)->x))	+					\
+		(((_p1)->y - (_p2)->y) * ((_p1)->y - (_p2)->y))	+					\
+		(((_p1)->z - (_p2)->z) * ((_p1)->z - (_p2)->z))						\
+	)																		\
+
+#define __Q3FastRationalPoint4D_Distance(_p1, _p2)							\
+	(																		\
+		(float) sqrt(__Q3FastRationalPoint4D_DistanceSquared(_p1, _p2))		\
+	)																		\
+
+#define __Q3FastRationalPoint4D_DistanceSquared(_p1, _p2)					\
+	(																		\
+		(((_p1)->x - (_p2)->x) * ((_p1)->x - (_p2)->x))	+					\
+		(((_p1)->y - (_p2)->y) * ((_p1)->y - (_p2)->y))	+					\
+		(((_p1)->z - (_p2)->z) * ((_p1)->z - (_p2)->z))	+					\
+		(((_p1)->w - (_p2)->w) * ((_p1)->w - (_p2)->w))						\
+	)																		\
+
+#define __Q3FastVector2D_Negate(_v1, _v2)									\
+	do																		\
+		{																	\
+		(_v2)->x = -(_v1)->x;												\
+		(_v2)->y = -(_v1)->y;												\
+		}																	\
+	while (0)
+
+#define __Q3FastVector3D_Negate(_v1, _v2)									\
+	do																		\
+		{																	\
+		(_v2)->x = -(_v1)->x;												\
+		(_v2)->y = -(_v1)->y;												\
+		(_v2)->z = -(_v1)->z;												\
+		}																	\
+	while (0)
+
+#define __Q3FastVector2D_Scale(_v1, _s, _v2)								\
+	do																		\
+		{																	\
+		(_v2)->x = (_v1)->x * (_s);											\
+		(_v2)->y = (_v1)->y * (_s);											\
+		}																	\
+	while (0)
+
+#define __Q3FastVector3D_Scale(_v1, _s, _v2)								\
+	do																		\
+		{																	\
+		(_v2)->x = (_v1)->x * (_s);											\
+		(_v2)->y = (_v1)->y * (_s);											\
+		(_v2)->z = (_v1)->z * (_s);											\
+		}																	\
+	while (0)
+
+#define __Q3FastVector2D_Normalize(_v1, _v2)								\
+	do																		\
+		{																	\
+		float invLength = 1.0f / __Q3FastVector2D_Length(_v1);				\
+		__Q3FastVector2D_Scale(_v1, invLength, _v2);						\
+		}																	\
+	while (0)
+
+#define __Q3FastVector3D_Normalize(_v1, _v2)								\
+	do																		\
+		{																	\
+		float invLength = 1.0f / __Q3FastVector3D_Length(_v1);				\
+		__Q3FastVector3D_Scale(_v1, invLength, _v2);						\
+		}																	\
+	while (0)
+
+
+#define __Q3FastVector2D_Add(_v1, _v2, _r)									\
+	do																		\
+		{																	\
+		(_r)->x = (_v1)->x + (_v2)->x;										\
+		(_r)->y = (_v1)->y + (_v2)->y;										\
+		}																	\
+	while (0)
+
+#define __Q3FastVector3D_Add(_v1, _v2, _r)									\
+	do																		\
+		{																	\
+		(_r)->x = (_v1)->x + (_v2)->x;										\
+		(_r)->y = (_v1)->y + (_v2)->y;										\
+		(_r)->z = (_v1)->z + (_v2)->z;										\
+		}																	\
+	while (0)
+
+#define __Q3FastVector2D_Subtract(_v1, _v2, _r)								\
+	do																		\
+		{																	\
+		(_r)->x = (_v1)->x - (_v2)->x;										\
+		(_r)->y = (_v1)->y - (_v2)->y;										\
+		}																	\
+	while (0)
+
+#define __Q3FastVector3D_Subtract(_v1, _v2, _r)								\
+	do																		\
+		{																	\
+		(_r)->x = (_v1)->x - (_v2)->x;										\
+		(_r)->y = (_v1)->y - (_v2)->y;										\
+		(_r)->z = (_v1)->z - (_v2)->z;										\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint2D_Vector2D_Add(_p, _v, _r)							\
+	do																		\
+		{																	\
+		(_r)->x = (_p)->x + (_v)->x;										\
+		(_r)->y = (_p)->y + (_v)->y;										\
+		}																	\
+	while (0)
+
+#define __Q3FastParam2D_Vector2D_Add(_p, _v, _r)							\
+	do																		\
+		{																	\
+		(_r)->u = (_p)->u + (_v)->x;										\
+		(_r)->v = (_p)->v + (_v)->y;										\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint3D_Vector3D_Add(_p, _v, _r)							\
+	do																		\
+		{																	\
+		(_r)->x = (_p)->x + (_v)->x;										\
+		(_r)->y = (_p)->y + (_v)->y;										\
+		(_r)->z = (_p)->z + (_v)->z;										\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint2D_Vector2D_Subtract(_p, _v, _r)						\
+	do																		\
+		{																	\
+		(_r)->x = (_p)->x - (_v)->x;										\
+		(_r)->y = (_p)->y - (_v)->y;										\
+		}																	\
+	while (0)
+
+#define __Q3FastParam2D_Vector2D_Subtract(_p, _v, _r)						\
+	do																		\
+		{																	\
+		(_r)->u = (_p)->u - (_v)->x;										\
+		(_r)->v = (_p)->v - (_v)->y;										\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint3D_Vector3D_Subtract(_p, _v, _r)						\
+	do																		\
+		{																	\
+		(_r)->x = (_p)->x - (_v)->x;										\
+		(_r)->y = (_p)->y - (_v)->y;										\
+		(_r)->z = (_p)->z - (_v)->z;										\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint2D_Subtract(_p1, _p2, _r)								\
+	do																		\
+		{																	\
+		(_r)->x = (_p1)->x - (_p2)->x;										\
+		(_r)->y = (_p1)->y - (_p2)->y;										\
+		}																	\
+	while (0)
+
+#define __Q3FastParam2D_Subtract(_p1, _p2, _r)								\
+	do																		\
+		{																	\
+		(_r)->x = (_p1)->u - (_p2)->u;										\
+		(_r)->y = (_p1)->v - (_p2)->v;										\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint3D_Subtract(_p1, _p2, _r)								\
+	do																		\
+		{																	\
+		(_r)->x = (_p1)->x - (_p2)->x;										\
+		(_r)->y = (_p1)->y - (_p2)->y;										\
+		(_r)->z = (_p1)->z - (_p2)->z;										\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint2D_RRatio(_p1, _p2, _r1, _r2, _result)					\
+	do																		\
+		{																	\
+		float frac   = (_r2) / ((_r1) + (_r2));								\
+		(_result)->x = (_p1)->x + (frac * ((_p2)->x - (_p1)->x));			\
+		(_result)->y = (_p1)->y + (frac * ((_p2)->y - (_p1)->y));			\
+		}																	\
+	while (0)
+
+#define __Q3FastParam2D_RRatio(_p1, _p2, _r1, _r2, _result)					\
+	do																		\
+		{																	\
+		float frac   = (_r2) / ((_r1) + (_r2));								\
+		(_result)->u = (_p1)->u + (frac * ((_p2)->u - (_p1)->u));			\
+		(_result)->v = (_p1)->v + (frac * ((_p2)->v - (_p1)->v));			\
+		}																	\
+	while (0)
+
+#define __Q3FastPoint3D_RRatio(_p1, _p2, _r1, _r2, _result)					\
+	do																		\
+		{																	\
+		float frac   = (_r2) / ((_r1) + (_r2));								\
+		(_result)->x = (_p1)->x + (frac * ((_p2)->x - (_p1)->x));			\
+		(_result)->y = (_p1)->y + (frac * ((_p2)->y - (_p1)->y));			\
+		(_result)->z = (_p1)->z + (frac * ((_p2)->z - (_p1)->z));			\
+		}																	\
+	while (0)
+
+#define __Q3FastRationalPoint4D_RRatio(_p1, _p2, _r1, _r2, _result)			\
+	do																		\
+		{																	\
+		float frac   = (_r2) / ((_r1) + (_r2));								\
+		(_result)->x = (_p1)->x + (frac * ((_p2)->x - (_p1)->x));			\
+		(_result)->y = (_p1)->y + (frac * ((_p2)->y - (_p1)->y));			\
+		(_result)->z = (_p1)->z + (frac * ((_p2)->z - (_p1)->z));			\
+		(_result)->w = (_p1)->w + (frac * ((_p2)->w - (_p1)->w));			\
+		}																	\
+	while (0)
+
+#define __Q3FastQuaternion_Set(_q, _w, _x, _y, _z)							\
+	do																		\
+		{																	\
+		(_q)->w = (_w);														\
+		(_q)->x = (_x);														\
+		(_q)->y = (_y);														\
+		(_q)->z = (_z);														\
+		}																	\
+	while (0)
+
+#define __Q3FastQuaternion_SetIdentity(_q)									\
+	do																		\
+		{																	\
+		(_q)->w = 1.0f;														\
+		(_q)->x = 0.0f;														\
+		(_q)->y = 0.0f;														\
+		(_q)->z = 0.0f;														\
+		}																	\
+	while (0)
+
+#define __Q3FastQuaternion_Copy(_q1, _q2)									\
+	do																		\
+		{																	\
+		*(_q2) = *(_q1);													\
+		}																	\
+	while (0)
+
+#define __Q3FastQuaternion_Dot(_q1, _q2)									\
+	(																		\
+		((_q1)->w * (_q2)->w) +												\
+		((_q1)->x * (_q2)->x) +												\
+		((_q1)->y * (_q2)->y) +												\
+		((_q1)->z * (_q2)->z)												\
+	)																		\
+
+#define __Q3FastQuaternion_Normalize(_q1, _q2)								\
+	do																		\
+		{																	\
+		float qDot    = __Q3FastQuaternion_Dot(_q1, _q1);					\
+		float qFactor = 1.0f / (float) sqrt(qDot);							\
+																			\
+		(_q2)->w = (_q1)->w * qFactor;										\
+		(_q2)->x = (_q1)->x * qFactor;										\
+		(_q2)->y = (_q1)->y * qFactor;										\
+		(_q2)->z = (_q1)->z * qFactor;										\
+		}																	\
+	while (0)
+
+#define __Q3FastQuaternion_Invert(_q1, _q2)									\
+	do																		\
+		{																	\
+		(_q2)->w =  (_q1)->w;												\
+		(_q2)->x = -(_q1)->x;												\
+		(_q2)->y = -(_q1)->y;												\
+		(_q2)->z = -(_q1)->z;												\
+		}																	\
+	while (0)
+
+#define __Q3FastBoundingBox_Set(_b, _min, _max, _isEmpty)					\
+	do																		\
+		{																	\
+		(_b)->min     = *(_min);											\
+		(_b)->max     = *(_max);											\
+		(_b)->isEmpty =  (_isEmpty);										\
+		}																	\
+	while (0)
+
+#define __Q3FastBoundingBox_Copy(_b1, _b2)									\
+	do																		\
+		{																	\
+		*(_b2) = *(_b1);													\
+		}																	\
+	while (0)
+
+#define __Q3FastBoundingSphere_Set(_s, _origin, _radius, _isEmpty)			\
+	do																		\
+		{																	\
+		(_s)->origin  = *(_origin);											\
+		(_s)->radius  =  (_radius);											\
+		(_s)->isEmpty =  (_isEmpty);										\
+		}																	\
+	while (0)
+
+#define __Q3FastBoundingSphere_Copy(_s1, _s2)								\
+	do																		\
+		{																	\
+		*(_s2) = *(_s1);													\
+		}																	\
+	while (0)
+
+
 
 // Wrappers
 #ifdef __cplusplus
+
 	inline TQ3Vector2D *Q3FastVector2D_Set(TQ3Vector2D *vector2D, float x, float y)
 	{
 		__Q3FastVector2D_Set(vector2D, x, y);
@@ -3722,17 +4461,570 @@ Q3Math_InvSquareRoot (
 		__Q3FastVector3D_Set(vector3D, x, y, z);
 		return(vector3D);
 	}
+
+	inline TQ3Point2D * Q3FastPoint2D_Set(TQ3Point2D *point2D, float x, float y)
+	{
+		__Q3FastPoint2D_Set(point2D, x, y);
+		return(point2D);
+	}
+	
+	inline TQ3Param2D * Q3FastParam2D_Set(TQ3Param2D *param2D, float u, float v)
+	{
+		__Q3FastParam2D_Set(param2D, u, v);
+		return(param2D);
+	}
+	
+	inline TQ3RationalPoint3D * Q3FastRationalPoint3D_Set(TQ3RationalPoint3D *rationalPoint3D, float x, float y, float w)
+	{
+		__Q3FastRationalPoint3D_Set(rationalPoint3D, x, y, w);
+		return(rationalPoint3D);
+	}
+	
+	inline TQ3Point3D * Q3FastPoint3D_Set(TQ3Point3D *point3D, float x, float y, float z)
+	{
+		__Q3FastPoint3D_Set(point3D, x, y, z);
+		return(point3D);
+	}
+	
+	inline TQ3RationalPoint4D * Q3FastRationalPoint4D_Set(TQ3RationalPoint4D *rationalPoint4D, float x, float y, float z, float w)
+	{
+		__Q3FastRationalPoint4D_Set(rationalPoint4D, x, y, z, w);
+		return(rationalPoint4D);
+	}
+	
+	inline TQ3PolarPoint * Q3FastPolarPoint_Set(TQ3PolarPoint *polarPoint, float r, float theta)
+	{
+		__Q3FastPolarPoint_Set(polarPoint, r, theta);
+		return(polarPoint);
+	}
+	
+	inline TQ3SphericalPoint * Q3FastSphericalPoint_Set(TQ3SphericalPoint *sphericalPoint, float rho, float theta, float phi)
+	{
+		__Q3FastSphericalPoint_Set(sphericalPoint, rho, theta, phi);
+		return(sphericalPoint);
+	}
+	
+	inline TQ3Vector3D * Q3FastVector2D_To3D(const TQ3Vector2D *vector2D, TQ3Vector3D *result)
+	{
+		__Q3FastVector2D_To3D(vector2D, result);
+		return(result);
+	}
+	
+	inline TQ3RationalPoint3D * Q3FastVector2D_ToRationalPoint3D(const TQ3Vector2D *vector2D, TQ3RationalPoint3D *result)
+	{
+		__Q3FastVector2D_ToRationalPoint3D(vector2D, result);
+		return(result);
+	}
+	
+	inline TQ3Vector2D * Q3FastVector3D_To2D(const TQ3Vector3D *vector3D, TQ3Vector2D *result)
+	{
+		__Q3FastVector3D_To2D(vector3D, result);
+		return(result);
+	}
+	
+	inline TQ3Vector2D * Q3FastRationalPoint3D_ToVector2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Vector2D *result)
+	{
+		__Q3FastRationalPoint3D_ToVector2D(rationalPoint3D, result);
+		return(result);
+	}
+	
+	inline TQ3RationalPoint4D * Q3FastVector3D_ToRationalPoint4D(const TQ3Vector3D *vector3D, TQ3RationalPoint4D *result)
+	{
+		__Q3FastVector3D_ToRationalPoint4D(vector3D, result);
+		return(result);
+	}
+	
+	inline TQ3Vector3D * Q3FastRationalPoint4D_ToVector3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Vector3D *result)
+	{
+		__Q3FastRationalPoint4D_ToVector3D(rationalPoint4D, result);
+		return(result);
+	}
+	
+	inline TQ3RationalPoint3D * Q3FastPoint2D_To3D(const TQ3Point2D *point2D, TQ3RationalPoint3D *result)
+	{
+		__Q3FastPoint2D_To3D(point2D, result);
+		return(result);
+	}
+	
+	inline TQ3Point2D * Q3FastRationalPoint3D_To2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Point2D *result)
+	{
+		__Q3FastRationalPoint3D_To2D(rationalPoint3D, result);
+		return(result);
+	}
+	
+	inline TQ3RationalPoint4D * Q3FastPoint3D_To4D(const TQ3Point3D *point3D, TQ3RationalPoint4D *result)
+	{
+		__Q3FastPoint3D_To4D(point3D, result);
+		return(result);
+	}
+	
+	inline TQ3Point3D * Q3FastRationalPoint4D_To3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Point3D *result)
+	{
+		__Q3FastRationalPoint4D_To3D(rationalPoint4D, result);
+		return(result);
+	}
+
+	inline TQ3Point2D *Q3FastPolarPoint_ToPoint2D(const TQ3PolarPoint *polarPoint, TQ3Point2D *result)
+	{
+		__Q3FastPolarPoint_ToPoint2D(polarPoint, result);
+		return(result);
+	}
+	
+	inline float Q3FastVector2D_Dot(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
+	{
+		return(__Q3FastVector2D_Dot(v1, v2));
+	}
+	
+	inline float Q3FastVector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2)
+	{
+		return(__Q3FastVector3D_Dot(v1, v2));
+	}
+	
+	inline float Q3FastVector2D_Cross(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
+	{
+		return(__Q3FastVector2D_Cross(v1, v2));
+	}
+	
+	inline float Q3FastPoint2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2, const TQ3Point2D *p3)
+	{
+		return(__Q3FastPoint2D_CrossProductTri(p1, p2, p3));
+	}
+	
+	inline TQ3Vector3D *Q3FastVector3D_Cross(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result)
+	{
+		__Q3FastVector3D_Cross(v1, v2, result);
+		return(result);
+	}
+	
+	inline TQ3Vector3D *Q3FastPoint3D_CrossProductTri(const TQ3Point3D *p1, const TQ3Point3D *p2, const TQ3Point3D *p3, TQ3Vector3D *result)
+	{
+		__Q3FastPoint3D_CrossProductTri(p1, p2, p3, result);
+		return(result);
+	}
+	
+	inline float Q3FastVector2D_Length(const TQ3Vector2D *vector2D)
+	{
+		return(__Q3FastVector2D_Length(vector2D));
+	}
+	
+	inline float Q3FastVector2D_LengthSquared(const TQ3Vector2D *vector2D)
+	{
+		return(__Q3FastVector2D_LengthSquared(vector2D));
+	}
+	
+	inline float Q3FastVector3D_Length(const TQ3Vector3D *vector3D)
+	{
+		return(__Q3FastVector3D_Length(vector3D));
+	}
+	
+	inline float Q3FastVector3D_LengthSquared(const TQ3Vector3D *vector3D)
+	{
+		return(__Q3FastVector3D_LengthSquared(vector3D));
+	}
+	
+	inline float Q3FastPoint2D_Distance(const TQ3Point2D *p1, const TQ3Point2D *p2)
+	{
+		return(__Q3FastPoint2D_Distance(p1, p2));
+	}
+	
+	inline float Q3FastPoint2D_DistanceSquared(const TQ3Point2D *p1, const TQ3Point2D *p2)
+	{
+		return(__Q3FastPoint2D_DistanceSquared(p1, p2));
+	}
+	
+	inline float Q3FastParam2D_Distance(const TQ3Param2D *p1, const TQ3Param2D *p2)
+	{
+		return(__Q3FastParam2D_Distance(p1, p2));
+	}
+	
+	inline float Q3FastParam2D_DistanceSquared(const TQ3Param2D *p1, const TQ3Param2D *p2)
+	{
+		return(__Q3FastParam2D_DistanceSquared(p1, p2));
+	}
+	
+	inline float Q3FastRationalPoint3D_Distance(const TQ3RationalPoint3D *p1, const TQ3RationalPoint3D *p2)
+	{
+		return(__Q3FastRationalPoint3D_Distance(p1, p2));
+	}
+	
+	inline float Q3FastRationalPoint3D_DistanceSquared(const TQ3RationalPoint3D *p1, const TQ3RationalPoint3D *p2)
+	{
+		return(__Q3FastRationalPoint3D_DistanceSquared(p1, p2));
+	}
+	
+	inline float Q3FastPoint3D_Distance(const TQ3Point3D *p1, const TQ3Point3D *p2)
+	{
+		return(__Q3FastPoint3D_Distance(p1, p2));
+	}
+	
+	inline float Q3FastPoint3D_DistanceSquared(const TQ3Point3D *p1, const TQ3Point3D *p2)
+	{
+		return(__Q3FastPoint3D_DistanceSquared(p1, p2));
+	}
+	
+	inline float Q3FastRationalPoint4D_Distance(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2)
+	{
+		return(__Q3FastRationalPoint4D_Distance(p1, p2));
+	}
+	
+	inline float Q3FastRationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2)
+	{
+		return(__Q3FastRationalPoint4D_DistanceSquared(p1, p2));
+	}
+	
+	inline TQ3Vector2D *Q3FastVector2D_Negate(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
+	{
+		__Q3FastVector2D_Negate(vector2D, result);
+		return(result);
+	}
+	
+	inline TQ3Vector3D *Q3FastVector3D_Negate(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
+	{
+		__Q3FastVector3D_Negate(vector3D, result);
+		return(result);
+	}
+	
+	inline TQ3Vector2D *Q3FastVector2D_Scale(const TQ3Vector2D *vector2D, float scalar, TQ3Vector2D *result)
+	{
+		__Q3FastVector2D_Scale(vector2D, scalar, result);
+		return(result);
+	}
+	
+	inline TQ3Vector3D *Q3FastVector3D_Scale(const TQ3Vector3D *vector3D, float scalar, TQ3Vector3D *result)
+	{
+		__Q3FastVector3D_Scale(vector3D, scalar, result);
+		return(result);
+	}
+	
+	inline TQ3Vector2D *Q3FastVector2D_Normalize(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
+	{
+		__Q3FastVector2D_Normalize(vector2D, result);
+		return(result);
+	}
+	
+	inline TQ3Vector3D *Q3FastVector3D_Normalize(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
+	{
+		__Q3FastVector3D_Normalize(vector3D, result);
+		return(result);
+	}
+	
+	inline TQ3Vector2D *Q3FastVector2D_Add(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result)
+	{
+		__Q3FastVector2D_Add(v1, v2, result);
+		return(result);
+	}
+	
+	inline TQ3Vector3D *Q3FastVector3D_Add(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result)
+	{
+		__Q3FastVector3D_Add(v1, v2, result);
+		return(result);
+	}
+	
+	inline TQ3Vector2D *Q3FastVector2D_Subtract(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result)
+	{
+		__Q3FastVector2D_Subtract(v1, v2, result);
+		return(result);
+	}
+	
+	inline TQ3Vector3D *Q3FastVector3D_Subtract(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result)
+	{
+		__Q3FastVector3D_Subtract(v1, v2, result);
+		return(result);
+	}
+	
+	inline TQ3Point2D *Q3FastPoint2D_Vector2D_Add(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D, TQ3Point2D *result)
+	{
+		__Q3FastPoint2D_Vector2D_Add(point2D, vector2D, result);
+		return(result);
+	}
+	
+	inline TQ3Param2D *Q3FastParam2D_Vector2D_Add(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D, TQ3Param2D *result)
+	{
+		__Q3FastParam2D_Vector2D_Add(param2D, vector2D, result);
+		return(result);
+	}
+	
+	inline TQ3Point3D *Q3FastPoint3D_Vector3D_Add(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D, TQ3Point3D *result)
+	{
+		__Q3FastPoint3D_Vector3D_Add(point3D, vector3D, result);
+		return(result);
+	}
+	
+	inline TQ3Point2D *Q3FastPoint2D_Vector2D_Subtract(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D, TQ3Point2D *result)
+	{
+		__Q3FastPoint2D_Vector2D_Subtract(point2D, vector2D, result);
+		return(result);
+	}
+	
+	inline TQ3Param2D *Q3FastParam2D_Vector2D_Subtract(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D, TQ3Param2D *result)
+	{
+		__Q3FastParam2D_Vector2D_Subtract(param2D, vector2D, result);
+		return(result);
+	}
+	
+	inline TQ3Point3D *Q3FastPoint3D_Vector3D_Subtract(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D, TQ3Point3D *result)
+	{
+		__Q3FastPoint3D_Vector3D_Subtract(point3D, vector3D, result);
+		return(result);
+	}
+	
+	inline TQ3Vector2D *Q3FastPoint2D_Subtract(const TQ3Point2D *p1, const TQ3Point2D *p2, TQ3Vector2D *result)
+	{
+		__Q3FastPoint2D_Subtract(p1, p2, result);
+		return(result);
+	}
+	
+	inline TQ3Vector2D *Q3FastParam2D_Subtract(const TQ3Param2D *p1, const TQ3Param2D *p2, TQ3Vector2D *result)
+	{
+		__Q3FastParam2D_Subtract(p1, p2, result);
+		return(result);
+	}
+	
+	inline TQ3Vector3D *Q3FastPoint3D_Subtract(const TQ3Point3D *p1, const TQ3Point3D *p2, TQ3Vector3D *result)
+	{
+		__Q3FastPoint3D_Subtract(p1, p2, result);
+		return(result);
+	}
+	
+	inline TQ3Point2D *Q3FastPoint2D_RRatio(const TQ3Point2D *p1, const TQ3Point2D *p2, float r1, float r2, TQ3Point2D *result)
+	{
+		__Q3FastPoint2D_RRatio(p1, p2, r1, r2, result);
+		return(result);
+	}
+	
+	inline TQ3Param2D *Q3FastParam2D_RRatio(const TQ3Param2D *p1, const TQ3Param2D *p2, float r1, float r2, TQ3Param2D *result)
+	{
+		__Q3FastParam2D_RRatio(p1, p2, r1, r2, result);
+		return(result);
+	}
+
+	inline TQ3Point3D *Q3FastPoint3D_RRatio(const TQ3Point3D *p1, const TQ3Point3D *p2, float r1, float r2, TQ3Point3D *result)
+	{
+		__Q3FastPoint3D_RRatio(p1, p2, r1, r2, result);
+		return(result);
+	}
+	
+	inline TQ3RationalPoint4D *Q3FastRationalPoint4D_RRatio(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2, float r1, float r2, TQ3RationalPoint4D *result)
+	{
+		__Q3FastRationalPoint4D_RRatio(p1, p2, r1, r2, result);
+		return(result);
+	}
+	
+	inline TQ3Quaternion *Q3FastQuaternion_Set(TQ3Quaternion *quaternion, float w, float x, float y, float z)
+	{
+		__Q3FastQuaternion_Set(quaternion, w, x, y, z);
+		return(quaternion);
+	}
+	
+	inline TQ3Quaternion *Q3FastQuaternion_SetIdentity(TQ3Quaternion *quaternion)
+	{
+		__Q3FastQuaternion_SetIdentity(quaternion);
+		return(quaternion);
+	}
+	
+	inline TQ3Quaternion *Q3FastQuaternion_Copy(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
+	{
+		__Q3FastQuaternion_Copy(quaternion, result);
+		return(result);
+	}
+	
+	inline float Q3FastQuaternion_Dot(const TQ3Quaternion *q1, const TQ3Quaternion *q2)
+	{
+		return(__Q3FastQuaternion_Dot(q1, q2));
+	}
+	
+	inline TQ3Quaternion *Q3FastQuaternion_Normalize(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
+	{
+		__Q3FastQuaternion_Normalize(quaternion, result);
+		return(result);
+	}
+	
+	inline TQ3Quaternion *Q3FastQuaternion_Invert(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
+	{
+		__Q3FastQuaternion_Invert(quaternion, result);
+		return(result);
+	}
+	
+	inline TQ3BoundingBox *Q3FastBoundingBox_Set(TQ3BoundingBox *bBox, const TQ3Point3D *min, const TQ3Point3D *max, TQ3Boolean isEmpty)
+	{
+		__Q3FastBoundingBox_Set(bBox, min, max, isEmpty);
+		return(bBox);
+	}
+	
+	inline TQ3BoundingBox *Q3FastBoundingBox_Copy(const TQ3BoundingBox *bBox, TQ3BoundingBox *result)
+	{
+		__Q3FastBoundingBox_Copy(bBox, result);
+		return(result);
+	}
+	
+	inline TQ3BoundingSphere *Q3FastBoundingSphere_Set(TQ3BoundingSphere *bSphere, const TQ3Point3D *origin, float radius, TQ3Boolean isEmpty)
+	{
+		__Q3FastBoundingSphere_Set(bSphere, origin, radius, isEmpty);
+		return(bSphere);
+	}
+	
+	inline TQ3BoundingSphere *Q3FastBoundingSphere_Copy(const TQ3BoundingSphere *bSphere, TQ3BoundingSphere *result)
+	{
+		__Q3FastBoundingSphere_Copy(bSphere, result);
+		return(result);
+	}
+
 #else
-	#define Q3FastVector2D_Set				__Q3FastVector2D_Set
-	#define Q3FastVector3D_Set				__Q3FastVector3D_Set
+	#define Q3FastVector2D_Set							__Q3FastVector2D_Set
+	#define Q3FastVector3D_Set							__Q3FastVector3D_Set
+	#define Q3FastPoint2D_Set							__Q3FastPoint2D_Set
+	#define Q3FastParam2D_Set							__Q3FastParam2D_Set
+	#define Q3FastRationalPoint3D_Set					__Q3FastRationalPoint3D_Set
+	#define Q3FastPoint3D_Set							__Q3FastPoint3D_Set
+	#define Q3FastRationalPoint4D_Set					__Q3FastRationalPoint4D_Set
+	#define Q3FastPolarPoint_Set						__Q3FastPolarPoint_Set
+	#define Q3FastSphericalPoint_Set					__Q3FastSphericalPoint_Set
+	#define Q3FastVector2D_To3D							__Q3FastVector2D_To3D
+	#define Q3FastVector2D_ToRationalPoint3D			__Q3FastVector2D_ToRationalPoint3D
+	#define Q3FastVector3D_To2D							__Q3FastVector3D_To2D
+	#define Q3FastRationalPoint3D_ToVector2D			__Q3FastRationalPoint3D_ToVector2D
+	#define Q3FastVector3D_ToRationalPoint4D			__Q3FastVector3D_ToRationalPoint4D
+	#define Q3FastRationalPoint4D_ToVector3D			__Q3FastRationalPoint4D_ToVector3D
+	#define Q3FastPoint2D_To3D							__Q3FastPoint2D_To3D
+	#define Q3FastRationalPoint3D_To2D					__Q3FastRationalPoint3D_To2D
+	#define Q3FastPoint3D_To4D							__Q3FastPoint3D_To4D
+	#define Q3FastRationalPoint4D_To3D					__Q3FastRationalPoint4D_To3D
+	#define Q3FastPolarPoint_ToPoint2D					__Q3FastPolarPoint_ToPoint2D
+	#define Q3FastVector2D_Dot							__Q3FastVector2D_Dot
+	#define Q3FastVector3D_Dot							__Q3FastVector3D_Dot
+	#define Q3FastVector2D_Cross						__Q3FastVector2D_Cross
+	#define Q3FastPoint2D_CrossProductTri				__Q3FastPoint2D_CrossProductTri
+	#define Q3FastVector3D_Cross						__Q3FastVector3D_Cross
+	#define Q3FastPoint3D_CrossProductTri				__Q3FastPoint3D_CrossProductTri
+	#define Q3FastVector2D_Length						__Q3FastVector2D_Length
+	#define Q3FastVector2D_LengthSquared				__Q3FastVector2D_LengthSquared
+	#define Q3FastVector3D_Length						__Q3FastVector3D_Length
+	#define Q3FastVector3D_LengthSquared				__Q3FastVector3D_LengthSquared
+	#define Q3FastPoint2D_Distance						__Q3FastPoint2D_Distance
+	#define Q3FastPoint2D_DistanceSquared				__Q3FastPoint2D_DistanceSquared
+	#define Q3FastParam2D_Distance						__Q3FastParam2D_Distance
+	#define Q3FastParam2D_DistanceSquared				__Q3FastParam2D_DistanceSquared
+	#define Q3FastRationalPoint3D_Distance				__Q3FastRationalPoint3D_Distance
+	#define Q3FastRationalPoint3D_DistanceSquared		__Q3FastRationalPoint3D_DistanceSquared
+	#define Q3FastPoint3D_Distance						__Q3FastPoint3D_Distance
+	#define Q3FastPoint3D_DistanceSquared				__Q3FastPoint3D_DistanceSquared
+	#define Q3FastRationalPoint4D_Distance				__Q3FastRationalPoint4D_Distance
+	#define Q3FastRationalPoint4D_DistanceSquared		__Q3FastRationalPoint4D_DistanceSquared
+	#define Q3FastVector2D_Negate						__Q3FastVector2D_Negate
+	#define Q3FastVector3D_Negate						__Q3FastVector3D_Negate
+	#define Q3FastVector2D_Scale						__Q3FastVector2D_Scale
+	#define Q3FastVector3D_Scale						__Q3FastVector3D_Scale
+	#define Q3FastVector2D_Normalize					__Q3FastVector2D_Normalize
+	#define Q3FastVector3D_Normalize					__Q3FastVector3D_Normalize
+	#define Q3FastVector2D_Add							__Q3FastVector2D_Add
+	#define Q3FastVector3D_Add							__Q3FastVector3D_Add
+	#define Q3FastVector2D_Subtract						__Q3FastVector2D_Subtract
+	#define Q3FastVector3D_Subtract						__Q3FastVector3D_Subtract
+	#define Q3FastPoint2D_Vector2D_Add					__Q3FastPoint2D_Vector2D_Add
+	#define Q3FastParam2D_Vector2D_Add					__Q3FastParam2D_Vector2D_Add
+	#define Q3FastPoint3D_Vector3D_Add					__Q3FastPoint3D_Vector3D_Add
+	#define Q3FastPoint2D_Vector2D_Subtract				__Q3FastPoint2D_Vector2D_Subtract
+	#define Q3FastParam2D_Vector2D_Subtract				__Q3FastParam2D_Vector2D_Subtract
+	#define Q3FastPoint3D_Vector3D_Subtract				__Q3FastPoint3D_Vector3D_Subtract
+	#define Q3FastPoint2D_Subtract						__Q3FastPoint2D_Subtract
+	#define Q3FastParam2D_Subtract						__Q3FastParam2D_Subtract
+	#define Q3FastPoint3D_Subtract						__Q3FastPoint3D_Subtract
+	#define Q3FastPoint2D_RRatio						__Q3FastPoint2D_RRatio
+	#define Q3FastParam2D_RRatio						__Q3FastParam2D_RRatio
+	#define Q3FastPoint3D_RRatio						__Q3FastPoint3D_RRatio
+	#define Q3FastRationalPoint4D_RRatio				__Q3FastRationalPoint4D_RRatio
+	#define Q3FastQuaternion_Set						__Q3FastQuaternion_Set
+	#define Q3FastQuaternion_SetIdentity				__Q3FastQuaternion_SetIdentity
+	#define Q3FastQuaternion_Copy						__Q3FastQuaternion_Copy
+	#define Q3FastQuaternion_Dot						__Q3FastQuaternion_Dot
+	#define Q3FastQuaternion_Normalize					__Q3FastQuaternion_Normalize
+	#define Q3FastQuaternion_Invert						__Q3FastQuaternion_Invert
+	#define Q3FastBoundingBox_Set						__Q3FastBoundingBox_Set
+	#define Q3FastBoundingBox_Copy						__Q3FastBoundingBox_Copy
+	#define Q3FastBoundingSphere_Set					__Q3FastBoundingSphere_Set
+	#define Q3FastBoundingSphere_Copy					__Q3FastBoundingSphere_Copy
 #endif
+
 
 
 // Redirection
 #if QUESA_ALLOW_INLINE_APIS
-	#define Q3Vector2D_Set					Q3FastVector2D_Set
-	#define Q3Vector3D_Set					Q3FastVector3D_Set
+	#define Q3Vector2D_Set								Q3FastVector2D_Set
+	#define Q3Vector3D_Set								Q3FastVector3D_Set
+	#define Q3Point2D_Set								Q3FastPoint2D_Set
+	#define Q3Param2D_Set								Q3FastParam2D_Set
+	#define Q3RationalPoint3D_Set						Q3FastRationalPoint3D_Set
+	#define Q3Point3D_Set								Q3FastPoint3D_Set
+	#define Q3RationalPoint4D_Set						Q3FastRationalPoint4D_Set
+	#define Q3PolarPoint_Set							Q3FastPolarPoint_Set
+	#define Q3SphericalPoint_Set						Q3FastSphericalPoint_Set
+	#define Q3Vector2D_To3D								Q3FastVector2D_To3D
+	#define Q3Vector2D_ToRationalPoint3D				Q3FastVector2D_ToRationalPoint3D
+	#define Q3Vector3D_To2D								Q3FastVector3D_To2D
+	#define Q3RationalPoint3D_ToVector2D				Q3FastRationalPoint3D_ToVector2D
+	#define Q3Vector3D_ToRationalPoint4D				Q3FastVector3D_ToRationalPoint4D
+	#define Q3RationalPoint4D_ToVector3D				Q3FastRationalPoint4D_ToVector3D
+	#define Q3Point2D_To3D								Q3FastPoint2D_To3D
+	#define Q3RationalPoint3D_To2D						Q3FastRationalPoint3D_To2D
+	#define Q3Point3D_To4D								Q3FastPoint3D_To4D
+	#define Q3RationalPoint4D_To3D						Q3FastRationalPoint4D_To3D
+	#define Q3PolarPoint_ToPoint2D						Q3FastPolarPoint_ToPoint2D
+	#define Q3Vector2D_Dot								Q3FastVector2D_Dot
+	#define Q3Vector3D_Dot								Q3FastVector3D_Dot
+	#define Q3Vector2D_Cross							Q3FastVector2D_Cross
+	#define Q3Point2D_CrossProductTri					Q3FastPoint2D_CrossProductTri
+	#define Q3Vector3D_Cross							Q3FastVector3D_Cross
+	#define Q3Point3D_CrossProductTri					Q3FastPoint3D_CrossProductTri
+	#define Q3Vector2D_Length							Q3FastVector2D_Length
+	#define Q3Vector2D_LengthSquared					Q3FastVector2D_LengthSquared
+	#define Q3Vector3D_Length							Q3FastVector3D_Length
+	#define Q3Vector3D_LengthSquared					Q3FastVector3D_LengthSquared
+	#define Q3Point2D_Distance							Q3FastPoint2D_Distance
+	#define Q3Point2D_DistanceSquared					Q3FastPoint2D_DistanceSquared
+	#define Q3Param2D_Distance							Q3FastParam2D_Distance
+	#define Q3Param2D_DistanceSquared					Q3FastParam2D_DistanceSquared
+	#define Q3RationalPoint3D_Distance					Q3FastRationalPoint3D_Distance
+	#define Q3RationalPoint3D_DistanceSquared			Q3FastRationalPoint3D_DistanceSquared
+	#define Q3Point3D_Distance							Q3FastPoint3D_Distance
+	#define Q3Point3D_DistanceSquared					Q3FastPoint3D_DistanceSquared
+	#define Q3RationalPoint4D_Distance					Q3FastRationalPoint4D_Distance
+	#define Q3RationalPoint4D_DistanceSquared			Q3FastRationalPoint4D_DistanceSquared
+	#define Q3Vector2D_Negate							Q3FastVector2D_Negate
+	#define Q3Vector3D_Negate							Q3FastVector3D_Negate
+	#define Q3Vector2D_Scale							Q3FastVector2D_Scale
+	#define Q3Vector3D_Scale							Q3FastVector3D_Scale
+	#define Q3Vector2D_Normalize						Q3FastVector2D_Normalize
+	#define Q3Vector3D_Normalize						Q3FastVector3D_Normalize
+	#define Q3Vector2D_Add								Q3FastVector2D_Add
+	#define Q3Vector3D_Add								Q3FastVector3D_Add
+	#define Q3Vector2D_Subtract							Q3FastVector2D_Subtract
+	#define Q3Vector3D_Subtract							Q3FastVector3D_Subtract
+	#define Q3Point2D_Vector2D_Add						Q3FastPoint2D_Vector2D_Add
+	#define Q3Param2D_Vector2D_Add						Q3FastParam2D_Vector2D_Add
+	#define Q3Point3D_Vector3D_Add						Q3FastPoint3D_Vector3D_Add
+	#define Q3Point2D_Vector2D_Subtract					Q3FastPoint2D_Vector2D_Subtract
+	#define Q3Param2D_Vector2D_Subtract					Q3FastParam2D_Vector2D_Subtract
+	#define Q3Point3D_Vector3D_Subtract					Q3FastPoint3D_Vector3D_Subtract
+	#define Q3Point2D_Subtract							Q3FastPoint2D_Subtract
+	#define Q3Param2D_Subtract							Q3FastParam2D_Subtract
+	#define Q3Point3D_Subtract							Q3FastPoint3D_Subtract
+	#define Q3Point2D_RRatio							Q3FastPoint2D_RRatio
+	#define Q3Param2D_RRatio							Q3FastParam2D_RRatio
+	#define Q3Point3D_RRatio							Q3FastPoint3D_RRatio
+	#define Q3RationalPoint4D_RRatio					Q3FastRationalPoint4D_RRatio
+	#define Q3Quaternion_Set							Q3FastQuaternion_Set
+	#define Q3Quaternion_SetIdentity					Q3FastQuaternion_SetIdentity
+	#define Q3Quaternion_Copy							Q3FastQuaternion_Copy
+	#define Q3Quaternion_Dot							Q3FastQuaternion_Dot
+	#define Q3Quaternion_Normalize						Q3FastQuaternion_Normalize
+	#define Q3Quaternion_Invert							Q3FastQuaternion_Invert
+	#define Q3BoundingBox_Set							Q3FastBoundingBox_Set
+	#define Q3BoundingBox_Copy							Q3FastBoundingBox_Copy
+	#define Q3BoundingSphere_Set						Q3FastBoundingSphere_Set
+	#define Q3BoundingSphere_Copy						Q3FastBoundingSphere_Copy
 #endif
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
