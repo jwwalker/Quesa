@@ -250,6 +250,58 @@ e3geom_pixmapmarker_pixel_is_set(const TQ3PixmapMarkerData *instanceData, TQ3Int
 
 
 //=============================================================================
+//      e3geom_pixmapmarker_update_position : Update the position.
+//-----------------------------------------------------------------------------
+static void
+e3geom_pixmapmarker_update_position(TQ3ViewObject theView, const TQ3PixmapMarkerData *geomData, TQ3Object cachedGeom)
+{	TQ3Matrix4x4		theMatrix, worldToFrustum, frustumToWindow;
+	TQ3TransformObject		theTransform;
+	TQ3Status				qd3dStatus;
+	TQ3GroupPosition		groupPos;
+	TQ3Point3D				thePoint;
+	TQ3Vector3D				theOffset;
+	
+
+
+	// Find the translation transform
+	qd3dStatus = Q3Group_GetFirstPositionOfType(cachedGeom, kQ3TransformTypeTranslate, &groupPos);
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3Group_GetPositionObject(cachedGeom, groupPos, &theTransform);
+	
+	if (qd3dStatus != kQ3Success)
+		return;
+
+
+
+	// Determine where to place the marker
+	Q3View_GetWorldToFrustumMatrixState( theView, &worldToFrustum);
+	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
+
+	Q3Matrix4x4_Multiply(E3View_State_GetMatrixLocalToWorld(theView), &worldToFrustum, &theMatrix);
+	Q3Matrix4x4_Multiply(&theMatrix, &frustumToWindow, &theMatrix);
+
+	Q3Point3D_Transform(&geomData->position, &theMatrix, &thePoint);
+
+
+
+	// Update the transform
+	//
+	// The canonical frustum ranges from 0..-1 in z (near..far). Since a
+	// a rasterise camera transform produces z values from 0..1 (near..far)
+	// we need to invert z to place the marker at the correct depth.
+	theOffset.x =  thePoint.x + geomData->xOffset;
+	theOffset.y =  thePoint.y + geomData->xOffset;
+	theOffset.z = -thePoint.z;
+
+	Q3TranslateTransform_Set(theTransform, &theOffset);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_pixmapmarker_new : PixmapMarker new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -431,6 +483,206 @@ e3geom_pixmapmarker_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePic
 
 
 //=============================================================================
+//      e3geom_pixmapmarker_cache_new : Pixmap marker cache new method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3geom_pixmapmarker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3PixmapMarkerData *geomData)
+{	const TQ3Vector3D			theOrigin = { 0.0f, 0.0f, 0.0f };
+	TQ3TransformObject			transformRasterise, transformTranslate;
+	TQ3StyleObject				styleFill, styleOrientation;
+	TQ3TriMeshAttributeData		vertexAttributes[2];
+	TQ3Vector3D					vertexNormals[4];
+	TQ3TriMeshTriangleData		theTriangles[2];
+	TQ3Param2D					vertexUVs[4];
+	TQ3Point3D					thePoints[4];
+	TQ3TriMeshData				triMeshData;
+	TQ3TextureObject			theTexture;
+	TQ3GeometryObject			theTriMesh;
+	TQ3ShaderObject				theShader;
+	TQ3GroupObject				theGroup;
+	TQ3Uns32					n;
+	
+
+
+	// Create the group	
+	theGroup = Q3OrderedDisplayGroup_New();
+	if (theGroup == NULL)
+		return(NULL);
+
+
+
+	// Create the rendering state
+	//
+	// Markers are unaffected by illumination, fill, or orientation.
+	theShader        = Q3NULLIllumination_New();
+	styleFill        = Q3FillStyle_New(kQ3FillStyleFilled);
+	styleOrientation = Q3OrientationStyle_New(kQ3OrientationStyleCounterClockwise);
+	
+	Q3Group_AddObjectAndDispose(theGroup, &theShader);
+	Q3Group_AddObjectAndDispose(theGroup, &styleFill);
+	Q3Group_AddObjectAndDispose(theGroup, &styleOrientation);
+
+
+
+	// Create the transforms
+	//
+	// We insert a rasterise transform to ensure we draw in pixel coordinates, and
+	// a translate transform to allow us to position the marker within the window.
+	transformRasterise = Q3RasterizeCameraTransform_New();
+	transformTranslate = Q3TranslateTransform_New(&theOrigin);
+
+	Q3Group_AddObjectAndDispose(theGroup, &transformRasterise);
+	Q3Group_AddObjectAndDispose(theGroup, &transformTranslate);
+
+
+
+	// Initialise the points, edges, and triangles
+	//
+	// The marker is drawn from within a rasterise transform, so x and y are in pixels.
+	Q3Point3D_Set(&thePoints[0],                   0.0f,                    0.0f, 0.0f);
+	Q3Point3D_Set(&thePoints[1], geomData->pixmap.width,                    0.0f, 0.0f);
+	Q3Point3D_Set(&thePoints[2], geomData->pixmap.width, geomData->pixmap.height, 0.0f);
+	Q3Point3D_Set(&thePoints[3],                   0.0f, geomData->pixmap.height, 0.0f);
+
+	theTriangles[0].pointIndices[0] = 0;
+	theTriangles[0].pointIndices[1] = 2;
+	theTriangles[0].pointIndices[2] = 1;
+
+	theTriangles[1].pointIndices[0] = 0;
+	theTriangles[1].pointIndices[1] = 3;
+	theTriangles[1].pointIndices[2] = 2;
+
+
+
+	// Initialise the vertex attributes
+	Q3Param2D_Set(&vertexUVs[0], 0.0f, 1.0f);
+	Q3Param2D_Set(&vertexUVs[1], 1.0f, 1.0f);
+	Q3Param2D_Set(&vertexUVs[2], 1.0f, 0.0f);
+	Q3Param2D_Set(&vertexUVs[3], 0.0f, 0.0f);
+	
+	for (n = 0; n < 4; n++)
+		Q3Vector3D_Set(&vertexNormals[n], 0.0f, 0.0f, -1.0f);
+		
+	vertexAttributes[0].attributeType     = kQ3AttributeTypeSurfaceUV;
+	vertexAttributes[0].data              = vertexUVs;
+	vertexAttributes[0].attributeUseArray = NULL;
+	
+	vertexAttributes[1].attributeType     = kQ3AttributeTypeNormal;
+	vertexAttributes[1].data              = vertexNormals;
+	vertexAttributes[1].attributeUseArray = NULL;
+
+
+
+	// Initialise the TriMesh data
+	triMeshData.numPoints                 = 4;
+	triMeshData.points                    = thePoints;
+	triMeshData.numTriangles              = 2;
+	triMeshData.triangles                 = theTriangles;
+	triMeshData.numTriangleAttributeTypes = 0;
+	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.numEdges                  = 0;
+	triMeshData.edges                     = NULL;
+	triMeshData.numEdgeAttributeTypes     = 0;
+	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.numVertexAttributeTypes   = 2;
+	triMeshData.vertexAttributeTypes      = vertexAttributes;
+	triMeshData.triMeshAttributeSet       = geomData->pixmapMarkerAttributeSet;
+
+	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox, triMeshData.points, triMeshData.numPoints, sizeof(TQ3Point3D));
+
+
+
+	// Create the TriMesh
+	theTriMesh = Q3TriMesh_New(&triMeshData);
+	if (theTriMesh != NULL)
+		Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
+
+
+
+	// Create the texture
+	theTexture = Q3PixmapTexture_New(&geomData->pixmap);
+	if (theTexture != NULL)
+		{
+		theShader = Q3TextureShader_New(theTexture);
+		if (theShader != NULL)
+			{
+			Q3Shader_SetUBoundary(theShader, kQ3ShaderUVBoundaryClamp);
+			Q3Shader_SetVBoundary(theShader, kQ3ShaderUVBoundaryClamp);
+			Q3Group_AddObjectAndDispose(theGroup, &theShader);
+			}
+
+		Q3Object_Dispose(theTexture);
+		}
+
+
+
+	// Update the position
+	e3geom_pixmapmarker_update_position(theView, geomData, theGroup);
+
+	return(theGroup);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_pixmapmarker_cache_isvalid : Pixmap marker cache test method.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+e3geom_pixmapmarker_cache_isvalid(TQ3ViewObject		theView,
+									TQ3ObjectType	objectType, TQ3GeometryObject theGeom,
+									const void		*geomData,  TQ3Object         *cachedGeom)
+{
+#pragma unused(theView)
+#pragma unused(objectType)
+#pragma unused(theGeom)
+#pragma unused(geomData)
+#pragma unused(cachedGeom)
+
+
+
+	// Our cached form always requires an update
+	return(kQ3False);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_pixmapmarker_cache_update : Pixmap marker cache update method.
+//-----------------------------------------------------------------------------
+static void
+e3geom_pixmapmarker_cache_update(TQ3ViewObject		theView,
+									TQ3ObjectType	objectType, TQ3GeometryObject theGeom,
+									const void		*geomData,  TQ3Object         *cachedGeom)
+{
+#pragma unused(objectType)
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE(Q3_VALID_PTR(cachedGeom));
+
+
+
+	// Create a new object if required
+	if (*cachedGeom == NULL)
+		*cachedGeom = e3geom_pixmapmarker_cache_new(theView, theGeom, geomData);
+
+
+
+	// Or update the position of an existing object
+	else
+		e3geom_pixmapmarker_update_position(theView, geomData, *cachedGeom);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_pixmapmarker_pick : Pixmap marker picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -527,6 +779,18 @@ e3geom_pixmapmarker_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectDuplicate:
 			theMethod = (TQ3XFunctionPointer) e3geom_pixmapmarker_duplicate;
+			break;
+
+		case kQ3XMethodTypeGeomCacheNew:
+			theMethod = (TQ3XFunctionPointer) e3geom_pixmapmarker_cache_new;
+			break;
+
+		case kQ3XMethodTypeGeomCacheIsValid:
+			theMethod = (TQ3XFunctionPointer) e3geom_pixmapmarker_cache_isvalid;
+			break;
+
+		case kQ3XMethodTypeGeomCacheUpdate:
+			theMethod = (TQ3XFunctionPointer) e3geom_pixmapmarker_cache_update;
 			break;
 
 		case kQ3XMethodTypeObjectSubmitPick:

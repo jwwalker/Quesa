@@ -103,13 +103,6 @@ wf_wireframe_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) WFGeometry_Point;
 			break;
 
-		case kQ3GeometryTypeMarker:
-			theMethod = (TQ3XFunctionPointer) WFGeometry_Marker;
-			break;
-
-		case kQ3GeometryTypePixmapMarker:
-			theMethod = (TQ3XFunctionPointer) WFGeometry_PixmapMarker;
-			break;
 
 		// Optional
 		case kQ3GeometryTypePolyLine:
@@ -118,6 +111,16 @@ wf_wireframe_geom(TQ3XMethodType methodType)
 
 		case kQ3GeometryTypeTriMesh:
 			theMethod = (TQ3XFunctionPointer) WFGeometry_TriMesh;
+			break;
+
+
+		// No-ops
+		case kQ3GeometryTypeMarker:
+			theMethod = (TQ3XFunctionPointer) WFGeometry_Marker;
+			break;
+
+		case kQ3GeometryTypePixmapMarker:
+			theMethod = (TQ3XFunctionPointer) WFGeometry_PixmapMarker;
 			break;
 		}
 	

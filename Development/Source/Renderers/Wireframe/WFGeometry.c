@@ -201,7 +201,7 @@ WFGeometry_Marker(TQ3ViewObject			theView,
 
 
 
-	// Render the geometry
+	// Never drawn by wireframe renderer
 	return(kQ3Success);
 }
 
@@ -223,7 +223,7 @@ WFGeometry_PixmapMarker(TQ3ViewObject			theView,
 
 
 
-	// Render the geometry
+	// Never drawn by wireframe renderer
 	return(kQ3Success);
 }
 

@@ -154,13 +154,6 @@ ir_interactive_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) IRGeometry_Submit_Point;
 			break;
 
-		case kQ3GeometryTypeMarker:
-			theMethod = (TQ3XFunctionPointer) IRGeometry_Submit_Marker;
-			break;
-
-		case kQ3GeometryTypePixmapMarker:
-			theMethod = (TQ3XFunctionPointer) IRGeometry_Submit_PixmapMarker;
-			break;
 
 		// Optional
 		case kQ3GeometryTypePolyLine:
