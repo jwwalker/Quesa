@@ -69,6 +69,7 @@ TQ3Status		E3Read_3DMF_Attribute_SpecularControl(TQ3Object parentObject, TQ3File
 TQ3Status		E3Read_3DMF_Attribute_TransparencyColor(TQ3Object parentObject, TQ3FileObject theFile);
 TQ3Status		E3Read_3DMF_Attribute_SurfaceTangent(TQ3Object parentObject, TQ3FileObject theFile);
 TQ3Status		E3Read_3DMF_Attribute_HighlightState(TQ3Object parentObject, TQ3FileObject theFile);
+TQ3Status		E3Read_3DMF_Attribute_CSGID(TQ3Object parentObject, TQ3FileObject theFile);
 
 TQ3Object		E3Read_3DMF_Group_Display_IOProxy(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Group_Display(TQ3FileObject theFile);

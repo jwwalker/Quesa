@@ -572,6 +572,27 @@ E3Read_3DMF_Attribute_HighlightState(TQ3Object parentObject, TQ3FileObject theFi
 
 
 
+//=============================================================================
+//      E3Read_3DMF_Attribute_CSGID : CSGID state read method.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Read_3DMF_Attribute_CSGID(TQ3Object parentObject, TQ3FileObject theFile)
+{	TQ3Status		qd3dStatus;
+	TQ3Uns32		theValue;
+
+
+
+	// Read the attribute
+	qd3dStatus = Q3Uns32_Read (&theValue, theFile);
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3Set_Add(parentObject, kQ3AttributeTypeConstructiveSolidGeometryID, &theValue);
+
+	return(qd3dStatus);
+}
+
+
+
 
 //=============================================================================
 //      E3Read_3DMF_Group_Display_IOProxy : io proxy read object method.
