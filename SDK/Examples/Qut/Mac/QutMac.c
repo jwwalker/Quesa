@@ -37,6 +37,10 @@
 #include "QutInternal.h"
 #include "QutMac.h"
 
+
+
+
+
 //=============================================================================
 //      Carbon pre-amble
 //-----------------------------------------------------------------------------
@@ -54,6 +58,9 @@
 #if QUT_MAC_CARBON_EVENTS
 	#include <IBCarbonRuntime.h>
 #endif
+
+
+
 
 
 //=============================================================================
@@ -85,6 +92,9 @@ enum {
 	kQutCommandUseRenderer								= FOUR_CHAR_CODE('UsRn'),
 	kQutCommandAboutBox									= FOUR_CHAR_CODE('Abot'),
 	kQutCommandClose									= FOUR_CHAR_CODE('clos'),
+	kQutCommandShaderNull								= FOUR_CHAR_CODE('shnu'),
+	kQutCommandShaderLambert							= FOUR_CHAR_CODE('shla'),
+	kQutCommandShaderPhong								= FOUR_CHAR_CODE('shph'),
 	kQutCommandStyleFillFilled							= FOUR_CHAR_CODE('sc01'),
 	kQutCommandStyleFillEdges							= FOUR_CHAR_CODE('sc02'),
 	kQutCommandStyleFillPoints							= FOUR_CHAR_CODE('sc03'),
@@ -130,13 +140,20 @@ EventLoopTimerRef			gUpdateTimer = NULL;
 #endif
 
 
+
+
+
+//=============================================================================
+//		Internal prototypes
+//-----------------------------------------------------------------------------
+static pascal void qut_carbon_timer_fired(EventLoopTimerRef updateTimer,void* inUserData);
+
+
+
+
+
 //=============================================================================
 //		Internal functions.
-//-----------------------------------------------------------------------------
-
-static pascal void
-		qut_carbon_timer_fired(EventLoopTimerRef updateTimer,void* inUserData);
-
 //-----------------------------------------------------------------------------
 //		qut_toggle_fps: Turn frames per second display on or off.
 //-----------------------------------------------------------------------------
@@ -177,7 +194,11 @@ static void	qut_toggle_fps()
 #endif
 }
 
-//-----------------------------------------------------------------------------
+
+
+
+
+//=============================================================================
 //		qut_update_fps_display : Draw the frames per second in the
 //								title bar of the window.
 //
@@ -199,7 +220,11 @@ static void qut_update_fps_display()
 	}
 }
 
-//-----------------------------------------------------------------------------
+
+
+
+
+//=============================================================================
 //		qut_carbon_get_nib : Get our nib reference.
 //-----------------------------------------------------------------------------
 #if QUT_MAC_CARBON_EVENTS
@@ -218,6 +243,7 @@ qut_carbon_get_nib(void)
   }
   return nibRef;
 }
+
 
 
 
@@ -358,6 +384,15 @@ qut_carbon_command_event(EventHandlerCallRef inHandlerCallRef,
 			QuitApplicationEventLoop();
 			break;
 
+		case kQutCommandShaderNull:
+			Qut_InvokeStyleCommand(kStyleCmdShaderNull);
+			break;
+		case kQutCommandShaderLambert:
+			Qut_InvokeStyleCommand(kStyleCmdShaderLambert);
+			break;
+		case kQutCommandShaderPhong:
+			Qut_InvokeStyleCommand(kStyleCmdShaderPhong);
+			break;
 		case kQutCommandStyleFillFilled:
 			Qut_InvokeStyleCommand(kStyleCmdFillFilled);
 			break;
@@ -528,6 +563,9 @@ qut_carbon_install_handlers(void)
 #endif // QUT_MAC_CARBON_EVENTS
 
 
+
+
+
 //=============================================================================
 //		qut_quit_handler : Handle the quit AppleEvent.
 //-----------------------------------------------------------------------------
@@ -542,6 +580,8 @@ qut_quit_handler( const AppleEvent *theAppleEvent, AppleEvent *reply, long handl
 #endif
 	return noErr;
 }
+
+
 
 
 
@@ -765,6 +805,7 @@ qut_build_renderer_menu(void)
 
 	// Clean up
 	Q3ObjectHierarchy_EmptySubClassData(&rendererData);
+	DrawMenuBar();
 }
 
 
@@ -772,12 +813,12 @@ qut_build_renderer_menu(void)
 
 
 //=============================================================================
-//      qut_initialize : Initialise ourselves.
+//      qut_initialise_platform : Initialise ourselves.
 //-----------------------------------------------------------------------------
 static void
-qut_initialize(void)
-{	TQ3Status		qd3dStatus;
-
+qut_initialise_platform(void)
+{
+	TQ3Status		qd3dStatus;
 #if QUT_MAC_CARBON_EVENTS
     OSStatus		theErr;
 #else
@@ -791,10 +832,7 @@ qut_initialize(void)
 
 
 	// Initialise our globals
-	gWindow        = NULL;
-	gView          = NULL;
-	gShouldQuit    = kQ3False;
-	gFuncAppRender = NULL;
+	gShouldQuit = kQ3False;
 
 
 
@@ -845,16 +883,18 @@ qut_initialize(void)
 #endif
 
 
+
 	// Install a handler for the quit AppleEvent.  The host application
 	// is free to override this by installing its own handler in the
 	// App_Initialise function.
-	AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, 
-		NewAEEventHandlerUPP(qut_quit_handler), 0, false );
+	AEInstallEventHandler(kCoreEventClass, kAEQuitApplication, 
+						  NewAEEventHandlerUPP(qut_quit_handler),
+						  0, false);
 
 
-	// Build the renderer menu and redraw the menu bar
+
+	// Build the renderer menu
 	qut_build_renderer_menu();
-	DrawMenuBar();
 }
 
 
@@ -862,18 +902,15 @@ qut_initialize(void)
 
 
 //=============================================================================
-//      qut_terminate : Terminate ourselves.
+//      qut_terminate_platform : Terminate ourselves.
 //-----------------------------------------------------------------------------
 static void
-qut_terminate(void)
+qut_terminate_platform(void)
 {	TQ3Status		qd3dStatus;
 
 
 
 	// Clean up
-	if (gView != NULL)
-		Q3Object_Dispose(gView);
-
 	if (gWindow != NULL)
 		DisposeWindow(gWindow);
 
@@ -1619,7 +1656,8 @@ int main(void)
 
 
 	// Initialise ourselves
-	qut_initialize();
+	qut_initialise_platform();
+	Qut_Initialise();
 	App_Initialise();
 
 
@@ -1631,7 +1669,8 @@ int main(void)
 
 	// Clean up
 	App_Terminate();
-	qut_terminate();
+	Qut_Terminate();
+	qut_terminate_platform();
 
 	return(0);
 }

@@ -35,6 +35,9 @@
 #define IDM_STYLE_SUBDIVISION_SCREENSPACE1      132
 #define IDM_STYLE_SUBDIVISION_SCREENSPACE2      133
 #define IDM_STYLE_SUBDIVISION_SCREENSPACE3      134
+#define IDM_STYLE_SHADER_NULL                   135
+#define IDM_STYLE_SHADER_LAMBERT                136
+#define IDM_STYLE_SHADER_PHONG                  137
 #define ID_RENDERER_DUMMY                       32772
 #define ID_SPECIAL_DUMMY                        32773
 #define IDC_STATIC                              -1
@@ -43,7 +46,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        135
+#define _APS_NEXT_RESOURCE_VALUE        138
 #define _APS_NEXT_COMMAND_VALUE         32774
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           108
