@@ -261,6 +261,7 @@ TQ3Status				E3DrawContext_SetMaskState(TQ3DrawContextObject drawContext, TQ3Boo
 TQ3Status				E3DrawContext_GetMaskState(TQ3DrawContextObject drawContext, TQ3Boolean *state);
 TQ3Status				E3DrawContext_SetDoubleBufferState(TQ3DrawContextObject drawContext, TQ3Boolean state);
 TQ3Status				E3DrawContext_GetDoubleBufferState(TQ3DrawContextObject drawContext, TQ3Boolean *state);
+TQ3Boolean				E3DrawContext_IsOfMyClass ( TQ3Object object ) ;
 
 TQ3DrawContextObject	E3PixmapDrawContext_New(const TQ3PixmapDrawContextData *drawContextData);
 TQ3Status				E3PixmapDrawContext_SetPixmap(TQ3DrawContextObject drawContext, const TQ3Pixmap *pixmap);
