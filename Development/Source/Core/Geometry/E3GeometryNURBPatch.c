@@ -54,6 +54,15 @@
 
 
 //=============================================================================
+//      Internal constants
+//-----------------------------------------------------------------------------
+#define		kFiniteSubdivision		32
+
+
+
+
+
+//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3geom_patch_copydata : Copy TQ3NURBPatchData from one to another.
@@ -428,6 +437,18 @@ e3geom_nurbpatch_evaluate_uv( float u, float v, const TQ3NURBPatchData * patchDa
 	dV.z = ((bottom * zTopDv) - (zTop * bottomDv))*OneOverBottom ;
 	
 	Q3Vector3D_Cross(&dU, &dV, outNormal);
+	
+	// Normalize the normal vector
+	if (Q3FastVector3D_LengthSquared(outNormal) < kQ3RealZero)
+	{
+		outNormal->x = 1.0f;	// arbitrary unit vector
+		outNormal->y = 0.0f;
+		outNormal->z = 0.0f;
+	}
+	else
+	{
+		Q3FastVector3D_Normalize( outNormal, outNormal );
+	}
 }
 
 
@@ -763,7 +784,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 //-----------------------------------------------------------------------------
 //		Note :	Calls through to e3geom_nurbcurve_constant_subdiv.
 //				If the points array is non-NULL on return, be sure to free it
-//				with Q3Memory_Free(). If it is NULL, then an error has occured.
+//				with Q3Memory_Free(). If it is NULL, then an error has occurred.
 //-----------------------------------------------------------------------------
 // I need the function declaration for constant subdivision since I call through to it
 static void
@@ -900,6 +921,13 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 	Q3Memory_Free( &interestingV ) ;
 	
 	subdiv = (float)pow( 2.0, maxdepth -1 ) ;
+	
+	
+	// I am not sure what causes subdiv to become infinite or what the value should really be,
+	// but I am sure that we do not want infinity here.
+	if (!isfinite( subdiv ))
+		subdiv = kFiniteSubdivision;
+	
 	
 	e3geom_nurbpatch_constant_subdiv( thePoints, numPoints, theUVs, theNormals,
 									  theTriangles, numTriangles,
