@@ -342,6 +342,7 @@ ir_texture_convert_mipmap(TQ3TextureObject theTexture)
 static TQ3Status
 ir_texture_convert_compressed_pixmap(TQ3TextureObject theTexture)
 {
+#pragma unused( theTexture )
 #if QUESA_SUPPORT_QUICKTIME
 
 
@@ -519,27 +520,27 @@ ir_texture_load(TQ3CachedTexture *cachedTexture)
 
 
 	// Create an OpenGL texture object for the texture
-	Q3_ASSERT( cachedTexture->cachedTextureObject != NULL );
-	Q3_ASSERT(!glIsTexture((GLuint) cachedTexture->cachedTextureObject));
+	Q3_ASSERT( cachedTexture->cachedTextureObject.isvalid() );
+	Q3_ASSERT(!glIsTexture((GLuint) cachedTexture ));
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, (GLuint) cachedTexture->cachedTextureObject);
-	Q3_ASSERT(glIsTexture( (GLuint) cachedTexture->cachedTextureObject));
+	glBindTexture(GL_TEXTURE_2D, (GLuint) cachedTexture );
+	Q3_ASSERT(glIsTexture( (GLuint) cachedTexture ));
 
 
 
 	// Set up the texture data
-	theType = Q3Texture_GetType(cachedTexture->cachedTextureObject);
+	theType = Q3Texture_GetType(cachedTexture->cachedTextureObject.get());
 	switch (theType) {
 		case kQ3TextureTypePixmap:
-			qd3dStatus = ir_texture_convert_pixmap(cachedTexture->cachedTextureObject);
+			qd3dStatus = ir_texture_convert_pixmap(cachedTexture->cachedTextureObject.get());
 			break;
 	
 		case kQ3TextureTypeMipmap:
-			qd3dStatus = ir_texture_convert_mipmap(cachedTexture->cachedTextureObject);
+			qd3dStatus = ir_texture_convert_mipmap(cachedTexture->cachedTextureObject.get());
 			break;
 
 		case kQ3TextureTypeCompressedPixmap:
-			qd3dStatus = ir_texture_convert_compressed_pixmap(cachedTexture->cachedTextureObject);
+			qd3dStatus = ir_texture_convert_compressed_pixmap(cachedTexture->cachedTextureObject.get());
 			break;
 
 		default:
@@ -551,7 +552,7 @@ ir_texture_load(TQ3CachedTexture *cachedTexture)
 
 	// Handle failure and return
 	if (qd3dStatus != kQ3Success)
-		glDeleteTextures(1, (GLuint *) &cachedTexture->cachedTextureObject);
+		glDeleteTextures(1, (GLuint *) &cachedTexture );
 
 	return(qd3dStatus);
 }
@@ -571,25 +572,10 @@ ir_texture_cache_add(TQ3ViewObject			theView,
 {	TQ3CachedTexture	cachedTexture;
 	TQ3Status			qd3dStatus;
 	TQ3TextureCachePtr	textureCache;
-#if Q3_DEBUG
-	TQ3Uns32			n;
-	TQ3CachedTexture*	cachedTexturePtr;
-#endif
 
 
 
-	// Make sure the texture has not been cached before
 	textureCache = instanceData->textureCache;
-#if Q3_DEBUG
-	for (n = 0; ; n++)
-		{
-		cachedTexturePtr = GLTextureMgr_GetCachedTextureByIndex( textureCache, n );
-		if (cachedTexturePtr == NULL)
-			break;
-		Q3_ASSERT( cachedTexturePtr->cachedTextureObject != NULL );
-		Q3_ASSERT(cachedTexturePtr->cachedTextureObject != theTexture);
-		}
-#endif
 
 
 	// Fill out the cached texture, grabbing a new reference to the texture
@@ -601,7 +587,8 @@ ir_texture_cache_add(TQ3ViewObject			theView,
 	// disposed of, then we could improve this - at present we need to check the
 	// whole cache for things to flush after each frame, but it would be better
 	// if we could only flush what we need when we need to.
-	cachedTexture.cachedTextureObject = Q3Shared_GetReference(theTexture);
+	cachedTexture.cachedTextureObject = CQ3ObjectRef(Q3Shared_GetReference(theTexture));
+	cachedTexture.cachedTextureShader = CQ3ObjectRef(Q3Shared_GetReference(theShader));
 	cachedTexture.qualityFilter   	= ir_texture_convert_rave_filter(theView);
 	cachedTexture.editIndexShader  	= Q3Shared_GetEditIndex(theShader);
 	cachedTexture.editIndexTexture 	= Q3Shared_GetEditIndex(theTexture);
@@ -614,25 +601,25 @@ ir_texture_cache_add(TQ3ViewObject			theView,
 	
 
 
-	// Load it into OpenGL
-	qd3dStatus = ir_texture_load(&cachedTexture);
+	// Add the cached texture to the cache
+	qd3dStatus = GLTextureMgr_AddCachedTexture( textureCache, &cachedTexture );
 	if (qd3dStatus != kQ3Success)
 		{
-		Q3Object_Dispose(cachedTexture.cachedTextureObject);
 		return(qd3dStatus);
 		}
 
 
-
-	// Add the cached texture to the cache
-	qd3dStatus = GLTextureMgr_AddCachedTexture( textureCache, &cachedTexture );
-
-	if (qd3dStatus == kQ3Failure)
-	// If we couldn't cache the texture, make sure we ditch our references
+	// Load it into OpenGL
+	TQ3CachedTexture*	cachedTexturePtr = GLTextureMgr_FindCachedTexture( textureCache,
+		theShader, theTexture );
+	Q3_ASSERT( cachedTexturePtr != NULL );
+	qd3dStatus = ir_texture_load(cachedTexturePtr);
+	if (qd3dStatus != kQ3Success)
 		{
-		glDeleteTextures(1, (GLuint *) &theTexture);
-		Q3Object_Dispose(cachedTexture.cachedTextureObject);
+		return(qd3dStatus);
 		}
+
+
 
 	return(qd3dStatus);
 }
@@ -646,34 +633,30 @@ ir_texture_cache_add(TQ3ViewObject			theView,
 //-----------------------------------------------------------------------------
 static void
 ir_texture_cache_remove(TQ3InteractiveData	*instanceData,
+								TQ3ShaderObject	theShader,
 								TQ3TextureObject	theTexture)
 {
 	TQ3CachedTexture*	cachedTextureRec;
 	TQ3TextureCachePtr	textureCache;
-	TQ3Int32		indexInCache;
 	
 	
 	// Access the texture array
 	textureCache = instanceData->textureCache;
-	indexInCache = GLTextureMgr_FindCachedTextureIndex( textureCache, theTexture );
+	
+	cachedTextureRec = GLTextureMgr_FindCachedTexture( textureCache, theShader, theTexture );
 	
 
 
-	if (indexInCache >= 0)
+	if (cachedTextureRec != NULL)
 		{
-		cachedTextureRec = GLTextureMgr_GetCachedTextureByIndex( textureCache, indexInCache );
-		
-		
-		
 		// Release the texture
-		Q3_ASSERT( cachedTextureRec->cachedTextureObject != NULL );
-		Q3_ASSERT(glIsTexture((GLuint) cachedTextureRec->cachedTextureObject));
-		glDeleteTextures(1, (GLuint *) &cachedTextureRec->cachedTextureObject);
-		Q3_ASSERT(!glIsTexture((GLuint) cachedTextureRec->cachedTextureObject));
-		Q3Object_CleanDispose(&cachedTextureRec->cachedTextureObject);
+		Q3_ASSERT( cachedTextureRec->cachedTextureObject.isvalid() );
+		Q3_ASSERT(glIsTexture((GLuint) cachedTextureRec ));
+		glDeleteTextures(1, (GLuint *) &cachedTextureRec );
+		Q3_ASSERT(!glIsTexture((GLuint) cachedTextureRec ));
 
 
-		GLTextureMgr_RemoveCachedTexture( textureCache, indexInCache );
+		GLTextureMgr_RemoveCachedTexture( textureCache, cachedTextureRec );
 		}
 }
 
@@ -696,7 +679,7 @@ ir_texture_cache_is_stale(TQ3InteractiveData	*instanceData,
 
 	// Access the texture array
 	textureCache = instanceData->textureCache;
-	cachedTexture = GLTextureMgr_FindCachedTexture( textureCache, theTexture );
+	cachedTexture = GLTextureMgr_FindCachedTexture( textureCache, theShader, theTexture );
 
 
 	if (cachedTexture != NULL)
@@ -749,14 +732,16 @@ ir_texture_flush_cache(TQ3InteractiveData *instanceData )
 				break;	// no more textures in cache
 			
 			// Validate the texture
-			Q3_ASSERT( cachedTexture->cachedTextureObject != NULL );
-			Q3_ASSERT(glIsTexture((GLuint) cachedTexture->cachedTextureObject));
+			Q3_ASSERT( cachedTexture->cachedTextureObject.isvalid() );
+			Q3_ASSERT(glIsTexture((GLuint) cachedTexture ));
 
 
 			// If we hold the last reference to this texture, release it
-			if (cachedTexture->cachedTextureObject != NULL &&
-				!Q3Shared_IsReferenced(cachedTexture->cachedTextureObject))
-				ir_texture_cache_remove(instanceData, cachedTexture->cachedTextureObject);
+			if (cachedTexture->cachedTextureObject.isvalid() &&
+				!Q3Shared_IsReferenced(cachedTexture->cachedTextureObject.get()))
+				ir_texture_cache_remove(instanceData,
+					cachedTexture->cachedTextureShader.get(),
+					cachedTexture->cachedTextureObject.get());
 
 			// Otherwise move onto the next texture
 			else
@@ -838,7 +823,7 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 		// Disable the texture
 		glDisable(GL_ALPHA_TEST);
 		glDisable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, instanceData->stateTextureObject);
+		glBindTexture(GL_TEXTURE_2D, 0);
 		}
 
 
@@ -848,13 +833,19 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 		{
 		// If the texture is out of date, remove it from the cache
 		if (ir_texture_cache_is_stale(instanceData, theShader, theTexture))
-			ir_texture_cache_remove(instanceData, theTexture);
+			ir_texture_cache_remove(instanceData, theShader, theTexture);
 
 
 		// If we don't have a texture object for this texture, create one
 		qd3dStatus = kQ3Success;
-		if (!glIsTexture((GLuint) theTexture))
+		cachedTexture = GLTextureMgr_FindCachedTexture( instanceData->textureCache,
+				theShader, theTexture );
+		if (cachedTexture == NULL)
+			{
 			qd3dStatus = ir_texture_cache_add(theView, instanceData, theShader, theTexture);
+			cachedTexture = GLTextureMgr_FindCachedTexture( instanceData->textureCache,
+				theShader, theTexture );
+			}
 
 
 		// Enable the texture object
@@ -869,7 +860,7 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 			// If the texture has a single bit of alpha, we enable the alpha test. No sorting
 			// is needed, as the alpha is a simple on/off test.
 			pixelType = ir_texture_pixel_type(theTexture);
-			instanceData->stateTextureObject        = (GLuint) theTexture;
+			instanceData->stateTextureObject        = (GLuint) cachedTexture;
 			instanceData->stateTextureIsTransparent = (TQ3Boolean)(pixelType == kQ3PixelTypeARGB32);
 
 			if (pixelType == kQ3PixelTypeARGB16)
@@ -885,8 +876,6 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 
 
 			// Find the texture in the cache, and set related OpenGL state.
-			cachedTexture = GLTextureMgr_FindCachedTexture( instanceData->textureCache,
-				theTexture );
 			if (cachedTexture != NULL)
 				{
 				ir_texture_set_state(instanceData, cachedTexture);
