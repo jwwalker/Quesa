@@ -173,6 +173,54 @@ E3XDrawContext_New(const TQ3XDrawContextData *drawContextData)
 
 
 //=============================================================================
+//      E3XDrawContext_NewWithWindow : Create a new X11 Draw Context object.
+//-----------------------------------------------------------------------------
+TQ3DrawContextObject
+E3XDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget)
+{	TQ3XDrawContextData		x11DrawContextData;
+	TQ3DrawContextData		drawContextData;
+	TQ3DrawContextObject	drawContext;
+
+
+
+	// Check we have a suitable target for the draw context
+	if (drawContextType != kQ3DrawContextTypeX11)
+		return(NULL);
+
+
+
+	// Prepare the draw context
+	Q3ColorARGB_Set(&drawContextData.clearImageColor, kQ3DrawContextDefaultBackgroundColour);
+
+	drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
+	drawContextData.paneState         = kQ3False;
+	drawContextData.maskState		  = kQ3False;
+	drawContextData.doubleBufferState = kQ3True;
+	drawContextData.pane.min.x        = 0.0f;
+	drawContextData.pane.min.y        = 0.0f;
+	drawContextData.pane.max.x        = 0.0f;
+	drawContextData.pane.max.y        = 0.0f;
+
+	x11DrawContextData.drawContextData = drawContextData;
+	x11DrawContextData.display         = NULL;
+	x11DrawContextData.drawable        = NULL;
+	x11DrawContextData.visual          = (Visual *) drawContextTarget;
+	x11DrawContextData.cmap            = NULL;
+	x11DrawContextData.colorMapData    = NULL;
+	
+
+
+	// Create the draw context
+	drawContext = Q3XDrawContext_New(&x11DrawContextData);
+
+	return(drawContext);
+}
+
+
+
+
+
+//=============================================================================
 //      E3XDrawContext_SetDisplay : Set the display for an X11 draw context.
 //-----------------------------------------------------------------------------
 TQ3Status

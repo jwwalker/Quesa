@@ -323,6 +323,42 @@ E3DrawContext_UnregisterClass(void)
 
 
 //=============================================================================
+//      E3DrawContext_New : Create a new draw context object.
+//-----------------------------------------------------------------------------
+TQ3DrawContextObject
+E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget)
+{	TQ3DrawContextObject		drawContext;
+
+
+
+	// Create the draw context object
+#if QUESA_OS_MACINTOSH
+	drawContext = E3MacDrawContext_NewWithWindow(drawContextType, drawContextTarget);
+
+#elif QUESA_OS_UNIX
+	drawContext = E3XDrawContext_NewWithWindow(drawContextType, drawContextTarget);
+
+#elif QUESA_OS_WIN32
+	drawContext = E3Win32DCDrawContext_NewWithWindow(drawContextType, drawContextTarget);
+
+#elif QUESA_OS_BE
+	drawContext = E3BeDrawContext_NewWithWindow(drawContextType, drawContextTarget);
+
+#elif QUESA_OS_COCOA
+    drawContext = E3CocoaDrawContext_NewWithWindow(drawContextType, drawContextTarget);
+
+#else
+	drawContext = NULL;
+#endif
+
+	return(drawContext);
+}
+
+
+
+
+
+//=============================================================================
 //      E3DrawContext_Update : Return the type of a draw context.
 //-----------------------------------------------------------------------------
 TQ3Status

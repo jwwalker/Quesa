@@ -368,6 +368,50 @@ E3Win32DCDrawContext_New(const TQ3Win32DCDrawContextData *drawContextData)
 
 
 //=============================================================================
+//      E3Win32DCDrawContext_NewWithWindow : Create a new Win32 Draw Context.
+//-----------------------------------------------------------------------------
+TQ3DrawContextObject
+E3Win32DCDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget)
+{	TQ3Win32DCDrawContextData	winDrawContextData;
+	TQ3DrawContextData			drawContextData;
+	TQ3DrawContextObject		drawContext;
+
+
+
+	// Check we have a suitable target for the draw context
+	if (drawContextType != kQ3DrawContextTypeWin32DC)
+		return(NULL);
+
+
+
+	// Prepare the draw context
+	Q3ColorARGB_Set(&drawContextData.clearImageColor, kQ3DrawContextDefaultBackgroundColour);
+
+	drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
+	drawContextData.paneState         = kQ3False;
+	drawContextData.maskState		  = kQ3False;
+	drawContextData.doubleBufferState = kQ3True;
+	drawContextData.pane.min.x        = 0.0f;
+	drawContextData.pane.min.y        = 0.0f;
+	drawContextData.pane.max.x        = 0.0f;
+	drawContextData.pane.max.y        = 0.0f;
+
+	winDrawContextData.drawContextData = drawContextData;
+	winDrawContextData.hdc             = (HDC) drawContextTarget;
+	
+
+
+	// Create the draw context
+	drawContext = Q3Win32DCDrawContext_New(&winDrawContextData);
+
+	return(drawContext);
+}
+
+
+
+
+
+//=============================================================================
 //      E3Win32DCDrawContext_SetDC : Set the DC for a draw context.
 //-----------------------------------------------------------------------------
 TQ3Status
