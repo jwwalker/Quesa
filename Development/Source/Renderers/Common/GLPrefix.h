@@ -87,5 +87,15 @@
 #endif
 
 
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+
+// OpenGL extension availability flags
+typedef struct TQ3GLExtensions
+{
+	TQ3Boolean				separateSpecularColor;
+} TQ3GLExtensions;
+
 
 #endif
