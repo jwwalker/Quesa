@@ -49,27 +49,32 @@
 //      Macros
 //-----------------------------------------------------------------------------
 #define E3FFormat_3DMF_Text_Check_MoreObjects(_data)							\
-			do															\
-				{														\
+			do																	\
+				{																\
 				(_data)->MFData.baseData.noMoreObjects = (TQ3Boolean)			\
 					(((_data)->MFData.baseData.currentStoragePosition + 6) >= (_data)->MFData.baseData.logicalEOF); \
-				}														\
+				}																\
 			while (0)
 
-#define E3FFormat_3DMF_Text_Check_ContainerEnd(_data)						\
-			do															\
-				{														\
+#define E3FFormat_3DMF_Text_Check_ContainerEnd(_data)							\
+			do																	\
+				{																\
 				(_data)->MFData.inContainer = (TQ3Boolean)						\
-					((((_data)->nestingLevel) >= (_data)->containerLevel)); \
-				}														\
+					((((_data)->nestingLevel) >= (_data)->containerLevel));		\
+				}																\
 			while (0)
+
+
+
 
 
 //=============================================================================
 //      Globals
 //-----------------------------------------------------------------------------
-static char 	ContainerLabel[] = "Container";
+static char 	ContainerLabel[]  = "Container";
 static char 	BeginGroupLabel[] = "BeginGroup";
+
+
 
 
 
@@ -80,46 +85,51 @@ static char 	BeginGroupLabel[] = "BeginGroup";
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3fformat_3dmf_text_skipcomments(TQ3FileFormatObject format)
-{
-	char separators[] = {0x0D};
-	char buffer[256];
-	int found = kQ3False;
+{	TE3FFormat3DMF_Text_Data		*instanceData = (TE3FFormat3DMF_Text_Data *) format->instanceData;
+	char							buffer[256], separators[] = {0x0D};
+	TQ3Status						result   = kQ3Success;
+	TQ3Boolean						found    = kQ3True;
+	TQ3Uns32						sizeRead = 0;
+	TQ3XStorageReadDataMethod		dataRead;
 
-	TQ3Uns32 sizeRead = 0;
-	TQ3Status result = kQ3Failure;
-	TE3FFormat3DMF_Text_Data		*instanceData = (TE3FFormat3DMF_Text_Data *) format->instanceData;
-	TQ3XStorageReadDataMethod	dataRead;
 
-	dataRead = (TQ3XStorageReadDataMethod)
-					E3ClassTree_GetMethod(instanceData->MFData.baseData.storage->theClass, kQ3XMethodTypeStorageReadData);
 
-	if( dataRead != NULL){
-		do{
-			found = kQ3False;
-			result = dataRead(instanceData->MFData.baseData.storage,
-								instanceData->MFData.baseData.currentStoragePosition,
-								1, (TQ3Uns8*)buffer, &sizeRead);
-				
-			if((result == kQ3Success) && (buffer[0] == '#')){// skip till newline
-				found = kQ3True;
-				result = E3FileFormat_GenericReadText_ReadUntilChars (format, buffer, separators, 1, kQ3False, NULL, 256, &sizeRead);
+	// Get the read method
+	dataRead = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethod(instanceData->MFData.baseData.storage->theClass, kQ3XMethodTypeStorageReadData);
+	if (dataRead == NULL)
+		return(kQ3Failure);
+
+
+
+	// Skip comments
+	while (result == kQ3Success && found &&
+			instanceData->MFData.baseData.currentStoragePosition < instanceData->MFData.baseData.logicalEOF)
+		{
+		found  = kQ3False;
+		result = dataRead(instanceData->MFData.baseData.storage, instanceData->MFData.baseData.currentStoragePosition, 1, (TQ3Uns8*)buffer, &sizeRead);
+		if (result == kQ3Success)
+			{
+			// If find a comment, skip until newline
+			if (buffer[0] == '#')
+				{
+				found  = kQ3True;
+				result = E3FileFormat_GenericReadText_ReadUntilChars(format, buffer, separators, 1, kQ3False, NULL, 256, &sizeRead);
 				if(result == kQ3Success)
 					result = E3FileFormat_GenericReadText_SkipBlanks (format);
 				}
-			else if((result == kQ3Success) && (buffer[0] == ')')){
+			else if(buffer[0] == ')')
+				{
 				instanceData->nestingLevel--;
 				instanceData->MFData.baseData.currentStoragePosition++;
-				found = kQ3True;
-				result = E3FileFormat_GenericReadText_SkipBlanks (format);
-
+				found  = kQ3True;
+				result = E3FileFormat_GenericReadText_SkipBlanks(format);
 				}
 			}
-		while((result == kQ3Success) && (found == kQ3True));
-		
-		E3FFormat_3DMF_Text_Check_ContainerEnd(instanceData);
-		
 		}
-	return result;							 
+		
+	E3FFormat_3DMF_Text_Check_ContainerEnd(instanceData);
+
+	return(result);
 }
 
 
@@ -159,10 +169,20 @@ e3fformat_3dmf_text_readobjecttype(TQ3FileFormatObject format, char* theItem, TQ
 			if(lastSeparator == '(')
 				instanceData->nestingLevel++;
 			}
+
+		
+		// Skip trailing blanks and comments. Note that if we've read some real data
+		// as well, a failure at this point (e.g., due to eof) should not be returned
+		// back to our caller - we read _something_, so we return OK.
 		if(result == kQ3Success)
-			result = E3FileFormat_GenericReadText_SkipBlanks (format);
-		if(result == kQ3Success)
-			result = e3fformat_3dmf_text_skipcomments (format);
+			{
+			result = E3FileFormat_GenericReadText_SkipBlanks(format);
+			if(result == kQ3Success)
+				result = e3fformat_3dmf_text_skipcomments(format);
+
+			if (charsRead != 0)
+				result = kQ3Success;
+			}
 		}
 	if(charsRead == 0)
 		result = kQ3Failure;
