@@ -37,7 +37,7 @@
 #include "IRTriBuffer.h"
 #include "IRUpdate.h"
 
-
+#include "GLUtils.h"
 
 
 
@@ -137,39 +137,34 @@ IRTriBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 
 	// Draw the triangles
-	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(TQ3FVertex3D), &theVertices->thePoint);
 
 	if (E3Bit_IsSet(instanceData->triBufferFlags, kQ3FVertexHaveNormal))
 		{
-		glEnableClientState(GL_NORMAL_ARRAY);
+		GLUtils_UpdateClientState( kQ3True, &instanceData->glClientStateNormal, GL_NORMAL_ARRAY );
 		glNormalPointer(GL_FLOAT, sizeof(TQ3FVertex3D), &theVertices->theNormal);
 		}
+	else
+		GLUtils_UpdateClientState( kQ3False, &instanceData->glClientStateNormal, GL_NORMAL_ARRAY );
 
 	if (E3Bit_IsSet(instanceData->triBufferFlags, kQ3FVertexHaveUV))
 		{
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		GLUtils_UpdateClientState( kQ3True, &instanceData->glClientStateUV, GL_TEXTURE_COORD_ARRAY );
 		glTexCoordPointer(2, GL_FLOAT, sizeof(TQ3FVertex3D), &theVertices->theUV);
 		}
+	else
+		GLUtils_UpdateClientState( kQ3False, &instanceData->glClientStateUV, GL_TEXTURE_COORD_ARRAY );
 
 	if (E3Bit_IsSet(instanceData->triBufferFlags, kQ3FVertexHaveDiffuse))
 		{
-		glEnableClientState(GL_COLOR_ARRAY);
+		GLUtils_UpdateClientState( kQ3True, &instanceData->glClientStateColor, GL_COLOR_ARRAY );
 		glColorPointer(3, GL_FLOAT, sizeof(TQ3FVertex3D), &theVertices->colourDiffuse);
 		}
+	else
+		GLUtils_UpdateClientState( kQ3False, &instanceData->glClientStateColor, GL_COLOR_ARRAY );
+
 
 	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, theIndices);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	if (E3Bit_IsSet(instanceData->triBufferFlags, kQ3FVertexHaveNormal))
-		glDisableClientState(GL_NORMAL_ARRAY);
-
-	if (E3Bit_IsSet(instanceData->triBufferFlags, kQ3FVertexHaveUV))
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	if (E3Bit_IsSet(instanceData->triBufferFlags, kQ3FVertexHaveDiffuse))
-		glDisableClientState(GL_COLOR_ARRAY);
 
 
 
