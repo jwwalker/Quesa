@@ -876,54 +876,6 @@ IRRenderer_Texture_Rebuild(TQ3ViewObject theView, TQ3InteractiveData *instanceDa
 
 
 
-//=============================================================================
-//      IRRenderer_Texture_Preamble : Update the texture mapping state.
-//-----------------------------------------------------------------------------
-//		Note :	Called by geometries which can be textured mapped, to allow us
-//				to update the OpenGL texture state to produce the correct
-//				effect.
-//
-//				If the attribute set contains a texture map shader, we need to
-//				submit it by hand, to apply the texture map to this geometry in
-//				the same way that Apple's Interactive Renderer does.
-//
-//				We return true/false as the attribute set contained a texture.
-//-----------------------------------------------------------------------------
-TQ3Boolean
-IRRenderer_Texture_Preamble(TQ3ViewObject			theView,
-							TQ3InteractiveData		*instanceData,
-							TQ3AttributeSet			theAttributes)
-{	TQ3Boolean			hadAttributeTexture;
-	TQ3ShaderObject		*theShader;
-	TQ3XAttributeMask	theMask;
-
-
-
-	// Assume we don't have a texture
-	hadAttributeTexture = kQ3False;
-
-
-
-	// Check to see if the attribute set contains a texture
-	theMask = Q3XAttributeSet_GetMask(theAttributes);
-	if ((theMask & kQ3XAttributeMaskSurfaceShader) != 0)
-		{
-		// Get the texture
-		theShader = (TQ3ShaderObject *) Q3XAttributeSet_GetPointer(theAttributes, kQ3AttributeTypeSurfaceShader);
-		if (theShader != NULL && *theShader != NULL)
-			{
-			// Set our flag, apply it, and update the GL state
-			hadAttributeTexture = kQ3True;
-			IRRenderer_Update_Shader_Surface(theView, instanceData, theShader);
-			IRRenderer_State_AdjustGL(instanceData);
-			}
-		}
-	
-	return(hadAttributeTexture);
-}
-
-
-
 
 
 //=============================================================================
@@ -934,12 +886,12 @@ IRRenderer_Texture_Preamble(TQ3ViewObject			theView,
 //				effect.
 //
 //				We undo any temporary changes that were applied by the previous
-//				call to IRRenderer_Texture_Preamble, and re-enable textures
+//				call to IRGeometry_Attribute_Handler, and re-enable textures
 //				which were turned off by geometries which found themselves
 //				without UVs.
 //
 //				Note that the second step reverses a glDisable carried out by
-//				the geometry callbacks themselves - IRRenderer_Texture_Preamble
+//				the geometry callbacks themselves - IRGeometry_Attribute_Handler
 //				wasn't able to do it for them, since at the time at which it
 //				was called the geometries hadn't checked their UVs (they don't
 //				bother searching for UVs if there isn't a texture active).

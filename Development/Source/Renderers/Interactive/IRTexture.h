@@ -71,11 +71,6 @@ void				IRRenderer_Texture_Rebuild(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData);
 
-TQ3Boolean			IRRenderer_Texture_Preamble(
-								TQ3ViewObject			theView,
-								TQ3InteractiveData		*instanceData,
-								TQ3AttributeSet			theAttributes);
-
 void				IRRenderer_Texture_Postamble(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,

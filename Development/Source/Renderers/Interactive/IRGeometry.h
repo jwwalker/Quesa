@@ -48,7 +48,14 @@
 extern "C" {
 #endif
 
-
+enum{
+    kQ3XAttributeMaskGeometry               =kQ3XAttributeMaskAmbientCoefficient |
+                                             kQ3XAttributeMaskDiffuseColor       |
+                                             kQ3XAttributeMaskSpecularControl    |
+                                             kQ3XAttributeMaskTransparencyColor  |
+                                             kQ3XAttributeMaskHighlightState     |
+                                             kQ3XAttributeMaskSpecularColor
+};
 
 
 
@@ -58,10 +65,12 @@ extern "C" {
 void				IRGeometry_Terminate(
 								TQ3InteractiveData		*instanceData);
 
-TQ3AttributeSet		IRGeometry_Attribute_Combine(
-								TQ3ViewObject			theView,
-								TQ3AttributeSet			geomAttributes);
-
+TQ3Boolean			IRGeometry_Attribute_Handler(
+								TQ3ViewObject theView,
+								TQ3AttributeSet geomAttributes,
+							 	TQ3InteractiveData *instanceData,
+							 	TQ3XAttributeMask needAttributesMask);
+							 	
 TQ3ColorRGB			*IRGeometry_Attribute_GetDiffuse(
 								TQ3InteractiveData		*instanceData,
 								TQ3AttributeSet			theAttributes,

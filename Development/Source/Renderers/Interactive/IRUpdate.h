@@ -65,10 +65,6 @@ void				IRRenderer_State_EndPass(
 void				IRRenderer_State_AdjustGL(
 								TQ3InteractiveData		*instanceData);
 
-TQ3Status			IRRenderer_State_Update(
-								TQ3InteractiveData		*instanceData,
-								TQ3AttributeSet			theAttributes);
-
 TQ3Status			IRRenderer_Update_Matrix_LocalToCamera(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,

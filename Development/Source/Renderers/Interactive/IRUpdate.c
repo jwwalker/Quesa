@@ -85,58 +85,6 @@ ir_state_adjust_texture_lighting(TQ3InteractiveData *instanceData)
 
 
 //=============================================================================
-//      ir_state_adjust_geom : Adjust our state for a geometry.
-//-----------------------------------------------------------------------------
-static void
-ir_state_adjust_geom(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttributes)
-{	TQ3XAttributeMask		theMask;
-
-
-
-	// Get the attribute set mask
-    if (theAttributes != NULL)
-        theMask = Q3XAttributeSet_GetMask(theAttributes);
-	else
-		theMask = kQ3XAttributeMaskNone;
-
-
-
-	// Update our state to reflect the attribute set
-	if (theMask & kQ3XAttributeMaskDiffuseColor)
-		instanceData->stateGeomDiffuseColour = (TQ3ColorRGB *) 
-                                          			Q3XAttributeSet_GetPointer(theAttributes,
-                                        			kQ3AttributeTypeDiffuseColor);
-        
-    if (theMask & kQ3XAttributeMaskSpecularColor)
-        instanceData->stateGeomSpecularColour = (TQ3ColorRGB *) 
-													Q3XAttributeSet_GetPointer(theAttributes,
-													kQ3AttributeTypeSpecularColor);
-
-    if (theMask & kQ3XAttributeMaskTransparencyColor)
-        instanceData->stateGeomTransparencyColour = (TQ3ColorRGB *) 
-													Q3XAttributeSet_GetPointer(theAttributes,
-													kQ3AttributeTypeTransparencyColor);
-
-    if (theMask & kQ3XAttributeMaskSpecularControl)
-        instanceData->stateGeomSpecularControl = * ((float *) 
-													Q3XAttributeSet_GetPointer(theAttributes,
-													kQ3AttributeTypeSpecularControl));
-
-    if (theMask & kQ3XAttributeMaskHighlightState)
-        instanceData->stateGeomHilightState = * ((TQ3Switch *) 
-													Q3XAttributeSet_GetPointer(theAttributes,
-													kQ3AttributeTypeHighlightState));
-
-	Q3_ASSERT(instanceData->stateGeomDiffuseColour      != NULL);
-	Q3_ASSERT(instanceData->stateGeomSpecularColour     != NULL);
-	Q3_ASSERT(instanceData->stateGeomTransparencyColour != NULL);
-}
-
-
-
-
-
-//=============================================================================
 //      ir_state_reset : Reset our state to the defaults.
 //-----------------------------------------------------------------------------
 static void
@@ -291,44 +239,6 @@ IRRenderer_State_AdjustGL(TQ3InteractiveData *instanceData)
 	// colour to white so we don't have to explicitly set it for each geometry.
 	if (instanceData->stateTextureForceWhite)
 		glColor3f(1.0f, 1.0f, 1.0f);
-}
-
-
-
-
-
-//=============================================================================
-//      IRRenderer_State_Update : Update our state for a geometry.
-//-----------------------------------------------------------------------------
-//		Note :	Called by every geometry before they submit themselves in order
-//				to update the current QD3D state with the state of the geom.
-//-----------------------------------------------------------------------------
-TQ3Status
-IRRenderer_State_Update(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttributes)
-{
-
-
-	// Reset the geometry state to the current view state
-	instanceData->stateGeomDiffuseColour      = instanceData->stateViewDiffuseColour;
-    instanceData->stateGeomSpecularColour     = instanceData->stateViewSpecularColour;
-    instanceData->stateGeomTransparencyColour = instanceData->stateViewTransparencyColour;
-    instanceData->stateGeomSpecularControl    = instanceData->stateViewSpecularControl;
-    instanceData->stateGeomHilightState       = instanceData->stateViewHilightState;
-
-
-
-	// Update the geometry state with its attribute set and any hilights
-	ir_state_adjust_geom(instanceData, theAttributes);
-
-    if (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL)
-        ir_state_adjust_geom(instanceData, instanceData->stateHilight);
-
-
-
-	// Update the GL state for this geometry
-	IRRenderer_State_AdjustGL(instanceData);
-
-    return(kQ3Success);
 }
 
 

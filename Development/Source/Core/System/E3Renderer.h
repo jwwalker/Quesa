@@ -126,7 +126,6 @@ TQ3Status			E3XDrawRegion_GetGDHandle(TQ3XDrawRegion drawRegion, GDHandle *gdHan
 TQ3Status			E3XView_IdleProgress(TQ3ViewObject theView, TQ3Uns32 current, TQ3Uns32 completed);
 TQ3Status			E3XView_EndFrame(TQ3ViewObject theView);
 void				*E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType);
-TQ3XAttributeMask	E3XAttributeSet_GetMask(TQ3AttributeSet attributeSet);
 
 
 
