@@ -89,25 +89,6 @@ e3storage_win32_new(TQ3Object theObject, void *privateData, const void *paramDat
 
 
 //=============================================================================
-//      e3storage_win32_delete : Win32 storage delete method.
-//-----------------------------------------------------------------------------
-static void
-e3storage_win32_delete(TQ3Object storage, void *privateData)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) privateData;
-#pragma unused(storage)
-
-
-
-	// Make sure the file isn't open
-	if (instanceData->theFile != NULL)
-		E3ErrorManager_PostError(kQ3ErrorFileIsOpen, kQ3False);
-}
-
-
-
-
-
-//=============================================================================
 //      e3storage_win32_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -238,10 +219,6 @@ e3storage_win32_metahandler(TQ3XMethodType methodType)
 	switch (methodType) {
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3storage_win32_new;
-			break;
-
-		case kQ3XMethodTypeObjectDelete:
-			theMethod = (TQ3XFunctionPointer) e3storage_win32_delete;
 			break;
 
 		case kQ3XMethodTypeStorageGetSize:
