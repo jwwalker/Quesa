@@ -267,7 +267,7 @@ Q3Box_New(const TQ3BoxData *boxData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(boxData), NULL);
+	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(boxData) || (boxData == NULL), NULL);
 
 
 
@@ -847,7 +847,7 @@ Q3Cone_New(const TQ3ConeData *coneData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(coneData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(coneData) || (coneData == NULL), NULL);
 
 
 
@@ -1575,7 +1575,7 @@ Q3Cylinder_New(const TQ3CylinderData *cylinderData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cylinderData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cylinderData) || (cylinderData == NULL), NULL);
 
 
 
@@ -2380,7 +2380,7 @@ Q3Disk_New(const TQ3DiskData *diskData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(diskData), NULL);
+	Q3_REQUIRE_OR_RESULT( (diskData == NULL) || Q3_VALID_PTR(diskData), NULL);
 
 
 
@@ -2799,7 +2799,7 @@ Q3Ellipse_New(const TQ3EllipseData *ellipseData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipseData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipseData) || (ellipseData == NULL), NULL);
 
 
 
@@ -3218,7 +3218,7 @@ Q3Ellipsoid_New(const TQ3EllipsoidData *ellipsoidData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipsoidData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipsoidData) || (ellipsoidData == NULL), NULL);
 
 
 
@@ -9360,7 +9360,7 @@ Q3Point_New(const TQ3PointData *pointData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointData) || (pointData == NULL), NULL);
 
 
 
@@ -10939,7 +10939,7 @@ Q3Torus_New(const TQ3TorusData *torusData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(torusData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(torusData) || (torusData == NULL), NULL);
 
 
 
