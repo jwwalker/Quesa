@@ -70,6 +70,7 @@ TQ3Status	E3CustomElements_UnregisterClass(void);
 
 TQ3Status	E3NameElement_SetData(TQ3Object object, const char *name);
 TQ3Status	E3NameElement_GetData(TQ3Object object, char **name);
+TQ3Status	E3NameElement_PeekData(TQ3Object object, const char **name);
 TQ3Status	E3NameElement_EmptyData(char **name);
 TQ3Status	E3UrlElement_SetData(TQ3Object object, TCEUrlData *urlData);
 TQ3Status	E3UrlElement_GetData(TQ3Object object, TCEUrlData **urlData);
