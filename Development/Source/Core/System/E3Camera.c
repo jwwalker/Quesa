@@ -56,12 +56,30 @@
 static void
 e3camera_orthographic_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
 {	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) theCamera->instanceData;
+	float							x, y, z, tx, ty, tz;
 
 
 
-	// Calculate the view to frustum matrix for the camera
-	// dair, to be implemented
+	// Initialise ourselves
+	x  = 2.0f / (instanceData->right - instanceData->left);
+	y  = 2.0f / (instanceData->top   - instanceData->bottom);
+	z  = 2.0f / (instanceData->cameraData.range.yon - instanceData->cameraData.range.hither);
+
+	tx = -(instanceData->right + instanceData->left)   / (instanceData->right - instanceData->left);
+	ty = -(instanceData->top   + instanceData->bottom) / (instanceData->top   - instanceData->bottom);
+	tz = (instanceData->cameraData.range.yon + instanceData->cameraData.range.hither) /
+   		 (instanceData->cameraData.range.yon - instanceData->cameraData.range.hither);
+
+
+
+	// Set up the matrix
 	Q3Matrix4x4_SetIdentity(theMatrix);
+	theMatrix->value[0][0] = x;
+	theMatrix->value[0][3] = tx;
+	theMatrix->value[1][1] = y;
+	theMatrix->value[1][3] = ty;
+	theMatrix->value[2][2] = z / 2.0f;
+	theMatrix->value[3][2] = tz / (instanceData->cameraData.range.yon / instanceData->cameraData.range.hither);
 }
 
 
@@ -187,8 +205,8 @@ static void
 e3camera_viewangle_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
 {	TQ3ViewAngleAspectCameraData	*instanceData = (TQ3ViewAngleAspectCameraData *) theCamera->instanceData;
 	float							zNear, zFar, oneOverZFar;
-	float							a, c;
 	float							w, h, q;
+	float							a, c;
 
 
 
@@ -598,7 +616,10 @@ E3Camera_GetWorldToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *worldToFrust
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum)
-{	TQ3XCameraFrustumMatrixMethod		frustumMatrixMethod;
+{	float								scaleWidth, scaleHeight, translateX, translateY;
+	TQ3XCameraFrustumMatrixMethod		frustumMatrixMethod;
+	TQ3Matrix4x4						viewPortMatrix;
+	TQ3CameraViewPort					viewPort;
 
 
 
@@ -618,6 +639,36 @@ E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum
 
 	// Call the method
 	frustumMatrixMethod(theCamera, viewToFrustum);
+
+
+
+	// If we're using a non-identity view port, distort the frustum as
+	// per the viewport settings. For more info on viewports, see the
+	// QD3D 1.5.4 book (in particular, the 3DMF section on viewports
+	// has more detail than the camera section).
+	Q3Camera_GetViewPort(theCamera, &viewPort);
+	if (viewPort.origin.x != -1.0f || viewPort.origin.y !=  1.0f ||
+		viewPort.width    !=  2.0f || viewPort.height   !=  2.0f)
+		{
+		// Work out the scaling and translation required
+		scaleWidth  = 2.0f / viewPort.width;
+		scaleHeight = 2.0f / viewPort.height;
+
+		translateX = -1.0f - (viewPort.origin.x * scaleWidth);
+		translateY =  1.0f - (viewPort.origin.y * scaleHeight);
+
+
+
+		// Scale the frustum
+ 		Q3Matrix4x4_SetScale(&viewPortMatrix, scaleWidth, scaleHeight, 1.0f);
+		Q3Matrix4x4_Multiply(viewToFrustum, &viewPortMatrix, viewToFrustum);
+
+
+
+		// Then translate it
+		Q3Matrix4x4_SetTranslate(&viewPortMatrix, translateX, translateY, 0.0f);
+		Q3Matrix4x4_Multiply(viewToFrustum, &viewPortMatrix, viewToFrustum);
+		}
 
 	return(kQ3Success);
 }
