@@ -419,9 +419,9 @@ ir_texture_set_state(TQ3InteractiveData *instanceData, TQ3CachedTexture *cachedT
 
 	// Set up the texture mode
 	if (instanceData->stateViewIllumination == kQ3IlluminationTypeNULL)
-		glEnvMode = GL_MODULATE;
+		glEnvMode = GL_REPLACE;		// ignore geometry color and lighting
 	else
-		glEnvMode = GL_REPLACE;
+		glEnvMode = GL_MODULATE;
 	
 	glTexEnvi(      GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,   glEnvMode);
 	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MAG_FILTER, cachedTexture->qualityFilter);
