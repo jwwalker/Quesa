@@ -209,14 +209,18 @@ Q3Geometry_SetAttributeSet(TQ3GeometryObject geometry, TQ3AttributeSet attribute
 //-----------------------------------------------------------------------------
 TQ3Status
 Q3Geometry_Submit(TQ3GeometryObject geometry, TQ3ViewObject view)
-{
+{	TQ3Status		qd3dStatus;
+
 
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(geometry->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, kQ3ShapeTypeGeometry), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+
+#if !QUESA_BUILD_AS_BINARY_COMPATIBLE
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, kQ3ShapeTypeGeometry), kQ3Failure);
+#endif
 
 
 
@@ -237,7 +241,17 @@ Q3Geometry_Submit(TQ3GeometryObject geometry, TQ3ViewObject view)
 
 
 	// Call our implementation
-	return(E3Geometry_Submit(geometry, view));
+	qd3dStatus = E3Geometry_Submit(geometry, view);
+
+
+
+	// If we're binary compatible, post an error if we're mis-used
+#if QUESA_BUILD_AS_BINARY_COMPATIBLE
+   if (!Q3Object_IsType(geometry, kQ3ShapeTypeGeometry))
+        E3ErrorManager_PostError(kQ3ErrorInvalidObjectType, kQ3False);
+#endif	
+
+	return(qd3dStatus);
 }
 
 
