@@ -1180,29 +1180,13 @@ e3view_pick_begin(TQ3ViewObject theView, TQ3PickObject thePick)
 		Q3Point3D_Transform(&frustumPoint,  &frustumToWorld, &worldPoint);
 
 
-/*	
 
-This need to be fixed in a more general way
-
-
-
-
-
-		if(camera is ortho)
+		switch( Q3Camera_GetType( instanceData->theCamera )	)	
 			{
-			// Set origin of pick to the pick loc in world coordinates
-			Q3Camera_GetPlacement(instanceData->theCamera, &thePlacement);
-			instanceData->rayThroughPick.origin = worldPoint;
-	
-	
-		  // Initialise the ray - from the camera origin to the point of interest
-			Q3Point3D_Subtract(&thePlacement.cameraLocation,
-			&thePlacement.pointOfInterest, &theVector);
-			Q3Vector3D_Normalize(&theVector, &instanceData->rayThroughPick.direction);
-			}
-		else
-*/
-			{
+		
+			case kQ3CameraTypeViewPlane:
+			case kQ3CameraTypeViewAngleAspect:
+
 				// Initialise the ray origin - the camera location
 				Q3Camera_GetPlacement(instanceData->theCamera, &thePlacement);
 				instanceData->rayThroughPick.origin = thePlacement.cameraLocation;
@@ -1212,9 +1196,24 @@ This need to be fixed in a more general way
 				// Initialise the ray - from the pixel back to the camera
 				Q3Point3D_Subtract(&worldPoint,  &instanceData->rayThroughPick.origin, &theVector);
 				Q3Vector3D_Normalize(&theVector, &instanceData->rayThroughPick.direction);
+				break;
+				
+			case kQ3CameraTypeOrthographic:
+			
+				// Set origin of pick to the pick loc in world coordinates
+				Q3Camera_GetPlacement(instanceData->theCamera, &thePlacement);
+				instanceData->rayThroughPick.origin = worldPoint;
+
+
+
+				// Initialise the ray - from the pixel back to the camera
+				Q3Point3D_Subtract(&thePlacement.pointOfInterest, &thePlacement.cameraLocation, &theVector);
+				Q3Vector3D_Normalize(&theVector, &instanceData->rayThroughPick.direction);
+				break;
 			}
 
 		}
+
 }
 
 
