@@ -801,7 +801,6 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 	FILE*			dumpFile;
 	TQ3ObjectType	theType;
 	TQ3ObjectClassNameString	className;
-	OpaqueTQ3Object*	leakRec;
 	time_t			theTime;
 	const char*		timeStr;
 	char			timeStrCopy[100];
@@ -842,10 +841,6 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 		{
 			Q3_ASSERT( anObject->IsObjectValid () );
 			nextObject = NEXTLINK( anObject );
-			leakRec = (OpaqueTQ3Object*) anObject->FindLeafInstanceData () ;
-			
-			// anObject currently points to a root object, find the leaf
-			anObject = anObject->GetLeafObject () ;
 			
 			// Find the class name and print it
 			theType = Q3Object_GetLeafType( anObject );
@@ -865,14 +860,14 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 			}
 			
 			// If possible, show a stack crawl
-			if (leakRec->stackCrawl != NULL)
+			if (anObject->stackCrawl != NULL)
 			{
-				TQ3Uns32	numNames = E3StackCrawl_Count( leakRec->stackCrawl );
+				TQ3Uns32	numNames = E3StackCrawl_Count( anObject->stackCrawl );
 				TQ3Uns32	i;
 				
 				for (i = 0; i < numNames; ++i)
 				{
-					const char*	name = E3StackCrawl_Get( leakRec->stackCrawl, i );
+					const char*	name = E3StackCrawl_Get( anObject->stackCrawl, i );
 					if (name != NULL)
 					{
 						fprintf( dumpFile, "    %s\n", name );
