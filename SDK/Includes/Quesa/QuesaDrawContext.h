@@ -37,7 +37,37 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DDrawContext.h"
+// Disable QD3D header
+#if defined(__QD3DDRAWCONTEXT__)
+#error
+#endif
+
+#define __QD3DDRAWCONTEXT__
+
+
+
+
+
+//=============================================================================
+//		Platform specific includes
+//-----------------------------------------------------------------------------
+#if QUESA_OS_MACINTOSH
+	#include <Windows.h>
+#endif // QUESA_OS_MACINTOSH
+
+#if QUESA_OS_WIN32
+	#include <Windows.h>
+	
+	#if !defined(QD3D_NO_DIRECTDRAW)
+		#include <ddraw.h>
+	#endif
+
+#endif // QUESA_OS_WIN32
+
+#if QUESA_OS_UNIX
+	#include <X11/Xlib.h>
+	#include <X11/Xutil.h>
+#endif // QUESA_OS_UNIX
 
 
 
@@ -57,7 +87,31 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+// Clear method
+typedef enum {
+	kQ3ClearMethodNone							= 0,
+	kQ3ClearMethodWithColor						= 1
+} TQ3DrawContextClearImageMethod;
+
+
+// Mac draw context variants
+typedef enum {
+	kQ3Mac2DLibraryNone							= 0,
+	kQ3Mac2DLibraryQuickDraw					= 1,
+	kQ3Mac2DLibraryQuickDrawGX					= 2
+} TQ3MacDrawContext2DLibrary;
+
+
+// Windows draw context variants
+typedef enum {
+	kQ3DirectDrawObject							= 1,
+	kQ3DirectDrawObject2						= 2
+} TQ3DirectDrawObjectSelector;
+
+typedef enum {
+	kQ3DirectDrawSurface						= 1,
+	kQ3DirectDrawSurface2						= 2
+} TQ3DirectDrawSurfaceSelector;
 
 
 
@@ -66,7 +120,131 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+// Draw context data
+typedef struct {
+	TQ3DrawContextClearImageMethod				clearImageMethod;
+	TQ3ColorARGB								clearImageColor;
+	TQ3Area										pane;
+	TQ3Boolean									paneState;
+	TQ3Bitmap									mask;
+	TQ3Boolean									maskState;
+	TQ3Boolean									doubleBufferState;
+} TQ3DrawContextData;
+
+
+// Pixmap draw context data
+typedef struct {
+	TQ3DrawContextData							drawContextData;
+	TQ3Pixmap									pixmap;
+} TQ3PixmapDrawContextData;
+
+
+
+
+
+//=============================================================================
+//      Mac OS types
+//-----------------------------------------------------------------------------
+#if QUESA_OS_MACINTOSH
+
+// QuickDraw GX type
+#if !defined(__GXTYPES__)
+	typedef struct OpaquegxViewPort				*gxViewPort;
+#endif // __GXTYPES__
+
+
+// Mac draw context data
+typedef struct {
+	TQ3DrawContextData							drawContextData;
+	CWindowPtr									window;
+	TQ3MacDrawContext2DLibrary					library;
+	gxViewPort									viewPort;
+	CGrafPtr									grafPort;
+} TQ3MacDrawContextData;
+
+#endif // QUESA_OS_MACINTOSH
+
+
+
+
+
+//=============================================================================
+//      Windows types
+//-----------------------------------------------------------------------------
+#if QUESA_OS_WIN32
+
+// Windows DC draw context data
+typedef struct {
+	TQ3DrawContextData							drawContextData;
+	HDC											hdc;
+} TQ3Win32DCDrawContextData;
+
+
+// Windows DD draw context data
+#if !defined(QD3D_NO_DIRECTDRAW)
+
+// DD interface
+typedef struct {
+	TQ3DirectDrawObjectSelector					objectSelector;
+
+	union {
+		LPDIRECTDRAW							lpDirectDraw;
+		LPDIRECTDRAW2							lpDirectDraw2;
+	};
+	
+	union {
+		LPDIRECTDRAWSURFACE						lpDirectDrawSurface;
+		LPDIRECTDRAWSURFACE2					lpDirectDrawSurface2;
+	};
+} TQ3DDSurfaceDescriptor;
+
+// DD draw context data
+typedef struct {
+	TQ3DrawContextData							drawContextData;
+	TQ3DDSurfaceDescriptor						ddSurfaceDescriptor;
+} TQ3DDSurfaceDrawContextData;
+
+#endif // QD3D_NO_DIRECTDRAW
+
+
+#endif // QUESA_OS_WIN32
+
+
+
+
+
+//=============================================================================
+//      Unix types
+//-----------------------------------------------------------------------------
+#if QUESA_OS_UNIX
+
+// X11 buffer object
+typedef struct OpaqueTQ3XBufferObject			*TQ3XBufferObject;
+
+
+// X11 color map 
+typedef struct {
+	TQ3Int32									baseEntry;
+	TQ3Int32									maxRed;
+	TQ3Int32									maxGreen;
+	TQ3Int32									maxBlue;
+	TQ3Int32									multRed;
+	TQ3Int32									multGreen;
+	TQ3Int32									multBlue;
+} TQ3XColormapData;
+
+
+// X11 draw context data
+typedef struct {
+	TQ3DrawContextData							drawContextData;
+	Display										*display;
+	Drawable									drawable;
+	Visual										*visual;
+	Colormap									cmap;
+	TQ3XColormapData							*colorMapData;
+} TQ3XDrawContextData;
+
+#endif // QUESA_OS_UNIX
 
 
 
@@ -77,10 +255,10 @@ extern "C" {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_BE
 
-// Be Draw Context
+// Be draw context data
 typedef struct TQ3BeDrawContextData {
-	TQ3DrawContextData 				drawContextData;
-	BView 							*theView;
+	TQ3DrawContextData 							drawContextData;
+	BView 										*theView;
 } TQ3BeDrawContextData;
 
 #endif // QUESA_OS_BE
@@ -90,19 +268,8 @@ typedef struct TQ3BeDrawContextData {
 
 
 //=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
-
-
-
-
-
-//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 /*
  *	Q3DrawContext_GetType
  *		Description of function
@@ -710,8 +877,6 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
 );
 
 #endif // QUESA_OS_WIN32
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

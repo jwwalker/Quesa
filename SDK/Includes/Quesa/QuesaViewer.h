@@ -38,8 +38,13 @@
 #include "Quesa.h"
 #include "QuesaGroup.h"
 
-#include "QD3DViewer.h"
-#include "QD3DWinViewer.h"
+// Disable QD3D header
+#if defined(__QD3DVIEWER__) || defined(__QD3DWINVIEWER__)
+#error
+#endif
+
+#define __QD3DVIEW__
+#define __QD3DWINVIEWER__
 
 
 
@@ -59,7 +64,108 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+// Viewer state flags (Q3ViewerGetState/Q3WinViewerGetState)
+enum {
+	kQ3ViewerEmpty								= 0,
+	kQ3ViewerHasModel							= (1 << 0),
+	kQ3ViewerHasUndo							= (1 << 1)
+};
+
+
+// Viewer cameras
+typedef enum {
+	kQ3ViewerCameraRestore						= 0,
+	kQ3ViewerCameraFit							= 1,
+	kQ3ViewerCameraFront						= 2,
+	kQ3ViewerCameraBack							= 3,
+	kQ3ViewerCameraLeft							= 4,
+	kQ3ViewerCameraRight						= 5,
+	kQ3ViewerCameraTop							= 6,
+	kQ3ViewerCameraBottom						= 7
+} TQ3ViewerCameraView;
+
+
+
+
+
+//=============================================================================
+//      Mac OS constants
+//-----------------------------------------------------------------------------
+#if QUESA_OS_MACINTOSH
+
+// Viewer flags (Q3ViewerNew)
+enum {
+	kQ3ViewerShowBadge							= (1 << 0),
+	kQ3ViewerActive								= (1 << 1),
+	kQ3ViewerControllerVisible					= (1 << 2),
+	kQ3ViewerDrawFrame							= (1 << 3),
+	kQ3ViewerDraggingOff						= (1 << 4),
+	kQ3ViewerButtonCamera						= (1 << 5),
+	kQ3ViewerButtonTruck						= (1 << 6),
+	kQ3ViewerButtonOrbit						= (1 << 7),
+	kQ3ViewerButtonZoom							= (1 << 8),
+	kQ3ViewerButtonDolly						= (1 << 9),
+	kQ3ViewerButtonReset						= (1 << 10),
+	kQ3ViewerOutputTextMode						= (1 << 11),
+	kQ3ViewerDragMode							= (1 << 12),
+	kQ3ViewerDrawGrowBox						= (1 << 13),
+	kQ3ViewerDrawDragBorder						= (1 << 14),
+	kQ3ViewerDraggingInOff						= (1 << 15),
+	kQ3ViewerDraggingOutOff						= (1 << 16),
+	kQ3ViewerButtonOptions						= (1 << 17),
+	kQ3ViewerPaneGrowBox						= (1 << 18),
+	kQ3ViewerDefault							= (1 << 31)
+};
+
+#endif // QUESA_OS_MACINTOSH
+
+
+
+
+
+//=============================================================================
+//      Windows constants
+//-----------------------------------------------------------------------------
+#if QUESA_OS_WIN32
+
+// Viewer flags (Q3WinViewerNew)
+enum {
+	kQ3ViewerShowBadge							= (1 << 0),
+	kQ3ViewerActive								= (1 << 1),
+	kQ3ViewerControllerVisibile					= (1 << 2),
+	kQ3ViewerButtonCamera						= (1 << 3),
+	kQ3ViewerButtonTruck						= (1 << 4),
+	kQ3ViewerButtonOrbit						= (1 << 5),
+	kQ3ViewerButtonZoom							= (1 << 6),
+	kQ3ViewerButtonDolly						= (1 << 7),
+	kQ3ViewerButtonReset						= (1 << 8),
+	kQ3ViewerButtonNone							= (1 << 9),
+	kQ3ViewerOutputTextMode						= (1 << 10),
+	kQ3ViewerDraggingInOff						= (1 << 11),
+	kQ3ViewerButtonOptions						= (1 << 12),
+	kQ3ViewerPaneGrowBox						= (1 << 13),
+	kQ3ViewerDefault							= (1 << 15)
+};
+
+
+// WM_NOTIFY messages
+#define Q3VNM_DROPFILES							0x5000
+#define Q3VNM_CANUNDO							0x5001
+#define Q3VNM_DRAWCOMPLETE						0x5002
+#define Q3VNM_SETVIEW							0x5003
+#define Q3VNM_SETVIEWNUMBER						0x5004
+#define Q3VNM_BUTTONSET							0x5005
+#define Q3VNM_BADGEHIT							0x5006
+
+
+// Window class name (can be passed to CreateWindow/CreateWindowEx)
+#define kQ3ViewerClassName						"QD3DViewerWindow"
+
+
+// Clipboard type
+#define kQ3ViewerClipboardFormat				"QuickDraw 3D Metafile"
+
+#endif // QUESA_OS_WIN32
 
 
 
@@ -68,25 +174,77 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+// The Viewer object is opaque
+typedef void *TQ3ViewerObject;
+
+
+// Viewer callbacks
+typedef CALLBACK_API_C(TQ3Status,			TQ3ViewerWindowResizeCallbackMethod)(
+							TQ3ViewerObject		theViewer,
+							const void			*userData);
+
+typedef CALLBACK_API_C(TQ3Status,			TQ3ViewerPaneResizeNotifyCallbackMethod)(
+							TQ3ViewerObject		theViewer,
+							const void			*userData);
 
 
 
 
 
 //=============================================================================
-//      Macros
+//      Mac OS types
 //-----------------------------------------------------------------------------
-// Macros go here
+#if QUESA_OS_MACINTOSH
+
+// Viewer callbacks
+typedef CALLBACK_API_C(OSErr,				TQ3ViewerDrawingCallbackMethod)(
+							TQ3ViewerObject		theViewer,
+							const void			*userData);
+
+
+#endif // QUESA_OS_MACINTOSH
 
 
 
 
 
 //=============================================================================
-//      Function prototypes
+//      Windows types
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
+#if QUESA_OS_WIN32
+
+// Viewer callbacks
+typedef CALLBACK_API_C(TQ3Status,			TQ3ViewerDrawingCallbackMethod)(
+							TQ3ViewerObject		theViewer,
+							const void			*userData);
+
+
+// Viewer types
+typedef struct {
+	NMHDR							nmhdr;
+	HANDLE							hDrop;
+} TQ3ViewerDropFiles;
+
+typedef struct {
+	NMHDR							nmhdr;
+	TQ3ViewerCameraView				view;
+} TQ3ViewerSetView;
+
+typedef struct {
+	NMHDR							nmhdr;
+	TQ3Uns32						number;
+} TQ3ViewerSetViewNumber;
+
+typedef struct {
+	NMHDR							nmhdr;
+	TQ3Uns32						button;
+} TQ3ViewerButtonSet;
+
+
+#endif // QUESA_OS_WIN32
+
+
+
 
 
 //=============================================================================
@@ -1235,8 +1393,6 @@ Q3WinViewerSetCameraView (
 );
 
 #endif // QUESA_OS_WIN32
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

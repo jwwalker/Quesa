@@ -37,7 +37,12 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DSet.h"
+// Disable QD3D header
+#if defined(__QD3DSET__)
+#error
+#endif
+
+#define __QD3DSET__
 
 
 
@@ -57,15 +62,41 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+// Attribute types
+typedef enum {
+	kQ3AttributeTypeNone						= 0,			// n/a
+	kQ3AttributeTypeSurfaceUV					= 1,			// TQ3Param2D
+	kQ3AttributeTypeShadingUV					= 2,			// TQ3Param2D
+	kQ3AttributeTypeNormal						= 3,			// TQ3Vector3D
+	kQ3AttributeTypeAmbientCoefficient			= 4,			// float
+	kQ3AttributeTypeDiffuseColor				= 5,			// TQ3ColorRGB
+	kQ3AttributeTypeSpecularColor				= 6,			// TQ3ColorRGB
+	kQ3AttributeTypeSpecularControl				= 7,			// float
+	kQ3AttributeTypeTransparencyColor			= 8,			// TQ3ColorRGB
+	kQ3AttributeTypeSurfaceTangent				= 9,			// TQ3Tangent2D
+	kQ3AttributeTypeHighlightState				= 10,			// TQ3Switch
+	kQ3AttributeTypeSurfaceShader				= 11,			// TQ3SurfaceShaderObject
+	kQ3AttributeTypeNumTypes					= 12			// n/a
+} TQ3AttributeTypes;
 
-// Temporary workaround for constants which are incorrectly masked out
-// by CALL_NOT_IN_CARBON in the latest carbon headers.
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
-	#define kQ3XMethodTypeAttributeInherit Q3_METHOD_TYPE('i','n','h','t')
+// Element method types
+enum {
+	kQ3XMethodTypeElementCopyAdd				= Q3_METHOD_TYPE('e', 'c', 'p', 'a'),
+	kQ3XMethodTypeElementCopyReplace			= Q3_METHOD_TYPE('e', 'c', 'p', 'r'),
+	kQ3XMethodTypeElementCopyGet				= Q3_METHOD_TYPE('e', 'c', 'p', 'g'),
+	kQ3XMethodTypeElementCopyDuplicate			= Q3_METHOD_TYPE('e', 'c', 'p', 'd'),
+	kQ3XMethodTypeElementDelete					= Q3_METHOD_TYPE('e', 'd', 'e', 'l')
+};
 
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
+
+// Attribute method types
+enum {
+	kQ3XMethodTypeAttributeInherit				= Q3_METHOD_TYPE('i', 'n', 'h', 't'),
+	kQ3XMethodTypeAttributeCopyInherit			= Q3_METHOD_TYPE('a', 'c', 'p', 'i'),
+	kQ3XMethodTypeAttributeDefault				= Q3_METHOD_TYPE('a', 's', 'd', 'f'),
+	kQ3XMethodTypeAttributeIsDefault			= Q3_METHOD_TYPE('a', 'i', 'd', 'f')
+};
 
 
 
@@ -74,16 +105,43 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+// Attribute type
+typedef TQ3ElementType							TQ3AttributeType;
 
 
+// Element methods
+typedef CALLBACK_API_C(TQ3Status,			TQ3XElementCopyAddMethod)(
+							const void			*fromAPIElement,
+							void				*toInternalElement);
+							
+typedef CALLBACK_API_C(TQ3Status,			TQ3XElementCopyReplaceMethod)(
+							const void			*fromAPIElement,
+							void				*toInternalElement);
+							
+typedef CALLBACK_API_C(TQ3Status,			TQ3XElementCopyGetMethod)(
+							const void			*fromAPIElement,
+							void				*toInternalElement);
+							
+typedef CALLBACK_API_C(TQ3Status,			TQ3XElementCopyDuplicateMethod)(
+							const void			*fromAPIElement,
+							void				*toInternalElement);
+							
+typedef CALLBACK_API_C(TQ3Status,			TQ3XElementDeleteMethod)(
+							void				*internalElement);
 
 
+// Attribute methods
+typedef TQ3Boolean							TQ3XAttributeInheritMethod;
 
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
+typedef CALLBACK_API_C(TQ3Status,			TQ3XAttributeCopyInheritMethod)(
+							const void			*fromInternalAttribute,
+							void				*toInternalAttribute);
+
+typedef CALLBACK_API_C(TQ3Status,			TQ3XAttributeDefaultMethod)(
+							void				*internalAttribute);
+
+typedef CALLBACK_API_C(TQ3Boolean,			TQ3XAttributeIsDefaultMethod)(
+							void				*internalAttribute);
 
 
 
@@ -92,8 +150,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 /*
  *	Q3Set_New
  *		Description of function
@@ -348,8 +404,6 @@ Q3XAttributeClass_Register (
 	TQ3Uns32                      sizeOfElement,
 	TQ3XMetaHandler               metaHandler
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

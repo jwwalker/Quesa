@@ -40,7 +40,12 @@
 #include "QuesaStyle.h"
 #include "QuesaGeometry.h"
 
-#include "QD3DPick.h"
+// Disable QD3D header
+#if defined(__QD3DPICK__)
+#error
+#endif
+
+#define __QD3DPICK__
 
 
 
@@ -60,7 +65,32 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+// Mask bits for hit information
+typedef enum {
+	kQ3PickDetailNone							= 0,
+	kQ3PickDetailMaskPickID						= (1 << 0),
+	kQ3PickDetailMaskPath						= (1 << 1),
+	kQ3PickDetailMaskObject						= (1 << 2),
+	kQ3PickDetailMaskLocalToWorldMatrix			= (1 << 3),
+	kQ3PickDetailMaskXYZ						= (1 << 4),
+	kQ3PickDetailMaskDistance					= (1 << 5),
+	kQ3PickDetailMaskNormal						= (1 << 6),
+	kQ3PickDetailMaskShapePart					= (1 << 7),
+	kQ3PickDetailMaskPickPart					= (1 << 8),
+	kQ3PickDetailMaskUV							= (1 << 9)
+} TQ3PickDetailMasks;
+
+
+// Hit list sorting
+typedef enum {
+	kQ3PickSortNone								= 0,
+	kQ3PickSortNearToFar						= 1,
+	kQ3PickSortFarToNear						= 2
+} TQ3PickSort;
+
+
+// Hit request
+#define kQ3ReturnAllHits						0
 
 
 
@@ -69,16 +99,49 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+// Pick detail
+typedef TQ3Uns32 TQ3PickDetail;
 
 
+// Pick data
+typedef struct {
+	TQ3PickSort									sort;
+	TQ3PickDetail								mask;
+	TQ3Uns32									numHitsToReturn;
+} TQ3PickData;
 
 
+// Window point pick data
+typedef struct {
+	TQ3PickData									data;
+	TQ3Point2D									point;
+	float										vertexTolerance;
+	float										edgeTolerance;
+} TQ3WindowPointPickData;
 
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
+
+// Window rect pick data
+typedef struct {
+	TQ3PickData									data;
+	TQ3Area										rect;
+} TQ3WindowRectPickData;
+
+
+// World ray pick data
+typedef struct {
+	TQ3PickData									data;
+	TQ3Ray3D									ray;
+	float										vertexTolerance;
+	float										edgeTolerance;
+} TQ3WorldRayPickData;
+
+
+// Hit data
+typedef struct {
+	TQ3GroupObject								rootGroup;
+	TQ3Uns32									depth;
+	TQ3GroupPosition							*positions;
+} TQ3HitPath;
 
 
 
@@ -87,8 +150,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 /*
  *	Q3Pick_GetType
  *		Description of function
@@ -489,8 +550,6 @@ Q3MeshVertexPart_GetVertex (
 	TQ3MeshVertexPartObject       meshVertexPartObject,
 	TQ3MeshVertex                 *vertex
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

@@ -38,7 +38,12 @@
 #include "Quesa.h"
 #include "QuesaErrors.h"
 
-#include "QD3DExtension.h"
+// Disable QD3D header
+#if defined(__QD3DEXTENSION__)
+#error
+#endif
+
+#define __QD3DEXTENSION__
 
 
 
@@ -58,7 +63,23 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+// Mac file types
+enum {
+	kQ3XExtensionMacCreatorType					= Q3_OBJECT_TYPE('Q', '3', 'X', 'T'),
+	kQ3XExtensionMacFileType					= Q3_OBJECT_TYPE('s', 'h', 'l', 'b')
+};
+
+
+// Class method types
+enum {
+	kQ3XMethodTypeObjectClassVersion			= Q3_METHOD_TYPE('v', 'r', 's', 'n'),
+	kQ3XMethodTypeObjectClassRegister			= Q3_METHOD_TYPE('r', 'g', 's', 't'),
+	kQ3XMethodTypeObjectClassReplace			= Q3_METHOD_TYPE('r', 'g', 'r', 'p'),
+	kQ3XMethodTypeObjectClassUnregister			= Q3_METHOD_TYPE('u', 'n', 'r', 'g'),
+	kQ3XMethodTypeObjectNew						= Q3_METHOD_TYPE('n', 'e', 'w', 'o'),
+	kQ3XMethodTypeObjectDelete					= Q3_METHOD_TYPE('d', 'l', 't', 'e'),
+	kQ3XMethodTypeObjectDuplicate				= Q3_METHOD_TYPE('d', 'u', 'p', 'l')
+};
 
 
 
@@ -67,7 +88,49 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+// Version type
+typedef TQ3Uns32 TQ3XObjectClassVersion;
+
+
+// Class methods
+typedef CALLBACK_API_C(TQ3Status,			TQ3XObjectClassRegisterMethod)(
+							TQ3XObjectClass		objectClass,
+							void				*classPrivate);
+
+typedef CALLBACK_API_C(void,				TQ3XObjectClassReplaceMethod)(
+							TQ3XObjectClass		oldObjectClass,
+							void				*oldClassPrivate,
+							TQ3XObjectClass		newObjectClass,
+							void				*newClassPrivate);
+
+typedef CALLBACK_API_C(void,				TQ3XObjectClassUnregisterMethod)(
+							TQ3XObjectClass		objectClass,
+							void				*classPrivate);
+
+typedef CALLBACK_API_C(TQ3Status,			TQ3XObjectNewMethod)(
+							TQ3Object			object,
+							void				*privateData,
+							void				*parameters);
+
+typedef CALLBACK_API_C(void,				TQ3XObjectDeleteMethod)(
+							TQ3Object			object,
+							void				*privateData);
+
+typedef CALLBACK_API_C(TQ3Status,			TQ3XObjectDuplicateMethod)(
+							TQ3Object			fromObject,
+							const void			*fromPrivateData,
+							TQ3Object			toObject,
+							const void			*toPrivateData);
+
+typedef CALLBACK_API_C(TQ3Status,			TQ3XSharedLibraryRegister)(
+							void);
+
+
+// Shared library info
+typedef struct {
+	TQ3XSharedLibraryRegister		registerFunction;
+	TQ3Uns32						sharedLibrary;
+} TQ3XSharedLibraryInfo;
 
 
 
@@ -76,7 +139,15 @@ extern "C" {
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
-// Macros go here
+// Version packing/unpacking
+#define Q3_OBJECT_CLASS_VERSION(_major, _minor)			\
+		(TQ3Uns32) (((_major) << 16) | (_minor))
+
+#define Q3_OBJECT_GET_MAJOR_VERSION(_version)			\
+		(TQ3Uns32) ((_version) >> 16)
+
+#define Q3_OBJECT_GET_MINOR_VERSION(_version)			\
+		(TQ3Uns32) ((_version) & 0x0000FFFF)
 
 
 
@@ -85,8 +156,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 /*
  *	Q3XObjectHierarchy_RegisterClass
  *		Description of function
@@ -280,8 +349,6 @@ Q3XMacintoshError_Post (
 );
 
 #endif // QUESA_OS_MACINTOSH
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

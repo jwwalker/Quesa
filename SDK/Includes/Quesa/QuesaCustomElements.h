@@ -37,7 +37,19 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DCustomElements.h"
+// Disable QD3D header
+#if defined(__QD3DCUSTOMELEMENTS__)
+#error
+#endif
+
+#define __QD3DCUSTOMELEMENTS__
+
+// QuickTime type
+#if QUESA_OS_MACINTOSH
+	#include <Movies.h>
+#else
+	typedef char								**QTAtomContainer;
+#endif // QUESA_OS_MAC
 
 
 
@@ -57,7 +69,17 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+// Custom element names
+#define CEcNameElementName						"Apple Computer, Inc.:NameElement"
+#define	CEcUrlElementName						"Apple Computer, Inc.:URLElement"
+#define	CEcWireElementName						"Apple Computer, Inc.:WireElement"
+
+
+// URL options
+typedef enum {
+	kCEUrlOptionNone							= 0,
+	kCEUrlOptionUseMap							= 1
+} TCEUrlOptions;
 
 
 
@@ -66,16 +88,12 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
-
-
-
-
-
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
+// URL type
+typedef struct {
+	char										*url;
+	char										*description;
+	TCEUrlOptions								options;
+} TCEUrlData;
 
 
 
@@ -84,8 +102,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 /*
  *	CENameElement_SetData
  *		Description of function
@@ -188,8 +204,6 @@ EXTERN_API_C ( TQ3Status  )
 CEWireElement_EmptyData (
 	QTAtomContainer               *wireData
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

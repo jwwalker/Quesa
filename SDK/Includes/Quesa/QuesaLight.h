@@ -37,7 +37,12 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DLight.h"
+// Disable QD3D header
+#if defined(__QD3DLIGHT__)
+#error
+#endif
+
+#define __QD3DLIGHT__
 
 
 
@@ -57,7 +62,21 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+// Attenuation type
+typedef enum {
+	kQ3AttenuationTypeNone						= 0,
+	kQ3AttenuationTypeInverseDistance			= 1,
+	kQ3AttenuationTypeInverseDistanceSquared	= 2
+} TQ3AttenuationType;
+
+
+// Fall-off type
+typedef enum {
+	kQ3FallOffTypeNone							= 0,
+	kQ3FallOffTypeLinear						= 1,
+	kQ3FallOffTypeExponential					= 2,
+	kQ3FallOffTypeCosine						= 3
+} TQ3FallOffType;
 
 
 
@@ -66,16 +85,42 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+// Light data
+typedef struct {
+	TQ3Boolean									isOn;
+	float										brightness;
+	TQ3ColorRGB									color;
+} TQ3LightData;
 
 
+// Directional light data
+typedef struct {
+	TQ3LightData								lightData;
+	TQ3Boolean									castsShadows;
+	TQ3Vector3D									direction;
+} TQ3DirectionalLightData;
 
 
+// Point light data
+typedef struct {
+	TQ3LightData								lightData;
+	TQ3Boolean									castsShadows;
+	TQ3AttenuationType							attenuation;
+	TQ3Point3D									location;
+} TQ3PointLightData;
 
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
+
+// Spot light data
+typedef struct {
+	TQ3LightData								lightData;
+	TQ3Boolean									castsShadows;
+	TQ3AttenuationType							attenuation;
+	TQ3Point3D									location;
+	TQ3Vector3D									direction;
+	float										hotAngle;
+	float										outerAngle;
+	TQ3FallOffType								fallOff;
+} TQ3SpotLightData;
 
 
 
@@ -84,8 +129,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 /*
  *	Q3Light_GetType
  *		Description of function
@@ -618,8 +661,6 @@ Q3SpotLight_SetData (
 	TQ3LightObject                light,
 	const TQ3SpotLightData        *spotLightData
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

@@ -37,7 +37,12 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DStyle.h"
+// Disable QD3D header
+#if defined(__QD3DSTYLE__)
+#error
+#endif
+
+#define __QD3DSTYLE__
 
 
 
@@ -57,7 +62,68 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+// Subdivision style
+typedef enum {
+	kQ3SubdivisionMethodConstant				= 0,
+	kQ3SubdivisionMethodWorldSpace				= 1,
+	kQ3SubdivisionMethodScreenSpace				= 2
+} TQ3SubdivisionMethod;
+
+
+// Pick parts mask
+typedef enum {
+	kQ3PickPartsObject							= 0,
+	kQ3PickPartsMaskFace						= (1 << 0),
+	kQ3PickPartsMaskEdge						= (1 << 1),
+	kQ3PickPartsMaskVertex						= (1 << 2)
+} TQ3PickPartsMasks;
+
+
+// Fill style
+typedef enum {
+	kQ3FillStyleFilled							= 0,
+	kQ3FillStyleEdges							= 1,
+	kQ3FillStylePoints							= 2
+} TQ3FillStyle;
+
+
+// Backfacing style
+typedef enum {
+	kQ3BackfacingStyleBoth						= 0,
+	kQ3BackfacingStyleRemove					= 1,
+	kQ3BackfacingStyleFlip						= 2
+} TQ3BackfacingStyle;
+
+
+// Interpolation style
+typedef enum {
+	kQ3InterpolationStyleNone					= 0,
+	kQ3InterpolationStyleVertex					= 1,
+	kQ3InterpolationStylePixel					= 2
+} TQ3InterpolationStyle;
+
+
+// Orientation style
+typedef enum {
+	kQ3OrientationStyleCounterClockwise			= 0,
+	kQ3OrientationStyleClockwise				= 1
+} TQ3OrientationStyle;
+
+
+// Anti-alias style
+typedef enum {
+	kQ3AntiAliasModeMaskEdges					= (1 << 0),
+	kQ3AntiAliasModeMaskFilled					= (1 << 1)
+} TQ3AntiAliasModeMasks;
+
+
+// Fog style
+typedef enum {
+	kQ3FogModeLinear							= 0,
+	kQ3FogModeExponential						= 1,
+	kQ3FogModeExponentialSquared				= 2,
+	kQ3FogModeAlpha								= 3
+} TQ3FogMode;
 
 
 
@@ -66,16 +132,37 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+// Subdivision style
+typedef struct {
+	TQ3SubdivisionMethod						method;
+	float										c1;
+	float										c2;
+} TQ3SubdivisionStyleData;
 
 
+// Pick parts
+typedef TQ3Uns32								TQ3PickParts;
 
 
+// Anti-alias style
+typedef TQ3Uns32								TQ3AntiAliasMode;
 
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
+typedef struct {
+	TQ3Switch									state;
+	TQ3AntiAliasMode							mode;
+	float										quality;
+} TQ3AntiAliasStyleData;
+
+
+// Fog style
+typedef struct {
+	TQ3Switch									state;
+	TQ3FogMode									mode;
+	float										fogStart;
+	float										fogEnd;
+	float										density;
+	TQ3ColorARGB								color;
+} TQ3FogStyleData;
 
 
 
@@ -84,8 +171,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 /*
  *	Q3Style_GetType
  *		Description of function
@@ -623,8 +708,6 @@ Q3FogStyle_SetData (
 	TQ3StyleObject                styleObject,
 	const TQ3FogStyleData         *data
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

@@ -37,7 +37,12 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DCamera.h"
+// Disable QD3D header
+#if defined(__QD3DCAMERA__)
+#error
+#endif
+
+#define __QD3DCAMERA__
 
 
 
@@ -55,27 +60,66 @@ extern "C" {
 
 
 //=============================================================================
-//      Constants
-//-----------------------------------------------------------------------------
-// Constants go here
-
-
-
-
-
-//=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+// Camera placement
+typedef struct {
+	TQ3Point3D									cameraLocation;
+	TQ3Point3D									pointOfInterest;
+	TQ3Vector3D									upVector;
+} TQ3CameraPlacement;
 
 
+// Camera range
+typedef struct {
+	float										hither;
+	float										yon;
+} TQ3CameraRange;
 
 
+// Camera viewport
+typedef struct {
+	TQ3Point2D									origin;
+	float										width;
+	float										height;
+} TQ3CameraViewPort;
 
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
+
+// Camera data
+typedef struct {
+	TQ3CameraPlacement							placement;
+	TQ3CameraRange								range;
+	TQ3CameraViewPort							viewPort;
+} TQ3CameraData;
+
+
+// Orthographic camera data
+typedef struct {
+	TQ3CameraData								cameraData;
+	float										left;
+	float										top;
+	float										right;
+	float										bottom;
+} TQ3OrthographicCameraData;
+
+
+// Perspective view plane camera data
+typedef struct {
+	TQ3CameraData								cameraData;
+	float										viewPlane;
+	float										halfWidthAtViewPlane;
+	float										halfHeightAtViewPlane;
+	float										centerXOnViewPlane;
+	float										centerYOnViewPlane;
+} TQ3ViewPlaneCameraData;
+
+
+// Perspective view angle camera data
+typedef struct {
+	TQ3CameraData								cameraData;
+	float										fov;
+	float										aspectRatioXToY;
+} TQ3ViewAngleAspectCameraData;
 
 
 
@@ -84,8 +128,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 /*
  *	Q3Camera_GetType
  *		Description of function
@@ -595,8 +637,6 @@ Q3ViewAngleAspectCamera_GetAspectRatio (
 	TQ3CameraObject               camera,
 	float                         *aspectRatioXToY
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

@@ -37,7 +37,12 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-#include "QD3DController.h"
+// Disable QD3D header
+#if defined(__QD3DCONTROLLER__)
+#error
+#endif
+
+#define __QD3DCONTROLLER__
 
 
 
@@ -57,7 +62,8 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+// Max channel size
+#define kQ3ControllerSetChannelMaxDataSize		256
 
 
 
@@ -66,16 +72,37 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+// Channel methods
+typedef CALLBACK_API_C(TQ3Status,			TQ3ChannelGetMethod)(
+							TQ3ControllerRef	controllerRef,
+							TQ3Uns32			channel,
+							void				*data,
+							TQ3Uns32			*dataSize);
+
+typedef CALLBACK_API_C(TQ3Status,			TQ3ChannelSetMethod)(
+							TQ3ControllerRef	controllerRef,
+							TQ3Uns32			channel,
+							const void			*data,
+							TQ3Uns32			dataSize);
 
 
+// Controller data
+typedef struct {
+	char										*signature;
+	TQ3Uns32									valueCount;
+	TQ3Uns32									channelCount;
+	TQ3ChannelGetMethod							channelGetMethod;
+	TQ3ChannelSetMethod							channelSetMethod;
+} TQ3ControllerData;
 
 
+// Tracker callbacks
+typedef CALLBACK_API_C(TQ3Status,			TQ3TrackerNotifyFunc)(
+							TQ3TrackerObject	trackerObject,
+							TQ3ControllerRef	controllerRef);
 
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Macros go here
+typedef CALLBACK_API_C(void,				TQ3CursorTrackerNotifyFunc)(
+							void);
 
 
 
@@ -84,8 +111,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 /*
  *	Q3Controller_GetListChanged
  *		Description of function
@@ -669,8 +694,6 @@ EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_GetNotifyFunc (
 	TQ3CursorTrackerNotifyFunc    *notifyFunc
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 

@@ -38,7 +38,12 @@
 #include "Quesa.h"
 #include "QuesaSet.h"
 
-#include "QD3DGeometry.h"
+// Disable QD3D header
+#if defined(__QD3DGEOMETRY__)
+#error
+#endif
+
+#define __QD3DGEOMETRY__
 
 
 
@@ -58,16 +63,27 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Constants go here
+// General polygon hints
+typedef enum {
+	kQ3GeneralPolygonShapeHintComplex			= 0,
+	kQ3GeneralPolygonShapeHintConcave			= 1,
+	kQ3GeneralPolygonShapeHintConvex			= 2
+} TQ3GeneralPolygonShapeHint;
 
-// Temporary workaround for constants which are incorrectly masked out
-// by CALL_NOT_IN_CARBON in the latest carbon headers.
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
-	#define kQ3NURBCurveMaxOrder    16
-	#define kQ3NURBPatchMaxOrder    11
+// Nurb limits
+#define kQ3NURBCurveMaxOrder					16
+#define kQ3NURBPatchMaxOrder					11
 
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
+
+// Polyhedron edge masks
+typedef enum {
+	kQ3PolyhedronEdgeNone						= 0,
+	kQ3PolyhedronEdge01							= (1 << 0),
+	kQ3PolyhedronEdge12							= (1 << 1),
+	kQ3PolyhedronEdge20							= (1 << 2),
+	kQ3PolyhedronEdgeAll						= (kQ3PolyhedronEdge01 | kQ3PolyhedronEdge12 | kQ3PolyhedronEdge20)
+} TQ3PolyhedronEdgeMasks;
 
 
 
@@ -76,7 +92,315 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
+// Box data
+typedef struct {
+	TQ3Point3D									origin;
+	TQ3Vector3D									orientation;
+	TQ3Vector3D									majorAxis;
+	TQ3Vector3D									minorAxis;
+	TQ3AttributeSet								*faceAttributeSet;
+	TQ3AttributeSet								boxAttributeSet;
+} TQ3BoxData;
+
+
+// Cone data
+typedef struct {
+	TQ3Point3D									origin;
+	TQ3Vector3D									orientation;
+	TQ3Vector3D									majorRadius;
+	TQ3Vector3D									minorRadius;
+	float										uMin;
+	float										uMax;
+	float										vMin;
+	float										vMax;
+	TQ3EndCap									caps;
+	TQ3AttributeSet								interiorAttributeSet;
+	TQ3AttributeSet								faceAttributeSet;
+	TQ3AttributeSet								bottomAttributeSet;
+	TQ3AttributeSet								coneAttributeSet;
+} TQ3ConeData;
+
+
+// Cylinder data
+typedef struct {
+	TQ3Point3D									origin;
+	TQ3Vector3D									orientation;
+	TQ3Vector3D									majorRadius;
+	TQ3Vector3D									minorRadius;
+	float										uMin;
+	float										uMax;
+	float										vMin;
+	float										vMax;
+	TQ3EndCap									caps;
+	TQ3AttributeSet								interiorAttributeSet;
+	TQ3AttributeSet								topAttributeSet;
+	TQ3AttributeSet								faceAttributeSet;
+	TQ3AttributeSet								bottomAttributeSet;
+	TQ3AttributeSet								cylinderAttributeSet;
+} TQ3CylinderData;
+
+
+// Disk data
+typedef struct {
+	TQ3Point3D									origin;
+	TQ3Vector3D									majorRadius;
+	TQ3Vector3D									minorRadius;
+	float										uMin;
+	float										uMax;
+	float										vMin;
+	float										vMax;
+	TQ3AttributeSet								diskAttributeSet;
+} TQ3DiskData;
+
+
+// Ellipse data
+typedef struct {
+	TQ3Point3D									origin;
+	TQ3Vector3D									majorRadius;
+	TQ3Vector3D									minorRadius;
+	float										uMin;
+	float										uMax;
+	TQ3AttributeSet								ellipseAttributeSet;
+} TQ3EllipseData;
+
+
+// Ellipsoid data
+typedef struct {
+	TQ3Point3D									origin;
+	TQ3Vector3D									orientation;
+	TQ3Vector3D									majorRadius;
+	TQ3Vector3D									minorRadius;
+	float										uMin;
+	float										uMax;
+	float										vMin;
+	float										vMax;
+	TQ3EndCap									caps;
+	TQ3AttributeSet								interiorAttributeSet;
+	TQ3AttributeSet								ellipsoidAttributeSet;
+} TQ3EllipsoidData;
+
+
+// General polygon contour
+typedef struct {
+	TQ3Uns32									numVertices;
+	TQ3Vertex3D									*vertices;
+} TQ3GeneralPolygonContourData;
+
+
+// General polygon data
+typedef struct {
+	TQ3Uns32									numContours;
+	TQ3GeneralPolygonContourData				*contours;
+	TQ3GeneralPolygonShapeHint					shapeHint;
+	TQ3AttributeSet								generalPolygonAttributeSet;
+} TQ3GeneralPolygonData;
+
+
+// Line data
+typedef struct {
+	TQ3Vertex3D									vertices[2];
+	TQ3AttributeSet								lineAttributeSet;
+} TQ3LineData;
+
+
+// Marker data
+typedef struct {
+	TQ3Point3D									location;
+	TQ3Int32									xOffset;
+	TQ3Int32									yOffset;
+	TQ3Bitmap									bitmap;
+	TQ3AttributeSet								markerAttributeSet;
+} TQ3MarkerData;
+
+
+// Mesh data (all opaque)
+typedef struct OpaqueTQ3MeshComponent			*TQ3MeshComponent;
+typedef struct OpaqueTQ3MeshVertex				*TQ3MeshVertex;
+typedef struct OpaqueTQ3MeshFace				*TQ3MeshFace;
+typedef struct OpaqueTQ3MeshEdge				*TQ3MeshEdge;
+typedef struct OpaqueTQ3MeshContour				*TQ3MeshContour;
+
+typedef struct {
+	void										*var1;
+	void										*var2;
+	void										*var3;
+	struct {
+		void									*field1;
+		char									field2[4];
+	} var4;
+} TQ3MeshIterator;
+
+
+// NURB curve data
+typedef struct {
+	TQ3Uns32									order;
+	TQ3Uns32									numPoints;
+	TQ3RationalPoint4D							*controlPoints;
+	float										*knots;
+	TQ3AttributeSet								curveAttributeSet;
+} TQ3NURBCurveData;
+
+
+// NURB patch data
+typedef struct {
+	TQ3Uns32									order;
+	TQ3Uns32									numPoints;
+	TQ3RationalPoint3D							*controlPoints;
+	float										*knots;
+} TQ3NURBPatchTrimCurveData;
+
+typedef struct {
+	TQ3Uns32									numTrimCurves;
+	TQ3NURBPatchTrimCurveData					*trimCurves;
+} TQ3NURBPatchTrimLoopData;
+
+typedef struct {
+	TQ3Uns32									uOrder;
+	TQ3Uns32									vOrder;
+	TQ3Uns32									numRows;
+	TQ3Uns32									numColumns;
+	TQ3RationalPoint4D							*controlPoints;
+	float										*uKnots;
+	float										*vKnots;
+	TQ3Uns32									numTrimLoops;
+	TQ3NURBPatchTrimLoopData					*trimLoops;
+	TQ3AttributeSet								patchAttributeSet;
+} TQ3NURBPatchData;
+
+
+// Pixmap marker data
+typedef struct {
+	TQ3Point3D									position;
+	TQ3Int32									xOffset;
+	TQ3Int32									yOffset;
+	TQ3StoragePixmap							pixmap;
+	TQ3AttributeSet								pixmapMarkerAttributeSet;
+} TQ3PixmapMarkerData;
+
+
+// Point data
+typedef struct {
+	TQ3Point3D									point;
+	TQ3AttributeSet								pointAttributeSet;
+} TQ3PointData;
+
+
+// Polygon data
+typedef struct {
+	TQ3Uns32									numVertices;
+	TQ3Vertex3D									*vertices;
+	TQ3AttributeSet								polygonAttributeSet;
+} TQ3PolygonData;
+
+
+// Polyhedron data
+typedef TQ3Uns32								TQ3PolyhedronEdge;
+
+typedef struct {
+	TQ3Uns32									vertexIndices[2];
+	TQ3Uns32									triangleIndices[2];
+	TQ3AttributeSet								edgeAttributeSet;
+} TQ3PolyhedronEdgeData;
+
+typedef struct {
+	TQ3Uns32									vertexIndices[3];
+	TQ3PolyhedronEdge							edgeFlag;
+	TQ3AttributeSet								triangleAttributeSet;
+} TQ3PolyhedronTriangleData;
+
+typedef struct {
+	TQ3Uns32									numVertices;
+	TQ3Vertex3D									*vertices;
+	TQ3Uns32									numEdges;
+	TQ3PolyhedronEdgeData						*edges;
+	TQ3Uns32									numTriangles;
+	TQ3PolyhedronTriangleData					*triangles;
+	TQ3AttributeSet								polyhedronAttributeSet;
+} TQ3PolyhedronData;
+
+
+// Polyline data
+typedef struct {
+	TQ3Uns32									numVertices;
+	TQ3Vertex3D									*vertices;
+	TQ3AttributeSet								*segmentAttributeSet;
+	TQ3AttributeSet								polyLineAttributeSet;
+} TQ3PolyLineData;
+
+
+// Torus data
+typedef struct {
+	TQ3Point3D									origin;
+	TQ3Vector3D									orientation;
+	TQ3Vector3D									majorRadius;
+	TQ3Vector3D									minorRadius;
+	float										ratio;
+	float										uMin;
+	float										uMax;
+	float										vMin;
+	float										vMax;
+	TQ3EndCap									caps;
+	TQ3AttributeSet								interiorAttributeSet;
+	TQ3AttributeSet								torusAttributeSet;
+} TQ3TorusData;
+
+
+// Triangle data
+typedef struct {
+	TQ3Vertex3D									vertices[3];
+	TQ3AttributeSet								triangleAttributeSet;
+} TQ3TriangleData;
+
+
+// TriGrid data
+typedef struct {
+	TQ3Uns32									numRows;
+	TQ3Uns32									numColumns;
+	TQ3Vertex3D									*vertices;
+	TQ3AttributeSet								*facetAttributeSet;
+	TQ3AttributeSet								triGridAttributeSet;
+} TQ3TriGridData;
+
+
+// TriMesh data
+typedef struct {
+	TQ3Uns32									pointIndices[3];
+} TQ3TriMeshTriangleData;
+
+typedef struct {
+	TQ3Uns32									pointIndices[2];
+	TQ3Uns32									triangleIndices[2];
+} TQ3TriMeshEdgeData;
+
+typedef struct {
+	TQ3AttributeType							attributeType;
+	void										*data;
+	char										*attributeUseArray;
+} TQ3TriMeshAttributeData;
+
+typedef struct {
+	TQ3AttributeSet								triMeshAttributeSet;
+
+	TQ3Uns32									numTriangles;
+	TQ3TriMeshTriangleData						*triangles;
+
+	TQ3Uns32									numTriangleAttributeTypes;
+	TQ3TriMeshAttributeData						*triangleAttributeTypes;
+
+	TQ3Uns32									numEdges;
+	TQ3TriMeshEdgeData							*edges;
+
+	TQ3Uns32									numEdgeAttributeTypes;
+	TQ3TriMeshAttributeData						*edgeAttributeTypes;
+
+	TQ3Uns32									numPoints;
+	TQ3Point3D									*points;
+
+	TQ3Uns32									numVertexAttributeTypes;
+	TQ3TriMeshAttributeData						*vertexAttributeTypes;
+
+	TQ3BoundingBox								bBox;
+} TQ3TriMeshData;
 
 
 
@@ -85,7 +409,87 @@ extern "C" {
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
-// Macros go here
+// Mesh iterators
+#define	Q3ForEachMeshComponent(_m, _c, _i)					\
+		for ((_c) = Q3Mesh_FirstMeshComponent((_m), (_i));	\
+			 (_c) != NULL;									\
+			 (_c) = Q3Mesh_NextMeshComponent((_i)))
+
+#define Q3ForEachComponentVertex(_c, _v, _i)				\
+		for ((_v) = Q3Mesh_FirstComponentVertex((_c), (_i));\
+			 (_v) != NULL;									\
+			 (_v) = Q3Mesh_NextComponentVertex((_i)))
+
+#define Q3ForEachComponentEdge(_c, _e, _i)					\
+		for ((_e) = Q3Mesh_FirstComponentEdge((_c), (_i));	\
+			 (_e) != NULL;									\
+			 (_e) = Q3Mesh_NextComponentEdge((_i)))
+
+#define Q3ForEachMeshVertex(_m, _v, _i)						\
+		for ((_v) = Q3Mesh_FirstMeshVertex((_m), (_i));		\
+			 (_v) != NULL;									\
+			 (_v) = Q3Mesh_NextMeshVertex((_i)))
+
+#define Q3ForEachMeshFace(_m, _f, _i)						\
+		for ((_f) = Q3Mesh_FirstMeshFace((_m), (_i));		\
+			 (_f) != NULL;									\
+			 (_f) = Q3Mesh_NextMeshFace((_i)))
+
+#define Q3ForEachMeshEdge(_m, _e, _i)						\
+		for ((_e) = Q3Mesh_FirstMeshEdge((_m), (_i));		\
+			 (_e) != NULL;									\
+			 (_e) = Q3Mesh_NextMeshEdge((_i)))
+
+#define Q3ForEachVertexEdge(_v, _e, _i)						\
+		for ((_e) = Q3Mesh_FirstVertexEdge((_v), (_i));		\
+			 (_e) != NULL;									\
+			 (_e) = Q3Mesh_NextVertexEdge((_i)))
+
+
+#define Q3ForEachVertexVertex(_v, _n, _i)					\
+		for ((_n) = Q3Mesh_FirstVertexVertex((_v), (_i));	\
+			 (_n) != NULL;									\
+			 (_n) = Q3Mesh_NextVertexVertex((_i)))
+
+#define Q3ForEachVertexFace(_v, _f, _i)						\
+		for ((_f) = Q3Mesh_FirstVertexFace((_v), (_i));		\
+			 (_f) != NULL;									\
+			 (_f) = Q3Mesh_NextVertexFace((_i)))
+
+#define Q3ForEachFaceEdge(_f, _e, _i)						\
+		for ((_e) = Q3Mesh_FirstFaceEdge((_f), (_i));		\
+			 (_e) != NULL;									\
+			 (_e) = Q3Mesh_NextFaceEdge((_i)))
+
+#define Q3ForEachFaceVertex(_f, _v, _i)						\
+		for ((_v) = Q3Mesh_FirstFaceVertex((_f), (_i));		\
+			 (_v) != NULL;									\
+			 (_v) = Q3Mesh_NextFaceVertex((_i)))
+	
+#define Q3ForEachFaceFace(_f, _n, _i)						\
+		for ((_n) = Q3Mesh_FirstFaceFace((_f), (_i));  		\
+			 (_n) != NULL;									\
+			 (_n) = Q3Mesh_NextFaceFace((_i)))
+		  
+#define Q3ForEachFaceContour(_f, _h, _i)					\
+		for ((_h) = Q3Mesh_FirstFaceContour((_f), (_i));	\
+		     (_h) != NULL;									\
+		     (_h) = Q3Mesh_NextFaceContour((_i)))
+
+#define Q3ForEachContourEdge(_h, _e, _i)					\
+		for ((_e) = Q3Mesh_FirstContourEdge((_h), (_i));	\
+		     (_e) != NULL;									\
+		     (_e) = Q3Mesh_NextContourEdge((_i)))
+
+#define Q3ForEachContourVertex(_h, _v, _i)					\
+		for ((_v) = Q3Mesh_FirstContourVertex((_h), (_i));	\
+		     (_v) != NULL;									\
+		     (_v) = Q3Mesh_NextContourVertex((_i)))
+
+#define Q3ForEachContourFace(_h, _f, _i)					\
+		for ((_f) = Q3Mesh_FirstContourFace((_h), (_i));	\
+		     (_f) != NULL;									\
+		     (_f) = Q3Mesh_NextContourFace((_i)))
 
 
 
@@ -94,8 +498,6 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
 /*
  *	Q3Geometry_GetType
  *		Description of function
@@ -3906,8 +4308,6 @@ EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_EmptyData (
 	TQ3TriMeshData                *triMeshData
 );
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 
 
