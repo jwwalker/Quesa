@@ -66,8 +66,8 @@ typedef enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Cached primitive data
-typedef struct TQ3CachedPrim {
+// Transparent primitive data
+typedef struct TQ3TransparentPrim {
 	// State
 	TQ3PrimType				theType;
 	TQ3PrimFlags			theFlags;
@@ -85,7 +85,8 @@ typedef struct TQ3CachedPrim {
 	TQ3ColorARGB			theColours[3];
 	TQ3Vector3D				theNormals[3];
 	TQ3Param2D				theUVs[3];
-} TQ3CachedPrim;
+} TQ3TransparentPrim;
+
 
 
 // Cached texture data
@@ -99,6 +100,7 @@ typedef struct TQ3CachedTexture {
 	TQ3ShaderUVBoundary		boundaryU;
 	TQ3ShaderUVBoundary		boundaryV;
 } TQ3CachedTexture;
+
 
 
 // Interactive renderer data
@@ -120,11 +122,16 @@ typedef struct TQ3InteractiveData {
 	TQ3CachedTexture		*cachedTextures;
 
 
-	// Cached state
+	// Camera state
 	float					cameraZ;
-	TQ3Uns32				cachedPrimUsed;
-	TQ3Uns32				cachedPrimCount;
-	TQ3CachedPrim			*cachedPrims;
+	TQ3Boolean				cameraIsOrtho;
+
+
+	// Transparent prim state
+	TQ3Uns32				transparentPrimCount;
+	TQ3Uns32				transparentPrimUsed;
+	TQ3TransparentPrim		*transparentPrims;
+
 
 
 	// QD3D state
@@ -133,6 +140,7 @@ typedef struct TQ3InteractiveData {
 	TQ3InterpolationStyle	stateInterpolation;
 	TQ3BackfacingStyle		stateBackfacing;
 	TQ3OrientationStyle		stateOrientation;
+	TQ3Point3D				stateLocalCameraPosition;
 	TQ3Vector3D				stateLocalCameraViewVector;
 	TQ3ColorRGB				stateDefaultDiffuseColour;
 	TQ3ColorRGB				stateDefaultSpecularColour;
