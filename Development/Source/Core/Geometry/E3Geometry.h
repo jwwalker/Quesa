@@ -65,32 +65,6 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Geometry data
-class E3Geometry : public E3ShapeData
-	{
-Q3_CLASS_ENUMS ( kQ3ShapeTypeGeometry, E3Geometry, E3ShapeData )
-	TQ3Uns32					cameraEditIndex;
-	TQ3SubdivisionStyleData		styleSubdivision;
-	TQ3OrientationStyle			styleOrientation;
-	TQ3Uns32					cachedEditIndex;
-	TQ3Object					cachedObject;
-	float						cachedDeterminant;
-	
-	
-public :
-
-	friend TQ3Status			e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
-					 								TQ3Object toObject,   void       *toPrivateData) ;
-	friend void					e3geometry_delete(TQ3Object theObject, void *privateData) ;
-	friend TQ3Boolean			e3geometry_cache_isvalid(TQ3ViewObject theView,
-													TQ3ObjectType objectType, TQ3GeometryObject theGeom,
-													const void   *geomData,   TQ3Object         cachedGeom)	;
-	friend TQ3Status			e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType,
-													TQ3Object theObject, const void *objectData) ;
-	} ;
-
-
-
 class E3GeometryInfo : public E3ShapeInfo
 	{
 	const TQ3XGeomCacheIsValidMethod	cacheIsValid ;
@@ -111,6 +85,34 @@ public :
 	} ;
 
 
+
+
+
+// Geometry data
+class E3Geometry : public E3ShapeData
+	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeGeometry, E3Geometry, E3ShapeData )
+	TQ3Uns32					cameraEditIndex;
+	TQ3SubdivisionStyleData		styleSubdivision;
+	TQ3OrientationStyle			styleOrientation;
+	TQ3Uns32					cachedEditIndex;
+	TQ3Object					cachedObject;
+	float						cachedDeterminant;
+	
+	
+public :
+	
+	E3GeometryInfo*				GetClass ( void ) { return (E3GeometryInfo*) OpaqueTQ3Object::GetClass () ; }
+	
+	friend TQ3Status			e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
+					 								TQ3Object toObject,   void       *toPrivateData) ;
+	friend void					e3geometry_delete(TQ3Object theObject, void *privateData) ;
+	friend TQ3Boolean			e3geometry_cache_isvalid(TQ3ViewObject theView,
+													TQ3ObjectType objectType, TQ3GeometryObject theGeom,
+													const void   *geomData,   TQ3Object         cachedGeom)	;
+	friend TQ3Status			e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType,
+													TQ3Object theObject, const void *objectData) ;
+	} ;
 
 
 

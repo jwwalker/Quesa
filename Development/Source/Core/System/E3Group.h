@@ -119,6 +119,46 @@ typedef struct TQ3XGroupPosition { // 12 bytes overhead per object in a group
 } TQ3XGroupPosition;
 
 
+class E3GroupInfo : public E3ShapeInfo
+	{
+	const TQ3XGroupAddObjectMethod				addObjectMethod ;
+	const TQ3XGroupAddObjectBeforeMethod		addObjectBeforeMethod ;
+	const TQ3XGroupAddObjectAfterMethod			addObjectAfterMethod ;
+	const TQ3XGroupSetPositionObjectMethod		setPositionObjectMethod ;
+	const TQ3XGroupRemovePositionMethod			removePositionMethod ;
+	
+	const TQ3XGroupGetFirstPositionOfTypeMethod	getFirstPositionOfTypeMethod ;
+	const TQ3XGroupGetLastPositionOfTypeMethod	getLastPositionOfTypeMethod ;
+	const TQ3XGroupGetNextPositionOfTypeMethod	getNextPositionOfTypeMethod ;
+	const TQ3XGroupGetPrevPositionOfTypeMethod	getPrevPositionOfTypeMethod ;
+	const TQ3XGroupCountObjectsOfTypeMethod		countObjectsOfTypeMethod ;
+	const TQ3XGroupEmptyObjectsOfTypeMethod		emptyObjectsOfTypeMethod ;
+	
+	const TQ3XGroupGetFirstObjectPositionMethod	getFirstObjectPositionMethod ;	
+	const TQ3XGroupGetLastObjectPositionMethod	getLastObjectPositionMethod ;
+	const TQ3XGroupGetNextObjectPositionMethod	getNextObjectPositionMethod ;
+	const TQ3XGroupGetPrevObjectPositionMethod	getPrevObjectPositionMethod ;
+	
+	const TQ3XGroupPositionNewMethod			positionNewMethod ;
+
+public :
+	const TQ3XGroupAcceptObjectMethod			acceptObjectMethod ;
+	
+	const TQ3XGroupStartIterateMethod			startIterateMethod ;
+	const TQ3XGroupEndIterateMethod				endIterateMethod ;
+	
+	const TQ3XGroupPositionDeleteMethod			positionDeleteMethod ;
+
+										E3GroupInfo	(
+													TQ3XMetaHandler	newClassMetaHandler,
+													E3ClassInfo*	newParent
+					 								) ; // constructor	
+	friend class E3Group ;
+	} ;
+
+
+
+
 class E3Group : public E3ShapeData
 	{
 Q3_CLASS_ENUMS ( kQ3ShapeTypeGroup, E3Group, E3ShapeData )
@@ -130,6 +170,8 @@ Q3_CLASS_ENUMS ( kQ3ShapeTypeGroup, E3Group, E3ShapeData )
 	TQ3Uns32								groupPositionSize ;
 		
 public :
+
+	E3GroupInfo*							GetClass ( void ) { return (E3GroupInfo*) OpaqueTQ3Object::GetClass () ; }
 
 	TQ3XGroupPosition*						createPosition ( TQ3Object object ) ;
 	TQ3GroupPosition						addobject ( TQ3Object object ) ;	
@@ -180,45 +222,6 @@ public :
 	friend TQ3Status e3group_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 										TQ3Object toObject,   void  * toPrivateData) ;
 	} ;
-
-
-class E3GroupInfo : public E3ShapeInfo
-	{
-	const TQ3XGroupAddObjectMethod				addObjectMethod ;
-	const TQ3XGroupAddObjectBeforeMethod		addObjectBeforeMethod ;
-	const TQ3XGroupAddObjectAfterMethod			addObjectAfterMethod ;
-	const TQ3XGroupSetPositionObjectMethod		setPositionObjectMethod ;
-	const TQ3XGroupRemovePositionMethod			removePositionMethod ;
-	
-	const TQ3XGroupGetFirstPositionOfTypeMethod	getFirstPositionOfTypeMethod ;
-	const TQ3XGroupGetLastPositionOfTypeMethod	getLastPositionOfTypeMethod ;
-	const TQ3XGroupGetNextPositionOfTypeMethod	getNextPositionOfTypeMethod ;
-	const TQ3XGroupGetPrevPositionOfTypeMethod	getPrevPositionOfTypeMethod ;
-	const TQ3XGroupCountObjectsOfTypeMethod		countObjectsOfTypeMethod ;
-	const TQ3XGroupEmptyObjectsOfTypeMethod		emptyObjectsOfTypeMethod ;
-	
-	const TQ3XGroupGetFirstObjectPositionMethod	getFirstObjectPositionMethod ;	
-	const TQ3XGroupGetLastObjectPositionMethod	getLastObjectPositionMethod ;
-	const TQ3XGroupGetNextObjectPositionMethod	getNextObjectPositionMethod ;
-	const TQ3XGroupGetPrevObjectPositionMethod	getPrevObjectPositionMethod ;
-	
-	const TQ3XGroupPositionNewMethod			positionNewMethod ;
-
-public :
-	const TQ3XGroupAcceptObjectMethod			acceptObjectMethod ;
-	
-	const TQ3XGroupStartIterateMethod			startIterateMethod ;
-	const TQ3XGroupEndIterateMethod				endIterateMethod ;
-	
-	const TQ3XGroupPositionDeleteMethod			positionDeleteMethod ;
-
-										E3GroupInfo	(
-													TQ3XMetaHandler	newClassMetaHandler,
-													E3ClassInfo*	newParent
-					 								) ; // constructor	
-	friend class E3Group ;
-	} ;
-
 
 
 

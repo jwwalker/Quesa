@@ -220,7 +220,9 @@ Q3_CLASS_ENUMS ( kQ3SharedTypeDrawContext, E3DrawContext, E3Shared )
 
 	// There is no extra data for this class
 public :
-
+	
+	E3DrawContextInfo*		GetClass ( void ) { return (E3DrawContextInfo*) OpaqueTQ3Object::GetClass () ; }
+	
 	TQ3Status				Update ( void ) ;
 
 	TQ3Status				GetPane ( TQ3Area* pane ) ;

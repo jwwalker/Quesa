@@ -146,6 +146,7 @@ E3ClassInfo::E3ClassInfo	(
 	classType = 0 ;
 	className = NULL ;
 	methodTable = NULL ;
+	abstract = kQ3False ;
 	numInstances = 0 ;
 	instanceSize = 0 ;
 	numChildren = 0 ;
@@ -813,6 +814,11 @@ TQ3Object
 E3ClassInfo::CreateInstance (	TQ3Boolean		sharedParams,
 								const void		*paramData )
 	{
+	Q3_ASSERT ( ! abstract ) ;
+
+	if ( abstract )
+		return NULL ; // Cannot create an object of an abstract class, the required methods are missing (pure virtual)
+		
 	// Allocate and initialise the object
 	TQ3Object theObject = (TQ3Object) Q3Memory_AllocateClear ( instanceSize + sizeof ( TQ3ObjectType ) ) ;
 	if ( theObject == NULL )

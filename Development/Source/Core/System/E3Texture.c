@@ -120,7 +120,8 @@ E3TextureInfo::E3TextureInfo	(
 		: E3SharedInfo ( newClassMetaHandler, newParent ) ,
 		textureDimensions		( (TQ3XTextureDimensionsMethod)		Find_Method ( kQ3XMethodTypeTextureDimensions ) )		 
 	{
-
+	if ( textureDimensions == NULL )
+		SetAbstract () ;
 	} ; 
 
 
@@ -706,17 +707,9 @@ E3Texture_GetType(TQ3TextureObject texture)
 TQ3Status
 E3Texture::GetWidth ( TQ3Uns32* width )
 	{
-	if ( ( (E3TextureInfo*) GetClass () )->textureDimensions == NULL )
-		{
-		*width = 0;
-		return kQ3Failure ;
-		}
-
-
-
 	// Get the texture width
 	TQ3Point2D theDimensions ;
-	 ( (E3TextureInfo*) GetClass () )->textureDimensions ( this, &theDimensions ) ;
+	GetClass ()->textureDimensions ( this, &theDimensions ) ;
 	
 	*width = (TQ3Uns32) theDimensions.x ;
 	
@@ -733,17 +726,9 @@ E3Texture::GetWidth ( TQ3Uns32* width )
 TQ3Status
 E3Texture::GetHeight ( TQ3Uns32* height )
 	{
-	if ( ( (E3TextureInfo*) GetClass () )->textureDimensions == NULL )
-		{
-		*height = 0 ;
-		return kQ3Failure ;
-		}
-
-
-
 	// Get the texture height
 	TQ3Point2D theDimensions ;
-	 ( (E3TextureInfo*) GetClass () )->textureDimensions ( this, &theDimensions ) ;
+	GetClass ()->textureDimensions ( this, &theDimensions ) ;
 	
 	*height = (TQ3Uns32) theDimensions.y ;
 	

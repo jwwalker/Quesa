@@ -109,7 +109,9 @@ E3GeometryInfo::E3GeometryInfo	(
 		getAttribute		( (TQ3XGeomGetAttributeMethod)		Find_Method ( kQ3XMethodTypeGeomGetAttribute ) ) ,
 		getPublicData		( (TQ3XGeomGetPublicDataMethod)		Find_Method ( kQ3XMethodTypeGeomGetPublicData ) )		 
 	{
-
+	if ( cacheIsValid == NULL
+	|| cacheUpdate == NULL )
+		SetAbstract () ;
 	} ;
 
 
@@ -133,10 +135,10 @@ e3geometry_new_class_info (
 //      e3geometry_get_attributes : Get a pointer to a geometry attribute set.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geometry_get_attributes(TQ3GeometryObject theGeom)
+e3geometry_get_attributes( E3Geometry* theGeom)
 	{
 	// Get the geometry attribute method
-	TQ3XGeomGetAttributeMethod getAttribute = ( (E3GeometryInfo*) theGeom->GetClass () )->getAttribute ;
+	TQ3XGeomGetAttributeMethod getAttribute = theGeom->GetClass ()->getAttribute ;
 	if ( getAttribute == NULL )
 		return NULL ;
 
@@ -237,12 +239,6 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 	// If this is a retained mode submit, submit the cached version.
 	if ( theObject != NULL )
 		{
-		// Check we have the methods we need
-		if ( theClass->cacheIsValid == NULL || theClass->cacheUpdate == NULL)
-			return kQ3Failure ;
-
-
-
 		// Find our instance data
 		E3Geometry* instanceData = (E3Geometry*) theObject ;
 
@@ -838,7 +834,7 @@ E3Geometry_GetType(TQ3GeometryObject theGeom)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Geometry_GetAttributeSet(TQ3GeometryObject theGeom, TQ3AttributeSet *attributeSet)
-{	TQ3AttributeSet			*geomAttributes = e3geometry_get_attributes(theGeom);
+{	TQ3AttributeSet			*geomAttributes = e3geometry_get_attributes( (E3Geometry*) theGeom);
 
 
 
@@ -869,7 +865,7 @@ E3Geometry_GetAttributeSet(TQ3GeometryObject theGeom, TQ3AttributeSet *attribute
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Geometry_SetAttributeSet(TQ3GeometryObject theGeom, TQ3AttributeSet attributeSet)
-{	TQ3AttributeSet			*geomAttributes = e3geometry_get_attributes(theGeom);
+{	TQ3AttributeSet			*geomAttributes = e3geometry_get_attributes ( (E3Geometry*) theGeom ) ;
 
 
 

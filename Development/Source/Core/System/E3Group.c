@@ -139,7 +139,27 @@ E3GroupInfo::E3GroupInfo	(
 		startIterateMethod				( (TQ3XGroupStartIterateMethod)				Find_Method ( kQ3XMethodType_GroupStartIterate ) ) ,		 
 		endIterateMethod				( (TQ3XGroupEndIterateMethod)				Find_Method ( kQ3XMethodType_GroupEndIterate ) )		 
 	{
-
+	if ( acceptObjectMethod == NULL
+	|| addObjectMethod == NULL
+	|| addObjectBeforeMethod == NULL
+	|| addObjectAfterMethod == NULL
+	|| setPositionObjectMethod == NULL
+	|| removePositionMethod == NULL
+	|| getFirstPositionOfTypeMethod == NULL
+	|| getLastPositionOfTypeMethod == NULL
+	|| getNextPositionOfTypeMethod == NULL
+	|| getPrevPositionOfTypeMethod == NULL
+	|| countObjectsOfTypeMethod == NULL
+	|| emptyObjectsOfTypeMethod == NULL
+	|| getFirstObjectPositionMethod == NULL
+	|| getLastObjectPositionMethod == NULL
+	|| getNextObjectPositionMethod == NULL
+	|| getPrevObjectPositionMethod == NULL
+	|| positionNewMethod == NULL
+	|| positionDeleteMethod == NULL
+	|| startIterateMethod == NULL
+	|| endIterateMethod == NULL )
+		SetAbstract () ;
 	} ;
 
 
@@ -226,17 +246,10 @@ e3group_acceptobject(TQ3GroupObject group, TQ3Object object)
 TQ3XGroupPosition*
 E3Group::createPosition ( TQ3Object object )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->acceptObjectMethod == NULL )
-		return NULL ;
-		
-	if ( ( (E3GroupInfo*) GetClass () )->acceptObjectMethod ( (TQ3GroupObject) this, object ) != kQ3False )
+	if ( GetClass ()->acceptObjectMethod ( (TQ3GroupObject) this, object ) != kQ3False )
 		{		
-		if ( ( (E3GroupInfo*) GetClass () )->positionNewMethod == NULL )
-			return NULL ;
-		
 		TQ3XGroupPosition* newGroupPosition ;
-		TQ3Status newResult = ( (E3GroupInfo*) GetClass () )->positionNewMethod ( &newGroupPosition, object, this ) ;
-		if ( newResult != kQ3Failure )
+		if ( TQ3Status newResult = GetClass ()->positionNewMethod ( &newGroupPosition, object, this ) )
 			return newGroupPosition ;
 		}
 	else
@@ -356,16 +369,11 @@ E3Group::addafter ( TQ3GroupPosition position, TQ3Object object )
 //      e3group_setposition : Group set position method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3group_setposition(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object object)
+e3group_setposition( E3Group* group, TQ3GroupPosition position, TQ3Object object)
 	{
 	TQ3XGroupPosition* pos = (TQ3XGroupPosition*) position ;
 	
-	if ( ( (E3GroupInfo*) group->GetClass () )->acceptObjectMethod == NULL )
-		return kQ3Failure ;
-
-
-
-	if ( ( (E3GroupInfo*) group->GetClass () )->acceptObjectMethod ( group, object ) == kQ3True )
+	if ( group->GetClass ()->acceptObjectMethod ( group, object ) == kQ3True )
 		{
 		// replace this position with this object
 		if ( pos->object )
@@ -397,8 +405,7 @@ e3group_removeposition ( E3Group* group, TQ3XGroupPosition* finishedGroupPositio
 	TQ3Object result = finishedGroupPosition->object ; // pass the reference back to the caller
 	finishedGroupPosition->object = NULL ; // so does not get disposed
 	
-	if ( ( (E3GroupInfo*) group->GetClass () )->positionDeleteMethod != NULL )
-		( (E3GroupInfo*) group->GetClass () )->positionDeleteMethod ( finishedGroupPosition ) ;
+	group->GetClass ()->positionDeleteMethod ( finishedGroupPosition ) ;
 
 	return result ;
 	}
@@ -641,8 +648,7 @@ E3Group::emptyobjects ( TQ3ObjectType isType )
 			next->prev = pos->prev ;
 			pos->prev->next = pos->next ;
 
-			if ( ( (E3GroupInfo*) GetClass () )->positionDeleteMethod != NULL )
-				( (E3GroupInfo*) GetClass () )->positionDeleteMethod ( pos ) ;
+			GetClass ()->positionDeleteMethod ( pos ) ;
 			pos = next ;
 			}
 		else
@@ -987,13 +993,7 @@ e3group_enditerate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object *
 static TQ3Status
 e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, E3Group* theObject, const void *objectData)
 	{
-	E3GroupInfo* groupClass = (E3GroupInfo*) theObject->GetClass () ;
-	if ( groupClass->startIterateMethod == NULL || groupClass->endIterateMethod == NULL )
-		{
-		E3ErrorManager_PostError(kQ3ErrorNeedRequiredMethods, kQ3False);
-		return kQ3Failure ;
-		}
-
+	E3GroupInfo* groupClass = theObject->GetClass () ;
 
 
 	// Grab the view mode. If we're picking, push the group onto the view stack
@@ -1623,7 +1623,7 @@ e3group_display_ordered_setposition(TQ3GroupObject group, TQ3GroupPosition posit
 	// can this object be put at this position
 	if ( e3group_display_ordered_getlistindex( object ) ==
 		e3group_display_ordered_getlistindex( pos->object ) )
-		return e3group_setposition(group, position, object);
+		return e3group_setposition( (E3Group*) group, position, object);
 	
 	return kQ3Failure ;
 }
@@ -1957,8 +1957,7 @@ e3group_display_ordered_emptyobjectsoftype ( E3Group* group, TQ3ObjectType isTyp
 		posx->next->prev = posx->prev ;
 		posx->prev->next = posx->next ;
 
-		if ( ( (E3GroupInfo*) group->GetClass () )->positionDeleteMethod != NULL )
-			( (E3GroupInfo*) group->GetClass () )->positionDeleteMethod ( pos ) ;
+		group->GetClass ()->positionDeleteMethod ( pos ) ;
 		}
 		
 	return kQ3Success ;
@@ -2598,13 +2597,8 @@ E3Group_GetType(TQ3GroupObject group)
 TQ3GroupPosition
 E3Group::AddObject ( TQ3Object object )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->addObjectMethod == NULL )
-		return NULL ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->addObjectMethod ( this, object ) ;
+	return GetClass ()->addObjectMethod ( this, object ) ;
 	}
 
 
@@ -2638,13 +2632,9 @@ E3Group::AddObjectAndDispose ( TQ3Object* theObject )
 TQ3GroupPosition
 E3Group::AddObjectBefore ( TQ3GroupPosition position, TQ3Object object )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->addObjectBeforeMethod == NULL )
-		return NULL ;
-
-
-
+	
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->addObjectBeforeMethod ( this, position, object ) ;
+	return GetClass ()->addObjectBeforeMethod ( this, position, object ) ;
 	}
 
 
@@ -2657,13 +2647,8 @@ E3Group::AddObjectBefore ( TQ3GroupPosition position, TQ3Object object )
 TQ3GroupPosition
 E3Group::AddObjectAfter ( TQ3GroupPosition position, TQ3Object object )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->addObjectAfterMethod == NULL )
-		return NULL ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->addObjectAfterMethod ( this, position, object ) ;
+	return GetClass ()->addObjectAfterMethod ( this, position, object ) ;
 	}
 
 
@@ -2702,13 +2687,8 @@ E3Group::GetPositionObject ( TQ3GroupPosition position, TQ3Object *object )
 TQ3Status
 E3Group::SetPositionObject ( TQ3GroupPosition position, TQ3Object object )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->setPositionObjectMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	TQ3Status result = ( (E3GroupInfo*) GetClass () )->setPositionObjectMethod ( this, position, object ) ;
+	TQ3Status result = GetClass ()->setPositionObjectMethod ( this, position, object ) ;
 
 	Edited () ;
 
@@ -2725,13 +2705,8 @@ E3Group::SetPositionObject ( TQ3GroupPosition position, TQ3Object object )
 TQ3Object
 E3Group::RemovePosition ( TQ3GroupPosition position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->removePositionMethod == NULL )
-		return NULL ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->removePositionMethod ( this, position ) ;
+	return GetClass ()->removePositionMethod ( this, position ) ;
 	}
 
 
@@ -2744,13 +2719,8 @@ E3Group::RemovePosition ( TQ3GroupPosition position )
 TQ3Status
 E3Group::GetFirstPosition ( TQ3GroupPosition* position) 
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getFirstPositionOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getFirstPositionOfTypeMethod ( this, kQ3ObjectTypeShared, position ) ;
+	return GetClass ()->getFirstPositionOfTypeMethod ( this, kQ3ObjectTypeShared, position ) ;
 	}
 
 
@@ -2763,13 +2733,8 @@ E3Group::GetFirstPosition ( TQ3GroupPosition* position)
 TQ3Status
 E3Group::GetLastPosition ( TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getLastPositionOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getLastPositionOfTypeMethod ( this, kQ3ObjectTypeShared, position ) ;
+	return GetClass ()->getLastPositionOfTypeMethod ( this, kQ3ObjectTypeShared, position ) ;
 	}
 
 
@@ -2782,13 +2747,8 @@ E3Group::GetLastPosition ( TQ3GroupPosition* position )
 TQ3Status
 E3Group::GetNextPosition ( TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getNextPositionOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getNextPositionOfTypeMethod ( this, kQ3ObjectTypeShared, position ) ;
+	return GetClass ()->getNextPositionOfTypeMethod ( this, kQ3ObjectTypeShared, position ) ;
 	}
 
 
@@ -2801,13 +2761,8 @@ E3Group::GetNextPosition ( TQ3GroupPosition* position )
 TQ3Status
 E3Group::GetPreviousPosition ( TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getPrevPositionOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getPrevPositionOfTypeMethod ( this, kQ3ObjectTypeShared, position ) ;
+	return GetClass ()->getPrevPositionOfTypeMethod ( this, kQ3ObjectTypeShared, position ) ;
 	}
 
 
@@ -2820,13 +2775,8 @@ E3Group::GetPreviousPosition ( TQ3GroupPosition* position )
 TQ3Status
 E3Group::CountObjects ( TQ3Uns32* nObjects )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->countObjectsOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->countObjectsOfTypeMethod ( this, kQ3ObjectTypeShared, nObjects ) ;
+	return GetClass ()->countObjectsOfTypeMethod ( this, kQ3ObjectTypeShared, nObjects ) ;
 	}
 
 
@@ -2839,13 +2789,8 @@ E3Group::CountObjects ( TQ3Uns32* nObjects )
 TQ3Status
 E3Group::EmptyObjects ( void )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->emptyObjectsOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->emptyObjectsOfTypeMethod ( this, kQ3ObjectTypeShared ) ;
+	return GetClass ()->emptyObjectsOfTypeMethod ( this, kQ3ObjectTypeShared ) ;
 	}
 
 
@@ -2858,13 +2803,8 @@ E3Group::EmptyObjects ( void )
 TQ3Status
 E3Group::GetFirstPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getFirstPositionOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getFirstPositionOfTypeMethod ( this, isType, position ) ;
+	return GetClass ()->getFirstPositionOfTypeMethod ( this, isType, position ) ;
 	}
 
 
@@ -2877,13 +2817,8 @@ E3Group::GetFirstPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* positi
 TQ3Status
 E3Group::GetLastPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getLastPositionOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getLastPositionOfTypeMethod ( this, isType, position ) ;
+	return GetClass ()->getLastPositionOfTypeMethod ( this, isType, position ) ;
 	}
 
 
@@ -2896,13 +2831,8 @@ E3Group::GetLastPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* positio
 TQ3Status
 E3Group::GetNextPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getNextPositionOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getNextPositionOfTypeMethod ( this, isType, position ) ;
+	return GetClass ()->getNextPositionOfTypeMethod ( this, isType, position ) ;
 	}
 
 
@@ -2915,13 +2845,8 @@ E3Group::GetNextPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* positio
 TQ3Status
 E3Group::GetPreviousPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getPrevPositionOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getPrevPositionOfTypeMethod ( this, isType, position ) ;
+	return GetClass ()->getPrevPositionOfTypeMethod ( this, isType, position ) ;
 	}
 
 
@@ -2934,13 +2859,8 @@ E3Group::GetPreviousPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* pos
 TQ3Status
 E3Group::CountObjectsOfType ( TQ3ObjectType isType, TQ3Uns32* nObjects )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->countObjectsOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->countObjectsOfTypeMethod ( this, isType, nObjects ) ;
+	return GetClass ()->countObjectsOfTypeMethod ( this, isType, nObjects ) ;
 	}
 
 
@@ -2953,13 +2873,8 @@ E3Group::CountObjectsOfType ( TQ3ObjectType isType, TQ3Uns32* nObjects )
 TQ3Status
 E3Group::EmptyObjectsOfType ( TQ3ObjectType isType )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->emptyObjectsOfTypeMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->emptyObjectsOfTypeMethod ( this, isType ) ;
+	return GetClass ()->emptyObjectsOfTypeMethod ( this, isType ) ;
 	}
 
 
@@ -2972,13 +2887,8 @@ E3Group::EmptyObjectsOfType ( TQ3ObjectType isType )
 TQ3Status
 E3Group::GetFirstObjectPosition ( TQ3Object object, TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getFirstObjectPositionMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getFirstObjectPositionMethod ( this, object, position ) ;
+	return GetClass ()->getFirstObjectPositionMethod ( this, object, position ) ;
 	}
 
 
@@ -2991,13 +2901,8 @@ E3Group::GetFirstObjectPosition ( TQ3Object object, TQ3GroupPosition* position )
 TQ3Status
 E3Group::GetLastObjectPosition ( TQ3Object object, TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getLastObjectPositionMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getLastObjectPositionMethod ( this, object, position ) ;
+	return GetClass ()->getLastObjectPositionMethod ( this, object, position ) ;
 	}
 
 
@@ -3010,13 +2915,8 @@ E3Group::GetLastObjectPosition ( TQ3Object object, TQ3GroupPosition* position )
 TQ3Status
 E3Group::GetNextObjectPosition ( TQ3Object object, TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getNextObjectPositionMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getNextObjectPositionMethod ( this, object, position ) ;
+	return GetClass ()->getNextObjectPositionMethod ( this, object, position ) ;
 	}
 
 
@@ -3029,13 +2929,8 @@ E3Group::GetNextObjectPosition ( TQ3Object object, TQ3GroupPosition* position )
 TQ3Status
 E3Group::GetPreviousObjectPosition ( TQ3Object object, TQ3GroupPosition* position )
 	{
-	if ( ( (E3GroupInfo*) GetClass () )->getPrevObjectPositionMethod == NULL )
-		return kQ3Failure ;
-
-
-
 	// Call the method
-	return ( (E3GroupInfo*) GetClass () )->getPrevObjectPositionMethod ( this, object, position ) ;
+	return GetClass ()->getPrevObjectPositionMethod ( this, object, position ) ;
 	}
 
 

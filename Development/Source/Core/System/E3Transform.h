@@ -91,6 +91,7 @@ public :
 
 	// There is no extra data for this class
 
+	E3TransformInfo*		GetClass ( void ) { return (E3TransformInfo*) OpaqueTQ3Object::GetClass () ; }
 
 	TQ3Matrix4x4*			GetMatrix ( TQ3Matrix4x4* theMatrix ) ;
 	} ;

@@ -201,7 +201,8 @@ E3TransformInfo::E3TransformInfo	(
 		: E3ShapeInfo ( newClassMetaHandler, newParent ) ,
 		matrixMethod		( (TQ3XTransformMatrixMethod)		Find_Method ( kQ3XMethodTypeTransformMatrix ) )		 
 	{
-
+	if ( matrixMethod == NULL )
+		SetAbstract () ;
 	} ;
 
 
@@ -1214,11 +1215,7 @@ E3Transform_GetType(TQ3TransformObject theTransform)
 TQ3Matrix4x4*
 E3Transform::GetMatrix ( TQ3Matrix4x4* theMatrix )
 	{
-	// Call the method, or revert to the identity matrix on error
-	if ( ( (E3TransformInfo*) GetClass () )->matrixMethod != NULL )
-		( (E3TransformInfo*) GetClass () )->matrixMethod ( FindLeafInstanceData (), theMatrix ) ;
-	else
-		Q3Matrix4x4_SetIdentity ( theMatrix ) ; // Should never happen now as we have a default method
+	GetClass ()->matrixMethod ( FindLeafInstanceData (), theMatrix ) ;
 	
 	return theMatrix ;
 	}

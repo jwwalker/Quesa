@@ -110,6 +110,8 @@ Q3_CLASS_ENUMS ( kQ3SharedTypeStorage, E3Storage, E3Shared )
 	
 public :
 
+	E3StorageInfo*					GetClass ( void ) { return (E3StorageInfo*) OpaqueTQ3Object::GetClass () ; }
+	
 	TQ3Status						GetSize ( TQ3Uns32* size ) ;
 	TQ3Status						GetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char* data, TQ3Uns32* sizeRead ) ;
 	TQ3Status						SetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char* data, TQ3Uns32* sizeWritten ) ;
