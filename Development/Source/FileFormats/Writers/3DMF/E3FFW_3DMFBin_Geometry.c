@@ -1437,12 +1437,75 @@ e3ffw_3DMF_triangle_write(const TQ3TriangleData *object,
 //=============================================================================
 //      e3ffw_3DMF_box_traverse : Box traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_box_traverse( TQ3Object object,
+					 TQ3BoxData *data,
+					 TQ3ViewObject view )
+{
+	TQ3Status	status;
+	TQ3Uns32 i;
+	TQ3Object attributeList = NULL;
+	
+	status = Q3XView_SubmitWriteData( view, 48, (void*)data, NULL );
+	
+	// Optional bottom caps flag
+	if ( (status == kQ3Success) && (data->faceAttributeSet != NULL) )
+		{
+		
+		attributeList = E3FFormat_3DMF_FaceAttributeSetList_New (6);
+		
+		if(attributeList){
+		
+			for(i=0;i < 6 && status == kQ3Success;i++){
+				if(data->faceAttributeSet[i] != NULL){
+					status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, data->faceAttributeSet[i]);
+					}
+				}
+				
+			if(status == kQ3Success)
+				status = Q3Object_Submit (attributeList, view);
+			Q3Object_Dispose(attributeList);
+			}
+		else
+			{
+			status = kQ3Failure;
+			}
+		
+		}
+	
+	
+	// Overall attribute set
+	if ( (status == kQ3Success) && (data->boxAttributeSet != NULL) )
+		status = Q3Object_Submit( data->boxAttributeSet, view );
+
+
+	return status;
+}
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_box_write : Box write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_box_write( const TQ3BoxData *data,
+				TQ3FileObject theFile )
+{
+	TQ3Status	writeStatus = kQ3Failure;
+	
+	writeStatus = Q3Vector3D_Write( &data->orientation, theFile );
+
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->majorAxis, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->minorAxis, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write( &data->origin, theFile );
+		
+	return writeStatus;
+}
 
 
 
@@ -1581,6 +1644,8 @@ e3ffw_3DMF_cone_traverse( TQ3Object object,
 }
 
 
+
+
 //=============================================================================
 //      e3ffw_3DMF_cone_write : Cone write method.
 //-----------------------------------------------------------------------------
@@ -1615,6 +1680,8 @@ e3ffw_3DMF_cone_write( const TQ3ConeData *data,
 	
 	return writeStatus;
 }
+
+
 
 
 //=============================================================================
@@ -2640,6 +2707,9 @@ E3FFW_3DMF_RegisterGeom(void)
 	
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeDisk,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_disk_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeDisk,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_disk_write);
+	
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeBox,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_box_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeBox,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_box_write);
 	
 	return kQ3Success;
 }
