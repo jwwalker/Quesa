@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,6 +46,7 @@
 #include "E3Prefix.h"
 #include "E3Shader.h"
 #include "E3View.h"
+#include "E3Main.h"
 
 
 
@@ -63,6 +64,93 @@ typedef struct TQ3ShaderData {
 
 
 
+
+
+class E3Shader : public E3ShapeData // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	TQ3ShaderData		shaderData ;
+	} ;
+	
+
+
+class E3IlluminationShader : public E3Shader // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3NULLIllumination : public E3IlluminationShader // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3LambertIllumination : public E3IlluminationShader // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3PhongIllumination : public E3IlluminationShader // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3SurfaceShader : public E3Shader // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3TextureShader : public E3SurfaceShader // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3TextureObject		texture ;
+	} ;
+	
 
 
 //=============================================================================
@@ -618,60 +706,60 @@ E3Shader_RegisterClass(void)
 
 
 	// Register the shader base class
-	qd3dStatus = E3ClassTree_RegisterClass(	kQ3SharedTypeShape,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
 											kQ3ShapeTypeShader,
 											kQ3ClassNameShader,
 											e3shader_metahandler,
-											sizeof(TQ3ShaderData)) ;
+											~sizeof(E3Shader)) ;
 
 
 	//register illumination shader bases class
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(	kQ3ShapeTypeShader,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeShader,
 												kQ3ShaderTypeIllumination,
 												kQ3ClassNameShaderIllumination,
 												e3shader_illumination_metahandler,
-												0) ;
+												~sizeof(E3IlluminationShader)) ;
 
 
 	//register illumination shaders
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(	kQ3ShaderTypeIllumination,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShaderTypeIllumination,
 												kQ3IlluminationTypeNULL,
 												kQ3ClassNameIlluminationNULL,
 												NULL,
-												0);
+												~sizeof(E3NULLIllumination));
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(	kQ3ShaderTypeIllumination,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShaderTypeIllumination,
 												kQ3IlluminationTypeLambert,
 												kQ3ClassNameIlluminationLambert,
 												NULL,
-												0);
+												~sizeof(E3LambertIllumination));
 	
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(	kQ3ShaderTypeIllumination,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShaderTypeIllumination,
 												kQ3IlluminationTypePhong,
 												kQ3ClassNameIlluminationPhong,
 												NULL,
-												0);	
+												~sizeof(E3PhongIllumination));	
 
 
 	//register surface shader base class
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass( kQ3ShapeTypeShader,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeShader,
 												kQ3ShaderTypeSurface,
 												kQ3ClassNameShaderSurface,
 												e3shader_surface_metahandler,
-												0) ;
+												~sizeof(E3SurfaceShader)) ;
 
 
 	//register surface shaders
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass( kQ3ShaderTypeSurface,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShaderTypeSurface,
 												kQ3SurfaceShaderTypeTexture,
 												kQ3ClassNameSurfaceTexture,
 												e3shader_texture_metahandler,
-												sizeof(TQ3TextureObject)) ;
+												~sizeof(E3TextureShader)) ;
 
 
 	return(qd3dStatus) ;
@@ -691,13 +779,13 @@ E3Shader_UnregisterClass(void)
 
 
 	// Unregister the classes	
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3SurfaceShaderTypeTexture, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShaderTypeSurface,        kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3IlluminationTypePhong,    kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3IlluminationTypeLambert,  kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3IlluminationTypeNULL,     kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShaderTypeIllumination,   kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShapeTypeShader,          kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SurfaceShaderTypeTexture, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShaderTypeSurface,        kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3IlluminationTypePhong,    kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3IlluminationTypeLambert,  kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3IlluminationTypeNULL,     kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShaderTypeIllumination,   kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeShader,          kQ3True);
 		
 	return(qd3dStatus);
 }
@@ -749,17 +837,14 @@ E3Shader_Submit(TQ3ShaderObject shader, TQ3ViewObject view)
 //      E3Shader_SetUVTransform : Set the UV transform of a shader.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_SetUVTransform(TQ3ShaderObject shader, const TQ3Matrix3x3 *uvTransform)
-{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
-
-
-
+E3Shader_SetUVTransform(TQ3ShaderObject theShader, const TQ3Matrix3x3 *uvTransform)
+	{
 	// Set the transform
-	Q3Matrix3x3_Copy( uvTransform, &instanceData->uvTransform ) ;
-	Q3Shared_Edited(shader);
+	Q3Matrix3x3_Copy ( uvTransform, & ( (E3Shader*) theShader )->shaderData.uvTransform ) ;
+	Q3Shared_Edited ( theShader ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -769,16 +854,13 @@ E3Shader_SetUVTransform(TQ3ShaderObject shader, const TQ3Matrix3x3 *uvTransform)
 //      E3Shader_GetUVTransform : Get the UV transform of a shader.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_GetUVTransform(TQ3ShaderObject shader, TQ3Matrix3x3 *uvTransform)
-{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
-
-
-
+E3Shader_GetUVTransform(TQ3ShaderObject theShader, TQ3Matrix3x3 *uvTransform)
+	{
 	// Get the transform
-	Q3Matrix3x3_Copy( &instanceData->uvTransform, uvTransform ) ;
+	Q3Matrix3x3_Copy ( & ( (E3Shader*) theShader )->shaderData.uvTransform, uvTransform ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -788,17 +870,14 @@ E3Shader_GetUVTransform(TQ3ShaderObject shader, TQ3Matrix3x3 *uvTransform)
 //      E3Shader_SetUBoundary :	Set the U parameterization boundary type.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_SetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary uBoundary)
-{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
-
-
-
+E3Shader_SetUBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary uBoundary)
+	{
 	// Set the boundary
-	instanceData->uBoundary = uBoundary ;
-	Q3Shared_Edited(shader);
+	( (E3Shader*) theShader )->shaderData.uBoundary = uBoundary ;
+	Q3Shared_Edited ( theShader ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -808,17 +887,14 @@ E3Shader_SetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary uBoundary)
 //      E3Shader_SetVBoundary :	Set the V parameterization boundary type.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_SetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary vBoundary)
-{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
-
-
-
+E3Shader_SetVBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary vBoundary)
+	{
 	// Set the boundary
-	instanceData->vBoundary	= vBoundary ;
-	Q3Shared_Edited(shader);
+	( (E3Shader*) theShader )->shaderData.vBoundary	= vBoundary ;
+	Q3Shared_Edited ( theShader ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -828,16 +904,13 @@ E3Shader_SetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary vBoundary)
 //      E3Shader_GetUBoundary :	Get the U parametrization boundary type.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_GetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *uBoundary)
-{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
-
-
-
+E3Shader_GetUBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary *uBoundary)
+	{
 	// Get the U boundary type	
-	*uBoundary	= instanceData->uBoundary;
+	*uBoundary	= ( (E3Shader*) theShader )->shaderData.uBoundary ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -847,16 +920,13 @@ E3Shader_GetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *uBoundary)
 //      E3Shader_GetVBoundary :	Get the V parametrization boundary type.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_GetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *vBoundary)
-{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
-
-
-
+E3Shader_GetVBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary *vBoundary)
+	{
 	// Get the V boundary type
-	*vBoundary	= instanceData->vBoundary;
+	*vBoundary	= ( (E3Shader*) theShader )->shaderData.vBoundary;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -976,16 +1046,13 @@ E3TextureShader_New(TQ3TextureObject texture)
 //      E3TextureShader_GetTexture : Get the texture shader's texture object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TextureShader_GetTexture(TQ3ShaderObject shader, TQ3TextureObject *texture)
-{	TQ3TextureObject			*instanceData = (TQ3TextureObject *) E3ClassTree_FindInstanceData(shader, kQ3SurfaceShaderTypeTexture);
-
-
-
+E3TextureShader_GetTexture(TQ3ShaderObject theShader, TQ3TextureObject *texture)
+	{
 	// Create a new reference to our renderer
-	E3Shared_Acquire(texture, *instanceData);
+	E3Shared_Acquire ( texture , ( (E3TextureShader*) theShader )->texture ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -995,14 +1062,11 @@ E3TextureShader_GetTexture(TQ3ShaderObject shader, TQ3TextureObject *texture)
 //      E3TextureShader_SetTexture : Set a texture shader's texture.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TextureShader_SetTexture(TQ3ShaderObject shader, TQ3TextureObject texture)
-{	TQ3TextureObject			*instanceData = (TQ3TextureObject *) E3ClassTree_FindInstanceData(shader, kQ3SurfaceShaderTypeTexture);
-
-
-
+E3TextureShader_SetTexture(TQ3ShaderObject theShader, TQ3TextureObject texture)
+	{
 	// Replace the existing texture reference
-	E3Shared_Replace(instanceData, texture);
-	Q3Shared_Edited(shader);
+	E3Shared_Replace ( & ( (E3TextureShader*) theShader )->texture, texture ) ;
+	Q3Shared_Edited ( theShader ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
