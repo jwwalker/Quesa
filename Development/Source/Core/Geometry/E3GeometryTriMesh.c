@@ -825,7 +825,7 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject				theView,
 		return(kQ3Failure);
 
 	Q3Point3D_To3DTransformArray(geomData->points,
-								 E3View_State_GetLocalToWorld(theView),
+								 E3View_State_GetMatrixLocalToWorld(theView),
 								 worldPoints,
 								 numPoints,
 								 sizeof(TQ3Point3D),
@@ -916,7 +916,7 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 
 	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
 	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
-	Q3Matrix4x4_Multiply(E3View_State_GetLocalToWorld(theView), &worldToFrustum, &theMatrix);
+	Q3Matrix4x4_Multiply(E3View_State_GetMatrixLocalToWorld(theView), &worldToFrustum, &theMatrix);
 	Q3Matrix4x4_Multiply(&theMatrix, &frustumToWindow, &theMatrix);
 
 	Q3Point3D_To3DTransformArray(geomData->points, &theMatrix, windowPoints, numPoints, sizeof(TQ3Point3D), sizeof(TQ3Point3D));
@@ -992,7 +992,7 @@ e3geom_trimesh_pick_screen_bounds(TQ3ViewObject theView, const TQ3TriMeshData *g
 	// Transform the eight corners from world coordinates to window coordinates
 	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
 	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
-	Q3Matrix4x4_Multiply(E3View_State_GetLocalToWorld(theView), &worldToFrustum, &theMatrix);
+	Q3Matrix4x4_Multiply(E3View_State_GetMatrixLocalToWorld(theView), &worldToFrustum, &theMatrix);
 	Q3Matrix4x4_Multiply(&theMatrix, &frustumToWindow, &theMatrix);
 
 	Q3Point3D_To3DTransformArray(worldPoints, &theMatrix, windowPoints, 8, sizeof(TQ3Point3D), sizeof(TQ3Point3D));
@@ -1045,7 +1045,7 @@ e3geom_trimesh_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, c
 	E3View_GetRayThroughPickPoint(theView, &theRay);
 	e3geom_trimesh_bounds_to_corners( &geomData->bBox, corners );
 
-	Q3Point3D_To3DTransformArray( corners, E3View_State_GetLocalToWorld(theView),
+	Q3Point3D_To3DTransformArray( corners, E3View_State_GetMatrixLocalToWorld(theView),
 								  corners, 8, sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
 
 	Q3BoundingBox_SetFromPoints3D( &worldBounds, corners, 8, sizeof(TQ3Point3D) );
@@ -1136,7 +1136,7 @@ e3geom_trimesh_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, cons
 	// box would be incorrect.
 	e3geom_trimesh_bounds_to_corners( &geomData->bBox, boxCorners );
 	Q3Point3D_To3DTransformArray(boxCorners,
-								 E3View_State_GetLocalToWorld(theView),
+								 E3View_State_GetMatrixLocalToWorld(theView),
 								 boxCorners,
 								 8,
 								 sizeof(TQ3Point3D),
