@@ -1116,13 +1116,13 @@ Q3Point2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2, const TQ3P
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on p1
-		return(NULL);
+		return(0.0f);
 
 	if (0) // Further checks on p2
-		return(NULL);
+		return(0.0f);
 
 	if (0) // Further checks on p3
-		return(NULL);
+		return(0.0f);
 #endif
 
 
