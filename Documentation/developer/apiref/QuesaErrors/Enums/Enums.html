@@ -4,9 +4,17 @@
 <blockquote><pre>
 typedef enum {
     kQ3ErrorNone                                = 0,
+    kQ3ErrorFirst                               = -28500,
     kQ3ErrorInternalError                       = -28500,
     kQ3ErrorNoRecovery                          = -28499,
     kQ3ErrorLastFatalError                      = -28498,
+    kQ3ErrorNotUsedByQD3D_1                     = -28497,
+    kQ3ErrorNotUsedByQD3D_2                     = -28496,
+    kQ3ErrorNotUsedByQD3D_3                     = -28495,
+    kQ3ErrorNotUsedByQD3D_4                     = -28494,
+    kQ3ErrorNotUsedByQD3D_5                     = -28493,
+    kQ3ErrorNotUsedByQD3D_6                     = -28492,
+    kQ3ErrorNotUsedByQD3D_7                     = -28491,
     kQ3ErrorNotInitialized                      = -28490,
     kQ3ErrorAlreadyInitialized                  = -28489,
     kQ3ErrorUnimplemented                       = -28488,
@@ -119,13 +127,15 @@ typedef enum {
     kQ3ErrorPickingLoopFailed                   = -28381,
     kQ3ErrorRenderingLoopFailed                 = -28380,
     kQ3ErrorWritingLoopFailed                   = -28379,
-    kQ3ErrorBoundingLoopFailed                  = -28378
+    kQ3ErrorBoundingLoopFailed                  = -28378,
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-	,
-    kQ3ErrorPlatformError                       = -28377
+    kQ3ErrorPlatformError                       = -28377,
+    kQ3ErrorInfiniteRationalPoint				= -28376,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
+    kQ3ErrorLast,
+    kQ3ErrorSize32                              = 0xFFFFFFFF
 } TQ3Error;
 </pre>
 </blockquote>
@@ -253,7 +263,8 @@ typedef enum {
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorRenderingLoopFailed"><tt>kQ3ErrorRenderingLoopFailed</tt></a></td><td>Rendering loop failed.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorWritingLoopFailed"><tt>kQ3ErrorWritingLoopFailed</tt></a></td><td>Writing loop failed.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorBoundingLoopFailed"><tt>kQ3ErrorBoundingLoopFailed</tt></a></td><td>Bounding loop failed.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorPlatformError"><tt>kQ3ErrorPlatformError</tt></a></td><td>Platform-specific error (not available in QD3D).</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorPlatformError"><tt>kQ3ErrorPlatformError</tt></a></td><td>Platform-specific error. Not available in QD3D.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInfiniteRationalPoint"><tt>kQ3ErrorInfiniteRationalPoint</tt></a></td><td>Infinite rational point. Not available in QD3D.</td><tr>
 </table>
 </blockquote>
 <hr>
@@ -262,6 +273,7 @@ typedef enum {
 <blockquote><pre>
 typedef enum {
     kQ3NoticeNone                               = 0,
+    kQ3NoticeFirst                              = -28100,
     kQ3NoticeDataAlreadyEmpty                   = -28100,
     kQ3NoticeMethodNotSupported                 = -28099,
     kQ3NoticeObjectAlreadySet                   = -28098,
@@ -277,7 +289,14 @@ typedef enum {
     kQ3NoticeScaleContainsZeroEntries           = -28088,
     kQ3NoticeSystemAlreadyInitialized           = -28087,
     kQ3NoticeViewSyncCalledAgain                = -28086,
-    kQ3NoticeFileCancelled                      = -28085
+    kQ3NoticeFileCancelled                      = -28085,
+
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+	kQ3NoticeBrightnessLessThanZero             = -28084,
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+    kQ3NoticeLast,
+    kQ3NoticeSize32                             = 0xFFFFFFFF
 } TQ3Notice;
 </pre>
 </blockquote>
@@ -300,11 +319,12 @@ typedef enum {
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeMeshEdgeIsNotBoundary"><tt>kQ3NoticeMeshEdgeIsNotBoundary</tt></a></td><td>Mesh edge is not boundary.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeDrawContextNotSetUsingInternalDefaults"><tt>kQ3NoticeDrawContextNotSetUsingInternalDefaults</tt></a></td><td>Draw context not set using internal defaults.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults"><tt>kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults</tt></a></td><td>Invalid attenuation type using internal defaults.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeBrightnessGreaterThanOne"><tt>kQ3NoticeBrightnessGreaterThanOne</tt></a></td><td>Brightness greater than one.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeBrightnessGreaterThanOne"><tt>kQ3NoticeBrightnessGreaterThanOne</tt></a></td><td>Brightness greater than 1.0.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeScaleContainsZeroEntries"><tt>kQ3NoticeScaleContainsZeroEntries</tt></a></td><td>Scale contains zero entries.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeSystemAlreadyInitialized"><tt>kQ3NoticeSystemAlreadyInitialized</tt></a></td><td>System already initialized.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeViewSyncCalledAgain"><tt>kQ3NoticeViewSyncCalledAgain</tt></a></td><td>View sync called again.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeFileCancelled"><tt>kQ3NoticeFileCancelled</tt></a></td><td>File cancelled.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeBrightnessLessThanZero"><tt>kQ3NoticeBrightnessLessThanZero</tt></a></td><td>Brightness less than 0.0. Not available in QD3D.</td><tr>
 </table>
 </blockquote>
 <hr>
@@ -313,6 +333,7 @@ typedef enum {
 <blockquote><pre>
 typedef enum {
     kQ3WarningNone                              = 0,
+    kQ3WarningFirst                             = -28300,
     kQ3WarningInternalException                 = -28300,
     kQ3WarningNoObjectSupportForDuplicateMethod = -28299,
     kQ3WarningNoObjectSupportForDrawMethod      = -28298,
@@ -352,7 +373,19 @@ typedef enum {
     kQ3WarningTypeAlreadyRegistered             = -28264,
     kQ3WarningTypeSameVersionAlreadyRegistered  = -28263,
     kQ3WarningTypeNewerVersionAlreadyRegistered = -28262,
-    kQ3WarningInvalidObjectInGroupMetafile      = -28261
+    kQ3WarningInvalidObjectInGroupMetafile      = -28261,
+
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+	kQ3WarningQuaternionNotNormalized           = -28260,
+	kQ3WarningNormalCanNotBeFlipped             = -28259,
+	kQ3WarningTriangleNotNormalized             = -28258,
+	kQ3WarningVertexNotNormalized               = -28257,
+    kQ3WarningReadInfiniteFloatingPointNumber   = -28256,
+    kQ3WarningReadBadNormalVector               = -28255,
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+    kQ3WarningLast,
+    kQ3WarningSize32                            = 0xFFFFFFFF
 } TQ3Warning;
 </pre>
 </blockquote>
@@ -404,8 +437,17 @@ typedef enum {
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningTypeSameVersionAlreadyRegistered"><tt>kQ3WarningTypeSameVersionAlreadyRegistered</tt></a></td><td>Type same version already registered.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningTypeNewerVersionAlreadyRegistered"><tt>kQ3WarningTypeNewerVersionAlreadyRegistered</tt></a></td><td>Type newer version already registered.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningInvalidObjectInGroupMetafile"><tt>kQ3WarningInvalidObjectInGroupMetafile</tt></a></td><td>Invalid object in group metafile.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningQuaternionNotNormalized"><tt>kQ3WarningQuaternionNotNormalized</tt></a></td><td>Quaternion is not normalized. Not available in QD3D.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningNormalCanNotBeFlipped"><tt>kQ3WarningNormalCanNotBeFlipped</tt></a></td><td>Normal can not be flipped as they would under QD3D. Not available in QD3D.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningTriangleNotNormalized"><tt>kQ3WarningTriangleNotNormalized</tt></a></td><td>Triangle normal is not normalized. Not available in QD3D.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningVertexNotNormalized"><tt>kQ3WarningVertexNotNormalized</tt></a></td><td>Vertex normal is not normalized. Not available in QD3D.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningReadInfiniteFloatingPointNumber"><tt>kQ3WarningReadInfiniteFloatingPointNumber</tt></a></td><td>Floating-point number read from file was
+infinite or NaN.  Not available in QD3D.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningReadBadNormalVector"><tt>kQ3WarningReadBadNormalVector</tt></a></td><td>A supposed normal vector has components so
+large or small that it cannot be normalized.
+Not available in QD3D.</td><tr>
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

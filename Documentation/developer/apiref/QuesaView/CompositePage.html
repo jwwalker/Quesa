@@ -528,6 +528,12 @@ Q3View_GetFrustumToWindowMatrixState (
 </tt><br>
 </pre></blockquote>
 <p>Get the frustum-to-window matrix state from a view.
+Must be called within a submitting loop.
+<br><br>
+This matrix may be used (via Q3Point3D_Transform) to transform
+points from frustum coordinates into window coordinates.  See
+Q3View_GetWorldToFrustumMatrixState for a description of frustum
+coordinates.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -622,6 +628,7 @@ Q3View_GetLocalToWorldMatrixState (
 </tt><br>
 </pre></blockquote>
 <p>Get the local-to-world matrix state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -784,7 +791,23 @@ Q3View_GetWorldToFrustumMatrixState (
 );
 </tt><br>
 </pre></blockquote>
-<p>Get the local-to-frustum matrix state from a view.
+<p>Get the world-to-frustum matrix state from a view.
+<br><br>
+This matrix can be used (via Q3Point3D_Transform) to transform points
+from world coordinates to frustum coordinates.  Frustum coordinates
+specify where a point falls within the viewing frustum.  In frustum
+space, the viewable area ranges in X from -1 (left) to 1 (right); in
+Y from -1 (bottom) to 1 (top), and in Z from 0 (near clipping plane)
+to -1 (far clipping plane).
+<br><br>
+Note that this matrix cannot sensibly transform a point which is at
+or behind the near clipping plane.
+<br><br>
+This matrix may be inverted for frustum-to-world transformations.
+<br><br>
+This function must be called within a submitting loop.  If you need
+this matrix when you are not in a submitting loop, use
+Q3Camera_GetWorldToFrustum instead.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1380,5 +1403,5 @@ May only be called within a view submitting loop.
 <b>Result:</b> Success or failure of the callback.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

@@ -96,7 +96,8 @@ typedef struct TQ3WindowPointPickData {
 <table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>data</tt></td><td>The common state for the pick.</td><tr>
-<tr valign=top><td><tt>point</tt></td><td>The pick point in local window coordinates.</td><tr>
+<tr valign=top><td><tt>point</tt></td><td>The pick point in local window coordinates.  Note that on Win32,
+this means relative to the HWND which contains the view.</td><tr>
 <tr valign=top><td><tt>vertexTolerance</tt></td><td>The vertex tolerance.  Only relevant to picking Point objects.</td><tr>
 <tr valign=top><td><tt>edgeTolerance</tt></td><td>The edge tolerance.  Only relevant to picking one-dimensional
 objects such as Lines and PolyLines.</td><tr>
@@ -150,5 +151,5 @@ objects such as Lines and PolyLines.</td><tr>
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

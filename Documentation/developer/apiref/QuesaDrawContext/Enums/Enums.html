@@ -4,7 +4,8 @@
 <blockquote><pre>
 typedef enum {
     kQ3DirectDrawObject                         = 1,
-    kQ3DirectDrawObject2                        = 2
+    kQ3DirectDrawObject2                        = 2,
+    kQ3DirectDrawObjectSize32                   = 0xFFFFFFFF
 } TQ3DirectDrawObjectSelector;
 </pre>
 </blockquote>
@@ -25,7 +26,8 @@ typedef enum {
 <blockquote><pre>
 typedef enum {
     kQ3DirectDrawSurface                        = 1,
-    kQ3DirectDrawSurface2                       = 2
+    kQ3DirectDrawSurface2                       = 2,
+    kQ3DirectDrawSurfaceSize32                  = 0xFFFFFFFF
 } TQ3DirectDrawSurfaceSelector;
 </pre>
 </blockquote>
@@ -46,7 +48,8 @@ typedef enum {
 <blockquote><pre>
 typedef enum {
     kQ3ClearMethodNone                          = 0,
-    kQ3ClearMethodWithColor                     = 1
+    kQ3ClearMethodWithColor                     = 1,
+    kQ3ClearMethodSize32                        = 0xFFFFFFFF
 } TQ3DrawContextClearImageMethod;
 </pre>
 </blockquote>
@@ -68,7 +71,8 @@ typedef enum {
 typedef enum {
     kQ3Mac2DLibraryNone                         = 0,
     kQ3Mac2DLibraryQuickDraw                    = 1,
-    kQ3Mac2DLibraryQuickDrawGX                  = 2
+    kQ3Mac2DLibraryQuickDrawGX                  = 2,
+    kQ3Mac2DLibrarySize32                       = 0xFFFFFFFF
 } TQ3MacDrawContext2DLibrary;
 </pre>
 </blockquote>
@@ -86,5 +90,5 @@ the library field should be set to kQ3Mac2DLibraryNone.
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>
