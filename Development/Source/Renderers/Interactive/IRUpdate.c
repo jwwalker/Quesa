@@ -1544,9 +1544,9 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 					for (x = 0; x < theWidth; x++)
 						{
-						dstPixel[0] = srcPixel[3];
-						dstPixel[1] = srcPixel[2];
-						dstPixel[2] = srcPixel[1];
+						dstPixel[0] = srcPixel[2];
+						dstPixel[1] = srcPixel[1];
+						dstPixel[2] = srcPixel[0];
 						dstPixel[3] = 0xFF;
 
 						srcPixel += srcDepth;
