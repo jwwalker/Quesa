@@ -294,7 +294,7 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	Q3View_GetDrawContext( theView, &theDrawContext );
 	if ( (kQ3Failure == Q3Object_GetProperty( theDrawContext,
 		kQ3DrawContextPropertySwapBufferInEndPass, sizeof(swapFlag), NULL,
-		&swapFlag )) or
+		&swapFlag )) ||
 		(swapFlag == kQ3True) )
 	{
 		GLDrawContext_SwapBuffers(instanceData->glContext);
