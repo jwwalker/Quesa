@@ -666,20 +666,21 @@ sub buildRelease
 
 
 	# Take a copy of the source and remove any binaries	
-	my $tmpDir = copyReleaseToTempArea($srcDir, $dstDir, $releaseName);
-	removeBinaryFiles($tmpDir);
+	my $tmpDir     = copyReleaseToTempArea($srcDir, $dstDir, $releaseName);
+	my $releaseDir = $tmpDir . $releaseName;
+	removeBinaryFiles($releaseDir);
 
 
 
 	# Generate the releases
 	print "Generating Mac release\n";
-	generateReleaseMac($tmpDir);
+	generateReleaseMac($releaseDir);
 
 	print "Generating Unix release\n";
-	generateReleaseUnix($tmpDir, $releaseName);
+	generateReleaseUnix($releaseDir, $releaseName);
 
 	print "Generating Windows release\n";
-	generateReleaseWin($tmpDir, $releaseName);
+	generateReleaseWin($releaseDir, $releaseName);
 
 
 
