@@ -186,7 +186,15 @@ TQ3Status			GLTextureMgr_AddCachedTexture( TQ3TextureCachePtr txCache,
 								struct TQ3CachedTexture* textureRec );
 
 
-
+#if Q3_DEBUG
+/*!
+	@function		GLTextureMgr_IsValidTextureCache
+	@abstract		Test whether a texture cache pointer is valid.
+	@param			txCache			A texture cache.
+	@result			Whether the texture cache pointer is valid.
+*/
+TQ3Boolean			GLTextureMgr_IsValidTextureCache( TQ3TextureCachePtr txCache );
+#endif
 
 
 //=============================================================================
