@@ -100,12 +100,27 @@ e3nameelement_readdata (TQ3Object object, TQ3FileObject file)
 
 
 //=============================================================================
-//      e3nameelement_copyadd : Copy add/get/duplicate method.
+//      e3nameelement_copyadd : Copy add/get method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3nameelement_copyadd (TQ3StringObject *source, TQ3StringObject *dest)
 {
 	*dest = Q3Shared_GetReference(*source);
+
+	return (*dest != NULL) ? kQ3Success : kQ3Failure;
+}
+
+
+
+
+
+//=============================================================================
+//      e3nameelement_copyduplicate : Copy duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3nameelement_copyduplicate( TQ3StringObject *source, TQ3StringObject *dest)
+{
+	*dest = Q3Object_Duplicate(*source);
 
 	return (*dest != NULL) ? kQ3Success : kQ3Failure;
 }
@@ -177,8 +192,11 @@ e3nameelement_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeElementCopyAdd:
 		case kQ3XMethodTypeElementCopyGet:
-		case kQ3XMethodTypeElementCopyDuplicate:
 			theMethod = (TQ3XFunctionPointer) e3nameelement_copyadd;
+			break;
+
+		case kQ3XMethodTypeElementCopyDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3nameelement_copyduplicate;
 			break;
 
 		case kQ3XMethodTypeElementCopyReplace:
@@ -288,8 +306,12 @@ e3urlelement_copyadd (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 	strcpy (dest->url, source->url);
 
 	if (source->description) {  // optional
-
-		dest->description = Q3Shared_GetReference (source->description);
+		
+		// In the case of duplication, this needs to be Q3Object_Duplicate
+		// rather than Q3Shared_Duplicate.  In the case of Add and Get,
+		// it doesn't matter much, since the strings being copied are
+		// short-lived.
+		dest->description = Q3Object_Duplicate( source->description );
 		if (dest->description == NULL) {
 			return kQ3Failure;
 		}
