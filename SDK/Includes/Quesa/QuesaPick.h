@@ -88,7 +88,7 @@ extern "C" {
  *  @constant kQ3PickDetailMaskPickPart              The picked object, edge, or vertex.
  *  @constant kQ3PickDetailMaskUV                    The UV coordinate of the picked location.
  */
-typedef enum {
+typedef enum TQ3PickDetailMasks {
     kQ3PickDetailNone                           = 0,
     kQ3PickDetailMaskPickID                     = (1 << 0),
     kQ3PickDetailMaskPath                       = (1 << 1),
@@ -113,7 +113,7 @@ typedef enum {
  *  @constant kQ3PickSortNearToFar      The pick hit list should be sorted from near to far.
  *  @constant kQ3PickSortFarToNear      The pick hit list should be sorted from far to near.
  */
-typedef enum {
+typedef enum TQ3PickSort {
     kQ3PickSortNone                             = 0,
     kQ3PickSortNearToFar                        = 1,
     kQ3PickSortFarToNear                        = 2
@@ -121,6 +121,13 @@ typedef enum {
 
 
 // Hit request
+/*!
+ *	@defined	kQ3ReturnAllHits
+ *	@discussion
+ *		This value can be placed in the <code>numHitsToReturn</code> field of the
+ *		<code>TQ3PickData</code> structure to indicate that we want information
+ *		about all hits.
+*/
 #define kQ3ReturnAllHits                        0
 
 
@@ -131,6 +138,12 @@ typedef enum {
 //      Types
 //-----------------------------------------------------------------------------
 // Pick detail
+/*!
+ *	@typedef	TQ3PickDetail
+ *	@discussion
+ *		A 32-bit integer used as a set of flags.  See <code>TQ3PickDetailMasks</code>
+ *		for enumerated constants that can be combined in this data type.
+*/
 typedef TQ3Uns32 TQ3PickDetail;
 
 
@@ -142,7 +155,7 @@ typedef TQ3Uns32 TQ3PickDetail;
  *
  *  @field sort             The type of sorting, if any, to performed on the results.
  *  @field mask             The type of pick information to be returned.
- *  @field numHitsToReturn  The number of hits to return. Set to kQ3ReturnAllHits
+ *  @field numHitsToReturn  The number of hits to return. Set to <code>kQ3ReturnAllHits</code>
  *                          to retrieve all hits.
  */
 typedef struct TQ3PickData {
@@ -160,8 +173,9 @@ typedef struct TQ3PickData {
  *
  *  @field data             The common state for the pick.
  *  @field point            The pick point in local window coordinates.
- *  @field vertexTolerance  The vertex tolerance.
- *  @field edgeTolerance    The edge tolerance.
+ *  @field vertexTolerance  The vertex tolerance.  Only relevant to picking Point objects.
+ *  @field edgeTolerance    The edge tolerance.  Only relevant to picking one-dimensional
+ *							objects such as Lines and PolyLines.
  */
 typedef struct TQ3WindowPointPickData {
     TQ3PickData                                 data;
@@ -194,8 +208,9 @@ typedef struct TQ3WindowRectPickData {
  *
  *  @field data             The common state for the pick.
  *  @field ray              The pick ray in world coordinates.
- *  @field vertexTolerance  The vertex tolerance.
- *  @field edgeTolerance    The edge tolerance.
+ *  @field vertexTolerance  The vertex tolerance.  Only relevant to picking Point objects.
+ *  @field edgeTolerance    The edge tolerance.  Only relevant to picking one-dimensional
+ *							objects such as Lines and PolyLines.
  */
 typedef struct TQ3WorldRayPickData {
     TQ3PickData                                 data;
