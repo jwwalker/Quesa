@@ -117,15 +117,6 @@ E3System_LoadPlugins(void)
 
 
 
-	// Register the built-in plug-ins
-#if QUESA_REGISTER_BUILTIN_PLUGINS
-	qd3dStatus = GNRenderer_Register();
-	qd3dStatus = WFRenderer_Register();
-	qd3dStatus = IRRenderer_Register();
-#endif
-
-
-
 	// Load the plug-ins on a per-platform basis
 #if QUESA_OS_MACINTOSH
 	E3MacSystem_LoadPlugins();
@@ -148,6 +139,15 @@ E3System_LoadPlugins(void)
 		if (theGlobals->sharedLibraryInfo[n].registerFunction != NULL)
 			qd3dStatus = theGlobals->sharedLibraryInfo[n].registerFunction();
 		}
+
+
+
+	// Register the built-in plug-ins
+#if QUESA_REGISTER_BUILTIN_PLUGINS
+	qd3dStatus = GNRenderer_Register();
+	qd3dStatus = WFRenderer_Register();
+	qd3dStatus = IRRenderer_Register();
+#endif
 }
 
 
@@ -165,18 +165,18 @@ E3System_UnloadPlugins(void)
 
 
 
+	// Dispose of the global state
+	theGlobals->sharedLibraryCount = 0;
+	E3Memory_Free(&theGlobals->sharedLibraryInfo);
+
+
+
 	// Unregister the built-in plug-ins
 #if QUESA_REGISTER_BUILTIN_PLUGINS
 	GNRenderer_Unregister();
 	WFRenderer_Unregister();
 	IRRenderer_Unregister();
 #endif
-
-
-
-	// Dispose of the global state
-	theGlobals->sharedLibraryCount = 0;
-	E3Memory_Free(&theGlobals->sharedLibraryInfo);
 }
 
 
