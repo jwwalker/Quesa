@@ -1240,34 +1240,78 @@ e3group_display_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 static TQ3Boolean
 e3group_display_ordered_canaddtypebeforehere (TQ3XGroupPosition* pos, TQ3ObjectType objectType)
-{	TQ3ObjectType theType = Q3Shared_GetType (pos->object);
+{	
+	TQ3Uns32 currentWeight = 0;
+	TQ3Uns32 objectWeight = 100;
+	
+	TQ3ObjectType currentType = Q3Shared_GetType (pos->object);
 
-	if (theType == kQ3SharedTypeShape)
-		theType = Q3Shape_GetType (pos->object);
+	if (currentType == kQ3SharedTypeShape)
+		currentType = Q3Shape_GetType (pos->object);
 
-	switch (theType)
+	switch (currentType)
 		{
 		case kQ3ShapeTypeUnknown:
-			return kQ3True;
+			currentWeight = 0;
+			break;
 		case kQ3ShapeTypeGroup:
-			return ((TQ3Boolean) (objectType == kQ3ShapeTypeGroup));
+			currentWeight = 1;
+			break;
 		case kQ3ShapeTypeGeometry:
-			return ((TQ3Boolean) (objectType == kQ3ShapeTypeGeometry));
+			currentWeight = 2;
+			break;
 		case kQ3ShapeTypeLight:
-			return ((TQ3Boolean) (objectType == kQ3ShapeTypeLight));
+			currentWeight = 3;
+			break;
 		case kQ3ShapeTypeCamera:
-			return ((TQ3Boolean) (objectType == kQ3ShapeTypeCamera));
+			currentWeight = 4;
+			break;
 		case kQ3ShapeTypeShader:
-			return ((TQ3Boolean) (objectType == kQ3ShapeTypeShader));
+			currentWeight = 5;
+			break;
 		case kQ3SharedTypeSet:
-			return ((TQ3Boolean) (objectType == kQ3SharedTypeSet));
+			currentWeight = 6;
+			break;
 		case kQ3ShapeTypeStyle:
-			return ((TQ3Boolean) (objectType == kQ3ShapeTypeStyle));
+			currentWeight = 7;
+			break;
 		case kQ3ShapeTypeTransform:
-			return ((TQ3Boolean) (objectType == kQ3ShapeTypeTransform));
+			currentWeight = 8;
+			break;
+		}
+		
+	switch (objectType)
+		{
+		case kQ3ShapeTypeUnknown:
+			objectWeight = 0;
+			break;
+		case kQ3ShapeTypeGroup:
+			objectWeight = 1;
+			break;
+		case kQ3ShapeTypeGeometry:
+			objectWeight = 2;
+			break;
+		case kQ3ShapeTypeLight:
+			objectWeight = 3;
+			break;
+		case kQ3ShapeTypeCamera:
+			objectWeight = 4;
+			break;
+		case kQ3ShapeTypeShader:
+			objectWeight = 5;
+			break;
+		case kQ3SharedTypeSet:
+			objectWeight = 6;
+			break;
+		case kQ3ShapeTypeStyle:
+			objectWeight = 7;
+			break;
+		case kQ3ShapeTypeTransform:
+			objectWeight = 8;
+			break;
 		}
 	// post an error that you can not add this object before this position
-	return kQ3False ;
+	return (TQ3Boolean) (objectWeight > currentWeight);
 }
 
 
@@ -1310,8 +1354,8 @@ e3group_display_ordered_findpositionbefore (TQ3GroupData *instanceData, TQ3Objec
 	if (instanceData == NULL)
 		return(NULL);
 	
-	finish     = &instanceData->listHead;
-	pos        = instanceData->listHead.prev;
+	finish	= &instanceData->listHead;
+	pos		= instanceData->listHead.next;
 	objectType = Q3Shared_GetType (object);
 
 	if (objectType == kQ3SharedTypeShape)
@@ -1321,7 +1365,7 @@ e3group_display_ordered_findpositionbefore (TQ3GroupData *instanceData, TQ3Objec
 		{
 		if (e3group_display_ordered_canaddtypebeforehere (pos, objectType))
 			return pos;
-		pos = pos->prev;
+		pos = pos->next;
 		}	
 	return(NULL);
 }
