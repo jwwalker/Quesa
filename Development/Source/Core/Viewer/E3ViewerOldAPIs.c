@@ -138,30 +138,28 @@ static TQ3Uns32 e3viewer_oldFlagsToNew(TQ3Uns32 oldFlags)
 {
 	TQ3Uns32 newFlags = 0L;
 
-	if (kQ3ViewerDefault == oldFlags)
+	if (kQ3ViewerDefault & oldFlags)
 		newFlags = kQ3ViewerFlagDefault;
-	else
-		{
-		if (oldFlags & kQ3ViewerShowBadge)			newFlags |= kQ3ViewerFlagShowBadge;
-		if (oldFlags & kQ3ViewerActive)				newFlags |= kQ3ViewerFlagActive;
-		if (oldFlags & kQ3ViewerControllerVisible)	newFlags |= kQ3ViewerFlagVisible;
-		if (oldFlags & kQ3ViewerDrawFrame)			newFlags |= kQ3ViewerFlagDrawFrame;
-		if (oldFlags & kQ3ViewerDraggingOff)		newFlags |= kQ3ViewerFlagDraggingOff;
-		if (oldFlags & kQ3ViewerButtonCamera)		newFlags |= kQ3ViewerFlagButtonCamera;
-		if (oldFlags & kQ3ViewerButtonTruck)		newFlags |= kQ3ViewerFlagButtonTruck;
-		if (oldFlags & kQ3ViewerButtonOrbit)		newFlags |= kQ3ViewerFlagButtonOrbit;
-		if (oldFlags & kQ3ViewerButtonZoom)			newFlags |= kQ3ViewerFlagButtonZoom;
-		if (oldFlags & kQ3ViewerButtonDolly)		newFlags |= kQ3ViewerFlagButtonDolly;
-		if (oldFlags & kQ3ViewerButtonReset)		newFlags |= kQ3ViewerFlagButtonReset;
-		if (oldFlags & kQ3ViewerOutputTextMode)		newFlags |= kQ3ViewerFlagOutputTextMode;
-		if (oldFlags & kQ3ViewerDragMode)			newFlags |= kQ3ViewerFlagDragMode;
-		if (oldFlags & kQ3ViewerDrawGrowBox)		newFlags |= kQ3ViewerFlagDrawGrowBox;
-		if (oldFlags & kQ3ViewerDrawDragBorder)		newFlags |= kQ3ViewerFlagDrawDragBorder;
-		if (oldFlags & kQ3ViewerDraggingInOff)		newFlags |= kQ3ViewerFlagDraggingInOff;
-		if (oldFlags & kQ3ViewerDraggingOutOff)		newFlags |= kQ3ViewerFlagDraggingOutOff;
-		if (oldFlags & kQ3ViewerButtonOptions)		newFlags |= kQ3ViewerFlagButtonOptions;
-		if (oldFlags & kQ3ViewerPaneGrowBox)		newFlags |= kQ3ViewerFlagPaneGrowBox;
-		}
+
+	if (oldFlags & kQ3ViewerShowBadge)			newFlags |= kQ3ViewerFlagShowBadge;
+	if (oldFlags & kQ3ViewerActive)				newFlags |= kQ3ViewerFlagActive;
+	if (oldFlags & kQ3ViewerControllerVisible)	newFlags |= kQ3ViewerFlagVisible;
+	if (oldFlags & kQ3ViewerDrawFrame)			newFlags |= kQ3ViewerFlagDrawFrame;
+	if (oldFlags & kQ3ViewerDraggingOff)		newFlags |= kQ3ViewerFlagDraggingOff;
+	if (oldFlags & kQ3ViewerButtonCamera)		newFlags |= kQ3ViewerFlagButtonCamera;
+	if (oldFlags & kQ3ViewerButtonTruck)		newFlags |= kQ3ViewerFlagButtonTruck;
+	if (oldFlags & kQ3ViewerButtonOrbit)		newFlags |= kQ3ViewerFlagButtonOrbit;
+	if (oldFlags & kQ3ViewerButtonZoom)			newFlags |= kQ3ViewerFlagButtonZoom;
+	if (oldFlags & kQ3ViewerButtonDolly)		newFlags |= kQ3ViewerFlagButtonDolly;
+	if (oldFlags & kQ3ViewerButtonReset)		newFlags |= kQ3ViewerFlagButtonReset;
+	if (oldFlags & kQ3ViewerOutputTextMode)		newFlags |= kQ3ViewerFlagOutputTextMode;
+	if (oldFlags & kQ3ViewerDragMode)			newFlags |= kQ3ViewerFlagDragMode;
+	if (oldFlags & kQ3ViewerDrawGrowBox)		newFlags |= kQ3ViewerFlagDrawGrowBox;
+	if (oldFlags & kQ3ViewerDrawDragBorder)		newFlags |= kQ3ViewerFlagDrawDragBorder;
+	if (oldFlags & kQ3ViewerDraggingInOff)		newFlags |= kQ3ViewerFlagDraggingInOff;
+	if (oldFlags & kQ3ViewerDraggingOutOff)		newFlags |= kQ3ViewerFlagDraggingOutOff;
+	if (oldFlags & kQ3ViewerButtonOptions)		newFlags |= kQ3ViewerFlagButtonOptions;
+	if (oldFlags & kQ3ViewerPaneGrowBox)		newFlags |= kQ3ViewerFlagPaneGrowBox;
 	
 	return newFlags;
 }
@@ -174,30 +172,28 @@ static TQ3Uns32 e3viewer_newFlagsToOld(TQ3Uns32 newFlags)
 {
 	TQ3Uns32 oldFlags = 0L;
 
-	if (kQ3ViewerFlagDefault == newFlags)
+	if (kQ3ViewerFlagDefault & newFlags)
 		oldFlags = kQ3ViewerDefault;
-	else
-		{
-		if (newFlags & kQ3ViewerFlagShowBadge)			oldFlags |= kQ3ViewerShowBadge;
-		if (newFlags & kQ3ViewerFlagActive)				oldFlags |= kQ3ViewerActive;
-		if (newFlags & kQ3ViewerFlagVisible)			oldFlags |= kQ3ViewerControllerVisible;
-		if (newFlags & kQ3ViewerFlagDrawFrame)			oldFlags |= kQ3ViewerDrawFrame;
-		if (newFlags & kQ3ViewerFlagDraggingOff)		oldFlags |= kQ3ViewerDraggingOff;
-		if (newFlags & kQ3ViewerFlagButtonCamera)		oldFlags |= kQ3ViewerButtonCamera;
-		if (newFlags & kQ3ViewerFlagButtonTruck)		oldFlags |= kQ3ViewerButtonTruck;
-		if (newFlags & kQ3ViewerFlagButtonOrbit)		oldFlags |= kQ3ViewerButtonOrbit;
-		if (newFlags & kQ3ViewerFlagButtonZoom)			oldFlags |= kQ3ViewerButtonZoom;
-		if (newFlags & kQ3ViewerFlagButtonDolly)		oldFlags |= kQ3ViewerButtonDolly;
-		if (newFlags & kQ3ViewerFlagButtonReset)		oldFlags |= kQ3ViewerButtonReset;
-		if (newFlags & kQ3ViewerFlagOutputTextMode)		oldFlags |= kQ3ViewerOutputTextMode;
-		if (newFlags & kQ3ViewerFlagDragMode)			oldFlags |= kQ3ViewerDragMode;
-		if (newFlags & kQ3ViewerFlagDrawGrowBox)		oldFlags |= kQ3ViewerDrawGrowBox;
-		if (newFlags & kQ3ViewerFlagDrawDragBorder)		oldFlags |= kQ3ViewerDrawDragBorder;
-		if (newFlags & kQ3ViewerFlagDraggingInOff)		oldFlags |= kQ3ViewerDraggingInOff;
-		if (newFlags & kQ3ViewerFlagDraggingOutOff)		oldFlags |= kQ3ViewerDraggingOutOff;
-		if (newFlags & kQ3ViewerFlagButtonOptions)		oldFlags |= kQ3ViewerButtonOptions;
-		if (newFlags & kQ3ViewerFlagPaneGrowBox)		oldFlags |= kQ3ViewerPaneGrowBox;
-		}
+
+	if (newFlags & kQ3ViewerFlagShowBadge)			oldFlags |= kQ3ViewerShowBadge;
+	if (newFlags & kQ3ViewerFlagActive)				oldFlags |= kQ3ViewerActive;
+	if (newFlags & kQ3ViewerFlagVisible)			oldFlags |= kQ3ViewerControllerVisible;
+	if (newFlags & kQ3ViewerFlagDrawFrame)			oldFlags |= kQ3ViewerDrawFrame;
+	if (newFlags & kQ3ViewerFlagDraggingOff)		oldFlags |= kQ3ViewerDraggingOff;
+	if (newFlags & kQ3ViewerFlagButtonCamera)		oldFlags |= kQ3ViewerButtonCamera;
+	if (newFlags & kQ3ViewerFlagButtonTruck)		oldFlags |= kQ3ViewerButtonTruck;
+	if (newFlags & kQ3ViewerFlagButtonOrbit)		oldFlags |= kQ3ViewerButtonOrbit;
+	if (newFlags & kQ3ViewerFlagButtonZoom)			oldFlags |= kQ3ViewerButtonZoom;
+	if (newFlags & kQ3ViewerFlagButtonDolly)		oldFlags |= kQ3ViewerButtonDolly;
+	if (newFlags & kQ3ViewerFlagButtonReset)		oldFlags |= kQ3ViewerButtonReset;
+	if (newFlags & kQ3ViewerFlagOutputTextMode)		oldFlags |= kQ3ViewerOutputTextMode;
+	if (newFlags & kQ3ViewerFlagDragMode)			oldFlags |= kQ3ViewerDragMode;
+	if (newFlags & kQ3ViewerFlagDrawGrowBox)		oldFlags |= kQ3ViewerDrawGrowBox;
+	if (newFlags & kQ3ViewerFlagDrawDragBorder)		oldFlags |= kQ3ViewerDrawDragBorder;
+	if (newFlags & kQ3ViewerFlagDraggingInOff)		oldFlags |= kQ3ViewerDraggingInOff;
+	if (newFlags & kQ3ViewerFlagDraggingOutOff)		oldFlags |= kQ3ViewerDraggingOutOff;
+	if (newFlags & kQ3ViewerFlagButtonOptions)		oldFlags |= kQ3ViewerButtonOptions;
+	if (newFlags & kQ3ViewerFlagPaneGrowBox)		oldFlags |= kQ3ViewerPaneGrowBox;
 	
 	return oldFlags;
 }
