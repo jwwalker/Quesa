@@ -2,12 +2,15 @@
 
 QUT= Qut
 GEOMTEST= GeomTest
+prefix = /usr/local/Quesa
+
+modelsdir=$(prefix)/Models
 
 quesaexamples_commoncflags= -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES) $(GTK_CFLAGS)
-quesaexamples_commonldadd= -L. -lquesaqut -lquesa -lc -lGL -lGLU $(GTK_LIBS)
+quesaexamples_commonldadd= -L/usr/local/lib -L. -lquesaqut -lquesa -lc -lGL -lGLU $(GTK_LIBS)
 
 
-bin_PROGRAMS= geomtest importtest
+bin_PROGRAMS= geomtest importtest cameratest dumpgroup lighttest
 
 noinst_LIBRARIES= libquesaqut.a
 
@@ -27,20 +30,49 @@ libquesaqut_a_SOURCES= ${QUT}/Qut.c               \
 libquesaqut_a_CFLAGS= $(quesaexamples_commoncflags)
 
           
+## Geom Test
 
 geomtest_SOURCES=GeomTest.c  
 geomtest_DEPENDENCIES=libquesaqut.a 
              
-
-
 geomtest_CFLAGS= $(quesaexamples_commoncflags)
 geomtest_LDADD= $(quesaexamples_commonldadd)
 
+## Import Test
 
 importtest_SOURCES=ImportTest.c
 importtest_DEPENDENCIES=libquesaqut.a 
 
-
-importtest_CFLAGS= -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES) $(GTK_CFLAGS)
+importtest_CFLAGS= $(quesaexamples_commoncflags)
 importtest_LDADD= $(quesaexamples_commonldadd)
+
+## Camera Test
+
+cameratest_SOURCES=CameraTest.c
+cameratest_DEPENDENCIES=libquesaqut.a 
+
+cameratest_CFLAGS= $(quesaexamples_commoncflags)
+cameratest_LDADD= $(quesaexamples_commonldadd)
+
+## Dump Group
+
+dumpgroup_SOURCES=DumpGroup.c
+
+dumpgroup_CFLAGS= $(quesaexamples_commoncflags)
+dumpgroup_LDADD= $(quesaexamples_commonldadd)
+
+## Light Test
+
+lighttest_SOURCES=LightTest.c
+lighttest_DEPENDENCIES=libquesaqut.a 
+
+lighttest_CFLAGS= $(quesaexamples_commoncflags)
+lighttest_LDADD= $(quesaexamples_commonldadd)
+
+## Models
+models_DATA = $(srcdir)/Models/QuesaLogo.3dmf \
+			$(srcdir)/Models/PodRacer.3dmf	\
+			$(srcdir)/Models/F15.3dmf			\
+			$(srcdir)/Models/F18.3dmf
+
 
