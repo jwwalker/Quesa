@@ -1141,10 +1141,10 @@ e3ffw_3DMF_subdivision_write(const TQ3SubdivisionStyleData *objectData,
 		{
 		if (objectData->method == kQ3SubdivisionMethodConstant)
 			{
-				status = Q3Uns32_Write( objectData->c1, theFile );
+				status = Q3Uns32_Write( (TQ3Uns32) objectData->c1, theFile );
 				
 				if (status == kQ3Success)
-					status = Q3Uns32_Write( objectData->c2, theFile );
+					status = Q3Uns32_Write( (TQ3Uns32) objectData->c2, theFile );
 			}
 			else
 			{
