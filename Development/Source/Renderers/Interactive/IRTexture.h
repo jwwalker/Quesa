@@ -77,10 +77,6 @@ TQ3Status			IRRenderer_Texture_Set(
 								TQ3ShaderObject			theShader,
 								TQ3TextureObject		theTexture);
 
-void				IRRenderer_Texture_Rebuild(
-								TQ3ViewObject			theView,
-								TQ3InteractiveData		*instanceData);
-
 void				IRRenderer_Texture_Postamble(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
