@@ -89,7 +89,7 @@
 //      e3shared_new : Shared new method.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3shared_new ( TQ3SharedData* theObject, void *privateData, void *paramData )
+e3shared_new ( E3Shared* theObject, void *privateData, void *paramData )
 	{
 #pragma unused(privateData)
 #pragma unused(paramData)
@@ -111,7 +111,7 @@ e3shared_new ( TQ3SharedData* theObject, void *privateData, void *paramData )
 //      e3shared_dispose : Shared dispose method.
 //-----------------------------------------------------------------------------
 void
-e3shared_dispose ( TQ3SharedData* theObject )
+e3shared_dispose ( E3Shared* theObject )
 	{
 	// Find the instance data
 	if ( theObject == NULL )
@@ -140,7 +140,7 @@ e3shared_dispose ( TQ3SharedData* theObject )
 TQ3Status
 e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 						 TQ3Object toObject, void *toPrivateData)
-{	TQ3SharedData		*instanceData = (TQ3SharedData *) toObject ;
+{	E3Shared		*instanceData = (E3Shared *) toObject ;
 #pragma unused(fromObject)
 #pragma unused(toPrivateData)
 
@@ -322,7 +322,7 @@ e3root_delete( TQ3Object theObject, void *privateData )
 	OpaqueTQ3Object	*instanceData = (OpaqueTQ3Object *) privateData;
 
 	Q3_ASSERT(privateData == theObject);
-//	Q3_ASSERT(privateData == E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf));
+//	Q3_ASSERT(privateData == theObject->FindLeafInstanceData () ) ;
 	
 	Q3Object_CleanDispose( &instanceData->theSet );
 
@@ -418,7 +418,7 @@ e3main_registercoreclasses(void)
 												kQ3ObjectTypeShared,
 												kQ3ClassNameShared,
 												e3shared_metahandler,
-												~sizeof(TQ3SharedData));
+												~sizeof(E3Shared));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
@@ -1145,7 +1145,7 @@ OpaqueTQ3Object::AddElement ( TQ3ElementType theType, const void *theData )
 	
 	
 	if ( ( qd3dStatus != kQ3Failure ) && Q3Object_IsType ( this, kQ3ObjectTypeShared ) )
-		( (TQ3SharedData*) this )->Edited () ;
+		( (E3Shared*) this )->Edited () ;
 	
 	return qd3dStatus ;
 	}
@@ -1273,7 +1273,7 @@ OpaqueTQ3Object::EmptyElements ( void )
 	
 	
 	if ( ( qd3dStatus != kQ3Failure ) && Q3Object_IsType ( this, kQ3ObjectTypeShared ) )
-		( (TQ3SharedData*) this )->Edited () ;
+		( (E3Shared*) this )->Edited () ;
 	
 	
 	return qd3dStatus ;
@@ -1307,7 +1307,7 @@ OpaqueTQ3Object::ClearElement ( TQ3ElementType theType )
 		
 		
 	if ( ( qd3dStatus != kQ3Failure ) && Q3Object_IsType ( this, kQ3ObjectTypeShared ) )
-		( (TQ3SharedData*) this )->Edited () ;
+		( (E3Shared*) this )->Edited () ;
 	
 	
 	return qd3dStatus ;
@@ -1374,8 +1374,8 @@ E3Shared_GetType(TQ3SharedObject sharedObject)
 //				If acquiring a new reference could ever fail, routines like
 //				E3Shared_Replace will need to be updated.
 //-----------------------------------------------------------------------------
-TQ3SharedData*
-TQ3SharedData::GetReference ( void )
+E3Shared*
+E3Shared::GetReference ( void )
 	{
 	// Increment the reference count and return the object. Note that we
 	// return the object passed in: this is OK since we're not declared
@@ -1397,7 +1397,7 @@ TQ3SharedData::GetReference ( void )
 //				object, and kQ3False if there is one reference to the object.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-TQ3SharedData::IsReferenced ( void )
+E3Shared::IsReferenced ( void )
 	{
 	// Return as the reference count is greater than 1
 	return ( (TQ3Boolean) ( refCount > 1 ) ) ;
@@ -1411,7 +1411,7 @@ TQ3SharedData::IsReferenced ( void )
 //      E3Shared_GetReferenceCount : Return the reference count.
 //-----------------------------------------------------------------------------
 TQ3Uns32
-TQ3SharedData::GetReferenceCount ( void )
+E3Shared::GetReferenceCount ( void )
 	{
 	// Return the reference count
 	return refCount ;
@@ -1425,7 +1425,7 @@ TQ3SharedData::GetReferenceCount ( void )
 //      E3Shared_GetEditIndex : Return the edit index of a shared object.
 //-----------------------------------------------------------------------------
 TQ3Uns32
-TQ3SharedData::GetEditIndex ( void )
+E3Shared::GetEditIndex ( void )
 	{
 	// Return the edit index
 	return editIndex ;
@@ -1439,7 +1439,7 @@ TQ3SharedData::GetEditIndex ( void )
 //      E3Shared_Edited : Increase the edit index of an object.
 //-----------------------------------------------------------------------------
 TQ3Status
-TQ3SharedData::Edited ( void )
+E3Shared::Edited ( void )
 	{
 	// Increment the edit index
 	++editIndex ;

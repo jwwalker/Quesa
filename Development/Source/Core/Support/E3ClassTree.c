@@ -1313,56 +1313,9 @@ OpaqueTQ3Object::DuplicateInstance ( void )
 //				If passed kQ3ObjectTypeLeaf, returns the instance data of the
 //				leaf object.
 //-----------------------------------------------------------------------------
-void *
-E3InstanceNode::FindInstanceData ( TQ3ObjectType classType )
-	{
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
-	Q3_CLASS_VERIFY(this);
-
-
-
-	// Find the instance data
-	//
-	// The instance data is either on this object, or one of its parents.
-	void* theInstanceData = NULL;
-
-	if ( theClass->includesParentData != kQ3False )
-		{
-		if ( ( classType == kQ3ObjectTypeLeaf ) && ( theClass->theParent != NULL ) )
-			theInstanceData = (void*) ( (TQ3Uns8*) this + theClass->theParent->instanceSize ) ;
-		else
-			theInstanceData = (void*) this ;
-		}
-	else
-	if ( theClass->classType == classType || classType == kQ3ObjectTypeLeaf )
-		theInstanceData = instanceData ;
-	else
-		{
-		E3InstanceNode* theParentObject = parentObject ;
-
-		while ( theParentObject != NULL && theParentObject->theClass->classType != classType )
-			{
-			if ( theParentObject->theClass->includesParentData != kQ3False )
-				return (void*) theParentObject ;
-			
-			theParentObject = theParentObject->parentObject ;
-			}
-			
-		if ( theParentObject != NULL )
-			theInstanceData = theParentObject->instanceData ;
-		}
-
-
-	return theInstanceData ;
-	}
-
-
-
-
 
 void *
-E3InstanceNode::FindLeafInstanceData ( void ) // Same as FindInstanceData ( kQ3ObjectTypeLeaf ) but simpler
+E3InstanceNode::FindLeafInstanceData ( void ) // Same as the old FindInstanceData ( kQ3ObjectTypeLeaf ) but simpler
 	{
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);

@@ -72,7 +72,7 @@ typedef struct TQ3RendererData {
 
 
 
-class E3Renderer : public TQ3SharedData // This is a leaf class so no other classes use this,
+class E3Renderer : public E3Shared // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file

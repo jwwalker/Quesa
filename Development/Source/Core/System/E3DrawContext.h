@@ -197,7 +197,7 @@ typedef struct TQ3DrawContextUnionData {
 
 
 
-class E3DrawContext : public TQ3SharedData 
+class E3DrawContext : public E3Shared 
 	{
 
 	// There is no extra data for this class

@@ -91,7 +91,7 @@
 //-----------------------------------------------------------------------------
 @implementation QuesaViewWatcher
 - (void) viewDidResize:(NSNotification*)note
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
     NSRect						viewFrame;
 
 

@@ -197,7 +197,6 @@ public :
 
 	void				DestroyInstance ( void ) ;
 	TQ3Object			DuplicateInstance ( void ) ;
-	void*				FindInstanceData ( TQ3ObjectType classType ) ;
 	void*				FindLeafInstanceData ( void ) ;
 	TQ3ObjectType		GetObjectType ( TQ3ObjectType baseType ) ;
 	TQ3Object			GetLeafObject ( void ) ;
@@ -236,7 +235,6 @@ public :
 
 	void				DestroyInstance ( void ) { leafInstanceData->DestroyInstance () ; }
 	TQ3Object			DuplicateInstance ( void ) ;
-	void*				FindInstanceData ( TQ3ObjectType classType ) { return leafInstanceData->FindInstanceData ( classType ) ; }
 	void*				FindLeafInstanceData ( void ) { return leafInstanceData->FindLeafInstanceData () ; }
 	TQ3ObjectType		GetObjectType ( TQ3ObjectType baseType ) { return leafInstanceData->GetObjectType ( baseType ) ; }
 	TQ3Object			GetLeafObject ( void ) { return leafInstanceData->GetLeafObject () ; }
@@ -301,8 +299,6 @@ inline TQ3Object	E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 											kQ3True ) ; }
 inline void			E3ClassTree_DestroyInstance(TQ3Object theObject)
 	{ theObject->DestroyInstance () ; }
-inline void*		E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
-	{ return theObject->FindInstanceData ( classType ) ; }
 inline
 TQ3ObjectType		E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType)
 	{ return theObject->GetObjectType ( baseType ) ; }

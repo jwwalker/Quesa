@@ -65,7 +65,7 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 
-class E3Texture : public TQ3SharedData // This is not a leaf class, but only classes in this,
+class E3Texture : public E3Shared // This is not a leaf class, but only classes in this,
 								// file inherit from it, so it can be declared here in
 								// the .c file rather than in the .h file, hence all
 								// the fields can be public as nobody should be
@@ -654,11 +654,10 @@ E3Texture_UnregisterClass(void)
 #pragma mark -
 TQ3ObjectType
 E3Texture_GetType(TQ3TextureObject texture)
-{
-
+	{
 	// Return the type of the texture
-	return(E3ClassTree_GetObjectType(texture, kQ3SharedTypeTexture));
-}
+	return texture->GetObjectType ( kQ3SharedTypeTexture ) ;
+	}
 
 
 
@@ -669,29 +668,26 @@ E3Texture_GetType(TQ3TextureObject texture)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
-{	TQ3XTextureDimensionsMethod		textureDimensions;
-	TQ3Point2D						theDimensions;
-
-
-
+	{
 	// Find the method
-	textureDimensions = (TQ3XTextureDimensionsMethod)
-							E3ClassTree_GetMethodByObject(texture, kQ3XMethodTypeTextureDimensions);
-	if (textureDimensions == NULL)
+	TQ3XTextureDimensionsMethod textureDimensions = (TQ3XTextureDimensionsMethod)
+							texture->GetMethod ( kQ3XMethodTypeTextureDimensions ) ;
+	if ( textureDimensions == NULL )
 		{
 		*width = 0;
-		return(kQ3Failure);
+		return kQ3Failure ;
 		}
 
 
 
 	// Get the texture width
-	textureDimensions(texture, &theDimensions);
+	TQ3Point2D theDimensions ;
+	textureDimensions ( texture, &theDimensions ) ;
 	
-	*width = (TQ3Uns32) theDimensions.x;
+	*width = (TQ3Uns32) theDimensions.x ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -702,29 +698,26 @@ E3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height)
-{	TQ3XTextureDimensionsMethod		textureDimensions;
-	TQ3Point2D						theDimensions;
-
-
-
+	{
 	// Find the method
-	textureDimensions = (TQ3XTextureDimensionsMethod)
-							E3ClassTree_GetMethodByObject(texture, kQ3XMethodTypeTextureDimensions);
-	if (textureDimensions == NULL)
+	TQ3XTextureDimensionsMethod textureDimensions = (TQ3XTextureDimensionsMethod)
+							texture->GetMethod ( kQ3XMethodTypeTextureDimensions ) ;
+	if ( textureDimensions == NULL )
 		{
-		*height = 0;
-		return(kQ3Failure);
+		*height = 0 ;
+		return kQ3Failure ;
 		}
 
 
 
 	// Get the texture height
-	textureDimensions(texture, &theDimensions);
+	TQ3Point2D theDimensions ;
+	textureDimensions ( texture, &theDimensions ) ;
 	
-	*height = (TQ3Uns32) theDimensions.y;
+	*height = (TQ3Uns32) theDimensions.y ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -736,15 +729,10 @@ E3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height)
 #pragma mark -
 TQ3TextureObject
 E3PixmapTexture_New(const TQ3StoragePixmap *pixmap)
-{	TQ3Object		pixmapTexture ;
-	
-	
-	
+	{	
 	// Create the object
-	pixmapTexture = E3ClassTree_CreateInstance(kQ3TextureTypePixmap, kQ3False, pixmap) ;
-
-	return(pixmapTexture);
-}
+	return E3ClassTree::CreateInstance ( kQ3TextureTypePixmap, kQ3False, pixmap ) ;
+	}
 
 
 
@@ -815,16 +803,10 @@ E3PixmapTexture_SetPixmap(TQ3TextureObject theTexture, const TQ3StoragePixmap *p
 #pragma mark -
 TQ3TextureObject
 E3MipmapTexture_New(const TQ3Mipmap *mipmap)
-{
-	TQ3Object	mipmapTexture ;
-
-
-
+	{
 	// Create the object	
-	mipmapTexture = E3ClassTree_CreateInstance(kQ3TextureTypeMipmap, kQ3False, mipmap) ;
-
-	return(mipmapTexture);
-}
+	return E3ClassTree::CreateInstance ( kQ3TextureTypeMipmap, kQ3False, mipmap ) ;
+	}
 
 
 
@@ -921,15 +903,10 @@ E3MipmapTexture_SetMipmap(TQ3TextureObject theTexture, const TQ3Mipmap *mipmap)
 
 TQ3TextureObject
 E3CompressedPixmapTexture_New(const TQ3CompressedPixmap *compressedPixmap)
-{	TQ3Object	compressedTexture ;
-
-
-
+	{
 	// Create the object	
-	compressedTexture = E3ClassTree_CreateInstance(kQ3TextureTypeCompressedPixmap, kQ3False, compressedPixmap);
-
-	return(compressedTexture);
-}
+	return E3ClassTree::CreateInstance ( kQ3TextureTypeCompressedPixmap, kQ3False, compressedPixmap ) ;
+	}
 
 #endif // QUESA_SUPPORT_QUICKTIME
 

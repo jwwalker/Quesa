@@ -79,7 +79,7 @@ E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *object
 
 
 	// Make sure this class hasn't been registered
-	if (E3ClassTree_GetClassByName(objectName) != NULL)
+	if ( E3ClassTree::GetClass ( objectName ) != NULL )
 		return(NULL);
 
 
@@ -91,7 +91,7 @@ E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *object
 
 
 	// Allocate a unique type for this class
-	*objectType = E3ClassTree_GetNextClassType();
+	*objectType = E3ClassTree::GetNextClassType () ;
 
 
 
@@ -107,7 +107,7 @@ E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *object
 
 
 	// Find the class
-	theClass = E3ClassTree_GetClassByType(*objectType);
+	theClass = E3ClassTree::GetClass ( *objectType ) ;
 
 	return((TQ3XObjectClass) theClass);
 }
@@ -131,8 +131,8 @@ E3XObjectHierarchy_UnregisterClass(TQ3XObjectClass objectClass)
 
 
 	// Get the type of the class, and try and unregister it
-	classType  = E3ClassTree_GetType(theClass);
-	qd3dStatus = E3ClassTree_UnregisterClass(classType, kQ3False);
+	classType  = theClass->GetType () ;
+	qd3dStatus = E3ClassTree::UnregisterClass(classType, kQ3False);
 	
 	return(qd3dStatus);
 }
@@ -153,18 +153,14 @@ E3XObjectHierarchy_UnregisterClass(TQ3XObjectClass objectClass)
 //-----------------------------------------------------------------------------
 TQ3Object
 E3XObjectHierarchy_NewObject(TQ3XObjectClass objectClass, void *parameters)
-{	E3ClassInfoPtr		theClass = (E3ClassInfoPtr) objectClass;
-	TQ3ObjectType		classType;
-	TQ3Object			theObject;
+	{
+	E3ClassInfoPtr theClass = (E3ClassInfoPtr) objectClass ;
 
 
 
 	// Get the type of the class, and instantiate it
-	classType = E3ClassTree_GetType(theClass);
-	theObject = E3ClassTree_CreateInstance(classType, kQ3True, parameters);
-	
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance ( theClass->GetType (), kQ3True, parameters ) ;
+	}
 
 
 
@@ -175,28 +171,24 @@ E3XObjectHierarchy_NewObject(TQ3XObjectClass objectClass, void *parameters)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XObjectHierarchy_GetClassVersion(TQ3ObjectType objectClassType, TQ3XObjectClassVersion *version)
-{	E3ClassInfoPtr		theClass;
-
-
-
+	{
 	// Initialise a return value
-	*version = 0;
+	*version = 0 ;
 
 
 
 	// Find the class
-	theClass = E3ClassTree_GetClassByType(objectClassType);
-	if (theClass == NULL)
-		return(kQ3Failure);
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassType ) ;
+	if ( theClass == NULL )
+		return kQ3Failure ;
 
 
 
 	// Get the version for the class
-	*version = (TQ3XObjectClassVersion)
-					E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectClassVersion);
+	*version = (TQ3XObjectClassVersion) theClass->GetMethod ( kQ3XMethodTypeObjectClassVersion ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -207,15 +199,10 @@ E3XObjectHierarchy_GetClassVersion(TQ3ObjectType objectClassType, TQ3XObjectClas
 //-----------------------------------------------------------------------------
 TQ3XObjectClass
 E3XObjectHierarchy_FindClassByType(TQ3ObjectType theType)
-{	E3ClassInfoPtr		theClass;
-
-
-
+	{
 	// Find the class
-	theClass = E3ClassTree_GetClassByType(theType);
-
-	return((TQ3XObjectClass) theClass);
-}
+	return (TQ3XObjectClass) E3ClassTree::GetClass ( theType ) ;
+	}
 
 
 
@@ -227,16 +214,12 @@ E3XObjectHierarchy_FindClassByType(TQ3ObjectType theType)
 #pragma mark -
 TQ3XFunctionPointer
 E3XObjectClass_GetMethod(TQ3XObjectClass objectClass, TQ3XMethodType methodType)
-{	E3ClassInfoPtr			theClass = (E3ClassInfoPtr) objectClass;
-	TQ3XFunctionPointer		theMethod;
-
-
+	{
+	E3ClassInfoPtr theClass = (E3ClassInfoPtr) objectClass ;
 
 	// Get the method for the class
-	theMethod = E3ClassTree_GetMethod(theClass, methodType);
-
-	return(theMethod);
-}
+	return theClass->GetMethod ( methodType ) ;
+	}
 
 
 
@@ -247,16 +230,14 @@ E3XObjectClass_GetMethod(TQ3XObjectClass objectClass, TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3XObjectClass_GetLeafType(TQ3XObjectClass objectClass)
-{	E3ClassInfoPtr		theClass = (E3ClassInfoPtr) objectClass;
-	TQ3ObjectType		classType;
+	{
+	E3ClassInfoPtr theClass = (E3ClassInfoPtr) objectClass ;
 
 
 
 	// Get the type of the class
-	classType  = E3ClassTree_GetType(theClass);
-	
-	return(classType);
-}
+	return theClass->GetType () ;
+	}
 
 
 
@@ -272,15 +253,16 @@ E3XObjectClass_GetLeafType(TQ3XObjectClass objectClass)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XObjectClass_GetType(TQ3XObjectClass objectClass, TQ3ObjectType *theType)
-{	E3ClassInfoPtr		theClass = (E3ClassInfoPtr) objectClass;
+	{
+	E3ClassInfoPtr theClass = (E3ClassInfoPtr) objectClass ;
 
 
 
 	// Get the type of the class
-	*theType  = E3ClassTree_GetType(theClass);
+	*theType  = theClass->GetType () ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -291,12 +273,10 @@ E3XObjectClass_GetType(TQ3XObjectClass objectClass, TQ3ObjectType *theType)
 //-----------------------------------------------------------------------------
 void *
 E3XObjectClass_GetPrivate(TQ3XObjectClass objectClass, TQ3Object targetObject)
-{
-
-
+	{
 	// Return the instance data
-	return(E3ClassTree_FindInstanceData(targetObject, kQ3ObjectTypeLeaf));
-}
+	return targetObject->FindLeafInstanceData () ;
+	}
 
 
 
@@ -307,12 +287,10 @@ E3XObjectClass_GetPrivate(TQ3XObjectClass objectClass, TQ3Object targetObject)
 //-----------------------------------------------------------------------------
 TQ3XObjectClass
 E3XObject_GetClass(TQ3Object object)
-{
-
-
+	{
 	// Return the class
-	return((TQ3XObjectClass) E3ClassTree_GetClassByObject(object));
-}
+	return (TQ3XObjectClass) object->GetClass () ;
+	}
 
 
 

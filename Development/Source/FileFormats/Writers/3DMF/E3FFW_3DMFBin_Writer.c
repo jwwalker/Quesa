@@ -5,7 +5,7 @@
         Quesa 3DMF Binary Writer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -128,7 +128,7 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 					toc->refSeed++;
 					}
 					
-				*theReference = E3ClassTree_CreateInstance(kQ3ShapeTypeReference, kQ3False, &toc->tocEntries[i].refID);
+				*theReference = E3ClassTree::CreateInstance(kQ3ShapeTypeReference, kQ3False, &toc->tocEntries[i].refID);
 				return (kQ3Success);
 				
 				}
@@ -189,33 +189,26 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FFW_3DMF_type_Traverse( TQ3Object object, void *data, TQ3ViewObject view )
-{
-	TQ3Status	status = kQ3Failure;
-	TQ3ObjectType	customType;
-	E3ClassInfoPtr theClass = NULL;
-	const char*		className = NULL;
-	TQ3Uns32	size;
-	
-	
+	{
 	// I have sneakily passed the custom type as the data "pointer".
-	customType = (TQ3ObjectType)data;
+	TQ3ObjectType customType = (TQ3ObjectType) data ;
 	
 	
 	// Find the class and class name.
-	theClass = E3ClassTree_GetClassByType( customType );
-	if (theClass != NULL)
-	{
-		className = E3ClassTree_GetName( theClass );
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( customType ) ;
+	if ( theClass != NULL )
+		{
+		const char* className = theClass->GetName () ;
 		
 		// Compute the object size.
-		size = Q3Size_Pad( strlen(className) + 1 ) + sizeof(TQ3ObjectType);
+		TQ3Uns32 size = Q3Size_Pad ( strlen(className) + 1 ) + sizeof ( TQ3ObjectType ) ;
 		
 		// Put data on the stack.
-		status = Q3XView_SubmitWriteData( view, size, data, NULL );
-	}
+		return Q3XView_SubmitWriteData ( view, size, data, NULL ) ;
+		}
 	
-	return status;
-}
+	return kQ3Failure ;
+	}
 
 
 
@@ -224,31 +217,28 @@ E3FFW_3DMF_type_Traverse( TQ3Object object, void *data, TQ3ViewObject view )
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FFW_3DMF_type_Write( const void *data, TQ3FileObject file )
-{
-	TQ3Status	status = kQ3Failure;
-	TQ3ObjectType	customType;
-	E3ClassInfoPtr theClass = NULL;
-	const char*		className = NULL;
+	{
+	TQ3Status	status = kQ3Failure ;
 	
 	
 	// I have sneakily passed the custom type as the data "pointer".
-	customType = (TQ3ObjectType)data;
+	TQ3ObjectType customType = (TQ3ObjectType) data ;
 	
 	
 	// Find the class and class name.
-	theClass = E3ClassTree_GetClassByType( customType );
-	if (theClass != NULL)
-	{
-		className = E3ClassTree_GetName( theClass );
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( customType ) ;
+	if ( theClass != NULL )
+		{
+		const char* className = theClass->GetName () ;
 		
 		// Write the data.
-		status = Q3Uns32_Write( customType, file );
+		status = Q3Uns32_Write ( customType, file ) ;
 		
-		if (status == kQ3Success)
-			status = Q3String_Write( className, file );
+		if ( status == kQ3Success )
+			status = Q3String_Write ( className, file ) ;
+		}
+	return status ;
 	}
-	return status;
-}
 
 
 
@@ -260,39 +250,35 @@ static TQ3Status
 e3ffw_3DMF_write_custom_types( TQ3ViewObject				theView,
 								TE3FFormatW3DMF_Data		*fileFormatPrivate,
 								E3ClassInfoPtr				theClass )
-{
-	TQ3Status	status = kQ3Success;
-	TQ3Uns32			i, numChildren;
-	TQ3ObjectType		theType;
-	E3ClassInfoPtr		childClass;
+	{
+	TQ3Status	status = kQ3Success ;
 	
 	
-	Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure ) ;
 
 
 	// If this is a custom class with instances, we need to write a type object
 	// for it.
-	theType = E3ClassTree_GetType(theClass);
+	TQ3ObjectType theType = theClass->GetType () ;
 	
-	if ( (theType < 0) && (E3ClassTree_GetNumInstances(theClass) > 0) )
-		status = E3FFW_3DMF_TraverseObject( theView, fileFormatPrivate, NULL,
-			kQ3ObjectTypeType, (void*)theType );
+	if ( ( theType < 0 ) && ( theClass->GetNumInstances () > 0 ) )
+		status = E3FFW_3DMF_TraverseObject ( theView, fileFormatPrivate, NULL,
+			kQ3ObjectTypeType, (void*)theType ) ;
 	
 	
 	// Recurse the class hierarchy
-	numChildren = E3ClassTree_GetNumChildren( theClass );
+	TQ3Uns32 numChildren = theClass->GetNumChildren () ;
 	
-	for (i = 0; (status == kQ3Success) && (i < numChildren); ++i)
+	for ( TQ3Uns32 i = 0 ; ( status == kQ3Success ) &&  ( i < numChildren ) ; ++i )
 		{
-		childClass = E3ClassTree_GetChild( theClass, i );
+		E3ClassInfoPtr childClass = theClass->GetChild ( i ) ;
 		
-		status = e3ffw_3DMF_write_custom_types( theView, fileFormatPrivate,
-				childClass );
+		status = e3ffw_3DMF_write_custom_types ( theView, fileFormatPrivate, childClass ) ;
 		}
 	
 
-	return status;
-}
+	return status ;
+	}
 
 
 
@@ -308,16 +294,13 @@ E3FFW_3DMF_StartFile(TQ3ViewObject				theView,
 						TQ3DrawContextObject	theDrawContext)
 {
 #pragma unused(theDrawContext)
-	TQ3Status	status;
-	
-	
-	status = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, kQ3ObjectType3DMF, fileFormatPrivate);
+	TQ3Status status = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, kQ3ObjectType3DMF, fileFormatPrivate);
 	
 	
 	if (status == kQ3Success)
 		{
 		status = e3ffw_3DMF_write_custom_types( theView, fileFormatPrivate,
-			E3ClassTree_GetClassByType(kQ3ObjectTypeRoot) );
+			E3ClassTree::GetClass (kQ3ObjectTypeRoot) );
 		}
 	
 	
@@ -388,7 +371,7 @@ E3FFW_3DMF_Group(TQ3ViewObject       theView,
  	// submit the group start tag
 	qd3dStatus = e3ffw_3DMF_TraverseObject_CheckRef (theView,
 		(TE3FFormatW3DMF_Data*)fileFormatPrivate, theGroup,
-		Q3Object_GetLeafType (theGroup), E3ClassTree_FindInstanceData(theGroup, kQ3ObjectTypeLeaf), &wroteReference);
+		Q3Object_GetLeafType (theGroup), theGroup->FindLeafInstanceData (), &wroteReference);
 
 	// If we actually wrote a reference instead of a group start tag, then we don't
 	// want to write contents and group end.
@@ -442,7 +425,7 @@ E3FFW_3DMF_Cancel(TQ3ViewObject theView, TE3FFormatW3DMF_Data *fileFormatPrivate
 TQ3Status
 E3FFW_3DMF_Close( TQ3FileFormatObject format, TQ3Boolean abort )
 {
-	TE3FFormatW3DMF_Data*	instanceData = (TE3FFormatW3DMF_Data*) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf);
+	TE3FFormatW3DMF_Data*	instanceData = (TE3FFormatW3DMF_Data*) format->FindLeafInstanceData () ;
 	TQ3Status				status = kQ3Success;
 	TE3FFormat3DMF_TOC		*toc = instanceData->toc;
 	TQ3Uns32				i;
@@ -652,21 +635,20 @@ e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
 		if(submittedObject != theObject)
 			{
 			fileFormatPrivate->lastObjectType = Q3Object_GetLeafType(submittedObject);
-			objectData = E3ClassTree_FindInstanceData(submittedObject, kQ3ObjectTypeLeaf);
+			objectData = submittedObject->FindLeafInstanceData () ;
 			}
 			
-		theClass = E3ClassTree_GetClassByObject(submittedObject);
+		theClass = submittedObject->GetClass () ;
 		}
 	else
-		theClass = E3ClassTree_GetClassByType(objectType);
+		theClass = E3ClassTree::GetClass ( objectType ) ;
 	
 	if (theClass == NULL)
 		goto exit;
 
 	
 	traverse = (TQ3XObjectTraverseMethod)
-					E3ClassTree_GetMethod(theClass,
-										  kQ3XMethodTypeObjectTraverse);
+					theClass->GetMethod ( kQ3XMethodTypeObjectTraverse ) ;
 	if (traverse == NULL)
 		goto exit;
 
@@ -737,16 +719,14 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theFormat), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFormat, kQ3FileFormatTypeWriter), kQ3Failure);
 	
-	instanceData = (TE3FFormatW3DMF_Data *) E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf);
+	instanceData = (TE3FFormatW3DMF_Data *) theFormat->FindLeafInstanceData () ;
 
 	if(size != 0){
 		// retrieve the write method
-		theClass = E3ClassTree_GetClassByType(instanceData->lastObjectType);
+		theClass = E3ClassTree::GetClass ( instanceData->lastObjectType ) ;
 		Q3_ASSERT_VALID_PTR(theClass);
 	
-		writeMethod = (TQ3XObjectWriteMethod)
-					E3ClassTree_GetMethod(theClass,
-										  kQ3XMethodTypeObjectWrite);
+		writeMethod = (TQ3XObjectWriteMethod) theClass->GetMethod ( kQ3XMethodTypeObjectWrite ) ;
 		if (writeMethod == NULL)
 			return(kQ3Failure);
 		}
@@ -805,7 +785,7 @@ E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3
 	TQ3FileObject theFile = E3View_AccessFile (view);
 	
 	theFormat = E3View_AccessFileFormat(view);
-	instanceData = (TE3FFormatW3DMF_Data *) E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf);
+	instanceData = (TE3FFormatW3DMF_Data *) theFormat->FindLeafInstanceData ();
 	
 	qd3dStatus = Q3XObjectClass_GetType (objectClass, &objectType);
 
