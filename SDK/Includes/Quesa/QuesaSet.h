@@ -173,7 +173,7 @@ typedef TQ3ElementType                          TQ3AttributeType;
  *
  *	@param	fromAPIElement		Data to be copied, in its external form.
  *	@param	toInternalElement	Destination of the copy, in internal form.
- *	@result						Error status of the method.
+ *	@result						Success or failure of the method.
 */
 typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyAddMethod)(
                             const void          *fromAPIElement,
@@ -188,7 +188,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyAddMethod)(
  *
  *	@param	fromAPIElement		Data to be copied, in its external form.
  *	@param	toInternalElement	Destination of the copy, in internal form.
- *	@result						Error status of the method.
+ *	@result						Success or failure of the method.
 */
 typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyReplaceMethod)(
                             const void          *fromAPIElement,
@@ -203,7 +203,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyReplaceMethod)(
  *
  *	@param	fromInternalElement	Data to be copied, in its internal form.
  *	@param	toAPIElement		Destination of the copy, in external form.
- *	@result						Error status of the method.
+ *	@result						Success or failure of the method.
 */
 typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyGetMethod)(
                             const void          *fromInternalElement,
@@ -216,7 +216,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyGetMethod)(
  *
  *	@param	fromInternalElement	Data to be copied, in its internal form.
  *	@param	toInternalElement	Destination of the copy, in internal form.
- *	@result						Error status of the method.
+ *	@result						Success or failure of the method.
 */
 typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyDuplicateMethod)(
                             const void          *fromInternalElement,
@@ -228,7 +228,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyDuplicateMethod)(
  *		This method is called to delete element data from a set or attribute set. 
  *
  *	@param	internalElement		Data to be deleted, in its internal form.
- *	@result						Error status of the method.
+ *	@result						Success or failure of the method.
 */
 typedef CALLBACK_API_C(TQ3Status,           TQ3XElementDeleteMethod)(
                             void                *internalElement);
@@ -250,7 +250,7 @@ typedef TQ3Boolean                          TQ3XAttributeInheritMethod;
  *
  *	@param	fromInternalAttribute	Attribute data to copy, in internal form.
  *	@param	toInternalAttribute		Destination of the copy, in internal form.
- *	@result							Error status of the method.
+ *	@result							Success or failure of the method.
 */
 typedef CALLBACK_API_C(TQ3Status,           TQ3XAttributeCopyInheritMethod)(
                             const void          *fromInternalAttribute,
@@ -328,7 +328,7 @@ Q3Set_GetType (
  *  @param theSet           The set object.
  *  @param theType          Type of the element.
  *  @param data             Pointer to the element data.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Set_Add (
@@ -348,7 +348,7 @@ Q3Set_Add (
  *  @param theSet           The set object.
  *  @param theType          The element type.
  *  @param data             Pointer to a buffer large enough to receive the element data.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Set_Get (
@@ -388,7 +388,7 @@ Q3Set_Contains (
  *
  *  @param theSet           The set object.
  *  @param theType          The element type.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Set_Clear (
@@ -405,7 +405,7 @@ Q3Set_Clear (
  *      Remove all elements from a set.
  *
  *  @param target          The set object.
- *  @result                Error status of the function.
+ *  @result                Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Set_Empty (
@@ -434,8 +434,8 @@ Q3Set_Empty (
  *		</pre></code></blockquote>
  *
  *  @param theSet           The set object.
- *  @param theType          (input-output parameter) An element type.
- *  @result                 Error status of the function.
+ *  @param theType          Given an element type, receives the next element type.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Set_GetNextElementType (
@@ -459,7 +459,7 @@ Q3Set_GetNextElementType (
  *  @param sourceSet   		The set containing the element to be copied.
  *  @param theType          Type of the element.
  *  @param destSet          Set to receive the copied element.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 EXTERN_API_C ( TQ3Status  )
@@ -483,7 +483,7 @@ Q3Set_CopyElement(
  *  @param attributeType    The attribute type.
  *  @param data             Pointer to attribute data.
  *  @param view             The view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Attribute_Submit (
@@ -522,7 +522,7 @@ Q3AttributeSet_New (
  *  @param attributeSet     The attribute set.
  *  @param theType          The attribute type.
  *  @param data             Pointer to the attribute data.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Add (
@@ -564,7 +564,7 @@ Q3AttributeSet_Contains (
  *  @param attributeSet     The attribute set.
  *  @param theType          The attribute type.
  *  @param data             Pointer to a buffer to receive the attribute data.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Get (
@@ -584,7 +584,7 @@ Q3AttributeSet_Get (
  *
  *  @param attributeSet     The attribute set.
  *  @param theType          The attribute type.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Clear (
@@ -602,7 +602,7 @@ Q3AttributeSet_Clear (
  *
  *
  *  @param target           The attribute set.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Empty (
@@ -631,8 +631,8 @@ Q3AttributeSet_Empty (
  *		</pre></code></blockquote>
  *
  *  @param source           The attribute set object.
- *  @param theType          (input-output parameter) An element type.
- *  @result                 Error status of the function.
+ *  @param theType          Given an attribute type, receives the next attribute type.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_GetNextAttributeType (
@@ -652,7 +652,7 @@ Q3AttributeSet_GetNextAttributeType (
  *
  *  @param attributeSet     The attribute set object.
  *  @param view             A view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Submit (
@@ -676,7 +676,7 @@ Q3AttributeSet_Submit (
  *  @param parent           An attribute set.
  *  @param child            An attribute set.
  *  @param result           An attribute set to be redefined.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Inherit (
@@ -708,7 +708,7 @@ Q3AttributeSet_Inherit (
  *      See QuesaExtension.h for other operations on a custom class, such
  *		as <code>Q3XObjectHierarchy_UnregisterClass</code>.
  *
- *  @param elementType      (output) An element type assigned by Quesa.
+ *  @param elementType      Receives the element type assigned by Quesa.
  *  @param name             The unique name of the new class.
  *  @param sizeOfElement    Size of the data for the element.
  *  @param metaHandler      Your metahandler function that returns element methods.
@@ -736,8 +736,8 @@ Q3XElementClass_Register (
  *
  *
  *  @param elementType      An element type.
- *  @param sizeOfElement    (output) Size in bytes of the element.
- *  @result                 Error status of the function.
+ *  @param sizeOfElement    Receives the size in bytes of the element.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XElementType_GetElementSize (
@@ -754,7 +754,7 @@ Q3XElementType_GetElementSize (
  *      Register a custom attribute class.
  *
  *
- *  @param attributeType    (output) A new attribute type.
+ *  @param attributeType    Receives the new attribute type.
  *  @param className      	Unique name for the new attribute.
  *  @param sizeOfElement    Size in bytes of the attribute data.
  *  @param metaHandler      Your metahandler, providing appropriate methods.
