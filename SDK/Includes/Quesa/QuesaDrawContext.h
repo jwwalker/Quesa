@@ -233,14 +233,22 @@ typedef struct TQ3PixmapDrawContextData {
  *  @discussion
  *      Describes the state for a Mac OS draw context.
  *
- *      The library, viewPort, and grafPort fields are not supported by Quesa.
- *      Rendering to an off-screen GWorld can be achieved by rendering to a
- *      suitably constructed Pixmap draw context.
+ *      The library and viewPort fields are not supported by Quesa.
+ *
+ *      To render to the screen, either the window or grafPort fields must be
+ *      valid. Rendering to an off-screen buffer (e.g., a GWorld) should be
+ *      achieved by rendering to a suitably constructed Pixmap draw context.
+ *
+ *      If a window is supplied, its port will be obtained internally by Quesa
+ *      and the grafPort field should be NULL. When rendering to a port which
+ *      does not correspond to a valid WindowRef (e.g., a QD port constructed
+ *      from a CoreGraphics context), the window field should be NULL and the
+ *      port to render to supplied in the grafPort field.
  *
  *  @field drawContextData  The common state for the draw context.
  *  @field window           The window to render to.
- *  @field library          The library to use for rendering.
- *  @field viewPort         The QuickDraw GX port to render to.
+ *  @field library          The library to use for rendering. Should be kQ3Mac2DLibraryNone.
+ *  @field viewPort         The QuickDraw GX port to render to. Should be NULL.
  *  @field grafPort         The QuickDraw port to render to.
  */
 typedef struct TQ3MacDrawContextData {
