@@ -524,6 +524,10 @@ SOURCE=..\..\Source\Renderers\Interactive\IRTransparent.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\Source\Renderers\Interactive\IRTriBuffer.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Source\Renderers\Interactive\IRUpdate.c
 # End Source File
 # End Group

@@ -192,6 +192,7 @@ QUESA_OBJS = ${OBJ}${GLUE}/QD3DCamera.o                   \
              ${OBJ}${RENDERER}/Interactive/IRRenderer.o   \
              ${OBJ}${RENDERER}/Interactive/IRTexture.o    \
              ${OBJ}${RENDERER}/Interactive/IRTransparent.o  \
+             ${OBJ}${RENDERER}/Interactive/IRTriBuffer.o  \
              ${OBJ}${RENDERER}/Interactive/IRLights.o     \
              ${OBJ}${RENDERER}/Interactive/IRUpdate.o     \
              ${OBJ}${PLATFORM}/E3UnixDebug.o              \
@@ -525,6 +526,9 @@ ${OBJ}${RENDERER}/Interactive/IRTexture.o: ${SRC}${RENDERER}/Interactive/IRTextu
 	$(COMPILE)
 
 ${OBJ}${RENDERER}/Interactive/IRTransparent.o: ${SRC}${RENDERER}/Interactive/IRTransparent.c
+	$(COMPILE)
+
+${OBJ}${RENDERER}/Interactive/IRTriBuffer.o: ${SRC}${RENDERER}/Interactive/IRTriBuffer.c
 	$(COMPILE)
 
 ${OBJ}${RENDERER}/Interactive/IRLights.o: ${SRC}${RENDERER}/Interactive/IRLights.c
