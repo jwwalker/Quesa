@@ -1905,7 +1905,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 			readFailed = kQ3True;
 			}
 		//how many vertices?
-		absFaceVertexIndices = E3Num_Abs (numFaceVertexIndices);
+		absFaceVertexIndices = E3Integer_Abs(numFaceVertexIndices);
 		
 		if(numFaceVertexIndices > 0){ // it's a face
 		// create the previous face if any
@@ -2090,7 +2090,7 @@ cleanUp:
 			readFailed = kQ3True;
 			}
 		//how many vertices?
-		absFaceVertexIndices = E3Num_Abs (numFaceVertexIndices);
+		absFaceVertexIndices = E3Integer_Abs(numFaceVertexIndices);
 		
 		if(allocatedFaceIndices < absFaceVertexIndices){
 			if(Q3Memory_Reallocate (&faceVertices, absFaceVertexIndices) != kQ3Success)
