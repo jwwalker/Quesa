@@ -86,6 +86,7 @@ typedef struct TQ3ViewerParams {
 //-----------------------------------------------------------------------------
 #define kQ3ValidViewer		0xFEEDD0D0
 #define kQ3InvalidViewer	0xDEADD0D0
+#define kQ3ViewerDefaultZ	10.0f
 
 const TQ3Uns32 kQ3ViewerInternalDefault 	
 	= kQ3ViewerFlagActive
@@ -122,6 +123,10 @@ enum {
 TQ3GeometryObject sGuideCircle = NULL;
 
 
+//=============================================================================
+//      Forward declarations of internal helper methods
+//-----------------------------------------------------------------------------
+static void e3viewer_reset(TQ3ViewerObject theViewer);
 
 
 
@@ -487,7 +492,8 @@ static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 //-----------------------------------------------------------------------------
 static void e3viewer_pressButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 {	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
-
+	TQ3Boolean doReset = kQ3False;
+	
 	switch (theButton)
 	{
 		case kQ3ViewerFlagButtonTruck:
@@ -497,9 +503,18 @@ static void e3viewer_pressButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 			// select the indicated mode
 			E3Viewer_SetCurrentButton(theViewer, theButton);
 			break;
+		case kQ3ViewerFlagButtonReset:
+			e3viewer_reset(theViewer);
+			doReset = kQ3True;
+			break;
 		default:
-			// unselect the button by redrawing them all
-			E3Viewer_DrawControlStrip(theViewer);
+			doReset = kQ3True;
+	}
+	
+	if (kQ3True == doReset)
+	{
+		// unselect the button by redrawing them all
+		E3Viewer_DrawControlStrip(theViewer);
 	}
 }
 
@@ -685,6 +700,27 @@ static void e3viewer_applyRoll(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 }
 
 //=============================================================================
+//      e3viewer_reset: Restore the viewer parameters to their defaults.
+//-----------------------------------------------------------------------------
+static void e3viewer_reset(TQ3ViewerObject theViewer)
+{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3CameraPlacement	placement;
+	TQ3CameraObject		camera = NULL;
+		
+	Q3Quaternion_SetIdentity(&instanceData->mOrientation);
+
+	Q3Vector3D_Set(&instanceData->mTranslation, 0.0f, 0.0f, 0.0f);
+
+	Q3View_GetCamera(instanceData->mView, &camera);
+	Q3Camera_GetPlacement(camera, &placement);
+	placement.cameraLocation.z = kQ3ViewerDefaultZ;
+	Q3Camera_SetPlacement(camera, &placement);	
+	Q3Object_Dispose(camera);
+
+	E3Viewer_DrawContent(theViewer);	
+}
+
+//=============================================================================
 //      e3viewer_setupView: Prepare draw context, renderer, etc.
 //			for a newly created view.
 //-----------------------------------------------------------------------------
@@ -726,7 +762,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 		// camera
 		camData.cameraData.placement.cameraLocation.x = 0.0f;
 		camData.cameraData.placement.cameraLocation.y = 1.0f;
-		camData.cameraData.placement.cameraLocation.z = 10.0f;
+		camData.cameraData.placement.cameraLocation.z = kQ3ViewerDefaultZ;
 		camData.cameraData.placement.upVector.y = 1.0f;
 		camData.cameraData.range.hither = 1.0f;
 		camData.cameraData.range.yon = 10000.0f;
