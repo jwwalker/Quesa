@@ -2143,6 +2143,10 @@ doLoadModel(TQ3ViewObject theView)
 		return NULL;
 	
 	theModel = Qut_ReadModel(storageObj);
+	Q3Object_Dispose( storageObj );
+	storageObj = NULL;
+	
+	
 		// Adjust the scale and translation required for the model
 		
 	if(theModel)
@@ -2559,7 +2563,15 @@ static void errorCallback( TQ3Error            firstError,
 #pragma unused( lastError, userData )
 	const char*	theText;
 	
+#if QUESA_OS_MACINTOSH && TARGET_API_MAC_OS8	// if using QuickDraw 3D
+	char	msg[100];
+	
+	sprintf( msg, "QD3D error number %d", (int)firstError );
+	theText = msg;
+#else
 	theText = Q3Error_ToString( kQ3LanguageDefault, firstError );
+#endif
+
 #if QUESA_OS_MACINTOSH
 	showMessage( theText );
 #endif
@@ -2579,7 +2591,15 @@ static void warningCallback( TQ3Warning          firstWarning,
 #pragma unused( lastWarning, userData )
 	const char*	theText;
 	
+#if QUESA_OS_MACINTOSH && TARGET_API_MAC_OS8	// if using QuickDraw 3D
+	char	msg[100];
+	
+	sprintf( msg, "QD3D warning number %d", (int)firstWarning );
+	theText = msg;
+#else
 	theText = Q3Warning_ToString( kQ3LanguageDefault, firstWarning );
+#endif
+
 #if QUESA_OS_MACINTOSH
 	showMessage( theText );
 #endif
@@ -2599,7 +2619,15 @@ static void noticeCallback( TQ3Notice           firstNotice,
 #pragma unused( lastNotice, userData )
 	const char*	theText;
 	
+#if QUESA_OS_MACINTOSH && TARGET_API_MAC_OS8	// if using QuickDraw 3D
+	char	msg[100];
+	
+	sprintf( msg, "QD3D notice number %d", (int)firstNotice );
+	theText = msg;
+#else
 	theText = Q3Notice_ToString( kQ3LanguageDefault, firstNotice );
+#endif
+
 #if QUESA_OS_MACINTOSH
 	showMessage( theText );
 #endif
