@@ -62,7 +62,7 @@ void       E3ErrorManager_GetPlatformError(TQ3Uns32 *oldestPlatform, TQ3Uns32   
 
 
 // Clear the current error, warning, notice, or platform error
-void E3ErrorManager_ClearAll(void);
+void E3ErrorManager_ClearAll(E3GlobalsPtr theGlobals);
 void E3ErrorManager_ClearError(void);
 void E3ErrorManager_ClearWarning(void);
 void E3ErrorManager_ClearNotice(void);

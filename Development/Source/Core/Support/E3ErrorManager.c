@@ -86,8 +86,9 @@ E3ErrorManager_PostError(TQ3Error theError, TQ3Boolean isFatal)
 	if (theGlobals->errMgrOldestError == kQ3ErrorNone)
 		theGlobals->errMgrOldestError = theError;
 	
-	theGlobals->errMgrIsFatalError = isFatal;
-	theGlobals->errMgrLatestError  = theError;
+	theGlobals->errMgrSomethingPosted = kQ3True;
+	theGlobals->errMgrIsFatalError    = isFatal;
+	theGlobals->errMgrLatestError     = theError;
 
 
 
@@ -120,7 +121,8 @@ E3ErrorManager_PostWarning(TQ3Warning theWarning)
 	if (theGlobals->errMgrOldestWarning == kQ3WarningNone)
 		theGlobals->errMgrOldestWarning = theWarning;
 	
-	theGlobals->errMgrLatestWarning = theWarning;
+	theGlobals->errMgrSomethingPosted = kQ3True;
+	theGlobals->errMgrLatestWarning   = theWarning;
 
 
 
@@ -153,7 +155,8 @@ E3ErrorManager_PostNotice(TQ3Notice theNotice)
 	if (theGlobals->errMgrOldestNotice == kQ3NoticeNone)
 		theGlobals->errMgrOldestNotice = theNotice;
 	
-	theGlobals->errMgrLatestNotice = theNotice;
+	theGlobals->errMgrSomethingPosted = kQ3True;
+	theGlobals->errMgrLatestNotice    = theNotice;
 
 
 
@@ -186,7 +189,8 @@ E3ErrorManager_PostPlatformError(TQ3Uns32 theError)
 	if (theGlobals->errMgrOldestPlatform == 0)
 		theGlobals->errMgrOldestPlatform = theError;
 	
-	theGlobals->errMgrLatestPlatform = theError;
+	theGlobals->errMgrSomethingPosted = kQ3True;
+	theGlobals->errMgrLatestPlatform  = theError;
 
 
 
@@ -330,23 +334,20 @@ E3ErrorManager_GetPlatformError(TQ3Uns32 *oldestPlatform, TQ3Uns32 *latestPlatfo
 //				routines.
 //-----------------------------------------------------------------------------
 void
-E3ErrorManager_ClearAll(void)
-{	E3GlobalsPtr	theGlobals = E3Globals_Get();
-
+E3ErrorManager_ClearAll(E3GlobalsPtr theGlobals)
+{
 
 
 	// Clear our state
-	if (theGlobals->systemInitialised)
-		{
-		theGlobals->errMgrOldestError    = kQ3ErrorNone;
-		theGlobals->errMgrLatestError    = kQ3ErrorNone;
-		theGlobals->errMgrOldestWarning  = kQ3WarningNone;
-		theGlobals->errMgrLatestWarning  = kQ3WarningNone;
-		theGlobals->errMgrOldestNotice   = kQ3NoticeNone;
-		theGlobals->errMgrLatestNotice   = kQ3NoticeNone;
-		theGlobals->errMgrOldestPlatform = 0;
-		theGlobals->errMgrLatestPlatform = 0;
-		}
+	theGlobals->errMgrSomethingPosted = kQ3False;
+	theGlobals->errMgrOldestError     = kQ3ErrorNone;
+	theGlobals->errMgrLatestError     = kQ3ErrorNone;
+	theGlobals->errMgrOldestWarning   = kQ3WarningNone;
+	theGlobals->errMgrLatestWarning   = kQ3WarningNone;
+	theGlobals->errMgrOldestNotice    = kQ3NoticeNone;
+	theGlobals->errMgrLatestNotice    = kQ3NoticeNone;
+	theGlobals->errMgrOldestPlatform  = 0;
+	theGlobals->errMgrLatestPlatform  = 0;
 }
 
 

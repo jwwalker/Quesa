@@ -190,13 +190,20 @@ E3System_UnloadPlugins(void)
 //				to perform any bookkeeping that's required.
 //
 //				At the present, this simply involves clearing the global error
-//				state.
+//				state. For speed, we check the state from outside to see if
+//				something has been posted.
+//
+//				Please profile before making any changes to this routine, as
+//				this will be called for every API entry point (so must have
+//				minimal overhead).
 //-----------------------------------------------------------------------------
 void
 E3System_Bottleneck(void)
-{
+{	E3GlobalsPtr	theGlobals = E3Globals_Get();
+
 
 
 	// Clear the global error state
-	E3ErrorManager_ClearAll();
+	if (theGlobals->errMgrSomethingPosted)
+		E3ErrorManager_ClearAll(theGlobals);
 }

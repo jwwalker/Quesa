@@ -374,6 +374,7 @@ typedef struct {
 
 
 	// Error Manager
+	TQ3Boolean				errMgrSomethingPosted;
 	TQ3Boolean				errMgrIsFatalError;
 	TQ3Error				errMgrOldestError;
 	TQ3Warning				errMgrOldestWarning;
