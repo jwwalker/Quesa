@@ -109,20 +109,24 @@ TQ3Object		E3Read_3DMF_Transform_Reset(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Box(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Cone(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Disk(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Ellipse(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Line(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Marker(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_NURBPatch(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_PixmapMarker(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Point(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Polyhedron(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Torus(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile);
-TQ3Object		E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile);
 
 
 

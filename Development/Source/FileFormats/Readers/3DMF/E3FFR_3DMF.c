@@ -44,14 +44,17 @@
 #include "E3FFW_3DMFBin_Writer.h"
 
 
+
+
+
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3fformat_3dmf__read_next_element : Read the NextAttribute.
+//      e3fformat_3dmf_read_next_element : Read the NextAttribute.
 //							calls the proper method from the Format
 //-----------------------------------------------------------------------------
 static void
-e3fformat_3dmf__read_next_element(TQ3AttributeSet parent,TQ3FileObject theFile)
+e3fformat_3dmf_read_next_element(TQ3AttributeSet parent,TQ3FileObject theFile)
 {
 	TQ3FileFormatObject			format;
 	TQ3XFFormat_3DMF_ReadNextElementMethod	readNextElement;
@@ -67,6 +70,7 @@ e3fformat_3dmf__read_next_element(TQ3AttributeSet parent,TQ3FileObject theFile)
 	if(readNextElement != NULL)
 		readNextElement(parent,theFile);
 }
+
 
 
 
@@ -89,11 +93,12 @@ e3fformat_3dmf_set_read(TQ3FileObject theFile)
 
 	// Read the elements in to the set
 	while (!Q3File_IsEndOfContainer(theFile, NULL))
-		e3fformat_3dmf__read_next_element(theSet, theFile);
+		e3fformat_3dmf_read_next_element(theSet, theFile);
 
 	return(theSet);
 
 }
+
 
 
 
@@ -126,6 +131,7 @@ e3fformat_3dmf_attribute_caps_read_core(TQ3FileObject theFile, TQ3ObjectType	cla
 
 
 
+
 //=============================================================================
 //      e3fformat_3dmf_topcapsset_read : Creates and read a top caps attribute set from a 3DMF.
 //-----------------------------------------------------------------------------
@@ -134,6 +140,7 @@ e3fformat_3dmf_topcapsset_read(TQ3FileObject theFile)
 {
 	return(e3fformat_3dmf_attribute_caps_read_core (theFile, kQ3AttributeSetTypeTopCap));
 }
+
 
 
 
@@ -150,6 +157,7 @@ e3fformat_3dmf_bottomcapsset_read(TQ3FileObject theFile)
 
 
 
+
 //=============================================================================
 //      e3fformat_3dmf_facecapsset_read : Creates and read a face caps attribute set from a 3DMF.
 //-----------------------------------------------------------------------------
@@ -159,6 +167,7 @@ e3fformat_3dmf_facecapsset_read(TQ3FileObject theFile)
 {
 	return(e3fformat_3dmf_attribute_caps_read_core (theFile, kQ3AttributeSetTypeFaceCap));
 }
+
 
 
 
@@ -1412,26 +1421,31 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 
 
 	// the Geometry read Methods
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeBox,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Box);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeCone,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Cone);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeCylinder,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Cylinder);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Ellipsoid);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeGeneralPolygon,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_GeneralPolygon);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeLine,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Line);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeMarker,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Marker);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeMesh,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Mesh);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypePixmapMarker,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_PixmapMarker);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypePoint,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Point);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypePolyLine,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_PolyLine);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypePolygon,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Polygon);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeTorus,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Torus);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriGrid,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_TriGrid);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriMesh,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_TriMesh);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Triangle);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBCurve,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_NURBCurve);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeBox,				kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Box);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeCone,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cone);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeCylinder,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cylinder);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeDisk,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Disk);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipse,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipsoid);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeGeneralPolygon,	kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_GeneralPolygon);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeLine,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Line);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeMarker,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Marker);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeMesh,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Mesh);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBCurve,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_NURBCurve);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBPatch,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_NURBPatch);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePixmapMarker,	kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_PixmapMarker);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePoint,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Point);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePolyLine,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_PolyLine);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePolygon,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Polygon);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePolyhedron,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Polyhedron);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTorus,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Torus);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriGrid,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_TriGrid);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriMesh,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_TriMesh);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Triangle);
 
 	return(qd3dStatus);
 }
+
 
 
 
