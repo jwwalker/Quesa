@@ -738,6 +738,234 @@ Q3Object_IsType(TQ3Object object, TQ3ObjectType theType)
 
 
 
+//=============================================================================
+//      Q3Object_AddElement : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_AddElement(TQ3Object object, TQ3ElementType theType, const void *data)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on shape
+		return(kQ3Failure);
+
+	if (0) // Further checks on theType
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Object_AddElement(object, theType, data));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Object_GetElement : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_GetElement(TQ3Object object, TQ3ElementType theType, void *data)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on shape
+		return(kQ3Failure);
+
+	if (0) // Further checks on theType
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Object_GetElement(object, theType, data));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Object_ContainsElement : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+Q3Object_ContainsElement(TQ3Object object, TQ3ElementType theType)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on shape
+		return(kQ3False);
+
+	if (0) // Further checks on theType
+		return(kQ3False);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Object_ContainsElement(object, theType));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Object_GetNextElementType : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_GetNextElementType(TQ3Object object, TQ3ElementType *theType)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theType), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on shape
+		return(kQ3Failure);
+
+	if (0) // Further checks on theType
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Object_GetNextElementType(object, theType));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Object_EmptyElements : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_EmptyElements(TQ3Object object)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on shape
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Object_EmptyElements(object));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Object_ClearElement : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_ClearElement(TQ3Object object, TQ3ElementType theType)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on shape
+		return(kQ3Failure);
+
+	if (0) // Further checks on theType
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Object_ClearElement(object, theType));
+}
+
+
+
+
+
 
 //=============================================================================
 //      Q3Shared_GetType : Quesa API entry point.
@@ -1102,7 +1330,7 @@ Q3Shape_AddElement(TQ3ShapeObject shape, TQ3ElementType theType, const void *dat
 
 
 	// Call our implementation
-	return(E3Shape_AddElement(shape, theType, data));
+	return(E3Object_AddElement(shape, theType, data));
 }
 
 
@@ -1145,7 +1373,7 @@ Q3Shape_GetElement(TQ3ShapeObject shape, TQ3ElementType theType, void *data)
 
 
 	// Call our implementation
-	return(E3Shape_GetElement(shape, theType, data));
+	return(E3Object_GetElement(shape, theType, data));
 }
 
 
@@ -1184,7 +1412,7 @@ Q3Shape_ContainsElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 	// Call our implementation
-	return(E3Shape_ContainsElement(shape, theType));
+	return(E3Object_ContainsElement(shape, theType));
 }
 
 
@@ -1224,7 +1452,7 @@ Q3Shape_GetNextElementType(TQ3ShapeObject shape, TQ3ElementType *theType)
 
 
 	// Call our implementation
-	return(E3Shape_GetNextElementType(shape, theType));
+	return(E3Object_GetNextElementType(shape, theType));
 }
 
 
@@ -1260,7 +1488,7 @@ Q3Shape_EmptyElements(TQ3ShapeObject shape)
 
 
 	// Call our implementation
-	return(E3Shape_EmptyElements(shape));
+	return(E3Object_EmptyElements(shape));
 }
 
 
@@ -1299,7 +1527,7 @@ Q3Shape_ClearElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 	// Call our implementation
-	return(E3Shape_ClearElement(shape, theType));
+	return(E3Object_ClearElement(shape, theType));
 }
 
 
