@@ -204,7 +204,6 @@ E3SphericalPoint_Set(TQ3SphericalPoint *sphericalPoint, float rho, float theta, 
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Point2D_To3D : Converts a 2D point to 3D, setting z to 1.
@@ -215,6 +214,7 @@ E3SphericalPoint_Set(TQ3SphericalPoint *sphericalPoint, float rho, float theta, 
 //				been Q3RationalPoint3D, not a Q3Point3D, and it should have
 //				been "w" set to 1, not "z".
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Point3D *
 E3Point2D_To3D(const TQ3Point2D *point2D, TQ3Point3D *result)
 {
@@ -317,11 +317,11 @@ E3Vector3D_To2D(const TQ3Vector3D *vector3D, TQ3Vector2D *result)
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Point2D_Subtract : Subtracts p2 from p1, storing in result.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Vector2D *
 E3Point2D_Subtract(const TQ3Point2D *p1, const TQ3Point2D *p2, TQ3Vector2D *result)
 {
@@ -364,11 +364,12 @@ E3Point3D_Subtract(const TQ3Point3D *p1, const TQ3Point3D *p2, TQ3Vector3D *resu
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      E3Point2D_Distance : Return the Euclidean distance between two points.
 //-----------------------------------------------------------------------------
+#pragma mark -
 float
 E3Point2D_Distance(const TQ3Point2D *p1, const TQ3Point2D *p2)
 {
@@ -522,7 +523,6 @@ E3RationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1,
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Point2D_RRatio :	Return the point along the segment from p1 to p2
@@ -533,6 +533,7 @@ E3RationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1,
 //				in fact uses r2/(r1+r2) instead.  As usual, we do as QD3D does,
 //				not as the docs say.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Point2D *
 E3Point2D_RRatio(const TQ3Point2D *p1, const TQ3Point2D *p2, float r1, float r2, TQ3Point2D *result)
 {
@@ -614,13 +615,13 @@ E3RationalPoint4D_RRatio(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D 
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Point2D_Vector2D_Add : Add a 2D vector to a point.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Point2D *
 E3Point2D_Vector2D_Add(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D, TQ3Point2D *result)
 {
@@ -717,13 +718,13 @@ E3Point3D_Vector3D_Subtract(const TQ3Point3D *point3D, const TQ3Vector3D *vector
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Vector2D_Scale : Scale a 2D vector by the given factor.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Vector2D *
 E3Vector2D_Scale(const TQ3Vector2D *vector2D, float scalar, TQ3Vector2D *result)
 {
@@ -753,13 +754,13 @@ E3Vector3D_Scale(const TQ3Vector3D *vector3D, float scalar, TQ3Vector3D *result)
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Vector2D_Length : Returns the length of a 2D vector.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 float
 E3Vector2D_Length(const TQ3Vector2D *vector2D)
 {
@@ -784,12 +785,12 @@ E3Vector3D_Length(const TQ3Vector3D *vector3D)
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Vector2D_Normalize :	Scales the given vector so that its new length
 //								is 1.0f.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Vector2D *
 E3Vector2D_Normalize(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
 {
@@ -822,13 +823,13 @@ E3Vector3D_Normalize(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Vector2D_Add : Add two 2D vectors.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Vector2D *
 E3Vector2D_Add(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result)
 {
@@ -891,7 +892,6 @@ E3Vector3D_Subtract(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *r
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Vector2D_Cross : Returns the 2D cross product of v1 and v2.
@@ -899,6 +899,7 @@ E3Vector3D_Subtract(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *r
 //		Note :	We assume the 2D vectors are really 3D vectors with z=0,
 //				then return the z coordinate of the cross product (0,0,z).
 //-----------------------------------------------------------------------------
+#pragma mark -
 float
 E3Vector2D_Cross(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
 {
@@ -950,13 +951,13 @@ E3Point3D_CrossProductTri(const TQ3Point3D *p1, const TQ3Point3D *p2, const TQ3P
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Vector2D_Dot : Return the dot product of 2D vectors.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 float
 E3Vector2D_Dot(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
 {
@@ -981,13 +982,13 @@ E3Vector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2)
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Vector2D_Transform : Multiplies a 2D vector by a 3x3 matrix.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Vector2D *
 E3Vector2D_Transform(const TQ3Vector2D *v, const TQ3Matrix3x3 *matrix3x3, TQ3Vector2D *result)
 {
@@ -1252,13 +1253,13 @@ E3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D	*inPoints4D,
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Vector2D_Negate : Scales the given vector by -1.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Vector2D *
 E3Vector2D_Negate(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
 {
@@ -1288,7 +1289,6 @@ E3Vector3D_Negate(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Point2D_ToPolar : Converts 2D point to polar coordinates.
@@ -1296,6 +1296,7 @@ E3Vector3D_Negate(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 //		Note :	The angle (theta) here is measured counter-clockwise
 //				from the +x axis.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3PolarPoint *
 E3Point2D_ToPolar(const TQ3Point2D *point2D, TQ3PolarPoint *result)
 {
@@ -1398,11 +1399,11 @@ E3SphericalPoint_ToPoint3D(const TQ3SphericalPoint *sphericalPoint, TQ3Point3D *
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Point2D_AffineComb : Weighted combination of a number of points.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Point2D *
 E3Point2D_AffineComb(const TQ3Point2D	*points2D,
 						const float		*weights,
@@ -1535,13 +1536,13 @@ E3RationalPoint4D_AffineComb(const TQ3RationalPoint4D *points4D, const float *we
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Matrix3x3_Copy : Copy a 3x3 matrix.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Matrix3x3 *
 E3Matrix3x3_Copy(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 {
@@ -2519,13 +2520,13 @@ E3Matrix4x4_Determinant(const TQ3Matrix4x4 *matrix4x4)
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3Quaternion_Set : One-line description of the method.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Quaternion *
 E3Quaternion_Set(TQ3Quaternion *quaternion, float w, float x, float y, float z)
 {
@@ -2802,7 +2803,7 @@ E3Quaternion_SetMatrix(TQ3Quaternion *quaternion, const TQ3Matrix4x4 *matrix4x4)
 	// check the diagonal
 	if (tr > 0.0) {
 		s = (float)sqrt(tr + 1.0);
-		quaternion->w = s / 2.0f;
+		quaternion->w = s * 0.5f;
 		s = 0.5f / s;
 		quaternion->x = (m[1][2] - m[2][1]) * s;
 		quaternion->y = (m[2][0] - m[0][2]) * s;
@@ -3040,13 +3041,13 @@ E3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ3Quaternion *qu
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3BoundingBox_Copy : Copies a bounding box.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3BoundingBox *
 E3BoundingBox_Copy(const TQ3BoundingBox *bBox, TQ3BoundingBox *result)
 {
@@ -3226,13 +3227,13 @@ E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox, const TQ3RationalPoi
 
 
 
-#pragma mark -
 
 //=============================================================================
 //      E3BoundingSphere_Copy : Copies a bounding sphere.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3BoundingSphere *
 E3BoundingSphere_Copy(const TQ3BoundingSphere *bSphere, TQ3BoundingSphere *result)
 {
