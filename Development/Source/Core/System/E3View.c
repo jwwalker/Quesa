@@ -540,11 +540,11 @@ e3view_stack_pop(TQ3ViewObject theView)
 
 
 	// Dispose of the shared objects in the topmost item
-	E3Object_DisposeAndForget(instanceData->stackState[instanceData->stackCount-1].attributeSet);
-	E3Object_DisposeAndForget(instanceData->stackState[instanceData->stackCount-1].shaderIllumination);
-	E3Object_DisposeAndForget(instanceData->stackState[instanceData->stackCount-1].shaderSurface);
-	E3Object_DisposeAndForget(instanceData->stackState[instanceData->stackCount-1].styleHighlight);
-	E3Object_DisposeAndForget(instanceData->stackState[instanceData->stackCount-1].attributeSurfaceShader);
+	Q3Object_CleanDispose(&instanceData->stackState[instanceData->stackCount-1].attributeSet);
+	Q3Object_CleanDispose(&instanceData->stackState[instanceData->stackCount-1].shaderIllumination);
+	Q3Object_CleanDispose(&instanceData->stackState[instanceData->stackCount-1].shaderSurface);
+	Q3Object_CleanDispose(&instanceData->stackState[instanceData->stackCount-1].styleHighlight);
+	Q3Object_CleanDispose(&instanceData->stackState[instanceData->stackCount-1].attributeSurfaceShader);
 
 
 
@@ -1241,7 +1241,90 @@ e3view_pick_end(TQ3ViewObject theView)
 
 
 	// Dispose of our reference to the picked object
-	E3Object_DisposeAndForget(instanceData->pickedObject);
+	Q3Object_CleanDispose(&instanceData->pickedObject);
+}
+
+
+
+
+
+//=============================================================================
+//		e3view_default_lights : Create the default lights for a view.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3view_default_lights(TQ3ViewObject theView)
+{	TQ3Vector3D					sunDirection = { -1.0f, 0.0f, -1.0f };
+	TQ3ColorRGB					lightColour  = {  1.0f, 1.0f,  1.0f };
+	TQ3DirectionalLightData		directionalLight;
+	TQ3LightData				ambientLight;
+	TQ3Status					qd3dStatus;
+
+
+
+	// Add the ambient light
+	ambientLight.isOn       = kQ3True;
+	ambientLight.color      = lightColour;
+	ambientLight.brightness = 0.1f;
+
+	qd3dStatus = Q3View_AddLight(theView, kQ3LightTypeAmbient, &ambientLight);
+
+
+
+	// Add the directional light
+	directionalLight.lightData.isOn       = kQ3True;
+	directionalLight.lightData.color      = lightColour;
+	directionalLight.lightData.brightness = 1.0f;
+	directionalLight.castsShadows         = kQ3True;
+	directionalLight.direction            = sunDirection;
+
+	qd3dStatus = Q3View_AddLight(theView, kQ3LightTypeDirectional, &directionalLight);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//		e3view_default_camera : Create the default camera for a view.
+//-----------------------------------------------------------------------------
+static TQ3CameraObject
+e3view_default_camera(TQ3DrawContextObject theDrawContext)
+{	float							theWidth, theHeight;
+	TQ3Status						qd3dStatus;
+	TQ3ViewAngleAspectCameraData	cameraData;
+	TQ3CameraObject					theCamera;
+	TQ3Area							theArea;
+
+
+
+	// Get the size of the image we're rendering
+	qd3dStatus = Q3DrawContext_GetPane(theDrawContext, &theArea);
+	theWidth  = theArea.max.x - theArea.min.x;
+	theHeight = theArea.max.y - theArea.min.y;
+
+
+
+	// Fill in the camera data
+	Q3Point3D_Set(&cameraData.cameraData.placement.cameraLocation,  0.0f, 0.0f, 5.0f);
+	Q3Point3D_Set(&cameraData.cameraData.placement.pointOfInterest, 0.0f, 0.0f, 0.0f);
+	Q3Vector3D_Set(&cameraData.cameraData.placement.upVector,       0.0f, 1.0f, 0.0f);
+
+	cameraData.cameraData.range.hither		= 0.1f;
+	cameraData.cameraData.range.yon			= 60.0f;
+	cameraData.cameraData.viewPort.origin.x	= -1.0f;
+	cameraData.cameraData.viewPort.origin.y	=  1.0f;
+	cameraData.cameraData.viewPort.width	=  2.0f;
+	cameraData.cameraData.viewPort.height	=  2.0f;
+	cameraData.fov							= Q3Math_DegreesToRadians(50.0f);
+	cameraData.aspectRatioXToY              = (theWidth / theHeight);
+
+
+
+	// Create the camera
+	theCamera = Q3ViewAngleAspectCamera_New(&cameraData);
+	return(theCamera);
 }
 
 
@@ -1313,12 +1396,12 @@ e3view_delete(TQ3Object theObject, void *privateData)
 
 
 	// Dispose of our instance data
-	E3Object_DisposeAndForget(instanceData->viewAttributes);
-	E3Object_DisposeAndForget(instanceData->theRenderer);
-	E3Object_DisposeAndForget(instanceData->theCamera);
-	E3Object_DisposeAndForget(instanceData->theLights);
-	E3Object_DisposeAndForget(instanceData->theDrawContext);
-	E3Object_DisposeAndForget(instanceData->defaultAttributeSet);
+	Q3Object_CleanDispose(&instanceData->viewAttributes);
+	Q3Object_CleanDispose(&instanceData->theRenderer);
+	Q3Object_CleanDispose(&instanceData->theCamera);
+	Q3Object_CleanDispose(&instanceData->theLights);
+	Q3Object_CleanDispose(&instanceData->theDrawContext);
+	Q3Object_CleanDispose(&instanceData->defaultAttributeSet);
 
 	e3view_stack_pop_clean(theObject);
 }
@@ -2181,7 +2264,7 @@ E3View_PickStack_PopGroup(TQ3ViewObject theView)
 
 	// If this was the last group, remove the root object
 	if (pickedPath->depth == 0)
-		E3Object_DisposeAndForget(pickedPath->rootGroup);
+		Q3Object_CleanDispose(&pickedPath->rootGroup);
 
 
 
@@ -3012,6 +3095,59 @@ E3View_New(void)
 
 
 //=============================================================================
+//      E3View_NewWithDefaults : Create a TQ3ViewObject with some defaults.
+//-----------------------------------------------------------------------------
+TQ3ViewObject
+E3View_NewWithDefaults(TQ3ObjectType drawContextType, void *drawContextTarget)
+{	TQ3DrawContextObject	theDrawContext;
+	TQ3RendererObject		theRenderer;
+	TQ3Status				qd3dStatus;
+	TQ3CameraObject			theCamera;
+	TQ3ViewObject			theView;
+
+
+
+	// Create the view object
+	theView = Q3View_New();
+	if (theView == NULL)
+		return(NULL);
+
+
+
+	// Create the objects we need for the view
+	theDrawContext = E3DrawContext_New(drawContextType, drawContextTarget);
+	theCamera      = e3view_default_camera(theDrawContext);
+	theRenderer    = Q3Renderer_NewFromType(kQ3RendererTypeInteractive);
+
+	if (theDrawContext == NULL || theCamera == NULL || theRenderer == NULL)
+		{
+		Q3Object_Dispose(theDrawContext);
+		Q3Object_Dispose(theCamera);
+		Q3Object_Dispose(theRenderer);
+		Q3Object_Dispose(theView);
+		return(NULL);
+		}
+
+
+
+	// Configure the view
+	qd3dStatus = e3view_default_lights(theView);
+	qd3dStatus = Q3View_SetDrawContext(theView, theDrawContext);
+	qd3dStatus = Q3View_SetRenderer(theView,    theRenderer);
+	qd3dStatus = Q3View_SetCamera(theView,      theCamera);
+
+	Q3Object_Dispose(theDrawContext);
+	Q3Object_Dispose(theRenderer);
+	Q3Object_Dispose(theCamera);
+
+	return(theView);
+}
+
+
+
+
+
+//=============================================================================
 //      E3View_Cancel : Cancel the current view operation.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -3699,6 +3835,81 @@ E3View_GetLightGroup(TQ3ViewObject theView, TQ3GroupObject *lightGroup)
 	if (instanceData->theLights != NULL)
 		*lightGroup = Q3Shared_GetReference(instanceData->theLights);
 
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_AddLight : Add a light to a view's light group.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_AddLight(TQ3ViewObject theView, TQ3ObjectType lightType, void *lightData)
+{	TQ3GroupObject		lightGroup;
+	TQ3Status			qd3dStatus;
+	TQ3LightObject		theLight;
+
+
+
+	// Get the light group for the view
+	qd3dStatus = Q3View_GetLightGroup(theView, &lightGroup);
+	if (qd3dStatus != kQ3Success)
+		return(qd3dStatus);
+
+
+
+	// If we don't have a light group yet, create one
+	if (lightGroup == NULL)
+		{
+		lightGroup = Q3LightGroup_New();
+		if (lightGroup == NULL)
+			return(kQ3Failure);
+		
+		Q3View_SetLightGroup(theView, lightGroup);
+		}
+
+
+
+	// Create the light object
+	//
+	// If we've been passed an existing light object we need to increment
+	// the reference count, so that the caller's reference remains valid.
+	switch (lightType) {
+		case kQ3LightTypeAmbient:
+			theLight = Q3AmbientLight_New((TQ3LightData *) lightData);
+			break;
+
+		case kQ3LightTypeDirectional:
+			theLight = Q3DirectionalLight_New((TQ3DirectionalLightData *) lightData);
+			break;
+
+		case kQ3LightTypePoint:
+			theLight = Q3PointLight_New((TQ3PointLightData *) lightData);
+			break;
+
+		case kQ3LightTypeSpot:
+			theLight = Q3SpotLight_New((TQ3SpotLightData *) lightData);
+			break;
+		
+		case kQ3ShapeTypeLight:
+			theLight = *((TQ3LightObject *) lightData);
+			if (theLight != NULL)
+				Q3Shared_GetReference(theLight);
+			break;
+
+		default:
+			theLight = NULL;
+			break;
+		}
+
+
+
+	// Add the light to the light group
+	Q3Group_AddObjectAndDispose(lightGroup, &theLight);
+	Q3Object_Dispose(lightGroup);
+	
 	return(kQ3Success);
 }
 

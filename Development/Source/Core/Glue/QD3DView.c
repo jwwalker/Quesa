@@ -93,6 +93,47 @@ Q3View_New(void)
 
 
 //=============================================================================
+//      Q3View_NewWithDefaults : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ViewObject
+Q3View_NewWithDefaults(TQ3ObjectType drawContextType, void *drawContextTarget)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(drawContextType == kQ3DrawContextTypePixmap    ||
+						 drawContextType == kQ3DrawContextTypeMacintosh ||
+						 drawContextType == kQ3DrawContextTypeCocoa     ||
+						 drawContextType == kQ3DrawContextTypeWin32DC, NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextTarget), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on drawContextType
+		return(kQ3Failure);
+
+	if (0) // Further checks on drawContextTarget
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3View_NewWithDefaults(drawContextType, drawContextTarget));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3View_Cancel : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -769,6 +810,53 @@ Q3View_GetLightGroup(TQ3ViewObject view, TQ3GroupObject *lightGroup)
 
 	// Call our implementation
 	return(E3View_GetLightGroup(view, lightGroup));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3View_AddLight : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3View_AddLight(TQ3ViewObject theView, TQ3ObjectType lightType, void *lightData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theView->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theView, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(lightType == kQ3ShapeTypeLight       ||
+						 lightType == kQ3LightTypeAmbient     ||
+						 lightType == kQ3LightTypeDirectional ||
+						 lightType == kQ3LightTypePoint       ||
+						 lightType == kQ3LightTypeSpot, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lightData), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theView
+		return(kQ3Failure);
+
+	if (0) // Further checks on lightType
+		return(kQ3Failure);
+
+	if (0) // Further checks on lightData
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3View_AddLight(theView, lightType, lightData));
 }
 
 

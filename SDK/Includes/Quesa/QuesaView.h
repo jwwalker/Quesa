@@ -140,6 +140,45 @@ Q3View_New (
 
 /*!
  *  @function
+ *      Q3View_NewWithDefaults
+ *  @discussion
+ *      Create a view with a default camera, light group, renderer, and
+ *		draw context for the specified draw context target.
+ *
+ *      The draw context type indicates the type of draw context target
+ *      to create, and implies the following values for drawContextTarget.
+ *
+ *        kQ3DrawContextTypePixmap    => A TQ3Pixmap object.
+ *        kQ3DrawContextTypeMacintosh => A WindowRef.
+ *        kQ3DrawContextTypeCocoa     => An NSView.
+ *        kQ3DrawContextTypeWin32DC   => An HDC.
+ *        kQ3DrawContextTypeX11       => A Visual.
+ *        kQ3DrawContextTypeBe        => A BView.
+ *
+ *      The exact contents of the returned view are not defined, however it
+ *      should be suitable for interactively rendering objects placed at the
+ *      origin and will fill the supplied window.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param drawContextType     The type of data referenced by drawContextTarget
+ *  @param drawContextTarget   The window/etc reference for the draw context.
+ *  @result                    The new view object, or NULL on failure.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3ViewObject  )
+Q3View_NewWithDefaults (
+    TQ3ObjectType                 drawContextType,
+    void                          *drawContextTarget
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
  *      Q3View_Cancel
  *  @discussion
  *      One-line description of this function.
@@ -501,6 +540,48 @@ Q3View_GetLightGroup (
     TQ3ViewObject                 view,
     TQ3GroupObject                *lightGroup
 );
+
+
+
+/*!
+ *  @function
+ *      Q3View_AddLight
+ *  @discussion
+ *      Add a light to a view's light group.
+ *
+ *      If the view does not currently posses a light group, a new group
+ *      will be created.
+ *
+ *      lightData is assumed to point to the appropriate data structure
+ *      for lightType. E.g., if lightType is kQ3LightTypeSpot, then
+ *      lightData is assumed to be a pointer to a TQ3SpotLightData
+ *      structure.
+ *
+ *      lightType may also be set to kQ3ShapeTypeLight. In this case
+ *      lightData is assumed to point to an existing TQ3LightObject (of
+ *      any type) rather than to the data structure for a specific
+ *      type of light.
+ *
+ *      The reference count of the TQ3LightObject will be unaffected, and
+ *      so the caller must dispose of it to release their reference.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param theView          The view to add the light to.
+ *  @param lightType        The type of data referenced by lightData.
+ *  @param lightData        The data for the light.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3View_AddLight (
+    TQ3ViewObject                 theView,
+    TQ3ObjectType                 lightType,
+    void                          *lightData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
