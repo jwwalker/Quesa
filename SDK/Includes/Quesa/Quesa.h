@@ -1944,6 +1944,97 @@ Q3Object_GetSet (
 
 
 /*!
+ *	@function
+ *		Q3Object_GetProperty
+ *	@discussion
+ *		Get property data from an object.
+ *
+ *		The operation fails if the property does not exist or if you provide a
+ *		buffer that is not large enough to hold the data.
+ *
+ *		If you do not know the size of the property, you may call Q3Object_GetProperty
+ *		passing NULL for the buffer to find the size of the data, then allocate your
+ *		buffer and call Q3Object_GetProperty again.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *	@param	object    		The object.
+ *	@param	propType		Property type tag.
+ *	@param	bufferSize		Size of provided buffer in bytes.
+ *	@param	actualSize		Returns size of returned data in bytes.
+ *							You may pass NULL if you do not need this information.
+ *	@param	buffer			Buffer to receive the property data.  May be NULL.
+ *	@result		Success or failure of the operation.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_GetProperty(
+	TQ3Object				object,
+	TQ3ObjectType			propType,
+	TQ3Uns32				bufferSize,
+	TQ3Uns32*				actualSize,
+	void*					buffer );
+
+#endif
+
+
+
+/*!
+ *	@function
+ *		Q3Object_RemoveProperty
+ *	@discussion
+ *		Remove a property from an object.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *	@param	object    		The object.
+ *	@param	propType		Property type tag.
+ *	@result		Success or failure of the operation.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_RemoveProperty(
+	TQ3Object				object,
+	TQ3ObjectType			propType );
+
+#endif
+
+
+
+/*!
+ *	@function
+ *		Q3Object_SetProperty
+ *	@discussion
+ *		Set a property of an object.  If there was already a property of the
+ *		same type, it is replaced.
+ *
+ *		Property type tags consisting of all lowercase ASCII letters are reserved
+ *		for Quesa internal use.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *	@param	object    		The object.
+ *	@param	propType		Property type tag.
+ *	@param	dataSize		Size in bytes of the data.
+ *	@param	data			Data to copy into the property.
+ *	@result		Success or failure of the operation.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_SetProperty(
+	TQ3Object				object,
+	TQ3ObjectType			propType,
+	TQ3Uns32				dataSize,
+	const void*				data );
+
+#endif
+
+
+
+/*!
  *  @function
  *      Q3Object_SetSet
  *  @discussion

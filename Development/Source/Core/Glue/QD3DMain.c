@@ -46,6 +46,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Main.h"
+#include "E3CustomElements.h"
 
 
 
@@ -970,6 +971,90 @@ Q3Object_ClearElement(TQ3Object object, TQ3ElementType theType)
 
 	// Call our implementation
 	return(E3Object_ClearElement(object, theType));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Object_GetProperty : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_GetProperty(
+	TQ3Object				object,
+	TQ3ObjectType			propType,
+	TQ3Uns32				bufferSize,
+	TQ3Uns32*				actualSize,
+	void*					buffer )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	
+	
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3Object_GetProperty(object, propType, bufferSize, actualSize, buffer));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Object_RemoveProperty : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_RemoveProperty(
+	TQ3Object				object,
+	TQ3ObjectType			propType )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	
+
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3Object_RemoveProperty(object, propType));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Object_SetProperty : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_SetProperty(
+	TQ3Object				object,
+	TQ3ObjectType			propType,
+	TQ3Uns32				dataSize,
+	const void*				data )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
+	
+
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3Object_SetProperty(object, propType, dataSize, data));
 }
 
 
