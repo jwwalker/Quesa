@@ -39,6 +39,7 @@
 #include "IRUpdate.h"
 #include "IRTexture.h"
 #include "IRTransparent.h"
+#include "IRTribuffer.h"
 #include "IRLights.h"
 
 #include "GLPrefix.h"
@@ -238,7 +239,8 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 
 
-	// Draw the transparent primitives
+	// Finish off any remaining drawing
+	IRTriBuffer_Draw(theView, instanceData);
 	IRGeometry_Transparent_Draw(theView, instanceData);
 
 
