@@ -135,7 +135,7 @@ e3mac_load_plugins(const FSSpec *fileInDirToScan)
 {	Boolean			targetIsFolder;
 	Boolean			wasAliased;
 	FSSpec			theFSSpec;
-	TQ3Uns32		theIndex;
+	TQ3Int16		theIndex;
 	OSErr			theErr;
 	CInfoPBRec		thePB;
 
@@ -329,7 +329,7 @@ E3MacSystem_LoadPlugins(void)
 {	FSSpec					appFSSpec, quesaFSSpec, extensionsFSSpec;
 	ProcessInfoRec			processInfo;
 	Boolean					wasChanged;
-	ProcessSerialNumber		thePSN;
+	ProcessSerialNumber		thePSN = { kNoProcess, kCurrentProcess };
 	OSErr					theErr;
 
 
@@ -346,7 +346,6 @@ E3MacSystem_LoadPlugins(void)
 	processInfo.processName       = (StringPtr) &appFSSpec.name;
 	processInfo.processAppSpec    = &appFSSpec;
 	
-	theErr = GetCurrentProcess(&thePSN);
 	theErr = GetProcessInformation(&thePSN, &processInfo);
 
 
@@ -369,15 +368,14 @@ E3MacSystem_LoadPlugins(void)
 
 
 	// Reset any duplicate FSSpecs to avoid multiple re-scans. Note that
-	// using memcmp on Pascal strings would not normally be valid, but
-	// we initialised our FSSpecs with 0s so unused bytes will be equal.
-	if (memcmp(&appFSSpec, &quesaFSSpec, sizeof(FSSpec)) == 0)
+	// we only care about the vRefNum and parID fields of the FSSpec.
+	if (memcmp(&appFSSpec, &quesaFSSpec, sizeof(short) + sizeof(long)) == 0)
 		memset(&quesaFSSpec, 0x00, sizeof(quesaFSSpec));
 
-	if (memcmp(&appFSSpec, &extensionsFSSpec, sizeof(FSSpec)) == 0)
+	if (memcmp(&appFSSpec, &extensionsFSSpec, sizeof(short) + sizeof(long)) == 0)
 		memset(&extensionsFSSpec, 0x00, sizeof(extensionsFSSpec));
 
-	if (memcmp(&quesaFSSpec, &extensionsFSSpec, sizeof(FSSpec)) == 0)
+	if (memcmp(&quesaFSSpec, &extensionsFSSpec, sizeof(short) + sizeof(long)) == 0)
 		memset(&extensionsFSSpec, 0x00, sizeof(extensionsFSSpec));
 
 
