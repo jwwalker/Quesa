@@ -1014,7 +1014,7 @@ Q3Object_SetSet ( TQ3Object object, TQ3SetObject set )
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(set, (kQ3SharedTypeSet)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((set == NULL) || Q3Object_IsType(set, kQ3SharedTypeSet), kQ3Failure);
 
 
 
