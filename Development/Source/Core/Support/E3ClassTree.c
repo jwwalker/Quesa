@@ -1076,20 +1076,6 @@ OpaqueTQ3Object::GetLeafObject ( void )
 
 
 //=============================================================================
-//      E3ClassTree_IsObjectValid : Is an object valid?
-//-----------------------------------------------------------------------------
-TQ3Boolean
-OpaqueTQ3Object::IsObjectValid ( void )
-	{
-	// Check to see if the object is valid
-	return (TQ3Boolean) ( quesaTag == kQ3ObjectTypeQuesa ) ;
-	}
-
-
-
-
-
-//=============================================================================
 //      E3ClassTree_GetClassByType : Find a node in the tree by type.
 //-----------------------------------------------------------------------------
 E3ClassInfoPtr
