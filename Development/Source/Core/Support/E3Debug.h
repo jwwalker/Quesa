@@ -109,8 +109,9 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 #define Q3_REQUIRE(_theTest)													\
 			do																	\
 				{																\
-				Q3_ASSERT(_theTest);											\
-				if (!(_theTest))												\
+				TQ3Boolean	_cond = _theTest; 	\
+				Q3_ASSERT(_cond);											\
+				if (!(_cond))												\
 					return;														\
 				}																\
 			while (0)
@@ -120,8 +121,9 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 #define Q3_REQUIRE_OR_RESULT(_theTest, _theResult)								\
 			do																	\
 				{																\
-				Q3_ASSERT(_theTest);											\
-				if (!(_theTest))												\
+				TQ3Boolean	_cond = _theTest; 	\
+				Q3_ASSERT(_cond);											\
+				if (!(_cond))												\
 					return(_theResult);											\
 				}																\
 			while (0)
