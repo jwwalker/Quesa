@@ -128,6 +128,7 @@ typedef struct TQ3InteractiveData {
 	void					*glContext;
 	TQ3Boolean				glATICheckedFSAA;
 	TQ3Boolean				glATIAvailableFSAA;
+	TQ3Uns32				rendererEditIndex;
 
 
 	// Light state
