@@ -102,6 +102,7 @@ QUESA_OBJS = ${OBJ}${GLUE}/QD3DCamera.o                   \
              ${OBJ}${GLUE}/QD3DLight.o                    \
              ${OBJ}${GLUE}/QD3DMain.o                     \
              ${OBJ}${GLUE}/QD3DMath.o                     \
+             ${OBJ}${GLUE}/QD3DMemory.o                   \
              ${OBJ}${GLUE}/QD3DPick.o                     \
              ${OBJ}${GLUE}/QD3DRenderer.o                 \
              ${OBJ}${GLUE}/QD3DSet.o                      \
@@ -123,6 +124,7 @@ QUESA_OBJS = ${OBJ}${GLUE}/QD3DCamera.o                   \
              ${OBJ}${SYSTEM}/E3Light.o                    \
              ${OBJ}${SYSTEM}/E3Main.o                     \
              ${OBJ}${SYSTEM}/E3Math.o                     \
+             ${OBJ}${SYSTEM}/E3Memory.o                   \
              ${OBJ}${SYSTEM}/E3Pick.o                     \
              ${OBJ}${SYSTEM}/E3Renderer.o                 \
              ${OBJ}${SYSTEM}/E3Set.o                      \
@@ -139,7 +141,6 @@ QUESA_OBJS = ${OBJ}${GLUE}/QD3DCamera.o                   \
              ${OBJ}${SUPPORT}/E3ErrorManager.o            \
              ${OBJ}${SUPPORT}/E3Globals.o                 \
              ${OBJ}${SUPPORT}/E3HashTable.o               \
-             ${OBJ}${SUPPORT}/E3Memory.o                  \
              ${OBJ}${SUPPORT}/E3Pool.o                    \
              ${OBJ}${SUPPORT}/E3System.o                  \
              ${OBJ}${SUPPORT}/E3Utils.o                   \
@@ -254,6 +255,9 @@ ${OBJ}${GLUE}/QD3DMain.o: ${SRC}${GLUE}/QD3DMain.c
 ${OBJ}${GLUE}/QD3DMath.o: ${SRC}${GLUE}/QD3DMath.c
 	$(COMPILE)
 
+${OBJ}${GLUE}/QD3DMemory.o: ${SRC}${GLUE}/QD3DMemory.c
+	$(COMPILE)
+
 ${OBJ}${GLUE}/QD3DPick.o: ${SRC}${GLUE}/QD3DPick.c
 	$(COMPILE)
 
@@ -317,6 +321,9 @@ ${OBJ}${SYSTEM}/E3Main.o: ${SRC}${SYSTEM}/E3Main.c
 ${OBJ}${SYSTEM}/E3Math.o: ${SRC}${SYSTEM}/E3Math.c
 	$(COMPILE)
 
+${OBJ}${SYSTEM}/E3Memory.o: ${SRC}${SYSTEM}/E3Memory.c
+	$(COMPILE)
+
 ${OBJ}${SYSTEM}/E3Pick.o: ${SRC}${SYSTEM}/E3Pick.c
 	$(COMPILE)
 
@@ -363,9 +370,6 @@ ${OBJ}${SUPPORT}/E3Globals.o: ${SRC}${SUPPORT}/E3Globals.c
 	$(COMPILE)
 
 ${OBJ}${SUPPORT}/E3HashTable.o: ${SRC}${SUPPORT}/E3HashTable.c
-	$(COMPILE)
-
-${OBJ}${SUPPORT}/E3Memory.o: ${SRC}${SUPPORT}/E3Memory.c
 	$(COMPILE)
 
 ${OBJ}${SUPPORT}/E3Pool.o: ${SRC}${SUPPORT}/E3Pool.c

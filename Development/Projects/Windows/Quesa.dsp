@@ -247,6 +247,10 @@ SOURCE=..\..\Source\Core\Glue\QD3DMath.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\Source\Core\Glue\QD3DMemory.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Source\Core\Glue\QD3DPick.c
 # End Source File
 # Begin Source File
@@ -311,10 +315,6 @@ SOURCE=..\..\Source\Core\Support\E3HashTable.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Source\Core\Support\E3Memory.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\Source\Core\Support\E3Pool.c
 # End Source File
 # Begin Source File
@@ -376,6 +376,10 @@ SOURCE=..\..\Source\Core\System\E3Main.c
 # Begin Source File
 
 SOURCE=..\..\Source\Core\System\E3Math.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\Core\System\E3Memory.c
 # End Source File
 # Begin Source File
 
