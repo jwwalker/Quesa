@@ -84,24 +84,20 @@ static TQ3Status
 e3storage_memory_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
 {	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
 	TQ3Uns32 		bytesToRead = dataSize;
-	TQ3Status		result = kQ3Failure;
 	
 	*sizeRead = 0;
 	
-	if(offset  >= instanceData->validSize)
-		return(result);
+	if(offset >= instanceData->validSize)
+		return(kQ3Failure);
 		
-	if(offset + bytesToRead > instanceData->validSize){
+	if(offset + bytesToRead > instanceData->validSize)
 		bytesToRead = instanceData->validSize - offset;
-		}
-	else
-		result = kQ3Success;
 		
 	memcpy(data,&instanceData->buffer[offset],bytesToRead);
 	
 	*sizeRead = bytesToRead;
 	
-	return(result);
+	return(kQ3Success);
 }
 
 
