@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 32;
+	objectVersion = 38;
 	objects = {
 		00D09AA2FEE24BF0C0A80006 = {
 			isa = PBXFileReference;
@@ -17,6 +17,16 @@
 			settings = {
 			};
 		};
+//000
+//001
+//002
+//003
+//004
+//010
+//011
+//012
+//013
+//014
 		010832F8FEF3418F7F000001 = {
 			isa = PBXFileReference;
 			name = main.nib;
@@ -34,6 +44,7 @@
 			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				OPTIMIZATION_CFLAGS = "-O0";
 			};
 			isa = PBXBuildStyle;
 			name = Development;
@@ -59,6 +70,16 @@
 			settings = {
 			};
 		};
+//010
+//011
+//012
+//013
+//014
+//030
+//031
+//032
+//033
+//034
 		03F20AB0FEE9A4E17F000001 = {
 			isa = PBXFileReference;
 			name = QutTexture.c;
@@ -71,28 +92,33 @@
 			path = ../../Qut/QutTexture.h;
 			refType = 4;
 		};
-		03F20AB2FEE9A4E17F000001 = {
-			fileRef = 03F20AB1FEE9A4E17F000001;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		03F20AB3FEE9A4E17F000001 = {
-			fileRef = 03F20AB0FEE9A4E17F000001;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-				);
-			};
-		};
+//030
+//031
+//032
+//033
+//034
+//040
+//041
+//042
+//043
+//044
 		04313892FE3035C9C02AAC07 = {
 			buildActionMask = 2147483647;
 			files = (
-				0DC7C4A3FEF4498D7F000001,
 			);
 			isa = PBXRezBuildPhase;
-			name = "ResourceManager Resources";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
+//040
+//041
+//042
+//043
+//044
+//060
+//061
+//062
+//063
+//064
 		06B177C6FEDA5986C0A80006 = {
 			isa = PBXFileReference;
 			name = "Geom Test.c";
@@ -141,10 +167,13 @@
 			refType = 4;
 		};
 		06B177CDFEDA5986C0A80006 = {
+			indentWidth = 2;
 			isa = PBXFileReference;
 			name = QutMac.c;
 			path = ../../Qut/Mac/QutMac.c;
 			refType = 4;
+			tabWidth = 8;
+			usesTabs = 1;
 		};
 		06B177CFFEDA5986C0A80006 = {
 			fileRef = 06B177C9FEDA5986C0A80006;
@@ -182,11 +211,31 @@
 				);
 			};
 		};
+//060
+//061
+//062
+//063
+//064
+//070
+//071
+//072
+//073
+//074
 		07D71ED5FFE40CD97F000001 = {
 			isa = PBXApplicationReference;
 			path = "Geom Test.app";
 			refType = 3;
 		};
+//070
+//071
+//072
+//073
+//074
+//080
+//081
+//082
+//083
+//084
 		0867D6AAFE840B52C02AAC07 = {
 			children = (
 				0867D6ABFE840B52C02AAC07,
@@ -207,18 +256,16 @@
 			settings = {
 			};
 		};
-		0DC7C4A2FEF4498D7F000001 = {
-			isa = PBXFileReference;
-			name = QutCarbon.rsrc;
-			path = ../../Qut/Mac/QutCarbon.rsrc;
-			refType = 4;
-		};
-		0DC7C4A3FEF4498D7F000001 = {
-			fileRef = 0DC7C4A2FEF4498D7F000001;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
+//080
+//081
+//082
+//083
+//084
+//190
+//191
+//192
+//193
+//194
 		195DF8C9FE9D4F0611CA2CBB = {
 			children = (
 				07D71ED5FFE40CD97F000001,
@@ -227,6 +274,16 @@
 			name = Products;
 			refType = 4;
 		};
+//190
+//191
+//192
+//193
+//194
+//200
+//201
+//202
+//203
+//204
 		20286C28FDCF999611CA2CEA = {
 			buildStyles = (
 				0157032C00C1BABE7F000001,
@@ -234,6 +291,7 @@
 			);
 			isa = PBXProject;
 			mainGroup = 20286C29FDCF999611CA2CEA;
+			projectDirPath = "";
 			targets = (
 				20286C34FDCF999611CA2CEA,
 			);
@@ -264,7 +322,6 @@
 			children = (
 				0867D6AAFE840B52C02AAC07,
 				010832F8FEF3418F7F000001,
-				0DC7C4A2FEF4498D7F000001,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -275,6 +332,7 @@
 			children = (
 				20286C33FDCF999611CA2CEA,
 				0157032F00C1BE9D7F000001,
+				F549DD6204A6393001000064,
 			);
 			isa = PBXGroup;
 			name = "External Frameworks and Libraries";
@@ -297,10 +355,9 @@
 			);
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"../../../../Development/Projects/Mac/Project Builder/build\"";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../Includes/Quesa;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "-DQUESA_OS_MACINTOSH=1 -DTARGET_API_MAC_CARBON=1 -DTARGET_RT_MAC_MACHO=1";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -308,8 +365,6 @@
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 				WRAPPER_EXTENSION = app;
-			};
-			conditionalBuildSettings = {
 			};
 			dependencies = (
 			);
@@ -319,8 +374,8 @@
 			productName = "Geom Test";
 			productReference = 07D71ED5FFE40CD97F000001;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist SYSTEM \"file://localhost/System/Library/DTDs/PropertyList.dtd\">
-<plist version=\"0.9\">
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
@@ -347,10 +402,10 @@
 				06B177CFFEDA5986C0A80006,
 				06B177D0FEDA5986C0A80006,
 				00D09AA3FEE24BF0C0A80006,
-				03F20AB2FEE9A4E17F000001,
+				F549DD6104A6390301000064,
 			);
 			isa = PBXHeadersBuildPhase;
-			name = Headers;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C36FDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
@@ -359,7 +414,7 @@
 				010832F9FEF3418F7F000001,
 			);
 			isa = PBXResourcesBuildPhase;
-			name = "Bundle Resources";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C38FDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
@@ -367,22 +422,57 @@
 				06B177D1FEDA5986C0A80006,
 				06B177D2FEDA5986C0A80006,
 				06B177DBFEDA5FA8C0A80006,
-				03F20AB3FEE9A4E17F000001,
+				F549DD6004A6390201000064,
 			);
 			isa = PBXSourcesBuildPhase;
-			name = Sources;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C3BFDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
 			files = (
 				20286C3CFDCF999611CA2CEA,
 				0157033000C1BE9D7F000001,
+				F549DD8504A6393001000064,
 			);
 			isa = PBXFrameworksBuildPhase;
-			name = "Frameworks & Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C3CFDCF999611CA2CEA = {
 			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//200
+//201
+//202
+//203
+//204
+//F50
+//F51
+//F52
+//F53
+//F54
+		F549DD6004A6390201000064 = {
+			fileRef = 03F20AB0FEE9A4E17F000001;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F549DD6104A6390301000064 = {
+			fileRef = 03F20AB1FEE9A4E17F000001;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F549DD6204A6393001000064 = {
+			isa = PBXFrameworkReference;
+			name = QuickTime.framework;
+			path = /System/Library/Frameworks/QuickTime.framework;
+			refType = 0;
+		};
+		F549DD8504A6393001000064 = {
+			fileRef = F549DD6204A6393001000064;
 			isa = PBXBuildFile;
 			settings = {
 			};

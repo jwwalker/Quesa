@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 32;
+	objectVersion = 38;
 	objects = {
 		0157033B00C1C0577F000001 = {
 			buildRules = (
 			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				OPTIMIZATION_CFLAGS = "-O0";
 			};
 			isa = PBXBuildStyle;
 			name = Development;
@@ -35,18 +36,48 @@
 			settings = {
 			};
 		};
+//010
+//011
+//012
+//013
+//014
+//040
+//041
+//042
+//043
+//044
 		04313892FE3035C9C02AAC07 = {
 			buildActionMask = 2147483647;
 			files = (
 			);
 			isa = PBXRezBuildPhase;
-			name = "ResourceManager Resources";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
+//040
+//041
+//042
+//043
+//044
+//070
+//071
+//072
+//073
+//074
 		07D5CF17FFE40CC67F000001 = {
 			isa = PBXApplicationReference;
 			path = "Dump Group.app";
 			refType = 3;
 		};
+//070
+//071
+//072
+//073
+//074
+//080
+//081
+//082
+//083
+//084
 		0867D6AAFE840B52C02AAC07 = {
 			children = (
 				0867D6ABFE840B52C02AAC07,
@@ -67,6 +98,16 @@
 			settings = {
 			};
 		};
+//080
+//081
+//082
+//083
+//084
+//100
+//101
+//102
+//103
+//104
 		10ACD221FEF46CCE7F000001 = {
 			isa = PBXFileReference;
 			name = "Dump Group.c";
@@ -81,6 +122,16 @@
 				);
 			};
 		};
+//100
+//101
+//102
+//103
+//104
+//190
+//191
+//192
+//193
+//194
 		195DF8C9FE9D4F0611CA2CBB = {
 			children = (
 				07D5CF17FFE40CC67F000001,
@@ -89,6 +140,16 @@
 			name = Products;
 			refType = 4;
 		};
+//190
+//191
+//192
+//193
+//194
+//200
+//201
+//202
+//203
+//204
 		20286C28FDCF999611CA2CEA = {
 			buildStyles = (
 				0157033B00C1C0577F000001,
@@ -96,6 +157,7 @@
 			);
 			isa = PBXProject;
 			mainGroup = 20286C29FDCF999611CA2CEA;
+			projectDirPath = "";
 			targets = (
 				20286C34FDCF999611CA2CEA,
 			);
@@ -115,6 +177,8 @@
 		20286C2AFDCF999611CA2CEA = {
 			children = (
 				10ACD221FEF46CCE7F000001,
+				F549DE9F04A64A8501000064,
+				F549DEA304A64A9D01000064,
 			);
 			isa = PBXGroup;
 			name = Sources;
@@ -159,7 +223,6 @@
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "-DQUESA_OS_MACINTOSH=1 -DTARGET_API_MAC_CARBON=1 -DTARGET_RT_MAC_MACHO=1";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -167,8 +230,6 @@
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 				WRAPPER_EXTENSION = app;
-			};
-			conditionalBuildSettings = {
 			};
 			dependencies = (
 			);
@@ -178,8 +239,8 @@
 			productName = "Dump Group";
 			productReference = 07D5CF17FFE40CC67F000001;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist SYSTEM \"file://localhost/System/Library/DTDs/PropertyList.dtd\">
-<plist version=\"0.9\">
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
@@ -203,9 +264,11 @@
 		20286C35FDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
 			files = (
+				F549DEA004A64A8501000064,
+				F549DEA404A64A9D01000064,
 			);
 			isa = PBXHeadersBuildPhase;
-			name = Headers;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C36FDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
@@ -213,7 +276,7 @@
 				0867D6ACFE840B52C02AAC07,
 			);
 			isa = PBXResourcesBuildPhase;
-			name = "Bundle Resources";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C38FDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
@@ -221,7 +284,7 @@
 				10ACD222FEF46CCE7F000001,
 			);
 			isa = PBXSourcesBuildPhase;
-			name = Sources;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C3BFDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
@@ -230,10 +293,44 @@
 				0157033F00C1C06F7F000001,
 			);
 			isa = PBXFrameworksBuildPhase;
-			name = "Frameworks & Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C3CFDCF999611CA2CEA = {
 			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//200
+//201
+//202
+//203
+//204
+//F50
+//F51
+//F52
+//F53
+//F54
+		F549DE9F04A64A8501000064 = {
+			isa = PBXFileReference;
+			name = Qut.h;
+			path = /Volumes/Lavori/Lavori/Quesa/quesa/SDK/Examples/Qut/Qut.h;
+			refType = 0;
+		};
+		F549DEA004A64A8501000064 = {
+			fileRef = F549DE9F04A64A8501000064;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F549DEA304A64A9D01000064 = {
+			isa = PBXFileReference;
+			name = QutMac.h;
+			path = /Volumes/Lavori/Lavori/Quesa/quesa/SDK/Examples/Qut/Mac/QutMac.h;
+			refType = 0;
+		};
+		F549DEA404A64A9D01000064 = {
+			fileRef = F549DEA304A64A9D01000064;
 			isa = PBXBuildFile;
 			settings = {
 			};
