@@ -120,11 +120,15 @@ typedef struct TQ3XGroupPosition { // 12 bytes overhead per object in a group
 
 
 class E3Group : public E3ShapeData
-	{ // 16 bytes overhead per group
+	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeGroup, E3Group, E3ShapeData )
+
+// 16 bytes overhead per group
 // initialised in e3group_new
+	
 	TQ3XGroupPosition						listHead ;
 	TQ3Uns32								groupPositionSize ;
-
+		
 public :
 
 	TQ3XGroupPosition*						createPosition ( TQ3Object object ) ;
@@ -145,7 +149,30 @@ public :
 	TQ3Status								getnextobjectposition ( TQ3Object object, TQ3GroupPosition *position ) ;		
 	TQ3Status								getprevobjectposition ( TQ3Object object, TQ3GroupPosition *position ) ;
 
+	TQ3GroupPosition						AddObject ( TQ3Object object ) ;
 
+	TQ3GroupPosition						AddObjectAndDispose ( TQ3Object *theObject ) ;
+	TQ3GroupPosition						AddObjectBefore ( TQ3GroupPosition position, TQ3Object object ) ;
+	TQ3GroupPosition						AddObjectAfter ( TQ3GroupPosition position, TQ3Object object ) ;
+	TQ3Status								GetPositionObject ( TQ3GroupPosition position, TQ3Object* object ) ;
+	TQ3Status								SetPositionObject ( TQ3GroupPosition position, TQ3Object object ) ;
+	TQ3Object								RemovePosition ( TQ3GroupPosition position ) ;
+	TQ3Status								GetFirstPosition ( TQ3GroupPosition* position ) ;
+	TQ3Status								GetLastPosition ( TQ3GroupPosition* position ) ;
+	TQ3Status								GetNextPosition ( TQ3GroupPosition* position ) ;
+	TQ3Status								GetPreviousPosition ( TQ3GroupPosition* position ) ;
+	TQ3Status								CountObjects ( TQ3Uns32* nObjects ) ;
+	TQ3Status								EmptyObjects ( void ) ;
+	TQ3Status								GetFirstPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* position ) ;
+	TQ3Status								GetLastPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* position)  ;
+	TQ3Status								GetNextPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* position ) ;
+	TQ3Status								GetPreviousPositionOfType ( TQ3ObjectType isType, TQ3GroupPosition* position ) ;
+	TQ3Status								CountObjectsOfType ( TQ3ObjectType isType, TQ3Uns32* nObjects ) ;
+	TQ3Status								EmptyObjectsOfType ( TQ3ObjectType isType ) ;
+	TQ3Status								GetFirstObjectPosition ( TQ3Object object, TQ3GroupPosition* position ) ;
+	TQ3Status								GetLastObjectPosition ( TQ3Object object, TQ3GroupPosition* position ) ;
+	TQ3Status								GetNextObjectPosition ( TQ3Object object, TQ3GroupPosition* position ) ;
+	TQ3Status								GetPreviousObjectPosition ( TQ3Object object, TQ3GroupPosition* position ) ;
 
 
 	
@@ -155,8 +182,50 @@ public :
 	} ;
 
 
+class E3GroupInfo : public E3ShapeInfo
+	{
+	TQ3XGroupAddObjectMethod				addObjectMethod ;
+	TQ3XGroupAddObjectBeforeMethod			addObjectBeforeMethod ;
+	TQ3XGroupAddObjectAfterMethod			addObjectAfterMethod ;
+	TQ3XGroupSetPositionObjectMethod		setPositionObjectMethod ;
+	TQ3XGroupRemovePositionMethod			removePositionMethod ;
+	
+	TQ3XGroupGetFirstPositionOfTypeMethod	getFirstPositionOfTypeMethod ;
+	TQ3XGroupGetLastPositionOfTypeMethod	getLastPositionOfTypeMethod ;
+	TQ3XGroupGetNextPositionOfTypeMethod	getNextPositionOfTypeMethod ;
+	TQ3XGroupGetPrevPositionOfTypeMethod	getPrevPositionOfTypeMethod ;
+	TQ3XGroupCountObjectsOfTypeMethod		countObjectsOfTypeMethod ;
+	TQ3XGroupEmptyObjectsOfTypeMethod		emptyObjectsOfTypeMethod ;
+	
+	TQ3XGroupGetFirstObjectPositionMethod	getFirstObjectPositionMethod ;	
+	TQ3XGroupGetLastObjectPositionMethod	getLastObjectPositionMethod ;
+	TQ3XGroupGetNextObjectPositionMethod	getNextObjectPositionMethod ;
+	TQ3XGroupGetPrevObjectPositionMethod	getPrevObjectPositionMethod ;
+	
+	TQ3XGroupPositionNewMethod				positionNewMethod ;
+	TQ3XGroupPositionDeleteMethod			positionDeleteMethod ;
+
+	TQ3XGroupStartIterateMethod				startIterateMethod ;
+	TQ3XGroupEndIterateMethod				endIterateMethod ;
+	
+public :
+	TQ3XGroupAcceptObjectMethod				acceptObjectMethod ;
+
+										E3GroupInfo	(
+													TQ3XMetaHandler	newClassMetaHandler,
+													E3ClassInfo*	newParent
+					 								) ; // constructor	
+	friend class E3Group ;
+	} ;
+
+
+
+
 class E3DisplayGroup : public E3Group
-	{ // 32 bytes + 16 bytes = 48 bytes overhead per display group
+	{
+Q3_CLASS_ENUMS ( kQ3GroupTypeDisplay, E3DisplayGroup, E3Group )
+
+// 32 bytes + 16 bytes = 48 bytes overhead per display group
 // initialised in e3group_display_new
 	TQ3DisplayGroupState	state ;
 	TQ3BoundingBox			bBox ;
@@ -180,6 +249,8 @@ public :
 
 class E3OrderedDisplayGroup : public E3DisplayGroup
 	{
+Q3_CLASS_ENUMS ( kQ3DisplayGroupTypeOrdered, E3OrderedDisplayGroup, E3DisplayGroup )
+
 	TQ3XGroupPosition		listHeads [ kQ3XOrderIndex_Count ] ;
 	
 public :
@@ -205,6 +276,8 @@ public :
 	TQ3Status				getprevobjectposition ( TQ3Object object, TQ3GroupPosition* position ) ;
 
 
+
+
 	friend TQ3Status		e3group_display_ordered_new(TQ3Object theObject, void *privateData, const void *paramData) ;
 	friend TQ3Status		e3group_display_ordered_duplicate (	TQ3Object fromObject, const void *fromPrivateData,
 																TQ3Object toObject,   void  * toPrivateData) ;
@@ -221,29 +294,6 @@ TQ3Status			E3Group_UnregisterClass(void);
 
 TQ3GroupObject		E3Group_New(void);
 TQ3ObjectType		E3Group_GetType(TQ3GroupObject group);
-TQ3GroupPosition	E3Group_AddObject(TQ3GroupObject group, TQ3Object object);
-TQ3GroupPosition	E3Group_AddObjectAndDispose(TQ3GroupObject theGroup, TQ3Object *theObject);
-TQ3GroupPosition	E3Group_AddObjectBefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object object);
-TQ3GroupPosition	E3Group_AddObjectAfter(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object object);
-TQ3Status			E3Group_GetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object *object);
-TQ3Status			E3Group_SetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object object);
-TQ3Object			E3Group_RemovePosition(TQ3GroupObject group, TQ3GroupPosition position);
-TQ3Status			E3Group_GetFirstPosition(TQ3GroupObject group, TQ3GroupPosition *position);
-TQ3Status			E3Group_GetLastPosition(TQ3GroupObject group, TQ3GroupPosition *position);
-TQ3Status			E3Group_GetNextPosition(TQ3GroupObject group, TQ3GroupPosition *position);
-TQ3Status			E3Group_GetPreviousPosition(TQ3GroupObject group, TQ3GroupPosition *position);
-TQ3Status			E3Group_CountObjects(TQ3GroupObject group, TQ3Uns32 *nObjects);
-TQ3Status			E3Group_EmptyObjects(TQ3GroupObject group);
-TQ3Status			E3Group_GetFirstPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position);
-TQ3Status			E3Group_GetLastPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position);
-TQ3Status			E3Group_GetNextPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position);
-TQ3Status			E3Group_GetPreviousPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position);
-TQ3Status			E3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 *nObjects);
-TQ3Status			E3Group_EmptyObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType);
-TQ3Status			E3Group_GetFirstObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position);
-TQ3Status			E3Group_GetLastObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position);
-TQ3Status			E3Group_GetNextObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position);
-TQ3Status			E3Group_GetPreviousObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position);
 
 TQ3GroupObject		E3DisplayGroup_New(void);
 TQ3ObjectType		E3DisplayGroup_GetType(TQ3GroupObject theGroup);
