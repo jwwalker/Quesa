@@ -70,9 +70,11 @@ lighttest_CFLAGS= $(quesaexamples_commoncflags)
 lighttest_LDADD= $(quesaexamples_commonldadd)
 
 ## Models
+
 models_DATA = $(srcdir)/Models/QuesaLogo.3dmf \
 			$(srcdir)/Models/PodRacer.3dmf	\
 			$(srcdir)/Models/F15.3dmf			\
 			$(srcdir)/Models/F18.3dmf
 
 
+EXTRA_DIST= $(models_DATA)
