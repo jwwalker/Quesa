@@ -335,7 +335,7 @@ static TQ3Uns32 e3viewer_buttonWidth(TQ3ViewerData *data, TQ3Uns32 buttonID)
 static void e3viewer_contentArea(TQ3ViewerData *data, TQ3Area *outArea)
 {
 	TQ3Uns32 inset = 0;
-
+	
 	Q3_ASSERT_VALID_PTR(data);
 	Q3_ASSERT_VALID_PTR(outArea);
 	
@@ -1609,6 +1609,8 @@ static TQ3Status
 e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) privateData;
 	TQ3ViewerParams			*params = (TQ3ViewerParams*) paramData;
+	Rect					portBounds;
+
 #pragma unused(theObject)
 
 	// Initialise our instance data
@@ -1617,6 +1619,14 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 	instanceData->mGroup = Q3OrderedDisplayGroup_New();
 	instanceData->mWindow = params->mWindow;
 	instanceData->mArea = *params->mArea;
+
+	// Convert from port coordinates to window coordinates
+	GetPortBounds(instanceData->mWindow, &portBounds);
+	instanceData->mArea.min.x -= portBounds.left;
+	instanceData->mArea.min.y -= portBounds.top;
+	instanceData->mArea.max.x -= portBounds.left;
+	instanceData->mArea.max.y -= portBounds.top;
+
 	Q3Quaternion_SetIdentity(&instanceData->mOrientation);
 	
 	instanceData->mObjectScale.x = 
@@ -2554,11 +2564,19 @@ E3Viewer_SetBounds(TQ3ViewerObject theViewer, const TQ3Area *theRect)
 	TQ3Status				status;
 	TQ3Area					contentArea;
 	TQ3CameraObject			camera;
+	Rect					portBounds;
 
 	status = Q3View_GetDrawContext(instanceData->mView, &context);
 	if (kQ3Success != status) return status;
 
 	instanceData->mArea = *theRect;
+
+	// Convert from port coordinates to window coordinates
+	GetPortBounds(instanceData->mWindow, &portBounds);
+	instanceData->mArea.min.x -= portBounds.left;
+	instanceData->mArea.min.y -= portBounds.top;
+	instanceData->mArea.max.x -= portBounds.left;
+	instanceData->mArea.max.y -= portBounds.top;
 
 	e3viewer_contentArea(instanceData, &contentArea);
 	status = Q3DrawContext_SetPane(context,	&contentArea);	
