@@ -163,13 +163,18 @@ typedef struct TQ3BoxData {
  *	@discussion
  *		Data describing the state of a cone object.  The orientation, major radius,
  *		and minor radius vectors need not be orthogonal, though they should be
- *		independent.
+ *		independent.  Normally these vectors (in that order) should form a right-handed system.
+ *		If they form a left-handed system, then the cone is "inside out", i.e., the front face
+ *		is inside.
  *
  *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
- *		were apparently intended to allow partial cones, e.g., a cone with a wedge
- *		cut out of it.
- *		But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
- *		ever did either.
+ *		allow partial cones, e.g., a cone with a wedge cut out of it or with its tip cut off.
+ *		This feature was not implemented in QuickDraw 3D.  See the discussion of
+ *		<code>TQ3EllipseData</code> for notes on the interpretation of <code>uMin</code> and
+ *		code>uMax</code>.
+ *
+ *		If <code>vMax</code> < 1, so that the tip is cut off, the top disk is considered part of
+ *		an interior face, rather than a top cap.
  *
  *	@field		origin					The center of the base of the cone.
  *	@field		orientation				Vector from the origin to the tip of the cone.
@@ -185,10 +190,10 @@ typedef struct TQ3BoxData {
  *										base to tip.  Typically 0.
  *	@field		vMax					Minimum value of the v parameter, which goes from
  *										base to tip.  Typically 1.
- *	@field		caps					End cap masks, either <code>kQ3EndCapMaskBottom</code>
- *										or <code>kQ3EndCapNone</code>.
- *	@field		interiorAttributeSet	Interior attributes.  Currently unused by Quesa
- *										rendering, so leave it NULL.
+ *	@field		caps					End cap masks, determining whether there is a bottom cap,
+ *										and in the case of partial cones, determining whether
+ *										there is an interior face.
+ *	@field		interiorAttributeSet	Interior attributes.  Unused by QD3D.
  *	@field		faceAttributeSet		Attributes that affect the face but not the bottom.
  *										May be NULL.
  *	@field		bottomAttributeSet		Attributes that affect the bottom end cap.  May be NULL.
@@ -217,13 +222,15 @@ typedef struct TQ3ConeData {
  *	@discussion
  *		Data describing the state of a cylinder object.  The orientation, major radius,
  *		and minor radius vectors need not be orthogonal, though they should be
- *		independent.
+ *		independent.  Ordinarily, the vectors (orientation, major axis, minor axis)
+ *		should form a left-handed coordinate system.  If they form a left-handed system,
+ *		then the cylinder is "inside out", i.e., the front face is inside.
  *
  *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
- *		were apparently intended to allow partial cylinders, e.g., a cylinder with a wedge
- *		cut out of it.
- *		But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
- *		ever did either.
+ *		allow partial cylinders, e.g., a cylinder with a wedge cut out of it.
+ *		This feature was not implemented in QuickDraw 3D.  See the discussion of
+ *		<code>TQ3EllipseData</code> for notes on the interpretation of <code>uMin</code> and
+ *		code>uMax</code>.
  *
  *	@field		origin					The center of the base of the cylinder.
  *	@field		orientation				Vector from the origin to the center of the opposite end.
@@ -231,13 +238,13 @@ typedef struct TQ3ConeData {
  *										of the base.
  *	@field		minorRadius				A vector from the origin to a point on the perimeter
  *										of the base.
- *	@field		uMin					Minimum value of the u parameter, which goes around
- *										the base.  Typically 0.
- *	@field		uMax					Maximum value of the u parameter, which goes around
- *										the base.  Typically 1.
+ *	@field		uMin					Starting value of the u parameter, which goes around
+ *										the base counterclockwise.  Typically 0.
+ *	@field		uMax					Ending value of the u parameter, which goes around
+ *										the base counterclockwise.  Typically 1.
  *	@field		vMin					Minimum value of the v parameter, which goes from the
  *										base to the other end.  Typically 0.
- *	@field		vMax					Minimum value of the v parameter, which goes from the
+ *	@field		vMax					Maximum value of the v parameter, which goes from the
  *										base to the other end.  Typically 1.
  *	@field		caps					End cap masks, determining whether the cylinder is
  *										closed on one end, the other, or both.
@@ -272,11 +279,13 @@ typedef struct TQ3CylinderData {
  *	@discussion
  *		Data describing the state of a disk object (a filled ellipse).  The major radius
  *		and minor radius vectors need not be orthogonal, though they should be independent.
+ *		The direction of the front face is the cross product of the major and minor axes.
  *
  *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
  *		allow partial disks, e.g., a slice of pie (partial range of u values) or a washer
  *		(partial range of v values).  This feature was never implemented in QuickDraw 3D,
- *		although it was planned.
+ *		although it was planned.  See the discussion of <code>TQ3EllipseData</code> for notes
+ *		on the interpretation of <code>uMin</code> and code>uMax</code>.
  *
  *		The u and v limits here do not have anything to do with the uv parametrization used by
  *		shaders.
@@ -287,9 +296,11 @@ typedef struct TQ3CylinderData {
  *	@field		minorRadius				A vector from the origin to a point on the perimeter
  *										of the disk.
  *	@field		uMin					Starting value of the u parameter, which goes around
- *										the perimeter.  Typically 0, must be in the range [0, 1].
+ *										the perimeter counterclockwise.  Typically 0, must be
+ *										in the range [0, 1].
  *	@field		uMax					Ending value of the u parameter, which goes around
- *										the perimeter.  Typically 1, must be in the range [0, 1].
+ *										the perimeter counterclockwise.  Typically 1, must be
+ *										in the range [0, 1].
  *	@field		vMin					Minimum value of the v parameter, which goes from the
  *										perimeter to the origin.  Typically 0, must be in the
  *										range [0, 1].
@@ -316,13 +327,19 @@ typedef struct TQ3DiskData {
  *	@discussion
  *		Data describing the state of an ellipse.  The major radius and minor radius
  *		vectors need not be orthogonal, though they should be independent.
+ *
  *		You can make a partial ellipse by using values other than 0 and 1 for the
- *		<code>uMin</code> and <code>uMax</code> fields.
+ *		<code>uMin</code> and <code>uMax</code> fields.  The ellipse travels
+ *		counterclockwise from the <code>uMin</code> to the <code>uMax</code> value.
+ *		It is permissible for <code>uMin</code> to be greater than <code>uMax</code>.
+ *		For example, if <code>uMin</code> = 7/8 and <code>uMax</code> = 1/8, then the
+ *		ellipse covers a range of 45 degrees, including the zero angle.
+ *
  *	@field		origin					Center of the ellipse.
  *	@field		majorRadius				A vector from the origin to a point on the curve.
  *	@field		minorRadius				Another vector from the origin to a point on the curve.
- *	@field		uMin					Minimum value of the u parameter.  Typically 0.
- *	@field		uMax					Maximum value of the u parameter.  Typically 1.
+ *	@field		uMin					Starting value of the u parameter.  Typically 0.
+ *	@field		uMax					Ending value of the u parameter.  Typically 1.
  *	@field		ellipseAttributeSet		Attributes for the ellipse.  May be NULL.
  */
 typedef struct TQ3EllipseData {
@@ -1969,8 +1986,7 @@ Q3Cone_GetMinorRadius (
  *      Currently, this simply determines whether the cone will have a bottom cap.
  *
  *  @param cone             The cone object.
- *  @param caps             End cap value (<code>kQ3EndCapMaskBottom</code> or
- *							<code>kQ3EndCapNone</code>).
+ *  @param caps             End cap value (do not include <code>kQ3EndCapMaskTop</code>).
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -2071,6 +2087,54 @@ Q3Cone_GetFaceAttributeSet (
     TQ3GeometryObject             cone,
     TQ3AttributeSet               *faceAttributeSet
 );
+
+
+
+/*!
+ *  @function
+ *      Q3Cone_SetInteriorAttributeSet
+ *  @discussion
+ *      Set the attribute set for the interior of a cone object.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param cylinder         A cone object.
+ *  @param faceAttributeSet New attribute set for the interior of the cone.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Cone_SetInteriorAttributeSet (
+    TQ3GeometryObject             cone,
+    TQ3AttributeSet               interiorAttributeSet
+);
+
+#endif	// QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3Cone_GetInteriorAttributeSet
+ *  @discussion
+ *      Get the attribute set for the interior of a cone object.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param cylinder         A cone object.
+ *  @param faceAttributeSet Receives the attribute set for the interior, or NULL.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Cone_GetInteriorAttributeSet (
+    TQ3GeometryObject             cone,
+    TQ3AttributeSet               *interiorAttributeSet
+);
+
+#endif	// QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
