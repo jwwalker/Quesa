@@ -320,7 +320,7 @@ ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
 static TQ3Status
 ir_geom_transparent_add(TQ3ViewObject				theView,
 							TQ3InteractiveData		*instanceData,
-							UInt32					numVerts,
+							TQ3Uns32				numVerts,
 							const TQ3FVertex3D		*theVertices)
 {	TQ3Matrix4x4			localToWorld, worldToFrustum;
 	TQ3Point3D				frustumPoints[3];
