@@ -157,7 +157,6 @@ typedef struct TQ3InteractiveData {
 
 
 	// Camera state
-	float					cameraZ;
 	TQ3Boolean				cameraIsOrtho;
 
 
