@@ -773,7 +773,7 @@ Q3WorldRayPick_SetData (
  *      Get the type of a shape part object.
  *
  *  @param shapePartObject  The shape part to query.
- *  @result                 Description of the function result.
+ *  @result                 The type of the shape part.
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3ShapePart_GetType (

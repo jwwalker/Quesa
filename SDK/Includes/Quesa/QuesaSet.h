@@ -518,7 +518,6 @@ Q3Attribute_Submit (
  *  @discussion
  *      Create an attribute set object.
  *
- *
  *  @result                 A new empty attribute set, or NULL on failure.
  */
 Q3_EXTERN_API_C ( TQ3AttributeSet  )
@@ -556,7 +555,6 @@ Q3AttributeSet_Add (
  *      Q3AttributeSet_Contains
  *  @discussion
  *      Determine whether an attribute set contains a specified attribute.
- *
  *
  *  @param attributeSet     The attribute set.
  *  @param attributeType    The attribute type.
@@ -599,7 +597,6 @@ Q3AttributeSet_Get (
  *  @discussion
  *      Remove an attribute from an attribute set.
  *
- *
  *  @param attributeSet     The attribute set.
  *  @param theType          The attribute type.
  *  @result                 Success or failure of the operation.
@@ -617,7 +614,6 @@ Q3AttributeSet_Clear (
  *      Q3AttributeSet_Empty
  *  @discussion
  *      Remove all attributes from an attribute set.
- *
  *
  *  @param target           The attribute set.
  *  @result                 Success or failure of the operation.
@@ -752,7 +748,6 @@ Q3XElementClass_Register (
  *      In the case of a custom element, this would be the same as the size
  *		you provided when you called <code>Q3XElementClass_Register</code>.
  *
- *
  *  @param elementType      An element type.
  *  @param sizeOfElement    Receives the size in bytes of the element.
  *  @result                 Success or failure of the operation.
@@ -770,7 +765,6 @@ Q3XElementType_GetElementSize (
  *      Q3XAttributeClass_Register
  *  @discussion
  *      Register a custom attribute class.
- *
  *
  *  @param attributeType    Receives the new attribute type.
  *  @param className      	Unique name for the new attribute.

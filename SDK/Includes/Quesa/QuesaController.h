@@ -241,7 +241,7 @@ Q3Controller_Next (
  *
  *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerData   A description of the controller to create.
+ *  @param controllerData   The data for the new controller.
  *  @result                 The new controller object, or NULL.
  */
 Q3_EXTERN_API_C ( TQ3ControllerRef  )
@@ -471,7 +471,7 @@ Q3Controller_HasTracker (
  *
  *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
+ *  @param controllerRef    The controller reference.
  *  @param track2DCursor    Receives true or false as the controller is affecting
  *                          the 2D system cursor.
  *  @result                 Success or failure of the operation.
@@ -495,7 +495,7 @@ Q3Controller_Track2DCursor (
  *
  *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
+ *  @param controllerRef    The controller reference.
  *  @param tracksDCursor    Receives true or false as the controller is affecting
  *                          both the 2D system cursor and the z-axis values/orientation
  *                          of the system cursor.
@@ -1058,7 +1058,6 @@ Q3Tracker_GetOrientation (
  *  @function
  *      Q3Tracker_SetOrientation
  *  @discussion
- *      One-line description of this function.
  *      Set the orientation of a tracker.
  *
  *      Has no effect if the tracker is inactive.

@@ -69,7 +69,8 @@ extern "C" {
 //      Constants
 //-----------------------------------------------------------------------------
 /*!
- *	@enum	TQ3GeneralPolygonShapeHint
+ *	@enum
+ *      TQ3GeneralPolygonShapeHint
  *	@discussion
  *		A general polygon has a shape hint that may be used by the renderer to
  *		optimize drawing.
@@ -89,7 +90,8 @@ typedef enum TQ3GeneralPolygonShapeHint {
 
 
 /*!
- *	@enum Nurb&nbsp;Limits
+ *	@enum
+ *      Nurb Limits
  *	@discussion
  *		Miscellaneous limits for NURB curves and patches.
  *	@constant	kQ3NURBCurveMaxOrder	Maximum order for NURB curves.
@@ -104,7 +106,8 @@ enum {
 
 
 /*!
- *	@enum	TQ3PolyhedronEdgeMasks
+ *	@enum
+ *      TQ3PolyhedronEdgeMasks
  *	@discussion
  *		These are flags indicating which edges of a polyhedral triangle should be
  *		rendered.
@@ -130,7 +133,8 @@ typedef enum TQ3PolyhedronEdgeMasks {
 //      Types
 //-----------------------------------------------------------------------------
 /*!
- *	@struct		TQ3BoxData
+ *	@struct
+ *      TQ3BoxData
  *	@discussion
  *		Data describing the state of a box object.
  *	@field		origin				Origin of the box (one of the corners).
@@ -154,7 +158,8 @@ typedef struct TQ3BoxData {
 
 
 /*!
- *	@struct		TQ3ConeData
+ *	@struct
+ *      TQ3ConeData
  *	@discussion
  *		Data describing the state of a cone object.  The orientation, major radius,
  *		and minor radius vectors need not be orthogonal, though they should be
@@ -207,7 +212,8 @@ typedef struct TQ3ConeData {
 
 
 /*!
- *	@struct		TQ3CylinderData
+ *	@struct
+ *      TQ3CylinderData
  *	@discussion
  *		Data describing the state of a cylinder object.  The orientation, major radius,
  *		and minor radius vectors need not be orthogonal, though they should be
@@ -262,7 +268,8 @@ typedef struct TQ3CylinderData {
 
 
 /*!
- *	@struct		TQ3DiskData
+ *	@struct
+ *      TQ3DiskData
  *	@discussion
  *		Data describing the state of a disk object (a filled ellipse).  The major radius
  *		and minor radius vectors need not be orthogonal, though they should be independent.
@@ -301,7 +308,8 @@ typedef struct TQ3DiskData {
 
 
 /*!
- *	@struct		TQ3EllipseData
+ *	@struct
+ *      TQ3EllipseData
  *	@discussion
  *		Data describing the state of an ellipse.  The major radius and minor radius
  *		vectors need not be orthogonal, though they should be independent.
@@ -325,7 +333,8 @@ typedef struct TQ3EllipseData {
 
 
 /*!
- *	@struct		TQ3EllipsoidData
+ *	@struct
+ *      TQ3EllipsoidData
  *	@discussion
  *		Data describing the state of an ellipsoid.  The major axis, minor axis, and
  *		orientation vectors need not be orthogonal, but should be independent.
@@ -374,9 +383,9 @@ typedef struct TQ3EllipsoidData {
 } TQ3EllipsoidData;
 
 
-// General polygon data
 /*!
- *	@struct		TQ3GeneralPolygonContourData
+ *	@struct
+ *      TQ3GeneralPolygonContourData
  *	@discussion
  *		An ordered list of vertices forming a contour of a general polygon.
  *		Used within the <code>TQ3GeneralPolygonData</code> structure.
@@ -388,8 +397,10 @@ typedef struct TQ3GeneralPolygonContourData {
     TQ3Vertex3D                                 *vertices;
 } TQ3GeneralPolygonContourData;
 
+
 /*!
- *	@struct		TQ3GeneralPolygonData
+ *	@struct
+ *      TQ3GeneralPolygonData
  *	@discussion
  *		Data describing a general polygon.  A general polygon is a closed figure
  *		defined by one or more coplanar closed curves called contours.  If there are
@@ -412,7 +423,8 @@ typedef struct TQ3GeneralPolygonData {
 
 
 /*!
- *	@struct		TQ3LineData
+ *	@struct
+ *      TQ3LineData
  *	@discussion
  *		Data describing a line.
  *	@field		vertices				Array of two vertices, the ends of the line.
@@ -425,7 +437,8 @@ typedef struct TQ3LineData {
 
 
 /*!
- *	@struct		TQ3MarkerData
+ *	@struct
+ *      TQ3MarkerData
  *	@discussion
  *		Data describing a bitmap marker, a 2-dimensional image drawn on top of a scene
  *		at a specified location.
@@ -447,45 +460,61 @@ typedef struct TQ3MarkerData {
 } TQ3MarkerData;
 
 
-// Mesh data (all opaque)
 /*!
- *	@typedef	TQ3MeshVertex
- *	@discussion	Opaque pointer representing a vertex of a Mesh.
+ *	@typedef
+ *      TQ3MeshVertex
+ *	@discussion
+ *      Opaque pointer representing a vertex of a Mesh.
  */
 typedef struct OpaqueTQ3MeshVertex              *TQ3MeshVertex;
 
+
 /*!
- *	@typedef	TQ3MeshContour
- *	@discussion	Opaque pointer representing a contour of a Mesh, one of the closed
- *				paths that bounds a face.
+ *	@typedef
+ *      TQ3MeshContour
+ *	@discussion
+ *      Opaque pointer representing a contour of a Mesh, one of the closed
+ *		paths that bounds a face.
  */
 typedef struct OpaqueTQ3MeshContour             *TQ3MeshContour;
 
+
 /*!
- *	@typedef	TQ3MeshFace
- *	@discussion	Opaque pointer representing a face of a Mesh.  This is a polygonal
- *				figure, normally planar, which may contain holes.
+ *	@typedef
+ *      TQ3MeshFace
+ *	@discussion
+ *      Opaque pointer representing a face of a Mesh.  This is a polygonal
+ *		figure, normally planar, which may contain holes.
  */
 typedef struct OpaqueTQ3MeshFace                *TQ3MeshFace;
 
+
 /*!
- *	@typedef	TQ3MeshEdge
- *	@discussion	Opaque pointer representing an edge of a Mesh, a straight line
- *				segment that connects two vertices.
+ *	@typedef
+ *      TQ3MeshEdge
+ *	@discussion
+ *      Opaque pointer representing an edge of a Mesh, a straight line
+ *		segment that connects two vertices.
  */
 typedef struct OpaqueTQ3MeshEdge                *TQ3MeshEdge;
 
+
 /*!
- *	@typedef	TQ3MeshComponent
- *	@discussion	Opaque pointer representing a connected component of a Mesh.
+ *	@typedef
+ *      TQ3MeshComponent
+ *	@discussion
+ *      Opaque pointer representing a connected component of a Mesh.
  */
 typedef struct OpaqueTQ3MeshComponent           *TQ3MeshComponent;
 
+
 /*!
- *	@struct		TQ3MeshIterator
- *	@discussion	This structure is used for iterating through various parts of a
- *				Mesh.  You should consider it opaque, because the meanings of the
- *				fields are not documented.
+ *	@struct
+ *      TQ3MeshIterator
+ *	@discussion
+ *      This structure is used for iterating through various parts of a
+ *		Mesh.  You should consider it opaque, because the meanings of the
+ *		fields are not documented.
  */
 typedef struct TQ3MeshIterator {
     void                                        *var1;
@@ -502,7 +531,8 @@ typedef struct TQ3MeshIterator {
 
 // Mesh data (all not available in QD3D)
 /*!
- *	@struct		TQ3MeshCornerData
+ *	@struct
+ *      TQ3MeshCornerData
  *	@discussion
  *		Data describing a corner for a mesh vertex.
  *
@@ -521,7 +551,8 @@ typedef struct TQ3MeshCornerData {
 } TQ3MeshCornerData;
 
 /*!
- *	@struct		TQ3MeshVertexData
+ *	@struct
+ *      TQ3MeshVertexData
  *	@discussion
  *		Data describing a vertex within a mesh.
  *
@@ -546,7 +577,8 @@ typedef struct TQ3MeshVertexData {
 } TQ3MeshVertexData;
 
 /*!
- *	@struct		TQ3MeshEdgeData
+ *	@struct
+ *      TQ3MeshEdgeData
  *	@discussion
  *		Data describing an edge within a mesh.
  *		Used within the <code>TQ3MeshData</code> structure.
@@ -566,7 +598,8 @@ typedef struct TQ3MeshEdgeData {
 } TQ3MeshEdgeData;
 
 /*!
- *	@struct		TQ3MeshContourData
+ *	@struct
+ *      TQ3MeshContourData
  *	@discussion
  *		Data describing a contour within a mesh face.
   *
@@ -585,7 +618,8 @@ typedef struct TQ3MeshContourData {
 } TQ3MeshContourData;
 
 /*!
- *	@struct		TQ3MeshFaceData
+ *	@struct
+ *      TQ3MeshFaceData
  *	@discussion
  *		Data describing a face within a mesh.
  *
@@ -606,7 +640,8 @@ typedef struct TQ3MeshFaceData {
 } TQ3MeshFaceData;
 
 /*!
- *	@struct		TQ3MeshData
+ *	@struct
+ *      TQ3MeshData
  *	@discussion
  *		Data describing a mesh.
  *
@@ -638,9 +673,11 @@ typedef struct TQ3MeshData {
 
 
 /*!
- *	@struct		TQ3NURBCurveData
- *	@discussion	Data defining a NURBS curve, a 3-dimensional curve represented by
- *				a nonuniform rational B-spline equation.
+ *	@struct
+ *      TQ3NURBCurveData
+ *	@discussion
+ *      Data defining a NURBS curve, a 3-dimensional curve represented by
+ *		a nonuniform rational B-spline equation.
  *	@field		order							The order of the curve, one more than the
  *												degree of the polynomials defining the curve.
  *												Must be greater than one.
@@ -3800,14 +3837,11 @@ Q3Mesh_EmptyData (
  *  @function
  *      Q3Mesh_VertexNew
  *  @discussion
- *      One-line description of this function.
+ *      Create a new mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param mesh             The mesh to create the vertex within.
+ *  @param vertex           The data for the vertex.
+ *  @result                 The new mesh vertex.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_VertexNew (
@@ -3821,16 +3855,13 @@ Q3Mesh_VertexNew (
  *  @function
  *      Q3Mesh_FaceNew
  *  @discussion
- *      One-line description of this function.
+ *      Create a new mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param numVertices      Description of the parameter.
- *  @param vertices         Description of the parameter.
- *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param mesh             The mesh to create the face within.
+ *  @param numVertices      The number of vertices in the face.
+ *  @param vertices         The vertices for the face.
+ *  @param attributeSet     The attribute set for the face.
+ *  @result                 The new mesh face.
  */
 Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_FaceNew (
@@ -3846,13 +3877,10 @@ Q3Mesh_FaceNew (
  *  @function
  *      Q3Mesh_VertexDelete
  *  @discussion
- *      One-line description of this function.
+ *      Delete a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
+ *  @param mesh             The mesh to remove the vertex from.
+ *  @param vertex           The mesh vertex to delete.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -3867,13 +3895,10 @@ Q3Mesh_VertexDelete (
  *  @function
  *      Q3Mesh_FaceDelete
  *  @discussion
- *      One-line description of this function.
+ *      Delete a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param face             Description of the parameter.
+ *  @param mesh             The mesh to remove the face from.
+ *  @param face             The mesh face to delete.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -3888,12 +3913,13 @@ Q3Mesh_FaceDelete (
  *  @function
  *      Q3Mesh_DelayUpdates
  *  @discussion
- *      One-line description of this function.
+ *      Delay updates to a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Can be used before a mesh is edited to allow Quesa to defer any
+ *      geometrical optimisations on the mesh. While updates are deferred,
+ *      Quesa will select a more flexible internal mesh representation.
  *
- *  @param mesh             Description of the parameter.
+ *  @param mesh             The mesh to delay updates on.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -3907,12 +3933,13 @@ Q3Mesh_DelayUpdates (
  *  @function
  *      Q3Mesh_ResumeUpdates
  *  @discussion
- *      One-line description of this function.
+ *      Resume updates to a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Should be used after a preceding call to Q3Mesh_DelayUpdates to
+ *      indicate to Quesa that an optimised internal representation of
+ *      the mesh would be preferred to a more flexible form.
  *
- *  @param mesh             Description of the parameter.
+ *  @param mesh             The mesh to resume updatse for.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -3926,15 +3953,12 @@ Q3Mesh_ResumeUpdates (
  *  @function
  *      Q3Mesh_FaceToContour
  *  @discussion
- *      One-line description of this function.
+ *      Convert a mesh face to a contour.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param containerFace    Description of the parameter.
- *  @param face             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param mesh             The mesh to update.
+ *  @param containerFace    The face containing the face which will be converted.
+ *  @param face             The face to convert to a contour.
+ *  @result                 The new mesh contour.
  */
 Q3_EXTERN_API_C ( TQ3MeshContour  )
 Q3Mesh_FaceToContour (
@@ -3949,14 +3973,11 @@ Q3Mesh_FaceToContour (
  *  @function
  *      Q3Mesh_ContourToFace
  *  @discussion
- *      One-line description of this function.
+ *      Convert a mesh face to a contour.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param contour          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param mesh             The mesh to update.
+ *  @param contour          The contour to convert to a face.
+ *  @result                 The new mesh face.
  */
 Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_ContourToFace (
@@ -3970,13 +3991,10 @@ Q3Mesh_ContourToFace (
  *  @function
  *      Q3Mesh_GetNumComponents
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of components of a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param numComponents    Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param numComponents    Receives the number of components of the mesh.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -3991,13 +4009,10 @@ Q3Mesh_GetNumComponents (
  *  @function
  *      Q3Mesh_GetNumEdges
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of edges in a mesh
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param numEdges         Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param numEdges         Receives the number of edges in the mesh.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4012,13 +4027,10 @@ Q3Mesh_GetNumEdges (
  *  @function
  *      Q3Mesh_GetNumVertices
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of vertices in a mesh
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param numVertices      Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param numVertices      Receives the number of vertices in the mesh.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4033,13 +4045,10 @@ Q3Mesh_GetNumVertices (
  *  @function
  *      Q3Mesh_GetNumFaces
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of faces in a mesh
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param numFaces         Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param numFaces         Receives the number of faces in the mesh.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4054,13 +4063,10 @@ Q3Mesh_GetNumFaces (
  *  @function
  *      Q3Mesh_GetNumCorners
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of corners in a mesh
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param numCorners       Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param numCorners       Receives the number of corners in the mesh.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4075,13 +4081,10 @@ Q3Mesh_GetNumCorners (
  *  @function
  *      Q3Mesh_GetOrientable
  *  @discussion
- *      One-line description of this function.
+ *      Get the mesh orientable state
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param orientable       Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param orientable       Receives the mesh orientable state.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4096,14 +4099,11 @@ Q3Mesh_GetOrientable (
  *  @function
  *      Q3Mesh_GetComponentNumVertices
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of vertices in a mesh component
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param component        Description of the parameter.
- *  @param numVertices      Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param component        The component to query.
+ *  @param numVertices      Receives the number of vertices in the component.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4119,14 +4119,11 @@ Q3Mesh_GetComponentNumVertices (
  *  @function
  *      Q3Mesh_GetComponentNumEdges
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of edges in a mesh component
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param component        Description of the parameter.
- *  @param numEdges         Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param component        The component to query.
+ *  @param numEdges         Receives the number of edges in the component.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4142,14 +4139,11 @@ Q3Mesh_GetComponentNumEdges (
  *  @function
  *      Q3Mesh_GetComponentBoundingBox
  *  @discussion
- *      One-line description of this function.
+ *      Get the bounding box of a mesh component
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param component        Description of the parameter.
- *  @param boundingBox      Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param component        The component to query.
+ *  @param boundingBox      Receives the bounding box of the component.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4165,14 +4159,11 @@ Q3Mesh_GetComponentBoundingBox (
  *  @function
  *      Q3Mesh_GetComponentOrientable
  *  @discussion
- *      One-line description of this function.
+ *      Get the orientable state of a mesh component
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param component        Description of the parameter.
- *  @param orientable       Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param component        The component to query.
+ *  @param orientable       Receives the orientable state of the component.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4188,14 +4179,11 @@ Q3Mesh_GetComponentOrientable (
  *  @function
  *      Q3Mesh_GetVertexCoordinates
  *  @discussion
- *      One-line description of this function.
+ *      Get the coordinates of a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @param coordinates      Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param vertex           The vertex to query.
+ *  @param coordinates      Receives the coordinates of the vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4211,14 +4199,11 @@ Q3Mesh_GetVertexCoordinates (
  *  @function
  *      Q3Mesh_GetVertexIndex
  *  @discussion
- *      One-line description of this function.
+ *      Get the index of a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @param index            Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param vertex           The vertex to query.
+ *  @param index            Receives the index of the vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4234,14 +4219,11 @@ Q3Mesh_GetVertexIndex (
  *  @function
  *      Q3Mesh_GetVertexOnBoundary
  *  @discussion
- *      One-line description of this function.
+ *      Get the boundary state for a mesh vertex
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @param onBoundary       Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param vertex           The vertex to query.
+ *  @param onBoundary       Receives the vertex boundary state.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4257,14 +4239,11 @@ Q3Mesh_GetVertexOnBoundary (
  *  @function
  *      Q3Mesh_GetVertexComponent
  *  @discussion
- *      One-line description of this function.
+ *      Get the component of a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @param component        Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param vertex           The vertex to query.
+ *  @param component        Receives the component of the mesh vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4280,14 +4259,11 @@ Q3Mesh_GetVertexComponent (
  *  @function
  *      Q3Mesh_GetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param vertex           The vertex to query.
+ *  @param attributeSet     Receives the attribute set of the mesh vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4303,14 +4279,11 @@ Q3Mesh_GetVertexAttributeSet (
  *  @function
  *      Q3Mesh_SetVertexCoordinates
  *  @discussion
- *      One-line description of this function.
+ *      Set the coordinates of a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @param coordinates      Description of the parameter.
+ *  @param mesh             The mesh to update.
+ *  @param vertex           The vertex to update.
+ *  @param coordinates      The new coordinates for the mesh vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4326,14 +4299,11 @@ Q3Mesh_SetVertexCoordinates (
  *  @function
  *      Q3Mesh_SetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set of a mesh vertex
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param mesh             The mesh to udate.
+ *  @param vertex           The vertex to update.
+ *  @param attributeSet     The new attribute set for the mesh vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4349,14 +4319,11 @@ Q3Mesh_SetVertexAttributeSet (
  *  @function
  *      Q3Mesh_GetFaceNumVertices
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of vertices in a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param face             Description of the parameter.
- *  @param numVertices      Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param face             The face to query.
+ *  @param numVertices      Receives the number of vertices in the mesh face.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4372,14 +4339,11 @@ Q3Mesh_GetFaceNumVertices (
  *  @function
  *      Q3Mesh_GetFacePlaneEquation
  *  @discussion
- *      One-line description of this function.
+ *      Get the plane equation of a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param face             Description of the parameter.
- *  @param planeEquation    Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param face             The face to query.
+ *  @param planeEquation    Receives the plane equation of the mesh face.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4395,14 +4359,11 @@ Q3Mesh_GetFacePlaneEquation (
  *  @function
  *      Q3Mesh_GetFaceNumContours
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of contours of a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param face             Description of the parameter.
- *  @param numContours      Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param face             The face to query.
+ *  @param numContours      Receives the number of contours of the mesh face.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4418,14 +4379,11 @@ Q3Mesh_GetFaceNumContours (
  *  @function
  *      Q3Mesh_GetFaceIndex
  *  @discussion
- *      One-line description of this function.
+ *      Get the index of a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param face             Description of the parameter.
- *  @param index            Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param face             The face to query.
+ *  @param index            Receives the index of the mesh face.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4441,14 +4399,11 @@ Q3Mesh_GetFaceIndex (
  *  @function
  *      Q3Mesh_GetFaceComponent
  *  @discussion
- *      One-line description of this function.
+ *      Get the component of a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param face             Description of the parameter.
- *  @param component        Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param face             The face to query.
+ *  @param component        Receives the component of the mesh face.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4464,14 +4419,11 @@ Q3Mesh_GetFaceComponent (
  *  @function
  *      Q3Mesh_GetFaceAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param face             Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param face             The face to query.
+ *  @param attributeSet     Receives the attribute set of the mesh face.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4487,14 +4439,11 @@ Q3Mesh_GetFaceAttributeSet (
  *  @function
  *      Q3Mesh_SetFaceAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set of a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param face             Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param mesh             The mesh to update.
+ *  @param face             The face to update.
+ *  @param attributeSet     The new attribute set for the mesh face.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4510,15 +4459,12 @@ Q3Mesh_SetFaceAttributeSet (
  *  @function
  *      Q3Mesh_GetEdgeVertices
  *  @discussion
- *      One-line description of this function.
+ *      Get the vertices of a mesh edge.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param edge             Description of the parameter.
- *  @param vertex1          Description of the parameter.
- *  @param vertex2          Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param edge             The edge to query.
+ *  @param vertex1          Receives the first vertex of the mesh edge.
+ *  @param vertex2          Receives the second vertex of the mesh edge.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4535,15 +4481,12 @@ Q3Mesh_GetEdgeVertices (
  *  @function
  *      Q3Mesh_GetEdgeFaces
  *  @discussion
- *      One-line description of this function.
+ *      Get the faces of a mesh edge.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param edge             Description of the parameter.
- *  @param face1            Description of the parameter.
- *  @param face2            Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param edge             The edge to query.
+ *  @param face1            Receives the first face of the mesh edge.
+ *  @param face2            Receives the second face of the mesh edge.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4560,14 +4503,11 @@ Q3Mesh_GetEdgeFaces (
  *  @function
  *      Q3Mesh_GetEdgeOnBoundary
  *  @discussion
- *      One-line description of this function.
+ *      Get the boundary state of a mesh edge.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param edge             Description of the parameter.
- *  @param onBoundary       Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param edge             The edge to query.
+ *  @param onBoundary       Receives the boundary state of the mesh edge.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4583,14 +4523,11 @@ Q3Mesh_GetEdgeOnBoundary (
  *  @function
  *      Q3Mesh_GetEdgeComponent
  *  @discussion
- *      One-line description of this function.
+ *      Get the component of a mesh edge.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param edge             Description of the parameter.
- *  @param component        Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param edge             The edge to query.
+ *  @param component        Receives the component of the mesh edge.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4606,14 +4543,11 @@ Q3Mesh_GetEdgeComponent (
  *  @function
  *      Q3Mesh_GetEdgeAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a mesh edge.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param edge             Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param edge             The edge to query.
+ *  @param attributeSet     Receives the attribute set of the mesh edge.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4629,14 +4563,11 @@ Q3Mesh_GetEdgeAttributeSet (
  *  @function
  *      Q3Mesh_SetEdgeAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set for a mesh edge.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param edge             Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param mesh             The mesh to update.
+ *  @param edge             The edge to update.
+ *  @param attributeSet     The new attribute set for the mesh edge.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4652,14 +4583,11 @@ Q3Mesh_SetEdgeAttributeSet (
  *  @function
  *      Q3Mesh_GetContourFace
  *  @discussion
- *      One-line description of this function.
+ *      Get the face of a mesh contour.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param contour          Description of the parameter.
- *  @param face             Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param contour          The contour to query.
+ *  @param face             Receives the face of the mesh contour.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4675,14 +4603,11 @@ Q3Mesh_GetContourFace (
  *  @function
  *      Q3Mesh_GetContourNumVertices
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of vertices in a mesh contour.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param contour          Description of the parameter.
- *  @param numVertices      Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param contour          The contour to query.
+ *  @param numVertices      Receives the number of vertices in the mesh contour.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4698,15 +4623,12 @@ Q3Mesh_GetContourNumVertices (
  *  @function
  *      Q3Mesh_GetCornerAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a mesh corner.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @param face             Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param mesh             The mesh to query.
+ *  @param vertex           The vertex to query.
+ *  @param face             The face to query.
+ *  @param attributeSet     Receives the attribute set of the mesh corner.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4723,15 +4645,12 @@ Q3Mesh_GetCornerAttributeSet (
  *  @function
  *      Q3Mesh_SetCornerAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set for a mesh corner.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @param face             Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param mesh             The mesh to update.
+ *  @param vertex           The vertex to update.
+ *  @param face             The face to update.
+ *  @param attributeSet     The new attribute set for the mesh corner.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -4748,14 +4667,11 @@ Q3Mesh_SetCornerAttributeSet (
  *  @function
  *      Q3Mesh_FirstMeshComponent
  *  @discussion
- *      One-line description of this function.
+ *      Get the first component in a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param mesh             The mesh to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first component in the mesh.
  */
 Q3_EXTERN_API_C ( TQ3MeshComponent  )
 Q3Mesh_FirstMeshComponent (
@@ -4769,13 +4685,10 @@ Q3Mesh_FirstMeshComponent (
  *  @function
  *      Q3Mesh_NextMeshComponent
  *  @discussion
- *      One-line description of this function.
+ *      Get the next component in a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next component in the mesh.
  */
 Q3_EXTERN_API_C ( TQ3MeshComponent  )
 Q3Mesh_NextMeshComponent (
@@ -4788,14 +4701,11 @@ Q3Mesh_NextMeshComponent (
  *  @function
  *      Q3Mesh_FirstComponentVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the first vertex in a mesh component.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param component        Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param component        The component to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first vertex in the component.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_FirstComponentVertex (
@@ -4809,13 +4719,10 @@ Q3Mesh_FirstComponentVertex (
  *  @function
  *      Q3Mesh_NextComponentVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the next vertex in a mesh component.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next vertex in the component.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_NextComponentVertex (
@@ -4828,14 +4735,11 @@ Q3Mesh_NextComponentVertex (
  *  @function
  *      Q3Mesh_FirstComponentEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the first edge in a mesh component.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param component        Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param component        The component to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first edge in the component.
  */
 Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_FirstComponentEdge (
@@ -4849,13 +4753,10 @@ Q3Mesh_FirstComponentEdge (
  *  @function
  *      Q3Mesh_NextComponentEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the next edge in a mesh component.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next edge in the component.
  */
 Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_NextComponentEdge (
@@ -4868,14 +4769,11 @@ Q3Mesh_NextComponentEdge (
  *  @function
  *      Q3Mesh_FirstMeshVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the first vertex in a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param mesh             The mesh to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first vertex in the mesh.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_FirstMeshVertex (
@@ -4889,13 +4787,10 @@ Q3Mesh_FirstMeshVertex (
  *  @function
  *      Q3Mesh_NextMeshVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the next vertex in a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next vertex in the mesh.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_NextMeshVertex (
@@ -4908,14 +4803,11 @@ Q3Mesh_NextMeshVertex (
  *  @function
  *      Q3Mesh_FirstMeshFace
  *  @discussion
- *      One-line description of this function.
+ *      Get the first face in a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param mesh             The mesh to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first face in the mesh.
  */
 Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_FirstMeshFace (
@@ -4929,13 +4821,10 @@ Q3Mesh_FirstMeshFace (
  *  @function
  *      Q3Mesh_NextMeshFace
  *  @discussion
- *      One-line description of this function.
+ *      Get the next face in a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next face in the mesh.
  */
 Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_NextMeshFace (
@@ -4948,14 +4837,11 @@ Q3Mesh_NextMeshFace (
  *  @function
  *      Q3Mesh_FirstMeshEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the first edge in a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mesh             Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param mesh             The mesh to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first edge in the mesh.
  */
 Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_FirstMeshEdge (
@@ -4969,13 +4855,10 @@ Q3Mesh_FirstMeshEdge (
  *  @function
  *      Q3Mesh_NextMeshEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the next edge in a mesh.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next edge in the mesh.
  */
 Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_NextMeshEdge (
@@ -4988,14 +4871,11 @@ Q3Mesh_NextMeshEdge (
  *  @function
  *      Q3Mesh_FirstVertexEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the first edge in a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vertex           Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vertex           The vertex to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first edge in the vertex.
  */
 Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_FirstVertexEdge (
@@ -5009,13 +4889,10 @@ Q3Mesh_FirstVertexEdge (
  *  @function
  *      Q3Mesh_NextVertexEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the next edge in a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next edge in the vertex.
  */
 Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_NextVertexEdge (
@@ -5028,14 +4905,11 @@ Q3Mesh_NextVertexEdge (
  *  @function
  *      Q3Mesh_FirstVertexVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the first vertex in a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vertex           Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vertex           The vertex to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first vertex in the vertex.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_FirstVertexVertex (
@@ -5049,13 +4923,10 @@ Q3Mesh_FirstVertexVertex (
  *  @function
  *      Q3Mesh_NextVertexVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the next vertex in a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next vertex in the vertex.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_NextVertexVertex (
@@ -5068,14 +4939,11 @@ Q3Mesh_NextVertexVertex (
  *  @function
  *      Q3Mesh_FirstVertexFace
  *  @discussion
- *      One-line description of this function.
+ *      Get the first face in a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vertex           Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vertex           The vertex to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first face in the vertex.
  */
 Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_FirstVertexFace (
@@ -5089,13 +4957,10 @@ Q3Mesh_FirstVertexFace (
  *  @function
  *      Q3Mesh_NextVertexFace
  *  @discussion
- *      One-line description of this function.
+ *      Get the next face in a mesh vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next face in the vertex.
  */
 Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_NextVertexFace (
@@ -5108,14 +4973,11 @@ Q3Mesh_NextVertexFace (
  *  @function
  *      Q3Mesh_FirstFaceEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the first edge in a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param face             Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param face             The face to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first edge in the face.
  */
 Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_FirstFaceEdge (
@@ -5129,13 +4991,10 @@ Q3Mesh_FirstFaceEdge (
  *  @function
  *      Q3Mesh_NextFaceEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the next edge in a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next edge in the face.
  */
 Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_NextFaceEdge (
@@ -5148,14 +5007,11 @@ Q3Mesh_NextFaceEdge (
  *  @function
  *      Q3Mesh_FirstFaceVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the first vertex in a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param face             Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param face             The face to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first vertex in the face.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_FirstFaceVertex (
@@ -5169,13 +5025,10 @@ Q3Mesh_FirstFaceVertex (
  *  @function
  *      Q3Mesh_NextFaceVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the next vertex in a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next vertex in the face.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_NextFaceVertex (
@@ -5188,14 +5041,11 @@ Q3Mesh_NextFaceVertex (
  *  @function
  *      Q3Mesh_FirstFaceFace
  *  @discussion
- *      One-line description of this function.
+ *      Get the first face in a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param face             Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param face             The face to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first face in the face.
  */
 Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_FirstFaceFace (
@@ -5209,13 +5059,10 @@ Q3Mesh_FirstFaceFace (
  *  @function
  *      Q3Mesh_NextFaceFace
  *  @discussion
- *      One-line description of this function.
+ *      Get the next face in a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next face in the face.
  */
 Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_NextFaceFace (
@@ -5228,14 +5075,11 @@ Q3Mesh_NextFaceFace (
  *  @function
  *      Q3Mesh_FirstFaceContour
  *  @discussion
- *      One-line description of this function.
+ *      Get the first contour in a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param face             Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param face             The face to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first contour in the face.
  */
 Q3_EXTERN_API_C ( TQ3MeshContour  )
 Q3Mesh_FirstFaceContour (
@@ -5249,13 +5093,10 @@ Q3Mesh_FirstFaceContour (
  *  @function
  *      Q3Mesh_NextFaceContour
  *  @discussion
- *      One-line description of this function.
+ *      Get the next contour in a mesh face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next contour in the face.
  */
 Q3_EXTERN_API_C ( TQ3MeshContour  )
 Q3Mesh_NextFaceContour (
@@ -5268,14 +5109,11 @@ Q3Mesh_NextFaceContour (
  *  @function
  *      Q3Mesh_FirstContourEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the first edge in a mesh contour.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param contour          Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param contour          The contour to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first edge in the contour.
  */
 Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_FirstContourEdge (
@@ -5289,13 +5127,10 @@ Q3Mesh_FirstContourEdge (
  *  @function
  *      Q3Mesh_NextContourEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the next edge in a mesh contour.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next edge in the contour.
  */
 Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_NextContourEdge (
@@ -5308,14 +5143,11 @@ Q3Mesh_NextContourEdge (
  *  @function
  *      Q3Mesh_FirstContourVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the first vertex in a mesh contour.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param contour          Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param contour          The contour to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first vertex in the contour.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_FirstContourVertex (
@@ -5329,13 +5161,10 @@ Q3Mesh_FirstContourVertex (
  *  @function
  *      Q3Mesh_NextContourVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the next vertex in a mesh contour.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next vertex in the contour.
  */
 Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_NextContourVertex (
@@ -5348,14 +5177,11 @@ Q3Mesh_NextContourVertex (
  *  @function
  *      Q3Mesh_FirstContourFace
  *  @discussion
- *      One-line description of this function.
+ *      Get the first face in a mesh contour.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param contour          Description of the parameter.
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param contour          The contour to query.
+ *  @param iterator         Receives the mesh iterator.
+ *  @result                 The first face in the contour.
  */
 Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_FirstContourFace (
@@ -5369,13 +5195,10 @@ Q3Mesh_FirstContourFace (
  *  @function
  *      Q3Mesh_NextContourFace
  *  @discussion
- *      One-line description of this function.
+ *      Get the next face in a mesh contour.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param iterator         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param iterator         The mesh iterator.
+ *  @result                 The next face in the contour.
  */
 Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_NextContourFace (
@@ -5480,14 +5303,11 @@ Q3NURBCurve_EmptyData (
  *  @function
  *      Q3NURBCurve_SetControlPoint
  *  @discussion
- *      One-line description of this function.
+ *      Set a control point for a NURB curve.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param curve            Description of the parameter.
- *  @param pointIndex       Description of the parameter.
- *  @param point4D          Description of the parameter.
+ *  @param curve            The NURB curve to update.
+ *  @param pointIndex       The index of the point to update.
+ *  @param point4D          The new control point value.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -5503,14 +5323,11 @@ Q3NURBCurve_SetControlPoint (
  *  @function
  *      Q3NURBCurve_GetControlPoint
  *  @discussion
- *      One-line description of this function.
+ *      Get a control point from a NURB curve.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param curve            Description of the parameter.
- *  @param pointIndex       Description of the parameter.
- *  @param point4D          Description of the parameter.
+ *  @param curve            The NURB curve to query.
+ *  @param pointIndex       The index of the point to query.
+ *  @param point4D          Receives the control point value.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -5526,14 +5343,11 @@ Q3NURBCurve_GetControlPoint (
  *  @function
  *      Q3NURBCurve_SetKnot
  *  @discussion
- *      One-line description of this function.
+ *      Set a knot for a NURB curve.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param curve            Description of the parameter.
- *  @param knotIndex        Description of the parameter.
- *  @param knotValue        Description of the parameter.
+ *  @param curve            The NURB curve to update.
+ *  @param knotIndex        The index of the knot to update.
+ *  @param knotValue        The new knot value.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -5549,14 +5363,11 @@ Q3NURBCurve_SetKnot (
  *  @function
  *      Q3NURBCurve_GetKnot
  *  @discussion
- *      One-line description of this function.
+ *      Get a knot from a NURB curve.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param curve            Description of the parameter.
- *  @param knotIndex        Description of the parameter.
- *  @param knotValue        Description of the parameter.
+ *  @param curve            The NURB curve to query.
+ *  @param knotIndex        The index of the knot to query.
+ *  @param knotValue        Receives the knot value.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -5647,15 +5458,12 @@ Q3NURBPatch_GetData (
  *  @function
  *      Q3NURBPatch_SetControlPoint
  *  @discussion
- *      One-line description of this function.
+ *      Set a control point for a NURB patch.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param nurbPatch        Description of the parameter.
- *  @param rowIndex         Description of the parameter.
- *  @param columnIndex      Description of the parameter.
- *  @param point4D          Description of the parameter.
+ *  @param nurbPatch        The NURB patch to update.
+ *  @param rowIndex         The row index of the control point.
+ *  @param columnIndex      The column index of the control point.
+ *  @param point4D          The new control point value.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -5672,15 +5480,12 @@ Q3NURBPatch_SetControlPoint (
  *  @function
  *      Q3NURBPatch_GetControlPoint
  *  @discussion
- *      One-line description of this function.
+ *      Get a control point for a NURB patch.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param nurbPatch        Description of the parameter.
- *  @param rowIndex         Description of the parameter.
- *  @param columnIndex      Description of the parameter.
- *  @param point4D          Description of the parameter.
+ *  @param nurbPatch        The NURB patch to query.
+ *  @param rowIndex         The row index of the control point.
+ *  @param columnIndex      The column index of the control point.
+ *  @param point4D          Receives the control point value.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -5697,14 +5502,11 @@ Q3NURBPatch_GetControlPoint (
  *  @function
  *      Q3NURBPatch_SetUKnot
  *  @discussion
- *      One-line description of this function.
+ *      Set a U knot for a NURB patch.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param nurbPatch        Description of the parameter.
- *  @param knotIndex        Description of the parameter.
- *  @param knotValue        Description of the parameter.
+ *  @param nurbPatch        The NURB patch to update.
+ *  @param knotIndex        The index of the knot to update.
+ *  @param knotValue        The new value for the knot.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -5720,14 +5522,11 @@ Q3NURBPatch_SetUKnot (
  *  @function
  *      Q3NURBPatch_SetVKnot
  *  @discussion
- *      One-line description of this function.
+ *      Set a K knot for a NURB patch.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param nurbPatch        Description of the parameter.
- *  @param knotIndex        Description of the parameter.
- *  @param knotValue        Description of the parameter.
+ *  @param nurbPatch        The NURB patch to update.
+ *  @param knotIndex        The index of the knot to update.
+ *  @param knotValue        The new value for the knot.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -5743,14 +5542,11 @@ Q3NURBPatch_SetVKnot (
  *  @function
  *      Q3NURBPatch_GetUKnot
  *  @discussion
- *      One-line description of this function.
+ *      Get a U knot from a NURB patch.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param nurbPatch        Description of the parameter.
- *  @param knotIndex        Description of the parameter.
- *  @param knotValue        Description of the parameter.
+ *  @param nurbPatch        The NURB patch to query.
+ *  @param knotIndex        The index of the knot to query.
+ *  @param knotValue        Rceives the knot value.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -5766,14 +5562,11 @@ Q3NURBPatch_GetUKnot (
  *  @function
  *      Q3NURBPatch_GetVKnot
  *  @discussion
- *      One-line description of this function.
+ *      Get a V knot from a NURB patch.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param nurbPatch        Description of the parameter.
- *  @param knotIndex        Description of the parameter.
- *  @param knotValue        Description of the parameter.
+ *  @param nurbPatch        The NURB patch to query.
+ *  @param knotIndex        The index of the knot to query.
+ *  @param knotValue        Rceives the knot value.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6440,14 +6233,11 @@ Q3Polyhedron_EmptyData (
  *  @function
  *      Q3Polyhedron_SetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Set the position of a polyhedron vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedron       Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param point            Description of the parameter.
+ *  @param polyhedron       The polyhedron to update.
+ *  @param index            The index of the vertex to update.
+ *  @param point            The new position for the vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6463,14 +6253,11 @@ Q3Polyhedron_SetVertexPosition (
  *  @function
  *      Q3Polyhedron_GetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of a polyhedron vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedron       Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param point            Description of the parameter.
+ *  @param polyhedron       The polyhedron to query.
+ *  @param index            The index of the vertex to query.
+ *  @param point            Receives the position of the vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6486,14 +6273,11 @@ Q3Polyhedron_GetVertexPosition (
  *  @function
  *      Q3Polyhedron_SetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set of a polyhedron vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedron       Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param polyhedron       The polyhedron to update.
+ *  @param index            The index of the vertex to update.
+ *  @param attributeSet     The new attribute set for the vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6509,14 +6293,11 @@ Q3Polyhedron_SetVertexAttributeSet (
  *  @function
  *      Q3Polyhedron_GetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of a polyhedron vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedron       Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param polyhedron       The polyhedron to query.
+ *  @param index            The index of the vertex to query.
+ *  @param attributeSet     Receives the attribute set of the vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6532,14 +6313,11 @@ Q3Polyhedron_GetVertexAttributeSet (
  *  @function
  *      Q3Polyhedron_GetTriangleData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a polyhedron triangle.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedron       Description of the parameter.
- *  @param triangleIndex    Description of the parameter.
- *  @param triangleData     Description of the parameter.
+ *  @param polyhedron       The polyhedron to query.
+ *  @param triangleIndex    The index of the triangle to query.
+ *  @param triangleData     Receives the data of the triangle.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6555,14 +6333,11 @@ Q3Polyhedron_GetTriangleData (
  *  @function
  *      Q3Polyhedron_SetTriangleData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data of a polyhedron triangle.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedron       Description of the parameter.
- *  @param triangleIndex    Description of the parameter.
- *  @param triangleData     Description of the parameter.
+ *  @param polyhedron       The polyhedron to update.
+ *  @param triangleIndex    The index of the triangle to update.
+ *  @param triangleData     The new data for the triangle.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6578,14 +6353,11 @@ Q3Polyhedron_SetTriangleData (
  *  @function
  *      Q3Polyhedron_GetEdgeData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a polyhedron edge.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedron       Description of the parameter.
- *  @param edgeIndex        Description of the parameter.
- *  @param edgeData         Description of the parameter.
+ *  @param polyhedron       The polyhedron to query.
+ *  @param edgeIndex        The index of the edge to query.
+ *  @param edgeData         Receives the data of the edge.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6601,14 +6373,11 @@ Q3Polyhedron_GetEdgeData (
  *  @function
  *      Q3Polyhedron_SetEdgeData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data of a polyhedron edge.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedron       Description of the parameter.
- *  @param edgeIndex        Description of the parameter.
- *  @param edgeData         Description of the parameter.
+ *  @param polyhedron       The polyhedron to update.
+ *  @param edgeIndex        The index of the edge to update.
+ *  @param edgeData         The new data for the edge.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6716,14 +6485,11 @@ Q3PolyLine_EmptyData (
  *  @function
  *      Q3PolyLine_GetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of a polyline vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyLine         Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param polyLine         The polyline to query.
+ *  @param index            The index of the vertex to query.
+ *  @param position         Receives the position of the polyline vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6739,14 +6505,11 @@ Q3PolyLine_GetVertexPosition (
  *  @function
  *      Q3PolyLine_SetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Set the position of a polyline vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyLine         Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param polyLine         The polyline to update.
+ *  @param index            The index of the vertex to update.
+ *  @param position         The new position for the polyline vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6762,14 +6525,11 @@ Q3PolyLine_SetVertexPosition (
  *  @function
  *      Q3PolyLine_GetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a polyline vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyLine         Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param polyLine         The polyline to query.
+ *  @param index            The index of the vertex to query.
+ *  @param attributeSet     Receives the attribute set of the polyline vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6785,14 +6545,11 @@ Q3PolyLine_GetVertexAttributeSet (
  *  @function
  *      Q3PolyLine_SetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set of a polyline vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyLine         Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param polyLine         The polyline to update.
+ *  @param index            The index of the vertex to update.
+ *  @param attributeSet     The new attribute set for the polyline vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6808,14 +6565,11 @@ Q3PolyLine_SetVertexAttributeSet (
  *  @function
  *      Q3PolyLine_GetSegmentAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a polyline segment.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyLine         Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param polyLine         The polyline to query.
+ *  @param index            The index of the segment to query.
+ *  @param attributeSet     Receives the attribute set of the polyline segment.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6831,14 +6585,11 @@ Q3PolyLine_GetSegmentAttributeSet (
  *  @function
  *      Q3PolyLine_SetSegmentAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set of a polyline segment.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyLine         Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param polyLine         The polyline to update.
+ *  @param index            The index of the segment to update.
+ *  @param attributeSet     The new attribute set for the polyline segment.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7001,13 +6752,10 @@ Q3Torus_SetMinorRadius (
  *  @function
  *      Q3Torus_SetRatio
  *  @discussion
- *      One-line description of this function.
+ *      Set the ratio of a torus.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param ratio            Description of the parameter.
+ *  @param torus            The torus to update.
+ *  @param ratio            The new ratio for the torus.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7094,13 +6842,10 @@ Q3Torus_GetMinorRadius (
  *  @function
  *      Q3Torus_GetRatio
  *  @discussion
- *      One-line description of this function.
+ *      Get the ratio of a torus.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param ratio            Description of the parameter.
+ *  @param torus            The torus to query.
+ *  @param ratio            Receives the ratio of the torus.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7224,14 +6969,11 @@ Q3Triangle_EmptyData (
  *  @function
  *      Q3Triangle_GetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of a triangle vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triangle         Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param point            Description of the parameter.
+ *  @param triangle         The triangle to query.
+ *  @param index            The index of the vertex to query.
+ *  @param point            Receives the position of the triangle vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7247,14 +6989,11 @@ Q3Triangle_GetVertexPosition (
  *  @function
  *      Q3Triangle_SetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Set the position of a triangle vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triangle         Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param point            Description of the parameter.
+ *  @param triangle         The triangle to update.
+ *  @param index            The index of the vertex to update.
+ *  @param point            The new position for the triangle vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7270,14 +7009,11 @@ Q3Triangle_SetVertexPosition (
  *  @function
  *      Q3Triangle_GetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a triangle vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triangle         Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param triangle         The triangle to query.
+ *  @param index            The index of the vertex to query.
+ *  @param attributeSet     Receives the attribute set of the triangle vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7293,14 +7029,11 @@ Q3Triangle_GetVertexAttributeSet (
  *  @function
  *      Q3Triangle_SetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set of a triangle vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triangle         Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param triangle         The triangle to update.
+ *  @param index            The index of the vertex to update.
+ *  @param attributeSet     The new attribute set for the triangle vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7408,15 +7141,12 @@ Q3TriGrid_EmptyData (
  *  @function
  *      Q3TriGrid_GetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of a trigrid vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triGrid          Description of the parameter.
- *  @param rowIndex         Description of the parameter.
- *  @param columnIndex      Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param triGrid          The trigrid to query.
+ *  @param rowIndex         The row index of the vertex to query.
+ *  @param columnIndex      The column index of the vertex to query.
+ *  @param position         Receives the position of the trigrid vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7433,15 +7163,12 @@ Q3TriGrid_GetVertexPosition (
  *  @function
  *      Q3TriGrid_SetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Set the position of a trigrid vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triGrid          Description of the parameter.
- *  @param rowIndex         Description of the parameter.
- *  @param columnIndex      Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param triGrid          The trigrid to update.
+ *  @param rowIndex         The row index of the vertex to update.
+ *  @param columnIndex      The column index of the vertex to update.
+ *  @param position         The new position for the trigrid vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7458,15 +7185,12 @@ Q3TriGrid_SetVertexPosition (
  *  @function
  *      Q3TriGrid_GetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a trigrid vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triGrid          Description of the parameter.
- *  @param rowIndex         Description of the parameter.
- *  @param columnIndex      Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param triGrid          The trigrid to query.
+ *  @param rowIndex         The row index of the vertex to query.
+ *  @param columnIndex      The column index of the vertex to query.
+ *  @param attributeSet     Receives the attribute set of the trigrid vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7483,15 +7207,12 @@ Q3TriGrid_GetVertexAttributeSet (
  *  @function
  *      Q3TriGrid_SetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set of a trigrid vertex.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triGrid          Description of the parameter.
- *  @param rowIndex         Description of the parameter.
- *  @param columnIndex      Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param triGrid          The trigrid to update.
+ *  @param rowIndex         The row index of the vertex to update.
+ *  @param columnIndex      The column index of the vertex to update.
+ *  @param attributeSet     The new attribute set for the trigrid vertex.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -7508,15 +7229,12 @@ Q3TriGrid_SetVertexAttributeSet (
  *  @function
  *      Q3TriGrid_GetFacetAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a trigrid face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triGrid          Description of the parameter.
- *  @param faceIndex        Description of the parameter.
- *  @param facetAttributeSet Description of the parameter.
- *  @result                 Success or failure of the operation.
+ *  @param triGrid              The trigrid to query.
+ *  @param faceIndex            The index of the face to query.
+ *  @param facetAttributeSet    Receives the attribute set of the trigrid face.
+ *  @result                     Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetFacetAttributeSet (
@@ -7531,15 +7249,12 @@ Q3TriGrid_GetFacetAttributeSet (
  *  @function
  *      Q3TriGrid_SetFacetAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set of a trigrid face.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triGrid          Description of the parameter.
- *  @param faceIndex        Description of the parameter.
- *  @param facetAttributeSet Description of the parameter.
- *  @result                 Success or failure of the operation.
+ *  @param triGrid              The trigrid to update.
+ *  @param faceIndex            The index of the face to update.
+ *  @param facetAttributeSet    The new attribute set for the trigrid face.
+ *  @result                     Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetFacetAttributeSet (

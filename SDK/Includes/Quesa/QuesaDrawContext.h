@@ -1340,8 +1340,8 @@ Q3Win32DCDrawContext_GetDC (
  *  @discussion
  *      Create a new Win32 DD draw context object.
  *
- *  @param drawContextData  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContextData  The data for the draw context.
+ *  @result                 The new Win32 DD draw context.
  */
 Q3_EXTERN_API_C ( TQ3DrawContextObject  )
 Q3DDSurfaceDrawContext_New (

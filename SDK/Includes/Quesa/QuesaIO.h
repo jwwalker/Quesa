@@ -72,13 +72,15 @@ extern "C" {
 //      Constants
 //-----------------------------------------------------------------------------
 /*!
- *	@enum	TQ3FileModeMasks
- *	@discussion
- *		Mode masks for file operations.
- *	@constant	kQ3FileModeNormal		Normal file mode.
- *	@constant	kQ3FileModeStream		Stream mode.
- *	@constant	kQ3FileModeDatabase		Database mode.
- *	@constant	kQ3FileModeText			Text mode.
+ *  @enum
+ *      TQ3FileModeMasks
+ *  @discussion
+ *      Mode masks for file operations.
+ *
+ *  @constant kQ3FileModeNormal      Normal file mode.
+ *  @constant kQ3FileModeStream      Stream mode.
+ *  @constant kQ3FileModeDatabase    Database mode.
+ *  @constant kQ3FileModeText        Text mode.
  */
 typedef enum TQ3FileModeMasks {
     kQ3FileModeNormal                           = 0,
@@ -88,7 +90,16 @@ typedef enum TQ3FileModeMasks {
 } TQ3FileModeMasks;
 
 
-// Read states
+/*!
+ *  @enum
+ *      TQ3FileReadGroupStateMasks
+ *  @discussion
+ *      Read group state masks.
+ *
+ *  @constant kQ3FileReadWholeGroup          Read the whole group.
+ *  @constant kQ3FileReadObjectsInGroup      Read objects in the group.
+ *  @constant kQ3FileCurrentlyInsideGroup    Currently inside a group.
+ */
 typedef enum TQ3FileReadGroupStateMasks {
     kQ3FileReadWholeGroup                       = 0,
     kQ3FileReadObjectsInGroup                   = (1 << 0),
@@ -213,6 +224,7 @@ typedef TQ3Object                               TQ3FileFormatObject;
 */
 typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseMethod)       (TQ3Object object, void *data, TQ3ViewObject view);
 
+
 /*!
  *	@typedef	TQ3XObjectTraverseDataMethod
  *	@discussion
@@ -221,6 +233,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseMethod)    
  *		differs from <code>TQ3XObjectTraverseMethod</code>.  Quesa does not use it.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseDataMethod)   (TQ3Object object, void *data, TQ3ViewObject view);
+
 
 /*!
  *	@typedef	TQ3XObjectWriteMethod
@@ -243,11 +256,30 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseDataMethod)
  *	@result		Success or failure of the operation.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectWriteMethod)          (const void *data, TQ3FileObject theFile);
+
+
+/*!
+ *  @typedef
+ *      TQ3XDataDeleteMethod
+ *  @discussion
+ *      Delete method.
+ *
+ *  @param delete           The data to delete.
+ */
 typedef Q3_CALLBACK_API_C(void,                    TQ3XDataDeleteMethod)           (void *data);
 
 
-// Method types - 3DMF read
+/*!
+ *  @typedef
+ *      TQ3XObjectReadMethod
+ *  @discussion
+ *      Read method.
+ *
+ *  @param theFile          The file to read.
+ *	@result                 The object(s) read from the file.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XObjectReadMethod)           (TQ3FileObject theFile);
+
 
 /*!
  *	@typedef	TQ3XObjectReadDataMethod
@@ -262,16 +294,44 @@ typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XObjectReadMethod)        
  *	@result		Success or failure of the operation.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectReadDataMethod)       (TQ3Object parentObject, TQ3FileObject theFile);
+
+
+/*!
+ *  @typedef
+ *      TQ3XObjectAttachMethod
+ *  @discussion
+ *      Attach method.
+ *
+ *  @param childObject      The child object.
+ *  @param parentObject     The parent object.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectAttachMethod)         (TQ3Object childObject, TQ3Object parentObject);
 
 
-// Method types - file format common
+/*!
+ *  @typedef
+ *      TQ3XFFormatCloseMethod
+ *  @discussion
+ *      Close method.
+ *
+ *  @param format           The format to close.
+ *  @param abort            Closing due to an abort.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatCloseMethod)         (TQ3FileFormatObject format, TQ3Boolean abort);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatGetFormatTypeMethod
+ *  @discussion
+ *      Get the format type for a file.
+ *
+ *  @param theFile          The file to query.
+ *  @result                 The file format.
+ */
 typedef Q3_CALLBACK_API_C(TQ3FileMode,             TQ3XFFormatGetFormatTypeMethod) (TQ3FileObject theFile);
-
-
-// Method types - file format read
-
 
 
 /*!
@@ -288,14 +348,69 @@ typedef Q3_CALLBACK_API_C(TQ3FileMode,             TQ3XFFormatGetFormatTypeMetho
  *	@result		Success or failure of the operation.
  */
 typedef Q3_CALLBACK_API_C(TQ3Boolean,              TQ3XFFormatCanReadMethod)       (TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatReadHeaderMethod
+ *  @discussion
+ *      Read the header from a file.
+ *
+ *  @param theFile          The file to process.
+ *  @result                 Success or failure of the operation.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatReadHeaderMethod)    (TQ3FileObject theFile);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatReadObjectMethod
+ *  @discussion
+ *      Read an object from a file.
+ *
+ *  @param theFile          The file to process.
+ *  @result                 Success or failure of the operation.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XFFormatReadObjectMethod)    (TQ3FileObject theFile);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatSkipObjectMethod
+ *  @discussion
+ *      Skip an object in a file.
+ *
+ *  @param theFile          The file to process.
+ *  @result                 Success or failure of the operation.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatSkipObjectMethod)    (TQ3FileObject theFile);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatGetNextTypeMethod
+ *  @discussion
+ *      Get the next type from a file.
+ *
+ *  @param theFile          The file to process.
+ *  @result                 The next type in the file.
+ */
 typedef Q3_CALLBACK_API_C(TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod)   (TQ3FileObject theFile);
 
 
-// Method types - file format write
-
+/*!
+ *  @typedef
+ *      TQ3XFileFormatSubmitObjectMethod
+ *  @discussion
+ *      Submit an object to a file.
+ *
+ *  @param theView              The view being submitted to.
+ *  @param fileFormatPrivate    File-format specific data.
+ *  @param theObject            The object to submit.
+ *  @param objectType           The type of theObject.
+ *  @param objectData           The data for theObject.
+ *  @result                     Success or failure of the operation.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitObjectMethod)(
                             TQ3ViewObject       theView,
                             void                *fileFormatPrivate,
@@ -303,37 +418,304 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitObjectMethod)
 							TQ3ObjectType		objectType,
 							const void			*objectData);
 
-// Method types - used for Q3XXX_ReadMethods (not required when implementing a new format)
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadMethod)   (TQ3FileFormatObject format, TQ3Float32* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadArrayMethod)   (TQ3FileFormatObject format, TQ3Uns32 numFloats, TQ3Float32* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat64ReadMethod)   (TQ3FileFormatObject format, TQ3Float64* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8ReadMethod)      (TQ3FileFormatObject format, TQ3Int8* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int8* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16ReadMethod)     (TQ3FileFormatObject format, TQ3Int16* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int16* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32ReadMethod)     (TQ3FileFormatObject format, TQ3Int32* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int32* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt64ReadMethod)     (TQ3FileFormatObject format, TQ3Int64* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatStringReadMethod)    (TQ3FileFormatObject format, char* data, TQ3Uns32 *length);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatRawReadMethod)       (TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatFloat32ReadMethod
+ *  @discussion
+ *      Read a 32-bit float from a file.
+ *
+ *  @param format           The file format.
+ *  @param data             Receives the data being read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32ReadMethod)      (TQ3FileFormatObject format, TQ3Float32* data);
 
 
-// Method types - used for Q3XXX_WriteMethods
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32WriteMethod)  (TQ3FileFormatObject format, const TQ3Float32 *data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat64WriteMethod)  (TQ3FileFormatObject format, const TQ3Float64 *data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8WriteMethod)     (TQ3FileFormatObject format, const TQ3Int8 *data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16WriteMethod)    (TQ3FileFormatObject format, const TQ3Int16 *data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32WriteMethod)    (TQ3FileFormatObject format, const TQ3Int32 *data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt64WriteMethod)    (TQ3FileFormatObject format, const TQ3Int64 *data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatStringWriteMethod)   (TQ3FileFormatObject format, const char* data);
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatRawWriteMethod)      (TQ3FileFormatObject format, const unsigned char* data, TQ3Uns32 length);
+/*!
+ *  @typedef
+ *      TQ3XFFormatFloat32ReadArrayMethod
+ *  @discussion
+ *      Read an array of 32-bit floats from a file.
+ *
+ *  @param format           The file format.
+ *  @param numFloats        The number of floats to read.
+ *  @param data             Receives the data being read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numFloats, TQ3Float32* data);
 
 
-// Method types - misc
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3FileIdleMethod)              (TQ3FileObject theFile, const void *idlerData);
+/*!
+ *  @typedef
+ *      TQ3XFFormatFloat64ReadMethod
+ *  @discussion
+ *      Read a 64-bit float from a file.
+ *
+ *  @param format           The file format.
+ *  @param data             Receives the data being read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat64ReadMethod)      (TQ3FileFormatObject format, TQ3Float64* data);
 
 
-// FileFormat common data (must be first field in struct)           
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt8ReadMethod
+ *  @discussion
+ *      Read an 8-bit integer from a file.
+ *
+ *  @param format           The file format.
+ *  @param data             Receives the data being read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8ReadMethod)         (TQ3FileFormatObject format, TQ3Int8* data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt8ReadArrayMethod
+ *  @discussion
+ *      Read an array of 8-bit integers from a file.
+ *
+ *  @param format           The file format.
+ *  @param numNums          The number of numbers to read.
+ *  @param data             Receives the data being read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8ReadArrayMethod)    (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int8* data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt16ReadMethod
+ *  @discussion
+ *      Read a 16-bit integer from a file.
+ *
+ *  @param format           The file format.
+ *  @param data             Receives the data being read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16ReadMethod)        (TQ3FileFormatObject format, TQ3Int16* data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt16ReadArrayMethod
+ *  @discussion
+ *      Read an array of 16-bit integers from a file.
+ *
+ *  @param format           The file format.
+ *  @param numNums          The number of numbers to read.
+ *  @param data             Receives the data being read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16ReadArrayMethod)   (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int16* data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt32ReadMethod
+ *  @discussion
+ *      Read a 32-bit integer from a file.
+ *
+ *  @param format           The file format.
+ *  @param data             Receives the data being read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32ReadMethod)        (TQ3FileFormatObject format, TQ3Int32* data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt32ReadArrayMethod
+ *  @discussion
+ *      Read an array of 32-bit integers from a file.
+ *
+ *  @param format           The file format.
+ *  @param numNums          The number of numbers to read.
+ *  @param data             Receives the data being read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32ReadArrayMethod)   (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int32* data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt64ReadMethod
+ *  @discussion
+ *      Read a 64-bit integer from a file.
+ *
+ *  @param format           The file format.
+ *  @param data             Receives the data being read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt64ReadMethod)        (TQ3FileFormatObject format, TQ3Int64* data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatStringReadMethod
+ *  @discussion
+ *      Read a string from a file.
+ *
+ *  @param format           The file format.
+ *  @param data             Receives the data being read.
+ *  @param length           Receives the number of bytes read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatStringReadMethod)       (TQ3FileFormatObject format, char* data, TQ3Uns32 *length);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatRawReadMethod
+ *  @discussion
+ *      Read a block of data from a file.
+ *
+ *  @param format           The file format.
+ *  @param data             Receives the data being read.
+ *  @param length           Receives the number of bytes read.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatRawReadMethod)          (TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatFloat32WriteMethod
+ *  @discussion
+ *      Write a 32-bit float to a file.
+ *
+ *  @param format           The file format.
+ *  @param data             The data to write.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32WriteMethod)(TQ3FileFormatObject format, const TQ3Float32 *data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatFloat64WriteMethod
+ *  @discussion
+ *      Write a 64-bit float to a file.
+ *
+ *  @param format           The file format.
+ *  @param data             The data to write.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat64WriteMethod)(TQ3FileFormatObject format, const TQ3Float64 *data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt8WriteMethod
+ *  @discussion
+ *      Write a 8-bit integer to a file.
+ *
+ *  @param format           The file format.
+ *  @param data             The data to write.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8WriteMethod)   (TQ3FileFormatObject format, const TQ3Int8 *data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt16WriteMethod
+ *  @discussion
+ *      Write a 16-bit integer to a file.
+ *
+ *  @param format           The file format.
+ *  @param data             The data to write.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16WriteMethod)  (TQ3FileFormatObject format, const TQ3Int16 *data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt32WriteMethod
+ *  @discussion
+ *      Write a 32-bit integer to a file.
+ *
+ *  @param format           The file format.
+ *  @param data             The data to write.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32WriteMethod)  (TQ3FileFormatObject format, const TQ3Int32 *data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatInt64WriteMethod
+ *  @discussion
+ *      Write a 64-bit integer to a file.
+ *
+ *  @param format           The file format.
+ *  @param data             The data to write.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt64WriteMethod)  (TQ3FileFormatObject format, const TQ3Int64 *data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatStringWriteMethod
+ *  @discussion
+ *      Write a C-string to a file.
+ *
+ *  @param format           The file format.
+ *  @param data             The data to write.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatStringWriteMethod) (TQ3FileFormatObject format, const char* data);
+
+
+/*!
+ *  @typedef
+ *      TQ3XFFormatRawWriteMethod
+ *  @discussion
+ *      Write a block of data to a file.
+ *
+ *  @param format           The file format.
+ *  @param data             The data to write.
+ *  @param length           The number of bytes to write.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatRawWriteMethod)    (TQ3FileFormatObject format, const unsigned char* data, TQ3Uns32 length);
+
+
+/*!
+ *  @typedef
+ *      TQ3FileIdleMethod
+ *  @discussion
+ *      Idle callback for reading/writing.
+ *
+ *  @param theFile          The file being process.
+ *  @param idlerData        Application-specific data.
+ *  @result                 Success or failure of the operation.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3FileIdleMethod) (TQ3FileObject theFile, const void *idlerData);
+
+
+/*!
+ *  @struct
+ *      TQ3FFormatBaseData
+ *  @discussion
+ *      Common data for FileFormat objects.
+ *
+ *      This must be the first field in any derived structures.
+ *
+ *      The baseDataVersion, storage, currentStoragePosition, and logicalEOF fields
+ *      are initialised automatically by Quesa. Remaining fields must be initialised
+ *      by the importer.
+ *
+ *  @field baseDataVersion           The base data version.
+ *  @field storage                   The storage object.
+ *  @field currentStoragePosition    The current position within the storage object.
+ *  @field logicalEOF                The number of bytes in the storage object.
+ */
 typedef struct TQ3FFormatBaseData {
     // Initialised by Quesa
     TQ3Uns32                                    baseDataVersion;
@@ -354,14 +736,32 @@ typedef struct TQ3FFormatBaseData {
 } TQ3FFormatBaseData;
 
 
-// Unknown text
+/*!
+ *  @struct
+ *      TQ3UnknownTextData
+ *  @discussion
+ *      Unknown text data.
+ *
+ *  @field objectName        The name of the object.
+ *  @field contents          The data for the object.
+ */
 typedef struct TQ3UnknownTextData {
     char                                        *objectName;
     char                                        *contents;
-}TQ3UnknownTextData;
+} TQ3UnknownTextData;
 
 
-// Unknown text
+/*!
+ *  @struct
+ *      TQ3UnknownBinaryData
+ *  @discussion
+ *      Unknown binary data.
+ *
+ *  @field objectType        The type of the object.
+ *  @field size              The size of the object data.
+ *  @field byteOrder         The byte order of the object data.
+ *  @field contents          The data for the object.
+ */
 typedef struct TQ3UnknownBinaryData {
     TQ3ObjectType                               objectType;
     TQ3Size                                     size;
@@ -393,16 +793,13 @@ typedef struct TQ3UnknownBinaryData {
  *  @function
  *      Q3XView_SubmitWriteData
  *  @discussion
- *      One-line description of this function.
+ *      Submit data to a view for writing.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param size             Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param deleteData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view being submitted to.
+ *  @param size             The number of bytes pointed to by data.
+ *  @param data             The data to submit for writing.
+ *  @param deleteData       Delete callback to dispose of the data.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_SubmitWriteData (
@@ -418,17 +815,14 @@ Q3XView_SubmitWriteData (
  *  @function
  *      Q3XView_SubmitSubObjectData
  *  @discussion
- *      One-line description of this function.
+ *      Submit a sub-object to a view for writing.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param objectClass      Description of the parameter.
- *  @param size             Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param deleteData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view being submitted to.
+ *  @param objectClass      The class of the object being submitted.
+ *  @param size             The number of bytes pointed to by data.
+ *  @param data             The data for the object.
+ *  @param deleteData       Delete callback to dispose of the data.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_SubmitSubObjectData (
@@ -445,12 +839,9 @@ Q3XView_SubmitSubObjectData (
  *  @function
  *      Q3File_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new file object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @result                 Description of the function result.
+ *  @result                 The new file object.
  */
 Q3_EXTERN_API_C ( TQ3FileObject  )
 Q3File_New (
@@ -463,14 +854,11 @@ Q3File_New (
  *  @function
  *      Q3File_GetStorage
  *  @discussion
- *      One-line description of this function.
+ *      Get the storage object for a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param storage          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to query.
+ *  @param storage          Receives the storage object for the file.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_GetStorage (
@@ -484,14 +872,11 @@ Q3File_GetStorage (
  *  @function
  *      Q3File_SetStorage
  *  @discussion
- *      One-line description of this function.
+ *      Set the storage objectfor a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param storage          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to query.
+ *  @param storage          The new storage object for the file.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SetStorage (
@@ -627,13 +1012,10 @@ Q3File_Close (
  *  @function
  *      Q3File_Cancel
  *  @discussion
- *      One-line description of this function.
+ *      Cancel a read/write operation on a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to cancel the current read/write operation for.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_Cancel (
@@ -646,14 +1028,11 @@ Q3File_Cancel (
  *  @function
  *      Q3View_StartWriting
  *  @discussion
- *      One-line description of this function.
+ *      Start a writing loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to start writing to.
+ *  @param theFile          The file to start writing to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartWriting (
@@ -667,13 +1046,11 @@ Q3View_StartWriting (
  *  @function
  *      Q3View_EndWriting
  *  @discussion
- *      One-line description of this function.
+ *      End a writing loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to end writing to.
+ *  @result                 Success or failure of the writing loop.
+ *                          Note that the result is a TQ3ViewStatus, not a TQ3Status.
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndWriting (
@@ -686,13 +1063,10 @@ Q3View_EndWriting (
  *  @function
  *      Q3File_GetNextObjectType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of the next object in a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to query.
+ *  @result                 The type of the next object in the file.
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3File_GetNextObjectType (
@@ -705,14 +1079,11 @@ Q3File_GetNextObjectType (
  *  @function
  *      Q3File_IsNextObjectOfType
  *  @discussion
- *      One-line description of this function.
+ *      Test the type of the next object in a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param ofType           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to query.
+ *  @param ofType           The type to compare against.
+ *  @result                 Does the next object match the specified type?
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsNextObjectOfType (
@@ -745,13 +1116,10 @@ Q3File_ReadObject (
  *  @function
  *      Q3File_SkipObject
  *  @discussion
- *      One-line description of this function.
+ *      Skip the next object in a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to process.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SkipObject (
@@ -764,13 +1132,10 @@ Q3File_SkipObject (
  *  @function
  *      Q3File_IsEndOfData
  *  @discussion
- *      One-line description of this function.
+ *      Has the end of the data within a file been reached?
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to query.
+ *  @result                 Has the end of the data been reached?
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsEndOfData (
@@ -783,14 +1148,11 @@ Q3File_IsEndOfData (
  *  @function
  *      Q3File_IsEndOfContainer
  *  @discussion
- *      One-line description of this function.
+ *      Has the end of the current container in a file been reached?
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param rootObject       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to query.
+ *  @param rootObject       The root object in the container.
+ *  @result                 Has the end of the container been reached?
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsEndOfContainer (
@@ -804,13 +1166,10 @@ Q3File_IsEndOfContainer (
  *  @function
  *      Q3File_IsEndOfFile
  *  @discussion
- *      One-line description of this function.
+ *      Has the end of a file been reached?
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to query.
+ *  @result                 Has the end of the file been reached?
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsEndOfFile (
@@ -823,14 +1182,11 @@ Q3File_IsEndOfFile (
  *  @function
  *      Q3File_MarkAsExternalReference
  *  @discussion
- *      One-line description of this function.
+ *      Mark an object within a file as being an external reference.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param sharedObject     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to update.
+ *  @param sharedObject     The object to mark as external.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_MarkAsExternalReference (
@@ -844,13 +1200,10 @@ Q3File_MarkAsExternalReference (
  *  @function
  *      Q3File_GetExternalReferences
  *  @discussion
- *      One-line description of this function.
+ *      Get the external references of a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to query.
+ *  @result                 The external objects within the file.
  */
 Q3_EXTERN_API_C ( TQ3GroupObject  )
 Q3File_GetExternalReferences (
@@ -863,13 +1216,10 @@ Q3File_GetExternalReferences (
  *  @function
  *      Q3Shared_ClearEditTracking
  *  @discussion
- *      One-line description of this function.
+ *      Clear the edit tracking state of a shared object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param sharedObject     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sharedObject     The shared object to update.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shared_ClearEditTracking (
@@ -882,13 +1232,10 @@ Q3Shared_ClearEditTracking (
  *  @function
  *      Q3Shared_GetEditTrackingState
  *  @discussion
- *      One-line description of this function.
+ *      Get the edit tracking state of a shared object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param sharedObject     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sharedObject     The shared object to update.
+ *  @result                 the current edit tracking state of the object.
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Shared_GetEditTrackingState (
@@ -901,14 +1248,11 @@ Q3Shared_GetEditTrackingState (
  *  @function
  *      Q3File_SetReadInGroup
  *  @discussion
- *      One-line description of this function.
+ *      Set the group reading state for a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param readGroupState   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to update.
+ *  @param readGroupState   The new group reading state for the file.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SetReadInGroup (
@@ -922,14 +1266,11 @@ Q3File_SetReadInGroup (
  *  @function
  *      Q3File_GetReadInGroup
  *  @discussion
- *      One-line description of this function.
+ *      Get the group reading state for a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param readGroupState   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to query.
+ *  @param readGroupState   Receives the group reading state for the file.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_GetReadInGroup (
@@ -943,15 +1284,12 @@ Q3File_GetReadInGroup (
  *  @function
  *      Q3File_SetIdleMethod
  *  @discussion
- *      One-line description of this function.
+ *      Set the idle method for a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param idle             Description of the parameter.
- *  @param idleData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to update.
+ *  @param idle             The idle callback.
+ *  @param idleData         Application-specific data for the idle callback.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SetIdleMethod (
@@ -966,13 +1304,10 @@ Q3File_SetIdleMethod (
  *  @function
  *      Q3NewLine_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a newline to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NewLine_Write (
@@ -985,14 +1320,11 @@ Q3NewLine_Write (
  *  @function
  *      Q3Uns8_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Uns8 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns8_Read (
@@ -1006,14 +1338,11 @@ Q3Uns8_Read (
  *  @function
  *      Q3Uns8_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Uns8 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns8_Write (
@@ -1027,14 +1356,10 @@ Q3Uns8_Write (
  *  @function
  *      Q3Uns16_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Uns16 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param theFile          The file to read from.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns16_Read (
@@ -1048,14 +1373,11 @@ Q3Uns16_Read (
  *  @function
  *      Q3Uns16_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Uns16 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns16_Write (
@@ -1069,14 +1391,10 @@ Q3Uns16_Write (
  *  @function
  *      Q3Uns32_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Uns32 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param theFile          The file to read from.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns32_Read (
@@ -1090,14 +1408,11 @@ Q3Uns32_Read (
  *  @function
  *      Q3Uns32_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Uns32 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns32_Write (
@@ -1111,14 +1426,10 @@ Q3Uns32_Write (
  *  @function
  *      Q3Int8_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Int8 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param theFile          The file to read from.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int8_Read (
@@ -1132,14 +1443,11 @@ Q3Int8_Read (
  *  @function
  *      Q3Int8_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Int8 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int8_Write (
@@ -1153,14 +1461,10 @@ Q3Int8_Write (
  *  @function
  *      Q3Int16_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Int16 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param theFile          The file to read from.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int16_Read (
@@ -1174,14 +1478,11 @@ Q3Int16_Read (
  *  @function
  *      Q3Int16_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Int16 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int16_Write (
@@ -1195,14 +1496,10 @@ Q3Int16_Write (
  *  @function
  *      Q3Int32_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Int32 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param theFile          The file to read from.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int32_Read (
@@ -1216,14 +1513,11 @@ Q3Int32_Read (
  *  @function
  *      Q3Int32_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Int32 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int32_Write (
@@ -1237,14 +1531,10 @@ Q3Int32_Write (
  *  @function
  *      Q3Uns64_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Uns64 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param theFile          The file to read from.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns64_Read (
@@ -1258,14 +1548,11 @@ Q3Uns64_Read (
  *  @function
  *      Q3Uns64_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Uns64 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns64_Write (
@@ -1279,14 +1566,10 @@ Q3Uns64_Write (
  *  @function
  *      Q3Int64_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Int64 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param theFile          The file to read from.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int64_Read (
@@ -1300,14 +1583,11 @@ Q3Int64_Read (
  *  @function
  *      Q3Int64_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Int64 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int64_Write (
@@ -1321,14 +1601,10 @@ Q3Int64_Write (
  *  @function
  *      Q3Float32_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Float32 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param theFile          The file to read from.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float32_Read (
@@ -1342,14 +1618,11 @@ Q3Float32_Read (
  *  @function
  *      Q3Float32_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Float32 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float32_Write (
@@ -1363,14 +1636,10 @@ Q3Float32_Write (
  *  @function
  *      Q3Float64_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Float64 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param theFile          The file to read from.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float64_Read (
@@ -1384,14 +1653,11 @@ Q3Float64_Read (
  *  @function
  *      Q3Float64_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Float64 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float64_Write (
@@ -1550,15 +1816,12 @@ Q3String_WriteUnlimited (
  *  @function
  *      Q3RawData_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a block of data from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param size             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             Receives the data read from the file.
+ *  @param size             The number of bytes to read.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RawData_Read (
@@ -1573,15 +1836,12 @@ Q3RawData_Read (
  *  @function
  *      Q3RawData_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a block of data to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param size             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data to write to the file.
+ *  @param size             The number of bytes to write.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RawData_Write (
@@ -1596,14 +1856,11 @@ Q3RawData_Write (
  *  @function
  *      Q3Point2D_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Point2D from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point2D          Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point2D          Receives the point read from the file.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point2D_Read (
@@ -1617,14 +1874,11 @@ Q3Point2D_Read (
  *  @function
  *      Q3Point2D_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Point2D to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point2D          Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point2D          The point to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point2D_Write (
@@ -1638,14 +1892,11 @@ Q3Point2D_Write (
  *  @function
  *      Q3Point3D_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Point3D from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point3D          Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          Receives the point read from the file.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point3D_Read (
@@ -1659,14 +1910,11 @@ Q3Point3D_Read (
  *  @function
  *      Q3Point3D_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Point3D to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point3D          Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          The point to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point3D_Write (
@@ -1680,14 +1928,11 @@ Q3Point3D_Write (
  *  @function
  *      Q3RationalPoint3D_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3RationalPoint3D from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point3D          Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          Receives the point read from the file.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint3D_Read (
@@ -1701,14 +1946,11 @@ Q3RationalPoint3D_Read (
  *  @function
  *      Q3RationalPoint3D_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3RationalPoint3D to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point3D          Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          The point to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint3D_Write (
@@ -1722,14 +1964,11 @@ Q3RationalPoint3D_Write (
  *  @function
  *      Q3RationalPoint4D_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3RationalPoint4D from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point4D          Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point4D          Receives the point read from the file.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint4D_Read (
@@ -1743,14 +1982,11 @@ Q3RationalPoint4D_Read (
  *  @function
  *      Q3RationalPoint4D_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3RationalPoint4D to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point4D          Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point4D          The point to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint4D_Write (
@@ -1764,14 +2000,11 @@ Q3RationalPoint4D_Write (
  *  @function
  *      Q3Vector2D_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Vector2D from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector2D         Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector2D         Receives the vector read from the file.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector2D_Read (
@@ -1785,14 +2018,11 @@ Q3Vector2D_Read (
  *  @function
  *      Q3Vector2D_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Vector2D to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector2D         Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector2D         The vector to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector2D_Write (
@@ -1806,14 +2036,11 @@ Q3Vector2D_Write (
  *  @function
  *      Q3Vector3D_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Vector3D from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector3D         Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector3D         Receives the vector read from the file.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector3D_Read (
@@ -1827,14 +2054,11 @@ Q3Vector3D_Read (
  *  @function
  *      Q3Vector3D_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Vector3D to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector3D         Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector3D         The vector to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector3D_Write (
@@ -1848,14 +2072,11 @@ Q3Vector3D_Write (
  *  @function
  *      Q3Matrix4x4_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Matrix4x4 from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Receives the matrix read from the file.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Matrix4x4_Read (
@@ -1869,14 +2090,11 @@ Q3Matrix4x4_Read (
  *  @function
  *      Q3Matrix4x4_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Matrix4x4 to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        The matrix to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Matrix4x4_Write (
@@ -1890,14 +2108,11 @@ Q3Matrix4x4_Write (
  *  @function
  *      Q3Tangent2D_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Tangent2D from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param tangent2D        Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param tangent2D        Receives the tangent read from the file.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent2D_Read (
@@ -1911,14 +2126,11 @@ Q3Tangent2D_Read (
  *  @function
  *      Q3Tangent2D_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Tangent2D to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param tangent2D        Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param tangent2D        The tangent to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent2D_Write (
@@ -1932,14 +2144,11 @@ Q3Tangent2D_Write (
  *  @function
  *      Q3Tangent3D_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a TQ3Tangent3D from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param tangent3D        Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param tangent3D        Receives the tangent read from the file.
+ *  @param theFile          The file to read from.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent3D_Read (
@@ -1953,14 +2162,11 @@ Q3Tangent3D_Read (
  *  @function
  *      Q3Tangent3D_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a TQ3Tangent3D to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param tangent3D        Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param tangent3D        The tangent to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent3D_Write (
@@ -1974,14 +2180,11 @@ Q3Tangent3D_Write (
  *  @function
  *      Q3Comment_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a comment to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param comment          Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param comment          The comment to write to the file.
+ *  @param theFile          The file to write to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Comment_Write (
@@ -1995,13 +2198,10 @@ Q3Comment_Write (
  *  @function
  *      Q3Unknown_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of an unknown object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param unknownObject    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param unknownObject    The object to query.
+ *  @result                 The type of the object.
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Unknown_GetType (
@@ -2014,14 +2214,11 @@ Q3Unknown_GetType (
  *  @function
  *      Q3Unknown_GetDirtyState
  *  @discussion
- *      One-line description of this function.
+ *      Get the dirty state of an unknown object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param unknownObject    Description of the parameter.
- *  @param isDirty          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param unknownObject    The object to query.
+ *  @param isDirty          Receives the dirty state of the object.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Unknown_GetDirtyState (
@@ -2035,14 +2232,11 @@ Q3Unknown_GetDirtyState (
  *  @function
  *      Q3Unknown_SetDirtyState
  *  @discussion
- *      One-line description of this function.
+ *      Set the dirty state for an unknown object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param unknownObject    Description of the parameter.
- *  @param isDirty          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param unknownObject    The object to update.
+ *  @param isDirty          The new dirty state of the object.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Unknown_SetDirtyState (
@@ -2056,14 +2250,11 @@ Q3Unknown_SetDirtyState (
  *  @function
  *      Q3UnknownText_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from an unknown text object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param unknownObject    Description of the parameter.
- *  @param unknownTextData  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param unknownObject    The object to query.
+ *  @param unknownTextData  Receives the text data from the object.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownText_GetData (
@@ -2077,13 +2268,10 @@ Q3UnknownText_GetData (
  *  @function
  *      Q3UnknownText_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release the data of an unknown text object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param unknownTextData  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param unknownTextData  The text data to release.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownText_EmptyData (
@@ -2096,14 +2284,11 @@ Q3UnknownText_EmptyData (
  *  @function
  *      Q3UnknownBinary_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from an unknown binary object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param unknownObject    Description of the parameter.
- *  @param unknownBinaryData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param unknownObject        The object to query.
+ *  @param unknownBinaryData    Receives the binary data from the object.
+ *  @result                     Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_GetData (
@@ -2117,13 +2302,10 @@ Q3UnknownBinary_GetData (
  *  @function
  *      Q3UnknownBinary_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release the data of an unknown binary object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param unknownBinaryData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param unknownBinaryData    The binary data to release.
+ *  @result                     Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_EmptyData (
@@ -2136,14 +2318,11 @@ Q3UnknownBinary_EmptyData (
  *  @function
  *      Q3UnknownBinary_GetTypeString
  *  @discussion
- *      One-line description of this function.
+ *      Get the type string of an unknown binary object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param unknownObject    Description of the parameter.
- *  @param typeString       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param unknownObject    The object to query.
+ *  @param typeString       Receives the type string from the object.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_GetTypeString (
@@ -2157,13 +2336,10 @@ Q3UnknownBinary_GetTypeString (
  *  @function
  *      Q3UnknownBinary_EmptyTypeString
  *  @discussion
- *      One-line description of this function.
+ *      Release the type string of an unknown binary object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param typeString       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param typeString       The type string to release.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_EmptyTypeString (
@@ -2176,13 +2352,10 @@ Q3UnknownBinary_EmptyTypeString (
  *  @function
  *      Q3ViewHints_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view the view hints should be based on.
+ *  @result                 The new view hints object.
  */
 Q3_EXTERN_API_C ( TQ3ViewHintsObject  )
 Q3ViewHints_New (
@@ -2195,14 +2368,11 @@ Q3ViewHints_New (
  *  @function
  *      Q3ViewHints_SetRenderer
  *  @discussion
- *      One-line description of this function.
+ *      Set the renderer for a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param renderer         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to update.
+ *  @param renderer         The new renderer for the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetRenderer (
@@ -2216,14 +2386,11 @@ Q3ViewHints_SetRenderer (
  *  @function
  *      Q3ViewHints_GetRenderer
  *  @discussion
- *      One-line description of this function.
+ *      Get the renderer from a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param renderer         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to query.
+ *  @param renderer         Receives the renderer from the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetRenderer (
@@ -2237,14 +2404,11 @@ Q3ViewHints_GetRenderer (
  *  @function
  *      Q3ViewHints_SetCamera
  *  @discussion
- *      One-line description of this function.
+ *      Set the camera for a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param camera           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to update.
+ *  @param camera           The new camera for the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetCamera (
@@ -2258,14 +2422,11 @@ Q3ViewHints_SetCamera (
  *  @function
  *      Q3ViewHints_GetCamera
  *  @discussion
- *      One-line description of this function.
+ *      Get the camera from a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param camera           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to query.
+ *  @param camera           Receives the camera from the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetCamera (
@@ -2279,14 +2440,11 @@ Q3ViewHints_GetCamera (
  *  @function
  *      Q3ViewHints_SetLightGroup
  *  @discussion
- *      One-line description of this function.
+ *      Set the light group for a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param lightGroup       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to update.
+ *  @param lightGroup       The new light group for the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetLightGroup (
@@ -2300,14 +2458,11 @@ Q3ViewHints_SetLightGroup (
  *  @function
  *      Q3ViewHints_GetLightGroup
  *  @discussion
- *      One-line description of this function.
+ *      Get the light group from a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param lightGroup       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to query.
+ *  @param lightGroup       Receives the light group from the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetLightGroup (
@@ -2321,14 +2476,11 @@ Q3ViewHints_GetLightGroup (
  *  @function
  *      Q3ViewHints_SetAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set for a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to update.
+ *  @param attributeSet     The new attribute set for the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetAttributeSet (
@@ -2342,14 +2494,11 @@ Q3ViewHints_SetAttributeSet (
  *  @function
  *      Q3ViewHints_GetAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set from a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to query.
+ *  @param attributeSet     Receives the attribute set from the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetAttributeSet (
@@ -2363,14 +2512,11 @@ Q3ViewHints_GetAttributeSet (
  *  @function
  *      Q3ViewHints_SetDimensionsState
  *  @discussion
- *      One-line description of this function.
+ *      Set the dimension state of a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param isValid          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to update.
+ *  @param isValid          The new dimension state for the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetDimensionsState (
@@ -2384,14 +2530,11 @@ Q3ViewHints_SetDimensionsState (
  *  @function
  *      Q3ViewHints_GetDimensionsState
  *  @discussion
- *      One-line description of this function.
+ *      Get the dimension state of a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param isValid          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to query.
+ *  @param isValid          Receives the dimension state from the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetDimensionsState (
@@ -2405,15 +2548,12 @@ Q3ViewHints_GetDimensionsState (
  *  @function
  *      Q3ViewHints_SetDimensions
  *  @discussion
- *      One-line description of this function.
+ *      Set the dimensions of a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param width            Description of the parameter.
- *  @param height           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to update.
+ *  @param width            The new width for the view hints.
+ *  @param height           The new height for the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetDimensions (
@@ -2428,15 +2568,12 @@ Q3ViewHints_SetDimensions (
  *  @function
  *      Q3ViewHints_GetDimensions
  *  @discussion
- *      One-line description of this function.
+ *      Get the dimensions of a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param width            Description of the parameter.
- *  @param height           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to query.
+ *  @param width            Receives the width from the view hints.
+ *  @param height           Receives the height from the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetDimensions (
@@ -2451,14 +2588,11 @@ Q3ViewHints_GetDimensions (
  *  @function
  *      Q3ViewHints_SetMaskState
  *  @discussion
- *      One-line description of this function.
+ *      Set the mask state of a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param isValid          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to update.
+ *  @param isValid          The new mask state for the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetMaskState (
@@ -2472,14 +2606,11 @@ Q3ViewHints_SetMaskState (
  *  @function
  *      Q3ViewHints_GetMaskState
  *  @discussion
- *      One-line description of this function.
+ *      Get the mask state from a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param isValid          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to query.
+ *  @param isValid          Receives the mask state from the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetMaskState (
@@ -2493,14 +2624,11 @@ Q3ViewHints_GetMaskState (
  *  @function
  *      Q3ViewHints_SetMask
  *  @discussion
- *      One-line description of this function.
+ *      Set the mask of a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param mask             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to update.
+ *  @param mask             The new mask for the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetMask (
@@ -2514,14 +2642,11 @@ Q3ViewHints_SetMask (
  *  @function
  *      Q3ViewHints_GetMask
  *  @discussion
- *      One-line description of this function.
+ *      Get the mask from a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param mask             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to query.
+ *  @param mask             Receives the mask from the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetMask (
@@ -2535,14 +2660,11 @@ Q3ViewHints_GetMask (
  *  @function
  *      Q3ViewHints_SetClearImageMethod
  *  @discussion
- *      One-line description of this function.
+ *      Set the clear image method of a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param clearMethod      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to update.
+ *  @param clearMethod      The new clear image method for the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetClearImageMethod (
@@ -2556,14 +2678,11 @@ Q3ViewHints_SetClearImageMethod (
  *  @function
  *      Q3ViewHints_GetClearImageMethod
  *  @discussion
- *      One-line description of this function.
+ *      Get the clear image method from a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param clearMethod      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to query.
+ *  @param clearMethod      Receives the clear image method from the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetClearImageMethod (
@@ -2577,14 +2696,11 @@ Q3ViewHints_GetClearImageMethod (
  *  @function
  *      Q3ViewHints_SetClearImageColor
  *  @discussion
- *      One-line description of this function.
+ *      Set the clear image color of a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param color            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to update.
+ *  @param color            The new clear image color for the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetClearImageColor (
@@ -2598,14 +2714,11 @@ Q3ViewHints_SetClearImageColor (
  *  @function
  *      Q3ViewHints_GetClearImageColor
  *  @discussion
- *      One-line description of this function.
+ *      Get the clear image color from a view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewHints        Description of the parameter.
- *  @param color            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewHints        The view hints to query.
+ *  @param color            Receives the clear image color from the view hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetClearImageColor (
@@ -2619,15 +2732,12 @@ Q3ViewHints_GetClearImageColor (
  *  @function
  *      Q3File_GetFileFormat  
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Get the file format used to process a file.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file to query.
+ *  @result                 The file format used to process the file.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2644,15 +2754,12 @@ Q3File_GetFileFormat (
  *  @function
  *      Q3FileFormat_NewFromType
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Create a new file format object.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param fformatObjectType Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param fformatObjectType    The type of the file format.
+ *  @result                     The new file format object.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2669,15 +2776,12 @@ Q3FileFormat_NewFromType (
  *  @function
  *      Q3FileFormat_GetType
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Get the type of a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to query.
+ *  @result                 The type of the file format.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2694,15 +2798,12 @@ Q3FileFormat_GetType (
  *  @function
  *      Q3FileFormat_HasModalConfigure
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Does a file format have a modal configure dialog?
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to query.
+ *  @result                 Does the file format have a modal configure dialog?
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2719,17 +2820,24 @@ Q3FileFormat_HasModalConfigure (
  *  @function
  *      Q3FileFormat_ModalConfigure
  *  @discussion
- *      One-line description of this function.
+ *      Invoke a file format's modal configure dialog.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the file format provides a user interface for adjusting its preferences,
+ *      a modal configure dialog can be displayed by this function.
+ *
+ *      The cancel/accept state of the dialog is returned through the cancelled
+ *      parameter.
+ *
+ *      After a configure dialog has been accepted, the current preferences
+ *      should be retrieved with Q3FileFormat_GetConfigurationData and stored by
+ *      the application for later recall.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param dialogAnchor     Description of the parameter.
- *  @param canceled         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format whose configure dialog is to be displayed.
+ *  @param dialogAnchor     Platform-specific dialog data.
+ *  @param cancelled        Receives the OK/Cancel state of the dialog.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2748,16 +2856,15 @@ Q3FileFormat_ModalConfigure (
  *  @function
  *      Q3FileFormatClass_GetFormatNameString
  *  @discussion
- *      One-line description of this function.
+ *      Get the user-visible name of a file format.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The user visible name is suitable for display in a menu or window.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param formatClassType  Description of the parameter.
- *  @param formatClassString Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param formatClassType      The class type of the file format to query.
+ *  @param formatClassString    Receives the name of the file format.
+ *  @result                     Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2775,18 +2882,25 @@ Q3FileFormatClass_GetFormatNameString (
  *  @function
  *      Q3FileFormat_GetConfigurationData
  *  @discussion
- *      One-line description of this function.
+ *      Get the configuration data for a file format.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Configuration data should be saved by the application in a manner appropriate
+ *      for the current platform (e.g., the Registry on Windows or a .plist file on
+ *      the Mac), tagging it with the file format's type for later identification.
+ *
+ *      If dataBuffer is NULL, the size of data required to store the configuration
+ *      data will be returned in actualDataSize.
+ *
+ *      Otherwise bufferSize should be set to the number of bytes pointed to by
+ *      dataBuffer, and actualDataSize will receive the number of bytes written to
+ *      dataBuffer.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param dataBuffer       Description of the parameter.
- *  @param bufferSize       Description of the parameter.
- *  @param actualDataSize   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to query.
+ *  @param dataBuffer       Receives the file format configuration data. May be NULL.
+ *  @param bufferSize       The number of bytes pointed to by dataBuffer. May be 0.
+ *  @param actualDataSize   Receives the number of bytes required for, or written to, dataBuffer.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2806,17 +2920,17 @@ Q3FileFormat_GetConfigurationData (
  *  @function
  *      Q3FileFormat_SetConfigurationData
  *  @discussion
- *      One-line description of this function.
+ *      Set the configuration data for a file format.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The configuration must have been obtained with a previous call to
+ *      Q3FileFormat_GetConfigurationData.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param dataBuffer       Description of the parameter.
- *  @param bufferSize       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to update.
+ *  @param dataBuffer       The configuration data for the file format.
+ *  @param bufferSize       The number of bytes pointed to by dataBuffer.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2840,16 +2954,13 @@ Q3FileFormat_SetConfigurationData (
  *  @function
  *      Q3FileFormat_GenericReadBinary_8
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read a TQ3Int8 from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @param data             Receives the data read from the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2867,16 +2978,13 @@ Q3FileFormat_GenericReadBinary_8 (
  *  @function
  *      Q3FileFormat_GenericReadBinary_16
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read a TQ3Int16 from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @param data             Receives the data read from the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2894,16 +3002,13 @@ Q3FileFormat_GenericReadBinary_16 (
  *  @function
  *      Q3FileFormat_GenericReadBinary_32
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read a TQ3Int32 from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @param data             Receives the data read from the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2921,16 +3026,13 @@ Q3FileFormat_GenericReadBinary_32 (
  *  @function
  *      Q3FileFormat_GenericReadBinary_64
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read a TQ3Int64 from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @param data             Receives the data read from the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2948,17 +3050,14 @@ Q3FileFormat_GenericReadBinary_64 (
  *  @function
  *      Q3FileFormat_GenericReadBinary_String
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read a string from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param length           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @param data             Receives the data read from the file format.
+ *  @param length           Receives the number of bytes written to data.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2977,17 +3076,14 @@ Q3FileFormat_GenericReadBinary_String (
  *  @function
  *      Q3FileFormat_GenericReadBinary_Raw
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read a block of data from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param length           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @param data             Receives the data read from the file format.
+ *  @param length           The number of bytes to read from the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3011,16 +3107,13 @@ Q3FileFormat_GenericReadBinary_Raw (
  *  @function
  *      Q3FileFormat_GenericReadBinSwap_16
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read and endian swap a TQ3Int16 from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @param data             Receives the data read from the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3038,16 +3131,13 @@ Q3FileFormat_GenericReadBinSwap_16 (
  *  @function
  *      Q3FileFormat_GenericReadBinSwap_32
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read and endian swap a TQ3Int32 from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @param data             Receives the data read from the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3065,16 +3155,13 @@ Q3FileFormat_GenericReadBinSwap_32 (
  *  @function
  *      Q3FileFormat_GenericReadBinSwap_64
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read and endian swap a TQ3Int64 from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @param data             Receives the data read from the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3097,15 +3184,12 @@ Q3FileFormat_GenericReadBinSwap_64 (
  *  @function
  *      Q3FileFormat_GenericReadText_SkipBlanks
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read and discard whitespace from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3122,22 +3206,19 @@ Q3FileFormat_GenericReadText_SkipBlanks (
  *  @function
  *      Q3FileFormat_GenericReadText_ReadUntilChars
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Read until characters have been found from a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param buffer           Description of the parameter.
- *  @param chars            Description of the parameter.
- *  @param numChars         Description of the parameter.
- *  @param blanks           Description of the parameter.
- *  @param foundChar        Description of the parameter.
- *  @param maxLen           Description of the parameter.
- *  @param charsRead        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to read with.
+ *  @param buffer           The buffer to read to.
+ *  @param chars            The list of "stop" characters.
+ *  @param numChars         The number of characters in chars.
+ *  @param blanks           Should reading stop on any characters < 0x20.
+ *  @param foundChar        The character which caused reading to stop.
+ *  @param maxLen           The maximum number of characters to read.
+ *  @param charsRead        Receives the number of characters read.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3166,16 +3247,13 @@ Q3FileFormat_GenericReadText_ReadUntilChars (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_8
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Write a TQ3Int8 to a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to write with.
+ *  @param data             The data to write to the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3193,16 +3271,13 @@ Q3FileFormat_GenericWriteBinary_8 (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_16
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Write a TQ3Int16 to a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to write with.
+ *  @param data             The data to write to the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3220,16 +3295,13 @@ Q3FileFormat_GenericWriteBinary_16 (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_32
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Write a TQ3Int32 to a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to write with.
+ *  @param data             The data to write to the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3247,16 +3319,13 @@ Q3FileFormat_GenericWriteBinary_32 (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_64
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Write a TQ3Int64 to a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to write with.
+ *  @param data             The data to write to the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3274,17 +3343,14 @@ Q3FileFormat_GenericWriteBinary_64 (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_String
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Write a string to a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param length           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to write with.
+ *  @param data             The data to write to the file format.
+ *  @param length           The number of bytes to write.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3303,17 +3369,14 @@ Q3FileFormat_GenericWriteBinary_String (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_Raw 
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Write a block of data to a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param length           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to write with.
+ *  @param data             The data to write to the file format.
+ *  @param length           The number of bytes to write.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3337,16 +3400,13 @@ Q3FileFormat_GenericWriteBinary_Raw (
  *  @function
  *      Q3FileFormat_GenericWriteBinSwap_16
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Endian swap and write a TQ3Int16 to a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to write with.
+ *  @param data             The data to write to the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3364,16 +3424,13 @@ Q3FileFormat_GenericWriteBinSwap_16 (
  *  @function
  *      Q3FileFormat_GenericWriteBinSwap_32
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Endian swap and write a TQ3Int32 to a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to write with.
+ *  @param data             The data to write to the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3391,16 +3448,13 @@ Q3FileFormat_GenericWriteBinSwap_32 (
  *  @function
  *      Q3FileFormat_GenericWriteBinSwap_64
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Endian swap and write a TQ3Int64 to a file format.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param format           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param format           The file format to write with.
+ *  @param data             The data to write to the file format.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3411,7 +3465,6 @@ Q3FileFormat_GenericWriteBinSwap_64 (
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
-
 
 
 
@@ -3444,10 +3497,6 @@ Q3Float32_ReadArray (
 
 
 
-
-
-
-
 /*!
  *  @function
  *      Q3Uns32_ReadArray
@@ -3474,9 +3523,6 @@ Q3Uns32_ReadArray (
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
-
-
-
 
 
 
@@ -3509,9 +3555,6 @@ Q3Uns16_ReadArray (
 
 
 
-
-
-
 /*!
  *  @function
  *      Q3Uns8_ReadArray
@@ -3526,7 +3569,7 @@ Q3Uns16_ReadArray (
  *  @param	numNums			Number of numbers to read.
  *  @param	intArray		Address of array to receive the numbers.
  *	@param	theFile			A file object.
- *  @result    Success or failure of the operation.
+ *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -3538,7 +3581,6 @@ Q3Uns8_ReadArray (
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
-
 
 
 
