@@ -147,13 +147,13 @@ ir_texture_usemipmapping(TQ3TextureObject theTexture)
 {	TQ3Status		qd3dStatus;
 	TQ3Mipmap		theMipmap;
 	TQ3ObjectType	theType;
-	TQ3Boolean		useMipmapping = false;
+	TQ3Boolean		useMipmapping = kQ3False;
 
 	theType = Q3Texture_GetType(theTexture);
 	switch (theType) {
 		case kQ3TextureTypePixmap:
 			// Automatic
-			useMipmapping = true;
+			useMipmapping = kQ3True;
 			break;
 	
 		case kQ3TextureTypeMipmap:
@@ -165,7 +165,7 @@ ir_texture_usemipmapping(TQ3TextureObject theTexture)
 
 		case kQ3TextureTypeCompressedPixmap:
 		default:
-			useMipmapping = false;
+			useMipmapping = kQ3False;
 			break;
 		}
 		
