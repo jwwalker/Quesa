@@ -738,10 +738,10 @@ Q3Viewer_GetButtonRect (
  *		you which one is currently active.  The result will be one of
  *		the following:
  *
- *			<code>kQ3ViewerButtonTruck
- *			kQ3ViewerButtonOrbit
- *			kQ3ViewerButtonZoom
- *			kQ3ViewerButtonDolly</code>
+ *			<code>kQ3ViewerFlagButtonTruck
+ *			kQ3ViewerFlagButtonOrbit
+ *			kQ3ViewerFlagButtonZoom
+ *			kQ3ViewerFlagButtonDolly</code>
  *
  *  @param theViewer        Viewer object.
  *  @result                 The currently active mode button.
@@ -764,10 +764,10 @@ Q3Viewer_GetCurrentButton (
  *		exactly the same effect as a click on the specified button.
  *		The <code>button</code> parameter should be one of the following:
  *
- *			<code>kQ3ViewerButtonTruck
- *			kQ3ViewerButtonOrbit
- *			kQ3ViewerButtonZoom
- *			kQ3ViewerButtonDolly</code>
+ *			<code>kQ3ViewerFlagButtonTruck
+ *			kQ3ViewerFlagButtonOrbit
+ *			kQ3ViewerFlagButtonZoom
+ *			kQ3ViewerFlagButtonDolly</code>
  *
  *  @param theViewer        Viewer object.
  *  @param theButton        The button to make active.
