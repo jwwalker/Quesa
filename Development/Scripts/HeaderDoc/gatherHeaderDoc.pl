@@ -22,7 +22,7 @@
 # the specific language governing rights and limitations under the
 # License.
 #
-# $Revision: 1.1 $
+# $Revision: 1.2 $
 ######################################################################
 
 
@@ -76,7 +76,7 @@ my $quesaPageTemplate = qq(
 	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
 	<a href="../../reference/docs.html">Documentation</a><br>
 	<a href="../../reference/build.html">Building Quesa</a><br>
-	<a href="../../reference/lgpl.html">LGPL License</a><br>
+	<a href="../../reference/licence.html">License</a><br>
 	<a href="../../reference/carbon.html">Carbon Dating</a><br>
 
 	<br>

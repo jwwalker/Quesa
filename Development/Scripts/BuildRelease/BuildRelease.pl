@@ -51,7 +51,7 @@ my $kTemplateMacReadMe = <<'MAC_README_TEMPLATE';
 <p>
 Welcome to the RELEASE_VERSION release of
 <a href="http://www.quesa.org/">Quesa</a>, a high-level 3D graphics library released as
-<a href="http://www.quesa.org/reference/lgpl.html">Open Source</a>.
+<a href="http://www.quesa.org/reference/licence.html">Open Source</a>.
 </p>
 
 <p>
@@ -216,7 +216,7 @@ my $kTemplateWinReadMe = <<'WIN_README_TEMPLATE';
 <p>
 Welcome to the RELEASE_VERSION release of
 <a href="http://www.quesa.org/">Quesa</a>, a high-level 3D graphics library released as
-<a href="http://www.quesa.org/reference/lgpl.html">Open Source</a>.
+<a href="http://www.quesa.org/reference/licence.html">Open Source</a>.
 </p>
 
 <p>
