@@ -69,13 +69,13 @@ extern "C" {
  *  @function
  *      Q3String_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Returns the type of a string object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns kQ3StringTypeCString, or kQ3ObjectTypeInvalid if the
+ *		object type is unknown.
  *
- *  @param stringObj        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param stringObj        The object to test.
+ *  @result                 The top level type of the object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3String_GetType (
@@ -88,13 +88,14 @@ Q3String_GetType (
  *  @function
  *      Q3CString_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new C string object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Creates a string object based on a NULL terminated string. The
+ *		string data is copied, and so str can be disposed of after
+ *		creating the object.
  *
- *  @param str              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param str              The C string to copy.
+ *  @result                 The new string object.
  */
 EXTERN_API_C ( TQ3StringObject  )
 Q3CString_New (
@@ -107,14 +108,15 @@ Q3CString_New (
  *  @function
  *      Q3CString_GetLength
  *  @discussion
- *      One-line description of this function.
+ *      Get the length of a string object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns the number of bytes required to store the character
+ *		data in the string object. The length returned does not
+ *		include the terminating NULL byte.
  *
- *  @param stringObj        Description of the parameter.
- *  @param length           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param stringObj        The object to test.
+ *  @param length           The number of bytes needed for character data.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CString_GetLength (
@@ -128,14 +130,14 @@ Q3CString_GetLength (
  *  @function
  *      Q3CString_SetString
  *  @discussion
- *      One-line description of this function.
+ *      Set the character data of a string object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Assigns a C string to the string object. The string data is copied
+ *		and so str can be disposed of after this call.
  *
- *  @param stringObj        Description of the parameter.
- *  @param str              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param stringObj        The object to update.
+ *  @param str              The string to assign to the object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CString_SetString (
@@ -149,14 +151,18 @@ Q3CString_SetString (
  *  @function
  *      Q3CString_GetString
  *  @discussion
- *      One-line description of this function.
+ *      Return the character data of a string object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The data returned must be released with a subsequent call to
+ *		Q3CString_EmptyData. The data returned will be NULL terminated.
  *
- *  @param stringObj        Description of the parameter.
- *  @param str              Description of the parameter.
- *  @result                 Description of the function result.
+ *		The str parameter is overwritten, and so must not point to an
+ *		existing string or a memory leak will occur. If the value of
+ *		the str parameter is not NULL, a warning will be posted.
+ *
+ *  @param stringObj        The object to query.
+ *  @param str              Receives a pointer to the character data.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CString_GetString (
@@ -170,13 +176,14 @@ Q3CString_GetString (
  *  @function
  *      Q3CString_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Releases the memory allocated by a previous call to
+ *		Q3CString_GetString.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		After the string data has been freed, the str parameter
+ *		will be reset to NULL.
  *
- *  @param str              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param str              The string data to release.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CString_EmptyData (
