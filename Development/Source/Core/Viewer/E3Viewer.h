@@ -35,9 +35,8 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-// Include files go here
-
 #include <QuesaViewer.h>
+
 
 
 
@@ -127,6 +126,8 @@ TQ3Status								E3Viewer_SetCallbackResize(TQ3ViewerObject theViewer, TQ3Viewer
 
 
 
+
+
 //=============================================================================
 //      Function prototypes
 //      Old MacOS QD3D Viewer API
@@ -193,13 +194,19 @@ OSErr			E3ViewerGetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean *remove
 OSErr			E3ViewerSetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean phong);
 OSErr			E3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong);
 
-#else
+#endif
+
+
+
+
 
 //=============================================================================
 //      Function prototypes
 //      Old cross-platform QD3D Viewer APIs
 //-----------------------------------------------------------------------------
 #pragma mark old common APIs
+
+#if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
 
 TQ3Status		E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision);
 TQ3Status		E3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision);
@@ -252,7 +259,7 @@ TQ3Status		E3ViewerGetGroupBounds(TQ3ViewerObject theViewer, TQ3BoundingBox* bou
 //-----------------------------------------------------------------------------
 #pragma mark old non-Mac APIs
 
-	#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
+	#if QUESA_OS_WIN32
 
 TQ3ViewerObject	E3ViewerNew(HWND theWindow, const RECT *rect, TQ3Uns32 flags);
 TQ3Status		E3ViewerUseFile(TQ3ViewerObject theViewer, HANDLE fileHandle);
