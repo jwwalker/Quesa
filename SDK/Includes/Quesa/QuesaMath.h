@@ -645,6 +645,40 @@ Q3Vector3D_Dot (
 
 
 
+/*!
+ *  @function
+ *      Q3Vector3D_DotArray
+ *  @discussion
+ *      Calculate an array of dot products.
+ *
+ *      Given two arrays of vectors, an array of dot products is returned along
+ *      with an array of TQ3Booleans indicating which dot products are less than
+ *      zero.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param numVectors       The number of vectors to process.
+ *  @param firstVectors     The first set of vectors.
+ *  @param secondVectors    The second set of vectors.
+ *  @param dotProducts      Receives the dot products.
+ *  @param dotLessThanZero  Receives the "< 0.0" status of the dot products.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3Vector3D_DotArray(
+    TQ3Uns32                    numVectors,
+    const TQ3Vector3D           *firstVectors,
+    const TQ3Vector3D           *secondVectors,
+    float                       *dotProducts,
+    TQ3Boolean                  *dotLessThanZero
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
 
 
 //=============================================================================
@@ -739,6 +773,45 @@ Q3Point3D_CrossProductTri (
     const TQ3Point3D              *p3,
     TQ3Vector3D                   *result
 );
+
+
+
+/*!
+ *  @function
+ *      Q3Triangle_CrossProductArray
+ *  @discussion
+ *      Calculate an array of triangle normals.
+ *
+ *      Triangles are specified as a contiguous array of triangle indices,
+ *      and a contiguous array of points. The result is a contiguous array
+ *      of triangle normals.
+ *
+ *      Triangles may be omitted from processing with the usageFlags parameter,
+ *      which should point to an array of TQ3Uns8 flags. If usageFlags is not
+ *      NULL, only triangles whose corresponding entry in this array is 0 will
+ *      be processed.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param numTriangles     The number of triangles to process.
+ *  @param usageFlags       The optional usage flags, indicating the triangles to process.
+ *  @param theIndices       The triangle indices.
+ *  @param thePoints        The triangle points.
+ *  @param theNormals       Receives the triangle normals.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3Triangle_CrossProductArray(
+    TQ3Uns32                    numTriangles,
+    const TQ3Uns8               *usageFlags,
+    const TQ3Uns32              *theIndices,
+    const TQ3Point3D            *thePoints,
+    TQ3Vector3D                 *theNormals
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 

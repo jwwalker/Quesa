@@ -1281,6 +1281,35 @@ E3Vector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2)
 
 
 //=============================================================================
+//      E3Vector3D_DotArray : Return an array of dot products.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Vector3D_DotArray(TQ3Uns32				numVectors,
+					const TQ3Vector3D		*firstVectors,
+					const TQ3Vector3D		*secondVectors,
+					float					*dotProducts,
+					TQ3Boolean				*dotLessThanZero)
+{	float		dotProduct;
+	TQ3Uns32	n;
+
+
+
+	// Calculate the dot products
+	for (n = 0; n < numVectors; n++)
+		{
+		dotProduct         = E3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
+		dotProducts[n]     = dotProduct;	
+		dotLessThanZero[n] = (TQ3Boolean) (dotProduct < 0.0f);
+		}
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
 //      E3Vector2D_Cross : Return 2D cross product of v1 and v2.
 //-----------------------------------------------------------------------------
 //		Note :	We assume the 2D vectors are really 3D vectors with z=0,
@@ -1302,14 +1331,16 @@ E3Vector2D_Cross(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
 //									of the vectors p2-p1 and p3-p2.
 //-----------------------------------------------------------------------------
 float
-E3Point2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2,
-	const TQ3Point2D *p3)
-{
-	TQ3Vector2D v1, v2;
+E3Point2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2, const TQ3Point2D *p3)
+{	TQ3Vector2D v1, v2;
+
+
 
 	// Calculate our vectors
 	E3Point2D_Subtract(p2, p1, &v1);
 	E3Point2D_Subtract(p3, p2, &v2);
+
+
 
 	// Return the cross product
 	return(E3Vector2D_Cross(&v1, &v2));
@@ -1366,6 +1397,47 @@ E3Point3D_CrossProductTri(const TQ3Point3D *p1, const TQ3Point3D *p2,
 
 	// Return the cross product
 	return(E3Vector3D_Cross(&v1, &v2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      E3Triangle_CrossProductArray : Calculate a list of triangle normals.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Triangle_CrossProductArray(TQ3Uns32			numTriangles,
+							const TQ3Uns8		*usageFlags,
+							const TQ3Uns32		*theIndices,
+							const TQ3Point3D	*thePoints,
+							TQ3Vector3D			*theNormals)
+{	TQ3Uns32	n, m;
+
+
+
+	// Calculate the normals
+	if (usageFlags == NULL)
+		{
+		for (n = 0, m = 0; n < numTriangles; n++, m += 3)
+			E3Point3D_CrossProductTri(&thePoints[theIndices[m + 0]],
+									  &thePoints[theIndices[m + 1]],
+									  &thePoints[theIndices[m + 2]],
+									  &theNormals[n]);
+		}
+	else
+		{
+		for (n = 0, m = 0; n < numTriangles; n++, m += 3)
+			{
+			if (!usageFlags[n])
+				E3Point3D_CrossProductTri(&thePoints[theIndices[m + 0]],
+										  &thePoints[theIndices[m + 1]],
+										  &thePoints[theIndices[m + 2]],
+										  &theNormals[n]);
+			}
+		}
+	
+	return(kQ3Success);
 }
 
 
@@ -5112,5 +5184,6 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 	// The ray intersects the triangle	
 	return(kQ3True);
 }
+
 
 

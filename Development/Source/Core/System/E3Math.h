@@ -69,6 +69,8 @@ TQ3SphericalPoint *		E3SphericalPoint_Set(TQ3SphericalPoint *sphericalPoint, flo
 
 
 
+
+
 //=============================================================================
 //      Point and Vector dimension conversion
 //-----------------------------------------------------------------------------
@@ -85,6 +87,8 @@ TQ3Point3D *			E3RationalPoint4D_To3D(const TQ3RationalPoint4D *rationalPoint4D,
 
 
 
+
+
 //=============================================================================
 //      Point conversion from cartesian to polar/spherical
 //-----------------------------------------------------------------------------
@@ -95,11 +99,20 @@ TQ3Point3D *			E3SphericalPoint_ToPoint3D(const TQ3SphericalPoint *sphericalPoin
 
 
 
+
+
 //=============================================================================
 //      Dot product
 //-----------------------------------------------------------------------------
 float					E3Vector2D_Dot(const TQ3Vector2D *v1, const TQ3Vector2D *v2);
 float					E3Vector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2);
+TQ3Status				E3Vector3D_DotArray(TQ3Uns32				numVectors,
+											const TQ3Vector3D		*firstVectors,
+											const TQ3Vector3D		*secondVectors,
+											float					*dotProducts,
+											TQ3Boolean				*dotLessThanZero);
+
+
 
 
 
@@ -110,6 +123,13 @@ float					E3Vector2D_Cross(const TQ3Vector2D *v1, const TQ3Vector2D *v2);
 float					E3Point2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2, const TQ3Point2D *p3);
 TQ3Vector3D *			E3Vector3D_Cross(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result);
 TQ3Vector3D *			E3Point3D_CrossProductTri(const TQ3Point3D *p1, const TQ3Point3D *p2, const TQ3Point3D *p3, TQ3Vector3D *result);
+TQ3Status				E3Triangle_CrossProductArray(TQ3Uns32				numTriangles,
+														const TQ3Uns8		*usageFlags,
+														const TQ3Uns32		*theIndices,
+														const TQ3Point3D	*thePoints,
+														TQ3Vector3D			*theNormals);
+
+
 
 
 
@@ -120,6 +140,8 @@ float					E3Vector2D_Length(const TQ3Vector2D *vector2D);
 float					E3Vector2D_LengthSquared(const TQ3Vector2D *vector2D);
 float					E3Vector3D_Length(const TQ3Vector3D *vector3D);
 float					E3Vector3D_LengthSquared(const TQ3Vector3D *vector3D);
+
+
 
 
 
@@ -139,11 +161,15 @@ float					E3RationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1, const 
 
 
 
+
+
 //=============================================================================
 //      Vector negation
 //-----------------------------------------------------------------------------
 TQ3Vector2D *			E3Vector2D_Negate(const TQ3Vector2D *vector2D, TQ3Vector2D *result);
 TQ3Vector3D *			E3Vector3D_Negate(const TQ3Vector3D *vector3D, TQ3Vector3D *result);
+
+
 
 
 
@@ -155,11 +181,15 @@ TQ3Vector3D *			E3Vector3D_Scale(const TQ3Vector3D *vector3D, float scalar, TQ3V
 
 
 
+
+
 //=============================================================================
 //      Vector normalize
 //-----------------------------------------------------------------------------
 TQ3Vector2D *			E3Vector2D_Normalize(const TQ3Vector2D *vector2D, TQ3Vector2D *result);
 TQ3Vector3D *			E3Vector3D_Normalize(const TQ3Vector3D *vector3D, TQ3Vector3D *result);
+
+
 
 
 
@@ -170,6 +200,8 @@ TQ3Vector2D *			E3Vector2D_Add(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3
 TQ3Vector3D *			E3Vector3D_Add(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result);
 TQ3Vector2D *			E3Vector2D_Subtract(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result);
 TQ3Vector3D *			E3Vector3D_Subtract(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result);
+
+
 
 
 
@@ -185,12 +217,16 @@ TQ3Point3D *			E3Point3D_Vector3D_Subtract(const TQ3Point3D *point3D, const TQ3V
 
 
 
+
+
 //=============================================================================
 //      Point subtraction
 //-----------------------------------------------------------------------------
 TQ3Vector2D *			E3Point2D_Subtract(const TQ3Point2D *p1, const TQ3Point2D *p2, TQ3Vector2D *result);
 TQ3Vector2D *			E3Param2D_Subtract(const TQ3Param2D *p1, const TQ3Param2D *p2, TQ3Vector2D *result);
 TQ3Vector3D *			E3Point3D_Subtract(const TQ3Point3D *p1, const TQ3Point3D *p2, TQ3Vector3D *result);
+
+
 
 
 
@@ -204,6 +240,8 @@ TQ3RationalPoint4D *	E3RationalPoint4D_RRatio(const TQ3RationalPoint4D *p1, cons
 
 
 
+
+
 //=============================================================================
 //      Point affine combinations
 //-----------------------------------------------------------------------------
@@ -212,6 +250,8 @@ TQ3Param2D *			E3Param2D_AffineComb(const TQ3Param2D *params2D, const float *wei
 TQ3RationalPoint3D *	E3RationalPoint3D_AffineComb(const TQ3RationalPoint3D *rationalPoints3D, const float *weights, TQ3Uns32 numPoints, TQ3RationalPoint3D *result);
 TQ3Point3D *			E3Point3D_AffineComb(const TQ3Point3D *points3D, const float *weights, TQ3Uns32 numPoints, TQ3Point3D *result);
 TQ3RationalPoint4D *	E3RationalPoint4D_AffineComb(const TQ3RationalPoint4D *rationalPoints4D, const float *weights, TQ3Uns32 numPoints, TQ3RationalPoint4D *result);
+
+
 
 
 
@@ -232,6 +272,8 @@ TQ3Status				E3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D *inRa
 TQ3Status				E3Point3D_To3DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *matrix4x4, TQ3Point3D *outPoints3D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize);
 TQ3Status				E3Point3D_To4DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *matrix4x4, TQ3RationalPoint4D *outRationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize);
 TQ3Status				E3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D *inRationalPoints4D, const TQ3Matrix4x4 *matrix4x4, TQ3RationalPoint4D *outRationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize);
+
+
 
 
 
@@ -268,6 +310,8 @@ TQ3Matrix4x4 *			E3Matrix4x4_Multiply(const TQ3Matrix4x4 *m1, const TQ3Matrix4x4
 
 
 
+
+
 //=============================================================================
 //      Quaternion functions
 //-----------------------------------------------------------------------------
@@ -295,6 +339,8 @@ TQ3Point3D *			E3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ
 
 
 
+
+
 //=============================================================================
 //      Bounding box functions
 //-----------------------------------------------------------------------------
@@ -308,6 +354,8 @@ TQ3BoundingBox *		E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox,
 
 
 
+
+
 //=============================================================================
 //      Bounding sphere functions
 //-----------------------------------------------------------------------------
@@ -318,6 +366,8 @@ TQ3BoundingSphere *		E3BoundingSphere_Copy(const TQ3BoundingSphere *bSphere, TQ3
 TQ3BoundingSphere *		E3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2, TQ3BoundingSphere *result);
 TQ3BoundingSphere *		E3BoundingSphere_UnionPoint3D(const TQ3BoundingSphere *bSphere, const TQ3Point3D *point3D, TQ3BoundingSphere *result);
 TQ3BoundingSphere *		E3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphere *bSphere, const TQ3RationalPoint4D *rationalPoint4D, TQ3BoundingSphere *result);
+
+
 
 
 

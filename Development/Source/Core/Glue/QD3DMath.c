@@ -1060,6 +1060,60 @@ Q3Vector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2)
 
 
 //=============================================================================
+//      Q3Vector3D_DotArray : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Vector3D_DotArray(TQ3Uns32				numVectors,
+					const TQ3Vector3D		*firstVectors,
+					const TQ3Vector3D		*secondVectors,
+					float					*dotProducts,
+					TQ3Boolean				*dotLessThanZero)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(numVectors != 0,               kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstVectors),    kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(secondVectors),   kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dotProducts),     kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dotLessThanZero), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on numVectors
+		return(kQ3Failure);
+
+	if (0) // Further checks on firstVectors
+		return(kQ3Failure);
+
+	if (0) // Further checks on secondVectors
+		return(kQ3Failure);
+
+	if (0) // Further checks on dotProducts
+		return(kQ3Failure);
+
+	if (0) // Further checks on dotLessThanZero
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_DotArray(numVectors, firstVectors, secondVectors, dotProducts, dotLessThanZero));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3Vector2D_Cross : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
@@ -1222,6 +1276,59 @@ Q3Point3D_CrossProductTri(const TQ3Point3D *p1, const TQ3Point3D *p2, const TQ3P
 
 	// Call our implementation
 	return(E3Point3D_CrossProductTri(p1, p2, p3, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Triangle_CrossProductArray : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Triangle_CrossProductArray(TQ3Uns32				numTriangles,
+								const TQ3Uns8		*usageFlags,
+								const TQ3Uns32		*theIndices,
+								const TQ3Point3D	*thePoints,
+								TQ3Vector3D			*theNormals)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(numTriangles != 0,        kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theIndices), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(thePoints),  kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theNormals), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on numTriangles
+		return(kQ3Failure);
+
+	if (0) // Further checks on usageFlags
+		return(kQ3Failure);
+
+	if (0) // Further checks on theIndices
+		return(kQ3Failure);
+
+	if (0) // Further checks on thePoints
+		return(kQ3Failure);
+
+	if (0) // Further checks on theNormals
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Triangle_CrossProductArray(numTriangles, usageFlags, theIndices, thePoints, theNormals));
 }
 
 
@@ -6224,4 +6331,5 @@ Q3Ray3D_IntersectTriangle(const TQ3Ray3D *theRay, const TQ3Point3D *point1, cons
 	// Call our implementation
 	return(E3Ray3D_IntersectTriangle(theRay, point1, point2, point3, cullBackfacing, hitPoint));
 }
+
 
