@@ -50,6 +50,8 @@ enum {
 	kMenuItemToggleWorldBoundingBox,
 	kMenuItemToggleLocalBoundingSphere,
 	kMenuItemShowTexture,
+	kMenuItemDivider0,
+	kMenuItemLoadModel,
 	kMenuItemSaveModel,
 	kMenuItemDivider1,
 	kMenuItemGeometryBox,
@@ -2122,6 +2124,80 @@ doSaveModel(TQ3ViewObject theView)
 
 
 //=============================================================================
+//      doLoadModel : Loads a Model from File
+//-----------------------------------------------------------------------------
+static TQ3Object
+doLoadModel(TQ3ViewObject theView)
+{	TQ3StorageObject	storageObj;
+	TQ3Object 			theModel;
+	TQ3GroupObject 		normalizedModel;
+	TQ3Object 			tempObj;
+	float				xBounds, yBounds, zBounds, scaleFactor;
+	TQ3BoundingBox		theBounds;
+	TQ3Vector3D			translateToOrigin = { 0.0f, 0.0f, 0.0f };
+	TQ3Vector3D			scale     = { 1.0f, 1.0f, 1.0f };
+
+
+	// Get the file
+	storageObj = Qut_SelectMetafileToOpen();
+	if( storageObj == NULL )
+		return NULL;
+	
+	theModel = Qut_ReadModel(storageObj);
+		// Adjust the scale and translation required for the model
+		
+	if(theModel)
+		{
+		Qut_CalcBounds(theView, theModel, &theBounds);
+		xBounds = (theBounds.max.x - theBounds.min.x);
+		yBounds = (theBounds.max.y - theBounds.min.y);
+		zBounds = (theBounds.max.z - theBounds.min.z);
+
+		scaleFactor = (xBounds > yBounds)     ? xBounds : yBounds;
+		scaleFactor = (zBounds > scaleFactor) ? zBounds : scaleFactor;
+		scaleFactor = 1.0f / (scaleFactor * 0.5f);
+
+		if (xBounds <= 0.0003f && yBounds <= 0.0003f && zBounds <= 0.0003f)
+				scaleFactor = 1.0f;
+
+		translateToOrigin.x = -(theBounds.min.x + (xBounds * 0.5f));
+		translateToOrigin.y = -(theBounds.min.y + (yBounds * 0.5f));
+		translateToOrigin.z = -(theBounds.min.z + (zBounds * 0.5f));
+
+		scale.x = scaleFactor;
+		scale.y = scaleFactor;
+		scale.z = scaleFactor;
+	    
+	    normalizedModel = Q3DisplayGroup_New();
+	    if(normalizedModel != NULL)
+	    	{
+	    		tempObj = Q3TranslateTransform_New(&translateToOrigin);
+	    		if(tempObj)
+	    			{
+                    Q3Group_AddObject(normalizedModel, tempObj);
+               		Q3Object_Dispose(tempObj);
+	    			}
+	    		tempObj = Q3ScaleTransform_New(&scale);
+	    		if(tempObj)
+	    			{
+                    Q3Group_AddObject(normalizedModel, tempObj);
+               		Q3Object_Dispose(tempObj);
+	    			}
+	    			
+             Q3Group_AddObject(normalizedModel, theModel);
+             Q3Object_Dispose(theModel);
+             
+             return (normalizedModel);
+	    	}
+		}
+	return NULL;
+}
+
+
+
+
+
+//=============================================================================
 //      appConfigureView : Configure the view.
 //-----------------------------------------------------------------------------
 static void
@@ -2165,7 +2241,7 @@ appMouseDown(TQ3ViewObject theView, TQ3Point2D mousePoint)
 //-----------------------------------------------------------------------------
 static void
 appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
-{	TQ3GeometryObject		theGeom;
+{	TQ3Object		theGeom;
 #pragma unused(theView)
 
 
@@ -2201,6 +2277,10 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		
 		case kMenuItemShowTexture:
 			gShowTexture = (TQ3Boolean) !gShowTexture;
+			break;
+
+		case kMenuItemLoadModel:
+			theGeom = doLoadModel(theView);
 			break;
 
 		case kMenuItemSaveModel:
@@ -2504,6 +2584,8 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle World Bounding Box");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Local Bounding Sphere");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Texture");
+	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
+	Qut_CreateMenuItem(kMenuItemLast, "Load Model...");
 	Qut_CreateMenuItem(kMenuItemLast, "Save Model...");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Box");
