@@ -458,7 +458,7 @@ Q3Object_Dispose(TQ3Object object)
 
 
 	// Call our implementation
-	return(E3Object_Dispose(object));
+	return object->Dispose () ;
 }
 
 
