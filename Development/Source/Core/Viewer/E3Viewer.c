@@ -2923,20 +2923,36 @@ Q3ViewerSetBounds(TQ3ViewerObject theViewer, TQ3Rect *bounds)
 		if ((Q3View_GetDrawContext (viewer->theView, &theContext) == kQ3Success) && theContext)
 			{
 			TQ3Status err;
+			// convert the bounds rect to an area (adjusting for the controller)
 			TQ3Area area;
-		#if (defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH) || (defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
-			area.min.x = as_float(bounds->left);
-			area.min.y = as_float(bounds->top);
-			area.max.x = as_float(bounds->right);
-			area.max.y = as_float(bounds->bottom);
-		#else
-			area = bounds;
-		#endif
+			#if (defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH) || (defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
+				area.min.x = as_float(bounds->left);
+				area.min.y = as_float(bounds->top);
+				area.max.x = as_float(bounds->right);
+				area.max.y = as_float(bounds->bottom);
+				if (viewer->flags & kQ3ViewerControllerVisible)
+					{
+					area.max.y -= kQ3ControllerHeight;
+					area.min.x += kQ3ControllerWidth;
+					}
+			#else
+				area = bounds;
+				if (viewer->flags & kQ3ViewerControllerVisible)
+					{
+					area.bottom -= kQ3ControllerHeight;
+					area.left += kQ3ControllerWidth;
+					}
+			#endif
+			// set this area as the draw context pane
 			err = Q3DrawContext_SetPane (theContext, &area);
 			Q3Object_Dispose (theContext);
+			
 			if (err == kQ3Success)
 				{
+				// notify plugins of the change
 				e3callallplugins (viewer, kQ3XMethodType_ViewerPluginDrawContextChanged);
+				
+				// update stored data and redraw
 				viewer->theRect = *bounds;
 				viewer->drawRect = *bounds;
 				if (viewer->flags & kQ3ViewerControllerVisible)
