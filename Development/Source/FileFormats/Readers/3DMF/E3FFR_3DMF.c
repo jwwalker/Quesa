@@ -47,17 +47,6 @@
 
 
 
-//=============================================================================
-//      Internal Types
-//-----------------------------------------------------------------------------
-typedef struct TE3FFormat3DMF_AttributeSetList_Data {
-	TQ3Uns32			attributeSetCounter;
-	TQ3AttributeSet		*attributeSetArray;
-} TE3FFormat3DMF_AttributeSetList_Data;
-
-
-
-
 
 //=============================================================================
 //      Internal functions
@@ -334,6 +323,33 @@ e3fformat_3dmf_attributesetlist_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
+//      e3fformat_3DMF_attributesetlist_allocate : Allocates the AttributeSetList
+//-----------------------------------------------------------------------------
+//		Note : adds a refcount to the attribute prior to return
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3DMF_attributesetlist_allocate(TE3FFormat3DMF_AttributeSetList_Data* theASLD, TQ3Size size)
+{
+	Q3_REQUIRE_OR_RESULT(theASLD != NULL,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theASLD->attributeSetCounter == 0,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theASLD->attributeSetArray == NULL,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(size != 0,kQ3Failure);
+	
+	
+	theASLD->attributeSetCounter = size;
+	theASLD->attributeSetArray = (TQ3AttributeSet *) Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*size);
+	
+	if(theASLD->attributeSetArray == NULL)
+		return kQ3Failure;
+	else
+		return kQ3Success;
+}
+
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_attributesetlist_fillFromFile : common AttributeSetList read method.
 //-----------------------------------------------------------------------------
 //		Note : This method is to be called from derived classes only
@@ -347,7 +363,7 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 	TQ3Uns32	*indices;
 	TQ3Uns32	*index;
 	
-	TQ3Uns32	i;
+	TQ3Uns32	i,j;
 	TQ3Uns16	temp16;
 	TQ3Uns8		temp8;
 	
@@ -355,18 +371,19 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 	
 	Q3_REQUIRE_OR_RESULT(theASLD != NULL,kQ3Failure);
 	
-	Q3_ASSERT(theASLD->attributeSetCounter == 0);
-	Q3_ASSERT(theASLD->attributeSetArray   == NULL);
 
 	// read the total number of elements
-	status = Q3Uns32_Read(&theASLD->attributeSetCounter, theFile);
+	status = Q3Uns32_Read(&i, theFile);
 	
-	if(status != kQ3Success || theASLD->attributeSetCounter == 0UL)
+	if(status != kQ3Success || i == 0UL)
 		return (kQ3Failure);
 	
 	// allocate the array
 	
-	theASLD->attributeSetArray = (TQ3AttributeSet *) Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*theASLD->attributeSetCounter);
+	status = e3fformat_3DMF_attributesetlist_allocate (theASLD, i);
+	
+	if(status != kQ3Success)
+		return (kQ3Failure);
 
 	// read the packing
 	if(E3FFormat_3DMF_ReadFlag (&packing, theFile, kQ3ObjectTypeAttributeSetList)!= kQ3Success)
@@ -390,14 +407,14 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 		if(indices == NULL)
 			return (kQ3Failure);
 		index = indices;
-		if(nIndices >= 0x00010000UL)
+		if(theASLD->attributeSetCounter >= 0x00010000UL)
 			for(i = 0; i < nIndices; i++)
 				{
 				if(Q3Uns32_Read(index, theFile)!= kQ3Success)
 					return (kQ3Failure);
 				index++;
 				}
-		else if(nIndices >= 0x00000100UL)
+		else if(theASLD->attributeSetCounter >= 0x00000100UL){
 			for(i = 0; i < nIndices; i++)
 				{
 				if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
@@ -405,7 +422,8 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 				*index = (TQ3Uns32)temp16;
 				index++;
 				}
-		else
+			}
+		else{
 			for(i = 0; i < nIndices; i++)
 				{
 				if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
@@ -413,15 +431,52 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 				*index = (TQ3Uns32)temp8;
 				index++;
 				}
+			}
 		}
 		
 	if(indices != NULL)
 		{
 		if(packing == 0x00000000 /*include*/)
 			{
+			// Read in the attributes
+			i=0;
+			while ((Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) && (i< nIndices))
+				{
+				childObject = Q3File_ReadObject(theFile);
+				if (childObject != NULL)
+					{
+					Q3_ASSERT (Q3Object_IsType (childObject, kQ3SetTypeAttribute));
+					E3Shared_Replace(&theASLD->attributeSetArray[indices[i]],childObject);
+					Q3Object_Dispose(childObject);
+					}
+				i++;
+				}
+	
 			}
 		else/*exclude*/
 			{
+			// Read in the attributes
+			i=0;
+			j=0;
+			while ((Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) && (i< theASLD->attributeSetCounter))
+				{
+				while((i == indices[j]) && (i< theASLD->attributeSetCounter)){
+					i++;
+					j++;
+					}
+					
+				if(i< theASLD->attributeSetCounter){
+					childObject = Q3File_ReadObject(theFile);
+					if (childObject != NULL)
+						{
+						Q3_ASSERT (Q3Object_IsType (childObject, kQ3SetTypeAttribute));
+						E3Shared_Replace(&theASLD->attributeSetArray[i],childObject);
+						Q3Object_Dispose(childObject);
+						}
+					}
+				i++;
+				}
+	
 			}
 		Q3Memory_Free(&indices);
 		}
@@ -450,6 +505,135 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 
 
 
+//=============================================================================
+//      e3fformat_3dmf_attributesetlist_traverse: The traverse method for AttributeSetList.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	#pragma unused(data)
+	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *)
+																	E3ClassTree_FindInstanceData(object,
+                     												 kQ3ObjectTypeAttributeSetList);
+	TQ3Size size = 0;
+	TQ3Size dataSize;
+	TQ3Uns32* dataToWrite;
+	TQ3Uns32 i,j;
+	TQ3Uns32 nIndices = 0;
+	TQ3Uns32 packing;
+	TQ3Status writeStatus = kQ3Failure;
+	
+	Q3_REQUIRE_OR_RESULT(instanceData != NULL,kQ3Failure);
+	
+	
+	//compute size and indices
+	size += 4; // total # of attributes
+	size += 4; // packing
+	size += 4; // # of indices
+	
+	for(i=0;i<instanceData->attributeSetCounter;i++){
+		if(instanceData->attributeSetArray[i] != NULL)
+			nIndices++;
+		}
+		
+	if(nIndices == 0)
+		return kQ3Success;// nothing to write
+		
+	if(nIndices == instanceData->attributeSetCounter){
+		nIndices = 0;
+		packing = 0x00000001 /*exclude*/;
+		}
+	else if (nIndices < instanceData->attributeSetCounter/2){
+		packing = 0x00000000 /*include*/;
+		}
+	else{
+		nIndices = instanceData->attributeSetCounter - nIndices;
+		packing = 0x00000001 /*exclude*/;
+		}
+	
+	dataSize = size + (nIndices * 4);
+	
+	dataToWrite = (TQ3Uns32*) Q3Memory_Allocate (dataSize);
+	
+	if(dataToWrite == NULL)
+		return kQ3Failure;
+		
+	dataToWrite[0] = instanceData->attributeSetCounter;
+	dataToWrite[1] = packing;
+	dataToWrite[2] = nIndices;
+	
+	if(nIndices != 0){
+		if(instanceData->attributeSetCounter >= 0x00010000UL)
+			size += nIndices * 4;
+		else if(instanceData->attributeSetCounter >= 0x00000100UL)
+			size += nIndices * 2;
+		else
+			size += nIndices;
+		
+		size = Q3Size_Pad (size);
+
+		}
+	
+	writeStatus = Q3XView_SubmitWriteData (view, size, (void*)dataToWrite, E3FFW_3DMF_Default_Delete);
+	
+	//at this point, to save a loop, I'm modifying the data passed to Q3XView_SubmitWriteData
+	// dunno about QD3D but in Quesa *I KNOW* it's safe, as long you do that before leaving the traverse method
+	
+	j = 0;
+	for(i=0;i<instanceData->attributeSetCounter && writeStatus == kQ3Success;i++){
+		if(instanceData->attributeSetArray[i] != NULL){
+			writeStatus = Q3Object_Submit(instanceData->attributeSetArray[i],view);
+			if(packing == 0x00000000 /*include*/){
+				Q3_ASSERT(j < nIndices);
+				dataToWrite[j+3] = i;
+				j++;
+				}
+			}
+		else{
+			if(packing == 0x00000001 /*exclude*/){
+				Q3_ASSERT(j < nIndices);
+				dataToWrite[j+3] = i;
+				j++;
+				}
+			}
+		}
+		
+	return writeStatus;
+}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_attributesetlist_write: The write method for AttributeSetList.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3fformat_3dmf_attributesetlist_write(const TQ3Uns32 *data,
+				TQ3FileObject theFile)
+{
+
+	TQ3Status writeStatus = kQ3Failure;
+	writeStatus = Q3Uns32_Write(data[0],theFile); // total # of attributes
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write(data[1],theFile); // packing
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write(data[2],theFile); // # of indexes
+	
+	
+	return(writeStatus);
+}
+
+
+
+
 
 //=============================================================================
 //      e3fformat_3dmf_attributesetlist_metahandler : AttributeSetList metahandler.
@@ -464,6 +648,12 @@ e3fformat_3dmf_attributesetlist_metahandler(TQ3XMethodType methodType)
 	switch (methodType) {
 		case kQ3XMethodTypeObjectDelete:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_attributesetlist_delete;
+			break;
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_attributesetlist_traverse;
+			break;
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_attributesetlist_write;
 			break;
 		}
 	
@@ -488,7 +678,8 @@ e3fformat_3dmf_geomattributesetlist_read(TQ3FileObject theFile)
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) theObject->instanceData;
+		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
+                      kQ3ObjectTypeAttributeSetList);
 	
 		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, instanceData) != kQ3Success)
 			{
@@ -498,23 +689,6 @@ e3fformat_3dmf_geomattributesetlist_read(TQ3FileObject theFile)
 		}
 	
 	return(theObject);
-}
-
-
-
-
-
-//=============================================================================
-//      e3fformat_3dmf_geomattributesetlist_delete : Delete method.
-//-----------------------------------------------------------------------------
-static void
-e3fformat_3dmf_geomattributesetlist_delete(TQ3Object theObject, void *privateData)
-{	TE3FFormat3DMF_AttributeSetList_Data	*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) privateData;
-
-
-
-	// Delete our instance data	
-	delete_attributeset_list(instanceData);
 }
 
 
@@ -534,10 +708,6 @@ e3fformat_3dmf_geomattributesetlist_metahandler(TQ3XMethodType methodType)
 	switch (methodType) {
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_geomattributesetlist_read;
-			break;
-
-		case kQ3XMethodTypeObjectDelete:
-			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_geomattributesetlist_delete;
 			break;
 		}
 	
@@ -562,7 +732,8 @@ e3fformat_3dmf_faceattributesetlist_read(TQ3FileObject theFile)
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) theObject->instanceData;
+		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
+                      kQ3ObjectTypeAttributeSetList);
 	
 		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, instanceData) != kQ3Success)
 			{
@@ -572,23 +743,6 @@ e3fformat_3dmf_faceattributesetlist_read(TQ3FileObject theFile)
 		}
 	
 	return(theObject);
-}
-
-
-
-
-
-//=============================================================================
-//      e3fformat_3dmf_faceattributesetlist_delete : Delete method.
-//-----------------------------------------------------------------------------
-static void
-e3fformat_3dmf_faceattributesetlist_delete(TQ3Object theObject, void *privateData)
-{	TE3FFormat3DMF_AttributeSetList_Data	*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) privateData;
-
-
-
-	// Delete our instance data	
-	delete_attributeset_list(instanceData);
 }
 
 
@@ -608,10 +762,6 @@ e3fformat_3dmf_faceattributesetlist_metahandler(TQ3XMethodType methodType)
 	switch (methodType) {
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_faceattributesetlist_read;
-			break;
-
-		case kQ3XMethodTypeObjectDelete:
-			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_faceattributesetlist_delete;
 			break;
 		}
 	
@@ -636,7 +786,8 @@ e3fformat_3dmf_vertexattributesetlist_read(TQ3FileObject theFile)
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) theObject->instanceData;
+		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
+                      kQ3ObjectTypeAttributeSetList);
 	
 		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, instanceData) != kQ3Success)
 			{
@@ -646,23 +797,6 @@ e3fformat_3dmf_vertexattributesetlist_read(TQ3FileObject theFile)
 		}
 	
 	return(theObject);
-}
-
-
-
-
-
-//=============================================================================
-//      e3fformat_3dmf_vertexattributesetlist_delete : Delete method.
-//-----------------------------------------------------------------------------
-static void
-e3fformat_3dmf_vertexattributesetlist_delete(TQ3Object theObject, void *privateData)
-{	TE3FFormat3DMF_AttributeSetList_Data	*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) privateData;
-
-
-
-	// Delete our instance data	
-	delete_attributeset_list(instanceData);
 }
 
 
@@ -682,10 +816,6 @@ e3fformat_3dmf_vertexattributesetlist_metahandler(TQ3XMethodType methodType)
 	switch (methodType) {
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_vertexattributesetlist_read;
-			break;
-
-		case kQ3XMethodTypeObjectDelete:
-			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_vertexattributesetlist_delete;
 			break;
 		}
 	
@@ -985,7 +1115,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 
 	// the Support objects
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
 											kQ3ObjectTypeAttributeSetList,
 											kQ3ClassNameAttributeSetList,
 											e3fformat_3dmf_attributesetlist_metahandler,
@@ -996,21 +1126,21 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 											kQ3ObjectTypeAttributeSetListGeometry,
 											kQ3ClassNameAttributeSetListGeometry,
 											e3fformat_3dmf_geomattributesetlist_metahandler,
-											sizeof(TE3FFormat3DMF_AttributeSetList_Data));
+											0);
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeAttributeSetList,
 											kQ3ObjectTypeAttributeSetListFace,
 											kQ3ClassNameAttributeSetListFace,
 											e3fformat_3dmf_faceattributesetlist_metahandler,
-											sizeof(TE3FFormat3DMF_AttributeSetList_Data));
+											0);
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeAttributeSetList,
 											kQ3ObjectTypeAttributeSetListVertex,
 											kQ3ClassNameAttributeSetListVertex,
 											e3fformat_3dmf_vertexattributesetlist_metahandler,
-											sizeof(TE3FFormat3DMF_AttributeSetList_Data));
+											0);
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
@@ -1138,6 +1268,8 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 
 	return(qd3dStatus);
 }
+
+
 
 
 //=============================================================================
@@ -1312,7 +1444,9 @@ E3FFW_3DMF_Unregister(void)
 TQ3AttributeSet
 E3FFormat_3DMF_AttributeSetList_Get(TQ3Object theAttributeSetList, TQ3Uns32 index)
 {
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) theAttributeSetList->instanceData;
+	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *)
+																	E3ClassTree_FindInstanceData(theAttributeSetList,
+                     												 kQ3ObjectTypeAttributeSetList);
 	
 	TQ3AttributeSet result = NULL;
 	
@@ -1320,6 +1454,131 @@ E3FFormat_3DMF_AttributeSetList_Get(TQ3Object theAttributeSetList, TQ3Uns32 inde
 		result = Q3Shared_GetReference(instanceData->attributeSetArray[index]);
 		
 	return result;
+}
+
+
+
+
+
+//=============================================================================
+//      E3FFormat_3DMF_AttributeSetList_Set : Set the indexth (zero based)
+//											  attribute set.
+//-----------------------------------------------------------------------------
+//		Note : adds a refcount to the attribute prior to return
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFormat_3DMF_AttributeSetList_Set(TQ3Object theAttributeSetList,
+										TQ3Uns32 index, TQ3AttributeSet theAttributeSet)
+{
+	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *)
+																	E3ClassTree_FindInstanceData(theAttributeSetList,
+                     												 kQ3ObjectTypeAttributeSetList);
+	Q3_REQUIRE_OR_RESULT(instanceData != NULL,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(instanceData->attributeSetCounter != 0,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(instanceData->attributeSetCounter > index,kQ3Failure);
+	
+	
+	Q3_ASSERT (Q3Object_IsType (theAttributeSet, kQ3SetTypeAttribute));
+	
+	E3Shared_Replace(&instanceData->attributeSetArray[index],theAttributeSet);
+	
+	return kQ3Success;
+}
+
+
+
+
+
+//=============================================================================
+//      E3FFormat_3DMF_FaceAttributeSetList_New : Creates and Allocates a new AttributeSetList
+//-----------------------------------------------------------------------------
+TQ3Object
+E3FFormat_3DMF_FaceAttributeSetList_New(TQ3Size size)
+{
+	TQ3Object	theObject;
+	TE3FFormat3DMF_AttributeSetList_Data		*instanceData;
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
+	
+	if(theObject){
+	
+		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
+                      kQ3ObjectTypeAttributeSetList);
+	
+		if(e3fformat_3DMF_attributesetlist_allocate (instanceData, size) != kQ3Success)
+			{
+			Q3Object_Dispose(theObject);
+			theObject = NULL;
+			}
+		}
+	
+	return(theObject);
+
+}
+
+
+
+
+
+//=============================================================================
+//      E3FFormat_3DMF_VertexAttributeSetList_New : Creates and Allocates a new AttributeSetList
+//-----------------------------------------------------------------------------
+TQ3Object
+E3FFormat_3DMF_VertexAttributeSetList_New(TQ3Size size)
+{
+	TQ3Object	theObject;
+	TE3FFormat3DMF_AttributeSetList_Data		*instanceData;
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
+	
+	if(theObject){
+	
+		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
+                      kQ3ObjectTypeAttributeSetList);
+	
+		if(e3fformat_3DMF_attributesetlist_allocate (instanceData, size) != kQ3Success)
+			{
+			Q3Object_Dispose(theObject);
+			theObject = NULL;
+			}
+		}
+	
+	return(theObject);
+
+}
+
+
+
+
+
+//=============================================================================
+//      E3FFormat_3DMF_GeomAttributeSetList_New : Creates and Allocates a new AttributeSetList
+//-----------------------------------------------------------------------------
+TQ3Object
+E3FFormat_3DMF_GeomAttributeSetList_New(TQ3Size size)
+{
+	TQ3Object	theObject;
+	TE3FFormat3DMF_AttributeSetList_Data		*instanceData;
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
+	
+	if(theObject){
+	
+		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
+                      kQ3ObjectTypeAttributeSetList);
+	
+		if(e3fformat_3DMF_attributesetlist_allocate (instanceData, size) != kQ3Success)
+			{
+			Q3Object_Dispose(theObject);
+			theObject = NULL;
+			}
+		}
+	
+	return(theObject);
+
 }
 
 

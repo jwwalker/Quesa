@@ -133,10 +133,11 @@ static TQ3Status
 e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFile)
 {	TQ3Status		qd3dStatus = kQ3Success;
 	
-	TQ3Size size;
-	TQ3Uns32 i,j;
-	E3ClassInfoPtr theClass = NULL;
-	TQ3ObjectType container;
+	TQ3Size					size;
+	TQ3Uns32				i,j;
+	E3ClassInfoPtr			theClass = NULL;
+	TQ3ObjectType			container;
+	TQ3Uns32				lastLevel;
 #if Q3_DEBUG
 	TQ3Uns32 pos;
 #endif
@@ -174,14 +175,17 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 				
 					//compute container size
 					size = instanceData->stack[i].size; //the container object size
-					size += 8; // the container object type & size
 					j=i+1;
+					lastLevel = instanceData->stack[i].level;
 					while(j < instanceData->stackCount)
-						if(instanceData->stack[j].level < instanceData->stack[i].level)
+						if(instanceData->stack[j].level <= instanceData->stack[i].level)
 							break;
 						else{
+							if(instanceData->stack[j].level > lastLevel)
+								size += 8; // the container object type & size
 							size += instanceData->stack[j].size; //the contained object size
 							size += 8; // the contained object type & size
+							lastLevel = instanceData->stack[j].level;
 							j++;
 							}
 					//write container size
@@ -204,9 +208,11 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 					qd3dStatus = instanceData->stack[i].writeMethod(instanceData->stack[i].data,theFile);
 					
 				//assert storage position
+				instanceData->baseData.currentStoragePosition = Q3Size_Pad(instanceData->baseData.currentStoragePosition);
 				Q3_ASSERT(pos+instanceData->stack[i].size == instanceData->baseData.currentStoragePosition);
 				}
 			//call deletedata if any
+			E3Shared_Replace(&instanceData->stack[i].theObject,NULL);
 			if(instanceData->stack[i].deleteData != NULL)
 				instanceData->stack[i].deleteData(instanceData->stack[i].data);
 			
@@ -246,6 +252,7 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 							
 {	TQ3Status		qd3dStatus = kQ3Success;
 	TQ3ObjectType	old_lastObjectType;
+	TQ3Object	old_lastObject;
 	E3ClassInfoPtr theClass = NULL;
 	TQ3XObjectTraverseMethod traverse;
 	TQ3FileObject theFile = E3View_AccessFile (theView);
@@ -268,7 +275,9 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 
 	// mark our level
 	fileFormatPrivate->baseData.groupDeepCounter++;
+	old_lastObject = fileFormatPrivate->lastObject;
 	old_lastObjectType = fileFormatPrivate->lastObjectType;
+	fileFormatPrivate->lastObject = theObject;
 	fileFormatPrivate->lastObjectType = objectType;
 	
 	// Call the method
@@ -276,6 +285,7 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 	
 	fileFormatPrivate->baseData.groupDeepCounter--;
 	fileFormatPrivate->lastObjectType = old_lastObjectType;
+	fileFormatPrivate->lastObject = old_lastObject;
 	
 	if((fileFormatPrivate->baseData.groupDeepCounter == 0) && (qd3dStatus == kQ3Success)){ // we're again in the root object
 		if(fileFormatPrivate->stackCount != 0){
@@ -342,6 +352,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 	
 	newItem->level = instanceData->baseData.groupDeepCounter-1;
 	newItem->objectType = instanceData->lastObjectType;
+	E3Shared_Acquire (&newItem->theObject, instanceData->lastObject);
 	newItem->writeMethod = writeMethod;
 	newItem->size = size;
 	newItem->data = data;

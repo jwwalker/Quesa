@@ -42,14 +42,6 @@
 
 
 
-//=============================================================================
-//      Internal Types
-//-----------------------------------------------------------------------------
-typedef struct TE3FFormat3DMF_AttributeSetList_Data {
-	TQ3Uns32			attributeSetCounter;
-	TQ3AttributeSet		*attributeSetArray;
-} TE3FFormat3DMF_AttributeSetList_Data;
-
 
 
 
