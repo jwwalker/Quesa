@@ -50,7 +50,7 @@
 
 
 typedef struct OBJMaterialType {
-	Str32					name;
+	unsigned char           name[33];
 	TQ3ColorRGB				diffuseColor;
 	TQ3ColorRGB				ambientColor;
 	TQ3ColorRGB				specularColor;

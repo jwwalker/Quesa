@@ -183,7 +183,7 @@ TQ3Status	iErr;
 	}
 	
 	formatInstanceData->gTheOBJData = Q3Memory_Allocate(formatInstanceData->gFileSize);						// alloc memory for the file's data
-	if (formatInstanceData->gTheOBJData == nil)
+	if (formatInstanceData->gTheOBJData == NULL)
 	{
 		goto bail;
 	}
@@ -790,7 +790,7 @@ OBJGroupType	*group;
 	formatInstanceData->gNormalIndexBase 	+= formatInstanceData->gNumNormalsInCurrentGroup;
 	
 	formatInstanceData->gGroups[formatInstanceData->gNumGroups] = (OBJGroupType *)Q3Memory_Allocate(sizeof(OBJGroupType));
-	if (formatInstanceData->gGroups[formatInstanceData->gNumGroups] == nil)
+	if (formatInstanceData->gGroups[formatInstanceData->gNumGroups] == NULL)
 		return;//DoFatalAlert("\pNewGroup: AllocPtr failed");
 
 
@@ -828,7 +828,7 @@ static void BuildQD3DMesh(TE3FFormat_OBJ_Data* formatInstanceData)
 int				pointCount;
 int				i,v,t;
 TQ3SurfaceShaderObject	texture;
-TQ3AttributeSet		attrib = nil;
+TQ3AttributeSet		attrib = NULL;
 TQ3TriMeshData		data;
 TQ3Object       newMesh;
 	
@@ -837,14 +837,14 @@ TQ3Object       newMesh;
 	{
 			/* GET TEXTURE ATTRIBUTE */
 		
-		texture = nil;//gOBJMaterials[gCurrentActiveMTLMaterial].texture;			// get texture reference
+		texture = NULL;//gOBJMaterials[gCurrentActiveMTLMaterial].texture;			// get texture reference
 		if (texture)
 		{
 			attrib = Q3AttributeSet_New();
 			Q3AttributeSet_Add(attrib, kQ3AttributeTypeSurfaceShader, &texture);
 		}
 		else
-			attrib = nil;
+			attrib = NULL;
 	
 	
 			/* INIT TRIMESH */
@@ -853,15 +853,15 @@ TQ3Object       newMesh;
 		data.numTriangles				=	formatInstanceData->gGroups[i]->numTriangles;
 		data.triangles					=	&tm_triangles[0];
 		data.numTriangleAttributeTypes	=	0;
-		data.triangleAttributeTypes		=	nil;
+		data.triangleAttributeTypes		=	NULL;
 		data.numEdges					=	0;
-		data.edges						=	nil;
+		data.edges						=	NULL;
 		data.numEdgeAttributeTypes		=	0;
-		data.edgeAttributeTypes			=	nil;
+		data.edgeAttributeTypes			=	NULL;
 		data.numPoints					=	formatInstanceData->gGroups[i]->numTriangles * 3;		// no vertex removal - unoptimized
 		data.points						=	&tm_points[0];
 		data.numVertexAttributeTypes	=	0;
-		data.vertexAttributeTypes		=	nil;
+		data.vertexAttributeTypes		=	NULL;
 		data.bBox.isEmpty				=	kQ3True;
 
 		//if (texture)										// if textured then add vertex uv attributes
@@ -871,7 +871,7 @@ TQ3Object       newMesh;
 		
 			tm_vattrib.attributeType = kQ3AttributeTypeShadingUV;
 			tm_vattrib.data = &tm_uvs[0];
-			tm_vattrib.attributeUseArray = nil;
+			tm_vattrib.attributeUseArray = NULL;
 		}
 
 			/*****************************/
@@ -931,7 +931,7 @@ TQ3Object       newMesh;
 
 		if (attrib)
 			Q3Object_Dispose(attrib);
-		attrib = nil;
+		attrib = NULL;
 	}
 }
 
@@ -954,7 +954,7 @@ TQ3AttributeSet		attrib;
 		/*********************************************/
 				
 		gMeshes[i] = Q3Mesh_New();
-		if (gMeshes[i]== nil)
+		if (gMeshes[i]== NULL)
 			DoFatalAlert("\pBuildQD3DMesh: Q3Mesh_New failed!");
 
 		Q3Mesh_DelayUpdates(gMeshes[i]);
@@ -1003,7 +1003,7 @@ TQ3AttributeSet		attrib;
 					Q3AttributeSet_Add(vertex.attributeSet, kQ3AttributeTypeShadingUV, &gGroups[i]->uvs[uvIndex]);
 				}
 				else
-					vertex.attributeSet = nil;
+					vertex.attributeSet = NULL;
 				
 						/* SET COORD */
 						
@@ -1013,7 +1013,7 @@ TQ3AttributeSet		attrib;
 							/* MAKE VERTEX */
 							
 				faceVerts[v] = Q3Mesh_VertexNew(gMeshes[i], &vertex);
-				if (faceVerts[v] == nil)
+				if (faceVerts[v] == NULL)
 					DoFatalAlert("\pBuildQD3DMesh: Q3Mesh_VertexNew failed!");
 			
 				if (vertex.attributeSet)
@@ -1021,7 +1021,7 @@ TQ3AttributeSet		attrib;
 			}		
 		
 					
-			if (Q3Mesh_FaceNew(gMeshes[i], 3, faceVerts, nil) == nil)
+			if (Q3Mesh_FaceNew(gMeshes[i], 3, faceVerts, NULL) == NULL)
 				DoFatalAlert("\pBuildQD3DMesh: Q3Mesh_FaceNew failed!");			
 		}
 
