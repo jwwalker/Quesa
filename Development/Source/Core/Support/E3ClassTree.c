@@ -250,7 +250,7 @@ e3class_find_by_name(E3ClassInfoPtr theClass, const char *className)
 
 
 	// Check this node
-	if (strcmp(theClass->className, className) == 0)
+	if (E3CString_IsEqual(theClass->className, className))
 		return(theClass);
 
 

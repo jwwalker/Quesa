@@ -276,7 +276,7 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 
 	for(i=0;i< dictValues;i++){
 		if(dictionary[i].hint == hint){
-			if(strcmp(dictionary[i].name,buffer) == 0)
+			if(E3CString_IsEqual(dictionary[i].name,buffer))
 				{
 				*flag = dictionary[i].value;
 				break;
@@ -625,7 +625,7 @@ e3fformat_3dmf_text_canread(TQ3StorageObject storage, TQ3ObjectType* theFileForm
 		if (sizeRead != 10)
 			return kQ3False;
 		
-		if (strcmp(label,key) == 0){
+		if (E3CString_IsEqual(label,key)){
 			*theFileFormatFound = kQ3FFormatReaderType3DMFText;
 			return kQ3True;
 			}
@@ -766,7 +766,7 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 
 	status = e3fformat_3dmf_text_readobjecttype (format, objectType, 64, &charsRead);
 	if(status == kQ3Success){
-		if(strcmp(ContainerLabel,objectType) == 0) // Container
+		if(E3CString_IsEqual(ContainerLabel,objectType)) // Container
 			{
 				oldContainer = instanceData->containerLevel;
 				instanceData->containerLevel = instanceData->nestingLevel;
@@ -778,7 +778,7 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 				e3fformat_3dmf_text_skip_to_level (theFile, level);
 				instanceData->containerLevel = oldContainer;
 			}
-		else if(strcmp(BeginGroupLabel,objectType) == 0) // BeginGroup
+		else if(E3CString_IsEqual(BeginGroupLabel,objectType)) // BeginGroup
 			{
 			if(instanceData->MFData.baseData.readInGroup == kQ3True) // we have to return the whole group
 				{
@@ -886,7 +886,7 @@ e3read_3dmf_text_readnextelement(TQ3AttributeSet parent,TQ3FileObject theFile)
 	if(status == kQ3Success){
 		
 		// find the proper class
-		if(strcmp(ContainerLabel,objectType) == 0) // Container
+		if(E3CString_IsEqual(ContainerLabel,objectType)) // Container
 			{
 				oldContainer = fformatData->containerLevel;
 				fformatData->containerLevel = fformatData->nestingLevel;
@@ -973,8 +973,8 @@ e3fformat_3dmf_text_get_nexttype(TQ3FileObject theFile)
 
 	status = e3fformat_3dmf_text_readobjecttype(format, objectType, 64, &charsRead);
 	if(status == kQ3Success){
-		while((strcmp(ContainerLabel,objectType) == 0) ||// Container
-			(strcmp(BeginGroupLabel,objectType) == 0))
+		while(E3CString_IsEqual(ContainerLabel,objectType) ||// Container
+			E3CString_IsEqual(BeginGroupLabel,objectType))
 			status = e3fformat_3dmf_text_readobjecttype(format, objectType, 64, &charsRead);
 	
 		if(status == kQ3Success){

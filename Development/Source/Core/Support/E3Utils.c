@@ -35,7 +35,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Utils.h"
-
+#include <ctype.h>
 
 
 
@@ -272,5 +272,21 @@ TQ3Boolean	E3Matrix4x4_IsIdentity(const TQ3Matrix4x4 *theMatrix)
 	isIdentity = (TQ3Boolean) (memcmp(&identityMatrix, theMatrix, sizeof(TQ3Matrix4x4)) == 0);
 	
 	return(isIdentity);
+
+}
+
+
+
+
+
+//=============================================================================
+//      E3String_IsEqual : Is a srt_a case insensitive equal to srt_b?
+//-----------------------------------------------------------------------------
+TQ3Boolean	E3CString_IsEqual(const char *str_a, const char *str_b)
+{	
+	while ((*str_a != '\0') && (*str_b != '\0'))
+		if (toupper(*str_a++) != toupper(*str_b++))
+			return kQ3False;
+	return (TQ3Boolean)(*str_a == *str_b);
 
 }
