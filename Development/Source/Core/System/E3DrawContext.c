@@ -115,8 +115,9 @@ e3drawcontext_pixmap_update(TQ3DrawContextObject theDrawContext)
 
 
 
-	// If we have a draw region, and nothing has changed, we're done
-	if (instanceData->numDrawRegions != 0 && instanceData->theState == kQ3XDrawContextValidationClearFlags)
+	// If we have a draw region, and nothing (except maybe the clear function) has changed, we're done
+	if (instanceData->numDrawRegions != 0 &&
+		(instanceData->theState & ~kQ3XDrawContextValidationClearFunction) == kQ3XDrawContextValidationClearFlags)
 		return(kQ3Success);
 
 
