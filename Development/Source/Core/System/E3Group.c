@@ -211,12 +211,10 @@ e3group_createPosition (TQ3GroupObject group, TQ3Object object, TQ3GroupData *in
 
 	// Find our methods
 	acceptObjectMethod = (TQ3XGroupAcceptObjectMethod)
-								E3ClassTree_GetMethod(group->theClass,
-													  kQ3XMethodType_GroupAcceptObject);
+								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupAcceptObject);
 
 	positionNewMethod = (TQ3XGroupPositionNewMethod)
-								E3ClassTree_GetMethod(group->theClass,
-													  kQ3XMethodType_GroupPositionNew);
+								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupPositionNew);
 
 
 
@@ -341,8 +339,7 @@ e3group_setposition(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object o
 
 	// Find our method
 	acceptObjectMethod = (TQ3XGroupAcceptObjectMethod)
-								E3ClassTree_GetMethod(group->theClass,
-													  kQ3XMethodType_GroupAcceptObject);
+								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupAcceptObject);
 	if (acceptObjectMethod == NULL)
 		return(kQ3Failure);
 
@@ -380,8 +377,7 @@ e3group_removeposition(TQ3GroupObject group, TQ3GroupPosition position)
 
 	// Find our method
 	positionDeleteMethod = (TQ3XGroupPositionDeleteMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupPositionDelete);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupPositionDelete);
 
 
 
@@ -619,8 +615,7 @@ e3group_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType)
 
 	// Find our method
 	positionDeleteMethod = (TQ3XGroupPositionDeleteMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupPositionDelete);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupPositionDelete);
 
 
 	if (instanceData == NULL)
@@ -995,8 +990,8 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 
 
 	// Find our methods
-	startIterateMethod = (TQ3XGroupStartIterateMethod) E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodType_GroupStartIterate);
-	endIterateMethod   = (TQ3XGroupEndIterateMethod)   E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodType_GroupEndIterate);
+	startIterateMethod = (TQ3XGroupStartIterateMethod) E3ClassTree_GetMethodByObject(theObject, kQ3XMethodType_GroupStartIterate);
+	endIterateMethod   = (TQ3XGroupEndIterateMethod)   E3ClassTree_GetMethodByObject(theObject, kQ3XMethodType_GroupEndIterate);
 
 	if (startIterateMethod == NULL || endIterateMethod == NULL)
 		{
@@ -1975,7 +1970,7 @@ static TQ3Status
 e3group_display_ordered_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType)
 {
 	TQ3XGroupPositionDeleteMethod		positionDeleteMethod = (TQ3XGroupPositionDeleteMethod)
-			E3ClassTree_GetMethod(group->theClass, kQ3XMethodType_GroupPositionDelete);
+			E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupPositionDelete);
 	TQ3GroupPosition	pos;
 	
 	while ( (kQ3Success == e3group_display_ordered_getfirstpositionoftype( group, isType,
@@ -2653,8 +2648,7 @@ E3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 
 	// Find our method
 	addObjectMethod = (TQ3XGroupAddObjectMethod)
-								E3ClassTree_GetMethod(group->theClass,
-													  kQ3XMethodType_GroupAddObject);
+								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupAddObject);
 
 	if (addObjectMethod == NULL)
 		return(NULL);
@@ -2708,8 +2702,7 @@ E3Group_AddObjectBefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Obje
 
 	// Find our method
 	addObjectBeforeMethod = (TQ3XGroupAddObjectBeforeMethod)
-								E3ClassTree_GetMethod(group->theClass,
-													  kQ3XMethodType_GroupAddObjectBefore);
+								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupAddObjectBefore);
 	if (addObjectBeforeMethod == NULL)
 		return(NULL);
 
@@ -2737,8 +2730,7 @@ E3Group_AddObjectAfter(TQ3GroupObject group, TQ3GroupPosition position, TQ3Objec
 
 	// Find our method
 	addObjectAfterMethod = (TQ3XGroupAddObjectAfterMethod)
-								E3ClassTree_GetMethod(group->theClass,
-													  kQ3XMethodType_GroupAddObjectAfter);
+								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupAddObjectAfter);
 	if (addObjectAfterMethod == NULL)
 		return(NULL);
 
@@ -2795,8 +2787,7 @@ E3Group_SetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Ob
 
 	// Find our method
 	setPositionObjectMethod = (TQ3XGroupSetPositionObjectMethod)
-								E3ClassTree_GetMethod(group->theClass,
-													  kQ3XMethodType_GroupSetPositionObject);
+								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupSetPositionObject);
 	if (setPositionObjectMethod == NULL)
 		return(kQ3Failure);
 
@@ -2826,8 +2817,7 @@ E3Group_RemovePosition(TQ3GroupObject group, TQ3GroupPosition position)
 
 	// Find our method
 	removePositionMethod = (TQ3XGroupRemovePositionMethod)
-								E3ClassTree_GetMethod(group->theClass,
-													  kQ3XMethodType_GroupRemovePosition);
+								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupRemovePosition);
 	if (removePositionMethod == NULL)
 		return(NULL);
 
@@ -2855,8 +2845,7 @@ E3Group_GetFirstPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 	// Find our method
 	getFirstPositionOfTypeMethod = (TQ3XGroupGetFirstPositionOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetFirstPositionOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetFirstPositionOfType);
 	if (getFirstPositionOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -2884,8 +2873,7 @@ E3Group_GetLastPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 	// Find our method
 	getLastPositionOfTypeMethod = (TQ3XGroupGetLastPositionOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetLastPositionOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetLastPositionOfType);
 	if (getLastPositionOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -2913,8 +2901,7 @@ E3Group_GetNextPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 	// Find our method
 	getNextPositionOfTypeMethod = (TQ3XGroupGetNextPositionOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetNextPositionOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetNextPositionOfType);
 	if (getNextPositionOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -2942,8 +2929,7 @@ E3Group_GetPreviousPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 	// Find our method
 	getPrevPositionOfTypeMethod = (TQ3XGroupGetPrevPositionOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetPrevPositionOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetPrevPositionOfType);
 	if (getPrevPositionOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -2971,8 +2957,7 @@ E3Group_CountObjects(TQ3GroupObject group, TQ3Uns32 *nObjects)
 
 	// Find our method
 	countObjectsOfTypeMethod = (TQ3XGroupCountObjectsOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupCountObjectsOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupCountObjectsOfType);
 	if (countObjectsOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -3000,8 +2985,7 @@ E3Group_EmptyObjects(TQ3GroupObject group)
 
 	// Find our method
 	emptyObjectsOfTypeMethod = (TQ3XGroupEmptyObjectsOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupEmptyObjectsOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupEmptyObjectsOfType);
 	if (emptyObjectsOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -3029,8 +3013,7 @@ E3Group_GetFirstPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gr
 
 	// Find our method
 	getFirstPositionOfTypeMethod = (TQ3XGroupGetFirstPositionOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetFirstPositionOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetFirstPositionOfType);
 	if (getFirstPositionOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -3058,8 +3041,7 @@ E3Group_GetLastPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 
 	// Find our method
 	getLastPositionOfTypeMethod = (TQ3XGroupGetLastPositionOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetLastPositionOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetLastPositionOfType);
 	if (getLastPositionOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -3087,8 +3069,7 @@ E3Group_GetNextPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 
 	// Find our method
 	getNextPositionOfTypeMethod = (TQ3XGroupGetNextPositionOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetNextPositionOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetNextPositionOfType);
 	if (getNextPositionOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -3116,8 +3097,7 @@ E3Group_GetPreviousPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ
 
 	// Find our method
 	getPrevPositionOfTypeMethod = (TQ3XGroupGetPrevPositionOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetPrevPositionOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetPrevPositionOfType);
 	if (getPrevPositionOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -3145,8 +3125,7 @@ E3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 
 
 	// Find our method
 	countObjectsOfTypeMethod = (TQ3XGroupCountObjectsOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupCountObjectsOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupCountObjectsOfType);
 	if (countObjectsOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -3174,8 +3153,7 @@ E3Group_EmptyObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType)
 
 	// Find our method
 	emptyObjectsOfTypeMethod = (TQ3XGroupEmptyObjectsOfTypeMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupEmptyObjectsOfType);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupEmptyObjectsOfType);
 	if (emptyObjectsOfTypeMethod == NULL)
 		return(kQ3Failure);
 
@@ -3203,8 +3181,7 @@ E3Group_GetFirstObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupP
 
 	// Find our method
 	getFirstObjectPositionMethod = (TQ3XGroupGetFirstObjectPositionMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetFirstObjectPosition);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetFirstObjectPosition);
 	if (getFirstObjectPositionMethod == NULL)
 		return(kQ3Failure);
 
@@ -3232,8 +3209,7 @@ E3Group_GetLastObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 	// Find our method
 	getLastObjectPositionMethod = (TQ3XGroupGetLastObjectPositionMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetLastObjectPosition);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetLastObjectPosition);
 	if (getLastObjectPositionMethod == NULL)
 		return(kQ3Failure);
 
@@ -3261,8 +3237,7 @@ E3Group_GetNextObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 	// Find our method
 	getNextObjectPositionMethod = (TQ3XGroupGetNextObjectPositionMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetNextObjectPosition);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetNextObjectPosition);
 	if (getNextObjectPositionMethod == NULL)
 		return(kQ3Failure);
 
@@ -3290,8 +3265,7 @@ E3Group_GetPreviousObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3Gro
 
 	// Find our method
 	getPrevObjectPositionMethod = (TQ3XGroupGetPrevObjectPositionMethod)
-									E3ClassTree_GetMethod(group->theClass,
-														  kQ3XMethodType_GroupGetPrevObjectPosition);
+									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetPrevObjectPosition);
 	if (getPrevObjectPositionMethod == NULL)
 		return(kQ3Failure);
 
@@ -3333,7 +3307,7 @@ TQ3ObjectType
 E3DisplayGroup_GetType(TQ3GroupObject theGroup)
 {
 
-	if (E3ClassTree_GetType( theGroup->theClass ) == kQ3GroupTypeDisplay)
+	if (E3ClassTree_GetType(E3ClassTree_GetClassByObject(theGroup)) == kQ3GroupTypeDisplay)
 		return kQ3GroupTypeDisplay;
 	else
 		return (E3ClassTree_GetObjectType(theGroup, kQ3GroupTypeDisplay));

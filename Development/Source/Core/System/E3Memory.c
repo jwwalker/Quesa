@@ -684,7 +684,7 @@ E3Memory_ForgetRecording(void)
 			NEXTLINK( anObject ) = NULL;
 			PREVLINK( anObject ) = NULL;
 			
-			leakRec = (TQ3ObjectData*) (anObject->instanceData);
+			leakRec = (TQ3ObjectData*) E3ClassTree_FindInstanceData(anObject, kQ3ObjectTypeRoot);
 			
 			if ( leakRec->stackCrawl != NULL )
 			{
@@ -760,8 +760,7 @@ E3Memory_NextRecordedObject( TQ3Object inObject )
 	}
 	else
 	{
-		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData( inObject,
-			kQ3ObjectTypeRoot );
+		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData( inObject, kQ3ObjectTypeRoot );
 		if (instanceData != NULL)
 		{
 			theNext = instanceData->next;
@@ -842,7 +841,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 		{
 			Q3_ASSERT( E3ClassTree_IsObjectValid(anObject) );
 			nextObject = NEXTLINK( anObject );
-			leakRec = (TQ3ObjectData*) (anObject->instanceData);
+			leakRec = (TQ3ObjectData*) E3ClassTree_FindInstanceData(anObject, kQ3ObjectTypeLeaf);
 			
 			// anObject currently points to a root object, find the leaf
 			while (anObject->childObject != NULL)
@@ -930,7 +929,7 @@ E3SlabMemory_New(TQ3Uns32 itemSize, TQ3Uns32 numItems, const void *itemData)
 //-----------------------------------------------------------------------------
 void *
 E3SlabMemory_GetData(TQ3SlabObject theSlab, TQ3Uns32 itemIndex)
-{	TQ3SlabData		*instanceData = (TQ3SlabData *) theSlab->instanceData;
+{	TQ3SlabData		*instanceData = (TQ3SlabData *) E3ClassTree_FindInstanceData(theSlab, kQ3ObjectTypeSlab);
 	TQ3Uns8			*theData;
 
 
@@ -950,7 +949,7 @@ E3SlabMemory_GetData(TQ3SlabObject theSlab, TQ3Uns32 itemIndex)
 //-----------------------------------------------------------------------------
 void *
 E3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *itemData)
-{	TQ3SlabData		*instanceData = (TQ3SlabData *) theSlab->instanceData;
+{	TQ3SlabData		*instanceData = (TQ3SlabData *) E3ClassTree_FindInstanceData(theSlab, kQ3ObjectTypeSlab);
 	TQ3Status		qd3dStatus;
 	void			*theData;
 	TQ3Uns32		oldCount;
@@ -982,7 +981,7 @@ E3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *it
 //-----------------------------------------------------------------------------
 TQ3Uns32
 E3SlabMemory_GetCount(TQ3SlabObject theSlab)
-{	TQ3SlabData		*instanceData = (TQ3SlabData *) theSlab->instanceData;
+{	TQ3SlabData		*instanceData = (TQ3SlabData *) E3ClassTree_FindInstanceData(theSlab, kQ3ObjectTypeSlab);
 
 
 
@@ -1024,7 +1023,7 @@ E3SlabMemory_GetCount(TQ3SlabObject theSlab)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SlabMemory_SetCount(TQ3SlabObject theSlab, TQ3Uns32 numItems)
-{	TQ3SlabData		*instanceData = (TQ3SlabData *) theSlab->instanceData;
+{	TQ3SlabData		*instanceData = (TQ3SlabData *) E3ClassTree_FindInstanceData(theSlab, kQ3ObjectTypeSlab);
 	TQ3Uns32		theSize, growSize;
 	TQ3Status		qd3dStatus;
 

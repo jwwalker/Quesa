@@ -108,7 +108,7 @@ e3drawcontext_pixmap_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3drawcontext_pixmap_update(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
 	TQ3Pixmap					*thePixmap;
 	TQ3Status					qd3dStatus;
 	TQ3XDevicePixelType			pixelType;
@@ -191,7 +191,7 @@ e3drawcontext_pixmap_update(TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_pixmap_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -383,9 +383,7 @@ E3DrawContext_Update(TQ3DrawContextObject drawContext)
 
 
 	// Find the method
-	updateMethod = (TQ3XDrawContextUpdateMethod)
-							E3ClassTree_GetMethod(drawContext->theClass,
-												  kQ3XMethodTypeDrawContextUpdate);
+	updateMethod = (TQ3XDrawContextUpdateMethod) E3ClassTree_GetMethodByObject(drawContext, kQ3XMethodTypeDrawContextUpdate);
 	if (updateMethod == NULL)
 		return(kQ3Success);
 
@@ -408,7 +406,7 @@ E3DrawContext_Update(TQ3DrawContextObject drawContext)
 //-----------------------------------------------------------------------------
 void
 E3DrawContext_ResetState(TQ3DrawContextObject drawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -434,7 +432,7 @@ E3DrawContext_ResetState(TQ3DrawContextObject drawContext)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_CreateRegions(TQ3DrawContextObject drawContext, TQ3Uns32 numRegions)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 	TQ3Uns32					n;
 
 
@@ -597,7 +595,7 @@ E3DrawContext_GetType(TQ3DrawContextObject drawContext)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_SetData(TQ3DrawContextObject drawContext, const TQ3DrawContextData *contextData)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -618,7 +616,7 @@ E3DrawContext_SetData(TQ3DrawContextObject drawContext, const TQ3DrawContextData
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_GetData(TQ3DrawContextObject drawContext, TQ3DrawContextData *contextData)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -643,7 +641,7 @@ E3DrawContext_GetData(TQ3DrawContextObject drawContext, TQ3DrawContextData *cont
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_SetClearImageColor(TQ3DrawContextObject drawContext, const TQ3ColorARGB *color)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -667,7 +665,7 @@ E3DrawContext_SetClearImageColor(TQ3DrawContextObject drawContext, const TQ3Colo
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_GetClearImageColor(TQ3DrawContextObject drawContext, TQ3ColorARGB *color)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -685,7 +683,7 @@ E3DrawContext_GetClearImageColor(TQ3DrawContextObject drawContext, TQ3ColorARGB 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_SetPane(TQ3DrawContextObject drawContext, const TQ3Area *pane)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -709,7 +707,7 @@ E3DrawContext_SetPane(TQ3DrawContextObject drawContext, const TQ3Area *pane)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_GetPane(TQ3DrawContextObject drawContext, TQ3Area *pane)
-{	TQ3DrawContextUnionData					*instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData					*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 	TQ3Status								qd3dStatus    = kQ3Success;
 	TQ3XDrawContextGetDimensionsMethod		getDimensionsMethod;
 
@@ -724,9 +722,7 @@ E3DrawContext_GetPane(TQ3DrawContextObject drawContext, TQ3Area *pane)
 	else
 		{
 		// Find the method
-		getDimensionsMethod = (TQ3XDrawContextGetDimensionsMethod)
-								E3ClassTree_GetMethod(drawContext->theClass,
-													  kQ3XMethodTypeDrawContextGetDimensions);
+		getDimensionsMethod = (TQ3XDrawContextGetDimensionsMethod) E3ClassTree_GetMethodByObject(drawContext, kQ3XMethodTypeDrawContextGetDimensions);
 		
 		// Get the full dimensions
 		if (getDimensionsMethod != NULL)
@@ -750,7 +746,7 @@ E3DrawContext_GetPane(TQ3DrawContextObject drawContext, TQ3Area *pane)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_SetPaneState(TQ3DrawContextObject drawContext, TQ3Boolean state)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -774,7 +770,7 @@ E3DrawContext_SetPaneState(TQ3DrawContextObject drawContext, TQ3Boolean state)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_GetPaneState(TQ3DrawContextObject drawContext, TQ3Boolean *state)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -792,7 +788,7 @@ E3DrawContext_GetPaneState(TQ3DrawContextObject drawContext, TQ3Boolean *state)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_SetClearImageMethod(TQ3DrawContextObject drawContext, TQ3DrawContextClearImageMethod method)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -816,7 +812,7 @@ E3DrawContext_SetClearImageMethod(TQ3DrawContextObject drawContext, TQ3DrawConte
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_GetClearImageMethod(TQ3DrawContextObject drawContext, TQ3DrawContextClearImageMethod *method)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -834,7 +830,7 @@ E3DrawContext_GetClearImageMethod(TQ3DrawContextObject drawContext, TQ3DrawConte
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_SetMask(TQ3DrawContextObject drawContext, const TQ3Bitmap *mask)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 	TQ3Status					qd3dStatus;
 
 
@@ -857,7 +853,7 @@ E3DrawContext_SetMask(TQ3DrawContextObject drawContext, const TQ3Bitmap *mask)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_GetMask(TQ3DrawContextObject drawContext, TQ3Bitmap *mask)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 	TQ3Status					qd3dStatus;
 
 
@@ -877,7 +873,7 @@ E3DrawContext_GetMask(TQ3DrawContextObject drawContext, TQ3Bitmap *mask)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_SetMaskState(TQ3DrawContextObject drawContext, TQ3Boolean state)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -901,7 +897,7 @@ E3DrawContext_SetMaskState(TQ3DrawContextObject drawContext, TQ3Boolean state)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_GetMaskState(TQ3DrawContextObject drawContext, TQ3Boolean *state)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -919,7 +915,7 @@ E3DrawContext_GetMaskState(TQ3DrawContextObject drawContext, TQ3Boolean *state)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_SetDoubleBufferState(TQ3DrawContextObject drawContext, TQ3Boolean state)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -943,7 +939,7 @@ E3DrawContext_SetDoubleBufferState(TQ3DrawContextObject drawContext, TQ3Boolean 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_GetDoubleBufferState(TQ3DrawContextObject drawContext, TQ3Boolean *state)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -980,7 +976,7 @@ E3PixmapDrawContext_New(const TQ3PixmapDrawContextData *drawContextData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PixmapDrawContext_SetPixmap(TQ3DrawContextObject drawContext, const TQ3Pixmap *pixmap)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -1003,7 +999,7 @@ E3PixmapDrawContext_SetPixmap(TQ3DrawContextObject drawContext, const TQ3Pixmap 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PixmapDrawContext_GetPixmap(TQ3DrawContextObject drawContext, TQ3Pixmap *pixmap)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
