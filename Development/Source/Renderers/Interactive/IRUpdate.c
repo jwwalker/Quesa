@@ -2399,7 +2399,7 @@ TQ3Status
 IRRenderer_Update_Shader_Illumination(TQ3ViewObject			theView,
 							 			TQ3InteractiveData	*instanceData,
 							 			TQ3ShaderObject		*shaderData)
-{	GLfloat		specularColour[4]  = { 0.0f, 0.0f, 0.0f, 1.0f };
+{	GLfloat		specularColour[4]  = { 0.0f, 0.0f, 0.0f, 0.0f };
     GLfloat		specularControl[1] = { 0.0f };
 
 
