@@ -57,24 +57,25 @@
 //      Constants
 //-----------------------------------------------------------------------------
 // Triangle flags
-typedef enum {
+enum {
 	kQ3TriFlagNone								= 0,
 	kQ3TriFlagCulled							= (1 << 1),
 	kQ3TriFlagVisible							= (1 << 2),
 	kQ3TriFlagTransparent						= (1 << 3)
-} TQ3TriFlags;
+};
 
+typedef TQ3Uns32	TQ3TriFlags;
 
 // Flexible Vertex flags
-typedef enum {
+enum {
 	kQ3FVertexFlagNone							= 0,
 	kQ3FVertexHaveNormal						= (1 << 0),
 	kQ3FVertexHaveUV							= (1 << 1),
 	kQ3FVertexHaveDiffuse						= (1 << 2),
 	kQ3FVertexHaveTransparency					= (1 << 3)
-} TQ3FVertexFlags;
+};
 
-
+typedef TQ3Uns32	TQ3FVertexFlags;
 
 
 
