@@ -121,7 +121,7 @@ class E3ClassInfo
 	void				Detach ( void ) ;	
 	E3ClassInfoPtr		Find ( const char *className ) ;
 	void				Dump_Class ( FILE *theFile, TQ3Uns32 indent ) ;
-
+						E3ClassInfo ( void ) {} ; // Not used. Private so nobody can forget to call the normal constructor
 public :
 
 						E3ClassInfo	(

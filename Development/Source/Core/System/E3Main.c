@@ -88,6 +88,97 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      E3ShapeInfo::E3ShapeInfo : Constructor for class info of root class.
+//-----------------------------------------------------------------------------
+
+E3ShapeInfo::E3ShapeInfo	(
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent // nil for root class of course
+			 	)
+		: E3SharedInfo ( newClassMetaHandler, newParent )
+	{
+	// Fill in the method data of the class
+	
+	// There are (currently) no new methods in shape class
+	} ;
+
+
+//=============================================================================
+//      e3shape_register : Method to construct a class info record.
+//-----------------------------------------------------------------------------
+static E3ClassInfo*
+e3shape_register (
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent
+			 	)
+	{
+	return new ( std::nothrow ) E3ShapeInfo ( newClassMetaHandler, newParent ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3shape_metahandler : Shape metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3shape_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeNewObjectClass:
+			theMethod = (TQ3XFunctionPointer) e3shape_register;
+			break;
+
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      E3SharedInfo::E3SharedInfo : Constructor for class info of root class.
+//-----------------------------------------------------------------------------
+#pragma mark -
+E3SharedInfo::E3SharedInfo	(
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent // nil for root class of course
+			 	)
+		: E3Root ( newClassMetaHandler, newParent )
+	{
+	// Fill in the method data of the class
+	
+//	disposeMethod = (TQ3XObjectDisposeMethod) Find_Method ( kQ3XMethodTypeObjectDispose , kQ3True ) ;
+//	newMethod = (TQ3XObjectNewMethod) Find_Method ( kQ3XMethodTypeObjectNew , kQ3False ) ; // N.B. False, not inherited
+//	deleteMethod = (TQ3XObjectDeleteMethod) Find_Method ( kQ3XMethodTypeObjectDelete , kQ3False ) ; // N.B. False, not inherited
+//	duplicateMethod = (TQ3XObjectDuplicateMethod) Find_Method ( kQ3XMethodTypeObjectDuplicate , kQ3False ) ; // N.B. False, not inherited
+	} ;
+
+
+//=============================================================================
+//      e3shared_register : Method to construct a class info record.
+//-----------------------------------------------------------------------------
+static E3ClassInfo*
+e3shared_register (
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent
+			 	)
+	{
+	return new ( std::nothrow ) E3SharedInfo ( newClassMetaHandler, newParent ) ;
+	}
+
+
+
+
+
+//=============================================================================
 //      e3shared_new : Shared new method.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -192,6 +283,10 @@ e3shared_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
+		case kQ3XMethodTypeNewObjectClass:
+			theMethod = (TQ3XFunctionPointer) e3shared_register;
+			break;
+
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3shared_new;
 			break;
@@ -217,7 +312,7 @@ e3shared_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      E3ClassInfo::E3ClassInfo : Constructor for class info of root class.
+//      E3Root::E3Root : Constructor for class info of root class.
 //-----------------------------------------------------------------------------
 #pragma mark -
 
@@ -225,14 +320,15 @@ E3Root::E3Root	(
 				TQ3XMetaHandler	newClassMetaHandler,
 				E3ClassInfo*	newParent // nil for root class of course
 			 	)
-	: E3ClassInfo ( newClassMetaHandler , newParent )
-	{
+	: E3ClassInfo ( newClassMetaHandler , newParent ) ,
 	// Fill in the method data of the class
+	disposeMethod		( (TQ3XObjectDisposeMethod)		Find_Method ( kQ3XMethodTypeObjectDispose , kQ3True ) ) ,
+	newMethod			( (TQ3XObjectNewMethod)			Find_Method ( kQ3XMethodTypeObjectNew , kQ3False ) ) , // N.B. False, not inherited
+	deleteMethod		( (TQ3XObjectDeleteMethod)		Find_Method ( kQ3XMethodTypeObjectDelete , kQ3False ) ) , // N.B. False, not inherited
+	duplicateMethod		( (TQ3XObjectDuplicateMethod)	Find_Method ( kQ3XMethodTypeObjectDuplicate , kQ3False ) ) , // N.B. False, not inherited
+	submitWriteMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitWrite , kQ3True ) )
+	{
 	
-	disposeMethod = (TQ3XObjectDisposeMethod) Find_Method ( kQ3XMethodTypeObjectDispose , kQ3True ) ;
-	newMethod = (TQ3XObjectNewMethod) Find_Method ( kQ3XMethodTypeObjectNew , kQ3False ) ; // N.B. False, not inherited
-	deleteMethod = (TQ3XObjectDeleteMethod) Find_Method ( kQ3XMethodTypeObjectDelete , kQ3False ) ; // N.B. False, not inherited
-	duplicateMethod = (TQ3XObjectDuplicateMethod) Find_Method ( kQ3XMethodTypeObjectDuplicate , kQ3False ) ; // N.B. False, not inherited
 	} ;
 
 
@@ -412,7 +508,7 @@ e3root_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) kQ3PackedVersion;
 			break;
 
-		case kQ3XMethodTypeObjectClassRegister:
+		case kQ3XMethodTypeNewObjectClass:
 			theMethod = (TQ3XFunctionPointer) e3root_register;
 			break;
 
@@ -463,7 +559,7 @@ e3main_registercoreclasses(void)
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS (		kQ3ClassNameShape,
-												NULL,
+												e3shape_metahandler,
 												E3ShapeData ) ;
 
 	return qd3dStatus ;

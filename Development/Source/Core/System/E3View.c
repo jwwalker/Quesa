@@ -986,17 +986,15 @@ e3view_submit_retained_pick ( E3View* view, TQ3Object theObject )
 static TQ3Status
 e3view_submit_retained_write ( E3View* theView, TQ3Object theObject)
 	{
-	// Find the submit method
-	E3ClassInfoPtr theClass = theObject->GetClass () ;
-	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod) theClass->GetMethod ( kQ3XMethodTypeObjectSubmitWrite ) ;
+	E3Root* theClass = (E3Root*) theObject->GetClass () ;
 
 
 
 	// Call the method
-	if ( submitMethod == NULL )
+	if ( theClass->submitWriteMethod == NULL )
 		return kQ3Success ;
 		
-	return submitMethod ( theView, theClass->GetType (), theObject, theObject->FindLeafInstanceData () ) ;
+	return theClass->submitWriteMethod ( theView, theClass->GetType (), theObject, theObject->FindLeafInstanceData () ) ;
 	}
 
 
@@ -1210,7 +1208,7 @@ static TQ3Status
 e3view_submit_immediate_write ( E3View* theView , TQ3ObjectType objectType , const void* objectData )
 	{
 	// Find the object class
-	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectType ) ;
+	E3Root* theClass = (E3Root*) E3ClassTree::GetClass ( objectType ) ;
 	if ( theClass == NULL )
 		{
 		E3ErrorManager_PostError ( kQ3ErrorInvalidObjectClass, kQ3False ) ;
@@ -1218,16 +1216,11 @@ e3view_submit_immediate_write ( E3View* theView , TQ3ObjectType objectType , con
 		}
 
 
-
-	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod)
-								theClass->GetMethod ( kQ3XMethodTypeObjectSubmitWrite ) ;
-
-
 	// Call the method
-	if ( submitMethod == NULL )
+	if ( theClass->submitWriteMethod == NULL )
 		return kQ3Success ;
 	
-	return submitMethod ( theView, objectType, NULL, objectData ) ;
+	return theClass->submitWriteMethod ( theView, objectType, NULL, objectData ) ;
 	}
 
 
