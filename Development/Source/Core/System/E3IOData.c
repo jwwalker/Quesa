@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,9 +46,53 @@
 #include "E3Prefix.h"
 #include "E3IOData.h"
 #include "E3IO.h"
+#include "E3Main.h"
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3Unknown : public E3ShapeData // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	TQ3Boolean					dirtyFlag ;
+	} ;
+	
+
+
+class E3UnknownBinary : public E3Unknown  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TE3UnknownBinary_Data		instanceData ;
+	} ;
+	
+
+
+class E3UnknownText : public E3Unknown  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3UnknownTextData			instanceData ;
+	} ;
+	
 
 
 //=============================================================================
@@ -1699,23 +1743,23 @@ E3Unknown_RegisterClass(void)
 
 
 	// Register the classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShape,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
 											kQ3ShapeTypeUnknown,
 											kQ3ClassNameUnknown,
 											NULL,
-											sizeof(TQ3Boolean));
+											~sizeof(E3Unknown));
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeUnknown,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeUnknown,
 											kQ3UnknownTypeBinary,
 											kQ3ClassNameUnknownBinary,
 											e3unknown_binary_metahandler,
-											sizeof(TE3UnknownBinary_Data));
+											~sizeof(E3UnknownBinary));
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeUnknown,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeUnknown,
 											kQ3UnknownTypeText,
 											kQ3ClassNameUnknownText,
 											e3unknown_text_metahandler,
-											sizeof(TQ3UnknownTextData));
+											~sizeof(E3UnknownText));
 	return(qd3dStatus);
 
 }
@@ -1734,9 +1778,9 @@ E3Unknown_UnregisterClass(void)
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3UnknownTypeBinary, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3UnknownTypeText, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShapeTypeUnknown, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3UnknownTypeBinary, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3UnknownTypeText, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeUnknown, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -1766,17 +1810,11 @@ E3Unknown_GetType(TQ3UnknownObject unknownObject)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Unknown_GetDirtyState(TQ3UnknownObject unknownObject, TQ3Boolean *isDirty)
-{
-	TQ3Boolean	*parentData =(TQ3Boolean*)E3ClassTree_FindInstanceData (unknownObject, kQ3ShapeTypeUnknown);
-	
-	if(parentData == NULL)
-		return(kQ3Failure);
-	
-	
-	*isDirty = *parentData;
+	{
+	*isDirty = ( (E3Unknown*) unknownObject )->dirtyFlag ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1787,16 +1825,11 @@ E3Unknown_GetDirtyState(TQ3UnknownObject unknownObject, TQ3Boolean *isDirty)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Unknown_SetDirtyState(TQ3UnknownObject unknownObject, TQ3Boolean isDirty)
-{
-	TQ3Boolean	*parentData =(TQ3Boolean*)E3ClassTree_FindInstanceData (unknownObject, kQ3ShapeTypeUnknown);
-	
-	if(parentData == NULL)
-		return(kQ3Failure);
-	
-	*parentData = isDirty;
+	{
+	( (E3Unknown*) unknownObject )->dirtyFlag = isDirty ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1825,11 +1858,9 @@ E3UnknownText_New(TQ3UnknownTextData* data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3UnknownText_GetData(TQ3UnknownObject unknownObject, TQ3UnknownTextData *unknownTextData)
-{
-	TQ3UnknownTextData		*instanceData = (TQ3UnknownTextData *) E3ClassTree_FindInstanceData(unknownObject, kQ3UnknownTypeText);
-
-	return e3unknown_text_duplicateData (instanceData, unknownTextData);
-}
+	{
+	return e3unknown_text_duplicateData ( & ( (E3UnknownText*) unknownObject )->instanceData, unknownTextData ) ;
+	}
 
 
 
@@ -1877,11 +1908,9 @@ E3UnknownBinary_New(TQ3UnknownBinaryData* data,const char *typeString)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3UnknownBinary_GetData(TQ3UnknownObject unknownObject, TQ3UnknownBinaryData *unknownBinaryData)
-{
-	TE3UnknownBinary_Data		*instanceData = (TE3UnknownBinary_Data *) E3ClassTree_FindInstanceData(unknownObject, kQ3UnknownTypeBinary);
-
-	return e3unknown_binary_duplicateData (&instanceData->data, unknownBinaryData);
-}
+	{
+	return e3unknown_binary_duplicateData ( & ( (E3UnknownBinary*) unknownObject )->instanceData.data, unknownBinaryData ) ;
+	}
 
 
 
@@ -1907,21 +1936,21 @@ E3UnknownBinary_EmptyData(TQ3UnknownBinaryData *unknownBinaryData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3UnknownBinary_GetTypeString(TQ3UnknownObject unknownObject, char **typeString)
-{
-	TE3UnknownBinary_Data		*instanceData = (TE3UnknownBinary_Data *) E3ClassTree_FindInstanceData(unknownObject, kQ3UnknownTypeBinary);
-
-	if (instanceData->typeString != NULL)
+	{
+	E3UnknownBinary* unknownBinary = (E3UnknownBinary*) unknownObject ;
+	
+	if ( unknownBinary->instanceData.typeString != NULL)
 		{
-		*typeString = (char *) Q3Memory_Allocate(strlen(instanceData->typeString) + 1);
-		if (*typeString == NULL)
-			return(kQ3Failure);
-		strcpy(*typeString, instanceData->typeString);
+		*typeString = (char *) Q3Memory_Allocate ( strlen ( unknownBinary->instanceData.typeString ) + 1 ) ;
+		if ( *typeString == NULL )
+			return kQ3Failure ;
+		strcpy ( * typeString, unknownBinary->instanceData.typeString ) ;
 		}
 	else
-		**typeString = 0;
+		**typeString = 0 ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
