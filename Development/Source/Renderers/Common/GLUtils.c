@@ -36,6 +36,7 @@
 #include "GLPrefix.h"
 #include "GLUtils.h"
 
+#include <stdio.h>
 
 
 
@@ -189,3 +190,30 @@ GLUtils_SizeOfPixelType(TQ3PixelType pixelType)
 	return(theSize);
 }
 
+
+//=============================================================================
+//      GLUtils_CheckExtensions : Check availability of OpenGL features
+//-----------------------------------------------------------------------------
+void		GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
+{
+	const char*	openGLVersion;
+	
+	// Check for features that depend on OpenGL version
+	openGLVersion = (const char*)glGetString( GL_VERSION );
+	if (openGLVersion != NULL)
+	{
+		int		majorVers, minorVers;
+		int		numScanned = sscanf( openGLVersion, "%d.%d", &majorVers, &minorVers );
+		if (numScanned == 2)
+		{
+			if ( (majorVers >= 1) && (minorVers >= 2) )
+			{
+				featureFlags->separateSpecularColor = kQ3True;
+			}
+			else
+			{
+				featureFlags->separateSpecularColor = kQ3False;
+			}
+		}
+	}
+}
