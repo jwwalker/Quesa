@@ -218,7 +218,8 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	TQ3TriMeshTriangleData *triangles;
 	TQ3Vector3D v;
 	TQ3TriMeshAttributeData vertexAttributes[2];
-
+	TQ3Vector3D orientCrossMaj, orientCrossMin, majXMinor;
+	TQ3Boolean	isRightHanded;
 
 	// Get the subdivision style, to figure out how many sides we should have.
 	TQ3SubdivisionStyleData subdivisionData;
@@ -292,17 +293,50 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 	// now, define each side, as a cosine/sine combination of major and minor radius vectors
 	// (also compute vertex normals while we're at it)
+	
+	// A cylinder has a parametric equation
+	// f(s,t) = origin + s*orientation + cos(t)majorRadius + sin(t)minorRadius .
+	// We can derive a normal vector by taking the cross product of the two partial
+	// derivatives:
+	// (partial f with respect to s) x (partial f with respect to t) =
+	// 		orientation x (-sin(t)majorRadius + cos(t)minorRadius) =
+	//		-sin(t)(orientation x majorRadius) + cos(t)(orientation x minorRadius) .
+	// If (majorRadius, minorRadius, orientation) forms a right-handed system, then
+	// this normal points inward.
+	Q3Vector3D_Cross( &geomData->orientation, &geomData->majorRadius, &orientCrossMaj );
+	Q3Vector3D_Cross( &geomData->orientation, &geomData->minorRadius, &orientCrossMin );
+	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->minorRadius, &majXMinor );
+	
+	// Right or left handed?
+	if (Q3Vector3D_Dot( &majXMinor, &geomData->orientation ) > 0.0)
+	{
+		isRightHanded = kQ3True;
+	}
+	else
+	{
+		isRightHanded = kQ3False;
+	}
+
 	dang = kQ32Pi / sides;
 	for (i=0; i<sides; i++) {
+		cosAngle = (float) cos(ang);
+		sinAngle = (float) sin(ang);
+
 		// bottom point is origin + cos(major) + sin(minor)
-		Q3Vector3D_Scale( &geomData->majorRadius, (float)cos(ang), &v );
+		Q3Vector3D_Scale( &geomData->majorRadius, cosAngle, &v );
 		Q3Point3D_Vector3D_Add( &geomData->origin, &v, &points[i] );
-		Q3Vector3D_Scale( &geomData->minorRadius, (float)sin(ang), &v );
+		Q3Vector3D_Scale( &geomData->minorRadius, sinAngle, &v );
 		Q3Point3D_Vector3D_Add( &points[i], &v, &points[i] );
 
-		// and its normal points away from the bottom point
-		Q3Point3D_Subtract( &points[i], &geomData->origin, &v );
-		Q3Vector3D_Normalize( &v, &normals[i] );
+		// compute normal of bottom point
+		Q3Vector3D_Scale( &orientCrossMaj, -sinAngle, &normals[i] );
+		Q3Vector3D_Scale( &orientCrossMin, cosAngle, &v );
+		Q3Vector3D_Add( &normals[i], &v, &normals[i] );
+		Q3Vector3D_Normalize( &normals[i], &normals[i] );
+		if (isRightHanded == kQ3True)
+		{
+			Q3Vector3D_Negate( &normals[i], &normals[i] );
+		}
 
 		// corresponding top point is bottom point + orientation
 		Q3Point3D_Vector3D_Add( &points[i], &geomData->orientation, &points[i+sides] );

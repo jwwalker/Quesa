@@ -196,8 +196,11 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3Uns32 numpoints, numtriangles;
 	TQ3SubdivisionStyleData subdivisionData;
 	TQ3TriMeshAttributeData vertexAttributes[2];
-
-
+	TQ3Vector3D		majXOrient, minXOrient, majXMinor;
+	TQ3Point3D		pole0, polePi;
+	TQ3Vector3D		normPole0, normPolePi;
+	float			sinUAngle, cosUAngle, sinVAngle, cosVAngle;
+	TQ3Boolean		isRightHanded;
 
 	// Get the subdivision style, to figure out how many sides we should have.
 	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
@@ -273,18 +276,70 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	dvang = kQ3Pi  / (float) (vpts+1);
 	vang = dvang;
 
+	// Normal vector computations:
+	// The ellipsoid has a parametric equation
+	// f(u,v) = origin + cos(v)orientation + sin(v)(cos(u)majorRadius + sin(u)minorRadius)
+	// where u ranges from 0 to 2¹ and v ranges from 0 to ¹.
+	// If you consider the case where (majorRadius, minorRadius, orientation) form a
+	// right-handed system, with orientation pointing "up", then u increases in a
+	// counterclockwise direction and v increases from top to bottom.
+	// A normal vector can be computed as the cross product of the two partials,
+	// (-sin(u)sin(v)majorRadius + cos(u)sin(v)minorRadius) x
+	// (-sin(v)orientation + cos(u)cos(v)majorRadius + sin(u)cos(v)minorRadius)
+	// = sin(v)[ sin(u)sin(v)majorRadius x orientation
+	//			- sin(u)sin(u)cos(v)majorRadius x minorRadius
+	//			- cos(u)sin(v)minorRadius x orientation
+	//			+ cos(u)cos(u)cos(v)minorRadius x majorRadius ]
+	// In the right-handed case, this gives us an inward-pointing normal, and in the
+	// left-handed case it's outward-pointing.
+	// Since we're going to normalize the vector anyway, we can forget the outer scalar
+	// factor of sin(v).  The rest simplifies to
+	// sin(u)sin(v)majorRadius x orientation - cos(u)sin(v)minorRadius x orientation
+	//  - cos(v)majorRadius x minorRadius .
+	// Best to compute those 3 cross products outside of any loops.
+	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->orientation, &majXOrient );
+	Q3Vector3D_Cross( &geomData->minorRadius, &geomData->orientation, &minXOrient );
+	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->minorRadius, &majXMinor );
+	
+	// Right or left handed?
+	if (Q3Vector3D_Dot( &majXMinor, &geomData->orientation ) > 0.0)
+	{
+		isRightHanded = kQ3True;
+	}
+	else
+	{
+		isRightHanded = kQ3False;
+	}
+	
+	// At the v = 0 pole, our normal vector formula boils down to -majXMinor, and
+	// at the v = ¹ pole it becomes majXMinor.  When the system is right-handed,
+	// it needs to be negated to point outward.
+	Q3Point3D_Vector3D_Add( &geomData->origin, &geomData->orientation, &pole0 );
+	Q3Point3D_Vector3D_Subtract( &geomData->origin, &geomData->orientation, &polePi );
+	if (isRightHanded == kQ3True)
+	{
+		normPole0 = majXMinor;
+	}
+	else
+	{
+		Q3Vector3D_Negate( &majXMinor, &normPole0 );
+	}
+	Q3Vector3D_Normalize( &normPole0, &normPole0 );
+	Q3Vector3D_Negate( &normPole0, &normPolePi );
 
 	// poles
 	pnum = 0;		// what point we're working on
 	for (u = 0; u <= upts; u++) {
 		uvalue = uMin + ((uDiff / (float) upts) * u);
 		
-		Q3Point3D_Vector3D_Add (&geomData->origin, &geomData->orientation, &points[pnum]);
+		points[pnum] = pole0;
+		normals[pnum] = normPole0;
 		uvs[pnum].u = uvalue;
 		uvs[pnum].v = vMax;
 		pnum++;
 
-		Q3Point3D_Vector3D_Subtract (&geomData->origin, &geomData->orientation, &points[pnum]);
+		points[pnum] = polePi;
+		normals[pnum] = normPolePi;
 		uvs[pnum].u = uvalue;
 		uvs[pnum].v = vMin;
 		pnum++;
@@ -295,17 +350,35 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	for (v=0; v<=vpts; v++) {
 		// for row v... find the points around the circle (by u)
 		uang = 0;
+		sinVAngle = (float)sin(vang);
+		cosVAngle = (float)cos(vang);
+		
 		for (u=0; u<=upts; u++) {
+			sinUAngle = (float)sin(uang);
+			cosUAngle = (float)cos(uang);
+			
 			// start with point on equator around <0,0,0>: cos(major) + sin(minor)
-			Q3Vector3D_Scale( &geomData->majorRadius, (float)cos(uang), &vec );
-			Q3Vector3D_Scale( &geomData->minorRadius, (float)sin(uang), &vec2 );
+			Q3Vector3D_Scale( &geomData->majorRadius, cosUAngle, &vec );
+			Q3Vector3D_Scale( &geomData->minorRadius, sinUAngle, &vec2 );
 			Q3Vector3D_Add( &vec2, &vec, &vec );
 			
 			// then, scale this and shift it into the proper row
-			Q3Vector3D_Scale( &vec, (float)sin(vang), &vec );
-			Q3Vector3D_Scale( &geomData->orientation, (float)cos(vang), &axis );
+			Q3Vector3D_Scale( &vec, sinVAngle, &vec );
+			Q3Vector3D_Scale( &geomData->orientation, cosVAngle, &axis );
 			Q3Vector3D_Add( &vec, &axis, &vec );
 			Q3Point3D_Vector3D_Add( &geomData->origin, &vec, &points[pnum] );
+			
+			// Compute the normal vector
+			Q3Vector3D_Scale( &majXOrient, sinUAngle * sinVAngle, &normals[pnum] );
+			Q3Vector3D_Scale( &minXOrient, - cosUAngle * sinVAngle, &vec );
+			Q3Vector3D_Add( &vec, &normals[pnum], &normals[pnum] );
+			Q3Vector3D_Scale( &majXMinor, - cosVAngle, &vec );
+			Q3Vector3D_Add( &vec, &normals[pnum], &normals[pnum] );
+			if (isRightHanded == kQ3True)
+			{
+				Q3Vector3D_Negate( &normals[pnum], &normals[pnum] );
+			}
+			Q3Vector3D_Normalize( &normals[pnum], &normals[pnum] );
 			
 			// Set up the UVs
 			uvs[pnum].u = uMin + ((uDiff / (float) upts) * u);
@@ -344,15 +417,6 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 			uang += duang;
 		}
 		vang += dvang;
-	}
-
-
-
-	// set the normals -- this is very easy for an ellipsoid;
-	// the normals always point away from the center
-	for (pnum=0; pnum<numpoints; pnum++) {
-		Q3Point3D_Subtract( &points[pnum], &geomData->origin, &normals[pnum] );
-		Q3Vector3D_Normalize( &normals[pnum], &normals[pnum] );
 	}
 
 

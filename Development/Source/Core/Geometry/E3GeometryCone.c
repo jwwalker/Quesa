@@ -208,9 +208,10 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	TQ3Point3D *points;
 	TQ3Vector3D *normals;
 	TQ3TriMeshTriangleData *triangles;
-	TQ3Vector3D v, basevec, sidevec, tangentvec;	// (temporaries)
+	TQ3Vector3D v;	// (temporaries)
 	TQ3TriMeshAttributeData vertexAttributes[2];
-
+	TQ3Vector3D		majXOrient, minXOrient, majXMinor;
+	TQ3Boolean		isRightHanded;
 
 
 	// Get the subdivision style, to figure out how many sides we should have.
@@ -286,11 +287,38 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 		}
 
 
-
 	// we'll make the last point be the top of the cone
 	Q3Point3D_Vector3D_Add( &geomData->origin, &geomData->orientation, &points[sides] );
 
+	// Normal computation:
+	// The cone has a parametric equation
+	// f(u,v) = origin + v*orientation + (1-v)(cos(u)majorRadius + sin(u)minorRadius)
+	// where u ranges from 0 to 2pi and v ranges from 0 to 1 (0 being the base).
+	// Therefore we can get a surface normal as the cross product of partial
+	// derivatives,
+	// ((1-v)(-sin(u)majorRadius + cos(u)minorRadius) x
+	//		(orientation - cos(u) majorRadius - sin(u)minorRadius)
+	// = (1-v)[ -sin(u)majorRadius x orientation +sin(u)sin(u)majorRadius x minorRadius
+	//			+ cos(u)minorRadius x orientation - cos(u)cos(u)minorRadius x majorRadius ]
+	// = (1-v)[ -sin(u)majorRadius x orientation + cos(u)minorRadius x orientation
+	//			+ majorRadius x minorRadius ].
+	// So long as (majorRadius, minorRadius, orientation) forms a right-handed system,
+	// this will be an outward normal.  We can omit the nonnegative scalar 1-v.
 
+	// Best to compute those 3 cross products outside of any loops.
+	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->orientation, &majXOrient );
+	Q3Vector3D_Cross( &geomData->minorRadius, &geomData->orientation, &minXOrient );
+	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->minorRadius, &majXMinor );
+	
+	// Right or left handed?
+	if (Q3Vector3D_Dot( &majXMinor, &geomData->orientation ) > 0.0)
+	{
+		isRightHanded = kQ3True;
+	}
+	else
+	{
+		isRightHanded = kQ3False;
+	}
 
 	// now, define each side, as a cosine/sine combination of major and minor radius vectors
 	dang = kQ32Pi / sides;
@@ -299,7 +327,6 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 		cosAngle = (float) cos(ang);
 		sinAngle = (float) sin(ang);
 
-
 		// compute bottom point as a sin/cos combination of major and minor radii
 		Q3Vector3D_Scale( &geomData->majorRadius, cosAngle, &v );
 		Q3Point3D_Vector3D_Add( &geomData->origin, &v, &points[i] );
@@ -307,19 +334,18 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 		Q3Point3D_Vector3D_Add( &points[i], &v, &points[i] );
 		// top point is always the same:
 		// just the origin plus the orientation
-		Q3Point3D_Vector3D_Add( &geomData->origin, &geomData->orientation, &points[i+sides] );
+		points[i+sides] = points[sides];
 
-
-		// To find the normal, we first find a tangent to our base point; this
-		// is perpendicular to the side line and the origin-to-base line.
-		// Then, our normal is perpendicular to the side line and our tangent.
-		// (Is there a better way to do this?!?)
-		Q3Point3D_Subtract( &geomData->origin, &points[i], &basevec );
-		Q3Point3D_Subtract( &points[i+sides], &points[i], &sidevec );
-		Q3Vector3D_Cross( &basevec, &sidevec, &tangentvec );
-		Q3Vector3D_Cross( &tangentvec, &sidevec, &normals[i] );
+		// Find the normal
+		Q3Vector3D_Scale( &majXOrient, -sinAngle, &normals[i] );
+		Q3Vector3D_Scale( &minXOrient, cosAngle, &v );
+		Q3Vector3D_Add( &normals[i], &v, &normals[i] );
+		Q3Vector3D_Add( &normals[i], &majXMinor, &normals[i] );
 		Q3Vector3D_Normalize( &normals[i], &normals[i] );
-
+		if (isRightHanded == kQ3False)
+		{
+			Q3Vector3D_Negate( &normals[i], &normals[i] );
+		}
 
 		// uvs come from the surface parameterisation
 		uvs[i].u         = uMin + ((uDiff / (float) sides) * i);

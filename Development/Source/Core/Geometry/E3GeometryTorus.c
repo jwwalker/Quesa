@@ -205,8 +205,11 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 	TQ3Uns32 numpoints, numtriangles;
 	TQ3SubdivisionStyleData subdivisionData;
 	TQ3TriMeshAttributeData vertexAttributes[2];
-
-
+	float	sinUAngle, cosUAngle, sinVAngle, cosVAngle;
+	float	orientLength, axisLength, ratioTimesOrient, axisDotAxisPrime;
+	TQ3Vector3D	majXMinor;
+	TQ3Vector3D	axisXOrient, axisPrime, axisPrimeXOrient;
+	TQ3Boolean	isRightHanded;
 
 	// Get the subdivision style, to figure out how many sides we should have.
 	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
@@ -260,7 +263,6 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 	vDiff = vMax - vMin;
 
 
-
 	// Allocate some memory for the TriMesh
 	points    = (TQ3Point3D *)            Q3Memory_Allocate( numpoints    * sizeof(TQ3Point3D) );
 	normals   = (TQ3Vector3D *)           Q3Memory_Allocate( numpoints    * sizeof(TQ3Vector3D) );
@@ -277,32 +279,84 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 		return(NULL);
 		}
 
+	// The torus has a parametric equation
+	// f(u,v) = origin + axis(u) + cos(v) orientation +
+	//			(sin(v) * ratio * |orientation| / |axis(u)|) axis(u)
+	// where
+	// 		axis(u) = cos(u) majorRadius + sin(u) minorRadius .
+	// The parameter u goes from 0 to 2pi the long way around the torus, and
+	// the parameter v goes from 0 to 2pi the short way.
+	// One can compute a normal vector as the cross product of the partial
+	// derivatives, but the math gets pretty ugly.
 
+	orientLength = Q3Vector3D_Length(&geomData->orientation);
+	ratioTimesOrient = orientLength * geomData->ratio;
+	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->minorRadius, &majXMinor );
+
+	// Right or left handed?
+	if (Q3Vector3D_Dot( &majXMinor, &geomData->orientation ) > 0.0)
+		{
+		isRightHanded = kQ3True;
+		}
+	else
+		{
+		isRightHanded = kQ3False;
+		}
 
 	// first create the points...
 	duang = kQ32Pi / (float) upts;
 	dvang = kQ32Pi / (float) vpts;
 	for (u=0; u<=upts; u++) {
+		sinUAngle = (float)sin(uang);
+		cosUAngle = (float)cos(uang);
+		
 		// for a given u, find the center...
-		Q3Vector3D_Scale( &geomData->majorRadius, (float)cos(uang), &vec );
+		Q3Vector3D_Scale( &geomData->majorRadius, cosUAngle, &vec );
 		Q3Point3D_Vector3D_Add( &geomData->origin, &vec, &center );
-		Q3Vector3D_Scale( &geomData->minorRadius, (float)sin(uang), &vec );
+		Q3Vector3D_Scale( &geomData->minorRadius, sinUAngle, &vec );
 		Q3Point3D_Vector3D_Add( &center, &vec, &center );
-		// now, iterate v around that
+		
+		// "axis" is the vector from the origin to the center
 		Q3Point3D_Subtract( &center, &geomData->origin, &axis );
-		Q3Vector3D_Scale( &axis,
-			Q3Vector3D_Length(&geomData->orientation) / Q3Vector3D_Length(&axis), &axis );
+		axisLength = Q3Vector3D_Length(&axis);
+		
+		Q3Vector3D_Cross( &axis, &geomData->orientation, &axisXOrient );
+		// Axis is a function of u.  Compute its derivative.
+		Q3Vector3D_Scale( &geomData->majorRadius, - sinUAngle, &axisPrime );
+		Q3Vector3D_Scale( &geomData->minorRadius, cosUAngle, &vec );
+		Q3Vector3D_Add( &axisPrime, &vec, &axisPrime );
+		// We will also need the cross product of axisPrime and orientation,
+		// and the dot product of axis and axisPrime.
+		Q3Vector3D_Cross( &axisPrime, &geomData->orientation, &axisPrimeXOrient );
+		axisDotAxisPrime = Q3Vector3D_Dot( &axis, &axisPrime );
+		
+		// now, iterate v around the center point
+		
 		vang = 0.0f;
 		for (v=0; v<=vpts; v++) {
-			Q3Vector3D_Scale( &geomData->orientation, (float)cos(vang), &vec );
+			sinVAngle = (float)sin(vang);
+			cosVAngle = (float)cos(vang);
+			
+			Q3Vector3D_Scale( &geomData->orientation, cosVAngle, &vec );
 			Q3Point3D_Vector3D_Add( &center, &vec, &points[pnum] );
-			Q3Vector3D_Scale( &axis, (float)sin(vang) * geomData->ratio, &vec );
+			Q3Vector3D_Scale( &axis, sinVAngle * ratioTimesOrient / axisLength, &vec );
 			Q3Point3D_Vector3D_Add( &points[pnum], &vec, &points[pnum] );
 
-			// the normal is easy to find: it's parallel to the line between
-			// our local center, and the point we just created
-			Q3Point3D_Subtract( &points[pnum], &center, &vec );
-			Q3Vector3D_Normalize( &vec, &normals[pnum] );
+			// Compute normal
+			Q3Vector3D_Scale( &axisPrimeXOrient, - sinVAngle * axisLength *
+				(axisLength + sinVAngle * ratioTimesOrient), &normals[pnum] );
+			Q3Vector3D_Scale( &axisXOrient, sinVAngle * sinVAngle *
+				ratioTimesOrient * axisDotAxisPrime / axisLength, &vec );
+			Q3Vector3D_Add( &normals[pnum], &vec, &normals[pnum] );
+			Q3Vector3D_Scale( &majXMinor, - cosVAngle * ratioTimesOrient *
+				(axisLength + sinVAngle * ratioTimesOrient), &vec );
+			Q3Vector3D_Add( &normals[pnum], &vec, &normals[pnum] );
+			Q3Vector3D_Normalize( &normals[pnum], &normals[pnum] );
+
+			if (isRightHanded == kQ3True)
+				{
+				Q3Vector3D_Negate( &normals[pnum], &normals[pnum] );
+				}
 
 			// uvs come from the surface parameterisation
 			uvs[pnum].u = uMin + (((uDiff / (float) upts)) * u);
