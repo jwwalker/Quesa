@@ -493,3 +493,182 @@ IRGeometry_Transparent_Add(TQ3ViewObject			theView,
 	return(kQ3Success);
 }
 
+
+
+
+
+//=============================================================================
+//      IRGeometry_Transparent_AddTriangle : Add a transparent triangle.
+//-----------------------------------------------------------------------------
+TQ3Status
+IRGeometry_Transparent_AddTriangle(TQ3ViewObject			theView,
+									TQ3InteractiveData		*instanceData,
+									const TQ3FVertex3D		*vertex0,
+									const TQ3FVertex3D		*vertex1,
+									const TQ3FVertex3D		*vertex2)
+{	const TQ3ColorRGB	*colourTransparency[3];
+	const TQ3ColorRGB	*colourDiffuse[3];
+	const TQ3Vector3D	*theNormals[3];
+	const TQ3Point3D	*thePoints[3];
+	const TQ3Param2D	*theUVs[3];
+	TQ3Status			qd3dStatus;
+	TQ3PrimFlags		theFlags;
+
+
+
+	// Set up our data
+	thePoints[0] = &vertex0->thePoint;
+	thePoints[1] = &vertex1->thePoint;
+	thePoints[2] = &vertex2->thePoint;
+
+	theNormals[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal) ? &vertex0->theNormal : NULL;
+	theNormals[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveNormal) ? &vertex1->theNormal : NULL;
+	theNormals[2] = E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveNormal) ? &vertex2->theNormal : NULL;
+
+	theUVs[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV) ? &vertex0->theUV : NULL;
+	theUVs[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveUV) ? &vertex1->theUV : NULL;
+	theUVs[2] = E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveUV) ? &vertex2->theUV : NULL;
+
+	colourDiffuse[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveDiffuse) ? &vertex0->colourDiffuse : NULL;
+	colourDiffuse[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveDiffuse) ? &vertex1->colourDiffuse : NULL;
+	colourDiffuse[2] = E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveDiffuse) ? &vertex2->colourDiffuse : NULL;
+
+	colourTransparency[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveTransparency) ? &vertex0->colourTransparency : NULL;
+	colourTransparency[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveTransparency) ? &vertex1->colourTransparency : NULL;
+	colourTransparency[2] = E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveTransparency) ? &vertex2->colourTransparency : NULL;
+
+	theFlags = kQ3PrimFlagNone;
+
+	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal) &&
+		E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveNormal) &&
+		E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveNormal))
+		theFlags |= kQ3PrimHaveNormal;	
+
+	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV) &&
+		E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveUV) &&
+		E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveUV))
+		theFlags |= kQ3PrimHaveUV;	
+
+
+
+	// Add the triangle
+	qd3dStatus = IRGeometry_Transparent_Add(theView, instanceData,
+											kQ3PrimTriangle, theFlags,   3,
+											thePoints,       theNormals, theUVs,
+											colourDiffuse,   colourTransparency);
+	
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      IRGeometry_Transparent_AddLine : Add a transparent line.
+//-----------------------------------------------------------------------------
+TQ3Status
+IRGeometry_Transparent_AddLine(TQ3ViewObject			theView,
+								TQ3InteractiveData		*instanceData,
+								const TQ3FVertex3D		*vertex0,
+								const TQ3FVertex3D		*vertex1)
+{	const TQ3ColorRGB	*colourTransparency[2];
+	const TQ3ColorRGB	*colourDiffuse[2];
+	const TQ3Vector3D	*theNormals[2];
+	const TQ3Point3D	*thePoints[2];
+	const TQ3Param2D	*theUVs[2];
+	TQ3Status			qd3dStatus;
+	TQ3PrimFlags		theFlags;
+
+
+
+	// Set up our data
+	thePoints[0] = &vertex0->thePoint;
+	thePoints[1] = &vertex1->thePoint;
+
+	theNormals[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal) ? &vertex0->theNormal : NULL;
+	theNormals[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveNormal) ? &vertex1->theNormal : NULL;
+
+	theUVs[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV) ? &vertex0->theUV : NULL;
+	theUVs[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveUV) ? &vertex1->theUV : NULL;
+
+	colourDiffuse[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveDiffuse) ? &vertex0->colourDiffuse : NULL;
+	colourDiffuse[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveDiffuse) ? &vertex1->colourDiffuse : NULL;
+
+	colourTransparency[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveTransparency) ? &vertex0->colourTransparency : NULL;
+	colourTransparency[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveTransparency) ? &vertex1->colourTransparency : NULL;
+
+	theFlags = kQ3PrimFlagNone;
+
+	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal) &&
+		E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveNormal))
+		theFlags |= kQ3PrimHaveNormal;	
+
+	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV) &&
+		E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveUV))
+		theFlags |= kQ3PrimHaveUV;	
+
+
+
+	// Add the line
+	qd3dStatus = IRGeometry_Transparent_Add(theView, instanceData,
+											kQ3PrimLine,   theFlags,   2,
+											thePoints,     theNormals, theUVs,
+											colourDiffuse, colourTransparency);
+	
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      IRGeometry_Transparent_AddPoint : Add a transparent point.
+//-----------------------------------------------------------------------------
+TQ3Status
+IRGeometry_Transparent_AddPoint(TQ3ViewObject			theView,
+								TQ3InteractiveData		*instanceData,
+								const TQ3FVertex3D		*vertex0)
+{	const TQ3ColorRGB	*colourTransparency[1];
+	const TQ3ColorRGB	*colourDiffuse[1];
+	const TQ3Vector3D	*theNormals[1];
+	const TQ3Point3D	*thePoints[1];
+	const TQ3Param2D	*theUVs[1];
+	TQ3Status			qd3dStatus;
+	TQ3PrimFlags		theFlags;
+
+
+
+	// Set up our data
+	thePoints[0] = &vertex0->thePoint;
+
+	theNormals[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal) ? &vertex0->theNormal : NULL;
+
+	theUVs[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV) ? &vertex0->theUV : NULL;
+
+	colourDiffuse[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveDiffuse) ? &vertex0->colourDiffuse : NULL;
+
+	colourTransparency[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveTransparency) ? &vertex0->colourTransparency : NULL;
+
+	theFlags = kQ3PrimFlagNone;
+
+	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal))
+		theFlags |= kQ3PrimHaveNormal;	
+
+	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV))
+		theFlags |= kQ3PrimHaveUV;	
+
+
+
+	// Add the line
+	qd3dStatus = IRGeometry_Transparent_Add(theView, instanceData,
+											kQ3PrimPoint,  theFlags,   1,
+											thePoints,     theNormals, theUVs,
+											colourDiffuse, colourTransparency);
+	
+	return(qd3dStatus);
+}
+
+
+

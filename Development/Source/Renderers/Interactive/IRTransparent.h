@@ -66,7 +66,8 @@ void				IRGeometry_Transparent_Draw(
 								TQ3ViewObject					theView,
 								TQ3InteractiveData				*instanceData);
 
-TQ3Status			IRGeometry_Transparent_Add(TQ3ViewObject	theView,
+TQ3Status			IRGeometry_Transparent_Add(
+								TQ3ViewObject					theView,
 								TQ3InteractiveData				*instanceData,
 								TQ3PrimType						theType,
 								TQ3PrimFlags					theFlags,
@@ -76,6 +77,24 @@ TQ3Status			IRGeometry_Transparent_Add(TQ3ViewObject	theView,
 								const TQ3Param2D				**theUVs,
 								const TQ3ColorRGB				**colourDiffuse,
 								const TQ3ColorRGB				**colourTransparent);
+
+TQ3Status			IRGeometry_Transparent_AddTriangle(
+								TQ3ViewObject					theView,
+								TQ3InteractiveData				*instanceData,
+								const TQ3FVertex3D				*vertex0,
+								const TQ3FVertex3D				*vertex1,
+								const TQ3FVertex3D				*vertex2);
+
+TQ3Status			IRGeometry_Transparent_AddLine(
+								TQ3ViewObject					theView,
+								TQ3InteractiveData				*instanceData,
+								const TQ3FVertex3D				*vertex0,
+								const TQ3FVertex3D				*vertex1);
+
+TQ3Status			IRGeometry_Transparent_AddPoint(
+								TQ3ViewObject					theView,
+								TQ3InteractiveData				*instanceData,
+								const TQ3FVertex3D				*vertex0);
 
 
 
