@@ -219,6 +219,7 @@ extern "C" {
 #define kQ3ClassNameTopCapAttributeSet				"TopCapAttributeSet"
 #define kQ3ClassNameBottomCapAttributeSet			"BottomCapAttributeSet"
 #define kQ3ClassNameFaceCapAttributeSet				"FaceCapAttributeSet"
+#define kQ3ClassNameShaderUVTransform				"ShaderUVTransform"
 #define kQ3ClassNameStoragePath						"Quesa:Storage:Path"
 #define kQ3ClassNameStorageBe						"Quesa:Storage:Be"
 #define kQ3ClassNameDrawContextBe					"Quesa:DrawContext:Be"
@@ -282,6 +283,8 @@ extern "C" {
 #define kQ3ObjectTypeAttributeSetListVertex			Q3_METHOD_TYPE('v', 'a', 's', 'l')
 #define kQ3ObjectTypeGeneralPolygonHint				Q3_METHOD_TYPE('g', 'p', 'l', 'h')
 #define kQ3ObjectTypeDisplayGroupState				Q3_METHOD_TYPE('d', 'g', 's', 't')
+#define kQ3ObjectTypeShaderUVTransform				Q3_METHOD_TYPE('s', 'd', 'u', 'v')
+#define kQ3ObjectTypeShaderTransform					Q3_METHOD_TYPE('s', 'd', 'x', 'f')
 
 
 

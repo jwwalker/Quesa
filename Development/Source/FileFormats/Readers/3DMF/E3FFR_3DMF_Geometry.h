@@ -102,6 +102,7 @@ TQ3Object		E3Read_3DMF_Transform_RotateAboutAxis(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Transform_Scale(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Transform_Translate(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Transform_Quaternion(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Transform_Reset(TQ3FileObject theFile);
 
 TQ3Object		E3Read_3DMF_Geom_Box(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Cone(TQ3FileObject theFile);

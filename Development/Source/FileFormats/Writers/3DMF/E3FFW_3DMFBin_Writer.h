@@ -61,25 +61,35 @@ TQ3Status			E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass obje
 
 TQ3Status			E3FFW_3DMF_StartFile(
 						TQ3ViewObject				theView,
-						TE3FFormatW3DMF_Data		*instanceData,
+						TE3FFormatW3DMF_Data		*fileFormatPrivate,
 						TQ3DrawContextObject	theDrawContext);
 								
+void				E3FFW_3DMF_Cancel(
+								TQ3ViewObject			theView,
+								TE3FFormatW3DMF_Data		*fileFormatPrivate);
+
+
+TQ3Status
+E3FFW_3DMF_WriteObject(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data		*fileFormatPrivate,
+					TQ3Object		theObject,
+					TQ3ObjectType	objectType,
+					const void		*objectData);
+
+
 TQ3Status
 E3FFW_3DMF_Group(TQ3ViewObject       theView,
 						void                *fileFormatPrivate,
-						TQ3GroupObject   theGroup);
-
-void				E3FFW_3DMF_Cancel(
-								TQ3ViewObject			theView,
-								TE3FFormatW3DMF_Data		*instanceData);
-
+						TQ3GroupObject   theGroup,
+						TQ3ObjectType		objectType,
+						const void		*objectData);
 
 TQ3Status
 E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
-					TE3FFormatW3DMF_Data		*instanceData,
+					TE3FFormatW3DMF_Data		*fileFormatPrivate,
 					TQ3Object		theObject,
 					TQ3ObjectType		objectType,
-					void			*objectData);
+					const void			*objectData);
 
 
 

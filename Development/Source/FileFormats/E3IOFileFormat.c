@@ -960,6 +960,41 @@ E3FileFormat_Method_EndPass(TQ3ViewObject theView)
 
 
 //=============================================================================
+//      E3FileFormatr_Method_SubmitObject : Submit an Object to a writer.
+//-----------------------------------------------------------------------------
+//		This is the default entry point to a FileFormat.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FileFormat_Method_SubmitObject(TQ3ViewObject	theView,
+								 TQ3Object		object,
+								 TQ3ObjectType	objectType,
+								 const void			*objectData)
+								 
+{	TQ3FileFormatObject				theFormat = E3View_AccessFileFormat(theView);
+	TQ3Status								qd3dStatus  = kQ3Success;
+	TQ3XFileFormatSubmitObjectMethod		submitObject;
+
+
+
+	// No-op if no formatter set or object not supported
+	if (theFormat == NULL)
+		return(qd3dStatus);
+
+
+	
+	// Find the method 
+	submitObject = (TQ3XFileFormatSubmitObjectMethod)
+					E3ClassTree_GetMethod(theFormat->theClass,kQ3XMethodTypeFFormatSubmitObject);
+
+
+	// Call the method
+	if (submitObject != NULL)
+		qd3dStatus = submitObject(theView, theFormat->instanceData, object, objectType, objectData);
+
+	return(qd3dStatus);
+}
+
+//=============================================================================
 //      E3FileFormatr_Method_SubmitGeometry : Submit a geometry to a writer.
 //-----------------------------------------------------------------------------
 //		Note :	We update geomSupported to indicate if the writer could accept
@@ -977,7 +1012,7 @@ E3FileFormat_Method_SubmitGeometry(TQ3ViewObject		theView,
 
 
 
-	// No-op if no renderer set
+	// No-op if no formatter set
 	if (theFormat == NULL)
 		return(kQ3Success);
 
@@ -1008,22 +1043,26 @@ E3FileFormat_Method_SubmitGeometry(TQ3ViewObject		theView,
 //              defaults to submit the contents.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_Method_SubmitGroup(TQ3ViewObject theView, TQ3GroupObject group)
+E3FileFormat_Method_SubmitGroup(TQ3ViewObject	theView,
+								TQ3Object		group,
+								TQ3ObjectType	groupType,
+								const void		*groupData)
+								
 {	TQ3FileFormatObject				theFormat = E3View_AccessFileFormat(theView);
 	TQ3Status								qd3dStatus  = kQ3Failure;
-	TQ3XFileFormatSubmitGroupMethod		submitGroup;
+	TQ3XFileFormatSubmitObjectMethod		submitGroup;
 	TQ3GroupPosition					position;
 	TQ3Object							subObject;
 
 
-	// No-op if no renderer set
+	// No-op if no formatter set
 	if (theFormat == NULL)
 		return(kQ3Success);
 
 
 
 	// Find the method
-	submitGroup = (TQ3XFileFormatSubmitGroupMethod)
+	submitGroup = (TQ3XFileFormatSubmitObjectMethod)
 					E3ClassTree_GetMethod(theFormat->theClass, kQ3XMethodTypeFFormatSubmitGroup);
 
 
@@ -1032,7 +1071,7 @@ E3FileFormat_Method_SubmitGroup(TQ3ViewObject theView, TQ3GroupObject group)
 
 	// Call the method
 	if (submitGroup != NULL)
-		qd3dStatus = submitGroup(theView, theFormat->instanceData, group);
+		qd3dStatus = submitGroup(theView, theFormat->instanceData, group, groupType , groupData);
 	else
 		{ // submit the group contents
 			for(Q3Group_GetFirstPosition (group, &position);

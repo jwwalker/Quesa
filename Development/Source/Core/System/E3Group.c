@@ -848,7 +848,7 @@ e3group_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object group, 
 
 
 	// Submit the group for writing
-	return(E3FileFormat_Method_SubmitGroup(theView, group));
+	return(E3FileFormat_Method_SubmitGroup(theView, group, objectType, objectData));
 }
 
 

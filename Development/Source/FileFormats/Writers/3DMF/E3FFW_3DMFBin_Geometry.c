@@ -40,6 +40,225 @@
 //=============================================================================
 //      Private functions
 //-----------------------------------------------------------------------------
+
+
+//=============================================================================
+//      Transforms
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_transform_vector_traverse : Traverse method for scale and translate transforms.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_vector_traverse(TQ3Object object,
+					 TQ3Vector3D *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 12, (void*)data, NULL);
+	
+	return qd3dstatus;
+}
+
+//=============================================================================
+//      e3ffw_3DMF_transform_vector_write :  Write method for scale and translate transforms.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_vector_write(const TQ3Vector3D *object,
+				TQ3FileObject theFile)
+{
+
+	TQ3Status writeStatus;
+	
+	writeStatus = Q3Vector3D_Write(object,theFile);
+		
+	return(writeStatus);
+}
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_transform_matrix_traverse : Transform Matrix traverse method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_matrix_traverse(TQ3Object object,
+					 TQ3Matrix4x4 *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 64, (void*)data, NULL);
+	
+	return qd3dstatus;
+}
+
+//=============================================================================
+//      e3ffw_3DMF_transform_matrix_write : Transform Matrix write method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_matrix_write(const TQ3Matrix4x4 *object,
+				TQ3FileObject theFile)
+{
+
+	TQ3Status writeStatus;
+	
+	writeStatus = Q3Matrix4x4_Write(object,theFile);
+	
+	
+	return(writeStatus);
+}
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_transform_rotate_traverse : Transform Rotate traverse method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_rotate_traverse(TQ3Object object,
+					 TQ3RotateTransformData *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 8, (void*)data, NULL);
+	
+	return qd3dstatus;
+}
+
+//=============================================================================
+//      e3ffw_3DMF_transform_rotate_write : Transform Rotate write method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_rotate_write(const TQ3RotateTransformData *object,
+				TQ3FileObject theFile)
+{
+
+	TQ3Status writeStatus;
+	
+	writeStatus = Q3Uns32_Write(object->axis,theFile);
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write(object->radians,theFile);
+	
+	
+	return(writeStatus);
+}
+
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_transform_rotatepoint_traverse : Transform RotateAboutPoint traverse method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_rotatepoint_traverse(TQ3Object object,
+					 TQ3RotateAboutPointTransformData *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 20, (void*)data, NULL);
+	
+	return qd3dstatus;
+}
+
+//=============================================================================
+//      e3ffw_3DMF_transform_rotatepoint_write : Transform RotateAboutPoint write method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_rotatepoint_write(const TQ3RotateAboutPointTransformData *object,
+				TQ3FileObject theFile)
+{
+
+	TQ3Status writeStatus;
+	
+	writeStatus = Q3Uns32_Write(object->axis,theFile);
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write(object->radians,theFile);
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write(&object->about,theFile);
+	
+	
+	return(writeStatus);
+}
+
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_transform_rotateaxis_traverse : Transform RotateAboutAxis traverse method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_rotateaxis_traverse(TQ3Object object,
+					 TQ3RotateAboutAxisTransformData *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 28, (void*)data, NULL);
+	
+	return qd3dstatus;
+}
+
+//=============================================================================
+//      e3ffw_3DMF_transform_rotateaxis_write : Transform RotateAboutAxis write method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_rotateaxis_write(const TQ3RotateAboutAxisTransformData *object,
+				TQ3FileObject theFile)
+{
+
+	TQ3Status writeStatus;
+	
+	writeStatus = Q3Point3D_Write(&object->origin,theFile);
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write(&object->orientation,theFile);
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write(object->radians,theFile);
+	
+	
+	return(writeStatus);
+}
+
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_transform_quaternion_traverse : Transform Quaternion traverse method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_quaternion_traverse(TQ3Object object,
+					 TQ3Quaternion *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 16, (void*)data, NULL);
+	
+	return qd3dstatus;
+}
+
+//=============================================================================
+//      e3ffw_3DMF_transform_quaternion_write : Transform Quaternion write method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_transform_quaternion_write(const TQ3Quaternion *object,
+				TQ3FileObject theFile)
+{
+
+	TQ3Status writeStatus;
+	
+	writeStatus = Q3RationalPoint4D_Write((TQ3RationalPoint4D*)object,theFile);
+	
+	
+	return(writeStatus);
+}
+
+//=============================================================================
+//      Private functions
+//-----------------------------------------------------------------------------
 //      e3ffw_3DMF_triangle_traverse : Triangle traverse method.
 //-----------------------------------------------------------------------------
 
@@ -659,6 +878,24 @@ E3FFW_3DMF_TriMesh(TQ3ViewObject				theView,
 TQ3Status
 E3FFW_3DMF_RegisterGeom()
 {
+	// the Transform write Methods
+
+	E3ClassTree_AddMethodByType(kQ3TransformTypeMatrix,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_transform_matrix_traverse);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeMatrix,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_transform_matrix_write);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeScale,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_transform_vector_traverse);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeScale,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_transform_vector_write);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeTranslate,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_transform_vector_traverse);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeTranslate,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_transform_vector_write);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeRotate,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_transform_rotate_traverse);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeRotate,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_transform_rotate_write);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeRotateAboutPoint,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_transform_rotatepoint_traverse);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeRotateAboutPoint,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_transform_rotatepoint_write);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeRotateAboutAxis,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_transform_rotateaxis_traverse);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeRotateAboutAxis,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_transform_rotateaxis_write);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeQuaternion,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_transform_quaternion_traverse);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeQuaternion,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_transform_quaternion_write);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeReset,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+
 	// Triangle
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_triangle_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_triangle_write);

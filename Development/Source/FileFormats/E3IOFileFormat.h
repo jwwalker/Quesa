@@ -117,8 +117,24 @@ TQ3Status				E3FileFormat_Method_StartFile(TQ3ViewObject theView);
 TQ3Status				E3FileFormat_Method_EndFile(TQ3ViewObject theView);
 TQ3Status				E3FileFormat_Method_StartPass(TQ3ViewObject theView);
 TQ3ViewStatus			E3FileFormat_Method_EndPass(TQ3ViewObject theView);
-TQ3Status				E3FileFormat_Method_SubmitGeometry(TQ3ViewObject theView, TQ3ObjectType geomType, TQ3Boolean *geomSupported, TQ3GeometryObject theGeom, const void *geomData);
-TQ3Status				E3FileFormat_Method_SubmitGroup(TQ3ViewObject theView, TQ3GroupObject group);
+
+TQ3Status
+E3FileFormat_Method_SubmitObject(TQ3ViewObject	theView,
+								 TQ3Object		object,
+								 TQ3ObjectType	objectType,
+								 const void			*objectData);
+
+TQ3Status				E3FileFormat_Method_SubmitGeometry(TQ3ViewObject theView,
+																								TQ3ObjectType geomType,
+																								TQ3Boolean *geomSupported,
+																								TQ3GeometryObject theGeom,
+																								const void *geomData);
+
+TQ3Status
+E3FileFormat_Method_SubmitGroup(TQ3ViewObject	theView,
+								TQ3Object		group,
+								TQ3ObjectType	groupType,
+								const void		*groupData);
 
 
 //=============================================================================

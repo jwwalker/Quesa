@@ -252,12 +252,18 @@ e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_Raw;
 			break;
 
-		// group submit
+		// object submit
+		case kQ3XMethodTypeFFormatSubmitObject:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_WriteObject;
+			break;
+
 		case kQ3XMethodTypeFFormatSubmitGroup:
+			// needs to be special to allow contents submit
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Group;
 			break;
 
 		default: // get the geometry
+			// needs to be special to allow geometry decomposition
 			theMethod = e3ffw_3dmf_geom (methodType);
 			break;
 		

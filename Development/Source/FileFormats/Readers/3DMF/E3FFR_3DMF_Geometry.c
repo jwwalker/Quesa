@@ -696,12 +696,13 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 	TQ3Object			theObject = NULL;
 	TQ3TextureObject	theTexture = NULL;
 	
-	TQ3Uns32			uvBound[2] = {0,0};
+	TQ3ShaderUVBoundary			uBoundary = kQ3ShaderUVBoundaryWrap;
+	TQ3ShaderUVBoundary			vBoundary = kQ3ShaderUVBoundaryWrap;
 	TQ3Matrix3x3		uvTransform;
-	TQ3Matrix4x4		shTransform;
+	//TQ3Matrix4x4		shTransform;
 	
 	Q3Matrix3x3_SetIdentity (&uvTransform);
-	Q3Matrix4x4_SetIdentity (&shTransform);
+	//Q3Matrix4x4_SetIdentity (&shTransform);
 	
 
 
@@ -718,17 +719,16 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 				{
 				theTexture = childObject;
 				}
+			else if(Q3Object_IsType (childObject, kQ3ShapeTypeShader/* UV wrap */)){
+				Q3Shader_GetUBoundary (childObject, &uBoundary);
+				Q3Shader_GetVBoundary (childObject, &vBoundary);
+				Q3Object_Dispose(childObject);
+				}
+			else if(Q3Object_IsType (childObject, kQ3ObjectTypeShaderUVTransform)){
+				Q3Matrix3x3_Copy ((TQ3Matrix3x3*)childObject->instanceData, &uvTransform);
+				Q3Object_Dispose(childObject);
+				}
 #if 0
-			else if(Q3Object_IsType (childObject, 0x73686472/*'shdr' UV wrap*/)){
-				qd3dStatus = Q3Uns32_Read(&uvBound[0],theFile);
-				if(qd3dStatus)
-					qd3dStatus = Q3Uns32_Read(&uvBound[1],theFile);
-				}
-			else if(Q3Object_IsType (childObject, 0x73647576/*'sduv' UV Transform*/)){
-				for( i = 0; ((i< 3) && (qd3dStatus == kQ3Success)); i++)
-					for( j = 0; ((j< 3) && (qd3dStatus == kQ3Success)); j++)
-						qd3dStatus = Q3Float32_Read(&uvTransform.value[i][j],theFile);
-				}
 			else if(Q3Object_IsType (childObject, 0x73647866/*'sdxf' Shader Transform (??????) */)){
 				Q3Matrix4x4_Read (&shTransform, theFile);
 				}
@@ -744,8 +744,8 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 			
 		theObject = Q3TextureShader_New(theTexture);
 		if(theObject){
-			Q3Shader_SetUBoundary (theObject, (TQ3ShaderUVBoundary)uvBound[0]);
-			Q3Shader_SetVBoundary (theObject, (TQ3ShaderUVBoundary)uvBound[1]);
+			Q3Shader_SetUBoundary (theObject, uBoundary);
+			Q3Shader_SetVBoundary (theObject, vBoundary);
 			Q3Shader_SetUVTransform (theObject, &uvTransform);
 			// What I've to do with the shTransform????????
 			}
@@ -1282,6 +1282,17 @@ E3Read_3DMF_Transform_Quaternion(TQ3FileObject theFile)
 	// but bytes are trasferred the same no matter they are called w or x
 	
 	return Q3QuaternionTransform_New (&quaternion);
+}
+
+
+//=============================================================================
+//      E3Read_3DMF_Transform_Reset : Reset read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Transform_Reset(TQ3FileObject theFile)
+{
+	
+	return Q3ResetTransform_New ();
 }
 
 

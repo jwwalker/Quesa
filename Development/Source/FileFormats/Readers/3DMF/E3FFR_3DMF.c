@@ -171,8 +171,144 @@ e3fformat_3dmf_displaygroupstate_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_displaygroupstate_read;
 			break;
+
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_32_Write;
+			break;
+
+	// traverse are implemented via Q3XView_SubmitSubObjectData
 		}
 
+	return(theMethod);
+}
+
+
+//=============================================================================
+//      e3fformat_3dmf_shaderuvtransform_read : Shader UV Transform read method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_shaderuvtransform_read(TQ3FileObject theFile)
+{
+	TQ3Object						theObject;
+	TQ3Matrix3x3				*instanceData;
+	TQ3Status						result = kQ3Success;
+	TQ3Uns32						i,j;
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeShaderUVTransform, kQ3False, NULL);
+	
+	if(theObject){
+	
+		instanceData = (TQ3Matrix3x3 *) theObject->instanceData;
+	
+		for( i = 0; ((i< 3) && (result == kQ3Success)); i++)
+			for( j = 0; ((j< 3) && (result == kQ3Success)); j++)
+				result = Q3Float32_Read(&instanceData->value[i][j],theFile);
+
+		if(result != kQ3Success)
+			{
+			Q3Object_Dispose(theObject);
+			theObject = NULL;
+			}
+		}
+	
+	return(theObject);
+}
+
+
+//=============================================================================
+//      e3fformat_3dmf_shaderuvtransform_write : Shader UV Transform read method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_shaderuvtransform_write(TQ3Matrix3x3 *object,TQ3FileObject theFile)
+{
+	TQ3Status						result = kQ3Success;
+	TQ3Uns32						i,j;
+
+		for( i = 0; ((i< 3) && (result == kQ3Success)); i++)
+			for( j = 0; ((j< 3) && (result == kQ3Success)); j++)
+				result = Q3Float32_Write(object->value[i][j],theFile);
+
+	return(result);
+}
+
+//=============================================================================
+//      e3fformat_3dmf_shader_read : Shader read method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_shader_read(TQ3FileObject theFile)
+{
+	TQ3Object						theObject;
+	TQ3Status						result = kQ3Success;
+	TQ3ShaderUVBoundary			uBoundary;
+	TQ3ShaderUVBoundary			vBoundary;
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3ShapeTypeShader, kQ3False, NULL);
+	
+	if(theObject){
+				
+		result = Q3Uns32_Read((TQ3Uns32*)&uBoundary,theFile);
+		if(result != kQ3Success)
+			result = Q3Uns32_Read((TQ3Uns32*)&vBoundary,theFile);
+
+		if(result != kQ3Success)
+			{
+			Q3Object_Dispose(theObject);
+			theObject = NULL;
+			}
+		else{
+			Q3Shader_SetUBoundary (theObject, uBoundary);
+			Q3Shader_SetVBoundary (theObject, vBoundary);
+			}
+		}
+	
+	return(theObject);
+}
+
+
+//=============================================================================
+//      e3fformat_3dmf_shader_write : Shader UV Transform read method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_shader_write(TQ3Uns32 *object,TQ3FileObject theFile)
+{
+	TQ3Status						result = kQ3Success;
+
+		result = Q3Uns32_Write(object[0],theFile);
+		if(result != kQ3Success)
+			result = Q3Uns32_Write(object[1],theFile);
+
+	return(result);
+}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_shaderuvtransform_metahandler : vertexattributesetlist metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3fformat_3dmf_shaderuvtransform_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+
+		case kQ3XMethodTypeObjectRead:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_shaderuvtransform_read;
+			break;
+
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_shaderuvtransform_write;
+			break;
+
+	// traverse are implemented via Q3XView_SubmitSubObjectData
+		}
+	
 	return(theMethod);
 }
 
@@ -181,7 +317,7 @@ e3fformat_3dmf_displaygroupstate_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3fformat_3dmf_attributesetlist_delete : Delete method.
+//      e3fformat_3dmf_attributesetlist_delete : delete method.
 //-----------------------------------------------------------------------------
 static void
 e3fformat_3dmf_attributesetlist_delete(TQ3Object theObject, void *privateData)
@@ -898,6 +1034,14 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 											sizeof(TQ3Uns32));
 
 
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+											kQ3ObjectTypeShaderUVTransform,
+											kQ3ClassNameShaderUVTransform,
+											e3fformat_3dmf_shaderuvtransform_metahandler,
+											sizeof(TQ3Matrix3x3));
+
+
 	// Register the end group class
 	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
 											kQ3SharedTypeEndGroup,
@@ -936,6 +1080,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree_AddMethodByType(kQ3TextureTypePixmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Texture_Pixmap);
 	E3ClassTree_AddMethodByType(kQ3TextureTypeMipmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Texture_Mipmap);
 	//E3ClassTree_AddMethodByType(kQ3TextureTypeCompressedPixmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Texture);
+	E3ClassTree_AddMethodByType(kQ3ShapeTypeShader,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_shader_read);
 	E3ClassTree_AddMethodByType(kQ3SurfaceShaderTypeTexture,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Texture);
 
 
@@ -970,6 +1115,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree_AddMethodByType(kQ3TransformTypeScale,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Scale);
 	E3ClassTree_AddMethodByType(kQ3TransformTypeTranslate,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Translate);
 	E3ClassTree_AddMethodByType(kQ3TransformTypeQuaternion,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Quaternion);
+	E3ClassTree_AddMethodByType(kQ3TransformTypeReset,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Reset);
 
 
 	// the Geometry read Methods
@@ -989,6 +1135,56 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriMesh,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_TriMesh);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Triangle);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBCurve,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_NURBCurve);
+
+	return(qd3dStatus);
+}
+
+
+//=============================================================================
+//      E3FFW_3DMF_Register : Register the classes.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_Register(void)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// the FileFormats themselves
+	qd3dStatus = E3FFW_3DMFBin_Register();
+
+/*	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3FFW_3DMFText_Register();*/
+
+
+
+	// the Support objects
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+												kQ3ObjectType3DMF,
+												kQ3ClassName3DMF,
+												NULL,
+												0);
+
+	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
+	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
+	
+
+	// Misc methods
+	
+	// Attribute methods
+	// override the inheritance problem
+
+	// the Group write Methods
+
+	E3ClassTree_AddMethodByType(kQ3ShapeTypeGroup,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	E3ClassTree_AddMethodByType(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	E3ClassTree_AddMethodByType(kQ3GroupTypeLight,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	E3ClassTree_AddMethodByType(kQ3GroupTypeInfo,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	
+	// the Style write Methods
+
+	// the Transform && Geometry write Methods
+	E3FFW_3DMF_RegisterGeom ();
 
 	return(qd3dStatus);
 }
@@ -1080,65 +1276,6 @@ E3FFormat_3DMF_Reader_UnregisterClass(void)
 	E3ClassTree_RemoveMethodByType(kQ3GeometryTypePolyLine,     kQ3XMethodTypeObjectRead);
 	E3ClassTree_RemoveMethodByType(kQ3GeometryTypeTriMesh,      kQ3XMethodTypeObjectRead);
 */
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3FFW_3DMF_Register : Register the classes.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3FFW_3DMF_Register(void)
-{	TQ3Status		qd3dStatus;
-
-
-
-	// the FileFormats themselves
-	qd3dStatus = E3FFW_3DMFBin_Register();
-
-/*	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3FFW_3DMFText_Register();*/
-
-
-
-	// the Support objects
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
-												kQ3ObjectType3DMF,
-												kQ3ClassName3DMF,
-												NULL,
-												0);
-
-	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
-	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
-	
-
-	// Misc methods
-	
-	// Attribute methods
-	// override the inheritance problem
-
-	// the Group write Methods
-
-	E3ClassTree_AddMethodByType(kQ3ShapeTypeGroup,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
-	//E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeOrdered,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
-	//E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeIOProxy,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeLight,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeInfo,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
-
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeDisplayGroupState,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
-	
-	// the Style write Methods
-
-	// the Transform write Methods
-
-	// the Geometry write Methods
-	E3FFW_3DMF_RegisterGeom ();
 
 	return(qd3dStatus);
 }

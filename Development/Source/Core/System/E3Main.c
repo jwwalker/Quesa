@@ -53,6 +53,7 @@
 #include "E3Shader.h"
 #include "E3Texture.h"
 #include "E3CustomElements.h"
+#include "E3IOFileFormat.h"
 
 
 
@@ -160,6 +161,24 @@ e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 }
 
 
+//=============================================================================
+//      e3shared_write : Default write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3shared_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Submit the object
+	qd3dStatus = E3FileFormat_Method_SubmitObject (theView, theObject, objectType, objectData);
+
+
+
+	return(qd3dStatus);
+}
+
+
 
 
 
@@ -184,6 +203,10 @@ e3shared_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectDuplicate:
 			theMethod = (TQ3XFunctionPointer) e3shared_duplicate;
+			break;
+
+		case kQ3XMethodTypeObjectSubmitWrite:
+			theMethod = (TQ3XFunctionPointer) e3shared_write;
 			break;
 		}
 	
