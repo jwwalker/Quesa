@@ -27,6 +27,113 @@
 
 
 
+<h3>Style Objects</h3>
+<ol>
+	<li>kQ3StyleTypeBackfacing</li>
+	<li>kQ3StyleTypeInterpolation</li>
+	<li>kQ3StyleTypeFill</li>
+	<li>kQ3StyleTypePickID</li>
+	<li>kQ3StyleTypeReceiveshadows</li>
+	<li>kQ3StyleTypeHighlight</li>
+	<li>kQ3StyleTypeSubdivision</li>
+	<li>kQ3StyleTypeOrientation</li>
+	<li>kQ3StyleTypePickParts</li>
+	<li>kQ3StyleTypeAntiAlias</li>
+	<li>kQ3StyleTypeFog</li>
+</ol>
+
+
+<h4>Orientation Styles</h4>
+<h5>Summary</h5>
+<p>
+The orientation style determines which side of a polygonal surface is considered to
+be "front facing". Both clockwise and counter-clockwise orientations are available.
+</p>
+
+<p>
+The default orientation style for a view is kQ3OrientationStyleCounterClockwise,
+indicating that the front facing side of polygons are those whose vertices are
+listed in counter-clockwise order.
+</p>
+
+<h5>Behaviour</h5>
+<p>
+When a renderer performs backface culling, it must obtain or calculate a normal for
+each triangle in the scene. If no normal is supplied for a triangle, the current
+orientation style will determine which direction the calculated normal will point in.
+</p>
+
+<p>
+If you supply triangle normals for the objects in your scene, you must ensure that the
+orientation style at the time they are submitted matches the orientation that those
+triangle normals were calculated under.
+</p>
+
+<p>
+For example, the correct normal for a counter-clockwise triangle can be found with
+Q3Point3D_CrossProductTri. This calculates the normal as the cross product of the
+vectors from vertex 1 to vertex 2 and from vertex 2 to vertex 3. Since the normal
+for a clockwise triangle points in the opposite direction, this vector should be
+negated if the triangle is to be submitted under a clockwise orientation style.
+</p>
+
+<h5>Notes</h5>
+<p>
+The orientation style affects the following geometries:
+</p>
+
+<ul>
+	<li>General Polygon</li>
+	<li>Mesh</li>
+	<li>Polygon</li>
+	<li>Polyhedron</li>
+	<li>Triangle</li>
+	<li>TriGrid</li>
+	<li>TriMesh</li>
+</ul>
+
+<p>
+The orientation style has no effect on the following geometries:
+</p>
+
+<ul>
+	<li>Box</li>
+	<li>Cone</li>
+	<li>Cylinder</li>
+	<li>Disk</li>
+	<li>Ellipse</li>
+	<li>Ellipsoid</li>
+	<li>Line</li>
+	<li>Marker</li>
+	<li>NURB Curve</li>
+	<li>NURB Patch</li>
+	<li>Pixmap Marker</li>
+	<li>Point</li>
+	<li>Poly-line</li>
+	<li>Torus</li>
+</ul>
+
+<p>
+Quesa follows the documented behaviour for QD3D, where the orientation style should only effect
+explicitly polygonal geometries. This is contrary to QD3D's behaviour in four cases:
+</p>
+
+<ul>
+	<li>Under QD3D, the NURB Patch and Box geometries are affected by the current
+		orientation style.</li>
+
+	<li>Under QD3D, the TriGrid and Mesh geometries are not affected by the current
+		orientation style.</li>
+</ul>
+
+<p>
+Quesa follows the documented behaviour for these four geometries.
+</p>
+
+
+
+
+
 <!--=========================================================================-->
 <!-- Page Footer                                                             -->
 <!--=========================================================================-->
