@@ -101,6 +101,12 @@
 //=============================================================================
 //      Build constants
 //-----------------------------------------------------------------------------
+// Make sure extensions are turned on when we're building Quesa itself
+#if !QUESA_ALLOW_QD3D_EXTENSIONS
+	#pragma error "QD3D extensions should never be turned off when building Quesa itself"
+#endif
+
+
 // Dumps class tree stats on Q3Exit
 #ifndef QUESA_DUMP_STATS_ON_EXIT
 	#define QUESA_DUMP_STATS_ON_EXIT							0
