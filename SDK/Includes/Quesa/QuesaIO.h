@@ -58,8 +58,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -87,11 +85,11 @@ typedef enum TQ3FileModeMasks {
     kQ3FileModeNormal                           = 0,
     kQ3FileModeStream                           = (1 << 0),
     kQ3FileModeDatabase                         = (1 << 1),
-    kQ3FileModeText                             = (1 << 2)
+    kQ3FileModeText                             = (1 << 2),
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-	,
-    kQ3FileModeSwap                             = (1 << 3)
+    kQ3FileModeSwap                             = (1 << 3),
 #endif
+    kQ3FileModeSize32                           = 0xFFFFFFFF
 } TQ3FileModeMasks;
 
 
@@ -108,7 +106,8 @@ typedef enum TQ3FileModeMasks {
 typedef enum TQ3FileReadGroupStateMasks {
     kQ3FileReadWholeGroup                       = 0,
     kQ3FileReadObjectsInGroup                   = (1 << 0),
-    kQ3FileCurrentlyInsideGroup                 = (1 << 1)
+    kQ3FileCurrentlyInsideGroup                 = (1 << 1),
+    kQ3FileReadGroupStateSize32                 = 0xFFFFFFFF
 } TQ3FileReadGroupStateMasks;
 
 
@@ -3616,8 +3615,6 @@ Q3Uns8_ReadArray (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

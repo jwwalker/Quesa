@@ -54,8 +54,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -309,13 +307,13 @@ typedef enum {
     kQ3ErrorPickingLoopFailed                   = -28381,
     kQ3ErrorRenderingLoopFailed                 = -28380,
     kQ3ErrorWritingLoopFailed                   = -28379,
-    kQ3ErrorBoundingLoopFailed                  = -28378
+    kQ3ErrorBoundingLoopFailed                  = -28378,
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-	,
-    kQ3ErrorPlatformError                       = -28377
+    kQ3ErrorPlatformError                       = -28377,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
+    kQ3ErrorSize32                              = 0xFFFFFFFF
 } TQ3Error;
 
 
@@ -408,7 +406,8 @@ typedef enum {
     kQ3WarningTypeAlreadyRegistered             = -28264,
     kQ3WarningTypeSameVersionAlreadyRegistered  = -28263,
     kQ3WarningTypeNewerVersionAlreadyRegistered = -28262,
-    kQ3WarningInvalidObjectInGroupMetafile      = -28261
+    kQ3WarningInvalidObjectInGroupMetafile      = -28261,
+    kQ3WarningSize32                            = 0xFFFFFFFF
 } TQ3Warning;
 
 
@@ -453,7 +452,8 @@ typedef enum {
     kQ3NoticeScaleContainsZeroEntries           = -28088,
     kQ3NoticeSystemAlreadyInitialized           = -28087,
     kQ3NoticeViewSyncCalledAgain                = -28086,
-    kQ3NoticeFileCancelled                      = -28085
+    kQ3NoticeFileCancelled                      = -28085,
+    kQ3NoticeSize32                             = 0xFFFFFFFF
 } TQ3Notice;
 
 
@@ -840,8 +840,6 @@ Q3MacintoshError_Get (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

@@ -57,8 +57,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -99,7 +97,8 @@ typedef enum TQ3PickDetailMasks {
     kQ3PickDetailMaskNormal                     = (1 << 6),
     kQ3PickDetailMaskShapePart                  = (1 << 7),
     kQ3PickDetailMaskPickPart                   = (1 << 8),
-    kQ3PickDetailMaskUV                         = (1 << 9)
+    kQ3PickDetailMaskUV                         = (1 << 9),
+    kQ3PickDetailSize32                         = 0xFFFFFFFF
 } TQ3PickDetailMasks;
 
 
@@ -116,7 +115,8 @@ typedef enum TQ3PickDetailMasks {
 typedef enum TQ3PickSort {
     kQ3PickSortNone                             = 0,
     kQ3PickSortNearToFar                        = 1,
-    kQ3PickSortFarToNear                        = 2
+    kQ3PickSortFarToNear                        = 2,
+    kQ3PickSortSize32                           = 0xFFFFFFFF
 } TQ3PickSort;
 
 
@@ -897,8 +897,6 @@ Q3MeshVertexPart_GetVertex (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

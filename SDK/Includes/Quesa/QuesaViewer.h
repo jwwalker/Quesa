@@ -58,8 +58,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -83,15 +81,16 @@ enum {
 	// Quesa constants
 	kQ3ViewerStateEmpty                         = 0,
     kQ3ViewerStateHasModel                      = (1 << 0),
-    kQ3ViewerStateHasUndo                       = (1 << 1)
+    kQ3ViewerStateHasUndo                       = (1 << 1),
 
 	// QD3D constants - deprecated
 #if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
-	,
     kQ3ViewerEmpty                              = kQ3ViewerStateEmpty,
     kQ3ViewerHasModel                           = kQ3ViewerStateHasModel,
-    kQ3ViewerHasUndo                            = kQ3ViewerStateHasUndo
+    kQ3ViewerHasUndo                            = kQ3ViewerStateHasUndo,
 #endif // QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+
+    kQ3ViewerStateSize32                        = 0xFFFFFFFF
 };
 
 
@@ -116,7 +115,8 @@ typedef enum TQ3ViewerCameraView {
     kQ3ViewerCameraLeft                         = 4,
     kQ3ViewerCameraRight                        = 5,
     kQ3ViewerCameraTop                          = 6,
-    kQ3ViewerCameraBottom                       = 7
+    kQ3ViewerCameraBottom                       = 7,
+    kQ3ViewerCameraSize32                       = 0xFFFFFFFF
 } TQ3ViewerCameraView;
 
 
@@ -169,8 +169,9 @@ enum {
     kQ3ViewerFlagShowBadge                      = (1 << 21),
     kQ3ViewerFlagShowControlStrip               = (1 << 22),
     kQ3ViewerFlagOutputTextMode                 = (1 << 23),
-    kQ3ViewerFlagPaneGrowBox                    = (1 << 24)
+    kQ3ViewerFlagPaneGrowBox                    = (1 << 24),
     // 25 to 31, reserved for future expansion
+    kQ3ViewerFlagSize32                         = 0xFFFFFFFF
 };
 
 
@@ -203,7 +204,8 @@ enum {
     kQ3ViewerDraggingOutOff                     = (1 << 16),
     kQ3ViewerButtonOptions                      = (1 << 17),
     kQ3ViewerPaneGrowBox                        = (1 << 18),
-    kQ3ViewerDefault                            = (1 << 31)
+    kQ3ViewerDefault                            = (1 << 31),
+    kQ3ViewerSize32                             = 0xFFFFFFFF
 };
 
 #endif // QUESA_OS_MACINTOSH
@@ -233,7 +235,8 @@ enum {
     kQ3ViewerDraggingInOff                      = (1 << 11),
     kQ3ViewerButtonOptions                      = (1 << 12),
     kQ3ViewerPaneGrowBox                        = (1 << 13),
-    kQ3ViewerDefault                            = (1 << 15)
+    kQ3ViewerDefault                            = (1 << 15),
+    kQ3ViewerSize32                             = 0xFFFFFFFF
 };
 
 
@@ -4702,8 +4705,6 @@ Q3WinViewerSetCameraView (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

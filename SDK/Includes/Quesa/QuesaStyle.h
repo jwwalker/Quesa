@@ -54,8 +54,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -83,7 +81,8 @@ extern "C" {
 typedef enum TQ3SubdivisionMethod {
     kQ3SubdivisionMethodConstant                = 0,
     kQ3SubdivisionMethodWorldSpace              = 1,
-    kQ3SubdivisionMethodScreenSpace             = 2
+    kQ3SubdivisionMethodScreenSpace             = 2,
+    kQ3SubdivisionMethodSize32                  = 0xFFFFFFFF
 } TQ3SubdivisionMethod;
 
 
@@ -102,7 +101,8 @@ typedef enum TQ3PickPartsMasks {
     kQ3PickPartsObject                          = 0,
     kQ3PickPartsMaskFace                        = (1 << 0),
     kQ3PickPartsMaskEdge                        = (1 << 1),
-    kQ3PickPartsMaskVertex                      = (1 << 2)
+    kQ3PickPartsMaskVertex                      = (1 << 2),
+    kQ3PickPartsMaskSize32                      = 0xFFFFFFFF
 } TQ3PickPartsMasks;
 
 
@@ -119,7 +119,8 @@ typedef enum TQ3PickPartsMasks {
 typedef enum TQ3FillStyle {
     kQ3FillStyleFilled                          = 0,
     kQ3FillStyleEdges                           = 1,
-    kQ3FillStylePoints                          = 2
+    kQ3FillStylePoints                          = 2,
+    kQ3FillStyleSize32                          = 0xFFFFFFFF
 } TQ3FillStyle;
 
 
@@ -139,7 +140,8 @@ typedef enum TQ3FillStyle {
 typedef enum TQ3BackfacingStyle {
     kQ3BackfacingStyleBoth                      = 0,
     kQ3BackfacingStyleRemove                    = 1,
-    kQ3BackfacingStyleFlip                      = 2
+    kQ3BackfacingStyleFlip                      = 2,
+    kQ3BackfacingStyleSize32                    = 0xFFFFFFFF
 } TQ3BackfacingStyle;
 
 
@@ -158,7 +160,8 @@ typedef enum TQ3BackfacingStyle {
 typedef enum TQ3InterpolationStyle {
     kQ3InterpolationStyleNone                   = 0,
     kQ3InterpolationStyleVertex                 = 1,
-    kQ3InterpolationStylePixel                  = 2
+    kQ3InterpolationStylePixel                  = 2,
+    kQ3InterpolationSize32                      = 0xFFFFFFFF
 } TQ3InterpolationStyle;
 
 
@@ -173,7 +176,8 @@ typedef enum TQ3InterpolationStyle {
  */
 typedef enum TQ3OrientationStyle {
     kQ3OrientationStyleCounterClockwise         = 0,
-    kQ3OrientationStyleClockwise                = 1
+    kQ3OrientationStyleClockwise                = 1,
+    kQ3OrientationStyleSize32                   = 0xFFFFFFFF
 } TQ3OrientationStyle;
 
 
@@ -190,11 +194,11 @@ typedef enum TQ3OrientationStyle {
  */
 typedef enum TQ3AntiAliasModeMasks {
     kQ3AntiAliasModeMaskEdges                   = (1 << 0),
-    kQ3AntiAliasModeMaskFilled                  = (1 << 1)
+    kQ3AntiAliasModeMaskFilled                  = (1 << 1),
 #if QUESA_ALLOW_QD3D_EXTENSIONS    
-    ,
-    kQ3AntiAliasModeMaskFullScreen              = (1 << 2)
+    kQ3AntiAliasModeMaskFullScreen              = (1 << 2),
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
+    kQ3AntiAliasModeSize32                      = 0xFFFFFFFF
 } TQ3AntiAliasModeMasks;
 
 
@@ -213,7 +217,8 @@ typedef enum TQ3FogMode {
     kQ3FogModeLinear                            = 0,
     kQ3FogModeExponential                       = 1,
     kQ3FogModeExponentialSquared                = 2,
-    kQ3FogModeAlpha                             = 3
+    kQ3FogModeAlpha                             = 3,
+    kQ3FogModeSize32                            = 0xFFFFFFFF
 } TQ3FogMode;
 
 
@@ -1135,8 +1140,6 @@ Q3FogStyle_SetData (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

@@ -55,8 +55,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -85,7 +83,8 @@ extern "C" {
 typedef enum TQ3GeneralPolygonShapeHint {
     kQ3GeneralPolygonShapeHintComplex           = 0,
     kQ3GeneralPolygonShapeHintConcave           = 1,
-    kQ3GeneralPolygonShapeHintConvex            = 2
+    kQ3GeneralPolygonShapeHintConvex            = 2,
+    kQ3GeneralPolygonShapeHintSize32            = 0xFFFFFFFF
 } TQ3GeneralPolygonShapeHint;
 
 
@@ -122,7 +121,8 @@ typedef enum TQ3PolyhedronEdgeMasks {
     kQ3PolyhedronEdge01                         = (1 << 0),
     kQ3PolyhedronEdge12                         = (1 << 1),
     kQ3PolyhedronEdge20                         = (1 << 2),
-    kQ3PolyhedronEdgeAll                        = (kQ3PolyhedronEdge01 | kQ3PolyhedronEdge12 | kQ3PolyhedronEdge20)
+    kQ3PolyhedronEdgeAll                        = (kQ3PolyhedronEdge01 | kQ3PolyhedronEdge12 | kQ3PolyhedronEdge20),
+    kQ3PolyhedronEdgeSize32                     = 0xFFFFFFFF
 } TQ3PolyhedronEdgeMasks;
 
 
@@ -7470,8 +7470,6 @@ Q3TriMesh_UnlockData (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif
