@@ -150,8 +150,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XSharedLibraryRegister)(
  *      as an identifier to match up calls to Q3XSharedLibrary_Unregister
  *      with the appropriate call to Q3XSharedLibrary_Register.
  *
- *  @param registerFunction    Shared library registration method.
- *  @param sharedLibrary       Platform-specific shared library reference.
+ *  @field registerFunction    Shared library registration method.
+ *  @field sharedLibrary       Platform-specific shared library reference.
  */
 typedef struct TQ3XSharedLibraryInfo {
     TQ3XSharedLibraryRegister       registerFunction;
