@@ -127,7 +127,7 @@ static TQ3ViewerData* instance_data( TQ3ViewerObject theViewer )
 //-----------------------------------------------------------------------------
 static TQ3Boolean e3Rect_ContainsPoint(const TQ3Area *theRect, TQ3Int32 hPos, TQ3Int32 vPos)
 {
-	return (hPos >= theRect->min.x && hPos < theRect->max.x 
+	return (TQ3Boolean)(hPos >= theRect->min.x && hPos < theRect->max.x 
 		 && vPos >= theRect->min.y && vPos < theRect->max.y);
 }
 
@@ -305,7 +305,7 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 	// For now, let's do a Mac-only hack.
 	Rect r;
 	Str255 s;
-	SetPort((CGrafPtr)data->mWindow);
+	SetPort((GrafPtr)data->mWindow);
 
 	E3Area_ToRect(butnRect, &r);
 	ForeColor(blackColor);
@@ -334,7 +334,7 @@ static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect
 	// For now, let's do a Mac-only hack.
 	Rect r;
 	RGBColor bgColor = {0xCCCC, 0xCCCC, 0xCCCC};
-	SetPort((CGrafPtr)data->mWindow);
+	SetPort((GrafPtr)data->mWindow);
 
 	E3Area_ToRect(stripRect, &r);
 	RGBForeColor(&bgColor);
@@ -352,7 +352,7 @@ static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 	// For now, let's do a Mac-only hack.
 	Rect r;
 	Pattern	pat;
-	SetPort((CGrafPtr)data->mWindow);
+	SetPort((GrafPtr)data->mWindow);
 
 	E3Area_ToRect(rect, &r);
 	ForeColor(blackColor);
