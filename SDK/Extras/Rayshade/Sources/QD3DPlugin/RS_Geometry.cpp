@@ -184,7 +184,14 @@ TQ3Status RS_Geometry_Triangle(
 					Q3Param2D_Transform(&theParam2D,&rsPrivate->uvTransform,&theParams[j]);
 				}
 				else
-					theTextureParams = kQ3False;
+					if (theAttributeMask & kQ3XAttributeMaskShadingUV)
+					{
+
+					Q3AttributeSet_Get(pTriangleData->vertices[j].attributeSet,kQ3AttributeTypeShadingUV,&theParam2D); 
+					Q3Param2D_Transform(&theParam2D,&rsPrivate->uvTransform,&theParams[j]);
+					}
+					else
+						theTextureParams = kQ3False;
 			}
 			
 			Q3Point3D_Transform(&thePoint3D,&(rsPrivate->localToWorld),&theVertices[j]);
