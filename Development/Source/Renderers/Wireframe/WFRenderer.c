@@ -205,6 +205,8 @@ WFRenderer_StartPass(TQ3ViewObject			theView,
 #pragma unused(theCamera)
 #pragma unused(theLights)
 
+	glEnableClientState(GL_VERTEX_ARRAY);
+
 	return(kQ3Success);
 }
 
