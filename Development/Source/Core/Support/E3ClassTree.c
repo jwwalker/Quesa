@@ -710,7 +710,7 @@ E3InstanceNode::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
 															  kQ3False ) ;
 		if (newMethod != NULL)
 			{
-			qd3dStatus = newMethod( (TQ3Object) this, (void *) this, (void *) paramData);
+			qd3dStatus = newMethod ( (TQ3Object) this, (void*) ( (TQ3Uns8*) this + parentInstanceSize ), (void *) paramData ) ;
 			if (qd3dStatus != kQ3Success)
 				{
 				if (parentObject != NULL)
@@ -942,6 +942,7 @@ E3ClassTree::CreateInstance (	TQ3ObjectType	classType,
 	instanceTrailer = (TQ3ObjectType *) (((TQ3Uns8 *) theObject) + theClass->instanceSize ) ;
 	*instanceTrailer = kQ3ObjectTypeQuesa;
 	
+	theObject->leafInstanceData = theObject ; // Done here because things called by InitialiseInstanceData use it
 	
 	qd3dStatus = theObject->InitialiseInstanceData (theClass, sharedParams, paramData);
 
@@ -989,7 +990,7 @@ E3InstanceNode::DeleteInstanceData ( E3ClassInfoPtr theClass )
 																		kQ3False ) ;
 
 		if (deleteMethod != NULL)
-			deleteMethod ( (TQ3Object) this , (void*) this ) ;
+			deleteMethod ( (TQ3Object) this , (void*)  ( (TQ3Uns8*) this + ( theClass->theParent != NULL ? theClass->theParent->instanceSize : 0 ) ) ) ;
 		}
 
 
@@ -1115,7 +1116,8 @@ E3InstanceNode::DuplicateInstanceData (	TQ3Object		newObject,
 			}	
 		else
 			{
-			qd3dStatus = duplicateMethod ( (TQ3Object) this, (void*) this, newObject, (void*) newObject ) ;
+			qd3dStatus = duplicateMethod ( (TQ3Object) this, (void*) ( (TQ3Uns8*) this + parentInstanceSize ),
+											newObject, (void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) ;
 			if ( qd3dStatus == kQ3Failure )
 				{
 				if ( theClass->theParent != NULL )
@@ -1318,7 +1320,12 @@ E3InstanceNode::FindInstanceData ( TQ3ObjectType classType )
 	void* theInstanceData = NULL;
 
 	if ( theClass->includesParentData != kQ3False )
-		theInstanceData = (void*) this ;
+		{
+		if ( ( classType == kQ3ObjectTypeLeaf ) && ( theClass->theParent != NULL ) )
+			theInstanceData = (void*) ( (TQ3Uns8*) this + theClass->theParent->instanceSize ) ;
+		else
+			theInstanceData = (void*) this ;
+		}
 	else
 	if ( theClass->classType == classType || classType == kQ3ObjectTypeLeaf )
 		theInstanceData = instanceData ;

@@ -5,7 +5,7 @@
         Implementation of Quesa Box geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -52,6 +52,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Box : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3BoxData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -117,6 +134,20 @@ e3geom_box_calc_vertices(const TQ3BoxData *boxData, TQ3Point3D *thePoints)
 									8, sizeof(TQ3Point3D), sizeof(TQ3Point3D));
 }
 
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Polygon : public E3Geometry // This is a leaf class so no other files use this,
+									// so it can be local and hance all the fields public
+	{
+public :
+
+	TQ3PolygonData		instanceData ;
+	} ;
+	
+
+
 
 
 
@@ -125,20 +156,15 @@ e3geom_box_calc_vertices(const TQ3BoxData *boxData, TQ3Point3D *thePoints)
 //      e3geom_box_new : Box new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_box_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3BoxData			*instanceData = (TQ3BoxData *)       privateData;
-	const TQ3BoxData	*boxData      = (const TQ3BoxData *) paramData;
-	TQ3Status			qd3dStatus;
-
-
+e3geom_box_new ( E3Box* theObject, void *privateData, const void *paramData )
+	{
+#pragma unused(privateData)
 
 	// Initialise our instance data
-	Q3Memory_Clear(instanceData, sizeof(TQ3BoxData));
+	Q3Memory_Clear ( & theObject->instanceData, sizeof ( TQ3BoxData ) ) ; // Why?
 	
-	qd3dStatus = Q3Box_SetData(theObject, boxData);
-	
-	return(qd3dStatus);
-}
+	return Q3Box_SetData ( theObject, (const TQ3BoxData*) paramData ) ;
+	}
 
 
 
@@ -148,16 +174,13 @@ e3geom_box_new(TQ3Object theObject, void *privateData, const void *paramData)
 //      e3geom_box_delete : Box delete method.
 //-----------------------------------------------------------------------------
 static void
-e3geom_box_delete(TQ3Object theObject, void *privateData)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) privateData;
-	TQ3Status		qd3dStatus;
-#pragma unused(theObject)
-
-
+e3geom_box_delete ( E3Box* theObject, void *privateData )
+	{
+#pragma unused(privateData)
 
 	// Dispose of our instance data
-	qd3dStatus = Q3Box_EmptyData(instanceData);
-}
+	Q3Box_EmptyData ( & theObject->instanceData ) ;
+	}
 
 
 
@@ -167,54 +190,51 @@ e3geom_box_delete(TQ3Object theObject, void *privateData)
 //      e3geom_box_duplicate : Box duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_box_duplicate(TQ3Object fromObject, const void *fromPrivateData,
-					 TQ3Object toObject,   void       *toPrivateData)
-{	TQ3BoxData				*toInstanceData = (TQ3BoxData *) toPrivateData;
-	TQ3BoxData				*fromInstanceData = (TQ3BoxData *) fromPrivateData;
-	TQ3Uns32				n;
-	
-#pragma unused(toObject)
+e3geom_box_duplicate (	E3Box* fromBox, const void *fromPrivateData,
+						E3Box* toBox,   void       *toPrivateData )
+	{
+#pragma unused(fromPrivateData)
+#pragma unused(toPrivateData)
 
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromObject),      kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toPrivateData),   kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromPrivateData), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromBox),		kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toBox), 		kQ3Failure);
 
 
 
 	// Copy the data from fromObject to toObject
-	toInstanceData->origin           = fromInstanceData->origin;
-	toInstanceData->orientation      = fromInstanceData->orientation;
-	toInstanceData->majorAxis        = fromInstanceData->majorAxis;
-	toInstanceData->minorAxis        = fromInstanceData->minorAxis;
-	toInstanceData->faceAttributeSet = NULL;
-	toInstanceData->boxAttributeSet  = NULL;
+	toBox->instanceData.origin           = fromBox->instanceData.origin ;
+	toBox->instanceData.orientation      = fromBox->instanceData.orientation ;
+	toBox->instanceData.majorAxis        = fromBox->instanceData.majorAxis ;
+	toBox->instanceData.minorAxis        = fromBox->instanceData.minorAxis ;
+	toBox->instanceData.faceAttributeSet = NULL ;
+	toBox->instanceData.boxAttributeSet  = NULL ;
 
 
 	// Duplicate the attribute sets
-	if (fromInstanceData->boxAttributeSet != NULL)
-		toInstanceData->boxAttributeSet = Q3Object_Duplicate(fromInstanceData->boxAttributeSet);
+	if ( fromBox->instanceData.boxAttributeSet != NULL )
+		toBox->instanceData.boxAttributeSet = Q3Object_Duplicate ( fromBox->instanceData.boxAttributeSet ) ;
 
-	if (fromInstanceData->faceAttributeSet != NULL)
+	if ( fromBox->instanceData.faceAttributeSet != NULL )
 		{
 		// duplicate the faces attribute array
-		toInstanceData->faceAttributeSet = (TQ3AttributeSet *)Q3Memory_Allocate(6 * sizeof(TQ3AttributeSet));
+		toBox->instanceData.faceAttributeSet = (TQ3AttributeSet*) Q3Memory_Allocate ( 6 * sizeof ( TQ3AttributeSet ) ) ;
 
-		if (toInstanceData->faceAttributeSet != NULL)
+		if ( toBox->instanceData.faceAttributeSet != NULL )
 			{
 			// duplicate the face attributes
-			for (n = 0; n < 6; n++)
-				if(fromInstanceData->faceAttributeSet[n] != NULL)
-					toInstanceData->faceAttributeSet[n] = Q3Object_Duplicate(fromInstanceData->faceAttributeSet[n]);
+			for ( TQ3Uns32 n = 0 ; n < 6 ; ++n )
+				if ( fromBox->instanceData.faceAttributeSet [ n ] != NULL )
+					toBox->instanceData.faceAttributeSet [ n ] = Q3Object_Duplicate ( fromBox->instanceData.faceAttributeSet [ n ] ) ;
 				else
-					toInstanceData->faceAttributeSet[n] = NULL;
+					toBox->instanceData.faceAttributeSet [ n ] = NULL ;
 			}
 		}
 		
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -497,14 +517,11 @@ e3geom_box_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 //      e3geom_box_get_attribute : Box get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_box_get_attribute(TQ3GeometryObject theObject)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeBox);
-
-
-
+e3geom_box_get_attribute ( E3Box* theObject )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->boxAttributeSet);
-}
+	return &theObject->instanceData.boxAttributeSet ;
+	}
 
 
 
@@ -570,11 +587,11 @@ E3GeometryBox_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeBox,
 											kQ3ClassNameGeometryBox,
 											e3geom_box_metahandler,
-											sizeof(TQ3BoxData));
+											~sizeof(E3Box));
 
 	return(qd3dStatus);
 }
@@ -593,7 +610,7 @@ E3GeometryBox_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeBox, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeBox, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -656,50 +673,51 @@ E3Box_Submit(const TQ3BoxData *boxData, TQ3ViewObject theView)
 //      E3Box_SetData : Set the data for a box object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Box_SetData(TQ3GeometryObject theBox, const TQ3BoxData *boxData)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
+E3Box_SetData ( TQ3GeometryObject theBox, const TQ3BoxData* boxData )
+	{
+	E3Box* box = (E3Box*) theBox ;
 	TQ3Uns32		n;
 
 
 
 	// Set the data
-	instanceData->origin      = boxData->origin;
-	instanceData->orientation = boxData->orientation;
-	instanceData->majorAxis   = boxData->majorAxis;
-	instanceData->minorAxis   = boxData->minorAxis;
+	box->instanceData.origin      = boxData->origin ;
+	box->instanceData.orientation = boxData->orientation ;
+	box->instanceData.majorAxis   = boxData->majorAxis ;
+	box->instanceData.minorAxis   = boxData->minorAxis ;
 
-	if (boxData->faceAttributeSet != NULL)
+	if ( boxData->faceAttributeSet != NULL )
 		{
 		// If we don't have an attribute array, create one
-		if (instanceData->faceAttributeSet == NULL)
-			instanceData->faceAttributeSet = (TQ3AttributeSet *)Q3Memory_AllocateClear(6 * sizeof(TQ3AttributeSet));
+		if ( box->instanceData.faceAttributeSet == NULL )
+			box->instanceData.faceAttributeSet = (TQ3AttributeSet*) Q3Memory_AllocateClear ( 6 * sizeof ( TQ3AttributeSet ) ) ;
 
-		if (instanceData->faceAttributeSet == NULL)
-			return(kQ3Failure);
+		if ( box->instanceData.faceAttributeSet == NULL )
+			return kQ3Failure ;
 
 
 		// Replace the face attributes
-		for (n = 0; n < 6; n++)
-			E3Shared_Replace(&instanceData->faceAttributeSet[n], boxData->faceAttributeSet[n]);
+		for ( n = 0 ; n < 6 ; ++n )
+			E3Shared_Replace ( &box->instanceData.faceAttributeSet [ n ], boxData->faceAttributeSet [ n ] ) ;
 		}
 	else
 		{
 		// Dispose of any attributes we currently have
-		if (instanceData->faceAttributeSet != NULL)
+		if ( box->instanceData.faceAttributeSet != NULL )
 			{
-			for (n = 0; n < 6; n++)
-				Q3Object_CleanDispose(&instanceData->faceAttributeSet[n]);
+			for ( n = 0 ; n < 6 ; ++n )
+				Q3Object_CleanDispose ( &box->instanceData.faceAttributeSet [ n ] ) ;
 
-			Q3Memory_Free(&instanceData->faceAttributeSet);
+			Q3Memory_Free( &box->instanceData.faceAttributeSet ) ;
 			}
 		}
 
-	E3Shared_Replace(&instanceData->boxAttributeSet, boxData->boxAttributeSet);
+	E3Shared_Replace ( &box->instanceData.boxAttributeSet, boxData->boxAttributeSet ) ;
 
-	Q3Shared_Edited(theBox);
+	Q3Shared_Edited ( theBox ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -709,38 +727,36 @@ E3Box_SetData(TQ3GeometryObject theBox, const TQ3BoxData *boxData)
 //      E3Box_GetData : Get the data for a box object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Box_GetData(TQ3GeometryObject theBox, TQ3BoxData *boxData)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-	TQ3Uns32		n;
-
-
+E3Box_GetData ( TQ3GeometryObject theBox, TQ3BoxData* boxData )
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// Get the data
-	boxData->origin      = instanceData->origin;
-	boxData->orientation = instanceData->orientation;
-	boxData->majorAxis   = instanceData->majorAxis;
-	boxData->minorAxis   = instanceData->minorAxis;
+	boxData->origin      = box->instanceData.origin ;
+	boxData->orientation = box->instanceData.orientation ;
+	boxData->majorAxis   = box->instanceData.majorAxis ;
+	boxData->minorAxis   = box->instanceData.minorAxis ;
 
-	if (instanceData->faceAttributeSet != NULL)
+	if ( box->instanceData.faceAttributeSet != NULL )
 		{
 		// Create an attribute array
-		boxData->faceAttributeSet = (TQ3AttributeSet *)Q3Memory_Allocate(6 * sizeof(TQ3AttributeSet));
+		boxData->faceAttributeSet = (TQ3AttributeSet*) Q3Memory_Allocate ( 6 * sizeof ( TQ3AttributeSet ) ) ;
 
-		if (boxData->faceAttributeSet == NULL)
-			return(kQ3Failure);
+		if ( boxData->faceAttributeSet == NULL )
+			return kQ3Failure ;
 
 
 		// Return the face attributes
-		for (n = 0; n < 6; n++)
-			E3Shared_Acquire(&boxData->faceAttributeSet[n], instanceData->faceAttributeSet[n]);
+		for ( TQ3Uns32 n = 0 ; n < 6 ; ++n )
+			E3Shared_Acquire ( &boxData->faceAttributeSet [ n ], box->instanceData.faceAttributeSet [ n ] ) ;
 		}
 	else
-		boxData->faceAttributeSet = NULL;
+		boxData->faceAttributeSet = NULL ;
 	
-	E3Shared_Acquire(&boxData->boxAttributeSet, instanceData->boxAttributeSet);
+	E3Shared_Acquire ( &boxData->boxAttributeSet, box->instanceData.boxAttributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -777,18 +793,17 @@ E3Box_EmptyData(TQ3BoxData *boxData)
 //      E3Box_SetOrigin : Set the origin for a box object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Box_SetOrigin(TQ3GeometryObject theBox, const TQ3Point3D *origin)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-
-
+E3Box_SetOrigin ( TQ3GeometryObject theBox, const TQ3Point3D* origin )
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// Set the origin
-	instanceData->origin = *origin;
+	box->instanceData.origin = *origin ;
 	
-	Q3Shared_Edited(theBox);
+	Q3Shared_Edited ( theBox ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -798,18 +813,17 @@ E3Box_SetOrigin(TQ3GeometryObject theBox, const TQ3Point3D *origin)
 //      E3Box_SetOrientation : Set the orientation for a box object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Box_SetOrientation(TQ3GeometryObject theBox, const TQ3Vector3D *orientation)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-
-
+E3Box_SetOrientation ( TQ3GeometryObject theBox, const TQ3Vector3D* orientation )
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// Set the orientation
-	instanceData->orientation = *orientation;
+	box->instanceData.orientation = *orientation ;
 	
-	Q3Shared_Edited(theBox);
+	Q3Shared_Edited ( theBox ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -819,18 +833,17 @@ E3Box_SetOrientation(TQ3GeometryObject theBox, const TQ3Vector3D *orientation)
 //      E3Box_SetMajorAxis : Set the major axis for a box object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Box_SetMajorAxis(TQ3GeometryObject theBox, const TQ3Vector3D *majorAxis)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-
-
+E3Box_SetMajorAxis ( TQ3GeometryObject theBox, const TQ3Vector3D* majorAxis )
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// Set the major axis
-	instanceData->majorAxis = *majorAxis;
+	box->instanceData.majorAxis = *majorAxis ;
 	
-	Q3Shared_Edited(theBox);
+	Q3Shared_Edited ( theBox ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -840,18 +853,17 @@ E3Box_SetMajorAxis(TQ3GeometryObject theBox, const TQ3Vector3D *majorAxis)
 //      E3Box_SetMinorAxis : Set the minor axis for a box object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Box_SetMinorAxis(TQ3GeometryObject theBox, const TQ3Vector3D *minorAxis)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-
-
+E3Box_SetMinorAxis ( TQ3GeometryObject theBox, const TQ3Vector3D* minorAxis )
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// Set the minor axis
-	instanceData->minorAxis = *minorAxis;
+	box->instanceData.minorAxis = *minorAxis ;
 	
-	Q3Shared_Edited(theBox);
+	Q3Shared_Edited ( theBox ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -862,15 +874,14 @@ E3Box_SetMinorAxis(TQ3GeometryObject theBox, const TQ3Vector3D *minorAxis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetOrigin(TQ3GeometryObject theBox, TQ3Point3D *origin)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-
-
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// Get the origin
-	*origin = instanceData->origin;
+	*origin = box->instanceData.origin ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -881,15 +892,14 @@ E3Box_GetOrigin(TQ3GeometryObject theBox, TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetOrientation(TQ3GeometryObject theBox, TQ3Vector3D *orientation)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-
-
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// Get the origin
-	*orientation = instanceData->orientation;
+	*orientation = box->instanceData.orientation ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -900,15 +910,14 @@ E3Box_GetOrientation(TQ3GeometryObject theBox, TQ3Vector3D *orientation)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetMajorAxis(TQ3GeometryObject theBox, TQ3Vector3D *majorAxis)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-
-
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// Get the origin
-	*majorAxis = instanceData->majorAxis;
+	*majorAxis = box->instanceData.majorAxis ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -919,15 +928,14 @@ E3Box_GetMajorAxis(TQ3GeometryObject theBox, TQ3Vector3D *majorAxis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetMinorAxis(TQ3GeometryObject theBox, TQ3Vector3D *minorAxis)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-
-
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// Get the origin
-	*minorAxis = instanceData->minorAxis;
+	*minorAxis = box->instanceData.minorAxis ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -938,18 +946,17 @@ E3Box_GetMinorAxis(TQ3GeometryObject theBox, TQ3Vector3D *minorAxis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_GetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3AttributeSet *faceAttributeSet)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-
-
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// Get the attribute set
-	if (instanceData->faceAttributeSet != NULL)
-		E3Shared_Acquire(faceAttributeSet, instanceData->faceAttributeSet[faceIndex]);
+	if ( box->instanceData.faceAttributeSet != NULL )
+		E3Shared_Acquire ( faceAttributeSet, box->instanceData.faceAttributeSet [ faceIndex ] ) ;
 	else
-		*faceAttributeSet = NULL;
+		*faceAttributeSet = NULL ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -960,27 +967,26 @@ E3Box_GetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3Attri
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Box_SetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3AttributeSet faceAttributeSet)
-{	TQ3BoxData		*instanceData = (TQ3BoxData *) E3ClassTree_FindInstanceData(theBox, kQ3GeometryTypeBox);
-
-
+	{
+	E3Box* box = (E3Box*) theBox ;
 
 	// If we don't have an attribute array, allocate one now
-	if (instanceData->faceAttributeSet == NULL)
+	if ( box->instanceData.faceAttributeSet == NULL )
 		{
-		instanceData->faceAttributeSet = (TQ3AttributeSet *)Q3Memory_AllocateClear(6 * sizeof(TQ3AttributeSet));
-		if (instanceData->faceAttributeSet == NULL)
-			return(kQ3Failure);
+		box->instanceData.faceAttributeSet = (TQ3AttributeSet*) Q3Memory_AllocateClear ( 6 * sizeof ( TQ3AttributeSet ) ) ;
+		if ( box->instanceData.faceAttributeSet == NULL )
+			return kQ3Failure ;
 		}
 
 
 
 	// Set the attribute set
-	E3Shared_Replace(&instanceData->faceAttributeSet[faceIndex], faceAttributeSet);
+	E3Shared_Replace ( &box->instanceData.faceAttributeSet [ faceIndex ], faceAttributeSet ) ;
 
-	Q3Shared_Edited(theBox);
+	Q3Shared_Edited ( theBox ) ;
 
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
