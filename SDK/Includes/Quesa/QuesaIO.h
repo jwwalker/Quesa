@@ -81,12 +81,17 @@ extern "C" {
  *  @constant kQ3FileModeStream      Stream mode.
  *  @constant kQ3FileModeDatabase    Database mode.
  *  @constant kQ3FileModeText        Text mode.
+ *  @constant kQ3FileModeSwap        Binary mode with byte order swapped (not present in QD3D).
  */
 typedef enum TQ3FileModeMasks {
     kQ3FileModeNormal                           = 0,
     kQ3FileModeStream                           = (1 << 0),
     kQ3FileModeDatabase                         = (1 << 1),
     kQ3FileModeText                             = (1 << 2)
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+	,
+    kQ3FileModeSwap                             = (1 << 3)
+#endif
 } TQ3FileModeMasks;
 
 
@@ -117,12 +122,16 @@ enum {
 
         kQ3FileFormatTypeWriter                             = Q3_OBJECT_TYPE('F', 'm', 't', 'W'),
             kQ3FFormatWriterType3DMFStreamBin               = Q3_OBJECT_TYPE('F', 'w', 's', 'b'),
+            kQ3FFormatWriterType3DMFStreamBinSwap           = Q3_OBJECT_TYPE('F', 'w', 's', 'w'),
             kQ3FFormatWriterType3DMFStreamText              = Q3_OBJECT_TYPE('F', 'w', 's', 't'),
             kQ3FFormatWriterType3DMFNormalBin               = Q3_OBJECT_TYPE('F', 'w', 'n', 'b'),
+            kQ3FFormatWriterType3DMFNormalBinSwap           = Q3_OBJECT_TYPE('F', 'w', 'n', 'w'),
             kQ3FFormatWriterType3DMFNormalText              = Q3_OBJECT_TYPE('F', 'w', 'n', 't'),
             kQ3FFormatWriterType3DMFDatabaseBin             = Q3_OBJECT_TYPE('F', 'w', 'd', 'b'),
+            kQ3FFormatWriterType3DMFDatabaseBinSwap         = Q3_OBJECT_TYPE('F', 'w', 'd', 'w'),
             kQ3FFormatWriterType3DMFDatabaseText            = Q3_OBJECT_TYPE('F', 'w', 'd', 't'),
             kQ3FFormatWriterType3DMFDatabaseStreamBin       = Q3_OBJECT_TYPE('F', 'd', 's', 'b'),
+            kQ3FFormatWriterType3DMFDatabaseStreamBinSwap   = Q3_OBJECT_TYPE('F', 'd', 's', 'w'),
             kQ3FFormatWriterType3DMFDatabaseStreamText      = Q3_OBJECT_TYPE('F', 'd', 's', 't')
 };
 
@@ -923,7 +932,7 @@ Q3File_OpenRead (
  *		Currently, Quesa ignores the mode parameter and writes in binary stream mode.
  *
  *  @param theFile          The file object.
- *  @param mode             A combination of TQ3FileModeMasks values.
+ *  @param mode             A combination of TQ3FileModeMasks values, or the file format class signature.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
