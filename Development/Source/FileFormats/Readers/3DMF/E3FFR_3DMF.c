@@ -157,20 +157,6 @@ e3fformat_3dmf_bottomcapsset_read(TQ3FileObject theFile)
 
 
 
-//=============================================================================
-//      e3ffw_3DMF_Object_Delete :  Called to delete the end cap attribute object
-//									submitted by e3fformat_3dmf_capsset_traverse.
-//
-//		Note: e3ffw_3DMF_write_objects has a provision for deleting a temporary
-//			object, but it doesn't apply in this case because the cap objects
-//			are not shared.
-//-----------------------------------------------------------------------------
-static void
-e3ffw_3DMF_Object_Delete(void *data)
-{
-	 Q3Object_Dispose( (TQ3Object) data );
-}
-
 
 
 //=============================================================================
@@ -184,13 +170,16 @@ e3fformat_3dmf_facecapsset_read(TQ3FileObject theFile)
 }
 
 
+
+
+
 //=============================================================================
-//      e3fformat_3dmf_capsset_traverse : Creates and read a top/bottom/face caps attribute set from a 3DMF.
+//      e3fformat_3dmf_capsset_traverse : Traverse a top/bottom/face caps attribute set.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3fformat_3dmf_capsset_traverse( TQ3Object object, void *data, TQ3ViewObject view )
 {
-	TQ3Status	status = Q3XView_SubmitWriteData( view, 0, object, e3ffw_3DMF_Object_Delete );
+	TQ3Status	status = Q3XView_SubmitWriteData( view, 0, object, NULL );
 
 	// submit the attribute set packaged in the end cap attribute set
 	if (status == kQ3Success)
@@ -198,6 +187,7 @@ e3fformat_3dmf_capsset_traverse( TQ3Object object, void *data, TQ3ViewObject vie
 	
 	return status;
 }
+
 
 
 
