@@ -93,7 +93,7 @@ e3storage_memory_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSi
 	if(offset + bytesToRead > instanceData->validSize)
 		bytesToRead = instanceData->validSize - offset;
 		
-	memcpy(data,&instanceData->buffer[offset],bytesToRead);
+	Q3Memory_Copy(&instanceData->buffer[offset],data,bytesToRead);
 	
 	*sizeRead = bytesToRead;
 	
@@ -133,7 +133,7 @@ e3storage_memory_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataS
 
 
 	// Copy the block
-	memcpy(&instanceData->buffer[offset], data, bytesToWrite);
+	Q3Memory_Copy(data, &instanceData->buffer[offset], bytesToWrite);
 	
 	*sizeWritten = bytesToWrite;
 	
@@ -181,7 +181,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 			if (instanceData->buffer == NULL){
 				return(kQ3Failure);						
 				}
-			memcpy( instanceData->buffer, passedBuffer, instanceData->bufferSize );
+			Q3Memory_Copy( passedBuffer, instanceData->buffer, instanceData->bufferSize );
 			instanceData->validSize = instanceData->bufferSize;
 			instanceData->growSize = kE3MemoryStorageDefaultGrowSize;
 			}
@@ -831,7 +831,7 @@ E3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Un
 
 	// Copy the data into the buffer
 	if (buffer != NULL)
-		memcpy(instanceData->buffer, buffer, validSize);
+		Q3Memory_Copy(buffer, instanceData->buffer, validSize);
 
 	instanceData->validSize = validSize;
 	instanceData->growSize  = kE3MemoryStorageDefaultGrowSize;

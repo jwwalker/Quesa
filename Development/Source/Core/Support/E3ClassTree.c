@@ -95,6 +95,19 @@ typedef struct E3ClassInfo {
 
 
 
+//=============================================================================
+//      Internal macros
+//-----------------------------------------------------------------------------
+// Called through macro to avoid superfluous function call in release builds
+#if Q3_DEBUG
+	#define Q3_CLASS_VERIFY(_o)			e3class_verify(_o)
+#else
+	#define Q3_CLASS_VERIFY(_o)			
+#endif
+
+
+
+
 
 //=============================================================================
 //      Internal functions
@@ -204,9 +217,9 @@ e3class_detach(E3ClassInfoPtr theChild)
 			{
 			// If there's anything above us, copy it down
 			if (n != (theParent->numChildren-1))
-				memcpy(&theParent->theChildren[n],
-					   &theParent->theChildren[n+1],
-					   sizeof(E3ClassInfoPtr) * (theParent->numChildren-n-1));
+				Q3Memory_Copy(&theParent->theChildren[n+1],
+					   		  &theParent->theChildren[n],
+					   		  sizeof(E3ClassInfoPtr) * (theParent->numChildren-n-1));
 
 
 			// We're done
@@ -798,7 +811,7 @@ E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 			// a new method, and classes which don't have any parameter data will be left
 			// with instance data that's initialised to 0s.
 			else if (paramData != NULL)
-				memcpy(theObject->instanceData, paramData, theClass->instanceSize);
+				Q3Memory_Copy(paramData, theObject->instanceData, theClass->instanceSize);
 			}
 		}
 
@@ -811,7 +824,7 @@ E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 
 
 	// Verify the object and return it
-	e3class_verify(theObject);
+	Q3_CLASS_VERIFY(theObject);
 
 	return(theObject);
 }
@@ -832,7 +845,7 @@ E3ClassTree_DestroyInstance(TQ3Object theObject)
 
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(theObject));
-	e3class_verify(theObject);
+	Q3_CLASS_VERIFY(theObject);
 
 
 
@@ -889,7 +902,7 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 
 
 	// Verify our parameters
-	e3class_verify(theObject);
+	Q3_CLASS_VERIFY(theObject);
 
 
 
@@ -973,7 +986,7 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 					}
 				}
 			else
-				memcpy(newObject->instanceData, theObject->instanceData, theClass->instanceSize);
+				Q3Memory_Copy(theObject->instanceData, newObject->instanceData, theClass->instanceSize);
 			}	
 		else
 			{
@@ -1000,7 +1013,7 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 
 
 	// Verify the object and return it
-	e3class_verify(newObject);
+	Q3_CLASS_VERIFY(newObject);
 
 	return(newObject);
 }
@@ -1023,7 +1036,7 @@ E3ClassTree_FindParentInstance(TQ3Object theObject, TQ3ObjectType classType)
 
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theObject), NULL);
-	e3class_verify(theObject);
+	Q3_CLASS_VERIFY(theObject);
 
 
 
@@ -1064,7 +1077,7 @@ E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
 
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theObject), NULL);
-	e3class_verify(theObject);
+	Q3_CLASS_VERIFY(theObject);
 
 
 
@@ -1088,16 +1101,20 @@ E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType)
-{	E3ClassInfoPtr	theClass;
+{	E3ClassInfoPtr		theClass;
 	TQ3ObjectType		theType;
 
 
+
 	// Verify our parameters
-	e3class_verify(theObject);
+	Q3_CLASS_VERIFY(theObject);
+
 
 
 	// Find the class of the object
 	theClass = theObject->theClass;
+
+
 
 	// Walk up to the level immediately below the base class
 	while ( (theClass != NULL) && (theClass->theParent != NULL) &&
@@ -1111,6 +1128,8 @@ E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType)
 		theType = kQ3ObjectTypeInvalid;
 	else
 		theType = theClass->classType;
+
+
 
 	// Return the appropriate type
 	return theType;

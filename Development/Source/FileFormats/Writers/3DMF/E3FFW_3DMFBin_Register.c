@@ -193,7 +193,7 @@ e3ffw_3dmfbin_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns3
 
 
 		// Return the string
-		memcpy(dataBuffer, kWriterFormatName, (*actualDataSize)-1);
+		Q3Memory_Copy(kWriterFormatName, dataBuffer, (*actualDataSize)-1);
         dataBuffer[(*actualDataSize)-1] = 0x00;
         }
 

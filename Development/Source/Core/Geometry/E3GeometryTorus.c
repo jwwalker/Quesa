@@ -60,7 +60,7 @@ e3geom_torus_copydata(const TQ3TorusData *src, TQ3TorusData *dst, TQ3Boolean isD
 		+ 3*sizeof(TQ3Vector3D)		// orientation, major & minor axes
 		+ 5*sizeof(float)			// ratio, u/v min/max
 		+ sizeof(TQ3EndCap);		// endcaps
-	memcpy( dst, src, theSize );
+	Q3Memory_Copy( src, dst, theSize );
 
 	// copy or shared-replace the attributes
 	if (isDuplicate)
@@ -646,7 +646,7 @@ E3Torus_SetOrigin(TQ3GeometryObject theTorus, const TQ3Point3D *origin)
 {
 	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
 
-	memcpy( &instanceData->origin, origin, sizeof(TQ3Point3D) );
+	Q3Memory_Copy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
 
 	Q3Shared_Edited(theTorus);
 	return(kQ3Success);
@@ -664,7 +664,7 @@ E3Torus_SetOrientation(TQ3GeometryObject theTorus, const TQ3Vector3D *orientatio
 {
 	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
 
-	memcpy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(theTorus);
 	return(kQ3Success);
@@ -682,7 +682,7 @@ E3Torus_SetMajorRadius(TQ3GeometryObject theTorus, const TQ3Vector3D *majorRadiu
 {
 	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
 
-	memcpy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(theTorus);
 	return(kQ3Success);
@@ -700,7 +700,7 @@ E3Torus_SetMinorRadius(TQ3GeometryObject theTorus, const TQ3Vector3D *minorRadiu
 {
 	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
 
-	memcpy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(theTorus);
 	return(kQ3Success);
@@ -718,7 +718,7 @@ E3Torus_GetOrigin(TQ3GeometryObject theTorus, TQ3Point3D *origin)
 {
 	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
 
-	memcpy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
+	Q3Memory_Copy( &instanceData->origin,  origin,sizeof(TQ3Point3D) );
 	return(kQ3Success);
 }
 
@@ -734,7 +734,7 @@ E3Torus_GetOrientation(TQ3GeometryObject theTorus, TQ3Vector3D *orientation)
 {
 	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
 
-	memcpy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 
@@ -750,7 +750,7 @@ E3Torus_GetMajorRadius(TQ3GeometryObject theTorus, TQ3Vector3D *majorRadius)
 {
 	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
 
-	memcpy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 
@@ -766,7 +766,7 @@ E3Torus_GetMinorRadius(TQ3GeometryObject theTorus, TQ3Vector3D *minorRadius)
 {
 	TQ3TorusData		*instanceData = (TQ3TorusData *) theTorus->instanceData;
 
-	memcpy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 

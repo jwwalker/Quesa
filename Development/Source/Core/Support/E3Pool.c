@@ -179,7 +179,7 @@ E3Pool_AllocateTagged(
 		
 		// If required, tag first item in block
 		if (tagItemPtr != NULL)
-			memcpy(currItemPtr, tagItemPtr, itemSize);
+			Q3Memory_Copy(tagItemPtr, currItemPtr, itemSize);
 	}
 
 	// Allocate next free item

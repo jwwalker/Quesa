@@ -66,15 +66,15 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 	// copy controlPoints, uKnots, vKnots
 	theSize = sizeof(TQ3RationalPoint4D) * src->numColumns * src->numRows;
 	dst->controlPoints = (TQ3RationalPoint4D *) Q3Memory_Allocate( theSize );
-	memcpy( dst->controlPoints, src->controlPoints, theSize );
+	Q3Memory_Copy( src->controlPoints, dst->controlPoints, theSize );
 	
 	theSize = sizeof(float) * (src->uOrder+src->numColumns);
 	dst->uKnots = (float *) Q3Memory_Allocate( theSize );
-	memcpy( dst->uKnots, src->uKnots, theSize );
+	Q3Memory_Copy( src->uKnots, dst->uKnots, theSize );
         
 	theSize = sizeof(float) * (src->vOrder+src->numRows);
 	dst->vKnots = (float *) Q3Memory_Allocate( theSize );
-	memcpy( dst->vKnots, src->vKnots, theSize );
+	Q3Memory_Copy( src->vKnots, dst->vKnots, theSize );
     
 	// Copy all trim loops.
 	// This is complicated because we have several layers of nested arrays.
@@ -84,7 +84,7 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 		// Copy TrimLoops, basic data.
 		theSize = sizeof(TQ3NURBPatchTrimLoopData) * src->numTrimLoops;
 		dst->trimLoops = (TQ3NURBPatchTrimLoopData *) Q3Memory_Allocate( theSize );
-		memcpy( dst->trimLoops, src->trimLoops, theSize );
+		Q3Memory_Copy( src->trimLoops, dst->trimLoops, theSize );
 
 		// Now iterate over trim loop curves, copy them.
 		for (i=0; i < src->numTrimLoops; i++) {
@@ -93,23 +93,25 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 			theSize = sizeof(TQ3NURBPatchTrimCurveData) * src->trimLoops[i].numTrimCurves;
 			if (theSize) {
 				dst->trimLoops[i].trimCurves = (TQ3NURBPatchTrimCurveData *) Q3Memory_Allocate( theSize );
-				memcpy( dst->trimLoops[i].trimCurves, src->trimLoops[i].trimCurves, theSize );
+				Q3Memory_Copy( src->trimLoops[i].trimCurves, dst->trimLoops[i].trimCurves, theSize );
 				
 				// Now, for a particular curve, copy its control points and knots.
 				for (j=0; j < src->trimLoops[i].numTrimCurves; j++) {
 					theSize = sizeof(TQ3RationalPoint3D) * src->trimLoops[i].trimCurves[j].numPoints;
 					if (theSize) {
 						dst->trimLoops[i].trimCurves[j].controlPoints = (TQ3RationalPoint3D *) Q3Memory_Allocate(theSize);
-						memcpy( dst->trimLoops[i].trimCurves[j].controlPoints, 
-								src->trimLoops[i].trimCurves[j].controlPoints, theSize );
+						Q3Memory_Copy(	src->trimLoops[i].trimCurves[j].controlPoints,
+										dst->trimLoops[i].trimCurves[j].controlPoints, 
+										theSize );
 					}
 					numKnots = src->trimLoops[i].trimCurves[j].numPoints
 								  + src->trimLoops[i].trimCurves[j].order;
 					theSize = sizeof(float) * numKnots;
 					if (theSize) {
 						dst->trimLoops[i].trimCurves[j].knots = (float *) Q3Memory_Allocate(theSize);
-						memcpy( dst->trimLoops[i].trimCurves[j].knots, 
-								src->trimLoops[i].trimCurves[j].knots, theSize );
+						Q3Memory_Copy(	src->trimLoops[i].trimCurves[j].knots,
+										dst->trimLoops[i].trimCurves[j].knots, 
+										theSize );
 					}
 				}
 			}
@@ -1469,7 +1471,7 @@ E3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3U
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 
 	// Copy the point from point4D to controlPoints
-	memcpy( &instanceData->controlPoints[ instanceData->numColumns*rowIndex + columnIndex ], point4D, sizeof(TQ3RationalPoint4D) );
+	Q3Memory_Copy( point4D, &instanceData->controlPoints[ instanceData->numColumns*rowIndex + columnIndex ], sizeof(TQ3RationalPoint4D) );
 
 	Q3Shared_Edited(nurbPatch);
 	return(kQ3Success);
@@ -1490,7 +1492,7 @@ E3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3U
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 
 	// Copy the point from controlPoints to point4D
-	memcpy( point4D, &instanceData->controlPoints[ instanceData->numColumns*rowIndex + columnIndex ], sizeof(TQ3RationalPoint4D) );
+	Q3Memory_Copy( &instanceData->controlPoints[ instanceData->numColumns*rowIndex + columnIndex ], point4D, sizeof(TQ3RationalPoint4D) );
 
 	return(kQ3Success);
 }
@@ -1510,7 +1512,7 @@ E3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knot
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 
 	// Copy the knot from knotValue to uKnots
-	memcpy( &instanceData->uKnots[ knotIndex ], &knotValue, sizeof(float) );
+	Q3Memory_Copy( &knotValue, &instanceData->uKnots[ knotIndex ], sizeof(float) );
 
 	Q3Shared_Edited(nurbPatch);
 	return(kQ3Success);
@@ -1531,7 +1533,7 @@ E3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knot
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 
 	// Copy the knot from knotValue to vKnots
-	memcpy( &instanceData->vKnots[ knotIndex ], &knotValue, sizeof(float) );
+	Q3Memory_Copy( &knotValue, &instanceData->vKnots[ knotIndex ], sizeof(float) );
 
 	Q3Shared_Edited(nurbPatch);
 	return(kQ3Success);
@@ -1552,7 +1554,7 @@ E3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *kno
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 	
 	// Copy the knot from uKnots to knotValue
-	memcpy( knotValue, &instanceData->uKnots[ knotIndex ], sizeof(float) );
+	Q3Memory_Copy( &instanceData->uKnots[ knotIndex ], knotValue, sizeof(float) );
 
 	return(kQ3Success);
 }
@@ -1572,7 +1574,7 @@ E3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *kno
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 	
 	// Copy the knot from uKnots to knotValue
-	memcpy( knotValue, &instanceData->vKnots[ knotIndex ], sizeof(float) );
+	Q3Memory_Copy( &instanceData->vKnots[ knotIndex ], knotValue, sizeof(float) );
 
 	return(kQ3Success);
 }

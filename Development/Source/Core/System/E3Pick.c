@@ -114,7 +114,7 @@ e3pick_hit_duplicate_path(TQ3HitPath *pickedPath, TQ3HitPath *newPath)
 	if (newPath->positions == NULL)
 		return(kQ3Failure);
 
-	memcpy(newPath->positions, pickedPath->positions, theSize);
+	Q3Memory_Copy(pickedPath->positions, newPath->positions, theSize);
 
 
 

@@ -60,7 +60,7 @@ e3geom_cone_copydata(const TQ3ConeData *src, TQ3ConeData *dst, TQ3Boolean isDupl
 		+ 3*sizeof(TQ3Vector3D)	// orientation and 2 axes
 		+ 4*sizeof(float)		// u/v min/max
 		+ sizeof(TQ3EndCap);	// endcaps
-	memcpy( dst, src, theSize );
+	Q3Memory_Copy( src, dst, theSize );
 
 	// copy or shared-replace the attributes
 	if (isDuplicate)
@@ -701,7 +701,7 @@ E3Cone_SetOrigin(TQ3GeometryObject theCone, const TQ3Point3D *origin)
 {
 	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
 
-	memcpy( &instanceData->origin, origin, sizeof(TQ3Point3D) );
+	Q3Memory_Copy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
 
 	Q3Shared_Edited(theCone);
 	return(kQ3Success);
@@ -719,7 +719,7 @@ E3Cone_SetOrientation(TQ3GeometryObject theCone, const TQ3Vector3D *orientation)
 {
 	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
 
-	memcpy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(theCone);
 	return(kQ3Success);
@@ -737,7 +737,7 @@ E3Cone_SetMajorRadius(TQ3GeometryObject theCone, const TQ3Vector3D *majorRadius)
 {
 	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
 
-	memcpy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(theCone);
 	return(kQ3Success);
@@ -755,7 +755,7 @@ E3Cone_SetMinorRadius(TQ3GeometryObject theCone, const TQ3Vector3D *minorRadius)
 {
 	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
 
-	memcpy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(theCone);
 	return(kQ3Success);
@@ -773,7 +773,7 @@ E3Cone_GetOrigin(TQ3GeometryObject theCone, TQ3Point3D *origin)
 {
 	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
 
-	memcpy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
+	Q3Memory_Copy( &instanceData->origin, origin, sizeof(TQ3Point3D) );
 	return(kQ3Success);
 }
 
@@ -789,7 +789,7 @@ E3Cone_GetOrientation(TQ3GeometryObject theCone, TQ3Vector3D *orientation)
 {
 	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
 
-	memcpy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 
@@ -805,7 +805,7 @@ E3Cone_GetMajorRadius(TQ3GeometryObject theCone, TQ3Vector3D *majorRadius)
 {
 	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
 
-	memcpy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 
@@ -821,7 +821,7 @@ E3Cone_GetMinorRadius(TQ3GeometryObject theCone, TQ3Vector3D *minorRadius)
 {
 	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
 
-	memcpy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 

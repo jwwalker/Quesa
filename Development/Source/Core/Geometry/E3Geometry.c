@@ -482,9 +482,9 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 					E3View_State_GetStyleSubdivision(theView),
 					sizeof(TQ3SubdivisionStyleData)) != 0)
 			{
-			memcpy(&instanceData->subdivisionStyle,
-					E3View_State_GetStyleSubdivision(theView),
-					sizeof(TQ3SubdivisionStyleData));
+			Q3Memory_Copy(E3View_State_GetStyleSubdivision(theView),
+							&instanceData->subdivisionStyle,
+							sizeof(TQ3SubdivisionStyleData));
 			return(kQ3False);
 			}
 

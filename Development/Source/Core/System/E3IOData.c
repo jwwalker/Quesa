@@ -101,7 +101,7 @@ e3unknown_binary_duplicateData(const TQ3UnknownBinaryData *fromData, TQ3UnknownB
 		{
 		toData->contents = (char *) Q3Memory_Allocate(fromData->size);
 		if (toData->contents != NULL)
-			memcpy(toData->contents, fromData->contents,fromData->size);
+			Q3Memory_Copy(fromData->contents, toData->contents,fromData->size);
 		else
 			qd3dStatus = kQ3Failure;
 		}
@@ -931,7 +931,7 @@ E3String_Write(const char *data, TQ3FileObject theFile)
 		
 		// In this situation, QD3D writes kQ3StringMaximumLength bytes.  But since the
 		// data parameter is const, we must make a copy.
-		memcpy( strCopy, data, kQ3StringMaximumLength - 1 );
+		Q3Memory_Copy(data, strCopy, kQ3StringMaximumLength - 1 );
 		strCopy[ kQ3StringMaximumLength - 1 ] = '\0';
 		
 		status = E3String_WriteUnlimited( strCopy, theFile );

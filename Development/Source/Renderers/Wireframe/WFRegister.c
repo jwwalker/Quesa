@@ -212,7 +212,7 @@ wf_wireframe_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *
 		
 		
 		// Return the string
-		memcpy(dataBuffer, kRendererNickName, (*actualDataSize)-1);
+		Q3Memory_Copy(kRendererNickName, dataBuffer, (*actualDataSize)-1);
         dataBuffer[(*actualDataSize)-1] = 0x00;
         }
 
