@@ -88,6 +88,18 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TriMesh;
 			break;
 
+		case kQ3GeometryTypeCone:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Cone;
+			break;
+
+		case kQ3GeometryTypeTorus:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Torus;
+			break;
+
+		case kQ3GeometryTypeCylinder:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Cylinder;
+			break;
+
 /*
 		case kQ3GeometryTypeMarker:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Marker;
@@ -132,14 +144,6 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TriGrid;
 			break;
 
-		case kQ3GeometryTypeCone:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Cone;
-			break;
-
-		case kQ3GeometryTypeCylinder:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Cylinder;
-			break;
-
 		case kQ3GeometryTypeDisk:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Disk;
 			break;
@@ -156,9 +160,6 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Polyhedron;
 			break;
 
-		case kQ3GeometryTypeTorus:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Torus;
-			break;
 */
 		}
 	
