@@ -287,14 +287,8 @@ ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
 #pragma mark -
 void
 IRGeometry_Transparent_StartPass(TQ3InteractiveData *instanceData, TQ3CameraObject theCamera)
-{	TQ3CameraPlacement		thePlacement;
+{
 
-
-
-	// Grab the z coordinate of the camera in world coordinates
-	Q3Camera_GetPlacement(theCamera, &thePlacement);
-
-	instanceData->cameraZ       = thePlacement.cameraLocation.z;
 	instanceData->cameraIsOrtho = (Q3Camera_GetType(theCamera) == kQ3CameraTypeOrthographic);
 }
 
@@ -406,9 +400,11 @@ IRGeometry_Transparent_Add(TQ3ViewObject			theView,
 							const TQ3ColorRGB		**colourDiffuse,
 							const TQ3ColorRGB		**colourTransparent)
 {	TQ3Matrix4x4			localToWorld;
+	TQ3Matrix4x4			worldToFrustum;
 	float					z1, z2, z3;
 	TQ3TransparentPrim		*thePrim;
 	TQ3Uns32				n;
+	TQ3Point3D				frustPts[3];
 
 
 
@@ -421,6 +417,7 @@ IRGeometry_Transparent_Add(TQ3ViewObject			theView,
 
 	// Initialise ourselves
 	Q3View_GetLocalToWorldMatrixState(theView, &localToWorld);
+	Q3View_GetWorldToFrustumMatrixState(theView, &worldToFrustum);
 
 
 
@@ -483,11 +480,17 @@ IRGeometry_Transparent_Add(TQ3ViewObject			theView,
 		}
 
 
+	// Compute points in frustum coordinates for depth sorting
+	for (n = 0; n < E3Num_Min(3, numVerts); ++n)
+		{
+		Q3Point3D_Transform(thePoints[n], &worldToFrustum, &frustPts[n]);
+		}
+
 
 	// Set up the primitive bounds in z
-	z1 =                   (instanceData->cameraZ - thePrim->thePoints[0].z);
-	z2 = (numVerts >= 2) ? (instanceData->cameraZ - thePrim->thePoints[1].z) : z1;
-	z3 = (numVerts >= 3) ? (instanceData->cameraZ - thePrim->thePoints[2].z) : z1;
+	z1 =                   (-frustPts[0].z);
+	z2 = (numVerts >= 2) ? (-frustPts[1].z) : z1;
+	z3 = (numVerts >= 3) ? (-frustPts[2].z) : z1;
 
 	thePrim->zMin = E3Num_Min(z1, E3Num_Min(z2, z3));
 	thePrim->zMax = E3Num_Max(z1, E3Num_Max(z2, z3));
