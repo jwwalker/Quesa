@@ -1893,11 +1893,68 @@ Q3Object_ClearElement (
 
 /*!
  *  @function
+ *      Q3Object_GetSet
+ *  @discussion
+ *      Get the element set of an object.  This is not the same as the set
+ *		returned by <code>Q3Shape_GetSet</code>.
+ *
+ *      This function is primarily for the use of file format plug-ins.
+ *		Most applications will not need it.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param	object    		The object.
+ *  @param	set             Receives a set object, or NULL.
+ *	@result		Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_GetSet (
+    TQ3Object               object,
+    TQ3SetObject*			set
+);
+
+#endif
+
+
+
+/*!
+ *  @function
+ *      Q3Object_SetSet
+ *  @discussion
+ *      Assign to the element set of an object, disposing any previous set.
+ *		This is not the same as the set element that is
+ *		changed by <code>Q3Shape_SetSet</code>.
+ *
+ *      This function is primarily for the use of file format plug-ins.
+ *		Most applications will not need it.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param	object    		The object.
+ *	@param	set				A set object.
+ *  @result                 A set object, or NULL.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_SetSet (
+    TQ3Object               object,
+    TQ3SetObject			set
+);
+
+#endif
+
+
+
+/*!
+ *  @function
  *      Q3Shared_GetType
  *  @discussion
  *      Get the type of a shared object.
  *
- *      Retursn kQ3ObjectTypeInvalid if the object is not a shared object or
+ *      Returns kQ3ObjectTypeInvalid if the object is not a shared object or
  *      the type can not be determined. Returns a kQ3SharedTypeXXXX value
  *      for shared objects.
  *
