@@ -86,13 +86,14 @@
 	#define		QUESA_FACE5_PATH	"..\\Support Files\\Images\\5.tga"
 	#define		QUESA_FACE6_PATH	"..\\Support Files\\Images\\6.tga"
 #else
-	#define		QUESA_LOGO_PATH		"../Support Files/Images/Quesa.tga"
-	#define		QUESA_FACE1_PATH	"../Support Files/Images/1.tga"
-	#define		QUESA_FACE2_PATH	"../Support Files/Images/2.tga"
-	#define		QUESA_FACE3_PATH	"../Support Files/Images/3.tga"
-	#define		QUESA_FACE4_PATH	"../Support Files/Images/4.tga"
-	#define		QUESA_FACE5_PATH	"../Support Files/Images/5.tga"
-	#define		QUESA_FACE6_PATH	"../Support Files/Images/6.tga"
+	// Assume that we're building the "Unix make" version
+	#define		QUESA_LOGO_PATH		"./Images/Quesa.tga"
+	#define		QUESA_FACE1_PATH	"./Images/1.tga"
+	#define		QUESA_FACE2_PATH	"./Images/2.tga"
+	#define		QUESA_FACE3_PATH	"./Images/3.tga"
+	#define		QUESA_FACE4_PATH	"./Images/4.tga"
+	#define		QUESA_FACE5_PATH	"./Images/5.tga"
+	#define		QUESA_FACE6_PATH	"./Images/6.tga"
 #endif
 
 #define		QUESA_LOGO_FALLBACK_PATH		"Quesa.tga"

@@ -60,6 +60,20 @@ ln -sf "../../../../../SDK/Examples/Support Files/Models/3DMF/F15.3dmf" F15.3dmf
 
 popd
 
+mkdir Images
+pushd Images
+
+ln -sf "../../../../../SDK/Examples/Support Files/Images/Quesa.tga" Quesa.tga
+ln -sf "../../../../../SDK/Examples/Support Files/Images/1.tga" 1.tga
+ln -sf "../../../../../SDK/Examples/Support Files/Images/2.tga" 2.tga
+ln -sf "../../../../../SDK/Examples/Support Files/Images/3.tga" 3.tga
+ln -sf "../../../../../SDK/Examples/Support Files/Images/4.tga" 4.tga
+ln -sf "../../../../../SDK/Examples/Support Files/Images/5.tga" 5.tga
+ln -sf "../../../../../SDK/Examples/Support Files/Images/6.tga" 6.tga
+
+
+popd
+
 popd
 
 popd
