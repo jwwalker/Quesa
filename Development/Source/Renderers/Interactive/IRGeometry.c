@@ -675,7 +675,7 @@ IRGeometry_Validate_Vertices(TQ3InteractiveData		*instanceData,
 		{
 		theNormal = (const TQ3Vector3D *) (((const TQ3Uns8 *) theNormals) + (vertexStride * n));
 		theLength = Q3FastVector3D_Length(theNormal);
-		if (fabs( theLength - 1.0f ) > kQ3RealZero)
+		if (fabs( theLength - 1.0f ) > 3.0f * kQ3RealZero)
 			Q3XWarning_Post(kQ3WarningVertexNotNormalized);
 		}
 
