@@ -327,6 +327,9 @@ qut_carbon_window_event(EventHandlerCallRef inHandlerCallRef,
 		// Grab the event data
 		err = GetEventParameter(inEvent,kEventParamMouseLocation,
         	                typeQDPoint, NULL, sizeof(Point),NULL, &mousePoint);
+        	                
+        SetPortWindowPort( (WindowRef)gWindow );
+        GlobalToLocal( &mousePoint );
 
 
 		// If we have a mouse down handler, call it
