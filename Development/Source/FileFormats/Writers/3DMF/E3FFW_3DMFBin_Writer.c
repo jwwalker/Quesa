@@ -48,12 +48,12 @@
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FFW_3DMF_StartFile(TQ3ViewObject				theView,
-						TE3FFormatW3DMF_Data		*instanceData,
+						TE3FFormatW3DMF_Data		*fileFormatPrivate,
 						TQ3DrawContextObject	theDrawContext)
 {
 #pragma unused(theDrawContext)
 	
-	return E3FFW_3DMF_TraverseObject (theView, instanceData, NULL, kQ3ObjectType3DMF, NULL);
+	return E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, kQ3ObjectType3DMF, NULL);
 	
 }
 
@@ -65,8 +65,12 @@ E3FFW_3DMF_StartFile(TQ3ViewObject				theView,
 TQ3Status
 E3FFW_3DMF_Group(TQ3ViewObject       theView,
 						void                *fileFormatPrivate,
-						TQ3GroupObject   theGroup)
+						TQ3GroupObject   theGroup,
+						TQ3ObjectType		objectType,
+						const void		*objectData)
 {
+#pragma unused(objectType)
+#pragma unused(objectData)
 	TQ3Status							qd3dStatus;
 	TQ3GroupPosition					position;
 	TQ3Object							subObject;
@@ -112,10 +116,10 @@ E3FFW_3DMF_Group(TQ3ViewObject       theView,
 //      E3FFW_3DMFBin_Cancel: Cancel a pass.
 //-----------------------------------------------------------------------------
 void
-E3FFW_3DMF_Cancel(TQ3ViewObject theView, TE3FFormatW3DMF_Data *instanceData)
+E3FFW_3DMF_Cancel(TQ3ViewObject theView, TE3FFormatW3DMF_Data *fileFormatPrivate)
 {
 #pragma unused(theView)
-#pragma unused(instanceData)
+#pragma unused(fileFormatPrivate)
 	// To Be implemented
 }
 
@@ -211,6 +215,21 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 	return (qd3dStatus);
 }
 
+//=============================================================================
+//      E3FFW_3DMF_Void_Traverse: The traverse method for zero data classes.
+//-----------------------------------------------------------------------------
+
+TQ3Status
+E3FFW_3DMF_WriteObject(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data		*fileFormatPrivate,
+					TQ3Object		theObject,
+					TQ3ObjectType	objectType,
+					const void		*objectData)
+{
+	
+	return E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, theObject, objectType, objectData);
+}
+
 
 //=============================================================================
 //      E3FFW_3DMF_TraverseObject: Do the traverse.
@@ -220,10 +239,10 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
-					TE3FFormatW3DMF_Data		*instanceData,
+					TE3FFormatW3DMF_Data		*fileFormatPrivate,
 					TQ3Object		theObject,
 					TQ3ObjectType		objectType,
-					void			*objectData)
+					const void			*objectData)
 							
 {	TQ3Status		qd3dStatus = kQ3Success;
 	TQ3ObjectType	old_lastObjectType;
@@ -248,22 +267,22 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 		return(kQ3Success);
 
 	// mark our level
-	instanceData->baseData.groupDeepCounter++;
-	old_lastObjectType = instanceData->lastObjectType;
-	instanceData->lastObjectType = objectType;
+	fileFormatPrivate->baseData.groupDeepCounter++;
+	old_lastObjectType = fileFormatPrivate->lastObjectType;
+	fileFormatPrivate->lastObjectType = objectType;
 	
 	// Call the method
-	qd3dStatus = traverse(theObject, objectData, theView);
+	qd3dStatus = traverse(theObject, (void*)objectData, theView);
 	
-	instanceData->baseData.groupDeepCounter--;
-	instanceData->lastObjectType = old_lastObjectType;
+	fileFormatPrivate->baseData.groupDeepCounter--;
+	fileFormatPrivate->lastObjectType = old_lastObjectType;
 	
-	if((instanceData->baseData.groupDeepCounter == 0) && (qd3dStatus == kQ3Success)){ // we're again in the root object
-		if(instanceData->stackCount != 0){
-			qd3dStatus = e3ffw_3DMF_write_objects (instanceData,theFile);
+	if((fileFormatPrivate->baseData.groupDeepCounter == 0) && (qd3dStatus == kQ3Success)){ // we're again in the root object
+		if(fileFormatPrivate->stackCount != 0){
+			qd3dStatus = e3ffw_3DMF_write_objects (fileFormatPrivate,theFile);
 			// clean the stack
-			instanceData->stackCount = 0;
-			Q3Memory_Free(&instanceData->stack);
+			fileFormatPrivate->stackCount = 0;
+			Q3Memory_Free(&fileFormatPrivate->stack);
 			}
 		}
 	return (qd3dStatus);
@@ -540,7 +559,7 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 				displayGroupStateClass = Q3XObjectHierarchy_FindClassByType (kQ3ObjectTypeDisplayGroupState);
 				
 				if(displayGroupStateClass != NULL)
-					qd3dStatus = E3XView_SubmitSubObjectData (view, displayGroupStateClass, 4, writeState, E3FFW_3DMF_Default_Delete);
+					qd3dStatus = Q3XView_SubmitSubObjectData (view, displayGroupStateClass, 4, writeState, E3FFW_3DMF_Default_Delete);
 				}
 			else{
 				return kQ3Failure;
