@@ -225,6 +225,7 @@ extern "C" {
 #define kQ3ClassNameStorageBe						"Quesa:Storage:Be"
 #define kQ3ClassNameDrawContextBe					"Quesa:DrawContext:Be"
 #define kQ3ClassName3DMF							"Metafile"
+#define kQ3ClassNameType							"Type"
 
 
 // Class types
@@ -242,9 +243,9 @@ extern "C" {
 #define kQ3ObjectTypeAttributeSurfaceTangent		Q3_OBJECT_TYPE('s', 'r', 't', 'n')
 #define kQ3ObjectTypeAttributeHighlightState		Q3_OBJECT_TYPE('h', 'l', 's', 't')
 #define kQ3ObjectTypeAttributeSurfaceShader			Q3_OBJECT_TYPE('s', 's', 'a', 't')
-#define kQ3ObjectTypeCustomElementName				Q3_OBJECT_TYPE('Q', 'e', 'n', 'a')
-#define kQ3ObjectTypeCustomElementUrl				Q3_OBJECT_TYPE('Q', 'e', 'u', 'r')
-#define kQ3ObjectTypeCustomElementWire				Q3_OBJECT_TYPE('Q', 'e', 'w', 'i')
+#define kQ3ObjectTypeCustomElementName				Q3_OBJECT_TYPE(0xF0, 'e', 'n', 'a')
+#define kQ3ObjectTypeCustomElementUrl				Q3_OBJECT_TYPE(0xF0, 'e', 'u', 'r')
+#define kQ3ObjectTypeCustomElementWire				Q3_OBJECT_TYPE(0xF0, 'e', 'w', 'i')
 #define kQ3StorageTypePath							Q3_OBJECT_TYPE('Q', 's', 't', 'p')
 #define kQ3StorageTypeBe							Q3_OBJECT_TYPE('Q', 's', 'b', 'e')
 #define kQ3DrawContextTypeBe						Q3_OBJECT_TYPE('Q', 'd', 'b', 'e')
@@ -291,6 +292,7 @@ extern "C" {
 #define kQ3ObjectTypeShaderUVTransform				Q3_OBJECT_TYPE('s', 'd', 'u', 'v')
 #define kQ3ObjectTypeShaderTransform				Q3_OBJECT_TYPE('s', 'd', 'x', 'f')
 #define kQ3ObjectTypeGeometryCaps					Q3_OBJECT_TYPE('c', 'a', 'p', 's')
+#define kQ3ObjectTypeType							Q3_OBJECT_TYPE('t', 'y', 'p', 'e')
 
 
 
