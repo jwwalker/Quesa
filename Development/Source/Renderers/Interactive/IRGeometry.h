@@ -62,7 +62,8 @@ TQ3AttributeSet		IRGeometry_Attribute_Combine(
 TQ3ColorRGB			*IRGeometry_Attribute_GetDiffuse(
 								TQ3InteractiveData		*instanceData,
 								TQ3AttributeSet			theAttributes,
-								TQ3Boolean				canTexture);
+								TQ3Boolean				canTexture,
+								TQ3Boolean				fallBackToWhite);
 
 TQ3ColorRGB			*IRGeometry_Attribute_GetTransparent(
 								TQ3InteractiveData		*instanceData,
