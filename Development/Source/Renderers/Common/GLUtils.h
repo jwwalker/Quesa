@@ -75,6 +75,9 @@ TQ3Uns32	GLUtils_SizeOfPixelType(TQ3PixelType pixelType);
 void		GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags );
 
 
+// Enable or disable a client state if it has changed
+void		GLUtils_UpdateClientState( TQ3Boolean enable, TQ3Boolean* stateFlag, GLenum whichArray );
+
 
 //=============================================================================
 //		C++ postamble
