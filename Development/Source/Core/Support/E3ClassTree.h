@@ -148,7 +148,10 @@ public :
 												TQ3Boolean		sharedParams,
 												const void		*paramData,
 												TQ3Boolean		leaf ) ;
-
+	static TQ3Object		CreateInstance (	TQ3ObjectType	classType,
+												TQ3Boolean		sharedParams,
+												const void		*paramData )
+		{ return CreateInstance ( classType , sharedParams , paramData , kQ3True ) ; }
 
 	// Locate a class
 	static E3ClassInfoPtr	GetClass ( TQ3ObjectType classType ) ;
@@ -195,6 +198,7 @@ public :
 	void				DestroyInstance ( void ) ;
 	TQ3Object			DuplicateInstance ( void ) ;
 	void*				FindInstanceData ( TQ3ObjectType classType ) ;
+	void*				FindLeafInstanceData ( void ) ;
 	TQ3ObjectType		GetObjectType ( TQ3ObjectType baseType ) ;
 	TQ3Object			GetLeafObject ( void ) ;
 	TQ3Boolean			IsObjectValid ( void ) ;
@@ -233,6 +237,7 @@ public :
 	void				DestroyInstance ( void ) { leafInstanceData->DestroyInstance () ; }
 	TQ3Object			DuplicateInstance ( void ) ;
 	void*				FindInstanceData ( TQ3ObjectType classType ) { return leafInstanceData->FindInstanceData ( classType ) ; }
+	void*				FindLeafInstanceData ( void ) { return leafInstanceData->FindLeafInstanceData () ; }
 	TQ3ObjectType		GetObjectType ( TQ3ObjectType baseType ) { return leafInstanceData->GetObjectType ( baseType ) ; }
 	TQ3Object			GetLeafObject ( void ) { return leafInstanceData->GetLeafObject () ; }
 	TQ3Boolean			IsObjectValid ( void ) { return leafInstanceData->IsObjectValid () ; }
