@@ -781,13 +781,36 @@ E3Storage_UnregisterClass(void)
 
 
 //=============================================================================
+//      E3Storage::IsOfMyClass : Check if object pointer is valid and of type Storage
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3SharedTypeStorage )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Storage::IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Storage ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3Storage_GetType : Return the type of a storage object.
 //-----------------------------------------------------------------------------
 TQ3ObjectType
-E3Storage_GetType(TQ3StorageObject storage)
+E3Storage::GetType ( void )
 	{
 	// Return the type
-	return storage->GetObjectType ( kQ3SharedTypeStorage ) ;
+	return GetObjectType ( kQ3SharedTypeStorage ) ;
 	}
 
 

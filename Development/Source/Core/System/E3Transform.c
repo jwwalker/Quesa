@@ -58,19 +58,6 @@
 
 
 
-class E3MatrixTransform : public E3Transform  // This is a leaf class so no other classes use this,
-								// so it can be here in the .c file rather than in
-								// the .h file, hence all the fields can be public
-								// as nobody should be including this file
-	{
-Q3_CLASS_ENUMS ( kQ3TransformTypeMatrix, E3MatrixTransform, E3Transform )
-public :
-
-	TQ3Matrix4x4						instanceData ;
-	} ;
-	
-
-
 class E3RotateTransform : public E3Transform  // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
@@ -1196,13 +1183,36 @@ E3Transform_UnregisterClass(void)
 
 
 //=============================================================================
+//      E3Transform::IsOfMyClass : Check if object pointer is valid and of type Transform
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3ShapeTypeTransform )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Transform::IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Transform ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3Transform_GetType : Return the type of a transform.
 //-----------------------------------------------------------------------------
 TQ3ObjectType
-E3Transform_GetType(TQ3TransformObject theTransform)
+E3Transform::GetType ( void )
 	{
 	// Get the type
-	return theTransform->GetObjectType ( kQ3ShapeTypeTransform ) ;
+	return GetObjectType ( kQ3ShapeTypeTransform ) ;
 	}
 
 
@@ -1228,16 +1238,12 @@ E3Transform::GetMatrix ( TQ3Matrix4x4* theMatrix )
 //      E3Transform_Submit : Submit a transform to a view.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Transform_Submit(TQ3TransformObject theTransform, TQ3ViewObject theView)
-{	TQ3Status		qd3dStatus;
-
-
+E3Transform::Submit ( TQ3ViewObject theView )
+	{
 
 	// Submit the object to the view
-	qd3dStatus = E3View_SubmitRetained(theView, theTransform);
-
-	return(qd3dStatus);
-}
+	return E3View_SubmitRetained ( theView, this ) ;
+	}
 
 
 
@@ -1282,14 +1288,38 @@ E3MatrixTransform_Submit(const TQ3Matrix4x4 *theMatrix, TQ3ViewObject theView)
 
 
 //=============================================================================
+//      E3MatrixTransform::IsOfMyClass : Check if object pointer is valid and of type MatrixTransform
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3TransformTypeMatrix )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3MatrixTransform::IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3MatrixTransform ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3MatrixTransform_Set : Set the matrix for the transform.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MatrixTransform_Set(TQ3TransformObject theTransform, const TQ3Matrix4x4 *theMatrix)
+E3MatrixTransform::Set ( const TQ3Matrix4x4* theMatrix )
 	{
 	// Set the data
-	( (E3MatrixTransform*) theTransform )->instanceData = *theMatrix ;
-	Q3Shared_Edited ( theTransform ) ;
+	matrix = *theMatrix ;
+	
+	Edited () ;
 
 	return kQ3Success ;
 	}
@@ -1302,10 +1332,10 @@ E3MatrixTransform_Set(TQ3TransformObject theTransform, const TQ3Matrix4x4 *theMa
 //      E3MatrixTransform_Get : Get the matrix for the transform.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MatrixTransform_Get(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix)
+E3MatrixTransform::Get ( TQ3Matrix4x4* theMatrix )
 	{
 	// Get the data
-	*theMatrix = ( (E3MatrixTransform*) theTransform )->instanceData ;
+	*theMatrix = matrix ;
 
 	return kQ3Success ;
 	}

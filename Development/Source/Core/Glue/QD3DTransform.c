@@ -90,7 +90,7 @@ Q3Transform_GetType(TQ3TransformObject transform)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3ShapeTypeTransform), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT( E3Transform::IsOfMyClass ( transform ), kQ3ObjectTypeInvalid);
 
 
 
@@ -108,7 +108,7 @@ Q3Transform_GetType(TQ3TransformObject transform)
 
 
 	// Call our implementation
-	return(E3Transform_GetType(transform));
+	return ( (E3Transform*) transform )->GetType () ;
 }
 
 
@@ -124,7 +124,7 @@ Q3Transform_GetMatrix(TQ3TransformObject transform, TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3ShapeTypeTransform), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Transform::IsOfMyClass ( transform ), NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), NULL);
 
 
@@ -162,7 +162,7 @@ Q3Transform_Submit(TQ3TransformObject transform, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3ShapeTypeTransform)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Transform::IsOfMyClass  (transform ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
@@ -184,7 +184,7 @@ Q3Transform_Submit(TQ3TransformObject transform, TQ3ViewObject view)
 
 
 	// Call our implementation
-	return(E3Transform_Submit(transform, view));
+	return ( (E3Transform*) transform )->Submit ( view ) ;
 }
 
 
@@ -272,7 +272,7 @@ Q3MatrixTransform_Set(TQ3TransformObject transform, const TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeMatrix)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3MatrixTransform::IsOfMyClass ( transform ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), kQ3Failure);
 
 
@@ -294,7 +294,7 @@ Q3MatrixTransform_Set(TQ3TransformObject transform, const TQ3Matrix4x4 *matrix)
 
 
 	// Call our implementation
-	return(E3MatrixTransform_Set(transform, matrix));
+	return ( (E3MatrixTransform*) transform )->Set ( matrix ) ;
 }
 
 
@@ -310,7 +310,7 @@ Q3MatrixTransform_Get(TQ3TransformObject transform, TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeMatrix)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3MatrixTransform::IsOfMyClass ( transform ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), kQ3Failure);
 
 
@@ -332,7 +332,7 @@ Q3MatrixTransform_Get(TQ3TransformObject transform, TQ3Matrix4x4 *matrix)
 
 
 	// Call our implementation
-	return(E3MatrixTransform_Get(transform, matrix));
+	return ( (E3MatrixTransform*) transform )->Get ( matrix ) ;
 }
 
 

@@ -994,6 +994,29 @@ E3Style_UnregisterClass(void)
 
 
 //=============================================================================
+//      E3Style_IsOfMyClass : Check if object pointer is valid and of type Style
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3ShapeTypeStyle )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Style_IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Style ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3Style_GetType : Get the type of a style object.
 //-----------------------------------------------------------------------------
 TQ3ObjectType
