@@ -9,6 +9,8 @@ typedef enum {
 </blockquote>
 <p>CSG attribute.
 <br><br>
+The data for the attribute is a single TQ3CSGObjectID.
+<br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
@@ -46,10 +48,10 @@ typedef enum TQ3CSGEquation {
 </table>
 </blockquote>
 <hr>
-<a name="//apple_ref/c/tag/TQ3CSGObject"></a>
-<h3><a name="TQ3CSGObject">TQ3CSGObject</a></h3>
+<a name="//apple_ref/c/tag/TQ3CSGObjectID"></a>
+<h3><a name="TQ3CSGObjectID">TQ3CSGObjectID</a></h3>
 <blockquote><pre>
-typedef enum TQ3CSGObject {
+typedef enum TQ3CSGObjectID {
     kQ3SolidGeometryObjNone                     = -1,
     kQ3SolidGeometryObjA                        = 0,
     kQ3SolidGeometryObjB                        = 1,
@@ -57,10 +59,10 @@ typedef enum TQ3CSGObject {
     kQ3SolidGeometryObjD                        = 3,
     kQ3SolidGeometryObjE                        = 4,
     kQ3SolidGeometrySize32                      = 0xFFFFFFFF
-} TQ3CSGObject;
+} TQ3CSGObjectID;
 </pre>
 </blockquote>
-<p>CSG objects.
+<p>CSG object IDs.
 <br><br>
 </p>
 <h4>Constants</h4>
@@ -171,63 +173,6 @@ typedef enum TQ3TextureFilter {
 <tr valign=top><td><a name="//apple_ref/c/econst/kQATextureFilter_Fast"><tt>kQATextureFilter_Fast</tt></a></td><td>Select nearest pixel.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQATextureFilter_Mid"><tt>kQATextureFilter_Mid</tt></a></td><td>Perform basic filtering.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQATextureFilter_Best"><tt>kQATextureFilter_Best</tt></a></td><td>Perform high quality filtering.</td><tr>
-</table>
-</blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3XAttributeMask"></a>
-<h3><a name="TQ3XAttributeMask">TQ3XAttributeMask</a></h3>
-<blockquote><pre>
-typedef enum TQ3XAttributeMask {
-    kQ3XAttributeMaskNone                       = 0,
-    kQ3XAttributeMaskSurfaceUV                  = (1 << (kQ3AttributeTypeSurfaceUV          - 1)),
-    kQ3XAttributeMaskShadingUV                  = (1 << (kQ3AttributeTypeShadingUV          - 1)),
-    kQ3XAttributeMaskNormal                     = (1 << (kQ3AttributeTypeNormal             - 1)),
-    kQ3XAttributeMaskAmbientCoefficient         = (1 << (kQ3AttributeTypeAmbientCoefficient - 1)),
-    kQ3XAttributeMaskDiffuseColor               = (1 << (kQ3AttributeTypeDiffuseColor       - 1)),
-    kQ3XAttributeMaskSpecularColor              = (1 << (kQ3AttributeTypeSpecularColor      - 1)),
-    kQ3XAttributeMaskSpecularControl            = (1 << (kQ3AttributeTypeSpecularControl    - 1)),
-    kQ3XAttributeMaskTransparencyColor          = (1 << (kQ3AttributeTypeTransparencyColor  - 1)),
-    kQ3XAttributeMaskSurfaceTangent             = (1 << (kQ3AttributeTypeSurfaceTangent     - 1)),
-    kQ3XAttributeMaskHighlightState             = (1 << (kQ3AttributeTypeHighlightState     - 1)),
-    kQ3XAttributeMaskSurfaceShader              = (1 << (kQ3AttributeTypeSurfaceShader      - 1)),
-    kQ3XAttributeMaskCustomAttribute            = 0x80000000,
-    kQ3XAttributeMaskAll                        = 0x800007FF,
-    kQ3XAttributeMaskInherited                  = 0x000003FF,
-    kQ3XAttributeMaskInterpolated               = kQ3XAttributeMaskSurfaceUV          |
-                                                  kQ3XAttributeMaskShadingUV          |
-                                                  kQ3XAttributeMaskNormal             |
-                                                  kQ3XAttributeMaskAmbientCoefficient |
-                                                  kQ3XAttributeMaskDiffuseColor       |
-                                                  kQ3XAttributeMaskSpecularControl    |
-                                                  kQ3XAttributeMaskTransparencyColor  |
-                                                  kQ3XAttributeMaskSurfaceTangent,
-    kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
-} TQ3XAttributeMask;
-</pre>
-</blockquote>
-<p>Attribute mask flags.
-<br><br>
-</p>
-<h4>Constants</h4>
-<blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskNone"><tt>kQ3XAttributeMaskNone</tt></a></td><td>No attributes.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSurfaceUV"><tt>kQ3XAttributeMaskSurfaceUV</tt></a></td><td>Surface UV attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskShadingUV"><tt>kQ3XAttributeMaskShadingUV</tt></a></td><td>Shading UV attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskNormal"><tt>kQ3XAttributeMaskNormal</tt></a></td><td>Normal attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskAmbientCoefficient"><tt>kQ3XAttributeMaskAmbientCoefficient</tt></a></td><td>Ambient coefficent attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskDiffuseColor"><tt>kQ3XAttributeMaskDiffuseColor</tt></a></td><td>Diffuse color attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSpecularColor"><tt>kQ3XAttributeMaskSpecularColor</tt></a></td><td>Specular color attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSpecularControl"><tt>kQ3XAttributeMaskSpecularControl</tt></a></td><td>Specular control attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskTransparencyColor"><tt>kQ3XAttributeMaskTransparencyColor</tt></a></td><td>Transparency color attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSurfaceTangent"><tt>kQ3XAttributeMaskSurfaceTangent</tt></a></td><td>Surface tangent attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskHighlightState"><tt>kQ3XAttributeMaskHighlightState</tt></a></td><td>Highlight state attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSurfaceShader"><tt>kQ3XAttributeMaskSurfaceShader</tt></a></td><td>Surface shader attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskCustomAttribute"><tt>kQ3XAttributeMaskCustomAttribute</tt></a></td><td>Custom attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskAll"><tt>kQ3XAttributeMaskAll</tt></a></td><td>All attributes.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskInherited"><tt>kQ3XAttributeMaskInherited</tt></a></td><td>Inherited attributes mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskInterpolated"><tt>kQ3XAttributeMaskInterpolated</tt></a></td><td>Interpolated attributes mask.</td><tr>
 </table>
 </blockquote>
 <hr>
@@ -447,5 +392,5 @@ typedef enum TQ3XMethodTypeRenderer {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
 </body></html>
