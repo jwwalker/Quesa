@@ -135,7 +135,6 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 	
 	TQ3Size					size;
 	TQ3Uns32				i,j;
-	E3ClassInfoPtr			theClass = NULL;
 	TQ3ObjectType			container;
 	TQ3Uns32				lastLevel;
 #if Q3_DEBUG
