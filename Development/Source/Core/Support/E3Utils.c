@@ -332,15 +332,20 @@ TQ3Boolean	E3Matrix4x4_IsIdentity(const TQ3Matrix4x4 *theMatrix)
 
 
 //=============================================================================
-//      E3String_IsEqual : Is a srt_a case insensitive equal to srt_b?
+//      E3String_IsEqual : Is a str_a case insensitive equal to str_b?
 //-----------------------------------------------------------------------------
 TQ3Boolean	E3CString_IsEqual(const char *str_a, const char *str_b)
-{	
-	while ((*str_a != '\0') && (*str_b != '\0'))
-		if (toupper(*str_a++) != toupper(*str_b++))
-			return kQ3False;
-	return (TQ3Boolean)(*str_a == *str_b);
+{
 
+
+	// Compare the strings
+	while ((*str_a != '\0') && (*str_b != '\0'))
+		{
+		if (toupper(*str_a++) != toupper(*str_b++))
+			return(kQ3False);
+		}
+
+	return((TQ3Boolean) (*str_a == *str_b));
 }
 
 
