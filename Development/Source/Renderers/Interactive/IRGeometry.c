@@ -467,7 +467,7 @@ ir_geom_cache_prim_render(const TQ3CachedPrim *thePrim)
 			break;
 
 		case kQ3PrimPoint:
-			glBegin(GL_POINT);
+			glBegin(GL_POINTS);
 			numVerts = 1;
 			break;
         
@@ -567,7 +567,7 @@ ir_geom_submit_prim_render(TQ3ViewObject			theView,
 			break;
 
 		case kQ3PrimPoint:
-			glBegin(GL_POINT);
+			glBegin(GL_POINTS);
 			numVerts = 1;
 			break;
         
