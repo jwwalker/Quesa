@@ -49,6 +49,7 @@
 #include "E3Set.h"
 #include "E3GeometryTriMesh.h"
 #include "E3Utils.h"
+#include "E3View.h"
 
 
 
@@ -574,7 +575,8 @@ E3Rect_IntersectRect(const TQ3Area *rect1, const TQ3Area *rect2)
 //				coordinate.
 //-----------------------------------------------------------------------------
 void
-E3Triangle_InterpolateHit(const TQ3TriangleData		*theTriangle,
+E3Triangle_InterpolateHit (	TQ3ViewObject			theView,
+							const TQ3TriangleData	*theTriangle,
 							const TQ3Param3D		*theHit,
 							TQ3Point3D				*hitXYZ,
 							TQ3Vector3D				*hitNormal,
@@ -587,6 +589,7 @@ E3Triangle_InterpolateHit(const TQ3TriangleData		*theTriangle,
 	TQ3Param2D			theUVs[3];
 	TQ3AttributeSet		theSet;
 	TQ3Uns32			n;
+	TQ3Matrix4x4		localToWorldForNormals ;
 
 
 
@@ -607,11 +610,22 @@ E3Triangle_InterpolateHit(const TQ3TriangleData		*theTriangle,
 							  &triNormal);
 	Q3Vector3D_Normalize(&triNormal, &triNormal);
 
+	localToWorldForNormals = *E3View_State_GetLocalToWorld(theView) ;
+	
+	// See 'Computer Graphics principals and practice' second edition page 1108
+	localToWorldForNormals.value [ 3 ] [ 0 ] = 0.0f ;
+	localToWorldForNormals.value [ 3 ] [ 1 ] = 0.0f ;
+	localToWorldForNormals.value [ 3 ] [ 2 ] = 0.0f ;
+	localToWorldForNormals.value [ 3 ] [ 3 ] = 1.0f ;
+	Q3Matrix4x4_Transpose ( &localToWorldForNormals , &localToWorldForNormals ) ;
+	Q3Matrix4x4_Invert ( &localToWorldForNormals , &localToWorldForNormals ) ;
+
 	if (theTriangle->triangleAttributeSet != NULL)
 		{
 		theNormal = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(theTriangle->triangleAttributeSet, kQ3AttributeTypeNormal);
+
 		if (theNormal != NULL)
-			triNormal = *theNormal;
+			Q3Vector3D_Transform(theNormal, &localToWorldForNormals, &triNormal) ;
 		}
 
 
@@ -630,8 +644,8 @@ E3Triangle_InterpolateHit(const TQ3TriangleData		*theTriangle,
 		if (theSet != NULL)
 			{
 			// Override normal
-			Q3AttributeSet_Get(theSet, kQ3AttributeTypeNormal, &theNormals[n]);
-			
+			if ( Q3AttributeSet_Get(theSet, kQ3AttributeTypeNormal, &theNormals[n]) != kQ3Failure )
+				Q3Vector3D_Transform(&theNormals[n], &localToWorldForNormals, &theNormals[n]) ;
 			
 			// Override UV
 			if (Q3AttributeSet_Get(theSet, kQ3AttributeTypeSurfaceUV, &theUVs[n]) != kQ3Success)
