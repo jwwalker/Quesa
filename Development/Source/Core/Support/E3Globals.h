@@ -68,6 +68,7 @@ extern "C" {
 // The QD3D convention for third party class names is "Company:Type:Name".
 #define kQ3ClassNameAttribute						"Attribute"
 #define kQ3ClassNameAttributeAmbientCoefficient		"AmbientCoefficient"
+#define kQ3ClassNameAttributeCSGID					"InteractiveCSGId"
 #define kQ3ClassNameAttributeDiffuseColor			"DiffuseColor"
 #define kQ3ClassNameAttributeHighlightState			"HighlightState"
 #define kQ3ClassNameAttributeNormal					"Normal"
