@@ -143,7 +143,7 @@ static TQ3Uns32 e3viewer_oldFlagsToNew(TQ3Uns32 oldFlags)
 
 	if (oldFlags & kQ3ViewerShowBadge)			newFlags |= kQ3ViewerFlagShowBadge;
 	if (oldFlags & kQ3ViewerActive)				newFlags |= kQ3ViewerFlagActive;
-	if (oldFlags & kQ3ViewerControllerVisible)	newFlags |= kQ3ViewerFlagVisible;
+	if (oldFlags & kQ3ViewerControllerVisible)	newFlags |= kQ3ViewerFlagControllerVisible;
 	if (oldFlags & kQ3ViewerDrawFrame)			newFlags |= kQ3ViewerFlagDrawFrame;
 	if (oldFlags & kQ3ViewerDraggingOff)		newFlags |= kQ3ViewerFlagDraggingOff;
 	if (oldFlags & kQ3ViewerButtonCamera)		newFlags |= kQ3ViewerFlagButtonCamera;
@@ -647,9 +647,11 @@ E3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong)
 	return e3viewer_q3status_oserr( Q3Viewer_GetPhongShading(theViewer, phong) );
 }
 
+#endif // QUESA_OS_MACINTOSH
 
 
-#else // QUESA_OS_MACINTOSH
+
+
 
 //=============================================================================
 //      Function prototypes
@@ -658,6 +660,8 @@ E3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong)
 #pragma mark -
 #pragma mark old common APIs
 #pragma mark -
+
+#if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
 
 TQ3Status	
 E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
@@ -1010,6 +1014,8 @@ E3ViewerGetGroupBounds(TQ3ViewerObject theViewer, TQ3BoundingBox* bounds)
 	return(-4);  // unimplemented
 }
 
+#endif // QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+
 
 
 
@@ -1021,7 +1027,7 @@ E3ViewerGetGroupBounds(TQ3ViewerObject theViewer, TQ3BoundingBox* bounds)
 #pragma mark Windows QD3DViewer APIs
 #pragma mark -
 
-#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
+#if QUESA_OS_WIN32
 
 //=============================================================================
 //      Public functions
@@ -1115,9 +1121,6 @@ E3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 	return(0);	// unimplemented
 }
 
-
-	#else
-
 TQ3ViewerObject
 E3ViewerNew(void* theWindow, const TQ3Area *rect, TQ3Uns32 flags)
 {
@@ -1200,8 +1203,5 @@ E3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 	return(kQ3False);  // unimplemented
 }
 
-
-
-	#endif
-#endif
+#endif // QUESA_OS_WIN32
 
