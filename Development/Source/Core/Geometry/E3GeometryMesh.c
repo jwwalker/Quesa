@@ -83,8 +83,8 @@ typedef TQ3MeshComponent TE3MeshComponentExtRef;
 // TE3MeshPartPtr
 typedef TE3MeshPartData* TE3MeshPartPtr;
 
-E3POOL_DECLARE(TE3MeshPartPtr, e3meshPartPtr, static);
-E3POOL_DEFINE(TE3MeshPartPtr, e3meshPartPtr, static, 16);
+E3_POOL_DECLARE(TE3MeshPartPtr, e3meshPartPtr, static);
+E3_POOL_DEFINE(TE3MeshPartPtr, e3meshPartPtr, static, 16);
 
 
 
@@ -92,7 +92,7 @@ E3POOL_DEFINE(TE3MeshPartPtr, e3meshPartPtr, static, 16);
 typedef TE3MeshVertexData* TE3MeshVertexPtr;
 
 E3_PTR_ARRAY_DECLARE(TE3MeshVertexPtr, e3meshVertexPtr, static);
-E3_PTR_ARRAY_DEFINE(TE3MeshVertexPtr, e3meshVertexPtr, static);
+E3_PTR_ARRAY_DEFINE(TE3MeshVertexPtr, e3meshVertexPtr, static, kE3MeshVertexPtr);
 
 
 
@@ -100,7 +100,7 @@ E3_PTR_ARRAY_DEFINE(TE3MeshVertexPtr, e3meshVertexPtr, static);
 typedef TE3MeshFaceData* TE3MeshFacePtr;
 
 E3_PTR_ARRAY_OR_LIST_DECLARE(TE3MeshFacePtr, e3meshFacePtr, static);
-E3_PTR_ARRAY_OR_LIST_DEFINE(TE3MeshFacePtr, e3meshFacePtr, static);
+E3_PTR_ARRAY_OR_LIST_DEFINE(TE3MeshFacePtr, e3meshFacePtr, static, kE3MeshFacePtr);
 
 
 
@@ -123,7 +123,7 @@ struct TE3MeshCornerData {
 };
 
 E3_ARRAY_OR_LIST_DECLARE(TE3MeshCornerData, e3meshCorner, static);
-E3_ARRAY_OR_LIST_DEFINE(TE3MeshCornerData, e3meshCorner, static);
+E3_ARRAY_OR_LIST_DEFINE(TE3MeshCornerData, e3meshCorner, static, kE3MeshCorner);
 
 
 
@@ -136,7 +136,7 @@ struct TE3MeshVertexData {
 };
 
 E3_ARRAY_OR_LIST_DECLARE(TE3MeshVertexData, e3meshVertex, static);
-E3_ARRAY_OR_LIST_DEFINE(TE3MeshVertexData, e3meshVertex, static);
+E3_ARRAY_OR_LIST_DEFINE(TE3MeshVertexData, e3meshVertex, static, kE3MeshVertex);
 
 
 
@@ -148,7 +148,7 @@ struct TE3MeshContourData {
 };
 
 E3_ARRAY_OR_LIST_DECLARE(TE3MeshContourData, e3meshContour, static);
-E3_ARRAY_OR_LIST_DEFINE(TE3MeshContourData, e3meshContour, static);
+E3_ARRAY_OR_LIST_DEFINE(TE3MeshContourData, e3meshContour, static, kE3MeshContour);
 
 
 
@@ -160,7 +160,7 @@ struct TE3MeshFaceData {
 };
 
 E3_ARRAY_OR_LIST_DECLARE(TE3MeshFaceData, e3meshFace, static);
-E3_ARRAY_OR_LIST_DEFINE(TE3MeshFaceData, e3meshFace, static);
+E3_ARRAY_OR_LIST_DEFINE(TE3MeshFaceData, e3meshFace, static, kE3MeshFace);
 
 
 
@@ -287,9 +287,10 @@ static
 TQ3Status
 e3meshVertexPtr_Relink(
 	TE3MeshVertexPtr* vertexHdl,
-	void*unusedArg)
+	void* unusedArg)
 {
     unusedArg; /* Suppress compiler warning */
+
 	return(e3meshPartPtr_Relink(E3_UP_CAST(TE3MeshPartPtr*, vertexHdl)));
 }
 
@@ -308,9 +309,10 @@ static
 TQ3Status
 e3meshFacePtr_Relink(
 	TE3MeshFacePtr* faceHdl,
-	void*unusedArg)
+	void* unusedArg)
 {
     unusedArg; /* Suppress compiler warning */
+
 	return(e3meshPartPtr_Relink(E3_UP_CAST(TE3MeshPartPtr*, faceHdl)));
 }
 
@@ -644,7 +646,7 @@ static
 TQ3Status
 e3meshCorner_RelinkFaces(
 	TE3MeshCornerData* cornerPtr,
-	void*unusedArg)
+	void* unusedArg)
 {
     unusedArg; /* Suppress compiler warning */
 
@@ -978,7 +980,7 @@ static
 TQ3Status
 e3meshVertex_RelinkCornerFaces(
 	TE3MeshVertexData* vertexPtr,
-	void*unusedArg)
+	void* unusedArg)
 {
     unusedArg; /* Suppress compiler warning */
 
@@ -1394,7 +1396,7 @@ static
 TQ3Status
 e3meshContour_RelinkContainerFace(
 	TE3MeshContourData* contourPtr,
-	void*unusedArg)
+	void* unusedArg)
 {
     unusedArg; /* Suppress compiler warning */
 
@@ -1453,7 +1455,7 @@ static
 TQ3Status
 e3meshContour_RelinkVertices(
 	TE3MeshContourData* contourPtr,
-	void*unusedArg)
+	void* unusedArg)
 {
     unusedArg; /* Suppress compiler warning */
 
@@ -1691,7 +1693,7 @@ static
 TQ3Status
 e3meshFace_RelinkContourFaces(
 	TE3MeshFaceData* facePtr,
-	void*unusedArg)
+	void* unusedArg)
 {
     unusedArg; /* Suppress compiler warning */
 
@@ -1781,7 +1783,7 @@ static
 TQ3Status
 e3meshFace_RelinkContourVertices(
 	TE3MeshFaceData* facePtr,
-	void*unusedArg)
+	void* unusedArg)
 {
     unusedArg; /* Suppress compiler warning */
 
