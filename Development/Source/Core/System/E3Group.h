@@ -61,6 +61,7 @@ TQ3Status			E3Group_UnregisterClass(void);
 TQ3GroupObject		E3Group_New(void);
 TQ3ObjectType		E3Group_GetType(TQ3GroupObject group);
 TQ3GroupPosition	E3Group_AddObject(TQ3GroupObject group, TQ3Object object);
+TQ3GroupPosition	E3Group_AddObjectAndDispose(TQ3GroupObject theGroup, TQ3Object *theObject);
 TQ3GroupPosition	E3Group_AddObjectBefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object object);
 TQ3GroupPosition	E3Group_AddObjectAfter(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object object);
 TQ3Status			E3Group_GetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object *object);

@@ -324,6 +324,43 @@ Q3Group_AddObject (
 
 /*!
  *  @function
+ *      Q3Group_AddObjectAndDispose
+ *  @discussion
+ *      Add an object to a group, and then dispose of it.
+ *
+ *      If theObject is not NULL, invokes Q3Group_AddObject to add the object to
+ *      the group, disposes of the object, then clears the supplied pointer to
+ *      prevent stale references.
+ *
+ *      Equivalent to:
+ *
+ *          if (theObject != NULL)
+ *              {
+ *              Q3Group_AddObject(theGroup, theObject);
+ *              Q3Object_Dispose(theObject);
+ *              theObject = NULL;
+ *              }
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param theGroup         The group to add the object to.
+ *  @param theObject        The object to add (may be NULL).
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3GroupPosition  )
+Q3Group_AddObjectAndDispose (
+    TQ3GroupObject                theGroup,
+    TQ3Object                     *theObject
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
  *      Q3Group_AddObjectBefore
  *  @discussion
  *      Insert an object into a group before a specified position.

@@ -912,8 +912,7 @@ e3group_enditerate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object *
 #pragma unused (view)
 
 
-	if (object)
-		E3Object_DisposeAndForget(*object);
+	Q3Object_CleanDispose(object);
 
 	err = Q3Group_GetNextPosition (group, iterator);
 	if (err == kQ3Success)
@@ -2345,7 +2344,7 @@ e3group_display_ioproxy_enditerate(TQ3GroupObject group, TQ3GroupPosition *itera
 	// IO Proxy groups only ever submit one object
 	// so stop iteration by returning NULL
 	if (object)
-		E3Object_DisposeAndForget(*object);
+		Q3Object_CleanDispose(object);
 
 	if (iterator)
 		*iterator = NULL;
@@ -2620,6 +2619,31 @@ E3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 	result = addObjectMethod(group, object);
 
 	return(result);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Group_AddObjectAndDispose : Adds an object to a group.
+//-----------------------------------------------------------------------------
+TQ3GroupPosition
+E3Group_AddObjectAndDispose(TQ3GroupObject theGroup, TQ3Object *theObject)
+{	TQ3GroupPosition	thePosition;
+
+
+
+	// If we have an object, add it then dispose of it
+	if (theObject != NULL && *theObject != NULL)
+		{
+		thePosition = Q3Group_AddObject(theGroup, *theObject);
+		Q3Object_CleanDispose(theObject);
+		}
+	else
+		thePosition = NULL;
+		
+	return(thePosition);
 }
 
 
