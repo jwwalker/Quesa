@@ -1295,11 +1295,33 @@ E3Vector3D_DotArray(TQ3Uns32				numVectors,
 
 
 	// Calculate the dot products
-	for (n = 0; n < numVectors; n++)
+	if (dotProducts != NULL && dotLessThanZero != NULL)
 		{
-		dotProduct         = E3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
-		dotProducts[n]     = dotProduct;	
-		dotLessThanZero[n] = (TQ3Boolean) (dotProduct < 0.0f);
+		for (n = 0; n < numVectors; n++)
+			{
+			dotProduct         = E3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
+			dotProducts[n]     = dotProduct;	
+			dotLessThanZero[n] = (TQ3Boolean) (dotProduct < 0.0f);
+			}
+		}
+
+	else if (dotProducts != NULL)
+		{
+		for (n = 0; n < numVectors; n++)
+			{
+			dotProduct     = E3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
+			dotProducts[n] = dotProduct;	
+			}
+		}
+
+	else
+		{
+		Q3_ASSERT(dotLessThanZero != NULL);
+		for (n = 0; n < numVectors; n++)
+			{
+			dotProduct         = E3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
+			dotLessThanZero[n] = (TQ3Boolean) (dotProduct < 0.0f);
+			}
 		}
 	
 	return(kQ3Success);
