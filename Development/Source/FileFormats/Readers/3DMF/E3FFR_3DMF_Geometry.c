@@ -3616,8 +3616,6 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
-	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
 cleanUp:
