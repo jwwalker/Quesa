@@ -267,6 +267,10 @@ ir_interactive_style(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) IRRenderer_Update_Style_Orientation;
 			break;
 
+		case kQ3StyleTypeHighlight:
+			theMethod = (TQ3XFunctionPointer) IRRenderer_Update_Style_Hilight;
+			break;
+
 		case kQ3StyleTypeAntiAlias:
 			theMethod = (TQ3XFunctionPointer) IRRenderer_Update_Style_AntiAlias;
 			break;
