@@ -167,6 +167,47 @@ Q3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 
 
 //=============================================================================
+//      Q3Group_AddObjectAndDispose : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3GroupPosition
+Q3Group_AddObjectAndDispose(TQ3GroupObject theGroup, TQ3Object *theObject)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theGroup->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theGroup, kQ3ShapeTypeGroup), NULL);
+	
+	if (theObject != NULL && *theObject != NULL)
+		Q3_REQUIRE_OR_RESULT((*theObject)->quesaTag == kQ3ObjectTypeQuesa, NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theGroup
+		return(NULL);
+
+	if (0) // Further checks on theObject
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Group_AddObjectAndDispose(theGroup, theObject));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3Group_AddObjectBefore : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3GroupPosition
