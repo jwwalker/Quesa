@@ -358,8 +358,6 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 	TQ3Uns32	*index;
 	
 	TQ3Uns32	i,j;
-	TQ3Uns16	temp16;
-	TQ3Uns8		temp8;
 	
 	TQ3Object	childObject;
 	
@@ -401,30 +399,12 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 		if(indices == NULL)
 			return (kQ3Failure);
 		index = indices;
-		if(theASLD->attributeSetCounter >= 0x00010000UL)
-			for(i = 0; i < nIndices; i++)
-				{
-				if(Q3Uns32_Read(index, theFile)!= kQ3Success)
-					return (kQ3Failure);
-				index++;
-				}
-		else if(theASLD->attributeSetCounter >= 0x00000100UL){
-			for(i = 0; i < nIndices; i++)
-				{
-				if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
-					return (kQ3Failure);
-				*index = (TQ3Uns32)temp16;
-				index++;
-				}
-			}
-		else{
-			for(i = 0; i < nIndices; i++)
-				{
-				if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
-					return (kQ3Failure);
-				*index = (TQ3Uns32)temp8;
-				index++;
-				}
+
+		for(i = 0; i < nIndices; i++)
+			{
+			if(Q3Uns32_Read(index, theFile)!= kQ3Success)
+				return (kQ3Failure);
+			index++;
 			}
 		}
 		
@@ -514,7 +494,6 @@ e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
 																	E3ClassTree_FindInstanceData(object,
                      												 kQ3ObjectTypeAttributeSetList);
 	TQ3Size size = 0;
-	TQ3Size dataSize;
 	TQ3Uns32* dataToWrite;
 	TQ3Uns32 i,j;
 	TQ3Uns32 nIndices = 0;
@@ -549,9 +528,9 @@ e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
 		packing = 0x00000001 /*exclude*/;
 		}
 	
-	dataSize = size + (nIndices * 4);
+	size += (nIndices * 4);
 	
-	dataToWrite = (TQ3Uns32*) Q3Memory_Allocate (dataSize);
+	dataToWrite = (TQ3Uns32*) Q3Memory_Allocate (size);
 	
 	if(dataToWrite == NULL)
 		return kQ3Failure;
@@ -560,17 +539,6 @@ e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
 	dataToWrite[1] = packing;
 	dataToWrite[2] = nIndices;
 	
-	if(nIndices != 0){
-		if(instanceData->attributeSetCounter >= 0x00010000UL)
-			size += nIndices * 4;
-		else if(instanceData->attributeSetCounter >= 0x00000100UL)
-			size += nIndices * 2;
-		else
-			size += nIndices;
-		
-		size = Q3Size_Pad (size);
-
-		}
 	
 	writeStatus = Q3XView_SubmitWriteData (view, size, (void*)dataToWrite, E3FFW_3DMF_Default_Delete);
 	
@@ -613,6 +581,9 @@ e3fformat_3dmf_attributesetlist_write(const TQ3Uns32 *data,
 {
 
 	TQ3Status writeStatus = kQ3Failure;
+	TQ3Uns32	i;
+
+
 	writeStatus = Q3Uns32_Write(data[0],theFile); // total # of attributes
 	
 	if(writeStatus == kQ3Success)
@@ -621,6 +592,11 @@ e3fformat_3dmf_attributesetlist_write(const TQ3Uns32 *data,
 	if(writeStatus == kQ3Success)
 		writeStatus = Q3Uns32_Write(data[2],theFile); // # of indexes
 	
+	for(i = 3; i < data[2] + 3; i++)
+		{
+		if(Q3Uns32_Write(data[i], theFile)!= kQ3Success)
+			return (kQ3Failure);
+		}
 	
 	return(writeStatus);
 }
