@@ -274,7 +274,7 @@ ir_state_texture_convert_rave_filter(TQ3ViewObject theView)
 
 
 	// Grab the RAVE filter value
-	raveFilter = 0;
+	raveFilter = kQATextureFilter_Mid;
 	Q3View_GetRenderer(theView, &theRenderer);
 	if (theRenderer != NULL)
 		{
@@ -289,6 +289,53 @@ ir_state_texture_convert_rave_filter(TQ3ViewObject theView)
 		return(GL_NEAREST);
 	
 	return(GL_LINEAR);
+}
+
+
+
+
+
+//=============================================================================
+//      ir_state_texture_get_storage_edit : Get a texture's storage edit index.
+//-----------------------------------------------------------------------------
+static TQ3Uns32
+ir_state_texture_get_storage_edit(TQ3TextureObject theTexture)
+{	TQ3Status			qd3dStatus;
+	TQ3StoragePixmap	thePixmap;
+	TQ3Mipmap			theMipmap;
+	TQ3Uns32			editIndex;
+	TQ3ObjectType		theType;
+
+
+
+	// Get the edit index for the texture's storage object
+	theType = Q3Texture_GetType(theTexture);
+	switch (theType) {
+		case kQ3TextureTypePixmap:
+			qd3dStatus = Q3PixmapTexture_GetPixmap(theTexture, &thePixmap);
+			if (qd3dStatus == kQ3Success)
+				{
+				editIndex = Q3Shared_GetEditIndex(thePixmap.image);
+				E3Object_DisposeAndForget(thePixmap.image);
+				}
+			break;
+	
+		case kQ3TextureTypeMipmap:
+			qd3dStatus = Q3MipmapTexture_GetMipmap(theTexture, &theMipmap);
+			if (qd3dStatus == kQ3Success)
+				{
+				editIndex = Q3Shared_GetEditIndex(theMipmap.image);
+				E3Object_DisposeAndForget(theMipmap.image);
+				}
+			break;
+
+		case kQ3TextureTypeCompressedPixmap:
+		default:
+			editIndex = 0;
+			break;
+		}
+
+	return(editIndex);
 }
 
 
@@ -329,14 +376,14 @@ ir_state_texture_load(TQ3CachedTexture *cachedTexture)
 	glMatrix[6]  = cachedTexture->theTransform.value[1][2];
 	glMatrix[7]  = 0.0f;
 
-	glMatrix[8]  = cachedTexture->theTransform.value[2][0];
-	glMatrix[9]  = cachedTexture->theTransform.value[2][1];
-	glMatrix[10] = cachedTexture->theTransform.value[2][2];
+	glMatrix[8]  = 0.0f;
+	glMatrix[9]  = 0.0f;
+	glMatrix[10] = 0.0f;
 	glMatrix[11] = 0.0f;
 
-	glMatrix[12] = cachedTexture->theTransform.value[3][0];
-	glMatrix[13] = cachedTexture->theTransform.value[3][1];
-	glMatrix[14] = cachedTexture->theTransform.value[3][2];
+	glMatrix[12] = cachedTexture->theTransform.value[2][0];
+	glMatrix[13] = cachedTexture->theTransform.value[2][1];
+	glMatrix[14] = cachedTexture->theTransform.value[2][2];
 	glMatrix[15] = 1.0f;
 
 	glTexEnvi(      GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,   GL_MODULATE);
@@ -393,14 +440,30 @@ ir_state_texture_cache_add(TQ3ViewObject			theView,
 							TQ3TextureObject		theTexture)
 {	TQ3CachedTexture	cachedTexture;
 	TQ3Status			qd3dStatus;
+	UInt32				n;
 
 
 
-	// Fill out the cached texture
-	cachedTexture.theTexture       = theTexture;
+	// Make sure the texture has not been cached before
+	for (n = 0; n < instanceData->cachedTextureCount; n++)
+		Q3_ASSERT(instanceData->cachedTextures[n].theTexture != theTexture);
+
+
+
+	// Fill out the cached texture, grabbing a new reference to the texture
+	//
+	// We need to save a new reference to the QD3D texture so that we can tell
+	// when it's time to dispose of the OpenGL texture.
+	//
+	// If we could register a callback with Quesa to find out when an object was
+	// disposed of, then we could improve this - at present we need to check the
+	// whole cache for things to flush after each frame, but it would be better
+	// if we could only flush what we need when we need to.
+	cachedTexture.theTexture       = Q3Shared_GetReference(theTexture);
 	cachedTexture.qualityFilter    = ir_state_texture_convert_rave_filter(theView);
 	cachedTexture.editIndexShader  = Q3Shared_GetEditIndex(theShader);
 	cachedTexture.editIndexTexture = Q3Shared_GetEditIndex(theTexture);
+	cachedTexture.editIndexStorage = ir_state_texture_get_storage_edit(theTexture);
 
 	Q3Shader_GetUBoundary(theShader,   &cachedTexture.boundaryU);
 	Q3Shader_GetVBoundary(theShader,   &cachedTexture.boundaryV);
@@ -411,36 +474,29 @@ ir_state_texture_cache_add(TQ3ViewObject			theView,
 	// Load it into OpenGL
 	qd3dStatus = ir_state_texture_load(&cachedTexture);
 	if (qd3dStatus != kQ3Success)
+		{
+		Q3Object_Dispose(cachedTexture.theTexture);
 		return(qd3dStatus);
+		}
 
 
 
-	// Add the cached texture to the cache.
-	//
-	// We need to save a new reference to the QD3D texture so that we can tell
-	// when it's time to dispose of the OpenGL texture.
-	//
-	// If we could register a callback with Quesa to find out when an object was
-	// disposed of, then we could improve this - at present we need to check the
-	// whole cache for things to flush after each frame, but it would be better
-	// if we could only flush what we need when we need to.
+	// Add the cached texture to the cache
 	qd3dStatus = Q3Memory_Reallocate(&instanceData->cachedTextures,
 									 sizeof(TQ3CachedTexture) * (instanceData->cachedTextureCount+1));
 	if (qd3dStatus == kQ3Success)
 		{
-		// Grab another reference to the texture
-		cachedTexture.theTexture = Q3Shared_GetReference(theTexture);
-		
-		
-		// Save the details in the cache
 		instanceData->cachedTextures[instanceData->cachedTextureCount] = cachedTexture;
 		instanceData->cachedTextureCount++;
 		}
 	
 	
-	// If we couldn't cache the texture, make sure we ditch the OpenGL texture
+	// If we couldn't cache the texture, make sure we ditch our references
 	else
+		{
 		glDeleteTextures(1, (GLuint *) &theTexture);
+		Q3Object_Dispose(cachedTexture.theTexture);
+		}
 
 	return(qd3dStatus);
 }
@@ -482,7 +538,7 @@ ir_state_texture_cache_remove(TQ3InteractiveData	*instanceData,
 			if (n < (instanceData->cachedTextureCount-1))
 				memmove(&instanceData->cachedTextures[n],
 						&instanceData->cachedTextures[n+1],
-						instanceData->cachedTextureCount - 1 - n);
+						sizeof(TQ3CachedTexture) * (instanceData->cachedTextureCount - 1 - n));
 
 
 			// Update the table
@@ -502,7 +558,7 @@ static TQ3Boolean
 ir_state_texture_cache_is_stale(TQ3InteractiveData	*instanceData,
 								TQ3ShaderObject		theShader,
 								TQ3TextureObject	theTexture)
-{	TQ3Uns32		n, editIndexShader, editIndexTexture;
+{	TQ3Uns32		n, editIndexShader, editIndexTexture, editIndexStorage;
 	TQ3Boolean		isStale;
 
 
@@ -515,14 +571,16 @@ ir_state_texture_cache_is_stale(TQ3InteractiveData	*instanceData,
 		{
 		if (instanceData->cachedTextures[n].theTexture == theTexture)
 			{
-			// Grab the current edit index for the shader and the texture
+			// Grab the current edit index for the shader, the texture, and its storage
 			editIndexShader  = Q3Shared_GetEditIndex(theShader);
 			editIndexTexture = Q3Shared_GetEditIndex(theTexture);
+			editIndexStorage = ir_state_texture_get_storage_edit(theTexture);
 
 
-			// If either of them have changed, the cache entry is now stale
-			isStale = (TQ3Boolean) ((editIndexShader  != instanceData->cachedTextures[n].editIndexShader) ||
-					  				(editIndexTexture != instanceData->cachedTextures[n].editIndexTexture));
+			// If any of them have changed, the cache entry is now stale
+			isStale = (TQ3Boolean) ((editIndexShader  != instanceData->cachedTextures[n].editIndexShader)  ||
+					  				(editIndexTexture != instanceData->cachedTextures[n].editIndexTexture) ||
+					  				(editIndexStorage != instanceData->cachedTextures[n].editIndexStorage));
 
 			return(isStale);
 			}
@@ -1650,8 +1708,9 @@ IRRenderer_Texture_ConvertImage(TQ3StorageObject	theStorage,
 								TQ3Uns32			*dstHeight,
 								TQ3Uns32			*dstRowBytes,
 								GLint				*glPixelType)
-{	TQ3Uns8		*qd3dBasePtr, *depthBasePtr, *sizeBasePtr;
+{	TQ3Uns8			*qd3dBasePtr, *depthBasePtr, *sizeBasePtr;
 	TQ3Boolean		wasCopied;
+
 
 
 	// Validate our parameters
@@ -2281,6 +2340,9 @@ IRRenderer_Update_Shader_Illumination(TQ3ViewObject			theView,
 //=============================================================================
 //      IRRenderer_Update_Shader_Surface : Update our state.
 //-----------------------------------------------------------------------------
+//		Note :	Our implementation assumes we can map TQ3TextureObjects onto
+//				OpenGL texture objects simply by casting them to a GLuint.
+//-----------------------------------------------------------------------------
 TQ3Status
 IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 							 		TQ3InteractiveData	*instanceData,
@@ -2344,8 +2406,11 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 
 
 
-	// Update the texture lighting state
+	// Update the texture lighting state and clean up
 	ir_state_adjust_texture_lighting(instanceData);
+	
+	if (theTexture != NULL)
+		Q3Object_Dispose(theTexture);
 
     return(kQ3Success);
 }
