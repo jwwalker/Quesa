@@ -63,6 +63,18 @@ extern "C" {
 
 
 //=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
+
+
+enum
+	{
+	kQ3MaxBuiltInClassHierarchyDepth = 6
+	} ;
+
+
+
+//=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
 
@@ -91,6 +103,7 @@ class E3ClassInfo
 	E3ClassInfoPtr		theParent ;
 	E3ClassInfoPtr		*theChildren ;
 	
+	TQ3ObjectType		ownAndParentTypes [ kQ3MaxBuiltInClassHierarchyDepth ] ;
 	
 	
 	static TQ3Status	Attach ( E3ClassInfoPtr theChild, E3ClassInfoPtr theParent ) ;
