@@ -48,7 +48,7 @@
 // Include files go here
 
 
-
+#include "E3Main.h"
 
 
 //=============================================================================
@@ -58,6 +58,157 @@
 extern "C" {
 #endif
 
+
+//=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
+#pragma mark constants and classes
+//-----------------------------------------------------------------------------
+/*
+	Types for ordered display groups
+	
+	Ordered display groups keep objects in order by the type of object, in the
+	order listed below.
+	
+	A small mystery:
+	The blue book says that display groups can only hold drawable objects, and
+	in QD3D, Q3Object_IsDrawable returns false for lights and cameras.  However,
+	QD3DGroup.h lists cameras and lights in the order for ordered display
+	groups.  It also says that cameras and lights in groups do nothing when
+	drawn and will post an error with debug libraries.  So why would you want
+	to put cameras and lights in a display group, even if you could?
+*/
+//-----------------------------------------------------------------------------
+typedef enum
+{
+	kQ3XOrderIndex_First = 0,
+	
+	kQ3XOrderIndex_Transform = 0,		// kQ3ShapeTypeTransform
+	kQ3XOrderIndex_Style,				// kQ3ShapeTypeStyle
+	kQ3XOrderIndex_AttributeSet,		// kQ3SetTypeAttribute
+	kQ3XOrderIndex_Shader,				// kQ3ShapeTypeShader
+	//kQ3XOrderIndex_Camera,			// kQ3ShapeTypeCamera
+	//kQ3XOrderIndex_Light,				// kQ3ShapeTypeLight
+	kQ3XOrderIndex_Geometry,			// kQ3ShapeTypeGeometry
+	kQ3XOrderIndex_Group,				// kQ3ShapeTypeGroup
+	kQ3XOrderIndex_Unknown,				// kQ3ShapeTypeUnknown
+	
+	kQ3XOrderIndex_Count,
+	kQ3XOrderIndex_Last = kQ3XOrderIndex_Count - 1,
+	kQ3XOrderIndex_All = -1
+} TQ3XOrderIndex;
+
+
+
+
+
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+
+
+
+
+typedef struct TQ3XGroupPosition *TQ3XGroupPositionPtr;
+
+typedef struct TQ3XGroupPosition { // 12 bytes overhead per object in a group
+// initialised in e3group_positionnew
+	TQ3XGroupPositionPtr	next;
+	TQ3XGroupPositionPtr	prev;
+	TQ3Object				object;
+} TQ3XGroupPosition;
+
+
+class E3Group : public TQ3ShapeData
+	{ // 16 bytes overhead per group
+// initialised in e3group_new
+	TQ3XGroupPosition						listHead ;
+	TQ3Uns32								groupPositionSize ;
+
+public :
+
+	TQ3XGroupPosition*						createPosition ( TQ3Object object ) ;
+	TQ3GroupPosition						addobject ( TQ3Object object ) ;	
+	TQ3GroupPosition						addbefore ( TQ3GroupPosition position, TQ3Object object ) ;
+	TQ3GroupPosition						addafter ( TQ3GroupPosition position, TQ3Object object ) ;
+	
+
+	TQ3Status								getfirstposition ( TQ3ObjectType isType, TQ3GroupPosition *position ) ;
+	TQ3Status								getlastposition ( TQ3ObjectType isType, TQ3GroupPosition *position ) ;
+	TQ3Status								getnextposition ( TQ3ObjectType isType, TQ3GroupPosition *position ) ;
+	TQ3Status								getprevposition ( TQ3ObjectType isType, TQ3GroupPosition *position ) ;
+	TQ3Status								countobjects ( TQ3ObjectType isType, TQ3Uns32 *number ) ;	
+	TQ3Status								emptyobjects ( TQ3ObjectType isType ) ;
+	
+	TQ3Status								getfirstobjectposition ( TQ3Object object, TQ3GroupPosition *position )	;	
+	TQ3Status								getlastobjectposition ( TQ3Object object, TQ3GroupPosition *position )	;	
+	TQ3Status								getnextobjectposition ( TQ3Object object, TQ3GroupPosition *position ) ;		
+	TQ3Status								getprevobjectposition ( TQ3Object object, TQ3GroupPosition *position ) ;
+
+
+
+
+	
+	friend TQ3Status e3group_new(TQ3Object theObject, void *privateData, const void *paramData) ;
+	friend TQ3Status e3group_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
+										TQ3Object toObject,   void  * toPrivateData) ;
+	} ;
+
+
+class E3DisplayGroup : public E3Group
+	{ // 32 bytes + 16 bytes = 48 bytes overhead per display group
+// initialised in e3group_display_new
+	TQ3DisplayGroupState	state ;
+	TQ3BoundingBox			bBox ;
+	
+public :
+
+
+
+	TQ3Status				GetState ( TQ3DisplayGroupState* pState ) ;
+	TQ3Status				SetState ( TQ3DisplayGroupState pState ) ;	
+	
+	TQ3Status				SetAndUseBoundingBox ( TQ3BoundingBox *pBBox ) ;
+	TQ3Status				GetBoundingBox ( TQ3BoundingBox *pBBox ) ;
+	TQ3Status				RemoveBoundingBox ( void ) ;
+	TQ3Status				CalcAndUseBoundingBox ( TQ3ComputeBounds computeBounds, TQ3ViewObject view ) ;
+
+
+	friend TQ3Status		e3group_display_new(TQ3Object theObject, void *privateData, const void *paramData) ;
+	} ;
+
+
+class E3OrderedDisplayGroup : public E3DisplayGroup
+	{
+	TQ3XGroupPosition		listHeads [ kQ3XOrderIndex_Count ] ;
+	
+public :
+
+	TQ3GroupPosition		addobject ( TQ3Object object ) ;
+	
+	TQ3Status				findfirsttypeonlist (	TQ3XOrderIndex inIndex,
+													TQ3ObjectType inType,
+													TQ3GroupPosition* outPosition ) ;
+	TQ3Status				findlasttypeonlist (	TQ3XOrderIndex inIndex,
+													TQ3ObjectType inType,
+													TQ3GroupPosition* outPosition ) ;
+
+
+	TQ3Status				getfirstposition ( TQ3ObjectType isType, TQ3GroupPosition *position ) ;
+	TQ3Status				getlastposition ( TQ3ObjectType isType, TQ3GroupPosition *position ) ;
+	TQ3Status				getnextposition ( TQ3ObjectType isType, TQ3GroupPosition *position ) ;
+	TQ3Status				getprevposition ( TQ3ObjectType isType, TQ3GroupPosition *position ) ;
+
+	TQ3Status				getfirstobjectposition ( TQ3Object object, TQ3GroupPosition *position ) ;
+	TQ3Status				getlastobjectposition ( TQ3Object object, TQ3GroupPosition *position ) ;
+	TQ3Status				getnextobjectposition ( TQ3Object object, TQ3GroupPosition* position ) ;
+	TQ3Status				getprevobjectposition ( TQ3Object object, TQ3GroupPosition* position ) ;
+
+
+	friend TQ3Status		e3group_display_ordered_new(TQ3Object theObject, void *privateData, const void *paramData) ;
+	friend TQ3Status		e3group_display_ordered_duplicate (	TQ3Object fromObject, const void *fromPrivateData,
+																TQ3Object toObject,   void  * toPrivateData) ;
+	} ;
 
 
 
@@ -96,13 +247,7 @@ TQ3Status			E3Group_GetPreviousObjectPosition(TQ3GroupObject group, TQ3Object ob
 
 TQ3GroupObject		E3DisplayGroup_New(void);
 TQ3ObjectType		E3DisplayGroup_GetType(TQ3GroupObject theGroup);
-TQ3Status			E3DisplayGroup_GetState(TQ3GroupObject theGroup, TQ3DisplayGroupState *state);
-TQ3Status			E3DisplayGroup_SetState(TQ3GroupObject theGroup, TQ3DisplayGroupState state);
 TQ3Status			E3DisplayGroup_Submit(TQ3GroupObject theGroup, TQ3ViewObject theView);
-TQ3Status			E3DisplayGroup_SetAndUseBoundingBox(TQ3GroupObject theGroup, TQ3BoundingBox *bBox);
-TQ3Status			E3DisplayGroup_GetBoundingBox(TQ3GroupObject theGroup, TQ3BoundingBox *bBox);
-TQ3Status			E3DisplayGroup_RemoveBoundingBox(TQ3GroupObject theGroup);
-TQ3Status			E3DisplayGroup_CalcAndUseBoundingBox(TQ3GroupObject theGroup, TQ3ComputeBounds computeBounds, TQ3ViewObject view);
 
 TQ3GroupObject		E3LightGroup_New(void);
 TQ3GroupObject		E3InfoGroup_New(void);

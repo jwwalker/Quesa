@@ -1177,7 +1177,7 @@ Q3DisplayGroup_GetState(TQ3GroupObject group, TQ3DisplayGroupState *state)
 
 
 	// Call our implementation
-	return(E3DisplayGroup_GetState(group, state));
+	return ( (E3DisplayGroup*) group )->GetState ( state ) ;
 }
 
 
@@ -1214,7 +1214,7 @@ Q3DisplayGroup_SetState(TQ3GroupObject group, TQ3DisplayGroupState state)
 
 
 	// Call our implementation
-	return(E3DisplayGroup_SetState(group, state));
+	return ( (E3DisplayGroup*) group )->SetState ( state ) ;
 }
 
 
@@ -1290,7 +1290,7 @@ Q3DisplayGroup_SetAndUseBoundingBox(TQ3GroupObject group, TQ3BoundingBox *bBox)
 
 
 	// Call our implementation
-	return(E3DisplayGroup_SetAndUseBoundingBox(group, bBox));
+	return ( (E3DisplayGroup*) group )->SetAndUseBoundingBox ( bBox ) ;
 }
 
 
@@ -1328,7 +1328,7 @@ Q3DisplayGroup_GetBoundingBox(TQ3GroupObject group, TQ3BoundingBox *bBox)
 
 
 	// Call our implementation
-	return(E3DisplayGroup_GetBoundingBox(group, bBox));
+	return ( (E3DisplayGroup*) group )->GetBoundingBox ( bBox ) ;
 }
 
 
@@ -1362,7 +1362,7 @@ Q3DisplayGroup_RemoveBoundingBox(TQ3GroupObject group)
 
 
 	// Call our implementation
-	return(E3DisplayGroup_RemoveBoundingBox(group));
+	return ( (E3DisplayGroup*) group )->RemoveBoundingBox () ;
 }
 
 
@@ -1403,7 +1403,7 @@ Q3DisplayGroup_CalcAndUseBoundingBox(TQ3GroupObject group, TQ3ComputeBounds comp
 
 
 	// Call our implementation
-	return(E3DisplayGroup_CalcAndUseBoundingBox(group, computeBounds, view));
+	return ( (E3DisplayGroup*) group )->CalcAndUseBoundingBox ( computeBounds, view ) ;
 }
 
 
