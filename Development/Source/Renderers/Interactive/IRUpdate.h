@@ -94,13 +94,14 @@ void				IRRenderer_Texture_ReleaseData(
 								TQ3Uns8					*basePtr,
 								TQ3Boolean				wasCopied);
 
-TQ3Uns8				*IRRenderer_Texture_ConvertDepth(
+TQ3Uns8				*IRRenderer_Texture_ConvertDepthAndFlip(
 								TQ3Uns32				theWidth,
 								TQ3Uns32				theHeight,
 								TQ3Uns32				srcRowBytes,
 								TQ3Uns8					*srcBasePtr,
 								TQ3PixelType			srcPixelType,
 								TQ3Endian 				srcByteOrder,
+								TQ3Boolean				doVerticalFlip,
 								GLint					*glPixelType);
 
 TQ3Uns8				*IRRenderer_Texture_ConvertSize(

@@ -1677,16 +1677,18 @@ IRGeometry_PixmapMarker(TQ3ViewObject			theView,
 
 
 		default:
-			// Convert the image to 32bpp RGBA
+			// Convert the image to 32bpp RGBA (without flipping,
+			// since we'll get that for free from glPixelZoom)
 			origBasePtr = IRRenderer_Texture_GetData(geomData->pixmap.image, &wasCopied);
 			if (origBasePtr != NULL)
-				newBasePtr = IRRenderer_Texture_ConvertDepth(geomData->pixmap.width,
-															 geomData->pixmap.height,
-															 geomData->pixmap.rowBytes,
-															 origBasePtr,
-															 geomData->pixmap.pixelType,
-															 geomData->pixmap.byteOrder,
-															 &glPixelType);
+				newBasePtr = IRRenderer_Texture_ConvertDepthAndFlip(geomData->pixmap.width,
+																	 geomData->pixmap.height,
+																	 geomData->pixmap.rowBytes,
+																	 origBasePtr,
+																	 geomData->pixmap.pixelType,
+																	 geomData->pixmap.byteOrder,
+																	 kQ3False,
+																	 &glPixelType);
 
 
 			// Submit the marker image and release the converted data
