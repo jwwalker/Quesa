@@ -18,7 +18,7 @@
 			E3ARRAY_OR_LIST_DEFINE (TE3Foo, e3foo, static);
 
 	COPYRIGHT:
-		Quesa Copyright © 1999-2000, Quesa Developers.
+		Quesa Copyright © 1999-2001, Quesa Developers.
 
 		For the list of Quesa Developers, and contact details, see:
 

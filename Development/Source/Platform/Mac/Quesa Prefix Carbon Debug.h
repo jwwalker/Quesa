@@ -5,7 +5,7 @@
         Prefix file for Mac carbon debug builds.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2000, Quesa Developers.
+        Quesa Copyright © 1999-2001, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         
