@@ -3815,7 +3815,7 @@ E3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 TQ3Vector3D *
 E3Quaternion_GetAxisAndAngle(const TQ3Quaternion *q, TQ3Vector3D *outAxis, float *outAngle)
 {
-	if (q->w > 1.0f - FLT_EPSILON || q->w < -1.0f + FLT_EPSILON)
+	if (q->w > 1.0f - kQ3RealZero || q->w < -1.0f + kQ3RealZero)
 		{
 		// |w| = 1 means this is a null rotation.
 		// Return 0 for the angle, and pick an arbitrary axis.
