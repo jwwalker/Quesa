@@ -1609,7 +1609,9 @@ static TQ3Status
 e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) privateData;
 	TQ3ViewerParams			*params = (TQ3ViewerParams*) paramData;
+#if QUESA_OS_MACINTOSH
 	Rect					portBounds;
+#endif
 
 #pragma unused(theObject)
 
@@ -1621,11 +1623,13 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 	instanceData->mArea = *params->mArea;
 
 	// Convert from port coordinates to window coordinates
+#if QUESA_OS_MACINTOSH
 	GetPortBounds(instanceData->mWindow, &portBounds);
 	instanceData->mArea.min.x -= portBounds.left;
 	instanceData->mArea.min.y -= portBounds.top;
 	instanceData->mArea.max.x -= portBounds.left;
 	instanceData->mArea.max.y -= portBounds.top;
+#endif
 
 	Q3Quaternion_SetIdentity(&instanceData->mOrientation);
 	
@@ -2564,19 +2568,24 @@ E3Viewer_SetBounds(TQ3ViewerObject theViewer, const TQ3Area *theRect)
 	TQ3Status				status;
 	TQ3Area					contentArea;
 	TQ3CameraObject			camera;
+#if QUESA_OS_MACINTOSH
 	Rect					portBounds;
+#endif
 
 	status = Q3View_GetDrawContext(instanceData->mView, &context);
 	if (kQ3Success != status) return status;
 
 	instanceData->mArea = *theRect;
 
+
 	// Convert from port coordinates to window coordinates
+#if QUESA_OS_MACINTOSH
 	GetPortBounds(instanceData->mWindow, &portBounds);
 	instanceData->mArea.min.x -= portBounds.left;
 	instanceData->mArea.min.y -= portBounds.top;
 	instanceData->mArea.max.x -= portBounds.left;
 	instanceData->mArea.max.y -= portBounds.top;
+#endif
 
 	e3viewer_contentArea(instanceData, &contentArea);
 	status = Q3DrawContext_SetPane(context,	&contentArea);	
