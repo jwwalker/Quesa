@@ -2491,7 +2491,7 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 			// is needed, as the alpha is a simple on/off test.
 			pixelType = ir_state_texture_pixel_type(theTexture);
 			instanceData->stateTextureObject        = (GLuint) theTexture;
-			instanceData->stateTextureIsTransparent = (pixelType == kQ3PixelTypeARGB32);
+			instanceData->stateTextureIsTransparent = (TQ3Boolean)(pixelType == kQ3PixelTypeARGB32);
 
 			if (pixelType == kQ3PixelTypeARGB16)
 				{
