@@ -378,8 +378,9 @@ ir_geom_cache_prim_add(TQ3ViewObject			theView,
 	thePrim->theFlags             = theFlags;
 	thePrim->theTexture           = instanceData->stateTextureObject;
 	thePrim->textureIsTransparent = instanceData->stateTextureIsTransparent;
-
-
+	thePrim->orientationStyle	  = instanceData->stateOrientation;
+	thePrim->fillStyle			  = instanceData->stateFill;
+	thePrim->backfacingStyle	  = instanceData->stateBackfacing;
 
 	// Set up the primitive data
 	for (n = 0; n < numVerts; n++)
@@ -467,7 +468,56 @@ ir_geom_cache_prim_render(const TQ3CachedPrim *thePrim)
 		glBindTexture(GL_TEXTURE_2D, thePrim->theTexture);
 		}
 
+	// Set the face orientation for triangles.
+	if (thePrim->theType == kQ3PrimTriangle)
+		{
+		if (thePrim->orientationStyle == kQ3OrientationStyleClockwise)
+			glFrontFace(GL_CW);
+		else
+			glFrontFace(GL_CCW);
+		}
+	
+	// Set the fill style.
+	switch (thePrim->fillStyle)
+		{
+		case kQ3FillStylePoints:
+			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+			break;
+		
+		case kQ3FillStyleEdges:
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			break;
+		
+		case kQ3FillStyleFilled:
+		default:
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			break;
+		}
+	
+	// Set the backfacing style for triangles.
+	if (thePrim->theType == kQ3PrimTriangle)
+		switch (thePrim->backfacingStyle)
+			{
+			case kQ3BackfacingStyleRemove:
+				// Disable 2-sided lighting and cull back-faces
+				glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
+				glEnable(GL_CULL_FACE);
+				glCullFace(GL_BACK);
+				break;
 
+			case kQ3BackfacingStyleFlip:
+				// Enable 2-sided lighting and turn off culling
+				glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+				glDisable(GL_CULL_FACE);
+				break;
+
+			case kQ3BackfacingStyleBoth:
+			default:
+				// Disable 2-sided lighting and turn off culling
+				glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
+				glDisable(GL_CULL_FACE);
+				break;
+			}
 
 	// Select the primitive type
 	switch (thePrim->theType) {
