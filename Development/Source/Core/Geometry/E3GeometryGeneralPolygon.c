@@ -450,7 +450,7 @@ E3GeneralPolygon_GetData(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonData
 	generalPolygonData->contours    = newContours;
 	generalPolygonData->shapeHint   = instanceData->shapeHint;
 
-	E3Shared_Replace(&generalPolygonData->generalPolygonAttributeSet, instanceData->generalPolygonAttributeSet);
+	E3Shared_Acquire(&generalPolygonData->generalPolygonAttributeSet, instanceData->generalPolygonAttributeSet);
 
 	for (n = 0; n < generalPolygonData->numContours; n++)
 		{

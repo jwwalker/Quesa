@@ -831,7 +831,7 @@ E3Polyhedron_GetData(TQ3GeometryObject thePolyhedron, TQ3PolyhedronData *polyhed
 	polyhedronData->numTriangles = instanceData->numTriangles;
 	polyhedronData->triangles    = newTriangles;
 	
-	E3Shared_Replace(&polyhedronData->polyhedronAttributeSet, instanceData->polyhedronAttributeSet);
+	E3Shared_Acquire(&polyhedronData->polyhedronAttributeSet, instanceData->polyhedronAttributeSet);
 	
 	for (n = 0; n < polyhedronData->numVertices; n++)
 		{
