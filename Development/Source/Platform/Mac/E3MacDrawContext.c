@@ -302,12 +302,26 @@ e3drawcontext_mac_buildregions(TQ3DrawContextObject theDrawContext)
 		//
 		// Since we want to move away from draw regions, this is OK for now.
 		instanceData->drawRegions[n].platformHandle          = (TQ3Uns32) activeDevices[n];
+		instanceData->drawRegions[n].theDescriptor.width	 = (*thePixMap)->bounds.right - (*thePixMap)->bounds.left;
+		instanceData->drawRegions[n].theDescriptor.height	 = (*thePixMap)->bounds.bottom - (*thePixMap)->bounds.top;
 		instanceData->drawRegions[n].theDescriptor.rowBytes	 = rowBytes;
 		instanceData->drawRegions[n].theDescriptor.pixelSize = pixelBytes;
 		instanceData->drawRegions[n].theDescriptor.pixelType = pixelType;
+		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.redShift	 = ???;
+		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.redMask	 = ???;
+		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.greenShift	 = ???;
+		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.greenMask	 = ???;
+		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.blueShift	 = ???;
+		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.blueMask	 = ???;
+		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.alphaShift	 = ???;
+		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.alphaMask	 = ???;
 		instanceData->drawRegions[n].theDescriptor.bitOrder	 = kQ3EndianBig;
 		instanceData->drawRegions[n].theDescriptor.byteOrder = kQ3EndianBig;
+		instanceData->drawRegions[n].theDescriptor.clipMask = NULL;
 
+		// better implement the following line by calling LockPixels//Unlock in
+		// E3XDrawRegion_StartAccessToImageBuffer and E3XDrawRegion_End
+		//instanceData->drawRegions[n].imageBuffer = GetPixBaseAddr(thePixMap);
 
 
 		// Create a clipping region
@@ -633,6 +647,12 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 			e3drawcontext_mac_updateregions(theDrawContext, instanceData->theState);
 			}
 		}
+
+	// clear the DrawContext
+	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor){
+		NULL;
+		}
+		
 	
 	return(qd3dStatus);		
 }
