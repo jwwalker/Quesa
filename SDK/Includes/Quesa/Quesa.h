@@ -398,6 +398,7 @@ typedef enum {
  *  @constant kQ3PixelTypeARGB16     1 bit for alpha. 5 bits for red, green, and blue.
  *  @constant kQ3PixelTypeRGB16_565  5 bits for red, 6 bits for green, 5 bits for blue.
  *  @constant kQ3PixelTypeRGB24      8 bits for red, green, and blue. No alpha byte.
+ *  @constant kQ3PixelTypeUnknown    Unknown pixel type.
  */
 typedef enum {
     kQ3PixelTypeRGB32                           = 0,
@@ -405,7 +406,8 @@ typedef enum {
     kQ3PixelTypeRGB16                           = 2,
     kQ3PixelTypeARGB16                          = 3,
     kQ3PixelTypeRGB16_565                       = 4,
-    kQ3PixelTypeRGB24                           = 5
+    kQ3PixelTypeRGB24                           = 5,
+    kQ3PixelTypeUnknown							= 200
 } TQ3PixelType;
 
 
