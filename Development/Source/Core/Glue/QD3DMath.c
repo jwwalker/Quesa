@@ -6075,13 +6075,13 @@ Q3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3P
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theRay
-		return(NULL);
+		return(kQ3False);
 
 	if (0) // Further checks on theSphere
-		return(NULL);
+		return(kQ3False);
 
 	if (0) // Further checks on hitPoint
-		return(NULL);
+		return(kQ3False);
 #endif
 
 
@@ -6117,13 +6117,13 @@ Q3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theRay
-		return(NULL);
+		return(kQ3False);
 
 	if (0) // Further checks on theBounds
-		return(NULL);
+		return(kQ3False);
 
 	if (0) // Further checks on hitPoint
-		return(NULL);
+		return(kQ3False);
 #endif
 
 
@@ -6161,19 +6161,19 @@ Q3Ray3D_IntersectTriangle(const TQ3Ray3D *theRay, const TQ3Point3D *point1, cons
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theRay
-		return(NULL);
+		return(kQ3False);
 
 	if (0) // Further checks on point1
-		return(NULL);
+		return(kQ3False);
 
 	if (0) // Further checks on point2
-		return(NULL);
+		return(kQ3False);
 
 	if (0) // Further checks on point3
-		return(NULL);
+		return(kQ3False);
 
 	if (0) // Further checks on hitPoint
-		return(NULL);
+		return(kQ3False);
 #endif
 
 
