@@ -2197,8 +2197,8 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 		instanceData->glATICheckedFSAA = kQ3True;
 		strcpy(theBuffer, (const char *) glGetString(GL_RENDERER));
 		
-		if (strcmp(theBuffer, "ATI Radeon OpenGL Engine") == 0 ||
-			strcmp(theBuffer, "ATI R-200 OpenGL Engine")  == 0)
+		if ((strstr(theBuffer, "ATI") != NULL && strstr(theBuffer, "adeon") != NULL) ||
+		     strcmp(theBuffer, "ATI R-200 OpenGL Engine") == 0)
 			instanceData->glATIAvailableFSAA = kQ3True;
 		}
 	
