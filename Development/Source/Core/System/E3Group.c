@@ -1048,10 +1048,16 @@ e3group_display_submit_contents(TQ3DisplayGroupObject theGroup,TQ3ViewObject the
 
 
 	if (startIterateMethod == NULL)
+		{
+		E3ErrorManager_PostError(kQ3ErrorNeedRequiredMethods, kQ3False);	// ?
 		return(kQ3Failure);
+		}
 		
 	if (endIterateMethod == NULL)
+		{
+		E3ErrorManager_PostError(kQ3ErrorNeedRequiredMethods, kQ3False);	// ?
 		return(kQ3Failure);
+		}
 		
 	
 	// if not inline push view state
@@ -1114,6 +1120,8 @@ e3group_display_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 	
 	qd3dStatus = kQ3Failure;
 	
+	// I think the following check is redundant; it's already been done in
+	// E3View_SubmitRetained or E3View_SubmitImmediate.  -- JJS
 	if (viewState != kQ3ViewStateSubmitting)
 		return(kQ3Failure);
 	
