@@ -154,14 +154,14 @@ void	App_Terminate(void);
 
 
 // Qut - Platform independent
-void	Qut_CreateView(qutFuncAppConfigureView appConfigureView);
-void	Qut_CalcBounds(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingBox *theBounds);
-void   *Qut_GetWindow(void);
-void	Qut_SetRenderPreFunc(qutFuncAppRenderPre   appRenderPre);
-void	Qut_SetRenderFunc(qutFuncAppRender         appRender);
-void	Qut_SetRenderPostFunc(qutFuncAppRenderPost appRenderPost);
-void	Qut_SetMouseTrackFunc(qutFuncAppMouseTrack appMouseTrack);
-
+void			Qut_CreateView(qutFuncAppConfigureView appConfigureView);
+void			Qut_CalcBounds(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingBox *theBounds);
+void   		   *Qut_GetWindow(void);
+void			Qut_SetRenderPreFunc(qutFuncAppRenderPre   appRenderPre);
+void			Qut_SetRenderFunc(qutFuncAppRender         appRender);
+void			Qut_SetRenderPostFunc(qutFuncAppRenderPost appRenderPost);
+void			Qut_SetMouseTrackFunc(qutFuncAppMouseTrack appMouseTrack);
+TQ3GroupObject	Qut_ReadModel(TQ3StorageObject	storageObj);
 
 // Qut - Platform specific
 void					Qut_CreateWindow(const char		*windowTitle,
