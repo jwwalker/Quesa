@@ -690,11 +690,10 @@ e3view_bounds_box_approx(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 poi
 //-----------------------------------------------------------------------------
 static void
 e3view_bounds_sphere_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 pointStride, const TQ3Point3D *thePoints)
-{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
-	const TQ3Matrix4x4	*localToWorld;
-	TQ3Point3D			worldPoint;
-	const TQ3Uns8		*rawPoint;
-	TQ3Uns32			i;
+{	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
+	const TQ3Matrix4x4		*localToWorld;
+	TQ3Point3D				*worldPoints;
+	TQ3BoundingSphere		localBounds;
 
 
 
@@ -710,18 +709,24 @@ e3view_bounds_sphere_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 p
 
 
 
-	// Transform the points, and accumulate them into the bounding sphere
-	rawPoint = (const TQ3Uns8 *) thePoints;
-	for (i = 0; i < numPoints; ++i, rawPoint += pointStride)
-		{
-		// Transform the point
-		Q3Point3D_Transform((const TQ3Point3D *) rawPoint, localToWorld, &worldPoint);
-		
-		// Union it into the bounding sphere
-		Q3BoundingSphere_UnionPoint3D(&instanceData->boundingSphere,
-									  &worldPoint,
-									  &instanceData->boundingSphere);
-		}
+	// Transform the points to world coordinates
+	worldPoints = (TQ3Point3D *) Q3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
+	if (worldPoints == NULL)
+		return;
+
+	Q3Point3D_To3DTransformArray(thePoints, localToWorld, worldPoints,
+								  numPoints, pointStride, sizeof(TQ3Point3D));
+
+
+
+	// Calculate their bounding sphere and accumulate it
+	Q3BoundingSphere_SetFromPoints3D(&localBounds, worldPoints, numPoints, sizeof(TQ3Point3D));
+	Q3BoundingSphere_Union(&localBounds, &instanceData->boundingSphere, &instanceData->boundingSphere);
+
+
+
+	// Clean up
+	Q3Memory_Free(&worldPoints);
 }
 
 
@@ -740,8 +745,8 @@ e3view_bounds_sphere_approx(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 
 {	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
 	const TQ3Matrix4x4		*localToWorld;
 	TQ3SphericalPoint		radSpherical;
-	TQ3Point3D				radPoint;
 	TQ3BoundingSphere		localBounds;
+	TQ3Point3D				radPoint;
 
 
 
@@ -2287,6 +2292,28 @@ E3View_State_GetStyleSubdivision(TQ3ViewObject theView)
 
 	// Return the state
 	return(&instanceData->stackState->styleSubdivision);
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_State_GetStyleOrientation : Get the orientation style state.
+//-----------------------------------------------------------------------------
+TQ3OrientationStyle
+E3View_State_GetStyleOrientation(TQ3ViewObject theView)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+
+
+
+	// Validate our state
+	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
+
+
+
+	// Return the state
+	return(instanceData->stackState->styleOrientation);
 }
 
 
