@@ -174,7 +174,7 @@ e3drawcontext_pixmap_update(TQ3DrawContextObject theDrawContext)
 
 	// clear the DrawContext
 	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor)
-		;
+		NULL;
 		
 
 

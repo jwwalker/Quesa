@@ -3810,7 +3810,7 @@ e3geom_mesh_duplicate(
 
 	// Handle failure
 	if (qd3dStatus != kQ3Success)
-		;
+		NULL;
 
 	return(qd3dStatus);
 }
