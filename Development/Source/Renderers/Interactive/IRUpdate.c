@@ -58,20 +58,9 @@
 //=============================================================================
 //      ir_state_is_power_of_2 : Is a number a power of 2?
 //-----------------------------------------------------------------------------
-static TQ3Boolean
-ir_state_is_power_of_2(TQ3Uns32 n)
-{	TQ3Uns32		i = 1;
+#define ir_state_is_power_of_2(_x) (((_x)&((_x)-1))==0)
 
-
-
-	// Keep doubling until we find it
-	while (n > i)
-		i *= 2;
-	
-	return((TQ3Boolean) (i == n));
-}
-
-
+// cute trick found in http://web2.airmail.net/sjbaker1/software/cute_code.html
 
 
 
@@ -217,6 +206,7 @@ ir_state_texture_convert_depth(TQ3Uns32			theWidth,
 								TQ3Uns32		srcRowBytes,
 								TQ3Uns8			*srcBasePtr,
 								TQ3PixelType	srcPixelType,
+								TQ3Endian 		srcByteOrder,
 								GLint			*glPixelType)
 {	TQ3Uns8				*dstBasePtr, *dstRow, *dstPixel, *srcRow, *srcPixel;
 	TQ3Uns32			redBits, greenBits, blueBits, alphaBits;
@@ -242,99 +232,340 @@ ir_state_texture_convert_depth(TQ3Uns32			theWidth,
 
 	// Work out the information we need to convert the image
 	*glPixelType = GLUtils_ConvertPixelType(srcPixelType);
-	srcDepth     = GLUtils_SizeOfPixelType(srcPixelType);
+	srcDepth     = GLUtils_SizeOfPixelType(srcPixelType)/8;
 	dstRowBytes  = theWidth * 4;
 
 	srcRow = srcBasePtr;
 	dstRow = dstBasePtr;
 
-
-
-	// Convert the image	
-	for (y = 0; y < theHeight; y++)
-		{
-		// Reset the pixel to the start of the row
-		srcPixel = srcRow;
-		dstPixel = dstRow;
-
-
-		// Convert the row
-		for (x = 0; x < theWidth; x++)
-			{
-			// Convert the pixel
-			switch (srcPixelType) {
-				case kQ3PixelTypeARGB32:
-					dstPixel[0] = srcPixel[1];
-					dstPixel[1] = srcPixel[2];
-					dstPixel[2] = srcPixel[3];
-					dstPixel[3] = srcPixel[0];
-					break;
-
-				case kQ3PixelTypeRGB32:
-					dstPixel[0] = srcPixel[1];
-					dstPixel[1] = srcPixel[2];
-					dstPixel[2] = srcPixel[3];
-					dstPixel[3] = 0xFF;
-					break;
-
-				case kQ3PixelTypeRGB24:
-					dstPixel[0] = srcPixel[0];
-					dstPixel[1] = srcPixel[1];
-					dstPixel[2] = srcPixel[2];
-					dstPixel[3] = 0xFF;
-					break;
-
-				case kQ3PixelTypeARGB16:
-				    n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
-					alphaBits = (n >> 15) & 0x0001;
-					redBits   = (n >> 10) & 0x001F;
-					greenBits = (n >>  5) & 0x001F;
-					blueBits  = (n >>  0) & 0x001F;
-							
-					dstPixel[0] = (TQ3Uns8) (redBits   * 8);
-					dstPixel[1] = (TQ3Uns8) (greenBits * 8);
-					dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
-					dstPixel[3] = (TQ3Uns8) (alphaBits * 0xFF);
-					break;
-
-				case kQ3PixelTypeRGB16:
-					n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
-					redBits   = (n >> 10) & 0x001F;
-					greenBits = (n >>  5) & 0x001F;
-					blueBits  = (n >>  0) & 0x001F;
-
-					dstPixel[0] = (TQ3Uns8) (redBits   * 8);
-					dstPixel[1] = (TQ3Uns8) (greenBits * 8);
-					dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
-					dstPixel[3] = 0xFF;
-					break;
-
-				case kQ3PixelTypeRGB16_565:
-					n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
-					redBits   = (n >> 11) & 0x001F;
-					greenBits = (n >>  5) & 0x003F;
-					blueBits  = (n >>  0) & 0x001F;
-
-					dstPixel[0] = (TQ3Uns8) (redBits   * 8);
-					dstPixel[1] = (TQ3Uns8) (greenBits * 4);
-					dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
-					dstPixel[3] = 0xFF;
-					break;
+	if(srcByteOrder == kQ3EndianBig){
+		switch(srcPixelType){
+			case kQ3PixelTypeARGB32:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[1];
+						dstPixel[1] = srcPixel[2];
+						dstPixel[2] = srcPixel[3];
+						dstPixel[3] = srcPixel[0];
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
 				}
-
-
-			// Move on to the next pixel
-			srcPixel += (srcDepth / 8);
-			dstPixel += 4;
+				break;	//kQ3PixelTypeARGB32
+			case kQ3PixelTypeRGB32:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[1];
+						dstPixel[1] = srcPixel[2];
+						dstPixel[2] = srcPixel[3];
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB32
+			case kQ3PixelTypeRGB24:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[0];
+						dstPixel[1] = srcPixel[1];
+						dstPixel[2] = srcPixel[2];
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB24
+			case kQ3PixelTypeARGB16:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+				    n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+						alphaBits = (n >> 15) & 0x0001;
+						redBits   = (n >> 10) & 0x001F;
+						greenBits = (n >>  5) & 0x001F;
+						blueBits  = (n >>  0) & 0x001F;
+								
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = (TQ3Uns8) (alphaBits * 0xFF);
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeARGB16
+			case kQ3PixelTypeRGB16:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+						redBits   = (n >> 10) & 0x001F;
+						greenBits = (n >>  5) & 0x001F;
+						blueBits  = (n >>  0) & 0x001F;
+	
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB16
+			case kQ3PixelTypeRGB16_565:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+						redBits   = (n >> 11) & 0x001F;
+						greenBits = (n >>  5) & 0x003F;
+						blueBits  = (n >>  0) & 0x001F;
+	
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 4);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB16_565
 			}
-		
-		
-		// Move on to the next row
-		srcRow += srcRowBytes;
-		dstRow += dstRowBytes;
 		}
-
-
+	else{
+		switch(srcPixelType){
+			case kQ3PixelTypeARGB32:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[2];
+						dstPixel[1] = srcPixel[1];
+						dstPixel[2] = srcPixel[0];
+						dstPixel[3] = srcPixel[3];
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeARGB32
+			case kQ3PixelTypeRGB32:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[2];
+						dstPixel[1] = srcPixel[1];
+						dstPixel[2] = srcPixel[0];
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB32
+			case kQ3PixelTypeRGB24:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[3];
+						dstPixel[1] = srcPixel[2];
+						dstPixel[2] = srcPixel[1];
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB24
+			case kQ3PixelTypeARGB16:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+				    n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
+						alphaBits = (n >> 15) & 0x0001;
+						redBits   = (n >> 10) & 0x001F;
+						greenBits = (n >>  5) & 0x001F;
+						blueBits  = (n >>  0) & 0x001F;
+								
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = (TQ3Uns8) (alphaBits * 0xFF);
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeARGB16
+			case kQ3PixelTypeRGB16:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
+						redBits   = (n >> 10) & 0x001F;
+						greenBits = (n >>  5) & 0x001F;
+						blueBits  = (n >>  0) & 0x001F;
+	
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB16
+			case kQ3PixelTypeRGB16_565:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
+						redBits   = (n >> 11) & 0x001F;
+						greenBits = (n >>  5) & 0x003F;
+						blueBits  = (n >>  0) & 0x001F;
+	
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 4);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB16_565
+			}
+		}
 
 	// Return the new image
 	return(dstBasePtr);
@@ -443,6 +674,7 @@ ir_state_texture_convert_image(TQ3StorageObject		theStorage,
 								TQ3Uns32			srcWidth,
 								TQ3Uns32			srcHeight,
 								TQ3Uns32			srcRowBytes,
+								TQ3Endian 		srcByteOrder,
 								TQ3Uns32			*dstWidth,
 								TQ3Uns32			*dstHeight,
 								TQ3Uns32			*dstRowBytes,
@@ -481,7 +713,7 @@ ir_state_texture_convert_image(TQ3StorageObject		theStorage,
 	// Copy the texture to a temporary copy of the correct depth
 	depthBasePtr = ir_state_texture_convert_depth(srcWidth,       srcHeight,
 													srcRowBytes,  qd3dBasePtr,
-													srcPixelType, glPixelType);
+													srcPixelType, srcByteOrder, glPixelType);
 
 
 
@@ -564,6 +796,7 @@ ir_state_texture_convert_pixmap(TQ3TextureObject theTexture)
 												thePixmap.width,
 												thePixmap.height,
 												thePixmap.rowBytes,
+												thePixmap.byteOrder,
 												&theWidth,
 												&theHeight,
 												&rowBytes,
@@ -643,6 +876,7 @@ ir_state_texture_convert_mipmap(TQ3TextureObject theTexture)
 												theMipmap.mipmaps[0].width,
 												theMipmap.mipmaps[0].height,
 												theMipmap.mipmaps[0].rowBytes,
+												theMipmap.byteOrder,
 												&theWidth,
 												&theHeight,
 												&rowBytes,
