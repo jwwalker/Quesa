@@ -1,0 +1,34 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                setGeometryFromTag = id; 
+                setRendererFromTag = id; 
+                setXRot = id; 
+                setYRot = id; 
+                setZRot = id; 
+                toggleAnimation = id; 
+                toggleBoundingBox = id; 
+            }; 
+            CLASS = AppDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {objectMenu = id; quesa3dView = id; rendererMenu = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {showHelp = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = NSOpenGLView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            CLASS = Quesa3DView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {qd3dDelegate = id; }; 
+            SUPERCLASS = NSView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,492 @@
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 30;
+	objects = {
+		043355C9FE30361CC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXRezBuildPhase;
+			name = "ResourceManager Resources";
+		};
+		080E96DCFE201CFB7F000001 = {
+			fileRef = 29B97318FDCFA39411CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		080E96DDFE201D6D7F000001 = {
+			children = (
+				17327D4BFF18F4807F000001,
+				1E8954AAFF19270E7F000001,
+				2D6A02D4FF1986E17F000001,
+			);
+			isa = PBXGroup;
+			name = Classes;
+			path = "";
+			refType = 2;
+		};
+		089C165CFE840E0CC02AAC07 = {
+			children = (
+				089C165DFE840E0CC02AAC07,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			refType = 4;
+		};
+		089C165DFE840E0CC02AAC07 = {
+			isa = PBXFileReference;
+			name = English;
+			path = English.lproj/InfoPlist.strings;
+			refType = 4;
+		};
+		089C165EFE840E0CC02AAC07 = {
+			fileRef = 089C165CFE840E0CC02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		1058C7A0FEA54F0111CA2CBB = {
+			children = (
+				1058C7A1FEA54F0111CA2CBB,
+				2179FF07FF194C0C7F000001,
+			);
+			isa = PBXGroup;
+			name = "Linked Frameworks";
+			refType = 4;
+		};
+		1058C7A1FEA54F0111CA2CBB = {
+			isa = PBXFrameworkReference;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+		};
+		1058C7A2FEA54F0111CA2CBB = {
+			children = (
+				29B97325FDCFA39411CA2CEA,
+				29B97324FDCFA39411CA2CEA,
+			);
+			isa = PBXGroup;
+			name = "Other Frameworks";
+			refType = 4;
+		};
+		1058C7A3FEA54F0111CA2CBB = {
+			fileRef = 1058C7A1FEA54F0111CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		17327D4BFF18F4807F000001 = {
+			isa = PBXFileReference;
+			path = AppDelegate.m;
+			refType = 4;
+		};
+		17327D4CFF18F4807F000001 = {
+			isa = PBXFileReference;
+			path = AppDelegate.h;
+			refType = 4;
+		};
+		17327D4DFF18F4807F000001 = {
+			fileRef = 17327D4CFF18F4807F000001;
+			isa = PBXBuildFile;
+			settings = {
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		17327D4EFF18F4807F000001 = {
+			fileRef = 17327D4BFF18F4807F000001;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Debug,
+				);
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		19C28FACFE9D520D11CA2CBB = {
+			children = (
+				250EA5F7FFDDAD6C7F000001,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+		};
+		1E8954AAFF19270E7F000001 = {
+			isa = PBXFileReference;
+			path = DemoGeometry.m;
+			refType = 4;
+		};
+		1E8954ABFF19270E7F000001 = {
+			fileRef = 1E8954AAFF19270E7F000001;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Debug,
+				);
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		1E8954ACFF1927E77F000001 = {
+			isa = PBXFileReference;
+			path = DemoGeometry.h;
+			refType = 4;
+		};
+		1E8954ADFF1927E77F000001 = {
+			fileRef = 1E8954ACFF1927E77F000001;
+			isa = PBXBuildFile;
+			settings = {
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		2179FF07FF194C0C7F000001 = {
+			isa = PBXFrameworkReference;
+			name = QuesaCocoa.framework;
+			path = /Local/Library/Frameworks/QuesaCocoa.framework;
+			refType = 0;
+		};
+		2179FF08FF194C0C7F000001 = {
+			fileRef = 2179FF07FF194C0C7F000001;
+			isa = PBXBuildFile;
+			settings = {
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		2179FF09FF19522C7F000001 = {
+			isa = PBXFileReference;
+			path = Quesa3DView.m;
+			refType = 4;
+		};
+		2179FF0AFF19522C7F000001 = {
+			isa = PBXFileReference;
+			path = Quesa3DView.h;
+			refType = 4;
+		};
+		2179FF0BFF19522C7F000001 = {
+			fileRef = 2179FF0AFF19522C7F000001;
+			isa = PBXBuildFile;
+			settings = {
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		2179FF0CFF19522C7F000001 = {
+			fileRef = 2179FF09FF19522C7F000001;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Debug,
+				);
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		250EA5F7FFDDAD6C7F000001 = {
+			isa = PBXApplicationReference;
+			path = QuesaCocoaTest.app;
+			refType = 3;
+		};
+		29B97313FDCFA39411CA2CEA = {
+			isa = PBXProject;
+			mainGroup = 29B97314FDCFA39411CA2CEA;
+			targets = (
+				29B97326FDCFA39411CA2CEA,
+			);
+		};
+		29B97314FDCFA39411CA2CEA = {
+			children = (
+				33CEB99E0055FFC57F000001,
+				33CEB9A00055FFC57F000001,
+				29B97315FDCFA39411CA2CEA,
+				29B97323FDCFA39411CA2CEA,
+				19C28FACFE9D520D11CA2CBB,
+			);
+			isa = PBXGroup;
+			name = CocoaApp;
+			path = "";
+			refType = 4;
+		};
+		29B97315FDCFA39411CA2CEA = {
+			children = (
+				29B97316FDCFA39411CA2CEA,
+			);
+			isa = PBXGroup;
+			name = "Other Sources";
+			path = "";
+			refType = 4;
+		};
+		29B97316FDCFA39411CA2CEA = {
+			isa = PBXFileReference;
+			path = main.m;
+			refType = 4;
+		};
+		29B97317FDCFA39411CA2CEA = {
+			children = (
+				29B97318FDCFA39411CA2CEA,
+				089C165CFE840E0CC02AAC07,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			path = "";
+			refType = 4;
+		};
+		29B97318FDCFA39411CA2CEA = {
+			children = (
+				29B97319FDCFA39411CA2CEA,
+			);
+			isa = PBXVariantGroup;
+			name = MainMenu.nib;
+			path = "";
+			refType = 4;
+		};
+		29B97319FDCFA39411CA2CEA = {
+			isa = PBXFileReference;
+			name = English;
+			path = English.lproj/MainMenu.nib;
+			refType = 4;
+		};
+		29B97323FDCFA39411CA2CEA = {
+			children = (
+				1058C7A0FEA54F0111CA2CBB,
+				1058C7A2FEA54F0111CA2CBB,
+			);
+			isa = PBXGroup;
+			name = Frameworks;
+			path = "";
+			refType = 4;
+		};
+		29B97324FDCFA39411CA2CEA = {
+			isa = PBXFrameworkReference;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+		};
+		29B97325FDCFA39411CA2CEA = {
+			isa = PBXFrameworkReference;
+			name = Foundation.framework;
+			path = /System/Library/Frameworks/Foundation.framework;
+			refType = 0;
+		};
+		29B97326FDCFA39411CA2CEA = {
+			buildPhases = (
+				29B97327FDCFA39411CA2CEA,
+				29B97328FDCFA39411CA2CEA,
+				29B9732BFDCFA39411CA2CEA,
+				29B9732DFDCFA39411CA2CEA,
+				043355C9FE30361CC02AAC07,
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "/Library/Frameworks \"$(HOME)/Library/Frameworks\"";
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "-DQUESA_OS_COCOA -DQ3_DEBUG=1";
+				OTHER_LDFLAGS = "";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = app;
+			};
+			conditionalBuildSettings = {
+			};
+			dependencies = (
+			);
+			isa = PBXApplicationTarget;
+			name = Quesa3DView;
+			productInstallPath = "$(HOME)/Applications";
+			productName = QuesaCocoaTest;
+			productReference = 250EA5F7FFDDAD6C7F000001;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist SYSTEM \"file://localhost/System/Library/DTDs/PropertyList.dtd\">
+<plist version=\"0.9\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>QuesaCocoaTest</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>QuesaCocoaTest</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>0.0.1d1</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+";
+			shouldUseHeadermap = 1;
+		};
+		29B97327FDCFA39411CA2CEA = {
+			buildActionMask = 2147483647;
+			files = (
+				17327D4DFF18F4807F000001,
+				1E8954ADFF1927E77F000001,
+				2179FF0BFF19522C7F000001,
+				2D6A02D5FF1986E17F000001,
+			);
+			isa = PBXHeadersBuildPhase;
+			name = Headers;
+		};
+		29B97328FDCFA39411CA2CEA = {
+			buildActionMask = 2147483647;
+			files = (
+				080E96DCFE201CFB7F000001,
+				089C165EFE840E0CC02AAC07,
+			);
+			isa = PBXResourcesBuildPhase;
+			name = "Bundle Resources";
+		};
+		29B9732BFDCFA39411CA2CEA = {
+			buildActionMask = 2147483647;
+			files = (
+				29B9732CFDCFA39411CA2CEA,
+				17327D4EFF18F4807F000001,
+				1E8954ABFF19270E7F000001,
+				2179FF0CFF19522C7F000001,
+				2D6A02D6FF1986E17F000001,
+			);
+			isa = PBXSourcesBuildPhase;
+			name = Sources;
+		};
+		29B9732CFDCFA39411CA2CEA = {
+			fileRef = 29B97316FDCFA39411CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Debug,
+				);
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		29B9732DFDCFA39411CA2CEA = {
+			buildActionMask = 2147483647;
+			files = (
+				1058C7A3FEA54F0111CA2CBB,
+				2179FF08FF194C0C7F000001,
+			);
+			isa = PBXFrameworksBuildPhase;
+			name = "Frameworks & Libraries";
+		};
+		2D6A02D3FF1986E17F000001 = {
+			isa = PBXFileReference;
+			path = QuesaCocoaUtil.h;
+			refType = 4;
+		};
+		2D6A02D4FF1986E17F000001 = {
+			isa = PBXFileReference;
+			path = QuesaCocoaUtil.m;
+			refType = 4;
+		};
+		2D6A02D5FF1986E17F000001 = {
+			fileRef = 2D6A02D3FF1986E17F000001;
+			isa = PBXBuildFile;
+			settings = {
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		2D6A02D6FF1986E17F000001 = {
+			fileRef = 2D6A02D4FF1986E17F000001;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Debug,
+				);
+				INCLUDED_OSS = (
+					MACOS,
+					WINDOWS,
+					PDOUNIX,
+				);
+			};
+		};
+		33CEB99E0055FFC57F000001 = {
+			children = (
+				080E96DDFE201D6D7F000001,
+				33CEB99F0055FFC57F000001,
+				29B97317FDCFA39411CA2CEA,
+			);
+			isa = PBXGroup;
+			name = "Demo App";
+			refType = 4;
+		};
+		33CEB99F0055FFC57F000001 = {
+			children = (
+				2D6A02D3FF1986E17F000001,
+				17327D4CFF18F4807F000001,
+				1E8954ACFF1927E77F000001,
+			);
+			isa = PBXGroup;
+			name = Headers;
+			path = "";
+			refType = 4;
+		};
+		33CEB9A00055FFC57F000001 = {
+			children = (
+				2179FF09FF19522C7F000001,
+				2179FF0AFF19522C7F000001,
+			);
+			isa = PBXGroup;
+			name = Quesa3DView;
+			path = "";
+			refType = 4;
+		};
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA;
+}
