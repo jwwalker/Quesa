@@ -2,7 +2,7 @@
         Quesa Prefix Carbon Debug.h
 
     DESCRIPTION:
-        Prefix file for Mac debug builds.
+        Prefix file for Mac carbon debug builds.
 
     COPYRIGHT:
         Quesa Copyright © 1999-2000, Quesa Developers.
@@ -35,6 +35,7 @@
 //=============================================================================
 //      Set our build constants
 //-----------------------------------------------------------------------------
+#define QUESA_OS_MACINTOSH				1
 #define Q3_DEBUG						1
 #define Q3_PROFILE						0
 
