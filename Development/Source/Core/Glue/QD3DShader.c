@@ -1339,6 +1339,8 @@ Q3MipmapTexture_SetMipmap(TQ3TextureObject texture, const TQ3Mipmap *mipmap)
 //=============================================================================
 //      Q3CompressedPixmapTexture_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#if QUESA_SUPPORT_QUICKTIME
+
 TQ3TextureObject
 Q3CompressedPixmapTexture_New(const TQ3CompressedPixmap *compressedPixmap)
 {
@@ -1493,6 +1495,7 @@ Q3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *compressedPixmap, P
 	return(E3CompressedPixmapTexture_CompressImage(compressedPixmap, sourcePixMap, codecType, codecComponent, codedDepth, codecQuality));
 }
 
+#endif // QUESA_SUPPORT_QUICKTIME
 
 
 

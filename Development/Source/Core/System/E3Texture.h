@@ -70,10 +70,14 @@ TQ3TextureObject		E3MipmapTexture_New(const TQ3Mipmap *mipmap);
 TQ3Status				E3MipmapTexture_GetMipmap(TQ3TextureObject texture, TQ3Mipmap *mipmap);
 TQ3Status				E3MipmapTexture_SetMipmap(TQ3TextureObject texture, const TQ3Mipmap *mipmap);
 
+#if QUESA_SUPPORT_QUICKTIME
+
 TQ3TextureObject		E3CompressedPixmapTexture_New(const TQ3CompressedPixmap *compressedPixmap);
 TQ3Status				E3CompressedPixmapTexture_GetCompressedPixmap(TQ3TextureObject texture, TQ3CompressedPixmap *compressedPixmap);
 TQ3Status				E3CompressedPixmapTexture_SetCompressedPixmap(TQ3TextureObject texture, const TQ3CompressedPixmap *compressedPixmap);
 TQ3Status				E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *compressedPixmap, PixMapHandle sourcePixMap, CodecType codecType, CodecComponent codecComponent, TQ3Int16 codedDepth, CodecQ codecQuality);
+
+#endif // QUESA_SUPPORT_QUICKTIME
 
 
 

@@ -861,6 +861,9 @@ E3MipmapTexture_SetMipmap(TQ3TextureObject texture, const TQ3Mipmap *mipmap)
 //      E3CompressedPixmapTexture_New :	Create a new compressed pixmap texture.
 //-----------------------------------------------------------------------------
 #pragma mark -
+
+#if QUESA_SUPPORT_QUICKTIME
+
 TQ3TextureObject
 E3CompressedPixmapTexture_New(const TQ3CompressedPixmap *compressedPixmap)
 {	TQ3Object	compressedTexture ;
@@ -1144,3 +1147,5 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 	return(kQ3Failure);
 #endif
 }
+
+#endif // QUESA_SUPPORT_QUICKTIME
