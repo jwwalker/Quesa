@@ -1,0 +1,199 @@
+3DMetafile ( 1 6 Normal tableofcontents0> )
+
+#	NAME:	references.3dmf
+#
+#	DESCRIPTION:
+#		This object is intended to test reading the table of contents and
+#		Reference objects in text 3DMF.
+#
+#	COPYRIGHT:
+#		Quesa Copyright © 2004, Quesa Developers.
+#	
+#		For the list of Quesa Developers, and contact details, see:
+#	
+#			Documentation/contributors.html
+#	
+#		For the current version of Quesa, see:
+#	
+#			<http://quesa.sourceforge.net/>
+#	
+#        Redistribution and use in source and binary forms, with or without
+#        modification, are permitted provided that the following conditions
+#        are met:
+#        
+#            o Redistributions of source code must retain the above copyright
+#              notice, this list of conditions and the following disclaimer.
+#       
+#            o Redistributions in binary form must reproduce the above
+#              copyright notice, this list of conditions and the following
+#              disclaimer in the documentation and/or other materials provided
+#              with the distribution.
+#        
+#            o Neither the name of Quesa nor the names of its contributors
+#              may be used to endorse or promote products derived from this
+#              software without specific prior written permission.
+#        
+#        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+#        "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+#        LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+#        A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+#        OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#        SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+#        TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+#        PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+#        LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+#        NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+#        SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+	displaygroup2:
+	BeginGroup ( 
+		DisplayGroup ( )
+		DisplayGroupState ( NoBoundingBox | NoBoundingSphere 
+		)
+	)
+	trimesh3:
+	Container (
+		TriMesh (
+			2 0 0 0 4 1 # numTriangles numTriangleAttributeTypes numEdges numEdgeAttributeTypes numPoints numVertexAttributeTypes
+			0 1 2 
+			0 2 3 
+			0 0 0 0.5 0 0 0.5 0.5 0 
+			0 0.5 0 
+			0 0 0 0.5 0.5 0 False )
+		AttributeArray (
+			1 0 2 0 0 
+			0 0 
+			1 0 
+			1 1 
+			0 1 
+		)
+		attributeset4:
+		Container (
+			AttributeSet ( )
+			textureshader5:
+			Container (
+				TextureShader ( )
+				pixmaptexture6:
+				PixmapTexture (
+					4 4 8 16 RGB16 BigEndian BigEndian 
+					0x70007000700070000380001C001C7000
+					0x0380001C001C70000380038070007000
+				)
+			)
+		)
+	)
+	trimesh7:
+	Container (
+		TriMesh (
+			2 0 0 0 4 1 # numTriangles numTriangleAttributeTypes numEdges numEdgeAttributeTypes numPoints numVertexAttributeTypes
+			0 1 2 
+			0 2 3 
+			0 -0.7 0 0.5 -0.7 0 0.5 -0.2 0 
+			0 -0.2 0 
+			0 -0.7 0 0.5 -0.2 0 False )
+		AttributeArray (
+			1 0 2 0 0 
+			0 0 
+			1 0 
+			1 1 
+			0 1 
+		)
+		attributeset8:
+		Container (
+			AttributeSet ( )
+			textureshader9:
+			Container ( 
+				TextureShader ( )
+				Reference ( 1 )
+			)
+		)
+	)
+	displaygroup10:
+	BeginGroup ( 
+		DisplayGroup ( )
+		DisplayGroupState ( NoBoundingBox | NoBoundingSphere 
+		)
+	)
+	Reference ( 2 )
+	trimesh11:
+	Container (
+		TriMesh (
+			2 0 0 0 4 1 # numTriangles numTriangleAttributeTypes numEdges numEdgeAttributeTypes numPoints numVertexAttributeTypes
+			0 1 2 
+			0 2 3 
+			0.5 0.5000001 0 1 0.5000001 0 1 1 0 
+			0.5 1 0 
+			0.5 0.5000001 0 1 1 0 False )
+		AttributeArray (
+			1 0 2 0 0 
+			0 0 
+			1 0 
+			1 1 
+			0 1 
+		)
+	)
+	EndGroup ( )
+	trimesh12:
+	Container (
+		TriMesh (
+			2 0 0 0 4 1 # numTriangles numTriangleAttributeTypes numEdges numEdgeAttributeTypes numPoints numVertexAttributeTypes
+			0 1 2 
+			0 2 3 
+			-0.5 0.5000001 0 0 0.5000001 0 0 1 0 
+			-0.5 1 0 
+			-0.5 0.5000001 0 0 1 0 False )
+		AttributeArray (
+			1 0 2 0 0 
+			0 0 
+			1 0 
+			1 1 
+			0 1 
+		)
+		attributeset13:
+		Container ( 
+			AttributeSet ( )
+			Reference ( 3 )
+		)
+	)
+	displaygroup14:
+	BeginGroup ( 
+		DisplayGroup ( )
+		DisplayGroupState ( NoBoundingBox | NoBoundingSphere 
+		)
+	)
+	translate15:
+	Translate ( -0.5 -0.5 0 )
+	Reference ( 4 )
+	EndGroup ( )
+	displaygroup16:
+	BeginGroup ( 
+		DisplayGroup ( )
+		DisplayGroupState ( NoBoundingBox | NoBoundingSphere 
+		)
+	)
+	translate17:
+	Translate ( 0 -1.2 0 )
+	Reference ( 5 )
+	EndGroup ( )
+	EndGroup ( )
+	tableofcontents0:
+	TableOfContents (
+		tableofcontents1> # next TOC
+		6 # reference seed
+		-1 # typeSeed
+		1 # tocEntryType
+		16 # tocEntrySize
+		5 # nEntries
+		1 pixmaptexture6> 
+		PixmapTexture
+		2 attributeset8> 
+		AttributeSet
+		3 textureshader5> 
+		TextureShader
+		4 trimesh3> 
+		TriMesh
+		5 displaygroup10> 
+		DisplayGroup
+	)
+	
