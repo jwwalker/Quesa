@@ -70,6 +70,7 @@ extern "C" {
  *	@struct		TQ3RotateTransformData
  *	@discussion
  *		State data for a rotate transform.
+ *
  *	@field	axis	Enumerated value specifying the x, y, or z axis.
  *	@field	radians	Number of radians to rotate about the axis.
  */
@@ -83,6 +84,7 @@ typedef struct TQ3RotateTransformData {
  *	@struct		TQ3RotateAboutPointTransformData
  *	@discussion
  *		State data for a rotate-about-point transform.
+ *
  *	@field	axis	Enumerated value specifying the x, y, or z axis.
  *	@field	radians	Number of radians to rotate about the axis.
  *	@field	about	A point on the desired axis of rotation.
@@ -100,6 +102,7 @@ typedef struct TQ3RotateAboutPointTransformData {
  *	@discussion
  *		State data for a transform object that rotates about an arbitrary axis.
  *		Note that the orientation vector must be normalized.
+ *
  *	@field		origin		A point on the axis of rotation.
  *	@field		orientation	A normal vector determining the direction of the axis.
  *	@field		radians		Number of radians to rotate about the axis.
@@ -109,6 +112,44 @@ typedef struct TQ3RotateAboutAxisTransformData {
     TQ3Vector3D                                 orientation;
     TQ3Float32                                  radians;
 } TQ3RotateAboutAxisTransformData;
+
+
+// Camera transform data
+/*!
+ *	@struct		TQ3CameraTransformData
+ *	@discussion
+ *		State data for a transform object that manipulates the camera matrix state.
+ *
+ *		Vertices are passed through three transforms to convert them from local
+ *      coordinates to the canonical viewing frustum.
+ *
+ *      The localToWorld transform converts local coordinates to the world coordinate
+ *      system.
+ *
+ *      The worldToCamera transform converts world coordinates to the camera's
+ *      coordinate system, which places the camera at the origin and establishes
+ *      the camera's view of the world.
+ *
+ *      The cameraToFrustum converts the camera's coordinate system to the canonical
+ *      viewing frustum. This frustum is a box centered on the origin, ranging from
+ *      -1 to +1 in x and y. In z the frustum ranges from 0 at the near clipping plane
+ *      to -1 at the far clipping plane.
+ *
+ *      Once vertices have been transformed to the canonical frustum, a portion of
+ *      the frustum is then selected using the current camera's viewPort and that
+ *      portion mapped to the draw context's pane. These two steps are controlled by
+ *      the current camera and draw context, and are not affected by a camera transform
+ *      object.
+ *
+ *	@field		localToWorld      The local-to-world matrix.
+ *	@field		worldToCamera     The world-to-camera matrix.
+ *	@field		cameraToFrustum   The camera-to-frustum matrix.
+*/
+typedef struct TQ3CameraTransformData {
+    TQ3Matrix4x4                                localToWorld;
+    TQ3Matrix4x4                                worldToCamera;
+    TQ3Matrix4x4                                cameraToFrustum;
+} TQ3CameraTransformData;
 
 
 
@@ -143,6 +184,9 @@ Q3Transform_GetType (
  *  @discussion
  *      Get the 4&#215;4 matrix of a transform object.
  *
+ *      Non-geometrical transform objects (e.g., camera transforms) can not be
+ *      expressed as a single 4&#215;4 matrix. These transforms will return the
+ *      identity matrix.
  *
  *  @param transform        A transform object.
  *  @param matrix           Receives the matrix of the transform.
@@ -999,6 +1043,163 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3ResetTransform_Submit (
     TQ3ViewObject                 view
 );
+
+
+
+/*!
+ *  @function
+ *      Q3CameraTransform_New
+ *  @discussion
+ *      Create a new camera transform object.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *      
+ *  @param theData          The data for the camera transform object.
+ *  @result                 A new camera transform object, or NULL on failure.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3TransformObject  )
+Q3CameraTransform_New (
+    const TQ3CameraTransformData  *theData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3CameraTransform_Submit
+ *  @discussion
+ *      Submit a camera transform in immediate mode. Should only be called
+ *		within a submitting loop.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *      
+ *  @param theData          The data for the camera transform.
+ *  @param theView          The view currently being submitted to.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3CameraTransform_Submit (
+    const TQ3CameraTransformData  *theData,
+    TQ3ViewObject                 theView
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3CameraTransform_Set
+ *  @discussion
+ *      Set the data of a camera transform object.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *      
+ *  @param theTransform     The camera transform object to update.
+ *  @param theData          The new data for the transform object.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3CameraTransform_Set (
+    TQ3TransformObject            theTransform,
+    const TQ3CameraTransformData  *theData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3CameraTransform_Get
+ *  @discussion
+ *      Get the data of a camera transform object.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *      
+ *  @param theTransform     The camera transform object to query.
+ *  @param theData          Receives thedata for the transform object.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3CameraTransform_Get (
+    TQ3TransformObject            theTransform,
+    TQ3CameraTransformData        *theData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3RasterizeCameraTransform_New
+ *  @discussion
+ *      Create a new rasterize camera transform object.
+ *
+ *      A rasterize camera object is a camera transform object which
+ *      adjusts the camera to allow rasterizing to a draw context.
+ *
+ *      When this type of transform is active, x and y vertex coordinates
+ *      reflect pixel (or sub-pixel) coordinates. The z coordinate ranges
+ *      from 0.0 to 1.0 (where 0.0 is the front of the scene, and 1.0 is
+ *      the back).
+ *
+ *      The x/y coordinate system matches that of the draw context being
+ *      rendered to when the transform is submitted. The origin is placed
+ *      at the top left of the draw context, while the dimensions of the
+ *      draw context provide the coordinates of the bottom right "pixel".
+ *
+ *      Any geometry type or rendering state may be submitted while this
+ *      transform is active, however some renderers may require transparent
+ *      objects to be sorted manually to their correct position within
+ *      the scene.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *      
+ *  @result                 A new camera transform object, or NULL on failure.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3TransformObject  )
+Q3RasterizeCameraTransform_New (
+    void
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3RasterizeCameraTransform_Submit
+ *  @discussion
+ *      Submit a rasterize camera transform in immediate mode. Should only
+ *      be called within a submitting loop.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *      
+ *  @param theView          The view currently being submitted to.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3RasterizeCameraTransform_Submit (
+    TQ3ViewObject                 theView
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
