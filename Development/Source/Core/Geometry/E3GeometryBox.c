@@ -111,90 +111,60 @@ e3geom_box_calc_vertices(const TQ3BoxData *boxData, TQ3Point3D *thePoints)
 
 
 //=============================================================================
-//      e3geom_box_add_attribute : Populate an attribute array.
+//      e3geom_box_gather_triangle_attribute : Gather triangle attributes.
 //-----------------------------------------------------------------------------
-//		Note :	Given an attribute type, we collect the data for the triangles
-//				and initialise the appropriate attribute data within the
-//				TriMesh.
-//
-//				We rely on the ordering of faces in the box being left, right
-//				front, back top, bottom, and that the ordering of triangles
-//				within the TriMesh is left=01, right=23, front=45, etc.
+//		Note :	Each entry in the face attribute list is used by the two
+//				triangles which make up that face. This relies on the triangles
+//				within the TriMesh mapping sequentially to each face.
 //-----------------------------------------------------------------------------
-static TQ3Boolean
-e3geom_box_add_attribute(const TQ3BoxData				*instanceData,
-							TQ3TriMeshAttributeData		*triMeshAttribute,
-							TQ3AttributeType			attributeType,
-							void						*attributeData)
-{	TQ3Uns32			n, m, attributeSize;
-	TQ3Boolean			foundAttribute;
-	TQ3AttributeSet		theAttributes;
-	E3ClassInfoPtr		theClass;
-	
+static TQ3AttributeSet
+e3geom_box_gather_triangle_attribute(void *userData, TQ3Uns32 setIndex)
+{	TQ3BoxData			*geomData = (TQ3BoxData *) userData;
+
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(instanceData),                   kQ3False);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(instanceData->faceAttributeSet), kQ3False);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshAttribute),               kQ3False);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeData),                  kQ3False);
+	Q3_REQUIRE_OR_RESULT(setIndex < 12, NULL);
 
 
 
-	// Determine if any of the faces of the box contain this attribute. If
-	// none of them do, we can skip it - but if one of them does, they all
-	// must (since we're using a TriMesh).
-	foundAttribute = kQ3False;
-	for (n = 0; n < 6 && !foundAttribute; n++)
-		{
-		if (instanceData->faceAttributeSet[n] != NULL &&
-			Q3AttributeSet_Contains(instanceData->faceAttributeSet[n], attributeType))
-			foundAttribute = kQ3True;
-		}
-
-	if (!foundAttribute)
-		return(kQ3False);
-
-
-
-	// Work out the size of data used for the attribute
-	theClass = E3ClassTree_GetClassByType(E3Attribute_AttributeToClassType(attributeType));
-	if (theClass == NULL)
-		return(kQ3False);
-	
-	attributeSize = E3ClassTree_GetInstanceSize(theClass);
-
-
-
-	// Set up the attribute array within the TriMesh
-	triMeshAttribute->attributeType     = attributeType;
-	triMeshAttribute->data              = attributeData;
-	triMeshAttribute->attributeUseArray = NULL;
-
-
-
-	// Set up the values within the attribute array (overriding the defaults)
-	m = 0;
-	for (n = 0; n < 6; n++)
-		{
-		// Get the final attribute set for this face
-		E3AttributeSet_Combine(instanceData->boxAttributeSet, instanceData->faceAttributeSet[n], &theAttributes);
-		if (theAttributes != NULL)
-			{
-			// If the attribute we want is present, get the value for
-			// the two triangles which make up this face.
-			if (Q3AttributeSet_Contains(theAttributes, attributeType))
-				{
-				Q3AttributeSet_Get(theAttributes, attributeType, ((TQ3Uns8 *) attributeData) + ((m + 0) * attributeSize));
-				Q3AttributeSet_Get(theAttributes, attributeType, ((TQ3Uns8 *) attributeData) + ((m + 1) * attributeSize));
-				m += 2;
-				}
-
-			Q3Object_Dispose(theAttributes);
-			}
+	// Return the appropriate attribute set
+	switch (setIndex) {
+		case 0:
+		case 1:
+			return(geomData->faceAttributeSet[0]);
+			break;
+		
+		case 2:
+		case 3:
+			return(geomData->faceAttributeSet[1]);
+			break;
+		
+		case 4:
+		case 5:
+			return(geomData->faceAttributeSet[2]);
+			break;
+		
+		case 6:
+		case 7:
+			return(geomData->faceAttributeSet[3]);
+			break;
+		
+		case 8:
+		case 9:
+			return(geomData->faceAttributeSet[4]);
+			break;
+		
+		case 10:
+		case 11:
+			return(geomData->faceAttributeSet[5]);
+			break;
+		
+		default:
+			break;
 		}
 	
-	return(kQ3True);
+	return(NULL);
 }
 
 
@@ -277,20 +247,12 @@ e3geom_box_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_box_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3BoxData *geomData)
-{	TQ3TriMeshAttributeData		triAttributes[kQ3AttributeTypeNumTypes];
-	float						triAttributeAmbientCoefficient[12];
-	TQ3ColorRGB					triAttributeTransparencyColour[12];
+{	TQ3TriMeshAttributeData		triangleAttributes[kQ3AttributeTypeNumTypes];
 	TQ3Point3D					triMeshPoints[24], cubePoints[8];
-	float						triAttributeSpecularControl[12];
-	TQ3ColorRGB					edgeAttributeDiffuseColour[12];
-	TQ3ColorRGB					triAttributeSpecularColour[12];
-	TQ3Switch					triAttributeHighlightState[12];
-	TQ3ColorRGB					triAttributeDiffuseColour[12];
-	TQ3SurfaceShaderObject		triAttributeSurfaceShader[12];
-	TQ3Vector3D					triAttributeNormal[12];
 	TQ3TriMeshAttributeData		pointAttributes[1];
 	TQ3TriMeshAttributeData		edgeAttributes[1];
-	TQ3Boolean					addEdgeColour;
+	TQ3ColorRGB					edgeColours[12];
+	TQ3ColorRGB					*triColours;
 	TQ3TriMeshData				triMeshData;
 	TQ3GeometryObject			theTriMesh;
 	TQ3Uns32					n;
@@ -365,14 +327,7 @@ e3geom_box_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3
 
 
 
-	// Set up the vertex attributes
-	pointAttributes[0].attributeType     = kQ3AttributeTypeSurfaceUV;
-	pointAttributes[0].data              = pointAttributeSurfaceUV;
-	pointAttributes[0].attributeUseArray = NULL;
-
-
-
-	// Set up the TriMesh
+	// Initialise the TriMesh data
 	triMeshData.numPoints                 = 24;
 	triMeshData.points                    = triMeshPoints;
 	triMeshData.numTriangles              = 12;
@@ -391,87 +346,82 @@ e3geom_box_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3
 
 
 
-	// If there are any face attributes, set them up for each triangle
+	// Set up the vertex attributes
+	pointAttributes[0].attributeType     = kQ3AttributeTypeSurfaceUV;
+	pointAttributes[0].data              = pointAttributeSurfaceUV;
+	pointAttributes[0].attributeUseArray = NULL;
+
+
+
+	// Set up the triangle/edge attributes if any face attributes were supplied
 	if (geomData->faceAttributeSet != NULL)
 		{
-		// Initialise the attribute data - note that this isn't strictly correct.
-		//
-		// The problem is that a TriMesh needs to supply each attribute for every
-		// triangle: so a box that contains one red face should define a diffuse
-		// colour for each triangle, even for the 10 triangles that aren't red.
-		//
-		// But what colour should those triangles be? It depends on the current
-		// state at the time of rendering, which we can't know at this point.
-		//
-		// So for now, we just pick a default - but this may produce different
-		// results from QD3D.
-		for (n = 0; n < 12; n++)
+		// Set up the triangle attributes
+		n          = 0;
+		triColours = NULL;
+
+		if (E3TriMeshAttribute_GatherArray(12, e3geom_box_gather_triangle_attribute, (void *) geomData,
+												&triangleAttributes[n], kQ3AttributeTypeNormal))
+			n++;
+		
+		if (E3TriMeshAttribute_GatherArray(12, e3geom_box_gather_triangle_attribute, (void *) geomData,
+												&triangleAttributes[n], kQ3AttributeTypeAmbientCoefficient))
+			n++;
+
+		if (E3TriMeshAttribute_GatherArray(12, e3geom_box_gather_triangle_attribute, (void *) geomData,
+												&triangleAttributes[n], kQ3AttributeTypeDiffuseColor))
 			{
-			Q3Vector3D_Set(&triAttributeNormal[n],             0.0f, 1.0f, 0.0f);
-			Q3ColorRGB_Set(&triAttributeDiffuseColour[n],      kQ3ViewDefaultDiffuseColor);
-			Q3ColorRGB_Set(&triAttributeSpecularColour[n],     kQ3ViewDefaultSpecularColor);
-			Q3ColorRGB_Set(&triAttributeTransparencyColour[n], kQ3ViewDefaultTransparency);
-			triAttributeAmbientCoefficient[n] = kQ3ViewDefaultAmbientCoefficient;
-			triAttributeSpecularControl[n]    = kQ3ViewDefaultSpecularControl;
-			triAttributeHighlightState[n]     = kQ3ViewDefaultHighlightState;
-			triAttributeSurfaceShader[n]      = NULL;
+			triColours = (TQ3ColorRGB *) triangleAttributes[n].data;
+			n++;
+			}
+		
+		if (E3TriMeshAttribute_GatherArray(12, e3geom_box_gather_triangle_attribute, (void *) geomData,
+												&triangleAttributes[n], kQ3AttributeTypeSpecularColor))
+			n++;
+
+		if (E3TriMeshAttribute_GatherArray(12, e3geom_box_gather_triangle_attribute, (void *) geomData,
+											&triangleAttributes[n], kQ3AttributeTypeSpecularControl))
+			n++;
+
+		if (E3TriMeshAttribute_GatherArray(12, e3geom_box_gather_triangle_attribute, (void *) geomData,
+											&triangleAttributes[n], kQ3AttributeTypeTransparencyColor))
+			n++;
+
+		if (E3TriMeshAttribute_GatherArray(12, e3geom_box_gather_triangle_attribute, (void *) geomData,
+											&triangleAttributes[n], kQ3AttributeTypeHighlightState))
+			n++;
+
+		if (E3TriMeshAttribute_GatherArray(12, e3geom_box_gather_triangle_attribute, (void *) geomData,
+											&triangleAttributes[n], kQ3AttributeTypeSurfaceShader))
+			n++;
+
+		Q3_ASSERT(n < (sizeof(triangleAttributes) / sizeof(TQ3TriMeshAttributeData)));
+		if (n != 0)
+			{
+			triMeshData.numTriangleAttributeTypes = n;
+			triMeshData.triangleAttributeTypes    = triangleAttributes;
 			}
 
 
 
-		// Set up the triangle attributes
-		n = 0;
-
-		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeNormal,             triAttributeNormal))
-			n++;
-		
-		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeAmbientCoefficient, triAttributeAmbientCoefficient))
-			n++;
-
-		addEdgeColour = e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeDiffuseColor, triAttributeDiffuseColour);
-		if (addEdgeColour)
-			n++;
-		
-		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeSpecularColor,      triAttributeSpecularColour))
-			n++;
-		
-		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeSpecularControl,    triAttributeSpecularControl))
-			n++;
-		
-		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeTransparencyColor,  triAttributeTransparencyColour))
-			n++;
-		
-		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeHighlightState,     triAttributeHighlightState))
-			n++;
-		
-		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeSurfaceShader,      triAttributeSurfaceShader))
-			n++;
-
-
-		Q3_ASSERT(n < (sizeof(triAttributes) / sizeof(TQ3TriMeshAttributeData)));
-		triMeshData.numTriangleAttributeTypes = n;
-		triMeshData.triangleAttributeTypes    = triAttributes;
-
-
-
 		// Set up the edge attributes - we add colour if the triangles are coloured
-		if (addEdgeColour)
+		if (triColours != NULL)
 			{
-			edgeAttributeDiffuseColour[0]  = triAttributeDiffuseColour[10];
-			edgeAttributeDiffuseColour[1]  = triAttributeDiffuseColour[4];
-			edgeAttributeDiffuseColour[2]  = triAttributeDiffuseColour[8];
-			edgeAttributeDiffuseColour[3]  = triAttributeDiffuseColour[7];
-			edgeAttributeDiffuseColour[4]  = triAttributeDiffuseColour[10];
-			edgeAttributeDiffuseColour[5]  = triAttributeDiffuseColour[7];
-			edgeAttributeDiffuseColour[6]  = triAttributeDiffuseColour[8];
-			edgeAttributeDiffuseColour[7]  = triAttributeDiffuseColour[4];
-			edgeAttributeDiffuseColour[8]  = triAttributeDiffuseColour[10];
-			edgeAttributeDiffuseColour[9]  = triAttributeDiffuseColour[8];
-			edgeAttributeDiffuseColour[10] = triAttributeDiffuseColour[10];
-			edgeAttributeDiffuseColour[11] = triAttributeDiffuseColour[8];
+			edgeColours[0]  = triColours[10];
+			edgeColours[1]  = triColours[4];
+			edgeColours[2]  = triColours[8];
+			edgeColours[3]  = triColours[7];
+			edgeColours[4]  = triColours[10];
+			edgeColours[5]  = triColours[7];
+			edgeColours[6]  = triColours[8];
+			edgeColours[7]  = triColours[4];
+			edgeColours[8]  = triColours[10];
+			edgeColours[9]  = triColours[8];
+			edgeColours[10] = triColours[10];
+			edgeColours[11] = triColours[8];
 
 			edgeAttributes[0].attributeType     = kQ3AttributeTypeDiffuseColor;
-			edgeAttributes[0].data              = edgeAttributeDiffuseColour;
+			edgeAttributes[0].data              = edgeColours;
 			edgeAttributes[0].attributeUseArray = NULL;
 
 			triMeshData.numEdgeAttributeTypes   = 1;

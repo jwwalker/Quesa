@@ -429,85 +429,21 @@ e3tessellate_attribute_blend(E3CombinedAttribute *dstState, const E3CombinedAttr
 
 
 //=============================================================================
-//      e3tessellate_attribute_add_vertex : Populate an attribute array.
+//      e3tessellate_gather_vertex_attribute : Gather vertex attributes.
 //-----------------------------------------------------------------------------
-//		Note :	Given an attribute type, we collect the data for the vertices
-//				and create the appropriate attribute data for the TriMesh.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-e3tessellate_attribute_add_vertex(E3TessellateState				*theState,
-									TQ3TriMeshAttributeData		*triMeshAttribute,
-									TQ3AttributeType			attributeType)
-{	TQ3Uns32			n, numVertices, numPresent, attributeSize;
-	TQ3Vertex3D			**theVertices;
-	TQ3Boolean			isPresent;
-	void				*dataPtr;
-	E3ClassInfoPtr		theClass;
+static TQ3AttributeSet
+e3tessellate_gather_vertex_attribute(void *userData, TQ3Uns32 setIndex)
+{	E3TessellateState		*theState = (E3TessellateState *) userData;
 
 
 
-	// Initialise ourselves
-	theClass = E3ClassTree_GetClassByType(E3Attribute_AttributeToClassType(attributeType));
-	if (theClass == NULL)
-		return(kQ3False);
-
-	numVertices   = theState->numTriMeshVertices;
-	theVertices   = theState->triMeshVertexList;
-	attributeSize = E3ClassTree_GetInstanceSize(theClass);
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(setIndex < theState->numTriMeshVertices, NULL);
 
 
 
-	// Scan the vertices to determine if this attribute is present
-	numPresent = 0;
-	for (n = 0; n < numVertices; n++)
-		{
-		if (theVertices[n]->attributeSet != NULL && Q3AttributeSet_Contains(theVertices[n]->attributeSet, attributeType))
-			numPresent++;
-		}
-
-	if (numPresent == 0)
-		return(kQ3False);
-
-
-
-	// Allocate the attribute arrays
-	triMeshAttribute->attributeType     = attributeType;
-	triMeshAttribute->data              = Q3Memory_AllocateClear(numVertices * attributeSize);
-	triMeshAttribute->attributeUseArray = NULL;
-	
-	if (triMeshAttribute->data == NULL)
-		return(kQ3False);
-
-	if (numPresent != numVertices)
-		{
-		triMeshAttribute->attributeUseArray = (char *) Q3Memory_AllocateClear(numVertices * sizeof(char));
-		if (triMeshAttribute->attributeUseArray == NULL)
-			{
-			Q3Memory_Free(&triMeshAttribute->data);
-			return(kQ3False);
-			}
-		}
-
-
-
-	// Initialise the attribute arrays
-	for (n = 0; n < numVertices; n++)
-		{
-		// Grab the attribute data if it's present
-		isPresent = Q3AttributeSet_Contains(theVertices[n]->attributeSet, attributeType);
-		if (isPresent)
-			{
-			dataPtr = ((TQ3Uns8 *) triMeshAttribute->data) + (n * attributeSize);
-			Q3AttributeSet_Get(theVertices[n]->attributeSet, attributeType, dataPtr);
-			}
-
-
-		// Set up the use array if required
-		if (triMeshAttribute->attributeUseArray != NULL)
-			triMeshAttribute->attributeUseArray[n] = (char) isPresent;
-		}
-	
-	return(kQ3True);
+	// Return the appropriate attribute set
+	return(theState->triMeshVertexList[setIndex]->attributeSet);
 }
 
 
@@ -795,36 +731,49 @@ e3tessellate_create_trimesh(E3TessellateState *theState, TQ3AttributeSet triMesh
 	// Set up the attributes
 	n = 0;
 	
-	if (e3tessellate_attribute_add_vertex(theState, &theAttributes[n], kQ3AttributeTypeSurfaceUV))
+	if (E3TriMeshAttribute_GatherArray(theState->numTriMeshVertices, e3tessellate_gather_vertex_attribute, theState,
+											&theAttributes[n], kQ3AttributeTypeSurfaceUV))
 		n++;
 	else
-	if (e3tessellate_attribute_add_vertex(theState, &theAttributes[n], kQ3AttributeTypeShadingUV))
+	if (E3TriMeshAttribute_GatherArray(theState->numTriMeshVertices, e3tessellate_gather_vertex_attribute, theState,
+											&theAttributes[n], kQ3AttributeTypeShadingUV))
 		n++;
 
-	if (e3tessellate_attribute_add_vertex(theState, &theAttributes[n], kQ3AttributeTypeNormal))
+	if (E3TriMeshAttribute_GatherArray(theState->numTriMeshVertices, e3tessellate_gather_vertex_attribute, theState,
+											&theAttributes[n], kQ3AttributeTypeNormal))
 		n++;
 
-	if (e3tessellate_attribute_add_vertex(theState, &theAttributes[n], kQ3AttributeTypeAmbientCoefficient))
+	if (E3TriMeshAttribute_GatherArray(theState->numTriMeshVertices, e3tessellate_gather_vertex_attribute, theState,
+											&theAttributes[n], kQ3AttributeTypeAmbientCoefficient))
 		n++;
 
-	if (e3tessellate_attribute_add_vertex(theState, &theAttributes[n], kQ3AttributeTypeDiffuseColor))
+	if (E3TriMeshAttribute_GatherArray(theState->numTriMeshVertices, e3tessellate_gather_vertex_attribute, theState,
+											&theAttributes[n], kQ3AttributeTypeDiffuseColor))
 		n++;
 		
-	if (e3tessellate_attribute_add_vertex(theState, &theAttributes[n], kQ3AttributeTypeSpecularColor))
+	if (E3TriMeshAttribute_GatherArray(theState->numTriMeshVertices, e3tessellate_gather_vertex_attribute, theState,
+											&theAttributes[n], kQ3AttributeTypeSpecularColor))
 		n++;
 		
-	if (e3tessellate_attribute_add_vertex(theState, &theAttributes[n], kQ3AttributeTypeSpecularControl))
+	if (E3TriMeshAttribute_GatherArray(theState->numTriMeshVertices, e3tessellate_gather_vertex_attribute, theState,
+											&theAttributes[n], kQ3AttributeTypeSpecularControl))
 		n++;
 		
-	if (e3tessellate_attribute_add_vertex(theState, &theAttributes[n], kQ3AttributeTypeTransparencyColor))
+	if (E3TriMeshAttribute_GatherArray(theState->numTriMeshVertices, e3tessellate_gather_vertex_attribute, theState,
+											&theAttributes[n], kQ3AttributeTypeTransparencyColor))
 		n++;
 		
-	if (e3tessellate_attribute_add_vertex(theState, &theAttributes[n], kQ3AttributeTypeSurfaceTangent))
+	if (E3TriMeshAttribute_GatherArray(theState->numTriMeshVertices, e3tessellate_gather_vertex_attribute, theState,
+											&theAttributes[n], kQ3AttributeTypeSurfaceTangent))
 		n++;
 	
-	theState->triMeshData.numVertexAttributeTypes = n;
-	theState->triMeshData.vertexAttributeTypes    = theAttributes;
-	theState->triMeshData.triMeshAttributeSet     = triMeshAttributes;
+	Q3_ASSERT(n < kQ3AttributeTypeNumTypes);
+	if (n != 0)
+		{
+		theState->triMeshData.numVertexAttributeTypes = n;
+		theState->triMeshData.vertexAttributeTypes    = theAttributes;
+		theState->triMeshData.triMeshAttributeSet     = triMeshAttributes;
+		}
 
 
 
