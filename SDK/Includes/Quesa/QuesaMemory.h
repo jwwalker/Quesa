@@ -69,6 +69,8 @@ extern "C" {
  *      The pointer returned must be disposed of with Q3Memory_Free.
  *      The initial contents of the block are undefined.
  *
+ *      <em>This function is not available in QD3D.</em>
+ *
  *  @param theSize          The size in bytes of the block to allocate.
  *  @result                 A pointer to the block.
  */
@@ -90,6 +92,8 @@ Q3Memory_Allocate (
  *      Allocates a zero-filled block of memory of the specified size.
  *
  *      The pointer returned must be disposed of with Q3Memory_Free.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theSize          The size in bytes of the block to allocate.
  *  @result                 A pointer to the block.
@@ -121,6 +125,8 @@ Q3Memory_AllocateClear (
  *      simply the pointer to the allocated memory. The double-indirection
  *      is deliberate, to ensure that the pointer can be fully invalidated
  *      after disposal.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param thePtr           A pointer to the pointer to free.
  */
@@ -157,6 +163,8 @@ Q3Memory_Free (
  *		passed to allow it to be set to NULL after disposal, and to
  *		allow it to be changed when resized.
  *
+ *      <em>This function is not available in QD3D.</em>
+ *
  *  @param thePtr           A pointer to the pointer to reallocate.
  *  @param newSize          The size in bytes to reallocate the block to.
  *  @result                 Success or failure of the operation.
@@ -187,6 +195,8 @@ Q3Memory_Reallocate (
  *
  *      Sets theSize bytes from thePtr to theValue.
  *
+ *      <em>This function is not available in QD3D.</em>
+ *
  *  @param thePtr           A pointer to the memory to set.
  *  @param theSize          The number of bytes to set.
  *  @param theValue         The value to set at each byte.
@@ -212,6 +222,8 @@ Q3Memory_Initialize (
  *
  *      Sets theSize bytes from thePtr to 0.
  *
+ *      <em>This function is not available in QD3D.</em>
+ *
  *  @param thePtr           A pointer to the memory to set.
  *  @param theSize          The number of bytes to set.
  */
@@ -236,6 +248,8 @@ Q3Memory_Clear (
  *      Copies theSize bytes from srcPtr to dstPtr. The memory pointed to by
  *      srcPtr and dstPtr is allowed to overlap, although this may reduce
  *      performance.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param srcPtr           A pointer to the block to copy.
  *  @param dstPtr           A pointer to the memory to copy to.
@@ -263,6 +277,8 @@ Q3Memory_Copy (
  *
  *      In non-debug builds, this function does nothing.
  *
+ *      <em>This function is not available in QD3D.</em>
+ *
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -285,6 +301,8 @@ Q3Memory_StartRecording(
  *
  *      In non-debug builds, this function does nothing.
  *
+ *      <em>This function is not available in QD3D.</em>
+ *
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -304,6 +322,8 @@ Q3Memory_StopRecording(
  *	
  *	@discussion
  *      Determine whether object allocations are being recorded.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @result                 kQ3True if allocation recording is on.
  */
@@ -327,6 +347,8 @@ Q3Memory_IsRecording(
  *
  *      In non-debug builds, this function does nothing.
  *
+ *      <em>This function is not available in QD3D.</em>
+ *
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -348,6 +370,8 @@ Q3Memory_ForgetRecording(
  *      Return the number of recorded allocations of Quesa objects.
  *
  *      In non-debug builds, this function returns 0.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @result                 Success or failure of the operation.
  */
@@ -384,6 +408,8 @@ Q3Memory_CountRecords(
  *
  *      In non-debug builds, this function always returns NULL.
  *
+ *      <em>This function is not available in QD3D.</em>
+ *
  *	@param inObject         NULL or a recorded object.
  *  @result                 Next recorded object, or NULL.
  */
@@ -412,6 +438,8 @@ Q3Memory_NextRecordedObject(
  *
  *      If recording is on when Q3Exit shuts down Quesa, this function
  *      will be called for you.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *	@param fileName         Name of memory dump file.
  *	@param memo             Text written at start of dump for identification. May be NULL.
