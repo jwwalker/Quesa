@@ -85,7 +85,8 @@ For example, if the revision is 1.61a23 (= 1.6.1a23), returns 0x01614023.
 For more information, see the description of the <code>'vers'</code> resource
 in the book <i>Inside Macintosh: Macintosh Toolbox Essentials.</i>
 <br><br>
-May be called outside of a <code>Q3Initialize/Q3Exit</code> block.
+Note that unlike QD3D, Quesa allows Q3GetReleaseVersion to be called
+outside of a <code>Q3Initialize</code>/<code>Q3Exit</code> block.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -116,7 +117,8 @@ The final 0 in the minor revision level is omitted.
 If the revision is 1.61a23 (= 1.6.1a23), returns 1 as the major
 revision level and 61 as the minor revision level.
 <br><br>
-May be called outside of a <code>Q3Initialize/Q3Exit</code> block.
+Note that unlike QD3D, Quesa allows Q3GetVersion to be called
+outside of a <code>Q3Initialize</code>/<code>Q3Exit</code> block.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -836,5 +838,5 @@ return kQ3False if the object a reference count of one.
 <b>Result:</b> True or false as the object has more than one reference.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 6/6/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 8/9/2001 </a></font></p>
 </body></html>

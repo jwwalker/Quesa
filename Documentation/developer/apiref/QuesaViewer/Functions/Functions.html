@@ -15,6 +15,8 @@ the specified Viewer (or even if it's not).  That gives the
 Viewer the opportunity to change the cursor as appropriate
 for the Viewer mode and cursor location.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -37,6 +39,8 @@ Q3ViewerChangeBrightness (
 </tt><br>
 </pre></blockquote>
 <p>Changes the intensity of lighting used on the model.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -62,6 +66,8 @@ Q3ViewerClear (
 <br><br>
 Call this function in response to the user selecting the standard
 Clear command when the viewer has the focus.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -91,6 +97,8 @@ call this method after calling <code>Q3ViewerMouseDown</code> (and
 receiving a <code>true</code> result), whenever any event (such as
 a mouse movement) occurs as long as the mouse remains down.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -117,6 +125,8 @@ Q3ViewerCopy (
 Call this function in response to the user selecting the standard
 Copy command when the viewer has the focus.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -140,6 +150,8 @@ Q3ViewerCursorChanged (
 <br><br>
 If you change the cursor (using SetCursor or similar), notify
 all active Viewers by calling this function.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -165,6 +177,8 @@ Q3ViewerCut (
 Call this function in response to the user selecting the standard
 Cut command when the viewer has the focus.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -188,6 +202,8 @@ Q3ViewerDispose (
 <br><br>
 Call this when you're done with the Viewer to ensure that Quesa
 has a chance to properly clean up after it.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -215,6 +231,8 @@ visible features have changed.  For example, to move or resize the
 Viewer, you would call <code>Q3ViewerSetBounds</code> followed by 
 <code>Q3ViewerDraw</code>.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -241,6 +259,8 @@ associated with the Viewer.  In such a case, it's better to call
 this function than <code>Q3ViewerDraw</code>, which also redraws
 other user interface elements (such as control buttons).
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -264,6 +284,8 @@ Q3ViewerDrawControlStrip (
 <br><br>
 Call this function when you want to redraw the controls, without
 re-rendering the 3D view.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -298,6 +320,8 @@ model; it should not be used in conjunction with the "open-loop"
 event functions (<code>Q3ViewerMouseDown</code>, <code>Q3ViewerMouseUp</code>, 
 <code>Q3ViewerContinueTracking</code>, and <code>Q3ViewerHandleKeyEvent</code>).
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -320,6 +344,8 @@ Q3ViewerGetBackgroundColor (
 </tt><br>
 </pre></blockquote>
 <p>Returns the background color of the 3D view.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -347,6 +373,8 @@ Q3ViewerGetBounds (
 The bounding rectangle determines where the Viewer draws itself
 within its window.  The bounds are in window coordinates, with (0,0)
 being the top-left corner of the window.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -382,6 +410,8 @@ kQ3ViewerButtonDolly
 kQ3ViewerButtonReset
 kQ3ViewerButtonOptions</code>
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -412,6 +442,8 @@ such cameras are suggested.  If there are no view hints associated
 with the Viewer, then this function returns 0.
 <br><br>
 See also <code>Q3ViewerSetCameraByNumber</code>.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -446,6 +478,8 @@ kQ3ViewerButtonOrbit
 kQ3ViewerButtonZoom
 kQ3ViewerButtonDolly</code>
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -472,6 +506,8 @@ Q3ViewerGetDimension (
 If the specified Viewer has no view hints, then this function just
 returns the actual width and height of the viewer pane.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -497,6 +533,8 @@ Q3ViewerGetFlags (
 <br><br>
 See <code>Q3ViewerSetFlags</code> for a listing of the possible flags.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -521,6 +559,8 @@ Q3ViewerGetGroup (
 The reference count of the TQ3GroupObject returned is incremented
 by this call.  Therefore, you should call Q3Object_Dispose on this
 value when you're with it.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -549,6 +589,8 @@ The returned size will take into account the currently displayed
 buttons in the controller strip.  If you allow the viewer pane
 (or its window) to be resized, you should not allow it to be
 resized smaller than the values returned by this function.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -583,6 +625,8 @@ true reported by this function indicates only that the
 phong shading option is turned on; not whether the renderer
 is actually rendering any differently because of it.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -609,6 +653,8 @@ This function builds a MacOS Picture containing the current
 rendering in the given Viewer.  The caller is responsible for
 releasing the picture memory via <code>DisposeHandle</code>.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -633,6 +679,8 @@ Q3ViewerGetPort (
 The returned port may be associated with a window or an offscreen
 graphics world; or it may be NULL, indicating that the Viewer is
 not associated with any port.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -668,6 +716,8 @@ in the book <i>Inside Macintosh: Macintosh Toolbox Essentials.</i>
 <br><br>
 See also the Q3ViewerGetVersion function.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -696,6 +746,8 @@ which face away from the camera.  If it stores true in the
 drawn.  If it stores false, all polygons are being drawn, even
 when they face away from the camera.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -718,6 +770,8 @@ Q3ViewerGetRendererType (
 </tt><br>
 </pre></blockquote>
 <p>Gets the renderer type currently used by the Viewer.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -751,6 +805,8 @@ Edit menu, for example.
 <br><br>
 See also the <code>Q3ViewerGetUndoString</code> function.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -781,6 +837,8 @@ in Quesa 1.6 at least).  Note that this text does not contain
 the "Undo" word itself, but only the name of the operation.  So
 if you want to use this to set the text of a menu item, you'll
 need to combine it with "Undo " yourself.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -814,6 +872,8 @@ revision level and 61 as the minor revision level.
 <br><br>
 See also the Q3ViewerGetReleaseVersion function.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -835,6 +895,8 @@ Q3ViewerGetView (
 </tt><br>
 </pre></blockquote>
 <p>Returns the view object associated with the given Viewer.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -862,6 +924,8 @@ If you're not using <code>Q3ViewerEvent</code>, then you'll need to
 handle a key event that occurs while the Viewer has the focus by
 calling this method.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -888,6 +952,8 @@ Q3ViewerMouseDown (
 <br><br>
 If you're not using <code>Q3ViewerEvent</code>, then you'll need to
 handle a mouse-down event by calling this function.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -918,6 +984,8 @@ If you're not using <code>Q3ViewerEvent</code>, then you'll need to
 handle a mouse-up event by calling this function.  But you only need
 to do so if <code>Q3ViewerMouseDown</code> returned <code>true</code>.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -945,6 +1013,8 @@ Q3ViewerNew(
 (TQ3ViewerObject), this is <i>not</i> a Quesa object, and can't be used
 with Q3Object functions such as <code>Q3Object_Dispose</code>.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -970,6 +1040,8 @@ Q3ViewerPaste (
 <br><br>
 Call this function in response to the user selecting the standard
 Paste command when the viewer has the focus.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -997,6 +1069,8 @@ to a standard default state.
 This has the same effect as clicking the reset button in the
 viewer controls.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1018,6 +1092,8 @@ Q3ViewerSetBackgroundColor (
 </tt><br>
 </pre></blockquote>
 <p>Sets the background color of the 3D view.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1046,6 +1122,8 @@ Call this function to change where the Viewer draws itself within
 its window.  The bounds are in window coordinates, with (0,0)
 being the top-left corner of the window.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1073,6 +1151,8 @@ Model files may contain view hints which provide things such as
 "good" camera positions.  This function selects one of those cameras.
 The camera number supplied is 1-based, and the value must be less
 than or equal to the result of <code>Q3ViewerGetCameraCount</code>.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1106,6 +1186,8 @@ kQ3ViewerCameraLeft -- look at the left side of the model
 kQ3ViewerCameraRight -- look at the right side of the model
 kQ3ViewerCameraTop -- look down at the top of the model
 kQ3ViewerCameraBottom -- look up at the bottom of the model
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1141,6 +1223,8 @@ kQ3ViewerButtonOrbit
 kQ3ViewerButtonZoom
 kQ3ViewerButtonDolly</code>
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1167,6 +1251,8 @@ Q3ViewerSetDimension (
 <br><br>
 This might be useful if you were then going to write a 3DMF file
 of the Viewer data; presumably it could store this hint in that file.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1197,6 +1283,8 @@ This function is invoked after the Viewer draws any part of itself.
 You can use it to do any further processing you might need to do.
 For example, if the Viewer is associated with an offscreen graphics
 world, you might use this callback to update the screen.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1263,6 +1351,8 @@ kQ3ViewerDefault: Represents the default Viewer configuration.
 Changes to the Viewer's flags will not be visible until the Viewer
 is redrawn (e.g., by calling <code>Q3ViewerDraw</code>).
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1289,6 +1379,8 @@ Q3ViewerSetPaneResizeNotifyCallback (
 <br><br>
 This function is invoked when the Viewer is resized.  You can
 use it to do any further processing that might be needed.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1317,6 +1409,8 @@ Q3ViewerSetPhongShading (
 Phong shading is generally slower but produces a more
 realistic effect, particularly where highlights are
 concerned.  (Not all renderers support phong shading.)
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1349,6 +1443,8 @@ not a WindowRef (use GetWindowPort to get a window's port).
 You may also pass in NULL to indicate that no port should be
 associated with this Viewer object.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1378,6 +1474,8 @@ which face away from the camera.  If you pass true for the
 drawn.  If you pass false, all polygons will be drawn, even
 when they face away from the camera.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1404,6 +1502,8 @@ Q3ViewerSetRendererType (
 Calling this function is equivalent to selecting one of the renderers
 from the pop-up menu on the Options control button.  The object type
 must be associated with one of the installed renderers.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1435,6 +1535,8 @@ use it to do any further processing that might be needed.  For
 example, you might resize or move your Viewer pane to fit the
 new window bounds.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1460,6 +1562,8 @@ Q3ViewerUndo (
 <br><br>
 Call this function in response to the user selecting the standard
 Undo command when the viewer has the focus.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1490,6 +1594,8 @@ after this call.
 <br><br>
 See also: <code>Q3ViewerUseFile</code>, <code>Q3ViewerUseGroup</code>.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1516,6 +1622,8 @@ Q3ViewerUseFile (
 <br><br>
 See also: <code>Q3ViewerUseData</code>, <code>Q3ViewerUseGroup</code>.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1540,6 +1648,8 @@ Q3ViewerUseGroup (
 <p>Loads a model data in a TQ3Group into the specified Viewer.
 <br><br>
 See also: <code>Q3ViewerUseFile</code>, <code>Q3ViewerUseData</code>.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1570,6 +1680,8 @@ good way to know how large it needs to be, except by trial and
 error (or by remembering from when the data was loaded in the 
 first place).
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1593,6 +1705,8 @@ Q3ViewerWriteFile (
 </pre></blockquote>
 <p>Write the 3D model data contained by the Viewer out to a file.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1603,6 +1717,1666 @@ Q3ViewerWriteFile (
 </table>
 </blockquote>
 <b>Result:</b> MacOS error/result code.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_AdjustCursor"></a>
+<h3><a name="Q3Viewer_AdjustCursor">Q3Viewer_AdjustCursor</a></h3>
+<blockquote><pre><tt>TQ3Boolean 
+Q3Viewer_AdjustCursor (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       hPos,
+    TQ3Uns32                       vPos
+);
+</tt><br>
+</pre></blockquote>
+<p>Adjusts the mouse cursor for a viewer.
+<br><br>
+Should be called when the mouse moves into the viewer area, but may
+be called for any coordinate. Allows the Viewer to change the cursor
+as appropriate for the Viewer mode and cursor location.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>hPos</tt></td><td>Horizontal location of the cursor.</td></tr>
+<tr valign=top><td><tt>vPos</tt></td><td>Vertical location of the cursor.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Returns as the cursor was changed by the viewer.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_CursorChanged"></a>
+<h3><a name="Q3Viewer_CursorChanged">Q3Viewer_CursorChanged</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_CursorChanged (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Notifies the Viewer that you have changed the cursor.
+<br><br>
+If you change the cursor within your application, notify the active
+viewer using this routine.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_Dispose"></a>
+<h3><a name="Q3Viewer_Dispose">Q3Viewer_Dispose</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_Dispose (
+    TQ3ViewerObject               theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Disposes of a Viewer object.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer created with Q3Viewer_New.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_Draw"></a>
+<h3><a name="Q3Viewer_Draw">Q3Viewer_Draw</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_Draw (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Forces the viewer to redraw itself.
+<br><br>
+Should be called after the changing the Viewer's flags or visible features.
+For example, to move or resize a Viewer, call <code>Q3Viewer_SetBounds</code>
+followed by <code>Q3Viewer_Draw</code>.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_DrawContent"></a>
+<h3><a name="Q3Viewer_DrawContent">Q3Viewer_DrawContent</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_DrawContent (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Redraws the content area (i.e. the 3D view) of the given Viewer.
+<br><br>
+You should call this function if you directly modify the 3D model
+associated with the Viewer.  In such a case, it's more efficient to
+call this function than <code>Q3Viewer_Draw</code>, which also redraws
+other user interface elements (such as control buttons).
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_DrawControlStrip"></a>
+<h3><a name="Q3Viewer_DrawControlStrip">Q3Viewer_DrawControlStrip</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_DrawControlStrip (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Redraws the user interface controls of the given Viewer.
+<br><br>
+Call this function when you want to redraw the controls, without
+re-rendering the 3D view.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_EditClear"></a>
+<h3><a name="Q3Viewer_EditClear">Q3Viewer_EditClear</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_EditClear (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Executes the Clear editing command.
+<br><br>
+Call this function in response to the user selecting the standard
+Clear command when the viewer has the focus.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_EditCopy"></a>
+<h3><a name="Q3Viewer_EditCopy">Q3Viewer_EditCopy</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_EditCopy (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Executes the Copy editing command.
+<br><br>
+Call this function in response to the user selecting the standard
+Copy command when the viewer has the focus.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_EditCut"></a>
+<h3><a name="Q3Viewer_EditCut">Q3Viewer_EditCut</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_EditCut (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Executes the Cut editing command.
+<br><br>
+Call this function in response to the user selecting the standard
+Cut command when the viewer has the focus.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_EditPaste"></a>
+<h3><a name="Q3Viewer_EditPaste">Q3Viewer_EditPaste</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_EditPaste (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Executes the Paste editing command.
+<br><br>
+Call this function in response to the user selecting the standard
+Paste command when the viewer has the focus.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_EditUndo"></a>
+<h3><a name="Q3Viewer_EditUndo">Q3Viewer_EditUndo</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_EditUndo (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Executes the Undo editing command.
+<br><br>
+Call this function in response to the user selecting the standard
+Undo command when the viewer has the focus.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_EventKeyboard"></a>
+<h3><a name="Q3Viewer_EventKeyboard">Q3Viewer_EventKeyboard</a></h3>
+<blockquote><pre><tt>TQ3Boolean 
+Q3Viewer_EventKeyboard (
+    TQ3ViewerObject                theViewer,
+    const void                     *theEvent
+);
+</tt><br>
+</pre></blockquote>
+<p>Should be called to handle a key-down, key-up, or auto-key event
+within the viewer when the viewer has the focus.
+<br><br>
+On Mac OS, theEvent should be a pointer to an EventRecord for the
+event. On Windows, this function is not currently supported.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theEvent</tt></td><td>The keyboard event.</td></tr>
+<tr valign=top><td><tt>vPos</tt></td><td>Vertical global (screen) location of mouse down.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Returns as the Viewer handled the event.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_EventMouseDown"></a>
+<h3><a name="Q3Viewer_EventMouseDown">Q3Viewer_EventMouseDown</a></h3>
+<blockquote><pre><tt>TQ3Boolean 
+Q3Viewer_EventMouseDown (
+    TQ3ViewerObject                theViewer,
+    TQ3Int32                       hPos,
+    TQ3Int32                       vPos
+);
+</tt><br>
+</pre></blockquote>
+<p>Should be called to handle a mouse-down event within the viewer.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>hPos</tt></td><td>Horizontal global (screen) location of mouse down.</td></tr>
+<tr valign=top><td><tt>vPos</tt></td><td>Vertical global (screen) location of mouse down.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Returns as the Viewer handled the event.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_EventMouseTrack"></a>
+<h3><a name="Q3Viewer_EventMouseTrack">Q3Viewer_EventMouseTrack</a></h3>
+<blockquote><pre><tt>TQ3Boolean 
+Q3Viewer_EventMouseTrack (
+    TQ3ViewerObject                theViewer,
+    TQ3Int32                       hPos,
+    TQ3Int32                       vPos
+);
+</tt><br>
+</pre></blockquote>
+<p>Should be called to handle a mouse-move event within the viewer
+after a previous call to <code>Q3Viewer_EventMouseDown</code>
+has returned true.
+<br><br>
+Should be called repeatedly until the mouse is released.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>hPos</tt></td><td>Horizontal global (screen) location of mouse down.</td></tr>
+<tr valign=top><td><tt>vPos</tt></td><td>Vertical global (screen) location of mouse down.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Returns as the Viewer handled the event.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_EventMouseUp"></a>
+<h3><a name="Q3Viewer_EventMouseUp">Q3Viewer_EventMouseUp</a></h3>
+<blockquote><pre><tt>TQ3Boolean 
+Q3Viewer_EventMouseUp (
+    TQ3ViewerObject                theViewer,
+    TQ3Int32                       hPos,
+    TQ3Int32                       vPos
+);
+</tt><br>
+</pre></blockquote>
+<p>Should be called to handle a mouse-up event within the viewer
+after a previous call to <code>Q3Viewer_EventMouseDown</code>
+has returned true.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>hPos</tt></td><td>Horizontal global (screen) location of mouse down.</td></tr>
+<tr valign=top><td><tt>vPos</tt></td><td>Vertical global (screen) location of mouse down.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Returns as the Viewer handled the event.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetBackgroundColor"></a>
+<h3><a name="Q3Viewer_GetBackgroundColor">Q3Viewer_GetBackgroundColor</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetBackgroundColor (
+    TQ3ViewerObject                theViewer,
+    TQ3ColorARGB                   *theColor
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the background color of a viewer.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theColor</tt></td><td>Receives the background colour of the viewer.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetBounds"></a>
+<h3><a name="Q3Viewer_GetBounds">Q3Viewer_GetBounds</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetBounds (
+    TQ3ViewerObject                theViewer,
+    TQ3Area                        *theRect
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the current bounding rectangle of the Viewer pane.
+<br><br>
+The bounding rectangle determines where the Viewer draws itself
+within its window.  The bounds are in window coordinates, and include
+both the rendered area and the control strip.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theRect</tt></td><td>Receives the bounding rectangle within the window.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetBrightness"></a>
+<h3><a name="Q3Viewer_GetBrightness">Q3Viewer_GetBrightness</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetBrightness (
+    TQ3ViewerObject                theViewer,
+    float                          *theBrightness
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the the intensity of lighting used on the model.
+<br><br>
+The brightness is specified as a float, ranging from 0.0
+for no illumination to 1.0 for full illumination.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theBrightness</tt></td><td>Receives the current brightness.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetButtonRect"></a>
+<h3><a name="Q3Viewer_GetButtonRect">Q3Viewer_GetButtonRect</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetButtonRect (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       theButton,
+    TQ3Area                        *theRect
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the rectangle that encloses a Viewer control button.
+<br><br>
+E.g., to obtain the location of the camera button within a viewer's
+control strip, use the kQ3ViewerButtonCamera constant.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theButton</tt></td><td>The button to query.</td></tr>
+<tr valign=top><td><tt>theRect</tt></td><td>Receives the rectangle covered by the button.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetCallbackDraw"></a>
+<h3><a name="Q3Viewer_GetCallbackDraw">Q3Viewer_GetCallbackDraw</a></h3>
+<blockquote><pre><tt>TQ3ViewerDrawCallbackMethod 
+Q3Viewer_GetCallbackDraw (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the current post-drawing callback for the viewer.
+<br><br>
+If no callback has been set, will return NULL.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The current post-drawing callback.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetCallbackResize"></a>
+<h3><a name="Q3Viewer_GetCallbackResize">Q3Viewer_GetCallbackResize</a></h3>
+<blockquote><pre><tt>TQ3ViewerWindowResizeCallbackMethod 
+Q3Viewer_GetCallbackResize (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the current resizing callback for the viewer.
+<br><br>
+If no callback has been set, will return NULL.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The current resizing callback.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetCallbackResizeNotify"></a>
+<h3><a name="Q3Viewer_GetCallbackResizeNotify">Q3Viewer_GetCallbackResizeNotify</a></h3>
+<blockquote><pre><tt>TQ3ViewerPaneResizeNotifyCallbackMethod 
+Q3Viewer_GetCallbackResize (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the current resize notification callback for the viewer.
+<br><br>
+If no callback has been set, will return NULL.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The current resize notification callback.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetCameraCount"></a>
+<h3><a name="Q3Viewer_GetCameraCount">Q3Viewer_GetCameraCount</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetCameraCount (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       *cameraCount
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns how many cameras are supplied by the Viewer's view hints.
+<br><br>
+Model files may contain view hints which provide things such as
+"good" camera positions.  This function will report how many
+such cameras are suggested.  If there are no view hints associated
+with the Viewer, then this function returns 0.
+<br><br>
+See also <code>Q3Viewer_SetCameraByNumber</code>.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>cameraCount</tt></td><td>Receives the camera count.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetControlStripWindow"></a>
+<h3><a name="Q3Viewer_GetControlStripWindow">Q3Viewer_GetControlStripWindow</a></h3>
+<blockquote><pre><tt>void * 
+Q3Viewer_GetControlStripWindow (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the window into which the viewer control strip draws.
+<br><br>
+On Mac OS, the window returned will be the WindowRef used by the main
+viewer. On Windows, it will be an HWND for the child window used by
+the control strip.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The window used by the viewer.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetCurrentButton"></a>
+<h3><a name="Q3Viewer_GetCurrentButton">Q3Viewer_GetCurrentButton</a></h3>
+<blockquote><pre><tt>TQ3Uns32 
+Q3Viewer_GetCurrentButton (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the currently selected mode button of a viewer.
+<br><br>
+A Viewer object always has a "mode" which determines how mouse
+drags in the content area are interpreted.  Modes are selected
+by clicking on one of the mode buttons; this function tells
+you which one is currently active.  The result will be one of
+the following:
+<br><br>
+<code>kQ3ViewerButtonTruck
+kQ3ViewerButtonOrbit
+kQ3ViewerButtonZoom
+kQ3ViewerButtonDolly</code>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The currently active mode button.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetDimension"></a>
+<h3><a name="Q3Viewer_GetDimension">Q3Viewer_GetDimension</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetDimension (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       *theWidth,
+    TQ3Uns32                       *theHeight
+);
+</tt><br>
+</pre></blockquote>
+<p>Get the dimensions of model space in a Viewer's view hints object.
+<br><br>
+If the specified Viewer has no view hints, then this function just
+returns the actual width and height of the viewer pane.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theWidth</tt></td><td>Receives the hinted width.</td></tr>
+<tr valign=top><td><tt>theHeight</tt></td><td>Receives the hinted height.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetFlags"></a>
+<h3><a name="Q3Viewer_GetFlags">Q3Viewer_GetFlags</a></h3>
+<blockquote><pre><tt>TQ3Uns32 
+Q3Viewer_GetFlags (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the flags for a viewer.
+<br><br>
+Note that Q3Viewer_GetFlags returns kQ3ViewerFlagXXXX constants,
+not the QuickDraw 3D style kQ3ViewerXXXX constants.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Current feature flags.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetGroup"></a>
+<h3><a name="Q3Viewer_GetGroup">Q3Viewer_GetGroup</a></h3>
+<blockquote><pre><tt>TQ3GroupObject 
+Q3Viewer_GetGroup (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns a reference to the 3D model data being used by the Viewer.
+<br><br>
+The reference count of the TQ3GroupObject returned is incremented
+by this call.  Therefore, you should call Q3Object_Dispose on the
+returned object when you're with it.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Group containing 3D model data.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetImage"></a>
+<h3><a name="Q3Viewer_GetImage">Q3Viewer_GetImage</a></h3>
+<blockquote><pre><tt>void * 
+Q3Viewer_GetImage (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets a 2D copy of the current Viewer image, which can be copied to the
+clipboard or saved to a file.
+<br><br>
+On Mac OS, the pointer returned is to a PicHandle. This handle must be
+disposed of with DisposeHandle by the caller when no longer required.
+<br><br>
+On Windows, the pointer returned is to an HBITMAP. This must be disposed
+of by the caller when no longer required.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The 2D image currently displayed by the viewer.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetMinimumDimension"></a>
+<h3><a name="Q3Viewer_GetMinimumDimension">Q3Viewer_GetMinimumDimension</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetMinimumDimension (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       *theWidth,
+    TQ3Uns32                       *theHeight
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the minimum allowable size of the viewer pane.
+<br><br>
+The returned size will take into account the currently displayed
+buttons in the controller strip.  If you allow the viewer pane
+(or its window) to be resized, you should not allow it to be
+resized smaller than the values returned by this function.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theWidth</tt></td><td>Receives the minimum viewer width.</td></tr>
+<tr valign=top><td><tt>theHeight</tt></td><td>Receives the minimum viewer height.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetPhongShading"></a>
+<h3><a name="Q3Viewer_GetPhongShading">Q3Viewer_GetPhongShading</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetPhongShading (
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     *phongShading
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the current phong shading state of a Viewer.
+<br><br>
+Phong shading is generally slower but produces a more realistic effect,
+particularly where highlights are concerned.
+<br><br>
+Not all renderers support phong shading. Even if phong shading is turned
+on, the renderer may choose to ignore it when producing the image.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>phongShading</tt></td><td>Receives the current phong shading state.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetReleaseVersion"></a>
+<h3><a name="Q3Viewer_GetReleaseVersion">Q3Viewer_GetReleaseVersion</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetReleaseVersion (
+    TQ3Uns32                      *releaseRevision
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns the version number of the Quesa viewer, in <code>'vers'</code>
+format.
+<br><br>
+The four bytes contain 1) the major revision level, 2) the minor revision,
+3) the development stage, and 4) the prerelease revision level, respectively.
+The three revision levels are each represented in binary coded decimal.
+The development stage can be development (0x20), alpha (0x40), beta (0x60)
+or release (0x80).
+<br><br>
+For example, if the revision is 1.61a23 (= 1.6.1a23), returns 0x01614023.
+For more information, see the description of the <code>'vers'</code> resource
+in the book <i>Inside Macintosh: Macintosh Toolbox Essentials.</i>
+<br><br>
+See also the Q3Viewer_GetVersion function.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>releaseRevision</tt></td><td>Receives the version data.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetRemoveBackfaces"></a>
+<h3><a name="Q3Viewer_GetRemoveBackfaces">Q3Viewer_GetRemoveBackfaces</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetRemoveBackfaces (
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     *removeBackfaces
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the current backface removal state of a Viewer.
+<br><br>
+Use this function to discover how the Viewer handles polygons which
+face away from the camera.  If backface removal is on, such polygons
+will not be drawn. If it is off then all polygons are drawn, even if
+they face away from the camera.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>removeBackfaces</tt></td><td>Receives the current backfacing state.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetRendererType"></a>
+<h3><a name="Q3Viewer_GetRendererType">Q3Viewer_GetRendererType</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetRendererType (
+    TQ3ViewerObject                theViewer,
+    TQ3ObjectType                  *rendererType
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the renderer type currently used by the Viewer.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>rendererType</tt></td><td>Receives the current renderer type.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetState"></a>
+<h3><a name="Q3Viewer_GetState">Q3Viewer_GetState</a></h3>
+<blockquote><pre><tt>TQ3Uns32 
+Q3Viewer_GetState (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns a set of status bits indicating the viewer state.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The viewer status.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetUndoString"></a>
+<h3><a name="Q3Viewer_GetUndoString">Q3Viewer_GetUndoString</a></h3>
+<blockquote><pre><tt>TQ3Boolean 
+Q3Viewer_GetUndoString (
+    TQ3ViewerObject                theViewer,
+    char                           *theBuffer,
+    TQ3Uns32                       *bufferSize
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets text for the current Undo operation.
+<br><br>
+This function stores the name of the current Undoable operation
+in the user-supplied character buffer.  The text should be
+localized to the user's preferred language (but probably is not,
+in Quesa 1.6 at least).  Note that this text does not contain
+the "Undo" word itself, but only the name of the operation.  So
+if you want to use this to set the text of a menu item, you'll
+need to prefix it with "Undo " yourself.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theBuffer</tt></td><td>Pointer to a character buffer.</td></tr>
+<tr valign=top><td><tt>bufferSize</tt></td><td>On entry, the buffer size; on exit, the text length.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Returns as there is an Undoable operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetVersion"></a>
+<h3><a name="Q3Viewer_GetVersion">Q3Viewer_GetVersion</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_GetVersion (
+    TQ3Uns32                      *majorRevision,
+    TQ3Uns32                      *minorRevision
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns the major and minor version number of the Quesa viewer.
+<br><br>
+For example, if the revision is 1.6a23 (= 1.6.0a23), returns 1
+as the major revision level and 6 as the minor revision level:
+The final 0 in the minor revision level is omitted.
+If the revision is 1.61a23 (= 1.6.1a23), returns 1 as the major
+revision level and 61 as the minor revision level.
+<br><br>
+See also the Q3Viewer_GetReleaseVersion function.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>majorRevision</tt></td><td>Receives the major version number.</td></tr>
+<tr valign=top><td><tt>minorRevision</tt></td><td>Receives the minor version number.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetView"></a>
+<h3><a name="Q3Viewer_GetView">Q3Viewer_GetView</a></h3>
+<blockquote><pre><tt>TQ3ViewObject 
+Q3Viewer_GetView (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns the view object associated with the given Viewer.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> View object associated with this Viewer.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetViewer"></a>
+<h3><a name="Q3Viewer_GetViewer">Q3Viewer_GetViewer</a></h3>
+<blockquote><pre><tt>TQ3ViewerObject 
+Q3Viewer_GetViewer (
+    const void                     *theWindow
+);
+</tt><br>
+</pre></blockquote>
+<p>Obtains the viewer object, if any, which is associated with a window.
+<br><br>
+If more than one viewer is using a window, the result is undefined:
+a valid viewer object will be returned, however it may not be the
+first viewer associated with the window.
+<br><br>
+On Mac OS, the window parameter should be a WindowRef. On Windows, it
+should be an HWND.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theWindow</tt></td><td>The window to query.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The associated viewer, or NULL if no viewer was found.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_GetWindow"></a>
+<h3><a name="Q3Viewer_GetWindow">Q3Viewer_GetWindow</a></h3>
+<blockquote><pre><tt>void * 
+Q3Viewer_GetWindow (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the window into which the viewer draws.
+<br><br>
+If NULL is returned, the viewer is not associated with any window.
+<br><br>
+On Mac OS, the window returned will be a WindowRef. On Windows, it
+will be an HWND.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The window used by the viewer.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_New"></a>
+<h3><a name="Q3Viewer_New">Q3Viewer_New</a></h3>
+<blockquote><pre><tt>TQ3ViewerObject 
+Q3Viewer_New(
+    const void                    *theWindow,
+    const TQ3Area                 *theRect,
+    TQ3Uns32                      theFlags
+);
+</tt><br>
+</pre></blockquote>
+<p>Creates a new Viewer object. Should be disposed of with Q3Viewer_Dispose
+or Q3Object_Dispose.
+<br><br>
+On Mac OS, the window parameter should be a WindowRef. On Windows, it
+should be an HWND.
+<br><br>
+Note that Q3Viewer_New requires kQ3ViewerFlagXXXX constants for the flags
+parameter, not the QuickDraw 3D style kQ3ViewerXXXX constants.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theWindow</tt></td><td>The window to which the viewer should be attached.</td></tr>
+<tr valign=top><td><tt>theRect</tt></td><td>Area of bounding rectangle within the window.</td></tr>
+<tr valign=top><td><tt>theFlags</tt></td><td>Flags for the viewer. Use kQ3ViewerFlagDefault for the default attributes.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Newly created Viewer object, or <code>NULL</code> if the Viewer could not be created.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_RestoreView"></a>
+<h3><a name="Q3Viewer_RestoreView">Q3Viewer_RestoreView</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_RestoreView (
+    TQ3ViewerObject                theViewer
+);
+</tt><br>
+</pre></blockquote>
+<p>Resets the viewer camera according to the settings in the associated
+view hints object.  If there are no view hints, resets the camera
+to a standard default state.
+<br><br>
+This has the same effect as clicking the reset button in the
+viewer controls.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetBackgroundColor"></a>
+<h3><a name="Q3Viewer_SetBackgroundColor">Q3Viewer_SetBackgroundColor</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetBackgroundColor (
+    TQ3ViewerObject                theViewer,
+    const TQ3ColorARGB             *theColor
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the background color of a viewer.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theColor</tt></td><td>The new background colour.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetBounds"></a>
+<h3><a name="Q3Viewer_SetBounds">Q3Viewer_SetBounds</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetBounds (
+    TQ3ViewerObject                theViewer,
+    const TQ3Area                  *theRect
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the bounding rectangle for the Viewer pane.
+<br><br>
+The bounding rectangle determines where the Viewer draws itself
+within its window.  The bounds are in window coordinates, and include
+both the rendered area and the control strip.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theRect</tt></td><td>The new bounding rectangle within the window.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetBrightness"></a>
+<h3><a name="Q3Viewer_SetBrightness">Q3Viewer_SetBrightness</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetBrightness (
+    TQ3ViewerObject                theViewer,
+    float                          theBrightness
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the the intensity of lighting used on the model.
+<br><br>
+The brightness is specified as a float, ranging from 0.0
+for no illumination to 1.0 for full illumination.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theBrightness</tt></td><td>The desired brightness.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetCallbackDraw"></a>
+<h3><a name="Q3Viewer_SetCallbackDraw">Q3Viewer_SetCallbackDraw</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetCallbackDraw (
+    TQ3ViewerObject                theViewer,
+    TQ3ViewerDrawCallbackMethod    theCallback,
+    const void                     *userData
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets a post-drawing callback for the viewer.
+<br><br>
+The callback is invoked by the viewer after it draws any part of itself,
+including the control strip. The userData parameter will be supplied to
+the callback unchanged.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theCallback</tt></td><td>Pointer to a post-drawing callback.</td></tr>
+<tr valign=top><td><tt>userData</tt></td><td>A pointer passed to the callback routine.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetCallbackResize"></a>
+<h3><a name="Q3Viewer_SetCallbackResize">Q3Viewer_SetCallbackResize</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetCallbackResize (
+    TQ3ViewerObject                      theViewer,
+    TQ3ViewerWindowResizeCallbackMethod  theCallback,
+    const void                           *userData
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets a resizing callback for the viewer.
+<br><br>
+The callback is invoked by the viewer when the user clicks and drags
+in the resize region for its window. By default, the viewer will handle
+this operation and resize the window, however this callback can be used
+to override this behaviour.
+<br><br>
+The callback should handle all mouse tracking, resizing, and invalidating
+of the viewer window.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theCallback</tt></td><td>Pointer to a resize callback.</td></tr>
+<tr valign=top><td><tt>userData</tt></td><td>A pointer passed to the callback routine.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetCallbackResizeNotify"></a>
+<h3><a name="Q3Viewer_SetCallbackResizeNotify">Q3Viewer_SetCallbackResizeNotify</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetCallbackResize (
+    TQ3ViewerObject                          theViewer,
+    TQ3ViewerPaneResizeNotifyCallbackMethod  theCallback,
+    const void                               *userData
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets a resize notification callback for the viewer.
+<br><br>
+The callback is invoked by the viewer when its window is resized.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theCallback</tt></td><td>Pointer to a resize notification callback.</td></tr>
+<tr valign=top><td><tt>userData</tt></td><td>A pointer passed to the callback routine.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetCameraByNumber"></a>
+<h3><a name="Q3Viewer_SetCameraByNumber">Q3Viewer_SetCameraByNumber</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetCameraByNumber (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       cameraIndex
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the view to a camera in the Viewer's view hints.
+<br><br>
+Model files may contain view hints which provide things such as
+"good" camera positions.  This function selects one of those cameras.
+The camera number supplied is 1-based, and the value must be less
+than or equal to the result of <code>Q3Viewer_GetCameraCount</code>.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>cameraIndex</tt></td><td>1-based index of camera to select.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetCameraByView"></a>
+<h3><a name="Q3Viewer_SetCameraByView">Q3Viewer_SetCameraByView</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetCameraByView (
+    TQ3ViewerObject                theViewer,
+    TQ3ViewerCameraView            viewType
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the camera to one of the predefined views.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>viewType</tt></td><td>A constant selecting one of the predefined views.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetCurrentButton"></a>
+<h3><a name="Q3Viewer_SetCurrentButton">Q3Viewer_SetCurrentButton</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetCurrentButton (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       theButton
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the currently selected mode button of a viewer.
+<br><br>
+A Viewer object always has a "mode" which determines how mouse
+drags in the content area are interpreted.  Modes are selected
+by clicking on one of the mode buttons; this function has
+exactly the same effect as a click on the specified button.
+The <code>button</code> parameter should be one of the following:
+<br><br>
+<code>kQ3ViewerButtonTruck
+kQ3ViewerButtonOrbit
+kQ3ViewerButtonZoom
+kQ3ViewerButtonDolly</code>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theButton</tt></td><td>The button to make active.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetDimension"></a>
+<h3><a name="Q3Viewer_SetDimension">Q3Viewer_SetDimension</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetDimension (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       theWidth,
+    TQ3Uns32                       theHeight
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the dimensions of model space in a Viewer's view hints object.
+<br><br>
+This might be useful if you were then going to write a 3DMF file
+of the Viewer data; presumably it could store this hint in that file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theWidth</tt></td><td>Desired width of the viewer pane.</td></tr>
+<tr valign=top><td><tt>theHeight</tt></td><td>Desired height of the viewer pane.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetFlags"></a>
+<h3><a name="Q3Viewer_SetFlags">Q3Viewer_SetFlags</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetFlags (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       theFlags
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the flags for a viewer.
+<br><br>
+Note that Q3Viewer_SetFlags requires kQ3ViewerFlagXXXX constants,
+not the QuickDraw 3D style kQ3ViewerXXXX constants.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theFlags</tt></td><td>the Flags to set.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetPhongShading"></a>
+<h3><a name="Q3Viewer_SetPhongShading">Q3Viewer_SetPhongShading</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetPhongShading (
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     phongShading
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the current phong shading state of a Viewer.
+<br><br>
+Phong shading is generally slower but produces a more realistic effect,
+particularly where highlights are concerned.
+<br><br>
+Not all renderers support phong shading. Even if phong shading is turned
+on, the renderer may choose to ignore it when producing the image.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>phongShading</tt></td><td>The new phong shading state.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetRemoveBackfaces"></a>
+<h3><a name="Q3Viewer_SetRemoveBackfaces">Q3Viewer_SetRemoveBackfaces</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetRemoveBackfaces (
+    TQ3ViewerObject                theViewer,
+    TQ3Boolean                     removeBackfaces
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the current backface removal state of a Viewer.
+<br><br>
+Use this function to control how the Viewer handles polygons which
+face away from the camera.  If backface removal is on, such polygons
+will not be drawn. If it is off then all polygons are drawn, even if
+they face away from the camera.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>removeBackfaces</tt></td><td>The new backfacing state.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetRendererType"></a>
+<h3><a name="Q3Viewer_SetRendererType">Q3Viewer_SetRendererType</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetRendererType (
+    TQ3ViewerObject                theViewer,
+    TQ3ObjectType                  rendererType
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the renderer type used by the Viewer.
+<br><br>
+Calling this function is equivalent to selecting one of the renderers
+from the pop-up menu on the Options control button.  The object type
+must be associated with one of the installed renderers.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>rendererType</tt></td><td>Type of renderer to use.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_SetWindow"></a>
+<h3><a name="Q3Viewer_SetWindow">Q3Viewer_SetWindow</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_SetWindow (
+    TQ3ViewerObject                theViewer,
+    const void                     *theWindow
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the window into which the viewer draws.
+<br><br>
+On Mac OS, the window parameter should be a WindowRef. On Windows, it
+should be an HWND.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theWindow</tt></td><td>The window to which the viewer should draw.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_UseData"></a>
+<h3><a name="Q3Viewer_UseData">Q3Viewer_UseData</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_UseData (
+    TQ3ViewerObject                theViewer,
+    const void                     *theData,
+    TQ3Uns32                       dataSize
+);
+</tt><br>
+</pre></blockquote>
+<p>Loads 3D scene data in memory into the Viewer.
+<br><br>
+The given data buffer is copied by the Viewer; the caller is responsible
+for disposing of it and may do so immediately after this call.
+<br><br>
+See also: <code>Q3Viewer_UseFile</code> and <code>Q3Viewer_UseGroup</code>.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theData</tt></td><td>Pointer to a buffer containing scene data.</td></tr>
+<tr valign=top><td><tt>dataSize</tt></td><td>Length of the data buffer in bytes.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_UseFile"></a>
+<h3><a name="Q3Viewer_UseFile">Q3Viewer_UseFile</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_UseFile (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       fileRef
+);
+</tt><br>
+</pre></blockquote>
+<p>Load data from a 3D model file into the Viewer.
+<br><br>
+On Mac OS, the file reference parameter should be a Mac OS file reference
+obtained from, e.g., FSOpen. On Windows, it should be a HANDLE to the
+open file. The file must be opened for reading.
+<br><br>
+See also: <code>Q3Viewer_UseData</code> and <code>Q3Viewer_UseGroup</code>.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>fileRef</tt></td><td>Reference to a file opened for reading.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_UseGroup"></a>
+<h3><a name="Q3Viewer_UseGroup">Q3Viewer_UseGroup</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_UseGroup (
+    TQ3ViewerObject                theViewer,
+    TQ3GroupObject                 theGroup
+);
+</tt><br>
+</pre></blockquote>
+<p>Loads 3D scene data within a TQ3GroupObject into the Viewer.
+<br><br>
+See also: <code>Q3Viewer_UseFile</code>, <code>Q3Viewer_UseData</code>.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theGroup</tt></td><td>Model data to load.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_WriteData"></a>
+<h3><a name="Q3Viewer_WriteData">Q3Viewer_WriteData</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_WriteData (
+    TQ3ViewerObject                theViewer,
+    void                           **theData,
+    TQ3Uns32                       *dataSize
+);
+</tt><br>
+</pre></blockquote>
+<p>Flattens the 3D scene contained by the viewer into an internal block of
+data and provides access to that data.
+<br><br>
+The pointer returned is to memory allocated internally by the viewer.
+This memory must not be disposed of by your application, and will
+be released when the viewer object is disposed of.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>theData</tt></td><td>Receives a pointer to a buffer containing the scene data.</td></tr>
+<tr valign=top><td><tt>dataSize</tt></td><td>Receives the length of the data buffer in bytes.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Viewer_WriteFile"></a>
+<h3><a name="Q3Viewer_WriteFile">Q3Viewer_WriteFile</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Viewer_WriteFile (
+    TQ3ViewerObject                theViewer,
+    TQ3Uns32                       fileRef
+);
+</tt><br>
+</pre></blockquote>
+<p>Write the 3D model data contained by the Viewer out to a file.
+<br><br>
+On Mac OS, the file reference parameter should be a Mac OS file reference
+obtained from, e.g., FSOpen. On Windows, it should be a HANDLE to the
+open file. The file must be opened for writing.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>fileRef</tt></td><td>Reference to a file opened for writing.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerAdjustCursor"></a>
@@ -1619,6 +3393,8 @@ Q3WinViewerAdjustCursor (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1644,6 +3420,8 @@ Q3WinViewerClear (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1672,6 +3450,8 @@ It is the answer of the viewer window to a WM_MOUSEMOVE
 message in in the content when the mouse button is down. 
 Normally it will not be called from some user program.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1698,6 +3478,8 @@ Q3WinViewerCopy (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1721,6 +3503,8 @@ Q3WinViewerCursorChanged (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1746,6 +3530,8 @@ Q3WinViewerCut (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1769,6 +3555,8 @@ Q3WinViewerDispose (
 <br><br>
 You call this routine before destroying the parent viewer
 of the viewer.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1794,6 +3582,8 @@ Q3WinViewerDraw (
 Call this function whenever you think that the normal windows
 update mechanisms do not show the current status of your 3D viewer.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1818,6 +3608,8 @@ Q3WinViewerDrawContent (
 Call this function whenever you think that the normal windows
 update mechanisms do not show the current status of your 3D world.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1841,6 +3633,8 @@ Q3WinViewerDrawControlStrip (
 <br><br>
 Call this function whenever you think that the normal windows
 update mechanisms do not show the current status of your control strip.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1869,6 +3663,8 @@ COLORREF RGB;
 if (Q3WinViewerGetBackgroundColor (gViewer, &color) == kQ3Failure) return false;
 rgb= RGB((BYTE)color.r * 255.0F,(BYTE)color.g * 255.0F, (BYTE)color.b * 255.0F); 
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1896,6 +3692,8 @@ viewer size.
 The color depth of the bitmap will correspond to your current
 screen resolution.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1919,6 +3717,8 @@ Q3WinViewerGetBounds (
 <p>Inquires the current position of the viewer window.
 <br><br>
 The resulting bounds do include the screen space for the control strip.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1947,6 +3747,8 @@ Q3WinViewerGetButtonRect (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1974,6 +3776,8 @@ Q3WinViewerGetCameraCount (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1995,6 +3799,8 @@ Q3WinViewerGetControlStrip (
 </tt><br>
 </pre></blockquote>
 <p>Inquires the child window handle of the control strip.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2020,6 +3826,8 @@ Q3WinViewerGetCurrentButton (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2044,6 +3852,8 @@ Q3WinViewerGetDimension (
 <p>Inquires the extent of the viewer window.
 <br><br>
 The resulting size does include the screen space for the control strip.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2071,6 +3881,8 @@ Q3WinViewerGetFlags (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2094,6 +3906,8 @@ Q3WinViewerGetGroup (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2121,6 +3935,8 @@ Q3WinViewerGetMinimumDimension (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2147,6 +3963,8 @@ Q3WinViewerGetReleaseVersion (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2170,6 +3988,8 @@ Q3WinViewerGetState (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2197,6 +4017,8 @@ Q3WinViewerGetUndoString (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2226,6 +4048,8 @@ Q3WinViewerGetVersion (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2251,6 +4075,8 @@ Q3WinViewerGetView (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2274,6 +4100,8 @@ Q3WinViewerGetViewer (
 <br><br>
 The reference count of the viewer will not be increased.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2294,6 +4122,8 @@ Q3WinViewerGetWindow (
 </tt><br>
 </pre></blockquote>
 <p>Inquires the child window handle of the viewer.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2321,6 +4151,8 @@ Q3WinViewerMouseDown (
 It is the answer of the viewer window to a WM_LBUTTONDOWN 
 message in in the content. Normally it will not be called from some
 user program.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2350,6 +4182,8 @@ Q3WinViewerMouseUp (
 It is the answer of the viewer window to a WM_LBUTTONUP
 message in in the content. Normally it will not be called from some
 user program.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2383,6 +4217,8 @@ RECT aWinRect;
 GetClientRect(hWnd, (LPRECT)&aWinRect);
 theViewer = Q3WinViewerNew (yourWnd, &aWinRect, kQ3ViewerDefault);
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2409,6 +4245,8 @@ Q3WinViewerPaste (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2432,6 +4270,8 @@ Q3WinViewerRestoreView (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2465,6 +4305,8 @@ color.g = (float)GetGValue(rgb)/(float)255;
 color.b = (float)GetBValue(rgb)/(float)255;
 Q3WinViewerSetBackgroundColor (theViewer, &color);
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2489,6 +4331,8 @@ Q3WinViewerSetBounds (
 <p>Sets the viewer window to a new place in the parent window.
 <br><br>
 It does include the screen space for the control strip.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2516,6 +4360,8 @@ Q3WinViewerSetCameraNumber (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2542,6 +4388,8 @@ Q3WinViewerSetCameraView (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2567,6 +4415,8 @@ Q3WinViewerSetCurrentButton (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2597,6 +4447,8 @@ you typically call this upon a resize of the parent window.
 <br><br>
 The size does include the screen space for the control strip.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2624,6 +4476,8 @@ Q3WinViewerSetFlags (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2650,6 +4504,8 @@ Q3WinViewerSetWindow (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2674,6 +4530,8 @@ Q3WinViewerUndo (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2700,6 +4558,8 @@ Q3WinViewerUseData (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2728,6 +4588,8 @@ Q3WinViewerUseFile (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2753,6 +4615,8 @@ Q3WinViewerUseGroup (
 <br><br>
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
+<br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2782,6 +4646,8 @@ Q3WinViewerWriteData (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2810,6 +4676,8 @@ Q3WinViewerWriteFile (
 A more extensive description can be supplied here, covering
 the typical usage of this function and any special requirements.
 <br><br>
+Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2822,5 +4690,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 6/6/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 8/9/2001 </a></font></p>
 </body></html>

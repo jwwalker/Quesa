@@ -1,0 +1,166 @@
+<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
+<a name="//apple_ref/c/tag/TQ3ViewerButtonSet"></a>
+<h3><a name="TQ3ViewerButtonSet">TQ3ViewerButtonSet</a></h3>
+<blockquote><pre>
+typedef struct {
+    NMHDR                           nmhdr;
+    TQ3Uns32                        button;
+} TQ3ViewerButtonSet;
+</pre>
+</blockquote>
+<p>WM_NOTIFY message when a viewer button is selected.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>nmhdr</tt></td><td>Unknown.</td><tr>
+<tr valign=top><td><tt>hDrop</tt></td><td>The button index.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3ViewerDrawCallbackMethod"></a>
+<h3><a name="TQ3ViewerDrawCallbackMethod">TQ3ViewerDrawCallbackMethod</a></h3>
+<blockquote><pre>
+typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerDrawCallbackMethod)(
+                            TQ3ViewerObject     theViewer,
+                            const void          *userData);
+
+
+/*!
+@struct
+TQ3ViewerWindowResizeCallbackMethod
+@discussion
+Callback which is invoked by the viewer when the user clicks and drags
+in the resize region for its window. By default, the viewer will handle
+this operation and resize the window, however this callback can be used
+to override this behaviour.
+
+The callback should handle all mouse tracking, resizing, and invalidating
+of the viewer window.
+
+@field theViewer        Viewer object.
+@field userData         User supplied data parameter.
+ */
+typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerWindowResizeCallbackMethod)(
+                            TQ3ViewerObject     theViewer,
+                            const void          *userData);
+
+
+/*!
+@struct
+TQ3ViewerPaneResizeNotifyCallbackMethod
+@discussion
+Callback which is invoked by the viewer when its window is resized.
+
+@field theViewer        Viewer object.
+@field userData         User supplied data parameter.
+ */
+typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerPaneResizeNotifyCallbackMethod)(
+                            TQ3ViewerObject     theViewer,
+                            const void          *userData);
+
+
+
+
+
+//=============================================================================
+//      Mac OS types
+//-----------------------------------------------------------------------------
+#if QUESA_OS_MACINTOSH
+
+// Viewer callback
+typedef CALLBACK_API_C(OSErr,               TQ3ViewerDrawingCallbackMethod)(
+                            TQ3ViewerObject     theViewer,
+                            const void          *userData);
+
+
+#endif // QUESA_OS_MACINTOSH
+
+
+
+
+
+//=============================================================================
+//      Windows types
+//-----------------------------------------------------------------------------
+#if QUESA_OS_WIN32
+
+// Viewer callback
+typedef TQ3ViewerDrawCallbackMethod TQ3ViewerDrawingCallbackMethod;
+
+
+// WM_NOTIFY types
+/*!
+@struct
+TQ3ViewerDropFiles
+@discussion
+WM_NOTIFY message when files are dropped on the viewer.
+
+@field nmhdr            Unknown.
+@field hDrop            The dropped files.
+ */
+typedef struct {
+    NMHDR                           nmhdr;
+    HANDLE                          hDrop;
+} TQ3ViewerDropFiles;
+</pre>
+</blockquote>
+<p>Callback which is invoked by the viewer after it draws any part of itself,
+including the control strip.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td><tr>
+<tr valign=top><td><tt>userData</tt></td><td>User supplied data parameter.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3ViewerSetView"></a>
+<h3><a name="TQ3ViewerSetView">TQ3ViewerSetView</a></h3>
+<blockquote><pre>
+typedef struct {
+    NMHDR                           nmhdr;
+    TQ3ViewerCameraView             view;
+} TQ3ViewerSetView;
+</pre>
+</blockquote>
+<p>WM_NOTIFY message when a view is set in the viewer.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>nmhdr</tt></td><td>Unknown.</td><tr>
+<tr valign=top><td><tt>view</tt></td><td>The new view.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3ViewerSetViewNumber"></a>
+<h3><a name="TQ3ViewerSetViewNumber">TQ3ViewerSetViewNumber</a></h3>
+<blockquote><pre>
+typedef struct {
+    NMHDR                           nmhdr;
+    TQ3Uns32                        number;
+} TQ3ViewerSetViewNumber;
+</pre>
+</blockquote>
+<p>WM_NOTIFY message when a view is set in the viewer by index.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>nmhdr</tt></td><td>Unknown.</td><tr>
+<tr valign=top><td><tt>number</tt></td><td>The new view index.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 8/9/2001 </a></font></p>
+</body></html>

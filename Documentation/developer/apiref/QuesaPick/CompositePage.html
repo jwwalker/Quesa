@@ -10,20 +10,17 @@ Q3HitPath_EmptyData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Release the memory allocated by a previous call to Q3Pick_GetPickDetailData.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>hitPath</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>hitPath</tt></td><td>The hit-path data to release.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MeshEdgePart_GetEdge"></a>
@@ -876,5 +873,60 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 6/6/2001 </a></font></p>
+<h2>Structs</h2>
+<a name="//apple_ref/c/tag/TQ3HitPath"></a>
+<h3><a name="TQ3HitPath">TQ3HitPath</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3GroupObject                              rootGroup;
+    TQ3Uns32                                    depth;
+    TQ3GroupPosition                            *positions;
+} TQ3HitPath;
+</pre>
+</blockquote>
+<p>Hit path data.
+<br><br>
+Returned by Q3Pick_GetPickDetailData for the kQ3PickDetailMaskPath
+pick selector. Disposed of by Q3HitPath_EmptyData.
+<br><br>
+rootGroup holds the top level group which encloses the picked
+object. positions holds an array for each nested group within
+the submit sequence, indicating the position that was submitted
+at each level. This array contains depth values.
+<br><br>
+E.g., assuming 'object' is the picked object, then submitting:
+<br><br>
+group1(object)
+<br><br>
+would produce a rootGroup field of group 1, a depth field of 1,
+and positions[0] would contain the position of object within
+group1.
+<br><br>
+Submitting:
+<br><br>
+group1(group2(object))
+<br><br>
+would produce a rootGroup field of group1, a depth field of 2,
+positions[0] would hold the position of group2 within group1,
+and positions[1] would hold the position of object within group2.
+<br><br><br>
+Note that the contents of the position array are only valid if
+the submitted groups are unchanged since they were submitted
+for picking.
+<br><br>
+If these groups have had items added or removed since they
+were submitted, the positions array will no longer be valid.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rootGroup</tt></td><td>Top level group which was submitted.</td><tr>
+<tr valign=top><td><tt>depth</tt></td><td>Number of valid entries within positions.</td><tr>
+<tr valign=top><td><tt>positions</tt></td><td>Array of group positions leading to the picked object.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 8/9/2001 </a></font></p>
 </body></html>

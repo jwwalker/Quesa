@@ -74,7 +74,12 @@ Sets theSize bytes from thePtr to 0.
 <hr>
 <a name="//apple_ref/c/func/Q3Memory_Free"></a>
 <h3><a name="Q3Memory_Free">Q3Memory_Free</a></h3>
-<blockquote><pre></pre></blockquote>
+<blockquote><pre><tt>void 
+Q3Memory_Free (
+    void                          **thePtr
+);
+</tt><br>
+</pre></blockquote>
 <p>Frees a previously allocated block of memory.
 <br><br>
 Takes a pointer to a pointer, which points to a block of previously
@@ -87,9 +92,6 @@ Note that you <em>must</em> pass a pointer to a pointer, and not
 simply the pointer to the allocated memory. The double-indirection
 is deliberate, to ensure that the pointer can be fully invalidated
 after disposal.
-<br><br>
-This function is implemented as a macro to avoid over-zealous
-compiler warnings.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -127,18 +129,21 @@ Sets theSize bytes from thePtr to theValue.
 <hr>
 <a name="//apple_ref/c/func/Q3Memory_Reallocate"></a>
 <h3><a name="Q3Memory_Reallocate">Q3Memory_Reallocate</a></h3>
-<blockquote><pre></pre></blockquote>
+<blockquote><pre><tt>TQ3Status  
+Q3Memory_Reallocate (
+    void                          **thePtr,
+    TQ3Uns32                      newSize
+);
+</tt><br>
+</pre></blockquote>
 <p>Attempts to reallocate a previously allocated block of memory.
 <br><br>
 Implements the same behaviour as realloc, allowing memory to
 be allocated, freed, or resized with a single call. See the
 documentation for realloc for the exact specification.
 <br><br>
-Note that like Q3Memory_Free_, a pointer to the pointer is
+Note that like Q3Memory_Free, a pointer to the pointer is
 passed to allow it to be set to NULL after disposal.
-<br><br>
-This function is implemented as a macro to avoid over-zealous
-compiler warnings.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -152,5 +157,5 @@ compiler warnings.
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 6/6/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 8/9/2001 </a></font></p>
 </body></html>
