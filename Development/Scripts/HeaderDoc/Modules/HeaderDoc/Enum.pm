@@ -4,7 +4,7 @@
 # Synopsis: Holds struct info parsed by headerDoc
 #
 # Author: Matt Morse (matt@apple.com)
-# Last Updated: $Date: 2001-03-18 13:26:12 $
+# Last Updated: $Date: 2001-04-08 12:19:06 $
 # 
 # Copyright (c) 1999 Apple Computer, Inc.  All Rights Reserved.
 # The contents of this file constitute Original Code as defined in and are
@@ -107,7 +107,8 @@ sub getEnumDeclaration {
     print "============================================================================\n" if ($localDebug);
     print "Raw declaration is: $dec\n" if ($localDebug);
     
-    $dec =~ s/[ \t]+/  /g;
+    # dair, preserve whitespace for Quesa
+    # $dec =~ s/[ \t]+/  /g;
     if (length ($dec)) {$dec = "<pre>\n$dec</pre>\n";};
     
     print "Enum: returning declaration:\n\t|$dec|\n" if ($localDebug);
