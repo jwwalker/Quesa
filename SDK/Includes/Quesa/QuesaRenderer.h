@@ -70,21 +70,26 @@ extern "C" {
 //-----------------------------------------------------------------------------
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 /*!
- *	@enum
- *		kQ3ElementTypeDepthBits
+ *	@enum	Renderer Element Types
  *	@discussion
- *		Element type of the depth bits element, which may be used to inform a
- *		renderer of a preferred bit depth for a depth buffer.  Renderers that
- *		are not based on OpenGL will probably ignore this preference.
- *				
- *      <em>This element is not available in QD3D.</em>
+ *		These elements may be attached to renderer objects to inform a renderer of
+ *		preferences.
+ *
+ *		<em>These elements are not available in QD3D.</em>
  *
  *		Typical usage:
  *				
  *		<blockquote><pre><code>
  *			TQ3Uns32	depthBits = 32;
- *			Q3Object_AddElement( theRenderer, kQ3ElementTypeDepthBits, &depthBits );
+ *			Q3Object_AddElement( theRenderer,
+ *			&nbsp;		kQ3ElementTypeDepthBits,
+ *			&nbsp;		&amp;depthBits );
  *		</code></pre></blockquote>
+ *
+ *	@constant	kQ3ElementTypeDepthBits
+ *		Depth bits element type, which may be used to inform a
+ *		renderer of a preferred bit depth for a depth buffer.  Renderers that
+ *		are not based on OpenGL will probably ignore this preference.
  */
 enum
 {
