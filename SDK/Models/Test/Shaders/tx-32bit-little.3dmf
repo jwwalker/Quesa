@@ -1,0 +1,68 @@
+3DMetafile ( 1 6 Stream tableofcontents2> )
+
+#	NAME:
+#		tx-32bit-little.3dmf
+#
+#	DESCRIPTION:
+#		Test model for a texture using kQ3PixelTypeRGB32 and little-endian
+#		byte order.  The texture is designed to be simple but asymmetrical, so
+#		that one can tell at a glance whether the colors or orientation are
+#		wrong.  All the models in this family should look the same if rendered
+#		correctly.
+#
+#	COPYRIGHT:
+#		Quesa Copyright © 1999-2002, Quesa Developers.
+#	
+#		For the list of Quesa Developers, and contact details, see:
+#	
+#			Documentation/contributors.html
+#	
+#		For the current version of Quesa, see:
+#	
+#			<http://www.quesa.org/>
+#	
+#		This library is free software; you can redistribute it and/or
+#		modify it under the terms of the GNU Lesser General Public
+#		License as published by the Free Software Foundation; either
+#		version 2 of the License, or (at your option) any later version.
+#	
+#		This library is distributed in the hope that it will be useful,
+#		but WITHOUT ANY WARRANTY; without even the implied warranty of
+#		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#		Lesser General Public License for more details.
+#	
+#		You should have received a copy of the GNU Lesser General Public
+#		License along with this library; if not, write to the Free Software
+#		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+	Container (
+		TriMesh (
+			3 0 0 0 5 1 # numTriangles numTriangleAttributeTypes numEdges numEdgeAttributeTypes numPoints numVertexAttributeTypes
+			0 1 2 
+			0 2 3 
+			2 4 3 
+			-1 -1 0 1 -1 0 1 1 0 
+			-1 1 0 0 2 0 
+			-1 -1 0 1 2 0 False )
+		AttributeArray (
+			1 0 2 0 0 
+			0 0 
+			1 0 
+			1 0.8 
+			0 0.8 
+			0.5 1 
+		)
+		Container (
+			AttributeSet ( )
+			Container (
+				TextureShader ( )
+				PixmapTexture (
+					4 4 16 32 RGB32 LittleEndian LittleEndian 
+					0x0000E0000000E0000000E0000000E000
+					0x00E00000E0000000E00000000000E000
+					0x00E00000E0000000E00000000000E000
+					0x00E0000000E000000000E0000000E000
+				)
+			)
+		)
+	)
