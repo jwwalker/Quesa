@@ -156,9 +156,25 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 				break;
 			
 			case kQ3SubdivisionMethodWorldSpace:
-				// Keep the length of any side less than or equal to c1 - so divide
-				// the diameter by c1
-				numSides = (TQ3Uns32) ((kQ32Pi * Q3Vector3D_Length(&geomData->majorRadius)) / subdivisionData.c1);
+				// Keep the length of any side less than or equal to c1
+				{
+					TQ3Matrix4x4	localToWorld;
+					TQ3Vector3D		bigRadius;
+					
+					// Find the longer of the two radius vectors.
+					bigRadius = geomData->majorRadius;
+					if (Q3Vector3D_LengthSquared( &geomData->majorRadius ) <
+						Q3Vector3D_LengthSquared( &geomData->minorRadius ) )
+					{
+						bigRadius = geomData->minorRadius;
+					}
+
+					// divide the circumference by c1
+					Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
+					Q3Vector3D_Transform( &bigRadius, &localToWorld, &theVector );
+					numSides = (TQ3Uns32) ((kQ32Pi * Q3Vector3D_Length(&theVector))
+							/ subdivisionData.c1);
+				}
 				break;
 
 			case kQ3SubdivisionMethodScreenSpace:
