@@ -2114,37 +2114,37 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 		if(instanceData->theMask != kQ3XAttributeMaskNone){
 			mask = instanceData->theMask;
 			if((mask & kQ3XAttributeMaskSurfaceUV) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSurfaceUV, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeSurfaceUV, NULL, NULL);
 
 			if((mask & kQ3XAttributeMaskShadingUV) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeShadingUV, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeShadingUV, NULL, NULL);
 
 			if((mask & kQ3XAttributeMaskNormal) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeNormal, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeNormal, NULL, NULL);
 
 			if((mask & kQ3XAttributeMaskAmbientCoefficient) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeAmbientCoefficient, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeAmbientCoefficient, NULL, NULL);
 
 			if((mask & kQ3XAttributeMaskDiffuseColor) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeDiffuseColor, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeDiffuseColor, NULL, NULL);
 
 			if((mask & kQ3XAttributeMaskSpecularColor) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSpecularColor, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeSpecularColor, NULL, NULL);
 
 			if((mask & kQ3XAttributeMaskSpecularControl) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSpecularControl, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeSpecularControl, NULL, NULL);
 
 			if((mask & kQ3XAttributeMaskTransparencyColor) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeTransparencyColor, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeTransparencyColor, NULL, NULL);
 
 			if((mask & kQ3XAttributeMaskSurfaceTangent) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSurfaceTangent, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeSurfaceTangent, NULL, NULL);
 
 			if((mask & kQ3XAttributeMaskHighlightState) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeHighlightState, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeHighlightState, NULL, NULL);
 
 			if((mask & kQ3XAttributeMaskSurfaceShader) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSurfaceShader, NULL, NULL);
+				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeSurfaceShader, NULL, NULL);
 
 			}
 
@@ -2193,8 +2193,6 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 		instanceData->scanIndex     = 0;
 		Q3Memory_Free(&instanceData->scanResults);
 		}
-
-	*theType   = E3Attribute_ClassToAttributeType(*theType);
 	
 	return(kQ3Success);
 }
