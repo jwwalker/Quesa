@@ -71,20 +71,29 @@ extern "C" {
  *	@enum
  *		TQ3AttributeTypes
  *	@discussion
- *		Type numbers for standard attributes.
+ *		Type numbers for standard attributes. See QuesaView.h for default values of some
+ *		of these attributes.  For instance you will find that if you do not specify
+ *		any attributes, an object will be white, opaque, and somewhat shiny.
  *
- *	@constant	kQ3AttributeTypeNone				No type.  See Q3AttributeSet_GetNextAttributeType.
- *	@constant	kQ3AttributeTypeSurfaceUV			Surface UV coordinates (TQ3Param2D)
- *	@constant	kQ3AttributeTypeShadingUV			Shading UV coordinates (TQ3Param2D)
- *	@constant	kQ3AttributeTypeNormal				Normal vector (TQ3Vector3D)
- *	@constant	kQ3AttributeTypeAmbientCoefficient	Ambient coefficient (float)
- *	@constant	kQ3AttributeTypeDiffuseColor		Diffuse color (TQ3ColorRGB)
- *	@constant	kQ3AttributeTypeSpecularColor		Specular color (TQ3ColorRGB)
- *	@constant	kQ3AttributeTypeSpecularControl		Specular control (float)
- *	@constant	kQ3AttributeTypeTransparencyColor	Transparency color (TQ3ColorRGB)
- *	@constant	kQ3AttributeTypeSurfaceTangent		Surface tangent (TQ3Tangent2D)
- *	@constant	kQ3AttributeTypeHighlightState		Highlight state (TQ3Switch)
- *	@constant	kQ3AttributeTypeSurfaceShader		Surface shader (TQ3SurfaceShaderObject)
+ *	@constant	kQ3AttributeTypeNone				No type.  See
+ *													<code>Q3AttributeSet_GetNextAttributeType</code>.
+ *	@constant	kQ3AttributeTypeSurfaceUV			Surface UV coordinates (<code>TQ3Param2D</code>)
+ *													for texture mapping.
+ *	@constant	kQ3AttributeTypeShadingUV			Shading UV coordinates (<code>TQ3Param2D</code>)
+ *													(originally intended for procedural shaders, but
+ *													effectively interchangable with surface UV).
+ *	@constant	kQ3AttributeTypeNormal				Normal vector (<code>TQ3Vector3D</code>)
+ *	@constant	kQ3AttributeTypeAmbientCoefficient	Ambient coefficient (<code>float</code>)
+ *	@constant	kQ3AttributeTypeDiffuseColor		Diffuse color (<code>TQ3ColorRGB</code>)
+ *	@constant	kQ3AttributeTypeSpecularColor		Specular color (<code>TQ3ColorRGB</code>)
+ *	@constant	kQ3AttributeTypeSpecularControl		Specular control (<code>float</code>).
+ *													Larger values make smaller specular highlights.
+ *	@constant	kQ3AttributeTypeTransparencyColor	Transparency color (<code>TQ3ColorRGB</code>).
+ *													{ 0, 0, 0 } is completely transparent, and
+ *													{ 1, 1, 1 } is completely opaque.
+ *	@constant	kQ3AttributeTypeSurfaceTangent		Surface tangent (<code>TQ3Tangent2D</code>)
+ *	@constant	kQ3AttributeTypeHighlightState		Highlight state (<code>TQ3Switch</code>)
+ *	@constant	kQ3AttributeTypeSurfaceShader		Surface shader (<code>TQ3SurfaceShaderObject</code>)
  *	@constant	kQ3AttributeTypeNumTypes			Number of standard attribute types.
 */
 // Attribute types
@@ -111,13 +120,13 @@ typedef enum TQ3AttributeTypes {
  *	@discussion
  *		These are method types that apply particularly to custom elements. Note that
  *		a custom element may also need to provide more general custom class methods,
- *		such as kQ3XMethodTypeObjectTraverse.
+ *		such as <code>kQ3XMethodTypeObjectTraverse</code>.
  *
- *	@constant	kQ3XMethodTypeElementCopyAdd		See TQ3XElementCopyAddMethod.
- *	@constant	kQ3XMethodTypeElementCopyReplace	See TQ3XElementCopyReplaceMethod.
- *	@constant	kQ3XMethodTypeElementCopyGet		See TQ3XElementCopyGetMethod.
- *	@constant	kQ3XMethodTypeElementCopyDuplicate	See TQ3XElementCopyDuplicateMethod.
- *	@constant	kQ3XMethodTypeElementDelete			See TQ3XElementDeleteMethod.
+ *	@constant	kQ3XMethodTypeElementCopyAdd		See <code>TQ3XElementCopyAddMethod</code>.
+ *	@constant	kQ3XMethodTypeElementCopyReplace	See <code>TQ3XElementCopyReplaceMethod</code>.
+ *	@constant	kQ3XMethodTypeElementCopyGet		See <code>TQ3XElementCopyGetMethod</code>.
+ *	@constant	kQ3XMethodTypeElementCopyDuplicate	See <code>TQ3XElementCopyDuplicateMethod</code>.
+ *	@constant	kQ3XMethodTypeElementDelete			See <code>TQ3XElementDeleteMethod</code>.
 */
 // Element method types
 enum {
@@ -135,12 +144,12 @@ enum {
  *	@discussion
  *		These are method types that apply particularly to custom attributes. Note that
  *		a custom element may also need to provide more general custom element or custom class methods,
- *		such as kQ3XMethodTypeObjectTraverse.
+ *		such as <code>kQ3XMethodTypeObjectTraverse</code>.
  *
- *	@constant	kQ3XMethodTypeAttributeInherit		See TQ3XAttributeInheritMethod.
- *	@constant	kQ3XMethodTypeAttributeCopyInherit	See TQ3XAttributeCopyInheritMethod.
- *	@constant	kQ3XMethodTypeAttributeDefault		See TQ3XAttributeDefaultMethod.
- *	@constant	kQ3XMethodTypeAttributeIsDefault	See TQ3XAttributeIsDefaultMethod.
+ *	@constant	kQ3XMethodTypeAttributeInherit		See <code>TQ3XAttributeInheritMethod</code>.
+ *	@constant	kQ3XMethodTypeAttributeCopyInherit	See <code>TQ3XAttributeCopyInheritMethod</code>.
+ *	@constant	kQ3XMethodTypeAttributeDefault		See <code>TQ3XAttributeDefaultMethod</code>.
+ *	@constant	kQ3XMethodTypeAttributeIsDefault	See <code>TQ3XAttributeIsDefaultMethod</code>.
 */
 // Attribute method types
 enum {
@@ -158,6 +167,10 @@ enum {
 //      Types
 //-----------------------------------------------------------------------------
 // Attribute type
+/*!
+ *	@typedef	TQ3AttributeType
+ *	@discussion	This is a 32-bit value identifying a particular attribute.
+*/
 typedef TQ3ElementType                          TQ3AttributeType;
 
 
@@ -732,7 +745,7 @@ Q3XElementClass_Register (
  *      Return the size in bytes of an element type.
  *
  *      In the case of a custom element, this would be the same as the size
- *		you provided when you called Q3XElementClass_Register.
+ *		you provided when you called <code>Q3XElementClass_Register</code>.
  *
  *
  *  @param elementType      An element type.
