@@ -173,6 +173,8 @@ TQ3Boolean	E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 											TQ3TriMeshAttributeData		*theAttribute,
 											TQ3AttributeType			attributeType);
 
+TQ3GroupObject	E3TriMesh_BuildOrientationGroup(TQ3GeometryObject theTriMesh, TQ3OrientationStyle theOrientation);
+
 
 
 
