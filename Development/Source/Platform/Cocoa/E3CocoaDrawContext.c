@@ -124,8 +124,8 @@ e3drawcontext_cocoa_update(TQ3DrawContextObject theDrawContext)
 	// Fill it in. Note that draw regions are only needed to support Apple's
 	// Interactive Renderer, which does not run on any Cocoa systems: and so
 	// we can just fill in the basic details for the structure.
-	cx = (TQ3Uns32) (instanceData->data.common.pane.max.x - instanceData->data.common.pane.min.x);
-	cy = (TQ3Uns32) (instanceData->data.common.pane.max.y - instanceData->data.common.pane.min.y);
+	cx = (TQ3Uns32) E3Num_Max(instanceData->data.common.pane.max.x - instanceData->data.common.pane.min.x, 0.0f);
+	cy = (TQ3Uns32) E3Num_Max(instanceData->data.common.pane.max.y - instanceData->data.common.pane.min.y, 0.0f);
 	
 	instanceData->drawRegions[0].deviceOffsetX           = 0.0f;
 	instanceData->drawRegions[0].deviceOffsetY           = 0.0f;

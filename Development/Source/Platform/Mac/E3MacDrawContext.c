@@ -318,7 +318,7 @@ e3drawcontext_mac_buildregions(TQ3DrawContextObject theDrawContext)
 		//
 		// Since we want to move away from draw regions, this is OK for now.
 		instanceData->drawRegions[n].platformHandle          = (TQ3Uns32) activeDevices[n];
-		instanceData->drawRegions[n].theDescriptor.width	 = (*thePixMap)->bounds.right - (*thePixMap)->bounds.left;
+		instanceData->drawRegions[n].theDescriptor.width	 = (*thePixMap)->bounds.right  - (*thePixMap)->bounds.left;
 		instanceData->drawRegions[n].theDescriptor.height	 = (*thePixMap)->bounds.bottom - (*thePixMap)->bounds.top;
 		instanceData->drawRegions[n].theDescriptor.rowBytes	 = rowBytes;
 		instanceData->drawRegions[n].theDescriptor.pixelSize = pixelBytes;

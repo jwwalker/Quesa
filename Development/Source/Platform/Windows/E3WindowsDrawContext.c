@@ -90,10 +90,10 @@ static TQ3Status
 e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
 	TQ3Status					qd3dStatus;
-	BITMAP						bitMap;
-	HGDIOBJ						hBitMap;
-	TQ3Uns32					cx,cy;
 	TQ3XDevicePixelType			pixelType;
+	HGDIOBJ						hBitMap;
+	BITMAP						bitMap;
+	TQ3Uns32					cx, cy;
 
 
 
@@ -110,9 +110,8 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 
 
 
-	//
 	// Clipping masks aren't currently supported.
-	
+	//
 	// Create a little bitmap to query color information
 	hBitMap = CreateCompatibleBitmap(instanceData->data.win32Data.theData.hdc, 1, 1);
 	if(hBitMap == NULL){
@@ -127,10 +126,13 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 		Q3Error_PlatformPost(GetLastError());
 		return(kQ3Failure);
 		}
-		
-	cx = (TQ3Uns32)(instanceData->data.common.pane.max.x - instanceData->data.common.pane.min.x);
-	cy = (TQ3Uns32)(instanceData->data.common.pane.max.y - instanceData->data.common.pane.min.y);
-	
+
+
+
+	// Fill it in
+	cx = (TQ3Uns32) E3Num_Max(instanceData->data.common.pane.max.x - instanceData->data.common.pane.min.x, 0.0f);
+	cy = (TQ3Uns32) E3Num_Max(instanceData->data.common.pane.max.y - instanceData->data.common.pane.min.y, 0.0f);
+
 	pixelType = E3DrawContext_GetDevicePixelTypeFromBPP(bitMap.bmBitsPixel);
 	
 	instanceData->drawRegions[0].deviceOffsetX           = 0.0f;
@@ -161,11 +163,12 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 	instanceData->drawRegions[0].isActive                = kQ3True;
 	instanceData->drawRegions[0].clipMaskState           = kQ3XClipMaskFullyExposed;
 
+
+
 	// clear the DrawContext
-	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor){
+	if (instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor)
 		NULL;
-		}
-		
+
 
 
 	// Update the state flag
