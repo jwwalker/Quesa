@@ -37,9 +37,6 @@
 #include "IRTransparent.h"
 #include "IRUpdate.h"
 
-#include "GLPrefix.h"
-#include "GLDrawContext.h"
-
 #include <stdlib.h>
 
 
@@ -304,22 +301,38 @@ IRGeometry_Transparent_Initialise(TQ3InteractiveData *instanceData, TQ3CameraObj
 
 
 //=============================================================================
-//      IRGeometry_Transparent_Flush : Flush the transparent primitives.
+//      IRGeometry_Transparent_Terminate : Terminate the transparency state.
 //-----------------------------------------------------------------------------
 void
-IRGeometry_Transparent_Flush(TQ3ViewObject				theView,
-							TQ3InteractiveData		*instanceData,
-							TQ3Boolean				renderFlush)
+IRGeometry_Transparent_Terminate(TQ3InteractiveData *instanceData)
+{
+
+
+	// Dispose of our state
+	instanceData->transparentPrimUsed  = 0;
+	instanceData->transparentPrimCount = 0;
+	
+	Q3Memory_Free(&instanceData->transparentPrims);
+}
+
+
+
+
+
+//=============================================================================
+//      IRGeometry_Transparent_Draw : Draw the transparent primitives.
+//-----------------------------------------------------------------------------
+void
+IRGeometry_Transparent_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 {	TQ3Uns32	n;
 
 
 
-	// If this is a rendering flush and there's something in the cache,
-	// submit the primitives and reset the used count to 0.
+	// Draw the transparent primitives, if any
 	//
-	// Note that we don't release the memory used by the cache, as the
-	// chances are we'll need it again on the next frame.
-	if (renderFlush && instanceData->transparentPrimUsed != 0)
+	// We don't release the memory used by the cache, as the chances are we'll need
+	// it again on the next frame.
+	if (instanceData->transparentPrimUsed != 0)
 		{
 		// Sort the array
 		qsort(instanceData->transparentPrims,
@@ -369,17 +382,6 @@ IRGeometry_Transparent_Flush(TQ3ViewObject				theView,
 	    glDisable(GL_BLEND);
 
 		instanceData->transparentPrimUsed = 0;
-		}
-
-
-
-	// Otherwise we need to perform a shutdown flush and reset the
-	// cache state completely to free up any memory we're using.
-	else
-		{
-		instanceData->transparentPrimUsed  = 0;
-		instanceData->transparentPrimCount = 0;
-		Q3Memory_Free(&instanceData->transparentPrims);
 		}
 }
 

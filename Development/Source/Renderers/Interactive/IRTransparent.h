@@ -56,13 +56,15 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 void				IRGeometry_Transparent_Initialise(
-								TQ3InteractiveData		*instanceData,
-								TQ3CameraObject			theCamera);
+								TQ3InteractiveData				*instanceData,
+								TQ3CameraObject					theCamera);
 
-void				IRGeometry_Transparent_Flush(
-								TQ3ViewObject			theView,
-								TQ3InteractiveData		*instanceData,
-								TQ3Boolean				renderFlush);
+void				IRGeometry_Transparent_Terminate(
+								TQ3InteractiveData				*instanceData);
+
+void				IRGeometry_Transparent_Draw(
+								TQ3ViewObject					theView,
+								TQ3InteractiveData				*instanceData);
 
 TQ3Status			IRGeometry_Transparent_Add(TQ3ViewObject	theView,
 								TQ3InteractiveData				*instanceData,
