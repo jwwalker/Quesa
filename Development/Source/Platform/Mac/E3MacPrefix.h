@@ -40,27 +40,6 @@
 #else
 	#include <Displays.h>
 #endif
-#include "E3CarbonCoating.h"
-
-
-
-
-
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// Support for older Universal Interfaces
-#if !TARGET_API_MAC_CARBON
-
-#ifndef DisposeDMNotificationUPP
-	#define DisposeDMNotificationUPP			DisposeRoutineDescriptor
-#endif
-
-#ifndef GetWindowPort
-	#define GetWindowPort(_window)				(GrafPtr) (_window)
-#endif
-
-#endif // !TARGET_API_MAC_CARBON
 
 
 
