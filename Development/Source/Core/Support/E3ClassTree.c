@@ -1156,6 +1156,25 @@ E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType)
 
 
 //=============================================================================
+//      E3ClassTree_GetLeafObject : Get the leaf object for an object.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3ClassTree_GetLeafObject(TQ3Object theObject)
+{
+
+
+	// Move down until we find the leaf object
+	while (theObject->childObject != NULL)
+		theObject = theObject->childObject;
+	
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
 //      E3ClassTree_IsObjectValid : Is an object valid?
 //-----------------------------------------------------------------------------
 TQ3Boolean
