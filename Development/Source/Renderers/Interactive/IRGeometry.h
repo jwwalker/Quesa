@@ -76,6 +76,11 @@ TQ3Param2D			*IRGeometry_Attribute_GetUV(
 								TQ3InteractiveData		*instanceData,
 								TQ3AttributeSet			theAttributes);
 
+TQ3TriFlags			IRGeometry_Triangle_CalcFlags(
+								TQ3InteractiveData		*instanceData,
+								const TQ3Vector3D		*triNormal,
+								const TQ3Point3D		*pointOnTri);
+
 TQ3Boolean			IRGeometry_Triangle_IsVisible(
 								TQ3InteractiveData		*instanceData,
 								const TQ3Vector3D		*triNormal);
