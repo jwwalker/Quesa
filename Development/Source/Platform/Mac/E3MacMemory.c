@@ -118,7 +118,8 @@ __sys_alloc(__std(size_t) theSize)
     MoveHHi(theHnd);
     HLock(theHnd);
 
-	thePtr  = AlignPtrToBoundary(*theHnd, 32);
+	thePtr = (*theHnd) + 4;
+	thePtr = AlignPtrToBoundary(thePtr, 32);
 
 	*((Handle *) (thePtr - 4)) = theHnd;
 
