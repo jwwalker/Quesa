@@ -217,9 +217,9 @@ TQ3GLContext		GLTextureMgr_GetNextSharingBase( TQ3GLContext glBase )
 		
 		if (glBase == NULL)
 		{
-			if (not sTextureCacheList->empty())
+			if (! sTextureCacheList->empty())
 			{
-				Q3_ASSERT( not sTextureCacheList->front().glContexts.empty() );
+				Q3_ASSERT( ! sTextureCacheList->front().glContexts.empty() );
 				nextContext = sTextureCacheList->front().glContexts[ 0 ];
 			}
 		}
