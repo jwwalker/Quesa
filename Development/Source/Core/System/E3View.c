@@ -1078,7 +1078,7 @@ e3view_submit_object(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 
 
 //=============================================================================
-//      e3view_new : VIew class new method.
+//      e3view_new : View class new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3view_new(TQ3Object theObject, void *privateData, const void *paramData)
