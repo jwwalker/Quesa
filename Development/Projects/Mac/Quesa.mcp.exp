@@ -857,7 +857,6 @@ Q3ScaleTransform_Submit
 Q3Set_Add
 Q3Set_Clear
 Q3Set_Contains
-Q3Set_CopyElement
 Q3Set_Empty
 Q3Set_Get
 Q3Set_GetNextElementType
@@ -1312,6 +1311,8 @@ Q3Viewer_UseFile
 Q3Viewer_UseGroup
 Q3Viewer_WriteData
 Q3Viewer_WriteFile
+Q3Set_CopyElement
+Q3XElement_EmptyData
 
 # support for use as a statically-linked library
 #__ViewerInitialize
