@@ -358,6 +358,10 @@ typedef struct OpaqueTQ3Object {
 	E3ClassInfoPtr		theClass;
 	void				*instanceData;
 	TQ3Object			parentObject;
+	
+#if Q3_DEBUG
+	TQ3Object			childObject;
+#endif
 } OpaqueTQ3Object;
 
 
@@ -418,6 +422,13 @@ typedef struct E3Globals {
 	DMNotificationUPP		dmNotifyUPP;
 	TQ3Boolean				dmNotifiedChanges;
 #endif
+
+	// Debugging
+#if Q3_DEBUG
+	TQ3Object				listHead;
+	TQ3Boolean				isLeakChecking;
+#endif
+
 } E3Globals, *E3GlobalsPtr;
 
 
