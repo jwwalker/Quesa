@@ -275,24 +275,28 @@ typedef struct TQ3CylinderData {
  *		and minor radius vectors need not be orthogonal, though they should be independent.
  *
  *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
- *		were apparently intended to allow partial disks, e.g., a disk with a wedge
- *		cut out of it.
- *		But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
- *		ever did either.
+ *		allow partial disks, e.g., a slice of pie (partial range of u values) or a washer
+ *		(partial range of v values).  This feature was never implemented in QuickDraw 3D,
+ *		although it was planned.
+ *
+ *		The u and v limits here do not have anything to do with the uv parametrization used by
+ *		shaders.
  *
  *	@field		origin					The center of the disk.
  *	@field		majorRadius				A vector from the origin to a point on the perimeter
  *										of the disk.
  *	@field		minorRadius				A vector from the origin to a point on the perimeter
  *										of the disk.
- *	@field		uMin					Minimum value of the u parameter, which goes around
- *										the perimeter.  Typically 0.
- *	@field		uMax					Maximum value of the u parameter, which goes around
- *										the perimeter.  Typically 1.
+ *	@field		uMin					Starting value of the u parameter, which goes around
+ *										the perimeter.  Typically 0, must be in the range [0, 1].
+ *	@field		uMax					Ending value of the u parameter, which goes around
+ *										the perimeter.  Typically 1, must be in the range [0, 1].
  *	@field		vMin					Minimum value of the v parameter, which goes from the
- *										perimeter to the origin.  Typically 0.
- *	@field		vMax					Minimum value of the v parameter, which goes from the
- *										perimeter to the origin.  Typically 1.
+ *										perimeter to the origin.  Typically 0, must be in the
+ *										range [0, 1].
+ *	@field		vMax					Maximum value of the v parameter, which goes from the
+ *										perimeter to the origin.  Typically 1, must be in the
+ *										range [0, 1].
  *	@field		diskAttributeSet		Attributes for the disk.  May be NULL.
  */
 typedef struct TQ3DiskData {
