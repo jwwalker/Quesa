@@ -150,9 +150,12 @@ Q3Memory_Free (
  *      Implements the same behaviour as realloc, allowing memory to
  *      be allocated, freed, or resized with a single call. See the
  *      documentation for realloc for the exact specification.
+ *		Unlike some implementations of realloc, passing a size of zero
+ *		frees the memory and returns NULL.
  *
  *      Note that like Q3Memory_Free, a pointer to the pointer is
- *		passed to allow it to be set to NULL after disposal.
+ *		passed to allow it to be set to NULL after disposal, and to
+ *		allow it to be changed when resized.
  *
  *  @param thePtr           A pointer to the pointer to reallocate.
  *  @param newSize          The size in bytes to reallocate the block to.
