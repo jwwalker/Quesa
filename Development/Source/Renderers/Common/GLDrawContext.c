@@ -235,11 +235,19 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 	glRect[2] = (GLint)(drawContextData.pane.max.x - drawContextData.pane.min.x);
 	glRect[3] = (GLint)(drawContextData.pane.max.y - drawContextData.pane.min.y);
 
-	glViewport(0, 0, glRect[2], glRect[3]);
 
-	aglEnable(glContext,     AGL_BUFFER_RECT);
-	aglSetInteger(glContext, AGL_BUFFER_RECT, glRect);
+	if (drawContextType == kQ3DrawContextTypePixmap)
+		{
+		// AGL_BUFFER_RECT has no effect on an offscreen context
+		glViewport( glRect[0], glRect[1], glRect[2], glRect[3] );
+		}
+	else
+		{
+		aglSetInteger(glContext, AGL_BUFFER_RECT, glRect);
+		aglEnable(glContext,     AGL_BUFFER_RECT);
 
+		glViewport( 0, 0, glRect[2], glRect[3] );
+		}
 
 
 	// Tell OpenGL to leave renderers in memory when loaded, to make creating
