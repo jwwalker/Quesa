@@ -44,16 +44,6 @@
 
 
 //=============================================================================
-//      Internal constants
-//-----------------------------------------------------------------------------
-#define kTransparentPrimThreshold								10
-#define kTransparentPrimChunk									50
-
-
-
-
-
-//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      ir_geom_transparent_sort : Sort callback for cached prims.
@@ -105,76 +95,35 @@ ir_geom_transparent_sort(const void *item1, const void *item2)
 
 
 //=============================================================================
-//      ir_geom_transparent_allocate : Allocate a cached primitive.
-//-----------------------------------------------------------------------------
-static TQ3TransparentPrim *
-ir_geom_transparent_allocate(TQ3InteractiveData *instanceData)
-{	TQ3Uns32				numFree, newCount;
-	TQ3Status				qd3dStatus;
-	TQ3TransparentPrim		*thePrim;
-
-
-
-	// Grow the array if we've run out of room
-	numFree = (instanceData->transparentPrimCount - instanceData->transparentPrimUsed);
-	if (numFree < kTransparentPrimThreshold)
-		{
-		// Grow the array
-		newCount   = instanceData->transparentPrimCount + kTransparentPrimChunk;
-		qd3dStatus = Q3Memory_Reallocate(&instanceData->transparentPrims, sizeof(TQ3TransparentPrim) * newCount);
-		if (qd3dStatus != kQ3Success)
-			return(NULL);
-		
-		
-		// If we got it, update our state
-		instanceData->transparentPrimCount = newCount;
-		}
-
-
-
-	// Grab the next free slot
-	Q3_ASSERT(instanceData->transparentPrimUsed <= (instanceData->transparentPrimCount - 1));
-
-	thePrim = &instanceData->transparentPrims[instanceData->transparentPrimUsed];
-	instanceData->transparentPrimUsed++;
-
-	return(thePrim);
-}
-
-
-
-
-
-//=============================================================================
 //      ir_geom_transparent_render : Render a cached primitive.
 //-----------------------------------------------------------------------------
 static void
 ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
-{	TQ3Uns32	n, numVerts;
+{	const TQ3FVertex3D		*theVertex;
+	TQ3FVertexFlags			vertFlags;
+	float					vertAlpha;
+	TQ3Uns32				n;
 
 
 
-	// Set up the texture, if any.
+	// Validate our parameters
+	Q3_ASSERT(thePrim->numVerts >= 1 && thePrim->numVerts <= 3);
+
+
+
+	// Enable the texture
 	//
-	// The OpenGL texture object will still exist in our texture cache, and so
-	// we can bind to it immediately without having to make sure it matches the
-	// appropriate QD3D texture object.
+	// The OpenGL texture object will still exist in the texture cache, and so
+	// we can bind to it immediately without needing the original QD3D object.
 	if (thePrim->theTexture != 0)
 		{
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, thePrim->theTexture);
 		}
 
-	// Set the face orientation for triangles.
-	if (thePrim->theType == kQ3PrimTriangle)
-		{
-		if (thePrim->orientationStyle == kQ3OrientationStyleClockwise)
-			glFrontFace(GL_CW);
-		else
-			glFrontFace(GL_CCW);
-		}
-	
-	// Set the fill style.
+
+
+	// Set up the fill style
 	switch (thePrim->fillStyle)
 		{
 		case kQ3FillStylePoints:
@@ -190,11 +139,22 @@ ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			break;
 		}
-	
-	// Set the backfacing style for triangles.
-	if (thePrim->theType == kQ3PrimTriangle)
-		switch (thePrim->backfacingStyle)
-			{
+
+
+
+	// Set up the orientation and backfacing style for triangles
+	if (thePrim->numVerts == 3)
+		{
+		// Orientation
+		if (thePrim->orientationStyle == kQ3OrientationStyleClockwise)
+			glFrontFace(GL_CW);
+		else
+			glFrontFace(GL_CCW);
+		
+
+		
+		// Backfacing
+		switch (thePrim->backfacingStyle) {
 			case kQ3BackfacingStyleRemove:
 				// Disable 2-sided lighting and cull back-faces
 				glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
@@ -215,59 +175,60 @@ ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
 				glDisable(GL_CULL_FACE);
 				break;
 			}
+		}
 
-	// Select the primitive type
-	switch (thePrim->theType) {
-		case kQ3PrimTriangle:
+
+
+	// Begin the primitive
+	switch (thePrim->numVerts) {
+		case 3:
 			glBegin(GL_TRIANGLES);
-			numVerts = 3;
 			break;
 
-		case kQ3PrimLine:
+		case 2:
 			glBegin(GL_LINES);
-			numVerts = 2;
 			break;
 
-		case kQ3PrimPoint:
+		case 1:
 			glBegin(GL_POINTS);
-			numVerts = 1;
 			break;
-        
-        case kQ3PrimNone:
-        default:
-            Q3_ASSERT(!"Should never happen");
-            break;
 		}
 
 
 
-	// Draw the primitive. UVs and normals are optional, colours and points
-	// are always supplied.
-	//
-	// Colours may actually be optional at the QD3D level, but the cached
-	// primitives either contain the real colour or pure white (for textured
-	// prims, as per the value of stateTextureForceWhite).
-	for (n = 0; n < numVerts; n++)
+	// Draw the primitive
+	theVertex = thePrim->theVertices;
+	vertFlags = theVertex->theFlags;
+
+	for (n = 0; n < thePrim->numVerts; n++)
 		{
-		if (thePrim->theFlags & kQ3PrimHaveNormal)
-			glNormal3fv((const GLfloat *) &thePrim->theNormals[n]);
+		if (E3Bit_IsSet(vertFlags, kQ3FVertexHaveNormal))
+			glNormal3fv((const GLfloat *) &theVertex->theNormal);
 	
-		if ((thePrim->theFlags & kQ3PrimHaveUV) && (thePrim->theTexture != 0))
-			glTexCoord2fv((const GLfloat *) &thePrim->theUVs[n]);
+		if (E3Bit_IsSet(vertFlags, kQ3FVertexHaveUV))
+			glTexCoord2fv((const GLfloat *) &theVertex->theUV);
 
-		glColor4f(thePrim->theColours[n].r,
-				  thePrim->theColours[n].g,
-				  thePrim->theColours[n].b,
-				  thePrim->theColours[n].a);
+		vertAlpha = (theVertex->colourTransparency.r +
+					 theVertex->colourTransparency.g +
+					 theVertex->colourTransparency.b) * 0.33333333f;
 
-		glVertex3fv((const GLfloat *) &thePrim->thePoints[n]);
+		glColor4f(theVertex->colourDiffuse.r,
+				  theVertex->colourDiffuse.g,
+				  theVertex->colourDiffuse.b,
+				  vertAlpha);
+
+		glVertex3fv((const GLfloat *) &theVertex->thePoint);
+		theVertex++;
 		}
 
 
 
-	// End the primitive, and turn off any texture
+	// Finish the primitive
 	glEnd();
 
+
+
+	// Turn off the texture
 	if (thePrim->theTexture != 0)
 		{
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -280,217 +241,88 @@ ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
 
 
 //=============================================================================
-//      Public functions
+//      ir_geom_transparent_add : Add a transparent primitive.
 //-----------------------------------------------------------------------------
-//      IRGeometry_Transparent_StartPass : Start a frame.
-//-----------------------------------------------------------------------------
-#pragma mark -
-void
-IRGeometry_Transparent_StartPass(TQ3InteractiveData *instanceData, TQ3CameraObject theCamera)
-{
-
-	instanceData->cameraIsOrtho = (Q3Camera_GetType(theCamera) == kQ3CameraTypeOrthographic);
-}
-
-
-
-
-
-//=============================================================================
-//      IRGeometry_Transparent_Terminate : Terminate the transparency state.
-//-----------------------------------------------------------------------------
-void
-IRGeometry_Transparent_Terminate(TQ3InteractiveData *instanceData)
-{
-
-
-	// Dispose of our state
-	instanceData->transparentPrimUsed  = 0;
-	instanceData->transparentPrimCount = 0;
-	
-	Q3Memory_Free(&instanceData->transparentPrims);
-}
-
-
-
-
-
-//=============================================================================
-//      IRGeometry_Transparent_Draw : Draw the transparent primitives.
-//-----------------------------------------------------------------------------
-void
-IRGeometry_Transparent_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
-{	TQ3Uns32	n;
-
-
-
-	// Draw the transparent primitives, if any
-	//
-	// We don't release the memory used by the cache, as the chances are we'll need
-	// it again on the next frame.
-	if (instanceData->transparentPrimUsed != 0)
-		{
-		// Sort the array
-		qsort(instanceData->transparentPrims,
-			  instanceData->transparentPrimUsed,
-			  sizeof(TQ3TransparentPrim),
-			  ir_geom_transparent_sort);
-
-
-
-		// Reset the local to world matrix, to make sure that we undo any
-		// transform that was active when the rendering loop ended. We need
-		// to do this since the primitives have already been transformed
-		// into world coordinates, so we don't want to transform them twice.
-		//
-		// We can also turn off GL_NORMALIZE, since the vertex normals are
-		// normalized when we transform them into world coordinates.
-		Q3ResetTransform_Submit(theView);
-		glDisable(GL_NORMALIZE);
-
-
-
-		// Enable blending and turn off writes to the z-buffer
-	    glEnable(GL_BLEND);
-		glDepthMask(GL_FALSE);
-
-
-
-		// Draw the primitives
-		for (n = 0; n < instanceData->transparentPrimUsed; n++)
-			{
-			// Select the appropriate blend mode: the primitive is either
-			// transparent due to its texture, or due to vertex alpha.
-			if (instanceData->transparentPrims[n].textureIsTransparent)
-				glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-			else
-			    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
-			// Render the primitive
-			ir_geom_transparent_render(&instanceData->transparentPrims[n]);
-			}
-
-
-
-		// Restore the OpenGL state, and mark the cache as empty
-		glDepthMask(GL_TRUE);
-	    glDisable(GL_BLEND);
-
-		instanceData->transparentPrimUsed = 0;
-		}
-}
-
-
-
-
-
-//=============================================================================
-//      IRGeometry_Transparent_Add : Add a transparent primitive.
-//-----------------------------------------------------------------------------
-TQ3Status
-IRGeometry_Transparent_Add(TQ3ViewObject			theView,
+static TQ3Status
+ir_geom_transparent_add(TQ3ViewObject				theView,
 							TQ3InteractiveData		*instanceData,
-							TQ3PrimType				theType,
-							TQ3PrimFlags			theFlags,
-							TQ3Uns32				numVerts,
-							const TQ3Point3D		**thePoints,
-							const TQ3Vector3D		**theNormals,
-							const TQ3Param2D		**theUVs,
-							const TQ3ColorRGB		**colourDiffuse,
-							const TQ3ColorRGB		**colourTransparent)
-{	TQ3Matrix4x4			localToWorld;
-	TQ3Matrix4x4			worldToFrustum;
+							UInt32					numVerts,
+							const TQ3FVertex3D		*theVertices)
+{	TQ3Matrix4x4			localToWorld, worldToFrustum;
+	TQ3Point3D				frustumPoints[3];
 	float					z1, z2, z3;
+	TQ3FVertex3D			*theVertex;
+	TQ3FVertexFlags			vertFlags;
 	TQ3TransparentPrim		*thePrim;
 	TQ3Uns32				n;
-	TQ3Point3D				frustPts[3];
 
 
 
-	// Allocate a primitive to save the details into
-	thePrim = ir_geom_transparent_allocate(instanceData);
+	// Validate our parameters
+	for (n = 0; n < numVerts; n++)
+		Q3_ASSERT(theVertices[0].theFlags == theVertices[n].theFlags);
+
+	Q3_ASSERT(E3Bit_IsSet(theVertices[0].theFlags, kQ3FVertexHaveTransparency));
+
+
+
+	// Allocate another primitive
+	thePrim = (TQ3TransparentPrim *) Q3SlabMemory_AppendData(instanceData->transBufferSlab, 1, NULL);
 	if (thePrim == NULL)
 		return(kQ3Failure);
 
 
 
 	// Initialise ourselves
-	Q3View_GetLocalToWorldMatrixState(theView, &localToWorld);
+	Q3View_GetLocalToWorldMatrixState(  theView, &localToWorld);
 	Q3View_GetWorldToFrustumMatrixState(theView, &worldToFrustum);
 
 
 
 	// Set up the primitive state
-	thePrim->theType              = theType;
-	thePrim->theFlags             = theFlags;
+	thePrim->numVerts             = numVerts;
 	thePrim->theTexture           = instanceData->stateTextureObject;
 	thePrim->textureIsTransparent = instanceData->stateTextureIsTransparent;
 	thePrim->orientationStyle	  = instanceData->stateOrientation;
 	thePrim->fillStyle			  = instanceData->stateFill;
 	thePrim->backfacingStyle	  = instanceData->stateBackfacing;
 
-	// Set up the primitive data
+
+
+	// Set up the primitive vertices
+	Q3Memory_Copy(theVertices, thePrim->theVertices, numVerts * sizeof(TQ3FVertex3D));
+
+	theVertex = thePrim->theVertices;
+	vertFlags = theVertex->theFlags;
+	
 	for (n = 0; n < numVerts; n++)
 		{
-		// Initialise the normal, if present (possible optimisation, if the
-		// normals were obtained from the triangle normal then perhaps just
-		// transform and normalise once?).
+		// Set up the point
 		//
-		// Note that we _must_ store normalised normals at this point, since
-		// GL_NORMALIZE will be turned off at this point (since no transform
-		// is in effect, which is what we use to decide when to turn it on).
-		if (theFlags & kQ3PrimHaveNormal)
+		// We transform to world coordinates for rendering, and to frustum
+		// coordinates for depth-sorting the primitive.
+		Q3Point3D_Transform(&theVertex->thePoint, &localToWorld,   &theVertex->thePoint);
+		Q3Point3D_Transform(&theVertex->thePoint, &worldToFrustum, &frustumPoints[n]);
+
+
+		// Set up the normal
+		//
+		// We transform the normal to world coordinates, then normalise.
+		if (E3Bit_IsSet(vertFlags, kQ3FVertexHaveNormal))
 			{
-			Q3Vector3D_Transform(theNormals[n], &localToWorld, &thePrim->theNormals[n]);
-			Q3Vector3D_Normalize(&thePrim->theNormals[n], &thePrim->theNormals[n]);
+			Q3Vector3D_Transform(&theVertex->theNormal, &localToWorld, &theVertex->theNormal);
+			Q3Vector3D_Normalize(&theVertex->theNormal, &theVertex->theNormal);
 			}
 		
-		
-		
-		// Initialise the UVs, if present
-		if (theFlags & kQ3PrimHaveUV)
-			thePrim->theUVs[n] = *theUVs[n];
-
-
-
-		// Initialise the colour, if present, falling back to white if not
-		if (colourDiffuse[n] != NULL)
-			Q3ColorARGB_Set(&thePrim->theColours[n],
-							1.0f,
-							colourDiffuse[n]->r,
-							colourDiffuse[n]->g,
-							colourDiffuse[n]->b);
-		else
-			Q3ColorARGB_Set(&thePrim->theColours[n], 1.0f, 1.0f, 1.0f, 1.0f);
-		
-		
-		
-		// Initialise the transparency colour
-		thePrim->theColours[n].a = (colourTransparent[n]->r +
-									colourTransparent[n]->g +
-									colourTransparent[n]->b) * 0.33333333f;
-
-		thePrim->theColours[n].a = E3Num_Max(0.0f, (E3Num_Min(thePrim->theColours[n].a, 1.0f)));
-
-
-
-		// Project the vertex to world coordinates
-		Q3Point3D_Transform(thePoints[n], &localToWorld, &thePrim->thePoints[n]);
+		theVertex++;
 		}
 
-
-	// Compute points in frustum coordinates for depth sorting
-	for (n = 0; n < E3Num_Min(3, numVerts); ++n)
-		{
-		Q3Point3D_Transform(thePoints[n], &worldToFrustum, &frustPts[n]);
-		}
 
 
 	// Set up the primitive bounds in z
-	z1 =                   (-frustPts[0].z);
-	z2 = (numVerts >= 2) ? (-frustPts[1].z) : z1;
-	z3 = (numVerts >= 3) ? (-frustPts[2].z) : z1;
+	z1 =                   (-frustumPoints[0].z);
+	z2 = (numVerts >= 2) ? (-frustumPoints[1].z) : z1;
+	z3 = (numVerts >= 3) ? (-frustumPoints[2].z) : z1;
 
 	thePrim->zMin = E3Num_Min(z1, E3Num_Min(z2, z3));
 	thePrim->zMax = E3Num_Max(z1, E3Num_Max(z2, z3));
@@ -503,65 +335,143 @@ IRGeometry_Transparent_Add(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      IRGeometry_Transparent_AddTriangle : Add a transparent triangle.
+//      Public functions
+//-----------------------------------------------------------------------------
+//      IRTransBuffer_Initialize : Initialise the transparency buffer.
+//-----------------------------------------------------------------------------
+#pragma mark -
+TQ3Status
+IRTransBuffer_Initialize(TQ3InteractiveData *instanceData)
+{
+
+
+	// Initialise our state
+	instanceData->transBufferSlab = Q3SlabMemory_New(sizeof(TQ3TransparentPrim), 0, NULL);
+	if (instanceData->transBufferSlab == NULL)
+		return(kQ3Failure);
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      IRTransBuffer_Terminate : Terminate the transparency buffer.
+//-----------------------------------------------------------------------------
+void
+IRTransBuffer_Terminate(TQ3InteractiveData *instanceData)
+{
+
+
+	// Release our state
+	Q3Object_CleanDispose(&instanceData->transBufferSlab);
+}
+
+
+
+
+
+//=============================================================================
+//      IRTransBuffer_StartPass : Start a frame.
+//-----------------------------------------------------------------------------
+void
+IRTransBuffer_StartPass(TQ3InteractiveData *instanceData, TQ3CameraObject theCamera)
+{
+
+
+	// Record the type of camera we have
+	instanceData->cameraIsOrtho = (Q3Camera_GetType(theCamera) == kQ3CameraTypeOrthographic);
+}
+
+
+
+
+
+//=============================================================================
+//      IRTransBuffer_Draw : Draw the transparent primitives.
+//-----------------------------------------------------------------------------
+void
+IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
+{	TQ3Uns32				n, numPrims;
+	TQ3TransparentPrim		*thePrims;
+
+
+
+	// Draw the transparent primitives
+	numPrims = Q3SlabMemory_GetCount(instanceData->transBufferSlab);
+	if (numPrims != 0)
+		{
+		// Get the primitives, and sort them
+		thePrims = (TQ3TransparentPrim *) Q3SlabMemory_GetData( instanceData->transBufferSlab, 0);
+		qsort(thePrims, numPrims, sizeof(TQ3TransparentPrim), ir_geom_transparent_sort);
+
+
+
+		// Update the OpenGL state
+		//
+		// We need to clear any transform which was active when the rendering loop
+		// ended, since transparent primitives have already been transformed into
+		// world coordinates.
+		//
+		// Vertex normals have also been normalized, so we can turn off GL_NORMALIZE.
+		//
+		// We also enable blending and turn off writes to the depth buffer.
+		Q3ResetTransform_Submit(theView);
+		glDisable(GL_NORMALIZE);
+	    glEnable(GL_BLEND);
+		glDepthMask(GL_FALSE);
+
+
+
+		// Draw the primitives
+		for (n = 0; n < numPrims; n++)
+			{
+			// Select the appropriate blending function
+			//
+			// Primitives can be transparent due to a texture or their vertex alpha.
+			if (thePrims[n].textureIsTransparent)
+				glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+			else
+			    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+			// Render the primitive
+			ir_geom_transparent_render(&thePrims[n]);
+			}
+		
+		
+		
+		// Reset the OpenGL state
+		glDepthMask(GL_TRUE);
+	    glDisable(GL_BLEND);
+	    
+	    
+	    
+	    // Empty the cache
+	    Q3SlabMemory_SetCount(instanceData->transBufferSlab, 0);
+		}
+}
+
+
+
+
+
+//=============================================================================
+//      IRTransBuffer_AddTriangle : Add a transparent triangle.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_Transparent_AddTriangle(TQ3ViewObject			theView,
-									TQ3InteractiveData		*instanceData,
-									const TQ3FVertex3D		*vertex0,
-									const TQ3FVertex3D		*vertex1,
-									const TQ3FVertex3D		*vertex2)
-{	const TQ3ColorRGB	*colourTransparency[3];
-	const TQ3ColorRGB	*colourDiffuse[3];
-	const TQ3Vector3D	*theNormals[3];
-	const TQ3Point3D	*thePoints[3];
-	const TQ3Param2D	*theUVs[3];
-	TQ3Status			qd3dStatus;
-	TQ3PrimFlags		theFlags;
-
-
-
-	// Set up our data
-	thePoints[0] = &vertex0->thePoint;
-	thePoints[1] = &vertex1->thePoint;
-	thePoints[2] = &vertex2->thePoint;
-
-	theNormals[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal) ? &vertex0->theNormal : NULL;
-	theNormals[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveNormal) ? &vertex1->theNormal : NULL;
-	theNormals[2] = E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveNormal) ? &vertex2->theNormal : NULL;
-
-	theUVs[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV) ? &vertex0->theUV : NULL;
-	theUVs[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveUV) ? &vertex1->theUV : NULL;
-	theUVs[2] = E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveUV) ? &vertex2->theUV : NULL;
-
-	colourDiffuse[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveDiffuse) ? &vertex0->colourDiffuse : NULL;
-	colourDiffuse[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveDiffuse) ? &vertex1->colourDiffuse : NULL;
-	colourDiffuse[2] = E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveDiffuse) ? &vertex2->colourDiffuse : NULL;
-
-	colourTransparency[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveTransparency) ? &vertex0->colourTransparency : NULL;
-	colourTransparency[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveTransparency) ? &vertex1->colourTransparency : NULL;
-	colourTransparency[2] = E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveTransparency) ? &vertex2->colourTransparency : NULL;
-
-	theFlags = kQ3PrimFlagNone;
-
-	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal) &&
-		E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveNormal) &&
-		E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveNormal))
-		theFlags |= kQ3PrimHaveNormal;	
-
-	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV) &&
-		E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveUV) &&
-		E3Bit_IsSet(vertex2->theFlags, kQ3FVertexHaveUV))
-		theFlags |= kQ3PrimHaveUV;	
+IRTransBuffer_AddTriangle(TQ3ViewObject			theView,
+							TQ3InteractiveData	*instanceData,
+							const TQ3FVertex3D	*theVertices)
+{	TQ3Status	qd3dStatus;
 
 
 
 	// Add the triangle
-	qd3dStatus = IRGeometry_Transparent_Add(theView, instanceData,
-											kQ3PrimTriangle, theFlags,   3,
-											thePoints,       theNormals, theUVs,
-											colourDiffuse,   colourTransparency);
-	
+	qd3dStatus = ir_geom_transparent_add(theView, instanceData, 3, theVertices);
+
 	return(qd3dStatus);
 }
 
@@ -570,57 +480,19 @@ IRGeometry_Transparent_AddTriangle(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      IRGeometry_Transparent_AddLine : Add a transparent line.
+//      IRTransBuffer_AddLine : Add a transparent line.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_Transparent_AddLine(TQ3ViewObject			theView,
-								TQ3InteractiveData		*instanceData,
-								const TQ3FVertex3D		*vertex0,
-								const TQ3FVertex3D		*vertex1)
-{	const TQ3ColorRGB	*colourTransparency[2];
-	const TQ3ColorRGB	*colourDiffuse[2];
-	const TQ3Vector3D	*theNormals[2];
-	const TQ3Point3D	*thePoints[2];
-	const TQ3Param2D	*theUVs[2];
-	TQ3Status			qd3dStatus;
-	TQ3PrimFlags		theFlags;
-
-
-
-	// Set up our data
-	thePoints[0] = &vertex0->thePoint;
-	thePoints[1] = &vertex1->thePoint;
-
-	theNormals[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal) ? &vertex0->theNormal : NULL;
-	theNormals[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveNormal) ? &vertex1->theNormal : NULL;
-
-	theUVs[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV) ? &vertex0->theUV : NULL;
-	theUVs[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveUV) ? &vertex1->theUV : NULL;
-
-	colourDiffuse[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveDiffuse) ? &vertex0->colourDiffuse : NULL;
-	colourDiffuse[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveDiffuse) ? &vertex1->colourDiffuse : NULL;
-
-	colourTransparency[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveTransparency) ? &vertex0->colourTransparency : NULL;
-	colourTransparency[1] = E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveTransparency) ? &vertex1->colourTransparency : NULL;
-
-	theFlags = kQ3PrimFlagNone;
-
-	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal) &&
-		E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveNormal))
-		theFlags |= kQ3PrimHaveNormal;	
-
-	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV) &&
-		E3Bit_IsSet(vertex1->theFlags, kQ3FVertexHaveUV))
-		theFlags |= kQ3PrimHaveUV;	
+IRTransBuffer_AddLine(TQ3ViewObject			theView,
+						TQ3InteractiveData	*instanceData,
+						const TQ3FVertex3D	*theVertices)
+{	TQ3Status	qd3dStatus;
 
 
 
 	// Add the line
-	qd3dStatus = IRGeometry_Transparent_Add(theView, instanceData,
-											kQ3PrimLine,   theFlags,   2,
-											thePoints,     theNormals, theUVs,
-											colourDiffuse, colourTransparency);
-	
+	qd3dStatus = ir_geom_transparent_add(theView, instanceData, 2, theVertices);
+
 	return(qd3dStatus);
 }
 
@@ -629,49 +501,19 @@ IRGeometry_Transparent_AddLine(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      IRGeometry_Transparent_AddPoint : Add a transparent point.
+//      IRTransBuffer_AddPoint : Add a transparent point.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_Transparent_AddPoint(TQ3ViewObject			theView,
-								TQ3InteractiveData		*instanceData,
-								const TQ3FVertex3D		*vertex0)
-{	const TQ3ColorRGB	*colourTransparency[1];
-	const TQ3ColorRGB	*colourDiffuse[1];
-	const TQ3Vector3D	*theNormals[1];
-	const TQ3Point3D	*thePoints[1];
-	const TQ3Param2D	*theUVs[1];
-	TQ3Status			qd3dStatus;
-	TQ3PrimFlags		theFlags;
+IRTransBuffer_AddPoint(TQ3ViewObject		theView,
+						TQ3InteractiveData	*instanceData,
+						const TQ3FVertex3D	*theVertex)
+{	TQ3Status	qd3dStatus;
 
 
 
-	// Set up our data
-	thePoints[0] = &vertex0->thePoint;
+	// Add the point
+	qd3dStatus = ir_geom_transparent_add(theView, instanceData, 1, theVertex);
 
-	theNormals[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal) ? &vertex0->theNormal : NULL;
-
-	theUVs[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV) ? &vertex0->theUV : NULL;
-
-	colourDiffuse[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveDiffuse) ? &vertex0->colourDiffuse : NULL;
-
-	colourTransparency[0] = E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveTransparency) ? &vertex0->colourTransparency : NULL;
-
-	theFlags = kQ3PrimFlagNone;
-
-	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveNormal))
-		theFlags |= kQ3PrimHaveNormal;	
-
-	if (E3Bit_IsSet(vertex0->theFlags, kQ3FVertexHaveUV))
-		theFlags |= kQ3PrimHaveUV;	
-
-
-
-	// Add the line
-	qd3dStatus = IRGeometry_Transparent_Add(theView, instanceData,
-											kQ3PrimPoint,  theFlags,   1,
-											thePoints,     theNormals, theUVs,
-											colourDiffuse, colourTransparency);
-	
 	return(qd3dStatus);
 }
 

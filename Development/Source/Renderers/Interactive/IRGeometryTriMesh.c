@@ -487,11 +487,9 @@ ir_geom_trimesh_add_transparent(TQ3VertexArray *vertexArray, TQ3Uns32 numVerts, 
 
 	// And submit the appropriate object
 	if (numVerts == 2)
-		IRGeometry_Transparent_AddLine(vertexArray->theView, vertexArray->instanceData,
-									   &theVertices[0], &theVertices[1]);
+		IRTransBuffer_AddLine(vertexArray->theView, vertexArray->instanceData, theVertices);
 	else
-		IRGeometry_Transparent_AddTriangle(vertexArray->theView, vertexArray->instanceData,
-										   &theVertices[0], &theVertices[1], &theVertices[2]);
+		IRTransBuffer_AddTriangle(vertexArray->theView, vertexArray->instanceData, theVertices);
 }
 
 
@@ -1026,9 +1024,10 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 	TQ3Uns32					offIndices, offTriFlags, offTriNormals;
 	TQ3Uns32					n, numIndices, requiredSize;
 	TQ3TriMeshAttributeData		*theAttribute;
-	TQ3Status					qd3dStatus;
 	TQ3Boolean					renderEdges;
-
+	TQ3Status					qd3dStatus;
+	TQ3FVertex3D				tmpFVertex;
+	TQ3Vertex3D					tmpVertex;
 
 
 	// Calculate our basic triangle/edge values
@@ -1078,13 +1077,17 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 
 
 	// Set up the misc/geometry state
-	vertexArray->renderEdges     = renderEdges;
-	vertexArray->stateBackfacing = instanceData->stateBackfacing;
-	vertexArray->geomIsHilighted = (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL);
-	vertexArray->geomNeedsUVs    = (instanceData->stateTextureActive             && !vertexArray->renderEdges);
+	tmpVertex.attributeSet = geomAttributes;
+	IRGeometry_Vertex_GetState(instanceData, &tmpVertex, &tmpFVertex);
+	if (!E3Bit_IsSet(tmpFVertex.theFlags, kQ3FVertexHaveTransparency))
+		Q3ColorRGB_Set(&tmpFVertex.colourTransparency, 1.0f, 1.0f, 1.0f);
 
-	vertexArray->geomDiffuse           = *IRGeometry_Attribute_GetDiffuse(    instanceData, geomAttributes);
-	vertexArray->geomTransparency      = *IRGeometry_Attribute_GetTransparent(instanceData, geomAttributes);
+	vertexArray->renderEdges           = renderEdges;
+	vertexArray->stateBackfacing       = instanceData->stateBackfacing;
+	vertexArray->geomIsHilighted       = (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL);
+	vertexArray->geomNeedsUVs          = (instanceData->stateTextureActive             && !vertexArray->renderEdges);
+	vertexArray->geomDiffuse           = tmpFVertex.colourDiffuse;
+	vertexArray->geomTransparency      = tmpFVertex.colourTransparency;
 	vertexArray->geomFinalDiffuse      = vertexArray->geomDiffuse;
 	vertexArray->geomFinalTransparency = vertexArray->geomTransparency;
 
@@ -1389,7 +1392,7 @@ IRGeometry_TriMesh_Terminate(TQ3InteractiveData *instanceData)
 
 
 //=============================================================================
-//      IRGeometry_TriMesh : TriMesh handler.
+//      IRGeometry_Submit_TriMesh : TriMesh handler.
 //-----------------------------------------------------------------------------
 //		Note :	We attempt to use a single glDrawElements call to draw the
 //				TriMesh, and set up our vertex array pointers to either the
@@ -1405,10 +1408,10 @@ IRGeometry_TriMesh_Terminate(TQ3InteractiveData *instanceData)
 //				view of the vertices they used - deferred for now.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_TriMesh(TQ3ViewObject			theView,
-					TQ3InteractiveData		*instanceData,
-					TQ3GeometryObject		theGeom,
-					TQ3TriMeshData			*geomData)
+IRGeometry_Submit_TriMesh(TQ3ViewObject				theView,
+							TQ3InteractiveData		*instanceData,
+							TQ3GeometryObject		theGeom,
+							TQ3TriMeshData			*geomData)
 {	TQ3Boolean			hadAttributeTexture;
 	TQ3VertexArray		vertexArray;
 	TQ3Status			qd3dStatus;

@@ -46,23 +46,6 @@
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Primitive types
-typedef enum {
-	kQ3PrimNone									= 0,
-	kQ3PrimTriangle								= 1,
-	kQ3PrimLine									= 2,
-	kQ3PrimPoint								= 3
-} TQ3PrimType;
-
-
-// Primitive flags
-typedef enum {
-	kQ3PrimFlagNone								= 0,
-	kQ3PrimHaveNormal							= (1 << 0),
-	kQ3PrimHaveUV								= (1 << 1)
-} TQ3PrimFlags;
-
-
 // Triangle flags
 typedef enum {
 	kQ3TriFlagNone								= 0,
@@ -102,23 +85,16 @@ typedef struct TQ3FVertex3D {
 
 // Transparent primitive data
 typedef struct TQ3TransparentPrim {
-	// State
-	TQ3PrimType				theType;
-	TQ3PrimFlags			theFlags;
-	GLuint					theTexture;
-	TQ3Boolean				textureIsTransparent;
+	TQ3Uns32				numVerts;
+	TQ3FVertex3D			theVertices[3];
 	float					zMin;
 	float					zMax;
+
+	GLuint					theTexture;
+	TQ3Boolean				textureIsTransparent;
 	TQ3OrientationStyle		orientationStyle;
 	TQ3FillStyle			fillStyle;
 	TQ3BackfacingStyle		backfacingStyle;
-
-
-	// Data
-	TQ3Point3D				thePoints[3];
-	TQ3ColorARGB			theColours[3];
-	TQ3Vector3D				theNormals[3];
-	TQ3Param2D				theUVs[3];
 } TQ3TransparentPrim;
 
 
@@ -160,10 +136,8 @@ typedef struct TQ3InteractiveData {
 	TQ3Boolean				cameraIsOrtho;
 
 
-	// Transparent prim state
-	TQ3Uns32				transparentPrimCount;
-	TQ3Uns32				transparentPrimUsed;
-	TQ3TransparentPrim		*transparentPrims;
+	// Transparency buffer state
+	TQ3SlabObject			transBufferSlab;
 
 
 	// Geometry state

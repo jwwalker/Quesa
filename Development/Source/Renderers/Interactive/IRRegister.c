@@ -82,7 +82,9 @@ ir_interactive_new(TQ3Object theObject, void *privateData, void *paramData)
 
 
 	// Initialise the renderer
-	qd3dStatus = IRTriBuffer_Initialize(instanceData);
+	qd3dStatus = IRTransBuffer_Initialize(instanceData);
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = IRTriBuffer_Initialize(instanceData);
 
 	return(qd3dStatus);
 }
@@ -105,7 +107,7 @@ ir_interactive_delete(TQ3Object theObject, void *privateData)
 	IRTriBuffer_Terminate(instanceData);
 	IRRenderer_Texture_Terminate(instanceData);
 	IRGeometry_Terminate(instanceData);
-	IRGeometry_Transparent_Terminate(instanceData);
+	IRTransBuffer_Terminate(instanceData);
 	IRGeometry_TriMesh_Terminate(instanceData);
 
 
@@ -132,32 +134,32 @@ ir_interactive_geom(TQ3XMethodType methodType)
 	switch (methodType) {
 		// Required
 		case kQ3GeometryTypeTriangle:
-			theMethod = (TQ3XFunctionPointer) IRGeometry_Triangle;
+			theMethod = (TQ3XFunctionPointer) IRGeometry_Submit_Triangle;
 			break;
 
 		case kQ3GeometryTypeLine:
-			theMethod = (TQ3XFunctionPointer) IRGeometry_Line;
+			theMethod = (TQ3XFunctionPointer) IRGeometry_Submit_Line;
 			break;
 
 		case kQ3GeometryTypePoint:
-			theMethod = (TQ3XFunctionPointer) IRGeometry_Point;
+			theMethod = (TQ3XFunctionPointer) IRGeometry_Submit_Point;
 			break;
 
 		case kQ3GeometryTypeMarker:
-			theMethod = (TQ3XFunctionPointer) IRGeometry_Marker;
+			theMethod = (TQ3XFunctionPointer) IRGeometry_Submit_Marker;
 			break;
 
 		case kQ3GeometryTypePixmapMarker:
-			theMethod = (TQ3XFunctionPointer) IRGeometry_PixmapMarker;
+			theMethod = (TQ3XFunctionPointer) IRGeometry_Submit_PixmapMarker;
 			break;
 
 		// Optional
 		case kQ3GeometryTypePolyLine:
-			theMethod = (TQ3XFunctionPointer) IRGeometry_PolyLine;
+			theMethod = (TQ3XFunctionPointer) IRGeometry_Submit_PolyLine;
 			break;
 
 		case kQ3GeometryTypeTriMesh:
-			theMethod = (TQ3XFunctionPointer) IRGeometry_TriMesh;
+			theMethod = (TQ3XFunctionPointer) IRGeometry_Submit_TriMesh;
 			break;
 		}
 	
