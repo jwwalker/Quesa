@@ -468,6 +468,25 @@ e3style_hilight_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 
 
 
+
+//=============================================================================
+//      e3style_hilight_delete : Highlight style delete method.
+//-----------------------------------------------------------------------------
+static void
+e3style_hilight_delete(TQ3Object theObject, void *privateData)
+{
+	TQ3AttributeSet		theAttSet = *(TQ3AttributeSet*)privateData;
+	if (theAttSet != NULL)
+	{
+		Q3_ASSERT( Q3Object_IsType( theAttSet, kQ3SetTypeAttribute ) );
+		Q3Object_Dispose( theAttSet );
+	}
+}
+
+
+
+
+
 //=============================================================================
 //      e3style_hilight_metahandler : Hilight metahandler.
 //-----------------------------------------------------------------------------
@@ -479,6 +498,10 @@ e3style_hilight_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3style_hilight_delete;
+			break;
+		
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
