@@ -384,35 +384,32 @@ E3FileFormat_GenericReadBinSwap_64(TQ3FileFormatObject format, TQ3Int64* data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FileFormat_GenericReadText_SkipBlanks(TQ3FileFormatObject format)
-{
-	char buffer;
-
-	TQ3Uns32 sizeRead = 0;
-	TQ3Status result = kQ3Failure;
-	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) format->instanceData;
+{	TQ3FFormatBaseData			*instanceData = (TQ3FFormatBaseData *) format->instanceData;
+	TQ3Status					result        = kQ3Success;
+	TQ3Uns32					sizeRead      = 0;
 	TQ3XStorageReadDataMethod	dataRead;
-
-	dataRead = (TQ3XStorageReadDataMethod)
-					E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageReadData);
-
-	if( dataRead != NULL)
-		do{
-			result = dataRead(instanceData->storage,
-							instanceData->currentStoragePosition,
-							1, (TQ3Uns8 *)&buffer, &sizeRead);
-			
-			if( (buffer <= 0x20) ||
-				(buffer == 0x7F) 
-				)
-				instanceData->currentStoragePosition++;
-			else
-				break;
-			
-			}
-		while((result == kQ3Success) && (instanceData->currentStoragePosition <= instanceData->logicalEOF));
+	char						buffer;
 
 
-	return result;							 
+
+	// Get the read method
+	dataRead = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageReadData);
+	if (dataRead == NULL)
+		return(kQ3Failure);
+
+
+
+	// Skip until we find the end of the file or a non-blank character
+	while (result == kQ3Success && instanceData->currentStoragePosition < instanceData->logicalEOF)
+		{
+		result = dataRead(instanceData->storage, instanceData->currentStoragePosition, 1, (TQ3Uns8 *)&buffer, &sizeRead);
+		if (buffer <= 0x20 || buffer == 0x7F) 
+			instanceData->currentStoragePosition++;
+		else
+			break;
+		}
+
+	return(result);							 
 }
 
 
