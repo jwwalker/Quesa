@@ -704,7 +704,7 @@ E3Exit(void)
 	
 	#if Q3_DEBUG
 		// Reset leak-checking globals to initial state
-		Q3Memory_Free( &theGlobals->listHead );
+		E3Object_DisposeAndForget( theGlobals->listHead );
 		theGlobals->isLeakChecking = kQ3False;
 	#endif
 
