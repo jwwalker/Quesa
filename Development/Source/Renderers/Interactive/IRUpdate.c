@@ -61,7 +61,14 @@
 //		Note : Cute trick found in:
 //			   http://web2.airmail.net/sjbaker1/software/cute_code.html
 //-----------------------------------------------------------------------------
-#define ir_state_is_power_of_2(_x)			(((_x) & ((_x) - 1)) == 0)
+static TQ3Boolean
+ir_state_is_power_of_2(TQ3Uns32 x)
+{
+
+
+	// Return as x is a power of 2
+	return((TQ3Boolean) ((x & (x - 1)) == 0));
+}
 
 
 
