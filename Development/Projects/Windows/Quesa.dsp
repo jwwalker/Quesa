@@ -316,6 +316,10 @@ SOURCE=..\..\Source\Core\Support\E3System.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\Source\Core\Support\E3Tessellate.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Source\Core\Support\E3Utils.c
 # End Source File
 # End Group

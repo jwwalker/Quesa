@@ -143,6 +143,7 @@ QUESA_OBJS = ${OBJ}${GLUE}/QD3DCamera.o                   \
              ${OBJ}${SUPPORT}/E3HashTable.o               \
              ${OBJ}${SUPPORT}/E3Pool.o                    \
              ${OBJ}${SUPPORT}/E3System.o                  \
+             ${OBJ}${SUPPORT}/E3Tessellate.o              \
              ${OBJ}${SUPPORT}/E3Utils.o                   \
              ${OBJ}${GEOMETRY}/E3Geometry.o               \
              ${OBJ}${GEOMETRY}/E3GeometryBox.o            \
@@ -376,6 +377,9 @@ ${OBJ}${SUPPORT}/E3Pool.o: ${SRC}${SUPPORT}/E3Pool.c
 	$(COMPILE)
 
 ${OBJ}${SUPPORT}/E3System.o: ${SRC}${SUPPORT}/E3System.c
+	$(COMPILE)
+
+${OBJ}${SUPPORT}/E3Tessellate.o: ${SRC}${SUPPORT}/E3Tessellate.c
 	$(COMPILE)
 
 ${OBJ}${SUPPORT}/E3Utils.o: ${SRC}${SUPPORT}/E3Utils.c
