@@ -206,12 +206,12 @@ Q3Error_Get(TQ3Error *firstError)
 
 
 	// Call the bottleneck, saving the state around it
-	saveState                    = theGlobals->errMgrClearError;
-	theGlobals->errMgrClearError = kQ3False;
+	saveState                    = theGlobals->errMgrNeedsClearing;
+	theGlobals->errMgrNeedsClearing = kQ3False;
 
 	E3System_Bottleneck();
 	
-	theGlobals->errMgrClearError = saveState;
+	theGlobals->errMgrNeedsClearing = saveState;
 
 
 
