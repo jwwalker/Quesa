@@ -75,14 +75,6 @@ void				E3FFW_3DMF_Cancel(
 TQ3Status			E3FFW_3DMF_Close( TQ3FileFormatObject format, TQ3Boolean abort );
 
 TQ3Status
-E3FFW_3DMF_WriteObject(TQ3ViewObject			theView,
-					TE3FFormatW3DMF_Data		*fileFormatPrivate,
-					TQ3Object		theObject,
-					TQ3ObjectType	objectType,
-					const void		*objectData);
-
-
-TQ3Status
 E3FFW_3DMF_Group(TQ3ViewObject       theView,
 						void                *fileFormatPrivate,
 						TQ3GroupObject   theGroup,
