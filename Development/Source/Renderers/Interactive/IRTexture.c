@@ -1532,10 +1532,10 @@ IRRenderer_Texture_ConvertSize(TQ3Uns32			srcWidth,
 
 
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxGLSize);
-	Q3_REQUIRE_OR_RESULT(!ir_texture_is_power_of_2(srcWidth) ||
+	Q3_REQUIRE_OR_RESULT(!ir_texture_is_power_of_2(srcWidth)  ||
 						 !ir_texture_is_power_of_2(srcHeight) ||
-						 (srcWidth > maxGLSize) ||
-						 (srcHeight > maxGLSize), NULL);
+						 (srcWidth  > (TQ3Uns32) maxGLSize)   ||
+						 (srcHeight > (TQ3Uns32) maxGLSize), NULL);
 
 
 
@@ -1660,8 +1660,10 @@ IRRenderer_Texture_ConvertImage(TQ3StorageObject	theStorage,
 
 	// If the image isn't a power of 2 in size or is too big, we also need to resize it		
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &maxTxSize );
-	if (!ir_texture_is_power_of_2(srcWidth) || !ir_texture_is_power_of_2(srcHeight) ||
-		(srcWidth > maxTxSize) || (srcHeight > maxTxSize) )
+	if (!ir_texture_is_power_of_2(srcWidth)  ||
+		!ir_texture_is_power_of_2(srcHeight) ||
+		srcWidth  > (TQ3Uns32) maxTxSize     ||
+		srcHeight > (TQ3Uns32) maxTxSize)
 		{
 		// Resize the image
 		sizeBasePtr = IRRenderer_Texture_ConvertSize(srcWidth, srcHeight, srcRowBytes, depthBasePtr,

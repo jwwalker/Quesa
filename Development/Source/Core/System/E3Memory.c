@@ -251,6 +251,10 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 			Q3Memory_Free( thePtr );
 			}
 	#else
+		// Suppress compiler warning
+		oldSize; copySize;
+
+
 		// Or just reallocate with realloc
 		newPtr = realloc(realPtr, newSize);
 	#endif
