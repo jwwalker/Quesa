@@ -177,13 +177,14 @@ ir_texture_convert_pixmap(TQ3TextureObject theTexture)
 
 
 
-	// Pass the image to OpenGL
+	// Pass the image to OpenGL - Generate mipmaps as per QD3D 1.6
 	if (basePtr != NULL)
-		glTexImage2D(GL_TEXTURE_2D, 0,						// Mip map level
-						glPixelType,						// Requested final size of texture
-						theWidth, theHeight, 0,				// Size of texture and border
-						GL_RGBA, GL_UNSIGNED_BYTE,			// Format of input texture
-						basePtr);							// Input texture
+		gluBuild2DMipmaps(GL_TEXTURE_2D,
+							glPixelType,					// Requested final size of texture
+							theWidth, theHeight,			// Size of texture (mip 0)
+							GL_RGBA, GL_UNSIGNED_BYTE,		// Format of input texture
+							basePtr);						// Input texture
+
 
 
 
@@ -333,11 +334,11 @@ ir_texture_convert_compressed_pixmap(TQ3TextureObject theTexture)
 //=============================================================================
 //      ir_texture_convert_rave_filter : Convert the RAVE texture filter.
 //-----------------------------------------------------------------------------
-static GLuint
+static TQ3QualityFilter
 ir_texture_convert_rave_filter(TQ3ViewObject theView)
 {	TQ3RendererObject	theRenderer;
 	TQ3TextureFilter	raveFilter;
-
+	TQ3QualityFilter	oglFilter;
 
 
 	// Grab the RAVE filter value
@@ -352,10 +353,24 @@ ir_texture_convert_rave_filter(TQ3ViewObject theView)
 
 
 	// And return the appropriate GL filter value
-	if (raveFilter == kQATextureFilter_Fast)
-		return(GL_NEAREST);
+	switch (raveFilter) {
+		case kQATextureFilter_Fast:
+			oglFilter.magFilter = GL_NEAREST;
+			oglFilter.minFilter = GL_NEAREST;
+			break;
+			
+		case kQATextureFilter_Best:
+			oglFilter.magFilter = GL_LINEAR;
+			oglFilter.minFilter = GL_LINEAR_MIPMAP_LINEAR;		
+			break;
+
+		default:// kQATextureFilter_Mid default to bilinear, equivalent to QD3D 1.6
+			oglFilter.magFilter = GL_LINEAR;
+			oglFilter.minFilter = GL_LINEAR_MIPMAP_NEAREST;
+			break;
+		}
 	
-	return(GL_LINEAR);
+	return oglFilter;
 }
 
 
@@ -434,8 +449,8 @@ ir_texture_set_state(TQ3InteractiveData *instanceData, TQ3CachedTexture *cachedT
 		glEnvMode = GL_MODULATE;
 	
 	glTexEnvi(      GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,   glEnvMode);
-	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MAG_FILTER, cachedTexture->qualityFilter);
-	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MIN_FILTER, cachedTexture->qualityFilter);
+	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MAG_FILTER, cachedTexture->qualityFilter.magFilter);
+	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MIN_FILTER, cachedTexture->qualityFilter.minFilter);
 
 
 
@@ -890,9 +905,9 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 //-----------------------------------------------------------------------------
 void
 IRRenderer_Texture_Rebuild(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
-{	GLuint			qualityFilter;
-	TQ3Status		qd3dStatus;
-	TQ3Uns32		n;
+{	TQ3QualityFilter	qualityFilter;
+	TQ3Status			qd3dStatus;
+	TQ3Uns32			n;
 
 
 
