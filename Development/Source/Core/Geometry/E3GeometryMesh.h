@@ -59,6 +59,9 @@ TQ3Status			E3GeometryMesh_RegisterClass(void);
 TQ3Status			E3GeometryMesh_UnregisterClass(void);
 
 TQ3GeometryObject	E3Mesh_New(void);
+TQ3Status			E3Mesh_SetData(TQ3GeometryObject theMesh, const TQ3MeshData *meshData);
+TQ3Status			E3Mesh_GetData(TQ3GeometryObject theMesh, TQ3MeshData *meshData);
+TQ3Status			E3Mesh_EmptyData(TQ3MeshData *meshData);
 TQ3MeshVertex		E3Mesh_VertexNew(TQ3GeometryObject theMesh, const TQ3Vertex3D *vertex);
 TQ3MeshFace			E3Mesh_FaceNew(TQ3GeometryObject theMesh, TQ3Uns32 numVertices, const TQ3MeshVertex *vertices, TQ3AttributeSet attributeSet);
 TQ3Status			E3Mesh_VertexDelete(TQ3GeometryObject theMesh, TQ3MeshVertex vertex);

@@ -499,6 +499,7 @@ Q3MemoryStorage_Set
 Q3MemoryStorage_SetBuffer
 Q3Mesh_ContourToFace
 Q3Mesh_DelayUpdates
+Q3Mesh_EmptyData
 Q3Mesh_FaceDelete
 Q3Mesh_FaceNew
 Q3Mesh_FaceToContour
@@ -525,6 +526,7 @@ Q3Mesh_GetComponentOrientable
 Q3Mesh_GetContourFace
 Q3Mesh_GetContourNumVertices
 Q3Mesh_GetCornerAttributeSet
+Q3Mesh_GetData
 Q3Mesh_GetEdgeAttributeSet
 Q3Mesh_GetEdgeComponent
 Q3Mesh_GetEdgeFaces
@@ -566,6 +568,7 @@ Q3Mesh_NextVertexFace
 Q3Mesh_NextVertexVertex
 Q3Mesh_ResumeUpdates
 Q3Mesh_SetCornerAttributeSet
+Q3Mesh_SetData
 Q3Mesh_SetEdgeAttributeSet
 Q3Mesh_SetFaceAttributeSet
 Q3Mesh_SetVertexAttributeSet

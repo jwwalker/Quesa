@@ -374,6 +374,7 @@ typedef struct TQ3EllipsoidData {
 } TQ3EllipsoidData;
 
 
+// General polygon data
 /*!
  *	@struct		TQ3GeneralPolygonContourData
  *	@discussion
@@ -387,8 +388,6 @@ typedef struct TQ3GeneralPolygonContourData {
     TQ3Vertex3D                                 *vertices;
 } TQ3GeneralPolygonContourData;
 
-
-// General polygon data
 /*!
  *	@struct		TQ3GeneralPolygonData
  *	@discussion
@@ -450,33 +449,37 @@ typedef struct TQ3MarkerData {
 
 // Mesh data (all opaque)
 /*!
- *	@typedef	TQ3MeshComponent
- *	@discussion	Opaque pointer representing a connected component of a Mesh.
- */
-typedef struct OpaqueTQ3MeshComponent           *TQ3MeshComponent;
-/*!
  *	@typedef	TQ3MeshVertex
  *	@discussion	Opaque pointer representing a vertex of a Mesh.
  */
 typedef struct OpaqueTQ3MeshVertex              *TQ3MeshVertex;
-/*!
- *	@typedef	TQ3MeshFace
- *	@discussion	Opaque pointer representing a face of a Mesh.  This is a polygonal
- *				figure, normally planar, which may contain holes.
- */
-typedef struct OpaqueTQ3MeshFace                *TQ3MeshFace;
-/*!
- *	@typedef	TQ3MeshEdge
- *	@discussion	Opaque pointer representing an edge of a Mesh, a straight line
- *				segment that connects two vertices.
- */
-typedef struct OpaqueTQ3MeshEdge                *TQ3MeshEdge;
+
 /*!
  *	@typedef	TQ3MeshContour
  *	@discussion	Opaque pointer representing a contour of a Mesh, one of the closed
  *				paths that bounds a face.
  */
 typedef struct OpaqueTQ3MeshContour             *TQ3MeshContour;
+
+/*!
+ *	@typedef	TQ3MeshFace
+ *	@discussion	Opaque pointer representing a face of a Mesh.  This is a polygonal
+ *				figure, normally planar, which may contain holes.
+ */
+typedef struct OpaqueTQ3MeshFace                *TQ3MeshFace;
+
+/*!
+ *	@typedef	TQ3MeshEdge
+ *	@discussion	Opaque pointer representing an edge of a Mesh, a straight line
+ *				segment that connects two vertices.
+ */
+typedef struct OpaqueTQ3MeshEdge                *TQ3MeshEdge;
+
+/*!
+ *	@typedef	TQ3MeshComponent
+ *	@discussion	Opaque pointer representing a connected component of a Mesh.
+ */
+typedef struct OpaqueTQ3MeshComponent           *TQ3MeshComponent;
 
 /*!
  *	@struct		TQ3MeshIterator
@@ -493,6 +496,145 @@ typedef struct TQ3MeshIterator {
         char                                    field2[4];
     } var4;
 } TQ3MeshIterator;
+
+
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+// Mesh data (all not available in QD3D)
+/*!
+ *	@struct		TQ3MeshCornerData
+ *	@discussion
+ *		Data describing a corner for a mesh vertex.
+ *
+ *		Note that a <code>TQ3MeshCornerData</code> is an external data structure
+ *		for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+ *
+ *		<em>This structure is not available in QD3D.</em>
+ *	@field		numFaces				Number of faces.  Must be at least 1.
+ *	@field		faceIndices				Indices of the faces.
+ *	@field		cornerAttributeSet		Set of attributes for the corner.  <em>Should not be NULL.</em>
+ */
+typedef struct TQ3MeshCornerData {
+    TQ3Uns32                                    numFaces;
+    TQ3Uns32                  			        *faceIndices;
+    TQ3AttributeSet                             cornerAttributeSet;
+} TQ3MeshCornerData;
+
+/*!
+ *	@struct		TQ3MeshVertexData
+ *	@discussion
+ *		Data describing a vertex within a mesh.
+ *
+ *		Note that a <code>TQ3MeshVertexData</code> is an external data structure
+ *		for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+ *		In contrast, a <code>TQ3MeshVertex</code> is a pointer to an opaque internal
+ *		data structure, which is most likely not a <code>TQ3MeshVertexData</code>.
+ *
+ *		<em>This structure is not available in QD3D.</em>
+ *  @field		point					Location of the vertex.
+ *	@field		numCorners				Number of corners in the following array.  May be 0
+ *										if you do not want to specify any corners.
+ *	@field		corners					Pointer to an array of corners.  May be NULL if you
+ *										also specify 0 for <code>numCorners</code>.
+ *	@field		attributeSet			Attribute set for the vertex.
+ */
+typedef struct TQ3MeshVertexData {
+    TQ3Point3D                                  point;
+    TQ3Uns32                                    numCorners;
+    TQ3MeshCornerData                           *corners;
+    TQ3AttributeSet                             attributeSet;
+} TQ3MeshVertexData;
+
+/*!
+ *	@struct		TQ3MeshEdgeData
+ *	@discussion
+ *		Data describing an edge within a mesh.
+ *		Used within the <code>TQ3MeshData</code> structure.
+ *
+ *		Note that a <code>TQ3MeshEdgeData</code> is an external data structure
+ *		for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+ *		In contrast, a <code>TQ3MeshEdge</code> is a pointer to an opaque internal
+ *		data structure, which is most likely not a <code>TQ3MeshEdgeData</code>.
+ *
+ *		<em>This structure is not available in QD3D.</em>
+ *	@field		vertexIndices			Indices of the two vertices that are ends of the edge.
+ *	@field		edgeAttributeSet		Set of attributes for the edge.  May be NULL.
+ */
+typedef struct TQ3MeshEdgeData {
+    TQ3Uns32                                    vertexIndices[2];
+    TQ3AttributeSet                             edgeAttributeSet;
+} TQ3MeshEdgeData;
+
+/*!
+ *	@struct		TQ3MeshContourData
+ *	@discussion
+ *		Data describing a contour within a mesh face.
+  *
+ *		Note that a <code>TQ3MeshContourData</code> is an external data structure
+ *		for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+ *		In contrast, a <code>TQ3MeshContour</code> is a pointer to an opaque internal
+ *		data structure, which is most likely not a <code>TQ3MeshContourData</code>.
+ *
+ *		<em>This structure is not available in QD3D.</em>
+*	@field		numVertices				Number of vertices.  Must be at least 3.
+ *	@field		vertexIndices			Indices of the vertices of the contour.
+ */
+typedef struct TQ3MeshContourData {
+    TQ3Uns32                                    numVertices;
+    TQ3Uns32                                    *vertexIndices;
+} TQ3MeshContourData;
+
+/*!
+ *	@struct		TQ3MeshFaceData
+ *	@discussion
+ *		Data describing a face within a mesh.
+ *
+ *		Note that a <code>TQ3MeshFaceData</code> is an external data structure
+ *		for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+ *		In contrast, a <code>TQ3MeshFace</code> is a pointer to an opaque internal
+ *		data structure, which is most likely not a <code>TQ3MeshFaceData</code>.
+ *
+ *		<em>This structure is not available in QD3D.</em>
+ *	@field		numContours				Number of contours.  Must be at least 1.
+ *	@field		contours				Contours of the face.
+ *	@field		faceAttributeSet		Set of attributes for the face.  May be NULL.
+ */
+typedef struct TQ3MeshFaceData {
+    TQ3Uns32                                    numContours;
+    TQ3MeshContourData                          *contours;
+    TQ3AttributeSet                             faceAttributeSet;
+} TQ3MeshFaceData;
+
+/*!
+ *	@struct		TQ3MeshData
+ *	@discussion
+ *		Data describing a mesh.
+ *
+ *		Note that a <code>TQ3MeshData</code> is an external data structure
+ *		for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+ *
+ *		<em>This structure is not available in QD3D.</em>
+ *	@field		numVertices				Number of vertices in the following array.
+ *	@field		vertices				Pointer to array of vertices of the mesh.
+ *	@field		numEdges				Number of edges in the following array.  May be 0
+ *										if you do not want to specify any edges.
+ *	@field		edges					Pointer to an array of edges.  May be NULL if you
+ *										also specify 0 for <code>numEdges</code>.
+ *	@field		numFaces				Number of faces in the mesh.
+ *	@field		faces					Pointer to an array of faces.
+ *	@field		meshAttributeSet		Set of attributes for the mesh.  May be NULL.
+ */
+typedef struct TQ3MeshData {
+    TQ3Uns32									numVertices;
+    TQ3MeshVertexData							*vertices;
+    TQ3Uns32									numEdges;
+    TQ3MeshEdgeData								*edges;
+    TQ3Uns32									numFaces;
+    TQ3MeshFaceData								*faces;
+    TQ3AttributeSet								meshAttributeSet;
+} TQ3MeshData;
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 /*!
@@ -520,6 +662,7 @@ typedef struct TQ3NURBCurveData {
 } TQ3NURBCurveData;
 
 
+// NURBPatch data
 /*!
  *	@struct		TQ3NURBPatchTrimCurveData
  *	@discussion
@@ -836,6 +979,7 @@ typedef struct TQ3TriGridData {
 } TQ3TriGridData;
 
 
+// TriMesh data
 /*!
  *	@struct		TQ3TriMeshTriangleData
  *	@discussion
@@ -3571,6 +3715,84 @@ EXTERN_API_C ( TQ3GeometryObject  )
 Q3Mesh_New (
     void
 );
+
+
+
+/*!
+ *  @function
+ *      Q3Mesh_SetData
+ *  @discussion
+ *      Sets the properties of an existing mesh object.
+ *
+ *      If successful, this function invalidates all preexisting references to mesh parts
+ *		(<code>TQ3MeshVertex</code>, <code>TQ3MeshContour</code>, <code>TQ3MeshFace</code>, 
+ *		<code>TQ3MeshCorner</code>, <code>TQ3MeshEdge</code>, <code>TQ3MeshComponent</code>)
+ *		and mesh iterators (<code>TQ3MeshIterator</code>).
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param mesh             A reference to a mesh geometry object.
+ *  @param meshData         A pointer to the mesh data to apply to the mesh object.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3Mesh_SetData (
+    TQ3GeometryObject             mesh,
+    const TQ3MeshData             *meshData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3Mesh_GetData
+ *  @discussion
+ *      Gets the properties of an existing mesh object.
+ *
+ *		Memory is allocated for the 'meshData' parameter, and <code>Q3Mesh_EmptyData</code>
+ *		must be called to dispose of this memory.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param mesh             A reference to a mesh geometry object.
+ *  @param meshData         Receives the mesh object's description.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3Mesh_GetData (
+    TQ3GeometryObject             mesh,
+    TQ3MeshData                   *meshData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3Mesh_EmptyData
+ *  @discussion
+ *      Releases the memory allocated by a prior call to <code>Q3Mesh_GetData</code>.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param meshData         A pointer to the mesh data allocated by <code>Q3Mesh_GetData()</code>.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3Mesh_EmptyData (
+    TQ3MeshData                   *meshData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
