@@ -199,6 +199,7 @@ E3FFW_3DMF_type_Traverse( TQ3Object object, void *data, TQ3ViewObject view )
 }
 
 
+
 //=============================================================================
 //      E3FFW_3DMF_type_Write : Write method for 'type' object.
 //-----------------------------------------------------------------------------
@@ -560,10 +561,11 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 	return (qd3dStatus);
 }
 
+
+
 //=============================================================================
 //      E3FFW_3DMF_Void_Traverse: The traverse method for zero data classes.
 //-----------------------------------------------------------------------------
-
 TQ3Status
 E3FFW_3DMF_WriteObject(TQ3ViewObject			theView,
 					TE3FFormatW3DMF_Data		*fileFormatPrivate,
@@ -574,6 +576,7 @@ E3FFW_3DMF_WriteObject(TQ3ViewObject			theView,
 	
 	return E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, theObject, objectType, objectData);
 }
+
 
 
 //=============================================================================
@@ -825,6 +828,8 @@ E3FFW_3DMF_Void_Traverse(TQ3Object object,
 	return qd3dstatus;
 }
 
+
+
 //=============================================================================
 //      E3FFW_3DMF_32_Write: The Generic write method for 32 bits Data.
 //-----------------------------------------------------------------------------
@@ -838,6 +843,8 @@ E3FFW_3DMF_32_Write(const void *object,
 	
 }
 
+
+
 //=============================================================================
 //      E3FFW_3DMF_Default_Delete: The Generic delete method.
 //-----------------------------------------------------------------------------
@@ -849,6 +856,7 @@ E3FFW_3DMF_Default_Delete(void *data)
 	 Q3Memory_Free(dataPtr);
 	
 }
+
 
 
 //=============================================================================
@@ -867,6 +875,8 @@ E3FFW_3DMF_Traverse(TQ3Object object,
 	
 	return qd3dstatus;
 }
+
+
 
 //=============================================================================
 //      E3FFW_3DMF_Write: The write method for the 3DMF root class.
@@ -917,10 +927,11 @@ E3FFW_3DMF_Write(const void *object,
 }
 
 
+
+
 //=============================================================================
 //      E3FFW_3DMF_TOC_Traverse: The traverse method for the 3DMF TOC class.
 //-----------------------------------------------------------------------------
-
 TQ3Status
 E3FFW_3DMF_TOC_Traverse(TQ3Object object,
 					 void *data,
@@ -953,10 +964,11 @@ E3FFW_3DMF_TOC_Traverse(TQ3Object object,
 	
 }
 
+
+
 //=============================================================================
 //      E3FFW_3DMF_TOC_Write: The write method for the 3DMF TOC class.
 //-----------------------------------------------------------------------------
-
 TQ3Status
 E3FFW_3DMF_TOC_Write(const void *object,
 				TQ3FileObject theFile)
@@ -1010,7 +1022,6 @@ E3FFW_3DMF_TOC_Write(const void *object,
 //=============================================================================
 //      E3FFW_3DMF_Reference_Traverse: The traverse method for the 3DMF root class.
 //-----------------------------------------------------------------------------
-
 TQ3Status
 E3FFW_3DMF_Reference_Traverse(TQ3Object object,
 					 void *data,
@@ -1028,7 +1039,6 @@ E3FFW_3DMF_Reference_Traverse(TQ3Object object,
 //=============================================================================
 //      E3FFW_3DMF_DisplayGroup_Traverse: The traverse method for the DisplayGroup class.
 //-----------------------------------------------------------------------------
-
 TQ3Status
 E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 					 void *data,
@@ -1132,8 +1142,6 @@ E3FFW_3DMF_CString_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view)
 	
 	return theStatus;
 }
-
-
 
 
 

@@ -124,6 +124,10 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_GeneralPolygon;
 			break;
 
+		case kQ3GeometryTypeMesh:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Mesh;
+			break;
+
 /*
 		case kQ3GeometryTypeMarker:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Marker;
@@ -136,14 +140,6 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 
 /* 
 	by now let's convert everything to triangles
-		case kQ3GeometryTypeGeneralPolygon:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_GeneralPolygon;
-			break;
-
-		case kQ3GeometryTypeMesh:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Mesh;
-			break;
-
 		case kQ3GeometryTypeNURBCurve:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_NURBCurve;
 			break;

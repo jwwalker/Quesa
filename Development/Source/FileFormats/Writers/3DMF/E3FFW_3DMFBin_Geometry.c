@@ -1171,10 +1171,15 @@ static TQ3Status
 e3ffw_3DMF_antialias_write(const TQ3AntiAliasStyleData *objectData,
 				TQ3FileObject theFile)
 {
+	TQ3Uns32 mode = objectData->mode;
 	TQ3Status	status = Q3Uns32_Write( objectData->state, theFile );
 	
 	if (status == kQ3Success)
-		status = Q3Uns32_Write( objectData->mode, theFile );
+		{
+		if(mode == 0)
+			mode = 3; // for compatibility with QD3D
+		status = Q3Uns32_Write( mode, theFile );
+		}
 	
 	if (status == kQ3Success)
 		status = Q3Float32_Write( objectData->quality, theFile );
@@ -1575,7 +1580,7 @@ e3ffw_3DMF_generalpolygon_write( const TQ3GeneralPolygonData *data,
 
 	for(j = 0; j < data->numContours && (writeStatus == kQ3Success); j++)
 		{
-		// Read in the numVertices
+		// write the numVertices
 		writeStatus = Q3Uns32_Write(data->contours[j].numVertices, theFile);
 			
 		for(i = 0; i< data->contours[j].numVertices && (writeStatus == kQ3Success); i++){
@@ -1589,14 +1594,186 @@ e3ffw_3DMF_generalpolygon_write( const TQ3GeneralPolygonData *data,
 
 
 //=============================================================================
+//      e3ffw_3DMF_mesh_delete: The mesh delete method.
+//-----------------------------------------------------------------------------
+static void
+e3ffw_3DMF_mesh_delete(void *data)
+{
+
+	Q3Mesh_EmptyData((TQ3MeshData*)data);
+	Q3Memory_Free(&data);
+	
+}
+
+
+//=============================================================================
 //      e3ffw_3DMF_mesh_traverse : Mesh traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
+					 void *data,
+					 TQ3ViewObject view )
+{
+	TQ3MeshData*		meshData;
+	TQ3Uns32 			meshSize;
+	TQ3Uns32 			i,j;
+	TQ3Object 			attributeList = NULL;
+	TQ3Status			status;
+	
+	meshData = Q3Memory_Allocate(sizeof(TQ3MeshData));
+	
+	if(meshData == NULL)
+		return kQ3Failure;
+	
+	if(Q3Mesh_GetData(mesh, meshData) == kQ3Failure)
+		goto failure_1;
+
+	
+	// calculate mesh size
+	
+	meshSize = 4 /*nVertices*/ + 4 /*nFaces*/ + 4 /*nContours*/;
+	meshSize += meshData->numVertices * 12;
+	for(i = 0; i < meshData->numFaces; i++)
+		{
+		
+		meshSize += meshData->faces[i].numContours * 4; // face Sizes
+		
+		for(j = 0; j < meshData->faces[i].numContours; j++)
+			{
+			meshSize += meshData->faces[i].contours[j].numVertices * 4; // contour vertex indexes
+			}
+		}
+	
+	status = Q3XView_SubmitWriteData( view, meshSize, (void*)meshData, e3ffw_3DMF_mesh_delete);
+	
+	
+	// Vertex attribute set
+	if (status == kQ3Success)
+		{
+		
+		attributeList = E3FFormat_3DMF_VertexAttributeSetList_New (meshData->numVertices);
+		
+		if(attributeList){
+		
+			for(i = 0; i < meshData->numVertices && status == kQ3Success; i++)
+				{
+				if(meshData->vertices[i].attributeSet != NULL){
+					status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, meshData->vertices[i].attributeSet);
+					}
+				}
+				
+			if(status == kQ3Success)
+				status = Q3Object_Submit (attributeList, view);
+			Q3Object_CleanDispose(&attributeList);
+			
+			}
+		else
+			{
+			status = kQ3Failure;
+			}
+		
+		}
+	
+	// Faces attribute set
+	if (status == kQ3Success)
+		{
+		
+		attributeList = E3FFormat_3DMF_FaceAttributeSetList_New (meshData->numFaces);
+		
+		if(attributeList){
+		
+			for(i = 0; i < meshData->numFaces && status == kQ3Success; i++)
+				{
+				if(meshData->faces[i].faceAttributeSet != NULL){
+					status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, meshData->faces[i].faceAttributeSet);
+					}
+				}
+				
+			if(status == kQ3Success)
+				status = Q3Object_Submit (attributeList, view);
+			Q3Object_CleanDispose(&attributeList);
+			
+			}
+		else
+			{
+			status = kQ3Failure;
+			}
+		
+		}
+	
+	
+	// Overall attribute set
+	if ( (status == kQ3Success) && (meshData->meshAttributeSet != NULL) )
+		status = Q3Object_Submit( meshData->meshAttributeSet, view );
+
+	if(status == kQ3Success)
+		return (status);
+	
+	
+failure_2:
+	Q3Mesh_EmptyData(meshData);
+failure_1:
+	Q3Memory_Free(&meshData);
+	
+	return kQ3Failure;
+
+}
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_mesh_write : Mesh write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_mesh_write( const TQ3MeshData *meshData,
+				TQ3FileObject theFile )
+{
+	TQ3Uns32 			i, j, k, numContours = 0;
+	TQ3Status			writeStatus = kQ3Failure;
+	
+	// write the numVertices
+	writeStatus = Q3Uns32_Write(meshData->numVertices, theFile );
+	
+	// write the vertices
+	for(i = 0; i < meshData->numVertices && writeStatus == kQ3Success; i++)
+		{
+		writeStatus = Q3Point3D_Write(&meshData->vertices[i].point, theFile);
+		}
+	
+	// write the numFaces and numContours
+	if(writeStatus == kQ3Success)
+		{
+		for(i = 0; i < meshData->numFaces; i++)
+			{
+			numContours += meshData->faces[i].numContours - 1;
+			}
+
+		writeStatus = Q3Uns32_Write(meshData->numFaces, theFile );
+		}
+
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write(numContours, theFile);
+	
+	
+	// write the faces and contours
+	for(i = 0; i < meshData->numFaces && writeStatus == kQ3Success; i++)
+		{
+		for(j = 0; j < meshData->faces[i].numContours && writeStatus == kQ3Success; j++)
+			{
+				if(j == 0)
+					writeStatus = Q3Uns32_Write(meshData->faces[i].contours[j].numVertices, theFile );
+				else
+					writeStatus = Q3Uns32_Write(-(meshData->faces[i].contours[j].numVertices), theFile );
+					
+				for(k = 0; k < meshData->faces[i].contours[j].numVertices && writeStatus == kQ3Success; k++)
+					{
+					writeStatus = Q3Uns32_Write(meshData->faces[i].contours[j].vertexIndices[k], theFile);
+					}
+			}
+		}
+	
+	return writeStatus;
+}
 
 
 
@@ -2915,6 +3092,9 @@ E3FFW_3DMF_RegisterGeom(void)
 	
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriGrid,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_trigrid_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriGrid,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_trigrid_write);
+	
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeMesh,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_mesh_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeMesh,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_mesh_write);
 	
 	return kQ3Success;
 }
