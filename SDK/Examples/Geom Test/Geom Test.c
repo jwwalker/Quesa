@@ -2186,6 +2186,7 @@ createTestRasterize(void)
 	TQ3TransformObject		theTransform;
 	TQ3PolygonData			polygonData;
 	TQ3GeometryObject		thePolygon;
+	TQ3GeometryObject		theGeom;
 	TQ3Param2D				vertUVs[4];
 	TQ3Uns32				n;
 
@@ -2248,7 +2249,11 @@ createTestRasterize(void)
 	// are still in effect), and our "raster group" (to demonstrate a rasterised
 	// polygon within the same scene).
 	Q3Group_AddObject(theGroup, rasterGroup);
-	Q3Group_AddObject(theGroup, createGeomQuesa());
+	Q3Object_Dispose( rasterGroup );
+	
+	theGeom = createGeomQuesa();
+	Q3Group_AddObject(theGroup, theGeom);
+	Q3Object_Dispose( theGeom );
 
 
 	// Clean up
