@@ -888,3 +888,70 @@ Q3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 
 
 
+//=============================================================================
+//      Q3XAttributeSet_GetPointer : Quesa API entry point.
+//-----------------------------------------------------------------------------
+void *
+Q3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType)
+{
+
+
+	// Release build checks
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on attributeSet
+		return(NULL);
+
+	if (0) // Further checks on attributeType
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3XAttributeSet_GetPointer(attributeSet, attributeType));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3XAttributeSet_GetMask : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3XAttributeMask
+Q3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
+{
+
+
+	// Release build checks
+	if(attributeSet == NULL)
+		return(kQ3XAttributeMaskNone);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on attributeSet
+		return(0);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3XAttributeSet_GetMask(attributeSet));
+}
+

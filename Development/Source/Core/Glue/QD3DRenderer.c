@@ -36,7 +36,6 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Renderer.h"
-#include "E3Set.h"
 
 
 
@@ -74,7 +73,6 @@
 //-----------------------------------------------------------------------------
 //      Q3Renderer_NewFromType : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3RendererObject
 Q3Renderer_NewFromType(TQ3ObjectType rendererObjectType)
 {
@@ -374,7 +372,7 @@ Q3Renderer_SetConfigurationData(TQ3RendererObject renderer, unsigned char *dataB
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3InteractiveRenderer_SetCSGEquation : Quesa API entry point.
@@ -855,7 +853,7 @@ Q3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject renderer, TQADrawCon
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3XView_IdleProgress : Quesa API entry point.
@@ -930,78 +928,8 @@ Q3XView_EndFrame(TQ3ViewObject view)
 }
 
 
-#pragma mark -
 
 
-//=============================================================================
-//      Q3XAttributeSet_GetPointer : Quesa API entry point.
-//-----------------------------------------------------------------------------
-void *
-Q3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType)
-{
-
-
-	// Release build checks
-
-
-
-	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeSet
-		return(NULL);
-
-	if (0) // Further checks on attributeType
-		return(NULL);
-#endif
-
-
-
-	// Call the bottleneck
-//	E3System_Bottleneck();
-
-
-
-	// Call our implementation
-	return(E3XAttributeSet_GetPointer(attributeSet, attributeType));
-}
-
-
-
-
-
-//=============================================================================
-//      Q3XAttributeSet_GetMask : Quesa API entry point.
-//-----------------------------------------------------------------------------
-TQ3XAttributeMask
-Q3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
-{
-
-
-	// Release build checks
-
-	if(attributeSet == NULL)
-		return kQ3XAttributeMaskNone;
-
-	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeSet
-		return(0);
-#endif
-
-
-
-	// Call the bottleneck
-//	E3System_Bottleneck();
-
-
-
-	// Call our implementation
-	return(E3AttributeSet_AccessMask(attributeSet));
-}
-
-
-
-#pragma mark -
 
 //=============================================================================
 //      Q3XDrawContext_GetDrawRegion : Quesa API entry point.
@@ -1115,7 +1043,7 @@ Q3XDrawContext_GetValidationFlags(TQ3DrawContextObject drawContext, TQ3XDrawCont
 
 
 
-#pragma mark -
+
 //=============================================================================
 //      Q3XDrawRegion_GetDeviceScaleX : Quesa API entry point.
 //-----------------------------------------------------------------------------
