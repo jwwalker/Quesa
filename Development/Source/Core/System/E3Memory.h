@@ -62,9 +62,9 @@ typedef struct TQ3ObjectData
 {
 	TQ3SetObject	theSet;
 #if Q3_DEBUG
-	TQ3Object		prev;
-	TQ3Object		next;
-	void*			stackCrawl;
+	TQ3Object					prev;
+	TQ3Object					next;
+	struct TQ3StackCrawlRec*	stackCrawl;
 #endif
 } TQ3ObjectData;
 
