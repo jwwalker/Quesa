@@ -74,7 +74,7 @@ TQ3Status			E3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length);
 TQ3Status			E3CString_SetString(TQ3StringObject stringObj, const char *str);
 TQ3Status			E3CString_GetString(TQ3StringObject stringObj, char **str);
 TQ3Status			E3CString_EmptyData(char **str);
-
+const char*			E3CString_PeekString( TQ3StringObject stringObj );
 
 
 
