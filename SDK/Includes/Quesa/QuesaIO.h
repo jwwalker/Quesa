@@ -1378,13 +1378,12 @@ Q3Float64_Write (
  *  @function
  *      Q3Size_Pad
  *  @discussion
- *      One-line description of this function.
+ *      Pad a number of bytes to be long-word aligned.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      In other words, this rounds a number up to a multiple of 4.
  *
- *  @param size             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param size             An unsigned integer.
+ *  @result                 Next multiple of 4.
  */
 EXTERN_API_C ( TQ3Size  )
 Q3Size_Pad (
@@ -1397,15 +1396,26 @@ Q3Size_Pad (
  *  @function
  *      Q3String_Read
  *  @discussion
- *      One-line description of this function.
+ *      Read a C string from a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note that the length parameter is an output-only parameter.  That is,
+ *		this function does not know the size of your buffer, it simply
+ *		assumes that you have allocated <code>kQ3StringMaximumLength</code> bytes.
  *
- *  @param data             Description of the parameter.
- *  @param length           Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *      If you pass NULL for the buffer, <code>Q3String_Read</code> will still
+ *		find the length of the string, but will leave the file object's position
+ *		at the beginning of the string.
+ *
+ *		If it reads a string of length at least <code>kQ3StringMaximumLength</code>,
+ *		and you have passed a non-NULL buffer, then Quesa will post the warning
+ *		<code>kQ3WarningStringExceedsMaximumLength</code>.
+ *
+ *  @param data             Buffer to receive string data, of size
+ *							<code>kQ3StringMaximumLength</code>, or NULL.
+ *  @param length           Receives length in bytes of string data that was read,
+ *							not including the terminating NUL character.
+ *  @param theFile          A file object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3String_Read (
@@ -1417,23 +1427,94 @@ Q3String_Read (
 
 
 /*!
+ *	@function
+ *		Q3String_ReadUnlimited
+ *	@discussion
+ *		Read a NUL-terminated string (C string) from a file.
+ *
+ *		<em>This function is not part of QuickDraw 3D</em>.  Unlike
+ *		the QD3D function <code>Q3String_Read</code>, it is not limited to
+ *		reading at most <code>kQ3StringMaximumLength</code> bytes.  Note that
+ *		the length parameter is an input-output parameter.
+ *
+ *      If you pass NULL for the buffer, <code>Q3String_ReadUnlimited</code> will still
+ *		find the length of the string, but will leave the file object's position
+ *		at the beginning of the string.  Therefore, you can read a string of
+ *		unknown size as follows:
+ *      
+ *		<blockquote><pre><code>
+ *		Q3String_Read( NULL, &stringSize, theFile );
+ *		stringSize += 1;	// make room for terminal NUL byte
+ *		buffer = Q3Memory_Allocate( stringSize );
+ *		Q3String_Read( buffer, &stringSize, theFile );
+ *		</code></pre></blockquote>
+ *
+ *		If you passed a non-NULL buffer that was not big enough for the whole string,
+ *		Quesa posts <code>kQ3WarningStringExceedsMaximumLength</code>.
+ *
+ *	@param	data			Buffer to receive string data, or NULL.
+ *	@param	ioLength		Pass the size of your buffer.  Receives the number of
+ *							bytes of string data found in the file, not including
+ *							the terminal NUL byte, even if it did not all fit in the
+ *							buffer.
+ *	@param	theFile         A file object.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+EXTERN_API_C ( TQ3Status  )
+Q3String_ReadUnlimited(
+    char                          *data,
+    TQ3Uns32                      *ioLength,
+    TQ3FileObject                 theFile
+);
+#endif
+
+
+
+/*!
  *  @function
  *      Q3String_Write
  *  @discussion
- *      One-line description of this function.
+ *      Write a NUL-terminated string (C string) to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This writes a NUL-terminated string to a file, and if necessary writes
+ *      up to 3 more pad bytes.  If the string's length, including the terminal
+ *		NUL byte, exceeds <code>kQ3StringMaximumLength</code>, then the error
+ *		<code>kQ3ErrorStringExceedsMaximumLength</code> will be posted and
+ *		<code>kQ3StringMaximumLength</code> bytes will be written.
  *
- *  @param data             Description of the parameter.
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             A NUL-terminated string.
+ *  @param theFile          A file object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3String_Write (
     const char                    *data,
     TQ3FileObject                 theFile
 );
+
+
+
+/*!
+ *	@function
+ *		Q3String_WriteUnlimited
+ *	@discussion
+ *		Write a NUL-terminated string (C string) to a file.  If necessary it writes
+ *		up to 3 more pad bytes to make the total number of bytes a multiple of 4.
+ *
+ *		<em>This function is not available in QuickDraw 3D</em>.
+ *
+ *  @param data             A NUL-terminated string.
+ *  @param theFile          A file object.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+EXTERN_API_C ( TQ3Status  )
+Q3String_WriteUnlimited (
+    const char                    *data,
+    TQ3FileObject                 theFile
+);
+#endif
 
 
 
