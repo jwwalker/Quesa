@@ -474,8 +474,8 @@ ir_texture_set_state(TQ3InteractiveData *instanceData, TQ3CachedTexture *cachedT
 
 
 	// Set up the UV mapping
-	GLUtils_ConvertUVBoundary(cachedTexture->boundaryU, &glBoundsU);
-	GLUtils_ConvertUVBoundary(cachedTexture->boundaryV, &glBoundsV);
+	GLUtils_ConvertUVBoundary(cachedTexture->boundaryU, &glBoundsU, instanceData->glExtensions.clampToEdge);
+	GLUtils_ConvertUVBoundary(cachedTexture->boundaryV, &glBoundsV, instanceData->glExtensions.clampToEdge);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, glBoundsU);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, glBoundsV);
 
