@@ -67,9 +67,9 @@ BEGIN
         MENUITEM "Subdivision Style Constant (25, 25)", IDM_STYLE_SUBDIVISION_CONSTANT2
         MENUITEM "Subdivision Style Constant (50, 50)", IDM_STYLE_SUBDIVISION_CONSTANT3
         MENUITEM "Subdivision Style Constant (50, 5)",  IDM_STYLE_SUBDIVISION_CONSTANT4
-        MENUITEM "Subdivision Style World (0.1)",       IDM_STYLE_SUBDIVISION_WORLD1
-        MENUITEM "Subdivision Style World (0.5)",       IDM_STYLE_SUBDIVISION_WORLD2
-        MENUITEM "Subdivision Style World (2.5)",       IDM_STYLE_SUBDIVISION_WORLD3
+        MENUITEM "Subdivision Style World (0.1)",       IDM_STYLE_SUBDIVISION_WORLDSPACE1
+        MENUITEM "Subdivision Style World (0.5)",       IDM_STYLE_SUBDIVISION_WORLDSPACE2
+        MENUITEM "Subdivision Style World (2.5)",       IDM_STYLE_SUBDIVISION_WORLDSPACE3
         MENUITEM "Subdivision Style Screen Space (3)",  IDM_STYLE_SUBDIVISION_SCREENSPACE1
         MENUITEM "Subdivision Style Screen Space (10)", IDM_STYLE_SUBDIVISION_SCREENSPACE2
         MENUITEM "Subdivision Style Screen Space (30)", IDM_STYLE_SUBDIVISION_SCREENSPACE3
