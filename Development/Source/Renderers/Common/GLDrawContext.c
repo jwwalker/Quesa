@@ -86,9 +86,9 @@ typedef struct {
 static void *
 gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 {	GLint					glAttributes[kMaxGLAttributes];
+	TQ3Uns32				numAttributes, sysVersion;
 	TQ3ObjectType			drawContextType;
 	TQ3DrawContextData		drawContextData;
-	TQ3Uns32				numAttributes;
 	AGLPixelFormat			pixelFormat;
 	TQ3Status				qd3dStatus;
 	AGLContext				glContext;
@@ -200,9 +200,10 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 
 
-	// Activate the context and turn off the palette
+	// Activate the context and turn off the palette on 9
 	aglSetCurrentContext(glContext);
-	aglDisable(glContext, AGL_COLORMAP_TRACKING);
+	if (Gestalt(gestaltSystemVersion, (long *) &sysVersion) == noErr && sysVersion < 0x00001000)
+		aglDisable(glContext, AGL_COLORMAP_TRACKING);
 
 
 
