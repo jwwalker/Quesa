@@ -90,7 +90,7 @@ Q3DrawContext_GetType(TQ3DrawContextObject drawContext)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, kQ3SharedTypeDrawContext), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3ObjectTypeInvalid ) ;
 
 
 
@@ -124,7 +124,7 @@ Q3DrawContext_SetData(TQ3DrawContextObject context, const TQ3DrawContextData *co
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(contextData), kQ3Failure);
 
 
@@ -162,7 +162,7 @@ Q3DrawContext_GetData(TQ3DrawContextObject context, TQ3DrawContextData *contextD
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(contextData), kQ3Failure);
 
 
@@ -200,7 +200,7 @@ Q3DrawContext_SetClearImageColor(TQ3DrawContextObject context, const TQ3ColorARG
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), kQ3Failure);
 
 
@@ -238,7 +238,7 @@ Q3DrawContext_GetClearImageColor(TQ3DrawContextObject context, TQ3ColorARGB *col
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), kQ3Failure);
 
 
@@ -276,7 +276,7 @@ Q3DrawContext_SetPane(TQ3DrawContextObject context, const TQ3Area *pane)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pane), kQ3Failure);
 
 
@@ -314,7 +314,7 @@ Q3DrawContext_GetPane(TQ3DrawContextObject context, TQ3Area *pane)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pane), kQ3Failure);
 
 
@@ -352,7 +352,7 @@ Q3DrawContext_SetPaneState(TQ3DrawContextObject context, TQ3Boolean state)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 
 
 
@@ -389,7 +389,7 @@ Q3DrawContext_GetPaneState(TQ3DrawContextObject context, TQ3Boolean *state)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(state), kQ3Failure);
 
 
@@ -427,7 +427,7 @@ Q3DrawContext_SetClearImageMethod(TQ3DrawContextObject context, TQ3DrawContextCl
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 
 
 
@@ -464,7 +464,7 @@ Q3DrawContext_GetClearImageMethod(TQ3DrawContextObject context, TQ3DrawContextCl
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(method), kQ3Failure);
 
 
@@ -502,7 +502,7 @@ Q3DrawContext_SetMask(TQ3DrawContextObject context, const TQ3Bitmap *mask)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(mask), kQ3Failure);
 
 
@@ -540,7 +540,7 @@ Q3DrawContext_GetMask(TQ3DrawContextObject context, TQ3Bitmap *mask)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(mask), kQ3Failure);
 
 
@@ -578,7 +578,7 @@ Q3DrawContext_SetMaskState(TQ3DrawContextObject context, TQ3Boolean state)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 
 
 
@@ -615,7 +615,7 @@ Q3DrawContext_GetMaskState(TQ3DrawContextObject context, TQ3Boolean *state)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(state), kQ3Failure);
 
 
@@ -653,7 +653,7 @@ Q3DrawContext_SetDoubleBufferState(TQ3DrawContextObject context, TQ3Boolean stat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 
 
 
@@ -690,7 +690,7 @@ Q3DrawContext_GetDoubleBufferState(TQ3DrawContextObject context, TQ3Boolean *sta
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(context, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( context ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(state), kQ3Failure);
 
 
@@ -762,7 +762,7 @@ Q3PixmapDrawContext_SetPixmap(TQ3DrawContextObject drawContext, const TQ3Pixmap 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmap), kQ3Failure);
 
 
@@ -800,7 +800,7 @@ Q3PixmapDrawContext_GetPixmap(TQ3DrawContextObject drawContext, TQ3Pixmap *pixma
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmap), kQ3Failure);
 
 
@@ -874,7 +874,7 @@ Q3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, CWindowPtr window)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 
 
 
@@ -911,7 +911,7 @@ Q3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, CWindowPtr *window)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(window), kQ3Failure);
 
 
@@ -949,7 +949,7 @@ Q3MacDrawContext_SetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort view
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 
 
 
@@ -986,7 +986,7 @@ Q3MacDrawContext_GetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort *vie
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(viewPort), kQ3Failure);
 
 
@@ -1024,7 +1024,7 @@ Q3MacDrawContext_SetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr grafPort
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 
 
 
@@ -1061,7 +1061,7 @@ Q3MacDrawContext_GetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr *grafPor
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(grafPort), kQ3Failure);
 
 
@@ -1099,7 +1099,7 @@ Q3MacDrawContext_Set2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContex
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 
 
 
@@ -1136,7 +1136,7 @@ Q3MacDrawContext_Get2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContex
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(library), kQ3Failure);
 
 
@@ -1329,7 +1329,7 @@ Q3XDrawContext_SetDisplay(TQ3DrawContextObject drawContext, const Display *displ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(display), kQ3Failure);
 
 
@@ -1367,7 +1367,7 @@ Q3XDrawContext_GetDisplay(TQ3DrawContextObject drawContext, Display **display)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(display), kQ3Failure);
 
 
@@ -1405,7 +1405,7 @@ Q3XDrawContext_SetDrawable(TQ3DrawContextObject drawContext, Drawable drawable)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 
 
 
@@ -1442,7 +1442,7 @@ Q3XDrawContext_GetDrawable(TQ3DrawContextObject drawContext, Drawable *drawable)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawable), kQ3Failure);
 
 
@@ -1480,7 +1480,7 @@ Q3XDrawContext_SetVisual(TQ3DrawContextObject drawContext, const Visual *visual)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(visual), kQ3Failure);
 
 
@@ -1518,7 +1518,7 @@ Q3XDrawContext_GetVisual(TQ3DrawContextObject drawContext, Visual **visual)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(visual), kQ3Failure);
 
 
@@ -1556,7 +1556,7 @@ Q3XDrawContext_SetColormap(TQ3DrawContextObject drawContext, Colormap colormap)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 
 
 
@@ -1593,7 +1593,7 @@ Q3XDrawContext_GetColormap(TQ3DrawContextObject drawContext, Colormap *colormap)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(colormap), kQ3Failure);
 
 
@@ -1631,7 +1631,7 @@ Q3XDrawContext_SetColormapData(TQ3DrawContextObject drawContext, const TQ3XColor
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(colormapData), kQ3Failure);
 
 
@@ -1669,7 +1669,7 @@ Q3XDrawContext_GetColormapData(TQ3DrawContextObject drawContext, TQ3XColormapDat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(colormapData), kQ3Failure);
 
 
@@ -1744,7 +1744,7 @@ Q3Win32DCDrawContext_SetDC(TQ3DrawContextObject drawContext, HDC newHDC)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 
 
 
@@ -1781,7 +1781,7 @@ Q3Win32DCDrawContext_GetDC(TQ3DrawContextObject drawContext, HDC *curHDC)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(curHDC), kQ3Failure);
 
 
@@ -1853,7 +1853,7 @@ Q3DDSurfaceDrawContext_SetDirectDrawSurface(TQ3DrawContextObject drawContext, co
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ddSurfaceDescriptor), kQ3Failure);
 
 
@@ -1891,7 +1891,7 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ddSurfaceDescriptor), kQ3Failure);
 
 
@@ -1966,7 +1966,7 @@ Q3BeDrawContext_SetView(TQ3DrawContextObject drawContext, BView *theView)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 
 
 
@@ -2003,7 +2003,7 @@ Q3BeDrawContext_GetView(TQ3DrawContextObject drawContext, BView **theView)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theView), kQ3Failure);
 
 
@@ -2078,7 +2078,7 @@ Q3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 
 
 
@@ -2115,7 +2115,7 @@ Q3CocoaDrawContext_GetNSView(TQ3DrawContextObject drawContext, void **nsView)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nsView), kQ3Failure);
 
 
