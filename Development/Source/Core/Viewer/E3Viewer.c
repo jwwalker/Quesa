@@ -39,6 +39,7 @@
 #include "E3ViewerTools.h"
 #if QUESA_OS_MACINTOSH
 	#include "E3CarbonCoating.h"
+	#include <Appearance.h>
 	#if !TARGET_API_MAC_CARBON
 		#include <math.h>
 	#endif
@@ -61,12 +62,13 @@
 #define kQ3ControllerHeight	30L
 #define kQ3MinimumWidth		20L
 #define kQ3MinimumHeight	20L
-#define kQ3ButtonHeight		24L
-#define kQ3ButtonWidth		24L
-#define kQ3ButtonGap		 4L
+#define kQ3ButtonHeight		26L
+#define kQ3ButtonWidth		32L			// width for standard buttons
+#define kQ3MenuButtonWidth  40L			// width for pop-up menu buttons
+#define kQ3ButtonGap		 8L			// gap between groups of buttons
+#define kQ3ButtonSpacing	-1L			// gap between buttons within a group
 #define kQ3BottomOffset		 2L
 #define kQ3DragBorderWidth	 4L
-#define kQ3ButtonSpacing	kQ3ButtonWidth + kQ3ButtonGap
 
 #define kHandCursor			-128
 #define kClosedHandCursor	-129
@@ -244,7 +246,7 @@ enum TModalButtons
 	eDollyButton,
 	eResetButton,
 	eOptionsButton,
-	eAboutBoxButton,
+//	eAboutBoxButton,
 	ePluginsButton,
 	eLastButton
 	} TModalButtons;
@@ -396,7 +398,7 @@ WindowRef e3_viewer_GetPortWindow(TQ3Port port)
 
 //-----------------------------------------------------------------------------
 //      e3_viewer_button_to_external :	Convert an internal button index to the
-//										external index.
+//										external constant.
 //-----------------------------------------------------------------------------
 //		Note :	We currently use a hard-coded array of buttons, so we need this
 //				translation routine to go between indices into this array and
@@ -406,70 +408,73 @@ WindowRef e3_viewer_GetPortWindow(TQ3Port port)
 static TQ3Uns32
 e3_viewer_button_to_external(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 {	TQ3ViewerData		*viewerData = (TQ3ViewerData *) theViewer;
-	TQ3Uns32			n, m;
+	TQ3Uns32			count = 0;
 
+	if (viewerData->flags & kQ3ViewerButtonCamera) 
+		if (count++ == theButton) return kQ3ViewerButtonCamera;
 
+	if (viewerData->flags & kQ3ViewerButtonTruck) 
+		if (count++ == theButton) return kQ3ViewerButtonTruck;
 
-	// Look up the button
-	n = 0;
-	m = 0;
-	
-	if (theButton == n)
-		return(m);
-	if (viewerData->flags & kQ3ViewerButtonCamera)
-		m++;
-	n++;
+	if (viewerData->flags & kQ3ViewerButtonOrbit) 
+		if (count++ == theButton) return kQ3ViewerButtonOrbit;
 
-	if (theButton == n)
-		return(m);
-	if (viewerData->flags & kQ3ViewerButtonTruck)
-		m++;
-	n++;
+	if (viewerData->flags & kQ3ViewerButtonZoom) 
+		if (count++ == theButton) return kQ3ViewerButtonZoom;
 
-	if (theButton == n)
-		return(m);
-	if (viewerData->flags & kQ3ViewerButtonOrbit)
-		m++;
-	n++;
+	if (viewerData->flags & kQ3ViewerButtonDolly) 
+		if (count++ == theButton) return kQ3ViewerButtonDolly;
 
-	if (theButton == n)
-		return(m);
-	if (viewerData->flags & kQ3ViewerButtonZoom)
-		m++;
-	n++;
+	if (viewerData->flags & kQ3ViewerButtonReset) 
+		if (count++ == theButton) return kQ3ViewerButtonReset;
 
-	if (theButton == n)
-		return(m);
-	if (viewerData->flags & kQ3ViewerButtonDolly)
-		m++;
-	n++;
+	if (viewerData->flags & kQ3ViewerButtonOptions) 
+		if (count++ == theButton) return kQ3ViewerButtonOptions;
 
-	if (theButton == n)
-		return(m);
-	if (viewerData->flags & kQ3ViewerButtonReset)
-		m++;
-	n++;
-
-	if (theButton == n)
-		return(m);
-	if (viewerData->flags & kQ3ViewerButtonOptions)
-		m++;
-	n++;
-
-	// The non-QD3D About button which is always on.
-	// Maybe need to add option for this? drury@process.com.au 23 March 2001
-	if (theButton == n)
-		return(m);
-	if (true)
-		m++;
-	n++;
-
-	Q3_ASSERT(theButton == n);
-	return(theButton);
+	Q3_ASSERT(0);
+	return(0);
 }
 
 
 
+//=============================================================================
+//      e3_viewer_button_to_internal :	Convert an external button constant to
+//										the internal index.
+//-----------------------------------------------------------------------------
+//		Note :	We currently use a hard-coded array of buttons, so we need this
+//				translation routine to go between indices into this array and
+//				the 'array' of buttons that the app thinks exist (i.e., the
+//				buttons it turned on via its flags).
+//-----------------------------------------------------------------------------
+static TQ3Uns32
+e3_viewer_button_to_internal(TQ3ViewerObject theViewer, TQ3Uns32 buttonID)
+{	TQ3ViewerData		*viewerData = (TQ3ViewerData *) theViewer;
+	TQ3Uns32			count = 0;
+	TQ3Uns32			flags = viewerData->flags;
+
+	if (kQ3ViewerButtonCamera == buttonID) return count;
+	if (flags & kQ3ViewerButtonCamera) count++;	
+
+	if (kQ3ViewerButtonTruck == buttonID) return count;
+	if (flags & kQ3ViewerButtonTruck) count++;	
+
+	if (kQ3ViewerButtonOrbit == buttonID) return count;
+	if (flags & kQ3ViewerButtonOrbit) count++;	
+
+	if (kQ3ViewerButtonZoom == buttonID) return count;
+	if (flags & kQ3ViewerButtonZoom) count++;	
+
+	if (kQ3ViewerButtonDolly == buttonID) return count;
+	if (flags & kQ3ViewerButtonDolly) count++;	
+
+	if (kQ3ViewerButtonReset == buttonID) return count;
+	if (flags & kQ3ViewerButtonReset) count++;	
+
+	if (kQ3ViewerButtonOptions == buttonID) return count;
+	if (flags & kQ3ViewerButtonOptions) count++;	
+
+	return -1;
+}
 
 
 static TQ3Status
@@ -1241,24 +1246,24 @@ e3drawtool (TQ3ViewerData* viewerData, TQ3Uns32 buttonMask, TQ3Uns32 buttonNumbe
 		TQ3Int16 oldResFile = CurResFile ();
 		TQ3Rect r;
 		TQ3Rect iconRect;
-		TQ3Result err = Q3ViewerGetButtonRect (viewerData, e3_viewer_button_to_external((TQ3ViewerObject) viewerData, buttonNumber), &r);
-		if (err == kQ3ErrorNone)
-			{
-			area.min.x = as_float(r.left);
-			area.min.y = as_float(r.top);
-			area.max.x = as_float(r.right);
-			area.max.y = as_float(r.bottom);
-			iconRect = r;
-			iconRect.bottom = iconRect.top + 32;
-			iconRect.right = iconRect.left + 32;
-			}
-		else
-			return kQ3Failure;
+		TQ3Uns32 buttonID = e3_viewer_button_to_external((TQ3ViewerObject) viewerData, buttonNumber);
+		
+		// Draw the blank button using the Appearance Manager.
+		// NOTE: if we want this to work on non-Appearance machines,
+		// we'll need to provide an alternate drawing method and
+		// weak-link AppearanceLib.
+		ThemeButtonDrawInfo buttonInfo = {kThemeStateActive, kThemeButtonOff, kThemeAdornmentNone};
+		TQ3Result err = Q3ViewerGetButtonRect (viewerData, buttonID, &r);
+		if (err != kQ3ErrorNone) return kQ3Failure;
+		area.min.x = as_float(r.left);
+		area.min.y = as_float(r.top);
+		area.max.x = as_float(r.right);
+		area.max.y = as_float(r.bottom);
+		iconRect = r;
 		UseResFile (gResFileRefNum);
-		if (buttonNumber == viewerData->currentButton)
-			PlotIconID (&iconRect, kAlignNone, kTransformNone, -130);
-		else
-			PlotIconID (&iconRect, kAlignNone, kTransformNone, -129);
+		if (buttonNumber == viewerData->currentButton) buttonInfo.state = kThemeStatePressed;
+		DrawThemeButton(&iconRect, kThemeMediumBevelButton, &buttonInfo, nil, nil, nil, 0);
+
 	#else
 		status = Q3ViewerGetButtonRect (viewerData, e3_viewer_button_to_external((TQ3ViewerObject) viewerData, buttonNumber), &area);
 	#endif
@@ -1770,63 +1775,6 @@ e3dodrag (TQ3ViewerData* theViewer, TQ3EventRecord* theEvent)
 
 
 
-
-//=============================================================================
-//      e3_viewer_button_to_internal :	Convert an external button index to the
-//										internal index.
-//-----------------------------------------------------------------------------
-//		Note :	We currently use a hard-coded array of buttons, so we need this
-//				translation routine to go between indices into this array and
-//				the 'array' of buttons that the app thinks exist (i.e., the
-//				buttons it turned on via its flags).
-//-----------------------------------------------------------------------------
-static TQ3Uns32
-e3_viewer_button_to_internal(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
-{	TQ3ViewerData		*viewerData = (TQ3ViewerData *) theViewer;
-	TQ3Uns32			externalButtons[eLastButton];
-	TQ3Uns32			n;
-
-
-
-	// Build the list of external buttons
-	n = 0;
-	
-	if (viewerData->flags & kQ3ViewerButtonCamera)
-		externalButtons[n++] = eCameraButton;
-	
-	if (viewerData->flags & kQ3ViewerButtonTruck)
-		externalButtons[n++] = eTruckButton;
-	
-	if (viewerData->flags & kQ3ViewerButtonOrbit)
-		externalButtons[n++] = eOrbitButton;
-	
-	if (viewerData->flags & kQ3ViewerButtonZoom)
-		externalButtons[n++] = eZoomButton;
-	
-	if (viewerData->flags & kQ3ViewerButtonDolly)
-		externalButtons[n++] = eDollyButton;
-	
-	if (viewerData->flags & kQ3ViewerButtonReset)
-		externalButtons[n++] = eResetButton;
-	
-	if (viewerData->flags & kQ3ViewerButtonOptions)
-		externalButtons[n++] = eOptionsButton;
-
-	// The non-QD3D About button which is always on.
-	// Maybe need to add option for this? drury@process.com.au 23 March 2001
-	externalButtons[n++] = eAboutBoxButton;
-
-	// Look up the button
-	if (theButton > eFirstButton && theButton < eLastButton)
-		theButton = externalButtons[theButton];
-	
-	return(theButton);
-}
-
-
-
-
-
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
@@ -1890,7 +1838,7 @@ Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 		viewerData->metaHandlers [eDollyButton]		= DollyToolMetaHandler;
 		viewerData->metaHandlers [eResetButton]		= ResetToolMetaHandler;
 		viewerData->metaHandlers [eOptionsButton]	= OptionsToolMetaHandler;
-		viewerData->metaHandlers [eAboutBoxButton]	= AboutToolMetaHandler;
+		//viewerData->metaHandlers [eAboutBoxButton]	= AboutToolMetaHandler;
 
 		viewerData->backfaceObject = NULL;
 		if (flags == 0) // the scrapbook sends through flags of 0 and never calls Q3ViewerSetFlags
@@ -2537,7 +2485,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 
 OSErr
-Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
+Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)			// (Mac implementation)
 	{
 	TQ3ViewerData* viewerData = (TQ3ViewerData*)theViewer;
 	CheckViewerFailure (theViewer);
@@ -2546,20 +2494,30 @@ Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
 		RGBColor myGray = {0xCFFF, 0xCFFF, 0xCFFF};
 		Rect r;
 		GrafPtr oldPort;
+
 		if (!viewerData->thePort)
 			return paramErr;
+
+		// find bounds of toolbar area
 		r = viewerData->theRect;
 		r.top = viewerData->drawRect.bottom;
 		if (viewerData->flags & kQ3ViewerCanDrawDragBorders)
 			r.top += kQ3DragBorderWidth;
+		
+		// set port to the toolbar area, and draw the background
+		// (NOTE: this isn't very Appearance savvy...)
 		GetPort (&oldPort);
 		SetPort ((GrafPtr)viewerData->thePort);
 		RGBForeColor (&myGray);
 		PaintRect (&r);
+		
+		// draw the separator between the toolbar and the draw area
 		ForeColor (blackColor);
 		PenNormal();
 		MoveTo (r.left, r.top);
 		LineTo (r.right - 1, r.top); // -1 because the pen hangs 1 pixel over to the right
+
+		// draw the tools
 		e3drawtool (viewerData, kQ3ViewerButtonCamera,	eCameraButton);
 		e3drawtool (viewerData, kQ3ViewerButtonTruck,	eTruckButton);
 		e3drawtool (viewerData, kQ3ViewerButtonOrbit,	eOrbitButton);
@@ -2568,8 +2526,8 @@ Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
 		e3drawtool (viewerData, kQ3ViewerButtonReset,	eResetButton);
 		e3drawtool (viewerData, kQ3ViewerButtonOptions,	eOptionsButton);
 		//e3drawtool (viewerData, kQ3ViewerButtonOptions,	ePluginsButton);
-// ???
-		e3drawtool (viewerData, 0xFFFFFFFF,	eAboutBoxButton);
+
+		//e3drawtool (viewerData, 0xFFFFFFFF,	eAboutBoxButton);
 		SetPort (oldPort);
 		}
 	return noErr;
@@ -2577,11 +2535,8 @@ Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
 
 #else
 
-#pragma mark -
-#pragma mark --- unimplemented Windows OS ---
-
 TQ3Status
-Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
+Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)			// (Windows implementation)
 	{
 	TQ3ViewerData* viewerData = (TQ3ViewerData*)theViewer;
 	CheckViewerFailure (theViewer);
@@ -2597,16 +2552,14 @@ Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
 		e3drawtool (viewerData, kQ3ViewerButtonReset,	eResetButton);
 		e3drawtool (viewerData, kQ3ViewerButtonOptions,	eOptionsButton);
 		//e3drawtool (viewerData, kQ3ViewerButtonOptions,	ePluginsButton);
-// ???
-		e3drawtool (viewerData, 0xFFFFFFFF,	eAboutBoxButton);
+
+		//e3drawtool (viewerData, 0xFFFFFFFF,	eAboutBoxButton);
 		}
 	// To be implemented...
 	return kQ3Success;
 	}
 
 
-#pragma mark --- end unimplemented ---
-#pragma mark -
 
 #endif
 
@@ -2616,62 +2569,89 @@ Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
 //-----------------------------------------------------------------------------
 TQ3Result
 Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, TQ3Rect *rect)
-	{
-	TQ3Uns32 flags;
-	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
+{	TQ3ViewerData* viewerData = (TQ3ViewerData*)theViewer;
+	TQ3Uns32 flags = viewerData->flags;
+	TQ3Boolean anyLeft = kQ3False, anyRight = kQ3False;
+	TQ3Int32 x = -1, width = 0;
+
+	// check parameters and options
 	if (rect == NULL)
+		return kQ3BadResult;
+	if ((flags & kQ3ViewerControllerVisible) == 0) // no controller
 		return kQ3BadResult;
 	CheckViewerFailure (theViewer);
 
+	rect->left = rect->right = viewerData->theRect.left;
+	rect->bottom = viewerData->theRect.bottom - kQ3BottomOffset;
+	rect->top = rect->bottom - kQ3ButtonHeight;
 
-
-	// Translate the button index
-	button = e3_viewer_button_to_internal(theViewer, button);
-
-
-	rect->left = rect->right = viewer->theRect.left;
-	rect->top = rect->bottom = viewer->theRect.bottom - kQ3BottomOffset;
-	flags = viewer->flags;
-	if ((flags & kQ3ViewerControllerVisible) == 0) // no controller
-		return kQ3BadResult;
-	rect->top -= kQ3ButtonHeight;
-	switch (button)
+	if (flags & kQ3ViewerButtonCamera)
 		{
-		// no breaks in the case statements - order is vital
-		case eAboutBoxButton: // About box must always be first as is used in Q3ViewerGetMinimumDimension
-			rect->left += kQ3ButtonSpacing;
-		case eOptionsButton:
-			if (flags & kQ3ViewerButtonOptions)
-				rect->left += kQ3ButtonSpacing;
-		case eResetButton:
-			if (flags & kQ3ViewerButtonReset)
-				rect->left += kQ3ButtonSpacing + kQ3ButtonGap;
-// ???
-		/*
-		case ePluginsButton:
-			if (flags & kQ3ViewerButtonOptions) // do not have a special flag yet
-				rect->left += kQ3ButtonSpacing;
-		*/
-		case eZoomButton:
-			if (flags & kQ3ViewerButtonZoom)
-				rect->left += kQ3ButtonSpacing;
-		case eDollyButton:
-			if (flags & kQ3ViewerButtonDolly)
-				rect->left += kQ3ButtonSpacing;
-		case eOrbitButton:
-			if (flags & kQ3ViewerButtonOrbit)
-				rect->left += kQ3ButtonSpacing;
-		case eTruckButton:
-			if (flags & kQ3ViewerButtonTruck)
-				rect->left += kQ3ButtonSpacing + kQ3ButtonGap;
-		case eCameraButton:
-			if (flags & kQ3ViewerButtonCamera)
-				rect->left += kQ3ButtonGap;
-			break;
-		default:
-			return kQ3BadResult;
+		if (anyLeft) width += kQ3ButtonSpacing;
+		else anyLeft = kQ3True;
+		if (kQ3ViewerButtonCamera == button) x = width;
+		width += kQ3MenuButtonWidth;
 		}
-	rect->right = rect->left + kQ3ButtonWidth;
+	
+	if (flags & kQ3ViewerButtonTruck)
+		{
+		if (anyLeft) width += kQ3ButtonSpacing;
+		else anyLeft = kQ3True;
+		if (kQ3ViewerButtonTruck == button) x = width;
+		width += kQ3ButtonWidth;
+		}
+	
+	if (flags & kQ3ViewerButtonOrbit)
+		{
+		if (anyLeft) width += kQ3ButtonSpacing;
+		else anyLeft = kQ3True;
+		if (kQ3ViewerButtonOrbit == button) x = width;
+		width += kQ3ButtonWidth;
+		}
+	
+	if (flags & kQ3ViewerButtonZoom)
+		{
+		if (anyLeft) width += kQ3ButtonSpacing;
+		else anyLeft = kQ3True;
+		if (kQ3ViewerButtonZoom == button) x = width;
+		width += kQ3ButtonWidth;
+		}
+	
+	if (flags & kQ3ViewerButtonDolly)
+		{
+		if (anyLeft) width += kQ3ButtonSpacing;
+		else anyLeft = kQ3True;
+		if (kQ3ViewerButtonDolly == button) x = width;
+		width += kQ3ButtonWidth;
+		}
+	
+	if (anyLeft)
+		width += kQ3ButtonGap;
+	
+	if (flags & kQ3ViewerButtonReset)
+		{
+		if (anyRight) width += kQ3ButtonSpacing;
+		else anyRight = kQ3True;
+		if (kQ3ViewerButtonReset == button) x = width;
+		width += kQ3ButtonWidth;
+		}
+	
+	if (flags & kQ3ViewerButtonOptions)
+		{
+		if (anyRight) width += kQ3ButtonSpacing;
+		else anyRight = kQ3True;
+		if (kQ3ViewerButtonOptions == button) x = width;
+		width += kQ3MenuButtonWidth;
+		}
+	
+	if (-1 == x) return kQ3BadResult;
+
+	rect->left = x + (viewerData->theRect.left + viewerData->theRect.right - width) / 2;
+	if (kQ3ViewerButtonOptions == button || kQ3ViewerButtonCamera == button)
+		rect->right = rect->left + kQ3MenuButtonWidth;
+	else
+		rect->right = rect->left + kQ3ButtonWidth;
+
 	return kQ3GoodResult;
 	}
 
@@ -2680,6 +2660,7 @@ Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, TQ3Rect *rect)
 
 //=============================================================================
 //      Q3ViewerGetCurrentButton : Returns the currently selected button.
+//			The return value is a button constant (e.g. kQ3ViewerButtonTruck).
 //-----------------------------------------------------------------------------
 TQ3Uns32
 Q3ViewerGetCurrentButton(TQ3ViewerObject theViewer)
@@ -3103,15 +3084,14 @@ Q3ViewerGetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *heigh
 TQ3Result
 Q3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height)
 	{
-	TQ3Rect r;
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
 	TQ3Int16 theWidth = kQ3MinimumWidth;
 	TQ3Int16 theHeight = kQ3MinimumHeight;
 	CheckViewerFailure (theViewer);
 	if (viewer->flags & kQ3ViewerControllerVisible)
 		theHeight += kQ3ControllerHeight;
-	if (Q3ViewerGetButtonRect (theViewer, e3_viewer_button_to_external(theViewer, eAboutBoxButton), &r) == kQ3GoodResult)
-		theWidth = as_short(r.right + kQ3ButtonGap);
+//	if (Q3ViewerGetButtonRect (theViewer, e3_viewer_button_to_external(theViewer, eAboutBoxButton), &r) == kQ3GoodResult)
+//		theWidth = as_short(r.right + kQ3ButtonGap);
 	if (height)
 		*height = theHeight;
 	if (width)
@@ -3461,7 +3441,8 @@ Q3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 	pt.y = as_float(y);
 	if (e3pointinrect (&pt, &viewer->theRect))
 		{
-		TQ3Uns32 button;
+		TQ3Uns32 buttonIdx = 0;
+		TQ3Uns32 buttonID;
 		TQ3Rect r;
 		
 		// see if mouse hit main area
@@ -3472,15 +3453,19 @@ Q3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 			}
 
 		// see if mouse hit a button
-		button = 0;
-		while (Q3ViewerGetButtonRect (theViewer, e3_viewer_button_to_external(theViewer, button), &r) == kQ3GoodResult)
-			{
+		while (1) {
+			buttonID = e3_viewer_button_to_external(theViewer, buttonIdx);
+			
+			if (kQ3GoodResult != Q3ViewerGetButtonRect (theViewer, buttonID, &r))
+				break;
+
 			if (e3pointinrect (&pt, &r))
 				{
-				Q3ViewerSetCurrentButton (theViewer, e3_viewer_button_to_external(theViewer, button));
+				Q3ViewerSetCurrentButton (theViewer, buttonID);
 				return 1;
 				}
-			++button;
+
+			++buttonIdx;
 			}
 		
 		r = viewer->theRect;
