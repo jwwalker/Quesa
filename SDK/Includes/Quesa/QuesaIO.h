@@ -71,8 +71,16 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// File modes
-typedef enum {
+/*!
+ *	@enum	TQ3FileModeMasks
+ *	@discussion
+ *		Mode masks for file operations.
+ *	@constant	kQ3FileModeNormal		Normal file mode.
+ *	@constant	kQ3FileModeStream		Stream mode.
+ *	@constant	kQ3FileModeDatabase		Database mode.
+ *	@constant	kQ3FileModeText			Text mode.
+ */
+typedef enum TQ3FileModeMasks {
     kQ3FileModeNormal                           = 0,
     kQ3FileModeStream                           = (1 << 0),
     kQ3FileModeDatabase                         = (1 << 1),
@@ -81,7 +89,7 @@ typedef enum {
 
 
 // Read states
-typedef enum {
+typedef enum TQ3FileReadGroupStateMasks {
     kQ3FileReadWholeGroup                       = 0,
     kQ3FileReadObjectsInGroup                   = (1 << 0),
     kQ3FileCurrentlyInsideGroup                 = (1 << 1)
@@ -416,9 +424,9 @@ Q3File_SetStorage (
  *      with it, and must not already be open.
  *
  *  @param theFile          The file object.
- *  @param mode             On output, a combination of TQ3FileModeMasks values.
+ *  @param mode             Receives a combination of TQ3FileModeMasks values.
  *							Pass NULL if you don't need this information.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_OpenRead (
@@ -441,7 +449,7 @@ Q3File_OpenRead (
  *
  *  @param theFile          The file object.
  *  @param mode             A combination of TQ3FileModeMasks values.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_OpenWrite (
@@ -458,8 +466,8 @@ Q3File_OpenWrite (
  *      Determines whether a file object is open.
  *
  *  @param theFile          The file object.
- *  @param isOpen           On output, kQ3True if the file is open.
- *  @result                 Error status of the function.
+ *  @param isOpen           Receives kQ3True if the file is open.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_IsOpen (
@@ -476,8 +484,8 @@ Q3File_IsOpen (
  *      Determine the mode of an open file object.
  *
  *  @param theFile          The file object.
- *  @param mode             On output, the current mode mask.
- *  @result                 Error status of the function.
+ *  @param mode             Receives the current mode mask.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_GetMode (
@@ -494,8 +502,8 @@ Q3File_GetMode (
  *      Get the file format version of an open file.
  *
  *  @param theFile          The file object.
- *  @param version          On output, the file format version.
- *  @result                 Error status of the function.
+ *  @param version          Receives the file format version.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_GetVersion (
@@ -516,7 +524,7 @@ Q3File_GetVersion (
  *		Q3File_Close.
  *
  *  @param theFile          The file object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_Close (
