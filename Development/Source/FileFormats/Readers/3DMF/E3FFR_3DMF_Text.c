@@ -203,86 +203,118 @@ e3fformat_3dmf_text_readitem(TQ3FileFormatObject format, char* theItem, TQ3Uns32
 
 
 //=============================================================================
-//      e3read_3dmf_text_readflag : reads an int from storage.
+//      e3read_3dmf_text_readflag : Reads a flag from storage.
+//-----------------------------------------------------------------------------
+//		Note :	All flags are exclusive, except for cylinder end caps. These
+//				can be OR'd together, which we handle by temporarily seeking
+//				ahead and restoring the file position if we read too far.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hint)
-
-{
-	TQ3FileFormatObject			format;
-
-	char buffer[256];
-	char* buffPtr;
-	TQ3Status result;
-	TQ3Uns32 charsRead,i;
-	
-
-	typedef struct dictEntry {
+{	typedef struct dictEntry {
 		TQ3ObjectType hint;
 		char name[32];
 		TQ3Int32 value;
 	} dictEntry;
-		
-	static dictEntry dictionary[] = {
-								{kQ3ObjectTypeAttributeSetList,"INCLUDE",0},
-								{kQ3ObjectTypeAttributeSetList,"EXCLUDE",1},
-								
-								{kQ3ObjectType3DMF,"FALSE",0},
-								{kQ3ObjectType3DMF,"TRUE",1},
-								
-								{kQ3ObjectType3DMF,"OFF",0},
-								{kQ3ObjectType3DMF,"ON",1},
-								
-								{kQ3ObjectType3DMF,"BIGENDIAN",0},
-								{kQ3ObjectType3DMF,"LITTLEENDIAN",1},
-								
-								{kQ3ObjectType3DMF,"NORMAL",0},
-								{kQ3ObjectType3DMF,"STREAM",1},
-								{kQ3ObjectType3DMF,"DATABASE",2},
-								
-								{kQ3TextureTypePixmap,"RGB32",0},
-								{kQ3TextureTypePixmap,"ARGB32",1},
-								{kQ3TextureTypePixmap,"RGB16",2},
-								{kQ3TextureTypePixmap,"ARGB16",3},
-								{kQ3TextureTypePixmap,"RGB16_565",4},
-								{kQ3TextureTypePixmap,"RGB24",5},
-								
-								{kQ3ObjectTypeGeneralPolygonHint,"COMPLEX",0},
-								{kQ3ObjectTypeGeneralPolygonHint,"CONCAVE",1},
-								{kQ3ObjectTypeGeneralPolygonHint,"CONVEX",2},
 
-								{kQ3StyleTypeBackfacing,"BOTH",0},
-								{kQ3StyleTypeBackfacing,"CULLED",1},
-								{kQ3StyleTypeBackfacing,"FLIPPED",2},
+	static dictEntry dictionary[] = {	{kQ3ObjectTypeAttributeSetList,"INCLUDE",0},
+										{kQ3ObjectTypeAttributeSetList,"EXCLUDE",1},
+								
+										{kQ3ObjectType3DMF,"FALSE",0},
+										{kQ3ObjectType3DMF,"TRUE",1},
+								
+										{kQ3ObjectType3DMF,"OFF",0},
+										{kQ3ObjectType3DMF,"ON",1},
+								
+										{kQ3ObjectType3DMF,"BIGENDIAN",0},
+										{kQ3ObjectType3DMF,"LITTLEENDIAN",1},
+								
+										{kQ3ObjectType3DMF,"NORMAL",0},
+										{kQ3ObjectType3DMF,"STREAM",1},
+										{kQ3ObjectType3DMF,"DATABASE",2},
+								
+										{kQ3TextureTypePixmap,"RGB32",0},
+										{kQ3TextureTypePixmap,"ARGB32",1},
+										{kQ3TextureTypePixmap,"RGB16",2},
+										{kQ3TextureTypePixmap,"ARGB16",3},
+										{kQ3TextureTypePixmap,"RGB16_565",4},
+										{kQ3TextureTypePixmap,"RGB24",5},
+								
+										{kQ3ObjectTypeGeneralPolygonHint,"COMPLEX",0},
+										{kQ3ObjectTypeGeneralPolygonHint,"CONCAVE",1},
+										{kQ3ObjectTypeGeneralPolygonHint,"CONVEX",2},
 
-								{kQ3ObjectTypeGeometryCaps,"NONE",0},
-								{kQ3ObjectTypeGeometryCaps,"TOP",1},
-								{kQ3ObjectTypeGeometryCaps,"BOTTOM",2},
+										{kQ3StyleTypeBackfacing,"BOTH",0},
+										{kQ3StyleTypeBackfacing,"CULLED",1},
+										{kQ3StyleTypeBackfacing,"FLIPPED",2},
 
-								};
-	
-	TQ3Uns32 dictValues = sizeof(dictionary)/sizeof(dictEntry);
+										{kQ3ObjectTypeGeometryCaps,"NONE",0},
+										{kQ3ObjectTypeGeometryCaps,"TOP",1},
+										{kQ3ObjectTypeGeometryCaps,"BOTTOM",2} };
 
-	format = E3File_GetFileFormat(theFile);
-	*flag = 0;
-	
-	result = e3fformat_3dmf_text_readitem (format, buffer, 256, &charsRead);
-	buffPtr = buffer;
-	
-	while(*buffPtr){
-		*buffPtr = toupper(*buffPtr);
-		buffPtr++;
-		}
+	TQ3Uns32                    i, charsRead, dictValues, saveStoragePos;
+	TQ3FFormatBaseData			*formatInstanceData;
+	char						buffer[256];
+	TQ3FileFormatObject			format;
+	TQ3Status					result;
+	TQ3Boolean					areDone;
 
-	for(i=0;i< dictValues;i++){
-		if(dictionary[i].hint == hint){
-			if(E3CString_IsEqual(dictionary[i].name,buffer))
+
+
+	// Initialise ourselves
+	format             = E3File_GetFileFormat(theFile);
+	formatInstanceData = (TQ3FFormatBaseData *) format->instanceData;
+
+	dictValues = sizeof(dictionary)/sizeof(dictEntry);
+	areDone    = kQ3False;
+	*flag      = 0;
+
+
+
+	// Loop until we've read all the flags
+	do
+		{
+		// Read the buffer, and assume that's us done
+		result  = e3fformat_3dmf_text_readitem (format, buffer, 256, &charsRead);
+		areDone = kQ3True;
+
+
+		// Convert the flag
+		for(i = 0; i < dictValues; i++)
+			{
+			if(dictionary[i].hint == hint)
 				{
-				*flag = dictionary[i].value;
-				break;
+				if(E3CString_IsEqual(dictionary[i].name,buffer))
+					{
+					// We've found a match - apply the flag
+					*flag |= dictionary[i].value;
+
+
+					// If we're reading cylinder flags, read ahead to see if we need to
+					// keep looping or if this was the last flag. This model could be
+					// adopted to handle other non-exclusive flags if they're added.
+					if (hint == kQ3ObjectTypeGeometryCaps)
+						{
+						// Save the current storage position, and read the next token
+						saveStoragePos = formatInstanceData->currentStoragePosition;
+						result         = e3fformat_3dmf_text_readitem(format, buffer, 256, &charsRead);
+						
+						
+						// If it's not a pipe, that was the last flag: we're done
+						areDone = !E3CString_IsEqual(buffer, "|");
+						if (areDone)
+							formatInstanceData->currentStoragePosition = saveStoragePos;
+						}
+					
+					
+					// Break from the inner for loop
+					break;
+					}
 				}
 			}
 		}
+	while (!areDone);
+	
 	return (result);
 }
 
