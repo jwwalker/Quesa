@@ -323,7 +323,7 @@ Q3FileFormat_GenericReadText_SkipBlanks (
 <blockquote><pre><tt>TQ3Status  
 Q3FileFormat_GenericWriteBinSwap_16 (
     TQ3FileFormatObject           format,
-    TQ3Int16                      data
+    const TQ3Int16                *data
 );
 </tt><br>
 </pre></blockquote>
@@ -346,7 +346,7 @@ Q3FileFormat_GenericWriteBinSwap_16 (
 <blockquote><pre><tt>TQ3Status  
 Q3FileFormat_GenericWriteBinSwap_32 (
     TQ3FileFormatObject           format,
-    TQ3Int32                      data
+    const TQ3Int32                *data
 );
 </tt><br>
 </pre></blockquote>
@@ -369,7 +369,7 @@ Q3FileFormat_GenericWriteBinSwap_32 (
 <blockquote><pre><tt>TQ3Status  
 Q3FileFormat_GenericWriteBinSwap_64 (
     TQ3FileFormatObject           format,
-    TQ3Int64                      data
+    const TQ3Int64                *data
 );
 </tt><br>
 </pre></blockquote>
@@ -392,7 +392,7 @@ Q3FileFormat_GenericWriteBinSwap_64 (
 <blockquote><pre><tt>TQ3Status  
 Q3FileFormat_GenericWriteBinary_16 (
     TQ3FileFormatObject           format,
-    TQ3Int16                      data
+    const TQ3Int16                *data
 );
 </tt><br>
 </pre></blockquote>
@@ -415,7 +415,7 @@ Q3FileFormat_GenericWriteBinary_16 (
 <blockquote><pre><tt>TQ3Status  
 Q3FileFormat_GenericWriteBinary_32 (
     TQ3FileFormatObject           format,
-    TQ3Int32                      data
+    const TQ3Int32                *data
 );
 </tt><br>
 </pre></blockquote>
@@ -438,7 +438,7 @@ Q3FileFormat_GenericWriteBinary_32 (
 <blockquote><pre><tt>TQ3Status  
 Q3FileFormat_GenericWriteBinary_64 (
     TQ3FileFormatObject           format,
-    TQ3Int64                      data
+    const TQ3Int64                *data
 );
 </tt><br>
 </pre></blockquote>
@@ -461,7 +461,7 @@ Q3FileFormat_GenericWriteBinary_64 (
 <blockquote><pre><tt>TQ3Status  
 Q3FileFormat_GenericWriteBinary_8 (
     TQ3FileFormatObject           format,
-    TQ3Int8                       data
+    const TQ3Int8                 *data
 );
 </tt><br>
 </pre></blockquote>
@@ -3319,5 +3319,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/13/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/19/2001 </a></font></p>
 </body></html>
