@@ -276,6 +276,13 @@ ir_texture_convert_mipmap(TQ3TextureObject theTexture)
 
 
 
+	// Reset OpenGL parameters to defaults
+	glPixelStorei(GL_PACK_ROW_LENGTH,  0);
+	glPixelStorei(GL_PACK_SKIP_ROWS,   0);
+	glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
+
+
+
 	// Clean up and return
 	E3Object_DisposeAndForget(theMipmap.image);
 	Q3Memory_Free(&basePtr);
