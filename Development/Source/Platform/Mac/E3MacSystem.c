@@ -127,7 +127,7 @@ E3MacSystem_Initialise(void)
 #pragma mark -
 void
 E3MacSystem_Terminate(void)
-{	AGLContext		glContext;
+{
 
 
 

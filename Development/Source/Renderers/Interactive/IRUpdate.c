@@ -518,8 +518,8 @@ ir_state_texture_cache_is_stale(TQ3InteractiveData	*instanceData,
 
 
 			// If either of them have changed, the cache entry is now stale
-			isStale = (TQ3Boolean) (editIndexShader  != instanceData->cachedTextures[n].editIndexShader) ||
-					  (TQ3Boolean) (editIndexTexture != instanceData->cachedTextures[n].editIndexTexture);
+			isStale = (TQ3Boolean) ((editIndexShader  != instanceData->cachedTextures[n].editIndexShader) ||
+					  				(editIndexTexture != instanceData->cachedTextures[n].editIndexTexture));
 
 			return(isStale);
 			}
