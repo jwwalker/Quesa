@@ -74,7 +74,7 @@ TQ3Status			IRRenderer_State_Update(
 								TQ3InteractiveData		*instanceData,
 								TQ3AttributeSet			theAttributes);
 
-void				IRRenderer_Texture_Preamble(
+TQ3Boolean			IRRenderer_Texture_Preamble(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
 								TQ3AttributeSet			theAttributes);
@@ -82,8 +82,8 @@ void				IRRenderer_Texture_Preamble(
 void				IRRenderer_Texture_Postamble(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
-								TQ3AttributeSet			theAttributes,
-								TQ3Boolean				canTexture);
+								TQ3Boolean				hadAttributeTexture,
+								TQ3Boolean				couldTexture);
 
 TQ3Uns8				*IRRenderer_Texture_GetData(
 								TQ3StorageObject		theStorage,
