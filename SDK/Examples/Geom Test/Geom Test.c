@@ -50,6 +50,9 @@ enum {
 	kMenuItemSaveModel,
 	kMenuItemDivider1,
 	kMenuItemGeometryBox,
+#if QUT_CAN_USE_TEXTURES
+	kMenuItemGeometryTexturedBox,
+#endif
 	kMenuItemGeometryCone,
 	kMenuItemGeometryCylinder,
 	kMenuItemGeometryDisk,
@@ -427,6 +430,74 @@ createGeomBox(void)
 
 	return(theBox);
 }
+
+
+
+
+
+//=============================================================================
+//      createGeomTexturedBox : Create a Box object with a texture on each face.
+//-----------------------------------------------------------------------------
+#if QUT_CAN_USE_TEXTURES
+static TQ3GeometryObject
+createGeomTexturedBox(void)
+{
+	TQ3AttributeSet		faceAttributes[6];
+	TQ3BoxData			boxData;
+	TQ3GeometryObject	theBox;
+	TQ3Uns32			n;
+	TQ3ShaderObject		texShader;
+	ConstStringPtr		textureNames[6] = { "\p1.png", "\p2.png", "\p3.png",
+											"\p4.png", "\p5.png", "\p6.png" };
+	FSSpec				fileSpec;
+	
+	// Set up the data
+	Q3Point3D_Set(&boxData.origin,      -0.5f, -1.0f,  0.5f);
+	Q3Vector3D_Set(&boxData.orientation, 0.0f,  2.0f,  0.0f);
+	Q3Vector3D_Set(&boxData.majorAxis,   0.0f,  0.0f,  1.0f);
+	Q3Vector3D_Set(&boxData.minorAxis,   1.0f,  0.0f,  0.0f);
+	boxData.boxAttributeSet  = NULL;
+	boxData.faceAttributeSet = faceAttributes;
+	
+	HSetVol( "\p::Support Files:Images:", 0, 0 );
+
+	for (n = 0; n < 6; n++)
+	{
+		faceAttributes[n] = Q3AttributeSet_New();
+		if (faceAttributes[n] != NULL)
+		{
+			#if macintosh
+			if (0 == FSMakeFSSpec( 0, 0, textureNames[n], &fileSpec ))
+			{
+				texShader = QutTexture_CreateTextureFromFile( &fileSpec,
+					kQ3PixelTypeRGB16, kQ3True );
+				if (texShader != NULL)
+				{
+					Q3AttributeSet_Add( faceAttributes[n], kQ3AttributeTypeSurfaceShader,
+						&texShader );
+					Q3Object_Dispose( texShader );
+				}
+			}
+			#endif
+			//Q3AttributeSet_Add(faceAttributes[n], kQ3AttributeTypeDiffuseColor, &faceColour[n]);
+		}
+	}
+
+	// Create the geometry
+	theBox = Q3Box_New(&boxData);
+
+
+
+	// Clean up
+	for (n = 0; n < 6; n++)
+		{
+		if (faceAttributes[n] != NULL)
+			Q3Object_Dispose(faceAttributes[n]);
+		}
+
+	return(theBox);
+}
+#endif
 
 
 
@@ -2028,6 +2099,12 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemGeometryBox:
 			theGeom = createGeomBox();
 			break;
+			
+	#if QUT_CAN_USE_TEXTURES
+		case kMenuItemGeometryTexturedBox:
+			theGeom = createGeomTexturedBox();
+			break;
+	#endif
 
 		case kMenuItemGeometryCone:
 			theGeom = createGeomCone();
@@ -2250,7 +2327,7 @@ void
 App_Initialise(void)
 {
 	// Watch for leaks (Quesa only)
-	#if TARGET_API_MAC_CARBON
+	#ifdef QUESA_HDR
 	Q3Memory_StartRecording();
 	#endif
 
@@ -2301,6 +2378,9 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "Save Model...");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Box");
+#if QUT_CAN_USE_TEXTURES
+	Qut_CreateMenuItem(kMenuItemLast, "Box (textured)");
+#endif
 	Qut_CreateMenuItem(kMenuItemLast, "Cone");
 	Qut_CreateMenuItem(kMenuItemLast, "Cylinder");
 	Qut_CreateMenuItem(kMenuItemLast, "Disk");
