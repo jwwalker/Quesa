@@ -258,6 +258,7 @@ extern "C" {
 #define kQ3XMethodTypeObjectSubmitWrite				Q3_METHOD_TYPE('Q', 's', 'u', 'w')
 #define kQ3XMethodTypeObjectSubmitBounds			Q3_METHOD_TYPE('Q', 's', 'u', 'b')
 #define kQ3XMethodTypeDrawContextUpdate				Q3_METHOD_TYPE('Q', 'u', 'p', 'd')
+#define kQ3XMethodTypeDrawContextGetDimensions		Q3_METHOD_TYPE('Q', 'g', 'd', 'i')
 #define kQ3XMethodTypeTransformMatrix				Q3_METHOD_TYPE('Q', 't', 'm', 'x')
 #define kQ3XMethodTypeCameraFrustumMatrix			Q3_METHOD_TYPE('Q', 'c', 'm', 'x')
 #define kQ3XMethodTypeRendererMethodsCached			Q3_METHOD_TYPE('Q', 'r', 'm', 'c')
@@ -304,6 +305,7 @@ typedef CALLBACK_API_C(TQ3Status,	TQ3XObjectSubmitMethod)(TQ3ViewObject		theView
 
 // Misc methods
 typedef CALLBACK_API_C(TQ3Status, 	TQ3XDrawContextUpdateMethod)(TQ3DrawContextObject theDrawContext);
+typedef CALLBACK_API_C(void, 		TQ3XDrawContextGetDimensionsMethod)(TQ3DrawContextObject theDrawContext, TQ3Area *thePane);
 typedef CALLBACK_API_C(void,      	TQ3XTransformMatrixMethod)(const void *transformData, TQ3Matrix4x4 *theMatrix);
 typedef CALLBACK_API_C(void,		TQ3XCameraFrustumMatrixMethod)(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix);
 typedef CALLBACK_API_C(void,		TQ3XTextureDimensionsMethod)(TQ3TextureObject theTexture, TQ3Point2D *theDimensions);
