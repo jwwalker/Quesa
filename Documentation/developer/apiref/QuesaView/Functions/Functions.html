@@ -107,6 +107,49 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
+<a name="//apple_ref/c/func/Q3View_AddLight"></a>
+<h3><a name="Q3View_AddLight">Q3View_AddLight</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3View_AddLight (
+    TQ3ViewObject                 theView,
+    TQ3ObjectType                 lightType,
+    void                          *lightData
+);
+</tt><br>
+</pre></blockquote>
+<p>Add a light to a view's light group.
+<br><br>
+If the view does not currently posses a light group, a new group
+will be created.
+<br><br>
+lightData is assumed to point to the appropriate data structure
+for lightType. E.g., if lightType is kQ3LightTypeSpot, then
+lightData is assumed to be a pointer to a TQ3SpotLightData
+structure.
+<br><br>
+lightType may also be set to kQ3ShapeTypeLight. In this case
+lightData is assumed to point to an existing TQ3LightObject (of
+any type) rather than to the data structure for a specific
+type of light.
+<br><br>
+The reference count of the TQ3LightObject will be unaffected, and
+so the caller must dispose of it to release their reference.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view to add the light to.</td></tr>
+<tr valign=top><td><tt>lightType</tt></td><td>The type of data referenced by lightData.</td></tr>
+<tr valign=top><td><tt>lightData</tt></td><td>The data for the light.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3View_AllowAllGroupCulling"></a>
 <h3><a name="Q3View_AllowAllGroupCulling">Q3View_AllowAllGroupCulling</a></h3>
 <blockquote><pre><tt>TQ3Status  
@@ -871,6 +914,46 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
+<a name="//apple_ref/c/func/Q3View_NewWithDefaults"></a>
+<h3><a name="Q3View_NewWithDefaults">Q3View_NewWithDefaults</a></h3>
+<blockquote><pre><tt>TQ3ViewObject  
+Q3View_NewWithDefaults (
+    TQ3ObjectType                 drawContextType,
+    void                          *drawContextTarget
+);
+</tt><br>
+</pre></blockquote>
+<p>Create a view with a default camera, light group, renderer, and
+draw context for the specified draw context target.
+<br><br>
+The draw context type indicates the type of draw context target
+to create, and implies the following values for drawContextTarget.
+<br><br>
+kQ3DrawContextTypePixmap    => A TQ3Pixmap object.
+kQ3DrawContextTypeMacintosh => A WindowRef.
+kQ3DrawContextTypeCocoa     => An NSView.
+kQ3DrawContextTypeWin32DC   => An HDC.
+kQ3DrawContextTypeX11       => A Visual.
+kQ3DrawContextTypeBe        => A BView.
+<br><br>
+The exact contents of the returned view are not defined, however it
+should be suitable for interactively rendering objects placed at the
+origin and will fill the supplied window.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>drawContextType</tt></td><td>The type of data referenced by drawContextTarget</td></tr>
+<tr valign=top><td><tt>drawContextTarget</tt></td><td>The window/etc reference for the draw context.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The new view object, or NULL on failure.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3View_SetCamera"></a>
 <h3><a name="Q3View_SetCamera">Q3View_SetCamera</a></h3>
 <blockquote><pre><tt>TQ3Status  
@@ -1324,5 +1407,5 @@ May only be called within a view submitting loop.
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
 </body></html>

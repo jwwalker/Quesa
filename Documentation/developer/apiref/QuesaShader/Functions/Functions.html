@@ -1,4 +1,149 @@
 <html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
+<a name="//apple_ref/c/func/Q3ColorARGB_Accumulate"></a>
+<h3><a name="Q3ColorARGB_Accumulate">Q3ColorARGB_Accumulate</a></h3>
+<blockquote><pre><tt>TQ3ColorARGB * 
+Q3ColorARGB_Accumulate (
+    const TQ3ColorARGB            *src,
+    TQ3ColorARGB                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Add a colour to an existing color.
+<br><br>
+The result is not clamped, and its components may increase past 1.0.
+<br><br>
+Available in inline form as Q3FastColorARGB_Accumulate.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>src</tt></td><td>The color to accumulate.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>The color to accumulate into.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Convenience pointer to the result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ColorARGB_Add"></a>
+<h3><a name="Q3ColorARGB_Add">Q3ColorARGB_Add</a></h3>
+<blockquote><pre><tt>TQ3ColorARGB * 
+Q3ColorARGB_Add (
+    const TQ3ColorARGB            *c1,
+    const TQ3ColorARGB            *c2,
+    TQ3ColorARGB                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Add c1 to c2.
+<br><br>
+Available in inline form as Q3FastColorARGB_Add.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>c1</tt></td><td>The first color.</td></tr>
+<tr valign=top><td><tt>c2</tt></td><td>The second color.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Receives the sum of c1 and c2.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Convenience pointer to the result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ColorARGB_Clamp"></a>
+<h3><a name="Q3ColorARGB_Clamp">Q3ColorARGB_Clamp</a></h3>
+<blockquote><pre><tt>TQ3ColorARGB * 
+Q3ColorARGB_Clamp (
+    const TQ3ColorARGB            *color,
+    TQ3ColorARGB                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Clamp the components of a color to within 0.0 to 1.0.
+<br><br>
+Available in inline form as Q3FastColorARGB_Clamp.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>color</tt></td><td>The color to clamp.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Receives the clamped color.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Convenience pointer to the result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ColorARGB_Lerp"></a>
+<h3><a name="Q3ColorARGB_Lerp">Q3ColorARGB_Lerp</a></h3>
+<blockquote><pre><tt>TQ3ColorARGB * 
+Q3ColorARGB_Lerp (
+    const TQ3ColorARGB            *first,
+    const TQ3ColorARGB            *last,
+    float                         alpha,
+    TQ3ColorARGB                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Linearly interpolate between two colors.
+<br><br>
+Available in inline form as Q3FastColorARGB_Lerp.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>first</tt></td><td>The first color.</td></tr>
+<tr valign=top><td><tt>last</tt></td><td>The second color.</td></tr>
+<tr valign=top><td><tt>alpha</tt></td><td>The blend factor to interpolate by.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Receives the interpolated color.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Convenience pointer to the result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ColorARGB_Scale"></a>
+<h3><a name="Q3ColorARGB_Scale">Q3ColorARGB_Scale</a></h3>
+<blockquote><pre><tt>TQ3ColorARGB * 
+Q3ColorARGB_Scale (
+    const TQ3ColorARGB            *color,
+    float                         scale,
+    TQ3ColorARGB                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Scale a color.
+<br><br>
+Available in inline form as Q3FastColorARGB_Scale.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>color</tt></td><td>The color to scale.</td></tr>
+<tr valign=top><td><tt>scale</tt></td><td>The factor to scale by.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Receives the scaled color.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Convenience pointer to the result.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3ColorARGB_Set"></a>
 <h3><a name="Q3ColorARGB_Set">Q3ColorARGB_Set</a></h3>
 <blockquote><pre><tt>TQ3ColorARGB * 
@@ -11,23 +156,52 @@ Q3ColorARGB_Set (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set an ARGB color.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Available in inline form as Q3FastColorARGB_Set.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>a</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>r</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>g</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>The color to set.</td></tr>
+<tr valign=top><td><tt>a</tt></td><td>The alpha component for the color.</td></tr>
+<tr valign=top><td><tt>r</tt></td><td>The red component for the color.</td></tr>
+<tr valign=top><td><tt>g</tt></td><td>The green component for the color.</td></tr>
+<tr valign=top><td><tt>b</tt></td><td>The blue component for the color.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Convenience pointer to the result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ColorARGB_Subtract"></a>
+<h3><a name="Q3ColorARGB_Subtract">Q3ColorARGB_Subtract</a></h3>
+<blockquote><pre><tt>TQ3ColorARGB * 
+Q3ColorARGB_Subtract (
+    const TQ3ColorARGB            *c1,
+    const TQ3ColorARGB            *c2,
+    TQ3ColorARGB                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Subtract c1 from c2.
+<br><br>
+Available in inline form as Q3FastColorARGB_Subtract.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>c1</tt></td><td>The first color.</td></tr>
+<tr valign=top><td><tt>c2</tt></td><td>The second color.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Receives c2 minus c1.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Convenience pointer to the result.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ColorRGB_Accumulate"></a>
@@ -39,21 +213,22 @@ Q3ColorRGB_Accumulate (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Add a colour to an existing color.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The result is not clamped, and its components may increase past 1.0.
+<br><br>
+Available in inline form as Q3FastColorRGB_Accumulate.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>src</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>src</tt></td><td>The color to accumulate.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>The color to accumulate into.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Convenience pointer to the result.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ColorRGB_Add"></a>
@@ -66,22 +241,21 @@ Q3ColorRGB_Add (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Add c1 to c2.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Available in inline form as Q3FastColorRGB_Add.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>c1</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>c2</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>c1</tt></td><td>The first color.</td></tr>
+<tr valign=top><td><tt>c2</tt></td><td>The second color.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Receives the sum of c1 and c2.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Convenience pointer to the result.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ColorRGB_Clamp"></a>
@@ -93,21 +267,20 @@ Q3ColorRGB_Clamp (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Clamp the components of a color to within 0.0 to 1.0.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Available in inline form as Q3FastColorRGB_Clamp.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>The color to clamp.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Receives the clamped color.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Convenience pointer to the result.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ColorRGB_Lerp"></a>
@@ -121,23 +294,22 @@ Q3ColorRGB_Lerp (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Linearly interpolate between two colors.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Available in inline form as Q3FastColorRGB_Lerp.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>first</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>last</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>alpha</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>first</tt></td><td>The first color.</td></tr>
+<tr valign=top><td><tt>last</tt></td><td>The second color.</td></tr>
+<tr valign=top><td><tt>alpha</tt></td><td>The blend factor to interpolate by.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Receives the interpolated color.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Convenience pointer to the result.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ColorRGB_Luminance"></a>
@@ -149,21 +321,26 @@ Q3ColorRGB_Luminance (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Calculate the luminance of a color.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The luminance is calculated with the factors used by QD3D, i.e.,:
+<br><br>
+<tt>l = (r * 0.30078125f) +</tt>
+<tt>    (g * 0.58984375f) +</tt>
+<tt>    (b * 0.109375f)</tt>
+<br><br>
+Available in inline form as Q3FastColorRGB_Luminance.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>luminance</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>The color whose luminance is to be calculated.</td></tr>
+<tr valign=top><td><tt>luminance</tt></td><td>Receives the luminance value for the color.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Convenience pointer to the result.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ColorRGB_Scale"></a>
@@ -176,22 +353,21 @@ Q3ColorRGB_Scale (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Scale a color.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Available in inline form as Q3FastColorRGB_Scale.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>scale</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>The color to scale.</td></tr>
+<tr valign=top><td><tt>scale</tt></td><td>The factor to scale by.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Receives the scaled color.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Convenience pointer to the result.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ColorRGB_Set"></a>
@@ -205,10 +381,9 @@ Q3ColorRGB_Set (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set an RGB color.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Available in inline form as Q3FastColorRGB_Set.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -216,11 +391,12 @@ the typical usage of this function and any special requirements.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>r</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>g</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>r</tt></td><td>The red component for the color.</td></tr>
+<tr valign=top><td><tt>g</tt></td><td>The green component for the color.</td></tr>
+<tr valign=top><td><tt>b</tt></td><td>The blue component for the color.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Convenience pointer to the result.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ColorRGB_Subtract"></a>
@@ -233,22 +409,21 @@ Q3ColorRGB_Subtract (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Subtract c1 from c2.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Available in inline form as Q3FastColorRGB_Subtract.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>c1</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>c2</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>c1</tt></td><td>The first color.</td></tr>
+<tr valign=top><td><tt>c2</tt></td><td>The second color.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Receives c2 minus c1.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Convenience pointer to the result.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CompressedPixmapTexture_CompressImage"></a>
@@ -970,5 +1145,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
 </body></html>

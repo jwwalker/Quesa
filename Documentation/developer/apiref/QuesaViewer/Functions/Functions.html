@@ -1735,6 +1735,8 @@ Should be called when the mouse moves into the viewer area, but may
 be called for any coordinate. Allows the Viewer to change the cursor
 as appropriate for the Viewer mode and cursor location.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1761,6 +1763,8 @@ Q3Viewer_CursorChanged (
 If you change the cursor within your application, notify the active
 viewer using this routine.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1781,6 +1785,8 @@ Q3Viewer_Dispose (
 </tt><br>
 </pre></blockquote>
 <p>Disposes of a Viewer object.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1806,6 +1812,8 @@ Q3Viewer_Draw (
 Should be called after the changing the Viewer's flags or visible features.
 For example, to move or resize a Viewer, call <code>Q3Viewer_SetBounds</code>
 followed by <code>Q3Viewer_Draw</code>.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1833,6 +1841,8 @@ associated with the Viewer.  In such a case, it's more efficient to
 call this function than <code>Q3Viewer_Draw</code>, which also redraws
 other user interface elements (such as control buttons).
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1856,6 +1866,8 @@ Q3Viewer_DrawControlStrip (
 <br><br>
 Call this function when you want to redraw the controls, without
 re-rendering the 3D view.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1881,6 +1893,8 @@ Q3Viewer_EditClear (
 Call this function in response to the user selecting the standard
 Clear command when the viewer has the focus.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1904,6 +1918,8 @@ Q3Viewer_EditCopy (
 <br><br>
 Call this function in response to the user selecting the standard
 Copy command when the viewer has the focus.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1929,6 +1945,8 @@ Q3Viewer_EditCut (
 Call this function in response to the user selecting the standard
 Cut command when the viewer has the focus.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1953,6 +1971,8 @@ Q3Viewer_EditPaste (
 Call this function in response to the user selecting the standard
 Paste command when the viewer has the focus.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1976,6 +1996,8 @@ Q3Viewer_EditUndo (
 <br><br>
 Call this function in response to the user selecting the standard
 Undo command when the viewer has the focus.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2003,6 +2025,8 @@ within the viewer when the viewer has the focus.
 On Mac OS, theEvent should be a pointer to an EventRecord for the
 event. On Windows, this function is not currently supported.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2027,6 +2051,8 @@ Q3Viewer_EventMouseDown (
 </tt><br>
 </pre></blockquote>
 <p>Should be called to handle a mouse-down event within the viewer.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2057,6 +2083,8 @@ has returned true.
 <br><br>
 Should be called repeatedly until the mouse is released.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2084,6 +2112,8 @@ Q3Viewer_EventMouseUp (
 after a previous call to <code>Q3Viewer_EventMouseDown</code>
 has returned true.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2107,6 +2137,8 @@ Q3Viewer_GetBackgroundColor (
 </tt><br>
 </pre></blockquote>
 <p>Gets the background color of a viewer.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2135,6 +2167,8 @@ The bounding rectangle determines where the Viewer draws itself
 within its window.  The bounds are in window coordinates, and include
 both the rendered area and the control strip.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2160,6 +2194,8 @@ Q3Viewer_GetBrightness (
 <br><br>
 The brightness is specified as a float, ranging from 0.0
 for no illumination to 1.0 for full illumination.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2188,6 +2224,8 @@ Q3Viewer_GetButtonRect (
 E.g., to obtain the location of the camera button within a viewer's
 control strip, use the kQ3ViewerButtonCamera constant.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2213,6 +2251,8 @@ Q3Viewer_GetCallbackDraw (
 <br><br>
 If no callback has been set, will return NULL.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2236,6 +2276,8 @@ Q3Viewer_GetCallbackResize (
 <br><br>
 If no callback has been set, will return NULL.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2250,7 +2292,7 @@ If no callback has been set, will return NULL.
 <a name="//apple_ref/c/func/Q3Viewer_GetCallbackResizeNotify"></a>
 <h3><a name="Q3Viewer_GetCallbackResizeNotify">Q3Viewer_GetCallbackResizeNotify</a></h3>
 <blockquote><pre><tt>TQ3ViewerPaneResizeNotifyCallbackMethod 
-Q3Viewer_GetCallbackResize (
+Q3Viewer_GetCallbackResizeNotify (
     TQ3ViewerObject                theViewer
 );
 </tt><br>
@@ -2258,6 +2300,8 @@ Q3Viewer_GetCallbackResize (
 <p>Gets the current resize notification callback for the viewer.
 <br><br>
 If no callback has been set, will return NULL.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2288,6 +2332,8 @@ with the Viewer, then this function returns 0.
 <br><br>
 See also <code>Q3Viewer_SetCameraByNumber</code>.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2313,6 +2359,8 @@ Q3Viewer_GetControlStripWindow (
 On Mac OS, the window returned will be the WindowRef used by the main
 viewer. On Windows, it will be an HWND for the child window used by
 the control strip.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2346,6 +2394,8 @@ kQ3ViewerFlagButtonOrbit
 kQ3ViewerFlagButtonZoom
 kQ3ViewerFlagButtonDolly</code>
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2371,6 +2421,8 @@ Q3Viewer_GetDimension (
 <br><br>
 If the specified Viewer has no view hints, then this function just
 returns the actual width and height of the viewer pane.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2398,6 +2450,8 @@ Q3Viewer_GetFlags (
 Note that Q3Viewer_GetFlags returns kQ3ViewerFlagXXXX constants,
 not the QuickDraw 3D style kQ3ViewerXXXX constants.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2422,6 +2476,8 @@ Q3Viewer_GetGroup (
 The reference count of the TQ3GroupObject returned is incremented
 by this call.  Therefore, you should call Q3Object_Dispose on the
 returned object when you're with it.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2451,6 +2507,8 @@ disposed of with DisposeHandle by the caller when no longer required.
 On Windows, the pointer returned is to an HBITMAP. This must be disposed
 of by the caller when no longer required.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2478,6 +2536,8 @@ The returned size will take into account the currently displayed
 buttons in the controller strip.  If you allow the viewer pane
 (or its window) to be resized, you should not allow it to be
 resized smaller than the values returned by this function.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2508,6 +2568,8 @@ particularly where highlights are concerned.
 <br><br>
 Not all renderers support phong shading. Even if phong shading is turned
 on, the renderer may choose to ignore it when producing the image.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2544,6 +2606,8 @@ in the book <i>Inside Macintosh: Macintosh Toolbox Essentials.</i>
 <br><br>
 See also the Q3Viewer_GetVersion function.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2571,6 +2635,8 @@ face away from the camera.  If backface removal is on, such polygons
 will not be drawn. If it is off then all polygons are drawn, even if
 they face away from the camera.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2594,6 +2660,8 @@ Q3Viewer_GetRendererType (
 </pre></blockquote>
 <p>Gets the renderer type currently used by the Viewer.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2615,6 +2683,8 @@ Q3Viewer_GetState (
 </tt><br>
 </pre></blockquote>
 <p>Returns a set of status bits indicating the viewer state.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2646,6 +2716,8 @@ in Quesa 1.6 at least).  Note that this text does not contain
 the "Undo" word itself, but only the name of the operation.  So
 if you want to use this to set the text of a menu item, you'll
 need to prefix it with "Undo " yourself.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2679,6 +2751,8 @@ revision level and 61 as the minor revision level.
 <br><br>
 See also the Q3Viewer_GetReleaseVersion function.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2700,6 +2774,8 @@ Q3Viewer_GetView (
 </tt><br>
 </pre></blockquote>
 <p>Returns the view object associated with the given Viewer.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2729,6 +2805,8 @@ first viewer associated with the window.
 On Mac OS, the window parameter should be a WindowRef. On Windows, it
 should be an HWND.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2754,6 +2832,8 @@ If NULL is returned, the viewer is not associated with any window.
 <br><br>
 On Mac OS, the window returned will be a WindowRef. On Windows, it
 will be an HWND.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2785,6 +2865,8 @@ a CGrafPtr (which you can get from a WindowRef via GetWindowPort).
 Note that Q3Viewer_New requires kQ3ViewerFlagXXXX constants for the flags
 parameter, not the QuickDraw 3D style kQ3ViewerXXXX constants.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2813,6 +2895,8 @@ to a standard default state.
 This has the same effect as clicking the reset button in the
 viewer controls.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2834,6 +2918,8 @@ Q3Viewer_SetBackgroundColor (
 </tt><br>
 </pre></blockquote>
 <p>Sets the background color of a viewer.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2862,6 +2948,8 @@ The bounding rectangle determines where the Viewer draws itself
 within its window.  The bounds are in window coordinates, and include
 both the rendered area and the control strip.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2887,6 +2975,8 @@ Q3Viewer_SetBrightness (
 <br><br>
 The brightness is specified as a float, ranging from 0.0
 for no illumination to 1.0 for full illumination.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2915,6 +3005,8 @@ Q3Viewer_SetCallbackDraw (
 The callback is invoked by the viewer after it draws any part of itself,
 including the control strip. The userData parameter will be supplied to
 the callback unchanged.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2949,6 +3041,8 @@ to override this behaviour.
 The callback should handle all mouse tracking, resizing, and invalidating
 of the viewer window.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2965,7 +3059,7 @@ of the viewer window.
 <a name="//apple_ref/c/func/Q3Viewer_SetCallbackResizeNotify"></a>
 <h3><a name="Q3Viewer_SetCallbackResizeNotify">Q3Viewer_SetCallbackResizeNotify</a></h3>
 <blockquote><pre><tt>TQ3Status 
-Q3Viewer_SetCallbackResize (
+Q3Viewer_SetCallbackResizeNotify (
     TQ3ViewerObject                          theViewer,
     TQ3ViewerPaneResizeNotifyCallbackMethod  theCallback,
     const void                               *userData
@@ -2975,6 +3069,8 @@ Q3Viewer_SetCallbackResize (
 <p>Sets a resize notification callback for the viewer.
 <br><br>
 The callback is invoked by the viewer when its window is resized.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3005,6 +3101,8 @@ Model files may contain view hints which provide things such as
 The camera number supplied is 1-based, and the value must be less
 than or equal to the result of <code>Q3Viewer_GetCameraCount</code>.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3027,6 +3125,8 @@ Q3Viewer_SetCameraByView (
 </tt><br>
 </pre></blockquote>
 <p>Sets the camera to one of the predefined views.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3062,6 +3162,8 @@ kQ3ViewerFlagButtonOrbit
 kQ3ViewerFlagButtonZoom
 kQ3ViewerFlagButtonDolly</code>
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3089,6 +3191,8 @@ Q3Viewer_SetDimension (
 This might be useful if you were then going to write a 3DMF file
 of the Viewer data; presumably it could store this hint in that file.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3115,6 +3219,8 @@ Q3Viewer_SetFlags (
 <br><br>
 Note that Q3Viewer_SetFlags requires kQ3ViewerFlagXXXX constants,
 not the QuickDraw 3D style kQ3ViewerXXXX constants.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3145,6 +3251,8 @@ particularly where highlights are concerned.
 Not all renderers support phong shading. Even if phong shading is turned
 on, the renderer may choose to ignore it when producing the image.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3173,6 +3281,8 @@ face away from the camera.  If backface removal is on, such polygons
 will not be drawn. If it is off then all polygons are drawn, even if
 they face away from the camera.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3200,6 +3310,8 @@ Calling this function is equivalent to selecting one of the renderers
 from the pop-up menu on the Options control button.  The object type
 must be associated with one of the installed renderers.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3225,6 +3337,8 @@ Q3Viewer_SetWindow (
 <br><br>
 On Mac OS, the window parameter should be a WindowRef. On Windows, it
 should be an HWND.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3254,6 +3368,8 @@ The given data buffer is copied by the Viewer; the caller is responsible
 for disposing of it and may do so immediately after this call.
 <br><br>
 See also: <code>Q3Viewer_UseFile</code> and <code>Q3Viewer_UseGroup</code>.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3285,6 +3401,8 @@ open file. The file must be opened for reading.
 <br><br>
 See also: <code>Q3Viewer_UseData</code> and <code>Q3Viewer_UseGroup</code>.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3309,6 +3427,8 @@ Q3Viewer_UseGroup (
 <p>Loads 3D scene data within a TQ3GroupObject into the Viewer.
 <br><br>
 See also: <code>Q3Viewer_UseFile</code>, <code>Q3Viewer_UseData</code>.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3339,6 +3459,8 @@ The pointer returned is to memory allocated internally by the viewer.
 This memory must not be disposed of by your application, and will
 be released when the viewer object is disposed of.
 <br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3366,6 +3488,8 @@ Q3Viewer_WriteFile (
 On Mac OS, the file reference parameter should be a Mac OS file reference
 obtained from, e.g., FSOpen. On Windows, it should be a HANDLE to the
 open file. The file must be opened for writing.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -4690,5 +4814,5 @@ Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
 </body></html>

@@ -1,105 +1,114 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvetica"><h1>Enumerations</h1></font><hr><br>
+<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
 <a name="//apple_ref/c/tag/Attribute&nbsp;method&nbsp;types"></a>
 <h3><a name="Attribute&nbsp;method&nbsp;types">Attribute&nbsp;method&nbsp;types</a></h3>
 <blockquote><pre>
-//  Attribute  method  types
-enum  {
-  kQ3XMethodTypeAttributeInherit  =  Q3_METHOD_TYPE('i',  'n',  'h',  't'),
-  kQ3XMethodTypeAttributeCopyInherit  =  Q3_METHOD_TYPE('a',  'c',  'p',  'i'),
-  kQ3XMethodTypeAttributeDefault  =  Q3_METHOD_TYPE('a',  's',  'd',  'f'),
-  kQ3XMethodTypeAttributeIsDefault  =  Q3_METHOD_TYPE('a',  'i',  'd',  'f')
+// Attribute method types
+enum {
+    kQ3XMethodTypeAttributeInherit              = Q3_METHOD_TYPE('i', 'n', 'h', 't'),
+    kQ3XMethodTypeAttributeCopyInherit          = Q3_METHOD_TYPE('a', 'c', 'p', 'i'),
+    kQ3XMethodTypeAttributeDefault              = Q3_METHOD_TYPE('a', 's', 'd', 'f'),
+    kQ3XMethodTypeAttributeIsDefault            = Q3_METHOD_TYPE('a', 'i', 'd', 'f')
 };
 </pre>
 </blockquote>
 <p>These are method types that apply particularly to custom attributes. Note that
 a custom element may also need to provide more general custom element or custom class methods,
-such as kQ3XMethodTypeObjectTraverse.
+such as <code>kQ3XMethodTypeObjectTraverse</code>.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeInherit"><tt>kQ3XMethodTypeAttributeInherit</tt></a></td><td>See TQ3XAttributeInheritMethod.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeCopyInherit"><tt>kQ3XMethodTypeAttributeCopyInherit</tt></a></td><td>See TQ3XAttributeCopyInheritMethod.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeDefault"><tt>kQ3XMethodTypeAttributeDefault</tt></a></td><td>See TQ3XAttributeDefaultMethod.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeIsDefault"><tt>kQ3XMethodTypeAttributeIsDefault</tt></a></td><td>See TQ3XAttributeIsDefaultMethod.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeInherit"><tt>kQ3XMethodTypeAttributeInherit</tt></a></td><td>See <code>TQ3XAttributeInheritMethod</code>.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeCopyInherit"><tt>kQ3XMethodTypeAttributeCopyInherit</tt></a></td><td>See <code>TQ3XAttributeCopyInheritMethod</code>.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeDefault"><tt>kQ3XMethodTypeAttributeDefault</tt></a></td><td>See <code>TQ3XAttributeDefaultMethod</code>.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeIsDefault"><tt>kQ3XMethodTypeAttributeIsDefault</tt></a></td><td>See <code>TQ3XAttributeIsDefaultMethod</code>.</td><tr>
 </table>
 </blockquote>
 <hr>
 <a name="//apple_ref/c/tag/Element&nbsp;method&nbsp;types"></a>
 <h3><a name="Element&nbsp;method&nbsp;types">Element&nbsp;method&nbsp;types</a></h3>
 <blockquote><pre>
-//  Element  method  types
-enum  {
-  kQ3XMethodTypeElementCopyAdd  =  Q3_METHOD_TYPE('e',  'c',  'p',  'a'),
-  kQ3XMethodTypeElementCopyReplace  =  Q3_METHOD_TYPE('e',  'c',  'p',  'r'),
-  kQ3XMethodTypeElementCopyGet  =  Q3_METHOD_TYPE('e',  'c',  'p',  'g'),
-  kQ3XMethodTypeElementCopyDuplicate  =  Q3_METHOD_TYPE('e',  'c',  'p',  'd'),
-  kQ3XMethodTypeElementDelete  =  Q3_METHOD_TYPE('e',  'd',  'e',  'l')
+// Element method types
+enum {
+    kQ3XMethodTypeElementCopyAdd                = Q3_METHOD_TYPE('e', 'c', 'p', 'a'),
+    kQ3XMethodTypeElementCopyReplace            = Q3_METHOD_TYPE('e', 'c', 'p', 'r'),
+    kQ3XMethodTypeElementCopyGet                = Q3_METHOD_TYPE('e', 'c', 'p', 'g'),
+    kQ3XMethodTypeElementCopyDuplicate          = Q3_METHOD_TYPE('e', 'c', 'p', 'd'),
+    kQ3XMethodTypeElementDelete                 = Q3_METHOD_TYPE('e', 'd', 'e', 'l')
 };
 </pre>
 </blockquote>
 <p>These are method types that apply particularly to custom elements. Note that
 a custom element may also need to provide more general custom class methods,
-such as kQ3XMethodTypeObjectTraverse.
+such as <code>kQ3XMethodTypeObjectTraverse</code>.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyAdd"><tt>kQ3XMethodTypeElementCopyAdd</tt></a></td><td>See TQ3XElementCopyAddMethod.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyReplace"><tt>kQ3XMethodTypeElementCopyReplace</tt></a></td><td>See TQ3XElementCopyReplaceMethod.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyGet"><tt>kQ3XMethodTypeElementCopyGet</tt></a></td><td>See TQ3XElementCopyGetMethod.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyDuplicate"><tt>kQ3XMethodTypeElementCopyDuplicate</tt></a></td><td>See TQ3XElementCopyDuplicateMethod.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementDelete"><tt>kQ3XMethodTypeElementDelete</tt></a></td><td>See TQ3XElementDeleteMethod.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyAdd"><tt>kQ3XMethodTypeElementCopyAdd</tt></a></td><td>See <code>TQ3XElementCopyAddMethod</code>.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyReplace"><tt>kQ3XMethodTypeElementCopyReplace</tt></a></td><td>See <code>TQ3XElementCopyReplaceMethod</code>.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyGet"><tt>kQ3XMethodTypeElementCopyGet</tt></a></td><td>See <code>TQ3XElementCopyGetMethod</code>.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyDuplicate"><tt>kQ3XMethodTypeElementCopyDuplicate</tt></a></td><td>See <code>TQ3XElementCopyDuplicateMethod</code>.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementDelete"><tt>kQ3XMethodTypeElementDelete</tt></a></td><td>See <code>TQ3XElementDeleteMethod</code>.</td><tr>
 </table>
 </blockquote>
 <hr>
 <a name="//apple_ref/c/tag/TQ3AttributeTypes"></a>
 <h3><a name="TQ3AttributeTypes">TQ3AttributeTypes</a></h3>
 <blockquote><pre>
-//  Attribute  types
-typedef  enum  TQ3AttributeTypes  {
-  kQ3AttributeTypeNone  =  0,  //  n/a
-  kQ3AttributeTypeSurfaceUV  =  1,  //  TQ3Param2D
-  kQ3AttributeTypeShadingUV  =  2,  //  TQ3Param2D
-  kQ3AttributeTypeNormal  =  3,  //  TQ3Vector3D
-  kQ3AttributeTypeAmbientCoefficient  =  4,  //  float
-  kQ3AttributeTypeDiffuseColor  =  5,  //  TQ3ColorRGB
-  kQ3AttributeTypeSpecularColor  =  6,  //  TQ3ColorRGB
-  kQ3AttributeTypeSpecularControl  =  7,  //  float
-  kQ3AttributeTypeTransparencyColor  =  8,  //  TQ3ColorRGB
-  kQ3AttributeTypeSurfaceTangent  =  9,  //  TQ3Tangent2D
-  kQ3AttributeTypeHighlightState  =  10,  //  TQ3Switch
-  kQ3AttributeTypeSurfaceShader  =  11,  //  TQ3SurfaceShaderObject
-  kQ3AttributeTypeNumTypes  =  12  //  n/a
-}  TQ3AttributeTypes;
+// Attribute types
+typedef enum TQ3AttributeTypes {
+    kQ3AttributeTypeNone                        = 0,            // n/a
+    kQ3AttributeTypeSurfaceUV                   = 1,            // TQ3Param2D
+    kQ3AttributeTypeShadingUV                   = 2,            // TQ3Param2D
+    kQ3AttributeTypeNormal                      = 3,            // TQ3Vector3D
+    kQ3AttributeTypeAmbientCoefficient          = 4,            // float
+    kQ3AttributeTypeDiffuseColor                = 5,            // TQ3ColorRGB
+    kQ3AttributeTypeSpecularColor               = 6,            // TQ3ColorRGB
+    kQ3AttributeTypeSpecularControl             = 7,            // float
+    kQ3AttributeTypeTransparencyColor           = 8,            // TQ3ColorRGB
+    kQ3AttributeTypeSurfaceTangent              = 9,            // TQ3Tangent2D
+    kQ3AttributeTypeHighlightState              = 10,           // TQ3Switch
+    kQ3AttributeTypeSurfaceShader               = 11,           // TQ3SurfaceShaderObject
+    kQ3AttributeTypeNumTypes                    = 12            // n/a
+} TQ3AttributeTypes;
 </pre>
 </blockquote>
-<p>Type numbers for standard attributes.
+<p>Type numbers for standard attributes. See QuesaView.h for default values of some
+of these attributes.  For instance you will find that if you do not specify
+any attributes, an object will be white, opaque, and somewhat shiny.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeNone"><tt>kQ3AttributeTypeNone</tt></a></td><td>No type.  See Q3AttributeSet_GetNextAttributeType.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSurfaceUV"><tt>kQ3AttributeTypeSurfaceUV</tt></a></td><td>Surface UV coordinates (TQ3Param2D)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeShadingUV"><tt>kQ3AttributeTypeShadingUV</tt></a></td><td>Shading UV coordinates (TQ3Param2D)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeNormal"><tt>kQ3AttributeTypeNormal</tt></a></td><td>Normal vector (TQ3Vector3D)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeAmbientCoefficient"><tt>kQ3AttributeTypeAmbientCoefficient</tt></a></td><td>Ambient coefficient (float)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeDiffuseColor"><tt>kQ3AttributeTypeDiffuseColor</tt></a></td><td>Diffuse color (TQ3ColorRGB)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSpecularColor"><tt>kQ3AttributeTypeSpecularColor</tt></a></td><td>Specular color (TQ3ColorRGB)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSpecularControl"><tt>kQ3AttributeTypeSpecularControl</tt></a></td><td>Specular control (float)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeTransparencyColor"><tt>kQ3AttributeTypeTransparencyColor</tt></a></td><td>Transparency color (TQ3ColorRGB)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSurfaceTangent"><tt>kQ3AttributeTypeSurfaceTangent</tt></a></td><td>Surface tangent (TQ3Tangent2D)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeHighlightState"><tt>kQ3AttributeTypeHighlightState</tt></a></td><td>Highlight state (TQ3Switch)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSurfaceShader"><tt>kQ3AttributeTypeSurfaceShader</tt></a></td><td>Surface shader (TQ3SurfaceShaderObject)</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeNone"><tt>kQ3AttributeTypeNone</tt></a></td><td>No type.  See
+<code>Q3AttributeSet_GetNextAttributeType</code>.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSurfaceUV"><tt>kQ3AttributeTypeSurfaceUV</tt></a></td><td>Surface UV coordinates (<code>TQ3Param2D</code>)
+for texture mapping.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeShadingUV"><tt>kQ3AttributeTypeShadingUV</tt></a></td><td>Shading UV coordinates (<code>TQ3Param2D</code>)
+(originally intended for procedural shaders, but
+effectively interchangable with surface UV).</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeNormal"><tt>kQ3AttributeTypeNormal</tt></a></td><td>Normal vector (<code>TQ3Vector3D</code>)</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeAmbientCoefficient"><tt>kQ3AttributeTypeAmbientCoefficient</tt></a></td><td>Ambient coefficient (<code>float</code>)</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeDiffuseColor"><tt>kQ3AttributeTypeDiffuseColor</tt></a></td><td>Diffuse color (<code>TQ3ColorRGB</code>)</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSpecularColor"><tt>kQ3AttributeTypeSpecularColor</tt></a></td><td>Specular color (<code>TQ3ColorRGB</code>)</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSpecularControl"><tt>kQ3AttributeTypeSpecularControl</tt></a></td><td>Specular control (<code>float</code>).
+Larger values make smaller specular highlights.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeTransparencyColor"><tt>kQ3AttributeTypeTransparencyColor</tt></a></td><td>Transparency color (<code>TQ3ColorRGB</code>).
+{ 0, 0, 0 } is completely transparent, and
+{ 1, 1, 1 } is completely opaque.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSurfaceTangent"><tt>kQ3AttributeTypeSurfaceTangent</tt></a></td><td>Surface tangent (<code>TQ3Tangent2D</code>)</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeHighlightState"><tt>kQ3AttributeTypeHighlightState</tt></a></td><td>Highlight state (<code>TQ3Switch</code>)</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSurfaceShader"><tt>kQ3AttributeTypeSurfaceShader</tt></a></td><td>Surface shader (<code>TQ3SurfaceShaderObject</code>)</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeNumTypes"><tt>kQ3AttributeTypeNumTypes</tt></a></td><td>Number of standard attribute types.</td><tr>
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 6/2/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
 </body></html>

@@ -1,0 +1,94 @@
+<html><head><title>Defined Types</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Defined Types</h1></font><hr><br>
+<a name="//apple_ref/c/tdef/TQ3XObjectReadDataMethod"></a>
+<h3><a name="TQ3XObjectReadDataMethod">TQ3XObjectReadDataMethod</a></h3>
+<b>Abstract:</b> Object method of type <code>kQ3XMethodTypeObjectReadData</code> for a
+custom element or attribute.
+
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectReadDataMethod)</b>(TQ3Object parentObject, TQ3FileObject theFile);</tt><br>
+</blockquote>
+<p>The method normally reads the element's data using functions such as
+<code>Q3Float32_Read</code> and <code>Q3File_ReadObject</code> (for child objects),
+then adds the element data to its parent set.
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>parentObject</tt></td><td>Set object to receive the new element or attribute.</td><tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XObjectTraverseDataMethod"></a>
+<h3><a name="TQ3XObjectTraverseDataMethod">TQ3XObjectTraverseDataMethod</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectTraverseDataMethod)</b>(TQ3Object object, void *data, TQ3ViewObject view);</tt><br>
+</blockquote>
+<p>This is the custom object method of type <code>kQ3XMethodTypeObjectTraverseData</code>.
+The QuickDraw 3D documention mentions this method, but does not explain how it
+differs from <code>TQ3XObjectTraverseMethod</code>.  Quesa does not use it.
+ </p>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XObjectTraverseMethod"></a>
+<h3><a name="TQ3XObjectTraverseMethod">TQ3XObjectTraverseMethod</a></h3>
+<b>Abstract:</b> Traversal method (<code>kQ3XMethodTypeObjectTraverse</code>) for a
+custom element or attribute.
+
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectTraverseMethod)</b>(TQ3Object object, void *data, TQ3ViewObject view);</tt><br>
+</blockquote>
+<p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
+objects are to be written and how much space each will use, and the actual
+writing.  Two phases are necessary because the start of a container includes
+the total length of the container, but this cannot be known without asking
+each member of the container.
+<br><br>
+Typically, this method will call <code>Q3XView_SubmitWriteData</code> to
+specify the immediate object data, and then call <code>Q3Object_Submit</code>
+for each child object.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to traverse.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The object's instance data.  In the case of a custom element,
+this is the internal form of the element data.</td><tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.
+result		Success or failure of the operation.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XObjectWriteMethod"></a>
+<h3><a name="TQ3XObjectWriteMethod">TQ3XObjectWriteMethod</a></h3>
+<b>Abstract:</b> Object method of type <code>kQ3XMethodTypeObjectWrite</code> for a
+custom element or attribute.
+
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectWriteMethod)</b>(const void *data, TQ3FileObject theFile);</tt><br>
+</blockquote>
+<p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
+objects are to be written and how much space each will use, and the actual
+writing.  Two phases are necessary because the start of a container includes
+the total length of the container, but this cannot be known without asking
+each member of the container.
+<br><br>
+This method will write the object's instance data using functions such as
+<code>Q3Float32_Write</code>.  An class with no instance data other than
+child objects does not need to provide this method.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>data</tt></td><td>Instance data to write.  This will be the data passed to
+<code>Q3XView_SubmitWriteData</code> by the traversal method.</td><tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+</body></html>
