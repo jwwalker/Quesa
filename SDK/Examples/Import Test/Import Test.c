@@ -66,56 +66,16 @@ TQ3Vector3D			gSceneScale     = { 1.0f, 1.0f, 1.0f };
 //-----------------------------------------------------------------------------
 static TQ3GroupObject
 readModel(void)
-{	TQ3GroupObject model = NULL;
-	TQ3FileObject		fileObj;
-	TQ3StorageObject	storageObj;
-	TQ3Object			tempObj;
-	TQ3FileMode			fileMode;
+{   TQ3StorageObject	storageObj;
 
 
 
 	// Get the file
 	storageObj = Qut_SelectMetafile();
 	
-	if( storageObj != NULL ){
-		//create the model
-		model = Q3DisplayGroup_New();
-		if(model == NULL)
-			return model;
-
-		//create the file object
-		fileObj = Q3File_New();
-		if (fileObj == NULL)
-		{
-			if (storageObj != NULL) 
-				Q3Object_Dispose(storageObj);
-			return(model);
-		}
-
-		// Set the storage for the file object
-		Q3File_SetStorage(fileObj, storageObj);
-		Q3Object_Dispose(storageObj);
-		
-		// open the file
-		if(Q3File_OpenRead(fileObj, &fileMode) != kQ3Success)
-			return(model);
-
-		//read the model
-		while(Q3File_IsEndOfFile(fileObj) == kQ3False){
-			tempObj = Q3File_ReadObject( fileObj );
-			if(tempObj != NULL) {
-				if ( Q3Object_IsDrawable(tempObj) ) 
-					Q3Group_AddObject(model, tempObj);
-				Q3Object_Dispose(tempObj);
-				}
-			}
-		
-		// done... close the file
-		Q3File_Close(fileObj);
-		Q3Object_Dispose(fileObj);
-		}
-		
-	return model;
+	if( storageObj != NULL )
+		return Qut_ReadModel(storageObj);
+	return NULL;
 }
 
 
