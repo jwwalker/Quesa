@@ -1844,10 +1844,13 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 					TQ3TriMeshData			*geomData)
 {	TQ3ColorRGB					*theColour, *edgeColours, *triColours, *vertexColours;
 	TQ3Vector3D					*triNormals, *vertexNormals, theNormal;
+	TQ3Boolean					*triHilightState;
+	TQ3ColorRGB					theHilightColour;
 	TQ3AttributeSet				geomAttributes;
 	TQ3TriMeshTriangleData		*triangleList;
 	TQ3Param2D					*vertexUVs;
 	TQ3Status					qd3dStatus;
+	TQ3Boolean					hasHilightColour;
 	TQ3Boolean					canTexture;
 	TQ3TriMeshEdgeData			*edgeList;
 	TQ3Uns32					n;
@@ -1874,6 +1877,19 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 
 
 
+	// Get the Highlight diffuse colour if any.
+	// Else, give it a default value.
+	if (instanceData->stateHilight != NULL)
+		hasHilightColour = (TQ3Boolean) (Q3AttributeSet_Get(instanceData->stateHilight,kQ3AttributeTypeDiffuseColor,&theHilightColour) == kQ3Success);
+	if (hasHilightColour == kQ3False)
+		{
+		theHilightColour.r = 1.0;
+		theHilightColour.g = 0.0;
+		theHilightColour.b = 1.0;
+		}
+
+
+
 	// If the TriMesh is transparent, submit it as such
 	if (ir_geom_trimesh_is_transparent(instanceData, geomData))
 		ir_geom_trimesh_submit_transparent(theView, instanceData, geomAttributes, geomData);
@@ -1885,50 +1901,61 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 		{
 		// First check for vertex colours
 		edgeList      = geomData->edges;
-		vertexColours = (TQ3ColorRGB *) ir_geom_attribute_find(instanceData, kQ3False,
+
+		// Check if the trimesh uses a highlight diffuse colour.
+		if (instanceData->stateGeomHilightState == kQ3True && (hasHilightColour == kQ3True))
+			{
+			glColor3fv((const GLfloat *) &theHilightColour);
+			for (n = 0; n < geomData->numEdges; n++, edgeList++)
+				glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, edgeList);			
+			}
+		else // else we draw as usual...
+			{
+			vertexColours = (TQ3ColorRGB *) ir_geom_attribute_find(instanceData, kQ3False,
 																geomData->numVertexAttributeTypes,
 																geomData->vertexAttributeTypes,
 																kQ3AttributeTypeDiffuseColor);
 
-		if (vertexColours != NULL)
-			{
-			glEnableClientState(GL_COLOR_ARRAY);
-			glColorPointer(3, GL_FLOAT, 0, vertexColours);
+			if (vertexColours != NULL)
+				{
+				glEnableClientState(GL_COLOR_ARRAY);
+				glColorPointer(3, GL_FLOAT, 0, vertexColours);
 
-			for (n = 0; n < geomData->numEdges; n++, edgeList++)
-				glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, edgeList);
+				for (n = 0; n < geomData->numEdges; n++, edgeList++)
+					glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, edgeList);
 
-			glDisableClientState(GL_COLOR_ARRAY);
-			}
+				glDisableClientState(GL_COLOR_ARRAY);
+				}
 
 
 
-		// Otherwise check for edge colours
-		else
-			{
-			// Check for edge colours
-			edgeColours   = (TQ3ColorRGB *) ir_geom_attribute_find(instanceData, kQ3False,
+			// Otherwise check for edge colours
+			else
+				{
+				// Check for edge colours
+				edgeColours   = (TQ3ColorRGB *) ir_geom_attribute_find(instanceData, kQ3False,
 																	geomData->numEdgeAttributeTypes,
 																	geomData->edgeAttributeTypes,
 																	kQ3AttributeTypeDiffuseColor);
-			if (edgeColours != NULL)
-				{
-				for (n = 0; n < geomData->numEdges; n++, edgeList++)
+				if (edgeColours != NULL)
 					{
-					glColor3fv((const GLfloat *) (edgeColours + n));
-					glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, edgeList);
+					for (n = 0; n < geomData->numEdges; n++, edgeList++)
+						{
+						glColor3fv((const GLfloat *) (edgeColours + n));
+						glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, edgeList);
+						}
 					}
-				}
 			
-			
-			// Otherwise use the TriMesh colour
-			else
-				{
-				theColour = ir_geom_attribute_get_diffuse_colour(instanceData, geomAttributes, kQ3False);
-				glColor3fv((const GLfloat *) theColour);
 
-				for (n = 0; n < geomData->numEdges; n++, edgeList++)
-					glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, edgeList);
+				// Otherwise use the TriMesh colour
+				else
+					{
+					theColour = ir_geom_attribute_get_diffuse_colour(instanceData, geomAttributes, kQ3False);
+					glColor3fv((const GLfloat *) theColour);
+	
+					for (n = 0; n < geomData->numEdges; n++, edgeList++)
+						glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, edgeList);
+					}
 				}
 			}
 		}
@@ -1960,19 +1987,37 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 			}
 		canTexture    = (TQ3Boolean) (vertexUVs != NULL);
 
-		triColours    = (TQ3ColorRGB *) ir_geom_attribute_find(instanceData, canTexture,
-																geomData->numTriangleAttributeTypes,
-																geomData->triangleAttributeTypes,
-																kQ3AttributeTypeDiffuseColor);
 		triNormals    = (TQ3Vector3D *) ir_geom_attribute_find(instanceData, kQ3True,
 																geomData->numTriangleAttributeTypes,
 																geomData->triangleAttributeTypes,
 																kQ3AttributeTypeNormal);
-		vertexColours = (TQ3ColorRGB *) ir_geom_attribute_find(instanceData, canTexture,
+																
+		// If the trimesh is highlighted, and if the diffuse
+		// colour is defined in the hilight attribute set, we ignore the three
+		// following attributes :
+		if ((instanceData->stateGeomHilightState == kQ3True && (hasHilightColour == kQ3True)))
+			{
+			triColours = NULL;
+			vertexColours = NULL;
+			triHilightState = NULL;
+			}
+		else
+			{
+			triColours    = (TQ3ColorRGB *) ir_geom_attribute_find(instanceData, canTexture,
+																geomData->numTriangleAttributeTypes,
+																geomData->triangleAttributeTypes,
+																kQ3AttributeTypeDiffuseColor);
+			
+			vertexColours = (TQ3ColorRGB *) ir_geom_attribute_find(instanceData, canTexture,
 																geomData->numVertexAttributeTypes,
 																geomData->vertexAttributeTypes,
 																kQ3AttributeTypeDiffuseColor);
 
+			triHilightState = (TQ3Boolean *) ir_geom_attribute_find(instanceData, kQ3True,
+																geomData->numTriangleAttributeTypes,
+																geomData->triangleAttributeTypes,
+																kQ3AttributeTypeHighlightState);
+			}
 		// Find vertex normals if we're to use them for rendering
 		vertexNormals = NULL;
 		if (instanceData->stateInterpolation != kQ3InterpolationStyleNone)
@@ -1995,7 +2040,9 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 		if (theColour != NULL)
 			glColor3fv((const GLfloat *) theColour);
 
-
+		// Set up the highlight colour if the trimesh is globally highlighted
+		if (instanceData->stateGeomHilightState == kQ3True && (hasHilightColour == kQ3True))
+			glColor3fv((const GLfloat *) &theHilightColour);
 
 		// Set up the other vertex arrays
 		if (vertexColours != NULL)
@@ -2107,80 +2154,172 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 
 
 
-		// Then handle each case in turn
-		triangleList  = geomData->triangles;
-		switch (n) {
-			case 1:
-				// Draw trimesh using single call and vertex arrays
-				glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, triangleList);
-				break;
+		if (triHilightState == NULL || hasHilightColour == kQ3False)
+			{
+			// Then handle each case in turn
+			triangleList  = geomData->triangles;
+			switch (n) {
+				case 1:
+					// Draw trimesh using single call and vertex arrays
+					glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, triangleList);
+					break;
 				
-			case 2:
-				// Draw triangles, specify triangle normals and triangle colours
-				for (n = 0; n < geomData->numTriangles; n++, triangleList++)
-					{
-					glColor3fv( (const GLfloat *) (triColours + n));
-					glNormal3fv((const GLfloat *) (triNormals + n));
-					glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
-					}
-				break;
+				case 2:
+					// Draw triangles, specify triangle normals and triangle colours
+					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+						{
+						glColor3fv( (const GLfloat *) (triColours + n));
+						glNormal3fv((const GLfloat *) (triNormals + n));
+						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						}
+					break;
 				
-			case 3:
-				// Draw triangles, specify triangle normals
-				for (n = 0; n < geomData->numTriangles; n++, triangleList++)
-					{
-					glNormal3fv((const GLfloat *) (triNormals + n));
-					glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
-					}
-				break;
+				case 3:
+					// Draw triangles, specify triangle normals
+					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+						{
+						glNormal3fv((const GLfloat *) (triNormals + n));
+						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						}
+					break;
+					
+				case 4:
+					// Draw triangles, specify triangle colours (must have vertex normals)
+					Q3_ASSERT(vertexNormals != NULL);
+					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+						{
+						glColor3fv( (const GLfloat *) (triColours + n));
+						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						}
+					break;
+					
+				case 5:
+					// Draw triangles, calculate triangle normals and specify triangle colours
+					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+						{
+						Q3Point3D_CrossProductTri(&geomData->points[triangleList->pointIndices[0]],
+												  &geomData->points[triangleList->pointIndices[1]],
+												  &geomData->points[triangleList->pointIndices[2]],
+												  &theNormal);
+						Q3Vector3D_Normalize (&theNormal, &theNormal);
+		
+						glColor3fv( (const GLfloat *) (triColours + n));
+						glNormal3fv((const GLfloat *) &theNormal);
+						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						}
+					break;
+					
+				case 6:
+					// Draw triangles, calculate triangle normals
+					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+						{
+						Q3Point3D_CrossProductTri(&geomData->points[triangleList->pointIndices[0]],
+												  &geomData->points[triangleList->pointIndices[1]],
+												  &geomData->points[triangleList->pointIndices[2]],
+												  &theNormal);
+						Q3Vector3D_Normalize (&theNormal, &theNormal);
+		
+						glNormal3fv((const GLfloat *) &theNormal);
+						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						}
+					break;
 				
-			case 4:
-				// Draw triangles, specify triangle colours (must have vertex normals)
-				Q3_ASSERT(vertexNormals != NULL);
-				for (n = 0; n < geomData->numTriangles; n++, triangleList++)
-					{
-					glColor3fv( (const GLfloat *) (triColours + n));
-					glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
-					}
-				break;
-				
-			case 5:
-				// Draw triangles, calculate triangle normals and specify triangle colours
-				for (n = 0; n < geomData->numTriangles; n++, triangleList++)
-					{
-					Q3Point3D_CrossProductTri(&geomData->points[triangleList->pointIndices[0]],
-											  &geomData->points[triangleList->pointIndices[1]],
-											  &geomData->points[triangleList->pointIndices[2]],
-											  &theNormal);
-					Q3Vector3D_Normalize (&theNormal, &theNormal);
-	
-					glColor3fv( (const GLfloat *) (triColours + n));
-					glNormal3fv((const GLfloat *) &theNormal);
-					glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
-					}
-				break;
-				
-			case 6:
-				// Draw triangles, calculate triangle normals
-				for (n = 0; n < geomData->numTriangles; n++, triangleList++)
-					{
-					Q3Point3D_CrossProductTri(&geomData->points[triangleList->pointIndices[0]],
-											  &geomData->points[triangleList->pointIndices[1]],
-											  &geomData->points[triangleList->pointIndices[2]],
-											  &theNormal);
-					Q3Vector3D_Normalize (&theNormal, &theNormal);
-	
-					glNormal3fv((const GLfloat *) &theNormal);
-					glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
-					}
-				break;
-			
-			default:
-				Q3_ASSERT(!"Can never happen");
-				break;
+				default:
+					Q3_ASSERT(!"Can never happen");
+					break;
+				}
 			}
+		else
+			{
 
+			// Then handle each case in turn
+			triangleList  = geomData->triangles;
+			switch (n) {
+				case 1:
+					// Draw trimesh using single call and vertex arrays
+					glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, triangleList);
+					break;
+					
+				case 2:
+					// Draw triangles, specify triangle normals and triangle colours
+					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+						{
+						if (triHilightState[n])
+							glColor3fv((const GLfloat *)&theHilightColour);
+						else
+							glColor3fv( (const GLfloat *) (triColours + n));
+						glNormal3fv((const GLfloat *) (triNormals + n));
+						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						}
+					break;
+					
+				case 3:
+					// Draw triangles, specify triangle normals
+					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+						{
+						if (triHilightState[n])
+							glColor3fv((const GLfloat *)&theHilightColour);
+						else
+							glNormal3fv((const GLfloat *) (triNormals + n));
+						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						}
+					break;
+					
+				case 4:
+					// Draw triangles, specify triangle colours (must have vertex normals)
+					Q3_ASSERT(vertexNormals != NULL);
+					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+						{
+						if (triHilightState[n])
+							glColor3fv((const GLfloat *)&theHilightColour);
+						else
+							glColor3fv( (const GLfloat *) (triColours + n));
+						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						}
+					break;
+					
+				case 5:
+					// Draw triangles, calculate triangle normals and specify triangle colours
+					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+						{
+						Q3Point3D_CrossProductTri(&geomData->points[triangleList->pointIndices[0]],
+												  &geomData->points[triangleList->pointIndices[1]],
+												  &geomData->points[triangleList->pointIndices[2]],
+												  &theNormal);
+						Q3Vector3D_Normalize (&theNormal, &theNormal);
+		
+						if (triHilightState[n])
+							glColor3fv((const GLfloat *)&theHilightColour);
+						else
+							glColor3fv( (const GLfloat *) (triColours + n));
+						glNormal3fv((const GLfloat *) &theNormal);
+						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						}
+					break;
+					
+				case 6:
+					// Draw triangles, calculate triangle normals
+					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+						{
+						Q3Point3D_CrossProductTri(&geomData->points[triangleList->pointIndices[0]],
+												  &geomData->points[triangleList->pointIndices[1]],
+												  &geomData->points[triangleList->pointIndices[2]],
+												  &theNormal);
+						Q3Vector3D_Normalize (&theNormal, &theNormal);
+		
+						glNormal3fv((const GLfloat *) &theNormal);
+						if (triHilightState[n])
+							glColor3fv((const GLfloat *)&theHilightColour);
+						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						}
+					break;
+				
+				default:
+					Q3_ASSERT(!"Can never happen");
+					break;
+				}
 
+			}
 
 		// Update the texture mapping state
 		IRRenderer_Texture_Postamble(theView, instanceData, geomAttributes, canTexture);
