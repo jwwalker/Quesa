@@ -2262,8 +2262,8 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 
 							// Calculate OpenGL's and QD3D's backfacing normals. OpenGL back-facing depends
 							// on CW/CCW vertex direction, QD3D depends on the assigned face normal.
-							backFaceGL    = (Q3Vector3D_Dot(&theNormal,     &instanceData->stateLocalCameraViewVector) < 0.0f);
-							backFaceQuesa = (Q3Vector3D_Dot(&triNormals[n], &instanceData->stateLocalCameraViewVector) < 0.0f);
+							backFaceGL    = (TQ3Boolean)(Q3Vector3D_Dot(&theNormal,     &instanceData->stateLocalCameraViewVector) < 0.0f);
+							backFaceQuesa = (TQ3Boolean)(Q3Vector3D_Dot(&triNormals[n], &instanceData->stateLocalCameraViewVector) < 0.0f);
 
 
 							// Reverse the vertex indices if the don't match OpenGL's idea of back-facing
@@ -2391,8 +2391,8 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 
 							// Calculate OpenGL's and QD3D's backfacing normals. OpenGL back-facing depends
 							// on CW/CCW vertex direction, QD3D depends on the assigned face normal.
-							backFaceGL    = (Q3Vector3D_Dot(&theNormal,     &instanceData->stateLocalCameraViewVector) < 0.0f);
-							backFaceQuesa = (Q3Vector3D_Dot(&triNormals[n], &instanceData->stateLocalCameraViewVector) < 0.0f);
+							backFaceGL    = (TQ3Boolean)(Q3Vector3D_Dot(&theNormal,     &instanceData->stateLocalCameraViewVector) < 0.0f);
+							backFaceQuesa = (TQ3Boolean)(Q3Vector3D_Dot(&triNormals[n], &instanceData->stateLocalCameraViewVector) < 0.0f);
 
 
 							// Reverse the vertex indices if the don't match OpenGL's idea of back-facing
