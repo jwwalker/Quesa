@@ -421,7 +421,8 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 	void*					subObjectData;
 	TQ3XObjectClass			attributeClass;
 
-	TQ3ElementType theType = kQ3ElementTypeNone;
+	TQ3AttributeType		theType = kQ3ElementTypeNone;
+	TQ3ElementType			classType = kQ3ElementTypeNone;
 	
 	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
 	
@@ -430,8 +431,10 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 		
 	do{
 		qd3dstatus = Q3Set_GetNextElementType (theSet, &theType);
+		// convert it to class type
+		classType = E3Attribute_AttributeToClassType(theType);
 		if(qd3dstatus == kQ3Success){
-			switch (theType) {
+			switch (classType) {
 			
 				case kQ3ElementTypeNone:
 					break;
@@ -440,7 +443,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Param2D));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
 						if(attributeClass != NULL)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Param2D),
@@ -452,7 +455,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Vector3D));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
 						if(attributeClass != NULL)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Vector3D),
@@ -466,7 +469,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3ColorRGB));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
 						if(attributeClass != NULL)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3ColorRGB),
@@ -479,7 +482,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Float32));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
 						if(attributeClass != NULL)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Float32),
@@ -491,7 +494,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Tangent2D));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
 						if(attributeClass != NULL)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Tangent2D),
@@ -503,7 +506,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Switch));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
 						if(attributeClass != NULL)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Switch),
@@ -512,8 +515,8 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					break;
 					
 				case kQ3ObjectTypeAttributeSurfaceShader:
-				//default:	// this was dangerous
-					qd3dstatus = Q3Set_Get (theSet, theType, &subObject);
+				default:	// this was dangerous, yes but we have to submit custom elements too
+					qd3dstatus = Q3Set_Get (theSet, classType, &subObject);
 					if(qd3dstatus == kQ3Success)
 						{
 						qd3dstatus = Q3Object_Submit (subObject, view);

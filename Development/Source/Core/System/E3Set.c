@@ -1977,7 +1977,7 @@ TQ3Status
 E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 {
 	TQ3Status qd3dStatus = E3AttributeSet_GetNextAttributeType(theSet, theType);
-	*theType = E3Attribute_AttributeToClassType(*theType);
+	//*theType = E3Attribute_AttributeToClassType(*theType);
 
 	return(qd3dStatus);
 
