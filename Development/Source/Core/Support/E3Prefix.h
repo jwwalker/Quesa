@@ -103,7 +103,7 @@
 //-----------------------------------------------------------------------------
 // Make sure extensions are turned on when we're building Quesa itself
 #if !QUESA_ALLOW_QD3D_EXTENSIONS
-	#pragma error "QD3D extensions should never be turned off when building Quesa itself"
+	#error "QD3D extensions should never be turned off when building Quesa itself"
 #endif
 
 
