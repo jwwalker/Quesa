@@ -120,6 +120,10 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TriGrid;
 			break;
 
+		case kQ3GeometryTypeGeneralPolygon:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_GeneralPolygon;
+			break;
+
 /*
 		case kQ3GeometryTypeMarker:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Marker;
