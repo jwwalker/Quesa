@@ -1245,7 +1245,13 @@ E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet)
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
-
+	// If the set doesn't exist yet, create it
+	if (instanceData->theSet == NULL)
+		{
+		instanceData->theSet = Q3Set_New();
+		if (instanceData->theSet == NULL)
+			return(kQ3Failure);
+		}
 
 	// Return another reference to the attribute set
 	E3Shared_Acquire(theSet, instanceData->theSet);
@@ -1371,6 +1377,8 @@ E3Shape_GetElement(TQ3ShapeObject theShape, TQ3ElementType theType, void *theDat
 	// If we're getting the set, do so. Otherwise, get the element.
 	if (theType == kQ3ElementTypeSet)
 		qd3dStatus = Q3Shape_GetSet(theShape, (TQ3SetObject *) theData);
+	else if (instanceData->theSet == NULL)
+		qd3dStatus = kQ3Failure;
 	else
 		qd3dStatus = Q3Set_Get(instanceData->theSet, theType, (void*)theData);
 
@@ -1451,7 +1459,14 @@ E3Shape_GetNextElementType(TQ3ShapeObject theShape, TQ3ElementType *theType)
 
 
 	// Use the shape's set
-	qd3dStatus = Q3Set_GetNextElementType(instanceData->theSet, theType);
+	if (instanceData->theSet == NULL)
+		{
+		theType = kQ3ElementTypeNone;
+		qd3dStatus = kQ3Success;
+		}
+	else
+		qd3dStatus = Q3Set_GetNextElementType(instanceData->theSet, theType);
+
 	return(qd3dStatus);
 }
 
@@ -1489,7 +1504,11 @@ E3Shape_EmptyElements(TQ3ShapeObject theShape)
 
 
 	// Use the shape's set
-	qd3dStatus = Q3Set_Empty(instanceData->theSet);
+	if (instanceData->theSet == NULL)
+		qd3dStatus = kQ3Success;
+	else
+		qd3dStatus = Q3Set_Empty(instanceData->theSet);
+	
 	return(qd3dStatus);
 }
 
@@ -1527,7 +1546,11 @@ E3Shape_ClearElement(TQ3ShapeObject theShape, TQ3ElementType theType)
 
 
 	// Use the shape's set
-	qd3dStatus = Q3Set_Clear(instanceData->theSet, theType);
+	if (instanceData->theSet == NULL)
+		qd3dStatus = kQ3Failure;
+	else
+		qd3dStatus = Q3Set_Clear(instanceData->theSet, theType);
+	
 	return(qd3dStatus);
 }
 
