@@ -267,6 +267,6 @@ libquesa_la_SOURCES=	${myIncludes}            \
              ${SRC}${PLATFORM}/E3UnixDrawContext.c       
 
 
-libquesa_la_CFLAGS= -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES)
+libquesa_la_CFLAGS= -std=c99 -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES)
 libquesa_la_LIBADD= -lm -lc -lX11 -lGL -lGLU
 
