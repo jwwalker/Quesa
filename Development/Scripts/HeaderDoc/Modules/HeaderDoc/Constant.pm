@@ -4,7 +4,7 @@
 # Synopsis: Holds constant info parsed by headerDoc
 #
 # Author: Matt Morse (matt@apple.com)
-# Last Updated: $Date: 2001-03-18 13:26:02 $
+# Last Updated: $Date: 2005-01-28 02:48:46 $
 # 
 # Copyright (c) 1999 Apple Computer, Inc.  All Rights Reserved.
 # The contents of this file constitute Original Code as defined in and are
@@ -26,27 +26,13 @@ package HeaderDoc::Constant;
 
 use HeaderDoc::Utilities qw(findRelativePath safeName getAPINameAndDisc convertCharsForFileMaker printArray printHash);
 use HeaderDoc::HeaderElement;
+use HeaderDoc::APIOwner;
+
 @ISA = qw( HeaderDoc::HeaderElement );
 
 use strict;
 use vars qw($VERSION @ISA);
 $VERSION = '1.20';
-
-
-sub new {
-    my($param) = shift;
-    my($class) = ref($param) || $param;
-    my $self = {};
-    
-    bless($self, $class);
-    $self->SUPER::_initialize();
-    $self->_initialize();
-    return($self);
-}
-
-sub _initialize {
-    my($self) = shift;
-}
 
 sub processConstantComment {
     my($self) = shift;
@@ -68,7 +54,10 @@ sub processConstantComment {
             };
             ($field =~ s/^abstract\s+//) && do {$self->abstract($field); last SWITCH;};
             ($field =~ s/^discussion\s+//) && do {$self->discussion($field); last SWITCH;};
-            print "Unknown field in constant comment: $field\n";
+            ($field =~ s/^availability\s+//) && do {$self->availability($field); last SWITCH;};
+            ($field =~ s/^updated\s+//) && do {$self->updated($field); last SWITCH;};
+	    my $filename = $HeaderDoc::headerObject->filename();
+            print "$filename:0:Unknown field in constant comment: $field\n";
 		}
 	}
 }
@@ -82,7 +71,9 @@ sub setConstantDeclaration {
     print "Raw constant declaration is: $dec\n" if ($localDebug);
     
     $dec =~ s/^extern\s+//;
-    $dec =~ s/[ \t]+/ /g;
+    $dec =~ s/\t/ /g;
+    $dec =~ s/</&lt;/g;
+    $dec =~ s/>/&gt;/g;
     if (length ($dec)) {$dec = "<pre>\n$dec</pre>\n";};
     print "Constant: returning declaration:\n\t|$dec|\n" if ($localDebug);
     print "============================================================================\n" if ($localDebug);
@@ -95,17 +86,67 @@ sub documentationBlock {
     my $contentString;
     my $name = $self->name();
     my $abstract = $self->abstract();
+    my $availability = $self->availability();
+    my $updated = $self->updated();
     my $desc = $self->discussion();
     my $declaration = $self->declarationInHTML();
+    my $apiUIDPrefix = HeaderDoc::APIOwner->apiUIDPrefix();
     
-    $contentString .= "<a name=\"//apple_ref/c/data/$name\"></a>\n"; # apple_ref marker
-    $contentString .= "<h3><a name=\"$name\">$name</a></h3>\n";
+    $contentString .= "<hr>";
+    my $uid = "//$apiUIDPrefix/c/data/$name";
+    HeaderDoc::APIOwner->register_uid($uid);
+    $contentString .= "<a name=\"$uid\"></a>\n"; # apple_ref marker
+    $contentString .= "<table border=\"0\"  cellpadding=\"2\" cellspacing=\"2\" width=\"300\">";
+    $contentString .= "<tr>";
+    $contentString .= "<td valign=\"top\" height=\"12\" colspan=\"5\">";
+    $contentString .= "<h2><a name=\"$name\">$name</a></h2>\n";
+    $contentString .= "</td>";
+    $contentString .= "</tr></table>";
+    $contentString .= "<hr>";
     if (length($abstract)) {
-        $contentString .= "<b>Abstract:</b> $abstract\n";
+        # $contentString .= "<b>Abstract:</b> $abstract<br>\n";
+        $contentString .= "$abstract<br>\n";
+    }
+    if (length($availability)) {
+        $contentString .= "<b>Availability:</b> $availability<br>\n";
+    }
+    if (length($updated)) {
+        $contentString .= "<b>Updated:</b> $updated<br>\n";
     }
     $contentString .= "<blockquote>$declaration</blockquote>\n";
-    $contentString .= "<p>$desc</p>\n";
-    $contentString .= "<hr>\n";
+    # $contentString .= "<p>$desc</p>\n";
+    if (length($desc)) {$contentString .= "<h5><font face=\"Lucida Grande,Helvetica,Arial\">Discussion</font></h5><p>$desc</p>\n"; }
+    # $contentString .= "<hr>\n";
+    return $contentString;
+}
+
+sub XMLdocumentationBlock {
+    my $self = shift;
+    my $contentString;
+    my $name = $self->name();
+    my $abstract = $self->abstract();
+    my $availability = $self->availability();
+    my $updated = $self->updated();
+    my $desc = $self->discussion();
+    my $declaration = $self->declarationInHTML();
+    my $apiUIDPrefix = HeaderDoc::APIOwner->apiUIDPrefix();
+    
+    my $uid = "//$apiUIDPrefix/c/data/$name";
+    HeaderDoc::APIOwner->register_uid($uid);
+    $contentString .= "<const id=\"$uid\">\n"; # apple_ref marker
+    $contentString .= "<name>$name</name>\n";
+    if (length($abstract)) {
+        $contentString .= "<abstract>$abstract</abstract>\n";
+    }
+    if (length($availability)) {
+        $contentString .= "<availability>$availability</availability>\n";
+    }
+    if (length($updated)) {
+        $contentString .= "<updated>$updated</updated>\n";
+    }
+    $contentString .= "<declaration>$declaration</declaration>\n";
+    $contentString .= "<description>$desc</description>\n";
+    $contentString .= "</const>\n";
     return $contentString;
 }
 

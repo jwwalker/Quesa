@@ -5,9 +5,9 @@
 #		folder and creates a top-level HTML page to them
 #
 # Author: Matt Morse (matt@apple.com)
-# Last Updated: $Date $
+# Last Updated: $Date: 2005-01-28 02:51:45 $
 # 
-# Copyright (c) 1999 Apple Computer, Inc.  All Rights Reserved.
+# Copyright (c) 1999-2002 Apple Computer, Inc.  All Rights Reserved.
 # The contents of this file constitute Original Code as defined in and are
 # subject to the Apple Public Source License Version 1.1 (the "License").
 # You may not use this file except in compliance with the License.  Please
@@ -22,160 +22,38 @@
 # the specific language governing rights and limitations under the
 # License.
 #
-# $Revision: 1.2 $
+# $Revision: 1.3 $
 ######################################################################
-
-
-
-
-
-######################################################################
-# dair, Quesa template                                               #
-######################################################################
-my $quesaPageTemplate = qq(
-<!--=========================================================================-->
-<!-- Page Header                                                             -->
-<!--=========================================================================-->
-<html>
-<head>
-	<title>Quesa - API Reference</title>
-</head>
-<body bgcolor=white text=black background="../../images/logo_gray.gif">
-
-<p align=center>
-<a href="../../index.html"><img src="../../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
-</p>
-
-
-
-<!--=========================================================================-->
-<!-- Page Content                                                            -->
-<!--=========================================================================-->
-<table border=0>
-<tr>
-<td valign=top width=90 bgcolor="#EEEEEE">
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Info</font></td></tr></table><br>
-	<a href="../../info/status.html">Status</a><br>
-	<a href="../../info/screenshots.html">Screenshots</a><br>
-	<a href="../../info/download.html">Download</a><br>
-	<a href="../../info/list.html">Mailing List</a><br>
-	<a href="http://quesa.DesignCommunity.com/info/list_archive.html">List Archive</a><br>
-	<a href="http://quesa.DesignCommunity.com/quesa_forum.html">Quesa Forum</a><br>
-
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Developer</font></td></tr></table><br>
-	<a href="../../developer/todo.html">Todo</a><br>
-	<a href="../../developer/bugs.html">Bug List</a><br>
-	<a href="../../developer/cvs.html">CVS Server</a><br>
-	<a href="../../developer/apiref/MasterTOC.html">API Reference</a><br>
-
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
-	<a href="../../reference/docs.html">Documentation</a><br>
-	<a href="../../reference/build.html">Building Quesa</a><br>
-	<a href="../../reference/licence.html">License</a><br>
-	<a href="../../reference/carbon.html">Carbon Dating</a><br>
-
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Other</font></td></tr></table><br>
-	<a href="../../other/contributors.html">Contributors</a><br>
-	<a href="../../other/logo.html">Quesa Logo</a><br>
-	<a href="../../other/links.html">Links</a><br>
-</td>
-<!--=========================================================================-->
-<td width=10>&nbsp;</td>
-<td valign=top>
-
-
-<h3>API Reference</h3>
-<p>
-A detailed API reference for Quesa is available, organised by header file:
-</p>
-
-<p>
-QUESA_HEADER_LIST
-</p>
-
-</td>
-</tr>
-</table>
-
-
-
-
-
-<!--=========================================================================-->
-<!-- Page Footer                                                             -->
-<!--=========================================================================-->
-<br>
-<br>
-<hr width="90%">
-<table border=0 align=center>
-<tr>
-<td colspan=2 align=center>
-<font size="-1">
-Quesa Web Site hosted by <a href="http://www.DesignCommunity.com/home.html">DesignCommunity.com</a>
-</font>
-</td>
-</tr>
-</table>
-
-</body>
-</html>
-);
-
-
-
-
-
-use Cwd;
-use File::Find;
-use File::Copy;
-
 my $pathSeparator;
 my $isMacOS;
-my $scriptDir;
-my $framesetFileName;
-my $masterTOCFileName;
+my $modulesPath;
+
 BEGIN {
+	use FindBin qw ($Bin);
+	
     if ($^O =~ /MacOS/i) {
-            $pathSeparator = ":";
-            $isMacOS = 1;
+		$pathSeparator = ":";
+		$isMacOS = 1;
+		#$Bin seems to return a colon after the path on certain versions of MacPerl
+		#if it's there we take it out. If not, leave it be
+		#WD-rpw 05/09/02
+		($modulesPath = $FindBin::Bin) =~ s/([^:]*):$/$1/;
     } else {
-            $pathSeparator = "/";
-            $isMacOS = 0;
+		$pathSeparator = "/";
+		$isMacOS = 0;
     }
-    ################ Setup from Configuration File #######################
-    # read configuration file
-    $scriptDir = cwd();
-    do "$scriptDir"."$pathSeparator"."headerDoc2HTML.config";
-
-    if (defined $config{"defaultFrameName"}) {
-        $framesetFileName = $config{"defaultFrameName"};
-    } else {
-        print "No default frame name defined in configuration file.  Using 'index.html'.\n";
-        $framesetFileName = 'index.html';
-    }
-
-    if (defined $config{"masterTOCName"}) {
-        $masterTOCFileName = $config{"masterTOCName"};
-    } else {
-        print "No default name for master table of contents.  Using 'masterTOC.html'.\n";
-        $masterTOCFileName = 'masterTOC.html';
-    }
+	$modulesPath = "$FindBin::Bin"."$pathSeparator"."Modules";
 }
 
 use strict;
-use FindBin qw ($Bin);
-use lib "$Bin"."$pathSeparator"."Modules";
+use Cwd;
+use File::Find;
+use File::Copy;
+use lib $modulesPath;
 
 # Modules specific to gatherHeaderDoc
 use HeaderDoc::DocReference;
-use HeaderDoc::Utilities qw(findRelativePath safeName getAPINameAndDisc convertCharsForFileMaker printArray printHash);
+use HeaderDoc::Utilities qw(findRelativePath safeName getAPINameAndDisc printArray printHash updateHashFromConfigFiles getHashFromConfigFile);
 
 my $debugging = 1;
 ######################################## Design Overview ###################################
@@ -187,26 +65,70 @@ my $debugging = 1;
 # - We run through array of DocRef objs and create a master TOC based on the info
 # - Finally, we visit each TOC file in each frameset and add a "[Top]" link
 #   back to the master TOC.  [This is fragile in the current implementation, since
-#   we find TOCs based on searching for a file called "toc.html" in the frameset dir.
+#   we find TOCs based on searching for a file called "toc.html" in the frameset dir.]
 # 
-############################################# Input Folder and Files #######################
+########################## Setup from Configuration File #######################
+my $localConfigFileName = "headerDoc2HTML.config";
+my $preferencesConfigFileName = "com.apple.headerDoc2HTML.config";
+my $homeDir;
+my $usersPreferencesPath;
+#added WD-rpw 07/30/01 to support running on MacPerl
+#modified WD-rpw 07/01/02 to support the MacPerl 5.8.0
+if ($^O =~ /MacOS/i) {
+	eval {
+		require "FindFolder.pl";
+		$homeDir = MacPerl::FindFolder("D");	#D = Desktop. Arbitrary place to put things
+		$usersPreferencesPath = MacPerl::FindFolder("P");	#P = Preferences
+	};
+	if ($@) {
+		import Mac::Files;
+		$homeDir = Mac::Files::FindFolder(kOnSystemDisk(), kDesktopFolderType());
+		$usersPreferencesPath = Mac::Files::FindFolder(kOnSystemDisk(), kPreferencesFolderType());
+	}
+} else {
+	$homeDir = (getpwuid($<))[7];
+	$usersPreferencesPath = $homeDir.$pathSeparator."Library".$pathSeparator."Preferences";
+}
+
+my @configFiles = ($Bin.$pathSeparator.$localConfigFileName, $usersPreferencesPath.$pathSeparator.$preferencesConfigFileName);
+
+# default configuration, which will be modified by assignments found in config files.
+# The default values listed in this hash must be the same as those in the identical 
+# hash in headerDoc2HTML--so that links between the frameset and the masterTOC work.
+my %config = (
+    defaultFrameName => "index.html", 
+    masterTOCName => "MasterTOC.html"
+);
+
+%config = &updateHashFromConfigFiles(\%config,\@configFiles);
+
+my $framesetFileName;
+my $masterTOCFileName;
+if (defined $config{"defaultFrameName"}) {
+	$framesetFileName = $config{"defaultFrameName"};
+} 
+if (defined $config{"masterTOCName"}) {
+	$masterTOCFileName = $config{"masterTOCName"};
+} 
+
+########################## Input Folder and Files #######################
 my @inputFiles;
 my $inputDir;
 
 if (($#ARGV == 0) && (-d $ARGV[0])) {
     $inputDir = $ARGV[0];
-    $inputDir =~ s|(.*)/$|$1|; # get rid of trailing slash, if any
 
-	# dair, don't do this on Mac OS
-    if ($^O !~ /MacOS/i) {
-	    if ($inputDir !~ /^\//) { # not absolute path -- !!! should check for ~
-	        my $cwd = cwd();
-	        $inputDir = $cwd.$pathSeparator.$inputDir;
-	    }
-    }
-# dair, changed for MacPerl
-#    &find({wanted => \&getFiles, follow => 1}, $inputDir);
-    &find(\&getFiles, $inputDir);
+	if ($^O =~ /MacOS/i) {
+		find(\&getFiles, $inputDir);
+		$inputDir =~ s/([^:]*):$/$1/;	#WD-rpw 07/01/02
+	} else {
+		$inputDir =~ s|(.*)/$|$1|; # get rid of trailing slash, if any
+		if ($inputDir !~ /^\//) { # not absolute path -- !!! should check for ~
+			my $cwd = cwd();
+			$inputDir = $cwd.$pathSeparator.$inputDir;
+		}
+		&find({wanted => \&getFiles, follow => 1}, $inputDir);
+	}
 } else {
     die "You must specify a single input directory for processing.\n";
 }
@@ -215,14 +137,16 @@ unless (@inputFiles) { print "No valid input files specified. \n\n";};
 sub getFiles {
     my $filePath = $File::Find::name;
     my $fileName = $_;
-
+    
     if ($fileName =~ /$framesetFileName/) {
         push(@inputFiles, $filePath);
     }
 }
-################### Find HeaderDoc Comments #######################
+########################## Find HeaderDoc Comments #######################
 my @headerFramesetRefs;
 my @classFramesetRefs;
+my @categoryFramesetRefs;
+my @protocolFramesetRefs;
 
 my $oldRecSep = $/;
 undef $/; # read in files as strings
@@ -231,7 +155,7 @@ foreach my $file (@inputFiles) {
     open (INFILE, "<$file") || die "Can't open $file: $!\n";
     my $fileString = <INFILE>;
     close INFILE;
-    if ($fileString =~ /<--\s+(headerDoc\s*=.*?)-->/) {
+    if ($fileString =~ /<\!--\s+(headerDoc\s*=.*?)-->/) {
         my $fullComment = $1;
         my @pairs = split(/;/, $fullComment);
         my $docRef = HeaderDoc::DocReference->new;
@@ -256,8 +180,12 @@ foreach my $file (@inputFiles) {
         my $tmpType = $docRef->type();
         if ($tmpType eq "Header") {
             push (@headerFramesetRefs, $docRef);
-        } elsif ($tmpType eq "CPPClass") {
+        } elsif ($tmpType eq "cl"){
             push (@classFramesetRefs, $docRef);
+        } elsif ($tmpType eq "intf"){
+            push (@protocolFramesetRefs, $docRef);
+        } elsif ($tmpType eq "cat"){
+            push (@categoryFramesetRefs, $docRef);
         } else {
             my $tmpName = $docRef->name();
             my $tmpPath = $docRef->path();
@@ -268,12 +196,11 @@ foreach my $file (@inputFiles) {
 $/ = $oldRecSep;
 
 # create master TOC if we have any framesets
-if (scalar(@headerFramesetRefs) + scalar(@classFramesetRefs)) {
+if (scalar(@headerFramesetRefs) + scalar(@classFramesetRefs) + scalar(@protocolFramesetRefs) + scalar(@categoryFramesetRefs)) {
     &printMasterTOC();
     &addTopLinkToFramesetTOCs();
 } else {
     print "gatherHeaderDoc.pl: No HeaderDoc framesets found--returning\n" if ($debugging); 
-    return;
 }
 exit 0;
 
@@ -283,9 +210,11 @@ sub printMasterTOC {
     my $masterTOC = $outputDir.$pathSeparator. $masterTOCFileName;
     my $headersLinkString= '';
     my $classesLinkString = '';
+    my $protocolsLinkString = '';
+    my $categoriesLinkString = '';
     my $fileString;
     my $localDebug = 0;
-
+    
     # get the HTML links to each header 
     foreach my $ref (sort objName @headerFramesetRefs) {
         my $name = $ref->name();
@@ -304,29 +233,46 @@ sub printMasterTOC {
     }
     if (($localDebug) && length($classesLinkString)) {print "\$classesLinkString is '$classesLinkString'\n";};
     
+    # get the HTML links to each protocol 
+    foreach my $ref (sort objName @protocolFramesetRefs) {
+        my $name = $ref->name();
+        my $path = $ref->path();        
+        my $tmpString = &getLinkToFramesetFrom($masterTOC, $path, $name);
+        $protocolsLinkString .= $tmpString;
+    }
+    if (($localDebug) && length($protocolsLinkString)) {print "\$protocolsLinkString is '$protocolsLinkString'\n";};
+    
+    # get the HTML links to each category 
+    foreach my $ref (sort objName @categoryFramesetRefs) {
+        my $name = $ref->name();
+        my $path = $ref->path();        
+        my $tmpString = &getLinkToFramesetFrom($masterTOC, $path, $name);
+        $categoriesLinkString .= $tmpString;
+    }
+    if (($localDebug) && length($categoriesLinkString)) {print "\$categoriesLinkString is '$categoriesLinkString'\n";};
+    
     # put together header/footer with linkString--could use template
-    my $htmlHeader = "<html><head><title>Header Documentation</title></head><body bgcolor=\"#cccccc\"><h1>Header Documentation</h1><hr><br>\n";
+    my $htmlHeader = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"\n    \"http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd\">\n";
+    $htmlHeader .= "<html>\n<head>\n    <title>Header Documentation</title>\n	<meta name=\"generator\" content=\"HeaderDoc\">\n</head>\n<body bgcolor=\"#cccccc\"><h1>Header Documentation</h1><hr><br>\n";
     my $headerSection = "<h2>Headers</h2>\n<blockquote>\n".$headersLinkString."\n</blockquote>\n";
     my $classesSection = '';
     if (length($classesLinkString)) {
     	$classesSection = "<h2>Classes</h2>\n<blockquote>\n".$classesLinkString."\n</blockquote>\n";
     }
+    my $categoriesSection = '';
+    if (length($categoriesLinkString)) {
+    	$categoriesSection = "<h2>Categories</h2>\n<blockquote>\n".$categoriesLinkString."\n</blockquote>\n";
+    }
+    my $protocolsSection = '';
+    if (length($protocolsLinkString)) {
+    	$protocolsSection = "<h2>Protocols</h2>\n<blockquote>\n".$protocolsLinkString."\n</blockquote>\n";
+    }
     my $htmlFooter = "</body>\n</html>\n";
-    $fileString = $htmlHeader.$headerSection.$classesSection.$htmlFooter;
-
-
-	# dair, adjust layout for Quesa
-	$fileString = $quesaPageTemplate;
-	$fileString =~ s/QUESA_HEADER_LIST/$headersLinkString/;
-
-
+    $fileString = $htmlHeader.$headerSection.$classesSection.$categoriesSection.$protocolsSection.$htmlFooter;
+    
     # write out page
     print "gatherHeaderDoc.pl: writing master TOC to $masterTOC\n" if ($localDebug);
     open(OUTFILE, ">$masterTOC") || die "Can't write $masterTOC.\n";
-
-	# dair, set file type on Mac OS
-    if ($^O =~ /MacOS/i) {MacPerl::SetFileInfo('MSIE', 'TEXT', "$masterTOC");};
-
     print OUTFILE $fileString;
     close OUTFILE;
 }
@@ -337,6 +283,8 @@ sub addTopLinkToFramesetTOCs {
     my @allDocRefs;
     push(@allDocRefs, @headerFramesetRefs);
     push(@allDocRefs, @classFramesetRefs);
+    push(@allDocRefs, @protocolFramesetRefs);
+    push(@allDocRefs, @categoryFramesetRefs);
     my $localDebug = 0;
     
     foreach my $ref (@allDocRefs) {
@@ -358,9 +306,7 @@ sub addTopLinkToFramesetTOCs {
             my $uniqueMarker = "headerDoc=\"topLink\"";
             if ($fileString !~ /$uniqueMarker/) { # we haven't been here before
                 my $relPathToMasterTOC = &findRelativePath($tocFile, $masterTOC);
-# dair, updated for Quesa
-#                my $topLink = "\n<font size=\"-2\"><a href=\"$relPathToMasterTOC\" target=\"_top\" $uniqueMarker>[Top]</a></font><br>\n";
-                my $topLink = "\n<a href=\"$relPathToMasterTOC\" target=\"_top\" $uniqueMarker>[Up To API Reference]</a><br><br>\n";
+                my $topLink = "\n<font size=\"-2\"><a href=\"$relPathToMasterTOC\" target=\"_top\" $uniqueMarker>[Top]</a></font><br>\n";
                 
                 $fileString =~ s/(<body[^>]*>)/$1$topLink/i;
             

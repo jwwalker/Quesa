@@ -1,11 +1,11 @@
 #! /usr/bin/perl -w
 #
-# Class name: CPPClass
+# Class name: CClass
 # Synopsis: Holds comments pertaining to a C++ class, as parsed by HeaderDoc
 # from a C++ header
 #
 # Author: Matt Morse (matt@apple.com)
-# Last Updated: $Date: 2005-01-28 02:47:47 $
+# Last Updated: $Date: 2005-01-28 02:47:38 $
 # 
 # Copyright (c) 1999-2001 Apple Computer, Inc.  All Rights Reserved.
 # The contents of this file constitute Original Code as defined in and are
@@ -28,7 +28,7 @@ BEGIN {
 	    $MOD_AVAIL{$_} = eval "use $_; 1";
     }
 }
-package HeaderDoc::CPPClass;
+package HeaderDoc::CClass;
 
 use HeaderDoc::Utilities qw(findRelativePath safeName getAPINameAndDisc printArray printHash);
 use HeaderDoc::APIOwner;
@@ -289,7 +289,6 @@ sub _getCompositePageString {
     my $name = $self->name();
     my $compositePageString;
     my $contentString;
-    my $list_attributes = $self->getAttributeLists();
     
     my $abstract = $self->abstract();
     if (length($abstract)) {
@@ -297,52 +296,15 @@ sub _getCompositePageString {
 	    $compositePageString .= $abstract;
     }
 
-    my $namespace = $self->namespace();
-    my $availability = $self->availability();
-    my $updated = $self->updated();
-
-    if (length($namespace) || length($updated) || length($availability)) {
-	    $compositePageString .= "<p></p>\n";
-    }
-
-    if (length($namespace)) {
-	    $compositePageString .= "<b>Namespace:</b> $namespace<br>\n";
-    }
-    if (length($availability)) {
-	    $compositePageString .= "<b>Availability:</b> $availability<br>\n";
-    }
-    if (length($updated)) {
-	    $compositePageString .= "<b>Updated:</b> $updated<br>\n";
-    }
-
-    if (length($list_attributes)) {
-	$contentString .= $list_attributes;
-    }
-
-
-    my $short_attributes = $self->getAttributes(0);
-    my $long_attributes = $self->getAttributes(1);
-    my $list_attributes = $self->getAttributeLists();
-    if (length($short_attributes)) {
-            $compositePageString .= "$short_attributes";
-    }
-    if (length($list_attributes)) {
-            $compositePageString .= "$list_attributes";
-    }
-
     my $discussion = $self->discussion();
     if (length($discussion)) {
 	    $compositePageString .= "<h2>Discussion</h2>\n";
 	    $compositePageString .= $discussion;
     }
-    if (length($long_attributes)) {
-            $compositePageString .= "$long_attributes";
-    }
     
-    # if ((length($long_attributes)) || (length($discussion))) {
-    # ALWAYS....
+    if ((length($abstract)) || (length($discussion))) {
 	    $compositePageString .= "<hr><br>";
-    # }
+    }
 
     $contentString= $self->_getFunctionDetailString();
     if (length($contentString)) {
@@ -417,16 +379,12 @@ sub _getFunctionDetailString {
         my $accessControl = $obj->accessControl();
         my @params = $obj->taggedParameters();
         my $result = $obj->result();
-	my $list_attributes = $obj->getAttributeLists();
 
 	$contentString .= "<hr>";
 	# if ($declaration !~ /#define/) { # not sure how to handle apple_refs with macros yet
 	        my $paramSignature = $self->getParamSignature($declarationRaw);
 	        my $methodType = $self->getMethodType($declarationRaw);
         	my $uid = "//$apiUIDPrefix/cpp/$methodType/$className/$name/$paramSignature";
-		if ($obj->checkAttributeLists("Template Field")) {
-        	    $uid = "//$apiUIDPrefix/cpp/ftmplt/$className/$name/$paramSignature";
-		}
 		HeaderDoc::APIOwner->register_uid($uid);
         	$contentString .= "<a name=\"$uid\"></a>\n";
         # }
@@ -450,9 +408,6 @@ sub _getFunctionDetailString {
 	}
 	if (length($updated)) {
 	    $contentString .= "<b>Updated:</b> $updated<BR>\n";
-	}
-	if (length($list_attributes)) {
-	    $contentString .= $list_attributes;
 	}
         $contentString .= "<blockquote><pre><tt>$accessControl</tt>\n<br>$declaration</pre></blockquote>\n";
         if (length($desc)) {$contentString .= "<h5><font face=\"Lucida Grande,Helvetica,Arial\">Discussion</font></h5><p>$desc</p>\n"; }
@@ -506,22 +461,11 @@ sub XMLdocumentationBlock {
 	$compositePageString .= "<abstract>$abstract</abstract>\n";
     }
     if (length($availability)) {
-	$contentString .= "<availability>$availability</availability>\n";
+	$contentString .= "<b>Availabilty:</b> $availability\n";
     }
     if (length($updated)) {
-	$contentString .= "<updated>$updated</updated>\n";
+	$contentString .= "<b>Updated:</b> $updated\n";
     }
-	my @fields = $self->fields();
-	if (@fields) {
-		$contentString .= "<template_fields>\n";
-		for my $field (@fields) {
-			my $name = $field->name();
-			my $desc = $field->discussion();
-			# print "field $name $desc\n";
-			$contentString .= "<field><name>$name</name><desc>$desc</desc></field>\n";
-		}
-		$contentString .= "</template_fields>\n";
-	}
     if (length($discussion)) {
 	$compositePageString .= "<discussion>$discussion</discussion>\n";
     }
@@ -609,10 +553,9 @@ sub _getVarDetailString {
 	my $methodType = "var"; # $self->getMethodType($declarationRaw);
 	my $apiUIDPrefix = HeaderDoc::APIOwner->apiUIDPrefix();
 	my $headerObject = HeaderDoc::APIOwner->headerObject();
-	# my $className = (HeaderDoc::APIOwner->headerObject())->name();
-	my $className = $self->name();
+	my $className = (HeaderDoc::APIOwner->headerObject())->name();
 	$contentString .= "<hr>";
-	my $uid = "//$apiUIDPrefix/cpp/$methodType/$className/$name";
+	my $uid = "//$apiUIDPrefix/c/$methodType/$className/$name";
 	HeaderDoc::APIOwner->register_uid($uid);
 	$contentString .= "<a name=\"$uid\"></a>\n";
         
@@ -640,22 +583,24 @@ sub _getVarDetailString {
 	    if ($arrayLength > 0) {
 	        $contentString .= "<h5><font face=\"Lucida Grande,Helvetica,Arial\">$fieldHeading</font></h5>\n";
 	        $contentString .= "<blockquote>\n";
-	        # $contentString .= "<table border=\"1\"  width=\"90%\">\n";
-	        # $contentString .= "<thead><tr><th>Name</th><th>Description</th></tr></thead>\n";
-		$contentString .= "<dl>\n";
+	        $contentString .= "<table border=\"1\"  width=\"90%\">\n";
+	        $contentString .= "<thead><tr><th>Name</th><th>Description</th></tr></thead>\n";
+		# Not updating this table into a definition list because
+		# this code path can never be called for valid C code.
 	        foreach my $element (@fields) {
 	            my $fName = $element->name();
 	            my $fDesc = $element->discussion();
-	            # $contentString .= "<tr><td align=\"center\"><tt>$fName</tt></td><td>$fDesc</td></tr>\n";
-	            $contentString .= "<dt><tt>$fName</tt></dt><dd>$fDesc</dd>\n";
+	            $contentString .= "<tr><td align=\"center\"><tt>$fName</tt></td><td>$fDesc</td></tr>\n";
 	        }
-	        # $contentString .= "</table>\n</blockquote>\n";
-	        $contentString .= "</dl>\n</blockquote>\n";
+	        $contentString .= "</table>\n</blockquote>\n";
 	    }
+	    # if (length($updated)) {
+		# $contentString .= "<b>Availability:</b> $availability\n";
+	    # }
 	    # if (length($updated)) {
 		# $contentString .= "<b>Updated:</b> $updated\n";
 	    # }
-	    $contentString .= "<hr>\n";
+	    # $contentString .= "<hr>\n";
     }
     return $contentString;
 }
@@ -696,10 +641,6 @@ sub docNavigatorComment {
     my $name = $self->name();
     my $navComment = "<!-- headerDoc=cl; name=$name-->";
     my $appleRef = "<a name=\"//apple_ref/cpp/cl/$name\"></a>";
-
-    if ($self->fields) {
-	$appleRef = "<a name=\"//apple_ref/cpp/tmplt/$name\"></a>";
-    }
     
     return "$navComment\n$appleRef";
 }
@@ -720,21 +661,21 @@ sub objName { # used for sorting
 sub byLinkage { # used for sorting
    my $obj1 = $a;
    my $obj2 = $b;
-   if ($HeaderDoc::sort_entries) {
+   # if ($HeaderDoc::sort_entries) {
         return ($obj1->linkageState() cmp $obj2->linkageState());
-   } else {
-        return (1 cmp 2);
-   }
+   # } else {
+        # return (1 cmp 2);
+   # }
 }
 
 sub byAccessControl { # used for sorting
    my $obj1 = $a;
    my $obj2 = $b;
-   if ($HeaderDoc::sort_entries) {
+   # if ($HeaderDoc::sort_entries) {
         return ($obj1->accessControl() cmp $obj2->accessControl());
-   } else {
-        return (1 cmp 2);
-   }
+   # } else {
+        # return (1 cmp 2);
+   # }
 }
 
 sub linkageAndObjName { # used for sorting
@@ -755,7 +696,7 @@ sub printObject {
     my $self = shift;
  
     $self->SUPER::printObject();
-    print "CPPClass\n";
+    print "CClass\n";
     print "\n";
 }
 
