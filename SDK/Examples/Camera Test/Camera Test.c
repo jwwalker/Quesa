@@ -269,11 +269,6 @@ appRender(TQ3ViewObject theView)
 {
 
 
-	// Submit the styles
-	Q3InterpolationStyle_Submit(kQ3InterpolationStyleVertex, theView);
-
-
-
 	// Submit the scene
 	Q3DisplayGroup_Submit(gSceneGeometry, theView);
 }

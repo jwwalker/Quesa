@@ -57,6 +57,39 @@ extern "C" {
 //-----------------------------------------------------------------------------
 #define kRendererMaxNum									50
 
+#define kStyleCmdFillFilled								1
+#define kStyleCmdFillEdges								2
+#define kStyleCmdFillPoints								3
+#define kStyleCmdDummy1									4
+#define kStyleCmdBackfacingBoth							5
+#define kStyleCmdBackfacingRemove						6
+#define kStyleCmdBackfacingFlip							7
+#define kStyleCmdDummy2									8
+#define kStyleCmdInterpolationNone						9
+#define kStyleCmdInterpolationVertex					10
+#define kStyleCmdInterpolationPixel						11
+#define kStyleCmdDummy3									12
+#define kStyleCmdOrientationClockwise					13
+#define kStyleCmdOrientationCounterClockwise			14
+#define kStyleCmdDummy4									15
+#define kStyleCmdAntiAliasNone							16
+#define kStyleCmdAntiAliasEdges							17
+#define kStyleCmdAntiAliasFilled						18
+#define kStyleCmdDummy5									19
+#define kStyleCmdFogOn									20
+#define kStyleCmdFogOff									21
+#define kStyleCmdDummy6									22
+#define kStyleCmdSubdivisionConstant1					23
+#define kStyleCmdSubdivisionConstant2					24
+#define kStyleCmdSubdivisionConstant3					25
+#define kStyleCmdSubdivisionConstant4					26
+#define kStyleCmdSubdivisionWorldSpace1					27
+#define kStyleCmdSubdivisionWorldSpace2					28
+#define kStyleCmdSubdivisionWorldSpace3					29
+#define kStyleCmdSubdivisionScreenSpace1				30
+#define kStyleCmdSubdivisionScreenSpace2				31
+#define kStyleCmdSubdivisionScreenSpace3				32
+
 
 
 
@@ -86,6 +119,7 @@ extern qutFuncAppMouseTrack		gFuncAppMouseTrack;
 //-----------------------------------------------------------------------------
 // Qut - private
 void	Qut_RenderFrame(void);
+void	Qut_InvokeStyleCommand(TQ3Int32 theCmd);
 
 
 

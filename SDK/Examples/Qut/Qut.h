@@ -206,6 +206,7 @@ void			Qut_SetMouseDownFunc(qutFuncAppMouseDown   appMouseTrack);
 void			Qut_SetMouseTrackFunc(qutFuncAppMouseTrack appMouseTrack);
 TQ3GroupObject	Qut_ReadModel(TQ3StorageObject	storageObj);
 
+
 // Qut - Platform specific
 void					Qut_CreateWindow(const char		*windowTitle,
 											TQ3Uns32	theWidth,

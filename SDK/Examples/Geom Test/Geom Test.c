@@ -42,31 +42,30 @@
 //      Internal constants
 //-----------------------------------------------------------------------------
 #define kMenuItemDisplayBoundingBox							1
-#define kMenuItemShowBackFaces								2
-#define kMenuItemShowTexture								3
-#define kMenuItemDivider1									4
-#define kMenuItemGeometryBox								5
-#define kMenuItemGeometryCone								6
-#define kMenuItemGeometryCylinder							7
-#define kMenuItemGeometryDisk								8
-#define kMenuItemGeometryEllipse							9
-#define kMenuItemGeometryEllipsoid							10
-#define kMenuItemGeometryGeneralPolygon						11
-#define kMenuItemGeometryLine								12
-#define kMenuItemGeometryMarker								13
-#define kMenuItemGeometryMesh								14
-#define kMenuItemGeometryNURBCurve							15
-#define kMenuItemGeometryNURBPatch							16
-#define kMenuItemGeometryPixmapMarker						17
-#define kMenuItemGeometryPoint								18
-#define kMenuItemGeometryPolyLine							19
-#define kMenuItemGeometryPolygon							20
-#define kMenuItemGeometryPolyhedron							21
-#define kMenuItemQuesaLogo									22
-#define kMenuItemGeometryTorus								23
-#define kMenuItemGeometryTriangle							24
-#define kMenuItemGeometryTriGrid							25
-#define kMenuItemGeometryTriMesh							26
+#define kMenuItemShowTexture								2
+#define kMenuItemDivider1									3
+#define kMenuItemGeometryBox								4
+#define kMenuItemGeometryCone								5
+#define kMenuItemGeometryCylinder							6
+#define kMenuItemGeometryDisk								7
+#define kMenuItemGeometryEllipse							8
+#define kMenuItemGeometryEllipsoid							9
+#define kMenuItemGeometryGeneralPolygon						10
+#define kMenuItemGeometryLine								11
+#define kMenuItemGeometryMarker								12
+#define kMenuItemGeometryMesh								13
+#define kMenuItemGeometryNURBCurve							14
+#define kMenuItemGeometryNURBPatch							15
+#define kMenuItemGeometryPixmapMarker						16
+#define kMenuItemGeometryPoint								17
+#define kMenuItemGeometryPolyLine							18
+#define kMenuItemGeometryPolygon							19
+#define kMenuItemGeometryPolyhedron							20
+#define kMenuItemQuesaLogo									21
+#define kMenuItemGeometryTorus								22
+#define kMenuItemGeometryTriangle							23
+#define kMenuItemGeometryTriGrid							24
+#define kMenuItemGeometryTriMesh							25
 
 #define kTriGridRows										5
 #define kTriGridCols										10
@@ -85,7 +84,6 @@ const TQ3ColorARGB kColorARGBPickMiss = {1.0f, 0.0f, 0.0f, 1.0f};
 TQ3Object			gSceneGeometry      = NULL;
 TQ3ShaderObject		gSceneIllumination  = NULL;
 TQ3Object			gSceneBounds        = NULL;
-TQ3BackfacingStyle	gSceneBackfacing    = kQ3BackfacingStyleBoth;
 TQ3ShaderObject		gSceneTexture       = NULL;
 TQ3Boolean			gShowTexture        = kQ3False;
 TQ3Matrix4x4		gMatrixCurrent;
@@ -187,7 +185,14 @@ createGeomBounds(TQ3GeometryObject theGeom)
 		}
 
 	theStyle = Q3FillStyle_New(kQ3FillStyleEdges);
-	if (theShader != NULL)
+	if (theStyle != NULL)
+		{
+		Q3Group_AddObject(theGroup, theStyle);
+		Q3Object_Dispose(theStyle);
+		}
+
+	theStyle = Q3BackfacingStyle_New(kQ3BackfacingStyleBoth);
+	if (theStyle != NULL)
 		{
 		Q3Group_AddObject(theGroup, theStyle);
 		Q3Object_Dispose(theStyle);
@@ -1659,6 +1664,8 @@ testPick(TQ3ViewObject theView, TQ3Point2D mousePoint)
 
 
 
+
+
 //=============================================================================
 //      appConfigureView : Configure the view.
 //-----------------------------------------------------------------------------
@@ -1677,6 +1684,9 @@ appConfigureView(TQ3ViewObject				theView,
 }
 
 
+
+
+
 //=============================================================================
 //      appMouseDown : Handle mouse clicks.
 //					   Here, we use them to test Picking.
@@ -1690,6 +1700,10 @@ appMouseDown(TQ3ViewObject theView, TQ3Point2D mousePoint)
 	gBackgroundColor.g *= 2.0f;
 	gBackgroundColor.b *= 2.0f;
 }
+
+
+
+
 
 //=============================================================================
 //      appMenuSelect : Handle menu selections.
@@ -1713,14 +1727,6 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 				Q3Object_Dispose(gSceneBounds);
 				gSceneBounds = NULL;
 				}
-			break;
-		
-		case kMenuItemShowBackFaces:
-			// Create or dispose of the bounding geometry
-			if (gSceneBackfacing == kQ3BackfacingStyleRemove)
-				gSceneBackfacing = kQ3BackfacingStyleBoth;
-			else
-				gSceneBackfacing = kQ3BackfacingStyleRemove;
 			break;
 		
 		case kMenuItemShowTexture:
@@ -1850,11 +1856,6 @@ static void
 appRender(TQ3ViewObject theView)
 {
 
-	// Subdivision styles, for testing geometries until Geom Test and Style Test merge
-	TQ3SubdivisionStyleData subdivStyle = {kQ3SubdivisionMethodConstant,   30.0f, 30.0f};
-//	TQ3SubdivisionStyleData subdivStyle = {kQ3SubdivisionMethodScreenSpace, 3.0f, 3.0f};
-//	TQ3SubdivisionStyleData subdivStyle = {kQ3SubdivisionMethodWorldSpace,  0.5f, 0.5f};
-
 
 	// If we're flashing the background color, update it now
 	TQ3DrawContextObject context;
@@ -1873,12 +1874,6 @@ appRender(TQ3ViewObject theView)
 	}
 
 
-	// Submit the styles
-	Q3BackfacingStyle_Submit(gSceneBackfacing,               theView);
-	Q3InterpolationStyle_Submit(kQ3InterpolationStyleVertex, theView);
-	Q3SubdivisionStyle_Submit(&subdivStyle,                  theView);
-
-
 
 	// Submit the scene
 	Q3Shader_Submit(gSceneIllumination, theView);
@@ -1890,8 +1885,11 @@ appRender(TQ3ViewObject theView)
 
 	if (gSceneBounds != NULL)
 		{
+		Q3Push_Submit(theView);
 		Q3BackfacingStyle_Submit(kQ3BackfacingStyleBoth, theView);
+		Q3FillStyle_Submit(kQ3FillStyleEdges,            theView);
 		Q3Object_Submit(gSceneBounds, theView);
+		Q3Pop_Submit(theView);
 		}
 
 
@@ -1946,7 +1944,6 @@ App_Initialise(void)
 	Qut_CreateMenu(appMenuSelect);
 			
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Bounding Box");
-	Qut_CreateMenuItem(kMenuItemLast, "Toggle Back Faces");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Texture");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Box");

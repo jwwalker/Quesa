@@ -137,7 +137,14 @@ createGeomBounds(TQ3GeometryObject theGeom)
 		}
 
 	theStyle = Q3FillStyle_New(kQ3FillStyleEdges);
-	if (theShader != NULL)
+	if (theStyle != NULL)
+		{
+		Q3Group_AddObject(theGroup, theStyle);
+		Q3Object_Dispose(theStyle);
+		}
+
+	theStyle = Q3BackfacingStyle_New(kQ3BackfacingStyleBoth);
+	if (theStyle != NULL)
 		{
 		Q3Group_AddObject(theGroup, theStyle);
 		Q3Object_Dispose(theStyle);
@@ -918,20 +925,6 @@ appRender(TQ3ViewObject theView)
 {	TQ3Matrix4x4	theTransfrom;
 
 
-
-	// Subdivision styles, for testing geometries until Geom Test and Style Test merge
-	TQ3SubdivisionStyleData subdivStyle = {kQ3SubdivisionMethodConstant,   30.0f, 30.0f};
-//	TQ3SubdivisionStyleData subdivStyle = {kQ3SubdivisionMethodScreenSpace, 3.0f, 3.0f};
-//	TQ3SubdivisionStyleData subdivStyle = {kQ3SubdivisionMethodWorldSpace,  0.5f, 0.5f};
-
-
-
-	// Submit the styles
-	Q3BackfacingStyle_Submit(kQ3BackfacingStyleBoth,         theView);
-	Q3InterpolationStyle_Submit(kQ3InterpolationStyleVertex, theView);
-	Q3SubdivisionStyle_Submit(&subdivStyle,                  theView);
-
-	
 
 	// Submit the scene
 	Q3Shader_Submit(gSceneIllumination, theView);

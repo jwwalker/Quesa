@@ -99,17 +99,45 @@
 
 #if QUT_MAC_CARBON_EVENTS
 	#define kMenuRenderer								132
-	#define kMenuSpecial								133
+	#define kMenuStyle									133
+	#define kMenuSpecial								134
 #else
 	#define kMenuRenderer								131
-	#define kMenuSpecial								132
+	#define kMenuStyle									132
+	#define kMenuSpecial								133
 #endif
 
 enum {
 	kQutCommandShowFPS									= FOUR_CHAR_CODE('Sfps'),
 	kQutCommandUseRenderer								= FOUR_CHAR_CODE('UsRn'),
 	kQutCommandAboutBox									= FOUR_CHAR_CODE('Abot'),
-	kQutCommandClose									= FOUR_CHAR_CODE('clos')
+	kQutCommandClose									= FOUR_CHAR_CODE('clos'),
+	kQutCommandStyleFillFilled							= FOUR_CHAR_CODE('sc01'),
+	kQutCommandStyleFillEdges							= FOUR_CHAR_CODE('sc02'),
+	kQutCommandStyleFillPoints							= FOUR_CHAR_CODE('sc03'),
+	kQutCommandStyleBackfacingBoth						= FOUR_CHAR_CODE('sc04'),
+	kQutCommandStyleBackfacingRemove					= FOUR_CHAR_CODE('sc05'),
+	kQutCommandStyleBackfacingFlip						= FOUR_CHAR_CODE('sc06'),
+	kQutCommandStyleInterpolationNone					= FOUR_CHAR_CODE('sc07'),
+	kQutCommandStyleInterpolationVertex					= FOUR_CHAR_CODE('sc08'),
+	kQutCommandStyleInterpolationPixel					= FOUR_CHAR_CODE('sc09'),
+	kQutCommandStyleOrientationClockwise				= FOUR_CHAR_CODE('sc10'),
+	kQutCommandStyleOrientationCounterClockwise			= FOUR_CHAR_CODE('sc11'),
+	kQutCommandStyleAntiAliasNone						= FOUR_CHAR_CODE('sc12'),
+	kQutCommandStyleAntiAliasEdges						= FOUR_CHAR_CODE('sc13'),
+	kQutCommandStyleAntiAliasFilled						= FOUR_CHAR_CODE('sc14'),
+	kQutCommandStyleFogOn								= FOUR_CHAR_CODE('sc15'),
+	kQutCommandStyleFogOff								= FOUR_CHAR_CODE('sc16'),
+	kQutCommandStyleSubdivisionConstant1				= FOUR_CHAR_CODE('sc17'),
+	kQutCommandStyleSubdivisionConstant2				= FOUR_CHAR_CODE('sc18'),
+	kQutCommandStyleSubdivisionConstant3				= FOUR_CHAR_CODE('sc19'),
+	kQutCommandStyleSubdivisionConstant4				= FOUR_CHAR_CODE('sc20'),
+	kQutCommandStyleSubdivisionWorldSpace1				= FOUR_CHAR_CODE('sc21'),
+	kQutCommandStyleSubdivisionWorldSpace2				= FOUR_CHAR_CODE('sc22'),
+	kQutCommandStyleSubdivisionWorldSpace3				= FOUR_CHAR_CODE('sc23'),
+	kQutCommandStyleSubdivisionScreenSpace1				= FOUR_CHAR_CODE('sc24'),
+	kQutCommandStyleSubdivisionScreenSpace2				= FOUR_CHAR_CODE('sc25'),
+	kQutCommandStyleSubdivisionScreenSpace3				= FOUR_CHAR_CODE('sc26')
 };
 
 
@@ -169,7 +197,7 @@ qut_carbon_window_event(EventHandlerCallRef inHandlerCallRef,
     switch(GetEventKind(inEvent))
     {
       case kEventWindowClose:
-        gShouldQuit = 1;
+        gShouldQuit = kQ3True;
         QuitApplicationEventLoop();
         break;
       case kEventWindowClickResizeRgn: {
@@ -266,6 +294,9 @@ qut_carbon_command_event(EventHandlerCallRef inHandlerCallRef,
 			else
 				Q3View_SetRendererByType(gView, gRenderers[command.menu.menuItemIndex - 1]);
 			break;
+      case kMenuStyle:
+			Qut_InvokeStyleCommand(command.menu.menuItemIndex);
+        break;
       case kMenuSpecial:
 			if (gAppMenuSelect != NULL)
 				gAppMenuSelect(gView, command.menu.menuItemIndex);
@@ -277,21 +308,102 @@ qut_carbon_command_event(EventHandlerCallRef inHandlerCallRef,
     	// Unhilight the menu
       HiliteMenu(0);
   } else {
-    switch(command.commandID)
-    {
-        case kQutCommandShowFPS:
-          gShowFPS   = (TQ3Boolean) !gShowFPS;
-          gSleepTime = gShowFPS ? kSleepTicksFPS : kSleepTicksDefault;
-          CheckMenuItem(GetMenuHandle(kMenuRenderer), command.menu.menuItemIndex, gShowFPS);
-          break;
+	switch(command.commandID) {
+		case kQutCommandShowFPS:
+			gShowFPS   = (TQ3Boolean) !gShowFPS;
+			gSleepTime = gShowFPS ? kSleepTicksFPS : kSleepTicksDefault;
+			CheckMenuItem(GetMenuHandle(kMenuRenderer), command.menu.menuItemIndex, gShowFPS);
+			break;
+
         case kQutCommandUseRenderer:
-            Q3View_SetRendererByType(gView, gRenderers[command.menu.menuItemIndex - 1]);
-          break;
+			Q3View_SetRendererByType(gView, gRenderers[command.menu.menuItemIndex - 1]);
+			break;
+
         case kQutCommandClose:
-          gShouldQuit = 1;
-          QuitApplicationEventLoop();
-         break;
-        case kQutCommandAboutBox: {
+			gShouldQuit = kQ3True;
+			QuitApplicationEventLoop();
+			break;
+
+		case kQutCommandStyleFillFilled:
+			Qut_InvokeStyleCommand(kStyleCmdFillFilled);
+			break;
+		case kQutCommandStyleFillEdges:
+			Qut_InvokeStyleCommand(kStyleCmdFillEdges);
+			break;
+		case kQutCommandStyleFillPoints:
+			Qut_InvokeStyleCommand(kStyleCmdFillPoints);
+			break;
+		case kQutCommandStyleBackfacingBoth:
+			Qut_InvokeStyleCommand(kStyleCmdBackfacingBoth);
+			break;
+		case kQutCommandStyleBackfacingRemove:
+			Qut_InvokeStyleCommand(kStyleCmdBackfacingRemove);
+			break;
+		case kQutCommandStyleBackfacingFlip:
+			Qut_InvokeStyleCommand(kStyleCmdBackfacingFlip);
+			break;
+		case kQutCommandStyleInterpolationNone:
+			Qut_InvokeStyleCommand(kStyleCmdInterpolationNone);
+			break;
+		case kQutCommandStyleInterpolationVertex:
+			Qut_InvokeStyleCommand(kStyleCmdInterpolationVertex);
+			break;
+		case kQutCommandStyleInterpolationPixel:
+			Qut_InvokeStyleCommand(kStyleCmdInterpolationPixel);
+			break;
+		case kQutCommandStyleOrientationClockwise:
+			Qut_InvokeStyleCommand(kStyleCmdOrientationClockwise);
+			break;
+		case kQutCommandStyleOrientationCounterClockwise:
+			Qut_InvokeStyleCommand(kStyleCmdOrientationCounterClockwise);
+			break;
+		case kQutCommandStyleAntiAliasNone:
+			Qut_InvokeStyleCommand(kStyleCmdAntiAliasNone);
+			break;
+		case kQutCommandStyleAntiAliasEdges:
+			Qut_InvokeStyleCommand(kStyleCmdAntiAliasEdges);
+			break;
+		case kQutCommandStyleAntiAliasFilled:
+			Qut_InvokeStyleCommand(kStyleCmdAntiAliasFilled);
+			break;
+		case kQutCommandStyleFogOn:
+			Qut_InvokeStyleCommand(kStyleCmdFogOn);
+			break;
+		case kQutCommandStyleFogOff:
+			Qut_InvokeStyleCommand(kStyleCmdFogOff);
+			break;
+		case kQutCommandStyleSubdivisionConstant1:
+			Qut_InvokeStyleCommand(kStyleCmdSubdivisionConstant1);
+			break;
+		case kQutCommandStyleSubdivisionConstant2:
+			Qut_InvokeStyleCommand(kStyleCmdSubdivisionConstant2);
+			break;
+		case kQutCommandStyleSubdivisionConstant3:
+			Qut_InvokeStyleCommand(kStyleCmdSubdivisionConstant3);
+			break;
+		case kQutCommandStyleSubdivisionConstant4:
+			Qut_InvokeStyleCommand(kStyleCmdSubdivisionConstant4);
+			break;
+		case kQutCommandStyleSubdivisionWorldSpace1:
+			Qut_InvokeStyleCommand(kStyleCmdSubdivisionWorldSpace1);
+			break;
+		case kQutCommandStyleSubdivisionWorldSpace2:
+			Qut_InvokeStyleCommand(kStyleCmdSubdivisionWorldSpace2);
+			break;
+		case kQutCommandStyleSubdivisionWorldSpace3:
+			Qut_InvokeStyleCommand(kStyleCmdSubdivisionWorldSpace3);
+			break;
+		case kQutCommandStyleSubdivisionScreenSpace1:
+			Qut_InvokeStyleCommand(kStyleCmdSubdivisionScreenSpace1);
+			break;
+		case kQutCommandStyleSubdivisionScreenSpace2:
+			Qut_InvokeStyleCommand(kStyleCmdSubdivisionScreenSpace2);
+			break;
+		case kQutCommandStyleSubdivisionScreenSpace3:
+			Qut_InvokeStyleCommand(kStyleCmdSubdivisionScreenSpace3);
+			break;
+
+		case kQutCommandAboutBox: {
             ModalFilterUPP 		dialogFilter;
             DialogItemIndex		dialogItem;
             DialogPtr			theDialog; 
@@ -308,12 +420,13 @@ qut_carbon_command_event(EventHandlerCallRef inHandlerCallRef,
             
             // Clean up
             DisposeDialog(theDialog);
-          }
-          break;
-        default:
-          err = CallNextEventHandler(inHandlerCallRef, inEvent);
-          break;
-    }
+			}
+			break;
+
+		default:
+			err = CallNextEventHandler(inHandlerCallRef, inEvent);
+			break;
+		}
       HiliteMenu(0);
   }
   return err;
@@ -472,6 +585,13 @@ qut_classic_handle_menu(TQ3Uns32 menuInfo)
 				}
 			else
 				Q3View_SetRendererByType(gView, gRenderers[menuItem - 1]);
+			break;
+
+
+
+		// Handle style menu
+		case kMenuStyle:
+			Qut_InvokeStyleCommand(menuItem);
 			break;
 
 
