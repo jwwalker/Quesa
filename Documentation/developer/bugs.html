@@ -65,7 +65,7 @@ For 'Possible' bugs, please consult the relevant Quesa source code: this
 will typically have additional information on the nature of the problem.
 </p>
 
-<!-- Next bug ID, 24 -->
+<!-- Next bug ID, 39 -->
 <table border=1 width=90% align=center>
 <tr><th>Severity</th><th>ID</th><th>Description</th>
 </tr>
@@ -78,10 +78,6 @@ Storage objects can not be duplicated, and will be rejected by Q3Object_Duplicat
 Geometries which are decomposed to TriMeshes fix the attribute data at the time of creation,
 should use a special value to allow renderers to update the attribute data with the current
 state to provide for inheritence.
-</td></tr>
-
-<tr><td>Medium</td><td>00017</td><td>
-Groups, adding an attribute set to an ordered display group fails.
 </td></tr>
 
 <tr><td>Medium</td><td>00020</td><td>
@@ -106,22 +102,6 @@ Kazoo Player, no rotation with Apple's IR because renderer caches camera: bump e
 
 <tr><td>Medium</td><td>00026</td><td>
 Multiple monitor support on Mac not fully functional.
-</td></tr>
-
-<tr><td>Medium</td><td>00027</td><td>
-Adding attribute set to ordered display group fails.
-</td></tr>
-
-<tr><td>Medium</td><td>00028</td><td>
-TriMesh attributes should always store dummy value, update with current value at render time (see dair for details).
-</td></tr>
-
-<tr><td>Medium</td><td>00029</td><td>
-Groups do not submit their attribute sets during rendering.
-</td></tr>
-
-<tr><td>Medium</td><td>00030</td><td>
-Geometry bound calculation is incorrect: only Torus has correct implementation.
 </td></tr>
 
 <tr><td>Medium</td><td>00031</td><td>
