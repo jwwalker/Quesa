@@ -5209,3 +5209,39 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 
 
 
+
+
+//=============================================================================
+//      E3Math_SquareRoot : Fast square root.
+//-----------------------------------------------------------------------------
+float
+E3Math_SquareRoot(float x)
+{
+
+
+	// For now, just call sqrt
+	//
+	// Should be extended with platform-specific optimisations, and
+	// possibly a table-based system for all platforms with IEEE floats?
+	return(sqrt(x));
+}
+
+
+
+
+
+//=============================================================================
+//      E3Math_InvSquareRoot : Fast inverse square root.
+//-----------------------------------------------------------------------------
+float
+E3Math_InvSquareRoot(float x)
+{
+
+
+	// For now, just call sqrt
+	//
+	// Should be extended with platform-specific optimisations, and
+	// possibly a table-based system for all platforms with IEEE floats?
+	return(1.0f / sqrt(x));
+}
+

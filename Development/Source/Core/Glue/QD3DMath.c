@@ -6340,3 +6340,71 @@ Q3Ray3D_IntersectTriangle(const TQ3Ray3D *theRay, const TQ3Point3D *point1, cons
 }
 
 
+
+
+
+//=============================================================================
+//      Q3Math_SquareRoot : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Math_SquareRoot(float x)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(x >= 0.0f, 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on x
+		return(kQ3False);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Math_SquareRoot(x));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Math_InvSquareRoot : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Math_InvSquareRoot(float x)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(x >= 0.0f, 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on x
+		return(kQ3False);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Math_InvSquareRoot(x));
+}
+
+
