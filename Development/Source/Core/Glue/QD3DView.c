@@ -224,7 +224,7 @@ Q3View_SetRenderer(TQ3ViewObject view, TQ3RendererObject renderer)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((renderer == NULL) || Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 
 
 
