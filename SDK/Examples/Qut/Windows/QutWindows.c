@@ -602,7 +602,7 @@ Qut_CreateDrawContext(void)
 
 
 //=============================================================================
-//		Qut_SelectMetafile : Select a metafile.
+//		Qut_SelectMetafile : Select a metafile for read.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
 Qut_SelectMetafile(void)
@@ -630,6 +630,45 @@ Qut_SelectMetafile(void)
                                  OFN_LONGNAMES     | OFN_HIDEREADONLY;
 
 	selectedFile = GetOpenFileName(&openFile);
+	if (!selectedFile)
+		return(NULL);
+
+
+
+	// Create a storage object for the file
+	theStorage = Q3PathStorage_New(thePath);
+	return(theStorage);
+}
+
+
+//=============================================================================
+//		Qut_SelectSaveMetafile : Select a metafile for write.
+//-----------------------------------------------------------------------------
+TQ3StorageObject
+Qut_SelectSaveMetafile(void)
+{	char				typeFilter[MAX_PATH] = "All Files (*.*)\0*.*\0"
+											   "\0\0";
+    char            	thePath[MAX_PATH]    = "";
+	BOOL				selectedFile;
+	TQ3StorageObject	theStorage;
+    OPENFILENAME    	openFile;
+
+
+
+	// Prompt the user for a file
+	memset(&openFile, 0x00, sizeof(openFile));
+	openFile.lStructSize       = sizeof(openFile);
+    openFile.hwndOwner         = NULL;
+    openFile.hInstance         = gInstance;
+    openFile.lpstrFilter       = typeFilter;
+    openFile.nFilterIndex      = 1;
+    openFile.lpstrFile         = thePath;
+    openFile.nMaxFile          = sizeof(thePath) - 1;
+    openFile.lpstrTitle        = "Save a Model";
+    openFile.Flags             = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT
+                                 OFN_LONGNAMES     | OFN_HIDEREADONLY;
+
+	selectedFile = GetSaveFileName(&openFile);
 	if (!selectedFile)
 		return(NULL);
 

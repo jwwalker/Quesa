@@ -1084,7 +1084,7 @@ Qut_CreateWindow(const char		*windowTitle,
 
 
 //=============================================================================
-//		Qut_SelectMetafile : Select a metafile.
+//		Qut_SelectMetafile : Select a metafile for read.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
 Qut_SelectMetafile(void)
@@ -1170,6 +1170,101 @@ Qut_SelectMetafile(void)
 #endif
 		}
 
+
+
+	// Create a storage object for the file
+	theStorage = Q3FSSpecStorage_New(&theFSSpec);
+	return(theStorage);
+}
+
+
+
+
+
+//=============================================================================
+//		Qut_SelectSaveMetafile : Select a metafile for writing.
+//-----------------------------------------------------------------------------
+TQ3StorageObject
+Qut_SelectSaveMetafile(void)
+{	Str255				thePrompt = "\pSave a model:";
+	OSType			fileType =  '3DMF';
+	OSType			creator =  'ttxt';// what will be the creator for the viewer?
+	const TQ3Int16		numTypes  = 1;
+	/*
+		Jose'
+		note we have to found a global mechanism to choose the supported file formats
+	*/
+	NavEventUPP         navEventFilterUPP;
+ 	NavDialogOptions    dialogOptions;
+    AEKeyword           theAEKeyword;
+	TQ3StorageObject	theStorage;
+	FSSpec				theFSSpec;
+    AEDesc              theAEDesc;
+	NavReplyRecord      navReply;
+#if !TARGET_API_MAC_CARBON
+	StandardFileReply	sfReply;
+#endif
+	OSErr				theErr;
+
+
+
+	// If we have Navigation services, use it
+	if ((TQ3Uns32) NavLibraryVersion != (TQ3Uns32) kUnresolvedCFragSymbolAddress && NavServicesCanRun())
+		{
+		// Initialise
+		NavLoad();
+		NavGetDefaultDialogOptions(&dialogOptions);
+		
+		dialogOptions.dialogOptionFlags -= kNavAllowMultipleFiles;
+		dialogOptions.dialogOptionFlags += kNavNoTypePopup;
+		memcpy(&dialogOptions.message, thePrompt, thePrompt[0]+1);
+		navEventFilterUPP = NewNavEventProc(qut_handle_nav_event);
+
+ 
+
+
+		// Prompt for the file
+		theErr = NavPutFile(NULL, &navReply, &dialogOptions, navEventFilterUPP,
+							fileType, creator, NULL);
+
+
+		// is there really need to call NavCompleteSave?
+
+		// Clean up
+		NavUnload();
+		DisposeNavEventUPP(navEventFilterUPP);
+
+		if (!navReply.validRecord)
+			return(NULL);
+
+
+
+		// Extract the file
+		AEGetNthDesc(&navReply.selection, 1, typeFSS, &theAEKeyword, &theAEDesc);
+		AEGetDescData(&theAEDesc, &theFSSpec, sizeof(FSSpec));
+		}
+
+
+
+	// Otherwise, use Standard File (but not on Carbon!)
+	else
+		{
+#if TARGET_API_MAC_CARBON
+		return(NULL);
+#else
+		StandardPutFile(thePrompt, NULL, &sfReply);
+
+		if (!sfReply.sfGood)
+			return(NULL);
+		
+		theFSSpec = sfReply.sfFile;
+#endif
+		}
+
+		// Blind delete
+		FSpDelete(&theFSSpec);
+
+		theErr = FSpCreate(&theFSSpec,creator, fileType, smSystemScript);
 
 
 	// Create a storage object for the file

@@ -57,7 +57,7 @@
 	// Validate a port rect
 	#define ValidWindowRect(_window, _rect)			\
 		do											\
-			{	GrafPtr		savePort;				\
+			{	GrafPtr		_savePort;				\
 													\
 			GetPort(&_savePort);					\
 			SetPort((GrafPtr) _window);				\

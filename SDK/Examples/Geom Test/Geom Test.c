@@ -69,6 +69,8 @@
 #define kMenuItemDivider2									25
 #define kMenuItemMultiBox									26
 #define kMenuItemQuesaLogo									27
+#define kMenuItemDivider3									28
+#define kMenuItemWrite										29
 
 #define kTriGridRows										5
 #define kTriGridCols										10
@@ -1749,6 +1751,58 @@ doPicktest(TQ3ViewObject theView, TQ3Point2D mousePoint)
 }
 
 
+//=============================================================================
+//      writeModel : write the currently displayed model to a file
+//-----------------------------------------------------------------------------
+static void
+writeModel(TQ3ViewObject theView)
+{
+	TQ3StorageObject storage;
+	TQ3ViewStatus viewStatus;
+	TQ3Status submitStatus;
+
+	TQ3FileObject file;
+
+	storage = Qut_SelectSaveMetafile();
+
+	if (storage != NULL){
+
+		file = Q3File_New();
+
+		if(file){
+			submitStatus = Q3File_SetStorage(file, storage);
+
+			if(submitStatus == kQ3Success){
+				viewStatus = kQ3ViewStatusRetraverse;
+				submitStatus = Q3File_OpenWrite(file, kQ3FileModeNormal);
+
+				if(submitStatus == kQ3Success){
+					submitStatus = Q3View_StartWriting(theView,file);
+		
+					while (viewStatus == kQ3ViewStatusRetraverse && submitStatus == kQ3Success){
+	
+						// Submit the scene
+						Q3Shader_Submit(gSceneIllumination, theView);
+						if (gShowTexture && gSceneTexture != NULL)
+							Q3Shader_Submit(gSceneTexture, theView);
+							
+						Q3MatrixTransform_Submit(&gMatrixCurrent, theView);
+						Q3Object_Submit(gSceneGeometry, theView);
+
+						viewStatus = Q3View_EndWriting(theView);
+						}
+
+					}
+	
+				Q3File_Close(file);
+			}
+			Q3Object_Dispose(file);
+		}
+		Q3Object_Dispose(storage);
+		}
+}
+
+
 
 
 
@@ -1903,13 +1957,16 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			theGeom = createGeomTriMesh();
 			break;
 
-
 		case kMenuItemMultiBox:
 			theGeom = createGeomMultiBox();
 			break;
 
 		case kMenuItemQuesaLogo:
 			theGeom = createGeomQuesa();
+			break;
+
+		case kMenuItemWrite:
+			writeModel(theView);
 			break;
 
 		default:
@@ -2061,6 +2118,9 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "MultiBox");
 	Qut_CreateMenuItem(kMenuItemLast, "Quesa Logo");
+	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
+	Qut_CreateMenuItem(kMenuItemLast, "Write");
+
 }
 
 

@@ -214,6 +214,7 @@ void					Qut_CreateWindow(const char		*windowTitle,
 											TQ3Boolean	canResize);
 TQ3DrawContextObject	Qut_CreateDrawContext(void);
 TQ3StorageObject		Qut_SelectMetafile(void);
+TQ3StorageObject		Qut_SelectSaveMetafile(void);
 TQ3Status				Qut_SelectPictureFile(void *theFile, TQ3Uns32 fileLen);
 void					Qut_CreateMenu(qutFuncAppMenuSelect appMenuSelect);
 void					Qut_CreateMenuItem(TQ3Uns32 itemNum, char *itemText);

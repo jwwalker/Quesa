@@ -564,7 +564,7 @@ Qut_CreateWindow(const char		*windowTitle,
 
 
 //=============================================================================
-//		Qut_SelectMetafile : Select a metafile.
+//		Qut_SelectMetafile : Select a metafile for read.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
 Qut_SelectMetafile(void)
@@ -586,6 +586,16 @@ Qut_SelectMetafile(void)
 	// Create a storage object for the file
 	theStorage = Q3PathStorage_New(thePath);
 	return(theStorage);
+}
+
+
+//=============================================================================
+//		Qut_SelectSaveMetafile : Select a metafile for writing.
+//-----------------------------------------------------------------------------
+TQ3StorageObject
+Qut_SelectSaveMetafile(void)
+{	
+	return Qut_SelectMetafile();
 }
 
 
