@@ -2066,8 +2066,8 @@ Should be called repeatedly until the mouse is released.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
-<tr valign=top><td><tt>hPos</tt></td><td>Horizontal global (screen) location of mouse down.</td></tr>
-<tr valign=top><td><tt>vPos</tt></td><td>Vertical global (screen) location of mouse down.</td></tr>
+<tr valign=top><td><tt>hPos</tt></td><td>Horizontal global (screen) location of mouse.</td></tr>
+<tr valign=top><td><tt>vPos</tt></td><td>Vertical global (screen) location of mouse.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Returns as the Viewer handled the event.
@@ -2093,8 +2093,8 @@ has returned true.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
-<tr valign=top><td><tt>hPos</tt></td><td>Horizontal global (screen) location of mouse down.</td></tr>
-<tr valign=top><td><tt>vPos</tt></td><td>Vertical global (screen) location of mouse down.</td></tr>
+<tr valign=top><td><tt>hPos</tt></td><td>Horizontal global (screen) location of mouse up.</td></tr>
+<tr valign=top><td><tt>vPos</tt></td><td>Vertical global (screen) location of mouse up.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Returns as the Viewer handled the event.
@@ -2344,10 +2344,10 @@ by clicking on one of the mode buttons; this function tells
 you which one is currently active.  The result will be one of
 the following:
 <br><br>
-<code>kQ3ViewerButtonTruck
-kQ3ViewerButtonOrbit
-kQ3ViewerButtonZoom
-kQ3ViewerButtonDolly</code>
+<code>kQ3ViewerFlagButtonTruck
+kQ3ViewerFlagButtonOrbit
+kQ3ViewerFlagButtonZoom
+kQ3ViewerFlagButtonDolly</code>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2782,8 +2782,8 @@ Q3Viewer_New(
 <p>Creates a new Viewer object. Should be disposed of with Q3Viewer_Dispose
 or Q3Object_Dispose.
 <br><br>
-On Mac OS, the window parameter should be a WindowRef. On Windows, it
-should be an HWND.
+On Windows, the window parameter should be an HWND.  On Mac OS, it should be
+a CGrafPtr (which you can get from a WindowRef via GetWindowPort).
 <br><br>
 Note that Q3Viewer_New requires kQ3ViewerFlagXXXX constants for the flags
 parameter, not the QuickDraw 3D style kQ3ViewerXXXX constants.
@@ -3060,10 +3060,10 @@ by clicking on one of the mode buttons; this function has
 exactly the same effect as a click on the specified button.
 The <code>button</code> parameter should be one of the following:
 <br><br>
-<code>kQ3ViewerButtonTruck
-kQ3ViewerButtonOrbit
-kQ3ViewerButtonZoom
-kQ3ViewerButtonDolly</code>
+<code>kQ3ViewerFlagButtonTruck
+kQ3ViewerFlagButtonOrbit
+kQ3ViewerFlagButtonZoom
+kQ3ViewerFlagButtonDolly</code>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -4697,7 +4697,7 @@ Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <a name="//apple_ref/c/tag/TQ3ViewerButtonSet"></a>
 <h3><a name="TQ3ViewerButtonSet">TQ3ViewerButtonSet</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3ViewerButtonSet {
     NMHDR                           nmhdr;
     TQ3Uns32                        button;
 } TQ3ViewerButtonSet;
@@ -4796,7 +4796,7 @@ WM_NOTIFY message when files are dropped on the viewer.
 @field nmhdr            Unknown.
 @field hDrop            The dropped files.
  */
-typedef struct {
+typedef struct TQ3ViewerDropFiles {
     NMHDR                           nmhdr;
     HANDLE                          hDrop;
 } TQ3ViewerDropFiles;
@@ -4818,7 +4818,7 @@ including the control strip.
 <a name="//apple_ref/c/tag/TQ3ViewerSetView"></a>
 <h3><a name="TQ3ViewerSetView">TQ3ViewerSetView</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3ViewerSetView {
     NMHDR                           nmhdr;
     TQ3ViewerCameraView             view;
 } TQ3ViewerSetView;
@@ -4839,7 +4839,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3ViewerSetViewNumber"></a>
 <h3><a name="TQ3ViewerSetViewNumber">TQ3ViewerSetViewNumber</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3ViewerSetViewNumber {
     NMHDR                           nmhdr;
     TQ3Uns32                        number;
 } TQ3ViewerSetViewNumber;
@@ -4857,5 +4857,5 @@ typedef struct {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 8/9/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
 </body></html>

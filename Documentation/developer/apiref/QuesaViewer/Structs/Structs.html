@@ -2,7 +2,7 @@
 <a name="//apple_ref/c/tag/TQ3ViewerButtonSet"></a>
 <h3><a name="TQ3ViewerButtonSet">TQ3ViewerButtonSet</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3ViewerButtonSet {
     NMHDR                           nmhdr;
     TQ3Uns32                        button;
 } TQ3ViewerButtonSet;
@@ -101,7 +101,7 @@ WM_NOTIFY message when files are dropped on the viewer.
 @field nmhdr            Unknown.
 @field hDrop            The dropped files.
  */
-typedef struct {
+typedef struct TQ3ViewerDropFiles {
     NMHDR                           nmhdr;
     HANDLE                          hDrop;
 } TQ3ViewerDropFiles;
@@ -123,7 +123,7 @@ including the control strip.
 <a name="//apple_ref/c/tag/TQ3ViewerSetView"></a>
 <h3><a name="TQ3ViewerSetView">TQ3ViewerSetView</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3ViewerSetView {
     NMHDR                           nmhdr;
     TQ3ViewerCameraView             view;
 } TQ3ViewerSetView;
@@ -144,7 +144,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3ViewerSetViewNumber"></a>
 <h3><a name="TQ3ViewerSetViewNumber">TQ3ViewerSetViewNumber</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3ViewerSetViewNumber {
     NMHDR                           nmhdr;
     TQ3Uns32                        number;
 } TQ3ViewerSetViewNumber;
@@ -162,5 +162,5 @@ typedef struct {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 8/9/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
 </body></html>

@@ -10,20 +10,23 @@ Q3Error_Get (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Retrieve latest error codes from Quesa.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Retrieve the most recent error code, and optionally also the oldest
+unreported error code.  After this call, the next Quesa call that is not
+part of the Error Manager will clear the error codes.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstError</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>firstError</tt></td><td>Pointer to variable to receive the oldest error code
+that has not yet been reported.  May be NULL if you
+don't need that information.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Most recent error code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Error_IsFatalError"></a>
@@ -34,20 +37,21 @@ Q3Error_IsFatalError (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Determine whether a Quesa error code is fatal.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+You can call this function from an error callback or after getting
+an error code with Q3Error_Get.  If the error is fatal, your application
+should quit without calling any other Quesa routines.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>error</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>error</tt></td><td>A Quesa error code.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> True if the error is fatal.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Error_PlatformGet"></a>
@@ -58,17 +62,28 @@ Q3Error_PlatformGet (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.
+<p>Not supported by QD3D.  Gets platform-specific error codes.
+This is a generalization of Q3MacintoshError_Get, and may be used in place
+of Q3MacintoshError_Get on the Macintosh platform.
+<br><br>
+If an error callback or Q3Error_Get returns one of the special error codes
+kQ3ErrorMacintoshError, kQ3ErrorWin32Error, kQ3ErrorUnixError, 
+kQ3ErrorPlatformError, you can call this function to retrieve
+platform-specific error codes.
+After this call, the next Quesa call that is not part of the Error Manager
+will clear the platform-specific error codes.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstErr</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>firstErr</tt></td><td>Pointer to variable to receive the oldest unreported
+platform-specific error code.  May be NULL if you
+don't need that information.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Most recent platform-specific error code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Error_PlatformPost"></a>
@@ -79,18 +94,18 @@ Q3Error_PlatformPost (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.
+<p>Not supported by QD3D.  Posts a platform-specific error code.
+<br><br>
+Normally this would be used only by Quesa plug-ins, not by application code.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theErr</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theErr</tt></td><td>A platform-specific error code.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3Error_Register"></a>
 <h3><a name="Q3Error_Register">Q3Error_Register</a></h3>
@@ -101,21 +116,22 @@ Q3Error_Register (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Install a callback to handle errors.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Use this function to register an error-handling function that will be
+called when Quesa detects an error condition that it can't handle.
+Your callback should not call Quesa except for Error Manager routines.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>errorPost</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>reference</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>errorPost</tt></td><td>Callback to receive error notifications.</td></tr>
+<tr valign=top><td><tt>reference</tt></td><td>Constant passed to error callback.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> kQ3Success when the callback is installed.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Error_ToString"></a>
@@ -127,18 +143,19 @@ Q3Error_ToString (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.
+<p>Not supported by QD3D.  Retrieve a string version of the error code.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theLanguage</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theError</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theLanguage</tt></td><td>Preferred language for the error string.
+Currently only English is supported.</td></tr>
+<tr valign=top><td><tt>theError</tt></td><td>Quesa error code.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Text version of the error code, as a NUL-terminated string.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MacintoshError_Get"></a>
@@ -149,20 +166,23 @@ Q3MacintoshError_Get (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Retrieve the most recent Macintosh error code, and optionally also the oldest
+unreported Mac error code.  After this call, the next Quesa call that is not
+part of the Error Manager will clear the error codes.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Q3Error_PlatformGet may be used in place of this function.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstMacErr</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>firstMacErr</tt></td><td>Pointer to variable to receive the oldest Mac error code
+that has not yet been reported.  May be NULL if you
+don't need that information.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Most recent Mac error code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Notice_Get"></a>
@@ -173,20 +193,23 @@ Q3Notice_Get (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Retrieve latest notice codes from Quesa.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Retrieve the most recent notice code, and optionally also the oldest
+unreported notice code.  After this call, the next Quesa call that is not
+part of the Error Manager will clear the notice codes.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstNotice</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>firstNotice</tt></td><td>Pointer to variable to receive the oldest notice code
+that has not yet been reported.  May be NULL if you
+don't need that information.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Most recent notice code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Notice_Register"></a>
@@ -198,21 +221,23 @@ Q3Notice_Register (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Install a callback to handle notifications.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Use this function to register an warning-handling function that will be
+called when a Quesa routine generates a notice.
+This will only happen in debugging versions of Quesa.
+Your callback should not call Quesa except for Error Manager routines.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>noticePost</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>reference</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>noticePost</tt></td><td>Routine to be called to handle notices.</td></tr>
+<tr valign=top><td><tt>reference</tt></td><td>Constant passed to notice callback.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> kQ3Success when the callback is installed.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Notice_ToString"></a>
@@ -224,18 +249,19 @@ Q3Notice_ToString (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.
+<p>Not supported by QD3D.  Retrieve a string version of the notice code.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theLanguage</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theError</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theLanguage</tt></td><td>Preferred language for the notice string.
+Currently only English is supported.</td></tr>
+<tr valign=top><td><tt>theWarning</tt></td><td>Quesa notice code.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Text version of the notice code, as a NUL-terminated string.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Warning_Get"></a>
@@ -246,20 +272,23 @@ Q3Warning_Get (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Retrieve latest warning codes from Quesa.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Retrieve the most recent warning code, and optionally also the oldest
+unreported warning code.  After this call, the next Quesa call that is not
+part of the Error Manager will clear the warning codes.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstWarning</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>firstWarning</tt></td><td>Pointer to variable to receive the oldest warning code
+that has not yet been reported.  May be NULL if you
+don't need that information.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Most recent warning code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Warning_Register"></a>
@@ -271,21 +300,22 @@ Q3Warning_Register (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Install a callback to handle warnings.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Use this function to register an warning-handling function that will be
+called when a Quesa routine generates a warning that it can't handle.
+Your callback should not call Quesa except for Error Manager routines.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>warningPost</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>reference</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>warningPost</tt></td><td>Callback to receive warning notifications.</td></tr>
+<tr valign=top><td><tt>reference</tt></td><td>Constant passed to warning callback.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> kQ3Success when the callback is installed.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Warning_ToString"></a>
@@ -297,19 +327,20 @@ Q3Warning_ToString (
 );
 </tt><br>
 </pre></blockquote>
-<p>Not supported by QD3D.
+<p>Not supported by QD3D.  Retrieve a string version of the warning code.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theLanguage</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theWarning</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theLanguage</tt></td><td>Preferred language for the warning string.
+Currently only English is supported.</td></tr>
+<tr valign=top><td><tt>theWarning</tt></td><td>Quesa warning code.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Text version of the warning code, as a NUL-terminated string.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 8/9/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
 </body></html>
