@@ -428,6 +428,7 @@ Q3Object_Dispose(TQ3Object object)
 
 
 	// Release build checks
+	Q3_REQUIRE_OR_RESULT( object != NULL, kQ3Failure );
 	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 
 
@@ -962,6 +963,82 @@ Q3Object_ClearElement(TQ3Object object, TQ3ElementType theType)
 	return(E3Object_ClearElement(object, theType));
 }
 
+
+
+
+
+//=============================================================================
+//      Q3Object_GetSet : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_GetSet ( TQ3Object object, TQ3SetObject* set )
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(set), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on shape
+		return(kQ3Failure);
+
+	if (0) // Further checks on theType
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3Object_GetSet( object, set ));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Object_SetSet : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_SetSet ( TQ3Object object, TQ3SetObject set )
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(set->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(set, kQ3SharedTypeSet), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on shape
+		return(kQ3Failure);
+
+	if (0) // Further checks on theType
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3Object_SetSet( object, set ));
+}
 
 
 
