@@ -230,6 +230,9 @@ E3Root::E3Root	(
 	// Fill in the method data of the class
 	
 	disposeMethod = (TQ3XObjectDisposeMethod) Find_Method ( kQ3XMethodTypeObjectDispose , kQ3True ) ;
+	newMethod = (TQ3XObjectNewMethod) Find_Method ( kQ3XMethodTypeObjectNew , kQ3False ) ; // N.B. False, not inherited
+	deleteMethod = (TQ3XObjectDeleteMethod) Find_Method ( kQ3XMethodTypeObjectDelete , kQ3False ) ; // N.B. False, not inherited
+	duplicateMethod = (TQ3XObjectDuplicateMethod) Find_Method ( kQ3XMethodTypeObjectDuplicate , kQ3False ) ; // N.B. False, not inherited
 	} ;
 
 
@@ -243,7 +246,6 @@ e3root_register (
 				E3ClassInfo*	newParent // nil for root class of course
 			 	)
 	{
-	// Dispose of the object
 	return new ( std::nothrow ) E3Root ( newClassMetaHandler, newParent ) ;
 	}
 

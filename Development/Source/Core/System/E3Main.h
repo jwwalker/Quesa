@@ -99,7 +99,10 @@ private :
 class E3Root : public E3ClassInfo
 	{
 	TQ3XObjectDisposeMethod			disposeMethod ;
-
+	TQ3XObjectNewMethod				newMethod ;
+	TQ3XObjectDeleteMethod			deleteMethod ;
+	TQ3XObjectDuplicateMethod		duplicateMethod ;
+	
 public :
 
 									E3Root	(
