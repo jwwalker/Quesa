@@ -257,6 +257,40 @@ Q3Geometry_Submit(TQ3GeometryObject geometry, TQ3ViewObject view)
 
 
 
+
+//=============================================================================
+//      Q3Geometry_GetDecomposed : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Object
+Q3Geometry_GetDecomposed(TQ3GeometryObject geometry, TQ3ViewObject view)
+{
+	TQ3Object	decomposed = NULL;
+	
+	
+	
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(geometry->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, kQ3ShapeTypeGeometry), NULL);
+	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), NULL);
+	
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	decomposed = E3Geometry_GetDecomposed( geometry, view );
+
+
+
+	return decomposed;
+}
+
+
+
 #pragma mark -
 //=============================================================================
 //      Q3Box_New : Quesa API entry point.
