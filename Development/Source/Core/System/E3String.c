@@ -365,6 +365,21 @@ E3CString_GetString(TQ3StringObject stringObj, char **str)
 
 
 //=============================================================================
+//      E3CString_PeekString : Get the actual data of a string, not a copy.
+//-----------------------------------------------------------------------------
+const char*
+E3CString_PeekString( TQ3StringObject stringObj )
+{
+	TQ3StringPtr		*instanceData = & ( (E3CString*) stringObj )->instanceData ;
+	
+	return *instanceData;
+}
+
+
+
+
+
+//=============================================================================
 //      E3CString_EmptyData : Dispose of data allocated by Q3CString_GetData.
 //-----------------------------------------------------------------------------
 //		Note :	After disposing of the data, we must also reset str to NULL.
