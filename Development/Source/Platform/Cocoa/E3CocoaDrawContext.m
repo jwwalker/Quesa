@@ -271,7 +271,7 @@ E3CocoaDrawContext_RegisterClass(void)
 											kQ3DrawContextTypeCocoa,
 											kQ3ClassNameDrawContextCocoa,
 											e3drawcontext_cocoa_metahandler,
-											~sizeof(E3CocoaDrawContext));
+											sizeof(E3CocoaDrawContext));
 
 	return(qd3dStatus);
 }

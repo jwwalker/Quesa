@@ -410,7 +410,7 @@ e3main_registercoreclasses(void)
 											kQ3ObjectTypeRoot,
 											kQ3ClassNameRoot,
 											e3root_metahandler,
-											~sizeof(OpaqueTQ3Object)
+											sizeof(OpaqueTQ3Object)
 											);
 
 	if (qd3dStatus == kQ3Success)
@@ -418,14 +418,14 @@ e3main_registercoreclasses(void)
 												kQ3ObjectTypeShared,
 												kQ3ClassNameShared,
 												e3shared_metahandler,
-												~sizeof(E3Shared));
+												sizeof(E3Shared));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 												kQ3SharedTypeShape,
 												kQ3ClassNameShape,
 												NULL,
-												~sizeof(E3ShapeData));
+												sizeof(E3ShapeData));
 
 	return qd3dStatus ;
 	}

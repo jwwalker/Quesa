@@ -69,7 +69,7 @@ E3FileFormat_RegisterClass()
 											kQ3ObjectTypeFileFormat,
 											kQ3ClassNameFileFormat,
 											NULL,
-											~sizeof(E3FileFormat));
+											sizeof(E3FileFormat));
 
 
 	// Register the built in readers
@@ -78,7 +78,7 @@ E3FileFormat_RegisterClass()
 											kQ3FileFormatTypeReader,
 											kQ3ClassNameFileFormatReader,
 											NULL,
-											~sizeof(E3FileFormatReader));
+											sizeof(E3FileFormatReader));
 
 
 
@@ -94,7 +94,7 @@ E3FileFormat_RegisterClass()
 											kQ3FileFormatTypeWriter,
 											kQ3ClassNameFileFormatWriter,
 											NULL,
-											~sizeof(E3FileFormatWriter));
+											sizeof(E3FileFormatWriter));
 
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3FFW_3DMF_Register();

@@ -215,7 +215,7 @@ E3File_RegisterClass()
 											kQ3SharedTypeFile,
 											kQ3ClassNameFile,
 											e3file_metahandler,
-											~sizeof(E3File));
+											sizeof(E3File));
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3Unknown_RegisterClass ();
 

@@ -657,7 +657,7 @@ E3Storage_RegisterClass(void)
 											kQ3SharedTypeStorage,
 											kQ3ClassNameStorage,
 											NULL,
-											~sizeof(E3Storage));
+											sizeof(E3Storage));
 
 
 	if (qd3dStatus == kQ3Success)
@@ -665,7 +665,7 @@ E3Storage_RegisterClass(void)
 												kQ3StorageTypeMemory,
 												kQ3ClassNameStorageMemory,
 												e3storage_memory_metahandler,
-												~sizeof(E3MemoryStorage));
+												sizeof(E3MemoryStorage));
 
 
 	if (qd3dStatus == kQ3Success)
@@ -673,7 +673,7 @@ E3Storage_RegisterClass(void)
 												kQ3StorageTypePath,
 												kQ3ClassNameStoragePath,
 												e3storage_path_metahandler,
-												~sizeof(E3PathStorage));
+												sizeof(E3PathStorage));
 
 
 

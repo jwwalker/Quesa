@@ -837,28 +837,28 @@ E3FFW_3DMFBin_Register(void)
 											kQ3FFormatWriterType3DMFStreamBin,
 											kQ3ClassNameFileFormatW_3DMF_S_Bin,
 											e3ffw_3dmfbin_S_metahandler,
-											~sizeof(E3Binary3DMFWriter_S));
+											sizeof(E3Binary3DMFWriter_S));
 
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFNormalBin,
 											kQ3ClassNameFileFormatW_3DMF_N_Bin,
 											e3ffw_3dmfbin_N_metahandler,
-											~sizeof(E3Binary3DMFWriter_N));
+											sizeof(E3Binary3DMFWriter_N));
 
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFDatabaseBin,
 											kQ3ClassNameFileFormatW_3DMF_D_Bin,
 											e3ffw_3dmfbin_D_metahandler,
-											~sizeof(E3Binary3DMFWriter_D));
+											sizeof(E3Binary3DMFWriter_D));
 
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFDatabaseStreamBin,
 											kQ3ClassNameFileFormatW_3DMF_DS_Bin,
 											e3ffw_3dmfbin_DS_metahandler,
-											~sizeof(E3Binary3DMFWriter_DS));
+											sizeof(E3Binary3DMFWriter_DS));
 
 // the swapped formats
 
@@ -867,28 +867,28 @@ E3FFW_3DMFBin_Register(void)
 											kQ3FFormatWriterType3DMFStreamBinSwap,
 											kQ3ClassNameFileFormatW_3DMF_SW_Bin,
 											e3ffw_3dmfbin_SW_metahandler,
-											~sizeof(E3Binary3DMFWriter_SW));
+											sizeof(E3Binary3DMFWriter_SW));
 
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFNormalBinSwap,
 											kQ3ClassNameFileFormatW_3DMF_NW_Bin,
 											e3ffw_3dmfbin_NW_metahandler,
-											~sizeof(E3Binary3DMFWriter_NW));
+											sizeof(E3Binary3DMFWriter_NW));
 
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFDatabaseBinSwap,
 											kQ3ClassNameFileFormatW_3DMF_DW_Bin,
 											e3ffw_3dmfbin_DW_metahandler,
-											~sizeof(E3Binary3DMFWriter_DW));
+											sizeof(E3Binary3DMFWriter_DW));
 
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFDatabaseStreamBinSwap,
 											kQ3ClassNameFileFormatW_3DMF_DSW_Bin,
 											e3ffw_3dmfbin_DSW_metahandler,
-											~sizeof(E3Binary3DMFWriter_DSW));
+											sizeof(E3Binary3DMFWriter_DSW));
 
 	return(qd3dStatus);
 }

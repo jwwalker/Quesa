@@ -1573,7 +1573,7 @@ E3FFormat_3DMF_Text_Reader_RegisterClass(void)
 											kQ3FFormatReaderType3DMFText,
 											kQ3ClassNameFileFormatR_3DMF_Text,
 											e3fformat_3dmf_text_metahandler,
-											~sizeof(E3Text3DMFReader));
+											sizeof(E3Text3DMFReader));
 
 	return(qd3dStatus);
 }

@@ -216,14 +216,14 @@ E3String_RegisterClass(void)
 											kQ3SharedTypeString,
 											kQ3ClassNameString,
 											NULL,
-											~sizeof(E3String));
+											sizeof(E3String));
 	
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeString,
 												kQ3StringTypeCString,
 												kQ3ClassNameStringTypeC,
 												e3string_c_metahandler,
-												~sizeof(E3CString));
+												sizeof(E3CString));
 
 	return(qd3dStatus);
 }

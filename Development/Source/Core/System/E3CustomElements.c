@@ -870,14 +870,14 @@ E3CustomElements_RegisterClass(void)
 				kQ3ObjectTypeCustomElementProperties,
 				kQ3ClassNameCustomElementProperties,
 				e3propertyelement_metahandler,
-				~sizeof(E3PropertyElement));
+				sizeof(E3PropertyElement));
 
 	qd3dStatus = E3ClassTree::RegisterClass(
 				kQ3ObjectTypeElement,
 				kQ3ObjectTypeCustomElementName,
 				kQ3ClassNameCustomElementName,
 				e3nameelement_metahandler,
-				~sizeof(E3NameElement));
+				sizeof(E3NameElement));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(
@@ -885,7 +885,7 @@ E3CustomElements_RegisterClass(void)
 					kQ3ObjectTypeCustomElementUrl,
 					kQ3ClassNameCustomElementUrl,
 					e3urlelement_metahandler,
-					~sizeof(E3URLElement));
+					sizeof(E3URLElement));
 
 #if QUESA_SUPPORT_QUICKTIME
 	if (qd3dStatus == kQ3Success)
@@ -894,7 +894,7 @@ E3CustomElements_RegisterClass(void)
 					kQ3ObjectTypeCustomElementWire,
 					kQ3ClassNameCustomElementWire,
 					e3wireelement_metahandler,
-					~sizeof(E3WireElement));
+					sizeof(E3WireElement));
 #endif
 
 	// The depth bits element does not need a metahandler, because it is plain old data
@@ -906,7 +906,7 @@ E3CustomElements_RegisterClass(void)
 					kQ3ElementTypeDepthBits,
 					kQ3ClassNameCustomElementDepthBits,
 					NULL,
-					~sizeof(E3BitDepthElement));
+					sizeof(E3BitDepthElement));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(
@@ -914,7 +914,7 @@ E3CustomElements_RegisterClass(void)
 					kQ3CallbackElementTypeBeforeRender,
 					kQ3ClassNameCustomElementBeforeRender,
 					NULL,
-					~sizeof(E3BeforeRenderElement) );
+					sizeof(E3BeforeRenderElement) );
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(
@@ -922,7 +922,7 @@ E3CustomElements_RegisterClass(void)
 					kQ3CallbackElementTypeAfterRender,
 					kQ3ClassNameCustomElementAfterRender,
 					NULL,
-					~sizeof(E3AfterRenderElement) );
+					sizeof(E3AfterRenderElement) );
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(
@@ -930,7 +930,7 @@ E3CustomElements_RegisterClass(void)
 					kQ3CallbackElementTypeBeforePick,
 					kQ3ClassNameCustomElementBeforePick,
 					NULL,
-					~sizeof(E3BeforePickElement) );
+					sizeof(E3BeforePickElement) );
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(
@@ -938,7 +938,7 @@ E3CustomElements_RegisterClass(void)
 					kQ3CallbackElementTypeAfterPick,
 					kQ3ClassNameCustomElementAfterPick,
 					NULL,
-					~sizeof(E3AfterPickElement) );
+					sizeof(E3AfterPickElement) );
 
 	return(qd3dStatus);
 }

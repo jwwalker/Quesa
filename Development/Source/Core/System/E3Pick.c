@@ -951,28 +951,28 @@ E3Pick_RegisterClass(void)
 											kQ3ObjectTypePick,
 											kQ3ClassNamePick,
 											NULL,
-											~sizeof(E3Pick));
+											sizeof(E3Pick));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypePick,
 												kQ3PickTypeWindowPoint,
 												kQ3ClassNamePickWindowPoint,
 												e3pick_windowpoint_metahandler,
-												~sizeof(E3WindowPointPick));
+												sizeof(E3WindowPointPick));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypePick,
 												kQ3PickTypeWindowRect,
 												kQ3ClassNamePickWindowRect,
 												e3pick_windowrect_metahandler,
-												~sizeof(E3WindowRectPick));
+												sizeof(E3WindowRectPick));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypePick,
 												kQ3PickTypeWorldRay,
 												kQ3ClassNamePickWorldRay,
 												e3pick_worldray_metahandler,
-												~sizeof(E3WorldRayPick));
+												sizeof(E3WorldRayPick));
 	
 	//----------------------------------------------------------------------------------
 	
@@ -981,35 +981,35 @@ E3Pick_RegisterClass(void)
 												kQ3SharedTypeShapePart,
 												kQ3ClassNameShapePart,
 												e3shapepart_metahandler,
-												~sizeof(E3ShapePart));
+												sizeof(E3ShapePart));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShapePart,
 												kQ3ShapePartTypeMeshPart,
 												kQ3ClassNameMeshShapePart,
 												e3meshpart_metahandler,
-												~sizeof(E3MeshPart));
+												sizeof(E3MeshPart));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapePartTypeMeshPart,
 												kQ3MeshPartTypeMeshFacePart,
 												kQ3ClassNameMeshFacePart,
 												e3meshpart_face_metahandler,
-												~sizeof(E3MeshFacePart));
+												sizeof(E3MeshFacePart));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapePartTypeMeshPart,
 												kQ3MeshPartTypeMeshEdgePart,
 												kQ3ClassNameMeshEdgePart,
 												e3meshpart_edge_metahandler,
-												~sizeof(E3MeshEdgePart));
+												sizeof(E3MeshEdgePart));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapePartTypeMeshPart,
 												kQ3MeshPartTypeMeshVertexPart,
 												kQ3ClassNameMeshVertexPart,
 												e3meshpart_vertex_metahandler,
-												~sizeof(E3MeshVertexPart));
+												sizeof(E3MeshVertexPart));
 
 	return(qd3dStatus);
 }

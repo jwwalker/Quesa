@@ -969,7 +969,7 @@ E3MacDrawContext_RegisterClass(void)
 											kQ3DrawContextTypeMacintosh,
 											kQ3ClassNameDrawContextMac,
 											e3drawcontext_mac_metahandler,
-											~sizeof(E3MacDrawContext));
+											sizeof(E3MacDrawContext));
 
 	return(qd3dStatus);
 }
