@@ -193,34 +193,36 @@ E3System_UnloadPlugins(void)
 
 
 //=============================================================================
-//      E3System_Bottleneck : System bottlebeck point.
+//      E3System_ClearBottleneck : System bottlebeck point.
 //-----------------------------------------------------------------------------
-//		Note :	This function is called on virtually every API call, in order
-//				to perform any bookkeeping that's required.
-//
-//				At the present, this simply involves clearing the global error
-//				state. Please be careful adding new code to this routine, as
-//				it will be called on for every API entry point (and so should
-//				have minimal overhead).
+//		Note : Performs any housekeeping required after API entry points.
 //-----------------------------------------------------------------------------
 void
-E3System_Bottleneck(void)
+E3System_ClearBottleneck(void)
 {
-	// Clear any error state that's required
-	if (gE3Globals.errMgrNeedsClearing)
-		{
-		if (gE3Globals.errMgrClearError)
-			E3ErrorManager_ClearError();
 
-		if (gE3Globals.errMgrClearWarning)
-			E3ErrorManager_ClearWarning();
 
-		if (gE3Globals.errMgrClearNotice)
-			E3ErrorManager_ClearNotice();
+	// Validate our state
+	Q3_ASSERT(gE3Globals.systemDoBottleneck);
 
-		if (gE3Globals.errMgrClearPlatform)
-			E3ErrorManager_ClearPlatformError();
-		
-		gE3Globals.errMgrNeedsClearing = kQ3False;
-		}
+
+
+	// Clear the Error Manager state
+	if (gE3Globals.errMgrClearError)
+		E3ErrorManager_ClearError();
+
+	if (gE3Globals.errMgrClearWarning)
+		E3ErrorManager_ClearWarning();
+
+	if (gE3Globals.errMgrClearNotice)
+		E3ErrorManager_ClearNotice();
+
+	if (gE3Globals.errMgrClearPlatform)
+		E3ErrorManager_ClearPlatformError();
+
+
+
+	// Reset our state
+	gE3Globals.systemDoBottleneck = kQ3False;
 }
+
