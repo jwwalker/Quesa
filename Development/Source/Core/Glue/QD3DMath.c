@@ -5378,7 +5378,9 @@ Q3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 TQ3Vector3D *
 Q3Quaternion_GetAxisAndAngle(const TQ3Quaternion *quaternion, TQ3Vector3D *outAxis, float *outAngle)
 {
+#if Q3_DEBUG
 	float qlength;
+#endif
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
