@@ -513,8 +513,6 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 				goto fail;
 
 			pfdFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
-			if (drawContextData.doubleBufferState)
-				pfdFlags |= PFD_DOUBLEBUFFER;
 			break;
 
 
@@ -585,6 +583,10 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
     pixelFormatDesc.dwFlags    = pfdFlags;
     pixelFormatDesc.cColorBits = colorBits;
     pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
+
+	if (drawContextData.doubleBufferState)
+		pixelFormatDesc.dwFlags |= PFD_DOUBLEBUFFER;
+
 
 
 	// Create the pixel format and context, and attach the context
