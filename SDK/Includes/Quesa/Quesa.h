@@ -247,12 +247,13 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint on
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-#pragma enumsalwaysint on
 
 
 
@@ -993,6 +994,25 @@ typedef struct TQ3ColorARGB {
     float                                       g;
     float                                       b;
 } TQ3ColorARGB;
+
+
+/*!
+ *  @struct
+ *      TQ3ColorRGBA
+ *  @discussion
+ *      Fundamental RGBA point type.
+ *
+ *  @field r                Red component, between 0.0 and 1.0.
+ *  @field g                Green component, between 0.0 and 1.0.
+ *  @field b                Blue component, between 0.0 and 1.0.
+ *  @field a                Alpha component, between 0.0 (transparent) and 1.0 (opaque).
+ */
+typedef struct TQ3ColorRGBA {
+    float                                       r;
+    float                                       g;
+    float                                       b;
+    float                                       a;
+} TQ3ColorRGBA;
 
 
 // Vertex type
@@ -1954,12 +1974,14 @@ Q3Bitmap_GetImageSize (
 );
 
 
-#pragma enumsalwaysint reset
+
 
 
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint reset
+
 #ifdef __cplusplus
 }
 #endif

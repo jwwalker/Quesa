@@ -57,12 +57,13 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint on
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-#pragma enumsalwaysint on
 
 
 
@@ -1112,20 +1113,23 @@ Q3View_GetAntiAliasStyleState (
  *  @function
  *      Q3View_GetFogStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the fog style associated with a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Not supported by QD3D.
  *
- *  @param view             Description of the parameter.
- *  @param fogData          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theView          The view to query.
+ *  @param fogData          Receives the current fog style for the viwe.
+ *  @result                 Success or failure of the operation.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3View_GetFogStyleState (
     TQ3ViewObject                 view,
     TQ3FogStyleData               *fogData
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -1214,13 +1218,14 @@ Q3View_GetAttributeState (
 );
 
 
-#pragma enumsalwaysint reset
 
 
 
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint reset
+
 #ifdef __cplusplus
 }
 #endif
