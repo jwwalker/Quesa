@@ -229,6 +229,18 @@ E3MacCFM_Terminate(void)
 {
 
 
+	// If Quesa has not been shut down yet, it probably means that the
+	// application crashed.  In that case, any remaining objects probably
+	// don't constitute true leaks.
+	#if QUESA_ALLOW_QD3D_EXTENSIONS && Q3_DEBUG
+	if ( Q3IsInitialized() )
+	{
+		Q3Memory_StopRecording();
+	}
+	#endif
+
+
+
 	// Make sure Quesa has been shut down by the app. We keep polling
 	// Q3IsInitialized until it returns false, to make sure we decrement
 	// the system reference count down to 0.
