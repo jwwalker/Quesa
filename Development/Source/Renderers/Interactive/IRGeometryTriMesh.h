@@ -55,6 +55,9 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+void				IRGeometry_TriMesh_Terminate(
+								TQ3InteractiveData		*instanceData);
+
 TQ3Status			IRGeometry_TriMesh(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,

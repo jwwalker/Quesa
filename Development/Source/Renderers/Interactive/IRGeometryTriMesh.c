@@ -309,6 +309,24 @@ ir_geom_trimesh_submit_transparent(TQ3ViewObject				theView,
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
+//      IRGeometry_TriMesh_Terminate : Terminate the TriMesh state.
+//-----------------------------------------------------------------------------
+#pragma mark -
+void
+IRGeometry_TriMesh_Terminate(TQ3InteractiveData *instanceData)
+{
+
+
+	// Dispose of the TriMesh state
+	instanceData->triMeshSize = 0;
+	Q3Memory_Free(&instanceData->triMeshData);
+}
+
+
+
+
+
+//=============================================================================
 //      IRGeometry_TriMesh : TriMesh handler.
 //-----------------------------------------------------------------------------
 //		Note :	The TriMesh is the fundamental rendering geometry within QD3D,
