@@ -329,8 +329,6 @@ e3geom_box_create_face( TQ3GroupObject inGroup,
 	
 	theTriMesh = Q3TriMesh_New( &theTriMeshData );
 	
-	E3Object_DisposeAndForget( inFaceAtts );
-	
 	if (theTriMesh != NULL)
 	{
 		Q3Group_AddObject( inGroup, theTriMesh );
@@ -353,7 +351,6 @@ e3geom_box_create_face( TQ3GroupObject inGroup,
 static TQ3AttributeSet
 e3geom_box_get_face_att_set( const TQ3BoxData* inBoxData, TQ3Int16 inIndex )
 {
-	TQ3AttributeSet	attSet = NULL;
 	TQ3AttributeSet	faceSet = NULL;
 	Q3_ASSERT( (inIndex >= 0) && (inIndex <= 5) );
 	
@@ -361,10 +358,8 @@ e3geom_box_get_face_att_set( const TQ3BoxData* inBoxData, TQ3Int16 inIndex )
 	{
 		faceSet = inBoxData->faceAttributeSet[ inIndex ];
 	}
-	
-	E3AttributeSet_Combine( inBoxData->boxAttributeSet, faceSet, &attSet );
-	
-	return attSet;
+		
+	return faceSet;
 }
 
 
@@ -388,12 +383,18 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 		return NULL;
 	}
 	
-	// For efficiency, make the group inline.
-	Q3DisplayGroup_SetState(theGroup, kQ3DisplayGroupStateMaskIsInline  |
-									  kQ3DisplayGroupStateMaskIsDrawn   |
-									  kQ3DisplayGroupStateMaskIsWritten |
-									  kQ3DisplayGroupStateMaskIsPicked);
-	
+	if (inBoxData->boxAttributeSet == NULL)
+	{
+		// For efficiency, make the group inline.
+		Q3DisplayGroup_SetState(theGroup, kQ3DisplayGroupStateMaskIsInline  |
+										  kQ3DisplayGroupStateMaskIsDrawn   |
+										  kQ3DisplayGroupStateMaskIsWritten |
+										  kQ3DisplayGroupStateMaskIsPicked);
+	}
+	else
+	{
+		Q3Group_AddObject( theGroup, inBoxData->boxAttributeSet );
+	}
 
 	Q3Vector3D_Negate( &inBoxData->orientation, &antiOrientation );
 	Q3Vector3D_Negate( &inBoxData->minorAxis, &antiMinor );
