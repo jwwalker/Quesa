@@ -175,6 +175,14 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent,TQ3FileObject theFile)
 					result = Q3File_ReadObject (theFile);
 					if (result != NULL)
 						{
+						if (elemType == 0x7266726E)	// 'rfrn' - Reference
+							{
+							elemType = Q3Object_GetLeafType( result );
+							}
+						if (elemType == kQ3SurfaceShaderTypeTexture)
+							{
+							elemType = kQ3AttributeTypeSurfaceShader;
+							}
 						Q3AttributeSet_Add (parent, elemType, &result);
 						Q3Object_Dispose(result);
 						}
@@ -680,7 +688,8 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 			
 			if(result != NULL && tocEntryIndex >= 0){
 				// save in TOC
-				instanceData->MFData.toc->tocEntries[tocEntryIndex].objType = Q3Object_GetType(result);
+				if (instanceData->MFData.toc->tocEntries[tocEntryIndex].objType == 0)
+					instanceData->MFData.toc->tocEntries[tocEntryIndex].objType = Q3Object_GetLeafType(result);
 				E3Shared_Replace(&instanceData->MFData.toc->tocEntries[tocEntryIndex].object, result);
 				}
 			
