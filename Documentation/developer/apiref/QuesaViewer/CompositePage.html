@@ -1789,6 +1789,14 @@ Q3Viewer_Dispose (
 </pre></blockquote>
 <p>Disposes of a Viewer object.
 <br><br>
+Applications which rely on Q3Viewer_New to automatically initialise Quesa should
+use Q3Viewer_Dispose to destroy viewer objects. This will allow Quesa to be shut
+down when the last viewer object is destroyed.
+<br><br>
+Applications which initialise Quesa before creating a viewer object can dispose
+of their viewers with either Q3Viewer_Dispose or Q3Object_Dispose. Quesa will not
+be shut down until the application makes its final call to Q3Exit.
+<br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
@@ -2859,14 +2867,21 @@ Q3Viewer_New(
 );
 </tt><br>
 </pre></blockquote>
-<p>Creates a new Viewer object. Should be disposed of with Q3Viewer_Dispose
-or Q3Object_Dispose.
+<p>Creates a new Viewer object.
+<br><br>
+Q3Viewer_New will automatically initialise Quesa if it has not alreay been
+initialised, as per QD3D's Q3ViewerNew function. If you rely on this behaviour,
+you must dispose of the viewer object using Q3Viewer_Dispose to allow Quesa
+to be terminated when the last viewer is destroyed.
+<br><br>
+If your application initialises Quesa before creating a viewer object, the
+viewer can be disposed of with either Q3Viewer_Dispose or Q3Object_Dispose.
 <br><br>
 On Windows, the window parameter should be an HWND.  On Mac OS, it should be
 a CGrafPtr (which you can get from a WindowRef via GetWindowPort).
 <br><br>
-Note that Q3Viewer_New requires kQ3ViewerFlagXXXX constants for the flags
-parameter, not the QuickDraw 3D style kQ3ViewerXXXX constants.
+Note that Q3Viewer_New takes kQ3ViewerFlagXXXX constants for theFlags, and not
+QD3D's old kQ3ViewerXXXX constants.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -5109,5 +5124,5 @@ typedef struct TQ3ViewerSetViewNumber {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

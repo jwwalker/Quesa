@@ -27,7 +27,8 @@ on NURBs indicated it should be 16.</td><tr>
 typedef enum TQ3GeneralPolygonShapeHint {
     kQ3GeneralPolygonShapeHintComplex           = 0,
     kQ3GeneralPolygonShapeHintConcave           = 1,
-    kQ3GeneralPolygonShapeHintConvex            = 2
+    kQ3GeneralPolygonShapeHintConvex            = 2,
+    kQ3GeneralPolygonShapeHintSize32            = 0xFFFFFFFF
 } TQ3GeneralPolygonShapeHint;
 </pre>
 </blockquote>
@@ -56,7 +57,8 @@ typedef enum TQ3PolyhedronEdgeMasks {
     kQ3PolyhedronEdge01                         = (1 << 0),
     kQ3PolyhedronEdge12                         = (1 << 1),
     kQ3PolyhedronEdge20                         = (1 << 2),
-    kQ3PolyhedronEdgeAll                        = (kQ3PolyhedronEdge01 | kQ3PolyhedronEdge12 | kQ3PolyhedronEdge20)
+    kQ3PolyhedronEdgeAll                        = (kQ3PolyhedronEdge01 | kQ3PolyhedronEdge12 | kQ3PolyhedronEdge20),
+    kQ3PolyhedronEdgeSize32                     = 0xFFFFFFFF
 } TQ3PolyhedronEdgeMasks;
 </pre>
 </blockquote>
@@ -75,5 +77,5 @@ rendered.
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

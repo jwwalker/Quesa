@@ -1,22 +1,35 @@
 <html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3AttributeTypeCSGID"></a>
-<h3><a name="TQ3AttributeTypeCSGID">TQ3AttributeTypeCSGID</a></h3>
+<a name="//apple_ref/c/tag/Renderer"></a>
+<h3><a name="Renderer">Renderer</a></h3>
 <blockquote><pre>
-typedef enum {
-    kQ3AttributeTypeConstructiveSolidGeometryID = Q3_METHOD_TYPE('c', 's', 'g', 'i')
-} TQ3AttributeTypeCSGID;
+enum
+{
+	kQ3ElementTypeDepthBits					=	Q3_OBJECT_TYPE(0xF0, 'd', 'b', 'i')
+};
 </pre>
 </blockquote>
-<p>CSG attribute.
+<p>These elements may be attached to renderer objects to inform a renderer of
+preferences.
 <br><br>
-The data for the attribute is a single TQ3CSGObjectID.
+<em>These elements are not available in QD3D.</em>
+<br><br>
+Typical usage:
+<br><br>
+<blockquote><pre><code>
+TQ3Uns32	depthBits = 32;
+Q3Object_AddElement( theRenderer,
+&nbsp;		kQ3ElementTypeDepthBits,
+&nbsp;		&amp;depthBits );
+</code></pre></blockquote>
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeConstructiveSolidGeometryID"><tt>kQ3AttributeTypeConstructiveSolidGeometryID</tt></a></td><td>CSG attribute ID.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ElementTypeDepthBits"><tt>kQ3ElementTypeDepthBits</tt></a></td><td>Depth bits element type, which may be used to inform a
+renderer of a preferred bit depth for a depth buffer.  Renderers that
+are not based on OpenGL will probably ignore this preference.</td><tr>
 </table>
 </blockquote>
 <hr>
@@ -392,5 +405,18 @@ typedef enum TQ3XMethodTypeRenderer {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<a name="//apple_ref/c/tag/kQ3AttributeTypeConstructiveSolidGeometryID"></a>
+<h3><a name="kQ3AttributeTypeConstructiveSolidGeometryID">kQ3AttributeTypeConstructiveSolidGeometryID</a></h3>
+<blockquote><pre>
+enum {
+    kQ3AttributeTypeConstructiveSolidGeometryID = Q3_METHOD_TYPE('c', 's', 'g', 'i')
+};
+</pre>
+</blockquote>
+<p>CSG attribute.
+<br><br>
+The data for the attribute is a single TQ3CSGObjectID.
+ </p>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

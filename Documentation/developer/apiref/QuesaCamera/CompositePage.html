@@ -134,7 +134,7 @@ The view-to-frustum matrix transforms the camera coordinate system
 (as returned by Q3Camera_GetWorldToView) to the viewing frustum
 coordinate system.
 <br><br>
-The frustum coordinate system ranges from 0.0 to 1.0 in z, and from
+The frustum coordinate system ranges from 0.0 to -1.0 in z, and from
 -1.0 to +1.0 in both x and y.
 <br><br>
 </p>
@@ -163,6 +163,8 @@ Q3Camera_GetWorldToFrustum (
 The world-to-frustum matrix transforms world coordinates to the viewing
 frustum coordinate system. It is equivalent to multiplying the matrices
 returned by Q3Camera_GetWorldToView and Q3Camera_GetViewToFrustum.
+See the documentation of Q3View_GetWorldToFrustumMatrixState for more
+information.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1255,5 +1257,5 @@ extends from the camera position through the four edges of this rectangle.
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

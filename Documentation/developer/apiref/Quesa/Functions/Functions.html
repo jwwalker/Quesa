@@ -299,6 +299,37 @@ Q3ObjectHierarchy_IsTypeRegistered (
 <b>Result:</b> True or false as the class is registered or not.
  
 <hr>
+<a name="//apple_ref/c/func/Q3Object_AddElement"></a>
+<h3><a name="Q3Object_AddElement">Q3Object_AddElement</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Object_AddElement (
+    TQ3Object                     object,
+    TQ3ElementType                theType,
+    const void                    *data
+);
+</tt><br>
+</pre></blockquote>
+<p>Add an element to an object.
+Same as <code>Q3Shape_AddElement</code>, except that the object is not
+required to be a shape or set.
+<br><br>
+If the object is Shared, this operation will increment the object's edit index.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to update.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The type of the element data.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The element data.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3Object_CleanDispose"></a>
 <h3><a name="Q3Object_CleanDispose">Q3Object_CleanDispose</a></h3>
 <blockquote><pre><tt>TQ3Status  
@@ -328,6 +359,62 @@ theObject = NULL;
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theObject</tt></td><td>The object to dispose (may be NULL).</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_ClearElement"></a>
+<h3><a name="Q3Object_ClearElement">Q3Object_ClearElement</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Object_ClearElement (
+    TQ3Object               object,
+    TQ3ElementType          theType
+);
+</tt><br>
+</pre></blockquote>
+<p>Empty an object of a particular type of element.
+Same as <code>Q3Shape_ClearElement</code>, except that the object is not
+required to be a shape or set.
+<br><br>
+If the object is Shared, this operation will increment the object's edit index.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to update.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The element type to remove.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_ContainsElement"></a>
+<h3><a name="Q3Object_ContainsElement">Q3Object_ContainsElement</a></h3>
+<blockquote><pre><tt>TQ3Boolean  
+Q3Object_ContainsElement (
+    TQ3Object                object,
+    TQ3ElementType           theType
+);
+</tt><br>
+</pre></blockquote>
+<p>Check to see if an object contains an element of a given type.
+Same as <code>Q3Shape_ContainsElement</code>, except that the object is not
+required to be a shape or set.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The type of the element data to look for.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -381,6 +468,62 @@ Returns a new copy of the object, with a reference count of 1.
 <b>Result:</b> A new copy of the object.
  
 <hr>
+<a name="//apple_ref/c/func/Q3Object_EmptyElements"></a>
+<h3><a name="Q3Object_EmptyElements">Q3Object_EmptyElements</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Object_EmptyElements (
+    TQ3Object                object
+);
+</tt><br>
+</pre></blockquote>
+<p>Empty an object of any elements it contains.
+Same as <code>Q3Shape_EmptyElements</code>, except that the object is not
+required to be a shape or set.
+<br><br>
+If the object is Shared, this operation will increment the object's edit index.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to update.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_GetElement"></a>
+<h3><a name="Q3Object_GetElement">Q3Object_GetElement</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Object_GetElement (
+    TQ3Object                     object,
+    TQ3ElementType                theType,
+    void                          *data
+);
+</tt><br>
+</pre></blockquote>
+<p>Get an element from an object.
+Same as <code>Q3Shape_GetElement</code>, except that the object is not
+required to be a shape or set.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The type of the element data.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the element data.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3Object_GetLeafType"></a>
 <h3><a name="Q3Object_GetLeafType">Q3Object_GetLeafType</a></h3>
 <blockquote><pre><tt>TQ3ObjectType  
@@ -404,6 +547,67 @@ Returns kQ3ObjectTypeInvalid if the object type is unknown.
 </table>
 </blockquote>
 <b>Result:</b> The leaf type of the object.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_GetNextElementType"></a>
+<h3><a name="Q3Object_GetNextElementType">Q3Object_GetNextElementType</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Object_GetNextElementType (
+    TQ3Object                object,
+    TQ3ElementType           *theType
+);
+</tt><br>
+</pre></blockquote>
+<p>Iterate through the element types in an object.
+Same as <code>Q3Shape_GetNextElementType</code>, except that the object is not
+required to be a shape or set.
+<br><br>
+Pass in kQ3ElementTypeNone to start iterating through the element
+types in the object, and pass back the returned value to obtain
+the next type. The type is set to kQ3ElementTypeNone if there are no more
+elements in the shape.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Receives the next element type.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_GetSet"></a>
+<h3><a name="Q3Object_GetSet">Q3Object_GetSet</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Object_GetSet (
+    TQ3Object               object,
+    TQ3SetObject*			set
+);
+</tt><br>
+</pre></blockquote>
+<p>Get the element set of an object.  This is not the same as the set
+returned by <code>Q3Shape_GetSet</code>.
+<br><br>
+This function is primarily for the use of file format plug-ins.
+Most applications will not need it.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object.</td></tr>
+<tr valign=top><td><tt>set</tt></td><td>Receives a set object, or NULL.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Object_GetType"></a>
@@ -504,6 +708,36 @@ Only drawable objects may be submitted to a view's writing loop.
 </table>
 </blockquote>
 <b>Result:</b> True or false as the object is writable or not.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_SetSet"></a>
+<h3><a name="Q3Object_SetSet">Q3Object_SetSet</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Object_SetSet (
+    TQ3Object               object,
+    TQ3SetObject			set
+);
+</tt><br>
+</pre></blockquote>
+<p>Assign to the element set of an object, disposing any previous set.
+This is not the same as the set element that is
+changed by <code>Q3Shape_SetSet</code>.
+<br><br>
+This function is primarily for the use of file format plug-ins.
+Most applications will not need it.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object.</td></tr>
+<tr valign=top><td><tt>set</tt></td><td>A set object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> A set object, or NULL.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Object_Submit"></a>
@@ -686,9 +920,14 @@ Q3Shape_GetSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>Get the set currently associated with a shape.
+<p>Get the set element currently associated with a shape.
+The function call <code>Q3Shape_GetSet( o, &s )</code> is equivalent to
+<code>Q3Shape_GetElement( o, kQ3ElementTypeSet, &s )</code>.
 <br><br>
-Note that this is not the same as the attribute set of a geometry object.
+Note that this is not the same as the attribute set of a geometry object,
+nor is in the internal set which holds elements on an object.  That is,
+after adding elements or attributes to an object, this function may still
+return the NULL set.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -696,7 +935,7 @@ Note that this is not the same as the attribute set of a geometry object.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>shape</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>theSet</tt></td><td>Receives the set of the object.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>Receives the set of the object, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -736,7 +975,9 @@ Q3Shape_SetSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>Set the set currently associated with a shape.
+<p>Set the set element currently associated with a shape.
+The function call <code>Q3Shape_SetSet( o, s )</code> is equivalent to
+<code>Q3Shape_SetElement( o, kQ3ElementTypeSet, &s )</code>.
 <br><br>
 Note that this is not the same as the attribute set of a geometry object.
 <br><br>
@@ -860,7 +1101,7 @@ Q3Shared_GetType (
 </pre></blockquote>
 <p>Get the type of a shared object.
 <br><br>
-Retursn kQ3ObjectTypeInvalid if the object is not a shared object or
+Returns kQ3ObjectTypeInvalid if the object is not a shared object or
 the type can not be determined. Returns a kQ3SharedTypeXXXX value
 for shared objects.
 <br><br>
@@ -899,5 +1140,5 @@ return kQ3False if the object a reference count of one.
 <b>Result:</b> True or false as the object has more than one reference.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

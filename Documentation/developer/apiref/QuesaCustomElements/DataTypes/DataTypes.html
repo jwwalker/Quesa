@@ -1,0 +1,39 @@
+<html><head><title>Defined Types</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Defined Types</h1></font><hr><br>
+<a name="//apple_ref/c/tdef/TQ3ObjectEventCallback"></a>
+<h3><a name="TQ3ObjectEventCallback">TQ3ObjectEventCallback</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3ObjectEventCallback)</b>(
+                            TQ3Object       theObject,
+                            TQ3ElementType  theEventType,
+                            TQ3Object   	theHost );</tt><br>
+</blockquote>
+<p>Applications can obtain callbacks as objects are processed
+by Quesa.  Callbacks are installed as custom elements.  In some cases,
+it may be necessary to attach the element to each object of interest,
+while in other cases the element may be attached to another object
+such as a view.  See the discussions of element types such as
+kQ3ElementTypeBeforeRender for details about specific callbacks.
+<br><br>
+Callbacks should return kQ3Success to continue processing the
+object, or kQ3Failure to cancel the operation (if possible).
+Some events, e.g., those which indicate the completion of an
+event, can not be cancelled and the result will be ignored.
+<br><br>
+Event callbacks are only available for retained mode objects.
+<br><br>
+<em>This functionality is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theObject</tt></td><td>The object being processed.</td><tr>
+<tr valign=top><td><tt>theEventType</tt></td><td>The event occurring to the object.</td><tr>
+<tr valign=top><td><tt>theHost</tt></td><td>The object to which the callback element is attached.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Whether to continue with the event.
+
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
+</body></html>

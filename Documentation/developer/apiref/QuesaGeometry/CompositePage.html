@@ -183,12 +183,17 @@ Q3Box_New (
 </pre></blockquote>
 <p>Constructs a new Box geometry object.
 <br><br>
+If you pass NULL, you will get a default box with orientation (1, 0, 0), major axis
+(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>boxData</tt></td><td>Instance data passed in specifying the parameters of the new box object.</td></tr>
+<tr valign=top><td><tt>boxData</tt></td><td>Instance data passed in specifying the parameters of the new box object,
+or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> A reference to the new geometry object, or NULL on failure.
@@ -481,6 +486,31 @@ Q3Cone_GetFaceAttributeSet (
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
+<a name="//apple_ref/c/func/Q3Cone_GetInteriorAttributeSet"></a>
+<h3><a name="Q3Cone_GetInteriorAttributeSet">Q3Cone_GetInteriorAttributeSet</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Cone_GetInteriorAttributeSet (
+    TQ3GeometryObject             cone,
+    TQ3AttributeSet               *interiorAttributeSet
+);
+</tt><br>
+</pre></blockquote>
+<p>Get the attribute set for the interior of a cone object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>cylinder</tt></td><td>A cone object.</td></tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>Receives the attribute set for the interior, or NULL.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3Cone_GetMajorRadius"></a>
 <h3><a name="Q3Cone_GetMajorRadius">Q3Cone_GetMajorRadius</a></h3>
 <blockquote><pre><tt>TQ3Status  
@@ -583,12 +613,16 @@ Q3Cone_New (
 </pre></blockquote>
 <p>Create a cone geometry object.
 <br><br>
+If you pass NULL, you will get a default cone with orientation (1, 0, 0), major axis
+(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>coneData</tt></td><td>Pointer to data describing the cone.</td></tr>
+<tr valign=top><td><tt>coneData</tt></td><td>Pointer to data describing the cone, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> The new cone object, or NULL on failure.
@@ -638,8 +672,7 @@ Currently, this simply determines whether the cone will have a bottom cap.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>cone</tt></td><td>The cone object.</td></tr>
-<tr valign=top><td><tt>caps</tt></td><td>End cap value (<code>kQ3EndCapMaskBottom</code> or
-<code>kQ3EndCapNone</code>).</td></tr>
+<tr valign=top><td><tt>caps</tt></td><td>End cap value (do not include <code>kQ3EndCapMaskTop</code>).</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -686,6 +719,31 @@ Q3Cone_SetFaceAttributeSet (
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>cone</tt></td><td>The cone object.</td></tr>
 <tr valign=top><td><tt>faceAttributeSet</tt></td><td>New face attribute set.  May be NULL.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Cone_SetInteriorAttributeSet"></a>
+<h3><a name="Q3Cone_SetInteriorAttributeSet">Q3Cone_SetInteriorAttributeSet</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Cone_SetInteriorAttributeSet (
+    TQ3GeometryObject             cone,
+    TQ3AttributeSet               interiorAttributeSet
+);
+</tt><br>
+</pre></blockquote>
+<p>Set the attribute set for the interior of a cone object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>cylinder</tt></td><td>A cone object.</td></tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>New attribute set for the interior of the cone.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -925,6 +983,31 @@ Q3Cylinder_GetFaceAttributeSet (
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
+<a name="//apple_ref/c/func/Q3Cylinder_GetInteriorAttributeSet"></a>
+<h3><a name="Q3Cylinder_GetInteriorAttributeSet">Q3Cylinder_GetInteriorAttributeSet</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Cylinder_GetInteriorAttributeSet (
+    TQ3GeometryObject             cylinder,
+    TQ3AttributeSet               *interiorAttributeSet
+);
+</tt><br>
+</pre></blockquote>
+<p>Get the attribute set for the interior of a cylinder object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>cylinder</tt></td><td>A cylinder object.</td></tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>Receives the attribute set for the interior, or NULL.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3Cylinder_GetMajorRadius"></a>
 <h3><a name="Q3Cylinder_GetMajorRadius">Q3Cylinder_GetMajorRadius</a></h3>
 <blockquote><pre><tt>TQ3Status  
@@ -1050,12 +1133,16 @@ Q3Cylinder_New (
 </pre></blockquote>
 <p>Create a new Cylinder object.
 <br><br>
+If you pass NULL, you will get a default cylinder with orientation (1, 0, 0), major axis
+(0, 1, 0), minor axis (0, 0, 1), origin (0, 0, 0), and no end caps.  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>cylinderData</tt></td><td>Data describing a cylinder.</td></tr>
+<tr valign=top><td><tt>cylinderData</tt></td><td>Data describing a cylinder, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Cylinder geometry object, or NULL on failure.
@@ -1151,6 +1238,32 @@ Q3Cylinder_SetFaceAttributeSet (
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>cylinder</tt></td><td>A cylinder object.</td></tr>
 <tr valign=top><td><tt>faceAttributeSet</tt></td><td>New attribute set for the face of the cylinder.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Cylinder_SetInteriorAttributeSet"></a>
+<h3><a name="Q3Cylinder_SetInteriorAttributeSet">Q3Cylinder_SetInteriorAttributeSet</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Cylinder_SetInteriorAttributeSet (
+    TQ3GeometryObject             cylinder,
+    TQ3AttributeSet               interiorAttributeSet
+);
+</tt><br>
+</pre></blockquote>
+<p>Set the attribute set for the interior of a cylinder object (which only shows
+when the u parameter does not have the full range 0 to 1).
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>cylinder</tt></td><td>A cylinder object.</td></tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>New attribute set for the interior of the cylinder.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -1422,12 +1535,16 @@ Q3Disk_New (
 </pre></blockquote>
 <p>Create a new disk object.
 <br><br>
+If you pass NULL instead of a data pointer, you will get a default disk, with origin
+(0, 0, 0), major radius (1, 0, 0), and minor radius (0, 1, 0).  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>diskData</tt></td><td>Data describing a disk object.</td></tr>
+<tr valign=top><td><tt>diskData</tt></td><td>Data describing a disk object, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Disk geometry object, or NULL on failure.
@@ -1677,12 +1794,16 @@ Q3Ellipse_New (
 </pre></blockquote>
 <p>Create a new ellipse geometry object.
 <br><br>
+If you pass NULL, you will get a default ellipse with major axis (0, 1, 0),
+minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>ellipseData</tt></td><td>Data describing an ellipse.</td></tr>
+<tr valign=top><td><tt>ellipseData</tt></td><td>Data describing an ellipse, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Ellipse geometry object, or NULL on failure.
@@ -1955,12 +2076,16 @@ Q3Ellipsoid_New (
 </pre></blockquote>
 <p>Create a new ellipsoid geometry object.
 <br><br>
+If you pass NULL, you will get a default ellipsoid with orientation (1, 0, 0), major axis
+(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>ellipsoidData</tt></td><td>Data describing an ellipsoid.</td></tr>
+<tr valign=top><td><tt>ellipsoidData</tt></td><td>Data describing an ellipsoid, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Ellipsoid geometry object, or NULL on failure.
@@ -2659,6 +2784,46 @@ To decrease the reference count when finished with the attribute set, use
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Geometry_GetDecomposed"></a>
+<h3><a name="Q3Geometry_GetDecomposed">Q3Geometry_GetDecomposed</a></h3>
+<blockquote><pre><tt>TQ3Object 
+Q3Geometry_GetDecomposed (
+	TQ3GeometryObject			geometry,
+	TQ3ViewObject				view
+);
+</tt><br>
+</pre></blockquote>
+<p>Creates the decomposed form of the geometry, if any.
+<br><br>
+The result may be a geometry or a group.  If the geometry cannot be decomposed
+further, NULL is returned.
+<br><br>
+The decomposition of a given geometry is not documented and is subject to change.
+Geometries may be decomposed to multiple objects; for example, the decomposition
+of a cone with a bottom cap may be a group containing a TriMesh and a Disk.
+<br><br>
+You are free to modify the group or geometry returned by this function, and
+it is your responsibility to dispose it when you are done with it.
+<br><br>
+This function must be called in a submitting loop. Depending on the geometry,
+the result may be affected by the current view state. E.g., the geometry may
+be affected by the current transforms and camera, or even by styles such as
+subdivision or orientation.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>geometry</tt></td><td>A geometry object.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> A new reference to a group or geometry object, or NULL.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Geometry_GetType"></a>
@@ -5992,12 +6157,15 @@ Q3Point_New (
 </pre></blockquote>
 <p>Create a new point geometry object.
 <br><br>
+If you pass NULL instead of a data pointer, you will get a point disk, at (0, 0, 0).
+<em>This behavior was not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pointData</tt></td><td>Data describing a point.</td></tr>
+<tr valign=top><td><tt>pointData</tt></td><td>Data describing a point, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Point geometry object, or NULL on failure.
@@ -7048,12 +7216,16 @@ Q3Torus_New (
 </pre></blockquote>
 <p>Create a new torus geometry object.
 <br><br>
+If you pass NULL, you will get a default torus with orientation (1, 0, 0), major axis
+(0, 1, 0), minor axis (0, 0, 1), origin (0, 0, 0), and ratio 1.  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>torusData</tt></td><td>Data describing a torus.</td></tr>
+<tr valign=top><td><tt>torusData</tt></td><td>Data describing a torus, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Torus geometry object, or NULL on failure.
@@ -7963,6 +8135,7 @@ typedef struct TQ3BoxData {
 </pre>
 </blockquote>
 <p>Data describing the state of a box object.
+<br><br>
 </p>
 <h4>Fields</h4>
 <blockquote>
@@ -8002,13 +8175,18 @@ typedef struct TQ3ConeData {
 </blockquote>
 <p>Data describing the state of a cone object.  The orientation, major radius,
 and minor radius vectors need not be orthogonal, though they should be
-independent.
+independent.  Normally these vectors (in that order) should form a right-handed system.
+If they form a left-handed system, then the cone is "inside out", i.e., the front face
+is inside.
 <br><br>
 The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
-were apparently intended to allow partial cones, e.g., a cone with a wedge
-cut out of it.
-But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
-ever did either.
+allow partial cones, e.g., a cone with a wedge cut out of it or with its tip cut off.
+This feature was not implemented in QuickDraw 3D.  See the discussion of
+<code>TQ3EllipseData</code> for notes on the interpretation of <code>uMin</code> and
+code>uMax</code>.
+<br><br>
+If <code>vMax</code> < 1, so that the tip is cut off, the top disk is considered part of
+an interior face, rather than a top cap.
 <br><br>
 </p>
 <h4>Fields</h4>
@@ -8029,10 +8207,10 @@ the base.  Typically 1.</td><tr>
 base to tip.  Typically 0.</td><tr>
 <tr valign=top><td><tt>vMax</tt></td><td>Minimum value of the v parameter, which goes from
 base to tip.  Typically 1.</td><tr>
-<tr valign=top><td><tt>caps</tt></td><td>End cap masks, either <code>kQ3EndCapMaskBottom</code>
-or <code>kQ3EndCapNone</code>.</td><tr>
-<tr valign=top><td><tt>interiorAttributeSet</tt></td><td>Interior attributes.  Currently unused by Quesa
-rendering, so leave it NULL.</td><tr>
+<tr valign=top><td><tt>caps</tt></td><td>End cap masks, determining whether there is a bottom cap,
+and in the case of partial cones, determining whether
+there is an interior face.</td><tr>
+<tr valign=top><td><tt>interiorAttributeSet</tt></td><td>Interior attributes.  Unused by QD3D.</td><tr>
 <tr valign=top><td><tt>faceAttributeSet</tt></td><td>Attributes that affect the face but not the bottom.
 May be NULL.</td><tr>
 <tr valign=top><td><tt>bottomAttributeSet</tt></td><td>Attributes that affect the bottom end cap.  May be NULL.</td><tr>
@@ -8063,13 +8241,15 @@ typedef struct TQ3CylinderData {
 </blockquote>
 <p>Data describing the state of a cylinder object.  The orientation, major radius,
 and minor radius vectors need not be orthogonal, though they should be
-independent.
+independent.  Ordinarily, the vectors (orientation, major axis, minor axis)
+should form a left-handed coordinate system.  If they form a left-handed system,
+then the cylinder is "inside out", i.e., the front face is inside.
 <br><br>
 The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
-were apparently intended to allow partial cylinders, e.g., a cylinder with a wedge
-cut out of it.
-But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
-ever did either.
+allow partial cylinders, e.g., a cylinder with a wedge cut out of it.
+This feature was not implemented in QuickDraw 3D.  See the discussion of
+<code>TQ3EllipseData</code> for notes on the interpretation of <code>uMin</code> and
+code>uMax</code>.
 <br><br>
 </p>
 <h4>Fields</h4>
@@ -8082,18 +8262,17 @@ ever did either.
 of the base.</td><tr>
 <tr valign=top><td><tt>minorRadius</tt></td><td>A vector from the origin to a point on the perimeter
 of the base.</td><tr>
-<tr valign=top><td><tt>uMin</tt></td><td>Minimum value of the u parameter, which goes around
-the base.  Typically 0.</td><tr>
-<tr valign=top><td><tt>uMax</tt></td><td>Maximum value of the u parameter, which goes around
-the base.  Typically 1.</td><tr>
+<tr valign=top><td><tt>uMin</tt></td><td>Starting value of the u parameter, which goes around
+the base counterclockwise.  Typically 0.</td><tr>
+<tr valign=top><td><tt>uMax</tt></td><td>Ending value of the u parameter, which goes around
+the base counterclockwise.  Typically 1.</td><tr>
 <tr valign=top><td><tt>vMin</tt></td><td>Minimum value of the v parameter, which goes from the
 base to the other end.  Typically 0.</td><tr>
-<tr valign=top><td><tt>vMax</tt></td><td>Minimum value of the v parameter, which goes from the
+<tr valign=top><td><tt>vMax</tt></td><td>Maximum value of the v parameter, which goes from the
 base to the other end.  Typically 1.</td><tr>
 <tr valign=top><td><tt>caps</tt></td><td>End cap masks, determining whether the cylinder is
 closed on one end, the other, or both.</td><tr>
-<tr valign=top><td><tt>interiorAttributeSet</tt></td><td>Interior attributes.  Currently unused by Quesa
-rendering, so leave it NULL.</td><tr>
+<tr valign=top><td><tt>interiorAttributeSet</tt></td><td>Interior attributes.  May be NULL.  Unused by QD3D.</td><tr>
 <tr valign=top><td><tt>topAttributeSet</tt></td><td>Attributes that affect the top end cap.  May be NULL.</td><tr>
 <tr valign=top><td><tt>faceAttributeSet</tt></td><td>Attributes that affect the face but not the bottom or top.
 May be NULL.</td><tr>
@@ -8119,12 +8298,16 @@ typedef struct TQ3DiskData {
 </blockquote>
 <p>Data describing the state of a disk object (a filled ellipse).  The major radius
 and minor radius vectors need not be orthogonal, though they should be independent.
+The direction of the front face is the cross product of the major and minor axes.
 <br><br>
 The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
-were apparently intended to allow partial disks, e.g., a disk with a wedge
-cut out of it.
-But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
-ever did either.
+allow partial disks, e.g., a slice of pie (partial range of u values) or a washer
+(partial range of v values).  This feature was never implemented in QuickDraw 3D,
+although it was planned.  See the discussion of <code>TQ3EllipseData</code> for notes
+on the interpretation of <code>uMin</code> and code>uMax</code>.
+<br><br>
+The u and v limits here do not have anything to do with the uv parametrization used by
+shaders.
 <br><br>
 </p>
 <h4>Fields</h4>
@@ -8136,14 +8319,18 @@ ever did either.
 of the disk.</td><tr>
 <tr valign=top><td><tt>minorRadius</tt></td><td>A vector from the origin to a point on the perimeter
 of the disk.</td><tr>
-<tr valign=top><td><tt>uMin</tt></td><td>Minimum value of the u parameter, which goes around
-the perimeter.  Typically 0.</td><tr>
-<tr valign=top><td><tt>uMax</tt></td><td>Maximum value of the u parameter, which goes around
-the perimeter.  Typically 1.</td><tr>
+<tr valign=top><td><tt>uMin</tt></td><td>Starting value of the u parameter, which goes around
+the perimeter counterclockwise.  Typically 0, must be
+in the range [0, 1].</td><tr>
+<tr valign=top><td><tt>uMax</tt></td><td>Ending value of the u parameter, which goes around
+the perimeter counterclockwise.  Typically 1, must be
+in the range [0, 1].</td><tr>
 <tr valign=top><td><tt>vMin</tt></td><td>Minimum value of the v parameter, which goes from the
-perimeter to the origin.  Typically 0.</td><tr>
-<tr valign=top><td><tt>vMax</tt></td><td>Minimum value of the v parameter, which goes from the
-perimeter to the origin.  Typically 1.</td><tr>
+perimeter to the origin.  Typically 0, must be in the
+range [0, 1].</td><tr>
+<tr valign=top><td><tt>vMax</tt></td><td>Maximum value of the v parameter, which goes from the
+perimeter to the origin.  Typically 1, must be in the
+range [0, 1].</td><tr>
 <tr valign=top><td><tt>diskAttributeSet</tt></td><td>Attributes for the disk.  May be NULL.</td><tr>
 </table>
 </blockquote>
@@ -8163,8 +8350,14 @@ typedef struct TQ3EllipseData {
 </blockquote>
 <p>Data describing the state of an ellipse.  The major radius and minor radius
 vectors need not be orthogonal, though they should be independent.
+<br><br>
 You can make a partial ellipse by using values other than 0 and 1 for the
-<code>uMin</code> and <code>uMax</code> fields.
+<code>uMin</code> and <code>uMax</code> fields.  The ellipse travels
+counterclockwise from the <code>uMin</code> to the <code>uMax</code> value.
+It is permissible for <code>uMin</code> to be greater than <code>uMax</code>.
+For example, if <code>uMin</code> = 7/8 and <code>uMax</code> = 1/8, then the
+ellipse covers a range of 45 degrees, including the zero angle.
+<br><br>
 </p>
 <h4>Fields</h4>
 <blockquote>
@@ -8173,8 +8366,8 @@ You can make a partial ellipse by using values other than 0 and 1 for the
 <tr valign=top><td><tt>origin</tt></td><td>Center of the ellipse.</td><tr>
 <tr valign=top><td><tt>majorRadius</tt></td><td>A vector from the origin to a point on the curve.</td><tr>
 <tr valign=top><td><tt>minorRadius</tt></td><td>Another vector from the origin to a point on the curve.</td><tr>
-<tr valign=top><td><tt>uMin</tt></td><td>Minimum value of the u parameter.  Typically 0.</td><tr>
-<tr valign=top><td><tt>uMax</tt></td><td>Maximum value of the u parameter.  Typically 1.</td><tr>
+<tr valign=top><td><tt>uMin</tt></td><td>Starting value of the u parameter.  Typically 0.</td><tr>
+<tr valign=top><td><tt>uMax</tt></td><td>Ending value of the u parameter.  Typically 1.</td><tr>
 <tr valign=top><td><tt>ellipseAttributeSet</tt></td><td>Attributes for the ellipse.  May be NULL.</td><tr>
 </table>
 </blockquote>
@@ -8910,7 +9103,11 @@ around.)  Normally 1.</td><tr>
 around.)  Normally 0.</td><tr>
 <tr valign=top><td><tt>vMax</tt></td><td>Maximum value in the v parametric direction (the short way
 around.)  Normally 1.</td><tr>
-<tr valign=top><td><tt>caps</tt></td><td>Cap style.  Should be kQ3EndCapNone.</td><tr>
+<tr valign=top><td><tt>caps</tt></td><td>Cap style.  Should be kQ3EndCapNone.
+<br><br></td><tr>
+<tr valign=top><td><tt>interiorAttributeSet</tt></td><td>Interior attribute set.  Not currently used.
+<br><br></td><tr>
+<tr valign=top><td><tt>torusAttributeSet</tt></td><td>Overall attribute set.</td><tr>
 </table>
 </blockquote>
 <hr>
@@ -9102,5 +9299,5 @@ typedef struct TQ3TriangleData {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

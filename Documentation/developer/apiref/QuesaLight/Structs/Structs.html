@@ -40,6 +40,14 @@ typedef struct TQ3LightData {
 The common light state includes the on/off state, brightness, and color.
 Brightness and color values should be between 0.0 and 1.0 inclusive.
 <br><br>
+Some renderers may support over-saturated lights (where the brightness
+value is greater than 1.0), or even negative brightness (where the value
+is less than 0.0).
+<br><br>
+The effect of such brightness values is renderer-specific, and may result
+in kQ3NoticeBrightnessGreaterThanOne or kQ3NoticeBrightnessLessThanZero
+warnings.
+<br><br>
 </p>
 <h4>Fields</h4>
 <blockquote>
@@ -131,5 +139,5 @@ greater to the hotAngle.
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

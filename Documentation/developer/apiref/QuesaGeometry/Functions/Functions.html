@@ -180,12 +180,17 @@ Q3Box_New (
 </pre></blockquote>
 <p>Constructs a new Box geometry object.
 <br><br>
+If you pass NULL, you will get a default box with orientation (1, 0, 0), major axis
+(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>boxData</tt></td><td>Instance data passed in specifying the parameters of the new box object.</td></tr>
+<tr valign=top><td><tt>boxData</tt></td><td>Instance data passed in specifying the parameters of the new box object,
+or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> A reference to the new geometry object, or NULL on failure.
@@ -478,6 +483,31 @@ Q3Cone_GetFaceAttributeSet (
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
+<a name="//apple_ref/c/func/Q3Cone_GetInteriorAttributeSet"></a>
+<h3><a name="Q3Cone_GetInteriorAttributeSet">Q3Cone_GetInteriorAttributeSet</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Cone_GetInteriorAttributeSet (
+    TQ3GeometryObject             cone,
+    TQ3AttributeSet               *interiorAttributeSet
+);
+</tt><br>
+</pre></blockquote>
+<p>Get the attribute set for the interior of a cone object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>cylinder</tt></td><td>A cone object.</td></tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>Receives the attribute set for the interior, or NULL.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3Cone_GetMajorRadius"></a>
 <h3><a name="Q3Cone_GetMajorRadius">Q3Cone_GetMajorRadius</a></h3>
 <blockquote><pre><tt>TQ3Status  
@@ -580,12 +610,16 @@ Q3Cone_New (
 </pre></blockquote>
 <p>Create a cone geometry object.
 <br><br>
+If you pass NULL, you will get a default cone with orientation (1, 0, 0), major axis
+(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>coneData</tt></td><td>Pointer to data describing the cone.</td></tr>
+<tr valign=top><td><tt>coneData</tt></td><td>Pointer to data describing the cone, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> The new cone object, or NULL on failure.
@@ -635,8 +669,7 @@ Currently, this simply determines whether the cone will have a bottom cap.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>cone</tt></td><td>The cone object.</td></tr>
-<tr valign=top><td><tt>caps</tt></td><td>End cap value (<code>kQ3EndCapMaskBottom</code> or
-<code>kQ3EndCapNone</code>).</td></tr>
+<tr valign=top><td><tt>caps</tt></td><td>End cap value (do not include <code>kQ3EndCapMaskTop</code>).</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -683,6 +716,31 @@ Q3Cone_SetFaceAttributeSet (
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>cone</tt></td><td>The cone object.</td></tr>
 <tr valign=top><td><tt>faceAttributeSet</tt></td><td>New face attribute set.  May be NULL.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Cone_SetInteriorAttributeSet"></a>
+<h3><a name="Q3Cone_SetInteriorAttributeSet">Q3Cone_SetInteriorAttributeSet</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Cone_SetInteriorAttributeSet (
+    TQ3GeometryObject             cone,
+    TQ3AttributeSet               interiorAttributeSet
+);
+</tt><br>
+</pre></blockquote>
+<p>Set the attribute set for the interior of a cone object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>cylinder</tt></td><td>A cone object.</td></tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>New attribute set for the interior of the cone.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -922,6 +980,31 @@ Q3Cylinder_GetFaceAttributeSet (
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
+<a name="//apple_ref/c/func/Q3Cylinder_GetInteriorAttributeSet"></a>
+<h3><a name="Q3Cylinder_GetInteriorAttributeSet">Q3Cylinder_GetInteriorAttributeSet</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Cylinder_GetInteriorAttributeSet (
+    TQ3GeometryObject             cylinder,
+    TQ3AttributeSet               *interiorAttributeSet
+);
+</tt><br>
+</pre></blockquote>
+<p>Get the attribute set for the interior of a cylinder object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>cylinder</tt></td><td>A cylinder object.</td></tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>Receives the attribute set for the interior, or NULL.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3Cylinder_GetMajorRadius"></a>
 <h3><a name="Q3Cylinder_GetMajorRadius">Q3Cylinder_GetMajorRadius</a></h3>
 <blockquote><pre><tt>TQ3Status  
@@ -1047,12 +1130,16 @@ Q3Cylinder_New (
 </pre></blockquote>
 <p>Create a new Cylinder object.
 <br><br>
+If you pass NULL, you will get a default cylinder with orientation (1, 0, 0), major axis
+(0, 1, 0), minor axis (0, 0, 1), origin (0, 0, 0), and no end caps.  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>cylinderData</tt></td><td>Data describing a cylinder.</td></tr>
+<tr valign=top><td><tt>cylinderData</tt></td><td>Data describing a cylinder, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Cylinder geometry object, or NULL on failure.
@@ -1148,6 +1235,32 @@ Q3Cylinder_SetFaceAttributeSet (
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>cylinder</tt></td><td>A cylinder object.</td></tr>
 <tr valign=top><td><tt>faceAttributeSet</tt></td><td>New attribute set for the face of the cylinder.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Cylinder_SetInteriorAttributeSet"></a>
+<h3><a name="Q3Cylinder_SetInteriorAttributeSet">Q3Cylinder_SetInteriorAttributeSet</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Cylinder_SetInteriorAttributeSet (
+    TQ3GeometryObject             cylinder,
+    TQ3AttributeSet               interiorAttributeSet
+);
+</tt><br>
+</pre></blockquote>
+<p>Set the attribute set for the interior of a cylinder object (which only shows
+when the u parameter does not have the full range 0 to 1).
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>cylinder</tt></td><td>A cylinder object.</td></tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>New attribute set for the interior of the cylinder.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -1419,12 +1532,16 @@ Q3Disk_New (
 </pre></blockquote>
 <p>Create a new disk object.
 <br><br>
+If you pass NULL instead of a data pointer, you will get a default disk, with origin
+(0, 0, 0), major radius (1, 0, 0), and minor radius (0, 1, 0).  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>diskData</tt></td><td>Data describing a disk object.</td></tr>
+<tr valign=top><td><tt>diskData</tt></td><td>Data describing a disk object, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Disk geometry object, or NULL on failure.
@@ -1674,12 +1791,16 @@ Q3Ellipse_New (
 </pre></blockquote>
 <p>Create a new ellipse geometry object.
 <br><br>
+If you pass NULL, you will get a default ellipse with major axis (0, 1, 0),
+minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>ellipseData</tt></td><td>Data describing an ellipse.</td></tr>
+<tr valign=top><td><tt>ellipseData</tt></td><td>Data describing an ellipse, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Ellipse geometry object, or NULL on failure.
@@ -1952,12 +2073,16 @@ Q3Ellipsoid_New (
 </pre></blockquote>
 <p>Create a new ellipsoid geometry object.
 <br><br>
+If you pass NULL, you will get a default ellipsoid with orientation (1, 0, 0), major axis
+(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>ellipsoidData</tt></td><td>Data describing an ellipsoid.</td></tr>
+<tr valign=top><td><tt>ellipsoidData</tt></td><td>Data describing an ellipsoid, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Ellipsoid geometry object, or NULL on failure.
@@ -2656,6 +2781,46 @@ To decrease the reference count when finished with the attribute set, use
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Geometry_GetDecomposed"></a>
+<h3><a name="Q3Geometry_GetDecomposed">Q3Geometry_GetDecomposed</a></h3>
+<blockquote><pre><tt>TQ3Object 
+Q3Geometry_GetDecomposed (
+	TQ3GeometryObject			geometry,
+	TQ3ViewObject				view
+);
+</tt><br>
+</pre></blockquote>
+<p>Creates the decomposed form of the geometry, if any.
+<br><br>
+The result may be a geometry or a group.  If the geometry cannot be decomposed
+further, NULL is returned.
+<br><br>
+The decomposition of a given geometry is not documented and is subject to change.
+Geometries may be decomposed to multiple objects; for example, the decomposition
+of a cone with a bottom cap may be a group containing a TriMesh and a Disk.
+<br><br>
+You are free to modify the group or geometry returned by this function, and
+it is your responsibility to dispose it when you are done with it.
+<br><br>
+This function must be called in a submitting loop. Depending on the geometry,
+the result may be affected by the current view state. E.g., the geometry may
+be affected by the current transforms and camera, or even by styles such as
+subdivision or orientation.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>geometry</tt></td><td>A geometry object.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> A new reference to a group or geometry object, or NULL.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Geometry_GetType"></a>
@@ -5989,12 +6154,15 @@ Q3Point_New (
 </pre></blockquote>
 <p>Create a new point geometry object.
 <br><br>
+If you pass NULL instead of a data pointer, you will get a point disk, at (0, 0, 0).
+<em>This behavior was not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pointData</tt></td><td>Data describing a point.</td></tr>
+<tr valign=top><td><tt>pointData</tt></td><td>Data describing a point, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Point geometry object, or NULL on failure.
@@ -7045,12 +7213,16 @@ Q3Torus_New (
 </pre></blockquote>
 <p>Create a new torus geometry object.
 <br><br>
+If you pass NULL, you will get a default torus with orientation (1, 0, 0), major axis
+(0, 1, 0), minor axis (0, 0, 1), origin (0, 0, 0), and ratio 1.  <em>This behavior was
+not present in QuickDraw 3D.</em>
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>torusData</tt></td><td>Data describing a torus.</td></tr>
+<tr valign=top><td><tt>torusData</tt></td><td>Data describing a torus, or NULL.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Reference to a new Torus geometry object, or NULL on failure.
@@ -7898,5 +8070,5 @@ This function should only be called in a submitting loop.
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>

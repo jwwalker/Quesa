@@ -6,15 +6,16 @@ enum {
 	// Quesa constants
 	kQ3ViewerStateEmpty                         = 0,
     kQ3ViewerStateHasModel                      = (1 << 0),
-    kQ3ViewerStateHasUndo                       = (1 << 1)
+    kQ3ViewerStateHasUndo                       = (1 << 1),
 
 	// QD3D constants - deprecated
 #if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
-	,
     kQ3ViewerEmpty                              = kQ3ViewerStateEmpty,
     kQ3ViewerHasModel                           = kQ3ViewerStateHasModel,
-    kQ3ViewerHasUndo                            = kQ3ViewerStateHasUndo
+    kQ3ViewerHasUndo                            = kQ3ViewerStateHasUndo,
 #endif // QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+
+    kQ3ViewerStateSize32                        = 0xFFFFFFFF
 };
 </pre>
 </blockquote>
@@ -42,7 +43,8 @@ typedef enum TQ3ViewerCameraView {
     kQ3ViewerCameraLeft                         = 4,
     kQ3ViewerCameraRight                        = 5,
     kQ3ViewerCameraTop                          = 6,
-    kQ3ViewerCameraBottom                       = 7
+    kQ3ViewerCameraBottom                       = 7,
+    kQ3ViewerCameraSize32                       = 0xFFFFFFFF
 } TQ3ViewerCameraView;
 </pre>
 </blockquote>
@@ -90,8 +92,9 @@ enum {
     kQ3ViewerFlagShowBadge                      = (1 << 21),
     kQ3ViewerFlagShowControlStrip               = (1 << 22),
     kQ3ViewerFlagOutputTextMode                 = (1 << 23),
-    kQ3ViewerFlagPaneGrowBox                    = (1 << 24)
+    kQ3ViewerFlagPaneGrowBox                    = (1 << 24),
     // 25 to 31, reserved for future expansion
+    kQ3ViewerFlagSize32                         = 0xFFFFFFFF
 };
 </pre>
 </blockquote>
@@ -157,5 +160,5 @@ enum {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 2/8/2003 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
 </body></html>
