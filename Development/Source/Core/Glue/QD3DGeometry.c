@@ -277,10 +277,10 @@ Q3Geometry_GetDecomposed(TQ3GeometryObject geometry, TQ3ViewObject view)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on geometry
-		return(kQ3Failure);
+		return(NULL);
 
 	if (0) // Further checks on view
-		return(kQ3Failure);
+		return(NULL);
 #endif
 
 
