@@ -59,8 +59,12 @@
 #include <string.h>
 
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
-	#include <ToolUtils.h>
-	#include <ColorPicker.h>
+    #if QUESA_UH_IN_FRAMEWORKS
+        #include <Carbon/Carbon.h>
+    #else
+		#include <ToolUtils.h>
+		#include <ColorPicker.h>
+	#endif
 #endif
 
 // ANSI C does not allow anonymous function parameters.
