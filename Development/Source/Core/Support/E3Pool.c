@@ -18,6 +18,11 @@
 		E3FooPool_Allocate and E3FooPool_Free to allocate TE3Foo's from a
 		particular TE3FooPool.
 
+		Like, Q3Memory_Allocate and Q3Memory_Free, E3FooPool_Allocate and
+		E3FooPool_Free are low-level memory management functions. Calling any
+		destructor for an object stored in a pool is the respronsibility of the
+		client.
+
 		For more info, see the description of the TE3FooPool macros in E3Pool.h.
 
 		Based on "A User-Defined Allocator", Section 19.4.2, Bjarne Stroustrup,
@@ -80,6 +85,8 @@ E3Pool_Create(
 
 //=============================================================================
 //		E3Pool_Destroy : TE3Pool destructor.
+//-----------------------------------------------------------------------------
+//		Note : Does *not* call destructor for each allocated item.
 //-----------------------------------------------------------------------------
 void
 E3Pool_Destroy(
@@ -152,9 +159,9 @@ E3Pool_AllocateTagged(
 		newBlockPtr->nextBlockPtr_private = poolPtr->headBlockPtr_private;
 		poolPtr->headBlockPtr_private = newBlockPtr;
 
-		// Determine first item in block
+		// Determine item after last item in block
 		currItemPtr = (TE3PoolItem*) newBlockPtr;
-		((char*) currItemPtr) += itemOffset;
+		((char*) currItemPtr) += itemOffset + itemSize*blockLength;
     	
     	// If required, reserve one item for tag
     	numItems = blockLength;
@@ -163,14 +170,14 @@ E3Pool_AllocateTagged(
 
 		// Link items into pool's list of free items
 		nextItemPtr = NULL;
-		for ( ; numItems > 0; --numItems, nextItemPtr = currItemPtr, ((char*) currItemPtr) += itemSize)
+		for ( ; ((char*) currItemPtr) -= itemSize, numItems > 0; nextItemPtr = currItemPtr, --numItems)
 			currItemPtr->nextFreeItemPtr_private = nextItemPtr;
 		poolPtr->headFreeItemPtr_private = nextItemPtr;
 		
-		// N.B.: A tag, if any, is the LAST item in each block.
-		// Thus E3PoolItem_Tag() should search FORWARD from an item to find its tag.
+		// N.B.: A tag, if any, is the FIRST item in each block.
+		// Thus E3PoolItem_Tag() should search BACKWARD from an item to find its tag.
 		
-		// If required, tag last item in block
+		// If required, tag first item in block
 		if (tagItemPtr != NULL)
 			memcpy(currItemPtr, tagItemPtr, itemSize);
 	}
@@ -193,7 +200,8 @@ failure:
 //=============================================================================
 //		E3Pool_Free : Free allocated item to pool, and set item pointer to NULL.
 //-----------------------------------------------------------------------------
-//		Note: If the item pointer is already NULL, do nothing.
+//		Note :	If the item pointer is already NULL, do nothing.
+//				Does *not* call destructor for allocated item.
 //-----------------------------------------------------------------------------
 void
 E3Pool_Free(
@@ -228,7 +236,11 @@ E3Pool_Free(
 //				have been supplied for every call to E3Pool_AllocateTagged for
 //				the pool containing this item. Moreover, there must be an
 //				effective function 'isTagItemFunc' for determining whether or
-//				not a particular item is a tag.
+//				not a particular item is a tag (as opposed to an allocated
+//				item or a free item). If E3Pool_Free is never called, except
+//				possible as a matching "push" to a E3Pool_Allocate "pop" -- if
+//				there are no "holes" in pool -- then 'isTagItemFunc' need not
+//				handle free items.
 //-----------------------------------------------------------------------------
 const TE3PoolItem*
 E3PoolItem_Tag(
@@ -243,11 +255,11 @@ E3PoolItem_Tag(
 	Q3_ASSERT(itemSize >= sizeof(TE3PoolItem));
 	Q3_ASSERT_VALID_PTR(isTagItemFunc);
 	
-	// N.B.: We search FORWARD from an item to find its tag.
-	// Thus E3Pool_AllocateTagged() should make the LAST item in each block a tag.
+	// N.B.: We search BACKWARD from an item to find its tag.
+	// Thus E3Pool_AllocateTagged() should make the FIRST item in each block a tag.
 
 	tagItemPtr = itemPtr;
-	while (((const char*) tagItemPtr) += itemSize, (*isTagItemFunc)(tagItemPtr) == kQ3False)
+	while (((const char*) tagItemPtr) -= itemSize, (*isTagItemFunc)(tagItemPtr) == kQ3False)
 		;
 
 	return(tagItemPtr);

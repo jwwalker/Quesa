@@ -307,10 +307,12 @@ QD3DGeometry.h				Q3Mesh_FirstMeshVertex
 QD3DGeometry.h				Q3Mesh_FirstVertexFace
 QD3DGeometry.h				Q3Mesh_GetContourFace
 QD3DGeometry.h				Q3Mesh_GetContourNumVertices
+QD3DGeometry.h				Q3Mesh_GetCornerAttributeSet
 QD3DGeometry.h				Q3Mesh_GetFaceAttributeSet
 QD3DGeometry.h				Q3Mesh_GetFaceIndex
 QD3DGeometry.h				Q3Mesh_GetFaceNumContours
 QD3DGeometry.h				Q3Mesh_GetFaceNumVertices
+QD3DGeometry.h				Q3Mesh_GetNumCorners
 QD3DGeometry.h				Q3Mesh_GetNumFaces
 QD3DGeometry.h				Q3Mesh_GetNumVertices
 QD3DGeometry.h				Q3Mesh_GetVertexAttributeSet
@@ -322,6 +324,7 @@ QD3DGeometry.h				Q3Mesh_NextFaceVertex
 QD3DGeometry.h				Q3Mesh_NextMeshFace
 QD3DGeometry.h				Q3Mesh_NextMeshVertex
 QD3DGeometry.h				Q3Mesh_NextVertexFace
+QD3DGeometry.h				Q3Mesh_SetCornerAttributeSet
 QD3DGeometry.h				Q3Mesh_SetFaceAttributeSet
 QD3DGeometry.h				Q3Mesh_SetVertexAttributeSet
 QD3DGeometry.h				Q3Mesh_SetVertexCoordinates

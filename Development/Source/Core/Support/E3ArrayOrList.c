@@ -5,22 +5,21 @@
 		Quesa templates for defining a type-safe array, list or array-or-list
 		of objects of the same type.
 		
-		An array-or-list is a union that at any given time is organized
-		as either an array or a list and that can be converted back and forth
+		An array-or-list is a union that at any given time is organized as
+		either an array or a list and that can be converted back and forth
 		between the two types of organizations.
 
 		For example, to instantiate the TE3FooArrayOrList type (an
 		array-or-list of TE3Foo's), do:
 
-			E3ARRAY_DECLARE        (TE3Foo, e3foo, static);
-			E3ARRAY_DEFINE         (TE3Foo, e3foo, static);
-			E3LIST_DECLARE         (TE3Foo, e3foo, static);
-			E3LIST_DEFINE          (TE3Foo, e3foo, static);
-			E3ARRAY_OR_LIST_DECLARE(TE3Foo, e3foo, static);
-			E3ARRAY_OR_LIST_DEFINE (TE3Foo, e3foo, static);
+			E3_ARRAY_OR_LIST_DECLARE(TE3Foo, e3foo, static);
+			E3_ARRAY_OR_LIST_DEFINE (TE3Foo, e3foo, static);
 
 		For more info, see the description of the TE3FooAray, TE3FooList and
 		TE3FooArrayOrList macros in E3ArrayOrList.h.
+
+		The E3_PTR_* macros declare or define additional functions for an array
+		and/or list of pointers.
 
 	COPYRIGHT:
 		Quesa Copyright © 1999-2002, Quesa Developers.
@@ -59,17 +58,25 @@
 
 
 //=============================================================================
-//		Internal test code
+//		Private (internal) types
 //-----------------------------------------------------------------------------
-#if 1
-typedef struct TE3Foo { int foo; } TE3Foo;
-E3ARRAY_DECLARE(TE3Foo, e3foo, static);
-E3ARRAY_DEFINE(TE3Foo, e3foo, static);
-E3LIST_DECLARE(TE3Foo, e3foo, static);
-E3LIST_DEFINE(TE3Foo, e3foo, static);
-E3ARRAY_OR_LIST_DECLARE(TE3Foo, e3foo, static);
-E3ARRAY_OR_LIST_DEFINE(TE3Foo, e3foo, static);
-#endif
+typedef struct TE3PtrListNode {
+	TE3ListNode					genericNode_private; /* base class */
+	void*						item_private;
+} TE3PtrListNode;
+
+
+
+
+
+//=============================================================================
+//		Private (internal) constants
+//-----------------------------------------------------------------------------
+enum {
+	kPtrNodeSize = sizeof(TE3PtrListNode),
+	kPtrItemSize = sizeof(void*),
+	kPtrItemOffset = offsetof(TE3PtrListNode, item_private)
+};
 
 
 
@@ -257,7 +264,7 @@ E3Array_Length(
 
 
 //=============================================================================
-//		E3Array_FirstItem : Return pointer to first item in array.
+//		E3Array_FirstItem : Return first item in array.
 //-----------------------------------------------------------------------------
 //		Note :  If the array is empty, return NULL.
 //				Defined as macro in E3ArrayOrList.h.
@@ -275,9 +282,9 @@ E3Array_FirstItem(
 
 
 //=============================================================================
-//		E3Array_LastItem : Return pointer to last item in array.
+//		E3Array_LastItem : Return last item in array.
 //-----------------------------------------------------------------------------
-//		Note : If no last item, return NULL.
+//		Note : If the array is empty, return NULL.
 //-----------------------------------------------------------------------------
 TE3SequenceItem*
 E3Array_LastItem(
@@ -308,7 +315,34 @@ failure:
 
 
 //=============================================================================
-//		E3Array_NextItem : Return pointer to next item in array.
+//		E3Array_TailItem : Return item after last item in array.
+//-----------------------------------------------------------------------------
+//		Note : If the array is empty, return NULL.
+//-----------------------------------------------------------------------------
+TE3SequenceItem*
+E3Array_TailItem(
+	TE3Array* arrayPtr,
+	TQ3Uns32 itemSize)
+{
+	TE3SequenceItem* tailItemPtr;
+	
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(arrayPtr);
+	Q3_ASSERT(itemSize > 0);
+
+	// N.B.: If pointer is NULL, then length is 0, producing NULL result.
+	tailItemPtr = E3Array_FirstItem(arrayPtr);
+	((char*) tailItemPtr) += E3Array_Length(arrayPtr) * itemSize;
+	
+	return(tailItemPtr);
+}
+
+
+
+
+
+//=============================================================================
+//		E3Array_NextItem : Return next item in array.
 //-----------------------------------------------------------------------------
 //		Note : If no item or no next item, return NULL.
 //-----------------------------------------------------------------------------
@@ -327,11 +361,11 @@ E3Array_NextItem(
 	if (itemPtr == NULL)
 		goto failure;
 
-	if (itemPtr == E3Array_LastItem(arrayPtr, itemSize))
-		goto failure;
-
 	nextItemPtr = itemPtr;
 	((char*) nextItemPtr) += itemSize;
+
+	if (nextItemPtr == E3Array_TailItem(arrayPtr, itemSize))
+		goto failure;
 
 	return(nextItemPtr);
 	
@@ -345,7 +379,7 @@ failure:
 
 
 //=============================================================================
-//		E3Array_PreviousItem : Return pointer to previous item in array.
+//		E3Array_PreviousItem : Return previous item in array.
 //-----------------------------------------------------------------------------
 //		Note : If no item or no previous item, return NULL.
 //-----------------------------------------------------------------------------
@@ -445,14 +479,16 @@ E3Array_Destroy(
 	Q3_ASSERT(itemSize > 0);
 
 	// Destroy all items in array (in reverse order)
-	if (destroyItemFunc)
+	if (destroyItemFunc != NULL)
 	{
-		TE3SequenceItem* itemPtr;
+		TE3SequenceItem* firstItemPtr = E3Array_FirstItem(arrayPtr);
+		TE3SequenceItem* itemPtr = E3Array_TailItem(arrayPtr, itemSize);
 
-		for (itemPtr = E3Array_LastItem(arrayPtr, itemSize);
-			itemPtr != NULL;
-			itemPtr = E3Array_PreviousItem(arrayPtr, itemSize, itemPtr))
+		while (itemPtr != firstItemPtr)
 		{
+			// Get previous item
+			((char*) itemPtr) -= itemSize;
+			
 			// Destroy item
 			(*destroyItemFunc)(itemPtr);
 		}
@@ -463,6 +499,42 @@ E3Array_Destroy(
 
 	// Destroy sequence
 	E3Sequence_Destroy(E3_UP_CAST(TE3Sequence*, arrayPtr));
+}
+
+
+
+
+
+//=============================================================================
+//		E3Array_Find : Return item in array satisfying condition.
+//-----------------------------------------------------------------------------
+//		Note : If no item found, return NULL.
+//-----------------------------------------------------------------------------
+TE3SequenceItem*
+E3Array_Find(
+	TE3Array* arrayPtr,
+	TQ3Uns32 itemSize,
+	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
+	void* parameterPtr)
+{
+	TE3SequenceItem* itemPtr;
+	TE3SequenceItem* tailItemPtr;
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(arrayPtr);
+	Q3_ASSERT(itemSize > 0);
+	Q3_ASSERT_VALID_PTR(itemParameterFunc);
+
+	// Search all items in array
+	itemPtr = E3Array_FirstItem(arrayPtr);
+	tailItemPtr = E3Array_TailItem(arrayPtr, itemSize);
+	for ( ; itemPtr != tailItemPtr; ((char*) itemPtr) += itemSize)
+	{
+		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3True)
+			return(itemPtr);
+	}
+
+	return(NULL);
 }
 
 
@@ -483,6 +555,7 @@ E3Array_DoForEach(
 	void* parameterPtr)
 {
 	TE3SequenceItem* itemPtr;
+	TE3SequenceItem* tailItemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
@@ -490,9 +563,9 @@ E3Array_DoForEach(
 	Q3_ASSERT_VALID_PTR(itemParameterFunc);
 
 	// Do for all items in array
-	for (itemPtr = E3Array_FirstItem(arrayPtr);
-		itemPtr != NULL;
-		itemPtr = E3Array_NextItem(arrayPtr, itemSize, itemPtr))
+	itemPtr = E3Array_FirstItem(arrayPtr);
+	tailItemPtr = E3Array_TailItem(arrayPtr, itemSize);
+	for ( ; itemPtr != tailItemPtr; ((char*) itemPtr) += itemSize)
 	{
 		// Do for current item
 		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3Failure)
@@ -521,6 +594,7 @@ E3Array_AndForEach(
 	void* parameterPtr)
 {
 	TE3SequenceItem* itemPtr;
+	TE3SequenceItem* tailItemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
@@ -528,9 +602,9 @@ E3Array_AndForEach(
 	Q3_ASSERT_VALID_PTR(itemParameterFunc);
 
 	// And for all items in array
-	for (itemPtr = E3Array_FirstItem(arrayPtr);
-		itemPtr != NULL;
-		itemPtr = E3Array_NextItem(arrayPtr, itemSize, itemPtr))
+	itemPtr = E3Array_FirstItem(arrayPtr);
+	tailItemPtr = E3Array_TailItem(arrayPtr, itemSize);
+	for ( ; itemPtr != tailItemPtr; ((char*) itemPtr) += itemSize)
 	{
 		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3False)
 			return(kQ3False);
@@ -554,6 +628,7 @@ E3Array_OrForEach(
 	void* parameterPtr)
 {
 	TE3SequenceItem* itemPtr;
+	TE3SequenceItem* tailItemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
@@ -561,9 +636,9 @@ E3Array_OrForEach(
 	Q3_ASSERT_VALID_PTR(itemParameterFunc);
 
 	// Or for all items in array
-	for (itemPtr = E3Array_FirstItem(arrayPtr);
-		itemPtr != NULL;
-		itemPtr = E3Array_NextItem(arrayPtr, itemSize, itemPtr))
+	itemPtr = E3Array_FirstItem(arrayPtr);
+	tailItemPtr = E3Array_TailItem(arrayPtr, itemSize);
+	for ( ; itemPtr != tailItemPtr; ((char*) itemPtr) += itemSize)
 	{
 		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3True)
 			return(kQ3True);
@@ -577,6 +652,57 @@ E3Array_OrForEach(
 
 
 //=============================================================================
+//		E3PtrArray_FindPtr : Return item in pointer array matching pointer.
+//-----------------------------------------------------------------------------
+//		Note : If no item found, return NULL.
+//-----------------------------------------------------------------------------
+#pragma mark -
+void**
+E3PtrArray_FindPtr(
+	TE3Array* arrayPtr,
+	void* ptr)
+{
+	TE3SequenceItem* itemPtr;
+	TE3SequenceItem* tailItemPtr;
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(arrayPtr);
+
+	// Search all items in array
+	itemPtr = E3Array_FirstItem(arrayPtr);
+	tailItemPtr = E3Array_TailItem(arrayPtr, kPtrItemSize);
+	for ( ; itemPtr != tailItemPtr; ((char*) itemPtr) += kPtrItemSize)
+	{
+		if (*((void**) itemPtr) == ptr)
+			return((void**) itemPtr);
+	}
+
+	return(NULL);
+}
+
+
+
+
+
+//=============================================================================
+//		E3PtrArray_HasPtr : Return if pointer array has pointer.
+//-----------------------------------------------------------------------------
+//		Note : Defined as macro in E3ArrayOrList.h.
+//-----------------------------------------------------------------------------
+/*
+TQ3Boolean
+E3PtrArray_HasPtr(
+	TE3Array* arrayPtr,
+	void* ptr)
+{
+}
+*/
+
+
+
+
+
+//=============================================================================
 //		TE3List member functions
 //-----------------------------------------------------------------------------
 //		Note :	Lower-level functions are defined before higher-level functions
@@ -584,23 +710,17 @@ E3Array_OrForEach(
 //-----------------------------------------------------------------------------
 //		E3ListNode_Item : Return item for node.
 //-----------------------------------------------------------------------------
+//		Note : Defined as macro in E3ArrayOrList.h.
+//-----------------------------------------------------------------------------
 #pragma mark -
+/*
 TE3SequenceItem*
 E3ListNode_Item(
 	TE3ListNode* nodePtr,
 	TQ3Uns32 itemOffset)
 {
-	TE3SequenceItem* itemPtr;
-	
-	// Validate our parameters
-	Q3_ASSERT_VALID_PTR(nodePtr);
-	Q3_ASSERT(itemOffset >= sizeof(TE3ListNode));
-
-	itemPtr = (TE3SequenceItem*) nodePtr;
-	((char*) itemPtr) += itemOffset;
-	
-	return(itemPtr);
 }
+*/
 
 
 
@@ -625,25 +745,7 @@ E3ListItem_Node(
 
 
 //=============================================================================
-//		E3List_Length : Return number of items in list.
-//-----------------------------------------------------------------------------
-//		Note : Defined as macro in E3ArrayOrList.h.
-//-----------------------------------------------------------------------------
-#pragma mark -
-/*
-TQ3Int32
-E3List_Length(
-	const TE3List*listPtr)
-{
-}
-*/
-
-
-
-
-
-//=============================================================================
-//		E3List_TailNode : Return pointer to pseudo-node ending list.
+//		E3List_TailNode : Return pseudo-node ending list.
 //-----------------------------------------------------------------------------
 //		Note : Defined as macro in E3ArrayOrList.h.
 //-----------------------------------------------------------------------------
@@ -660,7 +762,24 @@ E3List_TailNode(
 
 
 //=============================================================================
-//		E3List_FirstItem : Return pointer to first item in list.
+//		E3List_Length : Return number of items in list.
+//-----------------------------------------------------------------------------
+//		Note : Defined as macro in E3ArrayOrList.h.
+//-----------------------------------------------------------------------------
+/*
+TQ3Int32
+E3List_Length(
+	const TE3List*listPtr)
+{
+}
+*/
+
+
+
+
+
+//=============================================================================
+//		E3List_FirstItem : Return first item in list.
 //-----------------------------------------------------------------------------
 //		Note : If no first item, return NULL.
 //-----------------------------------------------------------------------------
@@ -691,7 +810,7 @@ failure:
 
 
 //=============================================================================
-//		E3List_LastItem : Return pointer to last item in list.
+//		E3List_LastItem : Return last item in list.
 //-----------------------------------------------------------------------------
 //		Note : If no last item, return NULL.
 //-----------------------------------------------------------------------------
@@ -723,7 +842,7 @@ failure:
 
 
 //=============================================================================
-//		E3List_NextItem : Return pointer to next item in list.
+//		E3List_NextItem : Return next item in list.
 //-----------------------------------------------------------------------------
 //		Note : If no item or no next item, return NULL.
 //-----------------------------------------------------------------------------
@@ -760,7 +879,7 @@ failure:
 
 
 //=============================================================================
-//		E3List_PreviousItem : Return pointer to previous item in list.
+//		E3List_PreviousItem : Return previous item in list.
 //-----------------------------------------------------------------------------
 //		Note : If no item or no previous item, return NULL.
 //-----------------------------------------------------------------------------
@@ -834,16 +953,16 @@ E3List_Create(
 		TE3SequenceItem* itemPtr;
 
 		// Push back new node (and initialize new item)
-		if ((itemPtr = E3List_PushBackItem(listPtr, itemOffset, itemSize, thoseItemsPtr)) == NULL)
+		if ((itemPtr = E3List_InsertBeforeNodeItem(listPtr, itemOffset, itemSize, tailNodePtr, thoseItemsPtr)) == NULL)
 			goto failure_3;
 
-		if (thoseItemsPtr)
+		if (thoseItemsPtr != NULL)
 			((char*) thoseItemsPtr) += itemSize;
 	}
 
 	return(kQ3Success);
 	
-	// Dead code to reverse E3List_PushBackItem
+	// Dead code to reverse E3List_InsertBeforeNodeItem
 failure_3:
 
 	E3List_Destroy(listPtr, itemOffset, NULL);
@@ -875,9 +994,8 @@ E3List_Destroy(
 	Q3_ASSERT_VALID_PTR(listPtr);
 	Q3_ASSERT(itemOffset >= sizeof(TE3ListNode));
 
-	tailNodePtr = E3List_TailNode(listPtr);
-
 	// Erase all nodes in list (in reverse order)
+	tailNodePtr = E3List_TailNode(listPtr);
 	for (nodePtr = tailNodePtr->prevNodePtr_private; nodePtr != tailNodePtr; )
 	{
 		// Save current node pointer
@@ -887,7 +1005,7 @@ E3List_Destroy(
 		nodePtr = nodePtr->prevNodePtr_private;
 
 		// Destroy item
-		if (destroyItemFunc)
+		if (destroyItemFunc != NULL)
 			(*destroyItemFunc)(E3ListNode_Item(currNodePtr, itemOffset));
 
 		// Free memory for node (including item)
@@ -921,9 +1039,8 @@ E3List_Clear(
 	Q3_ASSERT_VALID_PTR(listPtr);
 	Q3_ASSERT(itemOffset >= sizeof(TE3ListNode));
 
-	tailNodePtr = E3List_TailNode(listPtr);
-
 	// Erase all nodes in list (in reverse order)
+	tailNodePtr = E3List_TailNode(listPtr);
 	for (nodePtr = tailNodePtr->prevNodePtr_private; nodePtr != tailNodePtr; )
 	{
 		// Save current node pointer
@@ -933,7 +1050,7 @@ E3List_Clear(
 		nodePtr = nodePtr->prevNodePtr_private;
 
 		// Destroy item
-		if (destroyItemFunc)
+		if (destroyItemFunc != NULL)
 			(*destroyItemFunc)(E3ListNode_Item(currNodePtr, itemOffset));
 
 		// Free memory for node (including item)
@@ -953,6 +1070,46 @@ E3List_Clear(
 
 
 //=============================================================================
+//		E3Find_Find : Return item in list satisfying condition.
+//-----------------------------------------------------------------------------
+//		Note : If no item found, return NULL.
+//-----------------------------------------------------------------------------
+TE3SequenceItem*
+E3List_Find(
+	TE3List* listPtr,
+	TQ3Uns32 itemOffset,
+	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
+	void* parameterPtr)
+{
+	TE3ListNode* tailNodePtr;
+	TE3ListNode* nodePtr;
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(listPtr);
+	Q3_ASSERT(itemOffset >= sizeof(TE3ListNode));
+	Q3_ASSERT_VALID_PTR(itemParameterFunc);
+
+	// Or for all items in list
+	tailNodePtr = E3List_TailNode(listPtr);
+	for (
+		nodePtr = tailNodePtr->nextNodePtr_private;
+		nodePtr != tailNodePtr;
+		nodePtr = nodePtr->nextNodePtr_private)
+	{
+		TE3SequenceItem* itemPtr = E3ListNode_Item(nodePtr, itemOffset);
+
+		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3True)
+			return(itemPtr);
+	}
+
+	return(NULL);
+}
+
+
+
+
+
+//=============================================================================
 //		E3List_DoForEach : Do for each item in list.
 //-----------------------------------------------------------------------------
 //		Note :	Return kQ3Failure as soon as function fails for any item in
@@ -965,7 +1122,8 @@ E3List_DoForEach(
 	TQ3Status (*itemParameterFunc)(TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
-	TE3SequenceItem* itemPtr;
+	TE3ListNode* tailNodePtr;
+	TE3ListNode* nodePtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(listPtr);
@@ -973,12 +1131,14 @@ E3List_DoForEach(
 	Q3_ASSERT_VALID_PTR(itemParameterFunc);
 
 	// Do for all items in list
-	for (itemPtr = E3List_FirstItem(listPtr, itemOffset);
-		itemPtr != NULL;
-		itemPtr = E3List_NextItem(listPtr, itemOffset, itemPtr))
+	tailNodePtr = E3List_TailNode(listPtr);
+	for (
+		nodePtr = tailNodePtr->nextNodePtr_private;
+		nodePtr != tailNodePtr;
+		nodePtr = nodePtr->nextNodePtr_private)
 	{
 		// Do for current item
-		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3Failure)
+		if ((*itemParameterFunc)(E3ListNode_Item(nodePtr, itemOffset), parameterPtr) == kQ3Failure)
 			goto failure;
 	}
 
@@ -1003,7 +1163,8 @@ E3List_AndForEach(
 	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
-	TE3SequenceItem* itemPtr;
+	TE3ListNode* tailNodePtr;
+	TE3ListNode* nodePtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(listPtr);
@@ -1011,11 +1172,13 @@ E3List_AndForEach(
 	Q3_ASSERT_VALID_PTR(itemParameterFunc);
 
 	// And for all items in list
-	for (itemPtr = E3List_FirstItem(listPtr, itemOffset);
-		itemPtr != NULL;
-		itemPtr = E3List_NextItem(listPtr, itemOffset, itemPtr))
+	tailNodePtr = E3List_TailNode(listPtr);
+	for (
+		nodePtr = tailNodePtr->nextNodePtr_private;
+		nodePtr != tailNodePtr;
+		nodePtr = nodePtr->nextNodePtr_private)
 	{
-		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3False)
+		if ((*itemParameterFunc)(E3ListNode_Item(nodePtr, itemOffset), parameterPtr) == kQ3False)
 			return(kQ3False);
 	}
 
@@ -1036,7 +1199,8 @@ E3List_OrForEach(
 	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
-	TE3SequenceItem* itemPtr;
+	TE3ListNode* tailNodePtr;
+	TE3ListNode* nodePtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(listPtr);
@@ -1044,11 +1208,13 @@ E3List_OrForEach(
 	Q3_ASSERT_VALID_PTR(itemParameterFunc);
 
 	// Or for all items in list
-	for (itemPtr = E3List_FirstItem(listPtr, itemOffset);
-		itemPtr != NULL;
-		itemPtr = E3List_NextItem(listPtr, itemOffset, itemPtr))
+	tailNodePtr = E3List_TailNode(listPtr);
+	for (
+		nodePtr = tailNodePtr->nextNodePtr_private;
+		nodePtr != tailNodePtr;
+		nodePtr = nodePtr->nextNodePtr_private)
 	{
-		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3True)
+		if ((*itemParameterFunc)(E3ListNode_Item(nodePtr, itemOffset), parameterPtr) == kQ3True)
 			return(kQ3True);
 	}
 
@@ -1099,7 +1265,7 @@ E3List_InsertBeforeNodeItem(
 	itemPtr = E3ListNode_Item(currNodePtr, itemOffset);
 
 	// Initialize new item
-	if (thatItemPtr)
+	if (thatItemPtr != NULL)
 		memcpy(itemPtr, thatItemPtr, itemSize);
 
 	return(itemPtr);
@@ -1114,31 +1280,9 @@ failure:
 
 
 //=============================================================================
-//		E3List_InsertBeforeItemItem : Insert new item in list before item.
+//		E3List_PushBackItem : Insert new item in list before tail of list.
 //-----------------------------------------------------------------------------
-//		Note :	If unable to insert, return NULL.
-//				Defined as macro in E3ArrayOrList.h.
-//-----------------------------------------------------------------------------
-/*
-TE3SequenceItem*
-E3List_InsertBeforeItemItem(
-	TE3List* listPtr,
-	TQ3Uns32 itemOffset,
-	TQ3Uns32 itemSize,
-	TE3SequenceItem* nextItemPtr,
-	const TE3SequenceItem* thatItemPtr)
-{
-}
-*/
-
-
-
-
-
-//=============================================================================
-//		E3List_PushBackItem : Push back item before end of list.
-//-----------------------------------------------------------------------------
-//		Note :	If unable to push back, return NULL.
+//		Note :	If unable to insert (out of memory), return NULL.
 //				Defined as macro in E3ArrayOrList.h.
 //-----------------------------------------------------------------------------
 /*
@@ -1176,7 +1320,7 @@ E3List_EraseNode(
 	Q3_ASSERT(nodePtr != E3List_TailNode(listPtr));
 
 	// Destroy item
-	if (destroyItemFunc)
+	if (destroyItemFunc != NULL)
 		(*destroyItemFunc)(E3ListNode_Item(nodePtr, itemOffset));
 
 	prevNodePtr = nodePtr->prevNodePtr_private;
@@ -1231,8 +1375,8 @@ failure:
 
 
 //=============================================================================
-//		E3List_SpliceBeforeNodeList :	Splice that list into this list before
-//										node.
+//		E3List_SpliceBeforeNodeList :	Splice into this list before node from
+//										that list.
 //-----------------------------------------------------------------------------
 void
 E3List_SpliceBeforeNodeList(
@@ -1262,7 +1406,7 @@ E3List_SpliceBeforeNodeList(
 	thatFirstNodePtr = thatTailNodePtr->nextNodePtr_private;
 	thatLastNodePtr  = thatTailNodePtr->prevNodePtr_private;
 
-	// Splice from that list into this list before node
+	// Splice into this list before node from that list
 	E3Sequence_AddLength(E3_UP_CAST(TE3Sequence*, listPtr), E3List_Length(thatListPtr));
 	prevNodePtr->nextNodePtr_private = thatFirstNodePtr;
 	nextNodePtr->prevNodePtr_private = thatLastNodePtr;
@@ -1280,28 +1424,7 @@ E3List_SpliceBeforeNodeList(
 
 
 //=============================================================================
-//		E3List_SpliceBeforeItemList :	Splice that list into this list before
-//										item.
-//-----------------------------------------------------------------------------
-//		Note : Defined as macro in E3ArrayOrList.h.
-//-----------------------------------------------------------------------------
-/*
-void
-E3List_SpliceBeforeItemList(
-	TE3List* listPtr,
-	TQ3Uns32 itemOffset,
-	TE3SequenceItem* nextItemPtr,
-	TE3List* thatListPtr)
-{
-}
-*/
-
-
-
-
-
-//=============================================================================
-//		E3List_SpliceBackList :	Splice that list before end of this list.
+//		E3List_SpliceBackList :	Splice before tail of this list from that list.
 //-----------------------------------------------------------------------------
 //		Note : Defined as macro in E3ArrayOrList.h.
 //-----------------------------------------------------------------------------
@@ -1319,11 +1442,11 @@ E3List_SpliceBackList(
 
 
 //=============================================================================
-//		E3List_SpliceBeforeNodeListNode :	Splice that node in that list
-//											into this list before node.
+//		E3List_SpliceBeforeNodeNode :	Splice into this list before node from
+//										that list at that node.
 //-----------------------------------------------------------------------------
 void
-E3List_SpliceBeforeNodeListNode(
+E3List_SpliceBeforeNodeNode(
 	TE3List* listPtr,
 	TE3ListNode* nextNodePtr,
 	TE3List* thatListPtr,
@@ -1350,7 +1473,7 @@ E3List_SpliceBeforeNodeListNode(
 	thatPrevNodePtr = thatNodePtr->nextNodePtr_private;
 	thatNextNodePtr = thatNodePtr->prevNodePtr_private;
 
-	// Splice from that node in that list into this list before node
+	// Splice into this list before node from that list at that node
 	E3Sequence_IncrementLength(E3_UP_CAST(TE3Sequence*, listPtr));
 	prevNodePtr->nextNodePtr_private =
 	nextNodePtr->prevNodePtr_private = thatNodePtr;
@@ -1368,36 +1491,14 @@ E3List_SpliceBeforeNodeListNode(
 
 
 //=============================================================================
-//		E3List_SpliceBeforeItemListItem :	Splice that item in that list
-//											into this list before item.
+//		E3List_SpliceBackNode :	Splice before tail of this list from that list
+//								at that node.
 //-----------------------------------------------------------------------------
 //		Note : Defined as macro in E3ArrayOrList.h.
 //-----------------------------------------------------------------------------
 /*
 void
-E3List_SpliceBeforeItemListItem(
-	TE3List* listPtr,
-	TQ3Uns32 itemOffset,
-	TE3SequenceItem* nextItemPtr,
-	TE3List* thatListPtr,
-	TE3SequenceItem* thatItemPtr)
-{
-}
-*/
-
-
-
-
-
-//=============================================================================
-//		E3List_SpliceBackListNode :	Splice that node in that list before end of
-//									this list.
-//-----------------------------------------------------------------------------
-//		Note : Defined as macro in E3ArrayOrList.h.
-//-----------------------------------------------------------------------------
-/*
-void
-E3List_SpliceBackListNode(
+E3List_SpliceBackNode(
 	TE3List* listPtr,
 	TE3List* thatListPtr,
 	TE3ListNode* thatNodePtr)
@@ -1410,21 +1511,163 @@ E3List_SpliceBackListNode(
 
 
 //=============================================================================
-//		E3List_SpliceBackListItem :	Splice that item in that list before end of
-//									this list.
+//		E3PtrList_FindPtr : Return item in pointer list matching pointer.
+//-----------------------------------------------------------------------------
+//		Note : If no item found, return NULL.
+//-----------------------------------------------------------------------------
+#pragma mark -
+void**
+E3PtrList_FindPtr(
+	TE3List* listPtr,
+	void* ptr)
+{
+	TE3ListNode* tailNodePtr;
+	TE3ListNode* nodePtr;
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(listPtr);
+
+	// Search through all items in list
+	tailNodePtr = E3List_TailNode(listPtr);
+	for (
+		nodePtr = tailNodePtr->nextNodePtr_private;
+		nodePtr != tailNodePtr;
+		nodePtr = nodePtr->nextNodePtr_private)
+	{
+		void** itemPtr = (void**) &E3_DOWN_CAST(TE3PtrListNode*, nodePtr)->item_private;
+
+		if (*itemPtr == ptr)
+			return(itemPtr);
+	}
+
+	return(NULL);
+}
+
+
+
+
+
+//=============================================================================
+//		E3PtrList_HasPtr : Return if pointer list has pointer.
 //-----------------------------------------------------------------------------
 //		Note : Defined as macro in E3ArrayOrList.h.
 //-----------------------------------------------------------------------------
 /*
-void
-E3List_SpliceBackListItem(
+TQ3Boolean
+E3PtrList_HasPtr(
 	TE3List* listPtr,
-	TQ3Uns32 itemOffset,
-	TE3List* thatListPtr,
-	TE3ListNode* thatNodePtr)
+	void* ptr)
 {
 }
 */
+
+
+
+
+
+//=============================================================================
+//		E3PtrList_InsertBeforeNodePtr :	Insert new pointer in pointer list
+//										before node.
+//-----------------------------------------------------------------------------
+//		Note : If unable to insert (out of memory), return NULL.
+//-----------------------------------------------------------------------------
+void**
+E3PtrList_InsertBeforeNodePtr(
+	TE3List* listPtr,
+	TE3ListNode* nextNodePtr,
+	void* thatPtr)
+{
+	TE3ListNode* currNodePtr;
+	TE3ListNode* prevNodePtr;
+	void** itemPtr;
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(listPtr);
+	Q3_ASSERT_VALID_PTR(nextNodePtr);
+
+	// Allocate new node (including item)
+	if ((currNodePtr = Q3Memory_Allocate(kPtrNodeSize)) == NULL)
+		goto failure;
+
+	// Insert after previous node in list
+	prevNodePtr = nextNodePtr->prevNodePtr_private;
+
+	// Link new node into list
+	E3Sequence_IncrementLength(E3_UP_CAST(TE3Sequence*, listPtr));
+	prevNodePtr->nextNodePtr_private =
+	nextNodePtr->prevNodePtr_private = currNodePtr;
+	currNodePtr->prevNodePtr_private = prevNodePtr;
+	currNodePtr->nextNodePtr_private = nextNodePtr;
+
+	itemPtr = &E3_DOWN_CAST(TE3PtrListNode*, currNodePtr)->item_private;
+
+	// Initialize new item
+	*itemPtr = thatPtr;
+
+	return(itemPtr);
+	
+failure:
+
+	return(NULL);
+}
+
+
+
+
+
+//=============================================================================
+//		E3PtrList_PushBackPtr :	Insert new pointer in pointer list before tail
+//								of list.
+//-----------------------------------------------------------------------------
+//		Note :	If unable to insert (out of memory), return NULL.
+//				Defined as macro in E3ArrayOrList.h.
+//-----------------------------------------------------------------------------
+/*
+void**
+E3PtrList_PushBackPtr(
+	TE3List* listPtr,
+	void* thatPtr)
+{
+}
+*/
+
+
+
+
+
+//=============================================================================
+//		E3PtrList_ErasePtr :	Erase (first) node with specified pointer in
+//								pointer list.
+//-----------------------------------------------------------------------------
+//		Note : If pointer not in list, return kQ3False.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3PtrList_ErasePtr(
+	TE3List* listPtr,
+	void* ptr)
+{
+	TE3ListNode* tailNodePtr;
+	TE3ListNode* nodePtr;
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(listPtr);
+
+	// Search through all items in list
+	tailNodePtr = E3List_TailNode(listPtr);
+	for (
+		nodePtr = tailNodePtr->nextNodePtr_private;
+		nodePtr != tailNodePtr;
+		nodePtr = nodePtr->nextNodePtr_private)
+	{
+		if (E3_DOWN_CAST(TE3PtrListNode*, nodePtr)->item_private == ptr)
+		{
+			E3List_EraseNode(listPtr, kPtrItemOffset, NULL, nodePtr);
+			return(kQ3Success);
+		}
+	}
+
+	return(kQ3Failure);
+}
 
 
 
@@ -1488,7 +1731,7 @@ E3ArrayOrList_Length(
 
 
 //=============================================================================
-//		E3ArrayOrList_FirstItem : Return pointer to first item in array or list.
+//		E3ArrayOrList_FirstItem : Return first item in array or list.
 //-----------------------------------------------------------------------------
 //		Note : If no first item, return NULL.
 //-----------------------------------------------------------------------------
@@ -1508,7 +1751,7 @@ E3ArrayOrList_FirstItem(
 
 
 //=============================================================================
-//		E3ArrayOrList_LastItem : Return pointer to last item in array or list.
+//		E3ArrayOrList_LastItem : Return last item in array or list.
 //-----------------------------------------------------------------------------
 //		Note : If no last item, return NULL.
 //-----------------------------------------------------------------------------
@@ -1529,7 +1772,7 @@ E3ArrayOrList_LastItem(
 
 
 //=============================================================================
-//		E3ArrayOrList_NextItem : Return pointer to next item in array or list.
+//		E3ArrayOrList_NextItem : Return next item in array or list.
 //-----------------------------------------------------------------------------
 //		Note : If no item or no next item, return NULL.
 //-----------------------------------------------------------------------------
@@ -1551,8 +1794,7 @@ E3ArrayOrList_NextItem(
 
 
 //=============================================================================
-//		E3ArrayOrList_PreviousItem :	Return pointer to previous item in
-//										array or list.
+//		E3ArrayOrList_PreviousItem : Return previous item in array or list.
 //-----------------------------------------------------------------------------
 //		Note : If no item or no previous item, return NULL.
 //-----------------------------------------------------------------------------
@@ -1593,6 +1835,37 @@ E3ArrayOrList_Destroy(
 			E3_UP_CAST(TE3List*, arrayOrListPtr),
 			itemOffset,
 			destroyItemFunc);
+}
+
+
+
+
+
+//=============================================================================
+//		E3ArrayOrList_Find : Return item in array or list satisfying condition.
+//-----------------------------------------------------------------------------
+//		Note : If no item found, return NULL.
+//-----------------------------------------------------------------------------
+TE3SequenceItem*
+E3ArrayOrList_Find(
+	TE3ArrayOrList* arrayOrListPtr,
+	TQ3Uns32 itemOffset,
+	TQ3Uns32 itemSize,
+	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
+	void* parameterPtr)
+{
+	if (E3ArrayOrList_IsArray(arrayOrListPtr))
+		return(E3Array_Find(
+			E3_UP_CAST(TE3Array*, arrayOrListPtr),
+			itemSize,
+			itemParameterFunc,
+			parameterPtr));
+	else
+		return(E3List_Find(
+			E3_UP_CAST(TE3List*, arrayOrListPtr),
+			itemOffset,
+			itemParameterFunc,
+			parameterPtr));
 }
 
 
@@ -1699,11 +1972,15 @@ E3ArrayOrList_UseArray(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
-	void (*relocateItemFunc)(TE3SequenceItem*))
+	void (*relocateItemFunc)(TE3SequenceItem*, TE3SequenceItem*),
+	void (*relinkParameterFunc)(void*),
+	void* parameterPtr)
+	
 {
+	TE3List list;
 	TQ3Int32 length;
-	TE3Array array;
-	TE3SequenceItem* listItemPtr;
+	TE3ListNode* listTailNodePtr;
+	TE3ListNode* listNodePtr;
 	TE3SequenceItem* arrayItemPtr;
 
 	// Validate our parameters
@@ -1715,32 +1992,37 @@ E3ArrayOrList_UseArray(
 	if (E3ArrayOrList_IsArray(arrayOrListPtr))
 		goto success;
 
-	// Create temporary array structure (so list can remain in place)
-	length = E3List_Length(E3_UP_CAST(TE3List*, arrayOrListPtr));
-	if (E3Array_Create(&array, itemSize, length, NULL) == kQ3Failure)
+	// Save list structure (so array can be created in place)
+	list = arrayOrListPtr->list_private;
+
+	// Create array structure (in place)
+	length = E3List_Length(&list);
+	if (E3Array_Create(E3_UP_CAST(TE3Array*, arrayOrListPtr), itemSize, length, NULL) == kQ3Failure)
 		goto failure;
 
-	// Move items from list to array
+	// Move items to array from list
+	listTailNodePtr = E3List_TailNode(&list);
 	for (
-		listItemPtr = E3List_FirstItem(E3_UP_CAST(TE3List*, arrayOrListPtr), itemOffset),
-			arrayItemPtr = E3Array_FirstItem(&array);
-		listItemPtr != NULL;
-		listItemPtr = E3List_NextItem(E3_UP_CAST(TE3List*, arrayOrListPtr), itemOffset, listItemPtr),
-			((char*) arrayItemPtr) += itemSize)
+		listNodePtr = listTailNodePtr->nextNodePtr_private, arrayItemPtr = E3Array_FirstItem(E3_UP_CAST(TE3Array*, arrayOrListPtr));
+		listNodePtr != listTailNodePtr;
+		listNodePtr = listNodePtr->nextNodePtr_private, ((char*) arrayItemPtr) += itemSize)
 	{
+		TE3SequenceItem* listItemPtr = E3ListNode_Item(listNodePtr, itemOffset);
+		
 		// Move current item
 		memcpy(arrayItemPtr, listItemPtr, itemSize);
 
-		// Relocate current item
-		if (relocateItemFunc)
-			(*relocateItemFunc)(arrayItemPtr);
+		// Relocate new and old item
+		if (relocateItemFunc != NULL)
+			(*relocateItemFunc)(arrayItemPtr, listItemPtr);
 	}
 
-	// Destroy list structure
-	E3List_Destroy(E3_UP_CAST(TE3List*, arrayOrListPtr), itemOffset, NULL);
+	// Relink
+	if (relinkParameterFunc != NULL)
+		(*relinkParameterFunc)(parameterPtr);
 
-	// Use array structure
-	arrayOrListPtr->array_private = array;
+	// Destroy list structure
+	E3List_Destroy(&list, itemOffset, NULL);
 	
 success:
 
@@ -1748,6 +2030,7 @@ success:
 	
 failure:
 
+	arrayOrListPtr->list_private = list;
 	return(kQ3Failure);
 }
 
@@ -1765,11 +2048,14 @@ E3ArrayOrList_UseList(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
-	void (*relocateItemFunc)(TE3SequenceItem*))
+	void (*relocateItemFunc)(TE3SequenceItem*, TE3SequenceItem*),
+	void (*relinkParameterFunc)(void*),
+	void* parameterPtr)
 {
 	TQ3Int32 length;
 	TE3Array array;
-	TE3SequenceItem* listItemPtr;
+	TE3ListNode* listTailNodePtr;
+	TE3ListNode* listNodePtr;
 	TE3SequenceItem* arrayItemPtr;
 
 	// Validate our parameters
@@ -1789,21 +2075,26 @@ E3ArrayOrList_UseList(
 	if (E3List_Create(E3_UP_CAST(TE3List*, arrayOrListPtr), itemOffset, itemSize, length, NULL) == kQ3Failure)
 		goto failure;
 
-	// Move items from array to list
+	// Move items to list from array
+	listTailNodePtr = E3List_TailNode(E3_UP_CAST(TE3List*, arrayOrListPtr));
 	for (
-		listItemPtr = E3List_FirstItem(E3_UP_CAST(TE3List*, arrayOrListPtr), itemOffset),
-			arrayItemPtr = E3Array_FirstItem(&array);
-		listItemPtr != NULL;
-		listItemPtr = E3List_NextItem(E3_UP_CAST(TE3List*, arrayOrListPtr), itemOffset, listItemPtr),
-			((char*) arrayItemPtr) += itemSize)
+		listNodePtr = listTailNodePtr->nextNodePtr_private, arrayItemPtr = E3Array_FirstItem(&array);
+		listNodePtr != listTailNodePtr;
+		listNodePtr = listNodePtr->nextNodePtr_private, ((char*) arrayItemPtr) += itemSize)
 	{
+		TE3SequenceItem* listItemPtr = E3ListNode_Item(listNodePtr, itemOffset);
+		
 		// Move current item
 		memcpy(listItemPtr, arrayItemPtr, itemSize);
 
-		// Relocate current item
-		if (relocateItemFunc)
-			(*relocateItemFunc)(listItemPtr);
+		// Relocate new and old item
+		if (relocateItemFunc != NULL)
+			(*relocateItemFunc)(listItemPtr, arrayItemPtr);
 	}
+
+	// Relink
+	if (relinkParameterFunc != NULL)
+		(*relinkParameterFunc)(parameterPtr);
 
 	// Destroy array structure
 	E3Array_Destroy(&array, itemSize, NULL);
@@ -1817,3 +2108,47 @@ failure:
 	arrayOrListPtr->array_private = array;
 	return(kQ3Failure);
 }
+
+
+
+
+
+//=============================================================================
+//		E3PtrArrayOrList_FindPtr :	Return item in pointer array or list
+//									matching pointer.
+//-----------------------------------------------------------------------------
+//		Note : If no item found, return NULL.
+//-----------------------------------------------------------------------------
+#pragma mark -
+void**
+E3PtrArrayOrList_FindPtr(
+	TE3ArrayOrList* arrayOrListPtr,
+	void* ptr)
+{
+	if (E3ArrayOrList_IsArray(arrayOrListPtr))
+		return(E3PtrArray_FindPtr(
+			E3_UP_CAST(TE3Array*, arrayOrListPtr),
+			ptr));
+	else
+		return(E3PtrList_FindPtr(
+			E3_UP_CAST(TE3List*, arrayOrListPtr),
+			ptr));
+}
+
+
+
+
+
+//=============================================================================
+//		E3PtrArrayOrList_HasPtr : Return if pointer array or list has pointer.
+//-----------------------------------------------------------------------------
+//		Note : Defined as macro in E3ArrayOrList.h.
+//-----------------------------------------------------------------------------
+/*
+TQ3Boolean
+E3PtrArrayOrList_HasPtr(
+	TE3ArrayOrList* arrayOrListPtr,
+	void* ptr)
+{
+}
+*/
