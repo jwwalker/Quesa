@@ -198,6 +198,45 @@ e3read_3dmf_apply_element_set( TQ3ShapeObject ioShape, TQ3SetObject ioElements )
 }
 
 
+
+//=============================================================================
+//      e3read_3dmf_spreadarray_uns16to32 : Convert an array of 16-bit unsigned
+//								 integers to 32-bit unsigned integers, in place.
+//-----------------------------------------------------------------------------
+static void
+e3read_3dmf_spreadarray_uns16to32( TQ3Uns32 numNums, void* ioData )
+{
+	TQ3Uns16*	inArray = (TQ3Uns16*)ioData;
+	TQ3Uns32*	outArray = (TQ3Uns32*)ioData;
+	TQ3Int32	n;
+	
+	for (n = numNums - 1; n >= 0; --n)
+	{
+		outArray[ n ] = inArray[ n ];
+	}
+}
+
+
+
+//=============================================================================
+//      e3read_3dmf_spreadarray_uns8to32 : Convert an array of 8-bit unsigned
+//								 integers to 32-bit unsigned integers, in place.
+//-----------------------------------------------------------------------------
+static void
+e3read_3dmf_spreadarray_uns8to32( TQ3Uns32 numNums, void* ioData )
+{
+	TQ3Uns8*	inArray = (TQ3Uns8*)ioData;
+	TQ3Uns32*	outArray = (TQ3Uns32*)ioData;
+	TQ3Int32	n;
+	
+	for (n = numNums - 1; n >= 0; --n)
+	{
+		outArray[ n ] = inArray[ n ];
+	}
+}
+
+
+
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
@@ -3332,7 +3371,6 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object	 			theObject;
 	TQ3TriMeshData			geomData;
-	TQ3Point3D				*ptIndex;
 	TQ3FileFormatObject		format;
 	TQ3Uns16				temp16;
 	TQ3Uns8					temp8;
@@ -3366,49 +3404,30 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	geomData.triangles = (TQ3TriMeshTriangleData *)Q3Memory_Allocate(sizeof(TQ3TriMeshTriangleData)*geomData.numTriangles);
 	if(geomData.triangles == NULL)
 		goto cleanUp;
-	if(geomData.numPoints >= 0x0000FFFFUL)
-		for(i = 0; i < geomData.numTriangles; i++)
-			{
-			if(Q3Uns32_Read(&geomData.triangles[i].pointIndices[0], theFile)!= kQ3Success)
-				goto cleanUp;
-			if(Q3Uns32_Read(&geomData.triangles[i].pointIndices[1], theFile)!= kQ3Success)
-				goto cleanUp;
-			if(Q3Uns32_Read(&geomData.triangles[i].pointIndices[2], theFile)!= kQ3Success)
-				goto cleanUp;
-			}
-	else if(geomData.numPoints >= 0x000000FFUL)
-		for(i = 0; i < geomData.numTriangles; i++)
-			{
-			if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
-				goto cleanUp;
-			geomData.triangles[i].pointIndices[0] = (TQ3Uns32)temp16;
-			if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
-				goto cleanUp;
-			geomData.triangles[i].pointIndices[1] = (TQ3Uns32)temp16;
-			if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
-				goto cleanUp;
-			geomData.triangles[i].pointIndices[2] = (TQ3Uns32)temp16;
-			}
-	else
-		for(i = 0; i < geomData.numTriangles; i++)
-			{
-			if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
-				goto cleanUp;
-			geomData.triangles[i].pointIndices[0] = (TQ3Uns32)temp8;
-			if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
-				goto cleanUp;
-			geomData.triangles[i].pointIndices[1] = (TQ3Uns32)temp8;
-			if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
-				goto cleanUp;
-			geomData.triangles[i].pointIndices[2] = (TQ3Uns32)temp8;
-			}
+	if(geomData.numPoints >= 0x00010000UL)
+		{
+		if (Q3Uns32_ReadArray(3*geomData.numTriangles, (TQ3Uns32*)geomData.triangles, theFile) != kQ3Success)
+			goto cleanUp;
+		}
+	else if(geomData.numPoints >= 0x00000100UL)
+		{
+		if (Q3Uns16_ReadArray(3*geomData.numTriangles, (TQ3Uns16*)geomData.triangles, theFile) != kQ3Success)
+			goto cleanUp;
+		e3read_3dmf_spreadarray_uns16to32( 3*geomData.numTriangles, geomData.triangles );
+		}
+	else	// geomData.numPoints <= 0x000000FFUL
+		{
+		if (Q3Uns8_ReadArray(3*geomData.numTriangles, (TQ3Uns8*)geomData.triangles, theFile) != kQ3Success)
+			goto cleanUp;
+		e3read_3dmf_spreadarray_uns8to32( 3*geomData.numTriangles, geomData.triangles );
+		}
 		
 	//================ read the edges
 	if(geomData.numEdges > 0){
 		geomData.edges = (TQ3TriMeshEdgeData *)Q3Memory_Allocate(sizeof(TQ3TriMeshEdgeData)*geomData.numEdges);
 		if(geomData.edges == NULL)
 			goto cleanUp;
-		if(geomData.numPoints >= 0x0000FFFFUL)
+		if(geomData.numPoints >= 0x00010000UL)
 			for(i = 0; i < geomData.numEdges; i++)
 				{
 				if(Q3Uns32_Read(&geomData.edges[i].pointIndices[0], theFile)!= kQ3Success)
@@ -3420,7 +3439,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 				if(Q3Uns32_Read(&geomData.edges[i].triangleIndices[1], theFile)!= kQ3Success)
 					goto cleanUp;
 				}
-		else if(geomData.numPoints >= 0x000000FFUL)
+		else if(geomData.numPoints >= 0x00000100UL)
 			for(i = 0; i < geomData.numEdges; i++)
 				{
 				if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
@@ -3470,12 +3489,8 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	geomData.points = (TQ3Point3D *)Q3Memory_Allocate(sizeof(TQ3Point3D)*geomData.numPoints);
 	if(geomData.points == NULL)
 		goto cleanUp;
-	ptIndex = geomData.points;
-	for(i = 0; i < geomData.numPoints; i++)
-		{
-		Q3Point3D_Read(ptIndex, theFile);
-		ptIndex++;
-		}
+	if (Q3Float32_ReadArray( geomData.numPoints * 3, (TQ3Float32*)geomData.points, theFile ) != kQ3Success)
+		goto cleanUp;
 
 	// ================ read the bBox
 	Q3Point3D_Read(&geomData.bBox.min, theFile);
