@@ -11,15 +11,15 @@
 		For example, to instantiate the TE3FooPool type (a pool of TE3Foo's
 		organized as blocks of 8 TE3Foo's each), do:
 
-			E3POOL_DECLARE(TE3Foo, E3Foo, static);
-			E3POOL_DEFINE (TE3Foo, E3Foo, static, 8);
+			E3POOL_DECLARE(TE3Foo, e3foo, static);
+			E3POOL_DEFINE (TE3Foo, e3foo, static, 8);
 
 		Instead of using Q3Memory_Allocate and Q3Memory_Free, you can use
-		E3FooPool_Allocate and E3FooPool_Free to allocate TE3Foo's from a
+		e3fooPool_Allocate and e3fooPool_Free to allocate TE3Foo's from a
 		particular TE3FooPool.
 
-		Like, Q3Memory_Allocate and Q3Memory_Free, E3FooPool_Allocate and
-		E3FooPool_Free are low-level memory management functions. Calling any
+		Like, Q3Memory_Allocate and Q3Memory_Free, e3fooPool_Allocate and
+		e3fooPool_Free are low-level memory management functions. Calling any
 		destructor for an object stored in a pool is the respronsibility of the
 		client.
 
