@@ -40,8 +40,9 @@
 #include <Folders.h>
 #include <agl.h>
 
-#include <Profiler.h>
-
+#if Q3_PROFILE
+	#include <Profiler.h>
+#endif
 
 
 
