@@ -296,7 +296,7 @@ e3shader_texture_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 
 
 	//duplicate the texture
-	E3Shared_Acquire(toInstanceData, *fromInstanceData);
+	*toInstanceData = Q3Object_Duplicate( *fromInstanceData );
 		
 	return(kQ3Success) ;
 }
