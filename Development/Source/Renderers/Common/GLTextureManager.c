@@ -147,7 +147,12 @@ gltexturemgr_InitList()
 {
 	if (sTextureCacheList == NULL)
 	{
-		sTextureCacheList = new TextureCacheList;
+		sTextureCacheList = new(std::nothrow) TextureCacheList;
+		
+		if (sTextureCacheList == NULL)
+		{
+			E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3True );
+		}
 	}
 }
 
@@ -166,21 +171,25 @@ gltexturemgr_FindContextInCacheList( TQ3GLContext context,
 	TQ3Status	status = kQ3Failure;
 	
 	gltexturemgr_InitList();
-	TextureCacheList::iterator	endList =  sTextureCacheList->end();
-	*outWhichTextureCache = endList;
 	
-	for (TextureCacheList::iterator	i = sTextureCacheList->begin(); i != endList; ++i)
+	if (sTextureCacheList != NULL)
 	{
-		GLContextVec::iterator	foundContextIt = std::find( i->glContexts.begin(),
-			i->glContexts.end(), context );
+		TextureCacheList::iterator	endList =  sTextureCacheList->end();
+		*outWhichTextureCache = endList;
 		
-		if (foundContextIt != i->glContexts.end())
+		for (TextureCacheList::iterator	i = sTextureCacheList->begin(); i != endList; ++i)
 		{
-			if (outWhichContext != NULL)
-				*outWhichContext = foundContextIt;
-			*outWhichTextureCache = i;
-			status = kQ3Success;
-			break;
+			GLContextVec::iterator	foundContextIt = std::find( i->glContexts.begin(),
+				i->glContexts.end(), context );
+			
+			if (foundContextIt != i->glContexts.end())
+			{
+				if (outWhichContext != NULL)
+					*outWhichContext = foundContextIt;
+				*outWhichTextureCache = i;
+				status = kQ3Success;
+				break;
+			}
 		}
 	}
 	
@@ -215,24 +224,27 @@ TQ3GLContext		GLTextureMgr_GetNextSharingBase( TQ3GLContext glBase )
 	{
 		gltexturemgr_InitList();
 		
-		if (glBase == NULL)
+		if (sTextureCacheList != NULL)
 		{
-			if (! sTextureCacheList->empty())
+			if (glBase == NULL)
 			{
-				Q3_ASSERT( ! sTextureCacheList->front().glContexts.empty() );
-				nextContext = sTextureCacheList->front().glContexts[ 0 ];
-			}
-		}
-		else
-		{
-			TextureCacheList::iterator	theCacheIt;
-			
-			if (kQ3Success == gltexturemgr_FindContextInCacheList( glBase, &theCacheIt ))
-			{
-				++theCacheIt;
-				if (theCacheIt != sTextureCacheList->end())
+				if (! sTextureCacheList->empty())
 				{
-					nextContext = theCacheIt->glContexts[ 0 ];
+					Q3_ASSERT( ! sTextureCacheList->front().glContexts.empty() );
+					nextContext = sTextureCacheList->front().glContexts[ 0 ];
+				}
+			}
+			else
+			{
+				TextureCacheList::iterator	theCacheIt;
+				
+				if (kQ3Success == gltexturemgr_FindContextInCacheList( glBase, &theCacheIt ))
+				{
+					++theCacheIt;
+					if (theCacheIt != sTextureCacheList->end())
+					{
+						nextContext = theCacheIt->glContexts[ 0 ];
+					}
 				}
 			}
 		}
@@ -269,26 +281,29 @@ void				GLTextureMgr_AddContext( TQ3GLContext newGLContext,
 	{
 		gltexturemgr_InitList();
 		
-		if (sharingBase != NULL)
+		if (sTextureCacheList != NULL)
 		{
-			TextureCacheList::iterator	cacheIt;
-			
-			if (kQ3Success == gltexturemgr_FindContextInCacheList( sharingBase, &cacheIt ))
+			if (sharingBase != NULL)
 			{
-				theCache = &*cacheIt;
+				TextureCacheList::iterator	cacheIt;
+				
+				if (kQ3Success == gltexturemgr_FindContextInCacheList( sharingBase, &cacheIt ))
+				{
+					theCache = &*cacheIt;
+				}
 			}
-		}
-		
-		if (theCache == NULL)
-		{
-			TQ3TextureCache	newCache;
-			sTextureCacheList->push_back( newCache );
-			theCache = &(sTextureCacheList->back());
-		}
-		
-		if (theCache != NULL)
-		{
-			theCache->glContexts.push_back( newGLContext );
+			
+			if (theCache == NULL)
+			{
+				TQ3TextureCache	newCache;
+				sTextureCacheList->push_back( newCache );
+				theCache = &(sTextureCacheList->back());
+			}
+			
+			if (theCache != NULL)
+			{
+				theCache->glContexts.push_back( newGLContext );
+			}
 		}
 	}
 	catch (...)
@@ -347,12 +362,15 @@ TQ3Boolean			GLTextureMgr_IsValidTextureCache( TQ3TextureCachePtr txCache )
 	{
 		gltexturemgr_InitList();
 		
-		MatchCachePtr	matcher( txCache );
-		
-		if (std::find_if( sTextureCacheList->begin(), sTextureCacheList->end(), matcher ) !=
-			sTextureCacheList->end())
+		if (sTextureCacheList != NULL)
 		{
-			isValid = kQ3True;
+			MatchCachePtr	matcher( txCache );
+			
+			if (std::find_if( sTextureCacheList->begin(), sTextureCacheList->end(), matcher ) !=
+				sTextureCacheList->end())
+			{
+				isValid = kQ3True;
+			}
 		}
 	}
 	catch (...)
