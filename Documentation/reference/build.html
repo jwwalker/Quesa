@@ -187,6 +187,15 @@ find useful when adding code to Quesa:
 		after statements, or declarations within for/while loop containers.
 		<br>
 		<br>
+		Note that the one exception to this rule is for platform specific directories, where
+		code may need to be written in other languages (C++, Objective-C, etc) in order
+		to talk to the underlying platform API.
+		<br>
+		<br>
+		However, the majority of the code within the platform specific directories should
+		be written in ANSI C if possible.
+		<br>
+		<br>
 
 	<li>Floating point constants should have an 'f' suffix (e.g., "1.0f" rather than
 		"1.0"). This is because floating point constants are actually doubles under ANSI
