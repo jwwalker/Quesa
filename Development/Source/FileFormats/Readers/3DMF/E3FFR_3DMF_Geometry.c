@@ -1836,6 +1836,10 @@ E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile)
 				geomData.faceAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
 				Q3Object_Dispose(childObject);
 				}
+			else if(Q3Object_IsType (childObject, kQ3AttributeSetTypeInteriorCap)){
+				geomData.interiorAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Object_Dispose(childObject);
+				}
 			else if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.cylinderAttributeSet = childObject;
 			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
@@ -1914,6 +1918,12 @@ E3Read_3DMF_Geom_Cylinder_Default(TQ3FileObject theFile)
 			else if(Q3Object_IsType (childObject, kQ3AttributeSetTypeFaceCap)){
 				attSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
 				Q3Cylinder_SetFaceAttributeSet( theObject, attSet );
+				Q3Object_Dispose( childObject );
+				Q3Object_Dispose( attSet );
+				}
+			else if(Q3Object_IsType (childObject, kQ3AttributeSetTypeInteriorCap)){
+				attSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Cylinder_SetInteriorAttributeSet( theObject, attSet );
 				Q3Object_Dispose( childObject );
 				Q3Object_Dispose( attSet );
 				}

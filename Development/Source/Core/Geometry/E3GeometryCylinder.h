@@ -78,6 +78,8 @@ TQ3Status			E3Cylinder_SetBottomAttributeSet(TQ3GeometryObject theCylinder, TQ3A
 TQ3Status			E3Cylinder_GetBottomAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *bottomAttributeSet);
 TQ3Status			E3Cylinder_SetFaceAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet faceAttributeSet);
 TQ3Status			E3Cylinder_GetFaceAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *faceAttributeSet);
+TQ3Status			E3Cylinder_SetInteriorAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet intAttributeSet);
+TQ3Status			E3Cylinder_GetInteriorAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *intAttributeSet);
 TQ3Status			E3Cylinder_EmptyData(TQ3CylinderData *cylinderData);
 
 

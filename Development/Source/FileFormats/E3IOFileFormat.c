@@ -588,17 +588,22 @@ E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject format,char* buf
 
 	dataRead = (TQ3XStorageReadDataMethod)
 					E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageReadData);
+	
+	// The read method may post an error if we try to read beyond the end of file
+	maxLen = E3Num_Min( maxLen, instanceData->logicalEOF - instanceData->currentStoragePosition );
 
-	if( dataRead != NULL)
-			found = kQ3False;
-			result = dataRead(instanceData->storage,
-							instanceData->currentStoragePosition,
-							maxLen, (TQ3Uns8*)buffer, &sizeRead); // read all the data at once
+	if( (dataRead != NULL) && (maxLen > 0) )
+		{
+		found = kQ3False;
+		result = dataRead(instanceData->storage,
+						instanceData->currentStoragePosition,
+						maxLen, (TQ3Uns8*)buffer, &sizeRead); // read all the data at once
 			
 		while((result == kQ3Success)
 				&& (instanceData->currentStoragePosition < instanceData->logicalEOF) 
 				&& (index < sizeRead) 
-				 ){
+				 )
+			{
 			instanceData->currentStoragePosition ++;
 			
 			for(i = 0; i< numChars; i++)
@@ -622,6 +627,7 @@ E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject format,char* buf
 				}
 			
 			};
+		}
 
 	if(charsRead)
 		*charsRead = index;

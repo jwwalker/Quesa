@@ -1099,18 +1099,13 @@ e3ffw_3DMF_subdivision_traverse( TQ3Object object,
 					 void *data,
 					 TQ3ViewObject view)
 {
+	const TQ3SubdivisionStyleData*		styleData = (const TQ3SubdivisionStyleData*) data;
 	TQ3Status	status;
-	TQ3SubdivisionStyleData		styleData;
 	
-	status = Q3SubdivisionStyle_GetData( object, &styleData );
-	
-	if (status == kQ3Success)
-		{
-		if (styleData.method == kQ3SubdivisionMethodConstant)
-			status = Q3XView_SubmitWriteData( view, 12, data, NULL );
-		else
-			status = Q3XView_SubmitWriteData( view, 8, data, NULL );
-		}
+	if (styleData->method == kQ3SubdivisionMethodConstant)
+		status = Q3XView_SubmitWriteData( view, 12, data, NULL );
+	else
+		status = Q3XView_SubmitWriteData( view, 8, data, NULL );
 	
 	return status;
 }
@@ -1900,6 +1895,14 @@ e3ffw_3DMF_cylinder_traverse( TQ3Object object,
 	{
 		status = E3FileFormat_Method_SubmitObject( view, NULL,
 			kQ3AttributeSetTypeTopCap, data->topAttributeSet );
+	}
+	
+	// optional interior cap attribute set
+	if ( (status == kQ3Success) && (data->interiorAttributeSet != NULL) &&
+		((data->caps & kQ3EndCapMaskInterior) != 0) )
+	{
+		status = E3FileFormat_Method_SubmitObject( view, NULL,
+			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
 	}
 	
 	// Overall attribute set

@@ -2338,6 +2338,83 @@ Q3Cylinder_GetFaceAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet *face
 
 
 //=============================================================================
+//      Q3Cylinder_SetInteriorAttributeSet : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Cylinder_SetInteriorAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet intAttributeSet)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(cylinder->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, kQ3ShapeTypeGeometry), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on cylinder
+		return(kQ3Failure);
+
+	if (0) // Further checks on faceAttributeSet
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Cylinder_SetInteriorAttributeSet(cylinder, intAttributeSet));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Cylinder_GetInteriorAttributeSet : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Cylinder_GetInteriorAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet *intAttributeSet)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(cylinder->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, kQ3ShapeTypeGeometry), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(intAttributeSet), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on cylinder
+		return(kQ3Failure);
+
+	if (0) // Further checks on faceAttributeSet
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Cylinder_GetInteriorAttributeSet(cylinder, intAttributeSet));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3Cylinder_EmptyData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status

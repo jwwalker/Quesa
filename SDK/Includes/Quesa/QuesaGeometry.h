@@ -241,8 +241,7 @@ typedef struct TQ3ConeData {
  *										base to the other end.  Typically 1.
  *	@field		caps					End cap masks, determining whether the cylinder is
  *										closed on one end, the other, or both.
- *	@field		interiorAttributeSet	Interior attributes.  Currently unused by Quesa
- *										rendering, so leave it NULL.
+ *	@field		interiorAttributeSet	Interior attributes.  May be NULL.  Unused by QD3D.
  *	@field		topAttributeSet			Attributes that affect the top end cap.  May be NULL.
  *	@field		faceAttributeSet		Attributes that affect the face but not the bottom or top.
  *										May be NULL.
@@ -2460,6 +2459,55 @@ Q3Cylinder_GetFaceAttributeSet (
     TQ3GeometryObject             cylinder,
     TQ3AttributeSet               *faceAttributeSet
 );
+
+
+
+/*!
+ *  @function
+ *      Q3Cylinder_SetInteriorAttributeSet
+ *  @discussion
+ *      Set the attribute set for the interior of a cylinder object (which only shows
+ *		when the u parameter does not have the full range 0 to 1).
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param cylinder         A cylinder object.
+ *  @param faceAttributeSet New attribute set for the interior of the cylinder.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Cylinder_SetInteriorAttributeSet (
+    TQ3GeometryObject             cylinder,
+    TQ3AttributeSet               interiorAttributeSet
+);
+
+#endif	// QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3Cylinder_GetInteriorAttributeSet
+ *  @discussion
+ *      Get the attribute set for the interior of a cylinder object.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param cylinder         A cylinder object.
+ *  @param faceAttributeSet Receives the attribute set for the interior, or NULL.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Cylinder_GetInteriorAttributeSet (
+    TQ3GeometryObject             cylinder,
+    TQ3AttributeSet               *interiorAttributeSet
+);
+
+#endif	// QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
