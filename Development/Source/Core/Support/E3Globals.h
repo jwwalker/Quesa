@@ -274,6 +274,7 @@ extern "C" {
 #define kQ3XMethodTypeRendererMethodsCached			Q3_METHOD_TYPE('Q', 'r', 'm', 'c')
 #define kQ3XMethodTypeTextureDimensions				Q3_METHOD_TYPE('Q', 't', 'd', 'm')
 #define kQ3XMethodTypeGeomGetAttribute				Q3_METHOD_TYPE('Q', 'g', 'g', 'a')
+#define kQ3XMethodTypeGeomGetPublicData				Q3_METHOD_TYPE('Q', 'g', 'p', 'u')
 #define kQ3XMethodTypeGeomUsesSubdivision			Q3_METHOD_TYPE('Q', 'g', 'u', 's')
 #define kQ3XMethodTypeGeomUsesOrientation			Q3_METHOD_TYPE('Q', 'g', 'u', 'o')
 #define kQ3XMethodTypeGeomCacheNew					Q3_METHOD_TYPE('Q', 'g', 'c', 'n')
@@ -332,6 +333,7 @@ typedef Q3_CALLBACK_API_C(void,		TQ3XTextureDimensionsMethod)(TQ3TextureObject t
 
 // Geometry methods
 typedef Q3_CALLBACK_API_C(TQ3AttributeSet *,	TQ3XGeomGetAttributeMethod)(TQ3GeometryObject theObject);
+typedef Q3_CALLBACK_API_C(const void *,			TQ3XGeomGetPublicDataMethod)(TQ3GeometryObject theObject);
 typedef Q3_CALLBACK_API_C(TQ3Object,			TQ3XGeomCacheNewMethod)(TQ3ViewObject		theView,
 																	TQ3GeometryObject	theGeom,
 																	const void			*geomData);
