@@ -127,24 +127,15 @@ typedef struct TQ3OrderedDisplayGroupData {
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3GroupData				*instanceData = (TQ3GroupData *) privateData;
-	E3ClassInfoPtr				theClass;
-
-#pragma unused(privateData, paramData)
-
-
-	// Find the group class	
-	theClass = E3ClassTree_GetClassByType(Q3Object_GetLeafType (theObject));
-	if (theClass == NULL)
-		return(kQ3Failure);
-
-
+{
+#pragma unused(paramData)
+	TQ3GroupData				*instanceData = (TQ3GroupData *) privateData;
 
 	// Initialise our instance data
 	instanceData->listHead.next        = &instanceData->listHead;
 	instanceData->listHead.prev        = &instanceData->listHead;
 	instanceData->listHead.object      = theObject; // points to itself but never used
-	instanceData->groupPositionSize    = (TQ3Uns32) E3ClassTree_GetMethod(theClass, kQ3XMethodType_GroupPositionSize);
+	instanceData->groupPositionSize    = sizeof( TQ3GroupPosition );
 
 	return(kQ3Success);
 }
@@ -614,6 +605,54 @@ e3group_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType)
 
 
 //=============================================================================
+//      e3group_duplicate : Group duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3group_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
+					TQ3Object toObject,   void  * toPrivateData)
+{
+	TQ3GroupData*	toInstanceData = (TQ3GroupData*) toPrivateData;
+	const TQ3GroupData*	fromInstanceData = (const TQ3GroupData*) fromPrivateData;
+	TQ3Status	status = kQ3Success;
+	const TQ3XGroupPosition*	pos;
+	TQ3Object	dupObject;
+	
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromObject),      kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromPrivateData), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toObject),        kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toPrivateData),   kQ3Failure);
+	
+	// Initialise our instance data
+	e3group_new( toObject, toInstanceData, NULL );
+	
+	// Loop through the members of the "from" group, duplicating and adding to "to"
+	for (pos = fromInstanceData->listHead.next; pos != &fromInstanceData->listHead;
+		pos = pos->next)
+	{
+		dupObject = Q3Object_Duplicate( pos->object );
+		if (dupObject == NULL)
+		{
+			status = kQ3Failure;
+			break;
+		}
+		e3group_addobject( toObject, dupObject );
+	}
+	
+	// If the operation failed, we need to clean up.
+	if (status == kQ3Failure)
+	{
+		e3group_emptyobjectsoftype( toObject, kQ3ObjectTypeShared );
+	}
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
 //      e3group_getfirstobjectposition : Group get first object position method.
 //-----------------------------------------------------------------------------
 //		Note : Finds the position of the object starting at the beginning
@@ -1025,6 +1064,10 @@ e3group_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3group_delete;
 			break;
 		
+		case kQ3XMethodTypeObjectDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3group_duplicate;
+			break;
+		
 		//-----------------------------------------------------------------------------
 
 		case kQ3XMethodType_GroupAcceptObject:
@@ -1201,7 +1244,7 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 				break;
 			
 			case kQ3ViewModeCalcBounds:
-				shouldSubmit = !E3Bit_Test(theState, kQ3DisplayGroupStateMaskIsNotForBounding);
+				shouldSubmit = (TQ3Boolean)!E3Bit_Test(theState, kQ3DisplayGroupStateMaskIsNotForBounding);
 				break;
 
 			default:
@@ -1244,6 +1287,8 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 
 
 
+
+
 //=============================================================================
 //      e3group_display_acceptobject : Group accept object method.
 //-----------------------------------------------------------------------------
@@ -1256,6 +1301,9 @@ e3group_display_acceptobject(TQ3GroupObject group, TQ3Object object)
 	return (TQ3Boolean) (Q3Object_IsDrawable( object ) &&
 		(Q3Object_GetType (object) == kQ3ObjectTypeShared));
 }
+
+
+
 
 
 //=============================================================================
@@ -1293,9 +1341,10 @@ e3group_display_metahandler(TQ3XMethodType methodType)
 }
 
 
+
+
+
 #pragma mark -
-
-
 //=============================================================================
 //      e3group_display_ordered_simpletypetoindex :
 //			Convert one of the types that can be returned by e3group_display_ordered_gettype
@@ -1338,6 +1387,10 @@ static TQ3XOrderIndex	e3group_display_ordered_simpletypetoindex( TQ3ObjectType o
 	return theIndex;
 }
 
+
+
+
+
 //=============================================================================
 //      e3group_display_ordered_typetoindex :
 //			Convert a type to an index into our array of linked lists,
@@ -1367,6 +1420,10 @@ static TQ3XOrderIndex	e3group_display_ordered_typetoindex( TQ3ObjectType objectT
 	return theIndex;
 }
 
+
+
+
+
 //=============================================================================
 //      e3group_display_new : Display group new method.
 //-----------------------------------------------------------------------------
@@ -1392,6 +1449,9 @@ e3group_display_ordered_new(TQ3Object theObject, void *privateData, const void *
 }
 
 
+
+
+
 //=============================================================================
 //      e3group_display_ordered_gettype
 //-----------------------------------------------------------------------------
@@ -1408,6 +1468,10 @@ e3group_display_ordered_gettype( TQ3Object inObject )
 	
 	return theType;
 }
+
+
+
+
 
 //=============================================================================
 //      e3group_display_ordered_getlistindex
@@ -1428,6 +1492,8 @@ e3group_display_ordered_getlistindex( TQ3Object inObject )
 	}
 	return theIndex;
 }
+
+
 
 
 
@@ -1487,6 +1553,8 @@ e3group_display_ordered_addbefore(TQ3GroupObject group, TQ3GroupPosition positio
 
 
 
+
+
 //=============================================================================
 //      e3group_display_ordered_addafter : Add after object method.
 //-----------------------------------------------------------------------------
@@ -1530,6 +1598,9 @@ e3group_display_ordered_setposition(TQ3GroupObject group, TQ3GroupPosition posit
 }
 
 
+
+
+
 //=============================================================================
 //      e3group_display_ordered_findfirsttypeonlist :
 //			Find the first position with the given type in one of our
@@ -1555,6 +1626,10 @@ e3group_display_ordered_findfirsttypeonlist( TQ3OrderedDisplayGroupData* inInsta
 	return theStatus;
 }
 
+
+
+
+
 //=============================================================================
 //      e3group_display_ordered_findlasttypeonlist :
 //			Find the last position with the given type in one of our
@@ -1579,6 +1654,11 @@ e3group_display_ordered_findlasttypeonlist( TQ3OrderedDisplayGroupData* inInstan
 	}
 	return theStatus;
 }
+
+
+
+
+
 //=============================================================================
 //      e3group_display_ordered_getfirstpositionoftype :
 //			Ordered Display Group get first position of type method.
@@ -1590,7 +1670,7 @@ e3group_display_ordered_getfirstpositionoftype(TQ3GroupObject group, TQ3ObjectTy
 	TQ3Status	theStatus = kQ3Failure;
 	TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
 		E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
-	TQ3XOrderIndex	theIndex = e3group_display_ordered_typetoindex( isType );
+	TQ3Int32	theIndex = e3group_display_ordered_typetoindex( isType );
 	*position = NULL;
 	if (instanceData != NULL)
 	{
@@ -1602,23 +1682,27 @@ e3group_display_ordered_getfirstpositionoftype(TQ3GroupObject group, TQ3ObjectTy
 		else
 		{
 			theStatus = e3group_display_ordered_findfirsttypeonlist( instanceData,
-				theIndex, isType, position );
+				(TQ3XOrderIndex)theIndex, isType, position );
 		}
 		
 		// Search later lists if appropriate
 		if ( (theIndex == kQ3XOrderIndex_All) && (theStatus == kQ3Failure) )
 		{
-			for (theIndex = (TQ3XOrderIndex)(kQ3XOrderIndex_First + 1); (theIndex <= kQ3XOrderIndex_Last) &&
+			for (theIndex = kQ3XOrderIndex_First + 1; (theIndex <= kQ3XOrderIndex_Last) &&
 				(theStatus == kQ3Failure); ++theIndex)
 			{
 				theStatus = e3group_display_ordered_findfirsttypeonlist( instanceData,
-					theIndex, isType, position );
+					(TQ3XOrderIndex)theIndex, isType, position );
 			}
 		}
 		theStatus = kQ3Success;
 	}
 	return theStatus;
 }
+
+
+
+
 
 //=============================================================================
 //      e3group_display_ordered_getlastpositionoftype :
@@ -1631,7 +1715,7 @@ e3group_display_ordered_getlastpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 	TQ3Status	theStatus = kQ3Failure;
 	TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
 		E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
-	TQ3XOrderIndex	theIndex = e3group_display_ordered_typetoindex( isType );
+	TQ3Int32	theIndex = e3group_display_ordered_typetoindex( isType );
 	*position = NULL;
 	if (instanceData != NULL)
 	{
@@ -1643,23 +1727,26 @@ e3group_display_ordered_getlastpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 		else
 		{
 			theStatus = e3group_display_ordered_findlasttypeonlist( instanceData,
-				theIndex, isType, position );
+				(TQ3XOrderIndex)theIndex, isType, position );
 		}
 		
 		// Search earlier lists if appropriate
 		if ( (theIndex == kQ3XOrderIndex_All) && (theStatus == kQ3Failure) )
 		{
-			for (theIndex = (TQ3XOrderIndex)(kQ3XOrderIndex_Last - 1); (theIndex >= kQ3XOrderIndex_First) &&
+			for (theIndex = kQ3XOrderIndex_Last - 1; (theIndex >= kQ3XOrderIndex_First) &&
 				(theStatus == kQ3Failure); --theIndex)
 			{
 				theStatus = e3group_display_ordered_findlasttypeonlist( instanceData,
-					theIndex, isType, position );
+					(TQ3XOrderIndex)theIndex, isType, position );
 			}
 		}
 		theStatus = kQ3Success;
 	}
 	return theStatus;
 }
+
+
+
 
 
 //=============================================================================
@@ -1679,7 +1766,7 @@ e3group_display_ordered_getnextpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 	if ( (instanceData != NULL) && (pos != NULL) )
 	{
 		// Is the position in the right linked list?
-		TQ3XOrderIndex	startIndex = e3group_display_ordered_getlistindex( pos->object );
+		TQ3Int32	startIndex = e3group_display_ordered_getlistindex( pos->object );
 		TQ3XGroupPosition*	listHead;
 		if ( (startIndex == requestIndex) || (requestIndex == kQ3XOrderIndex_All) )
 		{
@@ -1715,7 +1802,7 @@ e3group_display_ordered_getnextpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 				(theStatus == kQ3Failure); ++startIndex)
 			{
 				theStatus = e3group_display_ordered_findfirsttypeonlist( instanceData,
-					startIndex, isType, position );
+					(TQ3XOrderIndex)startIndex, isType, position );
 			}
 		}
 		
@@ -1725,6 +1812,10 @@ e3group_display_ordered_getnextpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 	}
 	return theStatus;
 }
+
+
+
+
 
 //=============================================================================
 //      e3group_display_ordered_getprevpositionoftype :
@@ -1743,7 +1834,7 @@ e3group_display_ordered_getprevpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 	if ( (instanceData != NULL) && (pos != NULL) )
 	{
 		// Is the position in the right linked list?
-		TQ3XOrderIndex	startIndex = e3group_display_ordered_getlistindex( pos->object );
+		TQ3Int32	startIndex = e3group_display_ordered_getlistindex( pos->object );
 		TQ3XGroupPosition*	listHead;
 		if ( (startIndex == requestIndex) || (requestIndex == kQ3XOrderIndex_All) )
 		{
@@ -1795,6 +1886,10 @@ e3group_display_ordered_getprevpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 	return theStatus;
 }
 
+
+
+
+
 //=============================================================================
 //      e3group_display_ordered_countobjectsoftype :
 //			Ordered Display count objects of type method.
@@ -1820,6 +1915,10 @@ e3group_display_ordered_countobjectsoftype(TQ3GroupObject group, TQ3ObjectType i
 	return theStatus;
 }
 
+
+
+
+
 //=============================================================================
 //      e3group_display_ordered_emptyobjectsoftype :
 //			Ordered Display empty objects of type method.
@@ -1844,6 +1943,71 @@ e3group_display_ordered_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType i
 	}
 	return kQ3Success;
 }
+
+
+
+
+
+//=============================================================================
+//      e3group_display_ordered_duplicate : Ordered display group duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3group_display_ordered_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
+									TQ3Object toObject,   void  * toPrivateData)
+{
+	TQ3OrderedDisplayGroupData*	toInstanceData = (TQ3OrderedDisplayGroupData*) toPrivateData;
+	const TQ3OrderedDisplayGroupData*	fromInstanceData =
+		(const TQ3OrderedDisplayGroupData*) fromPrivateData;
+	TQ3Status	status = kQ3Success;
+	const TQ3XGroupPosition*	pos;
+	TQ3Object	dupObject;
+	TQ3Int32	i;
+	const TQ3XGroupPosition*	fromListHead;
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromObject),      kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromPrivateData), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toObject),        kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toPrivateData),   kQ3Failure);
+
+	// Initialise our instance data
+	e3group_display_ordered_new( toObject, toInstanceData, NULL );
+	
+	// Loop through the members of the "from" group, duplicating and adding to "to"
+	for (i = 0; i < kQ3XOrderIndex_Count; ++i)
+	{
+		fromListHead = &fromInstanceData->listHeads[i];
+		
+		for (pos = fromListHead->next; pos != fromListHead;
+			pos = pos->next)
+		{
+			dupObject = Q3Object_Duplicate( pos->object );
+			if (dupObject == NULL)
+			{
+				status = kQ3Failure;
+				break;
+			}
+			e3group_display_ordered_addobject( toObject, dupObject );
+		}
+		
+		if (status == kQ3Failure)
+		{
+			break;
+		}
+	}
+	
+	// If we failed, clean up.
+	if (status == kQ3Failure)
+	{
+		e3group_display_ordered_emptyobjectsoftype( toObject, kQ3ObjectTypeShared );
+	}
+	
+	return status;
+}
+
+
+
+
 
 //=============================================================================
 //      e3group_display_ordered_getfirstobjectposition :
@@ -1876,6 +2040,10 @@ e3group_display_ordered_getfirstobjectposition(TQ3GroupObject group, TQ3Object o
 	return theStatus;
 }
 
+
+
+
+
 //=============================================================================
 //      e3group_display_ordered_getlastobjectposition :
 //			Ordered Display get last object position method.
@@ -1906,6 +2074,10 @@ e3group_display_ordered_getlastobjectposition(TQ3GroupObject group, TQ3Object ob
 	}
 	return theStatus;
 }
+
+
+
+
 
 //=============================================================================
 //      e3group_display_ordered_getnextobjectposition :
@@ -1953,6 +2125,9 @@ e3group_display_ordered_getnextobjectposition(TQ3GroupObject group, TQ3Object ob
 }
 
 
+
+
+
 //=============================================================================
 //      e3group_display_ordered_getprevobjectposition : Get previous object position method.
 //-----------------------------------------------------------------------------
@@ -1997,6 +2172,10 @@ e3group_display_ordered_getprevobjectposition(TQ3GroupObject group, TQ3Object ob
 	return theStatus;
 }
 
+
+
+
+
 //=============================================================================
 //      e3group_display_ordered_metahandler : Ordered display metahandler.
 //-----------------------------------------------------------------------------
@@ -2019,6 +2198,10 @@ e3group_display_ordered_metahandler(TQ3XMethodType methodType)
 			// the group.
 			break;		
 
+		case kQ3XMethodTypeObjectDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3group_display_ordered_duplicate;
+			break;
+		
 		case kQ3XMethodType_GroupAddObject:
 			theMethod = (TQ3XFunctionPointer) e3group_display_ordered_addobject;
 			break;
