@@ -655,6 +655,9 @@ Q3Vector3D_Dot (
  *      with an array of TQ3Booleans indicating which dot products are less than
  *      zero.
  *
+ *      At least one of dotProducts or dotLessThanZero must be non-NULL, however
+ *      one parameter may be set to NULL if that information is not required.
+ *
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param numVectors       The number of vectors to process.

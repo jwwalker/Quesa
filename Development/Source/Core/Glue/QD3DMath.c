@@ -1075,8 +1075,15 @@ Q3Vector3D_DotArray(TQ3Uns32				numVectors,
 	Q3_REQUIRE_OR_RESULT(numVectors != 0,               kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstVectors),    kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(secondVectors),   kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dotProducts),     kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dotLessThanZero), kQ3Failure);
+	
+	if (dotProducts != NULL)
+		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dotProducts), kQ3Failure);
+	
+	if (dotLessThanZero != NULL)
+		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dotLessThanZero), kQ3Failure);
+	
+	if (dotProducts == NULL && dotLessThanZero == NULL)
+		return(kQ3Failure);
 
 
 
