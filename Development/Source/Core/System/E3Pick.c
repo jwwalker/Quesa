@@ -1305,11 +1305,11 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 					{
 					// Stop when we find a node further away
 					if (sortType == kQ3PickSortNearToFar)
-						foundHit = (currentHit->hitDistance > theHit->hitDistance);
+						foundHit = (TQ3Boolean)(currentHit->hitDistance > theHit->hitDistance);
 
 					// Or stop when we find a node that's closer
 					else
-						foundHit = (currentHit->hitDistance < theHit->hitDistance);
+						foundHit = (TQ3Boolean)(currentHit->hitDistance < theHit->hitDistance);
 					}
 
 
