@@ -99,14 +99,6 @@ typedef struct TQ3TransparentPrim {
 	TQ3FVertex3D			theVertices[3];
 	TQ3Point3D				frustumSpaceVerts[3];
 
-	// Sorting
-	float					xMin, xMax;
-	float					yMin, yMax;
-	float					zMin, zMax;
-	TQ3Vector3D				cameraSide;
-	TQ3Boolean				planeIsValid;
-	float					planeConstant;
-
 	// State
 	GLuint					theTexture;
 	TQ3Boolean				textureIsTransparent;
