@@ -59,7 +59,27 @@
 	#endif
 #endif
 
+#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
+#include <math.h>
+#endif
 
+// ANSI C does not allow anonymous function parameters.
+// However the Metrowerks compiler uses these to identify
+// unused parameters, to avoid warnings.  As a compromise,
+// we define these macros so we can have it both ways.
+#if defined(__MWERKS__)
+#define _unused1
+#define _unused2
+#define _unused3
+#define _unused4
+#define _unused5
+#else
+#define _unused1 unused1
+#define _unused2 unused2
+#define _unused3 unused3
+#define _unused4 unused4
+#define _unused5 unused5
+#endif
 
 
 
@@ -84,7 +104,7 @@
 	#endif
 #else
 	#ifndef TQ3Rect
-		#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
+		#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 			#define TQ3Rect		RECT
 		#else
 			#define TQ3Rect		TQ3Area
@@ -276,81 +296,81 @@ OSGetDelta (float* x, float*y, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 pa
 #pragma mark { Default methods }
 
 
-static TQ3Status NewTool (TQ3Object, void*, const void*)
+static TQ3Status NewTool (TQ3Object _unused1, void* _unused2, const void* _unused3)
 	{
 	return kQ3Success;
 	}
 
 
-static TQ3Status DeleteTool (TQ3Object, void*)
+static TQ3Status DeleteTool (TQ3Object _unused1, void* _unused2)
 	{
 	return kQ3Success;
 	}
 
 
-static TQ3Status DrawTool (TQ3ViewerObject, TQ3SharedObject, TQ3Area* area)
+static TQ3Status DrawTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Area* area)
 	{
 	return DrawOSTool (area, kDefaultIcon);
 	}
 
 
-static TQ3Status DoToolStart (TQ3ViewerObject, TQ3SharedObject, TQ3Point2D* pt)
+static TQ3Status DoToolStart (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Point2D* pt)
 	{
 	gStartPt = *pt;
 	return kQ3Success;
 	}
 
 
-static TQ3Status DoToolTracking (TQ3ViewerObject, TQ3SharedObject, TQ3Point2D*) // all tools should override this method
+static TQ3Status DoToolTracking (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Point2D* _unused3) // all tools should override this method
 	{
 	return kQ3Failure; // stops tracking
 	}
 
 
-static TQ3Status DoToolEnd (TQ3ViewerObject, TQ3SharedObject, TQ3Point2D*)
+static TQ3Status DoToolEnd (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Point2D* _unused3)
 	{
 	return kQ3Success;
 	}
 
 
-static TQ3Status ToolAdjustCursor (TQ3ViewerObject, TQ3SharedObject, TQ3Point2D*)
+static TQ3Status ToolAdjustCursor (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Point2D* _unused3)
 	{
 	SetOSCursor (kArrowCursor);
 	return kQ3Success;
 	}
 
 
-static TQ3Status UnclickTool (TQ3ViewerObject, TQ3SharedObject)
+static TQ3Status UnclickTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2)
 	{
 	return kQ3Success;
 	}
 
 
-static TQ3Status ClickTool (TQ3ViewerObject, TQ3SharedObject)
+static TQ3Status ClickTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2)
 	{
 	return kQ3Success;
 	}
 
 
-static TQ3Status DoubleClickTool (TQ3ViewerObject, TQ3SharedObject)
+static TQ3Status DoubleClickTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2)
 	{
 	return kQ3Failure; // do not change this as tools that popup menus rely on this to return failure
 	}
 
 
-static TQ3Status DoToolEvent (TQ3ViewerObject, TQ3SharedObject, TQ3EventRecord*, TQ3Int32, TQ3Int32)
+static TQ3Status DoToolEvent (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3EventRecord* _unused3, TQ3Int32 _unused4, TQ3Int32 _unused5)
 	{
 	return kQ3Success; // allow the event to pass on
 	}
 
 
-static TQ3Status DoToolKeyDown (TQ3ViewerObject, TQ3SharedObject, TQ3EventRecord*, TQ3Int32, TQ3Int32)
+static TQ3Status DoToolKeyDown (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3EventRecord* _unused3, TQ3Int32 _unused4, TQ3Int32 _unused5)
 	{
 	return kQ3Failure; // did not handle it
 	}
 
 
-static TQ3Status GetHelpString (TQ3ViewerObject, TQ3SharedObject, Str255 helpString)
+static TQ3Status GetHelpString (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, Str255 helpString)
 	{
 	return GetOSHelpString (kDefaultStrID, helpString);
 	}
@@ -407,7 +427,7 @@ TQ3XFunctionPointer BaseToolMetaHandler (TQ3XMethodType methodType)
 #pragma mark { Camera Tool }
 
 
-static TQ3Status CameraClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
+static TQ3Status CameraClickTool (TQ3ViewerObject theViewer, TQ3SharedObject _unused1)
 	{
 	TQ3Rect r;
 	if (Q3ViewerGetButtonRect (theViewer, Q3ViewerGetCurrentButton (theViewer), &r) == kQ3GoodResult)
@@ -420,13 +440,13 @@ static TQ3Status CameraClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 	}
 
 
-static TQ3Status CameraDrawTool (TQ3ViewerObject, TQ3SharedObject, TQ3Area* area)
+static TQ3Status CameraDrawTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Area* area)
 	{
 	return DrawOSTool (area, kCameraIcon);
 	}
 
 
-static TQ3Status CameraGetHelpString (TQ3ViewerObject, TQ3SharedObject, Str255 helpString)
+static TQ3Status CameraGetHelpString (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, Str255 helpString)
 	{
 	return GetOSHelpString (kCameraStrID, helpString);
 	}
@@ -501,7 +521,7 @@ static TQ3Status DoDollyToolMove (TQ3ViewerObject theViewer, TQ3Point2D* delta)
 	}
 
 
-static TQ3Status DoDollyToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
+static TQ3Status DoDollyToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject _unused1, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
 	{
 	TQ3Point2D delta;
 	OSGetDelta (&delta.x, &delta.y, evt, param1, param2);
@@ -509,7 +529,7 @@ static TQ3Status DoDollyToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject,
 	}
 
 
-static TQ3Status DoDollyToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3Point2D* pt)
+static TQ3Status DoDollyToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject _unused1, TQ3Point2D* pt)
 	{
 	TQ3Point2D delta;
 	delta.x = gStartPt.x - pt->x;
@@ -523,20 +543,20 @@ static TQ3Status DoDollyToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject
 	}
 
 
-static TQ3Status DollyToolAdjustCursor (TQ3ViewerObject, TQ3SharedObject, TQ3Point2D*)
+static TQ3Status DollyToolAdjustCursor (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Point2D* _unused3)
 	{
 	SetOSCursor (kDollyCursor);
 	return kQ3Success;
 	}
 
 
-static TQ3Status DollyDrawTool (TQ3ViewerObject, TQ3SharedObject, TQ3Area* area)
+static TQ3Status DollyDrawTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Area* area)
 	{
 	return DrawOSTool (area, kDollyIcon);
 	}
 
 
-static TQ3Status DollyGetHelpString (TQ3ViewerObject, TQ3SharedObject, Str255 helpString)
+static TQ3Status DollyGetHelpString (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, Str255 helpString)
 	{
 	return GetOSHelpString (kDollyStrID, helpString);
 	}
@@ -617,7 +637,7 @@ static TQ3Status DoTruckToolMove (TQ3ViewerObject theViewer, float delta)
 	}
 
 
-static TQ3Status DoTruckToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
+static TQ3Status DoTruckToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject _unused1, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
 	{
 	float delta;
 	OSGetDelta (NULL, &delta, evt, param1, param2);
@@ -625,7 +645,7 @@ static TQ3Status DoTruckToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject,
 	}
 
 
-static TQ3Status DoTruckToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3Point2D* pt)
+static TQ3Status DoTruckToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject _unused1, TQ3Point2D* pt)
 	{
 	float delta = gStartPt.y - pt->y;
 	if (DoTruckToolMove (theViewer, delta) == kQ3Success)
@@ -637,20 +657,20 @@ static TQ3Status DoTruckToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject
 	}
 
 
-static TQ3Status TruckToolAdjustCursor (TQ3ViewerObject, TQ3SharedObject, TQ3Point2D*)
+static TQ3Status TruckToolAdjustCursor (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Point2D* _unused3)
 	{
 	SetOSCursor (kTruckCursor);
 	return kQ3Success;
 	}
 
 
-static TQ3Status TruckDrawTool (TQ3ViewerObject, TQ3SharedObject, TQ3Area* area)
+static TQ3Status TruckDrawTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Area* area)
 	{
 	return DrawOSTool (area, kTruckIcon);
 	}
 
 
-static TQ3Status TruckGetHelpString (TQ3ViewerObject, TQ3SharedObject, Str255 helpString)
+static TQ3Status TruckGetHelpString (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, Str255 helpString)
 	{
 	return GetOSHelpString (kTruckStrID, helpString);
 	}
@@ -786,7 +806,7 @@ DoOrbitToolMove(TQ3ViewerObject theViewer, TQ3Point2D *delta)
 }
 
 
-static TQ3Status DoOrbitToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
+static TQ3Status DoOrbitToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject _unused1, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
 	{
 	TQ3Point2D delta;
 	OSGetDelta (&delta.x, &delta.y, evt, param1, param2);
@@ -794,7 +814,7 @@ static TQ3Status DoOrbitToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject,
 	}
 
 
-static TQ3Status DoOrbitToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3Point2D* pt)
+static TQ3Status DoOrbitToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject _unused1, TQ3Point2D* pt)
 	{
 	TQ3Point2D delta;
 	delta.x = gStartPt.x - pt->x;
@@ -808,20 +828,20 @@ static TQ3Status DoOrbitToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject
 	}
 
 
-static TQ3Status OrbitToolAdjustCursor (TQ3ViewerObject, TQ3SharedObject, TQ3Point2D*)
+static TQ3Status OrbitToolAdjustCursor (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Point2D* _unused3)
 	{
 	SetOSCursor (kOrbitCursor);
 	return kQ3Success;
 	}
 
 
-static TQ3Status OrbitDrawTool (TQ3ViewerObject, TQ3SharedObject, TQ3Area* area)
+static TQ3Status OrbitDrawTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Area* area)
 	{
 	return DrawOSTool (area, kOrbitIcon);
 	}
 
 
-static TQ3Status OrbitGetHelpString (TQ3ViewerObject, TQ3SharedObject, Str255 helpString)
+static TQ3Status OrbitGetHelpString (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, Str255 helpString)
 	{
 	return GetOSHelpString (kOrbitStrID, helpString);
 	}
@@ -914,7 +934,7 @@ static TQ3Status DoZoomToolMove (TQ3ViewerObject theViewer, float delta)
 	}
 
 
-static TQ3Status DoZoomToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
+static TQ3Status DoZoomToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject _unused1, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
 	{
 	float delta;
 	OSGetDelta (NULL, &delta, evt, param1, param2);
@@ -922,7 +942,7 @@ static TQ3Status DoZoomToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, 
 	}
 
 
-static TQ3Status DoZoomToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3Point2D* pt)
+static TQ3Status DoZoomToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject _unused1, TQ3Point2D* pt)
 	{
 	float delta = gStartPt.y - pt->y;
 	if (DoZoomToolMove (theViewer, delta) == kQ3Success)
@@ -934,20 +954,20 @@ static TQ3Status DoZoomToolTracking (TQ3ViewerObject theViewer, TQ3SharedObject,
 	}
 
 
-static TQ3Status ZoomToolAdjustCursor (TQ3ViewerObject, TQ3SharedObject, TQ3Point2D*)
+static TQ3Status ZoomToolAdjustCursor (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Point2D* _unused3)
 	{
 	SetOSCursor (kZoomCursor);
 	return kQ3Success;
 	}
 
 
-static TQ3Status ZoomDrawTool (TQ3ViewerObject, TQ3SharedObject, TQ3Area* area)
+static TQ3Status ZoomDrawTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Area* area)
 	{
 	return DrawOSTool (area, kZoomIcon);
 	}
 
 
-static TQ3Status ZoomGetHelpString (TQ3ViewerObject, TQ3SharedObject, Str255 helpString)
+static TQ3Status ZoomGetHelpString (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, Str255 helpString)
 	{
 	return GetOSHelpString (kZoomStrID, helpString);
 	}
@@ -980,20 +1000,20 @@ TQ3XFunctionPointer ZoomToolMetaHandler (TQ3XMethodType methodType)
 #pragma mark { Reset Tool }
 
 
-static TQ3Status ResetClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
+static TQ3Status ResetClickTool (TQ3ViewerObject theViewer, TQ3SharedObject _unused1)
 	{
 	Q3ViewerSetCameraByView (theViewer, kQ3ViewerCameraRestore);
 	return kQ3Failure; // so does not click me
 	}
 
 
-static TQ3Status ResetDrawTool (TQ3ViewerObject, TQ3SharedObject, TQ3Area* area)
+static TQ3Status ResetDrawTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Area* area)
 	{
 	return DrawOSTool (area, kResetIcon);
 	}
 
 
-static TQ3Status ResetGetHelpString (TQ3ViewerObject, TQ3SharedObject, Str255 helpString)
+static TQ3Status ResetGetHelpString (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, Str255 helpString)
 	{
 	return GetOSHelpString (kResetStrID, helpString);
 	}
@@ -1242,7 +1262,7 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 #else
 
 
-static TQ3Status OptionsClickTool (TQ3ViewerObject, TQ3SharedObject)
+static TQ3Status OptionsClickTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2)
 	{
 	return kQ3Failure; // so does not click me
 	}
@@ -1250,13 +1270,13 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject, TQ3SharedObject)
 #endif
 
 
-static TQ3Status OptionsDrawTool (TQ3ViewerObject, TQ3SharedObject, TQ3Area* area)
+static TQ3Status OptionsDrawTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Area* area)
 	{
 	return DrawOSTool (area, kOptionsIcon);
 	}
 
 
-static TQ3Status OptionsGetHelpString (TQ3ViewerObject, TQ3SharedObject, Str255 helpString)
+static TQ3Status OptionsGetHelpString (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, Str255 helpString)
 	{
 	return GetOSHelpString (kOptionsStrID, helpString);
 	}
@@ -1283,7 +1303,7 @@ TQ3XFunctionPointer OptionsToolMetaHandler (TQ3XMethodType methodType)
 #pragma mark { About Tool }
 
 
-static TQ3Status AboutClickTool (TQ3ViewerObject, TQ3SharedObject)
+static TQ3Status AboutClickTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2)
 	{
 	Str255 url = "\phttp://www.quesa.org/";
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
@@ -1323,13 +1343,13 @@ static TQ3Status AboutClickTool (TQ3ViewerObject, TQ3SharedObject)
 	}
 
 
-static TQ3Status AboutDrawTool (TQ3ViewerObject, TQ3SharedObject, TQ3Area* area)
+static TQ3Status AboutDrawTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, TQ3Area* area)
 	{
 	return DrawOSTool (area, kAboutIcon);
 	}
 
 
-static TQ3Status AboutGetHelpString (TQ3ViewerObject, TQ3SharedObject, Str255 helpString)
+static TQ3Status AboutGetHelpString (TQ3ViewerObject _unused1, TQ3SharedObject _unused2, Str255 helpString)
 	{
 	return GetOSHelpString (kAboutStrID, helpString);
 	}
