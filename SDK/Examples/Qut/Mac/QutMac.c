@@ -301,23 +301,7 @@ qut_carbon_window_event(EventHandlerCallRef inHandlerCallRef,
         gShouldQuit = kQ3True;
         QuitApplicationEventLoop();
         break;
-      case kEventWindowClickResizeRgn: {
-        TQ3DrawContextObject theDrawContext;
 
-        if (gWindowCanResize)
-        {
-            err = CallNextEventHandler(inHandlerCallRef, inEvent);
-            if(err)
-              break;
-            
-            theDrawContext = Qut_CreateDrawContext();
-            if (theDrawContext != NULL)
-              {
-                Q3View_SetDrawContext(gView, theDrawContext);
-                Q3Object_Dispose(theDrawContext);
-              }
-          }
-        }
       case kEventWindowClickContentRgn: {
 		TQ3Point2D				q3MousePoint, q3MouseDiff;
 		Point					mousePoint, lastMouse;
@@ -596,8 +580,6 @@ qut_carbon_install_handlers(void)
 	const EventTypeSpec windowEventTypes[] = { 
                                         { kEventClassWindow, 
                                           kEventWindowClose },
-                                        { kEventClassWindow, 
-                                          kEventWindowClickResizeRgn },
                                         { kEventClassWindow,
                                           kEventWindowClickContentRgn }
                                       };
@@ -605,7 +587,7 @@ qut_carbon_install_handlers(void)
 	OSStatus err;
 	err = InstallWindowEventHandler((WindowRef)gWindow,
                       NewEventHandlerUPP(qut_carbon_window_event),
-                      3,
+                      sizeof(windowEventTypes)/sizeof(windowEventTypes[0]),
                       windowEventTypes,
                       NULL,NULL);
 	if(err) return err;
@@ -1225,12 +1207,6 @@ qut_mainloop(void)
 								if (windowSize != 0)
 									{
 									SizeWindow(gWindow, LoWord(windowSize), HiWord(windowSize), true);
-									theDrawContext = Qut_CreateDrawContext();
-									if (theDrawContext != NULL)
-										{
-										Q3View_SetDrawContext(gView, theDrawContext);
-										Q3Object_Dispose(theDrawContext);
-										}
 									}
 								}
 							break;
@@ -1751,11 +1727,11 @@ Qut_CreateDrawContext(void)
 		{
 		// Fill in the draw context data
 		macDrawContextData.drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
-		macDrawContextData.drawContextData.clearImageColor.a = 0.0f;
+		macDrawContextData.drawContextData.clearImageColor.a = 1.0f;
 		macDrawContextData.drawContextData.clearImageColor.r = 1.0f;
 		macDrawContextData.drawContextData.clearImageColor.g = 1.0f;
 		macDrawContextData.drawContextData.clearImageColor.b = 1.0f;
-		macDrawContextData.drawContextData.paneState         = kQ3True;
+		macDrawContextData.drawContextData.paneState         = kQ3False;
 		macDrawContextData.drawContextData.maskState		 = kQ3False;	
 		macDrawContextData.drawContextData.doubleBufferState = kQ3True;
 		}
