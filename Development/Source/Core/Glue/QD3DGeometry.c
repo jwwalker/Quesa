@@ -94,7 +94,6 @@
 //-----------------------------------------------------------------------------
 //      Q3Geometry_GetType : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3ObjectType
 Q3Geometry_GetType(TQ3GeometryObject geometry)
 {
@@ -295,7 +294,6 @@ Q3Geometry_GetDecomposed(TQ3GeometryObject geometry, TQ3ViewObject view)
 //=============================================================================
 //      Q3Box_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3GeometryObject
 Q3Box_New(const TQ3BoxData *boxData)
 {
@@ -858,7 +856,7 @@ Q3Box_SetFaceAttributeSet(TQ3GeometryObject box, TQ3Uns32 faceIndex, TQ3Attribut
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Cone_New : Quesa API entry point.
@@ -1644,7 +1642,7 @@ Q3Cone_EmptyData(TQ3ConeData *coneData)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Cylinder_New : Quesa API entry point.
@@ -2505,7 +2503,7 @@ Q3Cylinder_EmptyData(TQ3CylinderData *cylinderData)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Disk_New : Quesa API entry point.
@@ -2915,7 +2913,7 @@ Q3Disk_EmptyData(TQ3DiskData *diskData)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Ellipse_New : Quesa API entry point.
@@ -3325,7 +3323,7 @@ Q3Ellipse_EmptyData(TQ3EllipseData *ellipseData)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Ellipsoid_New : Quesa API entry point.
@@ -3811,7 +3809,7 @@ Q3Ellipsoid_EmptyData(TQ3EllipsoidData *ellipsoidData)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3GeneralPolygon_New : Quesa API entry point.
@@ -4244,7 +4242,7 @@ Q3GeneralPolygon_GetShapeHint(TQ3GeometryObject generalPolygon, TQ3GeneralPolygo
 
 
 
-#pragma mark -
+
 //=============================================================================
 //      Q3Line_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
@@ -4588,7 +4586,7 @@ Q3Line_EmptyData(TQ3LineData *lineData)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Marker_New : Quesa API entry point.
@@ -5071,7 +5069,7 @@ Q3Marker_SetBitmap(TQ3GeometryObject marker, const TQ3Bitmap *bitmap)
 }
 
 
-#pragma mark -
+
 
 
 //=============================================================================
@@ -6890,7 +6888,7 @@ Q3Mesh_SetCornerAttributeSet(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Me
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Mesh_FirstMeshComponent : Quesa API entry point.
@@ -8029,7 +8027,7 @@ Q3Mesh_NextContourFace(TQ3MeshIterator *iterator)
 }
 
 
-#pragma mark -
+
 
 
 //=============================================================================
@@ -8397,7 +8395,7 @@ Q3NURBCurve_GetKnot(TQ3GeometryObject curve, TQ3Uns32 knotIndex, float *knotValu
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3NURBPatch_New : Quesa API entry point.
@@ -8870,7 +8868,7 @@ Q3NURBPatch_EmptyData(TQ3NURBPatchData *nurbPatchData)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3PixmapMarker_New : Quesa API entry point.
@@ -9354,7 +9352,7 @@ Q3PixmapMarker_SetPixmap(TQ3GeometryObject pixmapMarker, const TQ3StoragePixmap 
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Point_New : Quesa API entry point.
@@ -9612,7 +9610,7 @@ Q3Point_GetPosition(TQ3GeometryObject point, TQ3Point3D *position)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Polygon_New : Quesa API entry point.
@@ -9959,7 +9957,7 @@ Q3Polygon_SetVertexAttributeSet(TQ3GeometryObject polygon, TQ3Uns32 index, TQ3At
 
 
 
-#pragma mark -
+
 //=============================================================================
 //      Q3Polyhedron_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
@@ -10467,7 +10465,7 @@ Q3Polyhedron_SetEdgeData(TQ3GeometryObject polyhedron, TQ3Uns32 edgeIndex, const
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3PolyLine_New : Quesa API entry point.
@@ -10901,7 +10899,7 @@ Q3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Torus_New : Quesa API entry point.
@@ -11462,7 +11460,7 @@ Q3Torus_EmptyData(TQ3TorusData *torusData)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Triangle_New : Quesa API entry point.
@@ -11666,7 +11664,7 @@ Q3Triangle_GetVertexPosition(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3Poin
 		return(kQ3Failure);
 
 	// Further checks on index
-	if (index >= 2)
+	if (index >= 3)
 		{
 		E3ErrorManager_PostError(kQ3ErrorParameterOutOfRange, kQ3False);
 		return(kQ3Failure);
@@ -11711,7 +11709,7 @@ Q3Triangle_SetVertexPosition(TQ3GeometryObject triangle, TQ3Uns32 index, const T
 		return(kQ3Failure);
 
 	// Further checks on index
-	if (index >= 2)
+	if (index >= 3)
 		{
 		E3ErrorManager_PostError(kQ3ErrorParameterOutOfRange, kQ3False);
 		return(kQ3Failure);
@@ -11756,7 +11754,7 @@ Q3Triangle_GetVertexAttributeSet(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3
 		return(kQ3Failure);
 
 	// Further checks on index
-	if (index >= 2)
+	if (index >= 3)
 		{
 		E3ErrorManager_PostError(kQ3ErrorParameterOutOfRange, kQ3False);
 		return(kQ3Failure);
@@ -11800,7 +11798,7 @@ Q3Triangle_SetVertexAttributeSet(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3
 		return(kQ3Failure);
 
 	// Further checks on index
-	if (index >= 2)
+	if (index >= 3)
 		{
 		E3ErrorManager_PostError(kQ3ErrorParameterOutOfRange, kQ3False);
 		return(kQ3Failure);
@@ -11824,7 +11822,7 @@ Q3Triangle_SetVertexAttributeSet(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3
 
 
 
-#pragma mark -
+
 //=============================================================================
 //      Q3TriGrid_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
@@ -12261,7 +12259,7 @@ Q3TriGrid_SetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex, TQ
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3TriMesh_New : Quesa API entry point.
