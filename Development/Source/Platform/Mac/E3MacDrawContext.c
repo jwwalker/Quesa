@@ -775,7 +775,12 @@ E3MacDrawContext_UnregisterClass(void)
 {	E3GlobalsPtr			theGlobals = E3Globals_Get();
 	TQ3Status				qd3dStatus;
 	ProcessSerialNumber		thePSN;
-
+	
+	
+// let's compile with Universal Interfaces 3.2
+#ifndef DisposeDMNotificationUPP
+#define DisposeDMNotificationUPP DisposeRoutineDescriptor
+#endif
 
 
 	// Unregister our Display Manager notification callback
