@@ -1356,7 +1356,7 @@ Q3Shape_GetType(TQ3ShapeObject shape)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT( E3Shape_IsOfMyClass ( shape ), kQ3ObjectTypeInvalid);
 
 
 
@@ -1390,7 +1390,7 @@ Q3Shape_GetSet(TQ3ShapeObject shape, TQ3SetObject *theSet)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, (kQ3SharedTypeShape)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Shape_IsOfMyClass ( shape ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theSet), kQ3Failure);
 
 
@@ -1428,8 +1428,8 @@ Q3Shape_SetSet(TQ3ShapeObject shape, TQ3SetObject theSet)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, (kQ3SharedTypeShape)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(((theSet == NULL) || (Q3Object_IsType(theSet, kQ3SharedTypeSet))), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Shape_IsOfMyClass ( shape ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(((theSet == NULL) || ( theSet->IsObjectValid () && Q3_OBJECT_IS_CLASS ( theSet, E3Set ) ) ), kQ3Failure);
 
 
 
