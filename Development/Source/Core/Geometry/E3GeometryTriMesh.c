@@ -533,6 +533,31 @@ e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 
 //=============================================================================
+//      e3geom_trimesh_bounds_to_corners : Compute the 8 corners of a bounding box.
+//-----------------------------------------------------------------------------
+static void
+e3geom_trimesh_bounds_to_corners( const TQ3BoundingBox* inBounds,
+	TQ3Point3D* out8Corners )
+{
+	out8Corners[0] = inBounds->min;
+	out8Corners[7] = inBounds->max;
+
+	out8Corners[1] = out8Corners[2] = out8Corners[3] = out8Corners[0];
+	out8Corners[1].x = out8Corners[7].x;
+	out8Corners[2].y = out8Corners[7].y;
+	out8Corners[3].z = out8Corners[7].z;
+
+	out8Corners[4] = out8Corners[5] = out8Corners[6] = out8Corners[7];
+	out8Corners[4].x = out8Corners[0].x;
+	out8Corners[5].y = out8Corners[0].y;
+	out8Corners[6].z = out8Corners[0].z;
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_trimesh_pick_with_ray : TriMesh ray picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -593,7 +618,7 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject			theView,
 
 
 		// Pick the triangle
-		if (Q3Ray3D_IntersectTriangle(theRay, &worldPoints[v0], &worldPoints[v1], &worldPoints[v2], cullBackface, &theHit))
+		if (E3Ray3D_IntersectTriangle(theRay, &worldPoints[v0], &worldPoints[v1], &worldPoints[v2], cullBackface, &theHit))
 			{
 			// Create the triangle, and update the vertices to the transformed coordinates
 			e3geom_trimesh_triangle_new(instanceData, n, &worldTriangle);
@@ -877,6 +902,7 @@ e3geom_trimesh_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 	TQ3Status					qd3dStatus;
 	TQ3WorldRayPickData			pickData;
 	TQ3Point3D					hitHYZ;
+	TQ3Point3D					boxCorners[8];
 
 
 
@@ -885,9 +911,21 @@ e3geom_trimesh_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 
 
 
-	// Transform our bounding box
-	Q3View_TransformLocalToWorld(theView, &instanceData->bBox.min, &worldBounds.min);
-	Q3View_TransformLocalToWorld(theView, &instanceData->bBox.max, &worldBounds.max);
+	// Before calling e3geom_trimesh_pick_with_ray, we want to cull out cases where
+	// the ray is nowhere near the trimesh.  Previous code here tried to transform the
+	// bounding box by transforming its min and max corners, which is incorrect.
+	// To get an exact bounding box, we'd have to transform all the points and then
+	// use Q3BoundingBox_SetFromPoints3D, but that seems too much work for present
+	// purposes.  So, let's find the 8 corners of the local bounding box, transform
+	// them, and then find the bounding box of those points.
+	e3geom_trimesh_bounds_to_corners( &instanceData->bBox, boxCorners );
+	Q3Point3D_To3DTransformArray(boxCorners,
+								 E3View_State_GetLocalToWorld(theView),
+								 boxCorners,
+								 8,
+								 sizeof(TQ3Point3D),
+								 sizeof(TQ3Point3D));
+	Q3BoundingBox_SetFromPoints3D( &worldBounds, boxCorners, 8, sizeof(TQ3Point3D) );
 	
 
 
@@ -975,18 +1013,7 @@ e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 	// the bounds of our eight corners and not just the two min/max points.
 	else
 		{
-		boundCorners[0] = instanceData->bBox.min;
-		boundCorners[7] = instanceData->bBox.max;
-
-		boundCorners[1] = boundCorners[2] = boundCorners[3] = boundCorners[0];
-		boundCorners[1].x = boundCorners[7].x;
-		boundCorners[2].y = boundCorners[7].y;
-		boundCorners[3].z = boundCorners[7].z;
-
-		boundCorners[4] = boundCorners[5] = boundCorners[6] = boundCorners[7];
-		boundCorners[4].x = boundCorners[0].x;
-		boundCorners[5].y = boundCorners[0].y;
-		boundCorners[6].z = boundCorners[0].z;
+		e3geom_trimesh_bounds_to_corners( &instanceData->bBox, boundCorners );
 		
 		E3View_UpdateBounds(theView, 8, sizeof(TQ3Point3D), boundCorners);
 		}
