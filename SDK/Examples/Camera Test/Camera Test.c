@@ -46,6 +46,12 @@
 #define kMenuItemOrthographic								1
 #define kMenuItemViewAngleAspect							2
 #define kMenuItemViewPlane									3
+#define kMenuItemDivider0									4
+#define kMenuItemViewPortTopLeft							5
+#define kMenuItemViewPortTopRight							6
+#define kMenuItemViewPortBottomLeft							7
+#define kMenuItemViewPortBottomRight						8
+#define kMenuItemViewPortCenterQuarter						9
 
 
 
@@ -54,7 +60,42 @@
 //=============================================================================
 //      Internal globals
 //-----------------------------------------------------------------------------
-TQ3GroupObject gSceneGeometry = NULL;
+TQ3Object gSceneGeometry = NULL;
+
+
+
+
+
+//=============================================================================
+//      getAspectRatio : Get the aspect ratio of a view's draw context.
+//-----------------------------------------------------------------------------
+static float
+getAspectRatio(TQ3ViewObject theView)
+{	float							rectWidth, rectHeight;
+	TQ3DrawContextObject			theDrawContext;
+	float							aspectRatio;
+	TQ3Area							theArea;
+
+
+
+	// Get the draw context aspect ratio
+	aspectRatio = 1.0f;
+	
+	Q3View_GetDrawContext(theView, &theDrawContext);
+	if (theDrawContext != NULL)
+		{
+		if (Q3DrawContext_GetPane(theDrawContext, &theArea) == kQ3Success)
+			{
+			rectWidth   = theArea.max.x - theArea.min.x;
+			rectHeight  = theArea.max.y - theArea.min.y;
+			aspectRatio = (rectWidth / rectHeight);
+			}
+				
+		Q3Object_Dispose(theDrawContext);
+		}
+	
+	return(aspectRatio);
+}
 
 
 
@@ -187,12 +228,11 @@ appConfigureView(TQ3ViewObject				theView,
 //-----------------------------------------------------------------------------
 static void
 appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
-{	float							rectWidth, rectHeight;
-	TQ3DrawContextObject			theDrawContext;
+{	TQ3CameraData					cameraData;
 	TQ3OrthographicCameraData		orthoData;
 	TQ3ViewAngleAspectCameraData	angleData;
+	TQ3ViewPlaneCameraData			planeData;
 	TQ3CameraObject					theCamera;
-	TQ3Area							theArea;
 
 
 
@@ -209,10 +249,14 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			Q3Camera_GetData(theCamera, &orthoData.cameraData);
 			Q3Object_Dispose(theCamera);
 
-			orthoData.left   = -2.5f;
-			orthoData.top    =  2.5f;
-			orthoData.right  =  2.5f;
-			orthoData.bottom = -2.5f;
+			orthoData.cameraData.viewPort.origin.x = -1.0f;
+			orthoData.cameraData.viewPort.origin.y =  1.0f;
+			orthoData.cameraData.viewPort.width    =  2.0f;
+			orthoData.cameraData.viewPort.height   =  2.0f;
+			orthoData.left                         = -2.5f;
+			orthoData.top                          =  2.5f;
+			orthoData.right                        =  2.5f;
+			orthoData.bottom                       = -2.5f;
 			
 			theCamera = Q3OrthographicCamera_New(&orthoData);
 			break;
@@ -222,27 +266,95 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			Q3Camera_GetData(theCamera, &angleData.cameraData);
 			Q3Object_Dispose(theCamera);
 
-			angleData.fov             = Q3Math_DegreesToRadians(50.0f);
-			angleData.aspectRatioXToY = 1.0f;
-			
-			Q3View_GetDrawContext(theView, &theDrawContext);
-			if (theDrawContext != NULL)
-				{
-				if (Q3DrawContext_GetPane(theDrawContext, &theArea) == kQ3Success)
-					{
-					rectWidth                 = theArea.max.x - theArea.min.x;
-					rectHeight                = theArea.max.y - theArea.min.y;
-					angleData.aspectRatioXToY = (rectWidth / rectHeight);
-					}
-				
-				Q3Object_Dispose(theDrawContext);
-				}
+			orthoData.cameraData.viewPort.origin.x = -1.0f;
+			orthoData.cameraData.viewPort.origin.y =  1.0f;
+			orthoData.cameraData.viewPort.width    =  2.0f;
+			orthoData.cameraData.viewPort.height   =  2.0f;
+			angleData.fov                          = Q3Math_DegreesToRadians(50.0f);
+			angleData.aspectRatioXToY              = getAspectRatio(theView);
 			
 			theCamera = Q3ViewAngleAspectCamera_New(&angleData);
 			break;
 
 
 		case kMenuItemViewPlane:
+			Q3Camera_GetData(theCamera, &planeData.cameraData);
+			Q3Object_Dispose(theCamera);
+
+			planeData.cameraData.viewPort.origin.x = -1.0f;
+			planeData.cameraData.viewPort.origin.y =  1.0f;
+			planeData.cameraData.viewPort.width    =  2.0f;
+			planeData.cameraData.viewPort.height   =  2.0f;
+			planeData.viewPlane                    = 20.0f;
+			planeData.halfWidthAtViewPlane         = 10.0f;
+			planeData.halfHeightAtViewPlane        = 10.0f;
+			planeData.centerXOnViewPlane           = -5.0f;
+			planeData.centerYOnViewPlane           = -5.0f;
+			
+			theCamera = Q3ViewPlaneCamera_New(&planeData);
+			break;
+
+
+		case kMenuItemViewPortTopLeft:
+			Q3Camera_GetData(theCamera, &cameraData);
+
+			cameraData.viewPort.origin.x = -1.0f;
+			cameraData.viewPort.origin.y =  1.0f;
+			cameraData.viewPort.width    =  1.0f;
+			cameraData.viewPort.height   =  1.0f;
+			
+			Q3Camera_SetData(theCamera, &cameraData);
+			break;
+
+
+		case kMenuItemViewPortTopRight:
+			Q3Camera_GetData(theCamera, &cameraData);
+
+			cameraData.viewPort.origin.x = 0.0f;
+			cameraData.viewPort.origin.y = 1.0f;
+			cameraData.viewPort.width    = 1.0f;
+			cameraData.viewPort.height   = 1.0f;
+			
+			Q3Camera_SetData(theCamera, &cameraData);
+			break;
+
+
+		case kMenuItemViewPortBottomLeft:
+			Q3Camera_GetData(theCamera, &cameraData);
+
+			cameraData.viewPort.origin.x = -1.0f;
+			cameraData.viewPort.origin.y =  0.0f;
+			cameraData.viewPort.width    =  1.0f;
+			cameraData.viewPort.height   =  1.0f;
+			
+			Q3Camera_SetData(theCamera, &cameraData);
+			break;
+
+
+		case kMenuItemViewPortBottomRight:
+			Q3Camera_GetData(theCamera, &cameraData);
+
+			cameraData.viewPort.origin.x = 0.0f;
+			cameraData.viewPort.origin.y = 0.0f;
+			cameraData.viewPort.width    = 1.0f;
+			cameraData.viewPort.height   = 1.0f;
+			
+			Q3Camera_SetData(theCamera, &cameraData);
+			break;
+
+
+		case kMenuItemViewPortCenterQuarter:
+			Q3Camera_GetData(theCamera, &cameraData);
+
+			cameraData.viewPort.origin.x = -0.5f;
+			cameraData.viewPort.origin.y =  0.5f;
+			cameraData.viewPort.width    =  1.0f;
+			cameraData.viewPort.height   =  1.0f;
+			
+			Q3Camera_SetData(theCamera, &cameraData);
+			break;
+
+
 		default:
 			break;
 		}
@@ -387,8 +499,13 @@ App_Initialise(void)
 			
 	Qut_CreateMenuItem(kMenuItemLast, "Orthographic");
 	Qut_CreateMenuItem(kMenuItemLast, "View Angle Aspect");
-// dair, uncomment when Quesa supports view plane cameras
-//	Qut_CreateMenuItem(kMenuItemLast, "View Plane");
+	Qut_CreateMenuItem(kMenuItemLast, "View Plane");
+	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
+	Qut_CreateMenuItem(kMenuItemLast, "ViewPort (Top Left)");
+	Qut_CreateMenuItem(kMenuItemLast, "ViewPort (Top Right)");
+	Qut_CreateMenuItem(kMenuItemLast, "ViewPort (Bottom Left)");
+	Qut_CreateMenuItem(kMenuItemLast, "ViewPort (Bottom Right)");
+	Qut_CreateMenuItem(kMenuItemLast, "ViewPort (Center Quarter)");
 
 
 
