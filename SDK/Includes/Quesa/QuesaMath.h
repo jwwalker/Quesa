@@ -3273,6 +3273,7 @@ Q3Quaternion_InterpolateLinear (
 );
 
 
+
 /*!
  *  @function
  *      Q3Quaternion_GetAxisAndAngle
@@ -3309,6 +3310,7 @@ Q3Quaternion_GetAxisAndAngle (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+
 /*!
  *  @function
  *      Q3Vector3D_TransformQuaternion
@@ -3328,6 +3330,7 @@ Q3Vector3D_TransformQuaternion (
     const TQ3Quaternion           *quaternion,
     TQ3Vector3D                   *result
 );
+
 
 
 /*!
@@ -3370,10 +3373,14 @@ Q3Point3D_TransformQuaternion (
  *  @param bBox             Address of bounding box to reset.
  *  @result                 Convenience copy of bBox parameter.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_Reset (
     TQ3BoundingBox                *bBox
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -3543,10 +3550,14 @@ Q3BoundingBox_UnionRationalPoint4D (
  *  @param bSphere          Address of bounding sphere to reset.
  *  @result                 Convenience copy of bSphere parameter.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_Reset (
     TQ3BoundingSphere             *bSphere
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
