@@ -41,17 +41,18 @@
 
 // OpenGL
 #if QUESA_OS_MACINTOSH
+
 	#if TARGET_RT_MAC_MACHO
-            #include <OpenGL/gl.h>
-            #include <OpenGL/glu.h>
-            #include <AGL/agl.h>
-            #include <AGL/aglRenderers.h>
-        #else
-		    #include <gl.h>
-		    #include <glu.h>
-            #include <agl.h>
-            #include <aglRenderers.h>
-        #endif
+		#include <OpenGL/gl.h>
+		#include <OpenGL/glu.h>
+		#include <AGL/agl.h>
+		#include <AGL/aglRenderers.h>
+	#else
+		#include <gl.h>
+		#include <glu.h>
+		#include <agl.h>
+		#include <aglRenderers.h>
+	#endif
 
 #elif QUESA_OS_WIN32
     #include <GL/gl.h>
