@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -89,19 +89,19 @@
 //      e3shared_new : Shared new method.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3shared_new(TQ3Object theObject, void *privateData, void *paramData)
-{	TQ3SharedData		*instanceData = (TQ3SharedData *) privateData;
-#pragma unused(theObject)
+e3shared_new ( TQ3SharedData* theObject, void *privateData, void *paramData )
+	{
+#pragma unused(privateData)
 #pragma unused(paramData)
 
 
 
 	// Initialise our instance data
-	instanceData->refCount  = 1;
-	instanceData->editIndex = 1;
+	theObject->refCount  = 1 ;
+	theObject->editIndex = 1 ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -111,23 +111,22 @@ e3shared_new(TQ3Object theObject, void *privateData, void *paramData)
 //      e3shared_dispose : Shared dispose method.
 //-----------------------------------------------------------------------------
 void
-e3shared_dispose(TQ3Object theObject)
+e3shared_dispose ( TQ3SharedData* theObject )
 	{
 	// Find the instance data
-	TQ3SharedData* instanceData = (TQ3SharedData *) theObject ;
-	if (instanceData == NULL)
-		return;
+	if ( theObject == NULL )
+		return ;
 
 
 
 	// Decrement the reference count
-	Q3_ASSERT(instanceData->refCount >= 1);
-	instanceData->refCount--;
+	Q3_ASSERT(theObject->refCount >= 1);
+	theObject->refCount--;
 
 
 
 	// If the reference count falls to 0, dispose of the object
-	if ( instanceData->refCount == 0 )
+	if ( theObject->refCount == 0 )
 		theObject->DestroyInstance () ;
 	}
 
@@ -141,9 +140,9 @@ e3shared_dispose(TQ3Object theObject)
 TQ3Status
 e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 						 TQ3Object toObject, void *toPrivateData)
-{	TQ3SharedData		*instanceData = (TQ3SharedData *) toPrivateData;
+{	TQ3SharedData		*instanceData = (TQ3SharedData *) toObject ;
 #pragma unused(fromObject)
-#pragma unused(toObject)
+#pragma unused(toPrivateData)
 
 
 

@@ -70,8 +70,8 @@ TQ3Status			E3GeometryBox_UnregisterClass(void);
 
 TQ3GeometryObject	E3Box_New(const TQ3BoxData *boxData);
 TQ3Status			E3Box_Submit(const TQ3BoxData *boxData, TQ3ViewObject theView);
-TQ3Status			E3Box_SetData(TQ3GeometryObject theBox, const TQ3BoxData *boxData);
 TQ3Status			E3Box_GetData(TQ3GeometryObject theBox, TQ3BoxData *boxData);
+TQ3Status			E3Box_SetData(TQ3GeometryObject theBox, const TQ3BoxData *boxData);
 TQ3Status			E3Box_EmptyData(TQ3BoxData *boxData);
 TQ3Status			E3Box_SetOrigin(TQ3GeometryObject theBox, const TQ3Point3D *origin);
 TQ3Status			E3Box_SetOrientation(TQ3GeometryObject theBox, const TQ3Vector3D *orientation);
