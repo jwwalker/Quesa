@@ -192,7 +192,7 @@ e3set_remove_element(TQ3SetData *instanceData, TQ3ElementType theType)
 
 
 	// Find the appropriate element, and remove it
-	theElement = E3HashTable_Find(instanceData->theTable, theType);
+	theElement = (TQ3ElementObject) E3HashTable_Find(instanceData->theTable, theType);
 	if (theElement != NULL)
 		E3HashTable_Remove(instanceData->theTable, theType);
 
@@ -242,7 +242,7 @@ e3set_find_element(const TQ3SetData *instanceData, TQ3ElementType theType)
 
 
 	// Find the element
-	theElement = E3HashTable_Find(instanceData->theTable, theType);
+	theElement = (TQ3ElementObject) E3HashTable_Find(instanceData->theTable, theType);
 	
 	return(theElement);
 }
@@ -542,7 +542,7 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 
 	// Decide if we need to add the element to the result or not
 	qd3dStatus = kQ3Success;
-	addElement = isChild || !E3Set_Contains(theResult, theType);
+	addElement = (TQ3Boolean) (isChild || !E3Set_Contains(theResult, theType));
 
 	if (addElement)
 		{
