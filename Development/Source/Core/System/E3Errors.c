@@ -43,6 +43,21 @@
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
+// String table sizes
+//
+// The table size is determined by the number of items (kQ3xxxLast - kQ3xxxFirst),
+// with an extra item for the kQ3xxxNone value and an extra item for the array
+// terminator value.
+//
+// This relies on the fact that the QuesaErrors.h constants are contiguous, and
+// do not contain unused items which do not have corresponding placeholders in
+// the string tables (this is the reason for the kQ3ErrorNotUsedByQD3D_N values).
+#define kNumErrors									((kQ3ErrorLast   - kQ3ErrorFirst)   + 2)
+#define kNumWarnings								((kQ3WarningLast - kQ3WarningFirst) + 2)
+#define kNumNotices									((kQ3NoticeLast  - kQ3NoticeFirst)  + 2)
+
+
+// Unknown string
 #define kEnglishUnknownEnum							"Unknown"
 
 
@@ -75,6 +90,13 @@ static TQ3StringIdentifier gEnglishStringTable_Error[] = {
 	{ kQ3ErrorInternalError,						"Quesa Error: " "Internal error" },
 	{ kQ3ErrorNoRecovery,							"Quesa Error: " "No recovery" },
 	{ kQ3ErrorLastFatalError,						"Quesa Error: " "Last fatal error" },
+	{ kQ3ErrorNotUsedByQD3D_1,						"Quesa Error: " "Invalid error code" },
+	{ kQ3ErrorNotUsedByQD3D_2,						"Quesa Error: " "Invalid error code" },
+	{ kQ3ErrorNotUsedByQD3D_3,						"Quesa Error: " "Invalid error code" },
+	{ kQ3ErrorNotUsedByQD3D_4,						"Quesa Error: " "Invalid error code" },
+	{ kQ3ErrorNotUsedByQD3D_5,						"Quesa Error: " "Invalid error code" },
+	{ kQ3ErrorNotUsedByQD3D_6,						"Quesa Error: " "Invalid error code" },
+	{ kQ3ErrorNotUsedByQD3D_7,						"Quesa Error: " "Invalid error code" },
 	{ kQ3ErrorNotInitialized,						"Quesa Error: " "Not initialized" },
 	{ kQ3ErrorAlreadyInitialized,					"Quesa Error: " "Already initialized" },
 	{ kQ3ErrorUnimplemented,						"Quesa Error: " "Unimplemented" },
@@ -276,6 +298,16 @@ e3errors_find_string(TQ3StringIdentifier *stringTable, TQ3Int32 theEnum)
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(stringTable);
+
+
+
+	// Validate the string table sizes
+	//
+	// If these assertions fire, a value has been added/removed in QuesaErrors.h
+	// but the corresponding string table has not been updated.
+	Q3_ASSERT(sizeof(gEnglishStringTable_Error)   == (sizeof(TQ3StringIdentifier) * kNumErrors));
+	Q3_ASSERT(sizeof(gEnglishStringTable_Warning) == (sizeof(TQ3StringIdentifier) * kNumWarnings));
+	Q3_ASSERT(sizeof(gEnglishStringTable_Notice)  == (sizeof(TQ3StringIdentifier) * kNumNotices));
 
 
 
