@@ -779,6 +779,7 @@ Q3Quaternion_SetRotate_X
 Q3Quaternion_SetRotate_XYZ
 Q3Quaternion_SetRotate_Y
 Q3Quaternion_SetRotate_Z
+Q3Quaternion_GetAxisAndAngle
 Q3RationalPoint3D_AffineComb
 Q3RationalPoint3D_Distance
 Q3RationalPoint3D_DistanceSquared
