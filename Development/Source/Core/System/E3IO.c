@@ -45,18 +45,16 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3file_format_attach : Caches the procsPtr for the FileFormat.
+//      e3file_format_attach .
 //-----------------------------------------------------------------------------
 static TQ3Status 
 e3file_format_attach(TQ3FileObject theFile,TQ3FileFormatObject theFileFormat)
 {	TE3FileData				*instanceData = (TE3FileData *) theFile->instanceData;
-	TQ3FFormatBaseData		*ffInstanceData;
 
 	E3Shared_Replace(&instanceData->format, theFileFormat);
 
 	if( theFileFormat != NULL)
 		{
-		ffInstanceData = (TQ3FFormatBaseData *) theFileFormat->instanceData;	
 		E3FileFormat_Init (theFileFormat, instanceData->storage);
 		}
 		
