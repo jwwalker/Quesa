@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,6 +50,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Ellipse : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3EllipseData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -250,14 +267,11 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 //      e3geom_ellipse_get_attribute : Ellipse get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_ellipse_get_attribute(TQ3GeometryObject theObject)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeEllipse);
-
-
-
+e3geom_ellipse_get_attribute ( E3Ellipse* ellipse )
+	{	
 	// Return the address of the geometry attribute set
-	return(&instanceData->ellipseAttributeSet);
-}
+	return & ellipse->instanceData.ellipseAttributeSet ;
+	}
 
 
 
@@ -319,11 +333,11 @@ E3GeometryEllipse_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeEllipse,
 											kQ3ClassNameGeometryEllipse,
 											e3geom_ellipse_metahandler,
-											sizeof(TQ3EllipseData));
+											~sizeof(E3Ellipse));
 
 	return(qd3dStatus);
 }
@@ -342,7 +356,7 @@ E3GeometryEllipse_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeEllipse, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeEllipse, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -408,23 +422,22 @@ E3Ellipse_Submit(const TQ3EllipseData *ellipseData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_SetData(TQ3GeometryObject theEllipse, const TQ3EllipseData *ellipseData)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
-
-
+	{
+	E3Ellipse* ellipse = (E3Ellipse*) theEllipse ;
 
 	// Set the data
-	instanceData->origin      = ellipseData->origin;
-	instanceData->majorRadius = ellipseData->majorRadius;
-	instanceData->minorRadius = ellipseData->minorRadius;
-	instanceData->uMin   	  = ellipseData->uMin;
-	instanceData->uMax   	  = ellipseData->uMax;
+	ellipse->instanceData.origin      = ellipseData->origin ;
+	ellipse->instanceData.majorRadius = ellipseData->majorRadius ;
+	ellipse->instanceData.minorRadius = ellipseData->minorRadius ;
+	ellipse->instanceData.uMin   	  = ellipseData->uMin ;
+	ellipse->instanceData.uMax   	  = ellipseData->uMax ;
 
-	E3Shared_Replace(&instanceData->ellipseAttributeSet, ellipseData->ellipseAttributeSet);
+	E3Shared_Replace ( & ellipse->instanceData.ellipseAttributeSet, ellipseData->ellipseAttributeSet ) ;
 
-	Q3Shared_Edited(theEllipse);
+	Q3Shared_Edited ( ellipse ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -435,21 +448,20 @@ E3Ellipse_SetData(TQ3GeometryObject theEllipse, const TQ3EllipseData *ellipseDat
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_GetData(TQ3GeometryObject theEllipse, TQ3EllipseData *ellipseData)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
-
-
+	{
+	E3Ellipse* ellipse = (E3Ellipse*) theEllipse ;
 
 	// Get the data
-	ellipseData->origin      = instanceData->origin;
-	ellipseData->majorRadius = instanceData->majorRadius;
-	ellipseData->minorRadius = instanceData->minorRadius;
-	ellipseData->uMin   	  = instanceData->uMin;
-	ellipseData->uMax   	  = instanceData->uMax;
+	ellipseData->origin      = ellipse->instanceData.origin ;
+	ellipseData->majorRadius = ellipse->instanceData.majorRadius ;
+	ellipseData->minorRadius = ellipse->instanceData.minorRadius ;
+	ellipseData->uMin   	  = ellipse->instanceData.uMin ;
+	ellipseData->uMax   	  = ellipse->instanceData.uMax ;
 
-	E3Shared_Acquire(&ellipseData->ellipseAttributeSet, instanceData->ellipseAttributeSet);
+	E3Shared_Acquire ( & ellipseData->ellipseAttributeSet, ellipse->instanceData.ellipseAttributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -478,17 +490,16 @@ E3Ellipse_EmptyData(TQ3EllipseData *ellipseData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_SetOrigin(TQ3GeometryObject theEllipse, const TQ3Point3D *origin)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
-
-
+	{
+	E3Ellipse* ellipse = (E3Ellipse*) theEllipse ;
 
 	// Set the origin
-	instanceData->origin = *origin;
+	ellipse->instanceData.origin = *origin ;
 	
-	Q3Shared_Edited(theEllipse);
+	Q3Shared_Edited ( ellipse ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -499,17 +510,16 @@ E3Ellipse_SetOrigin(TQ3GeometryObject theEllipse, const TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_SetMajorRadius(TQ3GeometryObject theEllipse, const TQ3Vector3D *majorRadius)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
-
-
+	{
+	E3Ellipse* ellipse = (E3Ellipse*) theEllipse ;
 
 	// Set the major radius
-	instanceData->majorRadius = *majorRadius;
+	ellipse->instanceData.majorRadius = *majorRadius ;
 	
-	Q3Shared_Edited(theEllipse);
+	Q3Shared_Edited ( ellipse ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -520,17 +530,16 @@ E3Ellipse_SetMajorRadius(TQ3GeometryObject theEllipse, const TQ3Vector3D *majorR
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_SetMinorRadius(TQ3GeometryObject theEllipse, const TQ3Vector3D *minorRadius)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
-
-
+	{
+	E3Ellipse* ellipse = (E3Ellipse*) theEllipse ;
 
 	// Set the minor radius
-	instanceData->minorRadius = *minorRadius;
+	ellipse->instanceData.minorRadius = *minorRadius ;
 	
-	Q3Shared_Edited(theEllipse);
+	Q3Shared_Edited ( ellipse ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -541,15 +550,14 @@ E3Ellipse_SetMinorRadius(TQ3GeometryObject theEllipse, const TQ3Vector3D *minorR
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_GetOrigin(TQ3GeometryObject theEllipse, TQ3Point3D *origin)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
-
-
+	{
+	E3Ellipse* ellipse = (E3Ellipse*) theEllipse ;
 
 	// Get the origin
-	*origin = instanceData->origin;
+	*origin = ellipse->instanceData.origin ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -560,15 +568,14 @@ E3Ellipse_GetOrigin(TQ3GeometryObject theEllipse, TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_GetMajorRadius(TQ3GeometryObject theEllipse, TQ3Vector3D *majorRadius)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
-
-
+	{
+	E3Ellipse* ellipse = (E3Ellipse*) theEllipse ;
 
 	// Get the major radius
-	*majorRadius = instanceData->majorRadius;
+	*majorRadius = ellipse->instanceData.majorRadius ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -579,12 +586,11 @@ E3Ellipse_GetMajorRadius(TQ3GeometryObject theEllipse, TQ3Vector3D *majorRadius)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_GetMinorRadius(TQ3GeometryObject theEllipse, TQ3Vector3D *minorRadius)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
-
-
+	{
+	E3Ellipse* ellipse = (E3Ellipse*) theEllipse ;
 
 	// Get the minor radius
-	*minorRadius = instanceData->minorRadius;
+	*minorRadius = ellipse->instanceData.minorRadius ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}

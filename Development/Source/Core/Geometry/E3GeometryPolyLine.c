@@ -5,7 +5,7 @@
         Implementation of Quesa PolyLine geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,6 +50,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3PolyLine : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3PolyLineData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -330,14 +347,11 @@ e3geom_polyline_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 //      e3geom_polyline_get_attribute : Polyline get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_polyline_get_attribute(TQ3GeometryObject theObject)
-{	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypePolyLine);
-
-
-
+e3geom_polyline_get_attribute ( E3PolyLine* polyLine )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->polyLineAttributeSet);
-}
+	return & polyLine->instanceData.polyLineAttributeSet ;
+	}
 
 
 
@@ -398,11 +412,11 @@ E3GeometryPolyLine_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypePolyLine,
 											kQ3ClassNameGeometryPolyLine,
 											e3geom_polyline_metahandler,
-											sizeof(TQ3PolyLineData));
+											~sizeof(E3PolyLine));
 
 	return(qd3dStatus);
 }
@@ -421,7 +435,7 @@ E3GeometryPolyLine_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypePolyLine, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypePolyLine, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -471,22 +485,18 @@ E3PolyLine_Submit(const TQ3PolyLineData *polyLineData, TQ3ViewObject theView)
 //      E3PolyLine_SetData : Set the polyline data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineData)
-{
-	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
-	TQ3Status				q3status;
+E3PolyLine_SetData(TQ3GeometryObject thePolyLine, const TQ3PolyLineData *polyLineData)
+	{
+	E3PolyLine* polyLine = (E3PolyLine*) thePolyLine ;
 	
-	
-	
-	E3PolyLine_EmptyData( instanceData );
+	E3PolyLine_EmptyData ( & polyLine->instanceData ) ;
 
-	q3status = e3geom_polyline_copydata( polyLineData, instanceData, kQ3False );
+	TQ3Status q3status = e3geom_polyline_copydata ( polyLineData, & polyLine->instanceData, kQ3False ) ;
 
-
-	Q3Shared_Edited(polyLine);
+	Q3Shared_Edited ( polyLine ) ;
 	
-	return (q3status);
-}
+	return q3status ;
+	}
 
 
 
@@ -496,17 +506,12 @@ E3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineDa
 //      E3PolyLine_GetData : Get the data describing a polyline
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_GetData(TQ3GeometryObject polyLine, TQ3PolyLineData *polyLineData)
-{
-	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
-	TQ3Status	q3status;
+E3PolyLine_GetData(TQ3GeometryObject thePolyLine, TQ3PolyLineData *polyLineData)
+	{
+	const E3PolyLine* polyLine = (const E3PolyLine*) thePolyLine ;
 	
-	
-	
-	q3status = e3geom_polyline_copydata( instanceData, polyLineData, kQ3False );
-	
-	return q3status;
-}
+	return e3geom_polyline_copydata ( & polyLine->instanceData, polyLineData, kQ3False ) ;
+	}
 
 
 
@@ -554,15 +559,15 @@ E3PolyLine_EmptyData(TQ3PolyLineData *polyLineData)
 //      E3PolyLine_GetVertexPosition :	Get the position of polyline vertex
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_GetVertexPosition(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
+E3PolyLine_GetVertexPosition(	TQ3GeometryObject thePolyLine, TQ3Uns32 index, 
 								TQ3Point3D *position)
-{
-	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
+	{
+	const E3PolyLine* polyLine = (const E3PolyLine*) thePolyLine ;
 	
-	*position = instanceData->vertices[index].point ;
+	*position = polyLine->instanceData.vertices [ index ].point ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -572,17 +577,17 @@ E3PolyLine_GetVertexPosition(	TQ3GeometryObject polyLine, TQ3Uns32 index,
 //      E3PolyLine_SetVertexPosition :	Set the position of polyline vertex
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_SetVertexPosition(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
+E3PolyLine_SetVertexPosition(	TQ3GeometryObject thePolyLine, TQ3Uns32 index, 
 								const TQ3Point3D *position)
-{
-	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
+	{
+	E3PolyLine* polyLine = (E3PolyLine*) thePolyLine ;
 	
-	instanceData->vertices[index].point = *position ;
+	polyLine->instanceData.vertices [ index ].point = *position ;
 
-	Q3Shared_Edited(polyLine);
+	Q3Shared_Edited ( polyLine ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -592,16 +597,16 @@ E3PolyLine_SetVertexPosition(	TQ3GeometryObject polyLine, TQ3Uns32 index,
 //      E3PolyLine_GetVertexAttributeSet :	Get polyline vertex attribute set
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_GetVertexAttributeSet(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
+E3PolyLine_GetVertexAttributeSet(	TQ3GeometryObject thePolyLine, TQ3Uns32 index, 
 									TQ3AttributeSet *attributeSet)
-{
-	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
+	{
+	const E3PolyLine* polyLine = (const E3PolyLine*) thePolyLine ;
 		
 	//return the attribute set
-	E3Shared_Acquire(attributeSet, instanceData->vertices[index].attributeSet) ;
+	E3Shared_Acquire ( attributeSet, polyLine->instanceData.vertices [ index ].attributeSet ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -611,17 +616,17 @@ E3PolyLine_GetVertexAttributeSet(	TQ3GeometryObject polyLine, TQ3Uns32 index,
 //      E3PolyLine_SetVertexAttributeSet :	Set polyline vertex attriubte set
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_SetVertexAttributeSet(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
+E3PolyLine_SetVertexAttributeSet(	TQ3GeometryObject thePolyLine, TQ3Uns32 index, 
 									TQ3AttributeSet attributeSet)
-{
-	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
+	{
+	E3PolyLine* polyLine = (E3PolyLine*) thePolyLine ;
 	
-	E3Shared_Replace(&instanceData->vertices[index].attributeSet, attributeSet) ;
+	E3Shared_Replace ( & polyLine->instanceData.vertices [ index ].attributeSet, attributeSet ) ;
 
-	Q3Shared_Edited(polyLine);
+	Q3Shared_Edited ( polyLine ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -634,16 +639,15 @@ E3PolyLine_SetVertexAttributeSet(	TQ3GeometryObject polyLine, TQ3Uns32 index,
 //				a vertex index, rather than a segment - is this correct?
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
-{	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
-
-
+E3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject thePolyLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
+	{
+	E3PolyLine* polyLine = (E3PolyLine*) thePolyLine ;
 
 	// Get the segment attribute set
-	E3Shared_Acquire(attributeSet, instanceData->segmentAttributeSet[index]);
+	E3Shared_Acquire ( attributeSet, polyLine->instanceData.segmentAttributeSet [ index ] ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -656,17 +660,16 @@ E3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ
 //				a vertex index, rather than a segment - is this correct?
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet attributeSet)
-{	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) E3ClassTree_FindInstanceData(polyLine, kQ3GeometryTypePolyLine);
-
-
+E3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject thePolyLine, TQ3Uns32 index, TQ3AttributeSet attributeSet)
+	{
+	E3PolyLine* polyLine = (E3PolyLine*) thePolyLine ;
 
 	// Set the segment attribute set
-	E3Shared_Replace(&instanceData->segmentAttributeSet[index], attributeSet);
+	E3Shared_Replace ( & polyLine->instanceData.segmentAttributeSet [ index ], attributeSet ) ;
 
-	Q3Shared_Edited(polyLine);
+	Q3Shared_Edited ( polyLine ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 

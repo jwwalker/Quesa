@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3PixmapMarker : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3PixmapMarkerData		instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -751,8 +768,8 @@ e3geom_pixmapmarker_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3O
 	// Update the bounds
 	E3View_UpdateBounds(theView, 1, 0, &instanceData->position);
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -762,14 +779,11 @@ e3geom_pixmapmarker_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3O
 //      e3geom_pixmapmarker_get_attribute : Pixmap marker attribute pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_pixmapmarker_get_attribute(TQ3GeometryObject theObject)
-{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypePixmapMarker);
-
-
-
+e3geom_pixmapmarker_get_attribute ( E3PixmapMarker* pixmapMarker )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->pixmapMarkerAttributeSet);
-}
+	return & pixmapMarker->instanceData.pixmapMarkerAttributeSet ;
+	}
 
 
 
@@ -842,11 +856,11 @@ E3GeometryPixmapMarker_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypePixmapMarker,
 											kQ3ClassNameGeometryPixmapMarker,
 											e3geom_pixmapmarker_metahandler,
-											sizeof(TQ3PixmapMarkerData));
+											~sizeof(E3PixmapMarker));
 
 	return(qd3dStatus);
 }
@@ -865,7 +879,7 @@ E3GeometryPixmapMarker_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypePixmapMarker, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypePixmapMarker, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -915,30 +929,29 @@ E3PixmapMarker_Submit(const TQ3PixmapMarkerData *pixmapMarkerData, TQ3ViewObject
 //      E3PixmapMarker_SetData : Set the data for a pixmap marker.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_SetData(TQ3GeometryObject pixmapMarker, const TQ3PixmapMarkerData *pixmapMarkerData)
-{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
-
-
+E3PixmapMarker_SetData(TQ3GeometryObject thePixmapMarker, const TQ3PixmapMarkerData *pixmapMarkerData)
+	{
+	E3PixmapMarker* pixmapMarker = (E3PixmapMarker*) thePixmapMarker ;
 
 	// Set the data
-	instanceData->position         = pixmapMarkerData->position;
-	instanceData->xOffset          = pixmapMarkerData->xOffset;
-	instanceData->yOffset          = pixmapMarkerData->yOffset;
-	instanceData->pixmap.width     = pixmapMarkerData->pixmap.width;
-	instanceData->pixmap.height    = pixmapMarkerData->pixmap.height;
-	instanceData->pixmap.rowBytes  = pixmapMarkerData->pixmap.rowBytes;
-	instanceData->pixmap.pixelSize = pixmapMarkerData->pixmap.pixelSize;
-	instanceData->pixmap.pixelType = pixmapMarkerData->pixmap.pixelType;
-	instanceData->pixmap.bitOrder  = pixmapMarkerData->pixmap.bitOrder;
-	instanceData->pixmap.byteOrder = pixmapMarkerData->pixmap.byteOrder;
+	pixmapMarker->instanceData.position         = pixmapMarkerData->position ;
+	pixmapMarker->instanceData.xOffset          = pixmapMarkerData->xOffset ;
+	pixmapMarker->instanceData.yOffset          = pixmapMarkerData->yOffset ;
+	pixmapMarker->instanceData.pixmap.width     = pixmapMarkerData->pixmap.width ;
+	pixmapMarker->instanceData.pixmap.height    = pixmapMarkerData->pixmap.height ;
+	pixmapMarker->instanceData.pixmap.rowBytes  = pixmapMarkerData->pixmap.rowBytes ;
+	pixmapMarker->instanceData.pixmap.pixelSize = pixmapMarkerData->pixmap.pixelSize ;
+	pixmapMarker->instanceData.pixmap.pixelType = pixmapMarkerData->pixmap.pixelType ;
+	pixmapMarker->instanceData.pixmap.bitOrder  = pixmapMarkerData->pixmap.bitOrder ;
+	pixmapMarker->instanceData.pixmap.byteOrder = pixmapMarkerData->pixmap.byteOrder ;
 	
-	E3Shared_Replace(&instanceData->pixmap.image, pixmapMarkerData->pixmap.image);
-	E3Shared_Replace(&instanceData->pixmapMarkerAttributeSet, pixmapMarkerData->pixmapMarkerAttributeSet);
+	E3Shared_Replace ( & pixmapMarker->instanceData.pixmap.image, pixmapMarkerData->pixmap.image ) ;
+	E3Shared_Replace  (& pixmapMarker->instanceData.pixmapMarkerAttributeSet, pixmapMarkerData->pixmapMarkerAttributeSet ) ;
 
-	Q3Shared_Edited(pixmapMarker);
+	Q3Shared_Edited ( pixmapMarker ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -948,28 +961,27 @@ E3PixmapMarker_SetData(TQ3GeometryObject pixmapMarker, const TQ3PixmapMarkerData
 //      E3PixmapMarker_GetData : Get the data for a pixmap marker.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_GetData(TQ3GeometryObject pixmapMarker, TQ3PixmapMarkerData *pixmapMarkerData)
-{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
-
-
+E3PixmapMarker_GetData(TQ3GeometryObject thePixmapMarker, TQ3PixmapMarkerData *pixmapMarkerData)
+	{
+	E3PixmapMarker* pixmapMarker = (E3PixmapMarker*) thePixmapMarker ;
 
 	// Get the data
-	pixmapMarkerData->position         = instanceData->position;
-	pixmapMarkerData->xOffset          = instanceData->xOffset;
-	pixmapMarkerData->yOffset          = instanceData->yOffset;
-	pixmapMarkerData->pixmap.width     = instanceData->pixmap.width;
-	pixmapMarkerData->pixmap.height    = instanceData->pixmap.height;
-	pixmapMarkerData->pixmap.rowBytes  = instanceData->pixmap.rowBytes;
-	pixmapMarkerData->pixmap.pixelSize = instanceData->pixmap.pixelSize;
-	pixmapMarkerData->pixmap.pixelType = instanceData->pixmap.pixelType;
-	pixmapMarkerData->pixmap.bitOrder  = instanceData->pixmap.bitOrder;
-	pixmapMarkerData->pixmap.byteOrder = instanceData->pixmap.byteOrder;
+	pixmapMarkerData->position         = pixmapMarker->instanceData.position ;
+	pixmapMarkerData->xOffset          = pixmapMarker->instanceData.xOffset ;
+	pixmapMarkerData->yOffset          = pixmapMarker->instanceData.yOffset ;
+	pixmapMarkerData->pixmap.width     = pixmapMarker->instanceData.pixmap.width ;
+	pixmapMarkerData->pixmap.height    = pixmapMarker->instanceData.pixmap.height ;
+	pixmapMarkerData->pixmap.rowBytes  = pixmapMarker->instanceData.pixmap.rowBytes ;
+	pixmapMarkerData->pixmap.pixelSize = pixmapMarker->instanceData.pixmap.pixelSize ;
+	pixmapMarkerData->pixmap.pixelType = pixmapMarker->instanceData.pixmap.pixelType ;
+	pixmapMarkerData->pixmap.bitOrder  = pixmapMarker->instanceData.pixmap.bitOrder ;
+	pixmapMarkerData->pixmap.byteOrder = pixmapMarker->instanceData.pixmap.byteOrder ;
 	
-	E3Shared_Acquire(&pixmapMarkerData->pixmap.image,             instanceData->pixmap.image);
-	E3Shared_Acquire(&pixmapMarkerData->pixmapMarkerAttributeSet, instanceData->pixmapMarkerAttributeSet);
+	E3Shared_Acquire ( & pixmapMarkerData->pixmap.image,             pixmapMarker->instanceData.pixmap.image ) ;
+	E3Shared_Acquire ( & pixmapMarkerData->pixmapMarkerAttributeSet, pixmapMarker->instanceData.pixmapMarkerAttributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -998,16 +1010,15 @@ E3PixmapMarker_EmptyData(TQ3PixmapMarkerData *pixmapMarkerData)
 //      E3PixmapMarker_GetPosition : Get the position of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_GetPosition(TQ3GeometryObject pixmapMarker, TQ3Point3D *position)
-{
-	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
-	
+E3PixmapMarker_GetPosition(TQ3GeometryObject thePixmapMarker, TQ3Point3D *position)
+	{
+	const E3PixmapMarker* pixmapMarker = (const E3PixmapMarker*) thePixmapMarker ;
 	
 	//get the position
-	*position = instanceData->position ;
+	*position = pixmapMarker->instanceData.position ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1017,17 +1028,17 @@ E3PixmapMarker_GetPosition(TQ3GeometryObject pixmapMarker, TQ3Point3D *position)
 //      E3PixmapMarker_SetPosition : Set the position of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_SetPosition(TQ3GeometryObject pixmapMarker, const TQ3Point3D *position)
-{
-	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
+E3PixmapMarker_SetPosition(TQ3GeometryObject thePixmapMarker, const TQ3Point3D *position)
+	{
+	E3PixmapMarker* pixmapMarker = (E3PixmapMarker*) thePixmapMarker ;
 	
 	//set the position
-	instanceData->position = *position ;	
+	pixmapMarker->instanceData.position = *position ;	
 
-	Q3Shared_Edited(pixmapMarker);
+	Q3Shared_Edited ( pixmapMarker ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1037,16 +1048,15 @@ E3PixmapMarker_SetPosition(TQ3GeometryObject pixmapMarker, const TQ3Point3D *pos
 //      E3PixmapMarker_GetXOffset : Get horizontal position of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *xOffset)
-{
-	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
-	
+E3PixmapMarker_GetXOffset(TQ3GeometryObject thePixmapMarker, TQ3Int32 *xOffset)
+	{
+	const E3PixmapMarker* pixmapMarker = (const E3PixmapMarker*) thePixmapMarker ;
 	
 	//get the horizontal offset
-	*xOffset = instanceData->xOffset ;
+	*xOffset = pixmapMarker->instanceData.xOffset ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1056,18 +1066,17 @@ E3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *xOffset)
 //      E3PixmapMarker_SetXOffset : Set horizontal position of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 xOffset)
-{
-	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
-	
+E3PixmapMarker_SetXOffset(TQ3GeometryObject thePixmapMarker, TQ3Int32 xOffset)
+	{
+	E3PixmapMarker* pixmapMarker = (E3PixmapMarker*) thePixmapMarker ;
 	
 	//set the horizontal offset
-	instanceData->xOffset = xOffset ;
+	pixmapMarker->instanceData.xOffset = xOffset ;
 
 	Q3Shared_Edited(pixmapMarker);
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1077,15 +1086,15 @@ E3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 xOffset)
 //      E3PixmapMarker_GetYOffset :	Get the vertical position of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *yOffset)
-{
-	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
+E3PixmapMarker_GetYOffset(TQ3GeometryObject thePixmapMarker, TQ3Int32 *yOffset)
+	{
+	const E3PixmapMarker* pixmapMarker = (const E3PixmapMarker*) thePixmapMarker ;
 	
 	//get the vertical offset
-	*yOffset = instanceData->yOffset ;
+	*yOffset = pixmapMarker->instanceData.yOffset ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1095,17 +1104,17 @@ E3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *yOffset)
 //      E3PixmapMarker_SetYOffset :	Set the vertical position of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 yOffset)
-{
-	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
+E3PixmapMarker_SetYOffset(TQ3GeometryObject thePixmapMarker, TQ3Int32 yOffset)
+	{
+	E3PixmapMarker* pixmapMarker = (E3PixmapMarker*) thePixmapMarker ;
 	
 	//set the vertical offset
-	instanceData->yOffset = yOffset ;
+	pixmapMarker->instanceData.yOffset = yOffset ;
 
-	Q3Shared_Edited(pixmapMarker);
+	Q3Shared_Edited ( pixmapMarker ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1115,18 +1124,17 @@ E3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 yOffset)
 //      E3PixmapMarker_GetPixmap :	Get the Pixmap of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_GetPixmap(TQ3GeometryObject pixmapMarker, TQ3StoragePixmap *pixmap)
-{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
-
-
+E3PixmapMarker_GetPixmap(TQ3GeometryObject thePixmapMarker, TQ3StoragePixmap *pixmap)
+	{
+	E3PixmapMarker* pixmapMarker = (E3PixmapMarker*) thePixmapMarker ;
 
 	// Get the pixmap
-	*pixmap = instanceData->pixmap;
+	*pixmap = pixmapMarker->instanceData.pixmap ;
 	
-	E3Shared_Acquire(&pixmap->image, instanceData->pixmap.image);
+	E3Shared_Acquire ( & pixmap->image, pixmapMarker->instanceData.pixmap.image ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1136,19 +1144,18 @@ E3PixmapMarker_GetPixmap(TQ3GeometryObject pixmapMarker, TQ3StoragePixmap *pixma
 //      E3PixmapMarker_SetPixmap :	Set the Pixmap of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_SetPixmap(TQ3GeometryObject pixmapMarker, const TQ3StoragePixmap *pixmap)
-{	TQ3PixmapMarkerData		*instanceData = (TQ3PixmapMarkerData *) E3ClassTree_FindInstanceData(pixmapMarker, kQ3GeometryTypePixmapMarker);
-
-
+E3PixmapMarker_SetPixmap(TQ3GeometryObject thePixmapMarker, const TQ3StoragePixmap *pixmap)
+	{
+	E3PixmapMarker* pixmapMarker = (E3PixmapMarker*) thePixmapMarker ;
 
 	// Set the pixmap
-	Q3Object_CleanDispose(&instanceData->pixmap.image);
+	Q3Object_CleanDispose ( & pixmapMarker->instanceData.pixmap.image ) ;
 
-	instanceData->pixmap = *pixmap;
+	pixmapMarker->instanceData.pixmap = *pixmap ;
 
-	E3Shared_Replace(&instanceData->pixmap.image, pixmap->image);
+	E3Shared_Replace ( & pixmapMarker->instanceData.pixmap.image, pixmap->image ) ;
 
-	Q3Shared_Edited(pixmapMarker);
+	Q3Shared_Edited ( pixmapMarker ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}

@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -52,6 +52,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Polyhedron : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3PolyhedronData	instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -723,14 +740,11 @@ e3geom_polyhedron_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obj
 //      e3geom_polyhedron_get_attribute : Polyhedron get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_polyhedron_get_attribute(TQ3GeometryObject theObject)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypePolyhedron);
-
-
-
+e3geom_polyhedron_get_attribute ( E3Polyhedron* polyhedron )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->polyhedronAttributeSet);
-}
+	return & polyhedron->instanceData.polyhedronAttributeSet ;
+	}
 
 
 
@@ -796,11 +810,11 @@ E3GeometryPolyhedron_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypePolyhedron,
 											kQ3ClassNameGeometryPolyhedron,
 											e3geom_polyhedron_metahandler,
-											sizeof(TQ3PolyhedronData));
+											~sizeof(E3Polyhedron));
 
 	return(qd3dStatus);
 }
@@ -819,7 +833,7 @@ E3GeometryPolyhedron_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypePolyhedron, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypePolyhedron, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -870,17 +884,17 @@ E3Polyhedron_Submit(const TQ3PolyhedronData *polyhedronData, TQ3ViewObject theVi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_SetData(TQ3GeometryObject thePolyhedron, const TQ3PolyhedronData *polyhedronData)
-{	TQ3PolyhedronData			*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
-	TQ3Status					q3status;
+	{
+	E3Polyhedron* polyhedron = (E3Polyhedron*) thePolyhedron ;
 
-	E3Polyhedron_EmptyData( instanceData );
+	E3Polyhedron_EmptyData ( & polyhedron->instanceData ) ;
 
-	q3status = e3geom_polyhedron_copydata( polyhedronData, instanceData, kQ3False );
+	TQ3Status q3status = e3geom_polyhedron_copydata ( polyhedronData,  & polyhedron->instanceData, kQ3False ) ;
 
-	Q3Shared_Edited(thePolyhedron);
+	Q3Shared_Edited ( polyhedron ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -891,14 +905,11 @@ E3Polyhedron_SetData(TQ3GeometryObject thePolyhedron, const TQ3PolyhedronData *p
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_GetData(TQ3GeometryObject thePolyhedron, TQ3PolyhedronData *polyhedronData)
-{	TQ3PolyhedronData			*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
-	TQ3Status					q3status;
+	{
+	E3Polyhedron* polyhedron = (E3Polyhedron*) thePolyhedron ;
 
-
-	q3status = e3geom_polyhedron_copydata( instanceData, polyhedronData, kQ3False );
-
-	return (q3status);
-}
+	return e3geom_polyhedron_copydata ( & polyhedron->instanceData, polyhedronData, kQ3False ) ;
+	}
 
 
 
@@ -941,15 +952,14 @@ E3Polyhedron_EmptyData(TQ3PolyhedronData *polyhedronData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_GetVertexPosition(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, TQ3Point3D *point)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
-
-
+	{
+	E3Polyhedron* polyhedron = (E3Polyhedron*) thePolyhedron ;
 
 	// Get the vertex position
-	*point = instanceData->vertices[index].point;
+	*point = polyhedron->instanceData.vertices [ index ].point ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -960,17 +970,16 @@ E3Polyhedron_GetVertexPosition(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_SetVertexPosition(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, const TQ3Point3D *point)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
-
-
+	{
+	E3Polyhedron* polyhedron = (E3Polyhedron*) thePolyhedron ;
 
 	// Set the vertex position
-	instanceData->vertices[index].point = *point;
+	polyhedron->instanceData.vertices [ index ].point = *point ;
 
-	Q3Shared_Edited(thePolyhedron);
+	Q3Shared_Edited ( polyhedron ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -981,15 +990,14 @@ E3Polyhedron_SetVertexPosition(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
-
-
+	{
+	E3Polyhedron* polyhedron = (E3Polyhedron*) thePolyhedron ;
 
 	// Get the vertex attribute set
-	E3Shared_Acquire(attributeSet, instanceData->vertices[index].attributeSet);
+	E3Shared_Acquire ( attributeSet, polyhedron->instanceData.vertices [ index ].attributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1000,17 +1008,16 @@ E3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject thePolyhedron, TQ3Uns32 ind
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, TQ3AttributeSet attributeSet)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
-
-
+	{
+	E3Polyhedron* polyhedron = (E3Polyhedron*) thePolyhedron ;
 
 	// Set the vertex attribute set
-	E3Shared_Replace(&instanceData->vertices[index].attributeSet, attributeSet);
+	E3Shared_Replace ( &polyhedron->instanceData.vertices [ index ].attributeSet, attributeSet ) ;
 
-	Q3Shared_Edited(thePolyhedron);
+	Q3Shared_Edited ( polyhedron ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1025,22 +1032,23 @@ E3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject thePolyhedron, TQ3Uns32 ind
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_GetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleIndex, TQ3PolyhedronTriangleData *triangleData)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
+	{
+	E3Polyhedron* polyhedron = (E3Polyhedron*) thePolyhedron ;
 
 
 
 	// Get the triangle data
-	Q3Memory_Copy(instanceData->triangles[triangleIndex].vertexIndices,
+	Q3Memory_Copy ( polyhedron->instanceData.triangles [ triangleIndex ].vertexIndices,
 		   triangleData->vertexIndices,
-		   sizeof(triangleData->vertexIndices));
+		   sizeof ( triangleData->vertexIndices ) ) ;
 
-	triangleData->edgeFlag = instanceData->triangles[triangleIndex].edgeFlag;
+	triangleData->edgeFlag = polyhedron->instanceData.triangles [ triangleIndex ].edgeFlag ;
 
-	E3Shared_Acquire(&triangleData->triangleAttributeSet,
-		              instanceData->triangles[triangleIndex].triangleAttributeSet);
+	E3Shared_Acquire ( & triangleData->triangleAttributeSet,
+		              polyhedron->instanceData.triangles [ triangleIndex ].triangleAttributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1055,24 +1063,25 @@ E3Polyhedron_GetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleI
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_SetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleIndex, const TQ3PolyhedronTriangleData *triangleData)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
+	{
+	E3Polyhedron* polyhedron = (E3Polyhedron*) thePolyhedron ;
 
 
 
 	// Set the triangle data
-	Q3Memory_Copy(triangleData->vertexIndices,
-		   instanceData->triangles[triangleIndex].vertexIndices,
-		   sizeof(instanceData->triangles[triangleIndex].vertexIndices));
+	Q3Memory_Copy ( triangleData->vertexIndices,
+		   polyhedron->instanceData.triangles [ triangleIndex ].vertexIndices,
+		   sizeof ( polyhedron->instanceData.triangles [ triangleIndex ].vertexIndices ) ) ;
 
-	instanceData->triangles[triangleIndex].edgeFlag = triangleData->edgeFlag;
+	polyhedron->instanceData.triangles [ triangleIndex ].edgeFlag = triangleData->edgeFlag ;
 
-	E3Shared_Acquire(&instanceData->triangles[triangleIndex].triangleAttributeSet,
-					  triangleData->triangleAttributeSet);
+	E3Shared_Acquire ( & polyhedron->instanceData.triangles [ triangleIndex ].triangleAttributeSet,
+					  triangleData->triangleAttributeSet ) ;
 
-	Q3Shared_Edited(thePolyhedron);
+	Q3Shared_Edited ( polyhedron ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1087,24 +1096,23 @@ E3Polyhedron_SetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleI
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_GetEdgeData(TQ3GeometryObject thePolyhedron, TQ3Uns32 edgeIndex, TQ3PolyhedronEdgeData *edgeData)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
-
-
+	{
+	E3Polyhedron* polyhedron = (E3Polyhedron*) thePolyhedron ;
 
 	// Get the edge data
-	Q3Memory_Copy(instanceData->edges[edgeIndex].vertexIndices,
+	Q3Memory_Copy ( polyhedron->instanceData.edges [ edgeIndex ].vertexIndices,
 		   edgeData->vertexIndices,
-		   sizeof(edgeData->vertexIndices));
+		   sizeof ( edgeData->vertexIndices ) ) ;
 
-	Q3Memory_Copy(instanceData->edges[edgeIndex].triangleIndices,
+	Q3Memory_Copy ( polyhedron->instanceData.edges [ edgeIndex ].triangleIndices,
 		   edgeData->triangleIndices,
-		   sizeof(edgeData->triangleIndices));
+		   sizeof ( edgeData->triangleIndices ) ) ;
 
-	E3Shared_Acquire(&edgeData->edgeAttributeSet,
-		              instanceData->edges[edgeIndex].edgeAttributeSet);
+	E3Shared_Acquire ( & edgeData->edgeAttributeSet,
+		              polyhedron->instanceData.edges [ edgeIndex ].edgeAttributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1119,23 +1127,22 @@ E3Polyhedron_GetEdgeData(TQ3GeometryObject thePolyhedron, TQ3Uns32 edgeIndex, TQ
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_SetEdgeData(TQ3GeometryObject thePolyhedron, TQ3Uns32 edgeIndex, const TQ3PolyhedronEdgeData *edgeData)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
-
-
+	{
+	E3Polyhedron* polyhedron = (E3Polyhedron*) thePolyhedron ;
 
 	// Set the edge data
-	Q3Memory_Copy(edgeData->vertexIndices,
-		   instanceData->edges[edgeIndex].vertexIndices,
-		   sizeof(instanceData->edges[edgeIndex].vertexIndices));
+	Q3Memory_Copy ( edgeData->vertexIndices,
+		   polyhedron->instanceData.edges [ edgeIndex ].vertexIndices,
+		   sizeof ( polyhedron->instanceData.edges [ edgeIndex ].vertexIndices ) ) ;
 
-	Q3Memory_Copy(edgeData->triangleIndices,
-		   instanceData->edges[edgeIndex].triangleIndices,
-		   sizeof(instanceData->edges[edgeIndex].triangleIndices));
+	Q3Memory_Copy ( edgeData->triangleIndices,
+		   polyhedron->instanceData.edges [ edgeIndex ].triangleIndices,
+		   sizeof ( polyhedron->instanceData.edges [ edgeIndex ].triangleIndices ) ) ;
 
-	E3Shared_Acquire(&instanceData->edges[edgeIndex].edgeAttributeSet,
-					  edgeData->edgeAttributeSet);
+	E3Shared_Acquire ( & polyhedron->instanceData.edges [ edgeIndex ].edgeAttributeSet,
+					  edgeData->edgeAttributeSet ) ;
 
-	Q3Shared_Edited(thePolyhedron);
+	Q3Shared_Edited ( polyhedron ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}

@@ -5,7 +5,7 @@
         Implementation of Quesa NURB Patch geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -60,6 +60,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3NURBPatch : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3NURBPatchData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -1316,14 +1333,11 @@ e3geom_nurbpatch_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 //      e3geom_nurbpatch_get_attribute : NURBPatch get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_nurbpatch_get_attribute(TQ3GeometryObject theObject)
-{	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeNURBPatch);
-
-
-
+e3geom_nurbpatch_get_attribute ( E3NURBPatch* nurbPatch )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->patchAttributeSet);
-}
+	return & nurbPatch->instanceData.patchAttributeSet ;
+	}
 
 
 
@@ -1389,11 +1403,11 @@ E3GeometryNURBPatch_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeNURBPatch,
 											kQ3ClassNameGeometryNURBPatch,
 											e3geom_nurbpatch_metahandler,
-											sizeof(TQ3NURBPatchData));
+											~sizeof(E3NURBPatch));
 
 	return(qd3dStatus);
 }
@@ -1412,7 +1426,7 @@ E3GeometryNURBPatch_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeNURBPatch, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeNURBPatch, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -1464,20 +1478,19 @@ E3NURBPatch_Submit(const TQ3NURBPatchData *nurbPatchData, TQ3ViewObject theView)
 //		Note : Quite untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_SetData(TQ3GeometryObject nurbPatch, const TQ3NURBPatchData *nurbPatchData)
-{
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
-	TQ3Status		qd3dStatus;
+E3NURBPatch_SetData(TQ3GeometryObject theNurbPatch, const TQ3NURBPatchData *nurbPatchData)
+	{
+	E3NURBPatch* nurbPatch = (E3NURBPatch*) theNurbPatch ;
 
 	// first, free the old data
-	e3geom_patch_disposedata(instanceData);
+	e3geom_patch_disposedata ( & nurbPatch->instanceData ) ;
 
 	// then copy in the new data
-	qd3dStatus = e3geom_patch_copydata(nurbPatchData, instanceData, kQ3False);
-	Q3Shared_Edited(nurbPatch);
+	TQ3Status qd3dStatus = e3geom_patch_copydata ( nurbPatchData, & nurbPatch->instanceData, kQ3False ) ;
+	Q3Shared_Edited ( nurbPatch ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -1489,17 +1502,15 @@ E3NURBPatch_SetData(TQ3GeometryObject nurbPatch, const TQ3NURBPatchData *nurbPat
 //		Note : Quite untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_GetData(TQ3GeometryObject nurbPatch, TQ3NURBPatchData *nurbPatchData)
-{
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
-	TQ3Status		qd3dStatus;
+E3NURBPatch_GetData(TQ3GeometryObject theNurbPatch, TQ3NURBPatchData *nurbPatchData)
+	{
+	E3NURBPatch* nurbPatch = (E3NURBPatch*) theNurbPatch ;
 
 	// Copy the data out of the NURBPatch
 	nurbPatchData->patchAttributeSet = NULL;
-	qd3dStatus = e3geom_patch_copydata(instanceData, nurbPatchData, kQ3False);
-
-	return(qd3dStatus);
-}
+	
+	return e3geom_patch_copydata ( & nurbPatch->instanceData, nurbPatchData, kQ3False ) ;
+	}
 
 
 
@@ -1530,16 +1541,17 @@ E3NURBPatch_EmptyData(TQ3NURBPatchData *nurbPatchData)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, const TQ3RationalPoint4D *point4D)
-{
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
+E3NURBPatch_SetControlPoint(TQ3GeometryObject theNurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, const TQ3RationalPoint4D *point4D)
+	{
+	E3NURBPatch* nurbPatch = (E3NURBPatch*) theNurbPatch ;
 
 	// Copy the point from point4D to controlPoints
-	Q3Memory_Copy( point4D, &instanceData->controlPoints[ instanceData->numColumns*rowIndex + columnIndex ], sizeof(TQ3RationalPoint4D) );
+	Q3Memory_Copy ( point4D, & nurbPatch->instanceData.controlPoints [ nurbPatch->instanceData.numColumns * rowIndex + columnIndex ], sizeof(TQ3RationalPoint4D) ) ;
 
-	Q3Shared_Edited(nurbPatch);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( nurbPatch ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -1551,15 +1563,15 @@ E3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3U
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3RationalPoint4D *point4D)
-{
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
+E3NURBPatch_GetControlPoint(TQ3GeometryObject theNurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3RationalPoint4D *point4D)
+	{
+	E3NURBPatch* nurbPatch = (E3NURBPatch*) theNurbPatch ;
 
 	// Copy the point from controlPoints to point4D
-	Q3Memory_Copy( &instanceData->controlPoints[ instanceData->numColumns*rowIndex + columnIndex ], point4D, sizeof(TQ3RationalPoint4D) );
+	Q3Memory_Copy ( & nurbPatch->instanceData.controlPoints [ nurbPatch->instanceData.numColumns * rowIndex + columnIndex ], point4D, sizeof(TQ3RationalPoint4D) ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1571,16 +1583,17 @@ E3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3U
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knotValue)
-{
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
+E3NURBPatch_SetUKnot(TQ3GeometryObject theNurbPatch, TQ3Uns32 knotIndex, float knotValue)
+	{
+	E3NURBPatch* nurbPatch = (E3NURBPatch*) theNurbPatch ;
 
 	// Copy the knot from knotValue to uKnots
-	Q3Memory_Copy( &knotValue, &instanceData->uKnots[ knotIndex ], sizeof(float) );
+	Q3Memory_Copy ( &knotValue, & nurbPatch->instanceData.uKnots [ knotIndex ], sizeof(float) ) ;
 
-	Q3Shared_Edited(nurbPatch);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( nurbPatch ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -1592,16 +1605,17 @@ E3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knot
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knotValue)
-{
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
+E3NURBPatch_SetVKnot(TQ3GeometryObject theNurbPatch, TQ3Uns32 knotIndex, float knotValue)
+	{
+	E3NURBPatch* nurbPatch = (E3NURBPatch*) theNurbPatch ;
 
 	// Copy the knot from knotValue to vKnots
-	Q3Memory_Copy( &knotValue, &instanceData->vKnots[ knotIndex ], sizeof(float) );
+	Q3Memory_Copy ( &knotValue, & nurbPatch->instanceData.vKnots [ knotIndex ], sizeof(float) ) ;
 
-	Q3Shared_Edited(nurbPatch);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( nurbPatch ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -1613,15 +1627,15 @@ E3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knot
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *knotValue)
-{
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
+E3NURBPatch_GetUKnot(TQ3GeometryObject theNurbPatch, TQ3Uns32 knotIndex, float *knotValue)
+	{
+	E3NURBPatch* nurbPatch = (E3NURBPatch*) theNurbPatch ;
 	
 	// Copy the knot from uKnots to knotValue
-	Q3Memory_Copy( &instanceData->uKnots[ knotIndex ], knotValue, sizeof(float) );
+	Q3Memory_Copy ( & nurbPatch->instanceData.uKnots [ knotIndex ], knotValue, sizeof(float) ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1633,15 +1647,15 @@ E3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *kno
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *knotValue)
-{
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
+E3NURBPatch_GetVKnot(TQ3GeometryObject theNurbPatch, TQ3Uns32 knotIndex, float *knotValue)
+	{
+	E3NURBPatch* nurbPatch = (E3NURBPatch*) theNurbPatch ;
 	
 	// Copy the knot from uKnots to knotValue
-	Q3Memory_Copy( &instanceData->vKnots[ knotIndex ], knotValue, sizeof(float) );
+	Q3Memory_Copy ( & nurbPatch->instanceData.vKnots [ knotIndex ], knotValue, sizeof(float) ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 

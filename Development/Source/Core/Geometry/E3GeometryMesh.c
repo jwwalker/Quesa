@@ -5,7 +5,7 @@
 		Implementation of Quesa Mesh geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -224,6 +224,18 @@ struct TE3MeshData {
 
 
 
+
+class E3Mesh : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TE3MeshData			instanceData ; // N.B. NOT TQ3MeshData
+
+	} ;
+	
 
 //=============================================================================
 //      Internal functions
@@ -4311,18 +4323,17 @@ TQ3Status
 e3geom_mesh_bounds(
 	TQ3ViewObject theView,
 	TQ3ObjectType objectType,
-	TQ3Object theObject,
+	E3Mesh* mesh,
 	const void *objectData)
 {
 #pragma unused(objectType)
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeMesh);
 
 	// Use array of vertices in mesh (*** MAY RELOCATE VERTICES ***)
-	if (e3mesh_UseVertexArray(E3_CONST_CAST(TE3MeshData*, meshPtr)) == kQ3Failure)
+	if (e3mesh_UseVertexArray(E3_CONST_CAST(TE3MeshData*, & mesh->instanceData )) == kQ3Failure)
 		goto failure;
 
 	// Update the bounds
-	E3View_UpdateBounds(theView, e3mesh_NumVertices(meshPtr), sizeof(TE3MeshVertexData), &e3meshVertexArray_FirstItemConst(&meshPtr->vertexArrayOrList.array)->point);
+	E3View_UpdateBounds(theView, e3mesh_NumVertices(& mesh->instanceData), sizeof(TE3MeshVertexData), &e3meshVertexArray_FirstItemConst(& mesh->instanceData.vertexArrayOrList.array)->point);
 
 	return(kQ3Success);
 
@@ -4340,14 +4351,11 @@ failure:
 static
 TQ3AttributeSet* 
 e3geom_mesh_get_attribute(
-	TQ3GeometryObject theObject)
-{
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeMesh);
-
-
+	E3Mesh* mesh )
+	{
 	// Return the address of the geometry attribute set
-	return(&meshPtr->attributeSet);
-}
+	return & mesh->instanceData.attributeSet ;
+	}
 
 
 
@@ -4411,11 +4419,11 @@ E3GeometryMesh_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeMesh,
 											kQ3ClassNameGeometryMesh,
 											e3geom_mesh_metahandler,
-											sizeof(TE3MeshData));
+											~sizeof(E3Mesh));
 
 	return(qd3dStatus);
 }
@@ -4434,7 +4442,7 @@ E3GeometryMesh_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeMesh, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeMesh, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -4467,10 +4475,8 @@ E3Mesh_New(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Mesh_SetData(TQ3GeometryObject meshObject, const TQ3MeshData *meshData)
-{
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
-
-	if (e3mesh_SetExtData(meshPtr, meshData) == kQ3Failure)
+	{
+	if (e3mesh_SetExtData( & ( (E3Mesh*) meshObject )->instanceData, meshData) == kQ3Failure)
 		goto failure;
 
 	Q3Shared_Edited(meshObject);
@@ -4480,7 +4486,7 @@ E3Mesh_SetData(TQ3GeometryObject meshObject, const TQ3MeshData *meshData)
 failure:
 
 	return(kQ3Failure);
-}
+	}
 
 
 
@@ -4491,18 +4497,9 @@ failure:
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Mesh_GetData(TQ3GeometryObject meshObject, TQ3MeshData *meshData)
-{
-	const TE3MeshData* meshPtr = (const TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
-
-	if (e3mesh_GetExtData(meshPtr, meshData) == kQ3Failure)
-		goto failure;
-
-	return(kQ3Success);
-
-failure:
-
-	return(kQ3Failure);
-}
+	{
+	return e3mesh_GetExtData ( & ( (E3Mesh*) meshObject )->instanceData, meshData ) ;
+	}
 
 
 
@@ -4537,7 +4534,7 @@ TQ3Status
 E3Mesh_DelayUpdates(
 	TQ3GeometryObject meshObject)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 
@@ -4558,7 +4555,7 @@ TQ3Status
 E3Mesh_ResumeUpdates(
 	TQ3GeometryObject meshObject)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 
@@ -4583,7 +4580,7 @@ E3Mesh_FaceNew(
 	const TE3MeshVertexExtRef* vertexExtRefs,
 	TQ3AttributeSet attributeSet)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Use list of faces in mesh (*** MAY RELOCATE FACES ***)
@@ -4627,7 +4624,7 @@ E3Mesh_FaceDelete(
 	TQ3GeometryObject meshObject,
 	TE3MeshFaceExtRef faceExtRef)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Check face; if face already deleted, return kQ3Success
@@ -4673,7 +4670,7 @@ E3Mesh_FaceToContour(
 	TE3MeshFaceExtRef containerFaceExtRef,
 	TE3MeshFaceExtRef faceExtRef)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* containerFacePtr;
 	TE3MeshFaceData* facePtr;
 	TE3MeshContourData* contourPtr;
@@ -4755,7 +4752,7 @@ E3Mesh_ContourToFace(
 	TQ3GeometryObject meshObject,
 	TE3MeshContourExtRef contourExtRef)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshContourData* contourPtr;
 	TE3MeshFaceData* containerFacePtr;
 	TE3MeshFaceData* facePtr;
@@ -4835,7 +4832,7 @@ E3Mesh_VertexNew(
 	TQ3GeometryObject meshObject,
 	const TQ3Vertex3D* vertexExtDataPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 
 	// Use list of vertices in mesh (*** MAY RELOCATE VERTICES ***)
@@ -4879,7 +4876,7 @@ E3Mesh_VertexDelete(
 	TQ3GeometryObject meshObject,
 	TE3MeshVertexExtRef vertexExtRef)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 	TE3MeshFaceData* facePtr;
 
@@ -4962,7 +4959,7 @@ E3Mesh_GetOrientable(
 	TQ3GeometryObject meshObject,
 	TQ3Boolean* orientablePtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -4984,7 +4981,7 @@ E3Mesh_GetNumComponents(
 	TQ3GeometryObject meshObject,
 	TQ3Uns32* numComponentsPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 
@@ -5043,7 +5040,7 @@ E3Mesh_GetNumFaces(
 	TQ3GeometryObject meshObject,
 	TQ3Uns32* numFacesPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 	// Get number of faces in mesh
 	*numFacesPtr = e3mesh_NumFaces(meshPtr);
@@ -5066,7 +5063,7 @@ E3Mesh_FirstMeshFace(
 	TQ3GeometryObject meshObject,
 	TQ3MeshIterator* iteratorPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 	TE3MeshFaceExtRef faceExtRef;
 	
@@ -5143,7 +5140,7 @@ E3Mesh_GetNumEdges(
 	TQ3GeometryObject meshObject,
 	TQ3Uns32* numEdgesPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5164,7 +5161,7 @@ E3Mesh_FirstMeshEdge(
 	TQ3GeometryObject meshObject,
 	TQ3MeshIterator* iteratorPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5202,7 +5199,7 @@ E3Mesh_GetNumVertices(
 	TQ3GeometryObject meshObject,
 	TQ3Uns32* numVerticesPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 	// Get number of vertices in mesh
 	*numVerticesPtr = e3mesh_NumVertices(meshPtr);
@@ -5225,7 +5222,7 @@ E3Mesh_FirstMeshVertex(
 	TQ3GeometryObject meshObject,
 	TQ3MeshIterator* iteratorPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 	TE3MeshVertexExtRef vertexExtRef;
 	
@@ -5300,7 +5297,7 @@ E3Mesh_GetNumCorners(
 	TQ3GeometryObject meshObject,
 	TQ3Uns32* numCornersPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 	// Get number of corners in mesh
 	*numCornersPtr = e3mesh_NumCorners(meshPtr);
@@ -5324,7 +5321,7 @@ E3Mesh_GetComponentOrientable(
 	TE3MeshComponentExtRef componentExtRef,
 	TQ3Boolean* orientablePtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5346,7 +5343,7 @@ E3Mesh_GetComponentBoundingBox(
 	TE3MeshComponentExtRef componentExtRef,
 	TQ3BoundingBox* boundingBoxPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5369,7 +5366,7 @@ E3Mesh_GetComponentNumEdges(
 	TE3MeshComponentExtRef componentExtRef,
 	TQ3Uns32* numEdgesPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5430,7 +5427,7 @@ E3Mesh_GetComponentNumVertices(
 	TE3MeshComponentExtRef componentExtRef,
 	TQ3Uns32* numVerticesPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5493,7 +5490,7 @@ E3Mesh_GetFaceIndex(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3Uns32* indexPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Check face
@@ -5532,7 +5529,7 @@ E3Mesh_GetFacePlaneEquation(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3PlaneEquation* planeEquationPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5554,7 +5551,7 @@ E3Mesh_GetFaceAttributeSet(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3AttributeSet* attributeSetPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Check face
@@ -5586,7 +5583,7 @@ E3Mesh_SetFaceAttributeSet(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3AttributeSet attributeSet)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Check face
@@ -5621,7 +5618,7 @@ E3Mesh_GetFaceComponent(
 	TE3MeshFaceExtRef faceExtRef,
 	TE3MeshComponentExtRef* componentExtRefPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5682,7 +5679,7 @@ E3Mesh_GetFaceNumContours(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3Uns32* numContoursPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Check face
@@ -5854,7 +5851,7 @@ E3Mesh_GetFaceNumVertices(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3Uns32* numVerticesPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Check face
@@ -6044,7 +6041,7 @@ E3Mesh_GetContourFace(
 	TE3MeshContourExtRef contourExtRef,
 	TE3MeshFaceExtRef* containerFaceExtRefPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshContourData* contourPtr;
 	TE3MeshFaceData* containerFacePtr;
 	
@@ -6160,7 +6157,7 @@ E3Mesh_GetContourNumVertices(
 	TE3MeshContourExtRef contourExtRef,
 	TQ3Uns32* numVerticesPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshContourData* contourPtr;
 
 	// Check contour
@@ -6296,7 +6293,7 @@ E3Mesh_GetEdgeOnBoundary(
 	TE3MeshEdgeExtRef edgeExtRef,
 	TQ3Boolean* onBoundaryPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6318,7 +6315,7 @@ E3Mesh_GetEdgeAttributeSet(
 	TE3MeshEdgeExtRef edgeExtRef,
 	TQ3AttributeSet* attributeSetPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6340,7 +6337,7 @@ E3Mesh_SetEdgeAttributeSet(
 	TE3MeshEdgeExtRef edgeExtRef,
 	TQ3AttributeSet attributeSet)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6365,7 +6362,7 @@ E3Mesh_GetEdgeComponent(
 	TE3MeshEdgeExtRef edgeExtRef,
 	TE3MeshComponentExtRef* componentExtRefPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6388,7 +6385,7 @@ E3Mesh_GetEdgeFaces(
 	TE3MeshFaceExtRef* faceExtRefPtr1,
 	TE3MeshFaceExtRef* faceExtRefPtr2)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6411,7 +6408,7 @@ E3Mesh_GetEdgeVertices(
 	TE3MeshVertexExtRef* vertexExtRefPtr1,
 	TE3MeshVertexExtRef* vertexExtRefPtr2)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6435,7 +6432,7 @@ E3Mesh_GetVertexIndex(
 	TE3MeshVertexExtRef vertexExtRef,
 	TQ3Uns32* indexPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
@@ -6474,7 +6471,7 @@ E3Mesh_GetVertexOnBoundary(
 	TE3MeshVertexExtRef vertexExtRef,
 	TQ3Boolean* onBoundaryPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6496,7 +6493,7 @@ E3Mesh_GetVertexCoordinates(
 	TE3MeshVertexExtRef vertexExtRef,
 	TQ3Point3D* coordinatesPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
@@ -6528,7 +6525,7 @@ E3Mesh_SetVertexCoordinates(
 	TE3MeshVertexExtRef vertexExtRef,
 	const TQ3Point3D* coordinates)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
@@ -6562,7 +6559,7 @@ E3Mesh_GetVertexAttributeSet(
 	TE3MeshVertexExtRef vertexExtRef,
 	TQ3AttributeSet* attributeSetPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
@@ -6594,7 +6591,7 @@ E3Mesh_SetVertexAttributeSet(
 	TE3MeshVertexExtRef vertexExtRef,
 	TQ3AttributeSet attributeSet)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
@@ -6629,7 +6626,7 @@ E3Mesh_GetVertexComponent(
 	TE3MeshVertexExtRef vertexExtRef,
 	TE3MeshComponentExtRef* componentExtRefPtr)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6898,7 +6895,7 @@ E3Mesh_SetCornerAttributeSet(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3AttributeSet newAttributeSet)
 {
-	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(meshObject, kQ3GeometryTypeMesh);
+	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 	TE3MeshFaceData* facePtr;
 	TE3MeshCornerData* oldCornerPtr;
