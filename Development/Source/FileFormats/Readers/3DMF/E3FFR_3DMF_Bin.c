@@ -304,6 +304,7 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 	TQ3Status					status;
 	TQ3Int32					tocType;
 	TQ3Int32					tocSize;
+	TQ3Int32					tocSizeInFile;
 	TQ3Int64					nextToc;
 	TQ3Int32					refSeed;
 	TQ3Int32					typeSeed;
@@ -322,6 +323,7 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 	Q3_REQUIRE_OR_RESULT(tocType == kQ3ObjectTypeTOC, kQ3Failure);
 	if(status == kQ3Success)
 		status = int32Read(format, &tocSize);
+	tocSizeInFile = tocSize;
 	
 	if(status == kQ3Success)
 		status = int64Read(format, &nextToc);
@@ -412,7 +414,7 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 	if((instanceData->MFData.baseData.currentStoragePosition + 8) 
 			>= instanceData->MFData.baseData.logicalEOF){
 		// this is the last object in file (as usual), let's adjust the logical EOF
-		instanceData->MFData.baseData.logicalEOF -= tocSize;
+		instanceData->MFData.baseData.logicalEOF -= tocSizeInFile;
 		}
 	
 	// continue with next TOC
