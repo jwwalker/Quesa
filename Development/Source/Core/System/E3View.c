@@ -1435,6 +1435,21 @@ E3View_CallIdleMethod(TQ3ViewObject theView, TQ3Uns32 current, TQ3Uns32 complete
 
 
 
+//=============================================================================
+//      E3View_AccessPick : Access our pick without ref-counting.
+//-----------------------------------------------------------------------------
+//		Note : Used internally by Quesa to access a view's pick.
+//-----------------------------------------------------------------------------
+TQ3PickObject
+E3View_AccessPick(TQ3ViewObject theView)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+
+
+
+	// Return the pick
+	return(instanceData->pickCurrent);
+}
+
 
 //=============================================================================
 //      E3View_AccessRenderer : Access our renderer without ref-counting.

@@ -94,6 +94,7 @@ TQ3Status				E3View_UnregisterClass(void);
 TQ3Status				E3View_SubmitRetained(TQ3ViewObject theView, TQ3Object theObject);
 TQ3Status				E3View_SubmitImmediate(TQ3ViewObject theView, TQ3ObjectType objectType, const void *objectData);
 TQ3Status				E3View_CallIdleMethod(TQ3ViewObject theView, TQ3Uns32 current, TQ3Uns32 completed);
+TQ3PickObject			E3View_AccessPick(TQ3ViewObject theView);
 TQ3RendererObject		E3View_AccessRenderer(TQ3ViewObject theView);
 TQ3CameraObject			E3View_AccessCamera(TQ3ViewObject theView);
 TQ3FileFormatObject		E3View_AccessFileFormat(TQ3ViewObject theView);
