@@ -1092,13 +1092,178 @@ e3ffw_3DMF_mipmap_write(TQ3Mipmap *object,TQ3FileObject theFile)
 
 }
 
+
+
+
+
 //=============================================================================
 //      Style
 //-----------------------------------------------------------------------------
-//      e3ffw_3DMF_backfacing_traverse : Backfacing style traverse method.
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_subdivision_traverse : Subdivision style traverse method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3ffw_3DMF_backfacing_traverse( TQ3Object object,
+e3ffw_3DMF_subdivision_traverse( TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	TQ3Status	status;
+	TQ3SubdivisionStyleData		styleData;
+	
+	status = Q3SubdivisionStyle_GetData( object, &styleData );
+	
+	if (status == kQ3Success)
+		{
+		if (styleData.method == kQ3SubdivisionMethodConstant)
+			status = Q3XView_SubmitWriteData( view, 12, data, NULL );
+		else
+			status = Q3XView_SubmitWriteData( view, 8, data, NULL );
+		}
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_subdivision_write : Subdivision style write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_subdivision_write(const TQ3SubdivisionStyleData *objectData,
+				TQ3FileObject theFile)
+{
+	TQ3Status	status = Q3Uns32_Write( objectData->method, theFile );
+	
+	if (status == kQ3Success)
+		{
+		if (objectData->method == kQ3SubdivisionMethodConstant)
+			{
+				status = Q3Uns32_Write( objectData->c1, theFile );
+				
+				if (status == kQ3Success)
+					status = Q3Uns32_Write( objectData->c2, theFile );
+			}
+			else
+			{
+				status = Q3Float32_Write( objectData->c1, theFile );
+			}
+		}
+	
+	return status;
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_antialias_traverse : Antialias style traverse method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_antialias_traverse( TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	TQ3Status	status;
+
+	status = Q3XView_SubmitWriteData( view, 12, data, NULL );
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_antialias_write : Antialias style write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_antialias_write(const TQ3AntiAliasStyleData *objectData,
+				TQ3FileObject theFile)
+{
+	TQ3Status	status = Q3Uns32_Write( objectData->state, theFile );
+	
+	if (status == kQ3Success)
+		status = Q3Uns32_Write( objectData->mode, theFile );
+	
+	if (status == kQ3Success)
+		status = Q3Float32_Write( objectData->quality, theFile );
+	
+	return status;
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_fog_traverse : Fog style traverse method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_fog_traverse( TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	TQ3Status	status;
+
+	status = Q3XView_SubmitWriteData( view, 36, data, NULL );
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_fog_write : Fog style write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_fog_write(const TQ3FogStyleData *objectData,
+				TQ3FileObject theFile)
+{
+	TQ3Status	status = Q3Uns32_Write( objectData->state, theFile );
+	
+	if (status == kQ3Success)
+		status = Q3Uns32_Write( objectData->mode, theFile );
+	
+	if (status == kQ3Success)
+		status = Q3Float32_Write( objectData->fogStart, theFile );
+	
+	if (status == kQ3Success)
+		status = Q3Float32_Write( objectData->fogEnd, theFile );
+	
+	if (status == kQ3Success)
+		status = Q3Float32_Write( objectData->density, theFile );
+
+	if (status == kQ3Success)
+		status = Q3Float32_Write( objectData->color.a, theFile );
+
+	if (status == kQ3Success)
+		status = Q3Float32_Write( objectData->color.r, theFile );
+
+	if (status == kQ3Success)
+		status = Q3Float32_Write( objectData->color.g, theFile );
+
+	if (status == kQ3Success)
+		status = Q3Float32_Write( objectData->color.b, theFile );
+	
+	return status;
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_simplestyle_traverse : Traverse method for a 4-byte unsigned style.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_simplestyle_traverse( TQ3Object object,
 					 void *data,
 					 TQ3ViewObject view)
 {
@@ -1110,17 +1275,45 @@ e3ffw_3DMF_backfacing_traverse( TQ3Object object,
 }
 
 
+
+
+
 //=============================================================================
-//      e3ffw_3DMF_backfacing_write : Backfacing style traverse method.
+//      e3ffw_3DMF_simplestyle_write : Write method for a 4-byte unsigned style.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3ffw_3DMF_backfacing_write(const TQ3Uns32 *objectData,
+e3ffw_3DMF_simplestyle_write(const TQ3Uns32 *objectData,
 				TQ3FileObject theFile)
 {
 	TQ3Status	status = Q3Uns32_Write( *objectData, theFile );
 	
 	return status;
 }
+
+
+
+
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_highlight_traverse : Traverse method for a Highlight style.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_highlight_traverse( TQ3Object object,
+					 TQ3AttributeSet *data,
+					 TQ3ViewObject view)
+{
+	TQ3Status	status;
+	
+	status = Q3XView_SubmitWriteData( view, 0, data, NULL );
+	
+	if ( (status == kQ3Success) && (*data != NULL) )
+		status = Q3Object_Submit( *data, view );
+	
+	return status;
+}
+
+
+
 
 
 //=============================================================================
@@ -2402,8 +2595,28 @@ E3FFW_3DMF_RegisterGeom(void)
 	E3ClassTree_AddMethodByType(kQ3SurfaceShaderTypeTexture,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_shader_texture_traverse);
 
 	// Style
-	E3ClassTree_AddMethodByType(kQ3StyleTypeBackfacing,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_backfacing_traverse);
-	E3ClassTree_AddMethodByType(kQ3StyleTypeBackfacing,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_backfacing_write);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeBackfacing,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeBackfacing,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_write);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeSubdivision,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_subdivision_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeSubdivision,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_subdivision_write);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeOrientation,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeOrientation,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_write);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeInterpolation,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeInterpolation,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_write);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeFill,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeFill,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_write);
+	E3ClassTree_AddMethodByType(kQ3StyleTypePickID,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypePickID,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_write);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeReceiveShadows,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeReceiveShadows,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_write);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeHighlight,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_highlight_traverse);
+	// Highlight doesn't need a write method since it has 0 bytes of data.
+	E3ClassTree_AddMethodByType(kQ3StyleTypePickParts,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypePickParts,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_write);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeAntiAlias,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_antialias_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeAntiAlias,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_antialias_write);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeFog,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_fog_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeFog,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_fog_write);
 
 
 	// Geometries
