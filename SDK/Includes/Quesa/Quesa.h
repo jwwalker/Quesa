@@ -109,10 +109,10 @@
 	#define QUESA_OS_COCOA						0
 #endif
 
-#if (!QUESA_OS_MACINTOSH &&
-     !QUESA_OS_WIN32     &&
-     !QUESA_OS_UNIX      &&
-     !QUESA_OS_BE        &&
+#if (!QUESA_OS_MACINTOSH && \
+     !QUESA_OS_WIN32     && \
+     !QUESA_OS_UNIX      && \
+     !QUESA_OS_BE        && \
      !QUESA_OS_COCOA)
 	#error Target OS not selected!
 #endif
@@ -133,10 +133,11 @@
 	// Build constants
 	#define QUESA_HOST_IS_BIG_ENDIAN 			1
 	#define QUESA_SUPPORT_QUICKTIME 			1
+#endif // QUESA_OS_MACINTOSH
 
 
 // Windows specific
-#elif QUESA_OS_WIN32
+#if QUESA_OS_WIN32
 	// Includes
 	#include <Windows.h>
 
@@ -159,25 +160,37 @@
 	    #undef  EXTERN_API_C
 	    #define EXTERN_API_C(_type) __declspec(dllexport) _type __cdecl	 
 	#endif
+#endif // QUESA_OS_WIN32
 
 
 // Unix specific
-#elif QUESA_OS_UNIX
+#if QUESA_OS_UNIX
 	// Build constants
 	#ifndef QUESA_HOST_IS_BIG_ENDIAN
 		#define QUESA_HOST_IS_BIG_ENDIAN 		1
 	#endif
 	#define QUESA_SUPPORT_QUICKTIME             0
+#endif // QUESA_OS_UNIX
 
 
 // Be specific
-#elif QUESA_OS_BE
+#if QUESA_OS_BE
 	// Build constants
 	#ifndef QUESA_HOST_IS_BIG_ENDIAN
 		#define QUESA_HOST_IS_BIG_ENDIAN 		1
 	#endif
 	#define QUESA_SUPPORT_QUICKTIME             0
-#endif
+#endif // QUESA_OS_BE
+
+
+// Cocoa specific
+#if QUESA_OS_COCOA
+	// Build constants
+	#ifndef QUESA_HOST_IS_BIG_ENDIAN
+		#define QUESA_HOST_IS_BIG_ENDIAN 		1
+	#endif
+	#define QUESA_SUPPORT_QUICKTIME             1
+#endif // QUESA_OS_COCOA
 
 
 
