@@ -256,7 +256,7 @@ App_Initialise(void)
 	// Create the viewer
 	area.min.x = area.min.y = 0.0f;
 	area.max.x = area.max.y = 300.0f;
-	gViewer = Q3Viewer_New( (WindowRef)Qut_GetWindow(), &area, kQ3ViewerFlagDefault );
+	gViewer = Q3Viewer_New( GetWindowPort((WindowRef)Qut_GetWindow()), &area, kQ3ViewerFlagDefault );
 	if (gViewer != NULL)
 		{
 		Q3Viewer_UseGroup(gViewer, group);
