@@ -905,6 +905,9 @@ IRRenderer_Update_Shader_Illumination(TQ3ViewObject			theView,
 		
 		case kQ3IlluminationTypePhong:
 			glEnable(GL_LIGHTING);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, instanceData->stateCurrentSpecularColour);
+			specularControl[0] = IRRenderer_SpecularControl_to_GLshininess( instanceData->stateCurrentSpecularControl );
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, specularControl);
 			break;
 		}
 
