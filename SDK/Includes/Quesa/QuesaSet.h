@@ -424,14 +424,14 @@ Q3Set_Empty (
  *		After reaching the last element type, it returns <code>kQ3ElementTypeNone</code>.
  *      Hence, you could iterate through all the element types as follows:
  *
- *		<blockquote><code><pre>
+ *		<blockquote><pre><code>
  *		TQ3ElementType	theType = kQ3ElementTypeNone;
- *		while ( Q3Set_GetNextElementType( set, &theType ) &&
+ *		while ( Q3Set_GetNextElementType( set, &amp;theType ) &amp;&amp;
  *		&nbsp;	(theType != kQ3ElementTypeNone) )
  *		{
  *		&nbsp;	DoSomething( theType );
  *		}
- *		</pre></code></blockquote>
+ *		</code></pre></blockquote>
  *
  *  @param theSet           The set object.
  *  @param theType          Given an element type, receives the next element type.
@@ -621,14 +621,14 @@ Q3AttributeSet_Empty (
  *      After reaching the last element type, it returns <code>kQ3AttributeTypeNone</code>.
  *		Hence, you could iterate through all the attribute types as follows:
  *
- *		<blockquote><code><pre>
+ *		<blockquote><pre><code>
  *		TQ3AttributeType	theType = kQ3AttributeTypeNone;
- *		while ( Q3AttributeSet_GetNextAttributeType( set, &theType ) &&
+ *		while ( Q3AttributeSet_GetNextAttributeType( set, &amp;theType ) &amp;&amp;
  *		&nbsp;	(theType != kQ3AttributeTypeNone) )
  *		{
  *		&nbsp;	DoSomething( theType );
  *		}
- *		</pre></code></blockquote>
+ *		</code></pre></blockquote>
  *
  *  @param source           The attribute set object.
  *  @param theType          Given an attribute type, receives the next attribute type.
