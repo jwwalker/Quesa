@@ -416,17 +416,22 @@ sub removeBinaryFiles
 	push(@theFiles, $releaseDir . "/SDK/Libraries/");
 
 
+
 	# Add temporary files scheduled to be removed from CVS
 	push(@theFiles, $releaseDir . "/Development/Source/Platform/Windows/Quesa Viewer/");
 	push(@theFiles, $releaseDir . "/Development/Source/StackCrawl/");
 
 
 
-	# Add CVS/.DS_Store junk
+	# Add alias files, CVS directories, and .DS_Store files
 	find(sub
 		{
-		if (($_ eq "CVS"       &&   -d $_) ||
-			($_ eq ".DS_Store" && ! -d $_))
+		my $isAlias = `GetFileInfo -aa "$_"`;
+		chomp($isAlias);
+		
+		if (($isAlias eq "1"                   ) ||
+			($_       eq "CVS"       &&   -d $_) ||
+			($_       eq ".DS_Store" && ! -d $_))
 			{
 			push(@theFiles, $File::Find::dir . "/" . $_);
 			}
