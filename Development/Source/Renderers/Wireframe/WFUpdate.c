@@ -287,6 +287,12 @@ WFRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 		else
 			glEnable(GL_POLYGON_SMOOTH);
 		}
+	else
+		{
+		// restore defaults
+		glPointSize(1.0f);
+		glLineWidth(1.0f);
+		}
 
 	return(kQ3Success);
 }
