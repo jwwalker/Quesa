@@ -148,7 +148,8 @@ typedef struct {
 	
 	
 	// Pick state
-	TQ3PickObject				pickCurrent;
+	TQ3PickObject				thePick;
+	TQ3Ray3D					rayThroughPick;
 
 
 	// Write state
@@ -1079,6 +1080,112 @@ e3view_submit_object(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 
 
 //=============================================================================
+//      e3view_pick_begin : Prepare to pick.
+//-----------------------------------------------------------------------------
+//		Note :	Saves a reference to the current pick object, so it can't be
+//				released during the pick.
+//
+//				If the current pick is a window point pick, recalculates the
+//				ray from the camera location through the picked pixel.
+//-----------------------------------------------------------------------------
+static void
+e3view_pick_begin(TQ3ViewObject theView, TQ3PickObject thePick)
+{	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3Matrix4x4			worldToFrustum, frustumToWorld;
+	TQ3Point3D				frustumPoint, worldPoint;
+	float					theWidth, theHeight;
+	TQ3CameraPlacement		thePlacement;
+	TQ3Point2D				windowPoint;
+	TQ3Vector3D				theVector;
+	TQ3Area					thePane;
+
+
+
+	// Validate our state
+	Q3_ASSERT(instanceData->viewMode == kQ3ViewModePicking);
+
+
+
+	// Save a reference to the pick object
+	Q3_ASSERT(instanceData->thePick == NULL);
+	instanceData->thePick = Q3Shared_GetReference(thePick);
+
+
+
+	// If this is a window-point pick, recalculate the pick ray
+	Q3Memory_Clear(&instanceData->rayThroughPick, sizeof(instanceData->rayThroughPick));
+	if (Q3Pick_GetType(thePick) == kQ3PickTypeWindowPoint)
+		{
+		// Get the size of image we're rendering
+		Q3DrawContext_GetPane(instanceData->theDrawContext, &thePane);
+
+		theWidth  = (thePane.max.x - thePane.min.x);
+		theHeight = (thePane.max.y - thePane.min.y);
+
+
+
+		// Create a point within the frustum which corresponds to the (x,y) pick
+		// that was picked. Note that in QD3D, this frustum is a cuboid which runs
+		// from -1.0 to +1.0 in x, -1.0 to +1.0 in y, and 0.0 to +1.0 in z.
+		//
+		// The center of the window corresponds to the origin.
+		//
+		// The z coordinate we require is therefore 0.0, and the x and y coordinates
+		// are increased by half a pixel so that the ray hits the center of the pixel.
+		Q3WindowPointPick_GetPoint(thePick, &windowPoint);
+
+		frustumPoint.x = -1.0f + (((windowPoint.x + 0.5f) / theWidth)  * 2.0f);
+		frustumPoint.y =  1.0f - (((windowPoint.y + 0.5f) / theHeight) * 2.0f);
+		frustumPoint.z = 0.0f;
+
+
+
+		// Transform this point from frustum to world coordinates
+		Q3Camera_GetWorldToFrustum(instanceData->theCamera, &worldToFrustum);
+		Q3Matrix4x4_Invert(&worldToFrustum, &frustumToWorld);
+		Q3Point3D_Transform(&frustumPoint,  &frustumToWorld, &worldPoint);
+
+
+
+		// Initialise the ray origin - the camera location
+		Q3Camera_GetPlacement(instanceData->theCamera, &thePlacement);
+		instanceData->rayThroughPick.origin = thePlacement.cameraLocation;
+
+
+
+		// Initialise the ray - from the pixel back to the camera
+		Q3Point3D_Subtract(&worldPoint,  &instanceData->rayThroughPick.origin, &theVector);
+		Q3Vector3D_Normalize(&theVector, &instanceData->rayThroughPick.direction);
+		}
+}
+
+
+
+
+
+//=============================================================================
+//      e3view_pick_end : End a picking loop.
+//-----------------------------------------------------------------------------
+static void
+e3view_pick_end(TQ3ViewObject theView)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+
+
+
+	// Validate our state
+	Q3_ASSERT(instanceData->viewMode == kQ3ViewModePicking);
+
+
+
+	// Release our reference to the pick object
+	E3Object_DisposeAndForget(instanceData->thePick);
+}
+
+
+
+
+
+//=============================================================================
 //      e3view_new : View class new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -1505,7 +1612,7 @@ E3View_AccessPick(TQ3ViewObject theView)
 
 
 	// Return the pick
-	return(instanceData->pickCurrent);
+	return(instanceData->thePick);
 }
 
 
@@ -1679,6 +1786,35 @@ E3View_GetBoundingMethod(TQ3ViewObject theView)
 
 	// Return the current state
 	return(instanceData->boundingMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_GetRayThroughPickPoint : Return the pick point ray.
+//-----------------------------------------------------------------------------
+//		Note :	Used internally by Quesa to access the current pick point ray,
+//				which runs from the camera through the picked pixel.
+//
+//				May only be called from within a bounding loop, and only if
+//				the current pick object is a window point pick.
+//-----------------------------------------------------------------------------
+void
+E3View_GetRayThroughPickPoint(TQ3ViewObject theView, TQ3Ray3D *theRay)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+
+
+
+	// Validate our state
+	Q3_ASSERT(instanceData->viewMode                == kQ3ViewModePicking);
+	Q3_ASSERT(Q3Pick_GetType(instanceData->thePick) == kQ3PickTypeWindowPoint);
+
+
+
+	// Return the pick ray
+	*theRay = instanceData->rayThroughPick;
 }
 
 
@@ -3044,13 +3180,9 @@ E3View_StartPicking(TQ3ViewObject theView, TQ3PickObject pick)
 
 
 
-	// If this is the first pass, initialise the pick object
+	// If this is the first pass, start picking
 	if (instanceData->viewPass == 1)
-		{
-		qd3dStatus = E3Pick_StartPicking(pick, theView, instanceData->theCamera, instanceData->theDrawContext);
-		if (qd3dStatus == kQ3Success)
-			instanceData->pickCurrent = pick;
-		}
+		e3view_pick_begin(theView, pick);
 
 
 
@@ -3083,7 +3215,9 @@ E3View_EndPicking(TQ3ViewObject theView)
 
 	// End the submit loop
 	viewStatus = e3view_submit_end(theView, viewStatus);
-
+	if (viewStatus != kQ3ViewStatusRetraverse)
+		e3view_pick_end(theView);
+	
 	return(viewStatus);
 }
 

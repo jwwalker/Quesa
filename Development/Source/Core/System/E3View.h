@@ -103,6 +103,7 @@ void					E3View_EndFrame(TQ3ViewObject theView);
 TQ3ViewMode				E3View_GetViewMode(TQ3ViewObject theView);
 TQ3ViewState			E3View_GetViewState(TQ3ViewObject theView);
 TQ3BoundingMethod		E3View_GetBoundingMethod(TQ3ViewObject theView);
+void					E3View_GetRayThroughPickPoint(TQ3ViewObject theView, TQ3Ray3D *theRay);
 void					E3View_UpdateBounds(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 pointStride, const TQ3Point3D *thePoints);
 
 void					E3View_State_InitGroupMatrix(TQ3ViewObject theView);
