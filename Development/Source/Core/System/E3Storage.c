@@ -373,7 +373,7 @@ e3storage_path_open(TQ3StorageObject storage, TQ3Boolean forWriting)
 
 
 	// Open the file		
-	instanceData->theFile = fopen(instanceData->thePath, forWriting ? "wb+" : "rb+");
+	instanceData->theFile = fopen(instanceData->thePath, forWriting ? "wb+" : "rb");
 	if (instanceData->theFile == NULL)
 		return(kQ3Failure);
 	
