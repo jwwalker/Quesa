@@ -116,6 +116,10 @@ extern "C" {
                          ((((TQ3Uns32) _value) >>  8) & 0x0000FF00)  |	\
                          ((((TQ3Uns32) _value) >> 24) & 0x000000FF))
 
+#define E3Bit_Test(_bf, _b)						((TQ3Boolean) (((_bf) & (_b)) == (_b)))
+
+#define E3Bit_Set(_bf, _b)						(_bf) |= (_b)
+
 
 
 
