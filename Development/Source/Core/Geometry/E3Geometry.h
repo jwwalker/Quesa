@@ -68,6 +68,7 @@ extern "C" {
 // Geometry data
 class E3Geometry : public E3ShapeData
 	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeGeometry, E3Geometry, E3ShapeData )
 	TQ3Uns32					cameraEditIndex;
 	TQ3SubdivisionStyleData		styleSubdivision;
 	TQ3OrientationStyle			styleOrientation;
