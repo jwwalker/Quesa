@@ -65,6 +65,7 @@
 //      Internal globals
 //-----------------------------------------------------------------------------
 HINSTANCE				gInstance    = NULL;
+HACCEL					gAccelTable  = NULL;
 HDC						gDC          = NULL;
 UINT                    gTimer       = 0;
 BOOL					gMouseDown   = FALSE;
@@ -225,6 +226,15 @@ qut_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				   DestroyWindow(hWnd);
 				   break;
 
+				case IDM_STYLE_SHADER_NULL:
+					Qut_InvokeStyleCommand(kStyleCmdShaderNull);
+					break;
+				case IDM_STYLE_SHADER_LAMBERT:
+					Qut_InvokeStyleCommand(kStyleCmdShaderLambert);
+					break;
+				case IDM_STYLE_SHADER_PHONG:
+					Qut_InvokeStyleCommand(kStyleCmdShaderPhong);
+					break;
 				case IDM_STYLE_FILL_FILLED:
 					Qut_InvokeStyleCommand(kStyleCmdFillFilled);
 					break;
@@ -426,10 +436,10 @@ qut_register_class(void)
 
 
 //=============================================================================
-//      qut_initialize : Initialise the application.
+//      qut_initialise_platform : Initialise the application.
 //-----------------------------------------------------------------------------
 static BOOL
-qut_initialize(int nCmdShow)
+qut_initialise_platform(int nCmdShow)
 {	TQ3Status		qd3dStatus;
 
 
@@ -438,8 +448,6 @@ qut_initialize(int nCmdShow)
 	qd3dStatus = Q3Initialize();
 	if (qd3dStatus != kQ3Success)
 		return(FALSE);
-
-	App_Initialise();
 
 	if (gWindow == NULL)
 		return(FALSE);
@@ -454,7 +462,8 @@ qut_initialize(int nCmdShow)
 	// Show the window and start the timer
 	ShowWindow((HWND) gWindow, nCmdShow);
 
-	gTimer = SetTimer(gWindow, WM_TIMER, kQutTimer, NULL);
+	gAccelTable = LoadAccelerators(gInstance, (LPCTSTR)IDC_QUT);
+	gTimer      = SetTimer(gWindow, WM_TIMER, kQutTimer, NULL);
 
 
 
@@ -475,18 +484,15 @@ qut_initialize(int nCmdShow)
 
 
 //=============================================================================
-//      qut_terminate : Terminate ourselves.
+//      qut_terminate_platform : Terminate ourselves.
 //-----------------------------------------------------------------------------
 static void
-qut_terminate(void)
+qut_terminate_platform(void)
 {	TQ3Status		qd3dStatus;
 
 
 
 	// Clean up
-	if (gView != NULL)
-		Q3Object_Dispose(gView);
-
 	if (gDC != NULL)
 		ReleaseDC((HWND) gWindow, gDC);
 
@@ -762,8 +768,7 @@ Qut_CreateMenuItem(TQ3Uns32 itemNum, char *itemText)
 //      WinMain : App entry point.
 //-----------------------------------------------------------------------------
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{	HACCEL	hAccelTable;
-	MSG		theMsg;
+{	MSG		theMsg;
 
 
 
@@ -771,17 +776,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	gInstance = hInstance;
 	qut_register_class();
 
-	if (!qut_initialize(nCmdShow)) 
+	if (!qut_initialise_platform(nCmdShow)) 
 		return(FALSE);
 
-	hAccelTable = LoadAccelerators(gInstance, (LPCTSTR)IDC_QUT);
+	Qut_Initialise();
+	App_Initialise();
 
 
 
 	// Run the app
 	while (GetMessage(&theMsg, NULL, 0, 0))
 		{
-		if (!TranslateAccelerator(theMsg.hwnd, hAccelTable, &theMsg)) 
+		if (!TranslateAccelerator(theMsg.hwnd, gAccelTable, &theMsg)) 
 			{
 			TranslateMessage(&theMsg);
 			DispatchMessage(&theMsg);
@@ -792,7 +798,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	// Clean up
 	App_Terminate();
-	qut_terminate();
+	Qut_Terminate();
+	qut_terminate_platform();
 
 	return(theMsg.wParam);
 }

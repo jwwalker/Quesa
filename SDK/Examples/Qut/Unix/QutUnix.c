@@ -62,6 +62,9 @@ int				gOpenGLAttributes[] = { GLX_RGBA,
 TQ3StorageObject		gStorage;
 
 
+
+
+
 //=============================================================================
 //		Internal functions.
 //-----------------------------------------------------------------------------
@@ -348,28 +351,32 @@ qut_build_renderer_menu(void)
 static void
 qut_build_style_menu(void)
 {	GtkItemFactoryEntry		menuItems[] = { { "/_Style",                                    NULL, NULL,                  0, "<LastBranch>" },
+											{ "/Style/Shader Null",                         NULL, qut_handle_menu_style, 0, NULL           },
+											{ "/Style/Shader Lambert",                      NULL, qut_handle_menu_style, 0, NULL           },
+											{ "/Style/Shader Phong",                        NULL, qut_handle_menu_style, 0, NULL           },
+											{ "/Style/sep1",                                NULL, NULL,                  0, "<Separator>"  },
 											{ "/Style/Fill Style Filled",                   NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Fill Style Edges",                    NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Fill Style Points",                   NULL, qut_handle_menu_style, 0, NULL           },
-											{ "/Style/sep1",                                NULL, NULL,                  0, "<Separator>"  },
+											{ "/Style/sep2",                                NULL, NULL,                  0, "<Separator>"  },
 											{ "/Style/Backfacing Style Both",               NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Backfacing Style Remove",             NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Backfacing Style Flip",               NULL, qut_handle_menu_style, 0, NULL           },
-											{ "/Style/sep2",                                NULL, NULL,                  0, "<Separator>"  },
+											{ "/Style/sep3",                                NULL, NULL,                  0, "<Separator>"  },
 											{ "/Style/Interpolation Style None",            NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Interpolation Style Vertex",          NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Interpolation Style Pixel",           NULL, qut_handle_menu_style, 0, NULL           },
-											{ "/Style/sep3",                                NULL, NULL,                  0, "<Separator>"  },
+											{ "/Style/sep4",                                NULL, NULL,                  0, "<Separator>"  },
 											{ "/Style/Orientation Style Clockwise",         NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Orientation Style Counter-Clockwise", NULL, qut_handle_menu_style, 0, NULL           },
-											{ "/Style/sep4",                                NULL, NULL,                  0, "<Separator>"  },
+											{ "/Style/sep5",                                NULL, NULL,                  0, "<Separator>"  },
 											{ "/Style/Anti-Alias Style Off",                NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Anti-Alias Style Edges",              NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Anti-Alias Style Filled",             NULL, qut_handle_menu_style, 0, NULL           },
-											{ "/Style/sep5",                                NULL, NULL,                  0, "<Separator>"  },
+											{ "/Style/sep6",                                NULL, NULL,                  0, "<Separator>"  },
 											{ "/Style/Fog Style On",                        NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Fog Style Off",                       NULL, qut_handle_menu_style, 0, NULL           },
-											{ "/Style/sep6",                                NULL, NULL,                  0, "<Separator>"  },
+											{ "/Style/sep7",                                NULL, NULL,                  0, "<Separator>"  },
 											{ "/Style/Subdivision Style Constant (5, 5)",   NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Subdivision Style Constant (25, 25)", NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Subdivision Style Constant (50, 50)", NULL, qut_handle_menu_style, 0, NULL           },
@@ -463,10 +470,10 @@ qut_create_menus(GtkWidget *window, GtkWidget **menuBar)
 
 
 //=============================================================================
-//      qut_initialize : Initialise ourselves.
+//      qut_initialise_platform : Initialise ourselves.
 //-----------------------------------------------------------------------------
 static void
-qut_initialize(int argc, char *argv[])
+qut_initialise_platform(int argc, char *argv[])
 {	TQ3Status	qd3dStatus;
 
 
@@ -477,8 +484,6 @@ qut_initialize(int argc, char *argv[])
  	qd3dStatus = Q3Initialize();
 	if (qd3dStatus != kQ3Success)
 		exit(-1);	
-
-	App_Initialise();
 
 	if (gWindow == NULL)
 		exit(-1);	
@@ -501,12 +506,15 @@ qut_initialize(int argc, char *argv[])
 
 
 //=============================================================================
-//      qut_terminate : Terminate ourselves.
+//      qut_terminate_platform : Terminate ourselves.
 //-----------------------------------------------------------------------------
 static void
-qut_terminate(void)
+qut_terminate_platform(void)
 {
 }
+
+
+
 
 
 //=============================================================================
@@ -517,6 +525,7 @@ static void qut_file_ok_sel (GtkWidget *w, GtkFileSelection *fs)
 	gStorage = Q3PathStorage_New(gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs)));
 	gtk_widget_destroy(GTK_WIDGET(fs)); 
 }
+
 
 
 
@@ -800,7 +809,9 @@ int main(int argc, char *argv[])
 
 
 	// Initialise ourselves
-	qut_initialize(argc, argv);
+	qut_initialise_platform(argc, argv);
+	Qut_Initialise();
+	App_Initialise();
 
 
 
@@ -811,7 +822,8 @@ int main(int argc, char *argv[])
 
 	// Clean up
 	App_Terminate();
-	qut_terminate();
+	Qut_Terminate();
+	qut_terminate_platform();
 
 	return(0);
 }

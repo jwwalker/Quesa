@@ -41,6 +41,10 @@ BEGIN
     END
     POPUP "S&tyle"
     BEGIN
+        MENUITEM "Shader Null",                         IDM_STYLE_SHADER_NULL
+        MENUITEM "Shader Lambert",                      IDM_STYLE_SHADER_LAMBERT
+        MENUITEM "Shader Phong",                        IDM_STYLE_SHADER_PHONG
+        MENUITEM SEPARATOR
         MENUITEM "Fill Style Filled",                   IDM_STYLE_FILL_FILLED
         MENUITEM "Fill Style Edges",                    IDM_STYLE_FILL_EDGES
         MENUITEM "Fill Style Points",                   IDM_STYLE_FILL_POINTS
