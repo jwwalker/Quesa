@@ -82,42 +82,18 @@ typedef enum {
 //-----------------------------------------------------------------------------
 /*!
  *  @function
- *      Q3ColorRGB_Set
- *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param color            Description of the parameter.
- *  @param r                Description of the parameter.
- *  @param g                Description of the parameter.
- *  @result                 Description of the function result.
- */
-EXTERN_API_C ( TQ3ColorRGB * )
-Q3ColorRGB_Set (
-    TQ3ColorRGB                   *color,
-    float                         r,
-    float                         g,
-    float                         b
-);
-
-
-
-/*!
- *  @function
  *      Q3ColorARGB_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set an ARGB color.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Available in inline form as Q3FastColorARGB_Set.
  *
- *  @param color            Description of the parameter.
- *  @param a                Description of the parameter.
- *  @param r                Description of the parameter.
- *  @param g                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param color            The color to set.
+ *  @param a                The alpha component for the color.
+ *  @param r                The red component for the color.
+ *  @param g                The green component for the color.
+ *  @param b                The blue component for the color.
+ *  @result                 Convenience pointer to the result.
  */
 EXTERN_API_C ( TQ3ColorARGB * )
 Q3ColorARGB_Set (
@@ -132,17 +108,208 @@ Q3ColorARGB_Set (
 
 /*!
  *  @function
+ *      Q3ColorARGB_Add
+ *  @discussion
+ *      Add c1 to c2.
+ *
+ *      Available in inline form as Q3FastColorARGB_Add.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param c1               The first color.
+ *  @param c2               The second color.
+ *  @param result           Receives the sum of c1 and c2.
+ *  @result                 Convenience pointer to the result.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3ColorARGB * )
+Q3ColorARGB_Add (
+    const TQ3ColorARGB            *c1,
+    const TQ3ColorARGB            *c2,
+    TQ3ColorARGB                  *result
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3ColorARGB_Subtract
+ *  @discussion
+ *      Subtract c1 from c2.
+ *
+ *      Available in inline form as Q3FastColorARGB_Subtract.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param c1               The first color.
+ *  @param c2               The second color.
+ *  @param result           Receives c2 minus c1.
+ *  @result                 Convenience pointer to the result.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3ColorARGB * )
+Q3ColorARGB_Subtract (
+    const TQ3ColorARGB            *c1,
+    const TQ3ColorARGB            *c2,
+    TQ3ColorARGB                  *result
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3ColorARGB_Scale
+ *  @discussion
+ *      Scale a color.
+ *
+ *      Available in inline form as Q3FastColorARGB_Scale.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param color            The color to scale.
+ *  @param scale            The factor to scale by.
+ *  @param result           Receives the scaled color.
+ *  @result                 Convenience pointer to the result.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3ColorARGB * )
+Q3ColorARGB_Scale (
+    const TQ3ColorARGB            *color,
+    float                         scale,
+    TQ3ColorARGB                  *result
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3ColorARGB_Clamp
+ *  @discussion
+ *      Clamp the components of a color to within 0.0 to 1.0.
+ *
+ *      Available in inline form as Q3FastColorARGB_Clamp.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param color            The color to clamp.
+ *  @param result           Receives the clamped color.
+ *  @result                 Convenience pointer to the result.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3ColorARGB * )
+Q3ColorARGB_Clamp (
+    const TQ3ColorARGB            *color,
+    TQ3ColorARGB                  *result
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3ColorARGB_Lerp
+ *  @discussion
+ *      Linearly interpolate between two colors.
+ *
+ *      Available in inline form as Q3FastColorARGB_Lerp.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param first            The first color.
+ *  @param last             The second color.
+ *  @param alpha            The blend factor to interpolate by.
+ *  @param result           Receives the interpolated color.
+ *  @result                 Convenience pointer to the result.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3ColorARGB * )
+Q3ColorARGB_Lerp (
+    const TQ3ColorARGB            *first,
+    const TQ3ColorARGB            *last,
+    float                         alpha,
+    TQ3ColorARGB                  *result
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3ColorARGB_Accumulate
+ *  @discussion
+ *      Add a colour to an existing color.
+ *
+ *      The result is not clamped, and its components may increase past 1.0.
+ *
+ *      Available in inline form as Q3FastColorARGB_Accumulate.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param src              The color to accumulate.
+ *  @param result           The color to accumulate into.
+ *  @result                 Convenience pointer to the result.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3ColorARGB * )
+Q3ColorARGB_Accumulate (
+    const TQ3ColorARGB            *src,
+    TQ3ColorARGB                  *result
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3ColorRGB_Set
+ *  @discussion
+ *      Set an RGB color.
+ *
+ *      Available in inline form as Q3FastColorRGB_Set.
+ *
+ *  @param color            Description of the parameter.
+ *  @param r                The red component for the color.
+ *  @param g                The green component for the color.
+ *  @param b                The blue component for the color.
+ *  @result                 Convenience pointer to the result.
+ */
+EXTERN_API_C ( TQ3ColorRGB * )
+Q3ColorRGB_Set (
+    TQ3ColorRGB                   *color,
+    float                         r,
+    float                         g,
+    float                         b
+);
+
+
+
+/*!
+ *  @function
  *      Q3ColorRGB_Add
  *  @discussion
- *      One-line description of this function.
+ *      Add c1 to c2.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Available in inline form as Q3FastColorRGB_Add.
  *
- *  @param c1               Description of the parameter.
- *  @param c2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param c1               The first color.
+ *  @param c2               The second color.
+ *  @param result           Receives the sum of c1 and c2.
+ *  @result                 Convenience pointer to the result.
  */
 EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Add (
@@ -157,15 +324,14 @@ Q3ColorRGB_Add (
  *  @function
  *      Q3ColorRGB_Subtract
  *  @discussion
- *      One-line description of this function.
+ *      Subtract c1 from c2.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Available in inline form as Q3FastColorRGB_Subtract.
  *
- *  @param c1               Description of the parameter.
- *  @param c2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param c1               The first color.
+ *  @param c2               The second color.
+ *  @param result           Receives c2 minus c1.
+ *  @result                 Convenience pointer to the result.
  */
 EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Subtract (
@@ -180,15 +346,14 @@ Q3ColorRGB_Subtract (
  *  @function
  *      Q3ColorRGB_Scale
  *  @discussion
- *      One-line description of this function.
+ *      Scale a color.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Available in inline form as Q3FastColorRGB_Scale.
  *
- *  @param color            Description of the parameter.
- *  @param scale            Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param color            The color to scale.
+ *  @param scale            The factor to scale by.
+ *  @param result           Receives the scaled color.
+ *  @result                 Convenience pointer to the result.
  */
 EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Scale (
@@ -203,14 +368,13 @@ Q3ColorRGB_Scale (
  *  @function
  *      Q3ColorRGB_Clamp
  *  @discussion
- *      One-line description of this function.
+ *      Clamp the components of a color to within 0.0 to 1.0.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Available in inline form as Q3FastColorRGB_Clamp.
  *
- *  @param color            Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param color            The color to clamp.
+ *  @param result           Receives the clamped color.
+ *  @result                 Convenience pointer to the result.
  */
 EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Clamp (
@@ -224,16 +388,15 @@ Q3ColorRGB_Clamp (
  *  @function
  *      Q3ColorRGB_Lerp
  *  @discussion
- *      One-line description of this function.
+ *      Linearly interpolate between two colors.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Available in inline form as Q3FastColorRGB_Lerp.
  *
- *  @param first            Description of the parameter.
- *  @param last             Description of the parameter.
- *  @param alpha            Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param first            The first color.
+ *  @param last             The second color.
+ *  @param alpha            The blend factor to interpolate by.
+ *  @param result           Receives the interpolated color.
+ *  @result                 Convenience pointer to the result.
  */
 EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Lerp (
@@ -249,14 +412,15 @@ Q3ColorRGB_Lerp (
  *  @function
  *      Q3ColorRGB_Accumulate
  *  @discussion
- *      One-line description of this function.
+ *      Add a colour to an existing color.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The result is not clamped, and its components may increase past 1.0.
  *
- *  @param src              Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *      Available in inline form as Q3FastColorRGB_Accumulate.
+ *
+ *  @param src              The color to accumulate.
+ *  @param result           The color to accumulate into.
+ *  @result                 Convenience pointer to the result.
  */
 EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Accumulate (
@@ -270,14 +434,19 @@ Q3ColorRGB_Accumulate (
  *  @function
  *      Q3ColorRGB_Luminance
  *  @discussion
- *      One-line description of this function.
+ *      Calculate the luminance of a color.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The luminance is calculated with the factors used by QD3D, i.e.,:
  *
- *  @param color            Description of the parameter.
- *  @param luminance        Description of the parameter.
- *  @result                 Description of the function result.
+ *      <tt>l = (r * 0.30078125f) +</tt>
+ *      <tt>    (g * 0.58984375f) +</tt>
+ *      <tt>    (b * 0.109375f)</tt>
+ *
+ *      Available in inline form as Q3FastColorRGB_Luminance.
+ *
+ *  @param color            The color whose luminance is to be calculated.
+ *  @param luminance        Receives the luminance value for the color.
+ *  @result                 Convenience pointer to the result.
  */
 EXTERN_API_C ( float * )
 Q3ColorRGB_Luminance (
@@ -878,6 +1047,308 @@ Q3CompressedPixmapTexture_CompressImage (
 );
 
 #endif // QUESA_SUPPORT_QUICKTIME
+
+
+
+
+
+//=============================================================================
+//      Inline APIs
+//-----------------------------------------------------------------------------
+//		Note : Preserve the order of functions when adding new inline APIs.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+// Implementation
+#define __Q3FastColorARGB_Set(_c, _a, _r, _g, _b)							\
+	do																		\
+		{																	\
+		(_c)->a = (_a);														\
+		(_c)->r = (_r);														\
+		(_c)->g = (_g);														\
+		(_c)->b = (_b);														\
+		}																	\
+	while (0)
+
+#define __Q3FastColorARGB_Add(_c1, _c2, _r)									\
+	do																		\
+		{																	\
+		(_r)->a = (_c1)->a + (_c2)->a;										\
+		(_r)->r = (_c1)->r + (_c2)->r;										\
+		(_r)->g = (_c1)->g + (_c2)->g;										\
+		(_r)->b = (_c1)->b + (_c2)->b;										\
+		}																	\
+	while (0)
+
+#define __Q3FastColorARGB_Subtract(_c1, _c2, _r)							\
+	do																		\
+		{																	\
+		(_r)->a = (_c2)->a - (_c1)->a;										\
+		(_r)->r = (_c2)->r - (_c1)->r;										\
+		(_r)->g = (_c2)->g - (_c1)->g;										\
+		(_r)->b = (_c2)->b - (_c1)->b;										\
+		}																	\
+	while (0)
+
+#define __Q3FastColorARGB_Scale(_c, _s, _r)									\
+	do																		\
+		{																	\
+		(_r)->a = (_c)->a * (_s);											\
+		(_r)->r = (_c)->r * (_s);											\
+		(_r)->g = (_c)->g * (_s);											\
+		(_r)->b = (_c)->b * (_s);											\
+		}																	\
+	while (0)
+
+#define __Q3FastColorARGB_Clamp(_c, _r)										\
+	do																		\
+		{																	\
+		float ca = (_c)->a;													\
+		float cr = (_c)->r;													\
+		float cg = (_c)->g;													\
+		float cb = (_c)->b;													\
+																			\
+		(_r)->a = (ca < 0.0f ? 0.0f : (ca > 1.0f ? 1.0f : ca));				\
+		(_r)->r = (cr < 0.0f ? 0.0f : (cr > 1.0f ? 1.0f : cr));				\
+		(_r)->g = (cg < 0.0f ? 0.0f : (cg > 1.0f ? 1.0f : cg));				\
+		(_r)->b = (cb < 0.0f ? 0.0f : (cb > 1.0f ? 1.0f : cb));				\
+		}																	\
+	while (0)
+
+#define __Q3FastColorARGB_Lerp(_f, _l, _a, _r)								\
+	do																		\
+		{																	\
+		(_r)->a = (_f)->a + ( ((_l)->a - (_f)->a) * (_a) );					\
+		(_r)->r = (_f)->r + ( ((_l)->r - (_f)->r) * (_a) );					\
+		(_r)->g = (_f)->g + ( ((_l)->g - (_f)->g) * (_a) );					\
+		(_r)->b = (_f)->b + ( ((_l)->b - (_f)->b) * (_a) );					\
+		}																	\
+	while (0)
+
+#define __Q3FastColorARGB_Accumulate(_c, _r)								\
+	do																		\
+		{																	\
+		(_r)->a += (_c)->a;													\
+		(_r)->r += (_c)->r;													\
+		(_r)->g += (_c)->g;													\
+		(_r)->b += (_c)->b;													\
+		}																	\
+	while (0)
+
+#define __Q3FastColorRGB_Set(_c, _r, _g, _b)								\
+	do																		\
+		{																	\
+		(_c)->r = (_r);														\
+		(_c)->g = (_g);														\
+		(_c)->b = (_b);														\
+		}																	\
+	while (0)
+
+#define __Q3FastColorRGB_Add(_c1, _c2, _r)									\
+	do																		\
+		{																	\
+		(_r)->r = (_c1)->r + (_c2)->r;										\
+		(_r)->g = (_c1)->g + (_c2)->g;										\
+		(_r)->b = (_c1)->b + (_c2)->b;										\
+		}																	\
+	while (0)
+
+#define __Q3FastColorRGB_Subtract(_c1, _c2, _r)								\
+	do																		\
+		{																	\
+		(_r)->r = (_c2)->r - (_c1)->r;										\
+		(_r)->g = (_c2)->g - (_c1)->g;										\
+		(_r)->b = (_c2)->b - (_c1)->b;										\
+		}																	\
+	while (0)
+
+#define __Q3FastColorRGB_Scale(_c, _s, _r)									\
+	do																		\
+		{																	\
+		(_r)->r = (_c)->r * (_s);											\
+		(_r)->g = (_c)->g * (_s);											\
+		(_r)->b = (_c)->b * (_s);											\
+		}																	\
+	while (0)
+
+#define __Q3FastColorRGB_Clamp(_c, _r)										\
+	do																		\
+		{																	\
+		float cr = (_c)->r;													\
+		float cg = (_c)->g;													\
+		float cb = (_c)->b;													\
+																			\
+		(_r)->r = (cr < 0.0f ? 0.0f : (cr > 1.0f ? 1.0f : cr));				\
+		(_r)->g = (cg < 0.0f ? 0.0f : (cg > 1.0f ? 1.0f : cg));				\
+		(_r)->b = (cb < 0.0f ? 0.0f : (cb > 1.0f ? 1.0f : cb));				\
+		}																	\
+	while (0)
+
+#define __Q3FastColorRGB_Lerp(_f, _l, _a, _r)								\
+	do																		\
+		{																	\
+		(_r)->r = (_f)->r + ( ((_l)->r - (_f)->r) * (_a) );					\
+		(_r)->g = (_f)->g + ( ((_l)->g - (_f)->g) * (_a) );					\
+		(_r)->b = (_f)->b + ( ((_l)->b - (_f)->b) * (_a) );					\
+		}																	\
+	while (0)
+
+#define __Q3FastColorRGB_Accumulate(_c, _r)									\
+	do																		\
+		{																	\
+		(_r)->r += (_c)->r;													\
+		(_r)->g += (_c)->g;													\
+		(_r)->b += (_c)->b;													\
+		}																	\
+	while (0)
+
+#define __Q3FastColorRGB_Luminance(_c, _l)									\
+	do																		\
+		{																	\
+		*(_l) = ((_c)->r * 0.30078125f) +									\
+				((_c)->g * 0.58984375f) +									\
+				((_c)->b * 0.109375f);										\
+		}																	\
+	while (0)
+
+
+
+// Wrappers
+#ifdef __cplusplus
+
+	inline TQ3ColorARGB *Q3FastColorARGB_Set(TQ3ColorARGB *color, float a, float r, float g, float b)
+	{
+		__Q3FastColorARGB_Set(color, a, r, g, b);
+		return(color);
+	}
+	
+	inline TQ3ColorARGB *Q3FastColorARGB_Add(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *result)
+	{
+		__Q3FastColorARGB_Add(c1, c2, result);
+		return(result);
+	}
+	
+	inline TQ3ColorARGB *Q3FastColorARGB_Subtract(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *result)
+	{
+		__Q3FastColorARGB_Subtract(c1, c2, result);
+		return(result);
+	}
+	
+	inline TQ3ColorARGB *Q3FastColorARGB_Scale(const TQ3ColorARGB *color, float scale, TQ3ColorARGB *result)
+	{
+		__Q3FastColorARGB_Scale(color, scale, result);
+		return(result);
+	}
+	
+	inline TQ3ColorARGB *Q3FastColorARGB_Clamp(const TQ3ColorARGB *color, TQ3ColorARGB *result)
+	{
+		__Q3FastColorARGB_Clamp(color, result);
+		return(result);
+	}
+	
+	inline TQ3ColorARGB *Q3FastColorARGB_Lerp(const TQ3ColorARGB *first, const TQ3ColorARGB *last, float alpha, TQ3ColorARGB *result)
+	{
+		__Q3FastColorARGB_Lerp(first, last, alpha, result);
+		return(result);
+	}
+	
+	inline TQ3ColorARGB *Q3FastColorARGB_Accumulate(const TQ3ColorARGB *src, TQ3ColorARGB *result)
+	{
+		__Q3FastColorARGB_Accumulate(src, result);
+		return(result);
+	}
+
+	inline TQ3ColorRGB *Q3FastColorRGB_Set(TQ3ColorRGB *color, float r, float g, float b)
+	{
+		__Q3FastColorRGB_Set(color, r, g, b);
+		return(color);
+	}
+	
+	inline TQ3ColorRGB *Q3FastColorRGB_Add(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result)
+	{
+		__Q3FastColorRGB_Add(c1, c2, result);
+		return(result);
+	}
+	
+	inline TQ3ColorRGB *Q3FastColorRGB_Subtract(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result)
+	{
+		__Q3FastColorRGB_Subtract(c1, c2, result);
+		return(result);
+	}
+	
+	inline TQ3ColorRGB *Q3FastColorRGB_Scale(const TQ3ColorRGB *color, float scale, TQ3ColorRGB *result)
+	{
+		__Q3FastColorRGB_Scale(color, scale, result);
+		return(result);
+	}
+	
+	inline TQ3ColorRGB *Q3FastColorRGB_Clamp(const TQ3ColorRGB *color, TQ3ColorRGB *result)
+	{
+		__Q3FastColorRGB_Clamp(color, result);
+		return(result);
+	}
+	
+	inline TQ3ColorRGB *Q3FastColorRGB_Lerp(const TQ3ColorRGB *first, const TQ3ColorRGB *last, float alpha, TQ3ColorRGB *result)
+	{
+		__Q3FastColorRGB_Lerp(first, last, alpha, result);
+		return(result);
+	}
+	
+	inline TQ3ColorRGB *Q3FastColorRGB_Accumulate(const TQ3ColorRGB *src, TQ3ColorRGB *result)
+	{
+		__Q3FastColorRGB_Accumulate(src, result);
+		return(result);
+	}
+	
+	inline float *Q3FastColorRGB_Luminance(const TQ3ColorRGB *color, float *luminance)
+	{
+		__Q3FastColorRGB_Luminance(color, luminance);
+		return(luminance);
+	}
+
+#else
+	#define Q3FastColorARGB_Set							__Q3FastColorARGB_Set
+	#define Q3FastColorARGB_Add							__Q3FastColorARGB_Add
+	#define Q3FastColorARGB_Subtract					__Q3FastColorARGB_Subtract
+	#define Q3FastColorARGB_Scale						__Q3FastColorARGB_Scale
+	#define Q3FastColorARGB_Clamp						__Q3FastColorARGB_Clamp
+	#define Q3FastColorARGB_Lerp						__Q3FastColorARGB_Lerp
+	#define Q3FastColorARGB_Accumulate					__Q3FastColorARGB_Accumulate
+	#define Q3FastColorRGB_Set							__Q3FastColorRGB_Set
+	#define Q3FastColorRGB_Add							__Q3FastColorRGB_Add
+	#define Q3FastColorRGB_Subtract						__Q3FastColorRGB_Subtract
+	#define Q3FastColorRGB_Scale						__Q3FastColorRGB_Scale
+	#define Q3FastColorRGB_Clamp						__Q3FastColorRGB_Clamp
+	#define Q3FastColorRGB_Lerp							__Q3FastColorRGB_Lerp
+	#define Q3FastColorRGB_Accumulate					__Q3FastColorRGB_Accumulate
+	#define Q3FastColorRGB_Luminance					__Q3FastColorRGB_Luminance
+#endif
+
+
+
+// Redirection
+//
+// __VA_ARGS__ is required for the _Set methods when compiling as C, to allow them to
+// accept both individual parameters and other macros like kQ3ViewDefaultDiffuseColor.
+#if QUESA_ALLOW_INLINE_APIS
+	#define Q3ColorARGB_Set(...)						Q3FastColorARGB_Set(__VA_ARGS__)
+	#define Q3ColorARGB_Add								Q3FastColorARGB_Add
+	#define Q3ColorARGB_Subtract						Q3FastColorARGB_Subtract
+	#define Q3ColorARGB_Scale							Q3FastColorARGB_Scale
+	#define Q3ColorARGB_Clamp							Q3FastColorARGB_Clamp
+	#define Q3ColorARGB_Lerp							Q3FastColorARGB_Lerp
+	#define Q3ColorARGB_Accumulate						Q3FastColorARGB_Accumulate
+	#define Q3ColorRGB_Set(...)							Q3FastColorRGB_Set(__VA_ARGS__)
+	#define Q3ColorRGB_Add								Q3FastColorRGB_Add
+	#define Q3ColorRGB_Subtract							Q3FastColorRGB_Subtract
+	#define Q3ColorRGB_Scale							Q3FastColorRGB_Scale
+	#define Q3ColorRGB_Clamp							Q3FastColorRGB_Clamp
+	#define Q3ColorRGB_Lerp								Q3FastColorRGB_Lerp
+	#define Q3ColorRGB_Accumulate						Q3FastColorRGB_Accumulate
+	#define Q3ColorRGB_Luminance						Q3FastColorRGB_Luminance
+#endif
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 

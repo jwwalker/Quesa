@@ -43,27 +43,23 @@
 
 
 //=============================================================================
-//      Internal constants
+//      Inline APIs
 //-----------------------------------------------------------------------------
-// Internal constants go here
-
-
-
-
-
-//=============================================================================
-//      Internal types
-//-----------------------------------------------------------------------------
-// Internal types go here
-
-
-
-
-
-//=============================================================================
-//      Internal macros
-//-----------------------------------------------------------------------------
-// Internal macros go here
+#undef Q3ColorARGB_Set
+#undef Q3ColorARGB_Add
+#undef Q3ColorARGB_Subtract
+#undef Q3ColorARGB_Scale
+#undef Q3ColorARGB_Clamp
+#undef Q3ColorARGB_Lerp
+#undef Q3ColorARGB_Accumulate
+#undef Q3ColorRGB_Set
+#undef Q3ColorRGB_Add
+#undef Q3ColorRGB_Subtract
+#undef Q3ColorRGB_Scale
+#undef Q3ColorRGB_Clamp
+#undef Q3ColorRGB_Lerp
+#undef Q3ColorRGB_Accumulate
+#undef Q3ColorRGB_Luminance
 
 
 
@@ -72,50 +68,6 @@
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
-//      Q3ColorRGB_Set : Quesa API entry point.
-//-----------------------------------------------------------------------------
-#pragma mark -
-TQ3ColorRGB *
-Q3ColorRGB_Set(TQ3ColorRGB *color, float r, float g, float b)
-{
-
-
-	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
-
-
-
-	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on color
-		return(NULL);
-
-	if (0) // Further checks on r
-		return(NULL);
-
-	if (0) // Further checks on g
-		return(NULL);
-
-	if (0) // Further checks on b
-		return(NULL);
-#endif
-
-
-
-	// Call the bottleneck
-	E3System_Bottleneck();
-
-
-
-	// Call our implementation
-	return(E3ColorRGB_Set(color, r, g, b));
-}
-
-
-
-
-
-//=============================================================================
 //      Q3ColorARGB_Set : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3ColorARGB *
@@ -155,6 +107,295 @@ Q3ColorARGB_Set(TQ3ColorARGB *color, float a, float r, float g, float b)
 
 	// Call our implementation
 	return(E3ColorARGB_Set(color, a, r, g, b));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3ColorARGB_Add : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+Q3ColorARGB_Add(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on c1
+		return(NULL);
+
+	if (0) // Further checks on c2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3ColorARGB_Add(c1, c2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3ColorARGB_Subtract : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+Q3ColorARGB_Subtract(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on c1
+		return(NULL);
+
+	if (0) // Further checks on c2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3ColorARGB_Subtract(c1, c2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3ColorARGB_Scale : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+Q3ColorARGB_Scale(const TQ3ColorARGB *color, float scale, TQ3ColorARGB *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on color
+		return(NULL);
+
+	if (0) // Further checks on scale
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3ColorARGB_Scale(color, scale, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3ColorARGB_Clamp : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+Q3ColorARGB_Clamp(const TQ3ColorARGB *color, TQ3ColorARGB *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on color
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3ColorARGB_Clamp(color, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3ColorARGB_Lerp : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+Q3ColorARGB_Lerp(const TQ3ColorARGB *first, const TQ3ColorARGB *last, float alpha, TQ3ColorARGB *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(first), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(last), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on first
+		return(NULL);
+
+	if (0) // Further checks on last
+		return(NULL);
+
+	if (0) // Further checks on alpha
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3ColorARGB_Lerp(first, last, alpha, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3ColorARGB_Accumulate : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ColorARGB *
+Q3ColorARGB_Accumulate(const TQ3ColorARGB *src, TQ3ColorARGB *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(src), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on src
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3ColorARGB_Accumulate(src, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3ColorRGB_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ColorRGB *
+Q3ColorRGB_Set(TQ3ColorRGB *color, float r, float g, float b)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on color
+		return(NULL);
+
+	if (0) // Further checks on r
+		return(NULL);
+
+	if (0) // Further checks on g
+		return(NULL);
+
+	if (0) // Further checks on b
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3ColorRGB_Set(color, r, g, b));
 }
 
 

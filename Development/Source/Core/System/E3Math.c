@@ -48,10 +48,10 @@
 //      Internal macros
 //-----------------------------------------------------------------------------
 #define E3Vector2D_IsBelowTolerance(vector2DPtr, tolerance) \
-	(E3Vector2D_LengthSquared(vector2DPtr) < (tolerance) * (tolerance))
+	(Q3Vector2D_LengthSquared(vector2DPtr) < (tolerance) * (tolerance))
 
 #define E3Vector3D_IsBelowTolerance(vector3DPtr, tolerance) \
-	(E3Vector3D_LengthSquared(vector3DPtr) < (tolerance) * (tolerance))
+	(Q3Vector3D_LengthSquared(vector3DPtr) < (tolerance) * (tolerance))
 
 
 
@@ -841,8 +841,7 @@ E3Vector3D_Set(TQ3Vector3D *vector3D, float x, float y, float z)
 TQ3Point2D *
 E3Point2D_Set(TQ3Point2D *point2D, float x, float y)
 {
-	point2D->x = x;
-	point2D->y = y;
+	Q3FastPoint2D_Set(point2D, x, y);
 	return(point2D);
 }
 
@@ -856,8 +855,7 @@ E3Point2D_Set(TQ3Point2D *point2D, float x, float y)
 TQ3Param2D *
 E3Param2D_Set(TQ3Param2D *param2D, float u, float v)
 {
-	param2D->u = u;
-	param2D->v = v;
+	Q3FastParam2D_Set(param2D, u, v);
 	return(param2D);
 }
 
@@ -871,12 +869,9 @@ E3Param2D_Set(TQ3Param2D *param2D, float u, float v)
 //		Note : This is an extended 2D point used with 2D transformations.
 //-----------------------------------------------------------------------------
 TQ3RationalPoint3D *
-E3RationalPoint3D_Set(TQ3RationalPoint3D *rationalPoint3D,
-	float x, float y, float w)
+E3RationalPoint3D_Set(TQ3RationalPoint3D *rationalPoint3D, float x, float y, float w)
 {
-	rationalPoint3D->x = x;
-	rationalPoint3D->y = y;
-	rationalPoint3D->w = w;
+	Q3FastRationalPoint3D_Set(rationalPoint3D, x, y, w);
 	return(rationalPoint3D);
 }
 
@@ -890,9 +885,7 @@ E3RationalPoint3D_Set(TQ3RationalPoint3D *rationalPoint3D,
 TQ3Point3D *
 E3Point3D_Set(TQ3Point3D *point3D, float x, float y, float z)
 {
-	point3D->x = x;
-	point3D->y = y;
-	point3D->z = z;
+	Q3FastPoint3D_Set(point3D, x, y, z);
 	return(point3D);
 }
 
@@ -906,13 +899,9 @@ E3Point3D_Set(TQ3Point3D *point3D, float x, float y, float z)
 //		Note : This is an extended 3D point used with 3D transformations.
 //-----------------------------------------------------------------------------
 TQ3RationalPoint4D *
-E3RationalPoint4D_Set(TQ3RationalPoint4D *rationalPoint4D,
-	float x, float y, float z, float w)
+E3RationalPoint4D_Set(TQ3RationalPoint4D *rationalPoint4D, float x, float y, float z, float w)
 {
-	rationalPoint4D->x = x;
-	rationalPoint4D->y = y;
-	rationalPoint4D->z = z;
-	rationalPoint4D->w = w;
+	Q3FastRationalPoint4D_Set(rationalPoint4D, x, y, z, w);
 	return(rationalPoint4D);
 }
 
@@ -926,8 +915,7 @@ E3RationalPoint4D_Set(TQ3RationalPoint4D *rationalPoint4D,
 TQ3PolarPoint *
 E3PolarPoint_Set(TQ3PolarPoint *polarPoint, float r, float theta)
 {
-	polarPoint->r     = r;
-	polarPoint->theta = theta;
+	Q3FastPolarPoint_Set(polarPoint, r, theta);
 	return(polarPoint);
 }
 
@@ -939,12 +927,9 @@ E3PolarPoint_Set(TQ3PolarPoint *polarPoint, float r, float theta)
 //      E3SphericalPoint_Set : Set spherical point.
 //-----------------------------------------------------------------------------
 TQ3SphericalPoint *
-E3SphericalPoint_Set(TQ3SphericalPoint *sphericalPoint,
-	float rho, float theta, float phi)
+E3SphericalPoint_Set(TQ3SphericalPoint *sphericalPoint, float rho, float theta, float phi)
 {
-	sphericalPoint->rho   = rho;
-	sphericalPoint->theta = theta;
-	sphericalPoint->phi   = phi;
+	Q3FastSphericalPoint_Set(sphericalPoint, rho, theta, phi);
 	return(sphericalPoint);
 }
 
@@ -961,9 +946,7 @@ E3SphericalPoint_Set(TQ3SphericalPoint *sphericalPoint,
 TQ3Vector3D *
 E3Vector2D_To3D(const TQ3Vector2D *vector2D, TQ3Vector3D *result)
 {
-	result->x = vector2D->x;
-	result->y = vector2D->y;
-	result->z = 1.0f;
+	Q3FastVector2D_To3D(vector2D, result);
 	return(result);
 }
 
@@ -978,9 +961,7 @@ E3Vector2D_To3D(const TQ3Vector2D *vector2D, TQ3Vector3D *result)
 TQ3RationalPoint3D *
 E3Vector2D_ToRationalPoint3D(const TQ3Vector2D *vector2D, TQ3RationalPoint3D *result)
 {
-	result->x = vector2D->x;
-	result->y = vector2D->y;
-	result->w = 0.0f;
+	Q3FastVector2D_ToRationalPoint3D(vector2D, result);
 	return(result);
 }
 
@@ -996,9 +977,7 @@ E3Vector2D_ToRationalPoint3D(const TQ3Vector2D *vector2D, TQ3RationalPoint3D *re
 TQ3Vector2D *
 E3Vector3D_To2D(const TQ3Vector3D *vector3D, TQ3Vector2D *result)
 {
-	float invz = 1.0f / vector3D->z;
-	result->x = vector3D->x * invz;
-	result->y = vector3D->y * invz;
+	Q3FastVector3D_To2D(vector3D, result);
 	return(result);
 }
 
@@ -1013,8 +992,7 @@ E3Vector3D_To2D(const TQ3Vector3D *vector3D, TQ3Vector2D *result)
 TQ3Vector2D *
 E3RationalPoint3D_ToVector2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Vector2D *result)
 {
-	result->x = rationalPoint3D->x;
-	result->y = rationalPoint3D->y;
+	Q3FastRationalPoint3D_ToVector2D(rationalPoint3D, result);
 	return(result);
 }
 
@@ -1029,10 +1007,7 @@ E3RationalPoint3D_ToVector2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Vecto
 TQ3RationalPoint4D *
 E3Vector3D_ToRationalPoint4D(const TQ3Vector3D *vector3D, TQ3RationalPoint4D *result)
 {
-	result->x = vector3D->x;
-	result->y = vector3D->y;
-	result->z = vector3D->z;
-	result->w = 0.0f;
+	Q3FastVector3D_ToRationalPoint4D(vector3D, result);
 	return(result);
 }
 
@@ -1047,9 +1022,7 @@ E3Vector3D_ToRationalPoint4D(const TQ3Vector3D *vector3D, TQ3RationalPoint4D *re
 TQ3Vector3D *
 E3RationalPoint4D_ToVector3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Vector3D *result)
 {
-	result->x = rationalPoint4D->x;
-	result->y = rationalPoint4D->y;
-	result->z = rationalPoint4D->z;
+	Q3FastRationalPoint4D_ToVector3D(rationalPoint4D, result);
 	return(result);
 }
 
@@ -1073,9 +1046,7 @@ E3RationalPoint4D_ToVector3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Vecto
 TQ3RationalPoint3D *
 E3Point2D_To3D(const TQ3Point2D *point2D, TQ3RationalPoint3D *result)
 {
-	result->x = point2D->x;
-	result->y = point2D->y;
-	result->w = 1.0f;
+	Q3FastPoint2D_To3D(point2D, result);
 	return(result);
 }
 
@@ -1087,12 +1058,9 @@ E3Point2D_To3D(const TQ3Point2D *point2D, TQ3RationalPoint3D *result)
 //      E3RationalPoint3D_To2D : Convert rational 3D point to 2D, dividing by w.
 //-----------------------------------------------------------------------------
 TQ3Point2D *
-E3RationalPoint3D_To2D(const TQ3RationalPoint3D *rationalPoint3D,
-	TQ3Point2D *result)
+E3RationalPoint3D_To2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Point2D *result)
 {
-	float invw = 1.0f / rationalPoint3D->w;
-	result->x = rationalPoint3D->x * invw;
-	result->y = rationalPoint3D->y * invw;
+	Q3FastRationalPoint3D_To2D(rationalPoint3D, result);
 	return(result);
 }
 
@@ -1106,10 +1074,7 @@ E3RationalPoint3D_To2D(const TQ3RationalPoint3D *rationalPoint3D,
 TQ3RationalPoint4D *
 E3Point3D_To4D(const TQ3Point3D *point3D, TQ3RationalPoint4D *result)
 {
-	result->x = point3D->x;
-	result->y = point3D->y;
-	result->z = point3D->z;
-	result->w = 1.0f;
+	Q3FastPoint3D_To4D(point3D, result);
 	return(result);
 }
 
@@ -1121,13 +1086,9 @@ E3Point3D_To4D(const TQ3Point3D *point3D, TQ3RationalPoint4D *result)
 //      E3RationalPoint4D_To3D : Convert rational 4D point to 3D, dividing by w.
 //-----------------------------------------------------------------------------
 TQ3Point3D *
-E3RationalPoint4D_To3D(const TQ3RationalPoint4D *rationalPoint4D,
-	TQ3Point3D *result)
+E3RationalPoint4D_To3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Point3D *result)
 {
-	float invw = 1.0f / rationalPoint4D->w;
-	result->x = rationalPoint4D->x * invw;
-	result->y = rationalPoint4D->y * invw;
-	result->z = rationalPoint4D->z * invw;
+	Q3FastRationalPoint4D_To3D(rationalPoint4D, result);
 	return(result);
 }
 
@@ -1177,8 +1138,7 @@ E3Point2D_ToPolar(const TQ3Point2D *point2D, TQ3PolarPoint *result)
 TQ3Point2D *
 E3PolarPoint_ToPoint2D(const TQ3PolarPoint *polarPoint, TQ3Point2D *result)
 {
-	result->x = polarPoint->r * ((float) cos(polarPoint->theta));
-	result->y = polarPoint->r * ((float) sin(polarPoint->theta));
+	__Q3FastPolarPoint_ToPoint2D(polarPoint, result);
 	return(result);
 }
 
@@ -1257,7 +1217,7 @@ E3SphericalPoint_ToPoint3D(const TQ3SphericalPoint *sphericalPoint,
 float
 E3Vector2D_Dot(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
 {
-	return(v1->x*v2->x + v1->y*v2->y);
+	return(Q3FastVector2D_Dot(v1, v2));
 }
 
 
@@ -1270,7 +1230,7 @@ E3Vector2D_Dot(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
 float
 E3Vector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2)
 {
-	return(v1->x*v2->x + v1->y*v2->y + v1->z*v2->z);
+	return(Q3FastVector3D_Dot(v1, v2));
 }
 
 
@@ -1296,7 +1256,7 @@ E3Vector3D_DotArray(TQ3Uns32				numVectors,
 		{
 		for (n = 0; n < numVectors; n++)
 			{
-			dotProduct         = E3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
+			dotProduct         = Q3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
 			dotProducts[n]     = dotProduct;	
 			dotLessThanZero[n] = (TQ3Boolean) (dotProduct < 0.0f);
 			}
@@ -1306,7 +1266,7 @@ E3Vector3D_DotArray(TQ3Uns32				numVectors,
 		{
 		for (n = 0; n < numVectors; n++)
 			{
-			dotProduct     = E3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
+			dotProduct     = Q3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
 			dotProducts[n] = dotProduct;	
 			}
 		}
@@ -1316,7 +1276,7 @@ E3Vector3D_DotArray(TQ3Uns32				numVectors,
 		Q3_ASSERT(dotLessThanZero != NULL);
 		for (n = 0; n < numVectors; n++)
 			{
-			dotProduct         = E3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
+			dotProduct         = Q3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
 			dotLessThanZero[n] = (TQ3Boolean) (dotProduct < 0.0f);
 			}
 		}
@@ -1338,7 +1298,7 @@ E3Vector3D_DotArray(TQ3Uns32				numVectors,
 float
 E3Vector2D_Cross(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
 {
-	return(v1->x*v2->y - v1->y*v2->x);
+	return(Q3FastVector2D_Cross(v1, v2));
 }
 
 
@@ -1351,18 +1311,8 @@ E3Vector2D_Cross(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
 //-----------------------------------------------------------------------------
 float
 E3Point2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2, const TQ3Point2D *p3)
-{	TQ3Vector2D v1, v2;
-
-
-
-	// Calculate our vectors
-	E3Point2D_Subtract(p2, p1, &v1);
-	E3Point2D_Subtract(p3, p2, &v2);
-
-
-
-	// Return the cross product
-	return(E3Vector2D_Cross(&v1, &v2));
+{
+	return(Q3FastPoint2D_CrossProductTri(p1, p2, p3));
 }
 
 
@@ -1376,24 +1326,9 @@ E3Point2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2, const TQ3P
 //-----------------------------------------------------------------------------
 TQ3Vector3D *
 E3Vector3D_Cross(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result)
-{	TQ3Vector3D temp;
-
-
-    if ((result == v1) || (result == v2)) {
-        // Result is one of our inputs:
-        temp.x = v1->y*v2->z - v1->z*v2->y;
-        temp.y = v1->z*v2->x - v1->x*v2->z;
-        temp.z = v1->x*v2->y - v1->y*v2->x;
-        
-        *result = temp;
-
-    } else {
-        //  Safe to write directly to the result vector:
-        result->x = v1->y*v2->z - v1->z*v2->y;
-        result->y = v1->z*v2->x - v1->x*v2->z;
-        result->z = v1->x*v2->y - v1->y*v2->x;
-    }
-    return(result);
+{
+	Q3FastVector3D_Cross(v1, v2, result);
+	return(result);
 }
 
 
@@ -1405,17 +1340,10 @@ E3Vector3D_Cross(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *resu
 //									of the vectors p2-p1 and p3-p2.
 //-----------------------------------------------------------------------------
 TQ3Vector3D *
-E3Point3D_CrossProductTri(const TQ3Point3D *p1, const TQ3Point3D *p2,
-	const TQ3Point3D *p3, TQ3Vector3D *result)
+E3Point3D_CrossProductTri(const TQ3Point3D *p1, const TQ3Point3D *p2, const TQ3Point3D *p3, TQ3Vector3D *result)
 {
-	TQ3Vector3D v1, v2;
-
-	// Calculate our vectors
-	E3Point3D_Subtract(p2, p1, &v1);
-	E3Point3D_Subtract(p3, p2, &v2);
-
-	// Return the cross product
-	return(E3Vector3D_Cross(&v1, &v2, result));
+	Q3FastPoint3D_CrossProductTri(p1, p2, p3, result);
+	return(result);
 }
 
 
@@ -1439,7 +1367,7 @@ E3Triangle_CrossProductArray(TQ3Uns32			numTriangles,
 	if (usageFlags == NULL)
 		{
 		for (n = 0, m = 0; n < numTriangles; n++, m += 3)
-			E3Point3D_CrossProductTri(&thePoints[theIndices[m + 0]],
+			Q3Point3D_CrossProductTri(&thePoints[theIndices[m + 0]],
 									  &thePoints[theIndices[m + 1]],
 									  &thePoints[theIndices[m + 2]],
 									  &theNormals[n]);
@@ -1449,7 +1377,7 @@ E3Triangle_CrossProductArray(TQ3Uns32			numTriangles,
 		for (n = 0, m = 0; n < numTriangles; n++, m += 3)
 			{
 			if (!usageFlags[n])
-				E3Point3D_CrossProductTri(&thePoints[theIndices[m + 0]],
+				Q3Point3D_CrossProductTri(&thePoints[theIndices[m + 0]],
 										  &thePoints[theIndices[m + 1]],
 										  &thePoints[theIndices[m + 2]],
 										  &theNormals[n]);
@@ -1470,7 +1398,7 @@ E3Triangle_CrossProductArray(TQ3Uns32			numTriangles,
 float
 E3Vector2D_Length(const TQ3Vector2D *vector2D)
 {
-	return((float) sqrt(E3Vector2D_LengthSquared(vector2D)));
+	return(Q3FastVector2D_Length(vector2D));
 }
 
 
@@ -1483,7 +1411,7 @@ E3Vector2D_Length(const TQ3Vector2D *vector2D)
 float
 E3Vector2D_LengthSquared(const TQ3Vector2D *vector2D)
 {
-	return(vector2D->x*vector2D->x + vector2D->y*vector2D->y);
+	return(Q3FastVector2D_LengthSquared(vector2D));
 }
 
 
@@ -1496,7 +1424,7 @@ E3Vector2D_LengthSquared(const TQ3Vector2D *vector2D)
 float
 E3Vector3D_Length(const TQ3Vector3D *vector3D)
 {
-	return((float) sqrt(E3Vector3D_LengthSquared(vector3D)));
+	return(Q3FastVector3D_Length(vector3D));
 }
 
 
@@ -1509,8 +1437,7 @@ E3Vector3D_Length(const TQ3Vector3D *vector3D)
 float
 E3Vector3D_LengthSquared(const TQ3Vector3D *vector3D)
 {
-	return(vector3D->x*vector3D->x + vector3D->y*vector3D->y +
-		vector3D->z*vector3D->z);
+	return(Q3FastVector3D_LengthSquared(vector3D));
 }
 
 
@@ -1524,7 +1451,7 @@ E3Vector3D_LengthSquared(const TQ3Vector3D *vector3D)
 float
 E3Point2D_Distance(const TQ3Point2D *p1, const TQ3Point2D *p2)
 {
-	return((float) sqrt(E3Point2D_DistanceSquared(p1, p2)));
+	return(Q3FastPoint2D_Distance(p1, p2));
 }
 
 
@@ -1537,9 +1464,7 @@ E3Point2D_Distance(const TQ3Point2D *p1, const TQ3Point2D *p2)
 float
 E3Point2D_DistanceSquared(const TQ3Point2D *p1, const TQ3Point2D *p2)
 {
-	float dx = p1->x - p2->x;
-	float dy = p1->y - p2->y;
-	return(dx*dx + dy*dy);
+	return(Q3FastPoint2D_DistanceSquared(p1, p2));
 }
 
 
@@ -1554,7 +1479,7 @@ E3Point2D_DistanceSquared(const TQ3Point2D *p1, const TQ3Point2D *p2)
 float
 E3Param2D_Distance(const TQ3Param2D *p1, const TQ3Param2D *p2)
 {
-	return(E3Point2D_Distance((const TQ3Point2D*) p1, (const TQ3Point2D*) p2));
+	return(Q3FastParam2D_Distance(p1, p2));
 }
 
 
@@ -1569,7 +1494,7 @@ E3Param2D_Distance(const TQ3Param2D *p1, const TQ3Param2D *p2)
 float
 E3Param2D_DistanceSquared(const TQ3Param2D *p1, const TQ3Param2D *p2)
 {
-	return(E3Point2D_DistanceSquared((const TQ3Point2D*) p1, (const TQ3Point2D*) p2));
+	return(Q3FastParam2D_DistanceSquared(p1, p2));
 }
 
 
@@ -1582,10 +1507,9 @@ E3Param2D_DistanceSquared(const TQ3Param2D *p1, const TQ3Param2D *p2)
 //		Note : This operation makes no sense mathematically.
 //-----------------------------------------------------------------------------
 float
-E3RationalPoint3D_Distance(const TQ3RationalPoint3D *p1,
-						   const TQ3RationalPoint3D *p2)
+E3RationalPoint3D_Distance(const TQ3RationalPoint3D *p1, const TQ3RationalPoint3D *p2)
 {
-	return((float) sqrt(E3RationalPoint3D_DistanceSquared(p1, p2)));
+	return(Q3FastRationalPoint3D_Distance(p1, p2));
 }
 
 
@@ -1598,11 +1522,9 @@ E3RationalPoint3D_Distance(const TQ3RationalPoint3D *p1,
 //		Note : This operation makes no sense mathematically.
 //-----------------------------------------------------------------------------
 float
-E3RationalPoint3D_DistanceSquared(const TQ3RationalPoint3D *p1,
-								  const TQ3RationalPoint3D *p2)
+E3RationalPoint3D_DistanceSquared(const TQ3RationalPoint3D *p1, const TQ3RationalPoint3D *p2)
 {
-	float a = p1->x - p2->x, b = p1->y - p2->y, c = p1->w - p2->w;
-	return(a*a + b*b + c*c);
+	return(Q3FastRationalPoint3D_DistanceSquared(p1, p2));
 }
 
 
@@ -1615,7 +1537,7 @@ E3RationalPoint3D_DistanceSquared(const TQ3RationalPoint3D *p1,
 float
 E3Point3D_Distance(const TQ3Point3D *p1, const TQ3Point3D *p2)
 {
-	return((float) sqrt(E3Point3D_DistanceSquared(p1, p2)));
+	return(Q3FastPoint3D_Distance(p1, p2));
 }
 
 
@@ -1628,10 +1550,7 @@ E3Point3D_Distance(const TQ3Point3D *p1, const TQ3Point3D *p2)
 float
 E3Point3D_DistanceSquared(const TQ3Point3D *p1, const TQ3Point3D *p2)
 {
-	float dx = p1->x - p2->x;
-	float dy = p1->y - p2->y;
-	float dz = p1->z - p2->z;
-	return((float) dx*dx + dy*dy + dz*dz);
+	return(Q3FastPoint3D_DistanceSquared(p1, p2));
 }
 
 
@@ -1644,10 +1563,9 @@ E3Point3D_DistanceSquared(const TQ3Point3D *p1, const TQ3Point3D *p2)
 //		Note : This operation makes no sense mathematically.
 //-----------------------------------------------------------------------------
 float
-E3RationalPoint4D_Distance(const TQ3RationalPoint4D *p1,
-						   const TQ3RationalPoint4D *p2)
+E3RationalPoint4D_Distance(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2)
 {
-	return((float) sqrt(E3RationalPoint4D_DistanceSquared(p1, p2)));
+	return(Q3FastRationalPoint4D_Distance(p1, p2));
 }
 
 
@@ -1660,11 +1578,9 @@ E3RationalPoint4D_Distance(const TQ3RationalPoint4D *p1,
 //		Note : This operation makes no sense mathematically.
 //-----------------------------------------------------------------------------
 float
-E3RationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1,
-                                  const TQ3RationalPoint4D *p2)
+E3RationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2)
 {
-	float a = p1->x - p2->x, b = p1->y - p2->y, c = p1->z - p2->z, d = p1->w - p2->w;
-	return(a*a + b*b + c*c + d*d);
+	return(Q3FastRationalPoint4D_DistanceSquared(p1, p2));
 }
 
 
@@ -1680,8 +1596,7 @@ E3RationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1,
 TQ3Vector2D *
 E3Vector2D_Negate(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
 {
-	result->x = -vector2D->x;
-	result->y = -vector2D->y;
+	Q3FastVector2D_Negate(vector2D, result);
 	return(result);
 }
 
@@ -1697,9 +1612,7 @@ E3Vector2D_Negate(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
 TQ3Vector3D *
 E3Vector3D_Negate(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 {
-	result->x = -vector3D->x;
-	result->y = -vector3D->y;
-	result->z = -vector3D->z;
+	Q3FastVector3D_Negate(vector3D, result);
 	return(result);
 }
 
@@ -1716,8 +1629,7 @@ E3Vector3D_Negate(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 TQ3Vector2D *
 E3Vector2D_Scale(const TQ3Vector2D *vector2D, float scalar, TQ3Vector2D *result)
 {
-	result->x = vector2D->x * scalar;
-	result->y = vector2D->y * scalar;
+	Q3FastVector2D_Scale(vector2D, scalar, result);
 	return(result);
 }
 
@@ -1733,9 +1645,7 @@ E3Vector2D_Scale(const TQ3Vector2D *vector2D, float scalar, TQ3Vector2D *result)
 TQ3Vector3D *
 E3Vector3D_Scale(const TQ3Vector3D *vector3D, float scalar, TQ3Vector3D *result)
 {
-	result->x = vector3D->x * scalar;
-	result->y = vector3D->y * scalar;
-	result->z = vector3D->z * scalar;
+	Q3FastVector3D_Scale(vector3D, scalar, result);
 	return(result);
 }
 
@@ -1753,7 +1663,8 @@ E3Vector3D_Scale(const TQ3Vector3D *vector3D, float scalar, TQ3Vector3D *result)
 TQ3Vector2D *
 E3Vector2D_Normalize(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
 {
-	return(E3Vector2D_Scale(vector2D, 1.0f/E3Vector2D_Length(vector2D), result));
+	Q3FastVector2D_Normalize(vector2D, result);
+	return(result);
 }
 
 
@@ -1769,7 +1680,8 @@ E3Vector2D_Normalize(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
 TQ3Vector3D *
 E3Vector3D_Normalize(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 {
-	return(E3Vector3D_Scale(vector3D, 1.0f/E3Vector3D_Length(vector3D), result));
+	Q3FastVector3D_Normalize(vector3D, result);
+	return(result);
 }
 
 
@@ -1785,8 +1697,7 @@ E3Vector3D_Normalize(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 TQ3Vector2D *
 E3Vector2D_Add(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result)
 {
-	result->x = v1->x + v2->x;
-	result->y = v1->y + v2->y;
+	Q3FastVector2D_Add(v1, v2, result);
 	return(result);
 }
 
@@ -1802,9 +1713,7 @@ E3Vector2D_Add(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result
 TQ3Vector3D *
 E3Vector3D_Add(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result)
 {
-	result->x = v1->x + v2->x;
-	result->y = v1->y + v2->y;
-	result->z = v1->z + v2->z;
+	Q3FastVector3D_Add(v1, v2, result);
 	return(result);
 }
 
@@ -1820,8 +1729,7 @@ E3Vector3D_Add(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result
 TQ3Vector2D *
 E3Vector2D_Subtract(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result)
 {
-	result->x = v1->x - v2->x;
-	result->y = v1->y - v2->y;
+	Q3FastVector2D_Subtract(v1, v2, result);
 	return(result);
 }
 
@@ -1837,9 +1745,7 @@ E3Vector2D_Subtract(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *r
 TQ3Vector3D *
 E3Vector3D_Subtract(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result)
 {
-	result->x = v1->x - v2->x;
-	result->y = v1->y - v2->y;
-	result->z = v1->z - v2->z;
+	Q3FastVector3D_Subtract(v1, v2, result);
 	return(result);
 }
 
@@ -1854,11 +1760,9 @@ E3Vector3D_Subtract(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *r
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Point2D *
-E3Point2D_Vector2D_Add(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D,
-	TQ3Point2D *result)
+E3Point2D_Vector2D_Add(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D, TQ3Point2D *result)
 {
-	result->x = point2D->x + vector2D->x;
-	result->y = point2D->y + vector2D->y;
+	Q3FastPoint2D_Vector2D_Add(point2D, vector2D, result);
 	return(result);
 }
 
@@ -1872,11 +1776,10 @@ E3Point2D_Vector2D_Add(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D,
 //		Note : Equivalent to E3Point2D_Vector2D_Add.
 //-----------------------------------------------------------------------------
 TQ3Param2D *
-E3Param2D_Vector2D_Add(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D,
-	TQ3Param2D *result)
+E3Param2D_Vector2D_Add(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D, TQ3Param2D *result)
 {
-	return((TQ3Param2D*) E3Point2D_Vector2D_Add((const TQ3Point2D*) param2D, vector2D,
-		(TQ3Point2D*) result));
+	Q3FastParam2D_Vector2D_Add(param2D, vector2D, result);
+	return(result);
 }
 
 
@@ -1889,12 +1792,9 @@ E3Param2D_Vector2D_Add(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D,
 //		Note : 'result' may be the same as 'point3D'.
 //-----------------------------------------------------------------------------
 TQ3Point3D *
-E3Point3D_Vector3D_Add(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D,
-	TQ3Point3D *result)
+E3Point3D_Vector3D_Add(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D, TQ3Point3D *result)
 {
-	result->x = point3D->x + vector3D->x;
-	result->y = point3D->y + vector3D->y;
-	result->z = point3D->z + vector3D->z;
+	Q3FastPoint3D_Vector3D_Add(point3D, vector3D, result);
 	return(result);
 }
 
@@ -1908,11 +1808,9 @@ E3Point3D_Vector3D_Add(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D,
 //		Note : 'result' may be the same as 'point2D'.
 //-----------------------------------------------------------------------------
 TQ3Point2D *
-E3Point2D_Vector2D_Subtract(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D,
-	TQ3Point2D *result)
+E3Point2D_Vector2D_Subtract(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D, TQ3Point2D *result)
 {
-	result->x = point2D->x - vector2D->x;
-	result->y = point2D->y - vector2D->y;
+	Q3FastPoint2D_Vector2D_Subtract(point2D, vector2D, result);
 	return(result);
 }
 
@@ -1926,11 +1824,10 @@ E3Point2D_Vector2D_Subtract(const TQ3Point2D *point2D, const TQ3Vector2D *vector
 //		Note : Equivalent to E3Point2D_Vector2D_Subtract.
 //-----------------------------------------------------------------------------
 TQ3Param2D *
-E3Param2D_Vector2D_Subtract(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D,
-	TQ3Param2D *result)
+E3Param2D_Vector2D_Subtract(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D, TQ3Param2D *result)
 {
-	return((TQ3Param2D*) E3Point2D_Vector2D_Subtract((const TQ3Point2D*) param2D,
-		vector2D, (TQ3Point2D*) result));
+	Q3FastParam2D_Vector2D_Subtract(param2D, vector2D, result);
+	return(result);
 }
 
 
@@ -1943,12 +1840,9 @@ E3Param2D_Vector2D_Subtract(const TQ3Param2D *param2D, const TQ3Vector2D *vector
 //		Note : 'result' may be the same as 'point3D'.
 //-----------------------------------------------------------------------------
 TQ3Point3D *
-E3Point3D_Vector3D_Subtract(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D,
-	TQ3Point3D *result)
+E3Point3D_Vector3D_Subtract(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D, TQ3Point3D *result)
 {
-	result->x = point3D->x - vector3D->x;
-	result->y = point3D->y - vector3D->y;
-	result->z = point3D->z - vector3D->z;
+	Q3FastPoint3D_Vector3D_Subtract(point3D, vector3D, result);
 	return(result);
 }
 
@@ -1965,8 +1859,7 @@ E3Point3D_Vector3D_Subtract(const TQ3Point3D *point3D, const TQ3Vector3D *vector
 TQ3Vector2D *
 E3Point2D_Subtract(const TQ3Point2D *p1, const TQ3Point2D *p2, TQ3Vector2D *result)
 {
-	result->x = p1->x - p2->x;
-	result->y = p1->y - p2->y;
+	Q3FastPoint2D_Subtract(p1, p2, result);
 	return(result);
 }
 
@@ -1982,7 +1875,8 @@ E3Point2D_Subtract(const TQ3Point2D *p1, const TQ3Point2D *p2, TQ3Vector2D *resu
 TQ3Vector2D *
 E3Param2D_Subtract(const TQ3Param2D *p1, const TQ3Param2D *p2, TQ3Vector2D *result)
 {
-	return(E3Point2D_Subtract((const TQ3Point2D*) p1, (const TQ3Point2D*) p2, result));
+	Q3FastParam2D_Subtract(p1, p2, result);
+	return(result);
 }
 
 
@@ -1997,9 +1891,7 @@ E3Param2D_Subtract(const TQ3Param2D *p1, const TQ3Param2D *p2, TQ3Vector2D *resu
 TQ3Vector3D *
 E3Point3D_Subtract(const TQ3Point3D *p1, const TQ3Point3D *p2, TQ3Vector3D *result)
 {
-	result->x = p1->x - p2->x;
-	result->y = p1->y - p2->y;
-	result->z = p1->z - p2->z;
+	Q3FastPoint3D_Subtract(p1, p2, result);
 	return(result);
 }
 
@@ -2020,12 +1912,9 @@ E3Point3D_Subtract(const TQ3Point3D *p1, const TQ3Point3D *p2, TQ3Vector3D *resu
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Point2D *
-E3Point2D_RRatio(const TQ3Point2D *p1, const TQ3Point2D *p2, float r1, float r2,
-	TQ3Point2D *result)
+E3Point2D_RRatio(const TQ3Point2D *p1, const TQ3Point2D *p2, float r1, float r2, TQ3Point2D *result)
 {
-	float frac = r2/(r1+r2);
-	result->x = p1->x + frac*(p2->x - p1->x);
-	result->y = p1->y + frac*(p2->y - p1->y);
+	Q3FastPoint2D_RRatio(p1, p2, r1, r2, result);
 	return(result);
 }
 
@@ -2040,11 +1929,10 @@ E3Point2D_RRatio(const TQ3Point2D *p1, const TQ3Point2D *p2, float r1, float r2,
 //		Note : Equivalent to E3Point2D_RRatio.
 //-----------------------------------------------------------------------------
 TQ3Param2D *
-E3Param2D_RRatio(const TQ3Param2D *p1, const TQ3Param2D *p2, float r1, float r2,
-	TQ3Param2D *result)
+E3Param2D_RRatio(const TQ3Param2D *p1, const TQ3Param2D *p2, float r1, float r2, TQ3Param2D *result)
 {
-	return((TQ3Param2D*) E3Point2D_RRatio((const TQ3Point2D*) p1,
-		(const TQ3Point2D*) p2, r1, r2, (TQ3Point2D*) result));
+	Q3FastParam2D_RRatio(p1, p2, r1, r2, result);
+	return(result);
 }
 
 
@@ -2064,13 +1952,9 @@ E3Param2D_RRatio(const TQ3Param2D *p1, const TQ3Param2D *p2, float r1, float r2,
 //				As usual, we do as QD3D does, not as the docs say.
 //-----------------------------------------------------------------------------
 TQ3Point3D *
-E3Point3D_RRatio(const TQ3Point3D *p1, const TQ3Point3D *p2, float r1, float r2,
-	TQ3Point3D *result)
+E3Point3D_RRatio(const TQ3Point3D *p1, const TQ3Point3D *p2, float r1, float r2, TQ3Point3D *result)
 {
-	float frac = r2/(r1+r2);
-	result->x = p1->x + frac*(p2->x - p1->x);
-	result->y = p1->y + frac*(p2->y - p1->y);
-	result->z = p1->z + frac*(p2->z - p1->z);
+	Q3FastPoint3D_RRatio(p1, p2, r1, r2, result);
 	return(result);
 }
 
@@ -2095,11 +1979,7 @@ TQ3RationalPoint4D *
 E3RationalPoint4D_RRatio(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2,
 	float r1, float r2, TQ3RationalPoint4D *result)
 {
-	float frac = r2/(r1+r2);
-	result->x = p1->x + frac*(p2->x - p1->x);
-	result->y = p1->y + frac*(p2->y - p1->y);
-	result->z = p1->z + frac*(p2->z - p1->z);
-	result->w = p1->w + frac*(p2->w - p1->w);
+	Q3FastRationalPoint4D_RRatio(p1, p2, r1, r2, result);
 	return(result);
 }
 
@@ -3250,7 +3130,7 @@ E3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4,
 	TQ3Matrix3x3 a, b;
 
 	// Construct vector w (axis of rotation) perpendicular to v1 and v2	
-	E3Vector3D_Cross(v1, v2, &w);
+	Q3Vector3D_Cross(v1, v2, &w);
 	
 	// Check if vector w is roughly zero
 	if (E3Vector3D_IsBelowTolerance(&w, 10.0f*FLT_EPSILON))
@@ -3282,15 +3162,15 @@ E3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4,
 			((float*) (&v2Proxy))[i] = (i == iSmall ? 1.0f : 0.0f);
 		
 		// Construct vector w (axis of rotation) perpendicular to v1 and v2Proxy
-		E3Vector3D_Cross(v1, &v2Proxy, &w);
+		Q3Vector3D_Cross(v1, &v2Proxy, &w);
 	}
 	
-	E3Vector3D_Normalize(&w, &w);
+	Q3Vector3D_Normalize(&w, &w);
 	
 	u = *v1;
 	uPrime = *v2;
-	E3Vector3D_Cross(&w, &u, &v);
-	E3Vector3D_Cross(&w, &uPrime, &vPrime);
+	Q3Vector3D_Cross(&w, &u, &v);
+	Q3Vector3D_Cross(&w, &uPrime, &vPrime);
 
 	#define A(x,y)	a.value[x][y]
 	#define B(x,y)	b.value[x][y]
@@ -3724,11 +3604,7 @@ E3Matrix4x4_Multiply(const TQ3Matrix4x4 *m1, const TQ3Matrix4x4 *m2, TQ3Matrix4x
 TQ3Quaternion *
 E3Quaternion_Set(TQ3Quaternion *quaternion, float w, float x, float y, float z)
 {
-	quaternion->w = w;
-	quaternion->x = x;
-	quaternion->y = y;
-	quaternion->z = z;
-	
+	Q3FastQuaternion_Set(quaternion, w, x, y, z);
 	return(quaternion);
 }
 
@@ -3742,9 +3618,7 @@ E3Quaternion_Set(TQ3Quaternion *quaternion, float w, float x, float y, float z)
 TQ3Quaternion *
 E3Quaternion_SetIdentity(TQ3Quaternion *quaternion)
 {
-	quaternion->w = 1.0f;
-	quaternion->x = quaternion->y = quaternion->z = 0.0f;
-
+	Q3FastQuaternion_SetIdentity(quaternion);
 	return(quaternion);
 }
 
@@ -3887,8 +3761,8 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 	float cosAngle;
 	TQ3Vector3D axis;
 	
-	cosAngle = E3Vector3D_Dot(v1, v2);
-	E3Vector3D_Cross(v1, v2, &axis);
+	cosAngle = Q3Vector3D_Dot(v1, v2);
+	Q3Vector3D_Cross(v1, v2, &axis);
 	
 	// Note: sin(angle) = |axis|
 		
@@ -3945,11 +3819,11 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 				((float*) &v2Prime)[i] = (i == iSmall ? 1.0f : 0.0f);
 			
 			// Axis is vector perpendicular to v1 and v2Prime
-			E3Vector3D_Cross(v1, &v2Prime, &axis);
+			Q3Vector3D_Cross(v1, &v2Prime, &axis);
 			
 			// Note: 1 = sin(angle/2) = |axis| * factor
 			
-			factor = 1.0f / E3Vector3D_Length(&axis);
+			factor = 1.0f / Q3Vector3D_Length(&axis);
 			
 			quaternion->w = 0.0f;
 			quaternion->x = axis.x * factor;
@@ -4054,9 +3928,7 @@ E3Quaternion_SetMatrix(TQ3Quaternion *quaternion, const TQ3Matrix4x4 *matrix4x4)
 TQ3Quaternion *
 E3Quaternion_Copy(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 {
-	if (result != quaternion)
-		*result = *quaternion;
-
+	Q3FastQuaternion_Copy(quaternion, result);
 	return(result);
 }
 
@@ -4093,7 +3965,7 @@ E3Quaternion_IsIdentity(const TQ3Quaternion *quaternion)
 float
 E3Quaternion_Dot(const TQ3Quaternion *q1, const TQ3Quaternion *q2)
 {
-	return(q1->w*q2->w + q1->x*q2->x + q1->y*q2->y + q1->z*q2->z);
+	return(Q3FastQuaternion_Dot(q1, q2));
 }
 
 
@@ -4108,13 +3980,7 @@ E3Quaternion_Dot(const TQ3Quaternion *q1, const TQ3Quaternion *q2)
 TQ3Quaternion *
 E3Quaternion_Normalize(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 {
-	float factor = 1.0f / (float) sqrt(E3Quaternion_Dot(quaternion, quaternion));
-	
-	result->w = quaternion->w * factor;
-	result->x = quaternion->x * factor;
-	result->y = quaternion->y * factor;
-	result->z = quaternion->z * factor;
-
+	Q3FastQuaternion_Normalize(quaternion, result);
 	return(result);
 }
 
@@ -4132,11 +3998,7 @@ E3Quaternion_Normalize(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 TQ3Quaternion *
 E3Quaternion_Invert(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 {
-	result->w =  quaternion->w;
-	result->x = -quaternion->x;
-	result->y = -quaternion->y;
-	result->z = -quaternion->z;
-	
+	Q3FastQuaternion_Invert(quaternion, result);
 	return(result);
 }
 
@@ -4236,7 +4098,7 @@ E3Quaternion_InterpolateFast(const TQ3Quaternion *q1, const TQ3Quaternion *q2, f
 	result->x = q1->x*t1 + q2->x*t;
 	result->y = q1->y*t1 + q2->y*t;
 	result->z = q1->z*t1 + q2->z*t;
-	E3Quaternion_Normalize(result, result);
+	Q3Quaternion_Normalize(result, result);
 	return(result);
 }
 
@@ -4308,6 +4170,9 @@ E3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 }
 
 
+
+
+
 //=============================================================================
 //      E3Quaternion_GetAxisAndAngle : Get the rotation axis and angle
 //				represented by a quaternion.
@@ -4353,6 +4218,9 @@ E3Quaternion_GetAxisAndAngle(const TQ3Quaternion *q, TQ3Vector3D *outAxis, float
 
 	return (outAxis);
 }
+
+
+
 
 
 //=============================================================================
@@ -4419,13 +4287,9 @@ E3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ3Quaternion *qu
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3BoundingBox *
-E3BoundingBox_Set(TQ3BoundingBox *bBox,
-	const TQ3Point3D *min, const TQ3Point3D *max, TQ3Boolean isEmpty)
+E3BoundingBox_Set(TQ3BoundingBox *bBox, const TQ3Point3D *min, const TQ3Point3D *max, TQ3Boolean isEmpty)
 {
-	bBox->min = *min;
-	bBox->max = *max;
-	bBox->isEmpty = isEmpty;
-
+	Q3FastBoundingBox_Set(bBox, min, max, isEmpty);
 	return(bBox);
 }
 
@@ -4443,8 +4307,8 @@ E3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox,
 {
 	if (numPoints == 0)
 	{
-		E3Point3D_Set(&bBox->min, 0.0f, 0.0f, 0.0f);
-		E3Point3D_Set(&bBox->max, 0.0f, 0.0f, 0.0f);
+		Q3Point3D_Set(&bBox->min, 0.0f, 0.0f, 0.0f);
+		Q3Point3D_Set(&bBox->max, 0.0f, 0.0f, 0.0f);
 		bBox->isEmpty = kQ3True;
 	}
 	else
@@ -4497,8 +4361,8 @@ E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox,
 {
 	if (numPoints == 0)
 	{
-		E3Point3D_Set(&bBox->min, 0.0f, 0.0f, 0.0f);
-		E3Point3D_Set(&bBox->max, 0.0f, 0.0f, 0.0f);
+		Q3Point3D_Set(&bBox->min, 0.0f, 0.0f, 0.0f);
+		Q3Point3D_Set(&bBox->max, 0.0f, 0.0f, 0.0f);
 		bBox->isEmpty = kQ3True;
 	}
 	else
@@ -4507,7 +4371,7 @@ E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox,
 		const char* in = (const char*) rationalPoints4D;
 		TQ3Uns32 i;
 		
-		E3RationalPoint4D_To3D(rationalPoints4D, &point3D);
+		Q3RationalPoint4D_To3D(rationalPoints4D, &point3D);
 		bBox->min = bBox->max = point3D;
 		bBox->isEmpty = kQ3False;
 		
@@ -4515,7 +4379,7 @@ E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox,
 		{
 			in += structSize;
 			
-			E3RationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
+			Q3RationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
 			
 			if (point3D.x < bBox->min.x)
 				bBox->min.x = point3D.x;
@@ -4547,9 +4411,7 @@ E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox,
 TQ3BoundingBox *
 E3BoundingBox_Copy(const TQ3BoundingBox *bBox, TQ3BoundingBox *result)
 {
-	if (result != bBox)
-		*result = *bBox;
-
+	Q3FastBoundingBox_Copy(bBox, result);
 	return(result);
 }
 
@@ -4571,17 +4433,17 @@ E3BoundingBox_Union(const TQ3BoundingBox *b1, const TQ3BoundingBox *b2,
 	{
 		if (b2->isEmpty)
 		{
-			E3Point3D_Set(&result->min, 0.0f, 0.0f, 0.0f);
-			E3Point3D_Set(&result->max, 0.0f, 0.0f, 0.0f);
+			Q3Point3D_Set(&result->min, 0.0f, 0.0f, 0.0f);
+			Q3Point3D_Set(&result->max, 0.0f, 0.0f, 0.0f);
 			result->isEmpty = kQ3True;
 		}
 		else
-			E3BoundingBox_Copy(b2, result);
+			Q3BoundingBox_Copy(b2, result);
 	}
 	else
 	{
 		if (b2->isEmpty)
-			E3BoundingBox_Copy(b1, result);
+			Q3BoundingBox_Copy(b1, result);
 		else
 		{
 			result->min.x = E3Num_Min(b1->min.x, b2->min.x);
@@ -4644,7 +4506,7 @@ E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox,
 {
 	TQ3Point3D point3D;
 	
-	E3RationalPoint4D_To3D(rationalPoint4D, &point3D);
+	Q3RationalPoint4D_To3D(rationalPoint4D, &point3D);
 
 	return(E3BoundingBox_UnionPoint3D(bBox, &point3D, result));
 }
@@ -4658,13 +4520,9 @@ E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox,
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3BoundingSphere *
-E3BoundingSphere_Set(TQ3BoundingSphere *bSphere,
-	const TQ3Point3D *origin, float radius, TQ3Boolean isEmpty)
+E3BoundingSphere_Set(TQ3BoundingSphere *bSphere, const TQ3Point3D *origin, float radius, TQ3Boolean isEmpty)
 {
-	bSphere->origin = *origin;
-	bSphere->radius = radius;
-	bSphere->isEmpty = isEmpty;
-	
+	Q3FastBoundingSphere_Set(bSphere, origin, radius, isEmpty);
 	return(bSphere);
 }
 
@@ -4747,9 +4605,7 @@ E3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3Ra
 TQ3BoundingSphere *
 E3BoundingSphere_Copy(const TQ3BoundingSphere *bSphere, TQ3BoundingSphere *result)
 {
-	if (result != bSphere)
-		*result = *bSphere;
-
+	Q3FastBoundingSphere_Copy(bSphere, result);
 	return(result);
 }
 
@@ -4778,18 +4634,18 @@ E3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2,
 	{
 		if (s2->isEmpty)
 		{
-			E3Point3D_Set(&result->origin, 0.0f, 0.0f, 0.0f);
+			Q3Point3D_Set(&result->origin, 0.0f, 0.0f, 0.0f);
 			result->radius = 0.0f;
 			result->isEmpty = kQ3True;
 		}
 		else
-			E3BoundingSphere_Copy(s2, result);
+			Q3BoundingSphere_Copy(s2, result);
 	}
 	else
 	{
 		if (s2->isEmpty)
 		{
-			E3BoundingSphere_Copy(s1, result);
+			Q3BoundingSphere_Copy(s1, result);
 		}
 		else
 		{
@@ -4880,7 +4736,7 @@ E3BoundingSphere_UnionPoint3D(const TQ3BoundingSphere *bSphere, const TQ3Point3D
 		else
 		{
 			// if the point is within the sphere, then no change is necessary.
-			E3BoundingSphere_Copy(bSphere, result);
+			Q3BoundingSphere_Copy(bSphere, result);
 			return(result);
 		}
 	}
@@ -4935,9 +4791,9 @@ E3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3P
 	// First calculate the vector from the sphere to the ray origin, its
 	// length squared, the projection of this vector onto the ray direction,
 	// and the squared radius of the sphere.
-	E3Point3D_Subtract(&theSphere->origin, &theRay->origin, &sphereToRay);
-	l2 = E3Vector3D_LengthSquared(&sphereToRay);
-	d  = E3Vector3D_Dot(&sphereToRay, &theRay->direction);
+	Q3Point3D_Subtract(&theSphere->origin, &theRay->origin, &sphereToRay);
+	l2 = Q3Vector3D_LengthSquared(&sphereToRay);
+	d  = Q3Vector3D_Dot(&sphereToRay, &theRay->direction);
 	r2 = theSphere->radius * theSphere->radius;
 
 
@@ -4966,8 +4822,8 @@ E3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3P
 
 
 	// Calculate the intersection point
-	E3Vector3D_Scale(&theRay->direction, t, &intersectVector);
-	E3Point3D_Vector3D_Add(&theRay->origin, &intersectVector, hitPoint);
+	Q3Vector3D_Scale(&theRay->direction, t, &intersectVector);
+	Q3Point3D_Vector3D_Add(&theRay->origin, &intersectVector, hitPoint);
 
 	return(kQ3True);
 }
@@ -5120,15 +4976,15 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 
 
 	// Calculate the two edges which share vertex 1
-	E3Point3D_Subtract(point2, point1, &edge1);
-	E3Point3D_Subtract(point3, point1, &edge2);
+	Q3Point3D_Subtract(point2, point1, &edge1);
+	Q3Point3D_Subtract(point3, point1, &edge2);
 
 
 
 	// Begin calculating the determinant - also used to calculate u. If the
 	// determinant is near zero, the ray lies in the plane of the triangle.
-	E3Vector3D_Cross(&theRay->direction, &edge2, &pvec);
-	det = E3Vector3D_Dot(&edge1, &pvec);
+	Q3Vector3D_Cross(&theRay->direction, &edge2, &pvec);
+	det = Q3Vector3D_Dot(&edge1, &pvec);
 
 
 
@@ -5141,24 +4997,24 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 
 
 		// Calculate the distance between vertex 1 and the ray origin
-		E3Point3D_Subtract(&theRay->origin, point1, &tvec);
+		Q3Point3D_Subtract(&theRay->origin, point1, &tvec);
 
 
 		// Calculate u, and test for a miss
-		hitPoint->u = E3Vector3D_Dot(&tvec, &pvec);
+		hitPoint->u = Q3Vector3D_Dot(&tvec, &pvec);
 		if (hitPoint->u < 0.0f || hitPoint->u > det)
 			return(kQ3False);
 
 
 		// Calculate v, and test for a miss		
-		E3Vector3D_Cross(&tvec, &edge1, &qvec);
-		hitPoint->v = E3Vector3D_Dot(&theRay->direction, &qvec);
+		Q3Vector3D_Cross(&tvec, &edge1, &qvec);
+		hitPoint->v = Q3Vector3D_Dot(&theRay->direction, &qvec);
 		if (hitPoint->v < 0.0f || (hitPoint->u + hitPoint->v) > det)
 			return(kQ3False);
 
 
 		// Calculate w, and scale the parameters
-		hitPoint->w  = E3Vector3D_Dot(&edge2, &qvec);
+		hitPoint->w  = Q3Vector3D_Dot(&edge2, &qvec);
 		invDet = 1.0f / det;
 
 		hitPoint->w *= invDet;
@@ -5178,24 +5034,24 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 
 
 		// Calculate the distance between vertex 1 and the ray origin
-		E3Point3D_Subtract(&theRay->origin, point1, &tvec);
+		Q3Point3D_Subtract(&theRay->origin, point1, &tvec);
 
 
 		// Calculate u, and test for a miss
-		hitPoint->u = E3Vector3D_Dot(&tvec, &pvec) * invDet;
+		hitPoint->u = Q3Vector3D_Dot(&tvec, &pvec) * invDet;
 		if (hitPoint->u < 0.0f || hitPoint->u > 1.0f)
 			return(kQ3False);
 
 
 		// Calculate v, and test for a miss		
-		E3Vector3D_Cross(&tvec, &edge1, &qvec);
-		hitPoint->v = E3Vector3D_Dot(&theRay->direction, &qvec) * invDet;
+		Q3Vector3D_Cross(&tvec, &edge1, &qvec);
+		hitPoint->v = Q3Vector3D_Dot(&theRay->direction, &qvec) * invDet;
 		if (hitPoint->v < 0.0f || (hitPoint->u + hitPoint->v) > 1.0f)
 			return(kQ3False);
 		
 		
 		// Calculate w
-		hitPoint->w = E3Vector3D_Dot(&edge2, &qvec) * invDet;
+		hitPoint->w = Q3Vector3D_Dot(&edge2, &qvec) * invDet;
 		}
 
 
