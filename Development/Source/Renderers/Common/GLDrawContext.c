@@ -45,6 +45,7 @@
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
 #include "GLDrawContext.h"
+#include "GLTextureManager.h"
 
 #if QUESA_OS_COCOA
 #include "GLCocoaContext.h"
@@ -129,7 +130,8 @@ gldrawcontext_mac_getport( TQ3DrawContextObject theDrawContext )
 static void *
 gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 {	GLint					glAttributes[kMaxGLAttributes];
-	TQ3Uns32				numAttributes, sysVersion;
+	TQ3Uns32				numAttributes;
+	TQ3Uns32				sysVersion = 0;
 	TQ3ObjectType			drawContextType;
 	TQ3DrawContextData		drawContextData;
 	AGLPixelFormat			pixelFormat;
@@ -141,7 +143,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 	Rect					theRect;
 	GLint					paneWidth, paneHeight;
 	char*					paneImage;
-
+	TQ3GLContext			sharingContext = NULL;
 
 
 	// Get the type specific draw context data
@@ -219,6 +221,11 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 		}
 
 	Q3_ASSERT(numAttributes < kMaxGLAttributes);
+	
+	
+	
+	// Find the OS version
+	Gestalt(gestaltSystemVersion, (long *) &sysVersion);
 
 
 
@@ -227,10 +234,29 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 	pixelFormat = aglChoosePixelFormat(NULL, 0, glAttributes);
 
 	if (pixelFormat != NULL)
-		glContext = aglCreateContext(pixelFormat, NULL);
+		{
+		// Try to share textures with some existing context.
+		// (Before 10.2, texture sharing didn't work unless you created all your
+		// contexts before loading any textures.)
+		if (sysVersion >= 0x00001020)
+			{
+			while ((sharingContext = GLTextureMgr_GetNextSharingBase( sharingContext )) != NULL)
+				{
+				glContext = aglCreateContext(pixelFormat, sharingContext);
+				if (glContext != NULL)
+					break;
+				}
+			}
+		
+		// If that fails, just create an unshared context.
+		if (glContext == NULL)
+			glContext = aglCreateContext(pixelFormat, NULL);	
+		}
 
 	if (glContext != NULL)
 		{
+		GLTextureMgr_AddContext( glContext, sharingContext );
+		
 		if (drawContextType == kQ3DrawContextTypeMacintosh)
 			aglSetDrawable(glContext, (AGLDrawable) thePort);
 
@@ -257,7 +283,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 
 	// Activate the context and turn off the palette on 9
 	aglSetCurrentContext(glContext);
-	if (Gestalt(gestaltSystemVersion, (long *) &sysVersion) == noErr && sysVersion < 0x00001000)
+	if (sysVersion < 0x00001000)
 		{
 		aglDisable(glContext, AGL_COLORMAP_TRACKING);
 		
@@ -686,6 +712,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
 	TQ3Int32				windowHeight;
 	HWND					theWindow;
 	RECT					windowRect;
+	TQ3GLContext			sharingContext = NULL;
 
 
 	// Allocate the context structure
@@ -811,6 +838,20 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
     DescribePixelFormat(theContext->theDC, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pixelFormatDesc);
 
     theContext->glContext = wglCreateContext(theContext->theDC);
+    
+    
+    
+    // Attempt to share textures with a previously created context.
+    while ( (sharingContext = GLTextureMgr_GetNextSharingBase( sharingContext )) != NULL )
+    {
+    	if (wglShareLists( ((WinGLContext*)sharingContext)->glContext, theContext->glContext ))
+    		break;
+    }
+
+	
+	
+	// Tell the texture manager about the new context.
+	GLTextureMgr_AddContext( theContext, sharingContext );
 
 
 
@@ -1235,6 +1276,10 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 	glContext = NULL;
 #endif
 
+	// If platform-specific code has not already recorded the GL context with the
+	// texture cache, do it now.
+	if ( (glContext != NULL) && (GLTextureMgr_GetTextureCache( glContext ) == NULL) )
+		GLTextureMgr_AddContext( glContext, NULL );
 
 
 	// Set up the default state
@@ -1290,6 +1335,8 @@ GLDrawContext_Destroy(void **glContext)
 	gldrawcontext_cocoa_destroy(*glContext);
 #endif
 
+
+	GLTextureMgr_RemoveContext( *glContext );
 
 
 	// Reset the pointer
