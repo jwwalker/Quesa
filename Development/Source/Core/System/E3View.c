@@ -2581,6 +2581,36 @@ E3View_State_SetStyleInterpolation(TQ3ViewObject theView, TQ3InterpolationStyle 
 
 
 //=============================================================================
+//      E3View_State_SetStyleHilight : Set the orientation state.
+//-----------------------------------------------------------------------------
+// Fred, 20/08/2001
+void
+E3View_State_SetStyleHighlight(TQ3ViewObject theView, TQ3AttributeSet highlightAttribute)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3Status		qd3dStatus;
+
+
+
+	// Validate our state
+	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
+	Q3_ASSERT(instanceData->stackCount != 0);
+
+
+
+	// Set the value
+	E3Shared_Replace(&instanceData->stackState[instanceData->stackCount-1].styleHighlight, highlightAttribute);
+
+
+
+	// Update the renderer
+	qd3dStatus = e3view_stack_update(theView, kQ3ViewStateStyleHighlight);
+}
+
+
+
+
+
+//=============================================================================
 //      E3View_State_SetStyleOrientation : Set the orientation state.
 //-----------------------------------------------------------------------------
 void
