@@ -608,27 +608,6 @@ Q3XElementType_GetElementSize (
 
 /*!
  *  @function
- *      Q3XElement_EmptyData
- *  @discussion
- *      Dispose any element data that may have been allocated by Q3Set_Get.
- *
- *      This function aids in manipulating elements without having detailed
- *		knowledge of specific types of elements.
- *
- *  @param elementType      Type of the element.
- *  @param data  			Element data to be disposed.
- *  @result                 Error status.
- */
-EXTERN_API_C ( TQ3Status )
-Q3XElement_EmptyData (
-	TQ3ElementType				elementType,
-	void						*data
-);
-
-
-
-/*!
- *  @function
  *      Q3XAttributeClass_Register
  *  @discussion
  *      One-line description of this function.
