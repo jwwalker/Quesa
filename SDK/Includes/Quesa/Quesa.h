@@ -490,6 +490,7 @@ enum {
 enum {
     kQ3ObjectTypeInvalid                        = ((TQ3ObjectType) 0),
     kQ3ObjectTypeView                           = Q3_OBJECT_TYPE('v', 'i', 'e', 'w'),
+    kQ3ObjectTypeViewer                         = Q3_OBJECT_TYPE('v', 'w', 'e', 'r'),
     kQ3ObjectTypeElement                        = Q3_OBJECT_TYPE('e', 'l', 'm', 'n'),
         kQ3ElementTypeAttribute                 = Q3_OBJECT_TYPE('e', 'a', 't', 't'),
     kQ3ObjectTypePick                           = Q3_OBJECT_TYPE('p', 'i', 'c', 'k'),
@@ -704,6 +705,7 @@ typedef TQ3Object                               TQ3SharedObject;
     typedef TQ3SharedObject                     TQ3TextureObject;
     typedef TQ3SharedObject                     TQ3ViewHintsObject;
 typedef TQ3Object                               TQ3ViewObject;
+typedef TQ3Object                               TQ3ViewerObject;
 typedef TQ3Object                               TQ3PickObject;
 
 
