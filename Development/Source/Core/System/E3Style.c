@@ -496,6 +496,40 @@ e3style_hilight_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
+//      e3style_hilight_duplicate : Highlight style duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3style_hilight_duplicate(TQ3Object fromObject, const void *fromPrivateData,
+						 TQ3Object toObject,   void       *toPrivateData)
+{
+#pragma unused(toObject)
+	TQ3AttributeSet*	toInstanceData = (TQ3AttributeSet*) toPrivateData;
+	TQ3AttributeSet*	fromInstanceData = (TQ3AttributeSet*) fromPrivateData;
+	
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromObject),      kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toPrivateData),   kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromPrivateData), kQ3Failure);
+	
+	
+	
+	// Duplicate the attribute set
+	if (*fromInstanceData == NULL)
+		*toInstanceData = NULL;
+	else
+		*toInstanceData = Q3Object_Duplicate( *fromInstanceData );
+
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
 //      e3style_hilight_metahandler : Hilight metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -506,6 +540,10 @@ e3style_hilight_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
+		case kQ3XMethodTypeObjectDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3style_hilight_duplicate;
+			break;
+		
 		case kQ3XMethodTypeObjectDelete:
 			theMethod = (TQ3XFunctionPointer) e3style_hilight_delete;
 			break;
