@@ -103,6 +103,23 @@ typedef struct E3ClassInfo {
 } E3ClassInfo;
 
 
+// Definition of TQ3Object
+#if QUESA_OBJECTS_ARE_OPAQUE
+
+typedef struct OpaqueTQ3Object {
+	TQ3ObjectType		quesaTag;
+	E3ClassInfoPtr		theClass;
+	void				*instanceData;
+	TQ3Object			parentObject;
+
+#if Q3_DEBUG
+	TQ3Object			childObject;
+#endif
+} OpaqueTQ3Object;
+
+#endif // QUESA_OBJECTS_ARE_OPAQUE
+
+
 
 
 
@@ -1049,13 +1066,10 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 //=============================================================================
 //      E3ClassTree_FindInstanceData : Find the instance data of an object.
 //-----------------------------------------------------------------------------
-//		Note :	Given an object, we walk upwards through its parent objects
-//				until we find one with the appropriate class type. We then
-//				return the appropriate instance data.
+//		Note :	Returns the instance data of an object or one of its parents.
 //
-//				Useful for objects which are inherited from, as this allows
-//				them to pass in a possible sub-classed object and obtain their
-//				instance data rather than the child class.
+//				If passed kQ3ObjectTypeLeaf, returns the instance data of the
+//				leaf object.
 //-----------------------------------------------------------------------------
 void *
 E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
@@ -1069,12 +1083,13 @@ E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
 	Q3_CLASS_VERIFY(theObject);
 
 
+
 	// Find the instance data
 	//
 	// The instance data is either on this object, or one of its parents.
 	instanceData = NULL;
 
-	if (theObject->theClass->classType == classType)
+	if (theObject->theClass->classType == classType || classType == kQ3ObjectTypeLeaf)
 		instanceData = theObject->instanceData;
 
 	else
@@ -1098,8 +1113,7 @@ E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
 //=============================================================================
 //      E3ClassTree_GetObjectType : Get a method for a class.
 //-----------------------------------------------------------------------------
-//		Note :	Gets the type of the instance first child of the instance of
-//				base type.
+//		Note :	Gets the type of the first sub-class of baseType.
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType)
@@ -1113,7 +1127,7 @@ E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType)
 
 
 
-	// Find the class of the object
+	// Get the class of the object
 	theClass = theObject->theClass;
 
 
@@ -1135,7 +1149,6 @@ E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType)
 
 	// Return the appropriate type
 	return theType;
-
 }
 
 
@@ -1222,6 +1235,27 @@ E3ClassTree_GetClassByName(const char *className)
 	theClass = e3class_find_by_name(theGlobals->classTreeRoot, className);
 
 	return(theClass);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ClassTree_GetClassByObject : Find a node in the tree from an object.
+//-----------------------------------------------------------------------------
+E3ClassInfoPtr
+E3ClassTree_GetClassByObject(TQ3Object theObject)
+{
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theObject), NULL);
+
+
+
+	// Get the class
+	return(theObject->theClass);
 }
 
 
@@ -1479,6 +1513,27 @@ E3ClassTree_GetMethod(E3ClassInfoPtr theClass, TQ3XMethodType methodType)
 		}
 
 	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ClassTree_GetMethodByObject : Get a method for an object's class.
+//-----------------------------------------------------------------------------
+TQ3XFunctionPointer
+E3ClassTree_GetMethodByObject(TQ3Object theObject, TQ3XMethodType methodType)
+{
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theObject), NULL);
+
+
+
+	// Get the method
+	return(E3ClassTree_GetMethod(theObject->theClass, methodType));
 }
 
 
