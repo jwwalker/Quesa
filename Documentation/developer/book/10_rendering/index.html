@@ -22,7 +22,37 @@
 	<li>QuesaShader.h</li>
 	<li>QuesaStyle.h</li>
 </ol>
+ 
+ 
+ 
+<h3>Renderer Objects</h3>
+<h4>Transform Methods</h4>
+<p>
+To transform local coordinates to the canonical viewing frustum, and then to window
+coordinates, renderers must register for updates to Quesa's transformation matrices.
+Renderers should register for matrix updates rather than querying the view's camera,
+as this will also allow them to automatically support the camera transform object.
+</p>
 
+<p>
+Several methods are available, however the most common usage is to watch for changes
+to either:
+</p>
+
+<pre>    kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum</pre>
+
+<p>
+or:
+</p>
+
+<pre>    kQ3XMethodTypeRendererUpdateMatrixLocalToCamera
+    kQ3XMethodTypeRendererUpdateMatrixCameraToFrustum</pre>
+
+<p>
+The second approach may be more useful if the underlying rendering API separates the
+transformation to camera space from the transformation which carries out the projection
+to the canonical frustum.
+</p>
 
 
 
