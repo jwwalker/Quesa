@@ -188,7 +188,7 @@ e3geom_triangle_pick_with_ray(TQ3ViewObject			theView,
 
 		// Obtain the XYZ, normal, and UV for the hit point. We always return an
 		// XYZ and normal for the hit, however we need to cope with missing UVs.
-		E3Triangle_InterpolateHit(&worldTriangle, &theHit, &hitXYZ, &hitNormal, &hitUV, &haveUV);
+		E3Triangle_InterpolateHit(theView,&worldTriangle, &theHit, &hitXYZ, &hitNormal, &hitUV, &haveUV);
 		resultUV = (haveUV ? &hitUV : NULL);
 
 
