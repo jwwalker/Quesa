@@ -973,7 +973,7 @@ typedef struct TQ3PolarPoint {
  *  @discussion
  *      Fundamental spherical point type.
  *
- *  @field r                Distance along the radius vector from polar origin.
+ *  @field rho              Distance along the radius vector from polar origin.
  *  @field theta            Angle in radians between x axis and the projection of the
  *                          radius vector onto the xy plane.
  *  @field phi              Angle in radians between z axis and the radius vector.
