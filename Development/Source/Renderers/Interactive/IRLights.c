@@ -263,8 +263,8 @@ ir_light_convert_spot(TQ3InteractiveData	*instanceData,
 	lightIndex = GL_LIGHT0 + instanceData->lightCount;
 	Q3SpotLight_GetData(theLight, &lightData);
 
-	Q3Point3D_Transform(&lightData.location,  worldToView, &lightData.location);
-	Q3Point3D_Transform(&lightData.direction, worldToView, &lightData.direction);
+	Q3Point3D_Transform( &lightData.location,  worldToView, &lightData.location);
+	Q3Vector3D_Transform(&lightData.direction, worldToView, &lightData.direction);
 
 
 
