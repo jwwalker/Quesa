@@ -327,8 +327,10 @@ Q3View_StartRendering (
  *      End a rendering loop.
  *
  *  @param view             The view being rendered to.
- *  @result                 Success or failure of the rendering loop.
+ *  @result                 Result of the rendering pass.
  *                          Note that the result is a TQ3ViewStatus, not a TQ3Status.
+ *							Be sure to watch for kQ3ViewStatusRetraverse, and repeat
+ *							the submit loop in that case.
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndRendering (
@@ -400,9 +402,11 @@ Q3View_StartBoundingBox (
  *      End a bounding loop.
  *
  *  @param view             The view being bounded to.
- *  @param theBounds        The result of the bounding loop.
- *  @result                 Success or failure of the bounding loop.
+ *  @param theBounds        Bounding box to set to the computed bounds.
+ *  @result                 Result of the bounding pass.
  *                          Note that the result is a TQ3ViewStatus, not a TQ3Status.
+ *							Be sure to watch for kQ3ViewStatusRetraverse, and repeat
+ *							the submit loop in that case.
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndBoundingBox (
@@ -437,9 +441,11 @@ Q3View_StartBoundingSphere (
  *      End a bounding loop.
  *
  *  @param view             The view being bounded to.
- *  @param theBounds        The result of the bounding loop.
- *  @result                 Success or failure of the bounding loop.
+ *  @param theBounds        Bounding sphere to set to the computed bounds.
+ *  @result                 Result of the bounding pass.
  *                          Note that the result is a TQ3ViewStatus, not a TQ3Status.
+ *							Be sure to watch for kQ3ViewStatusRetraverse, and repeat
+ *							the submit loop in that case.
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndBoundingSphere (
@@ -474,8 +480,10 @@ Q3View_StartPicking (
  *      End a picking loop.
  *
  *  @param view             The view being picked to.
- *  @result                 Success or failure of the picking loop.
+ *  @result                 Result of the picking pass.
  *                          Note that the result is a TQ3ViewStatus, not a TQ3Status.
+ *							Be sure to watch for kQ3ViewStatusRetraverse, and repeat
+ *							the submit loop in that case.
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndPicking (
