@@ -305,6 +305,11 @@ e3geom_pixmapmarker_update_position(TQ3ViewObject theView, const TQ3PixmapMarker
 	theOffset.z = -thePoint.z;
 
 	Q3TranslateTransform_Set(theTransform, &theOffset);
+	
+	
+	
+	// Get rid of the extra reference from Q3Group_GetPositionObject
+	Q3Object_Dispose( theTransform );
 }
 
 
