@@ -46,132 +46,21 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3geom_polygon_add_attribute : Populate an attribute array.
+//      e3geom_polygon_gather_vertex_attribute : Gather vertex attributes.
 //-----------------------------------------------------------------------------
-//		Note :	Given an attribute type, we collect the data for the vertices
-//				and create the appropriate attribute data for the TriMesh.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-e3geom_polygon_add_attribute(const TQ3PolygonData			*instanceData,
-								TQ3TriMeshAttributeData		*triMeshAttribute,
-								TQ3AttributeType			attributeType)
-{	TQ3Uns32			n, attributeSize;
-	TQ3Boolean			foundAttribute;
-	TQ3AttributeSet		theAttributes;
-	void				*dataPtr;
-	E3ClassInfoPtr		theClass;
-	
+static TQ3AttributeSet
+e3geom_polygon_gather_vertex_attribute(void *userData, TQ3Uns32 setIndex)
+{	TQ3PolygonData			*geomData = (TQ3PolygonData *) userData;
+
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(instanceData),     kQ3False);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshAttribute), kQ3False);
+	Q3_REQUIRE_OR_RESULT(setIndex < geomData->numVertices, NULL);
 
 
 
-	// Determine if any of the vertices of the polygon contain this attribute. If
-	// none of them do, we can skip it - but if one of them does, they all must
-	// (since we're using a TriMesh).
-	foundAttribute = kQ3False;
-	for (n = 0; n < instanceData->numVertices && !foundAttribute; n++)
-		{
-		if (instanceData->vertices[n].attributeSet != NULL &&
-			Q3AttributeSet_Contains(instanceData->vertices[n].attributeSet, attributeType))
-			foundAttribute = kQ3True;
-		}
-
-	if (!foundAttribute)
-		return(kQ3False);
-
-
-
-	// Work out the size of data used for the attribute
-	theClass = E3ClassTree_GetClassByType(E3Attribute_AttributeToClassType(attributeType));
-	if (theClass == NULL)
-		return(kQ3False);
-	
-	attributeSize = E3ClassTree_GetInstanceSize(theClass);
-
-
-
-	// Set up the attribute array within the TriMesh
-	triMeshAttribute->attributeType     = attributeType;
-	triMeshAttribute->data              = Q3Memory_AllocateClear(instanceData->numVertices * attributeSize);
-	triMeshAttribute->attributeUseArray = NULL;
-
-	if (triMeshAttribute->data == NULL)
-		return(kQ3False);
-
-
-
-	// Set up the values within the attribute array
-	for (n = 0; n < instanceData->numVertices; n++)
-		{
-		// Figure out where the data should be stored
-		dataPtr = ((TQ3Uns8 *) triMeshAttribute->data) + (n * attributeSize);
-
-
-
-		// Get the final attribute set for this vertex
-		E3AttributeSet_Combine(instanceData->polygonAttributeSet, instanceData->vertices[n].attributeSet, &theAttributes);
-		if (theAttributes != NULL)
-			{
-			// If the attribute is present, get the value
-			if (Q3AttributeSet_Contains(theAttributes, attributeType))
-				Q3AttributeSet_Get(theAttributes, attributeType, dataPtr);
-			
-			// Or use a default
-			else
-				{
-				switch (attributeType) {
-					case kQ3AttributeTypeAmbientCoefficient:
-						*((float *) dataPtr) = kQ3ViewDefaultAmbientCoefficient;
-						break;
-
-					case kQ3AttributeTypeDiffuseColor:
-						Q3ColorRGB_Set((TQ3ColorRGB *) dataPtr, kQ3ViewDefaultDiffuseColor);
-						break;
-						
-					case kQ3AttributeTypeSpecularColor:
-						Q3ColorRGB_Set((TQ3ColorRGB *) dataPtr, kQ3ViewDefaultSpecularColor);
-						break;
-
-					case kQ3AttributeTypeSpecularControl:
-						*((float *) dataPtr) = kQ3ViewDefaultSpecularControl;
-						break;
-
-					case kQ3AttributeTypeTransparencyColor:
-						Q3ColorRGB_Set((TQ3ColorRGB *) dataPtr, kQ3ViewDefaultTransparency);
-						break;
-					
-					case kQ3AttributeTypeNormal:
-						Q3Point3D_CrossProductTri(&instanceData->vertices[0].point,
-												  &instanceData->vertices[1].point,
-												  &instanceData->vertices[2].point,
-												  (TQ3Vector3D *) dataPtr);
-						break;
-
-					case kQ3AttributeTypeHighlightState:
-						*((TQ3Switch *) dataPtr) = kQ3ViewDefaultHighlightState;
-						break;
-
-					case kQ3AttributeTypeSurfaceUV: 
-					case kQ3AttributeTypeShadingUV: 
-					case kQ3AttributeTypeSurfaceTangent: 
-					case kQ3AttributeTypeSurfaceShader:
-					default:
-						// Assume 0s will be OK
-						break;
-					}
-				}
-			
-			
-			// Clean up
-			Q3Object_Dispose(theAttributes);
-			}
-		}
-	
-	return(kQ3True);
+	// Return the appropriate attribute set
+	return(geomData->vertices[setIndex].attributeSet);
 }
 
 
@@ -254,8 +143,8 @@ e3geom_polygon_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3PolygonData *geomData)
-{	TQ3Uns32					n, numEdges, numTriangles;
-	TQ3TriMeshAttributeData		vertexAttributes[kQ3AttributeTypeNumTypes];
+{	TQ3TriMeshAttributeData		vertexAttributes[kQ3AttributeTypeNumTypes];
+	TQ3Uns32					n, numEdges, numTriangles;
 	TQ3TriMeshAttributeData		edgeAttributes[1];
 	TQ3TriMeshTriangleData		*theTriangles;
 	TQ3TriMeshData				triMeshData;
@@ -331,19 +220,25 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 	// Set up the vertex attributes
 	n = 0;
+
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeSurfaceUV))
+		n++;
+	else
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeShadingUV))
+		n++;
 	
-	if (e3geom_polygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeNormal))
-		n++;
-		
-	if (e3geom_polygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeSurfaceUV))
-		n++;
-	else if (e3geom_polygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeShadingUV))
-		n++;
-		
-	if (e3geom_polygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeAmbientCoefficient))
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeNormal))
 		n++;
 
-	if (e3geom_polygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeDiffuseColor))
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeAmbientCoefficient))
+		n++;
+
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeDiffuseColor))
 		{
 		// Set up some edge colours as well, just reusing the vertex colours
 		Q3_ASSERT(numEdges == geomData->numVertices);
@@ -353,20 +248,29 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		triMeshData.edgeAttributeTypes      = edgeAttributes;
 		n++;
 		}
-		
-	if (e3geom_polygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeSpecularColor))
+
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeSpecularColor))
 		n++;
-		
-	if (e3geom_polygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeSpecularControl))
+
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeSpecularControl))
 		n++;
-		
-	if (e3geom_polygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeTransparencyColor))
+
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeTransparencyColor))
 		n++;
-		
-	if (e3geom_polygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeHighlightState))
+
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeSurfaceTangent))
 		n++;
-		
-	if (e3geom_polygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeSurfaceShader))
+
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeHighlightState))
+		n++;
+
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+											&vertexAttributes[n], kQ3AttributeTypeSurfaceShader))
 		n++;
 
 	Q3_ASSERT(n < (sizeof(vertexAttributes) / sizeof(TQ3TriMeshAttributeData)));
@@ -386,7 +290,10 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	Q3Memory_Free(&theEdges);
 	
 	for (n = 0; n < triMeshData.numVertexAttributeTypes; n++)
+		{
 		Q3Memory_Free(&triMeshData.vertexAttributeTypes[n].data);
+		Q3Memory_Free(&triMeshData.vertexAttributeTypes[n].attributeUseArray);
+		}
 
 	return(theTriMesh);
 }
