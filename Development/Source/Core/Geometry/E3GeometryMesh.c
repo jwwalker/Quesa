@@ -98,7 +98,7 @@ struct TE3MeshPartData {
 // TE3MeshPartDataPtr
 typedef TE3MeshPartData* TE3MeshPartDataPtr;
 
-E3POOL_DECLARE(TE3MeshPartDataPtr, e3meshPartDataPtr);
+E3POOL_DECLARE(TE3MeshPartDataPtr, e3meshPartDataPtr, static);
 E3POOL_DEFINE(TE3MeshPartDataPtr, e3meshPartDataPtr, static, 16);
 
 
@@ -110,19 +110,19 @@ struct TE3MeshVertexData {
 	TQ3AttributeSet 				vertexAttributeSet;
 };
 
-E3ARRAY_DECLARE(TE3MeshVertexData, e3meshVertexData);
+E3ARRAY_DECLARE(TE3MeshVertexData, e3meshVertexData, static);
 E3ARRAY_DEFINE(TE3MeshVertexData, e3meshVertexData, static);
 
-E3LIST_DECLARE(TE3MeshVertexData, e3meshVertexData);
+E3LIST_DECLARE(TE3MeshVertexData, e3meshVertexData, static);
 E3LIST_DEFINE(TE3MeshVertexData, e3meshVertexData, static);
 
-E3ARRAY_OR_LIST_DECLARE(TE3MeshVertexData, e3meshVertexData);
+E3ARRAY_OR_LIST_DECLARE(TE3MeshVertexData, e3meshVertexData, static);
 E3ARRAY_OR_LIST_DEFINE(TE3MeshVertexData, e3meshVertexData, static);
 
 
 
 // TE3MeshVertexIntRef
-E3ARRAY_DECLARE(TE3MeshVertexIntRef, e3meshVertexIntRef);
+E3ARRAY_DECLARE(TE3MeshVertexIntRef, e3meshVertexIntRef, static);
 E3ARRAY_DEFINE(TE3MeshVertexIntRef, e3meshVertexIntRef, static);
 
 
@@ -134,13 +134,13 @@ struct TE3MeshContourData {
 	TE3MeshVertexIntRefArray		meshVertexIntRefArray;
 };
 
-E3ARRAY_DECLARE(TE3MeshContourData, e3meshContourData);
+E3ARRAY_DECLARE(TE3MeshContourData, e3meshContourData, static);
 E3ARRAY_DEFINE(TE3MeshContourData, e3meshContourData, static);
 
-E3LIST_DECLARE(TE3MeshContourData, e3meshContourData);
+E3LIST_DECLARE(TE3MeshContourData, e3meshContourData, static);
 E3LIST_DEFINE(TE3MeshContourData, e3meshContourData, static);
 
-E3ARRAY_OR_LIST_DECLARE(TE3MeshContourData, e3meshContourData);
+E3ARRAY_OR_LIST_DECLARE(TE3MeshContourData, e3meshContourData, static);
 E3ARRAY_OR_LIST_DEFINE(TE3MeshContourData, e3meshContourData, static);
 
 
@@ -152,13 +152,13 @@ struct TE3MeshFaceData {
 	TQ3AttributeSet 				faceAttributeSet;
 };
 
-E3ARRAY_DECLARE(TE3MeshFaceData, e3meshFaceData);
+E3ARRAY_DECLARE(TE3MeshFaceData, e3meshFaceData, static);
 E3ARRAY_DEFINE(TE3MeshFaceData, e3meshFaceData, static);
 
-E3LIST_DECLARE(TE3MeshFaceData, e3meshFaceData);
+E3LIST_DECLARE(TE3MeshFaceData, e3meshFaceData, static);
 E3LIST_DEFINE(TE3MeshFaceData, e3meshFaceData, static);
 
-E3ARRAY_OR_LIST_DECLARE(TE3MeshFaceData, e3meshFaceData);
+E3ARRAY_OR_LIST_DECLARE(TE3MeshFaceData, e3meshFaceData, static);
 E3ARRAY_OR_LIST_DEFINE(TE3MeshFaceData, e3meshFaceData, static);
 
 

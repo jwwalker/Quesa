@@ -2,16 +2,26 @@
 		E3Pool.c
 
 	DESCRIPTION:
-		Quesa pool of identically-sized objects.
-		
-		To instantiate a pool, do:
+		Quesa templates for defining a type-safe allocation pool of objects of
+		the same type.
 
-			typedef struct TE3Foo {
-				TQ3Int32		foo;
-			} TE3Foo;
+		Use a pool when you need to allocate a large number of small objects
+		of the same type.
 
-			E3POOL_DECLARE(TE3Foo, E3Foo);
+		For example, to instantiate the TE3FooPool type (a pool of TE3Foo's
+		organized as blocks of 8 TE3Foo's each), do:
+
+			E3POOL_DECLARE(TE3Foo, E3Foo, static);
 			E3POOL_DEFINE (TE3Foo, E3Foo, static, 8);
+
+		Instead of using Q3Memory_Allocate and Q3Memory_Free, you can use
+		E3FooPool_Allocate and E3FooPool_Free to allocate TE3Foo's from a
+		particular TE3FooPool.
+
+		For more info, see the description of the TE3FooPool macros in E3Pool.h.
+
+		Based on "A User-Defined Allocator", Section 19.4.2, Bjarne Stroustrup,
+		"The C++ Programming Language", 3rd ed.
 
 	COPYRIGHT:
 		Quesa Copyright © 1999-2002, Quesa Developers.
@@ -40,7 +50,7 @@
 	___________________________________________________________________________
 */
 //=============================================================================
-//      Include files
+//		Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Pool.h"
@@ -50,28 +60,16 @@
 
 
 //=============================================================================
-//      Internal test code
+//		Protected (internal) functions
 //-----------------------------------------------------------------------------
-#if 1
-typedef struct TE3Foo { int foo; } TE3Foo;
-E3POOL_DECLARE(TE3Foo, E3Foo);
-E3POOL_DEFINE(TE3Foo, E3Foo, static, 8);
-#endif
-
-
-
-
-
-//=============================================================================
-//      Protected (internal) functions
-//-----------------------------------------------------------------------------
-//      E3Pool_Create : TE3Pool constructor.
+//		E3Pool_Create : TE3Pool constructor.
 //-----------------------------------------------------------------------------
 //		Note : Defined as macro in E3Pool.h.
 //-----------------------------------------------------------------------------
 /*
 TQ3Status
-E3Pool_Create (TE3Pool *poolPtr)
+E3Pool_Create(
+    TE3Pool *poolPtr)
 {
 }
 */
@@ -81,7 +79,7 @@ E3Pool_Create (TE3Pool *poolPtr)
 
 
 //=============================================================================
-//      E3Pool_Destroy : TE3Pool destructor.
+//		E3Pool_Destroy : TE3Pool destructor.
 //-----------------------------------------------------------------------------
 void
 E3Pool_Destroy(
@@ -93,13 +91,13 @@ E3Pool_Destroy(
 	Q3_ASSERT_VALID_PTR(poolPtr);
 
 	// Free all blocks in pool
-	for (blockPtr = poolPtr->private_blockPtr; blockPtr != NULL; )
+	for (blockPtr = poolPtr->headBlockPtr_private; blockPtr != NULL; )
 	{
 		// Save current block pointer
 		TE3PoolBlock* currBlockPtr = blockPtr;
 
 		// Advance to next block pointer
-		blockPtr = blockPtr->private_nextPtr;
+		blockPtr = blockPtr->nextBlockPtr_private;
 
 		// Free current block
 		Q3Memory_Free(&currBlockPtr);
@@ -111,11 +109,16 @@ E3Pool_Destroy(
 
 
 //=============================================================================
-//      E3Pool_AllocateTagged :	Allocate new item from pool -- and tag each
-//								block in pool.
+//		E3Pool_AllocateTagged :	Allocate new item from pool -- and tag each
+//								block in pool. (A "tag" is simply a piece of
+//								data that is common to all items in a pool. For
+//								example, a particular mesh is common to all
+//								parts of a mesh. All of the handles to parts of
+//								the mesh can be tagged with a pointer to the
+//								mesh itself.)
 //-----------------------------------------------------------------------------
-//		Note :	If unable to allocate (out of memory), return NULL. If
-//				tagItemPtr is NULL, blocks are not tagged.
+//		Note :  If tagItemPtr is NULL, blocks are not tagged.
+//				If unable to allocate (out of memory), return NULL.
 //-----------------------------------------------------------------------------
 TE3PoolItem*
 E3Pool_AllocateTagged(
@@ -134,49 +137,47 @@ E3Pool_AllocateTagged(
 	Q3_ASSERT(blockLength > (tagItemPtr == NULL ? 0UL : 1UL));
 
 	// If no free items in pool...
-	if (poolPtr->private_itemPtr == NULL)
+	if (poolPtr->headFreeItemPtr_private == NULL)
 	{
 		TE3PoolBlock* newBlockPtr;
-		TE3PoolItem* newItemPtr;
-		TQ3Uns32 i;
+		TE3PoolItem* currItemPtr;
+		TQ3Uns32 numItems;
+		TE3PoolItem* nextItemPtr;
 
 		// Allocate new block of items
 		if ((newBlockPtr = Q3Memory_Allocate(itemOffset + itemSize*blockLength)) == NULL)
 			goto failure;
 
 		// Link block into pool's list of blocks
-		newBlockPtr->private_nextPtr = poolPtr->private_blockPtr;
-		poolPtr->private_blockPtr = newBlockPtr;
+		newBlockPtr->nextBlockPtr_private = poolPtr->headBlockPtr_private;
+		poolPtr->headBlockPtr_private = newBlockPtr;
 
 		// Determine first item in block
-		newItemPtr = (TE3PoolItem*) newBlockPtr;
-		((char*) newItemPtr) += itemOffset;
-		i = 0;
-		
-		// If required, tag first item in block
-		if (tagItemPtr != NULL)
-		{
-			memcpy(newItemPtr, tagItemPtr, itemSize);
-			((char*) newItemPtr) += itemSize;
-			++i;
-		}
+		currItemPtr = (TE3PoolItem*) newBlockPtr;
+		((char*) currItemPtr) += itemOffset;
+    	
+    	// If required, reserve one item for tag
+    	numItems = blockLength;
+    	if (tagItemPtr != NULL)
+    	    --numItems;
 
-		// Link free items into pool's list of free items		
-		poolPtr->private_itemPtr = newItemPtr;
-		for ( ; i < blockLength-1; ++i)
-		{
-			TE3PoolItem* nextItemPtr = newItemPtr;
-			
-			((char*) nextItemPtr) += itemSize;
-			newItemPtr->private_nextPtr = nextItemPtr;
-			newItemPtr = nextItemPtr;
-		}
-		newItemPtr->private_nextPtr = NULL;
+		// Link items into pool's list of free items
+		nextItemPtr = NULL;
+		for ( ; numItems > 0; --numItems, nextItemPtr = currItemPtr, ((char*) currItemPtr) += itemSize)
+			currItemPtr->nextFreeItemPtr_private = nextItemPtr;
+		poolPtr->headFreeItemPtr_private = nextItemPtr;
+		
+		// N.B.: A tag, if any, is the LAST item in each block.
+		// Thus E3PoolItem_Tag() should search FORWARD from an item to find its tag.
+		
+		// If required, tag last item in block
+		if (tagItemPtr != NULL)
+			memcpy(currItemPtr, tagItemPtr, itemSize);
 	}
 
 	// Allocate next free item
-	itemPtr = poolPtr->private_itemPtr;
-	poolPtr->private_itemPtr = itemPtr->private_nextPtr;
+	itemPtr = poolPtr->headFreeItemPtr_private;
+	poolPtr->headFreeItemPtr_private = itemPtr->nextFreeItemPtr_private;
 
 	return(itemPtr);
 	
@@ -190,7 +191,7 @@ failure:
 
 
 //=============================================================================
-//      E3Pool_Free : Free allocated item to pool, and set item pointer to NULL.
+//		E3Pool_Free : Free allocated item to pool, and set item pointer to NULL.
 //-----------------------------------------------------------------------------
 //		Note: If the item pointer is already NULL, do nothing.
 //-----------------------------------------------------------------------------
@@ -207,8 +208,11 @@ E3Pool_Free(
 
 	if ((itemPtr = *itemPtrPtr) != NULL)
 	{
-		itemPtr->private_nextPtr = poolPtr->private_itemPtr;
-		poolPtr->private_itemPtr = itemPtr;
+		// Link item into pool's list of free items
+		itemPtr->nextFreeItemPtr_private = poolPtr->headFreeItemPtr_private;
+		poolPtr->headFreeItemPtr_private = itemPtr;
+		
+		// Zero item pointer
 		*itemPtrPtr = NULL;
 	}
 }
@@ -218,9 +222,7 @@ E3Pool_Free(
 
 
 //=============================================================================
-//      E3PoolItem_Tag : Return tag item for pool containing this item.
-//-----------------------------------------------------------------------------
-//		Errors : None.
+//		E3PoolItem_Tag : Return tag item for pool containing this item.
 //-----------------------------------------------------------------------------
 //		Note :	In order for this function to work properly, a tag item must
 //				have been supplied for every call to E3Pool_AllocateTagged for
@@ -240,9 +242,12 @@ E3PoolItem_Tag(
 	Q3_ASSERT_VALID_PTR(itemPtr);
 	Q3_ASSERT(itemSize >= sizeof(TE3PoolItem));
 	Q3_ASSERT_VALID_PTR(isTagItemFunc);
+	
+	// N.B.: We search FORWARD from an item to find its tag.
+	// Thus E3Pool_AllocateTagged() should make the LAST item in each block a tag.
 
 	tagItemPtr = itemPtr;
-	while (((const char*) tagItemPtr) -= itemSize, (*isTagItemFunc)(tagItemPtr) == kQ3False)
+	while (((const char*) tagItemPtr) += itemSize, (*isTagItemFunc)(tagItemPtr) == kQ3False)
 		;
 
 	return(tagItemPtr);
