@@ -225,12 +225,14 @@ static TQ3Status SR_StartFrame(
 		TQ3DrawContextObject	drawContext)
 {
 	TQ3Status	theStatus;
+	pView; drawContext;
+	
+#if 0	
 	if ( Q3View_GetDrawContext ( pView , &drawContext ) != kQ3Failure )
 	{
 		TQ3DrawContextData theData ;
 		if ( Q3DrawContext_GetData ( drawContext , &theData ) != kQ3Failure )
 		{		
-#if RS_DEBUG && defined(macintosh)	
 			{
 				CWindowPtr theWindow ;
 				TQ3Area		theArea;
@@ -248,9 +250,10 @@ static TQ3Status SR_StartFrame(
 					EraseRect ( &R ) ; 
 				}
 			}
-#endif
 		}
+    	Q3Object_Dispose(theDrawContext);
 	}
+#endif
 	
 	/*
 	 * Initialize the Rayshade renderer
