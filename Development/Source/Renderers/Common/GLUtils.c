@@ -50,7 +50,9 @@
 #include <string.h>
 
 
-
+#ifndef GL_CLAMP_TO_EDGE
+	#define GL_CLAMP_TO_EDGE	0x812F
+#endif
 
 
 //=============================================================================
@@ -127,7 +129,7 @@ GLUtils_ConvertMatrix4x4(const TQ3Matrix4x4 *qd3dMatrix, GLfloat *glMatrix)
 //      GLUtils_ConvertUVBoundary : Convert a QD3D UV boundary.
 //-----------------------------------------------------------------------------
 void
-GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds)
+GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds, TQ3Boolean clampToEdgeAvailable)
 {
 
 
@@ -144,7 +146,10 @@ GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds)
 		
 		case kQ3ShaderUVBoundaryClamp:
 		default:
-			*glBounds = GL_CLAMP;
+			if (clampToEdgeAvailable)
+				*glBounds = GL_CLAMP_TO_EDGE;
+			else
+				*glBounds = GL_CLAMP;
 			break;
 		}
 }
@@ -250,34 +255,45 @@ GLUtils_SizeOfPixelType(TQ3PixelType pixelType)
 //=============================================================================
 //      GLUtils_CheckExtensions : Check availability of OpenGL features
 //-----------------------------------------------------------------------------
-void		GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
+void
+GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 {
 	const char*	openGLVersion = (const char*)glGetString( GL_VERSION );
 	const char*	openGLExtensions = (const char*)glGetString( GL_EXTENSIONS );
 	
+	short j = 0;
+	short shiftVal = 8;
+	unsigned short glVersion = 0;
+	
 	// Initialize to default value, all off.
 	memset( featureFlags, 0, sizeof(TQ3GLExtensions) );
 	
-	// Check for features that depend on OpenGL version
-	openGLVersion = (const char*)glGetString( GL_VERSION );
 	if (openGLVersion != NULL)
 	{
-		int		majorVers, minorVers;
-		int		numScanned = sscanf( openGLVersion, "%d.%d", &majorVers, &minorVers );
-
-		if (numScanned == 2)
-		{
-			if ( (majorVers >= 1) && (minorVers >= 2) )
+		// Get BCD version.
+		while (((openGLVersion[j] <= '9') && (openGLVersion[j] >= '0')) || (openGLVersion[j] == '.'))
+		{ 
+			if ((openGLVersion[j] <= '9') && (openGLVersion[j] >= '0'))
 			{
-				featureFlags->separateSpecularColor = kQ3True;
+				glVersion += (openGLVersion[j] - '0') << shiftVal;
+				shiftVal -= 4;
 			}
+			j++;
 		}
-	}
-	
-	// Check for extensions.
-	if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_separate_specular_color" ))
-	{
-		featureFlags->separateSpecularColor = kQ3True;
+
+		// Check for extensions.
+		if ( glVersion >= 0x0120 ||
+			 isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_separate_specular_color" ) )
+		{
+			featureFlags->separateSpecularColor = kQ3True;
+		}
+			
+		if ( glVersion >= 0x0120 ||
+			 isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_texture_edge_clamp" ) ||
+			 isOpenGLExtensionPresent( openGLExtensions, "GL_SGIS_texture_edge_clamp" ) )
+		{
+			featureFlags->clampToEdge = kQ3True;
+		}
 	}
 }
 

@@ -70,7 +70,7 @@ void		GLUtils_ConvertMatrix4x4(const TQ3Matrix4x4 *qd3dMatrix, GLfloat *glMatrix
 
 
 // Convert a QD3D UV boundary to an OpenGL boundary
-void		GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds);
+void		GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds, TQ3Boolean clampToEdgeAvailable);
 
 
 // Convert a QD3D pixel type to an OpenGL texture format
