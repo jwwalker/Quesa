@@ -70,8 +70,7 @@
 Quesa uses the SourceForge bug tracking system to manage <a href="http://sourceforge.net/tracker/?group_id=45158&atid=442052">bugs</a> and track <a href="http://sourceforge.net/tracker/?group_id=45158&atid=442055">feature requests</a>.</p>
 
 <p>
-If you have encountered a bug in Quesa, or would like to log a feature request, please
-create a new item in the database and post a reference to it to the mailing list.
+If you have encountered a bug in Quesa, or would like to log a feature request, please create a new item in the database.
 </p>
 
 
@@ -87,28 +86,12 @@ current SourceForge system, which is now the definitive list.
 <tr><th>Severity</th><th>ID</th><th>Description</th>
 </tr>
 
-<tr><td>High</td><td>00058</td><td>
-Finish Mesh implementation.
-</td></tr>
-
-<tr><td>Medium</td><td>00049</td><td>
-Implement kQ3XMethodTypeCameraFrustumMatrix method for view plane cameras.
-</td></tr>
-
 <tr><td>Medium</td><td>00050</td><td>
 IR doesn't support specular colour/control at the vertex level.
 </td></tr>
 
-<tr><td>Medium</td><td>00051</td><td>
-IR doesn't support ambient coefficient.
-</td></tr>
-
 <tr><td>Medium</td><td>00053</td><td>
 Make use of kQ3XMethodTypeRendererIsBoundingBoxVisible method for culling and support in IR.
-</td></tr>
-
-<tr><td>Medium</td><td>00005</td><td>
-Storage objects can not be duplicated, and will be rejected by Q3Object_Duplicate.
 </td></tr>
 
 <tr><td>Medium</td><td>00023</td><td>
@@ -117,21 +100,8 @@ should use the use array to allow renderers to update the attribute data with th
 state to provide for inheritence.
 </td></tr>
 
-<tr><td>Medium</td><td>00020</td><td>
-Implicit geometries do not support screen space subdivision: unclear how to go from screen
-space back to world space?
-</td></tr>
-
 <tr><td>Medium</td><td>00024</td><td>
 QD3D viewer, doesn't let you rotate around model if running with Quesa.
-</td></tr>
-
-<tr><td>Medium</td><td>00031</td><td>
-Nanosaur, IR doesn't handle fog correctly
-</td></tr>
-
-<tr><td>Medium</td><td>00032</td><td>
-Nanosaur, face culling is back to front?
 </td></tr>
 
 <tr><td>Medium</td><td>00033</td><td>
@@ -146,26 +116,8 @@ Macintosh window draw contexts do not support clipping masks.
 Pixmap window draw contexts do not support clipping masks.
 </td></tr>
 
-<tr><td>Minor</td><td>00007</td><td>
-Wireframe/Interactive renderers doesn't support segment attributes for polylines.
-</td></tr>
-
 <tr><td>Minor</td><td>00008</td><td>
 Wireframe renderer doesn't support individual triangle colours for TriMeshes.
-</td></tr>
-
-<tr><td>Minor</td><td>00009</td><td>
-Wireframe/Interactive renderers don't support kQ3CameraTypeViewPlane cameras.
-</td></tr>
-
-<tr><td>Minor</td><td>00018</td><td>
-Cone geometry not as smooth in appearance as QD3D 1.6 implementation. This is due to the
-number of vertices we produce (a QD3D cone with ~100 vertices only uses ~10 vertices under
-Quesa), but should look at improving this).
-</td></tr>
-
-<tr><td>Minor</td><td>00022</td><td>
-Quesa's Wireframe and Interactive renderers ignore PolyLine segment attribute sets.
 </td></tr>
 
 <tr><td>Minor</td><td>00034</td><td>
@@ -196,22 +148,6 @@ Pixmap/bitmap markers are culled by OpenGL if they are partially off-screen, sho
 Wireframe renderer doesn't support pixmap/bitmap markers.
 </td></tr>
 
-<tr><td>Minor</td><td>00055</td><td>
-Add error testing with glError in debug builds.
-</td></tr>
-
-<tr><td>Minor</td><td>00060</td><td>
-Identify better specular control-&gt;GL_SHININESS mapping, create a test app to compare values across range.
-</td></tr>
-
-<tr><td>Possible</td><td>00059</td><td>
-Add simple error/warning handlers that print to stderr/DebugStr in debug builds.
-</td></tr>
-
-<tr><td>Possible</td><td>00003</td><td>
-Q3Quaternion_SetMatrix, possible bug in QD3D 1.6 implementation.
-</td></tr>
-
 <tr><td>Possible</td><td>00004</td><td>
 Q3BoundingSphere_SetFromRationalPoints4D, possible bug in QD3D 1.6 implementation.
 </td></tr>
@@ -230,16 +166,6 @@ Q3View_Sync does not work correctly with QD3D interactive renderer, possible bug
 in QD3D 1.6 renderer.
 </td></tr>
 
-<tr><td>Possible</td><td>00038</td><td>
-Duplicating geometry objects does not duplicate their attribute set data correctly
-(some geometries duplicate the attribute sets, some just create new references
-to the existing data).
-</td></tr>
-
-<tr><td>Possible</td><td>00040</td><td>
-Q3Quaternion_SetMatrix, possible bug in QD3D 1.6 implementation.
-</td></tr>
-
 <tr><td>Possible</td><td>00041</td><td>
 Q3BoundingSphere_SetFromRationalPoints4D, possible bug in QD3D 1.6 implementation.
 </td></tr>
@@ -248,187 +174,10 @@ Q3BoundingSphere_SetFromRationalPoints4D, possible bug in QD3D 1.6 implementatio
 Q3Quaternion_SetRotateAboutAxis might be returning the conjugate of the correct result.
 </td></tr>
 
-<tr><td>Possible</td><td>00043</td><td>
-The functions Q3RationalPoint3D_Distance, Q3RationalPoint3D_DistanceSquared,
-Q3RationalPoint4D_Distance and Q3RationalPoint4D_DistanceSquared return incorrect results.
-They should return distances between 3- and 4-dimensional rational points that are the
-same as the distances between the corresponding 2- and 3-dimensional points. Note that
-3D Graphics Programming With QuickDraw 3D 1.5.4 documents that these functions return
-2- and 3-dimensional distances. 
-</td></tr>
-
-<tr><td>Possible</td><td>00044</td><td>
-Although not clearly documented in 3D Graphics Programming With QuickDraw 3D 1.5.4,
-the functions Q3RationalPoint4D_RRatio, Q3RationalPoint3D_AffineComb and
-Q3RationalPoint4D_AffineComb return incorrect results (when w-components are not equal to 1).
-Each function should return the same result as would be obtained by converting each
-input to the next lower dimension, calling calling Q3Point3D_RRatio, Q3Point2D_AffineComb
-or Q3Point3D_AffineComb, and then converting the result back to the original dimension. 
-</td></tr>
-
-<tr><td>Possible</td><td>00045</td><td>
-Do the functions Q3Vector2D_To3D and Q3Vector3D_To2D do anything useful? Would it be
-better to eliminate them in favor of Q3Vector2D_ToRationalPoint3D and Q3RationalPoint3D_ToVector2D?
-</td></tr>
-
 <tr><td>Possible</td><td>00048</td><td>
 Verify all QD3D pixmap formats for Pixmap marker object, make sure they're converted correctly.
 </td></tr>
 </table>
-
-
-<p>
-If you encounter problems running Quesa, please submit a patch or a bug report to the
-mailing list: this is the best way to make sure it will be fixed in future versions
-of the library.
-</p>
-
-
-
-<h3>Missing Functions</h3>
-<p>
-The following functions have been identified as missing from QD3D, and potential
-candidates for including in Quesa:
-</p>
-
-<pre>
-    TQ3RationalPoint3D *
-    Q3Param2D_To3D(
-            const TQ3Param2D            *param2D,
-            TQ3RationalPoint3D          *result);
-
-
-    TQ3Param2D *
-    Q3RationalPoint3D_ToParam2D(
-            const TQ3RationalPoint3D    *rationalPoint3D,
-            TQ3Param2D                  *result); 
-
-
-    TQ3RationalPoint3D *
-    Q3RationalPoint3D_RRatio(
-            const TQ3RationalPoint3D    *p1,
-            const TQ3RationalPoint3D    *p2,
-            float                       r1,
-            float                       r2,
-            TQ3RationalPoint4D         *result);
-
-
-    float *
-    Q3Param2D_CrossProductTri(
-            const TQ3Param2D            *p1,
-            const TQ3Param2D            *p2,
-            const TQ3Param2D            *p3);
-
-
-    TQ3Status
-    Q3Vector2D_To3DTransformArray(
-            const TQ3Vector2D           *inVectors2D,
-            const TQ3Matrix3x3          *matrix3x3,
-            TQ3RationalPoint3D          *outRationalPoints3D,
-            TQ3Uns32                    numVectors,
-            TQ3Uns32                    inStructSize,
-            TQ3Uns32                    outStructSize);
-
-
-    TQ3Status
-    Q3Vector3D_To4DTransformArray(
-            const TQ3Vector3D           *inVectors3D,
-            const TQ3Matrix4x4          *matrix4x4,
-            TQ3RationalPoint4D          *outRationalPoints4D,
-            TQ3Uns32                    numVectors,
-            TQ3Uns32                    inStructSize,
-            TQ3Uns32                    outStructSize);
-
-
-    TQ3Status
-    Q3Point2D_To3DTransformArray(
-            const TQ3Point2D            *inPoints2D,
-            const TQ3Matrix3x3          *matrix3x3,
-            TQ3RationalPoint3D          *outRationalPoints3D,
-            TQ3Uns32                    numPoints,
-            TQ3Uns32                    inStructSize,
-            TQ3Uns32                    outStructSize);
-
-
-    TQ3PolarPoint *
-    Q3Param2D_ToPolar(
-            const TQ3Param2D            *param2D,
-            TQ3PolarPoint               *result); 
-
-
-    TQ3Param2D *
-    Q3PolarPoint_ToParam2D(
-            const TQ3PolarPoint         *polarPoint,
-            TQ3Param2D                  *result);
-
-
-    TQ3PolarPoint *
-    Q3Vector2D_ToPolar(
-            const TQ3Vector2D           *vector2D,
-            TQ3PolarPoint               *result); 
-
-
-    TQ3Vector2D *
-    Q3PolarPoint_ToVector2D(
-            const TQ3PolarPoint         *polarPoint,
-            TQ3Vector2D                 *result);
-
-    TQ3SphericalPoint *
-    Q3Vector3D_ToSpherical(
-                const TQ3Vector3D       *vector3D,
-                TQ3SphericalPoint       *result);
-
-
-    Q3Vector3D *
-    Q3SphericalPoint_ToVector3D(
-                const TQ3SphericalPoint *sphericalPoint,
-                TQ3Vector3D             *result);
-    
-    
-    TQ3Matrix4x4 *
-    Q3Matrix4x4_Adjoint(
-                const TQ3Matrix4x4      *matrix4x4,
-                TQ3Matrix4x4            *result); 
-</pre>
-
-
-
-<h3>Documentation Errors</h3>
-<p>
-The following errors have been identified in Apple's "3D Graphics Programming
-With QuickDraw 3D 1.5.4" book. These should be corrected for the Quesa replacement
-for this documentation.
-</p>
-
-<ul>
-	<li> Omission: Although undocumented, on entry to Q3Point2D_RRatio, Q3Param2D_RRatio, Q3Point3D_RRatio or Q3RationalPoint4D_RRatio, the result parameter can be the same as either p1 or p2 (or both).</li>
-	<li> Omission: Although undocumented, on entry to Q3Point2D_Vector2D_Add, Q3Param2D_Vector2D_Add, Q3Point3D_Vector3D_Add, Q3Point2D_Vector2D_Subtract, Q3Param2D_Vector2D_Subtract or Q3Point3D_Vector3D_Subtract, the result parameter can be the same as the input point parameter.</li>
-	<li> Omission: Although undocumented, on entry to Q3Vector3D_Cross, the result parameter can be the same as either v1 or v2 (or both).</li>
-	<li> Omission: Although undocumented, on entry to Q3Point3D_To3DTransformArray, the outPoints3D parameter can be the same as the inPoints3D parameter.</li>
-	<li> Omission: Although undocumented, on entry to Q3RationalPoint4D_To4DTransformArray, the outPoints4D parameter can be the same as the inPoints4D parameter.</li>
-	<li> Omission: Although undocumented, on entry to Q3Vector2D_Negate or Q3Vector3D_Negate, the result parameter can be the same as the input vector parameter.</li>
-	<li> Inconsistency: In Q3Point3D_To3DTransformArray and Q3Point3D_To4DTransformArray, rename inVertex to inPoints3D to match names in "QD3DMath.h".</li>
-	<li> Inconsistency: In Q3RationalPoint4D_To4DTransformArray, rename inVertex to inPoints4D to match names in "QD3DMath.h".</li>
-	<li> Inconsistency: In Q3Point3D_To3DTransformArray, rename outVertex to outPoints3D to match names in "QD3DMath.h".</li>
-	<li> Inconsistency: In Q3Point3D_To4DTransformArray and Q3RationalPoint4D_To4DTransformArray, rename outVertex to outPoints4D to match names in "QD3DMath.h".</li>
-	<li> Inconsistency: In Q3Point3D_To3DTransformArray, Q3Point3D_To4DTransformArray and Q3RationalPoint4D_To4DTransformArray, rename numVertices to numPoints to match names in "QD3DMath.h".</li>
-	<li> Inconsistency: In Q3Point2D_AffineComb, Q3Param2D_AffineComb, Q3Point3D_AffineComb, Q3RationalPoint3D_AffineComb and Q3RationalPoint3D_AffineComb, rename nPoints to numPoints to match names in "QD3DMath.h".</li>
-	<li> Inconsistency: In Q3BoundingBox_UnionPoint3D and Q3BoundingSphere_UnionPoint3D, rename pt3D to point3D to match names in "QD3DMath.h".</li>
-	<li> Inconsistency: In Q3BoundingBox_UnionRationalPoint4D and Q3BoundingSphere_UnionRationalPoint4D, rename pt4D to point4D to match names in "QD3DMath.h".</li>
-	<li> Inconsistency: In Q3BoundingBox_SetFromPoints3D and Q3BoundingSphere_SetFromPoints3D, rename pts to points3D to match names in "QD3DMath.h".</li>
-	<li> Inconsistency: Q3BoundingBox_SetFromRationalPoints4D and Q3BoundingSphere_SetFromRationalPoints4D, rename pts to points4D to match names in "QD3DMath.h".</li>
-	<li> Inconsistency: In Q3BoundingBox_SetFromPoints3D, Q3BoundingBox_SetFromRationalPoints4D, Q3BoundingSphere_SetFromPoints3D and Q3BoundingSphere_SetFromRationalPoints4D, rename nPts to numPoints to match names in "QD3DMath.h".</li>
-	<li> Inaccuracy: The document warns that "the sum of the weights must be 1.0" for the functions Q3Point2D_AffineComb, Q3Param2D_AffineComb, Q3Point3D_AffineComb, Q3RationalPoint3D_AffineComb and Q3RationalPoint3D_AffineComb. In fact, the functions normalize each weight by dividing by the sum of the weights.</li>
-	<li> Inaccuracy: The document warns that "QuickDraw 3D mathematical utilities do not automatically normalize vectors. They expect vectors to be normalized by the calling code" (p. 1162). In fact, most mathematical functions do not care if vectors are normalized. The only mathematical functions that do expect vectors to be normalized are Q3Matrix4x4_SetRotateAboutAxis, Q3Matrix4x4_SetRotateVectorToVector, Q3Quaternion_SetRotateAboutAxis and Q3Quaternion_SetRotateVectorToVector.</li>
-	<li> Inaccuracy: The document states that the functions Q3Point2D_RRatio, Q3Param2D_RRatio, Q3Point3D_RRatio and Q3RationalPoint4D_RRatio return the point "that lies on the line segment between the points p1 and p2 and that is at a distance from the first point determined by the ratio r1/(r1+r2)." In fact, r1 and r2 are weights and these functions return the point that is at a distance from the first point determined by the ratio r2/(r1+r2).</li>
-	<li> Clarification: In the introduction to the section on "Managing Matrices" (p. 1208), the document notes: "Any of the source or destination matrices may be the same matrix. The source matrices are unchanged, unless one of them is also specified as the destination matrix." Although this statement is correct, it should be reiterated for each function with more than one matrix parameter: Q3Matrix3x3_Copy, Q3Matrix4x4_Copy, Q3Matrix3x3_Transpose, Q3Matrix4x4_Transpose, Q3Matrix3x3_Invert, Q3Matrix4x4_Invert, Q3Matrix3x3_Adjoint, Q3Matrix3x3_Multiply and Q3Matrix4x4_Multiply.</li>
-	<li> Misprint: In the description of Q3Quaternion_SetMatrix, the matrix parameter is described as a "4-by-by" matrix.</li>
-</ul>
-
-<p>
-These items can be noted when HeaderDoc comments are added to QuesaMath.h.
-</p>
-
 
 
 </td>
