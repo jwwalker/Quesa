@@ -167,6 +167,10 @@ IRRenderer_EndFrame(TQ3ViewObject			theView,
 
 
 	// Swap the back buffer, and block until it's complete
+	//
+	// Note that this could be controlled with a global preference: the application
+	// may not need us to block at this point, although that was the behaviour on
+	// QD3D with RAVE.
 	GLDrawContext_SwapBuffers(instanceData->glContext);
 	glFinish();
 
@@ -206,10 +210,10 @@ IRRenderer_StartPass(TQ3ViewObject			theView,
 
 
 
-	// Initialise our state
-	IRRenderer_State_Initialise(instanceData,  theView);
-	IRRenderer_Lights_Initialise(instanceData, theCamera, theLights);
-	IRGeometry_Transparent_Initialise(instanceData, theCamera);
+	// Prepare for another pass
+	IRRenderer_State_StartPass(instanceData,  theView);
+	IRRenderer_Lights_StartPass(instanceData, theCamera, theLights);
+	IRGeometry_Transparent_StartPass(instanceData, theCamera);
 
 	return(kQ3Success);
 }
@@ -243,9 +247,9 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 
 
-	// Terminate our state
-	IRRenderer_State_Terminate(instanceData);
-	IRRenderer_Lights_Terminate(instanceData);
+	// Finish the pass
+	IRRenderer_State_EndPass(instanceData);
+	IRRenderer_Lights_EndPass(instanceData);
 
 	return(kQ3ViewStatusDone);
 }
