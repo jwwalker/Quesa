@@ -206,7 +206,7 @@ PrintAttributeSetType(TQ3Object object)
 							"HighlightState",
 							"SurfaceShader"
 						};
-	TQ3Ins32			i, total, count;
+	TQ3Int32			i, total, count;
 	TQ3Status			status;
 
 	if (Q3Object_IsType(object, kQ3SetTypeAttribute) == kQ3False) {
