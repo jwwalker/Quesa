@@ -57,7 +57,7 @@
 //-----------------------------------------------------------------------------
 #define kRendererClassName							"Quesa:Shared:Renderer:Interactive"
 #define kRendererNickName							"Quesa Interactive"
-
+#define	kRendererDefaultDepthBits					16
 
 
 
@@ -71,6 +71,7 @@ static TQ3Status
 ir_interactive_new(TQ3Object theObject, void *privateData, void *paramData)
 {	TQ3InteractiveData		*instanceData = (TQ3InteractiveData *) privateData;
 	TQ3Status				qd3dStatus;
+	TQ3Uns32				defaultDepthBits = kRendererDefaultDepthBits;
 #pragma unused(privateData)
 #pragma unused(paramData)
 
@@ -78,7 +79,8 @@ ir_interactive_new(TQ3Object theObject, void *privateData, void *paramData)
 
 	// Initialise our instance data
 	Q3InteractiveRenderer_SetRAVETextureFilter(theObject, kQATextureFilter_Mid);
-
+	Q3Object_AddElement( theObject, kQ3ElementTypeDepthBits, &defaultDepthBits );
+	instanceData->rendererEditIndex = Q3Shared_GetEditIndex( theObject );
 
 
 	// Initialise the renderer
