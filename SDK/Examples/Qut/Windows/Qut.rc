@@ -41,38 +41,38 @@ BEGIN
     END
     POPUP "S&tyle"
     BEGIN
-        MENUITEM "Fill Style Filled",                   IDM_FILL_STYLE_FILLED
-        MENUITEM "Fill Style Edges",                    IDM_FILL_STYLE_EDGES
-        MENUITEM "Fill Style Points",                   IDM_FILL_STYLE_POINTS
+        MENUITEM "Fill Style Filled",                   IDM_STYLE_FILL_FILLED
+        MENUITEM "Fill Style Edges",                    IDM_STYLE_FILL_EDGES
+        MENUITEM "Fill Style Points",                   IDM_STYLE_FILL_POINTS
         MENUITEM SEPARATOR
-        MENUITEM "Backfacing Style Both",               IDM_BACKFACING_STYLE_BOTH
-        MENUITEM "Backfacing Style Remove",             IDM_BACKFACING_STYLE_REMOVE
-        MENUITEM "Backfacing Style Flip",               IDM_BACKFACING_STYLE_FLIP
+        MENUITEM "Backfacing Style Both",               IDM_STYLE_BACKFACING_BOTH
+        MENUITEM "Backfacing Style Remove",             IDM_STYLE_BACKFACING_REMOVE
+        MENUITEM "Backfacing Style Flip",               IDM_STYLE_BACKFACING_FLIP
         MENUITEM SEPARATOR
-        MENUITEM "Interpolation Style None",            IDM_INTERPOLATION_STYLE_NONE
-        MENUITEM "Interpolation Style Vertex",          IDM_INTERPOLATION_STYLE VERTEX
-        MENUITEM "Interpolation Style Pixel",           IDM_INTERPOLATION_STYLE_PIXEL
+        MENUITEM "Interpolation Style None",            IDM_STYLE_INTERPOLATION_NONE
+        MENUITEM "Interpolation Style Vertex",          IDM_STYLE_INTERPOLATION_STYLE_VERTEX
+        MENUITEM "Interpolation Style Pixel",           IDM_STYLE_INTERPOLATION_PIXEL
         MENUITEM SEPARATOR
-        MENUITEM "Orientation Style Clockwise",         IDM_ORIENTATION_STYLE_CLOCKWISE
-        MENUITEM "Orientation Style Counter-Clockwise", IDM_ORIENTATION_STYLE_COUNTER_CLOCKWISE
+        MENUITEM "Orientation Style Clockwise",         IDM_STYLE_ORIENTATION_CLOCKWISE
+        MENUITEM "Orientation Style Counter-Clockwise", IDM_STYLE_ORIENTATION_COUNTER_CLOCKWISE
         MENUITEM SEPARATOR
-        MENUITEM "Anti-Alias Style Off",                IDM_ANTIALIAS_STYLE_NONE
-        MENUITEM "Anti-Alias Style Edges",              IDM_ANTIALIAS_STYLE_EDGES
-        MENUITEM "Anti-Alias Style Filled",             IDM_ANTIALIAS_STYLE_FILLED
+        MENUITEM "Anti-Alias Style Off",                IDM_STYLE_ANTIALIAS_NONE
+        MENUITEM "Anti-Alias Style Edges",              IDM_STYLE_ANTIALIAS_EDGES
+        MENUITEM "Anti-Alias Style Filled",             IDM_STYLE_ANTIALIAS_FILLED
         MENUITEM SEPARATOR
-        MENUITEM "Fog Style On",                        IDM_FOG_STYLE_ON
-        MENUITEM "Fog Style Off",                       IDM_FOG_STYLE_OFF
+        MENUITEM "Fog Style On",                        IDM_STYLE_FOG_ON
+        MENUITEM "Fog Style Off",                       IDM_STYLE_FOG_OFF
         MENUITEM SEPARATOR
-        MENUITEM "Subdivision Style Constant (5, 5)",   IDM_SUBDIVISION_STYLE_CONSTANT1
-        MENUITEM "Subdivision Style Constant (25, 25)", IDM_SUBDIVISION_STYLE_CONSTANT2
-        MENUITEM "Subdivision Style Constant (50, 50)", IDM_SUBDIVISION_STYLE_CONSTANT3
-        MENUITEM "Subdivision Style Constant (50, 5)",  IDM_SUBDIVISION_STYLE_CONSTANT4
-        MENUITEM "Subdivision Style World (0.1)",       IDM_SUBDIVISION_STYLE_WORLD1
-        MENUITEM "Subdivision Style World (0.5)",       IDM_SUBDIVISION_STYLE_WORLD2
-        MENUITEM "Subdivision Style World (2.5)",       IDM_SUBDIVISION_STYLE_WORLD3
-        MENUITEM "Subdivision Style Screen Space (3)",  IDM_SUBDIVISION_STYLE_SCREEN SPACE1
-        MENUITEM "Subdivision Style Screen Space (10)", IDM_SUBDIVISION_STYLE_SCREEN SPACE2
-        MENUITEM "Subdivision Style Screen Space (30)", IDM_SUBDIVISION_STYLE_SCREEN SPACE3
+        MENUITEM "Subdivision Style Constant (5, 5)",   IDM_STYLE_SUBDIVISION_CONSTANT1
+        MENUITEM "Subdivision Style Constant (25, 25)", IDM_STYLE_SUBDIVISION_CONSTANT2
+        MENUITEM "Subdivision Style Constant (50, 50)", IDM_STYLE_SUBDIVISION_CONSTANT3
+        MENUITEM "Subdivision Style Constant (50, 5)",  IDM_STYLE_SUBDIVISION_CONSTANT4
+        MENUITEM "Subdivision Style World (0.1)",       IDM_STYLE_SUBDIVISION_WORLD1
+        MENUITEM "Subdivision Style World (0.5)",       IDM_STYLE_SUBDIVISION_WORLD2
+        MENUITEM "Subdivision Style World (2.5)",       IDM_STYLE_SUBDIVISION_WORLD3
+        MENUITEM "Subdivision Style Screen Space (3)",  IDM_STYLE_SUBDIVISION_SCREEN_SPACE1
+        MENUITEM "Subdivision Style Screen Space (10)", IDM_STYLE_SUBDIVISION_SCREEN_SPACE2
+        MENUITEM "Subdivision Style Screen Space (30)", IDM_STYLE_SUBDIVISION_SCREEN_SPACE3
     END
     POPUP "&Special"
     BEGIN
