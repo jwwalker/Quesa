@@ -151,7 +151,7 @@ TQ3Status E3Bitmap_Replace(const TQ3Bitmap *original, TQ3Bitmap *copy, TQ3Boolea
 	// Copy the bitmap image from original to copy
 	if ( originalSize != 0 )
 	{
-		originalData = E3Memory_Allocate( originalSize ) ;
+		originalData = Q3Memory_Allocate( originalSize ) ;
 
 		if (originalData == NULL)
 		{

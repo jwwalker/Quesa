@@ -56,7 +56,7 @@ e3geom_triangle_new(TQ3Object theObject, void *privateData, const void *paramDat
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3TriangleData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3TriangleData));
 	
 	qd3dStatus = Q3Triangle_SetData(theObject, triangleData);
 	

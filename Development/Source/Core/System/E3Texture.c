@@ -919,7 +919,7 @@ E3CompressedPixmapTexture_GetCompressedPixmap(	TQ3TextureObject texture,
 	return(kQ3Success);
 #else
 
-	E3Memory_Clear(compressedPixmap, sizeof(TQ3CompressedPixmap));
+	Q3Memory_Clear(compressedPixmap, sizeof(TQ3CompressedPixmap));
 	E3ErrorManager_PostError(kQ3ErrorUnimplemented, kQ3False);
 	return(kQ3Failure);
 #endif

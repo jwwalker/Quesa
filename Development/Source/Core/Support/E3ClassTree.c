@@ -152,7 +152,7 @@ e3class_attach(E3ClassInfoPtr theChild, E3ClassInfoPtr theParent)
 
 
 	// Grow the list of child pointers
-	qd3dStatus = E3Memory_Reallocate(&theParent->theChildren,
+	qd3dStatus = Q3Memory_Reallocate(&theParent->theChildren,
 									 sizeof(E3ClassInfoPtr) * (theParent->numChildren+1));
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
@@ -218,7 +218,7 @@ e3class_detach(E3ClassInfoPtr theChild)
 
 	// Shrink the parent's list of children
 	theParent->numChildren--;
-	qd3dStatus = E3Memory_Reallocate(&theParent->theChildren,
+	qd3dStatus = Q3Memory_Reallocate(&theParent->theChildren,
 									 sizeof(E3ClassInfoPtr) * theParent->numChildren);
 	Q3_ASSERT(qd3dStatus == kQ3Success);
 
@@ -503,22 +503,22 @@ E3ClassTree_RegisterClass(TQ3ObjectType			parentClassType,
 
 
 	// Allocate the new class
-	theClass = (E3ClassInfoPtr) E3Memory_AllocateClear(sizeof(E3ClassInfo));
+	theClass = (E3ClassInfoPtr) Q3Memory_AllocateClear(sizeof(E3ClassInfo));
 	if (theClass == NULL)
 		return(kQ3Failure);
 
-	theClass->className   = (char *) E3Memory_Allocate(strlen(className) + 1);
+	theClass->className   = (char *) Q3Memory_Allocate(strlen(className) + 1);
 	theClass->methodTable = E3HashTable_Create(kMethodHashTableSize);
 
 	if (theClass->className == NULL || theClass->methodTable == NULL)
 		{
 		if (theClass->className != NULL)
-			E3Memory_Free(&theClass->className);
+			Q3Memory_Free(&theClass->className);
 		
 		if (theClass->methodTable != NULL)
 			E3HashTable_Destroy(theClass->methodTable);
 
-		E3Memory_Free(&theClass);
+		Q3Memory_Free(&theClass);
 		return(kQ3Failure);
 		}
 
@@ -567,9 +567,9 @@ E3ClassTree_RegisterClass(TQ3ObjectType			parentClassType,
 
 
 		// Clean up the class
-		E3Memory_Free(&theClass->className);
+		Q3Memory_Free(&theClass->className);
 		E3HashTable_Destroy(theClass->methodTable);
-		E3Memory_Free(&theClass);
+		Q3Memory_Free(&theClass);
 		}
 
 	return(qd3dStatus);
@@ -651,9 +651,9 @@ E3ClassTree_UnregisterClass(TQ3ObjectType classType, TQ3Boolean isRequired)
 	Q3_ASSERT(theClass->numChildren == 0);
 	Q3_ASSERT(theClass->theChildren == NULL);
 
-	E3Memory_Free(&theClass->className);
+	Q3Memory_Free(&theClass->className);
 	E3HashTable_Destroy(theClass->methodTable);
-	E3Memory_Free(&theClass);
+	Q3Memory_Free(&theClass);
 	
 	return(kQ3Success);
 }
@@ -698,7 +698,7 @@ E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 
 
 	// Allocate and initialise the object
-	theObject = (TQ3Object) E3Memory_AllocateClear(sizeof(OpaqueTQ3Object));
+	theObject = (TQ3Object) Q3Memory_AllocateClear(sizeof(OpaqueTQ3Object));
 	if (theObject == NULL)
 		return(NULL);
 
@@ -719,7 +719,7 @@ E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 			
 		if (theObject->parentObject == NULL)
 			{
-			E3Memory_Free(&theObject);
+			Q3Memory_Free(&theObject);
 			return(NULL);
 			}
 		}
@@ -730,13 +730,13 @@ E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 	if (theClass->instanceSize != 0)
 		{
 		// Allocate the private data
-		theObject->instanceData = E3Memory_AllocateClear(theClass->instanceSize + sizeof(TQ3ObjectType));
+		theObject->instanceData = Q3Memory_AllocateClear(theClass->instanceSize + sizeof(TQ3ObjectType));
 		if (theObject->instanceData == NULL)
 			{
 			if (theObject->parentObject != NULL)
 				E3ClassTree_DestroyInstance(theObject->parentObject);
 
-			E3Memory_Free(&theObject);
+			Q3Memory_Free(&theObject);
 			return(NULL);
 			}
 
@@ -761,8 +761,8 @@ E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 				if (theObject->parentObject != NULL)
 					E3ClassTree_DestroyInstance(theObject->parentObject);
 
-				E3Memory_Free(&theObject->instanceData);
-				E3Memory_Free(&theObject);
+				Q3Memory_Free(&theObject->instanceData);
+				Q3Memory_Free(&theObject);
 				return(NULL);
 				}
 			}
@@ -783,8 +783,8 @@ E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 					if (theObject->parentObject != NULL)
 						E3ClassTree_DestroyInstance(theObject->parentObject);
 
-					E3Memory_Free(&theObject->instanceData);
-					E3Memory_Free(&theObject);
+					Q3Memory_Free(&theObject->instanceData);
+					Q3Memory_Free(&theObject);
 					return(NULL);
 					}
 				}
@@ -862,8 +862,8 @@ E3ClassTree_DestroyInstance(TQ3Object theObject)
 
 
 	// Dispose of the object		
-	E3Memory_Free(&theObject->instanceData);
-	E3Memory_Free(&theObject);
+	Q3Memory_Free(&theObject->instanceData);
+	Q3Memory_Free(&theObject);
 }
 
 
@@ -896,7 +896,7 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 
 
 	// Allocate and initialise the object
-	newObject = (TQ3Object) E3Memory_AllocateClear(sizeof(OpaqueTQ3Object));
+	newObject = (TQ3Object) Q3Memory_AllocateClear(sizeof(OpaqueTQ3Object));
 	if (newObject == NULL)
 		return(NULL);
 
@@ -911,7 +911,7 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 		newObject->parentObject = E3ClassTree_DuplicateInstance(theObject->parentObject);
 		if (newObject->parentObject == NULL)
 			{
-			E3Memory_Free(&newObject);
+			Q3Memory_Free(&newObject);
 			return(NULL);
 			}
 		}
@@ -922,13 +922,13 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 	if (theObject->instanceData != NULL)
 		{
 		// Allocate the private data
-		newObject->instanceData = E3Memory_AllocateClear(theClass->instanceSize + sizeof(TQ3ObjectType));
+		newObject->instanceData = Q3Memory_AllocateClear(theClass->instanceSize + sizeof(TQ3ObjectType));
 		if (newObject->instanceData == NULL)
 			{
 			if (newObject->parentObject != NULL)
 				Q3Object_Dispose(newObject->parentObject);
 
-			E3Memory_Free(&newObject);
+			Q3Memory_Free(&newObject);
 			return(NULL);
 			}
 
@@ -959,8 +959,8 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 					if (newObject->parentObject != NULL)
 						Q3Object_Dispose(newObject->parentObject);
 
-					E3Memory_Free(&newObject->instanceData);
-					E3Memory_Free(&newObject);
+					Q3Memory_Free(&newObject->instanceData);
+					Q3Memory_Free(&newObject);
 					return(NULL);
 					}
 				}
@@ -976,8 +976,8 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 				if (newObject->parentObject != NULL)
 					Q3Object_Dispose(newObject->parentObject);
 
-				E3Memory_Free(&newObject->instanceData);
-				E3Memory_Free(&newObject);
+				Q3Memory_Free(&newObject->instanceData);
+				Q3Memory_Free(&newObject);
 				return(NULL);
 				}
 			}

@@ -57,7 +57,7 @@ e3geom_marker_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3MarkerData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3MarkerData));
 	
 	qd3dStatus = Q3Marker_SetData(theObject, markerData);
 	

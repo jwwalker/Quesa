@@ -66,7 +66,7 @@ E3Globals_Get(void)
 	// If we've not initialised the globals, do so now
 	if (!gInitialisedGlobals)
 		{
-		E3Memory_Clear(&gE3Globals, sizeof(gE3Globals));
+		Q3Memory_Clear(&gE3Globals, sizeof(gE3Globals));
 		gInitialisedGlobals = kQ3True;
 		}
 

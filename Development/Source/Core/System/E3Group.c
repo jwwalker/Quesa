@@ -718,7 +718,7 @@ e3group_positionnew(TQ3XGroupPosition** position, TQ3Object object, const void *
 #pragma unused (initData)
 	if (position)
 		{
-		TQ3XGroupPosition* newGroupPosition = (TQ3XGroupPosition*) E3Memory_Allocate(sizeof(TQ3XGroupPosition));
+		TQ3XGroupPosition* newGroupPosition = (TQ3XGroupPosition*) Q3Memory_Allocate(sizeof(TQ3XGroupPosition));
 
 		if (newGroupPosition)
 			{
@@ -775,7 +775,7 @@ e3group_positiondelete(void *position)
 	if (pos->object)
 		Q3Object_Dispose (pos->object);
 	
-	E3Memory_Free (&position);
+	Q3Memory_Free (&position);
 }
 
 

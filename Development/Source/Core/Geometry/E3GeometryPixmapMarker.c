@@ -56,7 +56,7 @@ e3geom_pixmapmarker_new(TQ3Object theObject, void *privateData, const void *para
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3PixmapMarkerData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3PixmapMarkerData));
 	
 	qd3dStatus = Q3PixmapMarker_SetData(theObject, pixmapMarkerData);
 	

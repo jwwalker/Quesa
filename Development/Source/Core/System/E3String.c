@@ -63,7 +63,7 @@ e3string_c_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	*instanceData = (TQ3StringPtr) E3Memory_Allocate(strlen(theString) + 1);
+	*instanceData = (TQ3StringPtr) Q3Memory_Allocate(strlen(theString) + 1);
 	if (*instanceData == NULL)
 		return(kQ3Failure);
 	
@@ -87,7 +87,7 @@ e3string_c_delete(TQ3Object theObject, void *privateData)
 
 
 	// Dispose of our instance data
-	E3Memory_Free(instanceData);
+	Q3Memory_Free(instanceData);
 }
 
 
@@ -119,7 +119,7 @@ e3string_c_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	*toInstanceData = NULL;
 	if (*fromInstanceData != NULL)
 		{
-		*toInstanceData = (TQ3StringPtr) E3Memory_Allocate(strlen(*fromInstanceData) + 1);
+		*toInstanceData = (TQ3StringPtr) Q3Memory_Allocate(strlen(*fromInstanceData) + 1);
 		if (*toInstanceData == NULL)
 			return(kQ3Failure);
 	
@@ -286,7 +286,7 @@ E3CString_SetString(TQ3StringObject stringObj, const char *str)
 
 
 	// Resize the string data
-	qd3dStatus = E3Memory_Reallocate(instanceData, strlen(str) + 1);
+	qd3dStatus = Q3Memory_Reallocate(instanceData, strlen(str) + 1);
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
 
@@ -324,7 +324,7 @@ E3CString_GetString(TQ3StringObject stringObj, char **str)
 
 
 	// Allocate the data for the string
-	*str = (char *) E3Memory_Allocate(strlen(*instanceData) + 1);
+	*str = (char *) Q3Memory_Allocate(strlen(*instanceData) + 1);
 	if (*str == NULL)
 		return(kQ3Failure);
 	
@@ -344,7 +344,7 @@ E3CString_GetString(TQ3StringObject stringObj, char **str)
 //      E3CString_EmptyData : Dispose of data allocated by Q3CString_GetData.
 //-----------------------------------------------------------------------------
 //		Note :	After disposing of the data, we must also reset str to NULL.
-//				This is done for us by E3Memory_Free, but we assert it in case
+//				This is done for us by Q3Memory_Free, but we assert it in case
 //				that behaviour is ever changed.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -353,7 +353,7 @@ E3CString_EmptyData(char **str)
 
 
 	// Dispose of the memory
-	E3Memory_Free(str);
+	Q3Memory_Free(str);
 
 
 

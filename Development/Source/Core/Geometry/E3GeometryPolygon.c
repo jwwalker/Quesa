@@ -96,7 +96,7 @@ e3geom_polygon_add_attribute(const TQ3PolygonData			*instanceData,
 
 	// Set up the attribute array within the TriMesh
 	triMeshAttribute->attributeType     = attributeType;
-	triMeshAttribute->data              = E3Memory_AllocateClear(instanceData->numVertices * attributeSize);
+	triMeshAttribute->data              = Q3Memory_AllocateClear(instanceData->numVertices * attributeSize);
 	triMeshAttribute->attributeUseArray = NULL;
 
 	if (triMeshAttribute->data == NULL)
@@ -190,7 +190,7 @@ e3geom_polygon_new(TQ3Object theObject, void *privateData, const void *paramData
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3PolygonData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3PolygonData));
 	
 	qd3dStatus = Q3Polygon_SetData(theObject, polygonData);
 	
@@ -274,15 +274,15 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 
 	// Allocate the memory we need for the TriMesh data
-	thePoints    = (TQ3Point3D *)             E3Memory_Allocate(geomData->numVertices * sizeof(TQ3Point3D));
-	theTriangles = (TQ3TriMeshTriangleData *) E3Memory_Allocate(numTriangles * sizeof(TQ3TriMeshTriangleData));
-	theEdges     = (TQ3TriMeshEdgeData *)     E3Memory_Allocate(numEdges     * sizeof(TQ3TriMeshEdgeData));
+	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(geomData->numVertices * sizeof(TQ3Point3D));
+	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numTriangles * sizeof(TQ3TriMeshTriangleData));
+	theEdges     = (TQ3TriMeshEdgeData *)     Q3Memory_Allocate(numEdges     * sizeof(TQ3TriMeshEdgeData));
 
 	if (thePoints == NULL || theTriangles == NULL || theEdges == NULL)
 		{
-		E3Memory_Free(&thePoints);
-		E3Memory_Free(&theTriangles);
-		E3Memory_Free(&theEdges);
+		Q3Memory_Free(&thePoints);
+		Q3Memory_Free(&theTriangles);
+		Q3Memory_Free(&theEdges);
 		
 		return(NULL);
 		}
@@ -381,12 +381,12 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	// Create the TriMesh and clean up
 	theTriMesh = Q3TriMesh_New(&triMeshData);
 
-	E3Memory_Free(&thePoints);
-	E3Memory_Free(&theTriangles);
-	E3Memory_Free(&theEdges);
+	Q3Memory_Free(&thePoints);
+	Q3Memory_Free(&theTriangles);
+	Q3Memory_Free(&theEdges);
 	
 	for (n = 0; n < triMeshData.numVertexAttributeTypes; n++)
-		E3Memory_Free(&triMeshData.vertexAttributeTypes[n].data);
+		Q3Memory_Free(&triMeshData.vertexAttributeTypes[n].data);
 
 	return(theTriMesh);
 }
@@ -592,7 +592,7 @@ E3Polygon_SetData(TQ3GeometryObject thePolygon, const TQ3PolygonData *polygonDat
 
 
 	// Allocate some space for the new vertices
-	newVertices = (TQ3Vertex3D *) E3Memory_Allocate(polygonData->numVertices * sizeof(TQ3Vertex3D));
+	newVertices = (TQ3Vertex3D *) Q3Memory_Allocate(polygonData->numVertices * sizeof(TQ3Vertex3D));
 	if (newVertices == NULL)
 		return(kQ3Failure);
 
@@ -602,7 +602,7 @@ E3Polygon_SetData(TQ3GeometryObject thePolygon, const TQ3PolygonData *polygonDat
 	for (n = 0; n < instanceData->numVertices; n++)
 		E3Object_DisposeAndForget(instanceData->vertices[n].attributeSet);
 
-	E3Memory_Free(&instanceData->vertices);
+	Q3Memory_Free(&instanceData->vertices);
 
 
 
@@ -639,7 +639,7 @@ E3Polygon_GetData(TQ3GeometryObject thePolygon, TQ3PolygonData *polygonData)
 
 
 	// Allocate some space for the new vertices
-	newVertices = (TQ3Vertex3D *) E3Memory_Allocate(instanceData->numVertices * sizeof(TQ3Vertex3D));
+	newVertices = (TQ3Vertex3D *) Q3Memory_Allocate(instanceData->numVertices * sizeof(TQ3Vertex3D));
 	if (newVertices == NULL)
 		return(kQ3Failure);
 
@@ -677,7 +677,7 @@ E3Polygon_EmptyData(TQ3PolygonData *polygonData)
 	for (n = 0; n < polygonData->numVertices; n++)
 		E3Object_DisposeAndForget(polygonData->vertices[n].attributeSet);
 
-	E3Memory_Free(&polygonData->vertices);
+	Q3Memory_Free(&polygonData->vertices);
 	E3Object_DisposeAndForget(polygonData->polygonAttributeSet);
 
 	return(kQ3Success);

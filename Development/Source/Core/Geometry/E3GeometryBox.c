@@ -213,7 +213,7 @@ e3geom_box_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3BoxData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3BoxData));
 	
 	qd3dStatus = Q3Box_SetData(theObject, boxData);
 	
@@ -701,7 +701,7 @@ E3Box_SetData(TQ3GeometryObject theBox, const TQ3BoxData *boxData)
 		{
 		// If we don't have an attribute array, create one
 		if (instanceData->faceAttributeSet == NULL)
-			instanceData->faceAttributeSet = (TQ3AttributeSet *)E3Memory_AllocateClear(6 * sizeof(TQ3AttributeSet));
+			instanceData->faceAttributeSet = (TQ3AttributeSet *)Q3Memory_AllocateClear(6 * sizeof(TQ3AttributeSet));
 
 		if (instanceData->faceAttributeSet == NULL)
 			return(kQ3Failure);
@@ -719,7 +719,7 @@ E3Box_SetData(TQ3GeometryObject theBox, const TQ3BoxData *boxData)
 			for (n = 0; n < 6; n++)
 				E3Object_DisposeAndForget(instanceData->faceAttributeSet[n]);
 
-			E3Memory_Free(&instanceData->faceAttributeSet);
+			Q3Memory_Free(&instanceData->faceAttributeSet);
 			}
 		}
 
@@ -753,7 +753,7 @@ E3Box_GetData(TQ3GeometryObject theBox, TQ3BoxData *boxData)
 	if (instanceData->faceAttributeSet != NULL)
 		{
 		// Create an attribute array
-		boxData->faceAttributeSet = (TQ3AttributeSet *)E3Memory_Allocate(6 * sizeof(TQ3AttributeSet));
+		boxData->faceAttributeSet = (TQ3AttributeSet *)Q3Memory_Allocate(6 * sizeof(TQ3AttributeSet));
 
 		if (boxData->faceAttributeSet == NULL)
 			return(kQ3Failure);
@@ -790,7 +790,7 @@ E3Box_EmptyData(TQ3BoxData *boxData)
 		for (n = 0; n < 6; n++)
 			E3Object_DisposeAndForget(boxData->faceAttributeSet[n]);
 		
-		E3Memory_Free(&boxData->faceAttributeSet);
+		Q3Memory_Free(&boxData->faceAttributeSet);
 		}
 		
 	E3Object_DisposeAndForget(boxData->boxAttributeSet);
@@ -996,7 +996,7 @@ E3Box_SetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3Attri
 	// If we don't have an attribute array, allocate one now
 	if (instanceData->faceAttributeSet == NULL)
 		{
-		instanceData->faceAttributeSet = (TQ3AttributeSet *)E3Memory_AllocateClear(6 * sizeof(TQ3AttributeSet));
+		instanceData->faceAttributeSet = (TQ3AttributeSet *)Q3Memory_AllocateClear(6 * sizeof(TQ3AttributeSet));
 		if (instanceData->faceAttributeSet == NULL)
 			return(kQ3Failure);
 		}

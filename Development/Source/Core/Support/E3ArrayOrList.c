@@ -367,7 +367,7 @@ E3Array_Create(
 	if (length > 0)
 	{
 		// Allocate new items
-		if ((arrayPtr->private_itemsPtr = E3Memory_Allocate(itemSize*length)) == NULL)
+		if ((arrayPtr->private_itemsPtr = Q3Memory_Allocate(itemSize*length)) == NULL)
 			goto failure_2;
 
 		// Initialize new items
@@ -418,7 +418,7 @@ E3Array_Destroy(
 	}
 
 	// Free memory for array
-	E3Memory_Free(&arrayPtr->private_itemsPtr);
+	Q3Memory_Free(&arrayPtr->private_itemsPtr);
 
 	// Destroy sequence
 	E3Sequence_Destroy(E3_UP_CAST(TE3Sequence*, arrayPtr));
@@ -743,7 +743,7 @@ E3List_Create(
 		goto failure_1;
 
 	// Allocate end pseudo-node
-	if ((endNodePtr = listPtr->private_endNodePtr = E3Memory_Allocate(sizeof(TE3ListNode))) == NULL)
+	if ((endNodePtr = listPtr->private_endNodePtr = Q3Memory_Allocate(sizeof(TE3ListNode))) == NULL)
 		goto failure_2;
 
 	// Initialize end pseudo-node
@@ -810,11 +810,11 @@ E3List_Destroy(
 			(*destroyItemFunc)(E3ListNode_Item(currNodePtr, itemOffset));
 
 		// Free memory for node (including item)
-		E3Memory_Free(&currNodePtr);
+		Q3Memory_Free(&currNodePtr);
 	}
 
 	// Free memory for end pseudo-node
-	E3Memory_Free(&listPtr->private_endNodePtr);
+	Q3Memory_Free(&listPtr->private_endNodePtr);
 
 	// Destroy sequence
 	E3Sequence_Destroy(E3_UP_CAST(TE3Sequence*, listPtr));
@@ -856,7 +856,7 @@ E3List_Clear(
 			(*destroyItemFunc)(E3ListNode_Item(currNodePtr, itemOffset));
 
 		// Free memory for node (including item)
-		E3Memory_Free(&currNodePtr);
+		Q3Memory_Free(&currNodePtr);
 	}
 
 	// Reinitialize length
@@ -1001,7 +1001,7 @@ E3List_InsertBeforeNodeItem(
 	Q3_ASSERT_VALID_PTR(nextNodePtr);
 
 	// Allocate new node (including item)
-	if ((currNodePtr = E3Memory_Allocate(itemOffset + itemSize)) == NULL)
+	if ((currNodePtr = Q3Memory_Allocate(itemOffset + itemSize)) == NULL)
 		goto failure;
 
 	// Insert after previous node in list
@@ -1084,7 +1084,7 @@ E3List_EraseNode(
 	E3Sequence_DecrementLength(E3_UP_CAST(TE3Sequence*, listPtr));
 
 	// Free memory for node (including item)
-	E3Memory_Free(&nodePtr);
+	Q3Memory_Free(&nodePtr);
 }
 
 

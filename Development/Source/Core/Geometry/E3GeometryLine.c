@@ -56,7 +56,7 @@ e3geom_line_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3LineData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3LineData));
 	
 	qd3dStatus = Q3Line_SetData(theObject, lineData);
 	

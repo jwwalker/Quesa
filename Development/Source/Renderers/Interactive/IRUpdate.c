@@ -127,7 +127,7 @@ ir_state_texture_convert_pixmap(TQ3TextureObject theTexture)
 
 	// Clean up and return
 	E3Object_DisposeAndForget(thePixmap.image);
-	E3Memory_Free(&basePtr);
+	Q3Memory_Free(&basePtr);
 	
 	return(kQ3Success);
 }
@@ -228,7 +228,7 @@ ir_state_texture_convert_mipmap(TQ3TextureObject theTexture)
 
 	// Clean up and return
 	E3Object_DisposeAndForget(theMipmap.image);
-	E3Memory_Free(&basePtr);
+	Q3Memory_Free(&basePtr);
 	
 	return(kQ3Success);
 }
@@ -421,7 +421,7 @@ ir_state_texture_cache_add(TQ3ViewObject			theView,
 	// disposed of, then we could improve this - at present we need to check the
 	// whole cache for things to flush after each frame, but it would be better
 	// if we could only flush what we need when we need to.
-	qd3dStatus = E3Memory_Reallocate(&instanceData->cachedTextures,
+	qd3dStatus = Q3Memory_Reallocate(&instanceData->cachedTextures,
 									 sizeof(TQ3CachedTexture) * (instanceData->cachedTextureCount+1));
 	if (qd3dStatus == kQ3Success)
 		{
@@ -854,7 +854,7 @@ IRRenderer_State_FlushTextureCache(TQ3InteractiveData *instanceData, TQ3Boolean 
 
 		// Update the table
 		instanceData->cachedTextureCount = 0;
-		E3Memory_Free(&instanceData->cachedTextures);
+		Q3Memory_Free(&instanceData->cachedTextures);
 		}
 	
 	
@@ -1052,7 +1052,7 @@ IRRenderer_Texture_GetData(TQ3StorageObject theStorage, TQ3Boolean *wasCopied)
 		default:
 			qd3dStatus = Q3Storage_GetSize(theStorage, &bufferSize);
 			if (qd3dStatus == kQ3Success)
-				basePtr = (TQ3Uns8 *) E3Memory_Allocate(bufferSize);
+				basePtr = (TQ3Uns8 *) Q3Memory_Allocate(bufferSize);
 			
 			if (basePtr != NULL)
 				{
@@ -1060,7 +1060,7 @@ IRRenderer_Texture_GetData(TQ3StorageObject theStorage, TQ3Boolean *wasCopied)
 				*wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
 				
 				if (qd3dStatus != kQ3Success)
-					E3Memory_Free(&basePtr);
+					Q3Memory_Free(&basePtr);
 				}
 			break;
 		}
@@ -1115,7 +1115,7 @@ IRRenderer_Texture_ReleaseData(TQ3StorageObject	theStorage,
 
 	// If the data was copied, dispose of it
 	if (wasCopied)
-		E3Memory_Free(&basePtr);
+		Q3Memory_Free(&basePtr);
 }
 
 
@@ -1186,7 +1186,7 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 
 	// Allocate the buffer for the image data
-	dstBasePtr = (TQ3Uns8 *) E3Memory_Allocate(theWidth * theHeight * 4);
+	dstBasePtr = (TQ3Uns8 *) Q3Memory_Allocate(theWidth * theHeight * 4);
 	if (dstBasePtr == NULL)
 		return(NULL);
 
@@ -1601,7 +1601,7 @@ IRRenderer_Texture_ConvertSize(TQ3Uns32			srcWidth,
 
 
 	// Allocate the buffer for the image data
-	dstBasePtr = (TQ3Uns8 *) E3Memory_Allocate(theWidth * theHeight * 4);
+	dstBasePtr = (TQ3Uns8 *) Q3Memory_Allocate(theWidth * theHeight * 4);
 	if (dstBasePtr == NULL)
 		return(NULL);
 
@@ -1705,7 +1705,7 @@ IRRenderer_Texture_ConvertImage(TQ3StorageObject	theStorage,
 
 
 		// Release the depth copy of the texture
-		E3Memory_Free(&depthBasePtr);
+		Q3Memory_Free(&depthBasePtr);
 
 
 		// Replace the depth copy with the size copy

@@ -99,7 +99,7 @@ e3geom_generalpolygon_add_attribute(const TQ3GeneralPolygonData		*instanceData,
 
 	// Set up the attribute array within the TriMesh
 	triMeshAttribute->attributeType     = attributeType;
-	triMeshAttribute->data              = E3Memory_AllocateClear(instanceData->contours[0].numVertices * attributeSize);
+	triMeshAttribute->data              = Q3Memory_AllocateClear(instanceData->contours[0].numVertices * attributeSize);
 	triMeshAttribute->attributeUseArray = NULL;
 
 	if (triMeshAttribute->data == NULL)
@@ -196,7 +196,7 @@ e3geom_generalpolygon_new(TQ3Object theObject, void *privateData, const void *pa
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3GeneralPolygonData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3GeneralPolygonData));
 	
 	qd3dStatus = Q3GeneralPolygon_SetData(theObject, generalPolygonData);
 	
@@ -290,15 +290,15 @@ e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom
 
 
 	// Allocate the memory we need for the TriMesh data
-	thePoints    = (TQ3Point3D *)             E3Memory_Allocate(numVertices * sizeof(TQ3Point3D));
-	theTriangles = (TQ3TriMeshTriangleData *) E3Memory_Allocate(numTriangles * sizeof(TQ3TriMeshTriangleData));
-	theEdges     = (TQ3TriMeshEdgeData *)     E3Memory_Allocate(numEdges     * sizeof(TQ3TriMeshEdgeData));
+	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(numVertices * sizeof(TQ3Point3D));
+	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numTriangles * sizeof(TQ3TriMeshTriangleData));
+	theEdges     = (TQ3TriMeshEdgeData *)     Q3Memory_Allocate(numEdges     * sizeof(TQ3TriMeshEdgeData));
 
 	if (thePoints == NULL || theTriangles == NULL || theEdges == NULL)
 		{
-		E3Memory_Free(&thePoints);
-		E3Memory_Free(&theTriangles);
-		E3Memory_Free(&theEdges);
+		Q3Memory_Free(&thePoints);
+		Q3Memory_Free(&theTriangles);
+		Q3Memory_Free(&theEdges);
 		
 		return(NULL);
 		}
@@ -397,12 +397,12 @@ e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom
 	// Create the TriMesh and clean up
 	theTriMesh = Q3TriMesh_New(&triMeshData);
 
-	E3Memory_Free(&thePoints);
-	E3Memory_Free(&theTriangles);
-	E3Memory_Free(&theEdges);
+	Q3Memory_Free(&thePoints);
+	Q3Memory_Free(&theTriangles);
+	Q3Memory_Free(&theEdges);
 	
 	for (n = 0; n < triMeshData.numVertexAttributeTypes; n++)
-		E3Memory_Free(&triMeshData.vertexAttributeTypes[n].data);
+		Q3Memory_Free(&triMeshData.vertexAttributeTypes[n].data);
 
 	return(theTriMesh);
 }
@@ -614,7 +614,7 @@ E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolyg
 
 
 	// Allocate some space for the new contours
-	newContours = (TQ3GeneralPolygonContourData *) E3Memory_Allocate(generalPolygonData->numContours * sizeof(TQ3GeneralPolygonContourData));
+	newContours = (TQ3GeneralPolygonContourData *) Q3Memory_Allocate(generalPolygonData->numContours * sizeof(TQ3GeneralPolygonContourData));
 	if (newContours == NULL)
 		return(kQ3Failure);
 
@@ -624,7 +624,7 @@ E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolyg
 	qd3dStatus = kQ3Success;
 	for (n = 0; n < generalPolygonData->numContours && qd3dStatus == kQ3Success; n++)
 		{
-		newContours[n].vertices = (TQ3Vertex3D *) E3Memory_Allocate(generalPolygonData->contours[n].numVertices * sizeof(TQ3Vertex3D));
+		newContours[n].vertices = (TQ3Vertex3D *) Q3Memory_Allocate(generalPolygonData->contours[n].numVertices * sizeof(TQ3Vertex3D));
 		if (newContours[n].vertices == NULL)
 			qd3dStatus = kQ3Failure;
 		}
@@ -635,9 +635,9 @@ E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolyg
 	if (qd3dStatus != kQ3Success)
 		{
 		for (n = 0; n < generalPolygonData->numContours; n++)
-			E3Memory_Free(&newContours[n].vertices);
+			Q3Memory_Free(&newContours[n].vertices);
 
-		E3Memory_Free(&newContours);
+		Q3Memory_Free(&newContours);
 		
 		return(qd3dStatus);
 		}
@@ -650,10 +650,10 @@ E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolyg
 		for (m = 0; m < instanceData->contours[n].numVertices; m++)
 			E3Object_DisposeAndForget(instanceData->contours[n].vertices[m].attributeSet);
 
-		E3Memory_Free(&instanceData->contours[n].vertices);
+		Q3Memory_Free(&instanceData->contours[n].vertices);
 		}
 
-	E3Memory_Free(&instanceData->contours);
+	Q3Memory_Free(&instanceData->contours);
 
 
 
@@ -698,7 +698,7 @@ E3GeneralPolygon_GetData(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonData
 
 
 	// Allocate some space for the new contours
-	newContours = (TQ3GeneralPolygonContourData *) E3Memory_Allocate(instanceData->numContours * sizeof(TQ3GeneralPolygonContourData));
+	newContours = (TQ3GeneralPolygonContourData *) Q3Memory_Allocate(instanceData->numContours * sizeof(TQ3GeneralPolygonContourData));
 	if (newContours == NULL)
 		return(kQ3Failure);
 
@@ -708,7 +708,7 @@ E3GeneralPolygon_GetData(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonData
 	qd3dStatus = kQ3Success;
 	for (n = 0; n < instanceData->numContours && qd3dStatus == kQ3Success; n++)
 		{
-		newContours[n].vertices = (TQ3Vertex3D *) E3Memory_Allocate(instanceData->contours[n].numVertices * sizeof(TQ3Vertex3D));
+		newContours[n].vertices = (TQ3Vertex3D *) Q3Memory_Allocate(instanceData->contours[n].numVertices * sizeof(TQ3Vertex3D));
 		if (newContours[n].vertices == NULL)
 			qd3dStatus = kQ3Failure;
 		}
@@ -719,9 +719,9 @@ E3GeneralPolygon_GetData(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonData
 	if (qd3dStatus != kQ3Success)
 		{
 		for (n = 0; n < instanceData->numContours; n++)
-			E3Memory_Free(&newContours[n].vertices);
+			Q3Memory_Free(&newContours[n].vertices);
 
-		E3Memory_Free(&newContours);
+		Q3Memory_Free(&newContours);
 		
 		return(qd3dStatus);
 		}
@@ -769,10 +769,10 @@ E3GeneralPolygon_EmptyData(TQ3GeneralPolygonData *generalPolygonData)
 		for (m = 0; m < generalPolygonData->contours[n].numVertices; m++)
 			E3Object_DisposeAndForget(generalPolygonData->contours[n].vertices[m].attributeSet);
 
-		E3Memory_Free(&generalPolygonData->contours[n].vertices);
+		Q3Memory_Free(&generalPolygonData->contours[n].vertices);
 		}
 
-	E3Memory_Free(&generalPolygonData->contours);
+	Q3Memory_Free(&generalPolygonData->contours);
 	E3Object_DisposeAndForget(generalPolygonData->generalPolygonAttributeSet);
 
 	return(kQ3Success);

@@ -215,7 +215,7 @@ e3transform_rotateaboutpoint_matrix(const void *transformData, TQ3Matrix4x4 *the
 	#define Dy				instanceData->about.y
 	#define Dz				instanceData->about.z
 
-	E3Memory_Clear(theMatrix, sizeof(TQ3Matrix4x4));
+	Q3Memory_Clear(theMatrix, sizeof(TQ3Matrix4x4));
 
 	switch (instanceData->axis)
 		{

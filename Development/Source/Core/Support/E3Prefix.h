@@ -70,6 +70,7 @@
 #include "QuesaIO.h"
 #include "QuesaLight.h"
 #include "QuesaMath.h"
+#include "QuesaMemory.h"
 #include "QuesaPick.h"
 #include "QuesaRenderer.h"
 #include "QuesaSet.h"
@@ -86,7 +87,6 @@
 #include "E3Globals.h"
 #include "E3Utils.h"
 #include "E3System.h"
-#include "E3Memory.h"
 #include "E3ErrorManager.h"
 
 

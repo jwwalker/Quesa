@@ -66,7 +66,7 @@ e3unknown_binary_delete(TQ3Object theObject, void *privateData)
 #pragma unused(theObject)
 
 	// Dispose of our instance data
-	E3Memory_Free(&instanceData->typeString);
+	Q3Memory_Free(&instanceData->typeString);
 	E3UnknownBinary_EmptyData (&instanceData->data);
 }
 
@@ -99,7 +99,7 @@ e3unknown_binary_duplicateData(const TQ3UnknownBinaryData *fromData, TQ3UnknownB
 	// Copy the contents
 	if (fromData->size != 0)
 		{
-		toData->contents = (char *) E3Memory_Allocate(fromData->size);
+		toData->contents = (char *) Q3Memory_Allocate(fromData->size);
 		if (toData->contents != NULL)
 			memcpy(toData->contents, fromData->contents,fromData->size);
 		else
@@ -147,7 +147,7 @@ e3unknown_binary_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	// Copy the string
 	if (fromInstanceData->typeString != NULL)
 		{
-		toInstanceData->typeString = (char *) E3Memory_Allocate(strlen(fromInstanceData->typeString) + 1);
+		toInstanceData->typeString = (char *) Q3Memory_Allocate(strlen(fromInstanceData->typeString) + 1);
 		if (toInstanceData->typeString == NULL)
 			return(kQ3Failure);
 		strcpy(toInstanceData->typeString, fromInstanceData->typeString);	
@@ -247,14 +247,14 @@ e3unknown_text_duplicateData(const TQ3UnknownTextData *fromData, TQ3UnknownTextD
 	
 	// Copy the name
 	if (fromData->objectName != NULL)
-		toData->objectName = (char *) E3Memory_Allocate(strlen(fromData->objectName) + 1);
+		toData->objectName = (char *) Q3Memory_Allocate(strlen(fromData->objectName) + 1);
 	if (toData->objectName == NULL)
 		return(kQ3Failure);
 	strcpy(toData->objectName, fromData->objectName);	
 	
 	// Copy the contents
 	if (fromData->contents != 0)
-		toData->contents = (char *) E3Memory_Allocate(strlen(fromData->contents) + 1);
+		toData->contents = (char *) Q3Memory_Allocate(strlen(fromData->contents) + 1);
 	if (toData->contents == NULL)
 		strcpy(toData->contents, fromData->contents);	
 	else
@@ -1549,8 +1549,8 @@ E3UnknownText_GetData(TQ3UnknownObject unknownObject, TQ3UnknownTextData *unknow
 TQ3Status
 E3UnknownText_EmptyData(TQ3UnknownTextData *unknownTextData)
 {
-	E3Memory_Free(&unknownTextData->objectName);
-	E3Memory_Free(&unknownTextData->contents);
+	Q3Memory_Free(&unknownTextData->objectName);
+	Q3Memory_Free(&unknownTextData->contents);
 	
 	return (kQ3Success);
 }
@@ -1601,7 +1601,7 @@ E3UnknownBinary_GetData(TQ3UnknownObject unknownObject, TQ3UnknownBinaryData *un
 TQ3Status
 E3UnknownBinary_EmptyData(TQ3UnknownBinaryData *unknownBinaryData)
 {
-	E3Memory_Free(&unknownBinaryData->contents);
+	Q3Memory_Free(&unknownBinaryData->contents);
 	
 	return (kQ3Success);
 }
@@ -1620,7 +1620,7 @@ E3UnknownBinary_GetTypeString(TQ3UnknownObject unknownObject, char **typeString)
 
 	if (instanceData->typeString != NULL)
 		{
-		*typeString = (char *) E3Memory_Allocate(strlen(instanceData->typeString) + 1);
+		*typeString = (char *) Q3Memory_Allocate(strlen(instanceData->typeString) + 1);
 		if (*typeString == NULL)
 			return(kQ3Failure);
 		strcpy(*typeString, instanceData->typeString);
@@ -1641,7 +1641,7 @@ E3UnknownBinary_GetTypeString(TQ3UnknownObject unknownObject, char **typeString)
 TQ3Status
 E3UnknownBinary_EmptyTypeString(char **typeString)
 {
-	E3Memory_Free(typeString);
+	Q3Memory_Free(typeString);
 	
 	return (kQ3Success);
 }

@@ -775,12 +775,12 @@ E3ObjectHierarchy_GetSubClassData(TQ3ObjectType objectClassType, TQ3SubClassData
 
 
 	// Allocate the array for the child classes
-	E3Memory_Clear(subClassData, sizeof(TQ3SubClassData));
+	Q3Memory_Clear(subClassData, sizeof(TQ3SubClassData));
 
 	numChildren = E3ClassTree_GetNumChildren(theClass);
 	if (numChildren != 0)
 		{
-		subClassData->classTypes = (TQ3ObjectType *) E3Memory_Allocate(sizeof(TQ3ObjectType) * numChildren);
+		subClassData->classTypes = (TQ3ObjectType *) Q3Memory_Allocate(sizeof(TQ3ObjectType) * numChildren);
 		if (subClassData->classTypes == NULL)
 			return(kQ3Failure);
 
@@ -817,7 +817,7 @@ E3ObjectHierarchy_EmptySubClassData(TQ3SubClassData *subClassData)
 
 
 	// Dispose of the data
-	E3Memory_Free(&subClassData->classTypes);
+	Q3Memory_Free(&subClassData->classTypes);
 
 
 
@@ -1507,7 +1507,7 @@ E3Bitmap_Empty(TQ3Bitmap *theBitmap)
 
 
 	// Dispose of the bitmap's image
-	E3Memory_Free(&theBitmap->image);
+	Q3Memory_Free(&theBitmap->image);
 
 	return(kQ3Success);
 }

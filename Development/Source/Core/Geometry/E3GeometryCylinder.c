@@ -273,17 +273,17 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 
 	// Allocate some memory for the TriMesh
-	points    = (TQ3Point3D *)             E3Memory_Allocate(numpoints*sizeof(TQ3Point3D) );
-	normals   = (TQ3Vector3D *)            E3Memory_Allocate(numpoints*sizeof(TQ3Vector3D) );
-	uvs       = (TQ3Param2D  *)            E3Memory_Allocate(numpoints*sizeof(TQ3Param2D));
-	triangles = (TQ3TriMeshTriangleData *) E3Memory_Allocate( 2*sides*sizeof(TQ3TriMeshTriangleData) );
+	points    = (TQ3Point3D *)             Q3Memory_Allocate(numpoints*sizeof(TQ3Point3D) );
+	normals   = (TQ3Vector3D *)            Q3Memory_Allocate(numpoints*sizeof(TQ3Vector3D) );
+	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate(numpoints*sizeof(TQ3Param2D));
+	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( 2*sides*sizeof(TQ3TriMeshTriangleData) );
 
 	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL)
 		{
-		E3Memory_Free(&points);
-		E3Memory_Free(&normals);
-		E3Memory_Free(&uvs);
-		E3Memory_Free(&triangles);
+		Q3Memory_Free(&points);
+		Q3Memory_Free(&normals);
+		Q3Memory_Free(&uvs);
+		Q3Memory_Free(&triangles);
 		
 		return(theGroup);
 		}
@@ -499,10 +499,10 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 
 	// Clean up
-	E3Memory_Free(&points);
-	E3Memory_Free(&normals);
-	E3Memory_Free(&uvs);
-	E3Memory_Free(&triangles);
+	Q3Memory_Free(&points);
+	Q3Memory_Free(&normals);
+	Q3Memory_Free(&uvs);
+	Q3Memory_Free(&triangles);
 
 
 

@@ -445,7 +445,7 @@ e3view_stack_push(TQ3ViewObject theView)
 
 
 	// Grow the view stack to the hold the new item
-	qd3dStatus = E3Memory_Reallocate(&instanceData->stackState,
+	qd3dStatus = Q3Memory_Reallocate(&instanceData->stackState,
 									  sizeof(TQ3ViewStackItem) * (instanceData->stackCount+1));
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
@@ -540,7 +540,7 @@ e3view_stack_pop(TQ3ViewObject theView)
 
 	// Shrink the stack to get rid of the last item
 	instanceData->stackCount--;
-	qd3dStatus = E3Memory_Reallocate(&instanceData->stackState,
+	qd3dStatus = Q3Memory_Reallocate(&instanceData->stackState,
 									  sizeof(TQ3ViewStackItem) * instanceData->stackCount);
 	Q3_ASSERT(qd3dStatus == kQ3Success);
 

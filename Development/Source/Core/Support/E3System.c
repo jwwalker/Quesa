@@ -176,7 +176,7 @@ E3System_UnloadPlugins(void)
 
 	// Dispose of the global state
 	theGlobals->sharedLibraryCount = 0;
-	E3Memory_Free(&theGlobals->sharedLibraryInfo);
+	Q3Memory_Free(&theGlobals->sharedLibraryInfo);
 
 
 

@@ -154,7 +154,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 
 	// Build up the attributes we need
-	E3Memory_Clear(glAttributes, sizeof(glAttributes));
+	Q3Memory_Clear(glAttributes, sizeof(glAttributes));
 
 	numAttributes = 0;
 	glAttributes[numAttributes++] = AGL_RGBA;
@@ -315,7 +315,7 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 
 
 	// Allocate the context structure
-	theContext = (X11GLContext *) E3Memory_AllocateClear(sizeof(X11GLContext));
+	theContext = (X11GLContext *) Q3Memory_AllocateClear(sizeof(X11GLContext));
 	if (theContext == NULL)
 		goto fail;
 
@@ -393,7 +393,7 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 	return(theContext);
 
 fail:
-	E3Memory_Free(&theContext);
+	Q3Memory_Free(&theContext);
 	return(NULL);
 }
 
@@ -421,7 +421,7 @@ gldrawcontext_x11_destroy(void *glContext)
 
 
 	// Dispose of the GL state
-	E3Memory_Free(&theContext);
+	Q3Memory_Free(&theContext);
 }
 
 
@@ -485,7 +485,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 
 
 	// Allocate the context structure
-	theContext = (WinGLContext *) E3Memory_AllocateClear(sizeof(WinGLContext));
+	theContext = (WinGLContext *) Q3Memory_AllocateClear(sizeof(WinGLContext));
 	if (theContext == NULL)
 		goto fail;
 
@@ -514,7 +514,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 
 			// create a surface for OpenGL
 			// initialize bmih
-			E3Memory_Clear(&bmih, sizeof(bmih));
+			Q3Memory_Clear(&bmih, sizeof(bmih));
 			bmih.biSize = sizeof(BITMAPINFOHEADER);
 			bmih.biWidth = theContext->pixmap.width;
 			bmih.biHeight = theContext->pixmap.height;
@@ -565,7 +565,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 
 
 	// Build up the attributes we need
-	E3Memory_Clear(&pixelFormatDesc, sizeof(pixelFormatDesc));
+	Q3Memory_Clear(&pixelFormatDesc, sizeof(pixelFormatDesc));
 
 	pixelFormatDesc.nSize      = sizeof(pixelFormatDesc);
     pixelFormatDesc.nVersion   = 1;
@@ -611,7 +611,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 	return(theContext);
 
 fail:
-	E3Memory_Free(&theContext);
+	Q3Memory_Free(&theContext);
 	return(NULL);
 }
 
@@ -648,7 +648,7 @@ gldrawcontext_win_destroy(void *glContext)
 
 
 	// Dispose of the GL state
-	E3Memory_Free(&theContext);
+	Q3Memory_Free(&theContext);
 }
 
 

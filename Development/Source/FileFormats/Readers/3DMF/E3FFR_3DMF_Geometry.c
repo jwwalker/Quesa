@@ -128,7 +128,7 @@ e3read_3dmf_read_pixmap(TQ3StoragePixmap* 	pixmap, TQ3FileObject theFile)
 	imageSize = pixmap->height * pixmap->rowBytes;
 	imageSize = Q3Size_Pad(imageSize);
 	
-	pixmapImage = (TQ3Uns8*)E3Memory_Allocate (imageSize);
+	pixmapImage = (TQ3Uns8*)Q3Memory_Allocate (imageSize);
 	
 	if(pixmapImage == NULL)
 		return (kQ3Failure);
@@ -137,7 +137,7 @@ e3read_3dmf_read_pixmap(TQ3StoragePixmap* 	pixmap, TQ3FileObject theFile)
 	if(qd3dStatus == kQ3Success)
 		pixmap->image = Q3MemoryStorage_New(pixmapImage, imageSize);
 
-	E3Memory_Free(&pixmapImage);
+	Q3Memory_Free(&pixmapImage);
 	
 	if(pixmap->image == NULL)
 		return (kQ3Failure);
@@ -189,14 +189,14 @@ E3Read_3DMF_String_C(TQ3FileObject theFile)
 	char *buffer = NULL;
 	TQ3Uns32 bytesRead;
 	
-	buffer = (char *) E3Memory_Allocate(kQ3StringMaximumLength);
+	buffer = (char *) Q3Memory_Allocate(kQ3StringMaximumLength);
 	bytesRead = kQ3StringMaximumLength;
 	
 	Q3String_Read (buffer, &bytesRead, theFile);
 	
 	theNewString = Q3CString_New (buffer);
 	
-	E3Memory_Free(&buffer);
+	Q3Memory_Free(&buffer);
 	
 	return theNewString;
 }
@@ -224,7 +224,7 @@ E3Read_3DMF_Unknown_Binary(TQ3FileObject theFile)
 	if(Q3Int32_Read ((TQ3Int32*)&data.byteOrder,theFile) != kQ3Success)
 		return NULL;
 	
-	data.contents = (char *)E3Memory_Allocate(data.size);
+	data.contents = (char *)Q3Memory_Allocate(data.size);
 	
 	if(data.contents == NULL)
 		return(NULL);
@@ -234,7 +234,7 @@ E3Read_3DMF_Unknown_Binary(TQ3FileObject theFile)
 	
 	theObject = E3UnknownBinary_New(&data,NULL);
 	
-	E3Memory_Free(&data.contents);
+	Q3Memory_Free(&data.contents);
 	
 	return(theObject);
 }
@@ -578,7 +578,7 @@ E3Read_3DMF_Texture_Pixmap(TQ3FileObject theFile)
 	TQ3StoragePixmap 	pixmap;
 	TQ3TextureObject 	theTexture;
 	
-	E3Memory_Clear(&pixmap, sizeof(pixmap));
+	Q3Memory_Clear(&pixmap, sizeof(pixmap));
 	
 	
 	if(e3read_3dmf_read_pixmap (&pixmap, theFile) == kQ3Failure)
@@ -613,7 +613,7 @@ E3Read_3DMF_Texture_Mipmap(TQ3FileObject    theFile)
 	TQ3Uns32			imageSize;
 	TQ3Uns8				*mipmapImage;
 	
-	E3Memory_Clear(&mipmap, sizeof(mipmap));
+	Q3Memory_Clear(&mipmap, sizeof(mipmap));
 	
 	// Read in mipmap parameters
 	
@@ -659,7 +659,7 @@ E3Read_3DMF_Texture_Mipmap(TQ3FileObject    theFile)
 	imageSize = mipmap.mipmaps[0].height * mipmap.mipmaps[0].rowBytes;
 	imageSize = Q3Size_Pad(imageSize);
 	
-	mipmapImage = (TQ3Uns8*)E3Memory_Allocate (imageSize);
+	mipmapImage = (TQ3Uns8*)Q3Memory_Allocate (imageSize);
 	
 	if(mipmapImage == NULL)
 		return (NULL);
@@ -668,7 +668,7 @@ E3Read_3DMF_Texture_Mipmap(TQ3FileObject    theFile)
 	if(qd3dStatus == kQ3Success)
 		mipmap.image = Q3MemoryStorage_New(mipmapImage, imageSize);
 
-	E3Memory_Free(&mipmapImage);
+	Q3Memory_Free(&mipmapImage);
 	
 	if(mipmap.image == NULL)
 		return (NULL);
@@ -769,7 +769,7 @@ E3Read_3DMF_Style_Subdivision(TQ3FileObject theFile)
 	TQ3Int32 temp;
 
 	// Initialise the style data
-	E3Memory_Clear(&styleData, sizeof(styleData));
+	Q3Memory_Clear(&styleData, sizeof(styleData));
 
 	// read the style data
 	
@@ -1067,7 +1067,7 @@ E3Read_3DMF_Style_AntiAlias(TQ3FileObject theFile)
 	TQ3Int32 temp;
 
 	// Initialise the style data
-	E3Memory_Clear(&styleData, sizeof(styleData));
+	Q3Memory_Clear(&styleData, sizeof(styleData));
 
 	// read the style data
 	
@@ -1107,7 +1107,7 @@ E3Read_3DMF_Style_Fog(TQ3FileObject theFile)
 	TQ3Int32 temp;
 
 	// Initialise the style data
-	E3Memory_Clear(&styleData, sizeof(styleData));
+	Q3Memory_Clear(&styleData, sizeof(styleData));
 
 	// read the style data
 	
@@ -1301,7 +1301,7 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 
 
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 
 
@@ -1324,7 +1324,7 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace)){
-					geomData.faceAttributeSet = (OpaqueTQ3Object **)E3Memory_AllocateClear(sizeof(TQ3AttributeSet)*6);
+					geomData.faceAttributeSet = (OpaqueTQ3Object **)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*6);
 					for(i = 0; i< 6; i++){
 						geomData.faceAttributeSet[i] = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
 						}
@@ -1350,7 +1350,7 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 			if (geomData.faceAttributeSet[i] != NULL)
 				Q3Object_Dispose(geomData.faceAttributeSet[i]);
 			}
-		E3Memory_Free(&geomData.faceAttributeSet);
+		Q3Memory_Free(&geomData.faceAttributeSet);
 		}
 		
 	return theObject;
@@ -1374,7 +1374,7 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 
 
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 
 
@@ -1385,7 +1385,7 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 		return (NULL);
 		
 	// allocate the array
-	geomData.contours = (TQ3GeneralPolygonContourData *)E3Memory_AllocateClear(sizeof(TQ3GeneralPolygonContourData) * geomData.numContours);
+	geomData.contours = (TQ3GeneralPolygonContourData *)Q3Memory_AllocateClear(sizeof(TQ3GeneralPolygonContourData) * geomData.numContours);
 
 	if(geomData.contours == NULL)
 		return (NULL);
@@ -1399,7 +1399,7 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 			goto cleanup;
 			
 		// allocate the array
-		geomData.contours[j].vertices = (TQ3Vertex3D *)E3Memory_AllocateClear(sizeof(TQ3Vertex3D) * geomData.contours[j].numVertices);
+		geomData.contours[j].vertices = (TQ3Vertex3D *)Q3Memory_AllocateClear(sizeof(TQ3Vertex3D) * geomData.contours[j].numVertices);
 		
 		if(geomData.contours[j].vertices == NULL)
 			goto cleanup;
@@ -1456,9 +1456,9 @@ cleanup:
 			if (geomData.contours[j].vertices[i].attributeSet != NULL)
 				Q3Object_Dispose(geomData.contours[j].vertices[i].attributeSet);
 			}
-		E3Memory_Free(&geomData.contours[j].vertices);
+		Q3Memory_Free(&geomData.contours[j].vertices);
 		}
-	E3Memory_Free(&geomData.contours);
+	Q3Memory_Free(&geomData.contours);
 	
 	return theObject;
 	
@@ -1480,7 +1480,7 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 
 
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 
 
@@ -1542,7 +1542,7 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 
 
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 
 
@@ -1613,7 +1613,7 @@ E3Read_3DMF_Geom_Torus(TQ3FileObject theFile)
 
 
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 
 
@@ -1679,7 +1679,7 @@ E3Read_3DMF_Geom_Line(TQ3FileObject theFile)
 	TQ3Uns32 i;
 	
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 	
 
 	// Read in the points
@@ -1738,7 +1738,7 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 	
 	
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 	// Read in marker parameters
 	Q3Point3D_Read(&geomData.location,theFile);
@@ -1759,7 +1759,7 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 	imageSize = Q3Size_Pad(imageSize);
 	
 	// Allocate and read bitmap
-	geomData.bitmap.image = (unsigned char *)E3Memory_Allocate (imageSize);
+	geomData.bitmap.image = (unsigned char *)Q3Memory_Allocate (imageSize);
 	
 	Q3RawData_Read (geomData.bitmap.image, imageSize, theFile);
 
@@ -1784,7 +1784,7 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 	if (geomData.markerAttributeSet != NULL)
 		Q3Object_Dispose(geomData.markerAttributeSet);
 		
-	E3Memory_Free(&geomData.bitmap.image);
+	Q3Memory_Free(&geomData.bitmap.image);
 		
 	return theObject;
 }
@@ -1838,7 +1838,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 		return NULL;
 	
 	// allocate the array
-	polyVertices = (TQ3Vertex3D *) E3Memory_AllocateClear(sizeof(TQ3Vertex3D) * numVertices);
+	polyVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear(sizeof(TQ3Vertex3D) * numVertices);
 		
 	
 	// read the vertices
@@ -1866,7 +1866,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 		readFailed = kQ3True;
 		}
 
-	faces = (TQ3Object *) E3Memory_AllocateClear(sizeof(TQ3Object) * numFaces);
+	faces = (TQ3Object *) Q3Memory_AllocateClear(sizeof(TQ3Object) * numFaces);
 	if(faces == NULL)
 		{
 		goto cleanUp;
@@ -1884,9 +1884,9 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 		
 			
 	if(polyVertices != NULL){
-		E3Memory_Clear(&polyData, sizeof(polyData));
+		Q3Memory_Clear(&polyData, sizeof(polyData));
 		polyData.numVertices = absFaceVertexIndices;
-		polyData.vertices = (TQ3Vertex3D *)E3Memory_AllocateClear(sizeof(TQ3Vertex3D) * polyData.numVertices);
+		polyData.vertices = (TQ3Vertex3D *)Q3Memory_AllocateClear(sizeof(TQ3Vertex3D) * polyData.numVertices);
 		}
 
 		//read the Indices
@@ -1909,7 +1909,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 					Q3Group_AddObject(thePolysGroup,thePoly);
 					Q3Object_Dispose(thePoly);
 					}
-				E3Memory_Free(&polyData.vertices);
+				Q3Memory_Free(&polyData.vertices);
 				}
 		}
 
@@ -1936,8 +1936,8 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 
 
 cleanUp:	
-		E3Memory_Free(&polyVertices);
-		E3Memory_Free(&faces);
+		Q3Memory_Free(&polyVertices);
+		Q3Memory_Free(&faces);
 	
 	return thePolysGroup;
 	
@@ -1975,7 +1975,7 @@ cleanUp:
 		return mesh;
 	
 	// allocate the array
-	vertices = (TQ3MeshVertex *) E3Memory_AllocateClear(sizeof(TQ3MeshVertex) * numVertices);
+	vertices = (TQ3MeshVertex *) Q3Memory_AllocateClear(sizeof(TQ3MeshVertex) * numVertices);
 
 	if(vertices == NULL)
 		return mesh;
@@ -2014,7 +2014,7 @@ cleanUp:
 		}
 
 	// Allocate the faces Array
-	faces = (TQ3MeshFace *) E3Memory_AllocateClear(sizeof(TQ3MeshFace) * numFaces);
+	faces = (TQ3MeshFace *) Q3Memory_AllocateClear(sizeof(TQ3MeshFace) * numFaces);
 	if(faces == NULL)
 		{
 		goto cleanUp;
@@ -2032,7 +2032,7 @@ cleanUp:
 		absFaceVertexIndices = E3Num_Abs (numFaceVertexIndices);
 		
 		if(allocatedFaceIndices < absFaceVertexIndices)
-			E3Memory_Reallocate (&faceVertices, absFaceVertexIndices);
+			Q3Memory_Reallocate (&faceVertices, absFaceVertexIndices);
 			
 		//read the Indices
 		for(j = 0; j< (TQ3Uns32) (absFaceVertexIndices); j++){
@@ -2103,9 +2103,9 @@ cleanUp:
 		}
 
 	
-	E3Memory_Free(&vertices);
-	E3Memory_Free(&faceVertices);
-	E3Memory_Free(&faces);
+	Q3Memory_Free(&vertices);
+	Q3Memory_Free(&faceVertices);
+	Q3Memory_Free(&faces);
 	
 	return mesh;
 
@@ -2128,7 +2128,7 @@ E3Read_3DMF_Geom_PixmapMarker(TQ3FileObject theFile)
 	
 	
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 	
 	// Read in marker parameters
 	Q3Point3D_Read(&geomData.position,theFile);
@@ -2182,7 +2182,7 @@ E3Read_3DMF_Geom_Point(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 	// Read in the point
 	Q3Point3D_Read(&geomData.point,theFile);
@@ -2229,7 +2229,7 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 	
 
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 
 	// Read vertices count
@@ -2241,7 +2241,7 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 		
 	// Allocate memory to hold vertices
 	geomData.vertices =
-	(TQ3Vertex3D *) E3Memory_AllocateClear( geomData.numVertices * sizeof( TQ3Vertex3D )) ;
+	(TQ3Vertex3D *) Q3Memory_AllocateClear( geomData.numVertices * sizeof( TQ3Vertex3D )) ;
 	
 	if(geomData.vertices == NULL)
 		return (NULL);
@@ -2268,7 +2268,7 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 						}
 					}
 				else if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListGeometry)){
-					geomData.segmentAttributeSet = (OpaqueTQ3Object **)E3Memory_AllocateClear(sizeof(TQ3AttributeSet)*(geomData.numVertices-1));
+					geomData.segmentAttributeSet = (OpaqueTQ3Object **)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*(geomData.numVertices-1));
 					for(i = 0; i< (geomData.numVertices - 1); i++){
 						geomData.segmentAttributeSet[i] = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
 						}
@@ -2295,9 +2295,9 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 			if (geomData.segmentAttributeSet[i] != NULL)
 				Q3Object_Dispose(geomData.segmentAttributeSet[i]);
 			}
-		E3Memory_Free(&geomData.segmentAttributeSet);
+		Q3Memory_Free(&geomData.segmentAttributeSet);
 		}
-	E3Memory_Free(&geomData.vertices);
+	Q3Memory_Free(&geomData.vertices);
 	
 	return (theObject);
 }
@@ -2318,7 +2318,7 @@ E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 
 
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 
 
@@ -2329,7 +2329,7 @@ E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 		return (NULL);
 		
 	// allocate the array
-	geomData.vertices = (TQ3Vertex3D *)E3Memory_AllocateClear(sizeof(TQ3Vertex3D) * geomData.numVertices);
+	geomData.vertices = (TQ3Vertex3D *)Q3Memory_AllocateClear(sizeof(TQ3Vertex3D) * geomData.numVertices);
 	if(geomData.vertices == NULL)
 		return (NULL);
 	
@@ -2377,7 +2377,7 @@ cleanup:
 			Q3Object_Dispose(geomData.vertices[i].attributeSet);
 		}
 	
-	E3Memory_Free(&geomData.vertices);
+	Q3Memory_Free(&geomData.vertices);
 	return theObject;
 	
 }
@@ -2398,7 +2398,7 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 
 
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 
 
@@ -2413,7 +2413,7 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 		return (NULL);
 		
 	// allocate the array
-	geomData.vertices = (TQ3Vertex3D *)E3Memory_AllocateClear(sizeof(TQ3Vertex3D) * numVertices);
+	geomData.vertices = (TQ3Vertex3D *)Q3Memory_AllocateClear(sizeof(TQ3Vertex3D) * numVertices);
 	if(geomData.vertices == NULL)
 		return (NULL);
 	
@@ -2434,7 +2434,7 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace)){
-					geomData.facetAttributeSet = (OpaqueTQ3Object **)E3Memory_AllocateClear(sizeof(TQ3AttributeSet)*6);
+					geomData.facetAttributeSet = (OpaqueTQ3Object **)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*6);
 					for(i = 0; i< numFacets; i++){
 						geomData.facetAttributeSet[i] = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
 						}
@@ -2466,7 +2466,7 @@ cleanup:
 			if (geomData.facetAttributeSet[i] != NULL)
 				Q3Object_Dispose(geomData.facetAttributeSet[i]);
 			}
-		E3Memory_Free(&geomData.facetAttributeSet);
+		Q3Memory_Free(&geomData.facetAttributeSet);
 		}
 		
 	for(i = 0; i< numVertices; i++){
@@ -2474,7 +2474,7 @@ cleanup:
 			Q3Object_Dispose(geomData.vertices[i].attributeSet);
 		}
 	
-	E3Memory_Free(&geomData.vertices);
+	Q3Memory_Free(&geomData.vertices);
 
 	return theObject;
 	
@@ -2505,7 +2505,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 
 	// Initialise the geometry data
 
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 	
 	// let know the system we're reading a trimesh
 	format = E3File_GetFileFormat(theFile);
@@ -2524,7 +2524,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	Q3_REQUIRE_OR_RESULT(geomData.numTriangles > 0,NULL);
 	
 	//================ read the triangles
-	geomData.triangles = (TQ3TriMeshTriangleData *)E3Memory_Allocate(sizeof(TQ3TriMeshTriangleData)*geomData.numTriangles);
+	geomData.triangles = (TQ3TriMeshTriangleData *)Q3Memory_Allocate(sizeof(TQ3TriMeshTriangleData)*geomData.numTriangles);
 	if(geomData.triangles == NULL)
 		goto cleanUp;
 	if(geomData.numPoints >= 0x00010000UL)
@@ -2566,7 +2566,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 		
 	//================ read the edges
 	if(geomData.numEdges > 0){
-		geomData.edges = (TQ3TriMeshEdgeData *)E3Memory_Allocate(sizeof(TQ3TriMeshEdgeData)*geomData.numEdges);
+		geomData.edges = (TQ3TriMeshEdgeData *)Q3Memory_Allocate(sizeof(TQ3TriMeshEdgeData)*geomData.numEdges);
 		if(geomData.edges == NULL)
 			goto cleanUp;
 		if(geomData.numPoints >= 0x00010000UL)
@@ -2628,7 +2628,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 		}
 		
 	// ================ read the points
-	geomData.points = (TQ3Point3D *)E3Memory_Allocate(sizeof(TQ3Point3D)*geomData.numPoints);
+	geomData.points = (TQ3Point3D *)Q3Memory_Allocate(sizeof(TQ3Point3D)*geomData.numPoints);
 	if(geomData.points == NULL)
 		goto cleanUp;
 	ptIndex = geomData.points;
@@ -2648,17 +2648,17 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	
 	// allocate the arrays
 	if(geomData.numTriangleAttributeTypes != 0){
-		geomData.triangleAttributeTypes = (TQ3TriMeshAttributeData *)E3Memory_AllocateClear(sizeof(TQ3TriMeshAttributeData) * geomData.numTriangleAttributeTypes);
+		geomData.triangleAttributeTypes = (TQ3TriMeshAttributeData *)Q3Memory_AllocateClear(sizeof(TQ3TriMeshAttributeData) * geomData.numTriangleAttributeTypes);
 		if(geomData.triangleAttributeTypes == NULL)
 			goto cleanUp;
 		}
 	if(geomData.numEdgeAttributeTypes != 0){
-		geomData.edgeAttributeTypes = (TQ3TriMeshAttributeData *)E3Memory_AllocateClear(sizeof(TQ3TriMeshAttributeData) * geomData.numEdgeAttributeTypes);
+		geomData.edgeAttributeTypes = (TQ3TriMeshAttributeData *)Q3Memory_AllocateClear(sizeof(TQ3TriMeshAttributeData) * geomData.numEdgeAttributeTypes);
 		if(geomData.edgeAttributeTypes == NULL)
 			goto cleanUp;
 		}
 	if(geomData.numVertexAttributeTypes != 0){
-		geomData.vertexAttributeTypes = (TQ3TriMeshAttributeData *)E3Memory_AllocateClear(sizeof(TQ3TriMeshAttributeData) * geomData.numVertexAttributeTypes);
+		geomData.vertexAttributeTypes = (TQ3TriMeshAttributeData *)Q3Memory_AllocateClear(sizeof(TQ3TriMeshAttributeData) * geomData.numVertexAttributeTypes);
 		if(geomData.vertexAttributeTypes == NULL)
 			goto cleanUp;
 		}
@@ -2715,7 +2715,7 @@ E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile)
 
 
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 
 
@@ -2783,7 +2783,7 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 	
 
 	// Initialise the geometry data
-	E3Memory_Clear(&geomData, sizeof(geomData));
+	Q3Memory_Clear(&geomData, sizeof(geomData));
 
 
 	// Read curve order
@@ -2800,7 +2800,7 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 		
 	// Allocate memory to hold control points
 	geomData.controlPoints =
-	(TQ3RationalPoint4D *) E3Memory_AllocateClear(geomData.numPoints * sizeof(TQ3RationalPoint4D)) ;
+	(TQ3RationalPoint4D *) Q3Memory_AllocateClear(geomData.numPoints * sizeof(TQ3RationalPoint4D)) ;
 	
 	if(geomData.controlPoints == NULL)
 		goto cleanup;
@@ -2814,7 +2814,7 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 		
 	// Allocate memory to hold knots
 	geomData.knots =
-	(float *) E3Memory_AllocateClear( (geomData.numPoints+geomData.order) * sizeof( float )) ;
+	(float *) Q3Memory_AllocateClear( (geomData.numPoints+geomData.order) * sizeof( float )) ;
 	if(geomData.knots == NULL)
 		goto cleanup;
 			
@@ -2852,10 +2852,10 @@ cleanup:
 		Q3Object_Dispose(geomData.curveAttributeSet);
 		
 	if(geomData.controlPoints != NULL)
-		E3Memory_Free(&geomData.controlPoints);
+		Q3Memory_Free(&geomData.controlPoints);
 		
 	if(geomData.knots != NULL)
-		E3Memory_Free(&geomData.knots);
+		Q3Memory_Free(&geomData.knots);
 		
 	
 	return (theObject);

@@ -56,7 +56,7 @@ e3geom_polyline_new(TQ3Object theObject, void *privateData, const void *paramDat
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3PolyLineData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3PolyLineData));
 	
 	qd3dStatus = Q3PolyLine_SetData(theObject, polyLineData);
 	
@@ -380,12 +380,12 @@ E3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineDa
 
 	//reallocate memory for vertices
 	newSize = polyLineData->numVertices * sizeof(TQ3Vertex3D);
-	E3Memory_Reallocate(&instanceData->vertices, newSize);
+	Q3Memory_Reallocate(&instanceData->vertices, newSize);
 
 	if (instanceData->vertices == NULL)
 		return(kQ3Failure);
 
-	E3Memory_Clear(instanceData->vertices, newSize);
+	Q3Memory_Clear(instanceData->vertices, newSize);
 
 
 
@@ -406,11 +406,11 @@ E3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineDa
 	{
 		//reallocate memory for segment attributes
 		newSize = (polyLineData->numVertices - 1) * sizeof(TQ3AttributeSet);
-		E3Memory_Reallocate(&instanceData->segmentAttributeSet, newSize);
+		Q3Memory_Reallocate(&instanceData->segmentAttributeSet, newSize);
 
 		if (instanceData->segmentAttributeSet != NULL)
 			{
-			E3Memory_Clear(instanceData->segmentAttributeSet, newSize);
+			Q3Memory_Clear(instanceData->segmentAttributeSet, newSize);
 			
 			for(n = 0; n < polyLineData->numVertices - 1; n++)
 				E3Shared_Replace(	&instanceData->segmentAttributeSet[n],
@@ -420,7 +420,7 @@ E3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineDa
 	else
 	{
 		//otherwise free the memory for the old segment attribute set
-		E3Memory_Free(&instanceData->segmentAttributeSet) ;
+		Q3Memory_Free(&instanceData->segmentAttributeSet) ;
 	}
 	
 	//copy attributes
@@ -449,7 +449,7 @@ E3PolyLine_GetData(TQ3GeometryObject polyLine, TQ3PolyLineData *polyLineData)
 	
 	//allocate memory for vertices
 	polyLineData->vertices =
-		(TQ3Vertex3D *) E3Memory_Allocate( instanceData->numVertices * sizeof( TQ3Vertex3D ) ) ;
+		(TQ3Vertex3D *) Q3Memory_Allocate( instanceData->numVertices * sizeof( TQ3Vertex3D ) ) ;
 		
 	//handle vertex allocation failure
 	if( polyLineData->vertices == NULL )
@@ -459,13 +459,13 @@ E3PolyLine_GetData(TQ3GeometryObject polyLine, TQ3PolyLineData *polyLineData)
 	if( instanceData->segmentAttributeSet != NULL )
 	{
 		polyLineData->segmentAttributeSet = 
-			(TQ3AttributeSet *) E3Memory_Allocate( (instanceData->numVertices - 1) 
+			(TQ3AttributeSet *) Q3Memory_Allocate( (instanceData->numVertices - 1) 
 													* sizeof(TQ3AttributeSet) ) ;
 			
 		//handle segment allocation failure
 		if( polyLineData->segmentAttributeSet == NULL )
 		{
-			E3Memory_Free( &polyLineData->vertices ) ;
+			Q3Memory_Free( &polyLineData->vertices ) ;
 			return(kQ3Failure) ;
 		}
 	}
@@ -519,7 +519,7 @@ E3PolyLine_EmptyData(TQ3PolyLineData *polyLineData)
 	}
 	
 	//delete memory for the vertex array
-	E3Memory_Free( &polyLineData->vertices ) ;
+	Q3Memory_Free( &polyLineData->vertices ) ;
 	
 	//if there is a segment attribute set, delete the individual items
 	if( polyLineData->segmentAttributeSet != NULL )
@@ -530,7 +530,7 @@ E3PolyLine_EmptyData(TQ3PolyLineData *polyLineData)
 		}
 	
 		//then delete it
-		E3Memory_Free(&polyLineData->segmentAttributeSet);
+		Q3Memory_Free(&polyLineData->segmentAttributeSet);
 	}
 
 	E3Object_DisposeAndForget(polyLineData->polyLineAttributeSet);			

@@ -62,7 +62,7 @@ e3geom_trimesh_clone(void *srcPtr, void **dstPtr, TQ3Uns32 theSize)
 
 
 	// Alocate the memory	
-	*dstPtr = E3Memory_Allocate(theSize);
+	*dstPtr = Q3Memory_Allocate(theSize);
 	if (*dstPtr == NULL)
 		return(kQ3Failure);
 
@@ -91,12 +91,12 @@ e3geom_trimesh_disposeattributes(TQ3Uns32						numAttributeTypes,
 		{
 		for (i=0; i<numAttributeTypes; i++)
 			{
-			E3Memory_Free( &((*attributeTypes)[i].data) );
-			E3Memory_Free( &((*attributeTypes)[i].attributeUseArray) );
+			Q3Memory_Free( &((*attributeTypes)[i].data) );
+			Q3Memory_Free( &((*attributeTypes)[i].attributeUseArray) );
 			}
 		}
 
-	E3Memory_Free( attributeTypes );
+	Q3Memory_Free( attributeTypes );
 }
 
 
@@ -177,15 +177,15 @@ e3geom_trimesh_disposedata(TQ3TriMeshData *theTriMesh)
 	// Dispose of the TriMesh
 	E3Object_DisposeAndForget( theTriMesh->triMeshAttributeSet );
 
-	E3Memory_Free( &theTriMesh->triangles );
+	Q3Memory_Free( &theTriMesh->triangles );
 	e3geom_trimesh_disposeattributes( theTriMesh->numTriangleAttributeTypes,
 									  &theTriMesh->triangleAttributeTypes );
 
-	E3Memory_Free( &theTriMesh->edges );
+	Q3Memory_Free( &theTriMesh->edges );
 	e3geom_trimesh_disposeattributes( theTriMesh->numEdgeAttributeTypes,
 									  &theTriMesh->edgeAttributeTypes );
 
-	E3Memory_Free( &theTriMesh->points );
+	Q3Memory_Free( &theTriMesh->points );
 	e3geom_trimesh_disposeattributes( theTriMesh->numVertexAttributeTypes,
 									  &theTriMesh->vertexAttributeTypes );
 }
@@ -208,7 +208,7 @@ e3geom_trimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst, TQ3Boole
 
 
 	// 0. Initialise ourselves
-	E3Memory_Clear(dst, sizeof(TQ3TriMeshData));
+	Q3Memory_Clear(dst, sizeof(TQ3TriMeshData));
 
 
 

@@ -57,7 +57,7 @@ e3geom_point_new( TQ3Object theObject, void * privateData, const void * paramDat
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3PointData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3PointData));
 	
 	qd3dStatus = Q3Point_SetData(theObject, pointData);
 	

@@ -37,7 +37,6 @@
 #include "E3View.h"
 #include "E3Geometry.h"
 #include "E3GeometryNURBCurve.h"
-#include "E3Memory.h"
 
 
 
@@ -63,11 +62,11 @@ e3geom_curve_copydata(const TQ3NURBCurveData *src, TQ3NURBCurveData *dst, TQ3Boo
 
 	// copy controlPoints,knots
 	theSize = sizeof(TQ3RationalPoint4D) * src->numPoints;
-	dst->controlPoints = (TQ3RationalPoint4D *) E3Memory_Allocate( theSize );
+	dst->controlPoints = (TQ3RationalPoint4D *) Q3Memory_Allocate( theSize );
 	memcpy( dst->controlPoints, src->controlPoints, theSize );
 	
 	theSize = sizeof(float) * (src->numPoints+src->order);
-	dst->knots = (float *) E3Memory_Allocate( theSize );
+	dst->knots = (float *) Q3Memory_Allocate( theSize );
 	memcpy( dst->knots, src->knots, theSize );
 
 	// copy or shared-replace the attributes
@@ -97,8 +96,8 @@ e3geom_curve_copydata(const TQ3NURBCurveData *src, TQ3NURBCurveData *dst, TQ3Boo
 static void
 e3geom_curve_disposedata(TQ3NURBCurveData *theNURBCurve)
 {
-	E3Memory_Free( &theNURBCurve->controlPoints );
-	E3Memory_Free( &theNURBCurve->knots );
+	Q3Memory_Free( &theNURBCurve->controlPoints );
+	Q3Memory_Free( &theNURBCurve->knots );
 	E3Object_DisposeAndForget( theNURBCurve->curveAttributeSet );
 }	
 
@@ -356,7 +355,7 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 				subdivU = 30.0f;
 			case kQ3SubdivisionMethodConstant:
 				// Find the interesting knots (ie skip the repeated knots)
-				interestingU = (float *) E3Memory_Allocate((geomData->numPoints - geomData->order + 2) * sizeof(float));
+				interestingU = (float *) Q3Memory_Allocate((geomData->numPoints - geomData->order + 2) * sizeof(float));
 				if (interestingU == NULL)
 					return(NULL);
 				numInt = e3geom_nurbcurve_interesting_knots( geomData->knots, geomData->numPoints, geomData->order, interestingU );
@@ -368,7 +367,7 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	
 				// Allocate the memory we need for the PolyLine (zeroed since we don't
 				// need the attribute set field, and want it cleared to NULL).
-				theVertices = (TQ3Vertex3D *) E3Memory_AllocateClear(numPoints * sizeof(TQ3Vertex3D));
+				theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear(numPoints * sizeof(TQ3Vertex3D));
 				if (theVertices == NULL)
 					return(NULL);	
 	
@@ -401,8 +400,8 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	// Create the PolyLine and clean up
 	thePolyLine = Q3PolyLine_New(&polyLineData);
 	
-	E3Memory_Free(&theVertices);	
-	E3Memory_Free(&interestingU);
+	Q3Memory_Free(&theVertices);	
+	Q3Memory_Free(&interestingU);
 
 	return(thePolyLine);
 }

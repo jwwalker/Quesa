@@ -37,7 +37,6 @@
 #include "E3View.h"
 #include "E3Geometry.h"
 #include "E3GeometryTriGrid.h"
-#include "E3Memory.h"
 
 
 
@@ -71,7 +70,7 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 	memcpy( dst, src, theSize );
 
 	// copy the vertices
-	dst->vertices = (TQ3Vertex3D *) E3Memory_AllocateClear( sizeof(TQ3Vertex3D) * qtyVerts );
+	dst->vertices = (TQ3Vertex3D *) Q3Memory_AllocateClear( sizeof(TQ3Vertex3D) * qtyVerts );
 	if (dst->vertices == NULL) {
 		dst->numRows = dst->numColumns = 0;
 		return kQ3Failure;
@@ -93,7 +92,7 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 		if (src->facetAttributeSet != NULL)
 		{
 			// facetAttributeSet is actually an array of attribute sets
-			dst->facetAttributeSet = (TQ3AttributeSet *) E3Memory_AllocateClear( sizeof(TQ3AttributeSet) * qtyFacets );
+			dst->facetAttributeSet = (TQ3AttributeSet *) Q3Memory_AllocateClear( sizeof(TQ3AttributeSet) * qtyFacets );
 			if (dst->facetAttributeSet != NULL) {
 				for (i=0; i<qtyFacets; i++) {
 					if(src->facetAttributeSet[i] != NULL){
@@ -122,7 +121,7 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 		if (src->facetAttributeSet != NULL)
 		{
 			// facetAttributeSet is actually an array of attribute sets
-			dst->facetAttributeSet = (TQ3AttributeSet *) E3Memory_AllocateClear( sizeof(TQ3AttributeSet) * qtyFacets );
+			dst->facetAttributeSet = (TQ3AttributeSet *) Q3Memory_AllocateClear( sizeof(TQ3AttributeSet) * qtyFacets );
 			if (dst->facetAttributeSet != NULL) {
 				for (i=0; i<qtyFacets; i++) {
 					E3Shared_Replace(&dst->facetAttributeSet[i], src->facetAttributeSet[i]);
@@ -332,11 +331,11 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	// --------------------------- caching as a trimesh -----------------------
 
 	// Create a TriMesh
-	triangles = (TQ3TriMeshTriangleData *) E3Memory_Allocate( numtriangles*sizeof(TQ3TriMeshTriangleData) );
+	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( numtriangles*sizeof(TQ3TriMeshTriangleData) );
 	if (triangles == NULL) return NULL;
-	points = (TQ3Point3D *) E3Memory_Allocate( numpoints*sizeof(TQ3Point3D) );
+	points = (TQ3Point3D *) Q3Memory_Allocate( numpoints*sizeof(TQ3Point3D) );
 	if (points == NULL) {
-		E3Memory_Free(triangles);
+		Q3Memory_Free(triangles);
 		return NULL;
 	}
 	
@@ -378,8 +377,8 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	theTriMesh = Q3TriMesh_New(&triMeshData);
 
 	// Clean up
-	E3Memory_Free(&points);
-	E3Memory_Free(&triangles);
+	Q3Memory_Free(&points);
+	Q3Memory_Free(&triangles);
 
 	return theTriMesh;
 }

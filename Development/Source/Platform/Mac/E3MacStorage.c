@@ -361,7 +361,7 @@ e3storage_mac_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TE3_MacStorageData			*instanceData  = (TE3_MacStorageData *) privateData;
 	const TQ3Int16	*fsRefNumPtr  = (const TQ3Int16 *) paramData;
 
-	instanceData->buffer = (TQ3Uns8*)E3Memory_Allocate(kQ3MacStorage_BufferSize);		// Allocate buffer
+	instanceData->buffer = (TQ3Uns8*)Q3Memory_Allocate(kQ3MacStorage_BufferSize);		// Allocate buffer
 	if(instanceData->buffer == NULL)
 		return (kQ3Failure);
 		
@@ -399,7 +399,7 @@ static void
 e3storage_mac_delete(TQ3Object storage, void *privateData)
 {	TE3_MacStorageData			*instanceData  = (TE3_MacStorageData *) privateData;
 
-	E3Memory_Free(&instanceData->buffer);
+	Q3Memory_Free(&instanceData->buffer);
 
 }
 
@@ -918,7 +918,7 @@ E3HandleStorage_Set(TQ3StorageObject storage, Handle handle, TQ3Uns32 validSize)
 	if (instanceData->ownHandle)
 		DisposeHandle(instanceData->theHnd);
 
-	E3Memory_Clear(instanceData, sizeof(TQ3HandleStorageData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3HandleStorageData));
 
 
 

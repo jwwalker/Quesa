@@ -315,7 +315,7 @@ ir_geom_cache_prim_allocate(TQ3InteractiveData *instanceData)
 		{
 		// Grow the array
 		newCount   = instanceData->cachedPrimCount + kCachedPrimChunk;
-		qd3dStatus = E3Memory_Reallocate(&instanceData->cachedPrims, sizeof(TQ3CachedPrim) * newCount);
+		qd3dStatus = Q3Memory_Reallocate(&instanceData->cachedPrims, sizeof(TQ3CachedPrim) * newCount);
 		if (qd3dStatus != kQ3Success)
 			return(NULL);
 		
@@ -1238,7 +1238,7 @@ IRGeometry_FlushPrimCache(TQ3ViewObject				theView,
 		{
 		instanceData->cachedPrimUsed  = 0;
 		instanceData->cachedPrimCount = 0;
-		E3Memory_Free(&instanceData->cachedPrims);
+		Q3Memory_Free(&instanceData->cachedPrims);
 		}
 }
 
@@ -1549,7 +1549,7 @@ IRGeometry_Marker(TQ3ViewObject			theView,
 	h        = geomData->bitmap.height;
 	buffSize = rowBytes * h;
 
-	flipBuffer = (GLubyte *) E3Memory_Allocate(buffSize);
+	flipBuffer = (GLubyte *) Q3Memory_Allocate(buffSize);
 	if (flipBuffer == NULL)
 		goto cleanup;
 	
@@ -1583,7 +1583,7 @@ cleanup:
 
 	// Release our memory
 	E3Object_DisposeAndForget(geomAttributes);
-	E3Memory_Free(&flipBuffer);
+	Q3Memory_Free(&flipBuffer);
 
 	return(kQ3Success);
 }
@@ -1715,7 +1715,7 @@ cleanup:
 
 	// Release our memory
 	E3Object_DisposeAndForget(geomAttributes);
-	E3Memory_Free(&newBasePtr);
+	Q3Memory_Free(&newBasePtr);
 
 	return(kQ3Success);
 }

@@ -82,7 +82,7 @@ delete_attributeset_list(TE3FFormat3DMF_AttributeSetList_Data *theList)
 
 
 		// Dispose of the list, and mark it as empty
-		E3Memory_Free(&theList->attributeSetArray);
+		Q3Memory_Free(&theList->attributeSetArray);
 		theList->attributeSetCounter = 0;
 		}
 }
@@ -230,7 +230,7 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 	
 	// allocate the array
 	
-	theASLD->attributeSetArray = (TQ3AttributeSet *) E3Memory_AllocateClear(sizeof(TQ3AttributeSet)*theASLD->attributeSetCounter);
+	theASLD->attributeSetArray = (TQ3AttributeSet *) Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*theASLD->attributeSetCounter);
 
 	// read the packing
 	if(E3FFormat_3DMF_ReadFlag (&packing, theFile, kQ3ObjectTypeAttributeSetList)!= kQ3Success)
@@ -250,7 +250,7 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 	else
 		{
 		Q3_ASSERT(nIndices > 0);
-		indices = (TQ3Uns32 *) E3Memory_Allocate(sizeof(TQ3Uns32)*nIndices);
+		indices = (TQ3Uns32 *) Q3Memory_Allocate(sizeof(TQ3Uns32)*nIndices);
 		if(indices == NULL)
 			return (kQ3Failure);
 		index = indices;
@@ -287,7 +287,7 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 		else/*exclude*/
 			{
 			}
-		E3Memory_Free(&indices);
+		Q3Memory_Free(&indices);
 		}
 	else
 		{
@@ -637,7 +637,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 	// ============ Read in eventually the attributeUseArray
 	
 	if(attributeUseArrayFlag != 0L){
-		theAttribute->attributeUseArray = (char *) E3Memory_Allocate(numElems);
+		theAttribute->attributeUseArray = (char *) Q3Memory_Allocate(numElems);
 		if(theAttribute->attributeUseArray == NULL)
 			return NULL;
 		useArray = (TQ3Int8*)theAttribute->attributeUseArray;
@@ -655,7 +655,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 	switch(attributeType){
 		case kQ3AttributeTypeSurfaceUV: 		// TQ3Param2D
 		case kQ3AttributeTypeShadingUV:
-			theAttribute->data = E3Memory_Allocate(sizeof(TQ3Param2D) * numElems);
+			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Param2D) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
 			elemParam2D = (TQ3Param2D *)theAttribute->data;
@@ -667,7 +667,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			break;
 			
 		case kQ3AttributeTypeNormal:			// TQ3Vector3D
-			theAttribute->data = E3Memory_Allocate(sizeof(TQ3Vector3D) * numElems);
+			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Vector3D) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
 			elemVector3D = (TQ3Vector3D *)theAttribute->data;
@@ -679,7 +679,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			
 		case kQ3AttributeTypeAmbientCoefficient:// float
 		case kQ3AttributeTypeSpecularControl:
-			theAttribute->data = E3Memory_Allocate(sizeof(float) * numElems);
+			theAttribute->data = Q3Memory_Allocate(sizeof(float) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
 			elemFloat = (float *)theAttribute->data;
@@ -692,7 +692,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 		case kQ3AttributeTypeDiffuseColor:		// TQ3ColorRGB
 		case kQ3AttributeTypeSpecularColor:
 		case kQ3AttributeTypeTransparencyColor:
-			theAttribute->data = E3Memory_Allocate(sizeof(TQ3ColorRGB) * numElems);
+			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3ColorRGB) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
 			elemColor = (TQ3ColorRGB *)theAttribute->data;
@@ -705,7 +705,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			break;
 			
 		case kQ3AttributeTypeSurfaceTangent:	//	TQ3Tangent2D
-			theAttribute->data = E3Memory_Allocate(sizeof(TQ3Tangent2D) * numElems);
+			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Tangent2D) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
 			elemTangent = (TQ3Tangent2D *)theAttribute->data;
@@ -717,7 +717,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			break;
 			
 		case kQ3AttributeTypeHighlightState:	//	TQ3Switch
-			theAttribute->data = E3Memory_Allocate(sizeof(TQ3Tangent2D) * numElems);
+			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Tangent2D) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
 			elemSwitch = (TQ3Int32 *)theAttribute->data;

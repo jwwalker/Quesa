@@ -323,7 +323,7 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 			tocSize = sizeof(TE3FFormat3DMF_TOC) + 
 					(sizeof(TE3FFormat3DMF_TOCEntry) * (nEntries - 1));
 			
-			instanceData->MFData.toc = (TE3FFormat3DMF_TOC*)E3Memory_Allocate(tocSize);
+			instanceData->MFData.toc = (TE3FFormat3DMF_TOC*)Q3Memory_Allocate(tocSize);
 			
 			if(instanceData->MFData.toc == NULL)
 				return (kQ3Failure);
@@ -339,7 +339,7 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 			tocSize = sizeof(TE3FFormat3DMF_TOC) + 
 					(sizeof(TE3FFormat3DMF_TOCEntry) * (instanceData->MFData.toc->nEntries + nEntries - 1));
 
-			if(E3Memory_Reallocate(&instanceData->MFData.toc,tocSize) != kQ3Success)
+			if(Q3Memory_Reallocate(&instanceData->MFData.toc,tocSize) != kQ3Success)
 				return (kQ3Failure);
 
 			}
@@ -513,14 +513,14 @@ e3fformat_3dmf_bin_newunknown(TQ3FileFormatObject format,TQ3Int32 objectType,TQ3
 	unknownData.size = objectSize;
 	unknownData.byteOrder = instanceData->MFData.baseData.byteOrder;
 	if(objectSize != 0){
-		unknownData.contents = (char *) E3Memory_Allocate(objectSize);
+		unknownData.contents = (char *) Q3Memory_Allocate(objectSize);
 		if(unknownData.contents == NULL)
 			return NULL;
 		rawRead = (TQ3XFFormatRawReadMethod)
 						E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatRawRead);
 		if(rawRead(format,(TQ3Uns8*)unknownData.contents,objectSize) != kQ3Success)
 			{
-			E3Memory_Free(&unknownData.contents);
+			Q3Memory_Free(&unknownData.contents);
 			return NULL;
 			}
 		}
@@ -531,7 +531,7 @@ e3fformat_3dmf_bin_newunknown(TQ3FileFormatObject format,TQ3Int32 objectType,TQ3
 	
 	theUnknown = E3UnknownBinary_New (&unknownData, typeString);
 	
-	E3Memory_Free(&unknownData.contents);
+	Q3Memory_Free(&unknownData.contents);
 	return theUnknown;
 }
 
@@ -644,7 +644,7 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 	switch(objectType){
 		case 0x74797065: /* type - Type */
 			{
-			if(E3Memory_Reallocate (&instanceData->types, 
+			if(Q3Memory_Reallocate (&instanceData->types, 
 						(instanceData->typesNum + 1)*sizeof(TE3FFormat3DMF_TypeEntry)) == kQ3Success)
 				{
 				instanceData->typesNum++;
@@ -852,11 +852,11 @@ e3fformat_3dmf_bin_close(TQ3FileFormatObject format, TQ3Boolean abort)
 			if(instanceData->MFData.toc->tocEntries[i].object != NULL)
 				E3Shared_Replace(&instanceData->MFData.toc->tocEntries[i].object,NULL);
 			}
-		E3Memory_Free(&instanceData->MFData.toc);
+		Q3Memory_Free(&instanceData->MFData.toc);
 		}
 	
 	if(instanceData->types != NULL){
-		E3Memory_Free(&instanceData->types);
+		Q3Memory_Free(&instanceData->types);
 		}
 	
 	E3Shared_Replace(&instanceData->MFData.baseData.storage, NULL);

@@ -383,7 +383,7 @@ E3DrawContext_CreateRegions(TQ3DrawContextObject drawContext, TQ3Uns32 numRegion
 
 
 		// Dispose of the draw region array
-		E3Memory_Free(&instanceData->drawRegions);
+		Q3Memory_Free(&instanceData->drawRegions);
 		instanceData->numDrawRegions = 0;
 		}
 
@@ -393,7 +393,7 @@ E3DrawContext_CreateRegions(TQ3DrawContextObject drawContext, TQ3Uns32 numRegion
 	if (numRegions != 0)
 		{
 		// Allocate the draw region array
-		instanceData->drawRegions = (OpaqueTQ3XDrawRegion *) E3Memory_AllocateClear(
+		instanceData->drawRegions = (OpaqueTQ3XDrawRegion *) Q3Memory_AllocateClear(
 																sizeof(OpaqueTQ3XDrawRegion) * numRegions);
 		if (instanceData->drawRegions == NULL)
 			return(kQ3Failure);

@@ -176,7 +176,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 			// copy the buffer
 			Q3_ASSERT(instanceData->bufferSize != 0);
 			passedBuffer = instanceData->buffer;
-			instanceData->buffer = (TQ3Uns8*)E3Memory_Allocate( instanceData->bufferSize ) ;
+			instanceData->buffer = (TQ3Uns8*)Q3Memory_Allocate( instanceData->bufferSize ) ;
 
 			if (instanceData->buffer == NULL){
 				return(kQ3Failure);						
@@ -198,7 +198,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 				instanceData->validSize = 0L;
 				}
 				
-			instanceData->buffer = (TQ3Uns8*)E3Memory_Allocate( instanceData->growSize ) ;
+			instanceData->buffer = (TQ3Uns8*)Q3Memory_Allocate( instanceData->growSize ) ;
 
 			if (instanceData->buffer == NULL){
 				return(kQ3Failure);						
@@ -223,7 +223,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 				instanceData->validSize = 0L;
 				}
 				
-			instanceData->buffer = (TQ3Uns8*)E3Memory_Allocate( instanceData->growSize ) ;
+			instanceData->buffer = (TQ3Uns8*)Q3Memory_Allocate( instanceData->growSize ) ;
 
 			if (instanceData->buffer == NULL){
 				return(kQ3Failure);						
@@ -252,7 +252,7 @@ e3storage_memory_delete(TQ3Object storage, void *privateData)
 
 	// Dispose of our instance data
 	if (instanceData->ownBuffer == kQ3True)
-		E3Memory_Free(&instanceData->buffer);
+		Q3Memory_Free(&instanceData->buffer);
 }
 
 
@@ -312,7 +312,7 @@ e3storage_path_new(TQ3Object theObject, void *privateData, const void *paramData
 
 	// Initialise our instance data
 	pathLen = strlen(thePath);
-	instanceData->thePath = (char *) E3Memory_Allocate(pathLen + 1);
+	instanceData->thePath = (char *) Q3Memory_Allocate(pathLen + 1);
 	if (instanceData->thePath == NULL)
 		return(kQ3Failure);
 
@@ -343,7 +343,7 @@ e3storage_path_delete(TQ3Object storage, void *privateData)
 
 	// Dispose of our instance data
 	if (instanceData->thePath != NULL)
-		E3Memory_Free(&instanceData->thePath);
+		Q3Memory_Free(&instanceData->thePath);
 }
 
 
@@ -799,7 +799,7 @@ E3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Un
 	// If we don't own our buffer, reset our state
 	if (!instanceData->ownBuffer)
 		{
-		E3Memory_Clear(instanceData, sizeof(TE3_MemoryStorageData));
+		Q3Memory_Clear(instanceData, sizeof(TE3_MemoryStorageData));
 		instanceData->ownBuffer = kQ3True;
 		}
 
@@ -808,7 +808,7 @@ E3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Un
 	// If we need to grow our buffer, do so
 	if (instanceData->bufferSize < validSize)
 		{
-		qd3dStatus = E3Memory_Reallocate(&instanceData->buffer, validSize);
+		qd3dStatus = Q3Memory_Reallocate(&instanceData->buffer, validSize);
 		if (qd3dStatus != kQ3Success)
 			return(kQ3Failure);
 		
@@ -902,7 +902,7 @@ E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Un
 
 				// Release the buffer
 				instanceData->ownBuffer = kQ3False;
-				E3Memory_Free(&instanceData->buffer);
+				Q3Memory_Free(&instanceData->buffer);
 				}
 			}
 
@@ -984,7 +984,7 @@ E3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName)
 
 	// Take a copy of the new path
 	pathLen = strlen(pathName);
-	newPath = (char *) E3Memory_Allocate(pathLen + 1);
+	newPath = (char *) Q3Memory_Allocate(pathLen + 1);
 	if (newPath == NULL)
 		return(kQ3Failure);
 
@@ -992,7 +992,7 @@ E3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName)
 
 	// Clean up the instance data
 	if (instanceData->thePath != NULL)
-		E3Memory_Free(&instanceData->thePath);
+		Q3Memory_Free(&instanceData->thePath);
 
 	if (instanceData->theFile != NULL)
 		fclose(instanceData->theFile);

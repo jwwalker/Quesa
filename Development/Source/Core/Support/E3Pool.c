@@ -88,7 +88,7 @@ E3Pool_Destroy(
 		// Advance to next block pointer
 		blockPtr = blockPtr->private_nextPtr;
 
-		E3Memory_Free(&currBlockPtr);
+		Q3Memory_Free(&currBlockPtr);
 	}
 }
 
@@ -122,7 +122,7 @@ E3Pool_Allocate(
 		char* newItemPtr;
 		TQ3Uns32 i;
 
-		if ((newBlockPtr = E3Memory_Allocate(itemOffset + itemSize*blockLength)) == NULL)
+		if ((newBlockPtr = Q3Memory_Allocate(itemOffset + itemSize*blockLength)) == NULL)
 			goto failure;
 
 		newBlockPtr->private_nextPtr = poolPtr->private_blockPtr;

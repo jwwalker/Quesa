@@ -138,7 +138,7 @@ e3hash_add_key(E3HashTableNodePtr theNode, TQ3ObjectType theKey, void *theItem)
 
 
 	// Grow the node item array
-	qd3dStatus = E3Memory_Reallocate(&theNode->theItems,
+	qd3dStatus = Q3Memory_Reallocate(&theNode->theItems,
 										sizeof(E3HashTableItem) * (theNode->numItems + 1));
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
@@ -217,7 +217,7 @@ E3HashTable_Create(TQ3Uns32 tableSize)
 
 
 	// Create the table
-	theTable = (E3HashTablePtr) E3Memory_Allocate(sizeof(E3HashTable));
+	theTable = (E3HashTablePtr) Q3Memory_Allocate(sizeof(E3HashTable));
 	if (theTable != NULL)
 		{
 		// Initialise the table
@@ -225,7 +225,7 @@ E3HashTable_Create(TQ3Uns32 tableSize)
 		theTable->collisionAverage = 0.0f;
 		theTable->tableSize        = tableSize;
 		theTable->numItems         = 0;
-		theTable->theTable = (E3HashTableNodePtr *) E3Memory_AllocateClear(sizeof(E3HashTableNodePtr)
+		theTable->theTable = (E3HashTableNodePtr *) Q3Memory_AllocateClear(sizeof(E3HashTableNodePtr)
 																			* theTable->tableSize);
 
 
@@ -233,7 +233,7 @@ E3HashTable_Create(TQ3Uns32 tableSize)
 		// Handle failure
 		if (theTable->theTable == NULL)
 			{
-			E3Memory_Free(&theTable);
+			Q3Memory_Free(&theTable);
 			theTable = NULL;
 			}
 		}
@@ -266,16 +266,16 @@ E3HashTable_Destroy(E3HashTablePtr theTable)
 		theNode = theTable->theTable[n];
 		if (theNode != NULL)
 			{
-			E3Memory_Free(&theNode->theItems);
-			E3Memory_Free(&theTable->theTable[n]);
+			Q3Memory_Free(&theNode->theItems);
+			Q3Memory_Free(&theTable->theTable[n]);
 			}
 		}
 
 
 
 	// Dispose of the table itself
-	E3Memory_Free(&theTable->theTable);
-	E3Memory_Free(&theTable);
+	Q3Memory_Free(&theTable->theTable);
+	Q3Memory_Free(&theTable);
 }
 
 
@@ -315,7 +315,7 @@ E3HashTable_Add(E3HashTablePtr theTable, TQ3ObjectType theKey, void *theItem)
 	// If the node doesn't exist, create it
 	if (*theNode == NULL)
 		{
-		*theNode = (E3HashTableNodePtr) E3Memory_AllocateClear(sizeof(E3HashTableNode));
+		*theNode = (E3HashTableNodePtr) Q3Memory_AllocateClear(sizeof(E3HashTableNode));
 		if (*theNode == NULL)
 			return(kQ3Failure);
 		}

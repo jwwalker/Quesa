@@ -263,7 +263,7 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 			qd3dStatus = e3ffw_3DMF_write_objects (instanceData,theFile);
 			// clean the stack
 			instanceData->stackCount = 0;
-			E3Memory_Free(&instanceData->stack);
+			Q3Memory_Free(&instanceData->stack);
 			}
 		}
 	return (qd3dStatus);
@@ -310,7 +310,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 		}
 
 	// Grow the view stack to the hold the new item
-	qd3dStatus = E3Memory_Reallocate(&instanceData->stack,
+	qd3dStatus = Q3Memory_Reallocate(&instanceData->stack,
 									  sizeof(TQ33DMFWStackItem) * (instanceData->stackCount+1));
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
@@ -379,7 +379,7 @@ E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3
 			qd3dStatus = e3ffw_3DMF_write_objects (instanceData,theFile);
 			// clean the stack
 			instanceData->stackCount = 0;
-			E3Memory_Free(&instanceData->stack);
+			Q3Memory_Free(&instanceData->stack);
 			}
 		}
 	return (qd3dStatus);
@@ -427,7 +427,7 @@ void
 E3FFW_3DMF_Default_Delete(void *data)
 {	void 	**dataPtr = &data;
 
-	 E3Memory_Free(dataPtr);
+	 Q3Memory_Free(dataPtr);
 	
 }
 
@@ -512,7 +512,7 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 			return qd3dStatus;
 		
 		if(state != defaultState){	
-			writeState = E3Memory_Allocate(sizeof(TQ3DisplayGroupState));
+			writeState = Q3Memory_Allocate(sizeof(TQ3DisplayGroupState));
 			
 			if(writeState){
 					

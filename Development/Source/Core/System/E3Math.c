@@ -2178,7 +2178,7 @@ E3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D	*inRationalPoints4
 TQ3Matrix3x3 *
 E3Matrix3x3_SetIdentity(TQ3Matrix3x3 *matrix3x3)
 {
-	E3Memory_Clear(matrix3x3, sizeof(TQ3Matrix3x3));
+	Q3Memory_Clear(matrix3x3, sizeof(TQ3Matrix3x3));
 
 	#define M(x,y) matrix3x3->value[x][y]
 	
@@ -2203,7 +2203,7 @@ E3Matrix3x3_SetIdentity(TQ3Matrix3x3 *matrix3x3)
 TQ3Matrix4x4 *
 E3Matrix4x4_SetIdentity(TQ3Matrix4x4 *matrix4x4)
 {
-	E3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
+	Q3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
 
 	#define M(x,y) matrix4x4->value[x][y]
 	
@@ -2230,7 +2230,7 @@ E3Matrix4x4_SetIdentity(TQ3Matrix4x4 *matrix4x4)
 TQ3Matrix3x3 *
 E3Matrix3x3_SetTranslate(TQ3Matrix3x3 *matrix3x3, float xTrans, float yTrans)
 {
-	E3Memory_Clear(matrix3x3, sizeof(TQ3Matrix3x3));
+	Q3Memory_Clear(matrix3x3, sizeof(TQ3Matrix3x3));
 
 	#define M(x,y) matrix3x3->value[x][y]
 
@@ -2258,7 +2258,7 @@ TQ3Matrix4x4 *
 E3Matrix4x4_SetTranslate(TQ3Matrix4x4 *matrix4x4,
 	float xTrans, float yTrans, float zTrans)
 {
-	E3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
+	Q3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
 
 	#define M(x,y) matrix4x4->value[x][y]
 
@@ -2288,7 +2288,7 @@ E3Matrix4x4_SetTranslate(TQ3Matrix4x4 *matrix4x4,
 TQ3Matrix3x3 *
 E3Matrix3x3_SetScale(TQ3Matrix3x3 *matrix3x3, float xScale, float yScale)
 {
-	E3Memory_Clear(matrix3x3, sizeof(TQ3Matrix3x3));
+	Q3Memory_Clear(matrix3x3, sizeof(TQ3Matrix3x3));
 	
 	#define M(x,y) matrix3x3->value[x][y]
 
@@ -2314,7 +2314,7 @@ TQ3Matrix4x4 *
 E3Matrix4x4_SetScale(TQ3Matrix4x4 *matrix4x4,
 	float xScale, float yScale, float zScale)
 {
-	E3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
+	Q3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
 
 	#define M(x,y) matrix4x4->value[x][y]
 	
@@ -2344,7 +2344,7 @@ E3Matrix3x3_SetRotate(TQ3Matrix3x3 *matrix3x3, float angle)
 	float cosAngle = (float) cos(angle);
 	float sinAngle = (float) sin(angle);
 
-	E3Memory_Clear(matrix3x3, sizeof(TQ3Matrix3x3));
+	Q3Memory_Clear(matrix3x3, sizeof(TQ3Matrix3x3));
 	
 	#define M(x,y) matrix3x3->value[x][y]
 
@@ -2374,7 +2374,7 @@ E3Matrix4x4_SetRotate_X(TQ3Matrix4x4 *matrix4x4, float angle)
 	float cosAngle = (float) cos(angle);
 	float sinAngle = (float) sin(angle);
 
-	E3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
+	Q3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
 	
 	#define M(x,y) matrix4x4->value[x][y]
 
@@ -2406,7 +2406,7 @@ E3Matrix4x4_SetRotate_Y(TQ3Matrix4x4 *matrix4x4, float angle)
 	float cosAngle = (float) cos(angle);
 	float sinAngle = (float) sin(angle);
 
-	E3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
+	Q3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
 	
 	#define M(x,y) matrix4x4->value[x][y]
 
@@ -2438,7 +2438,7 @@ E3Matrix4x4_SetRotate_Z(TQ3Matrix4x4 *matrix4x4, float angle)
 	float cosAngle = (float) cos(angle);
 	float sinAngle = (float) sin(angle);
 
-	E3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
+	Q3Memory_Clear(matrix4x4, sizeof(TQ3Matrix4x4));
 	
 	#define M(x,y) matrix4x4->value[x][y]
 

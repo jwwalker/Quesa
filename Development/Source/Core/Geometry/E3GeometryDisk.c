@@ -56,7 +56,7 @@ e3geom_disk_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3DiskData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3DiskData));
 	
 	qd3dStatus = Q3Disk_SetData(theObject, diskData);
 	
@@ -174,17 +174,17 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 	// Allocate the memory we need for the TriMesh data
-	thePoints    = (TQ3Point3D *)             E3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
-	theNormals   = (TQ3Vector3D *)            E3Memory_Allocate(numPoints * sizeof(TQ3Vector3D));
-	theUVs       = (TQ3Param2D  *)            E3Memory_Allocate(numPoints * sizeof(TQ3Param2D));
-	theTriangles = (TQ3TriMeshTriangleData *) E3Memory_Allocate(numSides  * sizeof(TQ3TriMeshTriangleData));
+	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
+	theNormals   = (TQ3Vector3D *)            Q3Memory_Allocate(numPoints * sizeof(TQ3Vector3D));
+	theUVs       = (TQ3Param2D  *)            Q3Memory_Allocate(numPoints * sizeof(TQ3Param2D));
+	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numSides  * sizeof(TQ3TriMeshTriangleData));
 
 	if (thePoints == NULL || theNormals == NULL || theUVs == NULL || theTriangles == NULL)
 		{
-		E3Memory_Free(&thePoints);
-		E3Memory_Free(&theNormals);
-		E3Memory_Free(&theUVs);
-		E3Memory_Free(&theTriangles);
+		Q3Memory_Free(&thePoints);
+		Q3Memory_Free(&theNormals);
+		Q3Memory_Free(&theUVs);
+		Q3Memory_Free(&theTriangles);
 		
 		return(NULL);
 		}
@@ -272,10 +272,10 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	// Create the TriMesh and clean up
 	theTriMesh = Q3TriMesh_New(&triMeshData);
 
-	E3Memory_Free(&thePoints);
-	E3Memory_Free(&theNormals);
-	E3Memory_Free(&theUVs);
-	E3Memory_Free(&theTriangles);
+	Q3Memory_Free(&thePoints);
+	Q3Memory_Free(&theNormals);
+	Q3Memory_Free(&theUVs);
+	Q3Memory_Free(&theTriangles);
 
 	return(theTriMesh);
 }

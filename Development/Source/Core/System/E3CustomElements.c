@@ -258,7 +258,7 @@ e3urlelement_readdata (TQ3Object object, TQ3FileObject file)
 	if (Q3String_Read (buffer, &length, file) == kQ3Failure)
 		return kQ3Failure;
 
-	urlData.url = (char*)E3Memory_Allocate(length + 1);
+	urlData.url = (char*)Q3Memory_Allocate(length + 1);
 	strcpy (urlData.url, buffer);
 	
 	if (Q3Uns32_Read ((TQ3Uns32*)&urlData.options, file) == kQ3Failure)
@@ -281,7 +281,7 @@ e3urlelement_readdata (TQ3Object object, TQ3FileObject file)
 static TQ3Status
 e3urlelement_copyadd (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 {
-	dest->url = (char*)E3Memory_Allocate(strlen(source->url) + 1);
+	dest->url = (char*)Q3Memory_Allocate(strlen(source->url) + 1);
 	if (dest->url == NULL)
 		return kQ3Failure;
 
@@ -316,7 +316,7 @@ e3urlelement_copyreplace (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 {
 	TQ3StringObject	string = NULL;
 
-	if (E3Memory_Reallocate(&dest->url ,strlen(source->url) + 1) == kQ3Failure)
+	if (Q3Memory_Reallocate(&dest->url ,strlen(source->url) + 1) == kQ3Failure)
 		return kQ3Failure;
 		
 	strcpy (dest->url, source->url);
@@ -356,7 +356,7 @@ e3urlelement_delete (TCEUrlDataPrivate *urlData)
 {
 	if (urlData->url != NULL) {
 	
-		E3Memory_Free (&urlData->url);
+		Q3Memory_Free (&urlData->url);
 		urlData->url = NULL;
 	}
 	
@@ -819,8 +819,8 @@ E3UrlElement_GetData(TQ3Object object, TCEUrlData **urlData)
 	}
 
 
-	*urlData = (TCEUrlData*)E3Memory_Allocate(sizeof(TCEUrlData));
-	(**urlData).url = (char*)E3Memory_Allocate(strlen(urlDataPrivate.url) + 1);
+	*urlData = (TCEUrlData*)Q3Memory_Allocate(sizeof(TCEUrlData));
+	(**urlData).url = (char*)Q3Memory_Allocate(strlen(urlDataPrivate.url) + 1);
 		
 	strcpy ((**urlData).url, urlDataPrivate.url);
 	
@@ -848,12 +848,12 @@ E3UrlElement_EmptyData(TCEUrlData **urlData)
 {
 
 
-	E3Memory_Free(&(**urlData).url);
+	Q3Memory_Free(&(**urlData).url);
 
 	if ((**urlData).description)
 		Q3CString_EmptyData(&(**urlData).description);
 
-	E3Memory_Free(urlData);
+	Q3Memory_Free(urlData);
 	
 	return kQ3Success; 
 }

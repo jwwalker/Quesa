@@ -736,7 +736,7 @@ E3Pick_GetNumHits(TQ3PickObject pick, TQ3Uns32 *numHits)
 #pragma mark -
 TQ3Status
 E3Pick_AddHitData(TQ3PickObject pick, const TQ3PickedData* data)
-{	TQ3PickedData* newData = (TQ3PickedData*) E3Memory_Allocate(sizeof(TQ3PickedData));
+{	TQ3PickedData* newData = (TQ3PickedData*) Q3Memory_Allocate(sizeof(TQ3PickedData));
 
 	if (newData)
 		{
@@ -852,7 +852,7 @@ E3Pick_EmptyHitList(TQ3PickObject pick)
 			Q3Object_Dispose (current->object);
 		if (current->validMask & kQ3PickDetailMaskShapePart)
 			Q3Object_Dispose (current->shapePart);
-		E3Memory_Free (&current);
+		Q3Memory_Free (&current);
 		current = next;
 		}
 	

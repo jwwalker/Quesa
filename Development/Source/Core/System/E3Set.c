@@ -97,7 +97,7 @@ e3set_delete(TQ3Object theObject, void *privateData)
 			Q3Object_Dispose(instanceData->theElements[n]);
 		}
 	
-	E3Memory_Free(&instanceData->theElements);
+	Q3Memory_Free(&instanceData->theElements);
 }
 
 
@@ -137,7 +137,7 @@ e3set_duplicate(TQ3Object fromObject,    const void *fromPrivateData,
 	if (toInstanceData->numElements != 0)
 		{
 		// Allocate the memory (cleared, since the set might have unused slots)
-		toInstanceData->theElements = (TQ3ElementObject *) E3Memory_AllocateClear(sizeof(TQ3ElementObject) * toInstanceData->numElements);
+		toInstanceData->theElements = (TQ3ElementObject *) Q3Memory_AllocateClear(sizeof(TQ3ElementObject) * toInstanceData->numElements);
 		if (toInstanceData->theElements == NULL)
 			return(kQ3Failure);
 
@@ -169,7 +169,7 @@ e3set_duplicate(TQ3Object fromObject,    const void *fromPrivateData,
 			
 			
 			// Dispose of the set data
-			E3Memory_Free(&toInstanceData->theElements);
+			Q3Memory_Free(&toInstanceData->theElements);
 			return(kQ3Failure);
 			}
 		}
@@ -1293,7 +1293,7 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 	if (n == instanceData->numElements)
 		{
 		// Grow the array
-		qd3dStatus = E3Memory_Reallocate(&instanceData->theElements,
+		qd3dStatus = Q3Memory_Reallocate(&instanceData->theElements,
 										 sizeof(TQ3ElementObject) * (instanceData->numElements+1));
 		if (qd3dStatus != kQ3Success)
 			return(qd3dStatus);
@@ -1477,7 +1477,7 @@ E3Set_Empty(TQ3SetObject theSet)
 
 	// Remove the element array from the set
 	instanceData->numElements = 0;
-	E3Memory_Free(&instanceData->theElements);
+	Q3Memory_Free(&instanceData->theElements);
 
 
 
@@ -1974,7 +1974,7 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 					if (copyInheritMethod != NULL) // Use copy inherit method to copy the attribute.
 						{
 						qd3dStatus    = kQ3Failure;
-						attributeData = E3Memory_AllocateClear(E3ClassTree_GetInstanceSize(childInstanceData->theElements[n]->theClass));
+						attributeData = Q3Memory_AllocateClear(E3ClassTree_GetInstanceSize(childInstanceData->theElements[n]->theClass));
 
 						if (attributeData != NULL)
 							qd3dStatus = copyInheritMethod(childInstanceData->theElements[n]->instanceData, attributeData); 
@@ -1982,7 +1982,7 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 						if (qd3dStatus == kQ3Success)
 							qd3dStatus = Q3AttributeSet_Add(result, theType, attributeData);
 
-						E3Memory_Free(&attributeData);
+						Q3Memory_Free(&attributeData);
 						}
 					
 					else // There's no copy inherit method, so copy it directly into result.
@@ -2031,7 +2031,7 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 						if (copyInheritMethod != NULL) // Use copy inherit method to copy the attribute.
 							{
 							qd3dStatus    = kQ3Failure;
-							attributeData = E3Memory_AllocateClear(E3ClassTree_GetInstanceSize(childInstanceData->theElements[n]->theClass));
+							attributeData = Q3Memory_AllocateClear(E3ClassTree_GetInstanceSize(childInstanceData->theElements[n]->theClass));
 
 							if (attributeData != NULL)
 								qd3dStatus = copyInheritMethod(parentInstanceData->theElements[n]->instanceData, attributeData); 
@@ -2039,7 +2039,7 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 							if (qd3dStatus == kQ3Success)
 								qd3dStatus = Q3AttributeSet_Add(result, theType, attributeData);
 
-							E3Memory_Free(&attributeData);
+							Q3Memory_Free(&attributeData);
 							}
 						
 						else // There's no copy inherit method, so copy it directly into result.

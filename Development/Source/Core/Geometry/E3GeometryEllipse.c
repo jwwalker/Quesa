@@ -56,7 +56,7 @@ e3geom_ellipse_new(TQ3Object theObject, void *privateData, const void *paramData
 
 
 	// Initialise our instance data
-	E3Memory_Clear(instanceData, sizeof(TQ3EllipseData));
+	Q3Memory_Clear(instanceData, sizeof(TQ3EllipseData));
 	
 	qd3dStatus = Q3Ellipse_SetData(theObject, ellipseData);
 	
@@ -158,7 +158,7 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 
 	// Allocate the memory we need for the PolyLine
-	theVertices = (TQ3Vertex3D *) E3Memory_AllocateClear(numPoints * sizeof(TQ3Vertex3D));
+	theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear(numPoints * sizeof(TQ3Vertex3D));
 	if (theVertices == NULL)
 		return(NULL);
 
@@ -192,7 +192,7 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	// Create the PolyLine and clean up
 	thePolyLine = Q3PolyLine_New(&polyLineData);
 
-	E3Memory_Free(&theVertices);
+	Q3Memory_Free(&theVertices);
 
 	return(thePolyLine);
 }

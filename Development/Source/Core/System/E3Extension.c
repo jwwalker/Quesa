@@ -327,7 +327,7 @@ E3XSharedLibrary_Register(TQ3XSharedLibraryInfo *sharedLibraryInfo)
 
 
 	// Try and allocate some space to save the library info
-	qd3dStatus = E3Memory_Reallocate(&theGlobals->sharedLibraryInfo,
+	qd3dStatus = Q3Memory_Reallocate(&theGlobals->sharedLibraryInfo,
 									 sizeof(TQ3XSharedLibraryInfo) *
 									 	(theGlobals->sharedLibraryCount+1));
 	if (qd3dStatus != kQ3Success)
