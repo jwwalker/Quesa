@@ -54,7 +54,7 @@ static TQ3Status
 e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boolean isDuplicate)
 {
 	TQ3Status		qd3dStatus = kQ3Success;
-	long			theSize, i, j, numKnots;
+	TQ3Uns32		theSize, i, j, numKnots;
 
 	// copy uOrders, vOrder, numColumns, numRows, numTrimLoops 
 	dst->uOrder = src->uOrder;
@@ -141,7 +141,7 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 static void
 e3geom_patch_disposedata(TQ3NURBPatchData *theNURBPatch)
 {
-	long i, j;
+	TQ3Uns32 i, j;
 	
 	E3Memory_Free( &theNURBPatch->controlPoints );
 	E3Memory_Free( &theNURBPatch->uKnots );
