@@ -396,10 +396,14 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 
 
+	// Set this point to the center of the cylinder for the end caps
+	// kQ3EndCapMaskBottom will use it as is, while kQ3EndCapMaskTop
+	// will translate it along the orientation vector along with the other points
+	points[sides] = geomData->origin;
+
 	// Now, add the cylinder bottom;
 	// This is like the sides, but all triangles go to a center point
 	if (geomData->caps & kQ3EndCapMaskBottom) {
-		points[sides] = geomData->origin;
 		uvs[sides].u  = uMin + (uDiff / 2.0f);
 		uvs[sides].v  = vMin + (vDiff / 2.0f);
 		Q3Vector3D_Negate(&geomData->orientation, &normals[sides]);
