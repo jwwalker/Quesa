@@ -104,7 +104,9 @@ extern "C" {
 
 #define E3Num_Max(_a, _b)					((_a) > (_b) ? (_a) : (_b))
 
-#define E3Num_Abs(_a)						((_a) > 0 ? (_a) : -(_a))
+#define E3Integer_Abs(_a)					((_a) > 0 ? (_a) : -(_a))
+
+#define E3Float_Abs(_a)						((_a) > 0.0f ? (_a) : -(_a))
 
 #define E3EndianSwap16(_value)                                        	\
                         (((((TQ3Uns16) _value) << 8) & 0xFF00)       |	\
@@ -134,6 +136,15 @@ void		E3AttributeSet_Combine(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3A
 void		E3Geometry_AddNormalIndicators(TQ3GroupObject group, TQ3Uns32 numPoints, const TQ3Point3D *points, const TQ3Vector3D *normals);
 TQ3Boolean	E3Matrix4x4_IsIdentity(const TQ3Matrix4x4 *theMatrix);
 TQ3Boolean	E3CString_IsEqual(const char *str_a, const char *str_b);
+TQ3Boolean	E3Rect_ClipLine(const TQ3Area *theRect, TQ3Point2D *lineStart, TQ3Point2D *lineEnd);
+TQ3Boolean	E3Rect_ContainsLine(const TQ3Area *theRect, const TQ3Point2D *lineStart, const TQ3Point2D *lineEnd);
+TQ3Boolean	E3Rect_IntersectRect(const TQ3Area *rect1, const TQ3Area *rect2);
+void		E3Triangle_InterpolateHit(const TQ3TriangleData		*triangleData,
+										const TQ3Param3D		*theHit,
+										TQ3Point3D				*hitXYZ,
+										TQ3Vector3D				*hitNormal,
+										TQ3Param2D				*hitUV,
+										TQ3Boolean				*haveUV);
 
 
 
