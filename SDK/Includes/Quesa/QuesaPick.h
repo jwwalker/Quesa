@@ -70,7 +70,24 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Mask bits for hit information
+/*!
+ *  @enum
+ *      TQ3PickDetailMasks
+ *  @discussion
+ *      Bitfield indicating the type of data to be returned by picks.
+ *
+ *  @constant kQ3PickDetailNone                      No pick details are required.
+ *  @constant kQ3PickDetailMaskPickID                The picking ID of the picked object.
+ *  @constant kQ3PickDetailMaskPath                  The path through the model hierarchy to the picked object.
+ *  @constant kQ3PickDetailMaskObject                The picked object.
+ *  @constant kQ3PickDetailMaskLocalToWorldMatrix    The local-to-world matrix for the picked object.
+ *  @constant kQ3PickDetailMaskXYZ                   The picked location in world coordinates.
+ *  @constant kQ3PickDetailMaskDistance              The distance between the picked location and the pick origin.
+ *  @constant kQ3PickDetailMaskNormal                The surface normal at the picked location.
+ *  @constant kQ3PickDetailMaskShapePart             The shape part of the picked object.
+ *  @constant kQ3PickDetailMaskPickPart              The picked object, edge, or vertex.
+ *  @constant kQ3PickDetailMaskUV                    The UV coordinate of the picked location.
+ */
 typedef enum {
     kQ3PickDetailNone                           = 0,
     kQ3PickDetailMaskPickID                     = (1 << 0),
@@ -86,7 +103,16 @@ typedef enum {
 } TQ3PickDetailMasks;
 
 
-// Hit list sorting
+/*!
+ *  @enum
+ *      TQ3PickSort
+ *  @discussion
+ *      The order in which pick results should be sorted.
+ *
+ *  @constant kQ3PickSortNone           The pick hit list should not be sorted.
+ *  @constant kQ3PickSortNearToFar      The pick hit list should be sorted from near to far.
+ *  @constant kQ3PickSortFarToNear      The pick hit list should be sorted from far to near.
+ */
 typedef enum {
     kQ3PickSortNone                             = 0,
     kQ3PickSortNearToFar                        = 1,
@@ -108,7 +134,17 @@ typedef enum {
 typedef TQ3Uns32 TQ3PickDetail;
 
 
-// Pick data
+/*!
+ *  @struct
+ *      TQ3PickData
+ *  @discussion
+ *      Describes the common state for a pick object.
+ *
+ *  @field sort             The type of sorting, if any, to performed on the results.
+ *  @field mask             The type of pick information to be returned.
+ *  @field numHitsToReturn  The number of hits to return. Set to kQ3ReturnAllHits
+ *                          to retrieve all hits.
+ */
 typedef struct TQ3PickData {
     TQ3PickSort                                 sort;
     TQ3PickDetail                               mask;
@@ -116,7 +152,17 @@ typedef struct TQ3PickData {
 } TQ3PickData;
 
 
-// Window point pick data
+/*!
+ *  @struct
+ *      TQ3WindowPointPickData
+ *  @discussion
+ *      Describes the state for a window-point pick object.
+ *
+ *  @field data             The common state for the pick.
+ *  @field point            The pick point in local window coordinates.
+ *  @field vertexTolerance  The vertex tolerance.
+ *  @field edgeTolerance    The edge tolerance.
+ */
 typedef struct TQ3WindowPointPickData {
     TQ3PickData                                 data;
     TQ3Point2D                                  point;
@@ -125,14 +171,32 @@ typedef struct TQ3WindowPointPickData {
 } TQ3WindowPointPickData;
 
 
-// Window rect pick data
+/*!
+ *  @struct
+ *      TQ3WindowRectPickData
+ *  @discussion
+ *      Describes the state for a window-rect pick object.
+ *
+ *  @field data             The common state for the pick.
+ *  @field rect             The pick rect in local window coordinates.
+ */
 typedef struct TQ3WindowRectPickData {
     TQ3PickData                                 data;
     TQ3Area                                     rect;
 } TQ3WindowRectPickData;
 
 
-// World ray pick data
+/*!
+ *  @struct
+ *      TQ3WorldRayPickData
+ *  @discussion
+ *      Describes the state for a world-ray pick object.
+ *
+ *  @field data             The common state for the pick.
+ *  @field ray              The pick ray in world coordinates.
+ *  @field vertexTolerance  The vertex tolerance.
+ *  @field edgeTolerance    The edge tolerance.
+ */
 typedef struct TQ3WorldRayPickData {
     TQ3PickData                                 data;
     TQ3Ray3D                                    ray;
@@ -200,13 +264,12 @@ typedef struct TQ3HitPath {
  *  @function
  *      Q3Pick_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns kQ3ObjectTypeInvalid if the pick type is unknown.
  *
- *  @param pick             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick to query.
+ *  @result                 The type of the pick object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Pick_GetType (
@@ -219,14 +282,11 @@ Q3Pick_GetType (
  *  @function
  *      Q3Pick_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the common state of a pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to query.
+ *  @param data             Receives the common state of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetData (
@@ -240,14 +300,11 @@ Q3Pick_GetData (
  *  @function
  *      Q3Pick_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the common state of a pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to update.
+ *  @param data             The new common state for the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetData (
@@ -261,14 +318,11 @@ Q3Pick_SetData (
  *  @function
  *      Q3Pick_GetVertexTolerance
  *  @discussion
- *      One-line description of this function.
+ *      Get the vertex tolerance of a pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param vertexTolerance  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to query.
+ *  @param vertexTolerance  Receives the vertex tolerance of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetVertexTolerance (
@@ -282,14 +336,11 @@ Q3Pick_GetVertexTolerance (
  *  @function
  *      Q3Pick_GetEdgeTolerance
  *  @discussion
- *      One-line description of this function.
+ *      Get the edge tolerance of a pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param edgeTolerance    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to query.
+ *  @param edgeTolerance    Receives the edge tolerance of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetEdgeTolerance (
@@ -303,14 +354,11 @@ Q3Pick_GetEdgeTolerance (
  *  @function
  *      Q3Pick_SetVertexTolerance
  *  @discussion
- *      One-line description of this function.
+ *      Set the vertex tolerance of a pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param vertexTolerance  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to update.
+ *  @param vertexTolerance  The new vertex tolerance of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetVertexTolerance (
@@ -324,14 +372,11 @@ Q3Pick_SetVertexTolerance (
  *  @function
  *      Q3Pick_SetEdgeTolerance
  *  @discussion
- *      One-line description of this function.
+ *      Set the edge tolerance of a pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param edgeTolerance    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to update.
+ *  @param edgeTolerance    The new edge tolerance of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetEdgeTolerance (
@@ -345,14 +390,11 @@ Q3Pick_SetEdgeTolerance (
  *  @function
  *      Q3Pick_GetNumHits
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of hits of a pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param numHits          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to query.
+ *  @param numHits          Receives the number of hits of a pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetNumHits (
@@ -366,13 +408,10 @@ Q3Pick_GetNumHits (
  *  @function
  *      Q3Pick_EmptyHitList
  *  @discussion
- *      One-line description of this function.
+ *      Empty the hit list of a pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to update.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Pick_EmptyHitList (
@@ -385,15 +424,15 @@ Q3Pick_EmptyHitList (
  *  @function
  *      Q3Pick_GetPickDetailValidMask
  *  @discussion
- *      One-line description of this function.
+ *      Get the available data mask for a pick result.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Pick results are indexed from 0, and the number of available
+ *      pick results is returned by Q3Pick_GetNumHits.
  *
- *  @param pick             Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param pickDetailValidMask Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick                   The pick object to query.
+ *  @param index                  The index of the hit to query.
+ *  @param pickDetailValidMask    Receives the available data mask for the hit.
+ *  @result                       Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetPickDetailValidMask (
@@ -408,16 +447,19 @@ Q3Pick_GetPickDetailValidMask (
  *  @function
  *      Q3Pick_GetPickDetailData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data for a pick result.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      When the kQ3PickDetailMaskPath data is requested, it must be disposed
+ *      of by the caller using Q3HitPath_EmptyData.
  *
- *  @param pick             Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param pickDetailValue  Description of the parameter.
- *  @param detailData       Description of the parameter.
- *  @result                 Description of the function result.
+ *      Pick results are indexed from 0, and the number of available
+ *      pick results is returned by Q3Pick_GetNumHits.
+ *
+ *  @param pick             The pick object to query.
+ *  @param index            The index of the hit to query.
+ *  @param pickDetailValue  The type of data requested from the hit.
+ *  @param detailData       Receives the data from the hit.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetPickDetailData (
@@ -449,13 +491,10 @@ Q3HitPath_EmptyData (
  *  @function
  *      Q3WindowPointPick_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new window-point pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data for the pick object.
+ *  @result                 The new pick object.
  */
 EXTERN_API_C ( TQ3PickObject  )
 Q3WindowPointPick_New (
@@ -468,14 +507,11 @@ Q3WindowPointPick_New (
  *  @function
  *      Q3WindowPointPick_GetPoint
  *  @discussion
- *      One-line description of this function.
+ *      Get the pick point of a window-point pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param point            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to query.
+ *  @param point            Receives the pick point of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_GetPoint (
@@ -489,14 +525,11 @@ Q3WindowPointPick_GetPoint (
  *  @function
  *      Q3WindowPointPick_SetPoint
  *  @discussion
- *      One-line description of this function.
+ *      Set the pick point of a window-point pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param point            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to update.
+ *  @param point            The new pick point for the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_SetPoint (
@@ -510,14 +543,11 @@ Q3WindowPointPick_SetPoint (
  *  @function
  *      Q3WindowPointPick_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a window-point pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to query.
+ *  @param data             Receives the data of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_GetData (
@@ -531,14 +561,11 @@ Q3WindowPointPick_GetData (
  *  @function
  *      Q3WindowPointPick_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a window-point pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to update.
+ *  @param data             The new data for the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_SetData (
@@ -552,13 +579,10 @@ Q3WindowPointPick_SetData (
  *  @function
  *      Q3WindowRectPick_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new window-rect pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data for the pick object.
+ *  @result                 The new pick object.
  */
 EXTERN_API_C ( TQ3PickObject  )
 Q3WindowRectPick_New (
@@ -571,14 +595,11 @@ Q3WindowRectPick_New (
  *  @function
  *      Q3WindowRectPick_GetRect
  *  @discussion
- *      One-line description of this function.
+ *      Get the pick rect of a window-rect pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param rect             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to query.
+ *  @param rect             Receives the pick rect of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_GetRect (
@@ -592,14 +613,11 @@ Q3WindowRectPick_GetRect (
  *  @function
  *      Q3WindowRectPick_SetRect
  *  @discussion
- *      One-line description of this function.
+ *      Set the pick rect of a window-rect pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param rect             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to update.
+ *  @param rect             The new pick rect of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_SetRect (
@@ -613,14 +631,11 @@ Q3WindowRectPick_SetRect (
  *  @function
  *      Q3WindowRectPick_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a window-rect pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to query.
+ *  @param data             Receives the data of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_GetData (
@@ -634,14 +649,11 @@ Q3WindowRectPick_GetData (
  *  @function
  *      Q3WindowRectPick_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data of a window-rect pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to update.
+ *  @param data             The new data for the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_SetData (
@@ -655,13 +667,10 @@ Q3WindowRectPick_SetData (
  *  @function
  *      Q3WorldRayPick_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new world-ray pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The data for the pick object.
+ *  @result                 The new pick object.
  */
 EXTERN_API_C ( TQ3PickObject  )
 Q3WorldRayPick_New (
@@ -674,14 +683,11 @@ Q3WorldRayPick_New (
  *  @function
  *      Q3WorldRayPick_GetRay
  *  @discussion
- *      One-line description of this function.
+ *      Get the pick ray of a world-ray pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param ray              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to query.
+ *  @param ray              Receives the ray of the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_GetRay (
@@ -695,14 +701,11 @@ Q3WorldRayPick_GetRay (
  *  @function
  *      Q3WorldRayPick_SetRay
  *  @discussion
- *      One-line description of this function.
+ *      Set the pick ray of a world-ray pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param ray              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to update.
+ *  @param ray              The new ray for the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_SetRay (
@@ -716,14 +719,11 @@ Q3WorldRayPick_SetRay (
  *  @function
  *      Q3WorldRayPick_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a world-ray pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to query.
+ *  @param data             Receives the data for the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_GetData (
@@ -737,14 +737,11 @@ Q3WorldRayPick_GetData (
  *  @function
  *      Q3WorldRayPick_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data of a world-ray pick object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pick             Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pick             The pick object to update.
+ *  @param data             The new data for the pick object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_SetData (
@@ -758,12 +755,9 @@ Q3WorldRayPick_SetData (
  *  @function
  *      Q3ShapePart_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a shape part object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shapePartObject  Description of the parameter.
+ *  @param shapePartObject  The shape part to query.
  *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3ObjectType  )
@@ -777,13 +771,14 @@ Q3ShapePart_GetType (
  *  @function
  *      Q3MeshPart_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a mesh part object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns kQ3MeshPartTypeMeshFacePart, kQ3MeshPartTypeMeshEdgePart,
+ *      or kQ3MeshPartTypeMeshVertexPart. If the type can not be determined,
+ *      returns kQ3ObjectTypeInvalid.
  *
- *  @param meshPartObject   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param meshPartObject   The mesh part to query.
+ *  @result                 The type of the mesh part.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3MeshPart_GetType (
@@ -796,14 +791,11 @@ Q3MeshPart_GetType (
  *  @function
  *      Q3ShapePart_GetShape
  *  @discussion
- *      One-line description of this function.
+ *      Get the shape object that contains a shape part object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shapePartObject  Description of the parameter.
- *  @param shapeObject      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shapePartObject  The shape part to query.
+ *  @param shapeObject      Receives the shape object that contains shapePartObject.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ShapePart_GetShape (
@@ -817,14 +809,11 @@ Q3ShapePart_GetShape (
  *  @function
  *      Q3MeshPart_GetComponent
  *  @discussion
- *      One-line description of this function.
+ *      Get the mesh component that contains a mesh part object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param meshPartObject   Description of the parameter.
- *  @param component        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param meshPartObject   The mesh part to query.
+ *  @param component        Receives the mesh component that contains meshPartObject.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MeshPart_GetComponent (
@@ -838,14 +827,11 @@ Q3MeshPart_GetComponent (
  *  @function
  *      Q3MeshFacePart_GetFace
  *  @discussion
- *      One-line description of this function.
+ *      Get the mesh face that corresponds to a mesh face part.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param meshFacePartObject Description of the parameter.
- *  @param face             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param meshFacePartObject    The mesh face to query.
+ *  @param face                  Receives the mesh face that corresponds to meshFacePartObject.
+ *  @result                      Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MeshFacePart_GetFace (
@@ -859,14 +845,11 @@ Q3MeshFacePart_GetFace (
  *  @function
  *      Q3MeshEdgePart_GetEdge
  *  @discussion
- *      One-line description of this function.
+ *      Get the mesh edge that corresponds to a mesh edge part.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param meshEdgePartObject Description of the parameter.
- *  @param edge             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param meshEdgePartObject    The mesh edge to query.
+ *  @param edge                  Receives the mesh edge that corresponds to meshEdgePartObject.
+ *  @result                      Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MeshEdgePart_GetEdge (
@@ -880,14 +863,11 @@ Q3MeshEdgePart_GetEdge (
  *  @function
  *      Q3MeshVertexPart_GetVertex
  *  @discussion
- *      One-line description of this function.
+ *      Get the mesh vertex that corresponds to a mesh vertex part.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param meshVertexPartObject Description of the parameter.
- *  @param vertex           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param meshVertexPartObject    The mesh vertex to query.
+ *  @param vertex                  Receives the mesh vertex that corresponds to meshVertedPartObject.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MeshVertexPart_GetVertex (
