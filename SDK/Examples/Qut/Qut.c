@@ -67,6 +67,9 @@ qutFuncAppRender                gFuncAppRender     = NULL;
 qutFuncAppRenderPost            gFuncAppRenderPost = NULL;
 qutFuncAppMouseDown             gFuncAppMouseDown  = NULL;
 qutFuncAppMouseTrack            gFuncAppMouseTrack = NULL;
+qutFuncAppMouseUp	            gFuncAppMouseUp    = NULL;
+qutFuncAppIdle	         	    gFuncAppIdle       = NULL;
+qutFuncAppRedraw	            gFuncAppRedraw     = NULL;
 
 static TQ3Uns32                 gFrameCount        = 0;
 static TQ3Uns32                 gStartTime         = 0;
@@ -480,8 +483,6 @@ Qut_SetMouseDownFunc(qutFuncAppMouseDown appMouseDown)
 
 
 
-
-
 //=============================================================================
 //      Qut_SetMouseTrackFunc : Set the mouse tracking callback.
 //-----------------------------------------------------------------------------
@@ -491,6 +492,43 @@ Qut_SetMouseTrackFunc(qutFuncAppMouseTrack appMouseTrack)
 
     // Set the callback
     gFuncAppMouseTrack = appMouseTrack;
+}
+
+
+
+//=============================================================================
+//      Qut_SetMouseUpFunc : Set the mouse up callback.
+//-----------------------------------------------------------------------------
+void
+Qut_SetMouseUpFunc(qutFuncAppMouseUp appMouseUp)
+{
+
+    // Set the callback
+    gFuncAppMouseUp = appMouseUp;
+}
+
+
+//=============================================================================
+//      Qut_SetIdleFunc : Set the idle callback.
+//-----------------------------------------------------------------------------
+void
+Qut_SetIdleFunc(qutFuncAppIdle appIdle)
+{
+
+    // Set the callback
+    gFuncAppIdle = appIdle;
+}
+
+
+//=============================================================================
+//      Qut_SetRedrawFunc : Set the redraw callback.
+//-----------------------------------------------------------------------------
+void
+Qut_SetRedrawFunc(qutFuncAppRedraw appRedraw)
+{
+
+    // Set the callback
+    gFuncAppRedraw = appRedraw;
 }
 
 

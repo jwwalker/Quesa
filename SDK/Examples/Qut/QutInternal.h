@@ -109,8 +109,9 @@ extern qutFuncAppRender			gFuncAppRender;
 extern qutFuncAppRenderPost		gFuncAppRenderPost;
 extern qutFuncAppMouseDown		gFuncAppMouseDown;
 extern qutFuncAppMouseTrack		gFuncAppMouseTrack;
-
-
+extern qutFuncAppMouseUp		gFuncAppMouseUp;
+extern qutFuncAppIdle			gFuncAppIdle;
+extern qutFuncAppRedraw			gFuncAppRedraw;
 
 
 

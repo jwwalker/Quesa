@@ -173,6 +173,9 @@ typedef void (*qutFuncAppRender)(TQ3ViewObject theView);
 typedef void (*qutFuncAppRenderPost)(TQ3ViewObject theView);
 typedef void (*qutFuncAppMouseDown)(TQ3ViewObject theView, TQ3Point2D mousePoint);
 typedef void (*qutFuncAppMouseTrack)(TQ3ViewObject theView, TQ3Point2D mouseDiff);
+typedef void (*qutFuncAppMouseUp)(TQ3ViewObject theView, TQ3Point2D mousePoint);
+typedef void (*qutFuncAppIdle)(TQ3ViewObject theView);
+typedef void (*qutFuncAppRedraw)(TQ3ViewObject theView);
 
 
 
@@ -195,6 +198,9 @@ void			Qut_SetRenderFunc(qutFuncAppRender         appRender);
 void			Qut_SetRenderPostFunc(qutFuncAppRenderPost appRenderPost);
 void			Qut_SetMouseDownFunc(qutFuncAppMouseDown   appMouseTrack);
 void			Qut_SetMouseTrackFunc(qutFuncAppMouseTrack appMouseTrack);
+void			Qut_SetMouseUpFunc(qutFuncAppMouseUp	   appMouseUp);
+void			Qut_SetIdleFunc(qutFuncAppIdle	 		   appIdle);
+void			Qut_SetRedrawFunc(qutFuncAppRedraw	 	   appRedraw);
 TQ3GroupObject	Qut_ReadModel(TQ3StorageObject	storageObj);
 
 
