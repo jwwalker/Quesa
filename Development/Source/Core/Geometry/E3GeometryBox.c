@@ -224,8 +224,8 @@ e3geom_box_create_face( TQ3GroupObject inGroup,
 	Q3Vector3D_Cross( inMajor, inMinor, &majCrossMin );
 	if ( Q3Vector3D_Dot( &majCrossMin, inOrientation ) < kQ3RealZero )
 	{
-		E3Float_Swap( triangles[0].pointIndices[1], triangles[0].pointIndices[2] );
-		E3Float_Swap( triangles[1].pointIndices[1], triangles[1].pointIndices[2] );
+		E3Integer_Swap( triangles[0].pointIndices[1], triangles[0].pointIndices[2] );
+		E3Integer_Swap( triangles[1].pointIndices[1], triangles[1].pointIndices[2] );
 		
 		// Also flip majCrossMin so it can serve as our normal vector.
 		Q3Vector3D_Negate( &majCrossMin, &majCrossMin );

@@ -481,7 +481,7 @@ e3storage_path_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 	// Seek to the offset, and read the data
 	// (The ftell is needed because in the Windows version of
 	// CodeWarrior's standard library, fseek always flushes the buffer.)
-	if (offset != ftell( instanceData->theFile ))
+	if ((TQ3Int32) offset != ftell( instanceData->theFile ))
 		{
 		if (fseek(instanceData->theFile, offset, SEEK_SET))
 			return(kQ3Failure);

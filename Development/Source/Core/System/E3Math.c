@@ -4217,7 +4217,7 @@ E3Quaternion_GetAxisAndAngle(const TQ3Quaternion *q, TQ3Vector3D *outAxis, float
 			*outAngle = 2.0f * (float)acos(coshalf);
 		if (outAxis)
 			{
-			float sinhalf = sqrt( 1.0f - coshalf * coshalf );
+			float sinhalf = (float) sqrt( 1.0f - coshalf * coshalf );
 			outAxis->x = q->x / sinhalf;
 			outAxis->y = q->y / sinhalf;
 			outAxis->z = q->z / sinhalf;
@@ -5084,7 +5084,7 @@ E3Math_SquareRoot(float x)
 	//
 	// Should be extended with platform-specific optimisations, and
 	// possibly a table-based system for all platforms with IEEE floats?
-	return(sqrt(x));
+	return((float) sqrt(x));
 }
 
 
@@ -5103,6 +5103,6 @@ E3Math_InvSquareRoot(float x)
 	//
 	// Should be extended with platform-specific optimisations, and
 	// possibly a table-based system for all platforms with IEEE floats?
-	return(1.0f / sqrt(x));
+	return(1.0f / (float) sqrt(x));
 }
 

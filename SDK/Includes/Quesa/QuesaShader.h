@@ -1328,18 +1328,21 @@ Q3CompressedPixmapTexture_CompressImage (
 
 // Redirection
 //
-// __VA_ARGS__ is required for the _Set methods when compiling as C, to allow them to
-// accept both individual parameters and other macros like kQ3ViewDefaultDiffuseColor.
+// Unfortunately the Q3Color[A]RGB_Set functions are allowed to be called with either
+// individual arguments or with a macro such as kQ3ViewDefaultDiffuseColor. We can
+// support this using __VA_ARGS__, however this is not supported by all compilers.
 //
-// Unfortunately we need to #if this based on compiler, since the __VA_ARGS__ approach
-// fails with gcc 3.1.
+// For gcc we have a workaround, for Visual C++ we do not - so for now only CW/gcc can
+// automatically remap these two Q3 calls to their Q3Fast equivalents.
 #if QUESA_ALLOW_INLINE_APIS
+	#ifdef __MWERKS__
+		#define Q3ColorARGB_Set(...)					Q3FastColorARGB_Set(__VA_ARGS__)
+		#define Q3ColorRGB_Set(...)						Q3FastColorRGB_Set(__VA_ARGS__)
+	#endif
+
 	#ifdef __GNUC__
 		#define Q3ColorARGB_Set(args...)				Q3FastColorARGB_Set(args)
 		#define Q3ColorRGB_Set(args...)					Q3FastColorRGB_Set(args)
-	#else
-		#define Q3ColorARGB_Set(...)					Q3FastColorARGB_Set(__VA_ARGS__)
-		#define Q3ColorRGB_Set(...)						Q3FastColorRGB_Set(__VA_ARGS__)
 	#endif
 
 	#define Q3ColorARGB_Add								Q3FastColorARGB_Add
