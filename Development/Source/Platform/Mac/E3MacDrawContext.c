@@ -106,7 +106,6 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 	TQ3Boolean					isActive;
 	CWindowPtr					theWindow;
 	RgnHandle					visRgn;				// visible region of window
-	RgnHandle					contentRgn;			// content region of window (in global coords)
 
 
 
@@ -132,9 +131,12 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 			// Work out rectangles. If a pane has been specified, we adjust the window
 			// rect accordingly (i.e., as if the window was the size of the pane).
 			// Work out regions, too, as we'll need them shortly.
+			visRgn = NewRgn();
+			if (visRgn == NULL)
+				return(kQ3False);
+
 			GetWindowContentRect( theWindow, &windowRect );
 			GetPortVisibleRegion( GetWindowPort(theWindow), visRgn );
-			GetWindowContentRegion( theWindow, contentRgn );
 			GetPortBounds( GetWindowPort(theWindow), &portRect );
 			contentRect = windowRect;
 			GetRegionBounds( visRgn, &visRect );
@@ -165,11 +167,7 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 
 				// If the window is completely visible, we return an empty region.
 				// Otherwise, we return the visible region in device coordinates.
-				#if TARGET_API_MAC_CARBON
-				  if (IsRegionRectangular(visRgn) && EqualRect( &visRect, &portRect ))
-				#else
-				  if ((*visRgn)->rgnSize == 10 && EqualRect(&(*visRgn)->rgnBBox, &portRect))
-				#endif
+				if (IsRegionRectangular(visRgn) && EqualRect( &visRect, &portRect ))
 					{
 					*clipMaskState = kQ3XClipMaskFullyExposed;
 					RectRgn(clipRgn, &portRect);
@@ -182,6 +180,8 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 
 				OffsetRgn(clipRgn, contentRect.left, contentRect.top);
 				}
+			
+			DisposeRgn(visRgn);
 			break;
 		
 		
@@ -438,15 +438,20 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 
 
 			// Check to see if the window clipping has changed
-			GetPortVisibleRegion( GetWindowPort(theWindow), visRgn );
-			if (!EqualRgn(visRgn, instanceData->data.macData.visRgn)) {
-				stateChanges |= kQ3XDrawContextValidationWindowClip;
-			}
+			visRgn = NewRgn();
+			if (visRgn != NULL)
+				{
+				GetPortVisibleRegion( GetWindowPort(theWindow), visRgn );
+				if (!EqualRgn(visRgn, instanceData->data.macData.visRgn))
+					stateChanges |= kQ3XDrawContextValidationWindowClip;
+				}
+
 
 
 			// Save the winow details for next time
 			instanceData->data.macData.windowRect = windowRect;
-			CopyRgn(visRgn, instanceData->data.macData.visRgn);
+			if (visRgn != NULL)
+				CopyRgn(visRgn, instanceData->data.macData.visRgn);
 			break;
 
 		
