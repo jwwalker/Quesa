@@ -107,7 +107,11 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 
 			// Grab its dimensions
-			theRect = theWindow->portRect;
+			#if TARGET_API_MAC_CARBON
+				GetPortBounds( GetWindowPort(theWindow), &theRect );
+			#else
+				theRect = theWindow->portRect;
+			#endif
 			break;
 
 
