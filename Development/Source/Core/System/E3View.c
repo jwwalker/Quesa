@@ -199,7 +199,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	Q3Matrix4x4_SetIdentity(&theItem->matrixLocalToWorld);
 
 	theItem->stackState				 = kQ3ViewStateAll;
-	theItem->attributeSet            = Q3AttributeSet_New();
+	theItem->attributeSet            = Q3Set_New/*Q3AttributeSet_New*/();
 	theItem->shaderIllumination		 = Q3NULLIllumination_New();
 	theItem->shaderSurface			 = NULL;
 	theItem->styleBackfacing         = kQ3BackfacingStyleBoth;
@@ -1306,7 +1306,7 @@ e3view_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	instanceData->viewAttributes = Q3AttributeSet_New();
+	instanceData->viewAttributes = Q3Set_New/*Q3AttributeSet_New*/();
 	if (instanceData->viewAttributes != NULL)
 		{
 		// Add the attributes
