@@ -1916,7 +1916,11 @@ E3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
 
 
 	// Return the mask for the attribute set
-	theMask = E3AttributeSet_AccessMask(attributeSet);
+	if (attributeSet != NULL)
+		theMask = E3AttributeSet_AccessMask(attributeSet);
+	else
+		theMask = kQ3AttributeTypeNone;
+
 	return(theMask);
 }
 
