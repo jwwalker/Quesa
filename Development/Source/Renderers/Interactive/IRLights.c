@@ -46,14 +46,14 @@
 #define kLightFudge										0.000001f
 
 
-#if QUESA_OS_MACINTOSH
-	// These constants are defined in the framework version of gl.h,
-	// but if we are building a CFM binary, we may be using an older header.
-	#ifndef GL_LIGHT_MODEL_COLOR_CONTROL
-		#define GL_LIGHT_MODEL_COLOR_CONTROL      0x81F8
-		#define GL_SINGLE_COLOR                   0x81F9
-		#define GL_SEPARATE_SPECULAR_COLOR        0x81FA
-	#endif
+// These constants are defined in the Mac framework version of gl.h,
+// but if we are building a CFM binary, we may be using an older header.
+// Such a situation could also occur on other platforms.
+// The numbers are defined in the EXT_separate_specular_color specification.
+#ifndef GL_LIGHT_MODEL_COLOR_CONTROL
+	#define GL_LIGHT_MODEL_COLOR_CONTROL      0x81F8
+	#define GL_SINGLE_COLOR                   0x81F9
+	#define GL_SEPARATE_SPECULAR_COLOR        0x81FA
 #endif
 
 
@@ -349,12 +349,10 @@ ir_light_reset(TQ3InteractiveData *instanceData, TQ3Uns32 numLights)
  		glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT,     instanceData->glAmbientLight);
 		
-		#ifdef GL_SEPARATE_SPECULAR_COLOR
 		if (instanceData->glExtensions.separateSpecularColor == kQ3True)
 			{
 			glLightModeli( GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR );
 			}
-		#endif
 		}
 	else
 		{
