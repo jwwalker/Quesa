@@ -147,6 +147,7 @@ e3geom_trigrid_disposedata(TQ3TriGridData *theTriGrid)
 {
 	TQ3Uns32	qtyFacets;		// how many triangles we have
 	TQ3Uns32	i;
+	TQ3Uns32	qtyVertices;
 
 	if (theTriGrid->facetAttributeSet != NULL) {
 		qtyFacets = 2 * (theTriGrid->numRows-1) * (theTriGrid->numColumns-1);
@@ -154,6 +155,13 @@ e3geom_trigrid_disposedata(TQ3TriGridData *theTriGrid)
 			E3Object_DisposeAndForget( theTriGrid->facetAttributeSet[i] );
 		}
 	}
+	
+	qtyVertices = theTriGrid->numRows * theTriGrid->numColumns;
+	for (i = 0; i < qtyVertices; ++i)
+	{
+		E3Object_DisposeAndForget( theTriGrid->vertices[ i ].attributeSet );
+	}
+	
 	E3Object_DisposeAndForget( theTriGrid->triGridAttributeSet );
 }	
 
