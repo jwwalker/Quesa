@@ -645,7 +645,7 @@ Q3SlabMemory_GetCount(TQ3SlabObject theSlab)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theSlab
-		return(NULL);
+		return(0);
 #endif
 
 
@@ -680,10 +680,10 @@ Q3SlabMemory_SetCount(TQ3SlabObject theSlab, TQ3Uns32 numItems)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theSlab
-		return(NULL);
+		return(kQ3Failure);
 
 	if (0) // Further checks on numItems
-		return(NULL);
+		return(kQ3Failure);
 #endif
 
 
