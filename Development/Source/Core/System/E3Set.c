@@ -1420,8 +1420,10 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 
 
 	// If there's nothing to copy, bail
+	// (It may be OK for the dataSize to be zero, as the mere presence or
+	// absence of an attribute can carry information.)
 	if (dataSize == 0)
-		return(kQ3Failure);
+		return(kQ3Success);
 
 
 
