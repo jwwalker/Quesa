@@ -1448,7 +1448,6 @@ e3ffw_3DMF_box_traverse( TQ3Object object,
 	
 	status = Q3XView_SubmitWriteData( view, 48, (void*)data, NULL );
 	
-	// Optional bottom caps flag
 	if ( (status == kQ3Success) && (data->faceAttributeSet != NULL) )
 		{
 		
@@ -1584,12 +1583,108 @@ e3ffw_3DMF_box_write( const TQ3BoxData *data,
 //=============================================================================
 //      e3ffw_3DMF_trigrid_traverse : TriGrid traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_trigrid_traverse( TQ3Object object,
+					 TQ3TriGridData *data,
+					 TQ3ViewObject view )
+{
+	TQ3Status	status;
+	TQ3Uns32 i;
+	TQ3Object attributeList = NULL;
+	
+	TQ3Uns32 numFacets = 2 * (data->numRows - 1) * (data->numColumns - 1);
+	TQ3Uns32 numVertices = data->numRows * data->numColumns;
+
+	status = Q3XView_SubmitWriteData( view, 8 + (numVertices * 12), (void*)data, NULL );
+	
+	if ( (status == kQ3Success) && (data->facetAttributeSet != NULL) )
+		{
+		
+		attributeList = E3FFormat_3DMF_FaceAttributeSetList_New (numFacets);
+		
+		if(attributeList){
+		
+			for(i=0;i < numFacets && status == kQ3Success;i++){
+				if(data->facetAttributeSet[i] != NULL){
+					status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, data->facetAttributeSet[i]);
+					}
+				}
+				
+			if(status == kQ3Success)
+				status = Q3Object_Submit (attributeList, view);
+			Q3Object_Dispose(attributeList);
+			}
+		else
+			{
+			status = kQ3Failure;
+			}
+		
+		}
+	
+	
+	if (status == kQ3Success)
+		{
+		
+		attributeList = E3FFormat_3DMF_VertexAttributeSetList_New (numVertices);
+		
+		if(attributeList){
+		
+			for(i=0;i < numVertices && status == kQ3Success;i++){
+				if(data->vertices[i].attributeSet != NULL){
+					status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, data->vertices[i].attributeSet);
+					}
+				}
+				
+			if(status == kQ3Success)
+				status = Q3Object_Submit (attributeList, view);
+			Q3Object_Dispose(attributeList);
+			}
+		else
+			{
+			status = kQ3Failure;
+			}
+		
+		}
+	
+	
+	// Overall attribute set
+	if ( (status == kQ3Success) && (data->triGridAttributeSet != NULL) )
+		status = Q3Object_Submit( data->triGridAttributeSet, view );
+
+
+	return status;
+}
+
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_trigrid_write : TriGrid write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_trigrid_write( const TQ3TriGridData *data,
+				TQ3FileObject theFile )
+{
+	TQ3Uns32 i;
+	TQ3Uns32 numVertices = data->numRows * data->numColumns;
+	TQ3Status	writeStatus = kQ3Failure;
+	
+	writeStatus = Q3Uns32_Write( data->numRows, theFile );
+
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write( data->numColumns, theFile );
+	
+	for(i=0;i < numVertices && writeStatus == kQ3Success;i++)
+		{
+		if (writeStatus == kQ3Success)
+			writeStatus = Q3Point3D_Write( &data->vertices[i].point, theFile );
+		}
+		
+		
+	return writeStatus;
+}
 
 
 
@@ -2710,6 +2805,9 @@ E3FFW_3DMF_RegisterGeom(void)
 	
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeBox,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_box_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeBox,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_box_write);
+	
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriGrid,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_trigrid_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriGrid,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_trigrid_write);
 	
 	return kQ3Success;
 }

@@ -48,6 +48,8 @@
 //      Internal constants
 //-----------------------------------------------------------------------------
 
+#define kTextNormalNickName							"3DMF Text"
+
 #define kBinNormalNickName							"3DMF Binary"
 #define kBinStreamNickName							"3DMF Binary Stream"
 #define kBinDatabaseNickName						"3DMF Binary Database"
@@ -63,7 +65,7 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3ffw_3dmfbin_geom : Writer geometry metahandler.
+//      e3ffw_3dmf_geom : Writer geometry metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmf_geom(TQ3XMethodType methodType)
@@ -114,6 +116,10 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Box;
 			break;
 
+		case kQ3GeometryTypeTriGrid:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TriGrid;
+			break;
+
 /*
 		case kQ3GeometryTypeMarker:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Marker;
@@ -148,10 +154,6 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 
 		case kQ3GeometryTypePolyLine:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_PolyLine;
-			break;
-
-		case kQ3GeometryTypeTriGrid:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TriGrid;
 			break;
 
 		case kQ3GeometryTypeEllipse:
@@ -189,10 +191,10 @@ e3ffw_3dmfbin_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 //=============================================================================
-//      e3ffw_3dmfbin_formatname : Get the format name.
+//      e3ffw_3dmf_formatname : Get the format name.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3ffw_3dmfbin_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize, const char * nickName)
+e3ffw_3dmf_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize, const char * nickName)
 {
 
 
@@ -222,12 +224,24 @@ e3ffw_3dmfbin_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns3
 
 
 //=============================================================================
+//      e3ffw_3dmftxt_N_formatname : Get the format name for normal files.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3dmftxt_N_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+{
+	return e3ffw_3dmf_formatname(dataBuffer, bufferSize, actualDataSize, kTextNormalNickName);
+}
+
+
+
+
+//=============================================================================
 //      e3ffw_3dmfbin_N_formatname : Get the format name for normal files.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3ffw_3dmfbin_N_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
-	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinNormalNickName);
+	return e3ffw_3dmf_formatname(dataBuffer, bufferSize, actualDataSize, kBinNormalNickName);
 }
 
 
@@ -239,7 +253,7 @@ e3ffw_3dmfbin_N_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Un
 static TQ3Status
 e3ffw_3dmfbin_S_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
-	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinStreamNickName);
+	return e3ffw_3dmf_formatname(dataBuffer, bufferSize, actualDataSize, kBinStreamNickName);
 }
 
 
@@ -251,7 +265,7 @@ e3ffw_3dmfbin_S_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Un
 static TQ3Status
 e3ffw_3dmfbin_D_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
-	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseNickName);
+	return e3ffw_3dmf_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseNickName);
 }
 
 
@@ -263,7 +277,7 @@ e3ffw_3dmfbin_D_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Un
 static TQ3Status
 e3ffw_3dmfbin_DS_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
-	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseStreamNickName);
+	return e3ffw_3dmf_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseStreamNickName);
 }
 
 
@@ -275,7 +289,7 @@ e3ffw_3dmfbin_DS_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3U
 static TQ3Status
 e3ffw_3dmfbin_NW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
-	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinNormalSwapNickName);
+	return e3ffw_3dmf_formatname(dataBuffer, bufferSize, actualDataSize, kBinNormalSwapNickName);
 }
 
 
@@ -287,7 +301,7 @@ e3ffw_3dmfbin_NW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3U
 static TQ3Status
 e3ffw_3dmfbin_SW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
-	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinStreamSwapNickName);
+	return e3ffw_3dmf_formatname(dataBuffer, bufferSize, actualDataSize, kBinStreamSwapNickName);
 }
 
 
@@ -299,7 +313,7 @@ e3ffw_3dmfbin_SW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3U
 static TQ3Status
 e3ffw_3dmfbin_DW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
-	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseSwapNickName);
+	return e3ffw_3dmf_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseSwapNickName);
 }
 
 
@@ -311,17 +325,17 @@ e3ffw_3dmfbin_DW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3U
 static TQ3Status
 e3ffw_3dmfbin_DSW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
-	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseStreamSwapNickName);
+	return e3ffw_3dmf_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseStreamSwapNickName);
 }
 
 
 
 
 //=============================================================================
-//      e3ffw_3dmfbin_metahandler : Writer metahandler.
+//      e3ffw_3dmf_metahandler : Writer metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
-e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
+e3ffw_3dmf_metahandler(TQ3XMethodType methodType)
 {	TQ3XFunctionPointer		theMethod = NULL;
 
 
@@ -348,6 +362,41 @@ e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Close;
 			break;
 
+		// object submit
+		case kQ3XMethodTypeFFormatSubmitObject:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_WriteObject;
+			break;
+
+		case kQ3XMethodTypeFFormatSubmitGroup:
+			// needs to be special to allow contents submit
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Group;
+			break;
+		
+		default: // get the geometry
+			// needs to be special to allow geometry decomposition
+			theMethod = e3ffw_3dmf_geom (methodType);
+			break;
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_metahandler : Writer metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
 		case kQ3XMethodTypeFFormatFloat32Write:
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_32;
 			break;
@@ -380,19 +429,8 @@ e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_Raw;
 			break;
 
-		// object submit
-		case kQ3XMethodTypeFFormatSubmitObject:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_WriteObject;
-			break;
-
-		case kQ3XMethodTypeFFormatSubmitGroup:
-			// needs to be special to allow contents submit
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Group;
-			break;
-		
-		default: // get the geometry
-			// needs to be special to allow geometry decomposition
-			theMethod = e3ffw_3dmf_geom (methodType);
+		default: // get the common methods
+			theMethod = e3ffw_3dmf_metahandler (methodType);
 			break;
 		
 		}
@@ -689,19 +727,22 @@ E3FFW_3DMFBin_Register(void)
 											e3ffw_3dmfbin_S_metahandler,
 											sizeof(TE3FFormatW3DMF_Data));
 
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFNormalBin,
 											kQ3ClassNameFileFormatW_3DMF_N_Bin,
 											e3ffw_3dmfbin_N_metahandler,
 											sizeof(TE3FFormatW3DMF_Data));
 
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFDatabaseBin,
 											kQ3ClassNameFileFormatW_3DMF_D_Bin,
 											e3ffw_3dmfbin_D_metahandler,
 											sizeof(TE3FFormatW3DMF_Data));
 
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFDatabaseStreamBin,
 											kQ3ClassNameFileFormatW_3DMF_DS_Bin,
 											e3ffw_3dmfbin_DS_metahandler,
@@ -709,25 +750,29 @@ E3FFW_3DMFBin_Register(void)
 
 // the swapped formats
 
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFStreamBinSwap,
 											kQ3ClassNameFileFormatW_3DMF_SW_Bin,
 											e3ffw_3dmfbin_SW_metahandler,
 											sizeof(TE3FFormatW3DMF_Data));
 
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFNormalBinSwap,
 											kQ3ClassNameFileFormatW_3DMF_NW_Bin,
 											e3ffw_3dmfbin_NW_metahandler,
 											sizeof(TE3FFormatW3DMF_Data));
 
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFDatabaseBinSwap,
 											kQ3ClassNameFileFormatW_3DMF_DW_Bin,
 											e3ffw_3dmfbin_DW_metahandler,
 											sizeof(TE3FFormatW3DMF_Data));
 
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFDatabaseStreamBinSwap,
 											kQ3ClassNameFileFormatW_3DMF_DSW_Bin,
 											e3ffw_3dmfbin_DSW_metahandler,
@@ -748,8 +793,31 @@ E3FFW_3DMFBin_Unregister(void)
 {	TQ3Status			qd3dStatus;
 
 
-	// Unregister the class
+	// Unregister the classes
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3FFormatWriterType3DMFStreamBin,kQ3True);
+	
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_UnregisterClass(kQ3FFormatWriterType3DMFNormalBin,kQ3True);
+	
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_UnregisterClass(kQ3FFormatWriterType3DMFDatabaseBin,kQ3True);
+	
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_UnregisterClass(kQ3FFormatWriterType3DMFDatabaseStreamBin,kQ3True);
+	
+
+
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_UnregisterClass(kQ3FFormatWriterType3DMFStreamBinSwap,kQ3True);
+	
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_UnregisterClass(kQ3FFormatWriterType3DMFNormalBinSwap,kQ3True);
+	
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_UnregisterClass(kQ3FFormatWriterType3DMFDatabaseBinSwap,kQ3True);
+	
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_UnregisterClass(kQ3FFormatWriterType3DMFDatabaseStreamBinSwap,kQ3True);
 
 	return(qd3dStatus);
 }
