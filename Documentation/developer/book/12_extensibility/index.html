@@ -37,9 +37,8 @@ associated with other geometric objects will not be normalized.
 </p>
 
 <p>
-Unlike QD3D, the metahandler method for a plug-in class may be invoked at any time. Methods
-may or may not be cached by Quesa, and plug-ins should assume their metahandlers may be invoked
-multiple times.
+Plug-in metahandlers, and the methods they return, may be cached internally by Quesa. Under QD3D
+methods were always cached, however plug-ins should not rely on this behaviour when hosted by Quesa.
 </p>
 
 
