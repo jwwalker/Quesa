@@ -1077,8 +1077,6 @@ e3fformat_3dmf_text_close(TQ3FileFormatObject format, TQ3Boolean abort)
 	TE3FFormat3DMF_Text_Data	*instanceData = (TE3FFormat3DMF_Text_Data *) format->instanceData;
 
 
-	E3Shared_Replace(&instanceData->MFData.baseData.storage, NULL);
-
 	return (kQ3Success);
 
 }
