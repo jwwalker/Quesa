@@ -228,13 +228,13 @@ gldrawcontext_cocoa_swapbuffers(void *glContext)
 //		gldrawcontext_cocoa_setcurrent : Make an OpenGL context current.
 //-----------------------------------------------------------------------------
 void
-gldrawcontext_cocoa_setcurrent(void *glContext)
+gldrawcontext_cocoa_setcurrent(void *glContext, TQ3Boolean forceSet)
 {	CocoaGLContext		*theContext = (CocoaGLContext *) glContext;
 
 
 
 	// Activate the context
-	if(![[NSOpenGLContext currentContext]isEqual:(id)theContext->glContext])
+	if(forceSet || ![[NSOpenGLContext currentContext]isEqual:(id)theContext->glContext])
 		[(id)theContext->glContext makeCurrentContext];
 }
 
