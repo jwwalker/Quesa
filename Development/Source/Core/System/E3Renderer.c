@@ -792,7 +792,8 @@ E3Renderer_Method_SubmitGeometry(TQ3ViewObject		theView,
 
 
 	// Test whether the geometry's attribute set contains a surface shader.
-	if ( (kQ3Success == Q3Geometry_GetAttributeSet( theGeom, &attSet )) &&
+	// (How do we do this in immediate mode?)
+	if ( (theGeom != NULL) && (kQ3Success == Q3Geometry_GetAttributeSet( theGeom, &attSet )) &&
 		(attSet != NULL) )
 	{
 		hasSurfaceShader = Q3AttributeSet_Contains( attSet, kQ3AttributeTypeSurfaceShader );
