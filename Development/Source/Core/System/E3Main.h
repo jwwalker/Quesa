@@ -77,6 +77,12 @@ TQ3Boolean			E3Object_IsWritable(TQ3Object theObject, TQ3FileObject theFile);
 TQ3ObjectType		E3Object_GetType(TQ3Object theObject);
 TQ3ObjectType		E3Object_GetLeafType(TQ3Object theObject);
 TQ3Boolean			E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType);
+TQ3Status			E3Object_AddElement(TQ3Object theObject, TQ3ElementType theType, const void *theData);
+TQ3Status			E3Object_GetElement(TQ3Object theObject, TQ3ElementType theType, void *theData);
+TQ3Boolean			E3Object_ContainsElement(TQ3Object theObject, TQ3ElementType theType);
+TQ3Status			E3Object_GetNextElementType(TQ3Object theObject, TQ3ElementType *theType);
+TQ3Status			E3Object_EmptyElements(TQ3Object theObject);
+TQ3Status			E3Object_ClearElement(TQ3Object theObject, TQ3ElementType theType);
 
 TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);
 TQ3SharedObject		E3Shared_GetReference(TQ3SharedObject sharedObject);
@@ -88,12 +94,6 @@ TQ3Status			E3Shared_Edited(TQ3SharedObject sharedObject);
 TQ3ObjectType		E3Shape_GetType(TQ3ShapeObject theShape);
 TQ3Status			E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet);
 TQ3Status			E3Shape_SetSet(TQ3ShapeObject theShape, TQ3SetObject theSet);
-TQ3Status			E3Shape_AddElement(TQ3ShapeObject theShape, TQ3ElementType theType, const void *theData);
-TQ3Status			E3Shape_GetElement(TQ3ShapeObject theShape, TQ3ElementType theType, void *theData);
-TQ3Boolean			E3Shape_ContainsElement(TQ3ShapeObject theShape, TQ3ElementType theType);
-TQ3Status			E3Shape_GetNextElementType(TQ3ShapeObject theShape, TQ3ElementType *theType);
-TQ3Status			E3Shape_EmptyElements(TQ3ShapeObject theShape);
-TQ3Status			E3Shape_ClearElement(TQ3ShapeObject theShape, TQ3ElementType theType);
 TQ3Status			E3Shape_SubmitElements( TQ3ShapeObject inShape, TQ3ViewObject inView );
 
 TQ3Status			E3Bitmap_Empty(TQ3Bitmap *theBitmap);
