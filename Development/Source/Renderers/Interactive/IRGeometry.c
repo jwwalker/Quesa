@@ -634,8 +634,8 @@ IRGeometry_Validate_Triangles(TQ3InteractiveData		*instanceData,
 	// All triangle normals passing through this point should be normalized.
 	for (n = 0; n < numTriangles; n++)
 		{
-		theLength = Q3FastVector3D_Length(&theNormals[n]);
-		if (fabs( theLength - 1.0f ) > kQ3RealZero)
+		theLength = Q3FastVector3D_LengthSquared(&theNormals[n]);
+		if (fabs( theLength - 1.0f ) > 3.0f * kQ3RealZero)
 			Q3XWarning_Post(kQ3WarningTriangleNotNormalized);
 		}
 
