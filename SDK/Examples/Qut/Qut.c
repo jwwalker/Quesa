@@ -79,7 +79,9 @@ static TQ3BackfacingStyle       gStyleBackfacing;
 static TQ3InterpolationStyle    gStyleInterpolation;
 static TQ3OrientationStyle      gStyleOrientation;
 static TQ3AntiAliasStyleData    gStyleDataAntiAlias;
-static TQ3FogStyleData          gStyleDataFog;
+static TQ3FogStyleData          gStyleDataFog = { kQ3Off, kQ3FogModeLinear,
+												2.0f, 5.0f, 0.5f,
+												{1.0f, 1.0f, 1.0f, 1.0f} };
 static TQ3SubdivisionStyleData  gStyleDataSubdivision;
 
 
