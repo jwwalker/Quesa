@@ -328,6 +328,7 @@ Q3Notice_Get(TQ3Notice *firstNotice)
 
 
 
+#if QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 //=============================================================================
@@ -454,6 +455,7 @@ Q3Notice_ToString(TQ3Language theLanguage, TQ3Notice theNotice)
 }
 
 
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
