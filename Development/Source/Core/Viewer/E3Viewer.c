@@ -114,8 +114,6 @@ enum {
 //      Internal static variables
 //-----------------------------------------------------------------------------
 TQ3GeometryObject sGuideCircle = NULL;
-// dair, temporary declaration to fix link error - todo...
-short gShlbResFile;
 
 
 
