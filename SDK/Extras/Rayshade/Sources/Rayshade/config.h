@@ -13,6 +13,8 @@
 
 #define BSD		/**/
 
+#if !__MACH__
+
 /* bzero:
  *	This symbol is maped to memset if the  bzero() routine is not
  *	available to set memory to 0.
@@ -29,6 +31,8 @@
  */
 #define	index strchr	/* cultural */
 #define	rindex strrchr	/*  differences? */
+
+#endif
 
 /* MEMSET:
  *	This symbol, if defined, indicates that the memset routine is available
