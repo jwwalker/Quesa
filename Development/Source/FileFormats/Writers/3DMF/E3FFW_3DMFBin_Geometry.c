@@ -1871,12 +1871,75 @@ e3ffw_3DMF_mesh_write( const TQ3MeshData *meshData,
 //=============================================================================
 //      e3ffw_3DMF_NURBpatch_traverse : NURB Patch traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_NURBpatch_traverse ( TQ3Object object ,
+								TQ3NURBPatchData* data ,
+								TQ3ViewObject view )
+	{
+	#pragma unused(object)
+
+	TQ3Status	status ;
+	
+	status = Q3XView_SubmitWriteData ( view ,
+		sizeof ( TQ3Uns32 ) * 4 +
+		sizeof ( TQ3RationalPoint4D ) * data->numRows * data->numColumns +
+		sizeof ( float ) * ( data->numRows + data->uOrder ) +
+		sizeof ( float ) * ( data->numColumns + data->vOrder ) , (void*) data , NULL ) ;
+	
+	// Overall attribute set
+	if ( ( status != kQ3Failure ) && ( data->patchAttributeSet != NULL ) )
+		status = Q3Object_Submit ( data->patchAttributeSet , view ) ;
+
+
+	return status ;
+	}
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_NURBpatch_write : NURB Patch write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_NURBpatch_write ( const TQ3NURBPatchData* data ,
+							 TQ3FileObject theFile )
+	{
+	TQ3Status	writeStatus ;
+	TQ3Uns32	numPoints = data->numRows * data->numColumns ;
+	TQ3Uns32	i ;
+	
+	if ( data->numTrimLoops == 0 )
+		writeStatus = kQ3Success ;
+	else
+		writeStatus = kQ3Failure ; // Not supported by either QD3D or Quesa (yet)
+		
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Uns32_Write( data->uOrder , theFile );
+
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Uns32_Write ( data->vOrder , theFile ) ;
+	
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Uns32_Write ( data->numRows , theFile ) ;
+	
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Uns32_Write ( data->numColumns , theFile ) ;
+	
+	for ( i = 0 ; i < numPoints ; ++i )
+		if ( writeStatus != kQ3Failure )
+			writeStatus = Q3RationalPoint4D_Write ( &data->controlPoints [ i ] , theFile ) ;	
+
+	for ( i = 0 ; i < data->numColumns + data->uOrder ; ++i )
+		if ( writeStatus != kQ3Failure )
+			writeStatus = Q3Float32_Write ( data->uKnots [ i ] , theFile ) ;	
+	
+	for ( i = 0 ; i < data->numRows + data->vOrder ; ++i )
+		if ( writeStatus != kQ3Failure )
+			writeStatus = Q3Float32_Write ( data->vKnots [ i ] , theFile ) ;	
+	
+	return writeStatus ;
+	}
+
 
 
 
@@ -3416,6 +3479,9 @@ E3FFW_3DMF_RegisterGeom(void)
 	E3ClassTree_AddMethodByType(kQ3GeometryTypePolygon,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_polygon_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypePolygon,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_polygon_write);
 	
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBPatch,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_NURBpatch_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBPatch,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_NURBpatch_write);
+
 	return kQ3Success;
 }
 
