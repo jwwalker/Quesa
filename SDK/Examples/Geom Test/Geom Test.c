@@ -42,8 +42,7 @@
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
-enum
-{
+enum {
 	kMenuItemToggleLocalBoundingBox = 1,
 	kMenuItemToggleWorldBoundingBox,
 	kMenuItemShowTexture,
@@ -95,11 +94,14 @@ TQ3ShaderObject		gSceneIllumination = NULL;
 TQ3Object			gSceneBounds       = NULL;
 TQ3ShaderObject		gSceneTexture      = NULL;
 TQ3Boolean			gShowTexture       = kQ3False;
+TQ3Boolean			gShowWorldBounds   = kQ3False;
+TQ3Object			gWorldBounds       = NULL;
 TQ3Uns32			gFlashStep         = 0;
 TQ3Matrix4x4		gMatrixCurrent;
 TQ3ColorARGB		gBackgroundColor;
-TQ3Boolean			gShowWorldBounds   = kQ3False;
-TQ3Object			gWorldBounds       = NULL;
+
+
+
 
 
 //=============================================================================
@@ -166,7 +168,15 @@ createUVsFromPoints(TQ3Uns32 numPoints, TQ3Point3D *thePoints, TQ3Param2D *theUV
 		}
 }
 
-static TQ3Object createWorldBounds( TQ3ViewObject inView )
+
+
+
+
+//=============================================================================
+//      createWorldBounds : Create the world-coordinate bounds.
+//-----------------------------------------------------------------------------
+static TQ3Object
+createWorldBounds( TQ3ViewObject inView )
 {
 	TQ3BoundingBox		theBounds;
 	TQ3GroupObject		theGroup = NULL;
@@ -259,11 +269,13 @@ static TQ3Object createWorldBounds( TQ3ViewObject inView )
 
 
 
+
+
 //=============================================================================
-//      createGeomBounds : Create some bounds geometry for an object.
+//      createLocalBounds : Create the local-coordinate bounds.
 //-----------------------------------------------------------------------------
 static TQ3GroupObject
-createGeomBounds(TQ3GeometryObject theGeom)
+createLocalBounds(TQ3GeometryObject theGeom)
 {	TQ3ColorRGB			boxColour = { 0.0f, 1.0f, 0.0f };
 	TQ3BoundingBox		theBounds;
 	TQ3ShaderObject		theShader;
@@ -688,52 +700,52 @@ createGeomEllipsoid(void)
 //-----------------------------------------------------------------------------
 static TQ3GeometryObject
 createGeomGeneralPolygon(void)
-{	TQ3Point3D						vertPoints[6] = { {-0.5f, -1.0f, 0.0f},
+{	TQ3Point3D						vertPoints[7] = { {-1.0f, -1.0f, 0.0f},
 													  {-1.0f,  1.0f, 0.0f},
-													  {-0.2f,  0.0f, 0.0f},
-													  { 0.2f,  0.0f, 0.0f},
 													  { 1.0f,  1.0f, 0.0f},
-													  { 0.5f, -1.0f, 0.0f} };
-	TQ3ColorRGB						vertColours[6] = { {1.0f, 0.0f, 0.0f},
+													  { 1.0f, -1.0f, 0.0f},
+													  {-0.8f, -1.5f, 0.0f},
+													  { 0.0f,  1.5f, 0.0f},
+													  { 0.8f, -1.5f, 0.0f} };
+	TQ3ColorRGB						vertColours[7] = { {1.0f, 0.0f, 0.0f},
 													   {0.0f, 1.0f, 0.0f},
+													   {0.0f, 1.0f, 0.0f},
+													   {1.0f, 0.0f, 0.0f},
 													   {0.0f, 0.0f, 1.0f},
-													   {1.0f, 0.0f, 1.0f},
-													   {1.0f, 1.0f, 0.0f},
-										 			   {0.0f, 1.0f, 1.0f} };
+													   {0.0f, 0.0f, 1.0f},
+										 			   {0.0f, 0.0f, 1.0f} };
 	TQ3GeneralPolygonData			generalPolygonData;
-	TQ3GeneralPolygonContourData	theContours[1];
-	TQ3Vertex3D						theVertices[6];
+	TQ3GeneralPolygonContourData	theContours[2];
 	TQ3GeometryObject				theGeneralPoly;
-	TQ3Param2D						vertUVs[6];
+	TQ3Vertex3D						theVertices[7];
+	TQ3Param2D						vertUVs[7];
 	TQ3Uns32						n;
 
 
 
 	// Set up the data
-	generalPolygonData.numContours                = 1;
+	generalPolygonData.numContours                = 2;
 	generalPolygonData.contours                   = theContours;
 	generalPolygonData.shapeHint                  = kQ3GeneralPolygonShapeHintComplex;
 	generalPolygonData.generalPolygonAttributeSet = NULL;
 
-	theContours[0].numVertices = 6;
-	theContours[0].vertices = theVertices;
+	theContours[0].numVertices = 4;
+	theContours[0].vertices    = &theVertices[0];
 
-	createUVsFromPoints(theContours[0].numVertices, vertPoints, vertUVs);
+	theContours[1].numVertices = 3;
+	theContours[1].vertices    = &theVertices[4];
+
+	createUVsFromPoints(7, vertPoints, vertUVs);
 	
-	for (n = 0; n < 6; n++)
+	for (n = 0; n < 7; n++)
 		{
-		theContours[0].vertices[n].point        = vertPoints[n];
-		theContours[0].vertices[n].attributeSet = Q3AttributeSet_New();
+		theVertices[n].point        = vertPoints[n];
+		theVertices[n].attributeSet = Q3AttributeSet_New();
 
-		if (theContours[0].vertices[n].attributeSet != NULL)
+		if (theVertices[n].attributeSet != NULL)
 			{
-			Q3AttributeSet_Add(theContours[0].vertices[n].attributeSet,
-								kQ3AttributeTypeDiffuseColor,
-								&vertColours[n]);
-
-			Q3AttributeSet_Add(theContours[0].vertices[n].attributeSet,
-								kQ3AttributeTypeSurfaceUV,
-								&vertUVs[n]);
+			Q3AttributeSet_Add(theVertices[n].attributeSet, kQ3AttributeTypeDiffuseColor, &vertColours[n]);
+			Q3AttributeSet_Add(theVertices[n].attributeSet, kQ3AttributeTypeSurfaceUV,    &vertUVs[n]);
 			}
 		}
 
@@ -745,10 +757,10 @@ createGeomGeneralPolygon(void)
 
 
 	// Clean up
-	for (n = 0; n < 6; n++)
+	for (n = 0; n < 7; n++)
 		{
-		if (theContours[0].vertices[n].attributeSet != NULL)
-			Q3Object_Dispose(theContours[0].vertices[n].attributeSet);
+		if (theVertices[n].attributeSet != NULL)
+			Q3Object_Dispose(theVertices[n].attributeSet);
 		}
 		
 	return(theGeneralPoly);
@@ -1982,7 +1994,7 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemToggleLocalBoundingBox:
 			// Create or dispose of the bounding geometry
 			if (gSceneBounds == NULL)
-				gSceneBounds = createGeomBounds(gSceneGeometry);
+				gSceneBounds = createLocalBounds(gSceneGeometry);
 			else
 				{
 				Q3Object_Dispose(gSceneBounds);
@@ -2111,7 +2123,7 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		if (gSceneBounds != NULL)
 			{
 			Q3Object_Dispose(gSceneBounds);
-			gSceneBounds = createGeomBounds(gSceneGeometry);
+			gSceneBounds = createLocalBounds(gSceneGeometry);
 			}
 			
 		Q3Matrix4x4_SetIdentity(&gMatrixCurrent);
@@ -2119,8 +2131,18 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 }
 
 
-static void appPreRender( TQ3ViewObject theView )
+
+
+
+//=============================================================================
+//      appPreRender : Prepare to render another frame.
+//-----------------------------------------------------------------------------
+static void
+appPreRender(TQ3ViewObject theView)
 {
+
+
+	// Update the world bounds
 	if (gWorldBounds != NULL)
 	{
 		Q3Object_Dispose( gWorldBounds );
@@ -2128,10 +2150,11 @@ static void appPreRender( TQ3ViewObject theView )
 	}
 	
 	if (gShowWorldBounds)
-	{
 		gWorldBounds = createWorldBounds( theView );
-	}
 }
+
+
+
 
 
 //=============================================================================
@@ -2165,13 +2188,12 @@ appRender(TQ3ViewObject theView)
 
 	// Submit the scene
 	Q3Shader_Submit(gSceneIllumination, theView);
-	if (gShowTexture && gSceneTexture != NULL)
-		Q3Shader_Submit(gSceneTexture, theView);
 		
 	if (gWorldBounds != NULL)
-		{
 		Q3Object_Submit(gWorldBounds, theView);
-		}
+
+	if (gShowTexture && gSceneTexture != NULL)
+		Q3Shader_Submit(gSceneTexture, theView);
 
 	Q3MatrixTransform_Submit(&gMatrixCurrent, theView);
 	Q3Object_Submit(gSceneGeometry, theView);
@@ -2186,18 +2208,19 @@ appRender(TQ3ViewObject theView)
 		}
 
 
+
 	// Update the rotation matrix, in a such a way that the rate of rotation
 	// remains approximately constant in spite of changes in frame rate.
 	renderTime = clock();
 	if (sPrevRenderTime != 0)
 		{
 		timeFactor = (renderTime - sPrevRenderTime) / ((float) CLOCKS_PER_SEC);
-		Q3Matrix4x4_SetRotate_XYZ( &rotationMatrix,
-			0.3f * timeFactor, 0.5f * timeFactor, 0.05f * timeFactor );
+		Q3Matrix4x4_SetRotate_XYZ(&rotationMatrix, 0.3f * timeFactor, 0.5f * timeFactor, 0.05f * timeFactor);
 		Q3Matrix4x4_Multiply(&gMatrixCurrent, &rotationMatrix, &gMatrixCurrent);
 		}
 	sPrevRenderTime = renderTime;
 }
+
 
 
 
@@ -2214,7 +2237,7 @@ App_Initialise(void)
 	Qut_CreateWindow("Geom Test", 300, 300, kQ3True);
 	Qut_CreateView(appConfigureView);
 	Qut_SetRenderFunc(appRender);
-	Qut_SetRenderPreFunc( appPreRender );
+	Qut_SetRenderPreFunc(appPreRender);
 	Qut_SetMouseDownFunc(appMouseDown);
 	
 
