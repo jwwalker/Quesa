@@ -179,7 +179,7 @@ e3drawcontext_win32dc_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3drawcontext_win32dc_update ( E3Win32DCDrawContext* theDrawContext )
-	
+{
 	TQ3Status					qd3dStatus;
 	TQ3XDevicePixelType			pixelType;
 	HGDIOBJ						hBitMap;
