@@ -39,6 +39,7 @@
 #include "E3DrawContext.h"
 #include "E3Transform.h"
 #include "E3IOFileFormat.h"
+#include "E3Pick.h"
 #include "E3View.h"
 
 
@@ -1822,9 +1823,6 @@ E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *th
 //=============================================================================
 //      E3View_State_GetLocalToWorld : Get the local to world matrix state.
 //-----------------------------------------------------------------------------
-//		Note :	The subdivision style pushed onto the stack is normalised, so
-//				callers to this routine can assume that unused fields are 0.
-//-----------------------------------------------------------------------------
 const TQ3Matrix4x4 *
 E3View_State_GetLocalToWorld(TQ3ViewObject theView)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
@@ -3048,7 +3046,11 @@ E3View_StartPicking(TQ3ViewObject theView, TQ3PickObject pick)
 
 	// If this is the first pass, initialise the pick object
 	if (instanceData->viewPass == 1)
-		instanceData->pickCurrent = pick;
+		{
+		qd3dStatus = E3Pick_StartPicking(pick, theView, instanceData->theCamera, instanceData->theDrawContext);
+		if (qd3dStatus == kQ3Success)
+			instanceData->pickCurrent = pick;
+		}
 
 
 
@@ -3360,6 +3362,111 @@ E3View_AllowAllGroupCulling(TQ3ViewObject theView, TQ3Boolean allowCulling)
 
 
 //=============================================================================
+//      E3View_TransformLocalToWorld : Transform a point from local->world.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point3D *worldPoint)
+{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
+	const TQ3Matrix4x4	*localToWorld;
+
+
+
+	// Make sure we're in the correct state
+	if (instanceData->viewState != kQ3ViewStateSubmitting)
+		return(kQ3Failure);
+
+
+
+	// Get the local to world matrix
+	localToWorld = &instanceData->stackState[instanceData->stackCount-1].matrixLocalToWorld;
+	Q3_ASSERT_VALID_PTR(localToWorld);
+
+
+
+	// Transform the point
+	Q3Point3D_Transform(localPoint, localToWorld, worldPoint);
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_TransformLocalToWindow : Transform a point from local->window.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point2D *windowPoint)
+{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3Matrix4x4		theMatrix, worldToFrustum, frustumToWindow;
+	TQ3Point3D			thePoint;
+
+
+
+	// Make sure we're in the correct state
+	if (instanceData->viewState != kQ3ViewStateSubmitting)
+		return(kQ3Failure);
+
+
+
+	// Get the matrices we ned
+	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
+	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
+
+	Q3Matrix4x4_Multiply(E3View_State_GetLocalToWorld(theView), &worldToFrustum, &theMatrix);
+	Q3Matrix4x4_Multiply(&theMatrix, &frustumToWindow, &theMatrix);
+
+
+
+	// Transform the point
+	Q3Point3D_Transform(localPoint, &theMatrix, &thePoint);
+	windowPoint->x = thePoint.x;
+	windowPoint->y = thePoint.y;
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_TransformWorldToWindow : Transform a point from world->window.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoint, TQ3Point2D *windowPoint)
+{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3Matrix4x4		theMatrix, worldToFrustum, frustumToWindow;
+	TQ3Point3D			thePoint;
+
+
+
+	// Make sure we're in the correct state
+	if (instanceData->viewState != kQ3ViewStateSubmitting)
+		return(kQ3Failure);
+
+
+
+	// Get the matrices we ned
+	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
+	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
+	Q3Matrix4x4_Multiply(&worldToFrustum, &frustumToWindow, &theMatrix);
+
+
+
+	// Transform the point
+	Q3Point3D_Transform(worldPoint, &theMatrix, &thePoint);
+	windowPoint->x = thePoint.x;
+	windowPoint->y = thePoint.y;
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
 //      E3View_SetDrawContext : Assign a new draw context to a view.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -3480,6 +3587,8 @@ E3View_GetWorldToFrustumMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatr
 TQ3Status
 E3View_GetFrustumToWindowMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3Status		qd3dStatus;
+	TQ3Area			thePane;
 
 
 
@@ -3489,8 +3598,22 @@ E3View_GetFrustumToWindowMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMat
 
 
 
-	// Just return an identity matrix for now
+	// Get the size of our draw context
+	qd3dStatus = Q3DrawContext_GetPane(instanceData->theDrawContext, &thePane);
+	if (qd3dStatus != kQ3Success)
+		return(qd3dStatus);
+
+
+
+	// Return the frustum to window matrix
 	Q3Matrix4x4_SetIdentity(theMatrix);
+
+	theMatrix->value[3][0] = (thePane.max.x - thePane.min.x + 1) * 0.5f;
+	theMatrix->value[3][1] = (thePane.max.y - thePane.min.y + 1) * 0.5f;
+	theMatrix->value[0][0] =  theMatrix->value[3][0];
+	theMatrix->value[1][1] = -theMatrix->value[3][1];
+	theMatrix->value[2][2] = 1.0f;
+	theMatrix->value[3][3] = 1.0f;
 
 	return(kQ3Success);
 }
