@@ -56,8 +56,7 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 TQ3Status			E3FFW_3DMFBin_Register(void);
-TQ3Status
-E3FFW_3DMFBin_Unregister(void);
+TQ3Status			E3FFW_3DMFBin_Unregister(void);
 
 
 
