@@ -71,6 +71,8 @@ GLint		GLUtils_ConvertPixelType(TQ3PixelType pixelType);
 TQ3Uns32	GLUtils_SizeOfPixelType(TQ3PixelType pixelType);
 
 
+// Check availability of OpenGL features
+void		GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags );
 
 
 
