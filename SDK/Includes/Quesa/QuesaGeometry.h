@@ -68,21 +68,51 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// General polygon hints
-typedef enum {
+/*!
+ *	@enum	TQ3GeneralPolygonShapeHint
+ *	@discussion
+ *		A general polygon has a shape hint that may be used by the renderer to
+ *		optimize drawing.
+ *	@constant	kQ3GeneralPolygonShapeHintComplex	The general polygon has more
+ *							than one contour, or is self-intersecting, or it is not
+ *							known whether it is concave or convex.
+ *	@constant	kQ3GeneralPolygonShapeHintConcave	There is exactly one contour, which
+ *							is concave.
+ *	@constant	kQ3GeneralPolygonShapeHintConvex	There is exactly one contour, which
+ *							is convex.
+ */
+typedef enum TQ3GeneralPolygonShapeHint {
     kQ3GeneralPolygonShapeHintComplex           = 0,
     kQ3GeneralPolygonShapeHintConcave           = 1,
     kQ3GeneralPolygonShapeHintConvex            = 2
 } TQ3GeneralPolygonShapeHint;
 
 
-// Nurb limits
-#define kQ3NURBCurveMaxOrder                    16
-#define kQ3NURBPatchMaxOrder                    11
+/*!
+ *	@enum Nurb&nbsp;Limits
+ *	@discussion
+ *		Miscellaneous limits for NURB curves and patches.
+ *	@constant	kQ3NURBCurveMaxOrder	Maximum order for NURB curves.
+ *	@constant	kQ3NURBPatchMaxOrder	Maximum order for NURB patches.
+ */
+enum {
+	kQ3NURBCurveMaxOrder = 16,
+	kQ3NURBPatchMaxOrder = 11
+};
 
 
-// Polyhedron edge masks
-typedef enum {
+/*!
+ *	@enum	TQ3PolyhedronEdgeMasks
+ *	@discussion
+ *		These are flags indicating which edges of a polyhedral triangle should be
+ *		rendered.
+ *	@constant	kQ3PolyhedronEdgeNone		No Edge.
+ *	@constant	kQ3PolyhedronEdge01			Render the edge between vertex 0 and vertex 1.
+ *	@constant	kQ3PolyhedronEdge12			Render the edge between vertex 1 and vertex 2.
+ *	@constant	kQ3PolyhedronEdge20			Render the edge between vertex 2 and vertex 0.
+ *	@constant	kQ3PolyhedronEdgeAll		Render all the edges.
+ */
+typedef enum TQ3PolyhedronEdgeMasks {
     kQ3PolyhedronEdgeNone                       = 0,
     kQ3PolyhedronEdge01                         = (1 << 0),
     kQ3PolyhedronEdge12                         = (1 << 1),
@@ -97,7 +127,20 @@ typedef enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Box data
+/*!
+ *	@struct		TQ3BoxData
+ *	@discussion
+ *		Data describing the state of a box object.
+ *	@field		origin				Origin of the box (one of the corners).
+ *	@field		orientation			Orientation vector of the box.
+ *	@field		majorAxis			Major axis of the box.
+ *	@field		minorAxis			Minor axis of the box.
+ *	@field		faceAttributeSet	Array of attribute set objects for the 6 faces.
+ *									This field may be NULL, or individual sets in the
+ *									array may be NULL.
+ *	@field		boxAttributeSet		Attribute set object holding attributes that apply
+ *									to all of the faces.  May be NULL.
+ */
 typedef struct TQ3BoxData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
@@ -108,7 +151,35 @@ typedef struct TQ3BoxData {
 } TQ3BoxData;
 
 
-// Cone data
+/*!
+ *	@struct		TQ3ConeData
+ *	@discussion
+ *		Data describing the state of a cone object.  The orientation, major radius,
+ *		and minor radius vectors need not be orthogonal, though they should be
+ *		independent.
+ *	@field		origin					The center of the base of the cone.
+ *	@field		orientation				Vector from the origin to the tip of the cone.
+ *	@field		majorRadius				A vector from the origin to a point on the perimeter
+ *										of the base.
+ *	@field		minorRadius				A vector from the origin to a point on the perimeter
+ *										of the base.
+ *	@field		uMin					Minimum value of the u parameter, which goes around
+ *										the base.  Typically 0.
+ *	@field		uMax					Maximum value of the u parameter, which goes around
+ *										the base.  Typically 1.
+ *	@field		vMin					Minimum value of the v parameter, which goes from
+ *										base to tip.  Typically 0.
+ *	@field		vMax					Minimum value of the v parameter, which goes from
+ *										base to tip.  Typically 1.
+ *	@field		caps					End cap masks, either <code>kQ3EndCapMaskBottom</code>
+ *										or <code>kQ3EndCapNone</code>.
+ *	@field		interiorAttributeSet	Interior attributes.  Currently unused by Quesa
+ *										rendering, so leave it NULL.
+ *	@field		faceAttributeSet		Attributes that affect the face but not the bottom.
+ *										May be NULL.
+ *	@field		bottomAttributeSet		Attributes that affect the bottom end cap.  May be NULL.
+ *	@field		coneAttributeSet		Attributes for all parts of the cone.  May be NULL.
+ */
 typedef struct TQ3ConeData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
@@ -126,7 +197,36 @@ typedef struct TQ3ConeData {
 } TQ3ConeData;
 
 
-// Cylinder data
+/*!
+ *	@struct		TQ3CylinderData
+ *	@discussion
+ *		Data describing the state of a cylinder object.  The orientation, major radius,
+ *		and minor radius vectors need not be orthogonal, though they should be
+ *		independent.
+ *	@field		origin					The center of the base of the cylinder.
+ *	@field		orientation				Vector from the origin to the center of the opposite end.
+ *	@field		majorRadius				A vector from the origin to a point on the perimeter
+ *										of the base.
+ *	@field		minorRadius				A vector from the origin to a point on the perimeter
+ *										of the base.
+ *	@field		uMin					Minimum value of the u parameter, which goes around
+ *										the base.  Typically 0.
+ *	@field		uMax					Maximum value of the u parameter, which goes around
+ *										the base.  Typically 1.
+ *	@field		vMin					Minimum value of the v parameter, which goes from the
+ *										base to the other end.  Typically 0.
+ *	@field		vMax					Minimum value of the v parameter, which goes from the
+ *										base to the other end.  Typically 1.
+ *	@field		caps					End cap masks, determining whether the cylinder is
+ *										closed on one end, the other, or both.
+ *	@field		interiorAttributeSet	Interior attributes.  Currently unused by Quesa
+ *										rendering, so leave it NULL.
+ *	@field		topAttributeSet			Attributes that affect the top end cap.  May be NULL.
+ *	@field		faceAttributeSet		Attributes that affect the face but not the bottom or top.
+ *										May be NULL.
+ *	@field		bottomAttributeSet		Attributes that affect the bottom end cap.  May be NULL.
+ *	@field		cylinderAttributeSet	Attributes for all parts of the cylinder.  May be NULL.
+ */
 typedef struct TQ3CylinderData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
@@ -145,7 +245,26 @@ typedef struct TQ3CylinderData {
 } TQ3CylinderData;
 
 
-// Disk data
+/*!
+ *	@struct		TQ3DiskData
+ *	@discussion
+ *		Data describing the state of a disk object (a filled ellipse).  The major radius
+ *		and minor radius vectors need not be orthogonal, though they should be independent.
+ *	@field		origin					The center of the disk.
+ *	@field		majorRadius				A vector from the origin to a point on the perimeter
+ *										of the disk.
+ *	@field		minorRadius				A vector from the origin to a point on the perimeter
+ *										of the disk.
+ *	@field		uMin					Minimum value of the u parameter, which goes around
+ *										the perimeter.  Typically 0.
+ *	@field		uMax					Maximum value of the u parameter, which goes around
+ *										the perimeter.  Typically 1.
+ *	@field		vMin					Minimum value of the v parameter, which goes from the
+ *										perimeter to the origin.  Typically 0.
+ *	@field		vMax					Minimum value of the v parameter, which goes from the
+ *										perimeter to the origin.  Typically 1.
+ *	@field		diskAttributeSet		Attributes for the disk.  May be NULL.
+ */
 typedef struct TQ3DiskData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 majorRadius;
@@ -158,7 +277,20 @@ typedef struct TQ3DiskData {
 } TQ3DiskData;
 
 
-// Ellipse data
+/*!
+ *	@struct		TQ3EllipseData
+ *	@discussion
+ *		Data describing the state of an ellipse.  The major radius and minor radius
+ *		vectors need not be orthogonal, though they should be independent.
+ *		You can make a partial ellipse by using values other than 0 and 1 for the
+ *		<code>uMin</code> and <code>uMax</code> fields.
+ *	@field		origin					Center of the ellipse.
+ *	@field		majorRadius				A vector from the origin to a point on the curve.
+ *	@field		minorRadius				Another vector from the origin to a point on the curve.
+ *	@field		uMin					Minimum value of the u parameter.  Typically 0.
+ *	@field		uMax					Maximum value of the u parameter.  Typically 1.
+ *	@field		ellipseAttributeSet		Attributes for the ellipse.  May be NULL.
+ */
 typedef struct TQ3EllipseData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 majorRadius;
