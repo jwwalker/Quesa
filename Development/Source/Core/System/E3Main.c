@@ -76,11 +76,6 @@ typedef struct TQ3SharedData {
 } TQ3SharedData;
 
 
-// Shape data
-typedef struct TQ3ShapeData {
-	TQ3SetObject	theSet;
-} TQ3ShapeData;
-
 
 
 
@@ -226,121 +221,17 @@ e3shared_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3shape_new : Shape new method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3shape_new(TQ3Object theObject, void *privateData, void *paramData)
-{	TQ3ShapeData		*instanceData = (TQ3ShapeData *) privateData;
-#pragma unused(theObject)
-#pragma unused(paramData)
-
-
-
-	// Initialise our instance data
-	instanceData->theSet = NULL;
-	
-	return(kQ3Success);
-}
-
-
-
-
-
-//=============================================================================
-//      e3shape_delete : Shape delete method.
-//-----------------------------------------------------------------------------
-static void
-e3shape_delete(TQ3Object theObject, void *privateData)
-{	TQ3ShapeData		*instanceData = (TQ3ShapeData *) privateData;
-#pragma unused(theObject)
-
-
-
-	// Dispose of our instance data
-	Q3Object_CleanDispose(&instanceData->theSet);
-}
-
-
-
-
-
-//=============================================================================
-//      e3shape_duplicate : Shape duplicate method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3shape_duplicate(TQ3Object fromObject, const void *fromPrivateData,
-				  TQ3Object toObject,   void       *toPrivateData)
-{	const TQ3ShapeData		*fromInstanceData = (const TQ3ShapeData *) fromPrivateData;
-	TQ3ShapeData			*toInstanceData   = (TQ3ShapeData *)       toPrivateData;
-#pragma unused(fromObject)
-#pragma unused(toObject)
-
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromObject),      kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromPrivateData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toObject),        kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toPrivateData),   kQ3Failure);
-
-
-
-	// Initialise the instance data of the new object
-	if (fromInstanceData->theSet != NULL)
-		{
-		toInstanceData->theSet = Q3Object_Duplicate(fromInstanceData->theSet);
-		if (toInstanceData->theSet == NULL)
-			return(kQ3Failure);
-		}
-
-	return(kQ3Success);
-}
-
-
-
-
-
-//=============================================================================
-//      e3shape_metahandler : Shape metahandler.
-//-----------------------------------------------------------------------------
-static TQ3XFunctionPointer
-e3shape_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
-
-
-
-	// Return our methods
-	switch (methodType) {
-		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) e3shape_new;
-			break;
-
-		case kQ3XMethodTypeObjectDelete:
-			theMethod = (TQ3XFunctionPointer) e3shape_delete;
-			break;
-
-		case kQ3XMethodTypeObjectDuplicate:
-			theMethod = (TQ3XFunctionPointer) e3shape_duplicate;
-			break;
-		}
-	
-	return(theMethod);
-}
-
-
-
-
-
-//=============================================================================
 //      e3root_new : Root object new method.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if Q3_DEBUG
 static TQ3Status
 e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 {
 #pragma unused( paramData )
 	TQ3ObjectData	*instanceData = (TQ3ObjectData *) privateData;
+
+
+#if Q3_DEBUG
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
 	static TQ3Boolean	sIsMakingListHead = kQ3False;
 	
@@ -383,10 +274,12 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 			instanceData->stackCrawl = NULL;
 		}
 	}
+#endif
+	
+	instanceData->theSet = NULL;
 	
 	return kQ3Success;
 }
-#endif
 
 
 
@@ -401,7 +294,27 @@ e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 						 TQ3Object toObject, void *toPrivateData)
 {
 #pragma unused( fromObject, fromPrivateData )
-	return e3root_new( toObject, toPrivateData, NULL );
+	TQ3Status	q3status;
+	
+	q3status = e3root_new( toObject, toPrivateData, NULL );
+	
+	if (q3status == kQ3Success)
+	{
+		TQ3ObjectData*	fromInstanceData = (TQ3ObjectData*) fromPrivateData;
+		TQ3ObjectData*	toInstanceData = (TQ3ObjectData*) toPrivateData;
+		
+		
+		if (fromInstanceData->theSet != NULL)
+		{
+			toInstanceData->theSet = Q3Object_Duplicate( fromInstanceData->theSet );
+			if (toInstanceData->theSet == NULL)
+			{
+				q3status = kQ3Failure;
+			}
+		}
+	}
+	
+	return q3status;
 }
 #endif
 
@@ -412,14 +325,16 @@ e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 //=============================================================================
 //      e3root_delete : Root delete method.
 //-----------------------------------------------------------------------------
-#if Q3_DEBUG
 static void
 e3root_delete( TQ3Object theObject, void *privateData )
 {
 	TQ3ObjectData	*instanceData = (TQ3ObjectData *) privateData;
 
 	Q3_ASSERT( privateData == theObject->instanceData );
+	
+	Q3Object_CleanDispose( &instanceData->theSet );
 
+#if Q3_DEBUG
 	if ( instanceData->prev != NULL )
 	{
 		NEXTLINK( instanceData->prev ) = instanceData->next;
@@ -430,8 +345,8 @@ e3root_delete( TQ3Object theObject, void *privateData )
 	instanceData->next = NULL;
 	
 	E3StackCrawl_Dispose( instanceData->stackCrawl );
-}
 #endif
+}
 
 
 
@@ -472,7 +387,6 @@ e3root_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3root_dispose;
 			break;
 		
-	#if Q3_DEBUG
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3root_new;
 			break;
@@ -484,7 +398,6 @@ e3root_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectDuplicate:
 			theMethod = (TQ3XFunctionPointer) e3root_duplicate;
 			break;
-	#endif
 		}
 	
 	return(theMethod);
@@ -509,11 +422,7 @@ e3main_registercoreclasses(void)
 											kQ3ObjectTypeRoot,
 											kQ3ClassNameRoot,
 											e3root_metahandler,
-										#if Q3_DEBUG
 											sizeof(TQ3ObjectData)
-										#else
-											0
-										#endif
 											);
 
 	if (qd3dStatus == kQ3Success)
@@ -527,8 +436,8 @@ e3main_registercoreclasses(void)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
 												kQ3SharedTypeShape,
 												kQ3ClassNameShape,
-												e3shape_metahandler,
-												sizeof(TQ3ShapeData));
+												NULL,
+												0);
 
 	return(qd3dStatus);
 }
@@ -1267,6 +1176,315 @@ E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType)
 
 
 //=============================================================================
+//      E3Object_AddElement : Add an element to an object
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Object_AddElement(TQ3Object theObject, TQ3ElementType theType, const void *theData)
+{
+	TQ3ObjectData*	instanceData;
+	TQ3Status		qd3dStatus;
+
+
+
+	// Translate public type to internal type for set elements
+	if (theType == kQ3ElementTypeSet)
+	{
+		theType = kQ3ObjectTypeSetElement;
+	}
+
+
+
+	// If we've actually been passed a set, use it directly
+	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
+	{
+		qd3dStatus = Q3Set_Add( (TQ3SetObject) theObject, theType, theData );
+	}
+	else	// otherwise use the set within the instance data
+	{
+		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
+		if (instanceData == NULL)
+			return(kQ3Failure);
+		
+		if (instanceData->theSet == NULL)
+		{
+			instanceData->theSet = Q3Set_New();
+			
+			if (instanceData->theSet == NULL)
+				return(kQ3Failure);
+		}
+		
+		qd3dStatus = Q3Set_Add( instanceData->theSet, theType, theData );
+		
+		
+		if ( (qd3dStatus == kQ3Success) && Q3Object_IsType( theObject, kQ3ObjectTypeShared ) )
+		{
+			E3Shared_Edited( theObject );
+		}
+	}
+	
+	return qd3dStatus;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Object_GetElement : Get element data from an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Object_GetElement(TQ3Object theObject, TQ3ElementType theType, void *theData)
+{
+	TQ3ObjectData*	instanceData;
+	TQ3Status		qd3dStatus;
+	
+	
+	
+	// Translate public type to internal type for set elements
+	if (theType == kQ3ElementTypeSet)
+	{
+		theType = kQ3ObjectTypeSetElement;
+	}
+
+
+
+	// If we've actually been passed a set, use it directly
+	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
+	{
+		qd3dStatus = Q3Set_Get( (TQ3SetObject) theObject, theType, theData );
+	}
+	else	// otherwise use the set within the instance data
+	{
+		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
+		if (instanceData == NULL)
+			return(kQ3Failure);
+		
+		
+		if (instanceData->theSet == NULL)
+		{
+			qd3dStatus = kQ3Failure;
+		}
+		else
+		{
+			qd3dStatus = Q3Set_Get(instanceData->theSet, theType, (void*)theData);
+		}
+	}
+	
+	return qd3dStatus;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Object_ContainsElement : Test whether an object contains an element.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Object_ContainsElement(TQ3Object theObject, TQ3ElementType theType)
+{
+	TQ3ObjectData*	instanceData;
+	TQ3Boolean		isElementPresent = kQ3False;
+	
+	
+	
+	// Translate public type to internal type for set elements
+	if (theType == kQ3ElementTypeSet)
+	{
+		theType = kQ3ObjectTypeSetElement;
+	}
+
+
+
+	// If we've actually been passed a set, use it directly
+	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
+	{
+		isElementPresent = Q3Set_Contains( (TQ3SetObject) theObject, theType );
+	}
+	else	// otherwise use the set within the instance data
+	{
+		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
+		
+		
+		if ( (instanceData != NULL) && (instanceData->theSet != NULL) )
+		{
+			isElementPresent = Q3Set_Contains( instanceData->theSet, theType );
+		}
+	}
+	
+	
+	return isElementPresent;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Object_GetNextElementType : Get the next element type in an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Object_GetNextElementType(TQ3Object theObject, TQ3ElementType *theType)
+{
+	TQ3ObjectData*	instanceData;
+	TQ3Status		qd3dStatus = kQ3Failure;
+	
+	
+	
+	// Translate public type to internal type for set elements
+	if (*theType == kQ3ElementTypeSet)
+	{
+		*theType = kQ3ObjectTypeSetElement;
+	}
+
+
+
+	// If we've actually been passed a set, use it directly
+	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
+	{
+		qd3dStatus = Q3Set_GetNextElementType( (TQ3SetObject) theObject, theType );
+	}
+	else	// otherwise use the set within the instance data
+	{
+		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
+		
+		
+		if ( instanceData != NULL )
+		{
+			if (instanceData->theSet == NULL)
+			{
+				*theType = kQ3ElementTypeNone;
+				qd3dStatus = kQ3Success;
+			}
+			else
+			{
+				qd3dStatus = Q3Set_GetNextElementType(instanceData->theSet, theType);
+			}
+		}
+	}
+
+
+
+	if (*theType == kQ3ObjectTypeSetElement)
+	{
+		*theType = kQ3ElementTypeSet;
+	}
+	
+	
+	return qd3dStatus;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Object_EmptyElements : Remove all elements from an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Object_EmptyElements(TQ3Object theObject)
+{
+	TQ3ObjectData*	instanceData;
+	TQ3Status		qd3dStatus = kQ3Failure;
+	
+	
+	
+	// If we've actually been passed a set, use it directly
+	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
+	{
+		qd3dStatus = Q3Set_Empty( (TQ3SetObject) theObject );
+	}
+	else	// otherwise use the set within the instance data
+	{
+		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
+		
+		
+		if (instanceData == NULL)
+		{
+			qd3dStatus = kQ3Failure;	// should never happen
+		}
+		else if ( instanceData->theSet == NULL )
+		{
+			qd3dStatus = kQ3Success;
+		}
+		else
+		{
+			qd3dStatus = Q3Set_Empty(instanceData->theSet);
+		
+		
+			if ( (qd3dStatus == kQ3Success) && Q3Object_IsType( theObject, kQ3ObjectTypeShared ) )
+			{
+				E3Shared_Edited( theObject );
+			}
+		}
+	}
+	
+	
+	return qd3dStatus;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Object_ClearElement : Remove a specific type of element from an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Object_ClearElement(TQ3Object theObject, TQ3ElementType theType)
+{
+	TQ3ObjectData*	instanceData;
+	TQ3Status		qd3dStatus = kQ3Failure;
+	
+	
+	
+	// Translate public type to internal type for set elements
+	if (theType == kQ3ElementTypeSet)
+	{
+		theType = kQ3ObjectTypeSetElement;
+	}
+
+
+
+	// If we've actually been passed a set, use it directly
+	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
+	{
+		qd3dStatus = Q3Set_Clear( (TQ3SetObject) theObject, theType );
+	}
+	else	// otherwise use the set within the instance data
+	{
+		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
+		
+		
+		if (instanceData == NULL)
+		{
+			qd3dStatus = kQ3Failure;	// should never happen
+		}
+		else if ( instanceData->theSet == NULL )
+		{
+			qd3dStatus = kQ3Success;
+		}
+		else
+		{
+			qd3dStatus = Q3Set_Clear( instanceData->theSet, theType );
+		
+		
+			if ( (qd3dStatus == kQ3Success) && Q3Object_IsType( theObject, kQ3ObjectTypeShared ) )
+			{
+				E3Shared_Edited( theObject );
+			}
+		}
+	}
+	
+	
+	return qd3dStatus;
+}
+
+
+
+
+
+//=============================================================================
 //      E3Shared_GetType : Get the type of a shared object.
 //-----------------------------------------------------------------------------
 #pragma mark -
@@ -1443,27 +1661,9 @@ E3Shape_GetType(TQ3ShapeObject theShape)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet)
-{	TQ3ShapeData		*instanceData;
-
-
-
-	// Find the instance data
-	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-	// If the set doesn't exist yet, create it
-	if (instanceData->theSet == NULL)
-		{
-		instanceData->theSet = Q3Set_New();
-		if (instanceData->theSet == NULL)
-			return(kQ3Failure);
-		}
-
-	// Return another reference to the attribute set
-	E3Shared_Acquire(theSet, instanceData->theSet);
-
-	return(kQ3Success);
+{
+	*theSet = NULL;
+	return E3Object_GetElement( theShape, kQ3ElementTypeSet, theSet );
 }
 
 
@@ -1475,290 +1675,8 @@ E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shape_SetSet(TQ3ShapeObject theShape, TQ3SetObject theSet)
-{	TQ3ShapeData		*instanceData;
-
-
-
-	// Find the instance data
-	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-
-
-	// Replace the existing attribute set reference
-	E3Shared_Replace(&instanceData->theSet, theSet);
-	Q3Shared_Edited(theShape);
-
-	return(kQ3Success);
-}
-
-
-
-
-
-//=============================================================================
-//      E3Shape_AddElement : Add an element to a shape.
-//-----------------------------------------------------------------------------
-//		Note :	Sets and shapes are somewhat interchangeable: so we need to be
-//				able to accept either type of object.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3Shape_AddElement(TQ3ShapeObject theShape, TQ3ElementType theType, const void *theData)
-{	TQ3ShapeData		*instanceData;
-	TQ3Status			qd3dStatus;
-	TQ3SetObject 		theSet;
-
-
-
-	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theShape, kQ3SharedTypeSet))
-		{
-		qd3dStatus = Q3Set_Add((TQ3SetObject) theShape, theType, theData);
-		return(qd3dStatus);
-		}
-
-
-
-	// Otherwise, we must have a shape - so find the instance data
-	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-
-	// If we're adding the set, do so. Otherwise, add the element.
-	if (theType == kQ3ElementTypeSet)
-		qd3dStatus = Q3Shape_SetSet(theShape, *((TQ3SetObject *) theData));
-
-	else {
-		if (instanceData->theSet == NULL) {
-			// There isn't a set. Create a set and add it.
-			theSet = Q3Set_New();
-			qd3dStatus = Q3Shape_SetSet(theShape, theSet);
-
-			if (theSet == NULL || qd3dStatus == kQ3Failure)
-				return kQ3Failure;
-			else
-				Q3Object_Dispose( theSet );
-		}
-		
-		qd3dStatus = Q3Set_Add(instanceData->theSet, theType, theData);
-	}	
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3Shape_GetElement : Get an element from a shape.
-//-----------------------------------------------------------------------------
-//		Note :	Sets and shapes are somewhat interchangeable: so we need to be
-//				able to accept either type of object.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3Shape_GetElement(TQ3ShapeObject theShape, TQ3ElementType theType, void *theData)
-{	TQ3ShapeData		*instanceData;
-	TQ3Status			qd3dStatus;
-
-
-
-	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theShape, kQ3SharedTypeSet))
-		{
-		qd3dStatus = Q3Set_Get((TQ3SetObject) theShape, theType, theData);
-		return(qd3dStatus);
-		}
-
-
-
-	// Otherwise, we must have a shape - so find the instance data
-	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-
-
-	// If we're getting the set, do so. Otherwise, get the element.
-	if (theType == kQ3ElementTypeSet)
-		qd3dStatus = Q3Shape_GetSet(theShape, (TQ3SetObject *) theData);
-	else if (instanceData->theSet == NULL)
-		qd3dStatus = kQ3Failure;
-	else
-		qd3dStatus = Q3Set_Get(instanceData->theSet, theType, (void*)theData);
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3Shape_ContainsElement : Does a shape contain an element?
-//-----------------------------------------------------------------------------
-//		Note :	Sets and shapes are somewhat interchangeable: so we need to be
-//				able to accept either type of object.
-//-----------------------------------------------------------------------------
-TQ3Boolean
-E3Shape_ContainsElement(TQ3ShapeObject theShape, TQ3ElementType theType)
-{	TQ3Boolean			inShape = kQ3False;
-	TQ3ShapeData		*instanceData;
-
-
-
-	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theShape, kQ3SharedTypeSet))
-		{
-		inShape = Q3Set_Contains((TQ3SetObject) theShape, theType);
-		return(inShape);
-		}
-
-
-
-	// Otherwise, we must have a shape - so find the instance data
-	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
-	if (instanceData == NULL)
-		return(kQ3False);
-
-
-
-	// Use the shape's set
-	if (instanceData->theSet != NULL)
-		inShape = Q3Set_Contains(instanceData->theSet, theType);
-
-	return(inShape);
-}
-
-
-
-
-
-//=============================================================================
-//      E3Shape_GetNextElementType : Get the next element type in a shape.
-//-----------------------------------------------------------------------------
-//		Note :	Sets and shapes are somewhat interchangeable: so we need to be
-//				able to accept either type of object.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3Shape_GetNextElementType(TQ3ShapeObject theShape, TQ3ElementType *theType)
-{	TQ3ShapeData		*instanceData;
-	TQ3Status			qd3dStatus;
-
-
-
-	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theShape, kQ3SharedTypeSet))
-		{
-		qd3dStatus = Q3Set_GetNextElementType((TQ3SetObject) theShape, theType);
-		return(qd3dStatus);
-		}
-
-
-
-	// Otherwise, we must have a shape - so find the instance data
-	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-
-
-	// Use the shape's set
-	if (instanceData->theSet == NULL)
-		{
-		*theType = kQ3ElementTypeNone;
-		qd3dStatus = kQ3Success;
-		}
-	else
-		qd3dStatus = Q3Set_GetNextElementType(instanceData->theSet, theType);
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3Shape_EmptyElements : Remove everything from a shape.
-//-----------------------------------------------------------------------------
-//		Note :	Sets and shapes are somewhat interchangeable: so we need to be
-//				able to accept either type of object.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3Shape_EmptyElements(TQ3ShapeObject theShape)
-{	TQ3ShapeData		*instanceData;
-	TQ3Status			qd3dStatus;
-
-
-
-	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theShape, kQ3SharedTypeSet))
-		{
-		qd3dStatus = Q3Set_Empty((TQ3SetObject) theShape);
-		return(qd3dStatus);
-		}
-
-
-
-	// Otherwise, we must have a shape - so find the instance data
-	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-
-
-	// Use the shape's set
-	if (instanceData->theSet == NULL)
-		qd3dStatus = kQ3Success;
-	else
-		qd3dStatus = Q3Set_Empty(instanceData->theSet);
-	
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3Shape_ClearElement : Remove an element from a shape.
-//-----------------------------------------------------------------------------
-//		Note :	Sets and shapes are somewhat interchangeable: so we need to be
-//				able to accept either type of object.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3Shape_ClearElement(TQ3ShapeObject theShape, TQ3ElementType theType)
-{	TQ3ShapeData		*instanceData;
-	TQ3Status			qd3dStatus;
-
-
-
-	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theShape, kQ3SharedTypeSet))
-		{
-		qd3dStatus = Q3Set_Clear((TQ3SetObject) theShape, theType);
-		return(qd3dStatus);
-		}
-
-
-
-	// Otherwise, we must have a shape - so find the instance data
-	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-
-
-	// Use the shape's set
-	if (instanceData->theSet == NULL)
-		qd3dStatus = kQ3Failure;
-	else
-		qd3dStatus = Q3Set_Clear(instanceData->theSet, theType);
-	
-	return(qd3dStatus);
+{
+	return E3Object_AddElement( theShape, kQ3ElementTypeSet, &theSet );
 }
 
 
@@ -1774,13 +1692,13 @@ E3Shape_ClearElement(TQ3ShapeObject theShape, TQ3ElementType theType)
 TQ3Status
 E3Shape_SubmitElements( TQ3ShapeObject inShape, TQ3ViewObject inView )
 {
-	TQ3ShapeData		*instanceData;
+	TQ3ObjectData		*instanceData;
 	TQ3Status			qd3dStatus;
 
 
 
 	// Find the instance data
-	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(inShape, kQ3SharedTypeShape);
+	instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(inShape, kQ3ObjectTypeRoot);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
