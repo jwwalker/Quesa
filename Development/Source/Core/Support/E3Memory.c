@@ -168,7 +168,7 @@ E3Memory_Free_(void **thePtr)
 		Q3_ASSERT_VALID_PTR(realPtr);
 
 
-		// If memory debugging is active, recover the size and scrub the block
+		// If memory debugging is active, rewind past the header and scrub the block
 #if Q3_MEMORY_DEBUG
 		// Back up the pointer and fetch the size
 		realPtr = (void *) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
@@ -225,9 +225,9 @@ E3Memory_Reallocate_(void **thePtr, TQ3Uns32 newSize)
 		Q3_ASSERT_VALID_PTR(realPtr);
 
 
-		// If memory debugging is active, recover the size and scrub the block
+		// If memory debugging is active, adjus for the header
 #if Q3_MEMORY_DEBUG
-		// Back up the pointer and fetch the size
+		// Rewind past the header and fetch the size
 		realPtr = (void *) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
 		theSize = *((TQ3Uns32 *) realPtr);
 
@@ -249,7 +249,7 @@ E3Memory_Reallocate_(void **thePtr, TQ3Uns32 newSize)
 
 
 	// Reallocate the block, and see if it worked
-	newPtr     = realloc(realPtr, newSize + newSize);
+	newPtr     = realloc(realPtr, newSize + padSize);
 	qd3dStatus = (newPtr != NULL || newSize == 0) ? kQ3Success : kQ3Failure;
 
 	if (qd3dStatus != kQ3Success)
