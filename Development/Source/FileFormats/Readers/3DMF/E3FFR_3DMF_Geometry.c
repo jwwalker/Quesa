@@ -180,7 +180,7 @@ e3read_3dmf_apply_element_set( TQ3ShapeObject ioShape, TQ3SetObject ioElements )
 	if (ioElements != NULL)
 	{
 		if (ioShape != NULL)
-			Q3Shape_SetSet( ioShape, ioElements );
+			Q3Object_SetSet( ioShape, ioElements );
 		Q3Object_Dispose( ioElements );
 	}
 }
@@ -2713,7 +2713,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 					Q3Geometry_SetAttributeSet (mesh, childObject);
 				}
 			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet )){
-				Q3Shape_SetSet(mesh, childObject );
+				Q3Object_SetSet(mesh, childObject );
 				}
 			else if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListVertex)){
 				for(i = 0; i< numVertices; i++){
