@@ -253,14 +253,14 @@ e3geom_nurbpatch_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static float
 e3geom_nurbpatch_evaluate_basis( float u, TQ3Uns32 i, TQ3Uns32 k, float *knots )
-{
-	
-	float theResult ;
-	float bottomL, bottomR, fracL, fracR ;
+{	float bottomL, bottomR, fracL, fracR, theResult;
+
 
 	if ( k == 1 ) {
-		if ( u >= knots[i] || u < knots[i+1] ) theResult = 1.0f ;
-		else theResult = 0.0f ;
+		if ( u >= knots[i] && u <= knots[i+1] )
+			theResult = 1.0f ;
+		else
+			theResult = 0.0f ;
 	}
 	
 	else {
@@ -389,8 +389,12 @@ e3geom_nurbpatch_evaluate_uv( float u, float v, const TQ3NURBPatchData * patchDa
 			bottomDv += patchData->controlPoints[patchData->numColumns*jV + iU].w * uBasisValues[iU] * vBasisDerivValues[jV] ;
 	}	}
 	
-	bottom_squared = bottom * bottom ;
 	
+	// Calculate bottom squared
+	Q3_ASSERT(bottom != 0.0f);
+	bottom_squared = bottom * bottom ;
+
+
 	// The point
 	OneOverBottom = 1.0f / bottom ;
 	outPoint->x = xTop * OneOverBottom ;
@@ -1136,6 +1140,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
 		subdivU = subdivisionData.c1;
 		subdivV = subdivisionData.c2;
+
 		switch (subdivisionData.method) {
 			case kQ3SubdivisionMethodScreenSpace:
 				e3geom_nurbpatch_worldscreen_subdiv( &points, &numpoints, &uvs, &normals,
