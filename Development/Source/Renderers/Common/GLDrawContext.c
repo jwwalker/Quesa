@@ -100,6 +100,8 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 	TQ3Pixmap				thePixmap;
 	CGrafPtr				thePort;
 	Rect					theRect;
+	GLint					paneWidth, paneHeight;
+	char*					paneImage;
 
 
 
@@ -166,7 +168,9 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 		drawContextData.pane.max.x = theRect.right;
 		drawContextData.pane.max.y = theRect.bottom;
 		}
-
+	
+	paneWidth = (GLint)(drawContextData.pane.max.x - drawContextData.pane.min.x);
+	paneHeight = (GLint)(drawContextData.pane.max.y - drawContextData.pane.min.y);
 
 
 	// Build up the attributes we need
@@ -204,8 +208,16 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 			aglSetDrawable(glContext, (AGLDrawable) thePort);
 
 		else if (drawContextType == kQ3DrawContextTypePixmap)
-			aglSetOffScreen(glContext, (GLint)thePixmap.width,    (GLint)thePixmap.height,
-									   (GLint)thePixmap.rowBytes, thePixmap.image);
+			{
+			// Make the offscreen context refer to just the part of the pixmap
+			// that is specified by the draw context pane.
+			paneImage = ((char*)thePixmap.image) +
+				((GLint)drawContextData.pane.min.y) * thePixmap.rowBytes +
+				((GLint)drawContextData.pane.min.x) * thePixmap.pixelSize/8;
+
+			aglSetOffScreen( glContext, paneWidth, paneHeight,
+									   (GLint)thePixmap.rowBytes, paneImage );
+			}
 		}
 
 	if (pixelFormat != NULL)
@@ -229,25 +241,21 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 
 
 
-	// Set the viewport and buffer rect
-	glRect[0] = (GLint)drawContextData.pane.min.x;
-	glRect[1] = (GLint)(theRect.bottom             - drawContextData.pane.max.y);
-	glRect[2] = (GLint)(drawContextData.pane.max.x - drawContextData.pane.min.x);
-	glRect[3] = (GLint)(drawContextData.pane.max.y - drawContextData.pane.min.y);
-
-
-	if (drawContextType == kQ3DrawContextTypePixmap)
+	// AGL_BUFFER_RECT has no effect on an offscreen context
+	if (drawContextType != kQ3DrawContextTypePixmap)
 		{
-		// AGL_BUFFER_RECT has no effect on an offscreen context
-		glViewport( glRect[0], glRect[1], glRect[2], glRect[3] );
-		}
-	else
-		{
+		glRect[0] = (GLint) drawContextData.pane.min.x;
+		glRect[1] = (GLint)(theRect.bottom - drawContextData.pane.max.y);
+		glRect[2] = paneWidth;
+		glRect[3] = paneHeight;
+
 		aglSetInteger(glContext, AGL_BUFFER_RECT, glRect);
 		aglEnable(glContext,     AGL_BUFFER_RECT);
-
-		glViewport( 0, 0, glRect[2], glRect[3] );
 		}
+
+
+	// Set the viewport
+	glViewport( 0, 0, paneWidth, paneHeight );
 
 
 	// Tell OpenGL to leave renderers in memory when loaded, to make creating
