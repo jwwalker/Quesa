@@ -71,24 +71,38 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 	memcpy( dst, src, theSize );
 
 	// copy the vertices
-	dst->vertices = E3Memory_Allocate( sizeof(TQ3Vertex3D) * qtyVerts );
+	dst->vertices = E3Memory_AllocateClear( sizeof(TQ3Vertex3D) * qtyVerts );
 	if (dst->vertices == NULL) {
 		dst->numRows = dst->numColumns = 0;
 		return kQ3Failure;
 	}
-	memcpy( dst->vertices, src->vertices, sizeof(TQ3Vertex3D) * qtyVerts );
+	
+	for(i=0; i< qtyVerts; i++){
+		dst->vertices[i].point = src->vertices[i].point;
+		}
 
 	// copy or shared-replace the attributes
 	if (isDuplicate)
 	{
+	
+		for(i=0; i< qtyVerts; i++){
+			if(src->vertices[i].attributeSet != NULL)
+				dst->vertices[i].attributeSet = Q3Object_Duplicate(src->vertices[i].attributeSet);
+			}
+			
 		if (src->facetAttributeSet != NULL)
 		{
 			// facetAttributeSet is actually an array of attribute sets
-			dst->facetAttributeSet = E3Memory_Allocate( sizeof(TQ3AttributeSet) * qtyFacets );
+			dst->facetAttributeSet = E3Memory_AllocateClear( sizeof(TQ3AttributeSet) * qtyFacets );
 			if (dst->facetAttributeSet != NULL) {
 				for (i=0; i<qtyFacets; i++) {
-					dst->facetAttributeSet[i] = Q3Object_Duplicate(src->facetAttributeSet[i]);
-					if (dst->facetAttributeSet[i] == NULL) qd3dStatus = kQ3Failure;
+					if(src->facetAttributeSet[i] != NULL){
+						dst->facetAttributeSet[i] = Q3Object_Duplicate(src->facetAttributeSet[i]);
+						if (dst->facetAttributeSet[i] == NULL){
+							qd3dStatus = kQ3Failure;
+							break;
+							}
+					}
 				}
 			}
 		}
@@ -100,10 +114,15 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 		}
 	}
 	else {
+		for(i=0; i< qtyVerts; i++){
+			if(src->vertices[i].attributeSet != NULL)
+				E3Shared_Replace(&dst->vertices[i].attributeSet, src->vertices[i].attributeSet);
+			}
+			
 		if (src->facetAttributeSet != NULL)
 		{
 			// facetAttributeSet is actually an array of attribute sets
-			dst->facetAttributeSet = E3Memory_Allocate( sizeof(TQ3AttributeSet) * qtyFacets );
+			dst->facetAttributeSet = E3Memory_AllocateClear( sizeof(TQ3AttributeSet) * qtyFacets );
 			if (dst->facetAttributeSet != NULL) {
 				for (i=0; i<qtyFacets; i++) {
 					E3Shared_Replace(&dst->facetAttributeSet[i], src->facetAttributeSet[i]);
@@ -288,14 +307,14 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 				vnum = (row * geomData->numColumns) + col;
 				e3geom_trigrid_addtriangle( theGroup, geomData, 
 					vnum,
-					vnum + geomData->numColumns,
 					vnum + 1 + ((col & 1) ? geomData->numColumns : 0),
+					vnum + geomData->numColumns,
 					tnum );
 				tnum++;
 				e3geom_trigrid_addtriangle( theGroup, geomData, 
 					vnum + ((col & 1) ? 0 : geomData->numColumns),
-					vnum + geomData->numColumns + 1,
 					vnum + 1,
+					vnum + geomData->numColumns + 1,
 					tnum );
 				tnum++;
 			}
@@ -328,12 +347,12 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		for (col=0; col < geomData->numColumns-1; col++) {
 			vnum = (row * geomData->numColumns) + col;
 			triangles[tnum].pointIndices[0] = vnum;
-			triangles[tnum].pointIndices[1] = vnum + geomData->numColumns;
-			triangles[tnum].pointIndices[2] = vnum + 1 + ((col & 1) ? geomData->numColumns : 0);
+			triangles[tnum].pointIndices[1] = vnum + 1 + ((col & 1) ? geomData->numColumns : 0);
+			triangles[tnum].pointIndices[2] = vnum + geomData->numColumns;
 			tnum++;
 			triangles[tnum].pointIndices[0] = vnum + ((col & 1) ? 0 : geomData->numColumns);
-			triangles[tnum].pointIndices[1] = vnum + geomData->numColumns + 1;
-			triangles[tnum].pointIndices[2] = vnum + 1;
+			triangles[tnum].pointIndices[1] = vnum + 1;
+			triangles[tnum].pointIndices[2] = vnum + geomData->numColumns + 1;
 			tnum++;
 		}
 	}
@@ -596,6 +615,7 @@ E3TriGrid_GetData(TQ3GeometryObject trigrid, TQ3TriGridData *trigridData)
 	qd3dStatus = e3geom_trigrid_copydata(instanceData, trigridData, kQ3False);
 
 	return(qd3dStatus);
+
 }
 
 
