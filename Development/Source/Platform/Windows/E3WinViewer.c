@@ -44,7 +44,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
-#include "E3Viewer.h"
+#include "../../Core/Viewer/E3Viewer.h"
 #include "E3WinViewer.h"
 #include <commctrl.h>
 

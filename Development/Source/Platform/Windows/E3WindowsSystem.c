@@ -43,10 +43,12 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+typedef struct E3WindowsSystem_DLLSlot *E3WindowsSystem_DLLSlotPtr;
+
 typedef struct E3WindowsSystem_DLLSlot {
 	HMODULE						Dll;
 	E3WindowsSystem_DLLSlotPtr	nextSlot;
-} E3WindowsSystem_DLLSlot, *E3WindowsSystem_DLLSlotPtr;
+} E3WindowsSystem_DLLSlot;
 
 
 
