@@ -186,7 +186,7 @@ typedef enum {
  *  @constant kQ3AntiAliasModeMaskEdges         Apply anti-aliasing to wireframe objects.
  *  @constant kQ3AntiAliasModeMaskFilled        Apply anti-aliasing to filled objects.
  *  @constant kQ3AntiAliasModeMaskFullScreen    Apply global anti-aliasing (e.g., FSAA).
- *                                              Not supported by QD3D.
+ *                                              <em>This feature is not available in QD3D.</em>
  */
 typedef enum {
     kQ3AntiAliasModeMaskEdges                   = (1 << 0),

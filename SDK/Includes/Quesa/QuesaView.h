@@ -718,7 +718,7 @@ Q3View_AllowAllGroupCulling (
  *
  *      May only be called within a view submitting loop.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theView          The view currently being submitted to.
  *  @param localPoint       The point to transform, in local coordinates.
@@ -746,7 +746,7 @@ Q3View_TransformLocalToWorld (
  *
  *      May only be called within a view submitting loop.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theView          The view currently being submitted to.
  *  @param localPoint       The point to transform, in local coordinates.
@@ -774,7 +774,7 @@ Q3View_TransformLocalToWindow (
  *
  *      May only be called within a view submitting loop.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theView          The view currently being submitted to.
  *  @param worldPoint       The point to transform, in world coordinates.
@@ -1115,7 +1115,7 @@ Q3View_GetAntiAliasStyleState (
  *  @discussion
  *      Get the fog style associated with a view.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theView          The view to query.
  *  @param fogData          Receives the current fog style for the viwe.

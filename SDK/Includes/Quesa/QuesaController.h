@@ -1,7 +1,8 @@
 /*! @header QuesaController.h
         Declares the Quesa controller interface.
         
-        This interface has not been implemented.
+        This interface is available in Quesa, but has not been implemented due
+        to lack of available pointing device hardware.
  */
 /*  NAME:
         QuesaController.h
@@ -79,13 +80,42 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Channel methods
+/*!
+ *  @typedef
+ *      TQ3ChannelGetMethod
+ *  @discussion
+ *      Channel get method callback.
+ *
+ *      At most kQ3ControllerSetChannelMaxDataSize bytes of data can be returned.
+ *
+ *  @param controllerRef    The controller the callback is invoked for.
+ *  @param channel          An index into the list of channels, from 0.
+ *  @param data             Receives the data for the channel.
+ *  @param dataSize         Will be set to the number of bytes pointed to by data,
+ *                          and should receive the number of bytes written to data.
+ *  @result                 Success or failure of the operation.
+ */
 typedef CALLBACK_API_C(TQ3Status,           TQ3ChannelGetMethod)(
                             TQ3ControllerRef    controllerRef,
                             TQ3Uns32            channel,
                             void                *data,
                             TQ3Uns32            *dataSize);
 
+
+/*!
+ *  @typedef
+ *      TQ3ChannelSetMethod
+ *  @discussion
+ *      Channel set method callback.
+ *
+ *      At most kQ3ControllerSetChannelMaxDataSize bytes of data will be supplied.
+ *
+ *  @param controllerRef    The controller the callback is invoked for.
+ *  @param channel          An index into the list of channels, from 0.
+ *  @param data             The new data for the channel.
+ *  @param dataSize         The number of bytes pointed to by data.
+ *  @result                 Success or failure of the operation.
+ */
 typedef CALLBACK_API_C(TQ3Status,           TQ3ChannelSetMethod)(
                             TQ3ControllerRef    controllerRef,
                             TQ3Uns32            channel,
@@ -93,7 +123,46 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3ChannelSetMethod)(
                             TQ3Uns32            dataSize);
 
 
-// Controller data
+/*!
+ *  @typedef
+ *      TQ3TrackerNotifyFunc
+ *  @discussion
+ *      Tracker notification callback.
+ *
+ *  @param trackerObject    The tracker the callback is invoked for.
+ *  @param controllerRef    The controller associated with the tracker.
+ *  @result                 Success or failure of the operation.
+ */
+typedef CALLBACK_API_C(TQ3Status,           TQ3TrackerNotifyFunc)(
+                            TQ3TrackerObject    trackerObject,
+                            TQ3ControllerRef    controllerRef);
+
+/*!
+ *  @typedef
+ *      TQ3CursorTrackerNotifyFunc
+ *  @discussion
+ *      Cursor tracker notification callback.
+ */
+typedef CALLBACK_API_C(void, TQ3CursorTrackerNotifyFunc)(void);
+
+
+/*!
+ *  @struct
+ *      TQ3ControllerData
+ *  @discussion
+ *      State used to create new controller objects.
+ *
+ *  @field signature        A C string which uniquely identifies the manufacturer
+ *                          and model of the controller.
+ *  @field valueCount       The number of values supported by the controller.
+ *  @field channelCount     The number of channels supported by the controller.
+ *  @field channelGetMethod The channel-getting method for the controller. This
+ *                          field is only valid if channelCount is non-zero, and
+ *                          may be NULL if the controller can not support this.
+ *  @field channelSetMethod The channel-setting method for the controller. This
+ *                          field is only valid if channelCount is non-zero, and
+ *                          may be NULL if the controller can not support this.
+ */
 typedef struct TQ3ControllerData {
     char                                        *signature;
     TQ3Uns32                                    valueCount;
@@ -101,15 +170,6 @@ typedef struct TQ3ControllerData {
     TQ3ChannelGetMethod                         channelGetMethod;
     TQ3ChannelSetMethod                         channelSetMethod;
 } TQ3ControllerData;
-
-
-// Tracker callbacks
-typedef CALLBACK_API_C(TQ3Status,           TQ3TrackerNotifyFunc)(
-                            TQ3TrackerObject    trackerObject,
-                            TQ3ControllerRef    controllerRef);
-
-typedef CALLBACK_API_C(void,                TQ3CursorTrackerNotifyFunc)(
-                            void);
 
 
 
@@ -122,14 +182,21 @@ typedef CALLBACK_API_C(void,                TQ3CursorTrackerNotifyFunc)(
  *  @function
  *      Q3Controller_GetListChanged
  *  @discussion
- *      One-line description of this function.
+ *      Determine if the list of available controllers has changed.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the controller list has changed since the time at which the value
+ *      of serialNumber was generated, listChanged will be set to true and a
+ *      new serial number will be returned in serialNumber.
  *
- *  @param listChanged      Description of the parameter.
- *  @param serialNumber     Description of the parameter.
- *  @result                 Description of the function result.
+ *      When calling for the first time, serialNumber should be 0.
+ *
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param listChanged      Receives true or false as the list has changed.
+ *  @param serialNumber     Receives the current serial number, and should be
+ *                          initialised to the previously returned value on
+ *                          successive calls.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetListChanged (
@@ -143,14 +210,17 @@ Q3Controller_GetListChanged (
  *  @function
  *      Q3Controller_Next
  *  @discussion
- *      One-line description of this function.
+ *      Iterate through the list of available controllers.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      To retrieve the first controller in the list, set controllerRef to NULL.
+ *      After retrieving the last controller in the list, nextControllerRef will
+ *      be set to NULL.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param nextControllerRef Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef        The current controller, or NULL.
+ *  @param nextControllerRef    Receives the next controller in the list, or NULL.
+ *  @result                     Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_Next (
@@ -164,13 +234,15 @@ Q3Controller_Next (
  *  @function
  *      Q3Controller_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new controller object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The new controller object will be active, and bound to the system cursor's
+ *      tracker. Its serial number will be initialised to 1.
  *
- *  @param controllerData   Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerData   A description of the controller to create.
+ *  @result                 The new controller object, or NULL.
  */
 EXTERN_API_C ( TQ3ControllerRef  )
 Q3Controller_New (
@@ -183,13 +255,15 @@ Q3Controller_New (
  *  @function
  *      Q3Controller_Decommission
  *  @discussion
- *      One-line description of this function.
+ *      Make a controller object inactive.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Any remaining references to the controller object will remain valid, however
+ *      the controller will no longer be operational.
  *
- *  @param controllerRef    Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to deactivate.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_Decommission (
@@ -202,14 +276,19 @@ Q3Controller_Decommission (
  *  @function
  *      Q3Controller_SetActivation
  *  @discussion
- *      One-line description of this function.
+ *      Set the activation state of a controller.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Adjusting the activation state make invoke the notify function of the tracker
+ *      associated with the controller, and will increment the serial number of the
+ *      list of available controllers.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param active           Description of the parameter.
- *  @result                 Description of the function result.
+ *      A controller should be inactive if it is temporarily unavailable.
+ *
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to adjust.
+ *  @param active           The new activatione state for the controller.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetActivation (
@@ -223,14 +302,13 @@ Q3Controller_SetActivation (
  *  @function
  *      Q3Controller_GetActivation
  *  @discussion
- *      One-line description of this function.
+ *      Get the activation state of a controller.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
- *  @param active           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerRef    The controller to query.
+ *  @param active           Receives the current activation state of the controller.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetActivation (
@@ -244,15 +322,18 @@ Q3Controller_GetActivation (
  *  @function
  *      Q3Controller_GetSignature
  *  @discussion
- *      One-line description of this function.
+ *      Get the signature of a controller.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      At most numChars characters will be written to signature (including the
+ *      NULL byte - signature will always be set to a valid C string). If there
+ *      is not enough space to return the entire signature, it will be truncated.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param signature        Description of the parameter.
- *  @param numChars         Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to query.
+ *  @param signature        Receives the controller signature as a C string.
+ *  @param numChars         The number of bytes which may be written to signature.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetSignature (
@@ -267,16 +348,16 @@ Q3Controller_GetSignature (
  *  @function
  *      Q3Controller_SetChannel
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a controller channel.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
- *  @param channel          Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param dataSize         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerRef    The controller to update.
+ *  @param channel          An index into the list of channels, from 0.
+ *  @param data             A pointer to the data for the channel. Pass NULL
+ *                          to reset the channel to a default or inactive value.
+ *  @param dataSize         The number of bytes pointed to by data.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetChannel (
@@ -292,16 +373,17 @@ Q3Controller_SetChannel (
  *  @function
  *      Q3Controller_GetChannel
  *  @discussion
- *      One-line description of this function.
+ *      Get the data for a controller channel.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
- *  @param channel          Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param dataSize         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerRef    The controller to query.
+ *  @param channel          An index into the list of channels, from 0.
+ *  @param data             Receives the data for the channel.
+ *  @param dataSize         Initialise to the number of bytes pointed to by
+ *                          data, and will receive the number of bytes written
+ *                          to data by the controller.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetChannel (
@@ -317,14 +399,13 @@ Q3Controller_GetChannel (
  *  @function
  *      Q3Controller_GetValueCount
  *  @discussion
- *      One-line description of this function.
+ *      Get the number of values of a controller.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
- *  @param valueCount       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerRef    The controller to query.
+ *  @param valueCount       Receives the number of values of the controller.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetValueCount (
@@ -338,14 +419,17 @@ Q3Controller_GetValueCount (
  *  @function
  *      Q3Controller_SetTracker
  *  @discussion
- *      One-line description of this function.
+ *      Set the tracker associated with a controller.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the tracker is NULL, the controller is attached to the system cursor
+ *      tracker. Both the previous and new tracker's notify functions make be
+ *      called.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param tracker          Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to update.
+ *  @param tracker          The tracker to associate with the controller.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetTracker (
@@ -359,14 +443,14 @@ Q3Controller_SetTracker (
  *  @function
  *      Q3Controller_HasTracker
  *  @discussion
- *      One-line description of this function.
+ *      Determine if a controller is associated with a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
- *  @param hasTracker       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerRef    The controller to query.
+ *  @param hasTracker       Receives true or false as the controller is associated
+ *                          with a tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_HasTracker (
@@ -380,14 +464,17 @@ Q3Controller_HasTracker (
  *  @function
  *      Q3Controller_Track2DCursor
  *  @discussion
- *      One-line description of this function.
+ *      Determine if a controller is affecting the 2D system cursor.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the controller is inactive or not attached to the system cursor
+ *      tracker, track2DCursor will be set to false.
+ *
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
  *  @param controllerRef    Description of the parameter.
- *  @param track2DCursor    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param track2DCursor    Receives true or false as the controller is affecting
+ *                          the 2D system cursor.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_Track2DCursor (
@@ -401,14 +488,18 @@ Q3Controller_Track2DCursor (
  *  @function
  *      Q3Controller_Track3DCursor
  *  @discussion
- *      One-line description of this function.
+ *      Determine if a controller is affecting the 3D system cursor.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the controller is inactive or not attached to the system cursor
+ *      tracker, track2DCursor will be set to false.
+ *
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
  *  @param controllerRef    Description of the parameter.
- *  @param track3DCursor    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param tracksDCursor    Receives true or false as the controller is affecting
+ *                          both the 2D system cursor and the z-axis values/orientation
+ *                          of the system cursor.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_Track3DCursor (
@@ -422,14 +513,13 @@ Q3Controller_Track3DCursor (
  *  @function
  *      Q3Controller_GetButtons
  *  @discussion
- *      One-line description of this function.
+ *      Get the button state of a controller.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
- *  @param buttons          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerRef    The controller to query.
+ *  @param buttons          Receives the button state of the controller.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetButtons (
@@ -443,14 +533,17 @@ Q3Controller_GetButtons (
  *  @function
  *      Q3Controller_SetButtons
  *  @discussion
- *      One-line description of this function.
+ *      Set the button state of a controller.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the controller is inactive, this call has no effect. Changing the state may
+ *      cause the notify function of any tracker associated with the controller to be
+ *      invoked.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param buttons          Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to update.
+ *  @param buttons          The new button state for the controller.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetButtons (
@@ -464,14 +557,16 @@ Q3Controller_SetButtons (
  *  @function
  *      Q3Controller_GetTrackerPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of a controller's tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If no tracker is asssociated with the controller, position will be
+ *      set to the position of the system cursor tracker.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to query.
+ *  @param position         The current position of the tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetTrackerPosition (
@@ -485,14 +580,16 @@ Q3Controller_GetTrackerPosition (
  *  @function
  *      Q3Controller_SetTrackerPosition
  *  @discussion
- *      One-line description of this function.
+ *      Set the position of a controller's tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If no tracker is asssociated with the controller, the position of the
+ *      system cursor tracker will be set.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to update.
+ *  @param position         The new position for the tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetTrackerPosition (
@@ -506,14 +603,17 @@ Q3Controller_SetTrackerPosition (
  *  @function
  *      Q3Controller_MoveTrackerPosition
  *  @discussion
- *      One-line description of this function.
+ *      Move the position of a controller's tracker by a delta.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If no tracker is associated with the controller, the delta will be
+ *      added to the position of the system cursor tracker. Will have no
+ *      effect if controllerRef is an inactive controller.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param delta            Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to update.
+ *  @param delta            The delta to be added to the tracker position.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_MoveTrackerPosition (
@@ -527,14 +627,16 @@ Q3Controller_MoveTrackerPosition (
  *  @function
  *      Q3Controller_GetTrackerOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Get the current orientation of a controller's tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If no tracker is associated with the controller, the orientation of the
+ *      system cursor tracker will be returned.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to query.
+ *  @param orientation      Receives the current orientation of the tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetTrackerOrientation (
@@ -548,14 +650,16 @@ Q3Controller_GetTrackerOrientation (
  *  @function
  *      Q3Controller_SetTrackerOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Set the orientation of a controller's tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If no tracker is associated with the controller, the orientation of the
+ *      system cursor tracker will be updated.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to update.
+ *  @param orientation      The new orientation for the tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetTrackerOrientation (
@@ -569,14 +673,17 @@ Q3Controller_SetTrackerOrientation (
  *  @function
  *      Q3Controller_MoveTrackerOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Move the orientation of a controller's tracker by a delta.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If no tracker is associated with the controller, the delta will be
+ *      added to the orientation of the system cursor tracker. Will have no
+ *      effect if controllerRef is an inactive controller.
  *
- *  @param controllerRef    Description of the parameter.
- *  @param delta            Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param controllerRef    The controller to update.
+ *  @param orientation      The delta to be added to the tracker orientation.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_MoveTrackerOrientation (
@@ -590,17 +697,16 @@ Q3Controller_MoveTrackerOrientation (
  *  @function
  *      Q3Controller_GetValues
  *  @discussion
- *      One-line description of this function.
+ *      Get the list of values of a controller.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
- *  @param valueCount       Description of the parameter.
- *  @param values           Description of the parameter.
- *  @param changed          Description of the parameter.
- *  @param serialNumber     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerRef    The controller to query.
+ *  @param valueCount       The number of elements in the values array.
+ *  @param values           A pointer to an array of values to update.
+ *  @param changed          Receives true or false as the array of values was changed.
+ *  @param serialNumber     A controller serial number, or NULL.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetValues (
@@ -617,15 +723,14 @@ Q3Controller_GetValues (
  *  @function
  *      Q3Controller_SetValues
  *  @discussion
- *      One-line description of this function.
+ *      Set the list of values of a controller.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
- *  @param values           Description of the parameter.
- *  @param valueCount       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerRef    The controller to update.
+ *  @param values           A pointer to an array of new values.
+ *  @param valueCount       The number of elements in the values array.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetValues (
@@ -640,13 +745,12 @@ Q3Controller_SetValues (
  *  @function
  *      Q3ControllerState_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new controller state object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerRef    The controller to query.
+ *  @result                 A new controller state object.
  */
 EXTERN_API_C ( TQ3ControllerStateObject  )
 Q3ControllerState_New (
@@ -659,13 +763,12 @@ Q3ControllerState_New (
  *  @function
  *      Q3ControllerState_SaveAndReset
  *  @discussion
- *      One-line description of this function.
+ *      Save the current state of the controller associated with controllerStateObject.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerStateObject Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerStateObject    The controller state object to save.
+ *  @result                         Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ControllerState_SaveAndReset (
@@ -678,13 +781,12 @@ Q3ControllerState_SaveAndReset (
  *  @function
  *      Q3ControllerState_Restore
  *  @discussion
- *      One-line description of this function.
+ *      Restore the state of the controller associated with controllerStateObject.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerStateObject Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param controllerStateObject    The controller state object to restore.
+ *  @result                         Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ControllerState_Restore (
@@ -697,13 +799,15 @@ Q3ControllerState_Restore (
  *  @function
  *      Q3Tracker_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new tracker object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The new tracker is activate, and has its orientation threshold set to 0.
+ *      If no notify callback is required, notifyFunc may be set to NULL.
  *
- *  @param notifyFunc       Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param notifyFunc       The notification callback for the tracker, or NULL.
+ *  @result                 The new tracker object.
  */
 EXTERN_API_C ( TQ3TrackerObject  )
 Q3Tracker_New (
@@ -716,15 +820,14 @@ Q3Tracker_New (
  *  @function
  *      Q3Tracker_SetNotifyThresholds
  *  @discussion
- *      One-line description of this function.
+ *      Set the notify thresholds of a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param trackerObject    Description of the parameter.
- *  @param positionThresh   Description of the parameter.
- *  @param orientationThresh Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param trackerObject        The tracker to update.
+ *  @param positionThresh       The new position threshold.
+ *  @param orientationThresh    The new orientation threshold.
+ *  @result                     Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetNotifyThresholds (
@@ -739,15 +842,14 @@ Q3Tracker_SetNotifyThresholds (
  *  @function
  *      Q3Tracker_GetNotifyThresholds
  *  @discussion
- *      One-line description of this function.
+ *      Get the notify thresholds of a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param trackerObject    Description of the parameter.
- *  @param positionThresh   Description of the parameter.
- *  @param orientationThresh Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param trackerObject        The tracker to query.
+ *  @param positionThresh       Receives the position threshold of the tracker.
+ *  @param orientationThresh    Receives the orientation threshold of the tracker.
+ *  @result                     Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetNotifyThresholds (
@@ -762,14 +864,13 @@ Q3Tracker_GetNotifyThresholds (
  *  @function
  *      Q3Tracker_SetActivation
  *  @discussion
- *      One-line description of this function.
+ *      Set the activation status of a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param trackerObject    Description of the parameter.
- *  @param active           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param trackerObject    The tracker to update.
+ *  @param active           The new activation status of the tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetActivation (
@@ -783,14 +884,13 @@ Q3Tracker_SetActivation (
  *  @function
  *      Q3Tracker_GetActivation
  *  @discussion
- *      One-line description of this function.
+ *      Get the activation status of a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param trackerObject    Description of the parameter.
- *  @param active           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param trackerObject    The tracker to query.
+ *  @param active           Receives the activation status of the tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetActivation (
@@ -804,14 +904,13 @@ Q3Tracker_GetActivation (
  *  @function
  *      Q3Tracker_GetButtons
  *  @discussion
- *      One-line description of this function.
+ *      Get the button state of a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param trackerObject    Description of the parameter.
- *  @param buttons          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param trackerObject    The tracker to query.
+ *  @param buttons          Receives the button state of the tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetButtons (
@@ -825,16 +924,15 @@ Q3Tracker_GetButtons (
  *  @function
  *      Q3Tracker_ChangeButtons
  *  @discussion
- *      One-line description of this function.
+ *      Change the button state of a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param trackerObject    Description of the parameter.
- *  @param controllerRef    Description of the parameter.
- *  @param buttons          Description of the parameter.
- *  @param buttonMask       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param trackerObject    The tracker to update.
+ *  @param controllerRef    The controller associated with the tracker.
+ *  @param buttons          The new button state for the tracker.
+ *  @param buttonMask       Mask indicating which bits in buttons to apply.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_ChangeButtons (
@@ -850,17 +948,21 @@ Q3Tracker_ChangeButtons (
  *  @function
  *      Q3Tracker_GetPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If serialNumber is not NULL, changed will only be set to true if a
+ *      change has occurred since the specified serial number was generated.
  *
- *  @param trackerObject    Description of the parameter.
- *  @param position         Description of the parameter.
- *  @param delta            Description of the parameter.
- *  @param changed          Description of the parameter.
- *  @param serialNumber     Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param trackerObject    The tracker to query.
+ *  @param position         Receives the current position of the tracker.
+ *  @param delta            If non-NULL, receives the change in position since
+ *                          the previous call to Q3Tracker_GetPosition.
+ *  @param changed          Receives true or false as either position or delta
+ *                          have been updated.
+ *  @param serialNumber     If non-NULL, receives the current serial number.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetPosition (
@@ -877,15 +979,16 @@ Q3Tracker_GetPosition (
  *  @function
  *      Q3Tracker_SetPosition
  *  @discussion
- *      One-line description of this function.
+ *      Set the position of a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Has no effect if the tracker is inactive.
  *
- *  @param trackerObject    Description of the parameter.
- *  @param controllerRef    Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param trackerObject    The tracker to update.
+ *  @param controllerRef    The controller associated with the tracker.
+ *  @param position         The new position for the tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetPosition (
@@ -900,15 +1003,16 @@ Q3Tracker_SetPosition (
  *  @function
  *      Q3Tracker_MovePosition
  *  @discussion
- *      One-line description of this function.
+ *      Move the position of a tracker by a delta.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Has no effect if the tracker is inactive.
  *
- *  @param trackerObject    Description of the parameter.
- *  @param controllerRef    Description of the parameter.
- *  @param delta            Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param trackerObject    The tracker to update.
+ *  @param controllerRef    The controller associated with the tracker.
+ *  @param delta            The delta to be added to the tracker position.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_MovePosition (
@@ -923,17 +1027,21 @@ Q3Tracker_MovePosition (
  *  @function
  *      Q3Tracker_GetOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Get the orientation of a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If serialNumber is not NULL, changed will only be set to true if a
+ *      change has occurred since the specified serial number was generated.
  *
- *  @param trackerObject    Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @param delta            Description of the parameter.
- *  @param changed          Description of the parameter.
- *  @param serialNumber     Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param trackerObject    The tracker to query.
+ *  @param orientation      Receives the current orientation of the tracker.
+ *  @param delta            If non-NULL, receives the change in orientation since
+ *                          the previous call to Q3Tracker_GetOrientation.
+ *  @param changed          Receives true or false as either orientation or delta
+ *                          have been updated.
+ *  @param serialNumber     If non-NULL, receives the current serial number.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetOrientation (
@@ -951,14 +1059,16 @@ Q3Tracker_GetOrientation (
  *      Q3Tracker_SetOrientation
  *  @discussion
  *      One-line description of this function.
+ *      Set the orientation of a tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Has no effect if the tracker is inactive.
  *
- *  @param trackerObject    Description of the parameter.
- *  @param controllerRef    Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param trackerObject    The tracker to update.
+ *  @param controllerRef    The controller associated with the tracker.
+ *  @param orientation      The new orientation for the tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetOrientation (
@@ -973,15 +1083,16 @@ Q3Tracker_SetOrientation (
  *  @function
  *      Q3Tracker_MoveOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Move the orientation of a tracker by a delta.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Has no effect if the tracker is inactive.
  *
- *  @param trackerObject    Description of the parameter.
- *  @param controllerRef    Description of the parameter.
- *  @param delta            Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param trackerObject    The tracker to update.
+ *  @param controllerRef    The controller associated with the tracker.
+ *  @param delta            The delta to be added to the tracker orientation.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_MoveOrientation (
@@ -996,17 +1107,18 @@ Q3Tracker_MoveOrientation (
  *  @function
  *      Q3Tracker_SetEventCoordinates
  *  @discussion
- *      One-line description of this function.
+ *      Set the coordinates of a tracker at a specified time.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Time units are unknown.
  *
- *  @param trackerObject    Description of the parameter.
- *  @param timeStamp        Description of the parameter.
- *  @param buttons          Description of the parameter.
- *  @param position         Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param trackerObject    The tracker to update.
+ *  @param timeStamp        The time stamp.
+ *  @param buttons          The button state of the tracker.
+ *  @param position         The position state of the tracker, or NULL.
+ *  @param orientation      The orientation state of the tracker, or NULL.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetEventCoordinates (
@@ -1023,17 +1135,18 @@ Q3Tracker_SetEventCoordinates (
  *  @function
  *      Q3Tracker_GetEventCoordinates
  *  @discussion
- *      One-line description of this function.
+ *      Get the coordinates of a tracker at a specified time.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Time units are unknown.
  *
- *  @param trackerObject    Description of the parameter.
- *  @param timeStamp        Description of the parameter.
- *  @param buttons          Description of the parameter.
- *  @param position         Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param trackerObject    The tracker to query.
+ *  @param timeStamp        The time stamp.
+ *  @param buttons          If non-NULL, receives the button state of the tracker.
+ *  @param position         If non-NULL, receives the position of the tracker.
+ *  @param orientation      If non-NULL, receives the orientation of the tracker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetEventCoordinates (
@@ -1050,12 +1163,14 @@ Q3Tracker_GetEventCoordinates (
  *  @function
  *      Q3CursorTracker_PrepareTracking
  *  @discussion
- *      One-line description of this function.
+ *      Prepare the cursor tracker for tracking.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note - no QD3D documentation could be found for this routine. The
+ *      purpose of the function, and its parameters/result, have been assumed.
  *
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_PrepareTracking (
@@ -1068,13 +1183,16 @@ Q3CursorTracker_PrepareTracking (
  *  @function
  *      Q3CursorTracker_SetTrackDeltas
  *  @discussion
- *      One-line description of this function.
+ *      Set if the cursor tracker should tracker deltas or not.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note - no QD3D documentation could be found for this routine. The
+ *      purpose of the function, and its parameters/result, have been assumed.
  *
- *  @param trackDeltas      Description of the parameter.
- *  @result                 Description of the function result.
+ *
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param trackDeltas      True or false as the cursor tracker should track deltas.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_SetTrackDeltas (
@@ -1087,17 +1205,20 @@ Q3CursorTracker_SetTrackDeltas (
  *  @function
  *      Q3CursorTracker_GetAndClearDeltas
  *  @discussion
- *      One-line description of this function.
+ *      Get and clear the deltas for the cursor tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note - no QD3D documentation could be found for this routine. The
+ *      purpose of the function, and its parameters/result, have been assumed.
  *
- *  @param depth            Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @param hasOrientation   Description of the parameter.
- *  @param changed          Description of the parameter.
- *  @param serialNumber     Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param depth            Receives the z-coordinate of the cursor tracker.
+ *  @param orientation      Receives the orientation of the cursor tracker.
+ *  @param hasOrientation   Receives true or false as the orientation result is valid.
+ *  @param changed          Receives true or false as the depth or orientation parameters
+ *                          were updated.
+ *  @param serialNumber     Receives the current serial number.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_GetAndClearDeltas (
@@ -1114,13 +1235,15 @@ Q3CursorTracker_GetAndClearDeltas (
  *  @function
  *      Q3CursorTracker_SetNotifyFunc
  *  @discussion
- *      One-line description of this function.
+ *      Set the notification routine for the cursor tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note - no QD3D documentation could be found for this routine. The
+ *      purpose of the function, and its parameters/result, have been assumed.
  *
- *  @param notifyFunc       Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param notifyFunc       The notification routine.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_SetNotifyFunc (
@@ -1133,13 +1256,15 @@ Q3CursorTracker_SetNotifyFunc (
  *  @function
  *      Q3CursorTracker_GetNotifyFunc
  *  @discussion
- *      One-line description of this function.
+ *      Get the notification routine for the cursor tracker.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note - no QD3D documentation could be found for this routine. The
+ *      purpose of the function, and its parameters/result, have been assumed.
  *
- *  @param notifyFunc       Description of the parameter.
- *  @result                 Description of the function result.
+ *      <em>This function is available, but not implemented, in Quesa.</em>
+ *
+ *  @param notifyFunc       Receives the notification routine.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_GetNotifyFunc (

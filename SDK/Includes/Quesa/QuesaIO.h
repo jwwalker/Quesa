@@ -2439,7 +2439,12 @@ Q3ViewHints_GetClearImageColor (
  *  @function
  *      Q3File_GetFileFormat  
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
@@ -2459,7 +2464,12 @@ Q3File_GetFileFormat (
  *  @function
  *      Q3FileFormat_NewFromType
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param fformatObjectType Description of the parameter.
  *  @result                 Description of the function result.
@@ -2479,7 +2489,12 @@ Q3FileFormat_NewFromType (
  *  @function
  *      Q3FileFormat_GetType
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @result                 Description of the function result.
@@ -2499,7 +2514,12 @@ Q3FileFormat_GetType (
  *  @function
  *      Q3FileFormat_HasModalConfigure
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @result                 Description of the function result.
@@ -2519,7 +2539,12 @@ Q3FileFormat_HasModalConfigure (
  *  @function
  *      Q3FileFormat_ModalConfigure
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param dialogAnchor     Description of the parameter.
@@ -2543,7 +2568,12 @@ Q3FileFormat_ModalConfigure (
  *  @function
  *      Q3FileFormatClass_GetFormatNameString
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param formatClassType  Description of the parameter.
  *  @param formatClassString Description of the parameter.
@@ -2565,7 +2595,12 @@ Q3FileFormatClass_GetFormatNameString (
  *  @function
  *      Q3FileFormat_GetConfigurationData
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param dataBuffer       Description of the parameter.
@@ -2591,7 +2626,12 @@ Q3FileFormat_GetConfigurationData (
  *  @function
  *      Q3FileFormat_SetConfigurationData
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param dataBuffer       Description of the parameter.
@@ -2620,7 +2660,12 @@ Q3FileFormat_SetConfigurationData (
  *  @function
  *      Q3FileFormat_GenericReadBinary_8
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2642,7 +2687,12 @@ Q3FileFormat_GenericReadBinary_8 (
  *  @function
  *      Q3FileFormat_GenericReadBinary_16
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2664,7 +2714,12 @@ Q3FileFormat_GenericReadBinary_16 (
  *  @function
  *      Q3FileFormat_GenericReadBinary_32
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2686,7 +2741,12 @@ Q3FileFormat_GenericReadBinary_32 (
  *  @function
  *      Q3FileFormat_GenericReadBinary_64
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2708,7 +2768,12 @@ Q3FileFormat_GenericReadBinary_64 (
  *  @function
  *      Q3FileFormat_GenericReadBinary_String
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2732,7 +2797,12 @@ Q3FileFormat_GenericReadBinary_String (
  *  @function
  *      Q3FileFormat_GenericReadBinary_Raw
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2761,7 +2831,12 @@ Q3FileFormat_GenericReadBinary_Raw (
  *  @function
  *      Q3FileFormat_GenericReadBinSwap_16
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2783,7 +2858,12 @@ Q3FileFormat_GenericReadBinSwap_16 (
  *  @function
  *      Q3FileFormat_GenericReadBinSwap_32
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2805,7 +2885,12 @@ Q3FileFormat_GenericReadBinSwap_32 (
  *  @function
  *      Q3FileFormat_GenericReadBinSwap_64
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2832,7 +2917,12 @@ Q3FileFormat_GenericReadBinSwap_64 (
  *  @function
  *      Q3FileFormat_GenericReadText_SkipBlanks
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @result                 Description of the function result.
@@ -2852,7 +2942,12 @@ Q3FileFormat_GenericReadText_SkipBlanks (
  *  @function
  *      Q3FileFormat_GenericReadText_ReadUntilChars
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param buffer           Description of the parameter.
@@ -2891,7 +2986,12 @@ Q3FileFormat_GenericReadText_ReadUntilChars (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_8
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2913,7 +3013,12 @@ Q3FileFormat_GenericWriteBinary_8 (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_16
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2935,7 +3040,12 @@ Q3FileFormat_GenericWriteBinary_16 (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_32
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2957,7 +3067,12 @@ Q3FileFormat_GenericWriteBinary_32 (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_64
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -2979,7 +3094,12 @@ Q3FileFormat_GenericWriteBinary_64 (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_String
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -3003,7 +3123,12 @@ Q3FileFormat_GenericWriteBinary_String (
  *  @function
  *      Q3FileFormat_GenericWriteBinary_Raw 
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -3032,7 +3157,12 @@ Q3FileFormat_GenericWriteBinary_Raw (
  *  @function
  *      Q3FileFormat_GenericWriteBinSwap_16
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -3054,7 +3184,12 @@ Q3FileFormat_GenericWriteBinSwap_16 (
  *  @function
  *      Q3FileFormat_GenericWriteBinSwap_32
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -3076,7 +3211,12 @@ Q3FileFormat_GenericWriteBinSwap_32 (
  *  @function
  *      Q3FileFormat_GenericWriteBinSwap_64
  *  @discussion
- *      Not supported by QD3D.
+ *      One-line description of this function.
+ *
+ *      A more extensive description can be supplied here, covering
+ *      the typical usage of this function and any special requirements.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           Description of the parameter.
  *  @param data             Description of the parameter.

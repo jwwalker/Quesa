@@ -67,7 +67,6 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Camera placement
 /*!
  *  @struct
  *      TQ3CameraPlacement
@@ -245,7 +244,7 @@ typedef struct TQ3ViewAngleAspectCameraData {
  *  @function
  *      Q3Camera_GetType
  *  @discussion
- *      Returns the type of a camera.
+ *      Get the type of a camera.
  *
  *      Returns kQ3CameraTypeOrthographic, kQ3CameraTypeViewAngleAspect, or
  *      kQ3CameraTypeViewPlane. Returns kQ3ObjectTypeInvalid if the camera type
