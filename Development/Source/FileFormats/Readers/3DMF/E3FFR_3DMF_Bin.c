@@ -861,6 +861,7 @@ e3fformat_3dmf_bin_get_nexttype(TQ3FileObject theFile)
 	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
 	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) format->instanceData;
 	TQ3XFFormatInt32ReadMethod	int32Read;
+	E3ClassInfoPtr				theClass;
 
 	
 	int32Read = (TQ3XFFormatInt32ReadMethod)
@@ -889,6 +890,20 @@ e3fformat_3dmf_bin_get_nexttype(TQ3FileObject theFile)
 					// cache the result
 					instanceData->MFData.toc->tocEntries[i].objType = result;
 					}
+				break;
+				}
+			}
+		}
+	
+	if (result < 0)	// custom element type?
+		{
+		for (i = 0; i < instanceData->typesNum ; i++)
+			{
+			if (instanceData->types[i].typeID == result)
+				{
+				theClass = E3ClassTree_GetClassByName(instanceData->types[i].typeName);
+				if (theClass != NULL)
+					result = E3ClassTree_GetType( theClass );
 				break;
 				}
 			}
