@@ -79,7 +79,7 @@ enum
 //-----------------------------------------------------------------------------
 
 class E3ClassInfo ;
-class OpaqueTQ3Object ;
+struct OpaqueTQ3Object ;
 
 // Nodes in the class tree have all their fields private
 typedef class E3ClassInfo *E3ClassInfoPtr ;
