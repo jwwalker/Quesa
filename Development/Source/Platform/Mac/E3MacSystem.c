@@ -90,12 +90,14 @@ e3mac_load_plugin(const FSSpec *theFSSpec)
 	Ptr					mainAddr;
 	Str255				theStr;
 	OSErr				theErr;
-	
+	short				oldResFile;
 
 
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(theFSSpec));
 
+
+	oldResFile = CurResFile();
 
 
 	// Load the plug-in. Note that we just need to open a connection
@@ -104,6 +106,10 @@ e3mac_load_plugin(const FSSpec *theFSSpec)
 	theErr = GetDiskFragment(theFSSpec, 0, kCFragGoesToEOF, "\p",
 							 kPrivateCFragCopy, &theConnection,
 							 &mainAddr, theStr);
+	
+	
+	// In case the plug-in's initialization routine changed the resource file
+	UseResFile( oldResFile );
 }
 
 
