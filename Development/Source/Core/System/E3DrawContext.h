@@ -5,7 +5,7 @@
         Header file for E3DrawContext.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,6 +47,7 @@
 //-----------------------------------------------------------------------------
 // Include files go here
 
+#include "E3Main.h"
 
 
 
@@ -195,6 +196,15 @@ typedef struct TQ3DrawContextUnionData {
 
 
 
+
+class E3DrawContext : public TQ3SharedData 
+	{
+
+	// There is no extra data for this class
+public :
+
+	} ;
+	
 
 
 //=============================================================================
