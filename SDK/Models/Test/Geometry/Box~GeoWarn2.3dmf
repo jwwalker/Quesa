@@ -1,10 +1,12 @@
 3DMetafile ( 1 6 Normal tableofcontents0> )
 
 #	NAME:
-#		Box.3dmf
+#		Box~GeoWarn2.3dmf
 #
 #	DESCRIPTION:
 #		Test model for the Box geometry.
+#
+#		This model tests the case of a (possibly invalid) degenerate Box.
 #
 #	COPYRIGHT:
 #		Quesa Copyright © 1999-2002, Quesa Developers.
@@ -32,8 +34,8 @@
 #		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 	Box (
-		 0  4  0	# orientation
-		 0  0  2	# majorAxis
-		 6  0  0	# minorAxis
-		-3 -2 -1	# origin
+		 6  0  0	# orientation
+		 0  4  0	# majorAxis
+		 0  0  0	# minorAxis
+		-3 -2  0	# origin
 	)
