@@ -39,7 +39,6 @@
 
 
 
-
 //=============================================================================
 //		Internal constants
 //-----------------------------------------------------------------------------
@@ -107,11 +106,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 
 			// Grab its dimensions
-			#if TARGET_API_MAC_CARBON
-				GetPortBounds( GetWindowPort(theWindow), &theRect );
-			#else
-				theRect = theWindow->portRect;
-			#endif
+			GetPortBounds( GetWindowPort(theWindow), &theRect );
 			break;
 
 
