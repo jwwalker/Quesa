@@ -1771,7 +1771,7 @@ createGeomQuesa(void)
 
 
 
-const TQ3Uns32	kNumDepthTriangles = 8;
+#define	kNumDepthTriangles  8
 
 //=============================================================================
 //      createDepthBufferTest : Create an object to test the OpenGL depth buffer.
