@@ -4262,7 +4262,7 @@ E3Mesh_DelayUpdates(
 
 
 	// To be implemented...
-	return(kQ3Failure);
+	return(kQ3Success);
 }
 
 
@@ -4283,7 +4283,7 @@ E3Mesh_ResumeUpdates(
 
 
 	// To be implemented...
-	return(kQ3Failure);
+	return(kQ3Success);
 }
 
 
