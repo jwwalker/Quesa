@@ -71,6 +71,7 @@ development environments. Supported environments are:
 
 
 <h4>Building Quesa on Mac OS</h4>
+<h5>OpenGL</h5>
 <p>
 Mac OS developers will normally be using CodeWarrior as their development environment.
 Unfortunately CodeWarrior Pro 6 does not include the OpenGL SDK from Apple, and
@@ -79,12 +80,23 @@ so this must be installed separately.
 <p>
 The OpenGL 1.0 SDK from Apple can be found
 <a href="ftp://ftp.apple.com/developer/Development_Kits/OpenGL_1.0_SDK.sit.hqx">here</a>.
-</p>
-
-<p>
 Place the OpenGL headers and stub libraries within the appropriate location
 for your development environment.
 <p>
+
+
+<h5>CodeWarrior Pro 5</h5>
+<p>
+Please note that the CodeWarrior .mcp project files are distributed in Pro 6 format.
+These projects can be opened using Pro 5, however the access path settings will be
+lost in the conversion.
+</p>
+
+<p>
+To build Quesa using CodeWarrior Pro 5, you must manually add "<tt>::::SDK:Includes</tt>"
+and "<tt>:::Source</tt>" to Quesa.mcp. To build the Example applications, you must manually
+add "<tt>::Qut</tt>" and "<tt>:::Includes</tt>".
+</p>
 
 
 <h4>Building Quesa on other platforms</h4>
