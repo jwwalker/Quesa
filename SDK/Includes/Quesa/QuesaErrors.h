@@ -184,6 +184,12 @@ typedef enum {
     kQ3ErrorRenderingLoopFailed                 = -28380,
     kQ3ErrorWritingLoopFailed                   = -28379,
     kQ3ErrorBoundingLoopFailed                  = -28378
+
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+	,
+    kQ3ErrorPlatformError                       = -28377
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
 } TQ3Error;
 
 
