@@ -1025,7 +1025,10 @@ e3view_submit_object(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 	// Find the object class
 	theClass = E3ClassTree_GetClassByType(objectType);
 	if (theClass == NULL)
+		{
+		E3ErrorManager_PostError(kQ3ErrorInvalidObjectClass, kQ3False);
 		return(kQ3Failure);
+		}
 
 
 
@@ -1054,6 +1057,7 @@ e3view_submit_object(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 
 		default:
 			Q3_ASSERT(!"Unrecognised view mode");
+			E3ErrorManager_PostError(kQ3ErrorUnsupportedFunctionality, kQ3False);
 			return(kQ3Failure);
 			break;
 		}
@@ -1360,8 +1364,11 @@ E3View_SubmitRetained(TQ3ViewObject theView, TQ3Object theObject)
 
 	// Make sure we're in the correct state
 	if (instanceData->viewState != kQ3ViewStateSubmitting)
+		{
+		E3ErrorManager_PostError(kQ3ViewModePicking == instanceData->viewMode ?
+				kQ3ErrorPickingNotStarted : kQ3ErrorRenderingNotStarted, kQ3False);
 		return(kQ3Failure);
-
+		}
 
 
 	// Submit the object
@@ -1389,7 +1396,11 @@ E3View_SubmitImmediate(TQ3ViewObject theView, TQ3ObjectType objectType, const vo
 
 	// Make sure we're in the correct state
 	if (instanceData->viewState != kQ3ViewStateSubmitting)
+		{
+		E3ErrorManager_PostError(kQ3ViewModePicking == instanceData->viewMode ?
+				kQ3ErrorPickingNotStarted : kQ3ErrorRenderingNotStarted, kQ3False);
 		return(kQ3Failure);
+		}
 
 
 
