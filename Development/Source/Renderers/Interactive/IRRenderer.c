@@ -73,6 +73,7 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 	TQ3Status						qd3dStatus;
 	TQ3RendererObject				theRenderer;
 	TQ3Uns32						rendererEditIndex;
+	TQ3Uns32						drawContextEditIndex;
 
 
 
@@ -85,8 +86,17 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 	if (rendererEditIndex != instanceData->rendererEditIndex)
 	{
 		instanceData->rendererEditIndex = rendererEditIndex;
-		drawContextFlags = kQ3XDrawContextValidationAll;
+		drawContextFlags |= kQ3XDrawContextValidationClearFunction;
 	}
+	
+	drawContextEditIndex = Q3Shared_GetEditIndex( theDrawContext );
+	if (drawContextEditIndex != instanceData->drawContextEditIndex)
+	{
+		instanceData->drawContextEditIndex = drawContextEditIndex;
+		drawContextFlags |= kQ3XDrawContextValidationClearFunction |
+			kQ3XDrawContextValidationDepthState;
+	}
+	
 	if (qd3dStatus == kQ3Success && drawContextFlags != kQ3XDrawContextValidationClearFlags)
 		{
 		// If we don't have a draw context, rebuild everything
@@ -107,6 +117,12 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 				{
 				GLDrawContext_SetClearFlags(theDrawContext, &instanceData->glClearFlags);
 				drawContextFlags &= ~kQ3XDrawContextValidationClearFunction;
+				}
+			
+			if (drawContextFlags & kQ3XDrawContextValidationDepthState)
+				{
+				GLDrawContext_SetDepthState( theDrawContext );
+				drawContextFlags &= ~kQ3XDrawContextValidationDepthState;
 				}
 
 			if (drawContextFlags & kQ3XDrawContextValidationBackgroundShader)
