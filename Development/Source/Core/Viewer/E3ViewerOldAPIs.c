@@ -647,21 +647,16 @@ E3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong)
 	return e3viewer_q3status_oserr( Q3Viewer_GetPhongShading(theViewer, phong) );
 }
 
-#endif // QUESA_OS_MACINTOSH
-
-
-
 
 
 //=============================================================================
-//      Function prototypes
 //      Win32 versions of old cross-platform QD3D Viewer APIs
 //-----------------------------------------------------------------------------
 #pragma mark -
 #pragma mark old common APIs
 #pragma mark -
 
-#if QUESA_OS_WIN32
+#else    // i.e., if !QUESA_OS_MACINTOSH
 
 TQ3Status	
 E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
@@ -1014,17 +1009,13 @@ E3ViewerGetGroupBounds(TQ3ViewerObject theViewer, TQ3BoundingBox* bounds)
 	return(-4);  // unimplemented
 }
 
-#endif // QUESA_OS_MACINTOSH || QUESA_OS_WIN32
-
-
-
 
 
 //=============================================================================
-//      Windows QD3D Viewer APIs
+//      Windows and (other non-Mac) QD3D Viewer APIs
 //-----------------------------------------------------------------------------
 #pragma mark -
-#pragma mark Windows QD3DViewer APIs
+#pragma mark old non-Mac APIs
 #pragma mark -
 
 #if QUESA_OS_WIN32
@@ -1121,6 +1112,11 @@ E3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 	return(0);	// unimplemented
 }
 
+#else		// non-Mac, non-Win32
+
+// NOTE: there's really no reason for these non-Mac, non-Win32 old APIs to exist
+//		 anymore; new platforms should use the new unified Viewer APIs.
+
 TQ3ViewerObject
 E3ViewerNew(void* theWindow, const TQ3Area *rect, TQ3Uns32 flags)
 {
@@ -1204,4 +1200,7 @@ E3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 }
 
 #endif // QUESA_OS_WIN32
+
+#endif // !QUESA_OS_MACINTOSH
+
 
