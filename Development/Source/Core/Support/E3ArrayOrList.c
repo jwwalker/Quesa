@@ -126,6 +126,7 @@ E3ListInfo_ItemOffset(
 	const TE3ListInfo* listInfoPtr)
 {
 }
+*/
 
 
 
