@@ -2325,4 +2325,7 @@ App_Terminate(void)
 	
 	if (gSceneIllumination != NULL)	
 		Q3Object_Dispose(gSceneIllumination);
+
+	if (gSceneTexture != NULL)
+		Q3Object_Dispose( gSceneTexture );
 }
