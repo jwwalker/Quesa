@@ -34,6 +34,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Qut.h"
+#include <QuesaMemory.h>
 
 
 #include <ctime>
@@ -1755,6 +1756,12 @@ createGeomTriGrid(void)
 	// Clean up
 	if (triGridData.triGridAttributeSet != NULL)
 		Q3Object_Dispose(triGridData.triGridAttributeSet);
+	
+	for (i=0; i<kTriGridPoints; ++i)
+	{
+		if (theVerts[i].attributeSet != NULL)
+			Q3Object_Dispose( theVerts[i].attributeSet );
+	}
 
 	return(theTriGrid);
 }
@@ -2171,9 +2178,11 @@ appRender(TQ3ViewObject theView)
 	clock_t			renderTime;
 	float			timeFactor;
 	TQ3Matrix4x4	rotationMatrix;
+	static TQ3Vector3D	sAxis = { 0.6f, 0.8f, 0.0f };
+	const TQ3Point3D	kOrigin = { 0.0f, 0.0f, 0.0f };
+	TQ3DrawContextObject context;
 
 	// If we're flashing the background color, update it now
-	TQ3DrawContextObject context;
 	if (gFlashStep) {
 		gFlashStep--;
 		if (0 == gFlashStep) {
@@ -2219,7 +2228,12 @@ appRender(TQ3ViewObject theView)
 	if (sPrevRenderTime != 0)
 		{
 		timeFactor = (renderTime - sPrevRenderTime) / ((float) CLOCKS_PER_SEC);
-		Q3Matrix4x4_SetRotate_XYZ(&rotationMatrix, 0.3f * timeFactor, 0.5f * timeFactor, 0.05f * timeFactor);
+		
+		// precession of the axis
+		Q3Matrix4x4_SetRotate_Y( &rotationMatrix, timeFactor * 0.1f );
+		Q3Vector3D_Transform( &sAxis, &rotationMatrix, &sAxis );
+		
+		Q3Matrix4x4_SetRotateAboutAxis( &rotationMatrix, &kOrigin, &sAxis, timeFactor );
 		Q3Matrix4x4_Multiply(&gMatrixCurrent, &rotationMatrix, &gMatrixCurrent);
 		}
 	sPrevRenderTime = renderTime;
@@ -2235,6 +2249,11 @@ appRender(TQ3ViewObject theView)
 void
 App_Initialise(void)
 {
+	// Watch for leaks (Quesa only)
+	#if TARGET_API_MAC_CARBON
+	Q3Memory_StartRecording();
+	#endif
+
 
 
 	// Initialise Qut
@@ -2320,6 +2339,12 @@ App_Terminate(void)
 
 
 	// Clean up
+	if (gSceneBounds != NULL)
+		Q3Object_Dispose(gSceneBounds);
+	
+	if (gWorldBounds != NULL)
+		Q3Object_Dispose(gWorldBounds);
+	
 	if (gSceneGeometry != NULL)
 		Q3Object_Dispose(gSceneGeometry);
 	
