@@ -38,7 +38,7 @@ This function must not be called within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>View in which the group will ultimately be rendered.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3DisplayGroup_GetBoundingBox"></a>
@@ -64,7 +64,7 @@ been set or calculated.  If not, kQ3Failure is returned.
 <tr valign=top><td><tt>bBox</tt></td><td>Address of bounding box to set with group's bounding box.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3DisplayGroup_GetState"></a>
@@ -107,7 +107,7 @@ other flags are clear.
 <tr valign=top><td><tt>state</tt></td><td>Receives the group's state flags.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3DisplayGroup_GetType"></a>
@@ -130,10 +130,10 @@ group, <code>kQ3DisplayGroupTypeIOProxy</code> for an I/O Proxy group, and
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>group</tt></td><td>The group to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the group.
  
 <hr>
 <a name="//apple_ref/c/func/Q3DisplayGroup_New"></a>
@@ -182,7 +182,7 @@ flag.  If not, it does nothing (and returns <code>kQ3Success</code> anyway).
 <tr valign=top><td><tt>group</tt></td><td>Group to remove the bounding box of.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3DisplayGroup_SetAndUseBoundingBox"></a>
@@ -210,7 +210,7 @@ for culling.
 <tr valign=top><td><tt>bBox</tt></td><td>Bounding box to use (must be non-empty).</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3DisplayGroup_SetState"></a>
@@ -253,7 +253,7 @@ other flags are clear.
 <tr valign=top><td><tt>state</tt></td><td>Desired state flags.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3DisplayGroup_Submit"></a>
@@ -285,7 +285,7 @@ objects in a display group, and submit them with this function.
 <tr valign=top><td><tt>view</tt></td><td>View (which must be in a submitting loop).</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_AddObject"></a>
@@ -414,7 +414,7 @@ to get the total number of objects in the hierarchy.
 <tr valign=top><td><tt>nObjects</tt></td><td>Address of integer to receive the object count.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_CountObjectsOfType"></a>
@@ -443,7 +443,7 @@ to consider the entire hierarchy.
 <tr valign=top><td><tt>nObjects</tt></td><td>Address of integer to receive the object count.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_EmptyObjects"></a>
@@ -467,7 +467,7 @@ group.  (The group itself is not disposed of.)
 <tr valign=top><td><tt>group</tt></td><td>Group to empty.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_EmptyObjectsOfType"></a>
@@ -494,7 +494,7 @@ even if this call leaves it empty.)
 <tr valign=top><td><tt>isType</tt></td><td>Type of objects to dispose.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetFirstObjectPosition"></a>
@@ -524,7 +524,7 @@ iterate over all other references to the same object.
 <tr valign=top><td><tt>position</tt></td><td>Receives first position of <code>object</code> in <code>group</code>.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetFirstPosition"></a>
@@ -550,7 +550,7 @@ to iterate over all members of a group.
 <tr valign=top><td><tt>position</tt></td><td>Receives the position of the first object in <code>group</code>.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetFirstPositionOfType"></a>
@@ -578,7 +578,7 @@ to iterate over all group members of a certain type.
 <tr valign=top><td><tt>position</tt></td><td>Receives the position of the first object of that type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetLastObjectPosition"></a>
@@ -608,7 +608,7 @@ iterate backwards over all other references to the same object.
 <tr valign=top><td><tt>position</tt></td><td>Receives last position of <code>object</code> in <code>group</code>.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetLastPosition"></a>
@@ -634,7 +634,7 @@ to iterate backwards over all members of a group.
 <tr valign=top><td><tt>position</tt></td><td>Receives the position of the last object in <code>group</code>.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetLastPositionOfType"></a>
@@ -662,7 +662,7 @@ to iterate backwards over all group members of a certain type.
 <tr valign=top><td><tt>position</tt></td><td>Receives the position of the last object of that type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetNextObjectPosition"></a>
@@ -692,7 +692,7 @@ to iterate over all occurrences of an object within a group.
 <tr valign=top><td><tt>position</tt></td><td>Position to advance to the next occurrence of <code>object</code>.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetNextPosition"></a>
@@ -719,7 +719,7 @@ in the group, <code>*position</code> is set to NULL.
 <tr valign=top><td><tt>position</tt></td><td>Address of position to advance.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetNextPositionOfType"></a>
@@ -749,7 +749,7 @@ in the group, <code>*position</code> is set to NULL.
 <tr valign=top><td><tt>position</tt></td><td>Address of position to advance.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetPositionObject"></a>
@@ -781,7 +781,7 @@ Sets *object to NULL if there is no object at the given position.
 <tr valign=top><td><tt>object</tt></td><td>Receives a reference to the indicated object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetPreviousObjectPosition"></a>
@@ -811,7 +811,7 @@ to iterate in reverse over all occurrences of an object within a group.
 <tr valign=top><td><tt>position</tt></td><td>Position to step back to the previous occurrence of <code>object</code>.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetPreviousPosition"></a>
@@ -839,7 +839,7 @@ is set to NULL.
 <tr valign=top><td><tt>position</tt></td><td>Address of position to step back.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetPreviousPositionOfType"></a>
@@ -869,7 +869,7 @@ in the group, <code>*position</code> is set to NULL.
 <tr valign=top><td><tt>position</tt></td><td>Address of position to step back.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error/result code.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Group_GetType"></a>
@@ -976,7 +976,7 @@ returns NULL.
 <tr valign=top><td><tt>object</tt></td><td>Object to be stored.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Resulting position of <code>object</code> in <code>group</code>.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3IOProxyDisplayGroup_New"></a>
@@ -1101,5 +1101,5 @@ pointer, which is stored in a group at the given position.
 <b>Result:</b> Pointer to private data, or NULL.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
 </body></html>

@@ -2,7 +2,8 @@
 <h2>Discussion</h2>
 Declares the Quesa controller interface.
 <br><br>
-This interface has not been implemented.
+This interface is available in Quesa, but has not been implemented due
+to lack of available pointing device hardware.
  <hr><br><h2>Functions</h2>
 <a name="//apple_ref/c/func/Q3ControllerState_New"></a>
 <h3><a name="Q3ControllerState_New">Q3ControllerState_New</a></h3>
@@ -12,20 +13,19 @@ Q3ControllerState_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Create a new controller state object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A new controller state object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ControllerState_Restore"></a>
@@ -36,20 +36,19 @@ Q3ControllerState_Restore (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Restore the state of the controller associated with controllerStateObject.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerStateObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerStateObject</tt></td><td>The controller state object to restore.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ControllerState_SaveAndReset"></a>
@@ -60,20 +59,19 @@ Q3ControllerState_SaveAndReset (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Save the current state of the controller associated with controllerStateObject.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerStateObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerStateObject</tt></td><td>The controller state object to save.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_Decommission"></a>
@@ -84,20 +82,22 @@ Q3Controller_Decommission (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Make a controller object inactive.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Any remaining references to the controller object will remain valid, however
+the controller will no longer be operational.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to deactivate.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetActivation"></a>
@@ -109,21 +109,20 @@ Q3Controller_GetActivation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the activation state of a controller.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>active</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to query.</td></tr>
+<tr valign=top><td><tt>active</tt></td><td>Receives the current activation state of the controller.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetButtons"></a>
@@ -135,21 +134,20 @@ Q3Controller_GetButtons (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the button state of a controller.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>buttons</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to query.</td></tr>
+<tr valign=top><td><tt>buttons</tt></td><td>Receives the button state of the controller.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetChannel"></a>
@@ -163,23 +161,24 @@ Q3Controller_GetChannel (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the data for a controller channel.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>channel</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>dataSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to query.</td></tr>
+<tr valign=top><td><tt>channel</tt></td><td>An index into the list of channels, from 0.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data for the channel.</td></tr>
+<tr valign=top><td><tt>dataSize</tt></td><td>Initialise to the number of bytes pointed to by
+data, and will receive the number of bytes written
+to data by the controller.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetListChanged"></a>
@@ -191,21 +190,28 @@ Q3Controller_GetListChanged (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Determine if the list of available controllers has changed.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If the controller list has changed since the time at which the value
+of serialNumber was generated, listChanged will be set to true and a
+new serial number will be returned in serialNumber.
+<br><br>
+When calling for the first time, serialNumber should be 0.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>listChanged</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>serialNumber</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>listChanged</tt></td><td>Receives true or false as the list has changed.</td></tr>
+<tr valign=top><td><tt>serialNumber</tt></td><td>Receives the current serial number, and should be
+initialised to the previously returned value on
+successive calls.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetSignature"></a>
@@ -218,22 +224,25 @@ Q3Controller_GetSignature (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the signature of a controller.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+At most numChars characters will be written to signature (including the
+NULL byte - signature will always be set to a valid C string). If there
+is not enough space to return the entire signature, it will be truncated.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>signature</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numChars</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to query.</td></tr>
+<tr valign=top><td><tt>signature</tt></td><td>Receives the controller signature as a C string.</td></tr>
+<tr valign=top><td><tt>numChars</tt></td><td>The number of bytes which may be written to signature.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetTrackerOrientation"></a>
@@ -245,21 +254,23 @@ Q3Controller_GetTrackerOrientation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the current orientation of a controller's tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If no tracker is associated with the controller, the orientation of the
+system cursor tracker will be returned.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientation</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to query.</td></tr>
+<tr valign=top><td><tt>orientation</tt></td><td>Receives the current orientation of the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetTrackerPosition"></a>
@@ -271,21 +282,23 @@ Q3Controller_GetTrackerPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the position of a controller's tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If no tracker is asssociated with the controller, position will be
+set to the position of the system cursor tracker.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to query.</td></tr>
+<tr valign=top><td><tt>position</tt></td><td>The current position of the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetValueCount"></a>
@@ -297,21 +310,20 @@ Q3Controller_GetValueCount (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the number of values of a controller.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>valueCount</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to query.</td></tr>
+<tr valign=top><td><tt>valueCount</tt></td><td>Receives the number of values of the controller.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_GetValues"></a>
@@ -326,24 +338,23 @@ Q3Controller_GetValues (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the list of values of a controller.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>valueCount</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>values</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>changed</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>serialNumber</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to query.</td></tr>
+<tr valign=top><td><tt>valueCount</tt></td><td>The number of elements in the values array.</td></tr>
+<tr valign=top><td><tt>values</tt></td><td>A pointer to an array of values to update.</td></tr>
+<tr valign=top><td><tt>changed</tt></td><td>Receives true or false as the array of values was changed.</td></tr>
+<tr valign=top><td><tt>serialNumber</tt></td><td>A controller serial number, or NULL.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_HasTracker"></a>
@@ -355,21 +366,21 @@ Q3Controller_HasTracker (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Determine if a controller is associated with a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>hasTracker</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to query.</td></tr>
+<tr valign=top><td><tt>hasTracker</tt></td><td>Receives true or false as the controller is associated
+with a tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_MoveTrackerOrientation"></a>
@@ -381,21 +392,24 @@ Q3Controller_MoveTrackerOrientation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Move the orientation of a controller's tracker by a delta.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If no tracker is associated with the controller, the delta will be
+added to the orientation of the system cursor tracker. Will have no
+effect if controllerRef is an inactive controller.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>delta</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to update.</td></tr>
+<tr valign=top><td><tt>orientation</tt></td><td>The delta to be added to the tracker orientation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_MoveTrackerPosition"></a>
@@ -407,21 +421,24 @@ Q3Controller_MoveTrackerPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Move the position of a controller's tracker by a delta.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If no tracker is associated with the controller, the delta will be
+added to the position of the system cursor tracker. Will have no
+effect if controllerRef is an inactive controller.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>delta</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to update.</td></tr>
+<tr valign=top><td><tt>delta</tt></td><td>The delta to be added to the tracker position.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_New"></a>
@@ -432,20 +449,22 @@ Q3Controller_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Create a new controller object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The new controller object will be active, and bound to the system cursor's
+tracker. Its serial number will be initialised to 1.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerData</tt></td><td>A description of the controller to create.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new controller object, or NULL.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_Next"></a>
@@ -457,21 +476,24 @@ Q3Controller_Next (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Iterate through the list of available controllers.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+To retrieve the first controller in the list, set controllerRef to NULL.
+After retrieving the last controller in the list, nextControllerRef will
+be set to NULL.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>nextControllerRef</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The current controller, or NULL.</td></tr>
+<tr valign=top><td><tt>nextControllerRef</tt></td><td>Receives the next controller in the list, or NULL.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetActivation"></a>
@@ -483,21 +505,26 @@ Q3Controller_SetActivation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the activation state of a controller.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Adjusting the activation state make invoke the notify function of the tracker
+associated with the controller, and will increment the serial number of the
+list of available controllers.
+<br><br>
+A controller should be inactive if it is temporarily unavailable.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>active</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to adjust.</td></tr>
+<tr valign=top><td><tt>active</tt></td><td>The new activatione state for the controller.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetButtons"></a>
@@ -509,21 +536,24 @@ Q3Controller_SetButtons (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the button state of a controller.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If the controller is inactive, this call has no effect. Changing the state may
+cause the notify function of any tracker associated with the controller to be
+invoked.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>buttons</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to update.</td></tr>
+<tr valign=top><td><tt>buttons</tt></td><td>The new button state for the controller.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetChannel"></a>
@@ -537,23 +567,23 @@ Q3Controller_SetChannel (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the data for a controller channel.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>channel</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>dataSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to update.</td></tr>
+<tr valign=top><td><tt>channel</tt></td><td>An index into the list of channels, from 0.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>A pointer to the data for the channel. Pass NULL
+to reset the channel to a default or inactive value.</td></tr>
+<tr valign=top><td><tt>dataSize</tt></td><td>The number of bytes pointed to by data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetTracker"></a>
@@ -565,21 +595,24 @@ Q3Controller_SetTracker (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the tracker associated with a controller.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If the tracker is NULL, the controller is attached to the system cursor
+tracker. Both the previous and new tracker's notify functions make be
+called.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>tracker</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to update.</td></tr>
+<tr valign=top><td><tt>tracker</tt></td><td>The tracker to associate with the controller.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetTrackerOrientation"></a>
@@ -591,21 +624,23 @@ Q3Controller_SetTrackerOrientation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the orientation of a controller's tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If no tracker is associated with the controller, the orientation of the
+system cursor tracker will be updated.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientation</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to update.</td></tr>
+<tr valign=top><td><tt>orientation</tt></td><td>The new orientation for the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetTrackerPosition"></a>
@@ -617,21 +652,23 @@ Q3Controller_SetTrackerPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the position of a controller's tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If no tracker is asssociated with the controller, the position of the
+system cursor tracker will be set.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to update.</td></tr>
+<tr valign=top><td><tt>position</tt></td><td>The new position for the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_SetValues"></a>
@@ -644,22 +681,21 @@ Q3Controller_SetValues (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the list of values of a controller.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>values</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>valueCount</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller to update.</td></tr>
+<tr valign=top><td><tt>values</tt></td><td>A pointer to an array of new values.</td></tr>
+<tr valign=top><td><tt>valueCount</tt></td><td>The number of elements in the values array.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_Track2DCursor"></a>
@@ -671,10 +707,12 @@ Q3Controller_Track2DCursor (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Determine if a controller is affecting the 2D system cursor.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If the controller is inactive or not attached to the system cursor
+tracker, track2DCursor will be set to false.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -682,10 +720,11 @@ the typical usage of this function and any special requirements.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>track2DCursor</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>track2DCursor</tt></td><td>Receives true or false as the controller is affecting
+the 2D system cursor.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Controller_Track3DCursor"></a>
@@ -697,10 +736,12 @@ Q3Controller_Track3DCursor (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Determine if a controller is affecting the 3D system cursor.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If the controller is inactive or not attached to the system cursor
+tracker, track2DCursor will be set to false.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -708,10 +749,12 @@ the typical usage of this function and any special requirements.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>track3DCursor</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>tracksDCursor</tt></td><td>Receives true or false as the controller is affecting
+both the 2D system cursor and the z-axis values/orientation
+of the system cursor.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CursorTracker_GetAndClearDeltas"></a>
@@ -726,24 +769,27 @@ Q3CursorTracker_GetAndClearDeltas (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get and clear the deltas for the cursor tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Note - no QD3D documentation could be found for this routine. The
+purpose of the function, and its parameters/result, have been assumed.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>depth</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientation</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>hasOrientation</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>changed</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>serialNumber</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>depth</tt></td><td>Receives the z-coordinate of the cursor tracker.</td></tr>
+<tr valign=top><td><tt>orientation</tt></td><td>Receives the orientation of the cursor tracker.</td></tr>
+<tr valign=top><td><tt>hasOrientation</tt></td><td>Receives true or false as the orientation result is valid.</td></tr>
+<tr valign=top><td><tt>changed</tt></td><td>Receives true or false as the depth or orientation parameters
+were updated.</td></tr>
+<tr valign=top><td><tt>serialNumber</tt></td><td>Receives the current serial number.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CursorTracker_GetNotifyFunc"></a>
@@ -754,20 +800,22 @@ Q3CursorTracker_GetNotifyFunc (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the notification routine for the cursor tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Note - no QD3D documentation could be found for this routine. The
+purpose of the function, and its parameters/result, have been assumed.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>notifyFunc</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>notifyFunc</tt></td><td>Receives the notification routine.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CursorTracker_PrepareTracking"></a>
@@ -778,13 +826,15 @@ Q3CursorTracker_PrepareTracking (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Prepare the cursor tracker for tracking.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Note - no QD3D documentation could be found for this routine. The
+purpose of the function, and its parameters/result, have been assumed.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CursorTracker_SetNotifyFunc"></a>
@@ -795,20 +845,22 @@ Q3CursorTracker_SetNotifyFunc (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the notification routine for the cursor tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Note - no QD3D documentation could be found for this routine. The
+purpose of the function, and its parameters/result, have been assumed.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>notifyFunc</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>notifyFunc</tt></td><td>The notification routine.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CursorTracker_SetTrackDeltas"></a>
@@ -819,20 +871,22 @@ Q3CursorTracker_SetTrackDeltas (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set if the cursor tracker should tracker deltas or not.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Note - no QD3D documentation could be found for this routine. The
+purpose of the function, and its parameters/result, have been assumed.
+<br><br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackDeltas</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackDeltas</tt></td><td>True or false as the cursor tracker should track deltas.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_ChangeButtons"></a>
@@ -846,23 +900,22 @@ Q3Tracker_ChangeButtons (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Change the button state of a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>buttons</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>buttonMask</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to update.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller associated with the tracker.</td></tr>
+<tr valign=top><td><tt>buttons</tt></td><td>The new button state for the tracker.</td></tr>
+<tr valign=top><td><tt>buttonMask</tt></td><td>Mask indicating which bits in buttons to apply.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetActivation"></a>
@@ -874,21 +927,20 @@ Q3Tracker_GetActivation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the activation status of a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>active</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to query.</td></tr>
+<tr valign=top><td><tt>active</tt></td><td>Receives the activation status of the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetButtons"></a>
@@ -900,21 +952,20 @@ Q3Tracker_GetButtons (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the button state of a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>buttons</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to query.</td></tr>
+<tr valign=top><td><tt>buttons</tt></td><td>Receives the button state of the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetEventCoordinates"></a>
@@ -929,24 +980,25 @@ Q3Tracker_GetEventCoordinates (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the coordinates of a tracker at a specified time.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Time units are unknown.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>timeStamp</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>buttons</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientation</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to query.</td></tr>
+<tr valign=top><td><tt>timeStamp</tt></td><td>The time stamp.</td></tr>
+<tr valign=top><td><tt>buttons</tt></td><td>If non-NULL, receives the button state of the tracker.</td></tr>
+<tr valign=top><td><tt>position</tt></td><td>If non-NULL, receives the position of the tracker.</td></tr>
+<tr valign=top><td><tt>orientation</tt></td><td>If non-NULL, receives the orientation of the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetNotifyThresholds"></a>
@@ -959,22 +1011,21 @@ Q3Tracker_GetNotifyThresholds (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the notify thresholds of a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>positionThresh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientationThresh</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to query.</td></tr>
+<tr valign=top><td><tt>positionThresh</tt></td><td>Receives the position threshold of the tracker.</td></tr>
+<tr valign=top><td><tt>orientationThresh</tt></td><td>Receives the orientation threshold of the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetOrientation"></a>
@@ -989,24 +1040,28 @@ Q3Tracker_GetOrientation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the orientation of a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If serialNumber is not NULL, changed will only be set to true if a
+change has occurred since the specified serial number was generated.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientation</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>delta</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>changed</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>serialNumber</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to query.</td></tr>
+<tr valign=top><td><tt>orientation</tt></td><td>Receives the current orientation of the tracker.</td></tr>
+<tr valign=top><td><tt>delta</tt></td><td>If non-NULL, receives the change in orientation since
+the previous call to Q3Tracker_GetOrientation.</td></tr>
+<tr valign=top><td><tt>changed</tt></td><td>Receives true or false as either orientation or delta
+have been updated.</td></tr>
+<tr valign=top><td><tt>serialNumber</tt></td><td>If non-NULL, receives the current serial number.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_GetPosition"></a>
@@ -1021,24 +1076,28 @@ Q3Tracker_GetPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the position of a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If serialNumber is not NULL, changed will only be set to true if a
+change has occurred since the specified serial number was generated.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>delta</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>changed</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>serialNumber</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to query.</td></tr>
+<tr valign=top><td><tt>position</tt></td><td>Receives the current position of the tracker.</td></tr>
+<tr valign=top><td><tt>delta</tt></td><td>If non-NULL, receives the change in position since
+the previous call to Q3Tracker_GetPosition.</td></tr>
+<tr valign=top><td><tt>changed</tt></td><td>Receives true or false as either position or delta
+have been updated.</td></tr>
+<tr valign=top><td><tt>serialNumber</tt></td><td>If non-NULL, receives the current serial number.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_MoveOrientation"></a>
@@ -1051,22 +1110,23 @@ Q3Tracker_MoveOrientation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Move the orientation of a tracker by a delta.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Has no effect if the tracker is inactive.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>delta</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to update.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller associated with the tracker.</td></tr>
+<tr valign=top><td><tt>delta</tt></td><td>The delta to be added to the tracker orientation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_MovePosition"></a>
@@ -1079,22 +1139,23 @@ Q3Tracker_MovePosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Move the position of a tracker by a delta.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Has no effect if the tracker is inactive.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>delta</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to update.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller associated with the tracker.</td></tr>
+<tr valign=top><td><tt>delta</tt></td><td>The delta to be added to the tracker position.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_New"></a>
@@ -1105,20 +1166,22 @@ Q3Tracker_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Create a new tracker object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The new tracker is activate, and has its orientation threshold set to 0.
+If no notify callback is required, notifyFunc may be set to NULL.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>notifyFunc</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>notifyFunc</tt></td><td>The notification callback for the tracker, or NULL.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new tracker object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_SetActivation"></a>
@@ -1130,21 +1193,20 @@ Q3Tracker_SetActivation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the activation status of a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>active</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to update.</td></tr>
+<tr valign=top><td><tt>active</tt></td><td>The new activation status of the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_SetEventCoordinates"></a>
@@ -1159,24 +1221,25 @@ Q3Tracker_SetEventCoordinates (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the coordinates of a tracker at a specified time.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Time units are unknown.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>timeStamp</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>buttons</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientation</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to update.</td></tr>
+<tr valign=top><td><tt>timeStamp</tt></td><td>The time stamp.</td></tr>
+<tr valign=top><td><tt>buttons</tt></td><td>The button state of the tracker.</td></tr>
+<tr valign=top><td><tt>position</tt></td><td>The position state of the tracker, or NULL.</td></tr>
+<tr valign=top><td><tt>orientation</tt></td><td>The orientation state of the tracker, or NULL.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_SetNotifyThresholds"></a>
@@ -1189,22 +1252,21 @@ Q3Tracker_SetNotifyThresholds (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the notify thresholds of a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>positionThresh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientationThresh</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to update.</td></tr>
+<tr valign=top><td><tt>positionThresh</tt></td><td>The new position threshold.</td></tr>
+<tr valign=top><td><tt>orientationThresh</tt></td><td>The new orientation threshold.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_SetOrientation"></a>
@@ -1218,21 +1280,23 @@ Q3Tracker_SetOrientation (
 </tt><br>
 </pre></blockquote>
 <p>One-line description of this function.
+Set the orientation of a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Has no effect if the tracker is inactive.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientation</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to update.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller associated with the tracker.</td></tr>
+<tr valign=top><td><tt>orientation</tt></td><td>The new orientation for the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tracker_SetPosition"></a>
@@ -1245,23 +1309,138 @@ Q3Tracker_SetPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the position of a tracker.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Has no effect if the tracker is inactive.
+<br><br>
+<em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>trackerObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>controllerRef</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker to update.</td></tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller associated with the tracker.</td></tr>
+<tr valign=top><td><tt>position</tt></td><td>The new position for the tracker.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
+<h2>Typedefs</h2>
+<a name="//apple_ref/c/tdef/TQ3ChannelGetMethod"></a>
+<h3><a name="TQ3ChannelGetMethod">TQ3ChannelGetMethod</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3ChannelGetMethod)</b>(
+                            TQ3ControllerRef    controllerRef,
+                            TQ3Uns32            channel,
+                            void                *data,
+                            TQ3Uns32            *dataSize);</tt><br>
+</blockquote>
+<p>Channel get method callback.
+<br><br>
+At most kQ3ControllerSetChannelMaxDataSize bytes of data can be returned.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller the callback is invoked for.</td><tr>
+<tr valign=top><td><tt>channel</tt></td><td>An index into the list of channels, from 0.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data for the channel.</td><tr>
+<tr valign=top><td><tt>dataSize</tt></td><td>Will be set to the number of bytes pointed to by data,
+and should receive the number of bytes written to data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3ChannelSetMethod"></a>
+<h3><a name="TQ3ChannelSetMethod">TQ3ChannelSetMethod</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3ChannelSetMethod)</b>(
+                            TQ3ControllerRef    controllerRef,
+                            TQ3Uns32            channel,
+                            const void          *data,
+                            TQ3Uns32            dataSize);</tt><br>
+</blockquote>
+<p>Channel set method callback.
+<br><br>
+At most kQ3ControllerSetChannelMaxDataSize bytes of data will be supplied.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller the callback is invoked for.</td><tr>
+<tr valign=top><td><tt>channel</tt></td><td>An index into the list of channels, from 0.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The new data for the channel.</td><tr>
+<tr valign=top><td><tt>dataSize</tt></td><td>The number of bytes pointed to by data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3CursorTrackerNotifyFunc"></a>
+<h3><a name="TQ3CursorTrackerNotifyFunc">TQ3CursorTrackerNotifyFunc</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(void, <b>TQ3CursorTrackerNotifyFunc)</b>(void);</tt><br>
+</blockquote>
+<p>Cursor tracker notification callback.
+ </p>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3TrackerNotifyFunc"></a>
+<h3><a name="TQ3TrackerNotifyFunc">TQ3TrackerNotifyFunc</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3TrackerNotifyFunc)</b>(
+                            TQ3TrackerObject    trackerObject,
+                            TQ3ControllerRef    controllerRef);</tt><br>
+</blockquote>
+<p>Tracker notification callback.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker the callback is invoked for.</td><tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller associated with the tracker.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<h2>Structs</h2>
+<a name="//apple_ref/c/tag/TQ3ControllerData"></a>
+<h3><a name="TQ3ControllerData">TQ3ControllerData</a></h3>
+<blockquote><pre>
+typedef struct TQ3ControllerData {
+    char                                        *signature;
+    TQ3Uns32                                    valueCount;
+    TQ3Uns32                                    channelCount;
+    TQ3ChannelGetMethod                         channelGetMethod;
+    TQ3ChannelSetMethod                         channelSetMethod;
+} TQ3ControllerData;
+</pre>
+</blockquote>
+<p>State used to create new controller objects.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>signature</tt></td><td>A C string which uniquely identifies the manufacturer
+and model of the controller.</td><tr>
+<tr valign=top><td><tt>valueCount</tt></td><td>The number of values supported by the controller.</td><tr>
+<tr valign=top><td><tt>channelCount</tt></td><td>The number of channels supported by the controller.</td><tr>
+<tr valign=top><td><tt>channelGetMethod</tt></td><td>The channel-getting method for the controller. This
+field is only valid if channelCount is non-zero, and
+may be NULL if the controller can not support this.</td><tr>
+<tr valign=top><td><tt>channelSetMethod</tt></td><td>The channel-setting method for the controller. This
+field is only valid if channelCount is non-zero, and
+may be NULL if the controller can not support this.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
 </body></html>

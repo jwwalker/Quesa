@@ -7,21 +7,19 @@ Q3XError_Post (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Post an error to the error manager.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Although intended only for use by extensions in QD3D, this call
+is also available to general application clients in Quesa.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>error</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>error</tt></td><td>The error to post.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3XMacintoshError_Post"></a>
 <h3><a name="Q3XMacintoshError_Post">Q3XMacintoshError_Post</a></h3>
@@ -31,21 +29,22 @@ Q3XMacintoshError_Post (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Post a Mac OS-specific error to the error manager.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Although intended only for use by extensions in QD3D, this call
+is also available to general application clients in Quesa.
+<br><br>
+Note that this call is equivalent to a call to Q3Error_PlatformPost,
+which is the preferred method for posting platform-specific errors.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>macOSErr</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>macOSErr</tt></td><td>The Mac OS error to post.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3XNotice_Post"></a>
 <h3><a name="Q3XNotice_Post">Q3XNotice_Post</a></h3>
@@ -55,21 +54,19 @@ Q3XNotice_Post (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Post a notice to the error manager.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Although intended only for use by extensions in QD3D, this call
+is also available to general application clients in Quesa.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>notice</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>notice</tt></td><td>The notice to post.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectClass_GetLeafType"></a>
 <h3><a name="Q3XObjectClass_GetLeafType">Q3XObjectClass_GetLeafType</a></h3>
@@ -79,20 +76,20 @@ Q3XObjectClass_GetLeafType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the leaf type of a class.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The leaf type is the type returned by Q3XObjectHierarchy_RegisterClass
+when the class was registered.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>objectClass</tt></td><td>The class to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The leaf type of the class.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectClass_GetMethod"></a>
@@ -104,21 +101,18 @@ Q3XObjectClass_GetMethod (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get a method of a class.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>methodType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>objectClass</tt></td><td>The class to query.</td></tr>
+<tr valign=top><td><tt>methodType</tt></td><td>The method type to retrieve.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The function pointer for the method.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectClass_GetPrivate"></a>
@@ -130,21 +124,21 @@ Q3XObjectClass_GetPrivate (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the private instance data of an object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If no instance data space was reserved for the object, a NULL
+pointer will be returned.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>targetObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>objectClass</tt></td><td>The class of the object.</td></tr>
+<tr valign=top><td><tt>targetObject</tt></td><td>The object to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A pointer to the private instance data.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectClass_GetType"></a>
@@ -156,21 +150,18 @@ Q3XObjectClass_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the type of a class.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>objectClass</tt></td><td>The class to query.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Receives the type of the class.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectHierarchy_FindClassByType"></a>
@@ -181,20 +172,17 @@ Q3XObjectHierarchy_FindClassByType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Locate a class within the class tree.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The class type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The class registered under theType, or NULL.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectHierarchy_GetClassVersion"></a>
@@ -206,21 +194,20 @@ Q3XObjectHierarchy_GetClassVersion (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the version of a class.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The class version is returned by the class ClassVersion method.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClassType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>version</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>objectClassType</tt></td><td>The class to query.</td></tr>
+<tr valign=top><td><tt>version</tt></td><td>Receives the version of the class.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectHierarchy_NewObject"></a>
@@ -232,21 +219,18 @@ Q3XObjectHierarchy_NewObject (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Instantiate a class.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>parameters</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>objectClass</tt></td><td>The class to instantiate.</td></tr>
+<tr valign=top><td><tt>parameters</tt></td><td>The parameter data for the NewMethod method.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A new instance of the class.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectHierarchy_RegisterClass"></a>
@@ -263,26 +247,38 @@ Q3XObjectHierarchy_RegisterClass (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Register a new object class in the class tree.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Quesa does not support the virtualMetaHandler or methodsSize parameters,
+and these should be set to NULL and 0 respectively.
+<br><br>
+Virtual methods are inherited from the parent class metahandler in the
+Quesa class tree, and the QD3D docs are unclear on the purpose of
+methodsSize.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>parentType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>objectType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>objectName</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>metaHandler</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>virtualMetaHandler</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>methodsSize</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>instanceSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>parentType</tt></td><td>The object type of the parent the new class should
+be derived from. To derive new classes from the
+root TQ3Object class, pass in kQ3ObjectTypeInvalid.</td></tr>
+<tr valign=top><td><tt>objectType</tt></td><td>Receives the new object type for the new class.
+This value is used as the class identifier in binary
+3DMF files, and is returned by the _GetType and
+Q3Object_GetLeafType class. It may also be passed to
+Q3Object_IsType to identify objects of this class.</td></tr>
+<tr valign=top><td><tt>objectName</tt></td><td>A C string which acts as a unique textual identifier
+for the new class. This value is used as the class
+identifier in text 3DMF files.</td></tr>
+<tr valign=top><td><tt>metaHandler</tt></td><td>The metahandler for the class.</td></tr>
+<tr valign=top><td><tt>virtualMetaHandler</tt></td><td>The virtual metahandler for the class (should be NULL).</td></tr>
+<tr valign=top><td><tt>methodsSize</tt></td><td>The size of the private class data (shoudld be 0).</td></tr>
+<tr valign=top><td><tt>instanceSize</tt></td><td>The size of the instance data for the class, if any.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new class reference.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XObjectHierarchy_UnregisterClass"></a>
@@ -293,20 +289,20 @@ Q3XObjectHierarchy_UnregisterClass (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Unregister a object class from the class tree.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Only classes registered by Q3XObjectHierarchy_RegisterClass should
+be unregistered by this routine.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>objectClass</tt></td><td>The class to unregister.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XObject_GetClass"></a>
@@ -317,20 +313,17 @@ Q3XObject_GetClass (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the class of an object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>object</tt></td><td>The object to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The class of the object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XSharedLibrary_Register"></a>
@@ -341,20 +334,22 @@ Q3XSharedLibrary_Register (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Register a shared library with Quesa.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Can be called from within a shared library entry point to register
+a callback with Quesa. The callback will be invoked by Q3Initialize
+during initialisation, to allow it to register custom classes with
+the Quesa class tree.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedLibraryInfo</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>sharedLibraryInfo</tt></td><td>The shared library registration state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XSharedLibrary_Unregister"></a>
@@ -365,20 +360,21 @@ Q3XSharedLibrary_Unregister (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Unregister a shared library with Quesa.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The sharedLibrary parameter should match the sharedLibrary field
+within the TQ3XSharedLibraryInfo that was passed to
+Q3XSharedLibrary_Register.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedLibrary</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>sharedLibrary</tt></td><td>The shared library reference.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XWarning_Post"></a>
@@ -389,21 +385,19 @@ Q3XWarning_Post (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Post a warning to the error manager.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Although intended only for use by extensions in QD3D, this call
+is also available to general application clients in Quesa.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>warning</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>warning</tt></td><td>The warning to post.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
 </body></html>

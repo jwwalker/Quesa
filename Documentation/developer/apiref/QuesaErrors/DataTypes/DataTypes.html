@@ -1,0 +1,66 @@
+<html><head><title>Defined Types</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Defined Types</h1></font><hr><br>
+<a name="//apple_ref/c/tdef/TQ3ErrorMethod"></a>
+<h3><a name="TQ3ErrorMethod">TQ3ErrorMethod</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(void, <b>TQ3ErrorMethod)</b>(
+                            TQ3Error            firstError,
+                            TQ3Error            lastError,
+                            TQ3Int32            userData);</tt><br>
+</blockquote>
+<p>Error Manager error callback.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>firstError</tt></td><td>The first error which has occurred since the last
+time the handler was invoked.</td><tr>
+<tr valign=top><td><tt>lastError</tt></td><td>The most recent error which has occurred.</td><tr>
+<tr valign=top><td><tt>userData</tt></td><td>The reference parameter passed to Q3Error_Register.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3NoticeMethod"></a>
+<h3><a name="TQ3NoticeMethod">TQ3NoticeMethod</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(void, <b>TQ3NoticeMethod)</b>(
+                            TQ3Notice           firstNotice,
+                            TQ3Notice           lastNotice,
+                            TQ3Int32            userData);</tt><br>
+</blockquote>
+<p>Error Manager notice callback.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>firstNotice</tt></td><td>The first notice which has occurred since the last
+time the handler was invoked.</td><tr>
+<tr valign=top><td><tt>lastNotice</tt></td><td>The most recent notice which has occurred.</td><tr>
+<tr valign=top><td><tt>userData</tt></td><td>The reference parameter passed to Q3Notice_Register.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3WarningMethod"></a>
+<h3><a name="TQ3WarningMethod">TQ3WarningMethod</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(void, <b>TQ3WarningMethod)</b>(
+                            TQ3Warning          firstWarning,
+                            TQ3Warning          lastWarning,
+                            TQ3Int32            userData);</tt><br>
+</blockquote>
+<p>Error Manager warning callback.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>firstWarning</tt></td><td>The first warning which has occurred since the last
+time the handler was invoked.</td><tr>
+<tr valign=top><td><tt>lastWarning</tt></td><td>The most recent warning which has occurred.</td><tr>
+<tr valign=top><td><tt>userData</tt></td><td>The reference parameter passed to Q3Warning_Register.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+</body></html>

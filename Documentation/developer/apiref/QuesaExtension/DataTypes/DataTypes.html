@@ -1,0 +1,29 @@
+<html><head><title>Defined Types</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Defined Types</h1></font><hr><br>
+<a name="//apple_ref/c/tdef/TQ3XSharedLibraryInfo"></a>
+<h3><a name="TQ3XSharedLibraryInfo">TQ3XSharedLibraryInfo</a></h3>
+<blockquote><pre>
+typedef  struct  TQ3XSharedLibraryInfo  {
+  TQ3XSharedLibraryRegister  registerFunction;
+  TQ3Uns32  sharedLibrary;
+}  TQ3XSharedLibraryInfo;
+</pre>
+</blockquote>
+<p>Parameter data for Q3XSharedLibrary_Register.
+<br><br>
+The sharedLibrary field is often used to hold a platform-specific
+shared library reference. It has no meaning for Quesa, and is used
+as an identifier to match up calls to Q3XSharedLibrary_Unregister
+with the appropriate call to Q3XSharedLibrary_Register.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>registerFunction</tt></td><td>Shared library registration method.</td><tr>
+<tr valign=top><td><tt>sharedLibrary</tt></td><td>Platform-specific shared library reference.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+</body></html>
