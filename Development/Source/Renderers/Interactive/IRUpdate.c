@@ -2149,6 +2149,7 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 									TQ3InteractiveData			*instanceData,
 									TQ3AntiAliasStyleData		*styleData)
 {	const TQ3Uns32		ATI_FSAA_SAMPLES = 510;
+	char				theBuffer[512];
 	TQ3Int32			fsaaLevel;
 #pragma unused(theView)
 
@@ -2190,12 +2191,28 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 
 	// Special-case FSAA support for ATI hardware on the Mac
 	#if QUESA_OS_MACINTOSH
-	if (styleData->state == kQ3On && (styleData->mode & kQ3AntiAliasModeMaskFullScreen))
-		fsaaLevel = (styleData->quality > 0.5f) ? 4 : 2;
-	else
-		fsaaLevel = 0;
+	
+	if (!instanceData->glATICheckedFSAA)
+		{
+		instanceData->glATICheckedFSAA = kQ3True;
+		strcpy(theBuffer, (const char *) glGetString(GL_RENDERER));
+		
+		if (strcmp(theBuffer, "ATI Radeon OpenGL Engine") == 0 ||
+			strcmp(theBuffer, "ATI R-200 OpenGL Engine")  == 0)
+			instanceData->glATIAvailableFSAA = kQ3True;
+		}
+	
+	if (instanceData->glATIAvailableFSAA)
+		{
+		if (styleData->state == kQ3On && (styleData->mode & kQ3AntiAliasModeMaskFullScreen))
+			fsaaLevel = (styleData->quality > 0.5f) ? 4 : 2;
+		else
+			fsaaLevel = 0;
 
-	aglSetInteger(instanceData->glContext, ATI_FSAA_SAMPLES, &fsaaLevel);
+		if (!aglSetInteger(instanceData->glContext, ATI_FSAA_SAMPLES, &fsaaLevel))
+			instanceData->glATIAvailableFSAA = false;
+		}
+
 	#endif
 
 	return(kQ3Success);
