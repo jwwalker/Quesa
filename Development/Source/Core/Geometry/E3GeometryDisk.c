@@ -37,6 +37,7 @@
 #include "E3View.h"
 #include "E3Geometry.h"
 #include "E3GeometryDisk.h"
+#include "E3ErrorManager.h"
 
 
 
@@ -116,23 +117,75 @@ e3geom_disk_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 //=============================================================================
+//      e3geom_disk_calc_point : Compute a point in the disk.
+//-----------------------------------------------------------------------------
+static void
+e3geom_disk_calc_point( const TQ3DiskData *inGeomData, float inSine, float inCosine,
+	float inRadialScale, TQ3Point3D* outPoint )
+{
+	TQ3Vector3D		theVector;
+
+	Q3Vector3D_Scale(&inGeomData->majorRadius, inRadialScale * inCosine, &theVector);
+	Q3Point3D_Vector3D_Add(&inGeomData->origin, &theVector, outPoint);
+
+	Q3Vector3D_Scale(&inGeomData->minorRadius, inRadialScale * inSine, &theVector);
+	Q3Point3D_Vector3D_Add(outPoint, &theVector, outPoint);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_disk_cache_new : Disk cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3DiskData *geomData)
 {	float						theAngle, deltaAngle, cosAngle, sinAngle;
-	float						uMin, uMax, vMin, vMax, uDiff, vDiff;
-	TQ3Uns32					numSides, numPoints, n;
+	float						uMin, uMax, vMin, vMax;
+	TQ3Uns32					numSides, numPoints, numTriangles, n;
 	TQ3TriMeshAttributeData		vertexAttributes[2];
+	TQ3TriMeshAttributeData		faceAttributes;
 	TQ3SubdivisionStyleData		subdivisionData;
 	TQ3TriMeshTriangleData		*theTriangles;
 	TQ3TriMeshData				triMeshData;
 	TQ3Vector3D					*theNormals;
+	TQ3Vector3D					*faceNormals;
 	TQ3GeometryObject			theTriMesh;
 	TQ3Point3D					*thePoints;
 	TQ3Status					qd3dStatus;
-	TQ3Vector3D					theVector;
+	TQ3Vector3D					surfaceNormalVector;
 	TQ3Param2D					*theUVs;
+	float						startAngle, endAngle, angleRange;
+	TQ3Boolean					isPartAngleRange, hasHoleInCenter;
+	float						crossLength;
+
+
+
+	// Get the UV limits and make sure they are valid.
+	// These are for specifying partial disks, and have little to do
+	// with surface UV coordinates.
+	uMin  = E3Num_Max(E3Num_Min(geomData->uMin, 1.0f), 0.0f);
+	uMax  = E3Num_Max(E3Num_Min(geomData->uMax, 1.0f), 0.0f);
+	vMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
+	vMax  = E3Num_Max(E3Num_Min(geomData->vMax, 1.0f), 0.0f);
+	// It is possible for uMin to be greater than uMax, so that
+	// we can specify which way to wrap around the circle.
+	// But it doesn't make sense for vMin to be greater than vMax.
+	if (vMin > vMax)
+		E3Float_Swap( vMin, vMax );
+	hasHoleInCenter = (vMin > kQ3RealZero)? kQ3True : kQ3False;
+	
+	
+	
+	// Turn the u limits into an angle range in radians.
+	startAngle = uMin * kQ32Pi;
+	endAngle = uMax * kQ32Pi;
+	if (startAngle > endAngle)
+		startAngle -= kQ32Pi;
+	angleRange = endAngle - startAngle;
+	isPartAngleRange = E3Float_Abs( angleRange - kQ32Pi ) > kQ3RealZero?
+		kQ3True : kQ3False;
 
 
 
@@ -159,48 +212,54 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 			}
 		}
 	numSides  = E3Num_Max(E3Num_Min(numSides, 256), 3);
-	numPoints = numSides * 2;
-
-
-
-	// Get the UV limits
-	uMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	uMax  = E3Num_Max(E3Num_Min(geomData->uMax, 1.0f), 0.0f);
-	vMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	vMax  = E3Num_Max(E3Num_Min(geomData->vMax, 1.0f), 0.0f);
-	uDiff = uMax - uMin;
-	vDiff = vMax - vMin;
+	
+	
+	
+	// For a solid disk, we need one triangle for each side, but if there is a hole
+	// in the center, we need two triangles for each side.
+	// If the disk is not on the full angle range, we need extra points for the
+	// boundary.
+	if (hasHoleInCenter)
+	{
+		numTriangles = numSides * 2;
+		numPoints = numSides * 2;
+		if (isPartAngleRange == kQ3True)
+			numPoints += 2;
+	}
+	else	// solid
+	{
+		numTriangles = numSides;
+		numPoints = numSides + 1;	// + 1 for center
+		if (isPartAngleRange == kQ3True)
+			numPoints += 1;
+	}
 
 
 
 	// Allocate the memory we need for the TriMesh data
 	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
 	theNormals   = (TQ3Vector3D *)            Q3Memory_Allocate(numPoints * sizeof(TQ3Vector3D));
+	faceNormals	 = (TQ3Vector3D *)            Q3Memory_Allocate(numTriangles * sizeof(TQ3Vector3D));
 	theUVs       = (TQ3Param2D  *)            Q3Memory_Allocate(numPoints * sizeof(TQ3Param2D));
-	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numSides  * sizeof(TQ3TriMeshTriangleData));
+	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numTriangles * sizeof(TQ3TriMeshTriangleData));
 
-	if (thePoints == NULL || theNormals == NULL || theUVs == NULL || theTriangles == NULL)
+	if (thePoints == NULL || theNormals == NULL || theUVs == NULL || theTriangles == NULL ||
+		faceNormals == NULL)
 		{
 		Q3Memory_Free(&thePoints);
 		Q3Memory_Free(&theNormals);
 		Q3Memory_Free(&theUVs);
 		Q3Memory_Free(&theTriangles);
+		Q3Memory_Free(&faceNormals);
 		
 		return(NULL);
 		}
 
 
 
-	// Surface normal is the cross product of the majorRadius and minorRadius
-	Q3Vector3D_Cross(&geomData->majorRadius, &geomData->minorRadius, &theNormals[0]);
-	Q3Vector3D_Normalize(&theNormals[0], &theNormals[0]);
-
-
-
 	// Define the sides, as a cosine/sine combination of major and minor radius vectors
-	theAngle   = 0.0f;
-	deltaAngle = kQ32Pi / (float) numSides;
-	for (n = 0; n < numSides; n++)
+	deltaAngle = angleRange / (float) numSides;
+	for (n = 0, theAngle = startAngle; n < numSides; ++n, theAngle += deltaAngle)
 		{
 		// Figure out where we are
 		cosAngle = (float) cos(theAngle);
@@ -208,34 +267,134 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 		// Set up the points
-		Q3Vector3D_Scale(&geomData->majorRadius,  cosAngle, &theVector);
-		Q3Point3D_Vector3D_Add(&geomData->origin, &theVector, &thePoints[n]);
+		if (hasHoleInCenter)
+			{
+			e3geom_disk_calc_point( geomData, sinAngle, cosAngle, vMax, &thePoints[2*n] );
+			e3geom_disk_calc_point( geomData, sinAngle, cosAngle, vMin, &thePoints[2*n+1] );
+			}
+		else
+			{
+			e3geom_disk_calc_point( geomData, sinAngle, cosAngle, vMax, &thePoints[n] );
+			}
 
-		Q3Vector3D_Scale(&geomData->minorRadius, sinAngle, &theVector);
-		Q3Point3D_Vector3D_Add(&thePoints[n],    &theVector, &thePoints[n]);
 
-
-		// Set up the normal
-		theNormals[n] = theNormals[0];
-
-
-		// Set up the UV
-		theUVs[n].u = uMin + (uDiff * (        (cosAngle + 1.0f) / 2.0f));
-		theUVs[n].v = vMin + (vDiff * (1.0f - ((sinAngle + 1.0f) / 2.0f)));
+		// Set up the surface UV coordinates
+		if (hasHoleInCenter)
+			{
+			theUVs[2*n].u = (vMax * cosAngle + 1.0f) / 2.0f;
+			theUVs[2*n].v = (vMax * sinAngle + 1.0f) / 2.0f;
+			theUVs[2*n+1].u = (vMin * cosAngle + 1.0f) / 2.0f;
+			theUVs[2*n+1].v = (vMin * sinAngle + 1.0f) / 2.0f;
+			}
+		else
+			{
+			theUVs[n].u = (vMax * cosAngle + 1.0f) / 2.0f;
+			theUVs[n].v = (vMax * sinAngle + 1.0f) / 2.0f;
+			}
 		
 
-		// Set up the triangle
-		theTriangles[n].pointIndices[0] = numSides;
-		theTriangles[n].pointIndices[1] = n;
-		theTriangles[n].pointIndices[2] = (n + 1) % numSides;
-
-		theAngle += deltaAngle;
+		// Set up the triangles
+		if (hasHoleInCenter)
+			{
+			if (isPartAngleRange)
+				{
+				theTriangles[2*n].pointIndices[0] = 2*n + 1;
+				theTriangles[2*n].pointIndices[1] = 2*n;
+				theTriangles[2*n].pointIndices[2] = 2*n + 2;
+				
+				theTriangles[2*n+1].pointIndices[0] = 2*n + 1;
+				theTriangles[2*n+1].pointIndices[1] = 2*n + 2;
+				theTriangles[2*n+1].pointIndices[2] = 2*n + 3;
+				}
+			else
+				{
+				theTriangles[2*n].pointIndices[0] = 2*n + 1;
+				theTriangles[2*n].pointIndices[1] = 2*n;
+				theTriangles[2*n].pointIndices[2] = (2*n + 2) % (2*numSides);
+				
+				theTriangles[2*n+1].pointIndices[0] = 2*n + 1;
+				theTriangles[2*n+1].pointIndices[1] = (2*n + 2) % (2*numSides);
+				theTriangles[2*n+1].pointIndices[2] = (2*n + 3) % (2*numSides);
+				}
+			}
+		else
+			{
+			if (isPartAngleRange)
+				{
+				theTriangles[n].pointIndices[0] = numSides + 1;
+				theTriangles[n].pointIndices[1] = n;
+				theTriangles[n].pointIndices[2] = n + 1;
+				}
+			else
+				{
+				theTriangles[n].pointIndices[0] = numSides;
+				theTriangles[n].pointIndices[1] = n;
+				theTriangles[n].pointIndices[2] = (n + 1) % numSides;
+				}
+			}
 		}
 
-	thePoints[numSides]  = geomData->origin;
-	theNormals[numSides] = theNormals[0];
-	theUVs[numSides].u   = uMin + (uDiff / 2.0f);
-	theUVs[numSides].v   = vMin + (vDiff / 2.0f);
+
+
+	// Finish with center and/or boundary
+	if (isPartAngleRange)
+		{
+		cosAngle = (float) cos(theAngle);
+		sinAngle = (float) sin(theAngle);
+		if (hasHoleInCenter)
+			{
+			e3geom_disk_calc_point( geomData, sinAngle, cosAngle, vMax,
+				&thePoints[2*numSides] );
+			e3geom_disk_calc_point( geomData, sinAngle, cosAngle, vMin,
+				&thePoints[2*numSides+1] );
+			theUVs[2*numSides].u = (vMax * cosAngle + 1.0f) / 2.0f;
+			theUVs[2*numSides].v = (vMax * sinAngle + 1.0f) / 2.0f;
+			theUVs[2*numSides+1].u = (vMin * cosAngle + 1.0f) / 2.0f;
+			theUVs[2*numSides+1].v = (vMin * sinAngle + 1.0f) / 2.0f;
+			}
+		else
+			{
+			e3geom_disk_calc_point( geomData, sinAngle, cosAngle, vMax,
+				&thePoints[numSides] );
+			thePoints[numSides+1]  = geomData->origin;
+			theUVs[numSides].u = (vMax * cosAngle + 1.0f) / 2.0f;
+			theUVs[numSides].v = (vMax * sinAngle + 1.0f) / 2.0f;
+			theUVs[numSides+1].u   = 0.5f;
+			theUVs[numSides+1].v   = 0.5f;
+			}
+		}
+	else
+		{
+		if (hasHoleInCenter == kQ3False)
+			{
+			thePoints[numSides]  = geomData->origin;
+			theUVs[numSides].u   = 0.5f;
+			theUVs[numSides].v   = 0.5f;
+			}
+		}
+
+
+
+	// Surface normal is the cross product of the majorRadius and minorRadius
+	Q3Vector3D_Cross(&geomData->majorRadius, &geomData->minorRadius, &surfaceNormalVector);
+	crossLength = Q3Vector3D_Length( &surfaceNormalVector );
+	if (crossLength <= kQ3RealZero)
+	{
+		surfaceNormalVector.x = 1.0f;	// arbitrary
+		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
+	}
+	else
+	{
+		Q3Vector3D_Scale( &surfaceNormalVector, 1.0f/crossLength, &surfaceNormalVector );
+	}
+	for (n = 0; n < numPoints; ++n)
+		{
+		theNormals[ n ] = surfaceNormalVector;
+		}
+	for (n = 0; n < numTriangles; ++n)
+		{
+		faceNormals[ n ] = surfaceNormalVector;
+		}
 
 
 
@@ -250,13 +409,20 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 
+	// Set up the face attributes
+	faceAttributes.attributeType     = kQ3AttributeTypeNormal;
+	faceAttributes.data              = faceNormals;
+	faceAttributes.attributeUseArray = NULL;
+
+
+
 	// Initialise the TriMesh data
-	triMeshData.numPoints                 = numSides + 1;
+	triMeshData.numPoints                 = numPoints;
 	triMeshData.points                    = thePoints;
-	triMeshData.numTriangles              = numSides;
+	triMeshData.numTriangles              = numTriangles;
 	triMeshData.triangles                 = theTriangles;
-	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.numTriangleAttributeTypes = 1;
+	triMeshData.triangleAttributeTypes    = &faceAttributes;
 	triMeshData.numEdges                  = 0;
 	triMeshData.edges                     = NULL;
 	triMeshData.numEdgeAttributeTypes     = 0;
@@ -276,6 +442,7 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	Q3Memory_Free(&theNormals);
 	Q3Memory_Free(&theUVs);
 	Q3Memory_Free(&theTriangles);
+	Q3Memory_Free(&faceNormals);
 
 	return(theTriMesh);
 }
