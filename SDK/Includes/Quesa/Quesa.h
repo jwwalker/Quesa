@@ -1455,6 +1455,12 @@ Q3GetReleaseVersion (
 
 
 /*!
+	@functiongroup	Object Hierarchy Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3ObjectHierarchy_GetTypeFromString
  *  @discussion
@@ -1561,14 +1567,23 @@ Q3ObjectHierarchy_EmptySubClassData (
 
 
 /*!
+	@functiongroup	Object Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3Object_Dispose
  *  @discussion
  *      Disposes of a Quesa object.
  *
- *      Since TQ3Objects are reference counted, this function decrements the
- *      reference count of the object. When the reference count falls to 0,
- *      the object is disposed of.
+ *		Most types of TQ3Object are reference-counted.  This function
+ *		decrements the reference count of the object. When the reference count
+ *		falls to 0, the object is deleted.
+ *      
+ *      When used on a non-reference-counted object such as a view or pick,
+ *      the object is deleted immediately.
  *
  *  @param object           The object to dispose.
  *  @result                 Success or failure of the operation.
@@ -2069,6 +2084,12 @@ Q3Object_SetSet (
 
 
 /*!
+	@functiongroup	Shared Object Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3Shared_GetType
  *  @discussion
@@ -2186,6 +2207,12 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shared_Edited (
     TQ3SharedObject               sharedObject
 );
+
+
+
+/*!
+	@functiongroup	Shape Functions
+*/
 
 
 
@@ -2372,6 +2399,12 @@ Q3Shape_ClearElement (
 
 
 /*!
+	@functiongroup	Bitmap Functions
+*/
+
+
+
+/*!
  *  @function
  *      Q3Bitmap_Empty
  *  @discussion
@@ -2465,6 +2498,10 @@ Q3Bitmap_SetBit (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 
