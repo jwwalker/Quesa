@@ -117,6 +117,7 @@ void					E3View_PickStack_PopGroup(TQ3ViewObject theView);
 TQ3Status						E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *theMatrix);
 const TQ3Matrix4x4				*E3View_State_GetLocalToWorld(TQ3ViewObject theView);
 const TQ3SubdivisionStyleData	*E3View_State_GetStyleSubdivision(TQ3ViewObject theView);
+TQ3OrientationStyle				E3View_State_GetStyleOrientation(TQ3ViewObject theView);
 void							E3View_State_SetShaderSurface(TQ3ViewObject theView, const TQ3SurfaceShaderObject theData);
 void							E3View_State_SetShaderIllumination(TQ3ViewObject theView, const TQ3IlluminationShaderObject theData);
 void							E3View_State_SetStyleSubdivision(TQ3ViewObject theView, const TQ3SubdivisionStyleData *theData);
