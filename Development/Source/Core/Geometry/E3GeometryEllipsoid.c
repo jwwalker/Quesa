@@ -95,8 +95,8 @@ e3geom_ellipsoid_copydata(const TQ3EllipsoidData *src, TQ3EllipsoidData *dst, TQ
 static void
 e3geom_ellipsoid_disposedata(TQ3EllipsoidData *theEllipsoid)
 {
-	E3Object_DisposeAndForget( theEllipsoid->interiorAttributeSet );
-	E3Object_DisposeAndForget( theEllipsoid->ellipsoidAttributeSet );
+	Q3Object_CleanDispose(&theEllipsoid->interiorAttributeSet );
+	Q3Object_CleanDispose(&theEllipsoid->ellipsoidAttributeSet );
 }	
 
 
@@ -460,7 +460,7 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 
 
 	// Clean up
-	E3Object_DisposeAndForget(triMeshData.triMeshAttributeSet);
+	Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
 	Q3Memory_Free(&points);
 	Q3Memory_Free(&normals);
 	Q3Memory_Free(&uvs);

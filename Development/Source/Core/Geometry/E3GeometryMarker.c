@@ -531,7 +531,7 @@ E3Marker_EmptyData(TQ3MarkerData *markerData)
 	Q3Bitmap_Empty( &markerData->bitmap ) ;
 	
 	//empty the attributes
-	E3Object_DisposeAndForget( markerData->markerAttributeSet ) ;
+	Q3Object_CleanDispose(&markerData->markerAttributeSet ) ;
 
 	return(kQ3Success);
 }

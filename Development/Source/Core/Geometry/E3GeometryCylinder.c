@@ -116,11 +116,11 @@ e3geom_cylinder_copydata(const TQ3CylinderData *src, TQ3CylinderData *dst, TQ3Bo
 static void
 e3geom_cylinder_disposedata(TQ3CylinderData *theCylinder)
 {
-	E3Object_DisposeAndForget( theCylinder->interiorAttributeSet );
-	E3Object_DisposeAndForget( theCylinder->faceAttributeSet );
-	E3Object_DisposeAndForget( theCylinder->topAttributeSet );
-	E3Object_DisposeAndForget( theCylinder->bottomAttributeSet );
-	E3Object_DisposeAndForget( theCylinder->cylinderAttributeSet );
+	Q3Object_CleanDispose(&theCylinder->interiorAttributeSet );
+	Q3Object_CleanDispose(&theCylinder->faceAttributeSet );
+	Q3Object_CleanDispose(&theCylinder->topAttributeSet );
+	Q3Object_CleanDispose(&theCylinder->bottomAttributeSet );
+	Q3Object_CleanDispose(&theCylinder->cylinderAttributeSet );
 }	
 
 
@@ -425,8 +425,9 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	// finally, create the TriMesh and add to the group
 	theTriMesh = Q3TriMesh_New(&triMeshData);
 	if (theTriMesh != NULL)
-		E3Group_AddObjectAndDispose(theGroup, theTriMesh);
-	E3Object_DisposeAndForget(triMeshData.triMeshAttributeSet);
+		Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
+
+	Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
 
 
 
@@ -485,9 +486,9 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 		theTriMesh = Q3TriMesh_New(&triMeshData);
 		if (theTriMesh != NULL)
-			E3Group_AddObjectAndDispose(theGroup, theTriMesh);
+			Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
 
-		E3Object_DisposeAndForget(triMeshData.triMeshAttributeSet);
+		Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
 	}
 
 
@@ -536,9 +537,9 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 		theTriMesh = Q3TriMesh_New(&triMeshData);
 		if (theTriMesh != NULL)
-			E3Group_AddObjectAndDispose(theGroup, theTriMesh);
+			Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
 
-		E3Object_DisposeAndForget(triMeshData.triMeshAttributeSet);
+		Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
 	}
 
 

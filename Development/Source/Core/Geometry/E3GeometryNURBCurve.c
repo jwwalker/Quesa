@@ -100,7 +100,7 @@ e3geom_curve_disposedata(TQ3NURBCurveData *theNURBCurve)
 {
 	Q3Memory_Free( &theNURBCurve->controlPoints );
 	Q3Memory_Free( &theNURBCurve->knots );
-	E3Object_DisposeAndForget( theNURBCurve->curveAttributeSet );
+	Q3Object_CleanDispose(&theNURBCurve->curveAttributeSet );
 }	
 
 

@@ -95,8 +95,8 @@ e3geom_torus_copydata(const TQ3TorusData *src, TQ3TorusData *dst, TQ3Boolean isD
 static void
 e3geom_torus_disposedata(TQ3TorusData *theTorus)
 {
-	E3Object_DisposeAndForget( theTorus->interiorAttributeSet );
-	E3Object_DisposeAndForget( theTorus->torusAttributeSet );
+	Q3Object_CleanDispose(&theTorus->interiorAttributeSet );
+	Q3Object_CleanDispose(&theTorus->torusAttributeSet );
 }	
 
 
@@ -432,7 +432,7 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 
 
 	// Clean up
-	E3Object_DisposeAndForget(triMeshData.triMeshAttributeSet);
+	Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
 	Q3Memory_Free(&points);
 	Q3Memory_Free(&normals);
 	Q3Memory_Free(&uvs);

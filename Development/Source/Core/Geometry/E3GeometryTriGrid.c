@@ -152,17 +152,17 @@ e3geom_trigrid_disposedata(TQ3TriGridData *theTriGrid)
 	if (theTriGrid->facetAttributeSet != NULL) {
 		qtyFacets = 2 * (theTriGrid->numRows-1) * (theTriGrid->numColumns-1);
 		for (i=0; i<qtyFacets; i++) {
-			E3Object_DisposeAndForget( theTriGrid->facetAttributeSet[i] );
+			Q3Object_CleanDispose(&theTriGrid->facetAttributeSet[i] );
 		}
 	}
 	
 	qtyVertices = theTriGrid->numRows * theTriGrid->numColumns;
 	for (i = 0; i < qtyVertices; ++i)
 	{
-		E3Object_DisposeAndForget( theTriGrid->vertices[ i ].attributeSet );
+		Q3Object_CleanDispose(&theTriGrid->vertices[ i ].attributeSet );
 	}
 	
-	E3Object_DisposeAndForget( theTriGrid->triGridAttributeSet );
+	Q3Object_CleanDispose(&theTriGrid->triGridAttributeSet );
 }	
 
 
@@ -267,7 +267,8 @@ e3geom_trigrid_addtriangle(TQ3GroupObject group, const TQ3TriGridData *geomData,
 	
 	// build and add the triangle
 	theTriangle = Q3Triangle_New(&triangleData);
-	if (theTriangle != NULL) E3Group_AddObjectAndDispose(group, theTriangle);	
+	if (theTriangle != NULL)
+		Q3Group_AddObjectAndDispose(group, &theTriangle);	
 }
 
 

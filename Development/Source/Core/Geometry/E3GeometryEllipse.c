@@ -404,7 +404,7 @@ E3Ellipse_EmptyData(TQ3EllipseData *ellipseData)
 
 
 	// Release the data
-	E3Object_DisposeAndForget(ellipseData->ellipseAttributeSet);
+	Q3Object_CleanDispose(&ellipseData->ellipseAttributeSet);
 
 	return(kQ3Success);
 }
