@@ -34,6 +34,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Viewer.h"
 #include "E3WinViewer.h"
 
 
@@ -45,6 +46,8 @@
 //-----------------------------------------------------------------------------
 // Internal constants go here
 
+
+HINSTANCE gDllInstance;// the global reference to the DLL
 
 
 
@@ -64,7 +67,14 @@
 // Internal macros go here
 
 
-
+static const char* e3_viewer_window_class_name()
+{
+#if __REALQD3D__
+	return "QD3DViewerWindow";// from Spy
+#else
+	return "QuesaViewerWindow";
+#endif
+}
 
 
 //=============================================================================
@@ -107,17 +117,52 @@ E3WinViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 
 
 //=============================================================================
-//      E3WinViewerNew : One-line description of the method.
+//      E3WinViewerNew : Create a viewer child window.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : To fit neatly into the Windows scheme, we take the
+//		input window as the parent of the viewer window.
+//
+//		To do:
+//		-- investigation of the correct handling of the rect parameter
+//		-- control buttons
+//		-- badge
 //-----------------------------------------------------------------------------
+
 TQ3ViewerObject
 E3WinViewerNew(HWND window, const RECT *rect, TQ3Uns32 flags)
 {
+	TQ3ViewerObject theViewer;
 
-
-	// To be implemented...
-	return(NULL);
+	HWND thePort= CreateWindowEx
+		( WS_EX_LEFT
+			| WS_EX_CONTROLPARENT
+			| WS_EX_RIGHTSCROLLBAR
+			| WS_EX_ACCEPTFILES 
+			// extended window style, from Spy
+		,  e3_viewer_window_class_name() // pointer to registered class name
+		, "" // pointer to window name
+		, WS_CHILD
+			| WS_VISIBLE
+			| WS_CLIPSIBLINGS
+			| WS_CLIPCHILDREN
+			| WS_OVERLAPPED       
+			// window style, from Spy
+		, rect->left               // horizontal position of window
+		, rect->top               // vertical position of window
+		, rect->right-rect->left          // window width
+		, rect->bottom-rect->top         // window height
+		, window     // handle to parent or owner window
+		, 0         // handle to menu, or child-window identifier
+		, gDllInstance // handle to application instance
+		, 0        // pointer to window-creation data
+	);
+ 
+	theViewer= Q3ViewerNew(thePort,rect,flags);
+	if (theViewer)
+	{
+		SetProp(thePort,"Q3ViewerObject",theViewer);
+	}
+	return theViewer;
 }
 
 
@@ -321,19 +366,49 @@ E3WinViewerMouseUp(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 
 
 
-
-//=============================================================================
-//      E3WinViewerGetBitmap : One-line description of the method.
+ //=============================================================================
+//      E3WinViewerGetBitmap : Get a Bitmap of the current Quesa picture.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : No need to call Q3ViewerGetBitmap.
 //-----------------------------------------------------------------------------
 HBITMAP
 E3WinViewerGetBitmap(TQ3ViewerObject viewer)
 {
+	HBITMAP result;
+	HWND wnd;
+	HDC dc;
+	HDC result_dc;
+	TQ3Status status;
+	unsigned long cx;
+	unsigned long cy;
+	BOOL ok;
+		
+	status= Q3WinViewerGetDimension (viewer,&cx,&cy);
+	if (status == kQ3Failure) return 0;
 
+	wnd= Q3WinViewerGetWindow(viewer);
+	if (wnd == 0) return 0;
 
-	// To be implemented...
-	return(NULL);
+	dc= GetDC(wnd);
+	if (dc == 0) return 0;
+
+	result=  CreateCompatibleBitmap(dc, cx, cy);
+	result_dc= CreateCompatibleDC(dc); 
+
+	if (!SelectObject(result_dc, result)) 
+	{
+		ReleaseDC(wnd,dc);
+		DeleteDC(result_dc);
+		DeleteObject(result);
+		return 0;
+	}
+
+    ok= BitBlt (result_dc, 0, 0, cx, cy, dc, 0, 0, SRCCOPY);
+ 
+	ReleaseDC(wnd,dc);
+	DeleteDC(result_dc);
+
+	return result;
 }
 
 
@@ -541,15 +616,30 @@ E3WinViewerGetFlags(TQ3ViewerObject viewer)
 //=============================================================================
 //      E3WinViewerSetBounds : One-line description of the method.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Set the child size and call the common Quesa
+//		resizing procedure.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WinViewerSetBounds(TQ3ViewerObject viewer, RECT *bounds)
 {
+	HWND wnd;
+	BOOL ok;
+	wnd= Q3WinViewerGetWindow(viewer);
+	if (wnd == 0) return kQ3Failure;
+	
+	ok= SetWindowPos(
+		wnd,             // handle to window
+		0,  // placement-order handle
+		0,                 // horizontal position
+		0,                 // vertical position
+		bounds->right-bounds->left,                // width
+		bounds->bottom-bounds->top,                // height
+		SWP_NOMOVE            // window-positioning flags
+	);
+	if (!ok) return kQ3Failure;
+ 
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	return(Q3ViewerSetBounds(viewer,bounds));
 }
 
 
@@ -654,10 +744,7 @@ E3WinViewerSetWindow(TQ3ViewerObject viewer, HWND window)
 HWND
 E3WinViewerGetWindow(TQ3ViewerObject viewer)
 {
-
-
-	// To be implemented...
-	return(NULL);
+	return(Q3ViewerGetWindow(viewer));
 }
 
 
@@ -672,10 +759,7 @@ E3WinViewerGetWindow(TQ3ViewerObject viewer)
 TQ3ViewerObject
 E3WinViewerGetViewer(HWND theWindow)
 {
-
-
-	// To be implemented...
-	return(NULL);
+	return (TQ3ViewerObject)GetProp(theWindow,"Q3ViewerObject");
 }
 
 
@@ -780,10 +864,10 @@ E3WinViewerClear(TQ3ViewerObject viewer)
 TQ3Status
 E3WinViewerCut(TQ3ViewerObject viewer)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	TQ3Status status = Q3WinViewerCopy (viewer);
+	if (status == kQ3Success)
+		return Q3WinViewerClear (viewer);
+	return status;
 }
 
 
@@ -795,16 +879,91 @@ E3WinViewerCut(TQ3ViewerObject viewer)
 //-----------------------------------------------------------------------------
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
-TQ3Status
-E3WinViewerCopy(TQ3ViewerObject viewer)
+
+static TQ3Status set_3dmf_clip( TQ3ViewerObject viewer )
 {
+	unsigned long actualDataSize;
+	HGLOBAL handle;
+	LPVOID data;
+	TQ3Status success;
+	UINT fmt3dmf;
 
+// preflight
+	actualDataSize= 0;
+	success= Q3WinViewerWriteData (viewer, 0, 0, &actualDataSize);
+	if (success == kQ3Failure) return success;
+	if (actualDataSize<=0) return kQ3Success;
 
-	// To be implemented...
-	return(kQ3Failure);
+	handle= GlobalAlloc(GMEM_MOVEABLE|GMEM_DDESHARE, actualDataSize);
+	if (handle == 0) return kQ3Failure;
+
+	data= GlobalLock(handle);
+	success= Q3WinViewerWriteData (viewer, data, actualDataSize, &actualDataSize);
+
+	if (success == kQ3Success)
+	{
+		fmt3dmf= RegisterClipboardFormat("Quickdraw 3D Metafile");
+		SetClipboardData(fmt3dmf, data);
+	}
+
+	GlobalUnlock(data);
+	return success;
 }
 
 
+static TQ3Status set_bitmap_clip( TQ3ViewerObject viewer )
+{
+	HBITMAP bitmap;
+
+	bitmap=Q3WinViewerGetBitmap(viewer);
+	if (bitmap == 0) return kQ3Failure;
+
+	SetClipboardData(CF_BITMAP, bitmap);
+
+	return kQ3Success;
+}
+
+
+TQ3Status
+E3WinViewerCopy(TQ3ViewerObject viewer)
+{
+	HWND wnd;
+	TQ3Status success;
+
+	success= kQ3Success;
+
+	wnd= Q3WinViewerGetWindow(viewer);
+	if (wnd == 0) return kQ3Failure;
+
+    if (!OpenClipboard(wnd))  return kQ3Failure;
+
+//Send the bitmap to the clipboard if we can get one.     
+	success= set_bitmap_clip( viewer );
+
+// 3DMF, does not yet work correctly in Q3WinViewerWriteData
+//	success= set_3dmf_clip( viewer );
+
+//Free clipboard ownership.
+	CloseClipboard(); 
+
+	return(success);
+}
+
+
+static TQ3Status e3_win_viewer_render_3dmf_clip( TQ3ViewerObject viewer )
+{
+	TQ3Status success;
+	unsigned long actualDataSize;
+// preflight
+	actualDataSize= 0;
+	success= Q3WinViewerWriteData (viewer, 0, 0, &actualDataSize);
+	if (success == kQ3Failure) return success;
+
+	// To be implemented...
+	return kQ3Failure;
+
+	// SetClipboardData(fmt3dmf, 0);
+}
 
 
 
@@ -812,14 +971,50 @@ E3WinViewerCopy(TQ3ViewerObject viewer)
 //      E3WinViewerPaste : One-line description of the method.
 //-----------------------------------------------------------------------------
 //		Note : More detailed comments can be placed here if required.
+//		Known Problems:
+//			-- Quesa Assertion: 'classType != kQ3ObjectTypeInvalid' failed on line 1096 of E3ClassTree.c
+//				when pasting the test triangle
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WinViewerPaste(TQ3ViewerObject viewer)
 {
+	TQ3Status result;
+	HWND wnd;
+	UINT fmt3dmf;
+	HANDLE data;
+	LPVOID clipData;
 
+	result= kQ3Success;
 
-	// To be implemented...
-	return(kQ3Failure);
+	wnd= Q3WinViewerGetWindow(viewer);
+	if (wnd == 0) return kQ3Failure;
+
+    if (!OpenClipboard(wnd))  return kQ3Failure;
+
+	// We only accept 3DMF data:
+	//
+	// Q3WinViewerSetData(viewer,data);
+	fmt3dmf= RegisterClipboardFormat("Quickdraw 3D Metafile");
+	data= GetClipboardData(fmt3dmf);
+	if (data)
+	{	
+		clipData = GlobalLock(data);
+		if (clipData == 0) 
+		{
+			result= kQ3Failure;
+		}
+		else
+		{
+			result= Q3WinViewerUseData(viewer, clipData, GlobalSize(data));
+			GlobalUnlock(data);
+		}
+	}
+  
+ 
+//Free clipboard ownership.
+	CloseClipboard(); 
+
+	return(result);
 }
 
 
@@ -913,6 +1108,103 @@ E3WinViewerSetCameraView(TQ3ViewerObject viewer, TQ3ViewerCameraView viewType)
 }
 
 
+
+LRESULT CALLBACK ViewerWndProc(
+                HWND hWnd,        
+                UINT message,      
+                WPARAM wParam,     
+                LPARAM lParam)   
+{
+		PAINTSTRUCT ps;
+		HDC hdc;
+		TQ3ViewerObject theViewer;
+
+        switch (message) 
+		{
+			case WM_PAINT:
+				theViewer= E3WinViewerGetViewer(hWnd);
+				if (theViewer)
+				{
+					hdc = BeginPaint (hWnd, &ps);
+					Q3WinViewerDrawContent (theViewer);
+					EndPaint (hWnd, &ps);
+				}
+				break;
+
+// should we answer to WM_DESTROY ???
+
+            default:          // Passes it on if unproccessed
+                    return (DefWindowProc(hWnd, message, wParam, lParam));
+        }
+        return (0);
+}
+
+
+
+//=============================================================================
+//      e3_viewer_register_window_classes: Registration of the viewer window classes
+//-----------------------------------------------------------------------------
+//		Note : 
+//			The Spy tool shows the following hierarchy for the original viewer
+//			Viewer Test { QD3DViewerWindow { ToolbarWindow32 } }
+//-----------------------------------------------------------------------------
+TQ3Status E3WinViewerRegisterWindowClasses(HINSTANCE hInstance)
+{
+    WNDCLASSEX  wc;
+	ATOM	  success;
+    
+// Define viewer window class.
+    wc.cbSize= sizeof(WNDCLASSEX); 
+	wc.style         = CS_OWNDC;// from Spy
+    wc.lpfnWndProc   = (WNDPROC)ViewerWndProc;       
+    wc.cbClsExtra    = 0;                      
+    wc.cbWndExtra    = 0;                     
+    wc.hInstance     = hInstance;             
+    wc.hIcon         = 0;
+    wc.hCursor       = LoadCursor(NULL, IDC_ARROW);// from Spy
+    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW);// from Spy
+    wc.lpszMenuName  = 0; 
+	wc.lpszClassName = e3_viewer_window_class_name();
+	wc.hIconSm= 0;
+	
+    success = RegisterClassEx(&wc);
+
+// Todo: ToolbarWindow32
+
+	return success > 0 ? kQ3ErrorNone : kQ3Failure;
+}
+
+
+#if defined(_USRDLL)
+
+// This procedure should be in some more central point of Quesa
+// but for now it does help here.
+BOOL WINAPI DllMain(
+  HINSTANCE hinstDLL,  // handle to DLL module
+  DWORD fdwReason,     // reason for calling function
+  LPVOID lpvReserved   // reserved
+)
+{
+	gDllInstance= hinstDLL;
+	if (fdwReason == DLL_PROCESS_ATTACH)
+	{
+		if (E3WinViewerRegisterWindowClasses(hinstDLL) != kQ3ErrorNone)
+		{
+			return FALSE;
+		}
+
+ 
+#if 0
+		UINT RegisterClipboardFormat(
+  LPCTSTR lpszFormat   // address of name string
+);
+#endif
+	}
+	return TRUE;
+}
+
+#endif
+ 
 
 
 
