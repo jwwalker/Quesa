@@ -346,35 +346,35 @@ e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, co
 	// Set up the triangle attributes
 	n = 0;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numTriangles, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
 											&triangleAttributes[n], kQ3AttributeTypeNormal))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numTriangles, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
 											&triangleAttributes[n], kQ3AttributeTypeAmbientCoefficient))
 		n++;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numTriangles, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
 											&triangleAttributes[n], kQ3AttributeTypeDiffuseColor))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numTriangles, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
 											&triangleAttributes[n], kQ3AttributeTypeSpecularColor))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numTriangles, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
 											&triangleAttributes[n], kQ3AttributeTypeSpecularControl))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numTriangles, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
 											&triangleAttributes[n], kQ3AttributeTypeTransparencyColor))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numTriangles, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
 											&triangleAttributes[n], kQ3AttributeTypeHighlightState))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numTriangles, e3geom_polyhedron_gather_triangle_attribute, (void *) geomData,
 											&triangleAttributes[n], kQ3AttributeTypeSurfaceShader))
 		n++;
 
@@ -446,35 +446,35 @@ e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, co
 	// Set up the edge attributes
 	n = 0;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numEdges, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
 											&edgeAttributes[n], kQ3AttributeTypeNormal))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numEdges, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
 											&edgeAttributes[n], kQ3AttributeTypeAmbientCoefficient))
 		n++;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numEdges, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
 											&edgeAttributes[n], kQ3AttributeTypeDiffuseColor))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numEdges, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
 											&edgeAttributes[n], kQ3AttributeTypeSpecularColor))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numEdges, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
 											&edgeAttributes[n], kQ3AttributeTypeSpecularControl))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numEdges, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
 											&edgeAttributes[n], kQ3AttributeTypeTransparencyColor))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numEdges, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
 											&edgeAttributes[n], kQ3AttributeTypeHighlightState))
 		n++;
 		
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numEdges, e3geom_polyhedron_gather_edge_attribute, (void *) geomData,
 											&edgeAttributes[n], kQ3AttributeTypeSurfaceShader))
 		n++;
 
