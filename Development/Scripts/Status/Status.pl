@@ -90,7 +90,7 @@ my $kTemplateHeader = <<'TEMPLATE_HEADER';
 	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
 	<a href="../reference/docs.html">Documentation</a><br>
 	<a href="../reference/build.html">Building Quesa</a><br>
-	<a href="../reference/lgpl.html">LGPL License</a><br>
+	<a href="../reference/licence.html">License</a><br>
 	<a href="../reference/carbon.html">Carbon Dating</a><br>
 
 	<br>
