@@ -79,6 +79,7 @@ public :
 													TQ3XMetaHandler	newClassMetaHandler,
 													E3ClassInfo*	newParent
 					 								) ; // constructor	
+	friend class E3Camera ;
 	} ;
 
 
