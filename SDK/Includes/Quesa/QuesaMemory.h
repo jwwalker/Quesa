@@ -112,17 +112,18 @@ Q3Memory_AllocateClear (
  *      is deliberate, to ensure that the pointer can be fully invalidated
  *      after disposal.
  *
- *      This function is implemented as a macro to avoid over-zealous
- *      compiler warnings.
- *
  *  @param thePtr           A pointer to the pointer to free.
  */
-#define Q3Memory_Free(_x)         Q3Memory_Free_((void **) (_x))
+#undef  Q3Memory_Free
+#define Q3Memory_Free             Q3Memory_Free_
 
 EXTERN_API_C ( void )
-Q3Memory_Free_ (
+Q3Memory_Free (
     void                          **thePtr
 );
+
+#undef  Q3Memory_Free
+#define Q3Memory_Free(_x)         Q3Memory_Free_((void **) (_x))
 
 
 
@@ -136,23 +137,25 @@ Q3Memory_Free_ (
  *      be allocated, freed, or resized with a single call. See the
  *      documentation for realloc for the exact specification.
  *
- *      Note that like Q3Memory_Free_, a pointer to the pointer is
+ *      Note that like Q3Memory_Free, a pointer to the pointer is
  *		passed to allow it to be set to NULL after disposal.
- *
- *      This function is implemented as a macro to avoid over-zealous
- *      compiler warnings.
  *
  *  @param thePtr           A pointer to the pointer to reallocate.
  *  @param newSize          The size in bytes to reallocate the block to.
  *  @result                 Success or failure of the operation.
  */
-#define Q3Memory_Reallocate(_x, _y)   Q3Memory_Reallocate_((void **) (_x), (_y))
+#undef  Q3Memory_Reallocate
+#define Q3Memory_Reallocate             Q3Memory_Reallocate_
+
 
 EXTERN_API_C ( TQ3Status  )
-Q3Memory_Reallocate_ (
+Q3Memory_Reallocate (
     void                          **thePtr,
     TQ3Uns32                      newSize
 );
+
+#undef  Q3Memory_Reallocate
+#define Q3Memory_Reallocate(_x, _y)     Q3Memory_Reallocate_((void **) (_x), (_y))
 
 
 
