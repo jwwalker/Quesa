@@ -1,5 +1,5 @@
 /* Localized versions of Info.plist keys */
 
 CFBundleName = "Quesa";
-CFBundleShortVersionString = "Quesa version 1.6.d13";
-CFBundleGetInfoString = "Quesa version 1.6.d13, Copyright 2002, Quesa Developers";
+CFBundleShortVersionString = "Quesa version 1.6.d17";
+CFBundleGetInfoString = "Quesa version 1.6.d17, Copyright 1999-2003 Quesa Developers";

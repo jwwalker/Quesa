@@ -130,7 +130,7 @@ my $kTemplateQ3C = <<'Q3_CFILE_TEMPLATE';
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2000, Quesa Developers.
+        Quesa Copyright © 1999-2003, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         
@@ -203,7 +203,7 @@ my $kTemplateE3C = <<'E3_CFILE_TEMPLATE';
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2000, Quesa Developers.
+        Quesa Copyright © 1999-2003, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         
@@ -276,7 +276,7 @@ my $kTemplateE3H = <<'E3_HFILE_TEMPLATE';
         Header file for E3FILE_NAME.c.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2000, Quesa Developers.
+        Quesa Copyright © 1999-2003, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         

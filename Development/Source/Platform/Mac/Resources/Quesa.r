@@ -5,7 +5,7 @@
         Mac Rez file for Quesa.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2002, Quesa Developers.
+        Quesa Copyright © 1999-2003, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         
@@ -57,7 +57,7 @@ resource 'vers' (1) {
 	kQ3PrereleaseVersion,
 	verUS,
 	kQ3StringVersion,
-	kQ3StringVersion ", Copyright © 1999-2002\nQuesa Developers"
+	kQ3StringVersion ", Copyright © 1999-2003\nQuesa Developers"
 };
 
 

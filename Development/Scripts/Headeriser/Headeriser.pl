@@ -48,7 +48,7 @@ my $kTemplateQ3H = <<'Q3_HFILE_TEMPLATE';
         Quesa public header.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2000, Quesa Developers.
+        Quesa Copyright © 1999-2003, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         

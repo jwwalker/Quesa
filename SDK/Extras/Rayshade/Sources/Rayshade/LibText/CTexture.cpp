@@ -5,7 +5,7 @@
         Texture class for RayShade
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2000, Quesa Developers.
+        Quesa Copyright © 1999-2003, Quesa Developers.
         
         Rayshade Copyright (C) 1989, 1991, Craig E. Kolb
  		All rights reserved.

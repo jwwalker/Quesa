@@ -1,1 +1,5 @@
-/* Localized versions of Info.plist keys */CFBundleName = "Dump Group";CFBundleShortVersionString = "Dump Group version 0.0.1d1";CFBundleGetInfoString = "Dump Group version 0.0.1d1, Copyright 2000, MyGreatSoftware.";
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "Dump Group";
+CFBundleShortVersionString = "Dump Group version 0.0.1d1";
+CFBundleGetInfoString = "Dump Group version 0.0.1d1, Copyright 1999-2003, Quesa Developers.";

@@ -5,7 +5,7 @@
         'gest' resource for Quesa - Version Gestalt selector.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2002, Quesa Developers.
+        Quesa Copyright © 1999-2003, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         
