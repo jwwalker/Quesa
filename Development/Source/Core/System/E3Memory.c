@@ -469,6 +469,14 @@ E3Memory_NextRecordedObject( TQ3Object inObject )
 		theNext = NULL;
 	}
 	
+	if (theNext != NULL)
+	{
+		while (theNext->childObject != NULL)
+		{
+			theNext = theNext->childObject;
+		}
+	}
+	
 	return theNext;
 }
 #endif
