@@ -40,6 +40,23 @@ extern "C" {
 #endif
 
 
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+
+#if Q3_DEBUG
+// root object data
+typedef struct TQ3ObjectData
+{
+	TQ3Object	prev;
+	TQ3Object	next;
+	void*		stackCrawl;
+} TQ3ObjectData;
+
+#define		PREVLINK(rootobj)	((TQ3ObjectData*)(rootobj)->instanceData)->prev
+#define		NEXTLINK(rootobj)	((TQ3ObjectData*)(rootobj)->instanceData)->next
+
+#endif
 
 
 
@@ -53,8 +70,15 @@ TQ3Status	E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize);
 void		E3Memory_Initialize(void *thePtr, TQ3Uns32 theSize, TQ3Uns8 theValue);
 void		E3Memory_Clear(void *thePtr, TQ3Uns32 theSize);
 
-
-
+#if Q3_DEBUG
+TQ3Status	E3Memory_StartRecording();
+TQ3Status	E3Memory_StopRecording();
+TQ3Boolean	E3Memory_IsRecording();
+TQ3Status	E3Memory_ForgetRecording();
+TQ3Uns32	E3Memory_CountRecords();
+TQ3Object	E3Memory_NextRecordedObject( TQ3Object inObject );
+TQ3Status	E3Memory_DumpRecording( const char* fileName, const char* memo );
+#endif
 
 
 //=============================================================================
