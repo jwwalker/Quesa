@@ -125,6 +125,42 @@ gldrawcontext_mac_getport( TQ3DrawContextObject theDrawContext )
 
 
 //-----------------------------------------------------------------------------
+//		gldrawcontext_mac_calc_window_origin : Find the lower left corner of the
+//												window in port coordinates.
+//-----------------------------------------------------------------------------
+//	The coordinates supplied to AGL_BUFFER_RECT are apparently relative to the
+//	lower left corner of the window.  For most windows, that is the same as the
+//	lower left corner of the window's port, but for "metal" windows in Mac OS X
+//	there is an offset.
+static Point
+gldrawcontext_mac_calc_window_origin( CGrafPtr inPort )
+{
+	Point	thePoint;
+	WindowRef	theWindow = GetWindowFromPort( inPort );
+	if (theWindow == NULL)
+	{
+		// no window, fall back on what we used to do
+		Rect	portBounds;
+		GetPortBounds( inPort, &portBounds );
+		thePoint.h = portBounds.left;
+		thePoint.v = portBounds.bottom;
+	}
+	else
+	{
+		Rect	contentBounds, structureBounds;
+		GetWindowBounds( theWindow, kWindowContentRgn, &contentBounds );
+		GetWindowBounds( theWindow, kWindowStructureRgn, &structureBounds );
+		thePoint.h = structureBounds.left - contentBounds.left;
+		thePoint.v = structureBounds.bottom - contentBounds.top;
+	}
+	return thePoint;
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------
 //		gldrawcontext_mac_new : Create an OpenGL context for a draw context.
 //-----------------------------------------------------------------------------
 static void *
@@ -298,13 +334,20 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	// AGL_BUFFER_RECT has no effect on an offscreen context
 	if (drawContextType != kQ3DrawContextTypePixmap)
 		{
-		glRect[0] = (GLint) drawContextData.pane.min.x;
-		glRect[1] = (GLint)(theRect.bottom - drawContextData.pane.max.y);
-		glRect[2] = paneWidth;
-		glRect[3] = paneHeight;
+		if (drawContextData.paneState)
+			{
+			Point	windowOrigin = gldrawcontext_mac_calc_window_origin( thePort );
+			
+			glRect[0] = (GLint) (drawContextData.pane.min.x - windowOrigin.h);
+			glRect[1] = (GLint)(windowOrigin.v - drawContextData.pane.max.y);
+			glRect[2] = paneWidth;
+			glRect[3] = paneHeight;
 
-		aglSetInteger(glContext, AGL_BUFFER_RECT, glRect);
-		aglEnable(glContext,     AGL_BUFFER_RECT);
+			aglSetInteger(glContext, AGL_BUFFER_RECT, glRect);
+			aglEnable(glContext,     AGL_BUFFER_RECT);
+			}
+		else
+			aglDisable( (AGLContext) glContext, AGL_BUFFER_RECT );
 		}
 
 
@@ -458,8 +501,10 @@ gldrawcontext_mac_updatesize(
 				
 				paneWidth = (GLint)(drawContextData.pane.max.x - drawContextData.pane.min.x);
 				paneHeight = (GLint)(drawContextData.pane.max.y - drawContextData.pane.min.y);
-				glRect[0] = (GLint) drawContextData.pane.min.x;
-				glRect[1] = (GLint)(portBounds.bottom - drawContextData.pane.max.y);
+				Point	windowOrigin = gldrawcontext_mac_calc_window_origin( thePort );
+				
+				glRect[0] = (GLint) (drawContextData.pane.min.x - windowOrigin.h);
+				glRect[1] = (GLint)(windowOrigin.v - drawContextData.pane.max.y);
 				glRect[2] = paneWidth;
 				glRect[3] = paneHeight;
 
