@@ -778,12 +778,21 @@ E3Read_3DMF_Style_Subdivision(TQ3FileObject theFile)
 	
 	styleData.method = (TQ3SubdivisionMethod)temp;
 	
-	if(Q3Float32_Read (&styleData.c1, theFile) != kQ3Success)
-		return (NULL);
-	
-	if(styleData.method == kQ3SubdivisionMethodConstant)
-		if(Q3Float32_Read (&styleData.c2, theFile) != kQ3Success)
+	if (styleData.method == kQ3SubdivisionMethodConstant)
+	{
+		if (Q3Int32_Read (&temp, theFile) != kQ3Success)
 			return (NULL);
+		styleData.c1 = (float)temp;
+		if (Q3Int32_Read (&temp, theFile) != kQ3Success)
+			return (NULL);
+		styleData.c2 = (float)temp;
+	}
+	else
+	{
+		if(Q3Float32_Read (&styleData.c1, theFile) != kQ3Success)
+			return (NULL);
+	}
+
 	
 	// Create the style
 	theStyle =  Q3SubdivisionStyle_New (&styleData);
@@ -1567,7 +1576,20 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 	Q3Float32_Read(&geomData.vMin, theFile);
 	Q3Float32_Read(&geomData.vMax, theFile);
 	
-	// the caps To be implemented
+	// This may not be the most elegant way to read the caps, but it works
+	if ( (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) &&
+		(Q3File_IsNextObjectOfType( theFile, Q3_OBJECT_TYPE('c', 'a', 'p', 's') ) == kQ3True) )
+		{
+		TQ3Uns32	temp;
+		Q3Uns32_Read( &temp, theFile );		// Will read 'caps'
+		Q3Uns32_Read( &temp, theFile );		// should read 4, as in 4 bytes coming
+		Q3Uns32_Read( &temp, theFile );		// reads the caps mask
+		geomData.caps = temp;
+		}
+
+// This function is still not completely implemented, as it won't read 
+// the interior, face, or bottom attribute sets.  At least it will now 
+// work on the Quesa logo.
 	
 	
 	// Read in the attributes
