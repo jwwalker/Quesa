@@ -3630,7 +3630,7 @@ Q3BoundingSphere_Set (
  *  @discussion
  *      Set a bounding sphere to just enclose a set of 3D points.
  *
- *  @param bSphere          Description of the parameter.
+ *  @param bSphere          The bounding sphere to update.
  *  @param points3D         Array of 3D points.
  *  @param numPoints        How many points are in the array.
  *  @param structSize       Size of each array element, typically sizeof(TQ3Point3D).

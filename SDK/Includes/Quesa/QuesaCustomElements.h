@@ -206,8 +206,8 @@ CEUrlElement_SetData (
  *      if no URL element has been associated with the object. If a non-NULL
  *      pointer is returned, it must be disposed of with CEUrlElement_EmptyData.
  *
- *  @param object           Description of the parameter.
- *  @param urlData          Description of the parameter.
+ *  @param object           The object to retrieve the URL element from.
+ *  @param urlData          Receives the URL data.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
