@@ -36,7 +36,7 @@
 #if __option(precompile)
 	#pragma precompile_target "QuesaClassicProfile_PCH"
 	
-	#include "Quesa Prefix Profile.h"
+	#include "Quesa Prefix Classic Profile.h"
 	#include "E3Prefix.h"
 #else
 	#include "QuesaClassicProfile_PCH"
