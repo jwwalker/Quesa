@@ -81,6 +81,36 @@
 
 
 //=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3Binary3DMF : public E3FileFormatReader  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TE3FFormat3DMF_Bin_Data					instanceData ;
+	} ;
+
+
+
+class E3SwappedBinary3DMF : public E3FileFormatReader  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TE3FFormat3DMF_Bin_Data					instanceData ;
+	} ;
+	
+
+
+//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3read_3dmf_bin_readflag : reads an int from storage.
@@ -103,24 +133,9 @@ e3read_3dmf_bin_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hin
 //-----------------------------------------------------------------------------
 static TE3FFormat3DMF_Bin_Data*
 e3read_3dmf_bin_getinstancedata( TQ3FileFormatObject format )
-{
-	TE3FFormat3DMF_Bin_Data* 	fformatData;
-	
-	
-	
-	fformatData = (TE3FFormat3DMF_Bin_Data*) E3ClassTree_FindInstanceData(format,
-		kQ3FFormatReaderType3DMFBin);
-	
-	if (fformatData == NULL)
 	{
-		fformatData = (TE3FFormat3DMF_Bin_Data*) E3ClassTree_FindInstanceData(format,
-			kQ3FFormatReaderType3DMFBinSwapped);
+	return (TE3FFormat3DMF_Bin_Data*) format->FindLeafInstanceData () ;
 	}
-	
-	
-	
-	return fformatData;
-}
 
 
 
@@ -132,31 +147,26 @@ e3read_3dmf_bin_getinstancedata( TQ3FileFormatObject format )
 static void
 e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 {
-	TE3FFormat3DMF_Bin_Data* 	fformatData;
 	TQ3ObjectType 				elemType;
 	TQ3Uns32 					i;
 	TQ3Uns32 					elemSize;
-	TQ3Status 					status;
-	TQ3Uns32 					elemLocation;
 	TQ3Object 					result = NULL;
 	
 
 	TQ3XObjectReadDataMethod 	readDataMethod;
 	E3ClassInfoPtr				theClass;
 	
-	TQ3XFFormatInt32ReadMethod	int32Read;
-
 
 	TQ3FileFormatObject format = theFile->GetFileFormat () ;
-	fformatData = e3read_3dmf_bin_getinstancedata(format);
+	TE3FFormat3DMF_Bin_Data* fformatData = e3read_3dmf_bin_getinstancedata(format);
 
 
 
-	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt32Read);
+	TQ3XFFormatInt32ReadMethod int32Read = (TQ3XFFormatInt32ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt32Read ) ;
 
-	elemLocation = fformatData->MFData.baseData.currentStoragePosition;
+	TQ3Uns32 elemLocation = fformatData->MFData.baseData.currentStoragePosition ;
 	
-	status = int32Read(format, &elemType);
+	TQ3Status status = int32Read ( format, &elemType ) ;
 	if(status == kQ3Success){
 		status = int32Read(format, (TQ3Int32*)&elemSize);
 		
@@ -186,12 +196,12 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 					{
 					if(fformatData->types[i].typeID == elemType)
 						{
-						theClass = E3ClassTree_GetClassByName(fformatData->types[i].typeName);
-						break;
+						theClass = E3ClassTree::GetClass ( fformatData->types[i].typeName ) ;
+						break ;
 						}
 					}
 			else
-				theClass = E3ClassTree_GetClassByType(elemType);
+				theClass = E3ClassTree::GetClass ( elemType ) ;
 				
 				
 			if(theClass == NULL){
@@ -200,7 +210,7 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 				}
 			else{
 				// find the read Object method for the class and call it
-				readDataMethod = (TQ3XObjectReadDataMethod)E3ClassTree_GetMethod (theClass, kQ3XMethodTypeObjectReadData);
+				readDataMethod = (TQ3XObjectReadDataMethod) theClass->GetMethod ( kQ3XMethodTypeObjectReadData ) ;
 				if (readDataMethod != NULL)
 					{
 					status = readDataMethod(parent,theFile);
@@ -243,18 +253,16 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 static TQ3Boolean
 e3fformat_3dmf_bin_canread(TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound)
 {
-	TQ3XStorageReadDataMethod readMethod;
 	TQ3Int32 label;
 	TQ3Uns32 flags;
 	TQ3Uns32 sizeRead;
 	
-	if (theFileFormatFound == NULL) {
-		return (kQ3False);
-	}
+	if ( theFileFormatFound == NULL )
+		return kQ3False ;
 
-	*theFileFormatFound = kQ3ObjectTypeInvalid;
+	*theFileFormatFound = kQ3ObjectTypeInvalid ;
 	
-	readMethod = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethodByObject(storage, kQ3XMethodTypeStorageReadData);
+	TQ3XStorageReadDataMethod readMethod = (TQ3XStorageReadDataMethod) storage->GetMethod ( kQ3XMethodTypeStorageReadData ) ;
 	
 	if(readMethod != NULL){
 		// read 4 bytes, search for 3DMF or FMD3 (if swapped)
@@ -301,7 +309,6 @@ static TQ3Status
 e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 {
 	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
-	TQ3Status					status;
 	TQ3Int32					tocType;
 	TQ3Int32					tocSize;
 	TQ3Int32					tocSizeInFile;
@@ -312,14 +319,11 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 	TQ3Int32					tocEntrySize;
 	TQ3Int32					nEntries;
 	TQ3Int32					i;
-	
-	TQ3XFFormatInt32ReadMethod	int32Read;
-	TQ3XFFormatInt64ReadMethod	int64Read;
-	
-	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt32Read);
-	int64Read = (TQ3XFFormatInt64ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt64Read);
+		
+	TQ3XFFormatInt32ReadMethod int32Read = (TQ3XFFormatInt32ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt32Read ) ;
+	TQ3XFFormatInt64ReadMethod int64Read = (TQ3XFFormatInt64ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt64Read ) ;
 					
-	status = int32Read(format, &tocType);
+	TQ3Status status = int32Read(format, &tocType);
 	Q3_REQUIRE_OR_RESULT(tocType == kQ3ObjectTypeTOC, kQ3Failure);
 	if(status == kQ3Success)
 		status = int32Read(format, &tocSize);
@@ -521,14 +525,12 @@ e3fformat_3dmf_bin_get_formattype ( E3File* theFile )
 
 static const char*
 e3fformat_3dmf_bin_get_typestrptr(TQ3FileFormatObject format,TQ3Int32 objectType)
-{
-	E3ClassInfoPtr 				theClass;
-	
-	theClass = E3ClassTree_GetClassByType (objectType);
-	if(theClass != NULL)
-		return E3ClassTree_GetName (theClass);
-	return NULL;
-}
+	{
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectType ) ;
+	if ( theClass != NULL )
+		return theClass->GetName () ;
+	return NULL ;
+	}
 
 
 
@@ -539,12 +541,9 @@ e3fformat_3dmf_bin_get_typestrptr(TQ3FileFormatObject format,TQ3Int32 objectType
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3fformat_3dmf_bin_newunknown(TQ3FileFormatObject format,TQ3Int32 objectType,TQ3Int32 objectSize)
-{
-	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
+	{
+	TE3FFormat3DMF_Bin_Data* instanceData = e3read_3dmf_bin_getinstancedata ( format ) ;
 	TQ3UnknownBinaryData		unknownData;
-	TQ3XFFormatRawReadMethod	rawRead;
-	TQ3Object					theUnknown;
-	const char*						typeString;
 
 	unknownData.objectType = objectType;
 	unknownData.size = objectSize;
@@ -553,7 +552,7 @@ e3fformat_3dmf_bin_newunknown(TQ3FileFormatObject format,TQ3Int32 objectType,TQ3
 		unknownData.contents = (char *) Q3Memory_Allocate(objectSize);
 		if(unknownData.contents == NULL)
 			return NULL;
-		rawRead = (TQ3XFFormatRawReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatRawRead);
+		TQ3XFFormatRawReadMethod rawRead = (TQ3XFFormatRawReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatRawRead ) ;
 		if(rawRead(format,(TQ3Uns8*)unknownData.contents,objectSize) != kQ3Success)
 			{
 			Q3Memory_Free(&unknownData.contents);
@@ -561,15 +560,15 @@ e3fformat_3dmf_bin_newunknown(TQ3FileFormatObject format,TQ3Int32 objectType,TQ3
 			}
 		}
 	else
-		unknownData.contents = NULL;
+		unknownData.contents = NULL ;
 	
-	typeString = e3fformat_3dmf_bin_get_typestrptr(format,objectType);
+	const char* typeString = e3fformat_3dmf_bin_get_typestrptr(format,objectType);
 	
-	theUnknown = E3UnknownBinary_New (&unknownData, typeString);
+	TQ3Object theUnknown = E3UnknownBinary_New (&unknownData, typeString);
 	
 	Q3Memory_Free(&unknownData.contents);
-	return theUnknown;
-}
+	return theUnknown ;
+	}
 
 
 
@@ -580,26 +579,26 @@ e3fformat_3dmf_bin_newunknown(TQ3FileFormatObject format,TQ3Int32 objectType,TQ3
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3fformat_3dmf_bin_skipobject ( E3File* theFile )
-{
-	TQ3Int32 objectType;
-	TQ3Int32 objectSize;
-	TQ3Status result;
+	{
 	TQ3FileFormatObject format = theFile->GetFileFormat () ;
-	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
-	TQ3XFFormatInt32ReadMethod	int32Read;
+	TE3FFormat3DMF_Bin_Data* instanceData = e3read_3dmf_bin_getinstancedata ( format ) ;
 
-	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt32Read);
+	TQ3XFFormatInt32ReadMethod int32Read = (TQ3XFFormatInt32ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt32Read ) ;
 
-	result = Q3Int32_Read((TQ3Int32*)&objectType,theFile);
-	if(result == kQ3Success)
-		result = Q3Int32_Read((TQ3Int32*)&objectSize,theFile);
-	if(result == kQ3Success){	
-		instanceData->MFData.baseData.currentStoragePosition += objectSize;
-		}
-	E3FFormat_3DMF_Bin_Check_MoreObjects(instanceData);
-	E3FFormat_3DMF_Bin_Check_ContainerEnd(instanceData);
-	return result;
-}
+	TQ3Int32 objectType ;
+	TQ3Int32 objectSize ;
+	TQ3Status result = Q3Int32_Read ( (TQ3Int32*) &objectType, theFile ) ;
+	
+	if ( result != kQ3Failure )
+		result = Q3Int32_Read ( (TQ3Int32*) &objectSize, theFile ) ;
+		
+	if ( result != kQ3Failure )
+		instanceData->MFData.baseData.currentStoragePosition += objectSize ;
+		
+	E3FFormat_3DMF_Bin_Check_MoreObjects( instanceData ) ;
+	E3FFormat_3DMF_Bin_Check_ContainerEnd( instanceData ) ;
+	return result ;
+	}
 
 
 
@@ -628,14 +627,9 @@ static void CopyElementsToShape( TQ3SetObject inSet, TQ3ShapeObject ioShape )
 static TQ3Object
 e3fformat_3dmf_bin_readobject ( E3File* theFile )
 {
-	TQ3ObjectType			objectType;
-	TQ3Size 				objectSize;
-	TQ3Status 				status;
 	TQ3Object 				result = NULL;
 	TQ3Object 				childObject = NULL;
 	TQ3Uns32 				previousContainer;
-	TQ3Uns32 				objLocation;
-	TQ3Uns32 				refID;
 	TQ3XObjectReadMethod 	readMethod = NULL;
 	TQ3XObjectReadDefaultMethod		readDefaultMethod = NULL;
 	E3ClassInfoPtr			theClass = NULL;
@@ -643,22 +637,26 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 	TQ3Uns32 				i;
 	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	
-	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
-	TQ3XFFormatInt32ReadMethod	int32Read;
+	TE3FFormat3DMF_Bin_Data* instanceData = e3read_3dmf_bin_getinstancedata ( format ) ;
 
 	
-	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt32Read);
+	TQ3XFFormatInt32ReadMethod int32Read = (TQ3XFFormatInt32ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt32Read ) ;
 
-	objLocation = instanceData->MFData.baseData.currentStoragePosition;
+	TQ3Uns32 objLocation = instanceData->MFData.baseData.currentStoragePosition ;
 
-	status = int32Read(format, (TQ3Int32*)&objectType);
-	if(status == kQ3Success)
-		status = int32Read(format, (TQ3Int32*)&objectSize);
+	TQ3ObjectType objectType ;
+	TQ3Status status = int32Read ( format, (TQ3Int32*) &objectType ) ;
+	
+	TQ3Size objectSize = 0 ;
+	if ( status == kQ3Success )
+		status = int32Read ( format, (TQ3Int32*) &objectSize ) ;
 
 	if(instanceData->MFData.toc != NULL && (status == kQ3Success)){
 		// find a corrisponding tocEntry
-		if(objectType == 0x7266726E /*rfrn - Reference*/){
-			status = int32Read(format, (TQ3Int32*)&refID);
+		if(objectType == 0x7266726E /*rfrn - Reference*/)
+			{
+			TQ3Uns32 refID ;
+			status = int32Read ( format, (TQ3Int32*) &refID ) ;
 		
 			if(status == kQ3Success) for(i = 0; i < instanceData->MFData.toc->nEntries; i++)
 				{
@@ -774,13 +772,13 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 						{
 						if(instanceData->types[i].typeID == objectType)
 							{
-							theClass = E3ClassTree_GetClassByName(instanceData->types[i].typeName);
+							theClass = E3ClassTree::GetClass ( instanceData->types[i].typeName ) ;
 							break;
 							}
 						}
 					}
 				else // built-in object
-					theClass = E3ClassTree_GetClassByType(objectType);
+					theClass = E3ClassTree::GetClass ( objectType ) ;
 				
 				E3FFormat_3DMF_Bin_Check_ContainerEnd(instanceData);
 				
@@ -807,8 +805,7 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 						// If there is no data, first try a default read method
 						if (objectSize == 0)
 							{
-							readDefaultMethod = (TQ3XObjectReadDefaultMethod) E3ClassTree_GetMethod (theClass,
-								kQ3XMethodTypeObjectReadDefault );
+							readDefaultMethod = (TQ3XObjectReadDefaultMethod) theClass->GetMethod ( kQ3XMethodTypeObjectReadDefault ) ;
 							
 							if (readDefaultMethod != NULL)
 								{
@@ -819,7 +816,7 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 						// If there was no read default method, use the plain read method
 						if (readDefaultMethod == NULL)
 							{
-							readMethod = (TQ3XObjectReadMethod)E3ClassTree_GetMethod (theClass, kQ3XMethodTypeObjectRead);
+							readMethod = (TQ3XObjectReadMethod) theClass->GetMethod ( kQ3XMethodTypeObjectRead ) ;
 							
 							if (readMethod != NULL)
 								{
@@ -840,9 +837,8 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 							}
 						else
 							{
-							TQ3XObjectReadDataMethod	readData;
-							readData = (TQ3XObjectReadDataMethod)E3ClassTree_GetMethod (theClass,
-								kQ3XMethodTypeObjectReadData);
+							TQ3XObjectReadDataMethod readData = (TQ3XObjectReadDataMethod)
+													theClass->GetMethod ( kQ3XMethodTypeObjectReadData ) ;
 							if (readData != NULL)
 								{
 								result = Q3Set_New();
@@ -887,22 +883,18 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 static TQ3ObjectType
 e3fformat_3dmf_bin_get_nexttype ( E3File* theFile )
 {
-	TQ3ObjectType 				result;
 	
 	TQ3Uns32				i;
-	TQ3Int32					refID;
-	TQ3Uns32					previousPosition;
 	TQ3FileFormatObject format = theFile->GetFileFormat () ;
-	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
-	TQ3XFFormatInt32ReadMethod	int32Read;
-	E3ClassInfoPtr				theClass;
+	TE3FFormat3DMF_Bin_Data* instanceData = e3read_3dmf_bin_getinstancedata ( format ) ;
 
 	
-	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt32Read);
+	TQ3XFFormatInt32ReadMethod int32Read = (TQ3XFFormatInt32ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt32Read ) ;
 
-	previousPosition = instanceData->MFData.baseData.currentStoragePosition;
+	TQ3Uns32 previousPosition = instanceData->MFData.baseData.currentStoragePosition ;
 	
-	int32Read(format, (TQ3Int32*)&result);
+	TQ3ObjectType result ;
+	int32Read ( format, (TQ3Int32*) &result ) ;
 	
 	if(result == 0x636E7472 /*cntr - Container*/){// it's a container
 		instanceData->MFData.baseData.currentStoragePosition += 4;// jump past container size
@@ -911,6 +903,7 @@ e3fformat_3dmf_bin_get_nexttype ( E3File* theFile )
 	
 	if(result == 0x7266726E /*rfrn - Reference*/ && instanceData->MFData.toc != NULL){// resolve the reference
 		instanceData->MFData.baseData.currentStoragePosition += 4;// jump past reference size
+		TQ3Int32 refID ;
 		int32Read(format, &refID);
 		for(i=0;i<instanceData->MFData.toc->nEntries;i++){
 			if(instanceData->MFData.toc->tocEntries[i].refID == (TQ3Uns32) refID){
@@ -932,12 +925,12 @@ e3fformat_3dmf_bin_get_nexttype ( E3File* theFile )
 		{
 		for (i = 0; i < instanceData->typesNum ; i++)
 			{
-			if (instanceData->types[i].typeID == result)
+			if ( instanceData->types [ i ].typeID == result )
 				{
-				theClass = E3ClassTree_GetClassByName(instanceData->types[i].typeName);
-				if (theClass != NULL)
-					result = E3ClassTree_GetType( theClass );
-				break;
+				E3ClassInfoPtr theClass = E3ClassTree::GetClass ( instanceData->types[i].typeName ) ;
+				if ( theClass != NULL )
+					result = theClass->GetType () ;
+				break ;
 				}
 			}
 		}
@@ -1210,18 +1203,18 @@ E3FFormat_3DMF_Bin_Reader_RegisterClass(void)
 
 
 	// the FileFormats themselves
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeReader,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeReader,
 											kQ3FFormatReaderType3DMFBin,
 											kQ3ClassNameFileFormatR_3DMF_Bin,
 											e3fformat_3dmf_bin_metahandler,
-											sizeof(TE3FFormat3DMF_Bin_Data));
+											~sizeof(E3Binary3DMF));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeReader,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeReader,
 											kQ3FFormatReaderType3DMFBinSwapped,
 											kQ3ClassNameFileFormatR_3DMF_BinSwap,
 											e3fformat_3dmf_binswap_metahandler,
-											sizeof(TE3FFormat3DMF_Bin_Data));
+											~sizeof(E3SwappedBinary3DMF));
 
 	return(qd3dStatus);
 }
@@ -1240,8 +1233,8 @@ E3FFormat_3DMF_Bin_Reader_UnregisterClass(void)
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3FFormatReaderType3DMFBin,        kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3FFormatReaderType3DMFBinSwapped, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3FFormatReaderType3DMFBin,        kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3FFormatReaderType3DMFBinSwapped, kQ3True);
 
 
 
