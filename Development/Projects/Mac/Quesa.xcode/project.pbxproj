@@ -66,9 +66,8 @@
 			sourceTree = "<group>";
 		};
 		08FB77AAFE841565C02AAC07 = {
-			expectedFileType = wrapper.framework;
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
 			name = Carbon.framework;
 			path = /System/Library/Frameworks/Carbon.framework;
 			refType = 0;
@@ -97,8 +96,6 @@
 //4F3
 //4F4
 		4F0BB7EC011F40E904CA0E50 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
@@ -113,8 +110,6 @@
 			name = Development;
 		};
 		4F0BB7ED011F40E904CA0E50 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -149,7 +144,8 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
@@ -294,6 +290,7 @@
 				AB83B605055E72B90034F56A,
 				AB83B606055E72B90034F56A,
 				AB83B9A2055E77880034F56A,
+				BE6FD692076B88A800587852,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,6 +417,7 @@
 				AB83B9A0055E77880034F56A,
 				AB83B9A7055E77880034F56A,
 				AB83B9A8055E77880034F56A,
+				BE6FD693076B88A800587852,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -450,7 +448,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8D07F2C80486CC7A007CD1D0 = {
-			expectedFileType = wrapper.framework;
+			explicitFileType = wrapper.framework;
 			includeInIndex = 0;
 			isa = PBXFileReference;
 			path = Quesa.framework;
@@ -534,353 +532,353 @@
 			sourceTree = "<group>";
 		};
 		AB3A7B85055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Geometry.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B86055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Geometry.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B87055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryBox.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B88055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryBox.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B89055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryCone.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B8A055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryCone.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B8B055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryCylinder.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B8C055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryCylinder.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B8D055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryDisk.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B8E055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryDisk.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B8F055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryEllipse.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B90055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryEllipse.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B91055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryEllipsoid.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B92055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryEllipsoid.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B93055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryGeneralPolygon.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B94055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryGeneralPolygon.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B95055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryLine.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B96055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryLine.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B97055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryMarker.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B98055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryMarker.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B99055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryMesh.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B9A055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryMesh.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B9B055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryNURBCurve.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B9C055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryNURBCurve.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B9D055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryNURBPatch.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B9E055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryNURBPatch.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7B9F055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryPixmapMarker.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BA0055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryPixmapMarker.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BA1055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryPoint.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BA2055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryPoint.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BA3055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryPolygon.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BA4055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryPolygon.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BA5055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryPolyhedron.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BA6055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryPolyhedron.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BA7055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryPolyLine.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BA8055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryPolyLine.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BA9055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryTorus.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BAA055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryTorus.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BAB055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryTriangle.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BAC055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryTriangle.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BAD055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryTriGrid.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BAE055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryTriGrid.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BAF055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3GeometryTriMesh.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BB0055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3GeometryTriMesh.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -917,185 +915,185 @@
 			sourceTree = "<group>";
 		};
 		AB3A7BB2055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DCamera.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BB3055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DController.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BB4055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DCustomElements.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BB5055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DDrawContext.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BB6055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DErrors.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BB7055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DExtension.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BB8055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DGeometry.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BB9055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DGroup.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BBA055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DIO.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BBB055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DLight.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BBC055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DMain.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BBD055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DMath.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BBE055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DMemory.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BBF055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DPick.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BC0055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DRenderer.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BC1055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DSet.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BC2055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DShader.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BC3055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DStorage.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BC4055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DString.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BC5055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DStyle.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BC6055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DTransform.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BC7055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DView.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BC8055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = QD3DViewer.c;
 			refType = 4;
 			sourceTree = "<group>";
@@ -1133,193 +1131,193 @@
 			sourceTree = "<group>";
 		};
 		AB3A7BCA055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3ArrayOrList.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BCB055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3ArrayOrList.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BCC055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3ClassTree.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BCD055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3ClassTree.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BCE055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Compatibility.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BCF055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Compatibility.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BD0055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Debug.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BD1055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3ErrorManager.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BD2055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3ErrorManager.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BD3055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Globals.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BD4055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Globals.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BD5055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3HashTable.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BD6055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3HashTable.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BD7055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Pool.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BD8055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Pool.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BD9055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Prefix.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BDA055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3StackCrawl.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BDB055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3System.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BDC055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3System.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BDD055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Tessellate.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BDE055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Tessellate.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BDF055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Utils.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BE0055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Utils.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BE1055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Version.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -1379,369 +1377,369 @@
 			sourceTree = "<group>";
 		};
 		AB3A7BE3055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Camera.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BE4055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Camera.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BE5055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Controller.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BE6055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Controller.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BE7055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3CustomElements.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BE8055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3CustomElements.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BE9055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3DrawContext.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BEA055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3DrawContext.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BEB055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Errors.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BEC055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Errors.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BED055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Extension.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BEE055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Extension.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BEF055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Group.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BF0055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Group.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BF1055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3IO.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BF2055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3IO.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BF3055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3IOData.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BF4055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3IOData.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BF5055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Light.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BF6055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Light.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BF7055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Main.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BF8055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Main.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BF9055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Math.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BFA055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Math.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BFB055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Memory.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BFC055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Memory.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BFD055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Pick.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BFE055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Pick.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7BFF055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Renderer.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C00055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Renderer.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C01055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Set.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C02055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Set.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C03055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Shader.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C04055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Shader.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C05055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Storage.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C06055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Storage.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C07055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3String.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C08055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3String.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C09055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Style.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C0A055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Style.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C0B055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Texture.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C0C055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Texture.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C0D055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Transform.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C0E055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Transform.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C0F055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3View.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C10055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3View.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -1758,25 +1756,25 @@
 			sourceTree = "<group>";
 		};
 		AB3A7C12055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3Viewer.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C13055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3Viewer.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C14055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3ViewerOldAPIs.c;
 			refType = 4;
 			sourceTree = "<group>";
@@ -1800,6 +1798,8 @@
 				AB3A7C1A055E63B100CA83BE,
 				AB3A7C1D055E63B100CA83BE,
 				AB3A7C1E055E63B100CA83BE,
+				BE6FD690076B88A800587852,
+				BE6FD691076B88A800587852,
 				AB3A7C1F055E63B100CA83BE,
 				AB3A7C20055E63B100CA83BE,
 				AB3A7C21055E63B100CA83BE,
@@ -1810,57 +1810,57 @@
 			sourceTree = "<group>";
 		};
 		AB3A7C19055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = GLCamera.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C1A055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = GLCamera.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C1D055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = GLDrawContext.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C1E055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = GLDrawContext.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C1F055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = GLPrefix.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C20055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = GLUtils.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C21055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = GLUtils.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -1881,57 +1881,57 @@
 			sourceTree = "<group>";
 		};
 		AB3A7C23055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = GNGeometry.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C24055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = GNGeometry.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C25055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = GNPrefix.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C26055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = GNRegister.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C27055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = GNRegister.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C28055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = GNRenderer.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C29055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = GNRenderer.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -1964,153 +1964,153 @@
 			sourceTree = "<group>";
 		};
 		AB3A7C2B055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = IRGeometry.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C2C055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = IRGeometry.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C2D055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = IRGeometryTriMesh.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C2E055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = IRGeometryTriMesh.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C2F055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = IRLights.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C30055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = IRLights.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C31055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = IRPrefix.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C32055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = IRRegister.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C33055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = IRRegister.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C34055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = IRRenderer.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C35055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = IRRenderer.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C36055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = IRTexture.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C37055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = IRTexture.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C38055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = IRTransparent.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C39055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = IRTransparent.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C3A055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = IRTriBuffer.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C3B055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = IRTriBuffer.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C3C055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = IRUpdate.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C3D055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = IRUpdate.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -2133,73 +2133,73 @@
 			sourceTree = "<group>";
 		};
 		AB3A7C3F055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = WFGeometry.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C40055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = WFGeometry.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C41055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = WFPrefix.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C42055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = WFRegister.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C43055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = WFRegister.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C44055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = WFRenderer.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C45055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = WFRenderer.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C46055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = WFUpdate.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C47055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = WFUpdate.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -2218,17 +2218,17 @@
 			sourceTree = SOURCE_ROOT;
 		};
 		AB3A7C49055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3IOFileFormat.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C4A055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3IOFileFormat.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -2259,65 +2259,65 @@
 			sourceTree = "<group>";
 		};
 		AB3A7C4D055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3FFR_3DMF.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C4E055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3FFR_3DMF.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C4F055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3FFR_3DMF_Bin.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C50055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3FFR_3DMF_Bin.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C51055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3FFR_3DMF_Geometry.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C52055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3FFR_3DMF_Geometry.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C53055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3FFR_3DMF_Text.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C54055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3FFR_3DMF_Text.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -2346,49 +2346,49 @@
 			sourceTree = "<group>";
 		};
 		AB3A7C57055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3FFW_3DMFBin_Geometry.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C58055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3FFW_3DMFBin_Geometry.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C59055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3FFW_3DMFBin_Register.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C5A055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3FFW_3DMFBin_Register.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C5B055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3FFW_3DMFBin_Writer.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB3A7C5C055E63B100CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3FFW_3DMFBin_Writer.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -3582,8 +3582,8 @@
 			};
 		};
 		AB3A7E33055E691D00CA83BE = {
-			expectedFileType = wrapper.framework;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
 			name = OpenGL.framework;
 			path = /System/Library/Frameworks/OpenGL.framework;
 			refType = 0;
@@ -3596,8 +3596,8 @@
 			};
 		};
 		AB3A7E66055E698900CA83BE = {
-			expectedFileType = wrapper.framework;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
 			name = QuickTime.framework;
 			path = ../../../../../../../../../../../../../System/Library/Frameworks/QuickTime.framework;
 			refType = 2;
@@ -3610,8 +3610,8 @@
 			};
 		};
 		AB3A7E6C055E6A0800CA83BE = {
-			expectedFileType = wrapper.framework;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
 			name = Cocoa.framework;
 			path = ../../../../../../../../../../../../../System/Library/Frameworks/Cocoa.framework;
 			refType = 2;
@@ -3665,185 +3665,185 @@
 			sourceTree = "<group>";
 		};
 		AB83B5D8055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = Quesa.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5D9055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaCamera.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5DA055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5DB055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaCustomElements.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5DC055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaDrawContext.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5DD055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaErrors.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5DE055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaExtension.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5DF055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaGeometry.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5E0055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaGroup.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5E1055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaIO.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5E2055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaLight.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5E3055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaMath.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5E4055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaMemory.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5E5055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaPick.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5E6055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaRenderer.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5E7055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaSet.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5E8055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaShader.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5E9055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaStorage.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5EA055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaString.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5EB055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaStyle.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5EC055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaTransform.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5ED055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaView.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B5EE055E72B90034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = QuesaViewer.h;
 			refType = 4;
 			sourceTree = "<group>";
@@ -4011,49 +4011,49 @@
 			sourceTree = "<group>";
 		};
 		AB83B95B055E77870034F56A = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3MacDebug.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B95C055E77870034F56A = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3MacDrawContext.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B95D055E77870034F56A = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3MacErrors.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B95F055E77870034F56A = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = E3MacPrefix.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B964055E77870034F56A = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3MacStorage.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		AB83B965055E77870034F56A = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = E3MacSystem.c;
 			refType = 4;
 			sourceTree = "<group>";
@@ -4095,8 +4095,8 @@
 			};
 		};
 		AB83B9FC055E79B20034F56A = {
-			expectedFileType = wrapper.framework;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
 			name = AGL.framework;
 			path = /System/Library/Frameworks/AGL.framework;
 			refType = 0;
@@ -4104,6 +4104,44 @@
 		};
 		AB83B9FD055E79B20034F56A = {
 			fileRef = AB83B9FC055E79B20034F56A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//AB0
+//AB1
+//AB2
+//AB3
+//AB4
+//BE0
+//BE1
+//BE2
+//BE3
+//BE4
+		BE6FD690076B88A800587852 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GLTextureManager.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		BE6FD691076B88A800587852 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			path = GLTextureManager.c;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		BE6FD692076B88A800587852 = {
+			fileRef = BE6FD690076B88A800587852;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		BE6FD693076B88A800587852 = {
+			fileRef = BE6FD691076B88A800587852;
 			isa = PBXBuildFile;
 			settings = {
 			};
