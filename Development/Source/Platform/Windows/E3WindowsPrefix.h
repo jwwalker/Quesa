@@ -55,4 +55,13 @@
 #endif
 
 
+#ifdef _MSC_VER
+// VC++ doesn't has the "isfinite" C99 macro, it uses "_finite" instead
+#define isfinite _finite
+// VC++ only has "sqrtf" for c++
+#define sqrtf(_n) (float)sqrt((double)(_n))
+// VC++ only lacks "fabsf"
+#define fabsf(_n) (float)fabs((double)(_n))
+#endif
+
 #endif
