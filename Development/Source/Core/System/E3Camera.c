@@ -13,7 +13,7 @@
         camera type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -71,7 +71,8 @@ E3CameraInfo::E3CameraInfo	(
 		: E3ShapeInfo ( newClassMetaHandler, newParent ) ,
 		frustumMatrixMethod		( (TQ3XCameraFrustumMatrixMethod)		Find_Method ( kQ3XMethodTypeCameraFrustumMatrix ) )		 
 	{
-
+	if ( frustumMatrixMethod == NULL )
+		SetAbstract () ;
 	} ;
 
 
@@ -673,13 +674,7 @@ E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
 
 
 	// Initialise a return value
-	Q3Matrix4x4_SetIdentity(viewToFrustum);
-
-
-
-	// Get the camera method
-	if ( ( (E3CameraInfo*) GetClass () )->frustumMatrixMethod == NULL )
-		return kQ3Failure ;
+	Q3Matrix4x4_SetIdentity(viewToFrustum); // Is this needed any more?
 
 
 
@@ -688,7 +683,7 @@ E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
 	// This matrix transforms the viewing coordinate system to the canonical
 	// frustum. This ranges from -1 to +1 in x and y, and 0 to -1 in z (where
 	// 0 is the near clip plane, and -1 is the  far clip plane).
-	( (E3CameraInfo*) GetClass () )->frustumMatrixMethod ( this, viewToFrustum ) ;
+	GetClass ()->frustumMatrixMethod ( this, viewToFrustum ) ;
 
 
 

@@ -331,7 +331,8 @@ E3Root::E3Root	(
 	submitBoundsMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitBounds , kQ3True ) ) ,
 	submitWriteMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitWrite , kQ3True ) )
 	{
-	
+	if ( disposeMethod == NULL )
+		SetAbstract () ;
 	} ;
 
 

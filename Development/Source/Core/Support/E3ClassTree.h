@@ -97,6 +97,11 @@ class E3ClassInfo
 	char				*className ;
 	TQ3XMetaHandler		classMetaHandler ;
 	E3HashTablePtr		methodTable ;
+	
+	TQ3Boolean			abstract ;	// If set, class is 'abstract' in the C++ sense, in that no instances of the class can be created
+									// It gets set because the class has necessary methods missing (= 0 or pure virtual in C++ parlance)
+									// Note that a few virtual methods are allowed to be missing, though maybe it would be better to have
+									// a default version which did nothing.
 
 
 	// Instances
@@ -146,7 +151,7 @@ public :
 	TQ3XFunctionPointer GetMethod ( TQ3XMethodType methodType ) ;
 	void				AddMethod ( TQ3XMethodType methodType, TQ3XFunctionPointer theMethod ) ;
 	TQ3Object			CreateInstance ( TQ3Boolean sharedParams, const void* paramData ) ;
-
+	void				SetAbstract ( void ) { abstract = kQ3True ; }
 	
 	friend class E3ClassTree ;
 	friend struct OpaqueTQ3Object ;

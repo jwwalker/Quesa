@@ -78,7 +78,10 @@ E3StorageInfo::E3StorageInfo	(
 		getEOF_Method		( (TQ3XStorageGetSizeMethod)		Find_Method ( kQ3XMethodTypeStorageGetSize ) )	
 		 	 
 	{
-
+	if ( getData_Method == NULL
+	|| setData_Method == NULL
+	|| getEOF_Method == NULL )
+		SetAbstract () ;
 	} ; 
 
 
@@ -797,10 +800,7 @@ E3Storage_GetType(TQ3StorageObject storage)
 TQ3Status
 E3Storage::GetSize ( TQ3Uns32* size )
 	{
-	if ( ( (E3StorageInfo*) GetClass () )->getEOF_Method == NULL )
-		return kQ3Failure ;
-	
-	return ( (E3StorageInfo*) GetClass () )->getEOF_Method ( this, size ) ;
+	return GetClass ()->getEOF_Method ( this, size ) ;
 	}
 
 
@@ -813,10 +813,7 @@ E3Storage::GetSize ( TQ3Uns32* size )
 TQ3Status
 E3Storage::GetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char* data, TQ3Uns32* sizeRead )
 	{
-	if ( ( (E3StorageInfo*) GetClass () )->getData_Method == NULL )
-		return kQ3Failure ;
-
-	return ( (E3StorageInfo*) GetClass () )->getData_Method ( this, offset, dataSize, data, sizeRead ) ;
+	return GetClass ()->getData_Method ( this, offset, dataSize, data, sizeRead ) ;
 	}
 
 
@@ -832,10 +829,7 @@ E3Storage::GetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char* data, TQ
 TQ3Status
 E3Storage::SetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char* data, TQ3Uns32* sizeWritten )
 	{
-	if ( ( (E3StorageInfo*) GetClass () )->setData_Method == NULL )
-		return kQ3Failure ;
-	
-	TQ3Status result = ( (E3StorageInfo*) GetClass () )->setData_Method ( this, offset, dataSize, data, sizeWritten ) ;
+	TQ3Status result = GetClass ()->setData_Method ( this, offset, dataSize, data, sizeWritten ) ;
 
 	Edited () ;
 	

@@ -87,7 +87,9 @@ E3DrawContextInfo::E3DrawContextInfo	(
 		updateMethod		( (TQ3XDrawContextUpdateMethod)			Find_Method ( kQ3XMethodTypeDrawContextUpdate ) ) ,		 
 		getDimensionsMethod	( (TQ3XDrawContextGetDimensionsMethod)	Find_Method ( kQ3XMethodTypeDrawContextGetDimensions ) )		 
 	{
-
+	if ( updateMethod == NULL 
+	|| getDimensionsMethod == NULL )
+		SetAbstract () ;
 	} ;
 
 
@@ -299,6 +301,34 @@ e3drawcontext_pixmap_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3drawcontext_update : Draw context default update method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3drawcontext_update ( TQ3DrawContextObject theDrawContext )
+	{
+	return kQ3Success ;
+	}
+	
+
+
+//=============================================================================
+//      e3drawcontext_get_dimensions : Draw context default dimension method.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
+	{
+	// Return default dimensions
+	thePane->min.x = 0.0f ;
+	thePane->min.y = 0.0f ;
+	thePane->max.x = 0.0f ;
+	thePane->max.y = 0.0f ;
+	}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_metahandler : Draw context metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -309,6 +339,12 @@ e3drawcontext_metahandler ( TQ3XMethodType methodType )
 		{
 		case kQ3XMethodTypeNewObjectClass :
 			return (TQ3XFunctionPointer) e3drawcontext_new_class_info ;
+
+		case kQ3XMethodTypeDrawContextUpdate:
+			return (TQ3XFunctionPointer) e3drawcontext_update;
+
+		case kQ3XMethodTypeDrawContextGetDimensions:
+			return (TQ3XFunctionPointer) e3drawcontext_get_dimensions;
 		}
 	
 	return NULL ;
@@ -480,14 +516,8 @@ E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget)
 TQ3Status
 E3DrawContext::Update ( void )
 	{
-	// Find the method
-	if ( ( (E3DrawContextInfo*) GetClass () )->updateMethod == NULL )
-		return kQ3Success ;
-
-
-
 	// Call the method
-	return ( (E3DrawContextInfo*) GetClass () )->updateMethod ( this ) ;
+	return GetClass ()->updateMethod ( this ) ;
 	}
 
 
@@ -807,23 +837,12 @@ E3DrawContext::GetPane ( TQ3Area* pane )
 
 
 
-	// If we have a pane, return it
-	if (instanceData->data.common.paneState)
-		*pane = instanceData->data.common.pane;
-
-
-	// Otherwise, fetch the full bounds of the draw context
+	
+	if ( instanceData->data.common.paneState )
+		*pane = instanceData->data.common.pane ; // We have a pane, return it
 	else
-		{
-		// Get the full dimensions
-		if ( ( (E3DrawContextInfo*) GetClass () )->getDimensionsMethod != NULL )
-			( (E3DrawContextInfo*) GetClass () )->getDimensionsMethod ( this, pane ) ;
-		else
-			{
-			Q3Memory_Clear(pane, sizeof(TQ3Area));
-			return kQ3Failure ;
-			}
-		}
+		GetClass ()->getDimensionsMethod ( this, pane ) ; // Get the full bounds of the draw context
+		
 
 	return kQ3Success ;
 	}

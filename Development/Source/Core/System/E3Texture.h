@@ -92,6 +92,8 @@ Q3_CLASS_ENUMS ( kQ3SharedTypeTexture, E3Texture, E3Shared )
 public :
 
 	// There is no extra data for this class
+	
+	E3TextureInfo*					GetClass ( void ) { return (E3TextureInfo*) OpaqueTQ3Object::GetClass () ; }
 
 	TQ3Status						GetWidth ( TQ3Uns32* width ) ;
 	TQ3Status						GetHeight ( TQ3Uns32* height ) ;
