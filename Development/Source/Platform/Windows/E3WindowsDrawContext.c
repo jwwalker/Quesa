@@ -66,6 +66,8 @@ e3drawcontext_win32dc_new(TQ3Object theObject, void *privateData, const void *pa
 	// Initialise our instance data
 	instanceData->data.win32Data.theData = *win32Data;
 
+	E3DrawContext_InitaliseData(&instanceData->data.win32Data.theData.drawContextData);
+
 	return(kQ3Success);
 }
 
@@ -277,6 +279,8 @@ e3drawcontext_ddsurface_new(TQ3Object theObject, void *privateData, const void *
 
 	// Initialise our instance data
 	instanceData->data.winDDData.theData = *winDDData;
+
+	E3DrawContext_InitaliseData(&instanceData->data.winDDData.theData.drawContextData);
 
 	return(kQ3Success);
 }

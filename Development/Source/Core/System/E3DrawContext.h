@@ -202,6 +202,7 @@ typedef struct TQ3DrawContextUnionData {
 // Cross platform
 TQ3Status				E3DrawContext_RegisterClass(void);
 TQ3Status				E3DrawContext_UnregisterClass(void);
+void					E3DrawContext_InitaliseData(TQ3DrawContextData *drawContextData);
 TQ3DrawContextObject	E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget);
 TQ3Status				E3DrawContext_Update(TQ3DrawContextObject drawContext);
 void					E3DrawContext_ResetState(TQ3DrawContextObject drawContext);

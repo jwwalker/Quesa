@@ -65,6 +65,8 @@ e3drawcontext_x_new(TQ3Object theObject, void *privateData, const void *paramDat
 	// Initialise our instance data
 	instanceData->data.x11Data.theData = *x11Data;
 
+	E3DrawContext_InitaliseData(&instanceData->data.x11Data.theData.drawContextData);
+
 	return(kQ3Success);
 }
 
