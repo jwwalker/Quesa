@@ -488,6 +488,39 @@ TQ3Boolean E3Rect_ContainsLine(const TQ3Area *theRect, const TQ3Point2D *lineSta
 
 
 //=============================================================================
+//      E3Rect_ContainsRect : Test to see if rect1 is contained within rect2.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Rect_ContainsRect(const TQ3Area *rect1, const TQ3Area *rect2)
+{
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rect1), kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rect2), kQ3False);
+
+
+
+	// Check we're inside in x
+	if ((rect1->min.x < rect2->min.x || rect1->min.x > rect2->max.x) ||
+		(rect1->max.x < rect2->min.x || rect1->max.x > rect2->max.x))
+		return(kQ3False);
+
+
+
+	// Check we're inside in y
+	if ((rect1->min.y < rect2->min.y || rect1->min.y > rect2->max.y) ||
+		(rect1->max.y < rect2->min.y || rect1->max.y > rect2->max.y))
+		return(kQ3False);
+	
+	return(kQ3True);
+}
+
+
+
+
+
+//=============================================================================
 //      E3Rect_IntersectRect : Test to see if two rects overlap.
 //-----------------------------------------------------------------------------
 TQ3Boolean

@@ -174,6 +174,8 @@ TQ3Boolean	E3Rect_ClipLine(const TQ3Area *theRect, TQ3Point2D *lineStart, TQ3Poi
 
 TQ3Boolean	E3Rect_ContainsLine(const TQ3Area *theRect, const TQ3Point2D *lineStart, const TQ3Point2D *lineEnd);
 
+TQ3Boolean	E3Rect_ContainsRect(const TQ3Area *rect1, const TQ3Area *rect2);
+
 TQ3Boolean	E3Rect_IntersectRect(const TQ3Area *rect1, const TQ3Area *rect2);
 
 void		E3Triangle_InterpolateHit(const TQ3TriangleData		*triangleData,
