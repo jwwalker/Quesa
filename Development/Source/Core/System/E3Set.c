@@ -1889,10 +1889,10 @@ E3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject view)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3AttributeSet result)
-{	TQ3XAttributeCopyInheritMethod 	copyInheritMethod;
-	TQ3XAttributeInheritMethod 		inheritMethod;
+{	TQ3SetData						*parentInstanceData, *childInstanceData;
+	TQ3XAttributeCopyInheritMethod 	copyInheritMethod;
 	void 							*attributeData;
-	TQ3SetData						*parentInstanceData, *childInstanceData;
+	TQ3XAttributeInheritMethod 		inheritMethod;
 	TQ3Status						qd3dStatus;
 	TQ3ObjectType					theType;
 	TQ3Uns32						n;
@@ -1942,11 +1942,16 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 																kQ3XMethodTypeAttributeCopyInherit);
 					if (copyInheritMethod != NULL) // Use copy inherit method to copy the attribute.
 						{
-						qd3dStatus = copyInheritMethod(childInstanceData->theElements[n]->instanceData, attributeData); 
+						qd3dStatus    = kQ3Failure;
+						attributeData = E3Memory_AllocateClear(E3ClassTree_GetInstanceSize(childInstanceData->theElements[n]->theClass));
+
+						if (attributeData != NULL)
+							qd3dStatus = copyInheritMethod(childInstanceData->theElements[n]->instanceData, attributeData); 
 
 						if (qd3dStatus == kQ3Success)
 							qd3dStatus = Q3AttributeSet_Add(result, theType, attributeData);
-							E3Memory_Free(&attributeData);
+
+						E3Memory_Free(&attributeData);
 						}
 					
 					else // There's no copy inherit method, so copy it directly into result.
@@ -1994,11 +1999,16 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 																			 	 kQ3XMethodTypeAttributeCopyInherit);
 						if (copyInheritMethod != NULL) // Use copy inherit method to copy the attribute.
 							{
-							qd3dStatus = copyInheritMethod(parentInstanceData->theElements[n]->instanceData, attributeData); 
+							qd3dStatus    = kQ3Failure;
+							attributeData = E3Memory_AllocateClear(E3ClassTree_GetInstanceSize(childInstanceData->theElements[n]->theClass));
+
+							if (attributeData != NULL)
+								qd3dStatus = copyInheritMethod(parentInstanceData->theElements[n]->instanceData, attributeData); 
 
 							if (qd3dStatus == kQ3Success)
 								qd3dStatus = Q3AttributeSet_Add(result, theType, attributeData);
-								E3Memory_Free(&attributeData);
+
+							E3Memory_Free(&attributeData);
 							}
 						
 						else // There's no copy inherit method, so copy it directly into result.
