@@ -4,57 +4,58 @@ Declares the fundamental Quesa types and functions.
  <hr><br><h2>Functions</h2>
 <a name="//apple_ref/c/func/Q3Bitmap_Empty"></a>
 <h3><a name="Q3Bitmap_Empty">Q3Bitmap_Empty</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Bitmap_Empty (
     TQ3Bitmap                     *bitmap
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Release the memory used by a TQ3Bitmap.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Should be used to release the data used by TQ3Bitmaps returned by
+Quesa. You should not call Q3Bitmap_Empty on TQ3Bitmaps whose
+image data was allocated by you.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>bitmap</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>bitmap</tt></td><td>The TQ3Bitmap whose image data should be released.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Bitmap_GetImageSize"></a>
 <h3><a name="Q3Bitmap_GetImageSize">Q3Bitmap_GetImageSize</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Uns32  )
+<blockquote><pre><tt>TQ3Uns32  
 Q3Bitmap_GetImageSize (
     TQ3Uns32                      width,
     TQ3Uns32                      height
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Determine how much image data would be required for a TQ3Bitmap.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Returns the smallest block of memory that could hold a bitmap
+with the specified dimensions.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>width</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>width</tt></td><td>The proposed width of the bitmap.</td></tr>
+<tr valign=top><td><tt>height</tt></td><td>The proposed height of the bitmap.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The number of bytes needed for the bitmap.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Exit"></a>
 <h3><a name="Q3Exit">Q3Exit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Exit (
     void
 );
@@ -68,24 +69,33 @@ Q3Exit (
 <hr>
 <a name="//apple_ref/c/func/Q3GetReleaseVersion"></a>
 <h3><a name="Q3GetReleaseVersion">Q3GetReleaseVersion</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3GetReleaseVersion (
     TQ3Uns32                      *releaseRevision
 );
 </tt><br>
 </pre></blockquote>
-<p>Returns the release version of Quesa.
+<p>Returns the revision of the installed Quesa software in the format of the
+first four bytes of a Macintosh <code>'vers'</code> resource.
 <br><br>
-The version number is returned in the format of the first four
-bytes of a Mac 'vers' resource. E.g., 1.6.1 would be identified
-as 0x01618000.
+The four bytes contain 1) the major revision level, 2) the minor revision,
+3) the development stage, and 4) the prerelease revision level, respectively.
+The three revision levels are each represented in binary coded decimal.
+The development stage can be development (0x20), alpha (0x40), beta (0x60)
+or release (0x80).
+<br><br>
+For example, if the revision is 1.61a23 (= 1.6.1a23), returns 0x01614023.
+For more information, see the description of the <code>'vers'</code> resource
+in the book <i>Inside Macintosh: Macintosh Toolbox Essentials.</i>
+<br><br>
+May be called outside of a <code>Q3Initialize/Q3Exit</code> block.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>releaseRevision</tt></td><td>Receives the release version number.</td></tr>
+<tr valign=top><td><tt>releaseRevision</tt></td><td>Receives the revision of Quesa.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -93,22 +103,31 @@ as 0x01618000.
 <hr>
 <a name="//apple_ref/c/func/Q3GetVersion"></a>
 <h3><a name="Q3GetVersion">Q3GetVersion</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3GetVersion (
     TQ3Uns32                      *majorRevision,
     TQ3Uns32                      *minorRevision
 );
 </tt><br>
 </pre></blockquote>
-<p>Returns the version of Quesa.
+<p>Returns the major and minor revision levels of the installed
+Quesa software.
+<br><br>
+For example, if the revision is 1.6a23 (= 1.6.0a23), returns 1
+as the major revision level and 6 as the minor revision level:
+The final 0 in the minor revision level is omitted.
+If the revision is 1.61a23 (= 1.6.1a23), returns 1 as the major
+revision level and 61 as the minor revision level.
+<br><br>
+May be called outside of a <code>Q3Initialize/Q3Exit</code> block.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>majorRevision</tt></td><td>Receives the major version number.</td></tr>
-<tr valign=top><td><tt>minorRevision</tt></td><td>Receives the minor version number.</td></tr>
+<tr valign=top><td><tt>majorRevision</tt></td><td>Receives the major revision level of Quesa.</td></tr>
+<tr valign=top><td><tt>minorRevision</tt></td><td>Receives the minor revision level of Quesa.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -116,7 +135,7 @@ Q3GetVersion (
 <hr>
 <a name="//apple_ref/c/func/Q3Initialize"></a>
 <h3><a name="Q3Initialize">Q3Initialize</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Initialize (
     void
 );
@@ -133,7 +152,7 @@ called before the Quesa library is initialised.
 <hr>
 <a name="//apple_ref/c/func/Q3IsInitialized"></a>
 <h3><a name="Q3IsInitialized">Q3IsInitialized</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+<blockquote><pre><tt>TQ3Boolean  
 Q3IsInitialized (
     void
 );
@@ -147,7 +166,7 @@ Q3IsInitialized (
 <hr>
 <a name="//apple_ref/c/func/Q3ObjectHierarchy_EmptySubClassData"></a>
 <h3><a name="Q3ObjectHierarchy_EmptySubClassData">Q3ObjectHierarchy_EmptySubClassData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ObjectHierarchy_EmptySubClassData (
     TQ3SubClassData               *subClassData
 );
@@ -169,7 +188,7 @@ Q3ObjectHierarchy_GetSubClassData.
 <hr>
 <a name="//apple_ref/c/func/Q3ObjectHierarchy_GetStringFromType"></a>
 <h3><a name="Q3ObjectHierarchy_GetStringFromType">Q3ObjectHierarchy_GetStringFromType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ObjectHierarchy_GetStringFromType (
     TQ3ObjectType                 objectClassType,
     TQ3ObjectClassNameString      objectClassString
@@ -192,7 +211,7 @@ Q3ObjectHierarchy_GetStringFromType (
 <hr>
 <a name="//apple_ref/c/func/Q3ObjectHierarchy_GetSubClassData"></a>
 <h3><a name="Q3ObjectHierarchy_GetSubClassData">Q3ObjectHierarchy_GetSubClassData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ObjectHierarchy_GetSubClassData (
     TQ3ObjectType                 objectClassType,
     TQ3SubClassData               *subClassData
@@ -218,7 +237,7 @@ Q3ObjectHierarchy_EmptySubClassData.
 <hr>
 <a name="//apple_ref/c/func/Q3ObjectHierarchy_GetTypeFromString"></a>
 <h3><a name="Q3ObjectHierarchy_GetTypeFromString">Q3ObjectHierarchy_GetTypeFromString</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ObjectHierarchy_GetTypeFromString (
     TQ3ObjectClassNameString      objectClassString,
     TQ3ObjectType                 *objectClassType
@@ -241,7 +260,7 @@ Q3ObjectHierarchy_GetTypeFromString (
 <hr>
 <a name="//apple_ref/c/func/Q3ObjectHierarchy_IsNameRegistered"></a>
 <h3><a name="Q3ObjectHierarchy_IsNameRegistered">Q3ObjectHierarchy_IsNameRegistered</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+<blockquote><pre><tt>TQ3Boolean  
 Q3ObjectHierarchy_IsNameRegistered (
     const char                    *objectClassName
 );
@@ -262,7 +281,7 @@ Q3ObjectHierarchy_IsNameRegistered (
 <hr>
 <a name="//apple_ref/c/func/Q3ObjectHierarchy_IsTypeRegistered"></a>
 <h3><a name="Q3ObjectHierarchy_IsTypeRegistered">Q3ObjectHierarchy_IsTypeRegistered</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+<blockquote><pre><tt>TQ3Boolean  
 Q3ObjectHierarchy_IsTypeRegistered (
     TQ3ObjectType                 objectClassType
 );
@@ -283,7 +302,7 @@ Q3ObjectHierarchy_IsTypeRegistered (
 <hr>
 <a name="//apple_ref/c/func/Q3Object_Dispose"></a>
 <h3><a name="Q3Object_Dispose">Q3Object_Dispose</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Object_Dispose (
     TQ3Object                     object
 );
@@ -308,7 +327,7 @@ the object is disposed of.
 <hr>
 <a name="//apple_ref/c/func/Q3Object_Duplicate"></a>
 <h3><a name="Q3Object_Duplicate">Q3Object_Duplicate</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Object  )
+<blockquote><pre><tt>TQ3Object  
 Q3Object_Duplicate (
     TQ3Object                     object
 );
@@ -331,7 +350,7 @@ Returns a new copy of the object, with a reference count of 1.
 <hr>
 <a name="//apple_ref/c/func/Q3Object_GetLeafType"></a>
 <h3><a name="Q3Object_GetLeafType">Q3Object_GetLeafType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3Object_GetLeafType (
     TQ3Object                     object
 );
@@ -356,7 +375,7 @@ Returns kQ3ObjectTypeInvalid if the object type is unknown.
 <hr>
 <a name="//apple_ref/c/func/Q3Object_GetType"></a>
 <h3><a name="Q3Object_GetType">Q3Object_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3Object_GetType (
     TQ3Object                     object
 );
@@ -381,7 +400,7 @@ is unknown.
 <hr>
 <a name="//apple_ref/c/func/Q3Object_IsDrawable"></a>
 <h3><a name="Q3Object_IsDrawable">Q3Object_IsDrawable</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+<blockquote><pre><tt>TQ3Boolean  
 Q3Object_IsDrawable (
     TQ3Object                     object
 );
@@ -404,7 +423,7 @@ Only drawable objects may be submitted to a view's rendering loop.
 <hr>
 <a name="//apple_ref/c/func/Q3Object_IsType"></a>
 <h3><a name="Q3Object_IsType">Q3Object_IsType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+<blockquote><pre><tt>TQ3Boolean  
 Q3Object_IsType (
     TQ3Object                     object,
     TQ3ObjectType                 theType
@@ -432,7 +451,7 @@ return false for kQ3ObjectTypePick.
 <hr>
 <a name="//apple_ref/c/func/Q3Object_IsWritable"></a>
 <h3><a name="Q3Object_IsWritable">Q3Object_IsWritable</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+<blockquote><pre><tt>TQ3Boolean  
 Q3Object_IsWritable (
     TQ3Object                     object,
     TQ3FileObject                 theFile
@@ -456,7 +475,7 @@ Only drawable objects may be submitted to a view's writing loop.
 <hr>
 <a name="//apple_ref/c/func/Q3Object_Submit"></a>
 <h3><a name="Q3Object_Submit">Q3Object_Submit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Object_Submit (
     TQ3Object                     object,
     TQ3ViewObject                 view
@@ -482,7 +501,7 @@ e.g., for rendering, picking, or writing to a file.
 <hr>
 <a name="//apple_ref/c/func/Q3Shape_AddElement"></a>
 <h3><a name="Q3Shape_AddElement">Q3Shape_AddElement</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Shape_AddElement (
     TQ3ShapeObject                shape,
     TQ3ElementType                theType,
@@ -490,103 +509,91 @@ Q3Shape_AddElement (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Add an element to a shape.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shape</tt></td><td>The object to update.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The type of the element data.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The element data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shape_ClearElement"></a>
 <h3><a name="Q3Shape_ClearElement">Q3Shape_ClearElement</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Shape_ClearElement (
     TQ3ShapeObject                shape,
     TQ3ElementType                theType
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Empty a shape of a particular type of element.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shape</tt></td><td>The object to update.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The element type to remove.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shape_ContainsElement"></a>
 <h3><a name="Q3Shape_ContainsElement">Q3Shape_ContainsElement</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+<blockquote><pre><tt>TQ3Boolean  
 Q3Shape_ContainsElement (
     TQ3ShapeObject                shape,
     TQ3ElementType                theType
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Check to see if a shape contains an element of a given type.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shape</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The type of the element data to look for.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shape_EmptyElements"></a>
 <h3><a name="Q3Shape_EmptyElements">Q3Shape_EmptyElements</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Shape_EmptyElements (
     TQ3ShapeObject                shape
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Empty a shape of any elements it contains.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shape</tt></td><td>The object to update.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shape_GetElement"></a>
 <h3><a name="Q3Shape_GetElement">Q3Shape_GetElement</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Shape_GetElement (
     TQ3ShapeObject                shape,
     TQ3ElementType                theType,
@@ -594,254 +601,620 @@ Q3Shape_GetElement (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get an element from a shape.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shape</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The type of the element data.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the element data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shape_GetNextElementType"></a>
 <h3><a name="Q3Shape_GetNextElementType">Q3Shape_GetNextElementType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Shape_GetNextElementType (
     TQ3ShapeObject                shape,
     TQ3ElementType                *theType
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Iterate through the element types in a shape.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Pass in kQ3ElementTypeNone to start iterating through the element
+types in the shape, and pass back the returned value to obtain
+the next type. Is set to kQ3ElementTypeNone if there are no more
+elements in the shape.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shape</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Receives the next element type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shape_GetSet"></a>
 <h3><a name="Q3Shape_GetSet">Q3Shape_GetSet</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Shape_GetSet (
     TQ3ShapeObject                shape,
     TQ3SetObject                  *theSet
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the set currently associated with a shape.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Note that this is not the same as the attribute set of a geometry object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shape</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>Receives the set of the object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shape_GetType"></a>
 <h3><a name="Q3Shape_GetType">Q3Shape_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3Shape_GetType (
     TQ3ShapeObject                shape
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the type of a shape object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Retursn kQ3ObjectTypeInvalid if the object is not a shape object or
+the type can not be determined. Returns a kQ3ShapeTypeXXXX value
+for shape objects.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shape</tt></td><td>The object to test.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the shape object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shape_SetSet"></a>
 <h3><a name="Q3Shape_SetSet">Q3Shape_SetSet</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Shape_SetSet (
     TQ3ShapeObject                shape,
     TQ3SetObject                  theSet
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the set currently associated with a shape.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Note that this is not the same as the attribute set of a geometry object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shape</tt></td><td>The object to update.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>The new set for the object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shared_Edited"></a>
 <h3><a name="Q3Shared_Edited">Q3Shared_Edited</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Shared_Edited (
     TQ3SharedObject               sharedObject
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Change the edit index of a shared object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Editing a shared object will change its edit index automatically: this
+function is typically used for shared plug-in objects who need to indicate
+to Quesa that their private data has changed.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>sharedObject</tt></td><td>The object to update.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shared_GetEditIndex"></a>
 <h3><a name="Q3Shared_GetEditIndex">Q3Shared_GetEditIndex</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Uns32  )
+<blockquote><pre><tt>TQ3Uns32  
 Q3Shared_GetEditIndex (
     TQ3SharedObject               sharedObject
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the edit index of a shared object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+An edit index is a unique number associated with a shared object, which
+changes each time the object is edited. By testing this number, you
+can determine when an object has been edited.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>sharedObject</tt></td><td>The object to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The current edit index of the object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shared_GetReference"></a>
 <h3><a name="Q3Shared_GetReference">Q3Shared_GetReference</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3SharedObject  )
+<blockquote><pre><tt>TQ3SharedObject  
 Q3Shared_GetReference (
     TQ3SharedObject               sharedObject
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Increment the reference count of a shared object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>sharedObject</tt></td><td>The object whose reference count should be incremented.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The object whose reference count has been incremented.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shared_GetType"></a>
 <h3><a name="Q3Shared_GetType">Q3Shared_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3Shared_GetType (
     TQ3SharedObject               sharedObject
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the type of a shared object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Retursn kQ3ObjectTypeInvalid if the object is not a shared object or
+the type can not be determined. Returns a kQ3SharedTypeXXXX value
+for shared objects.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>sharedObject</tt></td><td>The object to test.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the shared object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shared_IsReferenced"></a>
 <h3><a name="Q3Shared_IsReferenced">Q3Shared_IsReferenced</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+<blockquote><pre><tt>TQ3Boolean  
 Q3Shared_IsReferenced (
     TQ3SharedObject               sharedObject
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Determine if a shared object has more than one reference to it.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Returns kQ3True if the object has more than one reference to it. Will
+return kQ3False if the object a reference count of one.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>sharedObject</tt></td><td>The object to test.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> True or false as the object has more than one reference.
  
 <hr>
 <h2>Structs</h2>
+<a name="//apple_ref/c/tag/TQ3Area"></a>
+<h3><a name="TQ3Area">TQ3Area</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Point2D                                  min;
+    TQ3Point2D                                  max;
+} TQ3Area;
+</pre>
+</blockquote>
+<p>Fundamental area type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>min</tt></td><td>Minimum corner of area.</td><tr>
+<tr valign=top><td><tt>max</tt></td><td>Maximum corner of area.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Bitmap"></a>
+<h3><a name="TQ3Bitmap">TQ3Bitmap</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Uns8                                     *image;
+    TQ3Uns32                                    width;
+    TQ3Uns32                                    height;
+    TQ3Uns32                                    rowBytes;
+    TQ3Endian                                   bitOrder;
+} TQ3Bitmap;
+</pre>
+</blockquote>
+<p>Fundamental Bitmap type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>image</tt></td><td>Pointer to (height*rowBytes) sized block of memory containing the image data.
+Note that each row of image data starts on a new byte.</td><tr>
+<tr valign=top><td><tt>width</tt></td><td>Width of the image.</td><tr>
+<tr valign=top><td><tt>height</tt></td><td>Height of the image.</td><tr>
+<tr valign=top><td><tt>rowBytes</tt></td><td>Distance in bytes from begining of one row of image data to the next.</td><tr>
+<tr valign=top><td><tt>bitOrder</tt></td><td>The order in which bits in a byte are addressed within the image data.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3BoundingBox"></a>
+<h3><a name="TQ3BoundingBox">TQ3BoundingBox</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Point3D                                  min;
+    TQ3Point3D                                  max;
+    TQ3Boolean                                  isEmpty;
+} TQ3BoundingBox;
+</pre>
+</blockquote>
+<p>Fundamental bounding box type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>min</tt></td><td>Minimum corner of bounding box.</td><tr>
+<tr valign=top><td><tt>max</tt></td><td>Maximum corner of bounding box.</td><tr>
+<tr valign=top><td><tt>isEmpty</tt></td><td>Is the bounding box empty. The box is only valid if isEmpty is kQ3False.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3BoundingSphere"></a>
+<h3><a name="TQ3BoundingSphere">TQ3BoundingSphere</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Point3D                                  origin;
+    float                                       radius;
+    TQ3Boolean                                  isEmpty;
+} TQ3BoundingSphere;
+</pre>
+</blockquote>
+<p>Fundamental bounding sphere type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>origin</tt></td><td>Origin of bounding sphere.</td><tr>
+<tr valign=top><td><tt>radius</tt></td><td>Radius of bounding sphere.</td><tr>
+<tr valign=top><td><tt>isEmpty</tt></td><td>Is the bounding sphere empty? The sphere is only valid if isEmpty is kQ3False.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3ColorARGB"></a>
+<h3><a name="TQ3ColorARGB">TQ3ColorARGB</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       a;
+    float                                       r;
+    float                                       g;
+    float                                       b;
+} TQ3ColorARGB;
+</pre>
+</blockquote>
+<p>Fundamental ARGB point type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>a</tt></td><td>Alpha component, between 0.0 (transparent) and 1.0 (opaque).</td><tr>
+<tr valign=top><td><tt>r</tt></td><td>Red component, between 0.0 and 1.0.</td><tr>
+<tr valign=top><td><tt>g</tt></td><td>Green component, between 0.0 and 1.0.</td><tr>
+<tr valign=top><td><tt>b</tt></td><td>Blue component, between 0.0 and 1.0.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3ColorRGB"></a>
+<h3><a name="TQ3ColorRGB">TQ3ColorRGB</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       r;
+    float                                       g;
+    float                                       b;
+} TQ3ColorRGB;
+</pre>
+</blockquote>
+<p>Fundamental RGB colour type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>r</tt></td><td>Red component, between 0.0 and 1.0.</td><tr>
+<tr valign=top><td><tt>g</tt></td><td>Green component, between 0.0 and 1.0.</td><tr>
+<tr valign=top><td><tt>b</tt></td><td>Blue component, between 0.0 and 1.0.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3CompressedPixmap"></a>
+<h3><a name="TQ3CompressedPixmap">TQ3CompressedPixmap</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3StorageObject                            compressedImage;
+    TQ3Endian                                   imageDescByteOrder;
+    TQ3StorageObject                            imageDesc;
+    TQ3Boolean                                  makeMipmaps;
+    TQ3Uns32                                    width;
+    TQ3Uns32                                    height;
+    TQ3Uns32                                    pixelSize;
+    TQ3PixelType                                pixelType;
+} TQ3CompressedPixmap;
+</pre>
+</blockquote>
+<p>QuickTime compressed Pixmap image type. Only available on platforms with QuickTime.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>compressedImage</tt></td><td>A storage object that contains the QuickTime compressed image data.</td><tr>
+<tr valign=top><td><tt>imageDescByteOrder</tt></td><td>Endianness of data in the imageDesc field.</td><tr>
+<tr valign=top><td><tt>imageDesc</tt></td><td>QuickTime image description.</td><tr>
+<tr valign=top><td><tt>makeMipmaps</tt></td><td>Indicates if mipmapping is required.</td><tr>
+<tr valign=top><td><tt>width</tt></td><td>Width of the image.</td><tr>
+<tr valign=top><td><tt>height</tt></td><td>Height of the image.</td><tr>
+<tr valign=top><td><tt>pixelSize</tt></td><td>Size in bits of each pixel (must be 16 or 32).</td><tr>
+<tr valign=top><td><tt>pixelType</tt></td><td>The pixel format of the image data. The format must be appropriate for pixelSize.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Matrix3x3"></a>
+<h3><a name="TQ3Matrix3x3">TQ3Matrix3x3</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       value[3][3];
+} TQ3Matrix3x3;
+</pre>
+</blockquote>
+<p>Fundamental 3x3 matrix type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>value</tt></td><td>3x3 array of values that define the matrix.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Matrix4x4"></a>
+<h3><a name="TQ3Matrix4x4">TQ3Matrix4x4</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       value[4][4];
+} TQ3Matrix4x4;
+</pre>
+</blockquote>
+<p>Fundamental 4x4 matrix type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>value</tt></td><td>4x4 array of values that define the matrix.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Mipmap"></a>
+<h3><a name="TQ3Mipmap">TQ3Mipmap</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3StorageObject                            image;
+    TQ3Boolean                                  useMipmapping;
+    TQ3PixelType                                pixelType;
+    TQ3Endian                                   bitOrder;
+    TQ3Endian                                   byteOrder;
+    TQ3Uns32                                    reserved;
+    TQ3MipmapImage                              mipmaps[32];
+} TQ3Mipmap;
+</pre>
+</blockquote>
+<p>Fundamental Mipmap image type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>image</tt></td><td>A storage object that contains the image data.</td><tr>
+<tr valign=top><td><tt>useMipmapping</tt></td><td>Flag indicating if mipmapping should be used and all mipmaps have been supplied.</td><tr>
+<tr valign=top><td><tt>pixelType</tt></td><td>The pixel format of the image data.</td><tr>
+<tr valign=top><td><tt>bitOrder</tt></td><td>The order in which bits in a byte are addressed within the image data.</td><tr>
+<tr valign=top><td><tt>byteOrder</tt></td><td>The order in which bytes in a word are addressed within the image data.</td><tr>
+<tr valign=top><td><tt>reserved</tt></td><td>Reserved - must be set to 0.</td><tr>
+<tr valign=top><td><tt>mipmaps</tt></td><td>Up to 32 mip-map image specifications.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3MipmapImage"></a>
+<h3><a name="TQ3MipmapImage">TQ3MipmapImage</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Uns32                                    width;
+    TQ3Uns32                                    height;
+    TQ3Uns32                                    rowBytes;
+    TQ3Uns32                                    offset;
+} TQ3MipmapImage;
+</pre>
+</blockquote>
+<p>Fundamental Mipmap image type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>width</tt></td><td>Width of the mipmap, which must be a power of 2.</td><tr>
+<tr valign=top><td><tt>height</tt></td><td>Height of the mipmap, which must be a power of 2.</td><tr>
+<tr valign=top><td><tt>rowBytes</tt></td><td>Distance in bytes from begining of one row of image data to the next.</td><tr>
+<tr valign=top><td><tt>offset</tt></td><td>Offset in bytes from the begining of the image base to this mipmap.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Param2D"></a>
+<h3><a name="TQ3Param2D">TQ3Param2D</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       u;
+    float                                       v;
+} TQ3Param2D;
+</pre>
+</blockquote>
+<p>Fundamental 2D parametric point type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>u</tt></td><td>u component.</td><tr>
+<tr valign=top><td><tt>v</tt></td><td>v component.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Param3D"></a>
+<h3><a name="TQ3Param3D">TQ3Param3D</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       u;
+    float                                       v;
+    float                                       w;
+} TQ3Param3D;
+</pre>
+</blockquote>
+<p>Fundamental 3D parametric point type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>u</tt></td><td>u component.</td><tr>
+<tr valign=top><td><tt>v</tt></td><td>v component.</td><tr>
+<tr valign=top><td><tt>w</tt></td><td>w component.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Pixmap"></a>
+<h3><a name="TQ3Pixmap">TQ3Pixmap</a></h3>
+<blockquote><pre>
+typedef struct {
+    void                                        *image;
+    TQ3Uns32                                    width;
+    TQ3Uns32                                    height;
+    TQ3Uns32                                    rowBytes;
+    TQ3Uns32                                    pixelSize;
+    TQ3PixelType                                pixelType;
+    TQ3Endian                                   bitOrder;
+    TQ3Endian                                   byteOrder;
+} TQ3Pixmap;
+</pre>
+</blockquote>
+<p>Fundamental Pixmap type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>image</tt></td><td>Pointer to (height*rowBytes) sized block of memory containing the image data.</td><tr>
+<tr valign=top><td><tt>width</tt></td><td>Width of the image.</td><tr>
+<tr valign=top><td><tt>height</tt></td><td>Height of the image.</td><tr>
+<tr valign=top><td><tt>rowBytes</tt></td><td>Distance in bytes from begining of one row of image data to the next.</td><tr>
+<tr valign=top><td><tt>pixelSize</tt></td><td>Size in bits of each pixel.</td><tr>
+<tr valign=top><td><tt>pixelType</tt></td><td>The pixel format of the image data. The format must be appropriate for pixelSize.</td><tr>
+<tr valign=top><td><tt>bitOrder</tt></td><td>The order in which bits in a byte are addressed within the image data.</td><tr>
+<tr valign=top><td><tt>byteOrder</tt></td><td>The order in which bytes in a word are addressed within the image data.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PlaneEquation"></a>
+<h3><a name="TQ3PlaneEquation">TQ3PlaneEquation</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Vector3D                                 normal;
+    float                                       constant;
+} TQ3PlaneEquation;
+</pre>
+</blockquote>
+<p>Fundamental plane equation type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>normal</tt></td><td>The normal vector to the plane.</td><tr>
+<tr valign=top><td><tt>constant</tt></td><td>The plane constant (the value d in the plane equation ax+by+cz+d=0).</td><tr>
+</table>
+</blockquote>
+<hr>
 <a name="//apple_ref/c/tag/TQ3Point2D"></a>
 <h3><a name="TQ3Point2D">TQ3Point2D</a></h3>
 <blockquote><pre>
-typedef  struct  {
-  float  x;
-  float  y;
-}  TQ3Point2D;
+typedef struct {
+    float                                       x;
+    float                                       y;
+} TQ3Point2D;
 </pre>
 </blockquote>
 <p>Fundamental 2D point type.
@@ -859,11 +1232,11 @@ typedef  struct  {
 <a name="//apple_ref/c/tag/TQ3Point3D"></a>
 <h3><a name="TQ3Point3D">TQ3Point3D</a></h3>
 <blockquote><pre>
-typedef  struct  {
-  float  x;
-  float  y;
-  float  z;
-}  TQ3Point3D;
+typedef struct {
+    float                                       x;
+    float                                       y;
+    float                                       z;
+} TQ3Point3D;
 </pre>
 </blockquote>
 <p>Fundamental 3D point type.
@@ -879,13 +1252,250 @@ typedef  struct  {
 </table>
 </blockquote>
 <hr>
+<a name="//apple_ref/c/tag/TQ3PolarPoint"></a>
+<h3><a name="TQ3PolarPoint">TQ3PolarPoint</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       r;
+    float                                       theta;
+} TQ3PolarPoint;
+</pre>
+</blockquote>
+<p>Fundamental polar point type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>r</tt></td><td>Distance along the radius vector from polar origin.</td><tr>
+<tr valign=top><td><tt>theta</tt></td><td>Angle in radians between polar axis and the radius vector.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Quaternion"></a>
+<h3><a name="TQ3Quaternion">TQ3Quaternion</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       w;
+    float                                       x;
+    float                                       y;
+    float                                       z;
+} TQ3Quaternion;
+</pre>
+</blockquote>
+<p>Fundamental Quaternion type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>w</tt></td><td>w component.</td><tr>
+<tr valign=top><td><tt>x</tt></td><td>x component.</td><tr>
+<tr valign=top><td><tt>y</tt></td><td>y component.</td><tr>
+<tr valign=top><td><tt>z</tt></td><td>z component.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3RationalPoint3D"></a>
+<h3><a name="TQ3RationalPoint3D">TQ3RationalPoint3D</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       x;
+    float                                       y;
+    float                                       w;
+} TQ3RationalPoint3D;
+</pre>
+</blockquote>
+<p>Fundamental 3D rational point type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
+<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
+<tr valign=top><td><tt>w</tt></td><td>Point weight.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3RationalPoint4D"></a>
+<h3><a name="TQ3RationalPoint4D">TQ3RationalPoint4D</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       x;
+    float                                       y;
+    float                                       z;
+    float                                       w;
+} TQ3RationalPoint4D;
+</pre>
+</blockquote>
+<p>Fundamental 4D rational point type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
+<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
+<tr valign=top><td><tt>z</tt></td><td>z coordinate.</td><tr>
+<tr valign=top><td><tt>w</tt></td><td>Point weight.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Ray3D"></a>
+<h3><a name="TQ3Ray3D">TQ3Ray3D</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Point3D                                  origin;
+    TQ3Vector3D                                 direction;
+} TQ3Ray3D;
+</pre>
+</blockquote>
+<p>Fundamental ray type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>origin</tt></td><td>Origin of ray.</td><tr>
+<tr valign=top><td><tt>direction</tt></td><td>Direction of ray.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3SphericalPoint"></a>
+<h3><a name="TQ3SphericalPoint">TQ3SphericalPoint</a></h3>
+<blockquote><pre>
+typedef struct {
+    float                                       rho;
+    float                                       theta;
+    float                                       phi;
+} TQ3SphericalPoint;
+</pre>
+</blockquote>
+<p>Fundamental spherical point type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>r</tt></td><td>Distance along the radius vector from polar origin.</td><tr>
+<tr valign=top><td><tt>theta</tt></td><td>Angle in radians between x axis and the projection of the
+radius vector onto the xy plane.</td><tr>
+<tr valign=top><td><tt>phi</tt></td><td>Angle in radians between z axis and the radius vector.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3StoragePixmap"></a>
+<h3><a name="TQ3StoragePixmap">TQ3StoragePixmap</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3StorageObject                            image;
+    TQ3Uns32                                    width;
+    TQ3Uns32                                    height;
+    TQ3Uns32                                    rowBytes;
+    TQ3Uns32                                    pixelSize;
+    TQ3PixelType                                pixelType;
+    TQ3Endian                                   bitOrder;
+    TQ3Endian                                   byteOrder;
+} TQ3StoragePixmap;
+</pre>
+</blockquote>
+<p>Fundamental storage Pixmap type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>image</tt></td><td>A storage object that contains the image data.</td><tr>
+<tr valign=top><td><tt>width</tt></td><td>Width of the image.</td><tr>
+<tr valign=top><td><tt>height</tt></td><td>Height of the image.</td><tr>
+<tr valign=top><td><tt>rowBytes</tt></td><td>Distance in bytes from begining of one row of image data to the next.</td><tr>
+<tr valign=top><td><tt>pixelSize</tt></td><td>Size in bits of each pixel.</td><tr>
+<tr valign=top><td><tt>pixelType</tt></td><td>The pixel format of the image data. The format must be appropriate for pixelSize.</td><tr>
+<tr valign=top><td><tt>bitOrder</tt></td><td>The order in which bits in a byte are addressed within the image data.</td><tr>
+<tr valign=top><td><tt>byteOrder</tt></td><td>The order in which bytes in a word are addressed within the image data.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3SubClassData"></a>
+<h3><a name="TQ3SubClassData">TQ3SubClassData</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Uns32                                    numClasses;
+    TQ3ObjectType                               *classTypes;
+} TQ3SubClassData;
+</pre>
+</blockquote>
+<p>Object sub-class type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numClasses</tt></td><td>The number of types contained in classTypes.</td><tr>
+<tr valign=top><td><tt>classTypes</tt></td><td>The types of the sub-classes.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Tangent2D"></a>
+<h3><a name="TQ3Tangent2D">TQ3Tangent2D</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Vector3D                                 uTangent;
+    TQ3Vector3D                                 vTangent;
+} TQ3Tangent2D;
+</pre>
+</blockquote>
+<p>Fundamental 2D parametric surface tangent type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>uTangent</tt></td><td>Tangent in the u direction.</td><tr>
+<tr valign=top><td><tt>vTangent</tt></td><td>Tangent in the v direction.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Tangent3D"></a>
+<h3><a name="TQ3Tangent3D">TQ3Tangent3D</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Vector3D                                 uTangent;
+    TQ3Vector3D                                 vTangent;
+    TQ3Vector3D                                 wTangent;
+} TQ3Tangent3D;
+</pre>
+</blockquote>
+<p>Fundamental 3D parametric surface tangent type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>uTangent</tt></td><td>Tangent in the u direction.</td><tr>
+<tr valign=top><td><tt>vTangent</tt></td><td>Tangent in the v direction.</td><tr>
+<tr valign=top><td><tt>wTangent</tt></td><td>Tangent in the w direction.</td><tr>
+</table>
+</blockquote>
+<hr>
 <a name="//apple_ref/c/tag/TQ3Vector2D"></a>
 <h3><a name="TQ3Vector2D">TQ3Vector2D</a></h3>
 <blockquote><pre>
-typedef  struct  {
-  float  x;
-  float  y;
-}  TQ3Vector2D;
+typedef struct {
+    float                                       x;
+    float                                       y;
+} TQ3Vector2D;
 </pre>
 </blockquote>
 <p>Fundamental 2D vector type.
@@ -903,11 +1513,11 @@ typedef  struct  {
 <a name="//apple_ref/c/tag/TQ3Vector3D"></a>
 <h3><a name="TQ3Vector3D">TQ3Vector3D</a></h3>
 <blockquote><pre>
-typedef  struct  {
-  float  x;
-  float  y;
-  float  z;
-}  TQ3Vector3D;
+typedef struct {
+    float                                       x;
+    float                                       y;
+    float                                       z;
+} TQ3Vector3D;
 </pre>
 </blockquote>
 <p>Fundamental 3D vector type.
@@ -923,5 +1533,26 @@ typedef  struct  {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 3/20/2001 </a></font></p>
+<a name="//apple_ref/c/tag/TQ3Vertex3D"></a>
+<h3><a name="TQ3Vertex3D">TQ3Vertex3D</a></h3>
+<blockquote><pre>
+typedef struct {
+    TQ3Point3D                                  point;
+    TQ3AttributeSet                             attributeSet;
+} TQ3Vertex3D;
+</pre>
+</blockquote>
+<p>Fundamental vertex type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point</tt></td><td>Location of the vertex.</td><tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Attribute set for the vertex.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
 </body></html>

@@ -2,9 +2,9 @@
 <a name="//apple_ref/c/tag/Miscellaneous"></a>
 <h3><a name="Miscellaneous">Miscellaneous</a></h3>
 <blockquote><pre>
-enum  {
-  kQ3StringMaximumLength  =  1024,
-  kQ3ArrayIndexNULL  =  ~0
+enum {
+    kQ3StringMaximumLength                      = 1024,
+    kQ3ArrayIndexNULL                           = ~0
 };
 </pre>
 </blockquote>
@@ -23,11 +23,11 @@ enum  {
 <a name="//apple_ref/c/tag/TQ3Axis"></a>
 <h3><a name="TQ3Axis">TQ3Axis</a></h3>
 <blockquote><pre>
-typedef  enum  {
-  kQ3AxisX  =  0,
-  kQ3AxisY  =  1,
-  kQ3AxisZ  =  2
-}  TQ3Axis;
+typedef enum {
+    kQ3AxisX                                    = 0,
+    kQ3AxisY                                    = 1,
+    kQ3AxisZ                                    = 2
+} TQ3Axis;
 </pre>
 </blockquote>
 <p>Fundamental axis type.
@@ -46,10 +46,10 @@ typedef  enum  {
 <a name="//apple_ref/c/tag/TQ3Boolean"></a>
 <h3><a name="TQ3Boolean">TQ3Boolean</a></h3>
 <blockquote><pre>
-typedef  enum  {
-  kQ3False  =  0,
-  kQ3True  =  1
-}  TQ3Boolean;
+typedef enum {
+    kQ3False                                    = 0,
+    kQ3True                                     = 1
+} TQ3Boolean;
 </pre>
 </blockquote>
 <p>Fundamental boolean type.
@@ -64,13 +64,107 @@ typedef  enum  {
 </table>
 </blockquote>
 <hr>
+<a name="//apple_ref/c/tag/TQ3ComputeBounds"></a>
+<h3><a name="TQ3ComputeBounds">TQ3ComputeBounds</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3ComputeBoundsExact                       = 0,
+    kQ3ComputeBoundsApproximate                 = 1
+} TQ3ComputeBounds;
+</pre>
+</blockquote>
+<p>Bounds accuracy types.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ComputeBoundsExact"><tt>kQ3ComputeBoundsExact</tt></a></td><td>Compute exact bounds by transforming vertices
+to world coordinates then calculating bounds.
+Slower, but more accurate.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ComputeBoundsApproximate"><tt>kQ3ComputeBoundsApproximate</tt></a></td><td>Compute approximate bounds by transforming
+local bounding box to world coordinates.
+Faster, but less accurate.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3ElementTypes"></a>
+<h3><a name="TQ3ElementTypes">TQ3ElementTypes</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3ElementTypeNone                          = 0,
+    kQ3ElementTypeUnknown                       = 1,
+    kQ3ElementTypeSet                           = 2
+} TQ3ElementTypes;
+</pre>
+</blockquote>
+<p>Fundamental element types.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ElementTypeNone"><tt>kQ3ElementTypeNone</tt></a></td><td>Indicates no element.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ElementTypeUnknown"><tt>kQ3ElementTypeUnknown</tt></a></td><td>Indicates unknown element type.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ElementTypeSet"><tt>kQ3ElementTypeSet</tt></a></td><td>Indicates set element.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3EndCapMasks"></a>
+<h3><a name="TQ3EndCapMasks">TQ3EndCapMasks</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3EndCapNone                               = 0,
+    kQ3EndCapMaskTop                            = (1 << 0),
+    kQ3EndCapMaskBottom                         = (1 << 1),
+    kQ3EndCapMaskInterior                       = (1 << 2)
+} TQ3EndCapMasks;
+</pre>
+</blockquote>
+<p>Fundamental end caps type.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndCapNone"><tt>kQ3EndCapNone</tt></a></td><td>No end caps.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndCapMaskTop"><tt>kQ3EndCapMaskTop</tt></a></td><td>Top end cap.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndCapMaskBottom"><tt>kQ3EndCapMaskBottom</tt></a></td><td>Bottom end cap.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndCapMaskInterior"><tt>kQ3EndCapMaskInterior</tt></a></td><td>Interior end cap.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Endian"></a>
+<h3><a name="TQ3Endian">TQ3Endian</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3EndianBig                                = 0,
+    kQ3EndianLittle                             = 1
+} TQ3Endian;
+</pre>
+</blockquote>
+<p>Fundamental endian type.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndianBig"><tt>kQ3EndianBig</tt></a></td><td>Big endian.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndianLittle"><tt>kQ3EndianLittle</tt></a></td><td>Little endian.</td><tr>
+</table>
+</blockquote>
+<hr>
 <a name="//apple_ref/c/tag/TQ3Language"></a>
 <h3><a name="TQ3Language">TQ3Language</a></h3>
 <blockquote><pre>
-typedef  enum  {
-  kQ3LanguageDefault  =  0,
-  kQ3LanguageEnglishUS  =  1
-}  TQ3Language;
+typedef enum {
+    kQ3LanguageDefault                          = 0,
+    kQ3LanguageEnglishUS                        = 1
+} TQ3Language;
 </pre>
 </blockquote>
 <p>Languages.
@@ -85,13 +179,42 @@ typedef  enum  {
 </table>
 </blockquote>
 <hr>
+<a name="//apple_ref/c/tag/TQ3PixelType"></a>
+<h3><a name="TQ3PixelType">TQ3PixelType</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3PixelTypeRGB32                           = 0,
+    kQ3PixelTypeARGB32                          = 1,
+    kQ3PixelTypeRGB16                           = 2,
+    kQ3PixelTypeARGB16                          = 3,
+    kQ3PixelTypeRGB16_565                       = 4,
+    kQ3PixelTypeRGB24                           = 5
+} TQ3PixelType;
+</pre>
+</blockquote>
+<p>Fundamental pixel formats.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeRGB32"><tt>kQ3PixelTypeRGB32</tt></a></td><td>8 bits for red, green, and blue. Alpha ignored.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeARGB32"><tt>kQ3PixelTypeARGB32</tt></a></td><td>8 bits for alpha, red, green, and blue.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeRGB16"><tt>kQ3PixelTypeRGB16</tt></a></td><td>5 bits for red, green, and blue. Alpha ignored.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeARGB16"><tt>kQ3PixelTypeARGB16</tt></a></td><td>1 bit for alpha. 5 bits for red, green, and blue.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeRGB16_565"><tt>kQ3PixelTypeRGB16_565</tt></a></td><td>5 bits for red, 6 bits for green, 5 bits for blue.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeRGB24"><tt>kQ3PixelTypeRGB24</tt></a></td><td>8 bits for red, green, and blue. No alpha byte.</td><tr>
+</table>
+</blockquote>
+<hr>
 <a name="//apple_ref/c/tag/TQ3Status"></a>
 <h3><a name="TQ3Status">TQ3Status</a></h3>
 <blockquote><pre>
-typedef  enum  {
-  kQ3Failure  =  0,
-  kQ3Success  =  1
-}  TQ3Status;
+typedef enum {
+    kQ3Failure                                  = 0,
+    kQ3Success                                  = 1
+} TQ3Status;
 </pre>
 </blockquote>
 <p>Fundamental status type.
@@ -109,10 +232,10 @@ typedef  enum  {
 <a name="//apple_ref/c/tag/TQ3Switch"></a>
 <h3><a name="TQ3Switch">TQ3Switch</a></h3>
 <blockquote><pre>
-typedef  enum  {
-  kQ3Off  =  0,
-  kQ3On  =  1
-}  TQ3Switch;
+typedef enum {
+    kQ3Off                                      = 0,
+    kQ3On                                       = 1
+} TQ3Switch;
 </pre>
 </blockquote>
 <p>Fundamental switch type.
@@ -127,5 +250,5 @@ typedef  enum  {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 3/20/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
 </body></html>

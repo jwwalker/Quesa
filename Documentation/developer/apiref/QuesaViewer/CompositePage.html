@@ -1628,20 +1628,20 @@ Q3WinViewerDispose (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Free all resources for the viewer window.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+You call this routine before destroying the parent viewer
+of the viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>Your viewer which you did create with Q3WinViewerNew.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Normally kQ3Success, kQ3Failure if you input an invalid viewer.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerDraw"></a>
@@ -1652,20 +1652,20 @@ Q3WinViewerDraw (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Draw the content of the viewer and the control strip.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function whenever you think that the normal windows
+update mechanisms do not show the current status of your 3D viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success indicator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerDrawContent"></a>
@@ -1676,20 +1676,20 @@ Q3WinViewerDrawContent (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Draw the 3D world.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function whenever you think that the normal windows
+update mechanisms do not show the current status of your 3D world.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success indicator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerDrawControlStrip"></a>
@@ -1700,20 +1700,20 @@ Q3WinViewerDrawControlStrip (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Redraw the content of the viewer and the control strip.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function whenever you think that the normal windows
+update mechanisms do not show the current status of your control strip.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success indicator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerGetBackgroundColor"></a>
@@ -1725,21 +1725,23 @@ Q3WinViewerGetBackgroundColor (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Inquires the current flat background color of your 3D viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Example:
+COLORREF RGB;
+if (Q3WinViewerGetBackgroundColor (gViewer, &color) == kQ3Failure) return false;
+rgb= RGB((BYTE)color.r * 255.0F,(BYTE)color.g * 255.0F, (BYTE)color.b * 255.0F); 
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>A Quesa argb color in the 0..1 box.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success indicator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerGetBitmap"></a>
@@ -1750,20 +1752,22 @@ Q3WinViewerGetBitmap (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Returns a bitmap photo of your 3D world.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The dimension of the bitmap will correspond to your current
+viewer size.
+The color depth of the bitmap will correspond to your current
+screen resolution.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The bitmap, if successful, or NULL.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerGetBounds"></a>
@@ -1775,21 +1779,20 @@ Q3WinViewerGetBounds (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Inquires the current position of the viewer window.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The resulting bounds do include the screen space for the control strip.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>bounds</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
+<tr valign=top><td><tt>bounds</tt></td><td>The current place of the viewer window in the parent window.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success indicator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerGetButtonRect"></a>
@@ -1854,20 +1857,17 @@ Q3WinViewerGetControlStrip (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Inquires the child window handle of the control strip.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The handle to the child window of the viewer, or zero, if not successful.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerGetCurrentButton"></a>
@@ -1904,22 +1904,21 @@ Q3WinViewerGetDimension (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Inquires the extent of the viewer window.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The resulting size does include the screen space for the control strip.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>width</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
+<tr valign=top><td><tt>width</tt></td><td>The current width of the viewer window.</td></tr>
+<tr valign=top><td><tt>height</tt></td><td>The current height of the viewer window.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success indicator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerGetFlags"></a>
@@ -2134,20 +2133,19 @@ Q3WinViewerGetViewer (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Inquires a viewer which is associated to the given window.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the viewer will not be increased.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theWindow</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theWindow</tt></td><td>Your window.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The viewer, or NULL, if not successful.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerGetWindow"></a>
@@ -2158,20 +2156,17 @@ Q3WinViewerGetWindow (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Inquires the child window handle of the viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The handle to the child window of the viewer, or zero, if not successful.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerMouseDown"></a>
@@ -2238,22 +2233,26 @@ Q3WinViewerNew (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Create a new viewer in your window.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+At creation time of your window (WM_CREATE) you
+call this routine to create the viewer, which is a child window, e.g.
+<br><br>
+RECT aWinRect;
+GetClientRect(hWnd, (LPRECT)&aWinRect);
+theViewer = Q3WinViewerNew (yourWnd, &aWinRect, kQ3ViewerDefault);
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>window</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rect</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>flags</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>window</tt></td><td>The parent window.</td></tr>
+<tr valign=top><td><tt>rect</tt></td><td>The client rect in the parent window.</td></tr>
+<tr valign=top><td><tt>flags</tt></td><td>The viewer style.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The reference to a new viewer object on success, else 0.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerPaste"></a>
@@ -2313,21 +2312,28 @@ Q3WinViewerSetBackgroundColor (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the flat background color of your 3D viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Example:
+TQ3ColorARGB color;
+DWORD rgb;  // 32-bit RGB value
+rgb= myFavoriteColor();
+color.a = 1.0F;
+color.r = (float)GetRValue(rgb)/(float)255;
+color.g = (float)GetGValue(rgb)/(float)255;
+color.b = (float)GetBValue(rgb)/(float)255;
+Q3WinViewerSetBackgroundColor (theViewer, &color);
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>A Quesa argb color in the 0..1 box.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success indicator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerSetBounds"></a>
@@ -2339,21 +2345,20 @@ Q3WinViewerSetBounds (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the viewer window to a new place in the parent window.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+It does include the screen space for the control strip.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>bounds</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
+<tr valign=top><td><tt>bounds</tt></td><td>The new place of the viewer window in the parent window.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success indicator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerSetCameraNumber"></a>
@@ -2444,22 +2449,24 @@ Q3WinViewerSetDimension (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the extent of the viewer window.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+It does not change the anchor of the window, therefore
+you typically call this upon a resize of the parent window.
+<br><br>
+The size does include the screen space for the control strip.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>width</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewer</tt></td><td>A valid viewer.</td></tr>
+<tr valign=top><td><tt>width</tt></td><td>The new width of the viewer window.</td></tr>
+<tr valign=top><td><tt>height</tt></td><td>The new height of the viewer window.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success indicator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerSetFlags"></a>
@@ -2674,5 +2681,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 3/20/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
 </body></html>
