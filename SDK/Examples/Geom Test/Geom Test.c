@@ -101,6 +101,15 @@ TQ3ColorARGB		gBackgroundColor;
 
 
 //=============================================================================
+//      Function prototypes
+//-----------------------------------------------------------------------------
+void appRender(TQ3ViewObject theView);
+
+
+
+
+
+//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      createUVsFromPoints : Create UV values from points.
@@ -1713,41 +1722,55 @@ createGeomTriMesh(void)
 //-----------------------------------------------------------------------------
 static TQ3Boolean
 doPicktest(TQ3ViewObject theView, TQ3Point2D mousePoint)
-{
-	TQ3WindowPointPickData	myPickData;
-	TQ3PickObject 			myPick;
-	TQ3Boolean				hitGood = kQ3False;
-	unsigned long			numHits = 0;
-	TQ3Uns32 i;
-	
-	// Prepare a window-point pick object.
-	myPickData.data.sort = kQ3PickSortNearToFar;	// give me the closest object
-	myPickData.data.mask = kQ3PickDetailMaskPickID | kQ3PickDetailMaskXYZ;	// give me the object, as well as the XYZ point
-	myPickData.data.numHitsToReturn = kQ3ReturnAllHits;	// don't really want all hits, but it appears we have no choice:
-	myPickData.point.x = mousePoint.x;				// set the point...
-	myPickData.point.y = mousePoint.y;
-	myPickData.vertexTolerance = 2.0;	// and tolerance (not sure about this!)
-	myPickData.edgeTolerance = 2.0;
-	
-	myPick = Q3WindowPointPick_New(&myPickData);
+{	TQ3Boolean					hitGood = kQ3False;
+	TQ3WindowPointPickData		pickData;
+	TQ3Uns32					numHits;
+	TQ3PickObject 				thePick;
 
-	// do the picking loop
-	Q3View_StartPicking(theView, myPick);
-	for (i=0; i<100; i++) {			// try submitting up to 100 times
-		Q3MatrixTransform_Submit(&gMatrixCurrent, theView);
-		Q3Object_Submit(gSceneGeometry, theView);
 
-		// exit picking loop unless we need to retraverse
-		if (Q3View_EndPicking(theView) != kQ3ViewStatusRetraverse) break;
-	}
 
-	// check for hits
-	if (Q3Pick_GetNumHits(myPick, &numHits) != kQ3Failure && numHits > 0) hitGood = kQ3True;
-	
-	// clean up
-	Q3Pick_EmptyHitList(myPick);
-	Q3Object_Dispose(myPick);
-	return hitGood;
+	// Create a window-point pick object
+	pickData.data.sort            = kQ3PickSortNearToFar;		// Request sorted results
+	pickData.data.mask            = kQ3PickDetailMaskObject |	// Return the object
+									kQ3PickDetailMaskXYZ;		// Return the XYZ point hit
+	pickData.data.numHitsToReturn = kQ3ReturnAllHits;			// Give me back everything
+	pickData.point.x              = mousePoint.x;				// Set the point to pick on
+	pickData.point.y              = mousePoint.y;
+	pickData.vertexTolerance      = 2.0;						// Set fudge-factor for vertices
+	pickData.edgeTolerance        = 2.0;						// Set fudge-factor for edges
+
+	thePick = Q3WindowPointPick_New(&pickData);
+
+
+
+	// Submit the scene for picking - note that we submit exactly what's submitted
+	// for rendering, including things like styles. This is so the scene picked
+	// is exactly the same as the scene rendered (so that geometries are picked
+	// with the same subdivision as is used to render them on-screen).
+	if (Q3View_StartPicking(theView, thePick) == kQ3Success)
+		{
+		do
+			{
+			Qut_SubmitDefaultStyles(theView);
+			appRender(theView);
+			}
+		while (Q3View_EndPicking(theView) == kQ3ViewStatusRetraverse);
+		}
+
+
+
+	// Test for hits
+	if (Q3Pick_GetNumHits(thePick, &numHits) != kQ3Failure && numHits > 0)
+		hitGood = kQ3True;
+
+
+
+	// Clean up. Note that we don't need to explicitly dispose of the pick list,
+	// as disposing of the pick object will release that for us. If we did want
+	// to re-use the pick list, we would call Q3Pick_EmptyHitList to empty it.
+	Q3Object_Dispose(thePick);
+
+	return(hitGood);
 }
 
 
