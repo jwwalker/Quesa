@@ -66,32 +66,26 @@ const TQ3Point3D kFrustumOrigin								= { 0.0f, 0.0f, 0.0f };
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      ir_geom_transparent_calc_plane : Calculate the plane equation.
+
+//=============================================================================
+//      ir_geom_calc_z_sum : Compute sum of z coordinates of a primitive.
 //-----------------------------------------------------------------------------
-static void
-ir_geom_transparent_calc_plane(TQ3TransparentPrim *thePrim)
-{	TQ3Vector3D		cameraSideVec, cameraToTri;
+static float
+ir_geom_calc_z_sum( const TQ3TransparentPrim* prim )
+{
+	float	zSum = prim->frustumSpaceVerts[0].z;
 	
-
-
-	// Calculate the plane equation for the triangle
-	//
-	// Since transparent primitives are transformed to frustum space,
-	// the camera position is always fixed at the origin.
-	Q3Point3D_Subtract(&thePrim->frustumSpaceVerts[0], &kFrustumOrigin, &cameraToTri);
-
-	Q3Point3D_CrossProductTri(&thePrim->frustumSpaceVerts[0],
-							  &thePrim->frustumSpaceVerts[1],
-							  &thePrim->frustumSpaceVerts[2],
-							  &cameraSideVec);
-
-	if (Q3Vector3D_Dot(&cameraToTri, &cameraSideVec) > 0.0f)
-		Q3Vector3D_Negate(&cameraSideVec, &cameraSideVec);
-
-	thePrim->cameraSide    = cameraSideVec;
-	thePrim->planeIsValid  = kQ3True;
-	thePrim->planeConstant = Q3Vector3D_Dot(&cameraSideVec, (TQ3Vector3D *) &thePrim->frustumSpaceVerts[0]);
-
+	if (prim->numVerts > 1)
+	{
+		zSum += prim->frustumSpaceVerts[1].z;
+	}
+	
+	if (prim->numVerts > 2)
+	{
+		zSum += prim->frustumSpaceVerts[2].z;
+	}
+	
+	return zSum;
 }
 
 
@@ -99,95 +93,37 @@ ir_geom_transparent_calc_plane(TQ3TransparentPrim *thePrim)
 
 
 //=============================================================================
-//      ir_geom_transparent_sort : Sort callback for cached prims.
+//      ir_geom_centroid_compare : Compare depth by average z coordinate.
 //-----------------------------------------------------------------------------
+// 		We actually use a sum rather than an average to avoid division.  This
+//		makes the comparison incorrect when comparing primitives with
+//		different numbers of vertices, but it is probably most common for all
+//		vertices to have the same number of vertices.
+//
+//		This method of depth comparison is clearly incorrect in many cases,
+//		but has the advantage of speed and simplicity.  Since it is a true
+//		linear order on vertices, we can use a standard sorting algorithm such
+//		as qsort.
 static int
-ir_geom_transparent_sort(const void *item1, const void *item2)
-{	float					mid1, mid2, testVal, minVal;
+ir_geom_centroid_compare(const void *item1, const void *item2)
+{
 	TQ3TransparentPrim		*prim1, *prim2;
 	int						sortResult;
-	TQ3Uns32				i;
-
-
-
+	float					sum1, sum2;
+	
 	// Grab our parameters
 	prim1 = *(TQ3TransparentPrim **) item1;
 	prim2 = *(TQ3TransparentPrim **) item2;
 
-
-
-	// Primitive 1 is closer than primitive 2
-	if (prim1->zMax < prim2->zMin)
-		sortResult = -1;
-
-
-
-	// Primitive 1 is further away than primitive 2
-	else if (prim1->zMin > prim2->zMax)
-		sortResult = 1;
-
-
-
-	// Primitives don't overlap in x and y
-	//
-	// If we don't have an overlap on screen, the order is arbitrary. Since we work
-	// in frustum coordinates, we know we have a parallel projection and can just
-	// compare the extents directly.
-	else if ((prim1->xMax < prim2->xMin || prim1->xMin > prim2->xMax) &&
-			 (prim1->yMax < prim2->yMin || prim1->yMin > prim2->yMax))
-		sortResult = -1;
-
-
-
-	// Primitives overlap - triangles
-	//
-	// Comparing extents in z is not sufficient for triangles, as they may overlap in depth
-	// but still have a determinate order relative to the camera (e.g., two triangles ABC
-	// and ABD where C is closer to the camera in z yet D is in front).
-	//
-	// To get a better result for such triangles, we try using the triangle plane equation
-	// to determine if the second triangle is on the same side of the plane as the camera.
-	else if (prim1->numVerts == 3)
-		{
-		// Calculate the plane equation of prim1
-		if (!prim1->planeIsValid)
-			ir_geom_transparent_calc_plane(prim1);
-
-
-		// Push in the vertices of prim2
-		minVal = kQ3MaxFloat;
-		for (i = 0; i < prim2->numVerts; ++i)
-			{
-			testVal = Q3Vector3D_Dot(&prim1->cameraSide, (TQ3Vector3D *) &prim2->frustumSpaceVerts[i]);
-			minVal  = E3Num_Min(minVal, testVal);
-			}
-
-
-		// Sort based on the side of prim1 which prim2 falls on
-		if ((minVal - prim1->planeConstant) >= kQ3LargeZero)
-			sortResult = 1;
-		else 
-			sortResult = -1;
-		}
+	sum1 = ir_geom_calc_z_sum( prim1 );
+	sum2 = ir_geom_calc_z_sum( prim2 );
 	
-	
-
-	// Primitives overlap - lines/points
+	if (sum1 < sum2)
+		sortResult = -1;
 	else
-		{
-		// Treat the closest midpoint as the frontmost primitive
-		mid1 = prim1->zMin + ((prim1->zMax - prim1->zMin) * 0.5f);
-		mid2 = prim2->zMin + ((prim2->zMax - prim2->zMin) * 0.5f);
-		if (mid1 < mid2)
-			sortResult = -1;
-		else
-			sortResult = 1;
-		}
-
-
-
-	// Flip the result to sort in reverse order (from back to front)
-	return(-sortResult);
+		sortResult = 1;
+	
+	return sortResult;
 }
 
 
@@ -407,7 +343,6 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	const TQ3FVertex3D		*theVertex;
 	TQ3FVertexFlags			vertFlags;
 	TQ3TransparentPrim		*thePrim;
-	float					x, y, z;
 	TQ3Uns32				n;
 	TQ3Boolean				isAllowed;
 
@@ -480,51 +415,6 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 			Q3Vector3D_Normalize(&thePrim->theVertices[n].theNormal,
 				&thePrim->theVertices[n].theNormal);
 			}
-		}
-
-
-
-	// Set up the primitive sorting
-	//
-	// Triangles may require the plane equation for sorting if they overlap in z,
-	// however we can defer calculating this until we know we need it.
-	//
-	// We negate the z coordinate for sorting, since it's easier to visualise if 0
-	// is the near plane and +1 the far plane (the Quesa frustum coordinate space
-	// runs from 0 at the near plane in z and -1 at the far plane in z).
-	thePrim->xMin = thePrim->xMax = -thePrim->frustumSpaceVerts[0].x;
-	thePrim->yMin = thePrim->yMax = -thePrim->frustumSpaceVerts[0].y;
-	thePrim->zMin = thePrim->zMax = -thePrim->frustumSpaceVerts[0].z;
-	thePrim->planeIsValid = kQ3False;
-
-	if (numVerts >= 2)
-		{
-		x = -thePrim->frustumSpaceVerts[1].x;
-		y = -thePrim->frustumSpaceVerts[1].y;
-		z = -thePrim->frustumSpaceVerts[1].z;
-		
-		if (x < thePrim->xMin) thePrim->xMin = x;
-		if (y < thePrim->yMin) thePrim->yMin = y;
-		if (z < thePrim->zMin) thePrim->zMin = z;
-
-		if (x > thePrim->xMax) thePrim->xMax = x;
-		if (y > thePrim->yMax) thePrim->yMax = y;
-		if (z > thePrim->zMax) thePrim->zMax = z;
-		}
-	
-	if (numVerts == 3)
-		{
-		x = -thePrim->frustumSpaceVerts[2].x;
-		y = -thePrim->frustumSpaceVerts[2].y;
-		z = -thePrim->frustumSpaceVerts[2].z;
-
-		if (x < thePrim->xMin) thePrim->xMin = x;
-		if (y < thePrim->yMin) thePrim->yMin = y;
-		if (z < thePrim->zMin) thePrim->zMin = z;
-
-		if (x > thePrim->xMax) thePrim->xMax = x;
-		if (y > thePrim->yMax) thePrim->yMax = y;
-		if (z > thePrim->zMax) thePrim->zMax = z;
 		}
 
 
@@ -694,7 +584,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 		for (n = 0; n < numPrims; ++n)
 			ptrs[n] = &thePrims[n];
 		
-		qsort( ptrs, numPrims, sizeof(TQ3TransparentPrim*), ir_geom_transparent_sort );
+		qsort( ptrs, numPrims, sizeof(TQ3TransparentPrim*), ir_geom_centroid_compare );
 
 
 
