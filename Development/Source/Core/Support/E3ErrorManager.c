@@ -66,9 +66,9 @@ E3ErrorManager_PostError(TQ3Error theError, TQ3Boolean isFatal)
 
 	// Call the handler
 	if (theGlobals->errMgrHandlerFuncError != NULL)
-		theGlobals->errMgrHandlerFuncError(theGlobals->errMgrHandlerDataError,
-										   theGlobals->errMgrOldestError,
-										   theGlobals->errMgrLatestError);
+		theGlobals->errMgrHandlerFuncError(theGlobals->errMgrOldestError,
+										   theGlobals->errMgrLatestError,
+										   theGlobals->errMgrHandlerDataError);
 }
 
 
@@ -94,9 +94,9 @@ E3ErrorManager_PostWarning(TQ3Warning theWarning)
 
 	// Call the handler
 	if (theGlobals->errMgrHandlerFuncWarning != NULL)
-		theGlobals->errMgrHandlerFuncWarning(theGlobals->errMgrHandlerDataWarning,
-											 theGlobals->errMgrOldestWarning,
-											 theGlobals->errMgrLatestWarning);
+		theGlobals->errMgrHandlerFuncWarning(theGlobals->errMgrOldestWarning,
+											 theGlobals->errMgrLatestWarning,
+											 theGlobals->errMgrHandlerDataWarning);
 }
 
 
@@ -123,9 +123,9 @@ E3ErrorManager_PostNotice(TQ3Notice theNotice)
 	// Call the handler in debug builds (notices are not posted in release builds)
 	#if Q3_DEBUG
 	if (theGlobals->errMgrHandlerFuncNotice != NULL)
-		theGlobals->errMgrHandlerFuncNotice(theGlobals->errMgrHandlerDataNotice,
-											theGlobals->errMgrOldestNotice,
-											theGlobals->errMgrLatestNotice);
+		theGlobals->errMgrHandlerFuncNotice(theGlobals->errMgrOldestNotice,
+											theGlobals->errMgrLatestNotice,
+											theGlobals->errMgrHandlerDataNotice);
 	#endif
 }
 
@@ -161,9 +161,9 @@ E3ErrorManager_PostPlatformError(TQ3Uns32 theError)
 	// When this API is made public, apps will be able to listen directly
 	// to platform specific errors.
 	if (theGlobals->errMgrHandlerFuncPlatform != NULL)
-		theGlobals->errMgrHandlerFuncPlatform(theGlobals->errMgrHandlerDataPlatform,
-											  (TQ3Error) theGlobals->errMgrOldestPlatform,
-											  (TQ3Error) theGlobals->errMgrLatestPlatform);
+		theGlobals->errMgrHandlerFuncPlatform((TQ3Error) theGlobals->errMgrOldestPlatform,
+											  (TQ3Error) theGlobals->errMgrLatestPlatform,
+											  theGlobals->errMgrHandlerDataPlatform);
 	else
 		E3ErrorManager_PostError(
 				#if QUESA_OS_MACINTOSH
