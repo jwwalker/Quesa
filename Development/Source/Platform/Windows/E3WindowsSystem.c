@@ -193,19 +193,23 @@ E3WindowsSystem_Terminate(void)
 #pragma mark -
 void
 E3WindowsSystem_LoadPlugins(void)
-{
-	TCHAR systemDir[MAX_PATH];
-	
-#if QUESA_REPLACE_QD3D_RENDERERS
-	TCHAR extExtension[] = TEXT("xq3");
-#else
-	TCHAR extExtension[] = TEXT("q3x");
-#endif
+{	TCHAR systemDir[MAX_PATH];
 
+
+
+	// Register QD3D plug-ins	
 	if(GetSystemDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
-		e3windowsystem_loadplugins(systemDir,extExtension);
+		e3windowsystem_loadplugins(systemDir, TEXT("q3x"));
 
 	if(GetWindowsDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
-		e3windowsystem_loadplugins(systemDir,extExtension);
-	
+		e3windowsystem_loadplugins(systemDir, TEXT("q3x"));
+
+
+
+	// Register Quesa plug-ins
+	if(GetSystemDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
+		e3windowsystem_loadplugins(systemDir, TEXT("xq3"));
+
+	if(GetWindowsDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
+		e3windowsystem_loadplugins(systemDir, TEXT("xq3"));
 }
