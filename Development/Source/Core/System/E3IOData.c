@@ -339,6 +339,25 @@ e3unknown_text_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3float32_validate :	Check a floating-point number we just read.
+//								If it is infinite, post a warning and replace it
+//								by 1.0.
+//-----------------------------------------------------------------------------
+static void
+e3float32_validate( TQ3Float32* theFloat )
+{
+	if (!isfinite( *theFloat ))
+	{
+		E3ErrorManager_PostWarning( kQ3WarningReadInfiniteFloatingPointNumber );
+		*theFloat = 1.0f;
+	}
+}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3Shared_ClearEditTracking : One-line description of the method.
@@ -855,6 +874,7 @@ E3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile)
 {
 	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
+	TQ3Status	status = kQ3Failure;
 
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
@@ -862,10 +882,16 @@ E3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile)
 	float32Read = (TQ3XFFormatFloat32ReadMethod)
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Read);
 
-	if(float32Read != NULL)
-		return float32Read(instanceData->format,data);
+	if (float32Read != NULL)
+	{
+		status = float32Read( instanceData->format, data );
+		if (status == kQ3Success)
+		{
+			e3float32_validate( data );
+		}
+	}
 
-	return(kQ3Failure);
+	return status;
 }
 
 
@@ -902,15 +928,23 @@ E3Float32_ReadArray( TQ3Uns32 numFloats, TQ3Float32* theFloats, TQ3FileObject th
 		for (n = 0; n < numFloats; ++n)
 		{
 			status = float32Read( format, &theFloats[n] );
-			if (status == kQ3Failure)
-			{
+			if (status == kQ3Success)
+				e3float32_validate( &theFloats[n] );
+			else
 				break;
-			}
 		}
 	}
 	else
 	{
 		status = floatArrayRead( format, numFloats, theFloats );
+		
+		if (status == kQ3Success)
+		{
+			for (n = 0; n < numFloats; ++n)
+			{
+				e3float32_validate( &theFloats[n] );
+			}
+		}
 	}
 
 	
@@ -1204,6 +1238,12 @@ E3Point2D_Read(TQ3Point2D *point2D, TQ3FileObject theFile)
 		if(result == kQ3Success)
 			result = float32Read(instanceData->format,&point2D->y);
 		}
+		
+	if (result == kQ3Success)
+		{
+		e3float32_validate( &point2D->x );
+		e3float32_validate( &point2D->y );
+		}
 
 	return(result);
 }
@@ -1263,7 +1303,15 @@ E3Point3D_Read(TQ3Point3D *point3D, TQ3FileObject theFile)
 			result = float32Read(instanceData->format,&point3D->y);
 		if(result == kQ3Success)
 			result = float32Read(instanceData->format,&point3D->z);
+			
+		if (result == kQ3Success)
+			{
+			e3float32_validate( &point3D->x );
+			e3float32_validate( &point3D->y );
+			e3float32_validate( &point3D->z );
+			}
 		}
+		
 
 	return(result);
 }
@@ -1325,6 +1373,13 @@ E3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, TQ3FileObject theFile)
 			result = float32Read(instanceData->format,&point3D->y);
 		if(result == kQ3Success)
 			result = float32Read(instanceData->format,&point3D->w);
+
+		if (result == kQ3Success)
+			{
+			e3float32_validate( &point3D->x );
+			e3float32_validate( &point3D->y );
+			e3float32_validate( &point3D->w );
+			}
 		}
 
 	return(result);
@@ -1389,6 +1444,14 @@ E3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, TQ3FileObject theFile)
 			result = float32Read(instanceData->format,&point4D->z);
 		if(result == kQ3Success)
 			result = float32Read(instanceData->format,&point4D->w);
+
+		if (result == kQ3Success)
+			{
+			e3float32_validate( &point4D->x );
+			e3float32_validate( &point4D->y );
+			e3float32_validate( &point4D->z );
+			e3float32_validate( &point4D->w );
+			}
 		}
 
 	return(result);
@@ -1505,7 +1568,11 @@ E3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 		
 		for( i = 0; ((i< 4) && (result == kQ3Success)); i++)
 			for( j = 0; ((j< 4) && (result == kQ3Success)); j++)
+				{
 				result = float32Read(instanceData->format,&matrix4x4->value[i][j]);
+				if (result == kQ3Success)
+					e3float32_validate( &matrix4x4->value[i][j] );
+				}
 		}
 
 	return(result);
