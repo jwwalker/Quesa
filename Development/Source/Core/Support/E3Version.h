@@ -45,13 +45,14 @@
 //=============================================================================
 //      Release macros
 //-----------------------------------------------------------------------------
+#ifndef PLIST_COMPILER
 #define E3_FOUR_BYTE_CONSTANT(a,b,c,d)              \
             ((const TQ3Uns32)                       \
             ((const TQ3Uns32) (a) << 24) |          \
             ((const TQ3Uns32) (b) << 16) |          \
             ((const TQ3Uns32) (c) << 8)  |          \
             ((const TQ3Uns32) (d)))
-
+#endif
 
 
 
@@ -93,9 +94,12 @@
 #define kQ3ReleaseType              kDevelopment    // Release type for build
 #define kQ3PrereleaseVersion        0x13            // Prerelease version for build
 #define kQ3StringVersion            "1.6d19"        // Stringified version of above
+
+#ifndef PLIST_COMPILER
 #define kQ3PackedVersion            E3_FOUR_BYTE_CONSTANT(kQ3MajorVersion,  \
                                                           kQ3MinorVersion,  \
                                                           kQ3ReleaseType,   \
                                                           kQ3PrereleaseVersion)
+#endif
 
 #endif
