@@ -318,6 +318,7 @@ E3ErrorManager_GetPlatformError(TQ3Uns32 *oldestPlatform, TQ3Uns32 *latestPlatfo
 
 	// Set our flags
 	theGlobals->errMgrClearPlatform = kQ3True;
+	theGlobals->errMgrNeedsClearing = kQ3True;
 }
 
 
