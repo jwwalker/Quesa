@@ -526,8 +526,6 @@ E3Vector2D_To3D(const TQ3Vector2D *vector2D, TQ3Vector3D *result)
 //      E3Vector2D_ToRationalPoint3D : Convert 2D vector to 3D rational point,
 //									   setting w to 0.
 //-----------------------------------------------------------------------------
-//		Note : Not supported by QD3D.
-//-----------------------------------------------------------------------------
 TQ3RationalPoint3D *
 E3Vector2D_ToRationalPoint3D(const TQ3Vector2D *vector2D, TQ3RationalPoint3D *result)
 {
@@ -563,8 +561,6 @@ E3Vector3D_To2D(const TQ3Vector3D *vector3D, TQ3Vector2D *result)
 //      E3RationalPoint3D_ToVector2D : Convert 3D rational point to 2D vector,
 //									   discarding w.
 //-----------------------------------------------------------------------------
-//		Note : Not supported by QD3D.
-//-----------------------------------------------------------------------------
 TQ3Vector2D *
 E3RationalPoint3D_ToVector2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Vector2D *result)
 {
@@ -580,8 +576,6 @@ E3RationalPoint3D_ToVector2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Vecto
 //=============================================================================
 //      E3Vector3D_ToRationalPoint4D : Convert 3D vector to 4D rational point,
 //									   setting w to 0.
-//-----------------------------------------------------------------------------
-//		Note : Not supported by QD3D.
 //-----------------------------------------------------------------------------
 TQ3RationalPoint4D *
 E3Vector3D_ToRationalPoint4D(const TQ3Vector3D *vector3D, TQ3RationalPoint4D *result)
@@ -600,8 +594,6 @@ E3Vector3D_ToRationalPoint4D(const TQ3Vector3D *vector3D, TQ3RationalPoint4D *re
 //=============================================================================
 //      E3RationalPoint4D_ToVector3D : Convert 4D rational point to 3D vector,
 //									   discarding w.
-//-----------------------------------------------------------------------------
-//		Note : Not supported by QD3D.
 //-----------------------------------------------------------------------------
 TQ3Vector3D *
 E3RationalPoint4D_ToVector3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Vector3D *result)
@@ -857,8 +849,6 @@ E3Vector2D_Cross(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
 //      E3Point2D_CrossProductTri :	Return cross product of triangle, that is
 //									of the vectors p2-p1 and p3-p2.
 //-----------------------------------------------------------------------------
-//		Note : Not supported by QD3D.
-//-----------------------------------------------------------------------------
 float
 E3Point2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2,
 	const TQ3Point2D *p3)
@@ -944,8 +934,6 @@ E3Vector2D_Length(const TQ3Vector2D *vector2D)
 //=============================================================================
 //      E3Vector2D_LengthSquared : Return squared length of 2D vector.
 //-----------------------------------------------------------------------------
-//		Note : Not supported by QD3D.
-//-----------------------------------------------------------------------------
 float
 E3Vector2D_LengthSquared(const TQ3Vector2D *vector2D)
 {
@@ -971,8 +959,6 @@ E3Vector3D_Length(const TQ3Vector3D *vector3D)
 
 //=============================================================================
 //      E3Vector3D_LengthSquared : Return squared length of 3D vector.
-//-----------------------------------------------------------------------------
-//		Note : Not supported by QD3D.
 //-----------------------------------------------------------------------------
 float
 E3Vector3D_LengthSquared(const TQ3Vector3D *vector3D)
@@ -1870,8 +1856,6 @@ E3Param2D_Transform(const TQ3Param2D *param2D, const TQ3Matrix3x3 *matrix3x3,
 //      E3RationalPoint3D_Transform : Transform 3D rational point by 3x3 matrix.
 //-----------------------------------------------------------------------------
 //		Note : 'result' may be the same as 'point3D'.
-//
-//				Not supported by QD3D.
 //-----------------------------------------------------------------------------
 TQ3RationalPoint3D *
 E3RationalPoint3D_Transform(const TQ3RationalPoint3D *rationalPoint3D,
@@ -1965,8 +1949,6 @@ E3RationalPoint4D_Transform(const TQ3RationalPoint4D *rationalPoint4D,
 //      E3Vector2D_To2DTransformArray :	Transform array of 2D vectors by 3x3 matrix.
 //-----------------------------------------------------------------------------
 //		Note : 'outVectors2D' may be the same as 'inVectors2D'.
-//
-//				Not supported by QD3D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Vector2D_To2DTransformArray(const TQ3Vector2D		*inVectors2D,
@@ -1998,8 +1980,6 @@ E3Vector2D_To2DTransformArray(const TQ3Vector2D		*inVectors2D,
 //      E3Vector3D_To3DTransformArray :	Transform array of 3D vectors by 4x4 matrix.
 //-----------------------------------------------------------------------------
 //		Note : 'outVectors3D' may be the same as 'inVectors3D'.
-//
-//				Not supported by QD3D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Vector3D_To3DTransformArray(const TQ3Vector3D		*inVectors3D,
@@ -2031,8 +2011,6 @@ E3Vector3D_To3DTransformArray(const TQ3Vector3D		*inVectors3D,
 //      E3Point2D_To2DTransformArray :	Transform array of 2D points by 3x3 matrix.
 //-----------------------------------------------------------------------------
 //		Note : 'outPoints2D' may be the same as 'inPoints2D'.
-//
-//				Not supported by QD3D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Point2D_To2DTransformArray(const TQ3Point2D		*inPoints2D,
@@ -2065,8 +2043,6 @@ E3Point2D_To2DTransformArray(const TQ3Point2D		*inPoints2D,
 //												points by 3x3 matrix.
 //-----------------------------------------------------------------------------
 //		Note : 'outRationalPoints3D' may be the same as 'inRationalPoints3D'.
-//
-//				Not supported by QD3D.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D	*inRationalPoints3D,
@@ -2361,8 +2337,6 @@ E3Matrix4x4_SetScale(TQ3Matrix4x4 *matrix4x4,
 
 //=============================================================================
 //      E3Matrix3x3_SetRotate : Set 3x3 matrix to rotate about origin.
-//-----------------------------------------------------------------------------
-//		Note : Not supported by QD3D.
 //-----------------------------------------------------------------------------
 TQ3Matrix3x3 *
 E3Matrix3x3_SetRotate(TQ3Matrix3x3 *matrix3x3, float angle)

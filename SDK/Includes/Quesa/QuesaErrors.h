@@ -364,6 +364,8 @@ Q3Notice_Get (
 /*
  *	Q3Error_PlatformGet
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Uns32  )
 Q3Error_PlatformGet (
@@ -375,6 +377,8 @@ Q3Error_PlatformGet (
 /*
  *	Q3Error_PlatformPost
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( void  )
 Q3Error_PlatformPost (

@@ -73,42 +73,6 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 /*
- *	Q3PathStorage_New
- *		Description of function
- */
-EXTERN_API_C( TQ3StorageObject )
-Q3PathStorage_New (
-	const char                    *pathName
-);
-
-
-
-/*
- *	Q3PathStorage_Set
- *		Description of function
- */
-EXTERN_API_C( TQ3Status )
-Q3PathStorage_Set (
-	TQ3StorageObject             theStorage,
-	const char                   *pathName
-);
-
-
-
-/*
- *	Q3PathStorage_Get
- *		Description of function
- */
-EXTERN_API_C( TQ3Status )
-Q3PathStorage_Get (
-	TQ3StorageObject              theStorage,
-	char                          *pathName
-);
-
-
-
-
-/*
  *	Q3Storage_GetType
  *		Description of function
  */
@@ -241,6 +205,8 @@ Q3MemoryStorage_GetBuffer (
 /*
  *	Q3PathStorage_New
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3PathStorage_New (
@@ -252,6 +218,8 @@ Q3PathStorage_New (
 /*
  *	Q3PathStorage_Set
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PathStorage_Set (
@@ -264,6 +232,8 @@ Q3PathStorage_Set (
 /*
  *	Q3PathStorage_Get
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PathStorage_Get (
@@ -498,6 +468,8 @@ Q3UnixPathStorage_Get (
 /*
  *	Q3BeStorage_New
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3BeStorage_New (
@@ -509,6 +481,8 @@ Q3BeStorage_New (
 /*
  *	Q3BeStorage_Set
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3BeStorage_Set (
@@ -521,6 +495,8 @@ Q3BeStorage_Set (
 /*
  *	Q3BeStorage_Get
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3BeStorage_Get (

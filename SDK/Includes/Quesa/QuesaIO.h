@@ -1514,6 +1514,8 @@ Q3ViewHints_GetClearImageColor (
 /*
  *	Q3File_GetFileFormat
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3FileFormatObject  )
 Q3File_GetFileFormat (
@@ -1525,6 +1527,8 @@ Q3File_GetFileFormat (
 /*
  *	Q3FileFormat_NewFromType
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3FileFormatObject  )
 Q3FileFormat_NewFromType (
@@ -1536,6 +1540,8 @@ Q3FileFormat_NewFromType (
 /*
  *	Q3FileFormat_GetType
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3FileFormat_GetType (
@@ -1547,6 +1553,8 @@ Q3FileFormat_GetType (
 /*
  *	Q3FileFormat_HasModalConfigure
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3FileFormat_HasModalConfigure (
@@ -1558,6 +1566,8 @@ Q3FileFormat_HasModalConfigure (
 /*
  *	Q3FileFormat_ModalConfigure
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_ModalConfigure (
@@ -1571,6 +1581,8 @@ Q3FileFormat_ModalConfigure (
 /*
  *	Q3FileFormatClass_GetFormatNameString
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormatClass_GetFormatNameString (
@@ -1583,6 +1595,8 @@ Q3FileFormatClass_GetFormatNameString (
 /*
  *	Q3FileFormat_GetConfigurationData
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GetConfigurationData (
@@ -1597,6 +1611,8 @@ Q3FileFormat_GetConfigurationData (
 /*
  *	Q3FileFormat_SetConfigurationData
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_SetConfigurationData (
@@ -1615,6 +1631,8 @@ Q3FileFormat_SetConfigurationData (
 /*
  *	Q3FileFormat_GenericReadBinary_8
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_8 (
@@ -1627,6 +1645,8 @@ Q3FileFormat_GenericReadBinary_8 (
 /*
  *	Q3FileFormat_GenericReadBinary_16
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_16 (
@@ -1639,6 +1659,8 @@ Q3FileFormat_GenericReadBinary_16 (
 /*
  *	Q3FileFormat_GenericReadBinary_32
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_32 (
@@ -1651,6 +1673,8 @@ Q3FileFormat_GenericReadBinary_32 (
 /*
  *	Q3FileFormat_GenericReadBinary_64
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_64 (
@@ -1663,6 +1687,8 @@ Q3FileFormat_GenericReadBinary_64 (
 /*
  *	Q3FileFormat_GenericReadBinary_String
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_String (
@@ -1676,6 +1702,8 @@ Q3FileFormat_GenericReadBinary_String (
 /*
  *	Q3FileFormat_GenericReadBinary_Raw
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_Raw (
@@ -1694,6 +1722,8 @@ Q3FileFormat_GenericReadBinary_Raw (
 /*
  *	Q3FileFormat_GenericReadBinSwap_16
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_16 (
@@ -1706,6 +1736,8 @@ Q3FileFormat_GenericReadBinSwap_16 (
 /*
  *	Q3FileFormat_GenericReadBinSwap_32
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_32 (
@@ -1718,6 +1750,8 @@ Q3FileFormat_GenericReadBinSwap_32 (
 /*
  *	Q3FileFormat_GenericReadBinSwap_64
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_64 (
@@ -1735,6 +1769,8 @@ Q3FileFormat_GenericReadBinSwap_64 (
 /*
  *	Q3FileFormat_GenericReadText_SkipBlanks
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadText_SkipBlanks (
@@ -1746,6 +1782,8 @@ Q3FileFormat_GenericReadText_SkipBlanks (
 /*
  *	Q3FileFormat_GenericReadText_ReadUntilChars
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadText_ReadUntilChars (
@@ -1769,6 +1807,8 @@ Q3FileFormat_GenericReadText_ReadUntilChars (
 /*
  *	Q3FileFormat_GenericWriteBinary_8
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_8 (
@@ -1781,6 +1821,8 @@ Q3FileFormat_GenericWriteBinary_8 (
 /*
  *	Q3FileFormat_GenericWriteBinary_16
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_16 (
@@ -1793,6 +1835,8 @@ Q3FileFormat_GenericWriteBinary_16 (
 /*
  *	Q3FileFormat_GenericWriteBinary_32
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_32 (
@@ -1805,6 +1849,8 @@ Q3FileFormat_GenericWriteBinary_32 (
 /*
  *	Q3FileFormat_GenericWriteBinary_64
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_64 (
@@ -1817,6 +1863,8 @@ Q3FileFormat_GenericWriteBinary_64 (
 /*
  *	Q3FileFormat_GenericWriteBinary_String
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_String (
@@ -1830,6 +1878,8 @@ Q3FileFormat_GenericWriteBinary_String (
 /*
  *	Q3FileFormat_GenericWriteBinary_Raw
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_Raw (
@@ -1848,6 +1898,8 @@ Q3FileFormat_GenericWriteBinary_Raw (
 /*
  *	Q3FileFormat_GenericWriteBinSwap_16
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_16 (
@@ -1860,6 +1912,8 @@ Q3FileFormat_GenericWriteBinSwap_16 (
 /*
  *	Q3FileFormat_GenericWriteBinSwap_32
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_32 (
@@ -1872,6 +1926,8 @@ Q3FileFormat_GenericWriteBinSwap_32 (
 /*
  *	Q3FileFormat_GenericWriteBinSwap_64
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_64 (

@@ -907,6 +907,8 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
 /*
  *	Q3BeDrawContext_New
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3DrawContextObject  )
 Q3BeDrawContext_New (
@@ -918,6 +920,8 @@ Q3BeDrawContext_New (
 /*
  *	Q3BeDrawContext_SetView
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3BeDrawContext_SetView (
@@ -930,6 +934,8 @@ Q3BeDrawContext_SetView (
 /*
  *	Q3BeDrawContext_GetView
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3BeDrawContext_GetView (
@@ -950,6 +956,8 @@ Q3BeDrawContext_GetView (
 /*
  *	Q3CocoaDrawContext_New
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3DrawContextObject  )
 Q3CocoaDrawContext_New (
@@ -961,6 +969,8 @@ Q3CocoaDrawContext_New (
 /*
  *	Q3CocoaDrawContext_SetNSView
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CocoaDrawContext_SetNSView (
@@ -973,6 +983,8 @@ Q3CocoaDrawContext_SetNSView (
 /*
  *	Q3CocoaDrawContext_GetNSView
  *		Description of function
+ *
+ *		Note : Not supported by QD3D.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CocoaDrawContext_GetNSView (
