@@ -576,13 +576,26 @@ E3GeometryDisk_UnregisterClass(void)
 #pragma mark -
 TQ3GeometryObject
 E3Disk_New(const TQ3DiskData *diskData)
-{	TQ3Object		theObject;
+{
+	TQ3Object		theObject;
+	
+	
+	if (diskData == NULL)
+	{
+		TQ3DiskData		defaultDiskData = {
+			{ 0.0f, 0.0f, 0.0f },
+			{ 1.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f },
+			0.0f, 1.0f, 0.0f, 1.0f,
+			NULL
+		};
+		theObject = E3ClassTree_CreateInstance( kQ3GeometryTypeDisk, kQ3False, &defaultDiskData );
+	}
+	else
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeDisk, kQ3False, diskData);
+	
 
-
-
-	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeDisk, kQ3False, diskData);
-	return(theObject);
+	return (theObject);
 }
 
 

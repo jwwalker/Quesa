@@ -412,10 +412,19 @@ TQ3GeometryObject
 E3Point_New(const TQ3PointData *pointData)
 {	TQ3Object		theObject;
 
+	
+	if (pointData == NULL)
+	{
+		TQ3PointData defaultPt = {
+			{ 0.0f, 0.0f, 0.0f }, NULL
+		};
+		theObject = E3ClassTree_CreateInstance( kQ3GeometryTypePoint, kQ3False, &defaultPt );
+	}
+	else
+	{
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypePoint, kQ3False, pointData);
+	}
 
-
-	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypePoint, kQ3False, pointData);
 	return(theObject);
 }
 

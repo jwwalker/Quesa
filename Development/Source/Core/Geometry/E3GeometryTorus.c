@@ -562,9 +562,26 @@ E3Torus_New(const TQ3TorusData *torusData)
 {	TQ3Object		theObject;
 
 
+	if (torusData == NULL)
+	{
+		TQ3TorusData defaultTorus = {
+			{ 0.0f, 0.0f, 0.0f },
+			{ 1.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f },
+			1.0f,
+			0.0f, 1.0f, 0.0f, 1.0f,
+			kQ3EndCapNone,
+			NULL, NULL
+		};
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeTorus, kQ3False, &defaultTorus);
+	}
+	else
+	{
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeTorus, kQ3False, torusData);
+	}
 
-	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeTorus, kQ3False, torusData);
+
 	return(theObject);
 }
 

@@ -590,9 +590,25 @@ E3Ellipsoid_New(const TQ3EllipsoidData *ellipsoidData)
 {	TQ3Object		theObject;
 
 
+	if (ellipsoidData == NULL)
+	{
+		TQ3EllipsoidData	defaultData = {
+			{ 0.0f, 0.0f, 0.0f },
+			{ 1.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f },
+			0.0f, 1.0f, 0.0f, 1.0f,
+			kQ3EndCapNone,
+			NULL, NULL
+		};
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeEllipsoid, kQ3False, &defaultData);
+	}
+	else
+	{
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeEllipsoid, kQ3False, ellipsoidData);
+	}
 
-	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeEllipsoid, kQ3False, ellipsoidData);
+
 	return(theObject);
 }
 
