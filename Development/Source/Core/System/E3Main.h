@@ -72,8 +72,8 @@ class TQ3SharedData : public OpaqueTQ3Object
 	TQ3Uns32		refCount;
 	TQ3Uns32		editIndex;
 	
-	friend TQ3Status	e3shared_new ( TQ3Object theObject, void *privateData, void *paramData ) ;
-	friend void			e3shared_dispose ( TQ3Object theObject ) ;
+	friend TQ3Status	e3shared_new ( TQ3SharedData* theObject, void *privateData, void *paramData ) ;
+	friend void			e3shared_dispose ( TQ3SharedData* theObject ) ;
 	friend TQ3Status	e3shared_duplicate (	TQ3Object fromObject,
 												const void *fromPrivateData,
 						 						TQ3Object toObject,
