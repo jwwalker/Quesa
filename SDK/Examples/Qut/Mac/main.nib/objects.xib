@@ -4,7 +4,7 @@
   <object name="rootObject" class="NSCustomObject" id="1">
     <string name="customClass">NSApplication</string>
   </object>
-  <array count="36" name="allObjects">
+  <array count="69" name="allObjects">
     <object class="IBCarbonMenu" id="29">
       <string name="title">main</string>
       <array count="7" name="items">
@@ -16,7 +16,7 @@
                 <string name="title">About MyApp</string>
                 <ostype name="command">Abot</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="172">
+              <object class="IBCarbonMenuItem">
                 <boolean name="separator">TRUE</boolean>
               </object>
             </array>
@@ -36,45 +36,45 @@
             </array>
           </object>
         </object>
-        <object class="IBCarbonMenuItem" id="152">
+        <object class="IBCarbonMenuItem">
           <string name="title">Edit</string>
-          <object name="submenu" class="IBCarbonMenu" id="147">
+          <object name="submenu" class="IBCarbonMenu">
             <string name="title">Edit</string>
             <array count="8" name="items">
-              <object class="IBCarbonMenuItem" id="141">
+              <object class="IBCarbonMenuItem">
                 <string name="title">Undo</string>
                 <string name="keyEquivalent">z</string>
                 <ostype name="command">undo</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="146">
+              <object class="IBCarbonMenuItem">
                 <string name="title">Redo</string>
                 <string name="keyEquivalent">Z</string>
                 <ostype name="command">redo</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="142">
+              <object class="IBCarbonMenuItem">
                 <boolean name="separator">TRUE</boolean>
               </object>
-              <object class="IBCarbonMenuItem" id="143">
+              <object class="IBCarbonMenuItem">
                 <string name="title">Cut</string>
                 <string name="keyEquivalent">x</string>
                 <ostype name="command">cut </ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="149">
+              <object class="IBCarbonMenuItem">
                 <string name="title">Copy</string>
                 <string name="keyEquivalent">c</string>
                 <ostype name="command">copy</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="144">
+              <object class="IBCarbonMenuItem">
                 <string name="title">Paste</string>
                 <string name="keyEquivalent">v</string>
                 <ostype name="command">past</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="151">
+              <object class="IBCarbonMenuItem">
                 <string name="title">Clear</string>
                 <int name="keyEquivalentModifier">0</int>
                 <ostype name="command">clea</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="148">
+              <object class="IBCarbonMenuItem">
                 <string name="title">Select All</string>
                 <string name="keyEquivalent">a</string>
                 <ostype name="command">sall</ostype>
@@ -86,6 +86,7 @@
           <string name="title">Renderers</string>
           <object name="submenu" class="IBCarbonMenu" id="213">
             <string name="title">Renderers</string>
+            <int name="menuID">131</int>
             <array count="2" name="items">
               <object class="IBCarbonMenuItem" id="215">
                 <string name="title">Show FPS</string>
@@ -97,130 +98,131 @@
             </array>
           </object>
         </object>
-        <object class="IBCarbonMenuItem" id="140">
+        <object class="IBCarbonMenuItem" id="228">
           <string name="title">Style</string>
-          <object name="submenu" class="IBCarbonMenu" id="141">
+          <object name="submenu" class="IBCarbonMenu" id="233">
             <string name="title">Style</string>
+            <int name="menuID">132</int>
             <array count="32" name="items">
-              <object class="IBCarbonMenuItem" id="142">
+              <object class="IBCarbonMenuItem" id="237">
                 <string name="title">Fill Style Filled</string>
                 <ostype name="command">sc01</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="143">
+              <object class="IBCarbonMenuItem" id="238">
                 <string name="title">Fill Style Edges</string>
                 <ostype name="command">sc02</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="144">
+              <object class="IBCarbonMenuItem" id="239">
                 <string name="title">Fill Style Points</string>
                 <ostype name="command">sc03</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="145">
+              <object class="IBCarbonMenuItem" id="232">
                 <boolean name="separator">TRUE</boolean>
               </object>
-              <object class="IBCarbonMenuItem" id="146">
+              <object class="IBCarbonMenuItem" id="240">
                 <string name="title">Backfacing Style Both</string>
                 <ostype name="command">sc04</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="147">
+              <object class="IBCarbonMenuItem" id="241">
                 <string name="title">Backfacing Style Remove</string>
                 <ostype name="command">sc05</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="148">
+              <object class="IBCarbonMenuItem" id="242">
                 <string name="title">Backfacing Style Flip</string>
                 <ostype name="command">sc06</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="149">
+              <object class="IBCarbonMenuItem" id="243">
                 <boolean name="separator">TRUE</boolean>
               </object>
-              <object class="IBCarbonMenuItem" id="150">
+              <object class="IBCarbonMenuItem" id="244">
                 <string name="title">Interpolation Style None</string>
                 <ostype name="command">sc07</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="151">
+              <object class="IBCarbonMenuItem" id="245">
                 <string name="title">Interpolation Style Vertex</string>
                 <ostype name="command">sc08</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="152">
+              <object class="IBCarbonMenuItem" id="246">
                 <string name="title">Interpolation Style Pixel</string>
                 <ostype name="command">sc09</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="153">
+              <object class="IBCarbonMenuItem" id="247">
                 <boolean name="separator">TRUE</boolean>
               </object>
-              <object class="IBCarbonMenuItem" id="154">
+              <object class="IBCarbonMenuItem" id="248">
                 <string name="title">Orientation Style Clockwise</string>
                 <ostype name="command">sc10</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="155">
+              <object class="IBCarbonMenuItem" id="249">
                 <string name="title">Orientation Style Counter-Clockwise</string>
                 <ostype name="command">sc11</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="156">
+              <object class="IBCarbonMenuItem" id="250">
                 <boolean name="separator">TRUE</boolean>
               </object>
-              <object class="IBCarbonMenuItem" id="157">
+              <object class="IBCarbonMenuItem" id="251">
                 <string name="title">Anti-Alias Style Off</string>
                 <ostype name="command">sc12</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="158">
+              <object class="IBCarbonMenuItem" id="252">
                 <string name="title">Anti-Alias Style Edges</string>
                 <ostype name="command">sc13</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="159">
+              <object class="IBCarbonMenuItem" id="253">
                 <string name="title">Anti-Alias Style Filled</string>
                 <ostype name="command">sc14</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="160">
+              <object class="IBCarbonMenuItem" id="254">
                 <boolean name="separator">TRUE</boolean>
               </object>
-              <object class="IBCarbonMenuItem" id="161">
+              <object class="IBCarbonMenuItem" id="255">
                 <string name="title">Fog Style On</string>
                 <ostype name="command">sc15</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="162">
+              <object class="IBCarbonMenuItem" id="256">
                 <string name="title">Fog Style Off</string>
                 <ostype name="command">sc16</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="163">
+              <object class="IBCarbonMenuItem" id="257">
                 <boolean name="separator">TRUE</boolean>
               </object>
-              <object class="IBCarbonMenuItem" id="164">
+              <object class="IBCarbonMenuItem" id="258">
                 <string name="title">Subdivision Style Constant (5, 5)</string>
                 <ostype name="command">sc17</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="165">
+              <object class="IBCarbonMenuItem" id="259">
                 <string name="title">Subdivision Style Constant (25, 25)</string>
                 <ostype name="command">sc18</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="166">
+              <object class="IBCarbonMenuItem" id="260">
                 <string name="title">Subdivision Style Constant (50, 50)</string>
                 <ostype name="command">sc19</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="167">
+              <object class="IBCarbonMenuItem" id="261">
                 <string name="title">Subdivision Style Constant (50, 5)</string>
                 <ostype name="command">sc20</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="168">
-                <string name="title">Subdivision Style World (0.1)</string>
+              <object class="IBCarbonMenuItem" id="262">
+                <string name="title">Subdivision Style World Space (0.1)</string>
                 <ostype name="command">sc21</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="169">
-                <string name="title">Subdivision Style World (0.5)</string>
+              <object class="IBCarbonMenuItem" id="263">
+                <string name="title">Subdivision Style World Space (0.5)</string>
                 <ostype name="command">sc22</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="170">
-                <string name="title">Subdivision Style World (2.5)</string>
+              <object class="IBCarbonMenuItem" id="264">
+                <string name="title">Subdivision Style World Space (2.5)</string>
                 <ostype name="command">sc23</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="171">
+              <object class="IBCarbonMenuItem" id="265">
                 <string name="title">Subdivision Style Screen Space (3)</string>
                 <ostype name="command">sc24</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="172">
+              <object class="IBCarbonMenuItem" id="266">
                 <string name="title">Subdivision Style Screen Space (10)</string>
                 <ostype name="command">sc25</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="173">
+              <object class="IBCarbonMenuItem" id="267">
                 <string name="title">Subdivision Style Screen Space (30)</string>
                 <ostype name="command">sc26</ostype>
               </object>
@@ -231,12 +233,14 @@
           <string name="title">Special</string>
           <object name="submenu" class="IBCarbonMenu" id="224">
             <string name="title">Special</string>
+            <int name="menuID">133</int>
             <array count="1" name="items">
               <object class="IBCarbonMenuItem" id="222">
                 <string name="title">Item</string>
               </object>
             </array>
           </object>
+          <ostype name="command">132 </ostype>
         </object>
         <object class="IBCarbonMenuItem" id="153">
           <string name="title">Window</string>
@@ -260,17 +264,6 @@
             <string name="name">_NSWindowsMenu</string>
           </object>
         </object>
-        <object class="IBCarbonMenuItem" id="168">
-          <string name="title">Help</string>
-          <object name="submenu" class="IBCarbonMenu" id="169">
-            <string name="title">Help</string>
-            <array count="1" name="items">
-              <object class="IBCarbonMenuItem" id="170">
-                <string name="title">MyApp Help</string>
-              </object>
-            </array>
-          </object>
-        </object>
       </array>
       <string name="name">_NSMainMenu</string>
     </object>
@@ -280,7 +273,133 @@
     <reference idRef="127"/>
     <reference idRef="130"/>
     <reference idRef="131"/>
-    <reference idRef="141"/>
+    <object class="IBCarbonMenu" id="141">
+      <string name="title">Style</string>
+      <array count="32" name="items">
+        <object class="IBCarbonMenuItem" id="142">
+          <string name="title">Fill Style Filled</string>
+          <ostype name="command">sc01</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="143">
+          <string name="title">Fill Style Edges</string>
+          <ostype name="command">sc02</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="144">
+          <string name="title">Fill Style Points</string>
+          <ostype name="command">sc03</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <boolean name="separator">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem" id="146">
+          <string name="title">Backfacing Style Both</string>
+          <ostype name="command">sc04</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="147">
+          <string name="title">Backfacing Style Remove</string>
+          <ostype name="command">sc05</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="148">
+          <string name="title">Backfacing Style Flip</string>
+          <ostype name="command">sc06</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="149">
+          <boolean name="separator">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Interpolation Style None</string>
+          <ostype name="command">sc07</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="151">
+          <string name="title">Interpolation Style Vertex</string>
+          <ostype name="command">sc08</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="152">
+          <string name="title">Interpolation Style Pixel</string>
+          <ostype name="command">sc09</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <boolean name="separator">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Orientation Style Clockwise</string>
+          <ostype name="command">sc10</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Orientation Style Counter-Clockwise</string>
+          <ostype name="command">sc11</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <boolean name="separator">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Anti-Alias Style Off</string>
+          <ostype name="command">sc12</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Anti-Alias Style Edges</string>
+          <ostype name="command">sc13</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Anti-Alias Style Filled</string>
+          <ostype name="command">sc14</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <boolean name="separator">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Fog Style On</string>
+          <ostype name="command">sc15</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Fog Style Off</string>
+          <ostype name="command">sc16</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <boolean name="separator">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Subdivision Style Constant (5, 5)</string>
+          <ostype name="command">sc17</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Subdivision Style Constant (25, 25)</string>
+          <ostype name="command">sc18</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Subdivision Style Constant (50, 50)</string>
+          <ostype name="command">sc19</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Subdivision Style Constant (50, 5)</string>
+          <ostype name="command">sc20</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="168">
+          <string name="title">Subdivision Style World (0.1)</string>
+          <ostype name="command">sc21</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="169">
+          <string name="title">Subdivision Style World (0.5)</string>
+          <ostype name="command">sc22</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="170">
+          <string name="title">Subdivision Style World (2.5)</string>
+          <ostype name="command">sc23</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Subdivision Style Screen Space (3)</string>
+          <ostype name="command">sc24</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="172">
+          <string name="title">Subdivision Style Screen Space (10)</string>
+          <ostype name="command">sc25</ostype>
+        </object>
+        <object class="IBCarbonMenuItem">
+          <string name="title">Subdivision Style Screen Space (30)</string>
+          <ostype name="command">sc26</ostype>
+        </object>
+      </array>
+    </object>
     <reference idRef="142"/>
     <reference idRef="143"/>
     <reference idRef="144"/>
@@ -296,15 +415,6 @@
     <reference idRef="156"/>
     <reference idRef="157"/>
     <reference idRef="159"/>
-    <object class="IBCarbonWindow" id="166">
-      <string name="windowRect">50 43 454 459 </string>
-      <string name="title">GLWindow</string>
-      <object name="rootControl" class="IBCarbonRootControl" id="167">
-        <string name="bounds">0 0 404 416 </string>
-      </object>
-      <int name="carbonWindowClass">6</int>
-    </object>
-    <reference idRef="167"/>
     <reference idRef="168"/>
     <reference idRef="169"/>
     <reference idRef="170"/>
@@ -316,8 +426,58 @@
     <reference idRef="222"/>
     <reference idRef="223"/>
     <reference idRef="224"/>
+    <reference idRef="228"/>
+    <reference idRef="232"/>
+    <reference idRef="233"/>
+    <reference idRef="237"/>
+    <reference idRef="238"/>
+    <reference idRef="239"/>
+    <reference idRef="240"/>
+    <reference idRef="241"/>
+    <reference idRef="242"/>
+    <reference idRef="243"/>
+    <reference idRef="244"/>
+    <reference idRef="245"/>
+    <reference idRef="246"/>
+    <reference idRef="247"/>
+    <reference idRef="248"/>
+    <reference idRef="249"/>
+    <reference idRef="250"/>
+    <reference idRef="251"/>
+    <reference idRef="252"/>
+    <reference idRef="253"/>
+    <reference idRef="254"/>
+    <reference idRef="255"/>
+    <reference idRef="256"/>
+    <reference idRef="257"/>
+    <reference idRef="258"/>
+    <reference idRef="259"/>
+    <reference idRef="260"/>
+    <reference idRef="261"/>
+    <reference idRef="262"/>
+    <reference idRef="263"/>
+    <reference idRef="264"/>
+    <reference idRef="265"/>
+    <reference idRef="266"/>
+    <reference idRef="267"/>
+    <object class="IBCarbonMenuItem" id="268">
+      <string name="title">Application</string>
+      <object name="submenu" class="IBCarbonMenu">
+        <string name="title">Application</string>
+        <array count="2" name="items">
+          <object class="IBCarbonMenuItem">
+            <string name="title">About Application</string>
+            <int name="keyEquivalentModifier">0</int>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <boolean name="separator">TRUE</boolean>
+          </object>
+        </array>
+        <string name="name">_NSAppleMenu</string>
+      </object>
+    </object>
   </array>
-  <array count="36" name="allParents">
+  <array count="69" name="allParents">
     <reference idRef="1"/>
     <reference idRef="29"/>
     <reference idRef="124"/>
@@ -341,8 +501,6 @@
     <reference idRef="154"/>
     <reference idRef="154"/>
     <reference idRef="154"/>
-    <reference idRef="1"/>
-    <reference idRef="166"/>
     <reference idRef="29"/>
     <reference idRef="168"/>
     <reference idRef="169"/>
@@ -354,18 +512,51 @@
     <reference idRef="224"/>
     <reference idRef="29"/>
     <reference idRef="223"/>
+    <reference idRef="29"/>
+    <reference idRef="233"/>
+    <reference idRef="228"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="233"/>
+    <reference idRef="29"/>
   </array>
-  <dictionary count="5" name="nameTable">
+  <dictionary count="4" name="nameTable">
     <string></string>
     <reference idRef="142"/>
     <string>11</string>
     <reference idRef="130"/>
-    <string>File's Owner</string>
+    <string>File&apos;s Owner</string>
     <reference idRef="1"/>
     <string>MainMenu</string>
     <reference idRef="29"/>
-    <string>MainWindow</string>
-    <reference idRef="166"/>
   </dictionary>
-  <unsigned_int name="nextObjectID">225</unsigned_int>
+  <unsigned_int name="nextObjectID">272</unsigned_int>
 </object>
