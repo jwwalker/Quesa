@@ -112,12 +112,15 @@ e3drawcontext_pixmap_update(TQ3DrawContextObject theDrawContext)
 	TQ3Pixmap					*thePixmap;
 	TQ3Status					qd3dStatus;
 	TQ3XDevicePixelType			pixelType;
+	TQ3Uns32					irrelevantStateFlags =
+										kQ3XDrawContextValidationClearFunction |
+										kQ3XDrawContextValidationDepthState;
 
 
 
-	// If we have a draw region, and nothing (except maybe the clear function) has changed, we're done
+	// If we have a draw region, and nothing relevant has changed, we're done
 	if (instanceData->numDrawRegions != 0 &&
-		(instanceData->theState & ~kQ3XDrawContextValidationClearFunction) == kQ3XDrawContextValidationClearFlags)
+		(instanceData->theState & ~irrelevantStateFlags) == kQ3XDrawContextValidationClearFlags)
 		return(kQ3Success);
 
 
