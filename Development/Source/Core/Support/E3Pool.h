@@ -190,11 +190,11 @@ E3PoolItem_Tag			(const TE3PoolItem*		itemPtr,
 //		1)	In header or source files, declare the TE3FooPool type and
 //			e3fooPool_* functions:
 //
-//			E3POOL_DECLARE(TE3Foo, e3foo, prefix);
+//			E3_POOL_DECLARE(TE3Foo, e3foo, prefix);
 //
 //		2)	In a single source file, define the e3fooPool_* functions:
 //
-//			E3POOL_DEFINE (TE3Foo, e3foo, prefix, blockLength);
+//			E3_POOL_DEFINE (TE3Foo, e3foo, prefix, blockLength);
 //
 //		Here "prefix" is a possibly empty storage class specifier, for example,
 //		"static", which is applied to every defined function; and "blockLength"
@@ -225,7 +225,7 @@ E3PoolItem_Tag			(const TE3PoolItem*		itemPtr,
 //			e3fooPoolItem_Tag		(const TE3Foo*			fooPtr,
 //									 TQ3Boolean				(*isTagFooFunc)(const TE3Foo*));
 //-----------------------------------------------------------------------------
-#define E3POOL_DECLARE(TYPE, FUNC, PREFIX)									\
+#define E3_POOL_DECLARE(TYPE, FUNC, PREFIX)									\
 																			\
 typedef union TYPE##PoolItem_Private {										\
 	TE3PoolItem					genericItem_private; /* base class */		\
@@ -275,11 +275,11 @@ FUNC##PoolItem_Tag(															\
 	const TYPE* itemPtr,													\
 	TQ3Boolean (*isTagItemFunc)(const TYPE*));								\
 																			\
-void FUNC##E3Pool_Declare_SwallowSemicolon(void)
+void FUNC##Pool_Declare_SwallowSemicolon(void)
 
 
 
-#define E3POOL_DEFINE(TYPE, FUNC, PREFIX, BLOCK_LENGTH)						\
+#define E3_POOL_DEFINE(TYPE, FUNC, PREFIX, BLOCK_LENGTH)					\
 																			\
 PREFIX																		\
 TQ3Status														        	\
@@ -349,7 +349,7 @@ FUNC##PoolItem_Tag(															\
 		E3_UP_CAST(TQ3Boolean (*)(const TE3PoolItem*), isTagItemFunc))));	\
 }																			\
 																			\
-void FUNC##E3Pool_Define_SwallowSemicolon(void)
+void FUNC##Pool_Define_SwallowSemicolon(void)
 
 
 
