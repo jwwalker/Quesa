@@ -56,9 +56,7 @@
 #include "QuesaStyle.h"
 #include "QuesaTransform.h"
 #include "QuesaView.h"
-
-#include <QD3DViewer.h>
-#include <QD3DWinViewer.h>
+#include "QuesaViewer.h"
 
 #include <stdlib.h>
 #include <string.h>

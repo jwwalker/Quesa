@@ -38,8 +38,7 @@
 #include "QuesaCamera.h"
 #include "QuesaRenderer.h"
 #include "QuesaMath.h"
-
-#include <QD3DViewer.h>
+#include "QuesaViewer.h"
 
 #include "E3Viewer.h"
 #include "E3ViewerTools.h"

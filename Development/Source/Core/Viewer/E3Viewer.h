@@ -57,11 +57,7 @@
 #include "QuesaStyle.h"
 #include "QuesaTransform.h"
 #include "QuesaView.h"
-
-
-// QD3D
-#include <QD3DViewer.h>
-#include <QD3DWinViewer.h>
+#include "QuesaViewer.h"
 
 
 // Mac OS
@@ -107,12 +103,13 @@ extern "C" {
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-#ifndef QUESA_HDR
-	#define QUESA_HDR 0
-	#define __REALQD3D__ 1
+#ifndef __QUESAQD3D__
+	#define __QUESAQD3D__ 0
+	#define __REALQD3D__  1
 #endif
+
 #ifndef __REALQD3D__
-	#define __REALQD3D__ !QUESA_HDR
+	#define __REALQD3D__ !__QUESAQD3D__
 #endif
 
 #define kHelpStrings  -128
