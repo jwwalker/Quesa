@@ -201,7 +201,9 @@ E3FFW_3DMF_Group(TQ3ViewObject       theView,
 		}
 		
  	// submit the group start tag
-	qd3dStatus = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, theGroup, Q3Object_GetLeafType (theGroup), theGroup->instanceData);
+	qd3dStatus = E3FFW_3DMF_TraverseObject (theView,
+		(TE3FFormatW3DMF_Data*)fileFormatPrivate, theGroup,
+		Q3Object_GetLeafType (theGroup), theGroup->instanceData);
 	
  	// submit the group contents
 	for(Q3Group_GetFirstPosition (theGroup, &position);
@@ -220,7 +222,8 @@ E3FFW_3DMF_Group(TQ3ViewObject       theView,
 		
  	// submit the group end tag
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, 0x656E6467 /* endg - EndGroup*/, NULL);
+		qd3dStatus = E3FFW_3DMF_TraverseObject (theView,
+			(TE3FFormatW3DMF_Data*)fileFormatPrivate, NULL, 0x656E6467 /* endg - EndGroup*/, NULL);
 
 
     return(qd3dStatus);
@@ -241,6 +244,21 @@ E3FFW_3DMF_Cancel(TQ3ViewObject theView, TE3FFormatW3DMF_Data *fileFormatPrivate
 	// To Be implemented
 }
 
+
+
+//=============================================================================
+//      E3FFW_3DMF_Close: Close the format.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_Close( TQ3FileFormatObject format, TQ3Boolean abort )
+{
+	TE3FFormatW3DMF_Data*	instanceData = (TE3FFormatW3DMF_Data*)format->instanceData;
+	TQ3Status					status = kQ3Success;
+	
+	E3Shared_Replace( &instanceData->baseData.storage, NULL );
+	
+	return status;
+}
 
 
 //=============================================================================
@@ -689,7 +707,7 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 			return qd3dStatus;
 		
 		if(state != defaultState){	
-			writeState = Q3Memory_Allocate(sizeof(TQ3DisplayGroupState));
+			writeState = (TQ3DisplayGroupState*)Q3Memory_Allocate(sizeof(TQ3DisplayGroupState));
 			
 			if(writeState){
 					
