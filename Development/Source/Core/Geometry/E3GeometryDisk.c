@@ -237,6 +237,11 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 			case kQ3SubdivisionMethodScreenSpace:
 				// Not implemented
 				break;
+			
+			case kQ3SubdivisionMethodSize32:
+			default:
+				Q3_ASSERT(!"Unknown subdivision method");
+				break;
 			}
 		}
 	numSides  = E3Num_Clamp(numSides, 3, 256);

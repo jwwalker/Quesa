@@ -751,6 +751,10 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 					return(NULL);
 				break ;
 			
+			case kQ3SubdivisionMethodSize32:
+			default:
+				Q3_ASSERT(!"Unknown subdivision method");
+				break;
 			}
 		}
 

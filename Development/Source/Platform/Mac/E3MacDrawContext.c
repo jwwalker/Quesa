@@ -230,6 +230,12 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 			// Not supported
 			isActive = kQ3False;
 			break;
+
+			
+		case kQ3Mac2DLibrarySize32:
+		default:
+			Q3_ASSERT(!"Unknown library");
+			break;
 		}
 
 
@@ -510,10 +516,15 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 			break;
 
 		
-		
 		case kQ3Mac2DLibraryQuickDraw:
 		case kQ3Mac2DLibraryQuickDrawGX:
 			// Not supported
+			break;
+
+			
+		case kQ3Mac2DLibrarySize32:
+		default:
+			Q3_ASSERT(!"Unknown library");
 			break;
 		}
 

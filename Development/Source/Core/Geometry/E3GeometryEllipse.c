@@ -180,6 +180,11 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 			case kQ3SubdivisionMethodScreenSpace:
 				// Not implemented
 				break;
+			
+			case kQ3SubdivisionMethodSize32:
+			default:
+				Q3_ASSERT(!"Unknown subdivision method");
+				break;
 			}
 		}
 	numSides = E3Num_Clamp(numSides, 4, 256);

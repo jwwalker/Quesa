@@ -2299,12 +2299,10 @@ E3FFormat_3DMF_CapsAttributes_Get(TQ3Object theObject)
 //-----------------------------------------------------------------------------
 TQ3Object
 E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
-{
+{	TE3FFormat3DMF_MeshCorners_Data *instanceData;
 	TQ3Object	theObject = NULL;
-	TE3FFormat3DMF_MeshCorners_Data		*instanceData;
 	TQ3Uns32	i,j,k;
 	TQ3Uns32	numCorners = 0;
-	TQ3Status	status = kQ3Failure;
 	
 	// count corners
 	for(i = 0; i < meshData->numVertices; i++)
