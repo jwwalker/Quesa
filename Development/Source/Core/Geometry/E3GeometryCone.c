@@ -501,40 +501,6 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 
-//=============================================================================
-//      e3geom_cone_bounds : Cone bounds method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3geom_cone_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	const TQ3ConeData			*instanceData = (const TQ3ConeData *) objectData;
-#pragma unused(objectType)
-#pragma unused(theObject)
-
-
-
-	// Update the bounds
-	// We'll do this by constructing a five-vertex pyramid that just
-	// encloses the cone.  Point 4 is the top, 0-3 are the bottom corners.
-	TQ3Point3D p[5];
-	Q3Point3D_Vector3D_Add( &instanceData->origin, &instanceData->orientation, &p[4] );
-
-	Q3Point3D_Vector3D_Add( &instanceData->origin, &instanceData->majorRadius, &p[0] );
-	Q3Point3D_Vector3D_Add( &p[0], &instanceData->minorRadius, &p[0] );
-	
-	Q3Point3D_Vector3D_Add( &instanceData->origin, &instanceData->majorRadius, &p[1] );
-	Q3Point3D_Vector3D_Subtract( &p[1], &instanceData->minorRadius, &p[1] );
-	
-	Q3Point3D_Vector3D_Subtract( &instanceData->origin, &instanceData->majorRadius, &p[2] );
-	Q3Point3D_Vector3D_Add( &p[2], &instanceData->minorRadius, &p[2] );
-
-	Q3Point3D_Vector3D_Subtract( &instanceData->origin, &instanceData->majorRadius, &p[3] );
-	Q3Point3D_Vector3D_Subtract( &p[3], &instanceData->minorRadius, &p[3] );
-	
-	E3View_UpdateBounds(theView, 5, sizeof(TQ3Point3D), p);
-	
-	return(kQ3Success);
-}
-
 
 
 
@@ -583,10 +549,6 @@ e3geom_cone_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3geom_cone_cache_new;
 			break;
 
-		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3geom_cone_bounds;
-			break;
-		
 		case kQ3XMethodTypeGeomGetAttribute:
 			theMethod = (TQ3XFunctionPointer) e3geom_cone_get_attribute;
 			break;

@@ -476,50 +476,6 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 
 
 
-//=============================================================================
-//      e3geom_ellipsoid_bounds : Ellipsoid bounds method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3geom_ellipsoid_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	const TQ3EllipsoidData			*instanceData = (const TQ3EllipsoidData *) objectData;
-#pragma unused(objectType)
-#pragma unused(theObject)
-
-	// Update the bounds
-	// We'll do this by constructing a box that just
-	// encloses the ellipse.  Points 4-7 are the top, 0-3 are the bottom corners.
-	TQ3Point3D p[8];
-	TQ3Uns32   i;
-
-	Q3Point3D_Vector3D_Add( &instanceData->origin, &instanceData->majorRadius, &p[0] );
-	Q3Point3D_Vector3D_Add( &p[0], &instanceData->minorRadius, &p[0] );
-	Q3Point3D_Vector3D_Subtract( &p[0], &instanceData->orientation, &p[0] );
-	
-	Q3Point3D_Vector3D_Add( &instanceData->origin, &instanceData->majorRadius, &p[1] );
-	Q3Point3D_Vector3D_Subtract( &p[1], &instanceData->minorRadius, &p[1] );
-	Q3Point3D_Vector3D_Subtract( &p[1], &instanceData->orientation, &p[1] );
-	
-	Q3Point3D_Vector3D_Subtract( &instanceData->origin, &instanceData->majorRadius, &p[2] );
-	Q3Point3D_Vector3D_Add( &p[2], &instanceData->minorRadius, &p[2] );
-	Q3Point3D_Vector3D_Subtract( &p[2], &instanceData->orientation, &p[2] );
-
-	Q3Point3D_Vector3D_Subtract( &instanceData->origin, &instanceData->majorRadius, &p[3] );
-	Q3Point3D_Vector3D_Subtract( &p[3], &instanceData->minorRadius, &p[3] );
-	Q3Point3D_Vector3D_Subtract( &p[3], &instanceData->orientation, &p[3] );
-
-	for (i=0; i<4; i++) {
-		Q3Point3D_Vector3D_Add( &p[i], &instanceData->orientation, &p[i+4] );
-		Q3Point3D_Vector3D_Add( &p[i+4], &instanceData->orientation, &p[i+4] );
-	}
-	
-	E3View_UpdateBounds(theView, 8, sizeof(TQ3Point3D), p);
-	
-	return(kQ3Success);
-}
-
-
-
-
 
 //=============================================================================
 //      e3geom_ellipsoid_get_attribute : Ellipsoid get attribute set pointer.
@@ -565,10 +521,6 @@ e3geom_ellipsoid_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3geom_ellipsoid_cache_new;
 			break;
 
-		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3geom_ellipsoid_bounds;
-			break;
-		
 		case kQ3XMethodTypeGeomGetAttribute:
 			theMethod = (TQ3XFunctionPointer) e3geom_ellipsoid_get_attribute;
 			break;
