@@ -33,6 +33,32 @@
 #ifndef QUESA_HDR
 #define QUESA_HDR
 //=============================================================================
+//      Auto-discovery
+//-----------------------------------------------------------------------------
+//		Note :	Since we normally use a fairly well defined set of compilers,
+//				we can attempt to determine what the correct platform is by
+//				magic.
+//-----------------------------------------------------------------------------
+// Mac OS
+#if defined(__MWERKS__) && powerc
+	#ifndef QUESA_OS_MACINTOSH
+		#define QUESA_OS_MACINTOSH				1
+	#endif
+#endif
+
+
+// Windows
+#if defined(_MSC_VER)
+	#ifndef QUESA_OS_WIN32
+		#define QUESA_OS_WIN32					1
+	#endif
+#endif
+
+
+
+
+
+//=============================================================================
 //      Platform selection
 //-----------------------------------------------------------------------------
 //		Note :	Build systems are responsible for defining one QUESA_OS_xxxx
