@@ -69,8 +69,6 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
-
-
 // Shared object data
 typedef struct TQ3SharedData {
 	TQ3Uns32		refCount;
@@ -333,10 +331,10 @@ e3shape_metahandler(TQ3XMethodType methodType)
 
 
 
-#pragma mark -
 //=============================================================================
 //      e3root_new : Root object new method.
 //-----------------------------------------------------------------------------
+#pragma mark -
 #if Q3_DEBUG
 static TQ3Status
 e3root_new( TQ3Object theObject, void *privateData, void *paramData )
@@ -391,6 +389,9 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 #endif
 
 
+
+
+
 //=============================================================================
 //      e3root_duplicate : Root object duplicate method.
 //-----------------------------------------------------------------------------
@@ -403,6 +404,8 @@ e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 	return e3root_new( toObject, toPrivateData, NULL );
 }
 #endif
+
+
 
 
 
@@ -572,9 +575,13 @@ E3Initialize(void)
 		qd3dStatus = E3System_Initialise();
 
 
+
 		// Initialise Quesa
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = e3main_registercoreclasses();
+
+		if (qd3dStatus == kQ3Success)
+			qd3dStatus = E3Memory_RegisterClass();
 
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3String_RegisterClass();
@@ -640,6 +647,7 @@ E3Initialize(void)
 			E3System_LoadPlugins();
 
 
+
 		// Set our flag
 		if (qd3dStatus == kQ3Success)
 			theGlobals->systemInitialised = kQ3True;
@@ -688,32 +696,36 @@ E3Exit(void)
 	// If this was the last instance, terminate Quesa
 	if (theGlobals->systemRefCount == 0)
 		{
-		// Dump the class tree if required
+		// Dump some stats
 #if QUESA_DUMP_STATS_ON_EXIT
 		E3ClassTree_Dump();
 #endif
 
-	#if QUESA_ALLOW_QD3D_EXTENSIONS && Q3_DEBUG
+#if QUESA_ALLOW_QD3D_EXTENSIONS && Q3_DEBUG
 		if ( Q3Memory_IsRecording() && (Q3Memory_CountRecords() > 0) )
 		{
 			E3ErrorManager_PostError( kQ3ErrorMemoryLeak, kQ3False );
 			Q3Memory_DumpRecording( "Quesa-leaks.txt", "Q3Exit" );
 			Q3Memory_ForgetRecording();
 		}
-	#endif
-	
-	#if Q3_DEBUG
+#endif
+
+
+
 		// Reset leak-checking globals to initial state
+#if Q3_DEBUG
 		Q3Object_CleanDispose(&theGlobals->listHead );
 		theGlobals->isLeakChecking = kQ3False;
-	#endif
+#endif
+
 
 
 		// Unload our plug-ins
 		E3System_UnloadPlugins();
 
 
-		// Terminate Quesa - note the Viewer isn't supported on Cocoa yet
+
+		// Terminate Quesa
 		#if QUESA_OS_MACINTOSH
 		// Viewer  supported only on Carbon/Classic
 		qd3dStatus = E3Viewer_UnregisterClass();
@@ -735,12 +747,15 @@ E3Exit(void)
 		qd3dStatus = E3Group_UnregisterClass();
 		qd3dStatus = E3Transform_UnregisterClass();
 		qd3dStatus = E3String_UnregisterClass();
+		qd3dStatus = E3Memory_UnregisterClass();
 		qd3dStatus = e3main_unregistercoreclasses();
 		E3ClassTree_Destroy();
 
 
+
 		// Terminate the platform
 		E3System_Terminate();
+
 
 
 		// Set our flag
