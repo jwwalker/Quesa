@@ -105,6 +105,39 @@ extern "C" {
 //      Constants
 //-----------------------------------------------------------------------------
 /*!
+ *	@enum
+ *		Draw context property types
+ *	@discussion
+ *		Property types that may be assigned to a draw context, for instance to
+ *		request special rendering behavior.  Such requests may be ignored by some
+ *		renderers.  If a particular property has not been set, it will be treated
+ *		as having the default value.
+ *
+ *	@constant	kQ3DrawContextPropertyClearDepthBufferFlag	Whether to clear the depth buffer before
+ *															rendering.
+ *															Data type: TQ3Boolean.
+ *															Default: kQ3True
+ *	@constant	kQ3DrawContextPropertyClearDepthBufferValue	Value to fill the depth buffer with if
+ *															it is cleared.
+ *															Data type: TQ3Float64
+ *															Default: 1.0
+ *	@constant	kQ3DrawContextPropertyWritableDepthBuffer	Whether the depth buffer is initially
+ *															writable.  (See glDepthMask)
+ *															Data type: TQ3Boolean
+ *															Default: kQ3True
+ *	@constant	kQ3DrawContextPropertyGLDepthFunc			Initial value for glDepthFunc.
+ *															Data type: TQ3Uns32
+ *															Default: GL_LESS
+ */
+enum {
+	kQ3DrawContextPropertyClearDepthBufferFlag		= Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
+	kQ3DrawContextPropertyClearDepthBufferValue		= Q3_METHOD_TYPE('c', 'l', 'd', 'v'),
+	kQ3DrawContextPropertyWritableDepthBuffer		= Q3_METHOD_TYPE('w', 'r', 'd', 'b'),
+	kQ3DrawContextPropertyGLDepthFunc				= Q3_METHOD_TYPE('g', 'l', 'd', 'f'),
+	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF
+};
+
+/*!
  *  @enum
  *      TQ3DrawContextClearImageMethod
  *  @discussion
