@@ -455,7 +455,7 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 				// Otherwise use the TriMesh colour
 				else
 					{
-					theColour = IRGeometry_Attribute_GetDiffuse(instanceData, geomAttributes, kQ3False);
+					theColour = IRGeometry_Attribute_GetDiffuse(instanceData, geomAttributes, kQ3False, kQ3False);
 					glColor3fv((const GLfloat *) theColour);
 	
 					for (n = 0; n < geomData->numEdges; n++, edgeList++)
@@ -541,7 +541,7 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 
 
 		// Set up the initial TriMesh colour
-		theColour = IRGeometry_Attribute_GetDiffuse(instanceData, geomAttributes, canTexture);
+		theColour = IRGeometry_Attribute_GetDiffuse(instanceData, geomAttributes, canTexture, kQ3False);
 		if (theColour != NULL)
 			glColor3fv((const GLfloat *) theColour);
 
