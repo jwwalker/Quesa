@@ -73,6 +73,7 @@
 
 
 // Quesa (public, extensions to QD3D)
+#include "QuesaIO.h"
 #include "QuesaDrawContext.h"
 #include "QuesaErrors.h"
 #include "QuesaStorage.h"
