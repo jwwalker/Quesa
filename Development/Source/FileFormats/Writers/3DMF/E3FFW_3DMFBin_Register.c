@@ -267,6 +267,10 @@ e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
 			// needs to be special to allow contents submit
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Group;
 			break;
+		
+		case kQ3XMethodTypeFFormatClose:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Close;
+			break;
 
 		default: // get the geometry
 			// needs to be special to allow geometry decomposition
