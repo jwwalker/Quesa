@@ -859,9 +859,13 @@ e3geom_trimesh_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ
 
 
 
-	// See if we fall within the pick
-	if (E3Rect_IntersectRect(&windowBounds, &pickData.rect))
+	// See if we fall within the pick - identifying trivial matches if we can
+	if (E3Rect_ContainsRect(&windowBounds, &pickData.rect))
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
+
+	else if (E3Rect_IntersectRect(&windowBounds, &pickData.rect))
 		qd3dStatus = e3geom_trimesh_pick_with_rect(theView, thePick, &pickData.rect, theObject, objectData);
+
 
 	return(qd3dStatus);
 }
