@@ -492,28 +492,24 @@ Qut_CreateWindow(const char		*windowTitle,
 //-----------------------------------------------------------------------------
 TQ3StorageObject
 Qut_SelectMetafile(void)
-{
-// dair, not implemented
-return(NULL);
-/*
-	SFTypeList			fileTypes = { '3DMF' };
-	const short			numTypes  = 1;
-	TQ3StorageObject	theStorage;
-	StandardFileReply	sfReply;
+{	char					thePath[kQ3StringMaximumLength];
+	TQ3StorageObject		theStorage;
 
 
 
-	// Select a file
-	StandardGetFile(NULL, numTypes, fileTypes, &sfReply);
-	if (!sfReply.sfGood)
+	// Prompt for the path to the file
+	printf("Path to model: ");
+//	scanf("%s", thePath);
+	gets(thePath);
+
+	if (thePath[0] == 0x00)
 		return(NULL);
 	
 	
 	
 	// Create a storage object for the file
-	theStorage = Q3FSSpecStorage_New(&sfReply.sfFile);
+	theStorage = Q3PathStorage_New(thePath);
 	return(theStorage);
-*/
 }
 
 
@@ -527,7 +523,8 @@ TQ3Status
 Qut_SelectPictureFile(void *theFile, TQ3Uns32 fileLen)
 {
 
-	// To be implemented...
+
+	// dair, to be implemented
 	return(kQ3Failure);
 }
 
