@@ -316,7 +316,7 @@ Q3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Un
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_GetLeafType(storage) == kQ3StorageTypeMemory, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(buffer), kQ3Failure);
 
@@ -398,7 +398,7 @@ Q3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Un
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_GetLeafType(storage) == kQ3StorageTypeMemory, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(buffer), kQ3Failure);
 
@@ -446,7 +446,7 @@ Q3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3U
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_GetLeafType(storage) == kQ3StorageTypeMemory, kQ3Failure);
 
 	if (buffer != NULL)
@@ -536,7 +536,7 @@ Q3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theStorage, kQ3SharedTypeStorage), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theStorage, kQ3SharedTypeStorage), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_GetLeafType(theStorage) == kQ3StorageTypePath, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pathName), kQ3Failure);
 
@@ -577,7 +577,7 @@ Q3PathStorage_Get(TQ3StorageObject theStorage, char *pathName)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theStorage, kQ3SharedTypeStorage), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theStorage, kQ3SharedTypeStorage), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_GetLeafType(theStorage) == kQ3StorageTypePath, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pathName), kQ3Failure);
 
@@ -655,7 +655,7 @@ Q3HandleStorage_Set(TQ3StorageObject storage, Handle handle, TQ3Uns32 validSize)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_GetLeafType(storage) == kQ3MemoryStorageTypeHandle, kQ3Failure);
 
 
@@ -696,7 +696,7 @@ Q3HandleStorage_Get(TQ3StorageObject storage, Handle *handle, TQ3Uns32 *validSiz
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_GetLeafType(storage) == kQ3MemoryStorageTypeHandle, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(handle), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(validSize), kQ3Failure);
@@ -772,7 +772,7 @@ Q3MacintoshStorage_Set(TQ3StorageObject storage, TQ3Int16 fsRefNum)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((Q3Object_GetLeafType(storage) == kQ3StorageTypeMacintosh), kQ3Failure);
 
 
@@ -810,7 +810,7 @@ Q3MacintoshStorage_Get(TQ3StorageObject storage, TQ3Int16 *fsRefNum)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, kQ3SharedTypeStorage), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((Q3Object_GetLeafType(storage) == kQ3StorageTypeMacintosh), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fsRefNum), kQ3Failure);
 
