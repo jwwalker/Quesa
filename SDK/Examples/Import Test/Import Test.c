@@ -56,6 +56,7 @@ TQ3Matrix4x4		gMatrixCurrent;
 TQ3Matrix4x4		gMatrixRotation;
 TQ3Vector3D			gSceneTranslate = { 0.0f, 0.0f, 0.0f };
 TQ3Vector3D			gSceneScale     = { 1.0f, 1.0f, 1.0f };
+TQ3ShaderObject		gSceneIllumination  = NULL;
 
 
 
@@ -91,6 +92,7 @@ appConfigureView(TQ3ViewObject				theView,
 					TQ3CameraObject			theCamera)
 {	float			xBounds, yBounds, zBounds, scaleFactor;
 	TQ3BoundingBox	theBounds;
+	TQ3ShaderObject	newShader = NULL ;
 #pragma unused(theView)
 #pragma unused(theCamera)
 
@@ -121,6 +123,14 @@ appConfigureView(TQ3ViewObject				theView,
 	gSceneScale.x = scaleFactor;
 	gSceneScale.y = scaleFactor;
 	gSceneScale.z = scaleFactor;
+	
+	newShader = Q3PhongIllumination_New() ;
+				
+	if( newShader != NULL ){
+		if( gSceneIllumination != NULL )
+			Q3Object_Dispose( gSceneIllumination ) ;
+		gSceneIllumination = newShader ;
+		}
 }
 
 
@@ -134,6 +144,10 @@ static void
 appRender(TQ3ViewObject theView)
 {
 
+	if( gSceneIllumination != NULL )
+	{
+		Q3Shader_Submit(gSceneIllumination,			theView);
+	}
 
 	// Submit the scene
 	Q3ScaleTransform_Submit(&gSceneScale,         theView);
