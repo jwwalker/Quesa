@@ -651,7 +651,7 @@ typedef TQ3Uns32                                TQ3Size;
 
 
 // Misc types
-typedef TQ3Uns32                                TQ3ElementType;
+typedef TQ3Int32                                TQ3ElementType;
 typedef TQ3Uns32                                TQ3XMethodType;
 typedef TQ3Uns32                                TQ3EndCap;
 typedef struct OpaqueTQ3XObjectClass            *TQ3XObjectClass;
