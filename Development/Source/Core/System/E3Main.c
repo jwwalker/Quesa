@@ -833,7 +833,7 @@ E3GetReleaseVersion(TQ3Uns32 *releaseRevision)
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
-E3ObjectHierarchy_GetTypeFromString(TQ3ObjectClassNameString objectClassString, TQ3ObjectType *objectClassType)
+E3ObjectHierarchy_GetTypeFromString(const TQ3ObjectClassNameString objectClassString, TQ3ObjectType *objectClassType)
 {	E3ClassInfoPtr		theClass;
 
 
