@@ -56,8 +56,8 @@
 //-----------------------------------------------------------------------------
 #include "E3StackCrawl.h"
 #include "QuesaMemory.h"
-#include <cstring>
 #include <LowMem.h>
+#include <string.h>
 
 
 
