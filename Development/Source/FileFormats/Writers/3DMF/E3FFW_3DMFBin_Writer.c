@@ -793,5 +793,9 @@ E3FFW_3DMF_CString_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view)
 TQ3Status
 E3FFW_3DMF_CString_Write( const void *theString,  TQ3FileObject theFile )
 {
+#if QUESA_ALLOW_QD3D_EXTENSIONS
 	return Q3String_WriteUnlimited( theString, theFile );
+#else
+	return Q3String_Write( theString, theFile );
+#endif
 }
