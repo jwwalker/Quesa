@@ -68,6 +68,9 @@ typedef struct TQ3ObjectData
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+TQ3Status	E3Memory_RegisterClass(void);
+TQ3Status	E3Memory_UnregisterClass(void);
+
 void		*E3Memory_Allocate(TQ3Uns32 theSize);
 void		*E3Memory_AllocateClear(TQ3Uns32 theSize);
 void		E3Memory_Free(void **thePtr);
@@ -77,15 +80,21 @@ void		E3Memory_Clear(void *thePtr, TQ3Uns32 theSize);
 void		E3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize);
 
 #if Q3_DEBUG
-TQ3Status	E3Memory_StartRecording();
-TQ3Status	E3Memory_StopRecording();
-TQ3Boolean	E3Memory_IsRecording();
-TQ3Status	E3Memory_ForgetRecording();
-TQ3Uns32	E3Memory_CountRecords();
+TQ3Status	E3Memory_StartRecording(void);
+TQ3Status	E3Memory_StopRecording(void);
+TQ3Boolean	E3Memory_IsRecording(void);
+TQ3Status	E3Memory_ForgetRecording(void);
+TQ3Uns32	E3Memory_CountRecords(void);
 TQ3Object	E3Memory_NextRecordedObject( TQ3Object inObject );
 TQ3Status	E3Memory_DumpRecording( const char* fileName, const char* memo );
 TQ3Boolean	E3Memory_IsValidBlock( void *thePtr );
 #endif
+
+TQ3SlabObject E3SlabMemory_New(TQ3Uns32 itemSize, TQ3Uns32 numItems, const void *itemData);
+void         *E3SlabMemory_GetData(   TQ3SlabObject theSlab, TQ3Uns32 itemIndex);
+void         *E3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *itemData);
+TQ3Uns32      E3SlabMemory_GetCount(  TQ3SlabObject theSlab);
+TQ3Status     E3SlabMemory_SetCount(  TQ3SlabObject theSlab, TQ3Uns32 numItems);
 
 
 
