@@ -47,26 +47,26 @@
 //				them directly (except in E3System.c).
 //-----------------------------------------------------------------------------
 E3Globals gE3Globals = {
-	0,						// systemInitialised;
+	kQ3False,				// systemInitialised;
 	0,						// systemRefCount;
 	0,						// classTree;
 	0,						// classTreeRoot;
 	0,						// nextType;
 	0,						// sharedLibraryCount;
 	0,						// sharedLibraryInfo;
-	0,						// errMgrClearError;
-	0,						// errMgrClearWarning;
-	0,						// errMgrClearNotice;
-	0,						// errMgrClearPlatform;
-	0,						// errMgrNeedsClearing;
-	0,						// errMgrIsFatalError;
-	0,						// errMgrOldestError;
-	0,						// errMgrOldestWarning;
-	0,						// errMgrOldestNotice;
+	kQ3False,				// errMgrClearError;
+	kQ3False,				// errMgrClearWarning;
+	kQ3False,				// errMgrClearNotice;
+	kQ3False,				// errMgrClearPlatform;
+	kQ3False,				// errMgrNeedsClearing;
+	kQ3False,				// errMgrIsFatalError;
+	kQ3ErrorNone,			// errMgrOldestError;
+	kQ3WarningNone,			// errMgrOldestWarning;
+	kQ3NoticeNone,			// errMgrOldestNotice;
 	0,						// errMgrOldestPlatform;
-	0,						// errMgrLatestError;
-	0,						// errMgrLatestWarning;
-	0,						// errMgrLatestNotice;
+	kQ3ErrorNone,			// errMgrLatestError;
+	kQ3WarningNone,			// errMgrLatestWarning;
+	kQ3NoticeNone,			// errMgrLatestNotice;
 	0,						// errMgrLatestPlatform;
 	0,						// errMgrHandlerFuncError;
 	0,						// errMgrHandlerFuncWarning;
@@ -79,7 +79,12 @@ E3Globals gE3Globals = {
 
 #if QUESA_OS_MACINTOSH
 	0,						// dmNotifyUPP;
-	0,						// dmNotifiedChanges;
+	kQ3False,				// dmNotifiedChanges;
+#endif
+
+#if Q3_DEBUG
+	NULL,					// listHead
+	kQ3False				// isLeakChecking
 #endif
 };
 
