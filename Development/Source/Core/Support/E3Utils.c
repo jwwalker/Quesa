@@ -34,6 +34,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Set.h"
 #include "E3Utils.h"
 #include <ctype.h>
 
@@ -612,4 +613,105 @@ E3Triangle_InterpolateHit(const TQ3TriangleData		*theTriangle,
 		hitUV->u = (theUVs[0].u * oneMinusUV) + (theUVs[1].u * theHit->u) + (theUVs[2].u * theHit->v);
 		hitUV->v = (theUVs[0].v * oneMinusUV) + (theUVs[1].v * theHit->u) + (theUVs[2].v * theHit->v);
 		}
+}
+
+
+
+
+
+//=============================================================================
+//      E3TriMeshAttribute_GatherArray : Gather TriMesh attribute data.
+//-----------------------------------------------------------------------------
+//		Note :	Given an array of attribute sets and an attribute type, we
+//				attempt to collect the attribute data from each set and return
+//				as any of the sets contained the attribute.
+//
+//				If only some sets contain the attribute, we allocate a usage
+//				array to indicate which ones do.
+//
+//
+//				Because the attribute sets are held in several different forms
+//				by callers of this routine, they are accessed by a callback.
+//				This takes an index from 0..(numSets-1), and returns the
+//				appropriate attribute set.
+//
+//				The callback should not increment the reference count of the
+//				attribute set, as we do not decrement it.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
+								E3GetSetForGatherProc		userCallback,
+								void						*userData,
+								TQ3TriMeshAttributeData		*theAttribute,
+								TQ3AttributeType			attributeType)
+{	TQ3Uns32			n, numPresent, attributeSize;
+	TQ3Boolean			isPresent;
+	void				*dataPtr;
+	E3ClassInfoPtr		theClass;
+	TQ3AttributeSet		theSet;
+
+
+
+	// Find out how large the data for each attribute is
+	theClass = E3ClassTree_GetClassByType(E3Attribute_AttributeToClassType(attributeType));
+	if (theClass == NULL)
+		return(kQ3False);
+
+	attributeSize = E3ClassTree_GetInstanceSize(theClass);
+
+
+
+	// Scan the attribute sets to determine if this attribute is present
+	numPresent = 0;
+	for (n = 0; n < numSets; n++)
+		{
+		theSet = userCallback(userData, n);
+		if (theSet != NULL && Q3AttributeSet_Contains(theSet, attributeType))
+			numPresent++;
+		}
+
+	if (numPresent == 0)
+		return(kQ3False);
+
+
+
+	// Allocate the attribute arrays
+	theAttribute->attributeType     = attributeType;
+	theAttribute->data              = Q3Memory_AllocateClear(numSets * attributeSize);
+	theAttribute->attributeUseArray = NULL;
+	
+	if (theAttribute->data == NULL)
+		return(kQ3False);
+
+	if (numPresent != numSets)
+		{
+		theAttribute->attributeUseArray = (char *) Q3Memory_AllocateClear(numSets * sizeof(char));
+		if (theAttribute->attributeUseArray == NULL)
+			{
+			Q3Memory_Free(&theAttribute->data);
+			return(kQ3False);
+			}
+		}
+
+
+
+	// Initialise the attribute arrays
+	for (n = 0; n < numSets; n++)
+		{
+		// Grab the attribute data if it's present
+		theSet    = userCallback(userData, n);
+		isPresent = (theSet != NULL && Q3AttributeSet_Contains(theSet, attributeType));
+		if (isPresent)
+			{
+			dataPtr = ((TQ3Uns8 *) theAttribute->data) + (n * attributeSize);
+			Q3AttributeSet_Get(theSet, attributeType, dataPtr);
+			}
+
+
+		// Set up the use array if required
+		if (theAttribute->attributeUseArray != NULL)
+			theAttribute->attributeUseArray[n] = (char) isPresent;
+		}
+	
+	return(kQ3True);
 }
