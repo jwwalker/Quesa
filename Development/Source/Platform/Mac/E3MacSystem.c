@@ -81,15 +81,6 @@ e3mac_load_plugin(const FSSpec *theFSSpec)
 	theErr = GetDiskFragment(theFSSpec, 0, kCFragGoesToEOF,
 								"\p", kPrivateCFragCopy,
 								&theConnection, &mainAddr, theStr);
-
-	if (theErr != noErr || theStr[0] != 0x00)
-		{
-		// Handle failure
-		}
-
-
-
-	// Should call CloseConnection at this point
 }
 
 
