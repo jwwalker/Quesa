@@ -1089,20 +1089,6 @@ E3Object_GetType(TQ3Object theObject)
 
 
 //=============================================================================
-//      E3Object_GetLeafType : Get the most specific type of the object.
-//-----------------------------------------------------------------------------
-TQ3ObjectType
-E3Object_GetLeafType(TQ3Object theObject)
-	{
-	// Get the most specific type of the object
-	return theObject->GetClass ()->GetType () ;
-	}
-
-
-
-
-
-//=============================================================================
 //      E3Object_IsType : Is an object an instance of a particular type?
 //-----------------------------------------------------------------------------
 TQ3Boolean
