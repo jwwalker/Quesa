@@ -872,7 +872,7 @@ Q3ViewerGetPhongShading (
 	TQ3Boolean                     *phong
 );
 
-#endif // OS_MACINTOSH
+#endif // QUESA_OS_MACINTOSH
 
 
 

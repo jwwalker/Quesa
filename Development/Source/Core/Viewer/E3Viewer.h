@@ -137,7 +137,7 @@ enum TQ3ViewMode {
 typedef enum TQ3ViewMode TQ3ViewMode;
 #endif
 
-#if !OS_MACINTOSH
+#if !QUESA_OS_MACINTOSH
 	typedef unsigned char Str255 [256];
 #endif
 
@@ -354,7 +354,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XObjectMessageMethod )(TQ3Object fromObje
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 
 OSErr			Q3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision);
 OSErr			Q3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision);

@@ -1953,7 +1953,7 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 		viewerData->phongObject = NULL;
 		}
 	e3callallplugins (viewerData, kQ3XMethodType_ViewerPluginDeleteViewer);
-	E3Memory_Free (&viewerData);
+	E3Memory_Free (&((void *) viewerData));
 	if (gResFileCount)
 		{
 		--gResFileCount;
