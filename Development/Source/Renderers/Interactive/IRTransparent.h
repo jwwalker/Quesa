@@ -2,7 +2,7 @@
         IRTransparent.h
 
     DESCRIPTION:
-        Header file for IRGeometry.c.
+        Header file for IRTransparent.c.
 
     COPYRIGHT:
         Quesa Copyright © 1999-2002, Quesa Developers.
