@@ -707,15 +707,7 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3GeometryObject				thePolyLine;
 	TQ3Status						theStatus;
 	TQ3Uns32						numPoints;
-	TQ3GroupObject					theGroup;
 #pragma unused(theView)
-
-
-
-	// Create a group to hold the cached geometry
-	theGroup = Q3DisplayGroup_New();
-	if (theGroup == NULL)
-		return(NULL);
 
 
 
