@@ -36,6 +36,7 @@
 #include "E3Prefix.h"
 #include "E3View.h"
 #include "E3Set.h"
+#include "E3Tessellate.h"
 #include "E3Geometry.h"
 #include "E3GeometryGeneralPolygon.h"
 
@@ -46,144 +47,6 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3geom_generalpolygon_add_attribute : Populate an attribute array.
-//-----------------------------------------------------------------------------
-//		Note :	Given an attribute type, we collect the data for the vertices
-//				and create the appropriate attribute data for the TriMesh.
-//
-//				This routine will need revising when we support holes: right
-//				now it just uses the first contour.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-e3geom_generalpolygon_add_attribute(const TQ3GeneralPolygonData		*instanceData,
-										TQ3TriMeshAttributeData		*triMeshAttribute,
-										TQ3AttributeType			attributeType)
-{	TQ3Uns32			n, attributeSize;
-	TQ3Boolean			foundAttribute;
-	TQ3AttributeSet		theAttributes;
-	void				*dataPtr;
-	E3ClassInfoPtr		theClass;
-	
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(instanceData),     kQ3False);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshAttribute), kQ3False);
-
-
-
-	// Determine if any of the vertices of the polygon contain this attribute. If
-	// none of them do, we can skip it - but if one of them does, they all must
-	// (since we're using a TriMesh).
-	foundAttribute = kQ3False;
-	for (n = 0; n < instanceData->contours[0].numVertices && !foundAttribute; n++)
-		{
-		if (instanceData->contours[0].vertices[n].attributeSet != NULL &&
-			Q3AttributeSet_Contains(instanceData->contours[0].vertices[n].attributeSet, attributeType))
-			foundAttribute = kQ3True;
-		}
-
-	if (!foundAttribute)
-		return(kQ3False);
-
-
-
-	// Work out the size of data used for the attribute
-	theClass = E3ClassTree_GetClassByType(E3Attribute_AttributeToClassType(attributeType));
-	if (theClass == NULL)
-		return(kQ3False);
-	
-	attributeSize = E3ClassTree_GetInstanceSize(theClass);
-
-
-
-	// Set up the attribute array within the TriMesh
-	triMeshAttribute->attributeType     = attributeType;
-	triMeshAttribute->data              = Q3Memory_AllocateClear(instanceData->contours[0].numVertices * attributeSize);
-	triMeshAttribute->attributeUseArray = NULL;
-
-	if (triMeshAttribute->data == NULL)
-		return(kQ3False);
-
-
-
-	// Set up the values within the attribute array
-	for (n = 0; n < instanceData->contours[0].numVertices; n++)
-		{
-		// Figure out where the data should be stored
-		dataPtr = ((TQ3Uns8 *) triMeshAttribute->data) + (n * attributeSize);
-
-
-
-		// Get the final attribute set for this vertex
-		E3AttributeSet_Combine(instanceData->generalPolygonAttributeSet,
-							   instanceData->contours[0].vertices[n].attributeSet,
-							   &theAttributes);
-		if (theAttributes != NULL)
-			{
-			// If the attribute is present, get the value
-			if (Q3AttributeSet_Contains(theAttributes, attributeType))
-				Q3AttributeSet_Get(theAttributes, attributeType, dataPtr);
-			
-			// Or use a default
-			else
-				{
-				switch (attributeType) {
-					case kQ3AttributeTypeAmbientCoefficient:
-						*((float *) dataPtr) = kQ3ViewDefaultAmbientCoefficient;
-						break;
-
-					case kQ3AttributeTypeDiffuseColor:
-						Q3ColorRGB_Set((TQ3ColorRGB *) dataPtr, kQ3ViewDefaultDiffuseColor);
-						break;
-						
-					case kQ3AttributeTypeSpecularColor:
-						Q3ColorRGB_Set((TQ3ColorRGB *) dataPtr, kQ3ViewDefaultSpecularColor);
-						break;
-
-					case kQ3AttributeTypeSpecularControl:
-						*((float *) dataPtr) = kQ3ViewDefaultSpecularControl;
-						break;
-
-					case kQ3AttributeTypeTransparencyColor:
-						Q3ColorRGB_Set((TQ3ColorRGB *) dataPtr, kQ3ViewDefaultTransparency);
-						break;
-					
-					case kQ3AttributeTypeNormal:
-						Q3Point3D_CrossProductTri(&instanceData->contours[0].vertices[0].point,
-												  &instanceData->contours[0].vertices[1].point,
-												  &instanceData->contours[0].vertices[2].point,
-												  (TQ3Vector3D *) dataPtr);
-						break;
-
-					case kQ3AttributeTypeHighlightState:
-						*((TQ3Switch *) dataPtr) = kQ3ViewDefaultHighlightState;
-						break;
-
-					case kQ3AttributeTypeSurfaceUV: 
-					case kQ3AttributeTypeShadingUV: 
-					case kQ3AttributeTypeSurfaceTangent: 
-					case kQ3AttributeTypeSurfaceShader:
-					default:
-						// Assume 0s will be OK
-						break;
-					}
-				}
-			
-			
-			// Clean up
-			Q3Object_Dispose(theAttributes);
-			}
-		}
-	
-	return(kQ3True);
-}
-
-
-
-
-
-//=============================================================================
 //      e3geom_generalpolygon_new : GeneralPolygon new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -258,151 +121,25 @@ e3geom_generalpolygon_duplicate(TQ3Object fromObject, const void *fromPrivateDat
 //=============================================================================
 //      e3geom_generalpolygon_cache_new : GeneralPolygon cache new method.
 //-----------------------------------------------------------------------------
-//		Note :	This implementation doesn't currently support holes or concave
-//				polygons - it's really just the same code as for the simple
-//				polygon.
-//
-//				There is code within glut (also under the LGPL) that could be
-//				used to extend this.
-//-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3GeneralPolygonData *geomData)
-{	TQ3Uns32					n, numVertices, numEdges, numTriangles;
-	TQ3TriMeshAttributeData		vertexAttributes[kQ3AttributeTypeNumTypes];
-	TQ3TriMeshAttributeData		edgeAttributes[1];
-	TQ3TriMeshTriangleData		*theTriangles;
-	TQ3TriMeshData				triMeshData;
-	TQ3GeometryObject			theTriMesh;
-	TQ3Point3D					*thePoints;
-	TQ3TriMeshEdgeData			*theEdges;
+{	TQ3Contour				*theContours;
+	TQ3GeometryObject		theTriMesh;
 #pragma unused(theView)
+#pragma unused(theGeom)
 
 
 
-	// Work out how many points, edges, and triangles we need
-	for (numVertices = 0, n = 0; n < geomData->numContours; n++)
-		numVertices += geomData->contours[n].numVertices;
-
-	Q3_ASSERT(numVertices >= 3);
-	numEdges     = numVertices;
-	numTriangles = numVertices - 2;
+	// Obtain the contour data. For now we can simply cast between the two structures,
+	// since they are identical - we assert this to make sure, since TQ3Contour is
+	// internal at present and so may change.
+	Q3_REQUIRE_OR_RESULT(sizeof(TQ3Contour) == sizeof(TQ3GeneralPolygonContourData), NULL);
+	theContours = (TQ3Contour *) geomData->contours;
 
 
 
-	// Allocate the memory we need for the TriMesh data
-	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(numVertices * sizeof(TQ3Point3D));
-	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numTriangles * sizeof(TQ3TriMeshTriangleData));
-	theEdges     = (TQ3TriMeshEdgeData *)     Q3Memory_Allocate(numEdges     * sizeof(TQ3TriMeshEdgeData));
-
-	if (thePoints == NULL || theTriangles == NULL || theEdges == NULL)
-		{
-		Q3Memory_Free(&thePoints);
-		Q3Memory_Free(&theTriangles);
-		Q3Memory_Free(&theEdges);
-		
-		return(NULL);
-		}
-
-
-
-	// Initialise the points, edges, and triangles
-	for (n = 0; n < numVertices; n++)
-		thePoints[n] = geomData->contours[0].vertices[n].point;
-
-	for (n = 0; n < numEdges; n++)
-		{
-		theEdges[n].pointIndices[0]    = n;
-		theEdges[n].pointIndices[1]    = (n == (numEdges-1)) ? 0 : (n + 1);
-		theEdges[n].triangleIndices[0] = kQ3ArrayIndexNULL;
-		theEdges[n].triangleIndices[1] = kQ3ArrayIndexNULL;
-		}
-		
-	for (n = 0; n < numTriangles; n++)
-		{
-		theTriangles[n].pointIndices[0] = 0;
-		theTriangles[n].pointIndices[1] = n + 1;
-		theTriangles[n].pointIndices[2] = n + 2;
-		}
-
-
-
-	// Initialise the TriMesh data
-	triMeshData.numPoints                 = numVertices;
-	triMeshData.points                    = thePoints;
-	triMeshData.numTriangles              = numTriangles;
-	triMeshData.triangles                 = theTriangles;
-	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
-	triMeshData.numEdges                  = numEdges;
-	triMeshData.edges                     = theEdges;
-	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
-	triMeshData.numVertexAttributeTypes   = 0;
-	triMeshData.vertexAttributeTypes      = NULL;
-	triMeshData.triMeshAttributeSet       = geomData->generalPolygonAttributeSet;
-
-	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox, triMeshData.points, triMeshData.numPoints, sizeof(TQ3Point3D));
-
-
-
-	// Set up the vertex attributes
-	n = 0;
-	
-	if (e3geom_generalpolygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeNormal))
-		n++;
-		
-	if (e3geom_generalpolygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeSurfaceUV))
-		n++;
-	else if (e3geom_generalpolygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeShadingUV))
-		n++;
-
-	if (e3geom_generalpolygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeAmbientCoefficient))
-		n++;
-
-	if (e3geom_generalpolygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeDiffuseColor))
-		{
-		// Set up some edge colours as well, just reusing the vertex colours
-		Q3_ASSERT(numEdges == numVertices);
-		edgeAttributes[0] = vertexAttributes[n];
-		
-		triMeshData.numEdgeAttributeTypes   = 1;
-		triMeshData.edgeAttributeTypes      = edgeAttributes;
-		n++;
-		}
-		
-	if (e3geom_generalpolygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeSpecularColor))
-		n++;
-		
-	if (e3geom_generalpolygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeSpecularControl))
-		n++;
-		
-	if (e3geom_generalpolygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeTransparencyColor))
-		n++;
-		
-	if (e3geom_generalpolygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeHighlightState))
-		n++;
-		
-	if (e3geom_generalpolygon_add_attribute(geomData, &vertexAttributes[n], kQ3AttributeTypeSurfaceShader))
-		n++;
-
-	Q3_ASSERT(n < (sizeof(vertexAttributes) / sizeof(TQ3TriMeshAttributeData)));
-	if (n != 0)
-		{
-		triMeshData.numVertexAttributeTypes = n;
-		triMeshData.vertexAttributeTypes    = vertexAttributes;
-		}
-
-
-
-	// Create the TriMesh and clean up
-	theTriMesh = Q3TriMesh_New(&triMeshData);
-
-	Q3Memory_Free(&thePoints);
-	Q3Memory_Free(&theTriangles);
-	Q3Memory_Free(&theEdges);
-	
-	for (n = 0; n < triMeshData.numVertexAttributeTypes; n++)
-		Q3Memory_Free(&triMeshData.vertexAttributeTypes[n].data);
+	// Tessellate the polygon
+	theTriMesh = E3Tessellate_Contours(geomData->numContours, theContours, geomData->generalPolygonAttributeSet);	
 
 	return(theTriMesh);
 }
@@ -417,18 +154,20 @@ e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom
 static TQ3Status
 e3geom_generalpolygon_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3GeneralPolygonData			*instanceData = (const TQ3GeneralPolygonData *) objectData;
+	TQ3Uns32							n;
 #pragma unused(objectType)
 #pragma unused(theObject)
 
 
 
-	// Update the bounds (we only need to submit the first contour, as this
-	// forms the outline of the polygon - subsequent contours form holes
-	// cut out of that outline)
-	E3View_UpdateBounds(theView,
-						instanceData->contours[0].numVertices,
-						sizeof(TQ3Vertex3D),
-						&instanceData->contours[0].vertices[0].point);
+	// Update the bounds from our contours - although general polys are normally
+	// defined as an outer polygon with interior holes, the contours are allowed
+	// to be disjoint and so we need to accumulate each contour in turn.
+	for (n = 0; n < instanceData->numContours; n++)
+		E3View_UpdateBounds(theView,
+							instanceData->contours[n].numVertices,
+							sizeof(TQ3Vertex3D),
+							&instanceData->contours[n].vertices[0].point);
 
 	return(kQ3Success);
 }
