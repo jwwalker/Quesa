@@ -141,7 +141,7 @@
 
     #if defined(__GNUC__) && (defined(__APPLE_CPP__) || defined(__APPLE_CC__) || defined(__NEXT_CPP__))
         #define QUESA_UH_IN_FRAMEWORKS					1
-    #elif defined(__MACH__)
+    #elif defined(__MACH__) &&  __MACH__
         #define QUESA_UH_IN_FRAMEWORKS					1
     #else
         #define QUESA_UH_IN_FRAMEWORKS					0
