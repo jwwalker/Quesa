@@ -1,5 +1,5 @@
 /*  NAME:
-        QuesaErrors.h
+        QuesaCustomElements.h
 
     DESCRIPTION:
         Quesa public header.
@@ -30,8 +30,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __QUESA_ERRORS__
-#define __QUESA_ERRORS__
+#ifndef __QUESA_CUSTOMELEMENTS__
+#define __QUESA_CUSTOMELEMENTS__
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
@@ -85,127 +85,107 @@ extern "C" {
 #if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 /*
- *	Q3Error_Register
+ *	CENameElement_SetData
  *		Description of function
  */
 EXTERN_API_C ( TQ3Status  )
-Q3Error_Register (
-	TQ3ErrorMethod                errorPost,
-	TQ3Int32                      reference
+CENameElement_SetData (
+	TQ3Object                     object,
+	const char                    *name
 );
 
 
 
 /*
- *	Q3Warning_Register
+ *	CENameElement_GetData
  *		Description of function
  */
 EXTERN_API_C ( TQ3Status  )
-Q3Warning_Register (
-	TQ3WarningMethod              warningPost,
-	TQ3Int32                      reference
+CENameElement_GetData (
+	TQ3Object                     object,
+	char                          **name
 );
 
 
 
 /*
- *	Q3Notice_Register
+ *	CENameElement_EmptyData
  *		Description of function
  */
 EXTERN_API_C ( TQ3Status  )
-Q3Notice_Register (
-	TQ3NoticeMethod               noticePost,
-	TQ3Int32                      reference
+CENameElement_EmptyData (
+	char                          **name
 );
 
 
 
 /*
- *	Q3Error_Get
+ *	CEUrlElement_SetData
  *		Description of function
  */
-EXTERN_API_C ( TQ3Error  )
-Q3Error_Get (
-	TQ3Error                      *firstError
+EXTERN_API_C ( TQ3Status  )
+CEUrlElement_SetData (
+	TQ3Object                     object,
+	TCEUrlData                    *urlData
 );
 
 
 
 /*
- *	Q3Error_IsFatalError
+ *	CEUrlElement_GetData
  *		Description of function
  */
-EXTERN_API_C ( TQ3Boolean  )
-Q3Error_IsFatalError (
-	TQ3Error                      error
+EXTERN_API_C ( TQ3Status  )
+CEUrlElement_GetData (
+	TQ3Object                     object,
+	TCEUrlData                    **urlData
 );
 
 
 
 /*
- *	Q3Warning_Get
+ *	CEUrlElement_EmptyData
  *		Description of function
  */
-EXTERN_API_C ( TQ3Warning  )
-Q3Warning_Get (
-	TQ3Warning                    *firstWarning
+EXTERN_API_C ( TQ3Status  )
+CEUrlElement_EmptyData (
+	TCEUrlData                    **urlData
 );
 
 
 
 /*
- *	Q3Notice_Get
+ *	CEWireElement_SetData
  *		Description of function
  */
-EXTERN_API_C ( TQ3Notice  )
-Q3Notice_Get (
-	TQ3Notice                     *firstNotice
-);
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
-
-/*
- *	Q3Error_PlatformGet
- *		Description of function
- */
-EXTERN_API_C ( TQ3Uns32  )
-Q3Error_PlatformGet (
-	TQ3Uns32                      *firstErr
+EXTERN_API_C ( TQ3Status  )
+CEWireElement_SetData (
+	TQ3Object                     object,
+	QTAtomContainer               wireData
 );
 
 
 
 /*
- *	Q3Error_PlatformPost
+ *	CEWireElement_GetData
  *		Description of function
  */
-EXTERN_API_C ( void  )
-Q3Error_PlatformPost (
-	TQ3Uns32                      theErr
+EXTERN_API_C ( TQ3Status  )
+CEWireElement_GetData (
+	TQ3Object                     object,
+	QTAtomContainer               *wireData
 );
 
 
-
-
-
-//=============================================================================
-//      Mac OS function prototypes
-//-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
-#if OS_MACINTOSH
 
 /*
- *	Q3MacintoshError_Get
+ *	CEWireElement_EmptyData
  *		Description of function
  */
-EXTERN_API_C ( OSErr  )
-Q3MacintoshError_Get (
-	OSErr                         *firstMacErr
+EXTERN_API_C ( TQ3Status  )
+CEWireElement_EmptyData (
+	QTAtomContainer               *wireData
 );
-
-#endif // OS_MACINTOSH
 
 #endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 

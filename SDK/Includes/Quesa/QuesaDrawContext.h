@@ -2,10 +2,8 @@
         QuesaDrawContext.h
 
     DESCRIPTION:
-        Abstraction to deal with Draw Context objects.
-        
-        Defines extensions over and above the normal QD3D Draw Context API.
-        
+        Quesa public header.
+
     COPYRIGHT:
         Quesa Copyright © 1999-2000, Quesa Developers.
         
@@ -32,12 +30,12 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __QUESADRAWCONTEXT__
-#define __QUESADRAWCONTEXT__
+#ifndef __QUESA_DRAWCONTEXT__
+#define __QUESA_DRAWCONTEXT__
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-// Include files go here
+#include "Quesa.h"
 
 
 
@@ -55,16 +53,44 @@ extern "C" {
 
 
 //=============================================================================
-//      Platform specific - Be
-//=============================================================================
-#if OS_BE
+//      Constants
+//-----------------------------------------------------------------------------
+// Constants go here
+
+
+
+
+
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
+// Types go here
+
+
+
+
+
+//=============================================================================
+//		Be OS types
+//-----------------------------------------------------------------------------
+#if OS_BE
+
+// Be Draw Context
 typedef struct TQ3BeDrawContextData {
 	TQ3DrawContextData 				drawContextData;
 	BView 							*theView;
 } TQ3BeDrawContextData;
+
+#endif // OS_BE
+
+
+
+
+
+//=============================================================================
+//      Macros
+//-----------------------------------------------------------------------------
+// Macros go here
 
 
 
@@ -73,21 +99,660 @@ typedef struct TQ3BeDrawContextData {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-EXTERN_API_C( TQ3DrawContextObject )
-Q3BeDrawContext_New				(const TQ3BeDrawContextData *drawContextData);
+#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
-EXTERN_API_C( TQ3Status )
-Q3BeDrawContext_SetView			(TQ3DrawContextObject 	drawContext,
-								 BView 					*theView);
+/*
+ *	Q3DrawContext_GetType
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3ObjectType  )
+Q3DrawContext_GetType (
+	TQ3DrawContextObject          drawContext
+);
 
-EXTERN_API_C( TQ3Status )
-Q3BeDrawContext_GetView			(TQ3DrawContextObject 	drawContext,
-								 BView					**theView);
+
+
+/*
+ *	Q3DrawContext_SetData
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_SetData (
+	TQ3DrawContextObject          context,
+	const TQ3DrawContextData      *contextData
+);
+
+
+
+/*
+ *	Q3DrawContext_GetData
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_GetData (
+	TQ3DrawContextObject          context,
+	TQ3DrawContextData            *contextData
+);
+
+
+
+/*
+ *	Q3DrawContext_SetClearImageColor
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_SetClearImageColor (
+	TQ3DrawContextObject          context,
+	const TQ3ColorARGB            *color
+);
+
+
+
+/*
+ *	Q3DrawContext_GetClearImageColor
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_GetClearImageColor (
+	TQ3DrawContextObject          context,
+	TQ3ColorARGB                  *color
+);
+
+
+
+/*
+ *	Q3DrawContext_SetPane
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_SetPane (
+	TQ3DrawContextObject          context,
+	const TQ3Area                 *pane
+);
+
+
+
+/*
+ *	Q3DrawContext_GetPane
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_GetPane (
+	TQ3DrawContextObject          context,
+	TQ3Area                       *pane
+);
+
+
+
+/*
+ *	Q3DrawContext_SetPaneState
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_SetPaneState (
+	TQ3DrawContextObject          context,
+	TQ3Boolean                    state
+);
+
+
+
+/*
+ *	Q3DrawContext_GetPaneState
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_GetPaneState (
+	TQ3DrawContextObject          context,
+	TQ3Boolean                    *state
+);
+
+
+
+/*
+ *	Q3DrawContext_SetClearImageMethod
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_SetClearImageMethod (
+	TQ3DrawContextObject          context,
+	TQ3DrawContextClearImageMethod method
+);
+
+
+
+/*
+ *	Q3DrawContext_GetClearImageMethod
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_GetClearImageMethod (
+	TQ3DrawContextObject          context,
+	TQ3DrawContextClearImageMethod *method
+);
+
+
+
+/*
+ *	Q3DrawContext_SetMask
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_SetMask (
+	TQ3DrawContextObject          context,
+	const TQ3Bitmap               *mask
+);
+
+
+
+/*
+ *	Q3DrawContext_GetMask
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_GetMask (
+	TQ3DrawContextObject          context,
+	TQ3Bitmap                     *mask
+);
+
+
+
+/*
+ *	Q3DrawContext_SetMaskState
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_SetMaskState (
+	TQ3DrawContextObject          context,
+	TQ3Boolean                    state
+);
+
+
+
+/*
+ *	Q3DrawContext_GetMaskState
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_GetMaskState (
+	TQ3DrawContextObject          context,
+	TQ3Boolean                    *state
+);
+
+
+
+/*
+ *	Q3DrawContext_SetDoubleBufferState
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_SetDoubleBufferState (
+	TQ3DrawContextObject          context,
+	TQ3Boolean                    state
+);
+
+
+
+/*
+ *	Q3DrawContext_GetDoubleBufferState
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DrawContext_GetDoubleBufferState (
+	TQ3DrawContextObject          context,
+	TQ3Boolean                    *state
+);
+
+
+
+/*
+ *	Q3PixmapDrawContext_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3DrawContextObject  )
+Q3PixmapDrawContext_New (
+	const TQ3PixmapDrawContextData *contextData
+);
+
+
+
+/*
+ *	Q3PixmapDrawContext_SetPixmap
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3PixmapDrawContext_SetPixmap (
+	TQ3DrawContextObject          drawContext,
+	const TQ3Pixmap               *pixmap
+);
+
+
+
+/*
+ *	Q3PixmapDrawContext_GetPixmap
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3PixmapDrawContext_GetPixmap (
+	TQ3DrawContextObject          drawContext,
+	TQ3Pixmap                     *pixmap
+);
+
+
+
 
 
 //=============================================================================
-//      Platform specific - Be
+//      Mac OS function prototypes
+//-----------------------------------------------------------------------------
+#if OS_MACINTOSH
+
+/*
+ *	Q3MacDrawContext_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3DrawContextObject  )
+Q3MacDrawContext_New (
+	const TQ3MacDrawContextData   *drawContextData
+);
+
+
+
+/*
+ *	Q3MacDrawContext_SetWindow
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MacDrawContext_SetWindow (
+	TQ3DrawContextObject          drawContext,
+	CWindowPtr                    window
+);
+
+
+
+/*
+ *	Q3MacDrawContext_GetWindow
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MacDrawContext_GetWindow (
+	TQ3DrawContextObject          drawContext,
+	CWindowPtr                    *window
+);
+
+
+
+/*
+ *	Q3MacDrawContext_SetGXViewPort
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MacDrawContext_SetGXViewPort (
+	TQ3DrawContextObject          drawContext,
+	gxViewPort                    viewPort
+);
+
+
+
+/*
+ *	Q3MacDrawContext_GetGXViewPort
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MacDrawContext_GetGXViewPort (
+	TQ3DrawContextObject          drawContext,
+	gxViewPort                    *viewPort
+);
+
+
+
+/*
+ *	Q3MacDrawContext_SetGrafPort
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MacDrawContext_SetGrafPort (
+	TQ3DrawContextObject          drawContext,
+	CGrafPtr                      grafPort
+);
+
+
+
+/*
+ *	Q3MacDrawContext_GetGrafPort
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MacDrawContext_GetGrafPort (
+	TQ3DrawContextObject          drawContext,
+	CGrafPtr                      *grafPort
+);
+
+
+
+/*
+ *	Q3MacDrawContext_Set2DLibrary
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MacDrawContext_Set2DLibrary (
+	TQ3DrawContextObject          drawContext,
+	TQ3MacDrawContext2DLibrary    library
+);
+
+
+
+/*
+ *	Q3MacDrawContext_Get2DLibrary
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MacDrawContext_Get2DLibrary (
+	TQ3DrawContextObject          drawContext,
+	TQ3MacDrawContext2DLibrary    *library
+);
+
+#endif // OS_MACINTOSH
+
+
+
+
+
 //=============================================================================
+//      Unix function prototypes
+//-----------------------------------------------------------------------------
+#if OS_UNIX
+
+/*
+ *	Q3XBuffers_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3XBufferObject  )
+Q3XBuffers_New (
+	Display                       *dpy,
+	TQ3Uns32                      numBuffers,
+	Window                        window
+);
+
+
+
+/*
+ *	Q3XBuffers_Swap
+ *		Description of function
+ */
+EXTERN_API_C ( void  )
+Q3XBuffers_Swap (
+	Display                       *dpy,
+	TQ3XBufferObject              buffers
+);
+
+
+
+/*
+ *	Q3X_GetVisualInfo
+ *		Description of function
+ */
+EXTERN_API_C ( XVisualInfo * )
+Q3X_GetVisualInfo (
+	Display                       *dpy,
+	Screen                        *screen
+);
+
+
+
+/*
+ *	Q3XDrawContext_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3DrawContextObject  )
+Q3XDrawContext_New (
+	const TQ3XDrawContextData     *drawContextData
+);
+
+
+
+/*
+ *	Q3XDrawContext_SetDisplay
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3XDrawContext_SetDisplay (
+	TQ3DrawContextObject          drawContext,
+	const Display                 *display
+);
+
+
+
+/*
+ *	Q3XDrawContext_GetDisplay
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3XDrawContext_GetDisplay (
+	TQ3DrawContextObject          drawContext,
+	Display                       **display
+);
+
+
+
+/*
+ *	Q3XDrawContext_SetDrawable
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3XDrawContext_SetDrawable (
+	TQ3DrawContextObject          drawContext,
+	Drawable                      drawable
+);
+
+
+
+/*
+ *	Q3XDrawContext_GetDrawable
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3XDrawContext_GetDrawable (
+	TQ3DrawContextObject          drawContext,
+	Drawable                      *drawable
+);
+
+
+
+/*
+ *	Q3XDrawContext_SetVisual
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3XDrawContext_SetVisual (
+	TQ3DrawContextObject          drawContext,
+	const Visual                  *visual
+);
+
+
+
+/*
+ *	Q3XDrawContext_GetVisual
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3XDrawContext_GetVisual (
+	TQ3DrawContextObject          drawContext,
+	Visual                        **visual
+);
+
+
+
+/*
+ *	Q3XDrawContext_SetColormap
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3XDrawContext_SetColormap (
+	TQ3DrawContextObject          drawContext,
+	Colormap                      colormap
+);
+
+
+
+/*
+ *	Q3XDrawContext_GetColormap
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3XDrawContext_GetColormap (
+	TQ3DrawContextObject          drawContext,
+	Colormap                      *colormap
+);
+
+
+
+/*
+ *	Q3XDrawContext_SetColormapData
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3XDrawContext_SetColormapData (
+	TQ3DrawContextObject          drawContext,
+	const TQ3XColormapData        *colormapData
+);
+
+
+
+/*
+ *	Q3XDrawContext_GetColormapData
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3XDrawContext_GetColormapData (
+	TQ3DrawContextObject          drawContext,
+	TQ3XColormapData              *colormapData
+);
+
+#endif // OS_UNIX
+
+
+
+
+
+//=============================================================================
+//      Windows function prototypes
+//-----------------------------------------------------------------------------
+#if OS_WIN32
+
+/*
+ *	Q3Win32DCDrawContext_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3DrawContextObject  )
+Q3Win32DCDrawContext_New (
+	const TQ3Win32DCDrawContextData *drawContextData
+);
+
+
+
+/*
+ *	Q3Win32DCDrawContext_SetDC
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3Win32DCDrawContext_SetDC (
+	TQ3DrawContextObject          drawContext,
+	HDC                           newHDC
+);
+
+
+
+/*
+ *	Q3Win32DCDrawContext_GetDC
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3Win32DCDrawContext_GetDC (
+	TQ3DrawContextObject          drawContext,
+	HDC                           *curHDC
+);
+
+
+
+/*
+ *	Q3DDSurfaceDrawContext_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3DrawContextObject  )
+Q3DDSurfaceDrawContext_New (
+	const TQ3DDSurfaceDrawContextData *drawContextData
+);
+
+
+
+/*
+ *	Q3DDSurfaceDrawContext_SetDirectDrawSurface
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DDSurfaceDrawContext_SetDirectDrawSurface (
+	TQ3DrawContextObject          drawContext,
+	const TQ3DDSurfaceDescriptor  *ddSurfaceDescriptor
+);
+
+
+
+/*
+ *	Q3DDSurfaceDrawContext_GetDirectDrawSurface
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3DDSurfaceDrawContext_GetDirectDrawSurface (
+	TQ3DrawContextObject          drawContext,
+	TQ3DDSurfaceDescriptor        *ddSurfaceDescriptor
+);
+
+#endif // OS_WIN32
+
+#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
+
+
+
+
+
+//=============================================================================
+//      Be function prototypes
+//-----------------------------------------------------------------------------
+#if OS_BE
+
+/*
+ *	Q3BeDrawContext_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3DrawContextObject  )
+Q3BeDrawContext_New (
+	const TQ3BeDrawContextData    *drawContextData
+);
+
+
+
+/*
+ *	Q3BeDrawContext_SetView
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3BeDrawContext_SetView (
+	TQ3DrawContextObject          drawContext,
+	BView                         *theView
+);
+
+
+
+/*
+ *	Q3BeDrawContext_GetView
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3BeDrawContext_GetView (
+	TQ3DrawContextObject          drawContext,
+	BView                         **theView
+);
+
 #endif // OS_BE
 
 

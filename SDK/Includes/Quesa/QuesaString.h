@@ -1,5 +1,5 @@
 /*  NAME:
-        QuesaErrors.h
+        QuesaString.h
 
     DESCRIPTION:
         Quesa public header.
@@ -30,8 +30,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __QUESA_ERRORS__
-#define __QUESA_ERRORS__
+#ifndef __QUESA_STRING__
+#define __QUESA_STRING__
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
@@ -85,127 +85,71 @@ extern "C" {
 #if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 /*
- *	Q3Error_Register
+ *	Q3String_GetType
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3ObjectType  )
+Q3String_GetType (
+	TQ3StringObject               stringObj
+);
+
+
+
+/*
+ *	Q3CString_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3StringObject  )
+Q3CString_New (
+	const char                    *str
+);
+
+
+
+/*
+ *	Q3CString_GetLength
  *		Description of function
  */
 EXTERN_API_C ( TQ3Status  )
-Q3Error_Register (
-	TQ3ErrorMethod                errorPost,
-	TQ3Int32                      reference
+Q3CString_GetLength (
+	TQ3StringObject               stringObj,
+	TQ3Uns32                      *length
 );
 
 
 
 /*
- *	Q3Warning_Register
+ *	Q3CString_SetString
  *		Description of function
  */
 EXTERN_API_C ( TQ3Status  )
-Q3Warning_Register (
-	TQ3WarningMethod              warningPost,
-	TQ3Int32                      reference
+Q3CString_SetString (
+	TQ3StringObject               stringObj,
+	const char                    *str
 );
 
 
 
 /*
- *	Q3Notice_Register
+ *	Q3CString_GetString
  *		Description of function
  */
 EXTERN_API_C ( TQ3Status  )
-Q3Notice_Register (
-	TQ3NoticeMethod               noticePost,
-	TQ3Int32                      reference
+Q3CString_GetString (
+	TQ3StringObject               stringObj,
+	char                          **str
 );
 
 
 
 /*
- *	Q3Error_Get
+ *	Q3CString_EmptyData
  *		Description of function
  */
-EXTERN_API_C ( TQ3Error  )
-Q3Error_Get (
-	TQ3Error                      *firstError
+EXTERN_API_C ( TQ3Status  )
+Q3CString_EmptyData (
+	char                          **str
 );
-
-
-
-/*
- *	Q3Error_IsFatalError
- *		Description of function
- */
-EXTERN_API_C ( TQ3Boolean  )
-Q3Error_IsFatalError (
-	TQ3Error                      error
-);
-
-
-
-/*
- *	Q3Warning_Get
- *		Description of function
- */
-EXTERN_API_C ( TQ3Warning  )
-Q3Warning_Get (
-	TQ3Warning                    *firstWarning
-);
-
-
-
-/*
- *	Q3Notice_Get
- *		Description of function
- */
-EXTERN_API_C ( TQ3Notice  )
-Q3Notice_Get (
-	TQ3Notice                     *firstNotice
-);
-
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
-
-/*
- *	Q3Error_PlatformGet
- *		Description of function
- */
-EXTERN_API_C ( TQ3Uns32  )
-Q3Error_PlatformGet (
-	TQ3Uns32                      *firstErr
-);
-
-
-
-/*
- *	Q3Error_PlatformPost
- *		Description of function
- */
-EXTERN_API_C ( void  )
-Q3Error_PlatformPost (
-	TQ3Uns32                      theErr
-);
-
-
-
-
-
-//=============================================================================
-//      Mac OS function prototypes
-//-----------------------------------------------------------------------------
-#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
-
-#if OS_MACINTOSH
-
-/*
- *	Q3MacintoshError_Get
- *		Description of function
- */
-EXTERN_API_C ( OSErr  )
-Q3MacintoshError_Get (
-	OSErr                         *firstMacErr
-);
-
-#endif // OS_MACINTOSH
 
 #endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 

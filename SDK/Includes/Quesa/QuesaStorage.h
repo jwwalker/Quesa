@@ -2,10 +2,8 @@
         QuesaStorage.h
 
     DESCRIPTION:
-        Abstraction to deal with stream-based storage objects.
-        
-        Defines extensions over and above the normal QD3D storage API.
-        
+        Quesa public header.
+
     COPYRIGHT:
         Quesa Copyright © 1999-2000, Quesa Developers.
         
@@ -32,12 +30,12 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __QUESASTORAGE__
-#define __QUESASTORAGE__
+#ifndef __QUESA_STORAGE__
+#define __QUESA_STORAGE__
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-// Include files go here
+#include "Quesa.h"
 
 
 
@@ -52,47 +50,499 @@ extern "C" {
 
 
 
+
+
+//=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
+// Constants go here
+
+
+
+
+
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+// Types go here
+
+
+
+
+
+//=============================================================================
+//      Macros
+//-----------------------------------------------------------------------------
+// Macros go here
+
+
+
+
+
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-// Path based storage objects
+
+/*
+ *	Q3PathStorage_New
+ *		Description of function
+ */
 EXTERN_API_C( TQ3StorageObject )
-Q3PathStorage_New				(const char *pathName);
+Q3PathStorage_New (
+	const char                    *pathName
+);
 
-EXTERN_API_C( TQ3Status )
-Q3PathStorage_Set				(TQ3StorageObject	theStorage,
-								 const char			*pathName);
 
+
+/*
+ *	Q3PathStorage_Set
+ *		Description of function
+ */
 EXTERN_API_C( TQ3Status )
-Q3PathStorage_Get				(TQ3StorageObject	theStorage,
-								 char				*pathName);
+Q3PathStorage_Set (
+	TQ3StorageObject             theStorage,
+	const char                   *pathName
+);
+
+
+
+/*
+ *	Q3PathStorage_Get
+ *		Description of function
+ */
+EXTERN_API_C( TQ3Status )
+Q3PathStorage_Get (
+	TQ3StorageObject              theStorage,
+	char                          *pathName
+);
+
+
+
+#if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
+
+/*
+ *	Q3Storage_GetType
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3ObjectType  )
+Q3Storage_GetType (
+	TQ3StorageObject              storage
+);
+
+
+
+/*
+ *	Q3Storage_GetSize
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3Storage_GetSize (
+	TQ3StorageObject              storage,
+	TQ3Uns32                      *size
+);
+
+
+
+/*
+ *	Q3Storage_GetData
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3Storage_GetData (
+	TQ3StorageObject              storage,
+	TQ3Uns32                      offset,
+	TQ3Uns32                      dataSize,
+	unsigned char                 *data,
+	TQ3Uns32                      *sizeRead
+);
+
+
+
+/*
+ *	Q3Storage_SetData
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3Storage_SetData (
+	TQ3StorageObject              storage,
+	TQ3Uns32                      offset,
+	TQ3Uns32                      dataSize,
+	const unsigned char           *data,
+	TQ3Uns32                      *sizeWritten
+);
+
+
+
+/*
+ *	Q3MemoryStorage_GetType
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3ObjectType  )
+Q3MemoryStorage_GetType (
+	TQ3StorageObject              storage
+);
+
+
+
+/*
+ *	Q3MemoryStorage_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3StorageObject  )
+Q3MemoryStorage_New (
+	const unsigned char           *buffer,
+	TQ3Uns32                      validSize
+);
+
+
+
+/*
+ *	Q3MemoryStorage_Set
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MemoryStorage_Set (
+	TQ3StorageObject              storage,
+	const unsigned char           *buffer,
+	TQ3Uns32                      validSize
+);
+
+
+
+/*
+ *	Q3MemoryStorage_NewBuffer
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3StorageObject  )
+Q3MemoryStorage_NewBuffer (
+	unsigned char                 *buffer,
+	TQ3Uns32                      validSize,
+	TQ3Uns32                      bufferSize
+);
+
+
+
+/*
+ *	Q3MemoryStorage_SetBuffer
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MemoryStorage_SetBuffer (
+	TQ3StorageObject              storage,
+	unsigned char                 *buffer,
+	TQ3Uns32                      validSize,
+	TQ3Uns32                      bufferSize
+);
+
+
+
+/*
+ *	Q3MemoryStorage_GetBuffer
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MemoryStorage_GetBuffer (
+	TQ3StorageObject              storage,
+	unsigned char                 **buffer,
+	TQ3Uns32                      *validSize,
+	TQ3Uns32                      *bufferSize
+);
+
+
+
+/*
+ *	Q3PathStorage_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3StorageObject  )
+Q3PathStorage_New (
+	const char                    *pathName
+);
+
+
+
+/*
+ *	Q3PathStorage_Set
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3PathStorage_Set (
+	TQ3StorageObject              theStorage,
+	const char                    *pathName
+);
+
+
+
+/*
+ *	Q3PathStorage_Get
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3PathStorage_Get (
+	TQ3StorageObject              theStorage,
+	char                          *pathName
+);
 
 
 
 
 
 //=============================================================================
-//      Platform specific - Be
+//      Mac OS function prototypes
+//-----------------------------------------------------------------------------
+#if OS_MACINTOSH
+
+/*
+ *	Q3HandleStorage_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3StorageObject  )
+Q3HandleStorage_New (
+	Handle                        handle,
+	TQ3Uns32                      validSize
+);
+
+
+
+/*
+ *	Q3HandleStorage_Set
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3HandleStorage_Set (
+	TQ3StorageObject              storage,
+	Handle                        handle,
+	TQ3Uns32                      validSize
+);
+
+
+
+/*
+ *	Q3HandleStorage_Get
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3HandleStorage_Get (
+	TQ3StorageObject              storage,
+	Handle                        *handle,
+	TQ3Uns32                      *validSize
+);
+
+
+
+/*
+ *	Q3MacintoshStorage_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3StorageObject  )
+Q3MacintoshStorage_New (
+	TQ3Int16                      fsRefNum
+);
+
+
+
+/*
+ *	Q3MacintoshStorage_Set
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MacintoshStorage_Set (
+	TQ3StorageObject              storage,
+	TQ3Int16                      fsRefNum
+);
+
+
+
+/*
+ *	Q3MacintoshStorage_Get
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3MacintoshStorage_Get (
+	TQ3StorageObject              storage,
+	TQ3Int16                      *fsRefNum
+);
+
+
+
+/*
+ *	Q3MacintoshStorage_GetType
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3ObjectType  )
+Q3MacintoshStorage_GetType (
+	TQ3StorageObject              storage
+);
+
+
+
+/*
+ *	Q3FSSpecStorage_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3StorageObject  )
+Q3FSSpecStorage_New (
+	const FSSpec                  *fs
+);
+
+
+
+/*
+ *	Q3FSSpecStorage_Set
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3FSSpecStorage_Set (
+	TQ3StorageObject              storage,
+	const FSSpec                  *fs
+);
+
+
+
+/*
+ *	Q3FSSpecStorage_Get
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3FSSpecStorage_Get (
+	TQ3StorageObject              storage,
+	FSSpec                        *fs
+);
+
+#endif // OS_MACINTOSH
+
+
+
+
+
 //=============================================================================
+//      Windows function prototypes
+//-----------------------------------------------------------------------------
+#if OS_WIN32
+
+/*
+ *	Q3Win32Storage_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3StorageObject  )
+Q3Win32Storage_New (
+	HANDLE                        hFile
+);
+
+
+
+/*
+ *	Q3Win32Storage_Set
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3Win32Storage_Set (
+	TQ3StorageObject              storage,
+	HANDLE                        hFile
+);
+
+
+
+/*
+ *	Q3Win32Storage_Get
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3Win32Storage_Get (
+	TQ3StorageObject              storage,
+	HANDLE                        *hFile
+);
+
+#endif // OS_WIN32
+
+
+
+
+
+//=============================================================================
+//      Unix function prototypes
+//-----------------------------------------------------------------------------
+#if OS_UNIX
+
+/*
+ *	Q3UnixPathStorage_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3StorageObject  )
+Q3UnixPathStorage_New (
+	const char                    *pathName
+);
+
+
+
+/*
+ *	Q3UnixPathStorage_Set
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3UnixPathStorage_Set (
+	TQ3StorageObject              storage,
+	const char                    *pathName
+);
+
+
+
+/*
+ *	Q3UnixPathStorage_Get
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3UnixPathStorage_Get (
+	TQ3StorageObject              storage,
+	char                          *pathName
+);
+
+#endif // OS_UNIX
+
+#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
+
+
+
+
+
+//=============================================================================
+//      Be function prototypes
+//-----------------------------------------------------------------------------
 #if OS_BE
-//=============================================================================
-//      Function prototypes
-//-----------------------------------------------------------------------------
-EXTERN_API_C( TQ3StorageObject )
-Q3BeStorage_New					(BFile *theFile);
 
-EXTERN_API_C( TQ3Status )
-Q3BeStorage_Set					(TQ3StorageObject	theStorage,
-								 BFile				*theFile);
-
-EXTERN_API_C( TQ3Status )
-Q3BeStorage_Get					(TQ3StorageObject	theStorage,
-								 BFile				**theFile);
+/*
+ *	Q3BeStorage_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3StorageObject  )
+Q3BeStorage_New (
+	BFile                         *theFile
+);
 
 
-//=============================================================================
-//      Platform specific - Be
-//=============================================================================
+
+/*
+ *	Q3BeStorage_Set
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3BeStorage_Set (
+	TQ3StorageObject              theStorage,
+	BFile                         *theFile
+);
+
+
+
+/*
+ *	Q3BeStorage_Get
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3BeStorage_Get (
+	TQ3StorageObject              theStorage,
+	BFile                         **theFile
+);
+
 #endif // OS_BE
 
 
