@@ -2,7 +2,7 @@
         E3GeometryNURBCurve.c
 
     DESCRIPTION:
-        Implementation of Quesa Pixmap Marker geometry class.
+        Implementation of Quesa NURB Curve geometry class.
 
     COPYRIGHT:
         Quesa Copyright © 1999-2000, Quesa Developers.
@@ -176,65 +176,117 @@ e3geom_nurbcurve_duplicate(TQ3Object fromObject, const void *fromPrivateData,
  * This is very slow and used as a reference implementation only
  */
 static float
-e3_evaulate_N_i_k(
-			float 					u,
-			int						i,
-			int						k,
-			int						inOrder,
-			int						inNumPoints,
-			float						inKnots[])
+e3_evaluate_N_i_k(
+			float 	u,
+			int		i,
+			int		k,
+			int		inOrder,
+			int		inNumPoints,
+			float	inKnots[])
 {
 	if (k == 1)
 	{
 		if ((inKnots[i] <= u) && (u <= inKnots[i+1]))
-			return 1.0;
+			return 1.0f;
 		else
-			return 0.0;
+			return 0.0f;
 	}
 	
 	{
 		float div;
-		float sum = 0.0;
+		float sum = 0.0f;
 		
 		div = inKnots[i+k-1]-inKnots[i];
-		if (div != 0.0)
-			sum += ((u-inKnots[i])*e3_evaulate_N_i_k(u,i,k-1,inOrder,inNumPoints,inKnots))/div;
-	
+		if (div != 0.0f)
+			sum += ((u-inKnots[i])*e3_evaluate_N_i_k(u,i,k-1,inOrder,inNumPoints,inKnots))/div;
+
 		
 		div = inKnots[i+k]-inKnots[i+1];
-		if (div != 0.0)
-			sum += ((inKnots[i+k]-u)*e3_evaulate_N_i_k(u,i+1,k-1,inOrder,inNumPoints,inKnots))/div;
+		if (div != 0.0f)
+			sum += ((inKnots[i+k]-u)*e3_evaluate_N_i_k(u,i+1,k-1,inOrder,inNumPoints,inKnots))/div;
 			
 		return sum;
 	}
 }
+
 /*
  * Brute force evaluation of the NURB curve as found in the QD3D programming book
  */
 static void 
-e3_evaulate_nurbs_curve(
-			float						inU,
-			int						inOrder,
-			int						inNumPoints,
-			float						inKnots[],
+e3_evaluate_nurbs_curve(
+			float				inU,
+			int					inOrder,
+			int					inNumPoints,
+			float				inKnots[],
 			TQ3RationalPoint4D	inControlPoints[],
 			TQ3RationalPoint4D	*outPoint)
 {
 	int i;
-	outPoint->x = 0.0;
-	outPoint->y = 0.0;
-	outPoint->z = 0.0;
-	outPoint->w = 0.0;
+	outPoint->x = 0.0f;
+	outPoint->y = 0.0f;
+	outPoint->z = 0.0f;
+	outPoint->w = 0.0f;
 	
 	for (i = 0; i < inNumPoints; i++)
 	{
-		float coeff = e3_evaulate_N_i_k(inU,i,inOrder,inOrder,inNumPoints,inKnots);
+		float coeff = e3_evaluate_N_i_k(inU,i,inOrder,inOrder,inNumPoints,inKnots);
 		outPoint->x += coeff*inControlPoints[i].x;
 		outPoint->y += coeff*inControlPoints[i].y;
 		outPoint->z += coeff*inControlPoints[i].z;
 		outPoint->w += coeff*inControlPoints[i].w;
 	}
 }
+
+/*
+ * Calls e3_evaulate_nurbs_curve and takes care of converting down to a TQ3Vertex
+ */
+static void
+e3_evaluate_nurbs_curve_u( float theUParam, const TQ3NURBCurveData *geomData, TQ3Vertex3D *theVertex )
+{
+	TQ3RationalPoint4D	thePoint;
+	float				oow;
+
+	e3_evaluate_nurbs_curve(
+							theUParam,
+							geomData->order,
+							geomData->numPoints,
+							geomData->knots,
+							geomData->controlPoints,
+							&thePoint);
+
+	// Divide by w:
+	oow = 1.0f/thePoint.w;
+
+	theVertex->point.x = thePoint.x*oow;
+	theVertex->point.y = thePoint.y*oow;
+	theVertex->point.z = thePoint.z*oow;
+}
+
+/*
+ * Finds all of the 'interesting' (non-repetitive knots)
+ */
+static TQ3Uns32
+e3_interesting_knots( float * inKnots, unsigned long numPoints, unsigned long order, float * interestingK )
+{
+	unsigned long start, stop, n;
+	interestingK[0] = inKnots[order - 1];
+	start = 0;
+	stop = 1;
+	n = 1;
+	
+	while ( true ) {
+		while ( stop < numPoints + 1 && inKnots[start] == inKnots[stop] )
+			stop++;
+		if ( stop < numPoints + 1 ) {
+			interestingK[n] = inKnots[stop];
+			start = stop;
+			n++;
+		}
+		else break;
+	}
+	return (TQ3Uns32)n;
+}
+
 
 
 //=============================================================================
@@ -243,15 +295,14 @@ e3_evaulate_nurbs_curve(
 static TQ3Object
 e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3NURBCurveData *geomData)
 {	TQ3GroupObject					theGroup;
-	TQ3Uns32							numPoints;
-	TQ3SubdivisionStyleData		subdivisionData;
+	TQ3SubdivisionStyleData			subdivisionData;
 	TQ3Status						theStatus;
-	float								theUParam,theUParamDelta;
+	float							increment;
+	float							*interestingU;
 	TQ3Vertex3D						*theVertices;
-	TQ3PolyLineData				polyLineData;
+	TQ3PolyLineData					polyLineData;
 	TQ3GeometryObject				thePolyLine;	
-	TQ3Uns32								n;
-	float								uMin,uMax;
+	TQ3Uns32						n, i, numInt, numPoints;
 #pragma unused(theView)
 
 
@@ -262,64 +313,50 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 		return(NULL);
 
 	// Get the subdivision style, to figure out how many sides we should have.
-	
-	// It's a total Hoax ToDo...
-	numPoints  = 10*(geomData->numPoints-geomData->order+1);
 	theStatus = Q3View_GetSubdivisionStyleState(theView, &subdivisionData);
 	if (theStatus == kQ3Success)
 	{
 		switch (subdivisionData.method)
 		{
-			case kQ3SubdivisionMethodConstant:
-				// c1 is the number of segments
-				numPoints =  (TQ3Uns32) subdivisionData.c1;
-				numPoints *= (geomData->numPoints-geomData->order+1);
-				break;
+			// For now, let's do these subdivisions together
+			case kQ3SubdivisionMethodScreenSpace:
 			case kQ3SubdivisionMethodWorldSpace:
-				// ToDo: Then c1 is the maximum distance between the curve, and 
-				// surface.
-				// 
-				numPoints = 10*(geomData->numPoints-geomData->order+1); 
+			case kQ3SubdivisionMethodConstant:
+				// Find the interesting knots (ie skip the repeated knots)
+				interestingU = (float *) E3Memory_Allocate((geomData->numPoints - geomData->order + 2) * sizeof(float));
+				if (interestingU == NULL)
+					return(NULL);
+				numInt = e3_interesting_knots( geomData->knots, geomData->numPoints, geomData->order, interestingU );
+				numPoints = (numInt-1)*((TQ3Uns32)subdivisionData.c1) + 1;
+				
+				// This check is problematic... must rephrase it somehow
+				//numPoints = E3Num_Max(E3Num_Min(numPoints, 256), 3);
+		
+	
+				// Allocate the memory we need for the PolyLine
+				theVertices = (TQ3Vertex3D *) E3Memory_AllocateClear(numPoints * sizeof(TQ3Vertex3D));
+				if (theVertices == NULL)
+					return(NULL);	
+	
+				// Now calculate the vertices of the polyLine
+				for (n = 0; n < numInt - 1; n++ ) {
+					increment = (interestingU[n+1] - interestingU[n]) / subdivisionData.c1;
+					
+					for (i = 0; i < (TQ3Uns32)subdivisionData.c1; i++ ) {
+							e3_evaluate_nurbs_curve_u(
+													interestingU[n] + ((float)i)*increment,
+													geomData,
+													&theVertices[n*((TQ3Uns32)subdivisionData.c1) + i]);
+					}
+				}
+				// Final evaluation
+				e3_evaluate_nurbs_curve_u(
+													interestingU[numInt - 1],
+													geomData,
+													&theVertices[numPoints - 1]);
+
 				break;
 		}
-	}
-	
-	
-	numPoints = E3Num_Max(E3Num_Min(numPoints, 256), 3);
-	
-	// Allocate the memory we need for the PolyLine
-	theVertices = (TQ3Vertex3D *) E3Memory_AllocateClear(numPoints * sizeof(TQ3Vertex3D));
-	if (theVertices == NULL)
-		return(NULL);	
-	
-	uMin = geomData->knots[geomData->order-1];
-	uMax = geomData->knots[geomData->numPoints];
-	
-	theUParam = uMin;
-	theUParamDelta = (uMax-uMin)/(numPoints-1);;
-
-	// ToDo: tesselate the curve into segments and evaluate on the segments
-	for (n = 0; n < numPoints; n++)
-	{
-		TQ3RationalPoint4D	thePoint;
-		float						oow;
-		
-		e3_evaulate_nurbs_curve(
-								theUParam,
-								geomData->order,
-								geomData->numPoints,
-								geomData->knots,
-								geomData->controlPoints,
-								&thePoint);
-		
-		// Divide by w:
-		oow = 1.0f/thePoint.w;
-	
-		theVertices[n].point.x = thePoint.x*oow;
-		theVertices[n].point.y = thePoint.y*oow;
-		theVertices[n].point.z = thePoint.z*oow;
-							
-	 	theUParam += theUParamDelta;
 	}
 	
 	polyLineData.numVertices = numPoints;
@@ -331,6 +368,7 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	thePolyLine = Q3PolyLine_New(&polyLineData);
 	
 	E3Memory_Free(&theVertices);	
+	E3Memory_Free(&interestingU);
 
 	return(thePolyLine);
 }
@@ -360,16 +398,32 @@ e3geom_nurbcurve_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 //=============================================================================
 //      e3geom_nurbcurve_bounds : NURBCurve bounds method.
 //-----------------------------------------------------------------------------
+//		Note : Untested.  A more efficient algorithm would only pass 'suspect'
+//			   control points that have a chance of being used.  But this might
+//			   just mean stepping on some boundingbox function toes and make
+//			   things slower.
+//-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_nurbcurve_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3NURBCurveData			*instanceData = (const TQ3NURBCurveData *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
 
+/* Unused.  Posterity's sake.
+	unsigned long	i;
+	TQ3Point3D		*boundP;
 
-
-	// Update the bounds
+	// Bounds are easy to do for a NURB, it's the control points
+	boundP = (TQ3Point3D *) E3Memory_AllocateClear( sizeof(TQ3Point3D) * instanceData->numPoints );
+	if ( boundP == NULL )
+			return(kQ3Failure);
 	
+	// We just have to get them from 4D to 3D
+	//for ( i = 0; i < instanceData->numPoints; i++ )
+		//E3RationalPoint4D_To3D( &instanceData->controlPoints[i], &boundP[i] );
+*/	
+	// Update the bounds
+	E3View_UpdateBounds(theView, instanceData->numPoints, sizeof(TQ3RationalPoint4D), (TQ3Point3D *)instanceData->controlPoints);
 	return(kQ3Success);
 }
 
@@ -378,7 +432,7 @@ e3geom_nurbcurve_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 
 
 //=============================================================================
-//      e3geom_nurbcurve_get_attribute : NURBCurve get attribute set pointer.
+//      e3geom_nurbcurve_get_attribute : gets the NURBCurve attribute set.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_nurbcurve_get_attribute(TQ3GeometryObject theObject)
@@ -528,7 +582,7 @@ E3NURBCurve_Submit(const TQ3NURBCurveData *curveData, TQ3ViewObject theView)
 
 
 //=============================================================================
-//      E3NURBCurve_SetData : One-line description of the method.
+//      E3NURBCurve_SetData : Sets the NURB Curve data from external data.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
@@ -553,7 +607,7 @@ E3NURBCurve_SetData(TQ3GeometryObject curve, const TQ3NURBCurveData *curveData)
 
 
 //=============================================================================
-//      E3NURBCurve_GetData : One-line description of the method.
+//      E3NURBCurve_GetData : Stuffs NURB Curve data into an external buffer.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
@@ -575,7 +629,7 @@ E3NURBCurve_GetData(TQ3GeometryObject curve, TQ3NURBCurveData *curveData)
 
 
 //=============================================================================
-//      E3NURBCurve_EmptyData : One-line description of the method.
+//      E3NURBCurve_EmptyData : Releases all NURB Curve internal data.
 //-----------------------------------------------------------------------------
 //		Note : Untested.
 //-----------------------------------------------------------------------------
@@ -594,18 +648,20 @@ E3NURBCurve_EmptyData(TQ3NURBCurveData *curveData)
 
 
 //=============================================================================
-//      E3NURBCurve_SetControlPoint : One-line description of the method.
+//      E3NURBCurve_SetControlPoint : Sets a NURB Curve control point.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3NURBCurve_SetControlPoint(TQ3GeometryObject theCurve, unsigned long pointIndex, const TQ3RationalPoint4D *point4D)
 {
+	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
+	// Copy the point from point4D to controlPoints
+	memcpy( &instanceData->controlPoints[ pointIndex ], point4D, sizeof(TQ3RationalPoint4D) );
 
-	// To be implemented...
 	Q3Shared_Edited(theCurve);
-	return(kQ3Failure);
+	return(kQ3Success);
 }
 
 
@@ -613,17 +669,19 @@ E3NURBCurve_SetControlPoint(TQ3GeometryObject theCurve, unsigned long pointIndex
 
 
 //=============================================================================
-//      E3NURBCurve_GetControlPoint : One-line description of the method.
+//      E3NURBCurve_GetControlPoint : Gets a NURB Curve control point.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3NURBCurve_GetControlPoint(TQ3GeometryObject theCurve, unsigned long pointIndex, TQ3RationalPoint4D *point4D)
 {
+	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
+	// Copy the point from controlPoints to point4D
+	memcpy( point4D, &instanceData->controlPoints[ pointIndex ], sizeof(TQ3RationalPoint4D) );
 
-	// To be implemented...
-	return(kQ3Failure);
+	return(kQ3Success);
 }
 
 
@@ -631,18 +689,20 @@ E3NURBCurve_GetControlPoint(TQ3GeometryObject theCurve, unsigned long pointIndex
 
 
 //=============================================================================
-//      E3NURBCurve_SetKnot : One-line description of the method.
+//      E3NURBCurve_SetKnot : Sets a NURB curve knot.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3NURBCurve_SetKnot(TQ3GeometryObject theCurve, unsigned long knotIndex, float knotValue)
 {
+	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
+	// Copy the knot from knotValue to knots
+	memcpy( &instanceData->knots[ knotIndex ], &knotValue, sizeof(float) );
 
-	// To be implemented...
 	Q3Shared_Edited(theCurve);
-	return(kQ3Failure);
+	return(kQ3Success);
 }
 
 
@@ -650,17 +710,19 @@ E3NURBCurve_SetKnot(TQ3GeometryObject theCurve, unsigned long knotIndex, float k
 
 
 //=============================================================================
-//      E3NURBCurve_GetKnot : One-line description of the method.
+//      E3NURBCurve_GetKnot : Gets a NURB curve knot.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Untested
 //-----------------------------------------------------------------------------
 TQ3Status
 E3NURBCurve_GetKnot(TQ3GeometryObject theCurve, unsigned long knotIndex, float *knotValue)
 {
+	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
+	// Copy the knot from knots to knotValue
+	memcpy( knotValue, &instanceData->knots[ knotIndex ], sizeof(float) );
 
-	// To be implemented...
-	return(kQ3Failure);
+	return(kQ3Success);
 }
 
 
