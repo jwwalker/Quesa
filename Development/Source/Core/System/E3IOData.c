@@ -42,18 +42,6 @@
 
 
 //=============================================================================
-//      Internal types
-//-----------------------------------------------------------------------------
-typedef struct TE3UnknownBinary_Data {
-	char					*typeString;
-	TQ3UnknownBinaryData	data;
-} TE3UnknownBinary_Data;
-
-
-
-
-
-//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3unknown_binary_delete : UnknownBinary delete method.
@@ -328,6 +316,7 @@ e3unknown_text_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
+
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3unknown_text_new;
 			break;
@@ -1678,13 +1667,13 @@ E3Unknown_RegisterClass(void)
 											kQ3UnknownTypeBinary,
 											kQ3ClassNameUnknownBinary,
 											e3unknown_binary_metahandler,
-											sizeof(TE3FileData));
+											sizeof(TE3UnknownBinary_Data));
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeUnknown,
 											kQ3UnknownTypeText,
 											kQ3ClassNameUnknownText,
 											e3unknown_text_metahandler,
-											sizeof(TE3FileData));
+											sizeof(TQ3UnknownTextData));
 	return(qd3dStatus);
 
 }
