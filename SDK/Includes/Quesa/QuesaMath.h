@@ -1892,15 +1892,20 @@ Q3RationalPoint4D_Transform (
  *  @function
  *      Q3Vector2D_To2DTransformArray
  *  @discussion
+ *		Transform an array of 2D vectors by a 3x3 matrix.
+ *
+ *		When you have many vectors to transform, this is a more efficient
+ *		alternative to calling Q3Vector2D_Transform repeatedly.
+ *
  *      Not supported by QD3D.
  *
- *  @param inVectors2D      Description of the parameter.
- *  @param matrix3x3        Description of the parameter.
- *  @param outVectors2D     Description of the parameter.
- *  @param numVectors       Description of the parameter.
- *  @param inStructSize     Description of the parameter.
- *  @param outStructSize    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param inVectors2D      Array of 2D vectors to transform.
+ *  @param matrix3x3        Transformation matrix.
+ *  @param outVectors2D     Array of vectors to receive output (may be the same as inVectors2D).
+ *  @param numVectors       How many vectors are in each array.
+ *  @param inStructSize     Size of one element of the input array, typically sizeof(TQ3Vector2D).
+ *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3Vector2D).
+ *  @result                 kQ3Success or some error code.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -1922,15 +1927,20 @@ Q3Vector2D_To2DTransformArray (
  *  @function
  *      Q3Vector3D_To3DTransformArray
  *  @discussion
+ *		Transform an array of 3D vectors by a 4x4 matrix.
+ *
+ *		When you have many vectors to transform, this is a more efficient
+ *		alternative to calling Q3Vector3D_Transform repeatedly.
+ *
  *      Not supported by QD3D.
  *
- *  @param inVectors3D      Description of the parameter.
- *  @param matrix4x4        Description of the parameter.
- *  @param outVectors3D     Description of the parameter.
- *  @param numVectors       Description of the parameter.
- *  @param inStructSize     Description of the parameter.
- *  @param outStructSize    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param inVectors3D      Array of 3D vectors to transform.
+ *  @param matrix4x4        Transformation matrix.
+ *  @param outVectors3D     Array of vectors to receive output (may be the same as inVectors3D).
+ *  @param numVectors       How many vectors are in each array.
+ *  @param inStructSize     Size of one element of the input array, typically sizeof(TQ3Vector3D).
+ *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3Vector3D).
+ *  @result                 kQ3Success or some error code.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -1952,15 +1962,20 @@ Q3Vector3D_To3DTransformArray (
  *  @function
  *      Q3Point2D_To2DTransformArray
  *  @discussion
+ *		Transform an array of 2D points by a 3x3 matrix.
+ *
+ *		When you have many points to transform, this is a more efficient
+ *		alternative to calling Q3Point2D_Transform repeatedly.
+ *
  *      Not supported by QD3D.
  *
- *  @param inPoints2D       Description of the parameter.
- *  @param matrix3x3        Description of the parameter.
- *  @param outPoints2D      Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param inStructSize     Description of the parameter.
- *  @param outStructSize    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param inPoints2D       Array of 2D points to transform.
+ *  @param matrix3x3        Transformation matrix.
+ *  @param outPoints2D      Array of points to receive output (may be the same as inPoints2D).
+ *  @param numPoints        How many points are in each array.
+ *  @param inStructSize     Size of one element of the input array, typically sizeof(TQ3Point2D).
+ *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3Point2D).
+ *  @result                 kQ3Success or some error code.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -1982,15 +1997,20 @@ Q3Point2D_To2DTransformArray (
  *  @function
  *      Q3RationalPoint3D_To3DTransformArray
  *  @discussion
+ *		Transform an array of 3D rational points by a 3x3 matrix.
+ *
+ *		When you have many points to transform, this is a more efficient
+ *		alternative to calling Q3RationalPoint3D_Transform repeatedly.
+ *
  *      Not supported by QD3D.
  *
- *  @param inRationalPoints3D Description of the parameter.
- *  @param matrix3x3        Description of the parameter.
- *  @param outRationalPoints3D Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param inStructSize     Description of the parameter.
- *  @param outStructSize    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param inRationalPoints3D Array of 3D rational points to transform.
+ *  @param matrix3x3        Transformation matrix.
+ *  @param outRationalPoints3D Array of points to receive output (may be the same as inRationalPoints3D).
+ *  @param numPoints        How many points are in each array.
+ *  @param inStructSize     Size of one element of the input array, typically sizeof(TQ3RationalPoint3D).
+ *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3RationalPoint3D).
+ *  @result                 kQ3Success or some error code.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2012,18 +2032,20 @@ Q3RationalPoint3D_To3DTransformArray (
  *  @function
  *      Q3Point3D_To3DTransformArray
  *  @discussion
- *      One-line description of this function.
+ *		Transform an array of 3D points by a 4x4 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		When you have many points to transform, this is a more efficient
+ *		alternative to calling Q3Point3D_Transform repeatedly.
  *
- *  @param inPoints3D       Description of the parameter.
- *  @param matrix4x4        Description of the parameter.
- *  @param outPoints3D      Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param inStructSize     Description of the parameter.
- *  @param outStructSize    Description of the parameter.
- *  @result                 Description of the function result.
+ *      Not supported by QD3D.
+ *
+ *  @param inPoints3D       Array of 3D points to transform.
+ *  @param matrix4x4        Transformation matrix.
+ *  @param outPoints3D      Array of points to receive output (may be the same as inPoints3D).
+ *  @param numPoints        How many points are in each array.
+ *  @param inStructSize     Size of one element of the input array, typically sizeof(TQ3Point3D).
+ *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3Point3D).
+ *  @result                 kQ3Success or some error code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Point3D_To3DTransformArray (
@@ -2041,18 +2063,15 @@ Q3Point3D_To3DTransformArray (
  *  @function
  *      Q3Point3D_To4DTransformArray
  *  @discussion
- *      One-line description of this function.
+ *      Transform an array of 3D points by a 4x4 matrix into 4D rational points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param inPoints3D       Description of the parameter.
- *  @param matrix4x4        Description of the parameter.
- *  @param outRationalPoints4D Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param inStructSize     Description of the parameter.
- *  @param outStructSize    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param inPoints3D       Array of 3D points to transform.
+ *  @param matrix4x4        Transformation matrix.
+ *  @param outRationalPoints4D Array of points to receive output.
+ *  @param numPoints        How many points are in each array.
+ *  @param inStructSize     Size of one element of the input array, typically sizeof(TQ3Point3D).
+ *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3RationalPoint4D).
+ *  @result                 kQ3Success or some error code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Point3D_To4DTransformArray (
@@ -2070,18 +2089,18 @@ Q3Point3D_To4DTransformArray (
  *  @function
  *      Q3RationalPoint4D_To4DTransformArray
  *  @discussion
- *      One-line description of this function.
+ *		Transform an array of 4D points by a 4x4 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		When you have many points to transform, this is a more efficient
+ *		alternative to calling Q3RationalPoint4D_Transform repeatedly.
  *
- *  @param inRationalPoints4D Description of the parameter.
- *  @param matrix4x4        Description of the parameter.
- *  @param outRationalPoints4D Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param inStructSize     Description of the parameter.
- *  @param outStructSize    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param inRationalPoints4D Array of 4D points to transform.
+ *  @param matrix4x4        Transformation matrix.
+ *  @param outRationalPoints4D Array of points to receive output (may be the same as inRationalPoints4D).
+ *  @param numPoints        How many points are in each array.
+ *  @param inStructSize     Size of one element of the input array, typically sizeof(TQ3RationalPoint4D).
+ *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3RationalPoint4D).
+ *  @result                 kQ3Success or some error code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint4D_To4DTransformArray (
@@ -2104,13 +2123,10 @@ Q3RationalPoint4D_To4DTransformArray (
  *  @function
  *      Q3Matrix3x3_SetIdentity
  *  @discussion
- *      One-line description of this function.
+ *      Set a 3x3 matrix to the identity matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix3x3        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix3x3        Address of matrix to set.
+ *  @result                 Convenience copy of matrix3x3 parameter.
  */
 EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_SetIdentity (
@@ -2123,13 +2139,10 @@ Q3Matrix3x3_SetIdentity (
  *  @function
  *      Q3Matrix4x4_SetIdentity
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4x4 matrix to the identity matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetIdentity (
@@ -2142,15 +2155,12 @@ Q3Matrix4x4_SetIdentity (
  *  @function
  *      Q3Matrix3x3_SetTranslate
  *  @discussion
- *      One-line description of this function.
+ *      Set a 3x3 matrix to translate in x, y.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix3x3        Description of the parameter.
- *  @param xTrans           Description of the parameter.
- *  @param yTrans           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix3x3        Address of matrix to set.
+ *  @param xTrans           Amount to translate in x.
+ *  @param yTrans           Amount to translate in y.
+ *  @result                 Convenience copy of matrix3x3 parameter.
  */
 EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_SetTranslate (
@@ -2165,16 +2175,13 @@ Q3Matrix3x3_SetTranslate (
  *  @function
  *      Q3Matrix4x4_SetTranslate
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4x4 matrix to translate in x, y, z.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param xTrans           Description of the parameter.
- *  @param yTrans           Description of the parameter.
- *  @param zTrans           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @param xTrans           Amount to translate in x.
+ *  @param yTrans           Amount to translate in y.
+ *  @param zTrans           Amount to translate in z.
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetTranslate (
@@ -2190,15 +2197,12 @@ Q3Matrix4x4_SetTranslate (
  *  @function
  *      Q3Matrix3x3_SetScale
  *  @discussion
- *      One-line description of this function.
+ *      Set 3x3 matrix to scale in x, y.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix3x3        Description of the parameter.
- *  @param xScale           Description of the parameter.
- *  @param yScale           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix3x3        Address of matrix to set.
+ *  @param xScale           Amount to scale in x.
+ *  @param yScale           Amount to scale in y.
+ *  @result                 Convenience copy of matrix3x3 parameter.
  */
 EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_SetScale (
@@ -2213,16 +2217,13 @@ Q3Matrix3x3_SetScale (
  *  @function
  *      Q3Matrix4x4_SetScale
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4x4 matrix to scale in x, y, z.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param xScale           Description of the parameter.
- *  @param yScale           Description of the parameter.
- *  @param zScale           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @param xScale           Amount to scale in x.
+ *  @param yScale           Amount to scale in y.
+ *  @param zScale           Amount to scale in z.
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetScale (
@@ -2238,11 +2239,13 @@ Q3Matrix4x4_SetScale (
  *  @function
  *      Q3Matrix3x3_SetRotate
  *  @discussion
+ *		Set a 3x3 matrix to rotate about the origin.
+ *
  *      Not supported by QD3D.
  *
- *  @param matrix3x3        Description of the parameter.
- *  @param angle            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix3x3        Address of matrix to set.
+ *  @param angle            Angle to rotate (in radians).
+ *  @result                 Convenience copy of matrix3x3 parameter.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2260,14 +2263,11 @@ Q3Matrix3x3_SetRotate (
  *  @function
  *      Q3Matrix4x4_SetRotate_X
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4x4 matrix to rotate about the X axis.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param angle            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @param angle            Angle to rotate (in radians).
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotate_X (
@@ -2281,14 +2281,11 @@ Q3Matrix4x4_SetRotate_X (
  *  @function
  *      Q3Matrix4x4_SetRotate_Y
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4x4 matrix to rotate about the Y axis.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param angle            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @param angle            Angle to rotate (in radians).
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotate_Y (
@@ -2302,14 +2299,11 @@ Q3Matrix4x4_SetRotate_Y (
  *  @function
  *      Q3Matrix4x4_SetRotate_Z
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4x4 matrix to rotate about the Z axis.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param angle            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @param angle            Angle to rotate (in radians).
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotate_Z (
@@ -2323,16 +2317,16 @@ Q3Matrix4x4_SetRotate_Z (
  *  @function
  *      Q3Matrix4x4_SetRotate_XYZ
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4x4 matrix to rotate about the X, Y, Z axes (in that order).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This order of rotations is rarely useful, but it's kept for backwards
+ *		compatibility with QD3D.
  *
- *  @param matrix4x4        Description of the parameter.
- *  @param xAngle           Description of the parameter.
- *  @param yAngle           Description of the parameter.
- *  @param zAngle           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @param xAngle           Angle to rotate about the X axis (in radians).
+ *  @param yAngle           Angle to rotate about the Y axis (in radians).
+ *  @param zAngle           Angle to rotate about the Z axis (in radians).
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotate_XYZ (
@@ -2348,15 +2342,15 @@ Q3Matrix4x4_SetRotate_XYZ (
  *  @function
  *      Q3Matrix3x3_SetRotateAboutPoint
  *  @discussion
- *      One-line description of this function.
+ *      Set a 3x3 matrix to rotate about a point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This is equivalent to translating the point to the origin,
+ *		doing a rotation about the origin, and translating back.
  *
- *  @param matrix3x3        Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @param angle            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix3x3        Address of matrix to set.
+ *  @param origin           Address of a 2D point about which to rotate.
+ *  @param angle            Angle to rotate (in radians).
+ *  @result                 Convenience copy of matrix3x3 parameter.
  */
 EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_SetRotateAboutPoint (
@@ -2371,17 +2365,18 @@ Q3Matrix3x3_SetRotateAboutPoint (
  *  @function
  *      Q3Matrix4x4_SetRotateAboutPoint
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4x4 matrix to rotate about axes through apoint and 
+ *		parallel to the X, Y, and Z axes (in that order).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This order of rotations is rarely useful, but it's kept for backwards
+ *		compatibility with QD3D.
  *
- *  @param matrix4x4        Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @param xAngle           Description of the parameter.
- *  @param yAngle           Description of the parameter.
- *  @param zAngle           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @param origin           Address of a 3D point about which to rotate.
+ *  @param xAngle           Angle to rotate about the translated X axis (in radians).
+ *  @param yAngle           Angle to rotate about the translated Y axis (in radians).
+ *  @param zAngle           Angle to rotate about the translated Z axis (in radians).
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotateAboutPoint (
@@ -2398,16 +2393,16 @@ Q3Matrix4x4_SetRotateAboutPoint (
  *  @function
  *      Q3Matrix4x4_SetRotateAboutAxis
  *  @discussion
- *      One-line description of this function.
+ *      Set 4x4 matrix to rotate about an arbitrary origin and axis.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note that for correct results, the axis should be normalized
+ *		(i.e. have length = 1).
  *
- *  @param matrix4x4        Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @param axis             Description of the parameter.
- *  @param angle            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @param origin           Address of a 2D point about which to rotate.
+ *  @param axis             Address of a 3D vector to use as the rotation axis.
+ *  @param angle            Angle to rotate (in radians).
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotateAboutAxis (
@@ -2423,15 +2418,15 @@ Q3Matrix4x4_SetRotateAboutAxis (
  *  @function
  *      Q3Matrix4x4_SetRotateVectorToVector
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4x4 matrix to rotate vector 'v1' to 'v2'.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note that for correct results, both vectors should be normalized
+ *		(i.e. have length = 1).
  *
- *  @param matrix4x4        Description of the parameter.
- *  @param v1               Description of the parameter.
- *  @param v2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @param v1               Address of "starting" vector.
+ *  @param v2               Address of "ending" vector.
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotateVectorToVector (
@@ -2446,14 +2441,11 @@ Q3Matrix4x4_SetRotateVectorToVector (
  *  @function
  *      Q3Matrix4x4_SetQuaternion
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4x4 matrix from to the rotation represented by a quaternion.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param quaternion       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of matrix to set.
+ *  @param quaternion       Address of the quaternion to imitate.
+ *  @result                 Convenience copy of matrix4x4 parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetQuaternion (
@@ -2467,14 +2459,11 @@ Q3Matrix4x4_SetQuaternion (
  *  @function
  *      Q3Matrix3x3_Copy
  *  @discussion
- *      One-line description of this function.
+ *      Copy a 3x3 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix3x3        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix3x3        Address of source matrix.
+ *  @param result           Address of destination matrix (may be the same as matrix3x3).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_Copy (
@@ -2488,14 +2477,11 @@ Q3Matrix3x3_Copy (
  *  @function
  *      Q3Matrix4x4_Copy
  *  @discussion
- *      One-line description of this function.
+ *      Copy a 4x4 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of source matrix.
+ *  @param result           Address of destination matrix (may be the same as matrix4x4).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_Copy (
@@ -2509,14 +2495,11 @@ Q3Matrix4x4_Copy (
  *  @function
  *      Q3Matrix3x3_Transpose
  *  @discussion
- *      One-line description of this function.
+ *      Transpose a 3x3 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix3x3        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix3x3        Address of a matrix to transpose.
+ *  @param result           Address of matrix to set (may be the same as matrix3x3).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_Transpose (
@@ -2530,14 +2513,11 @@ Q3Matrix3x3_Transpose (
  *  @function
  *      Q3Matrix4x4_Transpose
  *  @discussion
- *      One-line description of this function.
+ *      Transpose a 4x4 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of a matrix to transpose.
+ *  @param result           Address of matrix to set (may be the same as matrix4x4).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_Transpose (
@@ -2551,13 +2531,10 @@ Q3Matrix4x4_Transpose (
  *  @function
  *      Q3Matrix3x3_Determinant
  *  @discussion
- *      One-line description of this function.
+ *      Return the determinant of 3x3 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix3x3        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix3x3        Address of a matrix.
+ *  @result                 Determinant of that matrix.
  */
 EXTERN_API_C ( float  )
 Q3Matrix3x3_Determinant (
@@ -2570,13 +2547,10 @@ Q3Matrix3x3_Determinant (
  *  @function
  *      Q3Matrix4x4_Determinant
  *  @discussion
- *      One-line description of this function.
+ *      Return the determinant of 4x4 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of a matrix.
+ *  @result                 Determinant of that matrix.
  */
 EXTERN_API_C ( float  )
 Q3Matrix4x4_Determinant (
@@ -2589,14 +2563,17 @@ Q3Matrix4x4_Determinant (
  *  @function
  *      Q3Matrix3x3_Adjoint
  *  @discussion
- *      One-line description of this function.
+ *      Calculate adjoint of 3x3 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The adjoint of a matrix is a scalar multiple of the inverse of
+ *		the matrix. For some applications, the adjoint can be used in
+ *		place of the inverse. In particular:
  *
- *  @param matrix3x3        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *			adjoint(A) = determinant(A) * inverse(A)
+ *
+ *  @param matrix3x3        Address of a matrix to calculate the adjoint of.
+ *  @param result           Address of matrix to set (may be the same as matrix3x3).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_Adjoint (
@@ -2610,14 +2587,11 @@ Q3Matrix3x3_Adjoint (
  *  @function
  *      Q3Matrix3x3_Invert
  *  @discussion
- *      One-line description of this function.
+ *      Calculate the inverse of a 3x3 non-singular matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix3x3        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix3x3        Address of non-singular matrix to invert.
+ *  @param result           Address of matrix to set (may be the same as matrix3x3).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_Invert (
@@ -2631,14 +2605,11 @@ Q3Matrix3x3_Invert (
  *  @function
  *      Q3Matrix4x4_Invert
  *  @discussion
- *      One-line description of this function.
+ *      Calculate the inverse of a 4x4 non-singular matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param matrix4x4        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param matrix4x4        Address of non-singular matrix to invert.
+ *  @param result           Address of matrix to set (may be the same as matrix4x4).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_Invert (
@@ -2652,15 +2623,12 @@ Q3Matrix4x4_Invert (
  *  @function
  *      Q3Matrix3x3_Multiply
  *  @discussion
- *      One-line description of this function.
+ *      Multiply two 3x3 matrices.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param m1               Description of the parameter.
- *  @param m2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param m1               Address of first matrix.
+ *  @param m2               Address of second matrix.
+ *  @param result           Address of matrix to set with m1*m2 (may be the same as m1 and/or m2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_Multiply (
@@ -2675,15 +2643,12 @@ Q3Matrix3x3_Multiply (
  *  @function
  *      Q3Matrix4x4_Multiply
  *  @discussion
- *      One-line description of this function.
+ *      Multiply two 4x4 matrices.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param m1               Description of the parameter.
- *  @param m2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param m1               Address of first matrix.
+ *  @param m2               Address of second matrix.
+ *  @param result           Address of matrix to set with m1*m2 (may be the same as m1 and/or m2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_Multiply (
@@ -2703,16 +2668,14 @@ Q3Matrix4x4_Multiply (
  *  @function
  *      Q3Quaternion_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a quaternion with its individual w, x, y, and z components.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param quaternion       Description of the parameter.
- *  @param w                Description of the parameter.
- *  @param x                Description of the parameter.
- *  @param y                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of a quaternion to set.
+ *  @param w                Value for w component.
+ *  @param x                Value for x component.
+ *  @param y                Value for y component.
+ *  @param z                Value for z component.
+ *  @result                 Convenience copy of quaternion parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_Set (
@@ -2729,13 +2692,10 @@ Q3Quaternion_Set (
  *  @function
  *      Q3Quaternion_SetIdentity
  *  @discussion
- *      One-line description of this function.
+ *      Set a quaternion to the identity value (1,0,0,0).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param quaternion       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of a quaternion to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetIdentity (
@@ -2748,14 +2708,11 @@ Q3Quaternion_SetIdentity (
  *  @function
  *      Q3Quaternion_SetRotate_X
  *  @discussion
- *      One-line description of this function.
+ *      Set a quaternion to rotate about the X axis.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param quaternion       Description of the parameter.
- *  @param angle            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of a quaternion to set.
+ *  @param angle            Angle to rotate (in radians).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotate_X (
@@ -2769,14 +2726,11 @@ Q3Quaternion_SetRotate_X (
  *  @function
  *      Q3Quaternion_SetRotate_Y
  *  @discussion
- *      One-line description of this function.
+ *      Set a quaternion to rotate about the Y axis.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param quaternion       Description of the parameter.
- *  @param angle            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of a quaternion to set.
+ *  @param angle            Angle to rotate (in radians).
+ *  @result                 Convenience copy of quaternion parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotate_Y (
@@ -2790,14 +2744,11 @@ Q3Quaternion_SetRotate_Y (
  *  @function
  *      Q3Quaternion_SetRotate_Z
  *  @discussion
- *      One-line description of this function.
+ *      Set a quaternion to rotate about the Z axis.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param quaternion       Description of the parameter.
- *  @param angle            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of a quaternion to set.
+ *  @param angle            Angle to rotate (in radians).
+ *  @result                 Convenience copy of quaternion parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotate_Z (
@@ -2811,16 +2762,16 @@ Q3Quaternion_SetRotate_Z (
  *  @function
  *      Q3Quaternion_SetRotate_XYZ
  *  @discussion
- *      One-line description of this function.
+ *      Set a quaternion to rotate about the X, Y, and Z axes (in that order).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This order of rotations is rarely useful, but it's kept for backwards
+ *		compatibility with QD3D.
  *
- *  @param quaternion       Description of the parameter.
- *  @param xAngle           Description of the parameter.
- *  @param yAngle           Description of the parameter.
- *  @param zAngle           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of a quaternion to set.
+ *  @param xAngle           Angle to rotate about the X axis (in radians).
+ *  @param yAngle           Angle to rotate about the Y axis (in radians).
+ *  @param zAngle           Angle to rotate about the Z axis (in radians).
+ *  @result                 Convenience copy of quaternion parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotate_XYZ (
@@ -2836,15 +2787,15 @@ Q3Quaternion_SetRotate_XYZ (
  *  @function
  *      Q3Quaternion_SetRotateAboutAxis
  *  @discussion
- *      One-line description of this function.
+ *      Set quaternion to rotate about arbitrary axis.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note that for correct results, the axis should be normalized
+ *		(i.e. have length = 1).
  *
- *  @param quaternion       Description of the parameter.
- *  @param axis             Description of the parameter.
- *  @param angle            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of a quaternion to set.
+ *  @param axis             Address of a 3D vector to use as the rotation axis.
+ *  @param angle            Angle to rotate (in radians).
+ *  @result                 Convenience copy of quaternion parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotateAboutAxis (
@@ -2859,15 +2810,15 @@ Q3Quaternion_SetRotateAboutAxis (
  *  @function
  *      Q3Quaternion_SetRotateVectorToVector
  *  @discussion
- *      One-line description of this function.
+ *      Set a quaternion to rotate vector 'v1' to 'v2'.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note that for correct results, both vectors should be normalized
+ *		(i.e. have length = 1).
  *
- *  @param quaternion       Description of the parameter.
- *  @param v1               Description of the parameter.
- *  @param v2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of a quaternion to set.
+ *  @param v1               Address of "starting" vector.
+ *  @param v2               Address of "ending" vector.
+ *  @result                 Convenience copy of quaternion parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotateVectorToVector (
@@ -2882,14 +2833,19 @@ Q3Quaternion_SetRotateVectorToVector (
  *  @function
  *      Q3Quaternion_SetMatrix
  *  @discussion
- *      One-line description of this function.
+ *      Set a quaternion from a 4x4 rotation matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note: The QD3D implementation of this function appears to be buggy.
+ *		This can be demonstrated by starting with an arbitrary
+ *		quaternion, converting to a matrix, then converting back (with
+ *		this function).
  *
- *  @param quaternion       Description of the parameter.
- *  @param matrix4x4        Description of the parameter.
- *  @result                 Description of the function result.
+ *		QD3D's result is something ridiculous; in Quesa, this function 
+ *		returns the original quaternion (or something equivalent).
+ *
+ *  @param quaternion       Address of a quaternion to set.
+ *  @param matrix4x4        Address of a rotation matrix to imitate.
+ *  @result                 Convenience copy of quaternion parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetMatrix (
@@ -2903,14 +2859,11 @@ Q3Quaternion_SetMatrix (
  *  @function
  *      Q3Quaternion_Copy
  *  @discussion
- *      One-line description of this function.
+ *      Copy a quaternion.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param quaternion       Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of source quaternion.
+ *  @param result           Address of destination quaternion (may be the same as the first parameter).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_Copy (
@@ -2924,13 +2877,16 @@ Q3Quaternion_Copy (
  *  @function
  *      Q3Quaternion_IsIdentity
  *  @discussion
- *      One-line description of this function.
+ *      Return whether a quaternion is (roughly) the identity,
+ *		i.e., (1,0,0,0).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Values for x, y, and z are considered close enough to 0
+ *		if they are within FLT_EPSILON (a small number).
  *
- *  @param quaternion       Description of the parameter.
- *  @result                 Description of the function result.
+ *		For correct results, the quaternion should first be normalized.
+ *
+ *  @param quaternion       Address of quaternion to test.
+ *  @result                 True if quaternion is the identity.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3Quaternion_IsIdentity (
@@ -2943,14 +2899,11 @@ Q3Quaternion_IsIdentity (
  *  @function
  *      Q3Quaternion_Dot
  *  @discussion
- *      One-line description of this function.
+ *      Return the dot product of q1 and q2.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param q1               Description of the parameter.
- *  @param q2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param q1               Address of one quaternion.
+ *  @param q2               Address of another quaternion (may be the same as q1).
+ *  @result                 Dot product of q1 and q2.
  */
 EXTERN_API_C ( float  )
 Q3Quaternion_Dot (
@@ -2964,14 +2917,15 @@ Q3Quaternion_Dot (
  *  @function
  *      Q3Quaternion_Normalize
  *  @discussion
- *      One-line description of this function.
+ *      Scale a quaternion to length 1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This is often needed when combining or interpolating between
+ *		quaternions, to keep accumulated error from causing your
+ *		quaternion values to "blow up".
  *
- *  @param quaternion       Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of a quaternion to normalize.
+ *  @param result           Address of quaternion to set (may be the same as the first parameter).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_Normalize (
@@ -2985,14 +2939,14 @@ Q3Quaternion_Normalize (
  *  @function
  *      Q3Quaternion_Invert
  *  @discussion
- *      One-line description of this function.
+ *      Invert a quaternion.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		For correct results, the quaternion should be normalized
+ *		before inverting.
  *
- *  @param quaternion       Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param quaternion       Address of a quaternion to invert.
+ *  @param result           Address of quaternion to set (may be the same as the first parameter).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_Invert (
@@ -3006,15 +2960,15 @@ Q3Quaternion_Invert (
  *  @function
  *      Q3Quaternion_Multiply
  *  @discussion
- *      One-line description of this function.
+ *      Compute the product of two quaternions.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This is a very useful operation, since the rotation represented
+ *		by q1*q2 is exactly the same as rotating by q1 and then by q2.
  *
- *  @param q1               Description of the parameter.
- *  @param q2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param q1               Address of first quaternion.
+ *  @param q2               Address of second quaternion.
+ *  @param result           Address of quaternion to set (may be the same as q1 and/or q2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_Multiply (
@@ -3029,15 +2983,13 @@ Q3Quaternion_Multiply (
  *  @function
  *      Q3Quaternion_MatchReflection
  *  @discussion
- *      One-line description of this function.
+ *      Set result to either q1 or -q1, whichever produces a positive dot
+ *		product with q2 (i.e., whichever is "closer" to q2 in orientation).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param q1               Description of the parameter.
- *  @param q2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param q1               Address of source quaternion.
+ *  @param q2               Address of quaternion to match.
+ *  @param result           Address of quaternion to set (may be the same as q1 and/or q2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_MatchReflection (
@@ -3052,16 +3004,19 @@ Q3Quaternion_MatchReflection (
  *  @function
  *      Q3Quaternion_InterpolateFast
  *  @discussion
- *      One-line description of this function.
+ *      Compute a straight linear interpolation between two quaternions.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This does a true linear, not spherical, interpolation between
+ *		q1 and q2.  It's fast, but not very proper for most uses.
  *
- *  @param q1               Description of the parameter.
- *  @param q2               Description of the parameter.
- *  @param t                Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *		The result is automatically normalized, so there is no need to
+ *		do so yourself.
+ *
+ *  @param q1               Address of first quaternion.
+ *  @param q2               Address of second quaternion.
+ *  @param t                Fraction (0-1) of the way from q1 to q2.
+ *  @param result           Address of quaternion to set (may be the same as q1 and/or q2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_InterpolateFast (
@@ -3077,16 +3032,21 @@ Q3Quaternion_InterpolateFast (
  *  @function
  *      Q3Quaternion_InterpolateLinear
  *  @discussion
- *      One-line description of this function.
+ *      Compute a spherical linear interpolation between two quaternions.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Despite the name, this function does a SLERP (spherical linear
+ *		interpolation) from q1 to q2.
+ *		It falls back on a straight linear interpolation only when the
+ *		cosine of the angle between them is less than 0.01.
+ *		
+ *		The cut-off point was chosen arbitrarily, and may not match
+ *		that of QD3D.
  *
- *  @param q1               Description of the parameter.
- *  @param q2               Description of the parameter.
- *  @param t                Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param q1               Address of first quaternion.
+ *  @param q2               Address of second quaternion.
+ *  @param t                Fraction (0-1) of the way from q1 to q2.
+ *  @param result           Address of quaternion to set (may be the same as q1 and/or q2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_InterpolateLinear (
@@ -3102,15 +3062,14 @@ Q3Quaternion_InterpolateLinear (
  *  @function
  *      Q3Vector3D_TransformQuaternion
  *  @discussion
- *      One-line description of this function.
+ *      Transform a 3D vector by a quaternion.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note that for correct results, the quaternion should be normalized.
  *
- *  @param vector3D         Description of the parameter.
- *  @param quaternion       Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector3D         Address of a vector to transform.
+ *  @param quaternion       Address of a quaternion to transform by.
+ *  @param result           Address of a vector to set (may be the same as vector3D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_TransformQuaternion (
@@ -3125,15 +3084,14 @@ Q3Vector3D_TransformQuaternion (
  *  @function
  *      Q3Point3D_TransformQuaternion
  *  @discussion
- *      One-line description of this function.
+ *      Transform a 3D point by a quaternion.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note that for correct results, the quaternion should be normalized.
  *
- *  @param point3D          Description of the parameter.
- *  @param quaternion       Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          Address of a point to transform.
+ *  @param quaternion       Address of a quaternion to transform by.
+ *  @param result           Address of a point to set (may be the same as point3D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_TransformQuaternion (
@@ -3153,16 +3111,13 @@ Q3Point3D_TransformQuaternion (
  *  @function
  *      Q3BoundingBox_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a bounding box.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bBox             Description of the parameter.
- *  @param min              Description of the parameter.
- *  @param max              Description of the parameter.
- *  @param isEmpty          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bBox             Address of bounding box to set.
+ *  @param min              Address of point indicating minimum X, Y, and Z.
+ *  @param max              Address of point indicating maximum X, Y, and Z.
+ *  @param isEmpty          True of the bounding box is empty, false otherwise.
+ *  @result                 Convenience copy of bBox parameter.
  */
 EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_Set (
@@ -3178,16 +3133,13 @@ Q3BoundingBox_Set (
  *  @function
  *      Q3BoundingBox_SetFromPoints3D
  *  @discussion
- *      One-line description of this function.
+ *      Set a bounding box to just enclose a set of 3D points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bBox             Description of the parameter.
- *  @param points3D         Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param structSize       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bBox             Address of bounding box to set.
+ *  @param points3D         Array of 3D points.
+ *  @param numPoints        How many points are in the array.
+ *  @param structSize       Size of each array element, typically sizeof(TQ3Point3D).
+ *  @result                 Convenience copy of bBox parameter.
  */
 EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_SetFromPoints3D (
@@ -3203,16 +3155,13 @@ Q3BoundingBox_SetFromPoints3D (
  *  @function
  *      Q3BoundingBox_SetFromRationalPoints4D
  *  @discussion
- *      One-line description of this function.
+ *      Set a bounding box to just enclose a set of 4D rational points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bBox             Description of the parameter.
- *  @param rationalPoints4D Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param structSize       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bBox             Address of bounding box to set.
+ *  @param rationalPoints4D Array of 4D rational points.
+ *  @param numPoints        How many points are in the array.
+ *  @param structSize       Size of each array element, typically sizeof(TQ3RationalPoint4D).
+ *  @result                 Convenience copy of bBox parameter.
  */
 EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_SetFromRationalPoints4D (
@@ -3228,14 +3177,11 @@ Q3BoundingBox_SetFromRationalPoints4D (
  *  @function
  *      Q3BoundingBox_Copy
  *  @discussion
- *      One-line description of this function.
+ *      Copy a bounding box.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bBox             Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bBox             Address of source bounding box.
+ *  @param result           Address of bounding box to set (may be the same as bBox).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_Copy (
@@ -3249,15 +3195,12 @@ Q3BoundingBox_Copy (
  *  @function
  *      Q3BoundingBox_Union
  *  @discussion
- *      One-line description of this function.
+ *      Compute the minimum bounding box that encloses both 'b1' and 'b2'.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param b1               Description of the parameter.
- *  @param b2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param b1               Address of one bounding box.
+ *  @param b2               Address of another bounding box.
+ *  @param result           Address of bounding box to set (may be the same as b1 and/or b2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_Union (
@@ -3272,15 +3215,12 @@ Q3BoundingBox_Union (
  *  @function
  *      Q3BoundingBox_UnionPoint3D
  *  @discussion
- *      One-line description of this function.
+ *      Return the minimum bounding box that encloses both 'bBox' and 'point3D'.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bBox             Description of the parameter.
- *  @param point3D          Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bBox             Address of initial bounding box.
+ *  @param point3D          Address of a point to enclose.
+ *  @param result           Address of bounding box to set (may be the same as bBox).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_UnionPoint3D (
@@ -3295,15 +3235,12 @@ Q3BoundingBox_UnionPoint3D (
  *  @function
  *      Q3BoundingBox_UnionRationalPoint4D
  *  @discussion
- *      One-line description of this function.
+ *      Return the minimum bounding box that encloses both 'bBox' and 'rationalPoint4D'.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bBox             Description of the parameter.
- *  @param rationalPoint4D  Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bBox             Address of initial bounding box.
+ *  @param rationalPoint4D  Address of a point to enclose.
+ *  @param result           Address of bounding box to set (may be the same as bBox).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_UnionRationalPoint4D (
@@ -3323,16 +3260,13 @@ Q3BoundingBox_UnionRationalPoint4D (
  *  @function
  *      Q3BoundingSphere_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a bounding sphere.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bSphere          Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @param radius           Description of the parameter.
- *  @param isEmpty          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bSphere          Address of bounding sphere to set.
+ *  @param origin           Address of point indicating sphere origin.
+ *  @param radius           Sphere radius.
+ *  @param isEmpty          True of the bounding sphere is empty, false otherwise.
+ *  @result                 Convenience copy of bSphere parameter.
  */
 EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_Set (
@@ -3348,16 +3282,13 @@ Q3BoundingSphere_Set (
  *  @function
  *      Q3BoundingSphere_SetFromPoints3D
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Set a bounding sphere to just enclose a set of 3D points.
  *
  *  @param bSphere          Description of the parameter.
- *  @param points3D         Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param structSize       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param points3D         Array of 3D points.
+ *  @param numPoints        How many points are in the array.
+ *  @param structSize       Size of each array element, typically sizeof(TQ3Point3D).
+ *  @result                 Convenience copy of bSphere parameter.
  */
 EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_SetFromPoints3D (
@@ -3373,16 +3304,13 @@ Q3BoundingSphere_SetFromPoints3D (
  *  @function
  *      Q3BoundingSphere_SetFromRationalPoints4D
  *  @discussion
- *      One-line description of this function.
+ *      Set a bounding sphere to just enclose a set of 4D rational points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bSphere          Description of the parameter.
- *  @param rationalPoints4D Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param structSize       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bSphere          Address of bounding sphere to set.
+ *  @param rationalPoints4D Array of 4D rational points.
+ *  @param numPoints        How many points are in the array.
+ *  @param structSize       Size of each array element, typically sizeof(TQ3RationalPoint4D).
+ *  @result                 Convenience copy of bSphere parameter.
  */
 EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_SetFromRationalPoints4D (
@@ -3398,14 +3326,11 @@ Q3BoundingSphere_SetFromRationalPoints4D (
  *  @function
  *      Q3BoundingSphere_Copy
  *  @discussion
- *      One-line description of this function.
+ *      Copy a bounding sphere.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bSphere          Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bSphere          Address of source bounding sphere.
+ *  @param result           Address of bounding sphere to set (may be the same as bSphere).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_Copy (
@@ -3419,15 +3344,12 @@ Q3BoundingSphere_Copy (
  *  @function
  *      Q3BoundingSphere_Union
  *  @discussion
- *      One-line description of this function.
+ *      Compute the minimum bounding sphere that encloses both 's1' and 's2'.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param s1               Description of the parameter.
- *  @param s2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param s1               Address of one bounding sphere.
+ *  @param s2               Address of another bounding sphere.
+ *  @param result           Address of bounding sphere to set (may be the same as s1 and/or s2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_Union (
@@ -3442,15 +3364,12 @@ Q3BoundingSphere_Union (
  *  @function
  *      Q3BoundingSphere_UnionPoint3D
  *  @discussion
- *      One-line description of this function.
+ *      Return the minimum bounding sphere that encloses both 'bSphere' and 'point3D'.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bSphere          Description of the parameter.
- *  @param point3D          Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bSphere          Address of initial bounding sphere.
+ *  @param point3D          Address of a point to enclose.
+ *  @param result           Address of bounding sphere to set (may be the same as bSphere).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_UnionPoint3D (
@@ -3465,15 +3384,12 @@ Q3BoundingSphere_UnionPoint3D (
  *  @function
  *      Q3BoundingSphere_UnionRationalPoint4D
  *  @discussion
- *      One-line description of this function.
+ *      Return the minimum bounding sphere that encloses both 'bSphere' and 'rationalPoint4D'.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param bSphere          Description of the parameter.
- *  @param rationalPoint4D  Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bSphere          Address of initial bounding sphere.
+ *  @param rationalPoint4D  Address of a point to enclose.
+ *  @param result           Address of bounding sphere to set (may be the same as bSphere).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_UnionRationalPoint4D (
