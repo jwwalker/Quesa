@@ -49,7 +49,8 @@ enum {
 	kMenuItemToggleLocalBoundingBox = 1,
 	kMenuItemToggleWorldBoundingBox,
 	kMenuItemToggleLocalBoundingSphere,
-	kMenuItemShowTexture,
+	kMenuItemToggleTexture,
+	kMenuItemToggleLights,
 	kMenuItemDivider0,
 	kMenuItemLoadModel,
 	kMenuItemSaveModel,
@@ -2199,6 +2200,44 @@ doLoadModel(TQ3ViewObject theView)
 
 
 //=============================================================================
+//      toggleLights : Turn the lights on or off.
+//-----------------------------------------------------------------------------
+static void
+toggleLights( TQ3ViewObject				theView )
+{
+	TQ3GroupObject	lightGroup = NULL;
+	
+	if ( (kQ3Success == Q3View_GetLightGroup( theView, &lightGroup )) &&
+		(lightGroup != NULL) )
+	{
+		TQ3GroupPosition	pos;
+		TQ3LightObject		theLight;
+		TQ3Boolean			theState;
+		
+		if ( (kQ3Success == Q3Group_GetFirstPosition( lightGroup, &pos )) &&
+			(pos != NULL) )
+		{
+			do
+			{
+				Q3Group_GetPositionObject( lightGroup, pos, &theLight );
+				Q3Light_GetState( theLight, &theState );
+				theState = (theState == kQ3True) ? kQ3False : kQ3True;
+				Q3Light_SetState( theLight, theState );
+				Q3Object_Dispose( theLight );
+				
+				Q3Group_GetNextPosition( lightGroup, &pos );
+			}	while (pos != NULL);
+		}
+		
+		Q3Object_Dispose( lightGroup );
+	}
+}
+
+
+
+
+
+//=============================================================================
 //      appConfigureView : Configure the view.
 //-----------------------------------------------------------------------------
 static void
@@ -2276,8 +2315,12 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 				}
 			break;
 		
-		case kMenuItemShowTexture:
+		case kMenuItemToggleTexture:
 			gShowTexture = (TQ3Boolean) !gShowTexture;
+			break;
+		
+		case kMenuItemToggleLights:
+			toggleLights( theView );
 			break;
 
 		case kMenuItemLoadModel:
@@ -2695,6 +2738,7 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle World Bounding Box");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Local Bounding Sphere");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Texture");
+	Qut_CreateMenuItem(kMenuItemLast, "Toggle Lights");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Load Model...");
 	Qut_CreateMenuItem(kMenuItemLast, "Save Model...");
