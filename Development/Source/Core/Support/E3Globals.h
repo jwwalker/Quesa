@@ -418,9 +418,20 @@ typedef struct E3Globals {
 #endif
 } E3Globals, *E3GlobalsPtr;
 
-// Note : Code should access the globals via E3Globals_Get(); do not access
-//		  them directly (except in E3System.c).
+
+
+
+
+//=============================================================================
+//      Globals
+//-----------------------------------------------------------------------------
+// Global Quesa state
+//
+// Note, all code should access these globals through  E3Globals_Get accessor
+// rather than accessing them directly. The one exception to this is in
+// E3System.c, where the bottleneck reads them directly for performance.
 extern E3Globals gE3Globals;
+
 
 
 
