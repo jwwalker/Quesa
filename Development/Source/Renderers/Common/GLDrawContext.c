@@ -204,15 +204,24 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 
 
-	// Set the viewport and buffer rect
+	// Set the viewport and buffer rect.
+	//
+	// With DP4 of Mac OS X, the buffer rect control appears to be broken.
+	// For now, we just ignore this option if we're building for Carbon
+	// but we'll need to turn this back on when Apple fixes it.
+	//
+	// -dair
 	glRect[0] = drawContextData.pane.min.x;
 	glRect[1] = theRect.bottom             - drawContextData.pane.max.y;
 	glRect[2] = drawContextData.pane.max.x - drawContextData.pane.min.x;
 	glRect[3] = drawContextData.pane.max.y - drawContextData.pane.min.y;
 
 	glViewport(0, 0, glRect[2], glRect[3]);
+
+#if !TARGET_API_MAC_CARBON
 	aglEnable(glContext,     AGL_BUFFER_RECT);
 	aglSetInteger(glContext, AGL_BUFFER_RECT, glRect);
+#endif
 
 
 
