@@ -36,7 +36,115 @@
 #include "E3Prefix.h"
 #include "E3View.h"
 #include "E3FFW_3DMFBin_Writer.h"
+#include "E3Main.h"
 
+
+//=============================================================================
+//      E3FFW_3DMF_type_Traverse : Traverse method for 'type' object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_type_Traverse( TQ3Object object, void *data, TQ3ViewObject view )
+{
+	TQ3Status	status = kQ3Failure;
+	TQ3ObjectType	customType;
+	E3ClassInfoPtr theClass = NULL;
+	const char*		className = NULL;
+	TQ3Uns32	size;
+	
+	
+	// I have sneakily passed the custom type as the data "pointer".
+	customType = (TQ3ObjectType)data;
+	
+	
+	// Find the class and class name.
+	theClass = E3ClassTree_GetClassByType( customType );
+	if (theClass != NULL)
+	{
+		className = E3ClassTree_GetName( theClass );
+		
+		// Compute the object size.
+		size = Q3Size_Pad( strlen(className) + 1 ) + sizeof(TQ3ObjectType);
+		
+		// Put data on the stack.
+		status = Q3XView_SubmitWriteData( view, size, data, NULL );
+	}
+	
+	return status;
+}
+
+
+//=============================================================================
+//      E3FFW_3DMF_type_Write : Write method for 'type' object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_type_Write( const void *data, TQ3FileObject file )
+{
+	TQ3Status	status = kQ3Failure;
+	TQ3ObjectType	customType;
+	E3ClassInfoPtr theClass = NULL;
+	const char*		className = NULL;
+	
+	
+	// I have sneakily passed the custom type as the data "pointer".
+	customType = (TQ3ObjectType)data;
+	
+	
+	// Find the class and class name.
+	theClass = E3ClassTree_GetClassByType( customType );
+	if (theClass != NULL)
+	{
+		className = E3ClassTree_GetName( theClass );
+		
+		// Write the data.
+		status = Q3Uns32_Write( customType, file );
+		
+		if (status == kQ3Success)
+			status = Q3String_Write( className, file );
+	}
+	return status;
+}
+
+
+//=============================================================================
+//      e3ffw_3DMF_write_custom_types : Write a 'type' object for each custom type.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_write_custom_types( TQ3ViewObject				theView,
+								TE3FFormatW3DMF_Data		*fileFormatPrivate,
+								E3ClassInfoPtr				theClass )
+{
+	TQ3Status	status = kQ3Success;
+	TQ3Uns32			i, numChildren;
+	TQ3ObjectType		theType;
+	E3ClassInfoPtr		childClass;
+	
+	
+	Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+
+
+	// If this is a custom class with instances, we need to write a type object
+	// for it.
+	theType = E3ClassTree_GetType(theClass);
+	
+	if ( (theType < 0) && (E3ClassTree_GetNumInstances(theClass) > 0) )
+		status = E3FFW_3DMF_TraverseObject( theView, fileFormatPrivate, NULL,
+			kQ3ObjectTypeType, (void*)theType );
+	
+	
+	// Recurse the class hierarchy
+	numChildren = E3ClassTree_GetNumChildren( theClass );
+	
+	for (i = 0; (status == kQ3Success) && (i < numChildren); ++i)
+		{
+		childClass = E3ClassTree_GetChild( theClass, i );
+		
+		status = e3ffw_3DMF_write_custom_types( theView, fileFormatPrivate,
+				childClass );
+		}
+	
+
+	return status;
+}
 
 
 
@@ -52,9 +160,19 @@ E3FFW_3DMF_StartFile(TQ3ViewObject				theView,
 						TQ3DrawContextObject	theDrawContext)
 {
 #pragma unused(theDrawContext)
+	TQ3Status	status;
 	
-	return E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, kQ3ObjectType3DMF, NULL);
+	status = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, kQ3ObjectType3DMF, NULL);
 	
+	
+	if (status == kQ3Success)
+		{
+		status = e3ffw_3DMF_write_custom_types( theView, fileFormatPrivate,
+			E3ClassTree_GetClassByType(kQ3ObjectTypeRoot) );
+		}
+	
+	
+	return status;
 }
 
 
@@ -187,6 +305,14 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 							lastLevel = instanceData->stack[j].level;
 							j++;
 							}
+					
+					// If the container only contains one thing, e.g., a bgng
+					// contains a dspg and nothing else, we still need to account
+					// for the type and size bytes of that one thing.
+					// I'm not sure that this is the correct fix. - JWW
+					if (j == i + 1)
+						size += 8;
+					
 					//write container size
 					qd3dStatus = Q3Uns32_Write(size,theFile);
 					}
@@ -207,7 +333,9 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 					qd3dStatus = instanceData->stack[i].writeMethod(instanceData->stack[i].data,theFile);
 					
 				//assert storage position
-				instanceData->baseData.currentStoragePosition = Q3Size_Pad(instanceData->baseData.currentStoragePosition);
+				//instanceData->baseData.currentStoragePosition = Q3Size_Pad(instanceData->baseData.currentStoragePosition);
+				// Due to the TriMesh compression scheme, things can end up on unpadded
+				// boundaries.
 				Q3_ASSERT(pos+instanceData->stack[i].size == instanceData->baseData.currentStoragePosition);
 				}
 			//call deletedata if any
@@ -290,6 +418,14 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 	// Call the method
 	qd3dStatus = traverse(theObject, (void*)objectData, theView);
 	
+	// If this is a shape, submit any custom elements attached to it.
+	// This saves each shape traversal method from worrying about it.
+	if ( (qd3dStatus == kQ3Success) && (theObject != NULL) &&
+		Q3Object_IsType( theObject, kQ3SharedTypeShape ) )
+		{
+		qd3dStatus = E3Shape_SubmitElements( theObject, theView );
+		}
+	
 	fileFormatPrivate->lastObjectType = old_lastObjectType;
 	fileFormatPrivate->lastObject = old_lastObject;
 	fileFormatPrivate->baseData.groupDeepCounter--;
@@ -334,7 +470,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 	instanceData = (TE3FFormatW3DMF_Data *) theFormat->instanceData;
 
 	if(size != 0){
-		// retrive the write method
+		// retrieve the write method
 		theClass = E3ClassTree_GetClassByType(instanceData->lastObjectType);
 		Q3_ASSERT_VALID_PTR(theClass);
 	
@@ -534,8 +670,11 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 	TQ3DisplayGroupState			state;
 	TQ3DisplayGroupState			*writeState;
 	TQ3XObjectClass					displayGroupStateClass;
-	TQ3DisplayGroupState			defaultState = kQ3DisplayGroupStateMaskIsDrawn | kQ3DisplayGroupStateMaskIsPicked
-							| kQ3DisplayGroupStateMaskIsWritten;
+	TQ3DisplayGroupState			defaultState = kQ3DisplayGroupStateMaskIsDrawn |
+				kQ3DisplayGroupStateMaskIsPicked |
+				kQ3DisplayGroupStateMaskUseBoundingBox |
+				kQ3DisplayGroupStateMaskUseBoundingSphere |
+				kQ3DisplayGroupStateMaskIsWritten;
 	
 	
 	TQ3Status qd3dStatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
@@ -591,3 +730,50 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 	return qd3dStatus;
 }
 
+
+
+//=============================================================================
+//      e3ffw_3DMF_CString_DeleteData: Release string data after CString write.
+//-----------------------------------------------------------------------------
+static void e3ffw_3DMF_CString_DeleteData( void* data )
+{
+	char*	theString = (char*) data;
+	Q3CString_EmptyData( &theString );
+}
+
+
+
+//=============================================================================
+//      E3FFW_3DMF_CString_Traverse: The traverse method for the CString class.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_CString_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view)
+{
+	#pragma unused(data)
+	char*	theString = NULL;
+	TQ3Status	theStatus;
+	TQ3Size	size;
+	
+	theStatus = Q3CString_GetString( object, &theString );
+	if (theStatus == kQ3Success)
+		{
+		size = Q3Size_Pad(strlen(theString) + 1);
+		theStatus = Q3XView_SubmitWriteData( view, size, theString,
+			e3ffw_3DMF_CString_DeleteData );
+		}
+	
+	return theStatus;
+}
+
+
+
+
+
+//=============================================================================
+//      E3FFW_3DMF_CString_Write: The write method for the CString class.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_CString_Write( const void *theString,  TQ3FileObject theFile )
+{
+	return Q3String_Write( (const char*)theString, theFile );
+}
