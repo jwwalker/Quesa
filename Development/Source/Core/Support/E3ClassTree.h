@@ -97,6 +97,7 @@ TQ3Boolean			E3ClassTree_IsObjectValid(TQ3Object theObject);
 // Locate a class
 E3ClassInfoPtr		E3ClassTree_GetClassByType(TQ3ObjectType classType);
 E3ClassInfoPtr		E3ClassTree_GetClassByName(const char *className);
+E3ClassInfoPtr		E3ClassTree_GetClassByObject(TQ3Object theObject);
 
 
 // Retrieve the information for a class
@@ -111,6 +112,7 @@ TQ3XMetaHandler		E3ClassTree_GetMetaHandler(E3ClassInfoPtr theClass);
 TQ3Uns32			E3ClassTree_GetInstanceSize(E3ClassInfoPtr theClass);
 TQ3Uns32			E3ClassTree_GetNumInstances(E3ClassInfoPtr theClass);
 TQ3XFunctionPointer E3ClassTree_GetMethod(E3ClassInfoPtr theClass, TQ3XMethodType methodType);
+TQ3XFunctionPointer E3ClassTree_GetMethodByObject(TQ3Object theObject, TQ3XMethodType methodType);
 void				E3ClassTree_AddMethod(E3ClassInfoPtr theClass, TQ3XMethodType methodType, TQ3XFunctionPointer theMethod);
 void				E3ClassTree_AddMethodByType(TQ3ObjectType classType, TQ3XMethodType methodType, TQ3XFunctionPointer theMethod);
 
