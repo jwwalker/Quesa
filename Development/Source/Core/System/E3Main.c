@@ -1109,7 +1109,7 @@ E3Object_Duplicate(TQ3Object theObject)
 	//
 	// If this causes your app problems, please contact Jose Cruanyes
 	// or James Walker to discuss a fix.
-	if (Q3Object_IsType(theObject, kQ3ObjectTypeView)        ||
+	if ( E3View_IsOfMyClass ( theObject )        ||
 		Q3Object_IsType(theObject, kQ3SharedTypeDrawContext) ||
 		(Q3Object_IsType(theObject, kQ3SharedTypeStorage) &&
 			!Q3Object_IsType(theObject, kQ3StorageTypeMemory)))

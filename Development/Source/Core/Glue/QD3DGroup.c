@@ -46,6 +46,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Group.h"
+#include "E3View.h"
 
 
 
@@ -1231,7 +1232,7 @@ Q3DisplayGroup_Submit(TQ3GroupObject group, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -1379,7 +1380,7 @@ Q3DisplayGroup_CalcAndUseBoundingBox(TQ3GroupObject group, TQ3ComputeBounds comp
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 

@@ -216,6 +216,7 @@ TQ3Status				E3View_GetDefaultAttributeSet(TQ3ViewObject theView, TQ3AttributeSe
 TQ3Status				E3View_SetDefaultAttributeSet(TQ3ViewObject theView, TQ3AttributeSet attributeSet);
 TQ3Status				E3View_GetAttributeSetState(TQ3ViewObject theView, TQ3AttributeSet *attributeSet);
 TQ3Status				E3View_GetAttributeState(TQ3ViewObject theView, TQ3AttributeType attributeType, void *data);
+TQ3Boolean				E3View_IsOfMyClass ( TQ3Object object ) ;
 
 TQ3Status				E3Push_Submit(TQ3ViewObject theView);
 TQ3Status				E3Pop_Submit(TQ3ViewObject theView);

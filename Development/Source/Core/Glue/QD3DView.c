@@ -152,7 +152,7 @@ Q3View_Cancel(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -186,7 +186,7 @@ Q3View_SetRendererByType(TQ3ViewObject view, TQ3ObjectType theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -223,7 +223,7 @@ Q3View_SetRenderer(TQ3ViewObject view, TQ3RendererObject renderer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((renderer == NULL) || Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 
 
@@ -261,7 +261,7 @@ Q3View_GetRenderer(TQ3ViewObject view, TQ3RendererObject *renderer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(renderer), kQ3Failure);
 
 
@@ -299,7 +299,7 @@ Q3View_StartRendering(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -333,7 +333,7 @@ Q3View_EndRendering(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3ViewStatusError);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3ViewStatusError);
 
 
 
@@ -367,7 +367,7 @@ Q3View_Flush(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -401,7 +401,7 @@ Q3View_Sync(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -435,7 +435,7 @@ Q3View_StartBoundingBox(TQ3ViewObject view, TQ3ComputeBounds computeBounds)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -472,7 +472,7 @@ Q3View_EndBoundingBox(TQ3ViewObject view, TQ3BoundingBox *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3ViewStatusError);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3ViewStatusError);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), kQ3ViewStatusError);
 
 
@@ -510,7 +510,7 @@ Q3View_StartBoundingSphere(TQ3ViewObject view, TQ3ComputeBounds computeBounds)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -547,7 +547,7 @@ Q3View_EndBoundingSphere(TQ3ViewObject view, TQ3BoundingSphere *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3ViewStatusError);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3ViewStatusError);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), kQ3ViewStatusError);
 
 
@@ -585,7 +585,7 @@ Q3View_StartPicking(TQ3ViewObject view, TQ3PickObject pick)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 
 
@@ -623,7 +623,7 @@ Q3View_EndPicking(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3ViewStatusError);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3ViewStatusError);
 
 
 
@@ -657,7 +657,7 @@ Q3View_GetCamera(TQ3ViewObject view, TQ3CameraObject *camera)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(camera), kQ3Failure);
 
 
@@ -695,7 +695,7 @@ Q3View_SetCamera(TQ3ViewObject view, TQ3CameraObject camera)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(camera, (kQ3ShapeTypeCamera)), kQ3Failure);
 
 
@@ -733,7 +733,7 @@ Q3View_SetLightGroup(TQ3ViewObject view, TQ3GroupObject lightGroup)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	
 	if (lightGroup != NULL)
 		Q3_REQUIRE_OR_RESULT(Q3Object_IsType(lightGroup, kQ3ShapeTypeGroup), kQ3Failure);
@@ -773,7 +773,7 @@ Q3View_GetLightGroup(TQ3ViewObject view, TQ3GroupObject *lightGroup)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lightGroup), kQ3Failure);
 
 
@@ -811,7 +811,7 @@ Q3View_AddLight(TQ3ViewObject theView, TQ3ObjectType lightType, void *lightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theView, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( theView ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(lightType == kQ3ShapeTypeLight       ||
 						 lightType == kQ3LightTypeAmbient     ||
 						 lightType == kQ3LightTypeDirectional ||
@@ -857,7 +857,7 @@ Q3View_SetIdleMethod(TQ3ViewObject view, TQ3ViewIdleMethod idleMethod, const voi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -894,7 +894,7 @@ Q3View_SetIdleProgressMethod(TQ3ViewObject view, TQ3ViewIdleProgressMethod idleM
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -931,7 +931,7 @@ Q3View_SetEndFrameMethod(TQ3ViewObject view, TQ3ViewEndFrameMethod endFrame, voi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -968,7 +968,7 @@ Q3Push_Submit(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -1002,7 +1002,7 @@ Q3Pop_Submit(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -1079,7 +1079,7 @@ Q3StateOperator_Submit(TQ3StateOperatorObject stateOperator, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(stateOperator, (kQ3ShapeTypeStateOperator)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -1116,7 +1116,7 @@ Q3View_IsBoundingBoxVisible(TQ3ViewObject view, const TQ3BoundingBox *bbox)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3False);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bbox), kQ3False);
 
 
@@ -1154,7 +1154,7 @@ Q3View_AllowAllGroupCulling(TQ3ViewObject view, TQ3Boolean allowCulling)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -1191,7 +1191,7 @@ Q3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theView, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( theView ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(localPoint), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(worldPoint), kQ3Failure);
 
@@ -1233,7 +1233,7 @@ Q3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoin
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theView, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( theView ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(localPoint), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(windowPoint), kQ3Failure);
 
@@ -1275,7 +1275,7 @@ Q3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoin
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theView, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( theView ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(worldPoint), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(windowPoint), kQ3Failure);
 
@@ -1317,7 +1317,7 @@ Q3View_SetDrawContext(TQ3ViewObject view, TQ3DrawContextObject drawContext)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
 
 
@@ -1355,7 +1355,7 @@ Q3View_GetDrawContext(TQ3ViewObject view, TQ3DrawContextObject *drawContext)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContext), kQ3Failure);
 
 
@@ -1393,7 +1393,7 @@ Q3View_GetLocalToWorldMatrixState(TQ3ViewObject view, TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), kQ3Failure);
 
 
@@ -1431,7 +1431,7 @@ Q3View_GetWorldToFrustumMatrixState(TQ3ViewObject view, TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), kQ3Failure);
 
 
@@ -1469,7 +1469,7 @@ Q3View_GetFrustumToWindowMatrixState(TQ3ViewObject view, TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), kQ3Failure);
 
 
@@ -1507,7 +1507,7 @@ Q3View_GetBackfacingStyleState(TQ3ViewObject view, TQ3BackfacingStyle *backfacin
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(backfacingStyle), kQ3Failure);
 
 
@@ -1545,7 +1545,7 @@ Q3View_GetInterpolationStyleState(TQ3ViewObject view, TQ3InterpolationStyle *int
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(interpolationType), kQ3Failure);
 
 
@@ -1583,7 +1583,7 @@ Q3View_GetFillStyleState(TQ3ViewObject view, TQ3FillStyle *fillStyle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fillStyle), kQ3Failure);
 
 
@@ -1621,7 +1621,7 @@ Q3View_GetHighlightStyleState(TQ3ViewObject view, TQ3AttributeSet *highlightStyl
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(highlightStyle), kQ3Failure);
 
 
@@ -1659,7 +1659,7 @@ Q3View_GetSubdivisionStyleState(TQ3ViewObject view, TQ3SubdivisionStyleData *sub
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(subdivisionStyle), kQ3Failure);
 
 
@@ -1697,7 +1697,7 @@ Q3View_GetOrientationStyleState(TQ3ViewObject view, TQ3OrientationStyle *fontFac
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fontFacingDirectionStyle), kQ3Failure);
 
 
@@ -1735,7 +1735,7 @@ Q3View_GetCastShadowsStyleState(TQ3ViewObject view, TQ3Boolean *castShadows)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(castShadows), kQ3Failure);
 
 
@@ -1773,7 +1773,7 @@ Q3View_GetReceiveShadowsStyleState(TQ3ViewObject view, TQ3Boolean *receiveShadow
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(receiveShadows), kQ3Failure);
 
 
@@ -1811,7 +1811,7 @@ Q3View_GetPickIDStyleState(TQ3ViewObject view, TQ3Uns32 *pickIDStyle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pickIDStyle), kQ3Failure);
 
 
@@ -1849,7 +1849,7 @@ Q3View_GetPickPartsStyleState(TQ3ViewObject view, TQ3PickParts *pickPartsStyle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pickPartsStyle), kQ3Failure);
 
 
@@ -1887,7 +1887,7 @@ Q3View_GetAntiAliasStyleState(TQ3ViewObject view, TQ3AntiAliasStyleData *antiAli
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(antiAliasData), kQ3Failure);
 
 
@@ -1925,7 +1925,7 @@ Q3View_GetFogStyleState(TQ3ViewObject view, TQ3FogStyleData *fogData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fogData), kQ3Failure);
 
 
@@ -1963,7 +1963,7 @@ Q3View_GetDefaultAttributeSet(TQ3ViewObject view, TQ3AttributeSet *attributeSet)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -2001,7 +2001,7 @@ Q3View_SetDefaultAttributeSet(TQ3ViewObject view, TQ3AttributeSet attributeSet)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -2038,7 +2038,7 @@ Q3View_GetAttributeSetState(TQ3ViewObject view, TQ3AttributeSet *attributeSet)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -2076,7 +2076,7 @@ Q3View_GetAttributeState(TQ3ViewObject view, TQ3AttributeType attributeType, voi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
