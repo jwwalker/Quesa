@@ -1087,16 +1087,13 @@ E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
 {	TQ3Object		parentObject;
 
 
-#if Q3_DEBUG
 
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theObject), NULL);
 	Q3_CLASS_VERIFY(theObject);
-#endif
 
 
-	// Find the appropriate parent, and return its instance data
-	
+
 	// Check to see if this is object is what we're looking for
 	if (theObject->theClass->classType == classType)
 		return(theObject->instanceData);
