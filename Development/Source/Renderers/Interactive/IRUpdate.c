@@ -1287,6 +1287,7 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 	TQ3Uns32			redBits, greenBits, blueBits, alphaBits;
 	TQ3Uns32			x, y, n, srcDepth;
 	TQ3Int32			dstRowStep;
+	TQ3Boolean			needToSwap;
 
 
 
@@ -1325,8 +1326,28 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 		dstRowStep = -dstRowStep;
 		}
 
-
-	if (srcByteOrder == kNativeEndian)
+	// Determine whether we need to do any endian-swapping.  Note that
+	// the endianness of the platform only matters for 16-bit pixels;
+	// 24- and 32-bit pixels are stored as collections of bytes in the
+	// order specified by srcByteOrder, and the platform doesn't matter.
+	// 16-bit pixels are stored as short integers, in the native format
+	// of the platform.  So:
+	//		For 32- or 24-bit pixels, check srcByteOrder (ignoring the platform).
+	//		For 16-bit pixels, check the platform (ignoring srcByteOrder).
+	switch (srcPixelType) {
+		case kQ3PixelTypeARGB32:
+		case kQ3PixelTypeRGB32:
+		case kQ3PixelTypeRGB24:
+			needToSwap = (srcByteOrder == kQ3EndianBig ? kQ3True : kQ3False);
+			break;
+		case kQ3PixelTypeARGB16:
+		case kQ3PixelTypeRGB16:
+		case kQ3PixelTypeRGB16_565:
+			needToSwap = (kNativeEndian == kQ3EndianBig ? kQ3True : kQ3False);
+			break;
+		}
+	
+	if (needToSwap)
 		{
 		// Pixel conversion with no endian-swapping
 		switch(srcPixelType) {
