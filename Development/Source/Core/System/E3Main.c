@@ -963,7 +963,7 @@ E3Object_Dispose(TQ3Object theObject)
 
 	// Get the method
 	disposeMethod = (TQ3XObjectDisposeMethod) E3ClassTree_GetMethod(
-												theObject->theClass,
+												E3ClassTree_GetClassByObject(theObject),
 												kQ3XMethodTypeObjectDispose);
 	if (disposeMethod == NULL)
 		return(kQ3Failure);
@@ -1083,7 +1083,7 @@ E3Object_IsDrawable(TQ3Object theObject)
 
 	// Get the 'method'
 	isDrawable = (TQ3Boolean) E3ClassTree_GetMethod(
-									theObject->theClass,
+									E3ClassTree_GetClassByObject(theObject),
 									kQ3XMethodTypeObjectIsDrawable);
 
 	return(isDrawable);
@@ -1107,7 +1107,7 @@ E3Object_IsWritable(TQ3Object theObject, TQ3FileObject theFile)
 
 	// Get the method
 	writeMethod = (TQ3XObjectWriteMethod) E3ClassTree_GetMethod(
-												theObject->theClass,
+												E3ClassTree_GetClassByObject(theObject),
 												kQ3XMethodTypeObjectWrite);
 
 
@@ -1155,7 +1155,7 @@ E3Object_GetLeafType(TQ3Object theObject)
 
 
 	// Get the most specific type of the object
-	theType = E3ClassTree_GetType(theObject->theClass);
+	theType = E3ClassTree_GetType(E3ClassTree_GetClassByObject(theObject));
 
 	return(theType);
 }
@@ -1174,7 +1174,7 @@ E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType)
 
 
 	// Return as the object is an instance of the type
-	isType = E3ClassTree_IsType(theObject->theClass, theType);
+	isType = E3ClassTree_IsType(E3ClassTree_GetClassByObject(theObject), theType);
 	
 	return(isType);
 }
