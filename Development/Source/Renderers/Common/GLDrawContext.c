@@ -219,7 +219,13 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 	// Activate the context and turn off the palette on 9
 	aglSetCurrentContext(glContext);
 	if (Gestalt(gestaltSystemVersion, (long *) &sysVersion) == noErr && sysVersion < 0x00001000)
+		{
 		aglDisable(glContext, AGL_COLORMAP_TRACKING);
+		
+		// AGL_COLORMAP_TRACKING only applies in 8 bit color.  In other cases, attempting
+		// to turn it off may set the agl error to AGL_BAD_ENUM, so we clear the error here.
+		(void) aglGetError();
+		}
 
 
 
