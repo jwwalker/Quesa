@@ -3226,7 +3226,7 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 						}
 					}
 				else if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListGeometry)){
-					geomData.segmentAttributeSet = (OpaqueTQ3Object **)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*(geomData.numVertices-1));
+					geomData.segmentAttributeSet = (TQ3AttributeSet *)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*(geomData.numVertices-1));
 					for(i = 0; i< (geomData.numVertices - 1); i++){
 						geomData.segmentAttributeSet[i] = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
 						}
@@ -3528,7 +3528,7 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace)){
-					geomData.facetAttributeSet = (OpaqueTQ3Object **)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*numFacets);
+					geomData.facetAttributeSet = (TQ3AttributeSet *)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*numFacets);
 					for(i = 0; i< numFacets; i++){
 						geomData.facetAttributeSet[i] = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
 						}

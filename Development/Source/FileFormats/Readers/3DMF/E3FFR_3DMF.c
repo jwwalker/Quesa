@@ -1661,7 +1661,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 		default: // custom elements
 		
 			// Read in the objects
-			elemObject = (OpaqueTQ3Object **)theAttribute->data;
+			elemObject = (TQ3AttributeSet *)theAttribute->data;
 			i = 0;
 			while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False && i < numElems)
 				{
