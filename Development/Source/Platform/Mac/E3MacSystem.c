@@ -77,9 +77,17 @@
 //-----------------------------------------------------------------------------
 pascal OSErr E3MacCFM_Initialise(const CFragInitBlock *initBlock);
 pascal OSErr E3MacCFM_Terminate(void);
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 Q3_EXTERN_API_C(void) E3MacMachoFrameworkInit();
 Q3_EXTERN_API_C(void) E3MacMachoFrameworkTerminate();
 
+#ifdef __cplusplus
+}
+#endif
 
 
 
