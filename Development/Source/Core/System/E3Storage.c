@@ -102,6 +102,34 @@ e3storage_memory_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSi
 
 
 
+//=============================================================================
+//      e3storage_memory_grow : Try to grow the storage 
+//-----------------------------------------------------------------------------
+//	it does it if it owns the storage,
+//  tries to allocate at least the requestedSize and do it in instanceData->growSize chunks
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3storage_memory_grow(TQ3StorageObject storage, TQ3Uns32 requestedSize)
+{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
+	TQ3Status				qd3dStatus;
+	TQ3Uns32				newSize;
+	
+	if((instanceData->ownBuffer == kQ3True) && 
+		(requestedSize > instanceData->bufferSize)){
+
+		newSize = ((requestedSize / instanceData->growSize) + 1) * instanceData->growSize;
+		
+		qd3dStatus = Q3Memory_Reallocate(&instanceData->buffer,newSize);
+		if (qd3dStatus != kQ3Success)
+			return(kQ3Failure);
+		
+		instanceData->bufferSize = newSize;
+	}
+	
+	return(kQ3Success);
+}
+
+
 
 
 //=============================================================================
@@ -116,24 +144,33 @@ e3storage_memory_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataS
 
 	// Initialise a return value
 	*sizeWritten = 0;
+	bytesToWrite = dataSize;
+
+  
+	// Try to grow the buffer
+	if (offset + bytesToWrite > instanceData->bufferSize)
+		if (e3storage_memory_grow(storage, offset + bytesToWrite) != kQ3Success)
+			return(kQ3Failure);
 
 
 
 	// Make sure we have enough space
-	if (offset  >= instanceData->validSize)
+	if (offset  >= instanceData->bufferSize)
 		return(kQ3Failure);
 
 
 
 	// Work out how much we should copy
-	bytesToWrite = dataSize;
-	if (offset + bytesToWrite > instanceData->validSize)
+	if (offset + bytesToWrite > instanceData->bufferSize)
 		bytesToWrite = instanceData->validSize - offset;
 
 
 
 	// Copy the block
 	Q3Memory_Copy(data, &instanceData->buffer[offset], bytesToWrite);
+	
+	if(instanceData->validSize < offset + bytesToWrite) // shift EOF
+		instanceData->validSize = offset + bytesToWrite;
 	
 	*sizeWritten = bytesToWrite;
 	
