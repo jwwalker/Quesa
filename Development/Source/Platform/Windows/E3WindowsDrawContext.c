@@ -163,7 +163,8 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 
 	// If we have a draw region, and nothing has changed, all we need to do is check whether the window
 	// has been resized.
-	if (instanceData->numDrawRegions != 0 && instanceData->theState == kQ3XDrawContextValidationClearFlags)
+	if (instanceData->numDrawRegions != 0 &&
+		(instanceData->theState & ~kQ3XDrawContextValidationBackgroundShader) == kQ3XDrawContextValidationClearFlags)
 		{
 		TQ3Area		newArea;
 		e3drawcontext_win32dc_get_dimensions_from_DC( instanceData->data.win32Data.theData.hdc,
