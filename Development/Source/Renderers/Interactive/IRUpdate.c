@@ -257,6 +257,35 @@ ir_state_texture_convert_compressed_pixmap(TQ3TextureObject theTexture)
 
 
 //=============================================================================
+//      ir_state_texture_convert_rave_filter : Convert the RAVE texture filter.
+//-----------------------------------------------------------------------------
+static GLuint
+ir_state_texture_convert_rave_filter(TQ3ViewObject theView)
+{	TQ3RendererObject	theRenderer;
+	TQ3Uns32			raveFilter;
+
+
+
+	// Grab the RAVE filter value
+	raveFilter = 0;
+	Q3View_GetRenderer(theView, &theRenderer);
+	if (theRenderer != NULL)
+		{
+		Q3InteractiveRenderer_GetRAVETextureFilter(theRenderer, &raveFilter);
+		Q3Object_Dispose(theRenderer);
+		}
+
+
+
+	// And return the appropriate GL filter value
+	return(raveFilter ? GL_LINEAR : GL_NEAREST);
+}
+
+
+
+
+
+//=============================================================================
 //      ir_state_texture_load : Load a cached QD3D texture into OpenGL.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -352,29 +381,18 @@ ir_state_texture_cache(TQ3ViewObject			theView,
 						 TQ3InteractiveData		*instanceData,
 						 TQ3ShaderObject		theShader,
 						 TQ3TextureObject		theTexture)
-{	TQ3CachedTexture		cachedTexture;
-	TQ3RendererObject		theRenderer;
-	TQ3Status				qd3dStatus;
-	TQ3Uns32				raveFilter;
+{	TQ3CachedTexture	cachedTexture;
+	TQ3Status			qd3dStatus;
 
 
 
 	// Fill out the cached texture
-	cachedTexture.theTexture = theTexture;
+	cachedTexture.theTexture    = theTexture;
+	cachedTexture.qualityFilter = ir_state_texture_convert_rave_filter(theView);
 
 	Q3Shader_GetUBoundary(theShader,   &cachedTexture.boundaryU);
 	Q3Shader_GetVBoundary(theShader,   &cachedTexture.boundaryV);
 	Q3Shader_GetUVTransform(theShader, &cachedTexture.theTransform);
-
-	raveFilter = 0;
-	Q3View_GetRenderer(theView, &theRenderer);
-	if (theRenderer != NULL)
-		{
-		Q3InteractiveRenderer_GetRAVETextureFilter(theRenderer, &raveFilter);
-		Q3Object_Dispose(theRenderer);
-		}
-	
-	cachedTexture.qualityFilter = (raveFilter) ? GL_LINEAR : GL_NEAREST;
 
 
 
@@ -678,11 +696,20 @@ IRRenderer_State_Terminate(TQ3InteractiveData *instanceData)
 //		Note :	Used when the OpenGL context is rebuilt - this disposes of the
 //				textures we loaded into OpenGL, and so we need to rebuild them
 //				and rebind them again.
+//
+//				We also need to update the quality filter for each texture,
+//				given the current settings of the view's renderer.
 //-----------------------------------------------------------------------------
 void
-IRRenderer_State_ReloadTextureCache(TQ3InteractiveData *instanceData)
-{	TQ3Status		qd3dStatus;
+IRRenderer_State_ReloadTextureCache(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
+{	GLuint			qualityFilter;
+	TQ3Status		qd3dStatus;
 	TQ3Uns32		n;
+
+
+
+	// Grab the current texture quality filter
+	qualityFilter = ir_state_texture_convert_rave_filter(theView);
 
 
 
@@ -693,7 +720,11 @@ IRRenderer_State_ReloadTextureCache(TQ3InteractiveData *instanceData)
 		Q3_ASSERT(!glIsTexture((GLuint) instanceData->cachedTextures[n].theTexture));
 
 
-		// Reload the texture
+		// Update the filter state
+		instanceData->cachedTextures[n].qualityFilter = qualityFilter;
+		
+		
+		// And reload the texture
 		qd3dStatus = ir_state_texture_load(&instanceData->cachedTextures[n]);
 		}
 }

@@ -63,6 +63,7 @@ void				IRRenderer_State_Terminate(
 								TQ3InteractiveData		*instanceData);
 
 void				IRRenderer_State_ReloadTextureCache(
+								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData);
 
 void				IRRenderer_State_FlushTextureCache(

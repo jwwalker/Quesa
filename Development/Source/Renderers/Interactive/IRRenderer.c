@@ -103,7 +103,7 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 
 			// Reload the OpenGL texture objects from the texture cache,
 			// as they will be lost when the context is rebuilt.
-			IRRenderer_State_ReloadTextureCache(instanceData);
+			IRRenderer_State_ReloadTextureCache(theView, instanceData);
 			}
 
 
