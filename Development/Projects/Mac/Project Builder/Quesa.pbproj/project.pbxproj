@@ -6,21 +6,25 @@
 	objectVersion = 38;
 	objects = {
 		00CC1782FF34C48B7F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3CocoaDrawContextNotify.h;
 			refType = 4;
 		};
 		00CC1783FF34C48B7F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3CocoaDrawContextNotify.m;
 			refType = 4;
 		};
 		00CC1784FF34C48B7F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GLCocoaContext.h;
 			refType = 4;
 		};
 		00CC1785FF34C48B7F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GLCocoaContext.m;
 			refType = 4;
@@ -60,6 +64,7 @@
 			};
 		};
 		00CC178BFF34C5067F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3CocoaPrefix.h;
 			refType = 4;
@@ -135,221 +140,265 @@
 			refType = 4;
 		};
 		00D40ECBFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Geometry.c;
 			refType = 4;
 		};
 		00D40ECCFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Geometry.h;
 			refType = 4;
 		};
 		00D40ECDFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryBox.c;
 			refType = 4;
 		};
 		00D40ECEFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryBox.h;
 			refType = 4;
 		};
 		00D40ECFFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryCone.c;
 			refType = 4;
 		};
 		00D40ED0FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryCone.h;
 			refType = 4;
 		};
 		00D40ED1FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryCylinder.c;
 			refType = 4;
 		};
 		00D40ED2FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryCylinder.h;
 			refType = 4;
 		};
 		00D40ED3FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryDisk.c;
 			refType = 4;
 		};
 		00D40ED4FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryDisk.h;
 			refType = 4;
 		};
 		00D40ED5FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryEllipse.c;
 			refType = 4;
 		};
 		00D40ED6FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryEllipse.h;
 			refType = 4;
 		};
 		00D40ED7FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryEllipsoid.c;
 			refType = 4;
 		};
 		00D40ED8FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryEllipsoid.h;
 			refType = 4;
 		};
 		00D40ED9FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryGeneralPolygon.c;
 			refType = 4;
 		};
 		00D40EDAFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryGeneralPolygon.h;
 			refType = 4;
 		};
 		00D40EDBFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryLine.c;
 			refType = 4;
 		};
 		00D40EDCFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryLine.h;
 			refType = 4;
 		};
 		00D40EDDFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryMarker.c;
 			refType = 4;
 		};
 		00D40EDEFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryMarker.h;
 			refType = 4;
 		};
 		00D40EDFFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryMesh.c;
 			refType = 4;
 		};
 		00D40EE0FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryMesh.h;
 			refType = 4;
 		};
 		00D40EE1FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryNURBCurve.c;
 			refType = 4;
 		};
 		00D40EE2FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryNURBCurve.h;
 			refType = 4;
 		};
 		00D40EE3FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryNURBPatch.c;
 			refType = 4;
 		};
 		00D40EE4FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryNURBPatch.h;
 			refType = 4;
 		};
 		00D40EE5FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryPixmapMarker.c;
 			refType = 4;
 		};
 		00D40EE6FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryPixmapMarker.h;
 			refType = 4;
 		};
 		00D40EE7FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryPoint.c;
 			refType = 4;
 		};
 		00D40EE8FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryPoint.h;
 			refType = 4;
 		};
 		00D40EE9FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryPolygon.c;
 			refType = 4;
 		};
 		00D40EEAFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryPolygon.h;
 			refType = 4;
 		};
 		00D40EEBFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryPolyhedron.c;
 			refType = 4;
 		};
 		00D40EECFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryPolyhedron.h;
 			refType = 4;
 		};
 		00D40EEDFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryPolyLine.c;
 			refType = 4;
 		};
 		00D40EEEFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryPolyLine.h;
 			refType = 4;
 		};
 		00D40EEFFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryTorus.c;
 			refType = 4;
 		};
 		00D40EF0FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryTorus.h;
 			refType = 4;
 		};
 		00D40EF1FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryTriangle.c;
 			refType = 4;
 		};
 		00D40EF2FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryTriangle.h;
 			refType = 4;
 		};
 		00D40EF3FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryTriGrid.c;
 			refType = 4;
 		};
 		00D40EF4FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryTriGrid.h;
 			refType = 4;
 		};
 		00D40EF5FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryTriMesh.c;
 			refType = 4;
 		};
 		00D40EF6FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3GeometryTriMesh.h;
 			refType = 4;
@@ -385,106 +434,127 @@
 			refType = 4;
 		};
 		00D40EF8FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DCamera.c;
 			refType = 4;
 		};
 		00D40EF9FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DController.c;
 			refType = 4;
 		};
 		00D40EFAFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DCustomElements.c;
 			refType = 4;
 		};
 		00D40EFBFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DDrawContext.c;
 			refType = 4;
 		};
 		00D40EFCFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DErrors.c;
 			refType = 4;
 		};
 		00D40EFDFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DExtension.c;
 			refType = 4;
 		};
 		00D40EFEFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DGeometry.c;
 			refType = 4;
 		};
 		00D40EFFFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DGroup.c;
 			refType = 4;
 		};
 		00D40F00FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DIO.c;
 			refType = 4;
 		};
 		00D40F01FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DLight.c;
 			refType = 4;
 		};
 		00D40F02FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DMain.c;
 			refType = 4;
 		};
 		00D40F03FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DMemory.c;
 			refType = 4;
 		};
 		00D40F04FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DPick.c;
 			refType = 4;
 		};
 		00D40F05FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DRenderer.c;
 			refType = 4;
 		};
 		00D40F06FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DSet.c;
 			refType = 4;
 		};
 		00D40F07FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DShader.c;
 			refType = 4;
 		};
 		00D40F08FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DStorage.c;
 			refType = 4;
 		};
 		00D40F09FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DString.c;
 			refType = 4;
 		};
 		00D40F0AFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DStyle.c;
 			refType = 4;
 		};
 		00D40F0BFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DTransform.c;
 			refType = 4;
 		};
 		00D40F0CFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DView.c;
 			refType = 4;
@@ -520,86 +590,103 @@
 			refType = 4;
 		};
 		00D40F0EFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3ClassTree.c;
 			refType = 4;
 		};
 		00D40F0FFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3ClassTree.h;
 			refType = 4;
 		};
 		00D40F10FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Compatibility.c;
 			refType = 4;
 		};
 		00D40F11FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Compatibility.h;
 			refType = 4;
 		};
 		00D40F12FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Debug.h;
 			refType = 4;
 		};
 		00D40F13FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3ErrorManager.c;
 			refType = 4;
 		};
 		00D40F14FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3ErrorManager.h;
 			refType = 4;
 		};
 		00D40F15FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Globals.c;
 			refType = 4;
 		};
 		00D40F16FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Globals.h;
 			refType = 4;
 		};
 		00D40F17FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3HashTable.c;
 			refType = 4;
 		};
 		00D40F18FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3HashTable.h;
 			refType = 4;
 		};
 		00D40F1BFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Prefix.h;
 			refType = 4;
 		};
 		00D40F1CFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3System.c;
 			refType = 4;
 		};
 		00D40F1DFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3System.h;
 			refType = 4;
 		};
 		00D40F1EFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Utils.c;
 			refType = 4;
 		};
 		00D40F1FFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Utils.h;
 			refType = 4;
 		};
 		00D40F20FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Version.h;
 			refType = 4;
@@ -658,221 +745,265 @@
 			refType = 4;
 		};
 		00D40F22FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Camera.c;
 			refType = 4;
 		};
 		00D40F23FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Camera.h;
 			refType = 4;
 		};
 		00D40F24FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Controller.c;
 			refType = 4;
 		};
 		00D40F25FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Controller.h;
 			refType = 4;
 		};
 		00D40F26FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3CustomElements.c;
 			refType = 4;
 		};
 		00D40F27FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3CustomElements.h;
 			refType = 4;
 		};
 		00D40F28FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3DrawContext.c;
 			refType = 4;
 		};
 		00D40F29FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3DrawContext.h;
 			refType = 4;
 		};
 		00D40F2AFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Errors.c;
 			refType = 4;
 		};
 		00D40F2BFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Errors.h;
 			refType = 4;
 		};
 		00D40F2CFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Extension.c;
 			refType = 4;
 		};
 		00D40F2DFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Extension.h;
 			refType = 4;
 		};
 		00D40F2EFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Group.c;
 			refType = 4;
 		};
 		00D40F2FFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Group.h;
 			refType = 4;
 		};
 		00D40F30FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3IO.c;
 			refType = 4;
 		};
 		00D40F31FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3IO.h;
 			refType = 4;
 		};
 		00D40F32FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3IOData.c;
 			refType = 4;
 		};
 		00D40F33FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3IOData.h;
 			refType = 4;
 		};
 		00D40F34FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Light.c;
 			refType = 4;
 		};
 		00D40F35FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Light.h;
 			refType = 4;
 		};
 		00D40F36FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Main.c;
 			refType = 4;
 		};
 		00D40F37FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Main.h;
 			refType = 4;
 		};
 		00D40F38FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Math.c;
 			refType = 4;
 		};
 		00D40F39FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Math.h;
 			refType = 4;
 		};
 		00D40F3AFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Pick.c;
 			refType = 4;
 		};
 		00D40F3BFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Pick.h;
 			refType = 4;
 		};
 		00D40F3CFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Renderer.c;
 			refType = 4;
 		};
 		00D40F3DFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Renderer.h;
 			refType = 4;
 		};
 		00D40F3EFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Set.c;
 			refType = 4;
 		};
 		00D40F3FFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Set.h;
 			refType = 4;
 		};
 		00D40F40FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Shader.c;
 			refType = 4;
 		};
 		00D40F41FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Shader.h;
 			refType = 4;
 		};
 		00D40F42FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Storage.c;
 			refType = 4;
 		};
 		00D40F43FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Storage.h;
 			refType = 4;
 		};
 		00D40F44FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3String.c;
 			refType = 4;
 		};
 		00D40F45FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3String.h;
 			refType = 4;
 		};
 		00D40F46FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Style.c;
 			refType = 4;
 		};
 		00D40F47FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Style.h;
 			refType = 4;
 		};
 		00D40F48FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Texture.c;
 			refType = 4;
 		};
 		00D40F49FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Texture.h;
 			refType = 4;
 		};
 		00D40F4AFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Transform.c;
 			refType = 4;
 		};
 		00D40F4BFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Transform.h;
 			refType = 4;
 		};
 		00D40F4CFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3View.c;
 			refType = 4;
 		};
 		00D40F4DFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3View.h;
 			refType = 4;
@@ -890,11 +1021,13 @@
 			refType = 4;
 		};
 		00D40F54FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3IOFileFormat.c;
 			refType = 4;
 		};
 		00D40F55FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3IOFileFormat.h;
 			refType = 4;
@@ -923,41 +1056,49 @@
 			refType = 4;
 		};
 		00D40F58FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFR_3DMF.c;
 			refType = 4;
 		};
 		00D40F59FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFR_3DMF.h;
 			refType = 4;
 		};
 		00D40F5AFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFR_3DMF_Bin.c;
 			refType = 4;
 		};
 		00D40F5BFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFR_3DMF_Bin.h;
 			refType = 4;
 		};
 		00D40F5CFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFR_3DMF_Geometry.c;
 			refType = 4;
 		};
 		00D40F5DFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFR_3DMF_Geometry.h;
 			refType = 4;
 		};
 		00D40F5EFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFR_3DMF_Text.c;
 			refType = 4;
 		};
 		00D40F5FFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFR_3DMF_Text.h;
 			refType = 4;
@@ -984,31 +1125,37 @@
 			refType = 4;
 		};
 		00D40F62FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFW_3DMFBin_Geometry.c;
 			refType = 4;
 		};
 		00D40F63FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFW_3DMFBin_Geometry.h;
 			refType = 4;
 		};
 		00D40F64FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFW_3DMFBin_Register.c;
 			refType = 4;
 		};
 		00D40F65FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFW_3DMFBin_Register.h;
 			refType = 4;
 		};
 		00D40F66FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFW_3DMFBin_Writer.c;
 			refType = 4;
 		};
 		00D40F67FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3FFW_3DMFBin_Writer.h;
 			refType = 4;
@@ -1037,31 +1184,37 @@
 			refType = 4;
 		};
 		00D40F72FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3MacDebug.c;
 			refType = 4;
 		};
 		00D40F73FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3MacDrawContext.c;
 			refType = 4;
 		};
 		00D40F74FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3MacErrors.c;
 			refType = 4;
 		};
 		00D40F76FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3MacPrefix.h;
 			refType = 4;
 		};
 		00D40F77FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3MacStorage.c;
 			refType = 4;
 		};
 		00D40F78FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3MacSystem.c;
 			refType = 4;
@@ -1095,36 +1248,43 @@
 			refType = 4;
 		};
 		00D40F9DFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GLCamera.c;
 			refType = 4;
 		};
 		00D40F9EFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GLCamera.h;
 			refType = 4;
 		};
 		00D40F9FFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GLDrawContext.c;
 			refType = 4;
 		};
 		00D40FA0FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GLDrawContext.h;
 			refType = 4;
 		};
 		00D40FA1FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GLPrefix.h;
 			refType = 4;
 		};
 		00D40FA2FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GLUtils.c;
 			refType = 4;
 		};
 		00D40FA3FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GLUtils.h;
 			refType = 4;
@@ -1144,36 +1304,43 @@
 			refType = 4;
 		};
 		00D40FA5FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GNGeometry.c;
 			refType = 4;
 		};
 		00D40FA6FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GNGeometry.h;
 			refType = 4;
 		};
 		00D40FA7FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GNPrefix.h;
 			refType = 4;
 		};
 		00D40FA8FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GNRegister.c;
 			refType = 4;
 		};
 		00D40FA9FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GNRegister.h;
 			refType = 4;
 		};
 		00D40FAAFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GNRenderer.c;
 			refType = 4;
 		};
 		00D40FABFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = GNRenderer.h;
 			refType = 4;
@@ -1203,56 +1370,67 @@
 			refType = 4;
 		};
 		00D40FADFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRGeometry.c;
 			refType = 4;
 		};
 		00D40FAEFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRGeometry.h;
 			refType = 4;
 		};
 		00D40FAFFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRLights.c;
 			refType = 4;
 		};
 		00D40FB0FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRLights.h;
 			refType = 4;
 		};
 		00D40FB1FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRPrefix.h;
 			refType = 4;
 		};
 		00D40FB2FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRRegister.c;
 			refType = 4;
 		};
 		00D40FB3FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRRegister.h;
 			refType = 4;
 		};
 		00D40FB4FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRRenderer.c;
 			refType = 4;
 		};
 		00D40FB5FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRRenderer.h;
 			refType = 4;
 		};
 		00D40FB6FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRUpdate.c;
 			refType = 4;
 		};
 		00D40FB7FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRUpdate.h;
 			refType = 4;
@@ -1274,46 +1452,55 @@
 			refType = 4;
 		};
 		00D40FB9FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = WFGeometry.c;
 			refType = 4;
 		};
 		00D40FBAFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = WFGeometry.h;
 			refType = 4;
 		};
 		00D40FBBFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = WFPrefix.h;
 			refType = 4;
 		};
 		00D40FBCFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = WFRegister.c;
 			refType = 4;
 		};
 		00D40FBDFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = WFRegister.h;
 			refType = 4;
 		};
 		00D40FBEFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = WFRenderer.c;
 			refType = 4;
 		};
 		00D40FBFFEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = WFRenderer.h;
 			refType = 4;
 		};
 		00D40FC0FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = WFUpdate.c;
 			refType = 4;
 		};
 		00D40FC1FEDA393FC0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = WFUpdate.h;
 			refType = 4;
@@ -2675,11 +2862,13 @@
 			name = Deployment;
 		};
 		0157032000C1B8EA7F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3ArrayOrList.h;
 			refType = 4;
 		};
 		0157032100C1B8EA7F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3ArrayOrList.c;
 			refType = 4;
@@ -2709,11 +2898,13 @@
 			};
 		};
 		0157032600C1B8F57F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Pool.c;
 			refType = 4;
 		};
 		0157032700C1B8F57F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Pool.h;
 			refType = 4;
@@ -2743,6 +2934,7 @@
 			};
 		};
 		015FB95B00CFA5E07F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DMath.c;
 			refType = 4;
@@ -2754,6 +2946,7 @@
 			};
 		};
 		015FB95D00CFA5FB7F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaMath.h;
 			refType = 4;
@@ -2768,11 +2961,13 @@
 			};
 		};
 		015FB95F00CFA6917F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Memory.c;
 			refType = 4;
 		};
 		015FB96000CFA6917F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3Memory.h;
 			refType = 4;
@@ -2821,111 +3016,133 @@
 			refType = 4;
 		};
 		018E219FFEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = Quesa.h;
 			refType = 4;
 		};
 		018E21A0FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaCamera.h;
 			refType = 4;
 		};
 		018E21A1FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaController.h;
 			refType = 4;
 		};
 		018E21A2FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaCustomElements.h;
 			refType = 4;
 		};
 		018E21A3FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaDrawContext.h;
 			refType = 4;
 		};
 		018E21A4FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaErrors.h;
 			refType = 4;
 		};
 		018E21A5FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaExtension.h;
 			refType = 4;
 		};
 		018E21A6FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaGeometry.h;
 			refType = 4;
 		};
 		018E21A7FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaGroup.h;
 			refType = 4;
 		};
 		018E21A8FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaIO.h;
 			refType = 4;
 		};
 		018E21A9FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaLight.h;
 			refType = 4;
 		};
 		018E21AAFEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaMemory.h;
 			refType = 4;
 		};
 		018E21ABFEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaPick.h;
 			refType = 4;
 		};
 		018E21ACFEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaRenderer.h;
 			refType = 4;
 		};
 		018E21ADFEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaSet.h;
 			refType = 4;
 		};
 		018E21AEFEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaShader.h;
 			refType = 4;
 		};
 		018E21AFFEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaStorage.h;
 			refType = 4;
 		};
 		018E21B0FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaString.h;
 			refType = 4;
 		};
 		018E21B1FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaStyle.h;
 			refType = 4;
 		};
 		018E21B2FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaTransform.h;
 			refType = 4;
 		};
 		018E21B3FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaView.h;
 			refType = 4;
 		};
 		018E21B4FEDA4D71C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QuesaViewer.h;
 			refType = 4;
@@ -3272,7 +3489,6 @@
 </dict>
 </plist>
 ";
-			shouldUseHeadermap = 0;
 		};
 		05D44048FF17D5547F000001 = {
 			buildActionMask = 2147483647;
@@ -3517,6 +3733,7 @@
 				F5D603B8034787C601000003,
 				F5D603BA034787C601000003,
 				F5D603BD034787C701000003,
+				AB22D96D03D75D4A00000002,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3544,6 +3761,7 @@
 				F55173A201F4D22B01000003,
 				1E8954AFFF19437A7F000001,
 				1E8954B0FF19437A7F000001,
+				AB22D96C03D75D4A00000002,
 				00CC1782FF34C48B7F000001,
 				00CC1783FF34C48B7F000001,
 				00CC178BFF34C5067F000001,
@@ -5059,6 +5277,7 @@
 				0157031E00C1B6E77F000001,
 				0157031F00C1B6E77F000001,
 			);
+			hasScannedForEncodings = 1;
 			isa = PBXProject;
 			mainGroup = 0867D691FE84028FC02AAC07;
 			productRefGroup = 00D410A2FEDA3A0AC0A80006;
@@ -5140,7 +5359,6 @@
 </dict>
 </plist>
 ";
-			shouldUseHeadermap = 1;
 		};
 		0867D69DFE84028FC02AAC07 = {
 			buildActionMask = 2147483647;
@@ -5426,6 +5644,7 @@
 			refType = 4;
 		};
 		089C1667FE841158C02AAC07 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = English;
 			path = English.lproj/InfoPlist.strings;
@@ -5459,11 +5678,13 @@
 //1E3
 //1E4
 		1E8954AFFF19437A7F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3CocoaDebug.c;
 			refType = 4;
 		};
 		1E8954B0FF19437A7F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3CocoaSystem.c;
 			refType = 4;
@@ -5489,12 +5710,35 @@
 //1E2
 //1E3
 //1E4
+//AB0
+//AB1
+//AB2
+//AB3
+//AB4
+		AB22D96C03D75D4A00000002 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = E3CocoaStackCrawl.c;
+			refType = 4;
+		};
+		AB22D96D03D75D4A00000002 = {
+			fileRef = AB22D96C03D75D4A00000002;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//AB0
+//AB1
+//AB2
+//AB3
+//AB4
 //F50
 //F51
 //F52
 //F53
 //F54
 		F55173A201F4D22B01000003 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = E3CocoaDrawContext.m;
 			refType = 4;
@@ -5534,18 +5778,21 @@
 			refType = 4;
 		};
 		F554E278022192F301000034 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = E3Viewer.c;
 			path = Viewer/E3Viewer.c;
 			refType = 4;
 		};
 		F554E279022192F301000034 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = E3Viewer.h;
 			path = Viewer/E3Viewer.h;
 			refType = 4;
 		};
 		F554E27A022192F301000034 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = E3ViewerOldAPIs.c;
 			path = Viewer/E3ViewerOldAPIs.c;
@@ -5588,6 +5835,7 @@
 			};
 		};
 		F554E2870221932A01000034 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = QD3DViewer.c;
 			refType = 4;
@@ -5614,12 +5862,14 @@
 			};
 		};
 		F596D8F4020F2B580100003C = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = E3Tessellate.c;
 			path = ../../../Source/Core/Support/E3Tessellate.c;
 			refType = 2;
 		};
 		F596D8F5020F2B580100003C = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = E3Tessellate.h;
 			path = ../../../Source/Core/Support/E3Tessellate.h;
@@ -5650,11 +5900,13 @@
 			};
 		};
 		F5D603AC034787AE01000003 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRGeometryTriMesh.h;
 			refType = 4;
 		};
 		F5D603AD034787AE01000003 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRGeometryTriMesh.c;
 			refType = 4;
@@ -5672,21 +5924,25 @@
 			};
 		};
 		F5D603B0034787B701000003 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRTransparent.h;
 			refType = 4;
 		};
 		F5D603B1034787B701000003 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRTransparent.c;
 			refType = 4;
 		};
 		F5D603B2034787B701000003 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRTexture.h;
 			refType = 4;
 		};
 		F5D603B3034787B701000003 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRTexture.c;
 			refType = 4;
