@@ -560,6 +560,23 @@ e3fformat_3dmf_bin_skipobject(TQ3FileObject theFile)
 
 
 
+static void CopyElementsToShape( TQ3SetObject inSet, TQ3ShapeObject ioShape )	// JWWalker
+{
+	TQ3ElementType	theType = kQ3ElementTypeNone;
+	TQ3SetObject	shapeSet;
+	
+	if (kQ3Success == Q3Shape_GetSet( ioShape, &shapeSet ))
+	{
+		while ( (kQ3Success == Q3Set_GetNextElementType( inSet, &theType )) &&
+			(theType != kQ3ElementTypeNone) )
+		{
+			Q3Set_CopyElement( inSet, theType, shapeSet );
+		}
+		
+		Q3Object_Dispose( shapeSet );
+	}
+}
+
 
 
 //=============================================================================
@@ -681,12 +698,22 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 				instanceData->MFData.baseData.groupDeepCounter++;
 				result = Q3File_ReadObject (theFile);
 				
+				// Read the display group state (dgst) object, if any
 				if(Q3File_GetNextObjectType(theFile) == kQ3ObjectTypeDisplayGroupState){
 					childObject = Q3File_ReadObject(theFile);
 					if(childObject){
 						Q3DisplayGroup_SetState (result, E3FFormat_3DMF_DisplayGroupState_Get(childObject));
 						Q3Object_Dispose(childObject);
 						}
+					}
+				else if (Q3Object_IsType(result, kQ3GroupTypeDisplay))
+					{
+					// Set the default state specified in the 3D Metafile Reference
+					Q3DisplayGroup_SetState( result, kQ3DisplayGroupStateMaskIsDrawn |
+						kQ3DisplayGroupStateMaskUseBoundingBox |
+						kQ3DisplayGroupStateMaskUseBoundingSphere |
+						kQ3DisplayGroupStateMaskIsPicked |
+						kQ3DisplayGroupStateMaskIsWritten );
 					}
 					
 				if((result == NULL) || (Q3Object_IsType(result, kQ3ShapeTypeGroup) == kQ3False))
@@ -698,7 +725,13 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 					if(childObject != NULL) {
 						if(Q3Object_IsType(childObject, kQ3SharedTypeEndGroup) == kQ3True)
 							break;
-						Q3Group_AddObject(result, childObject);
+						if ((Q3Object_IsType( childObject, kQ3SharedTypeSet) == kQ3True) &&
+							(Q3Object_IsType( childObject, kQ3SetTypeAttribute) == kQ3False) )
+							{
+							CopyElementsToShape( childObject, result );
+							}
+						else
+							Q3Group_AddObject(result, childObject);
 						Q3Object_Dispose(childObject);
 						}
 					}
@@ -752,9 +785,24 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 					}
 				else
 					{
-					instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
-					result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
-					instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
+					TQ3XObjectReadDataMethod	readData;
+					readData = (TQ3XObjectReadDataMethod)E3ClassTree_GetMethod (theClass,
+						kQ3XMethodTypeObjectReadData);
+					if (readData != NULL)
+						{
+						result = Q3Set_New();
+						if (result != NULL)
+							{
+							readData( result, theFile );
+							}
+						instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
+						}
+					else
+						{
+						instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
+						result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
+						instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
+						}
 					}
 				}
 			break;
