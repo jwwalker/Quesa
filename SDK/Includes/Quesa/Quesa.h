@@ -1315,7 +1315,8 @@ Q3IsInitialized (
  *      If the revision is 1.61a23 (= 1.6.1a23), returns 1 as the major
  *      revision level and 61 as the minor revision level.
  *
- *      May be called outside of a <code>Q3Initialize/Q3Exit</code> block.
+ *      Note that unlike QD3D, Quesa allows Q3GetVersion to be called
+ *		outside of a <code>Q3Initialize</code>/<code>Q3Exit</code> block.
  *
  *  @param majorRevision    Receives the major revision level of Quesa.
  *  @param minorRevision    Receives the minor revision level of Quesa.
@@ -1346,7 +1347,8 @@ Q3GetVersion (
  *      For more information, see the description of the <code>'vers'</code> resource
  *      in the book <i>Inside Macintosh: Macintosh Toolbox Essentials.</i>
  *
- *      May be called outside of a <code>Q3Initialize/Q3Exit</code> block.
+ *      Note that unlike QD3D, Quesa allows Q3GetReleaseVersion to be called
+ *		outside of a <code>Q3Initialize</code>/<code>Q3Exit</code> block.
  *
  *  @param releaseRevision  Receives the revision of Quesa.
  *  @result                 Success or failure of the operation.
