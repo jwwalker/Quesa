@@ -100,6 +100,10 @@ SOURCE=..\Qut\Qut.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\Qut\QutTexture.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\Qut\Windows\Qut.rc
 # End Source File
 # Begin Source File
