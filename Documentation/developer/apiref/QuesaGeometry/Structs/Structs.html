@@ -1,0 +1,975 @@
+<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
+<a name="//apple_ref/c/tag/TQ3BoxData"></a>
+<h3><a name="TQ3BoxData">TQ3BoxData</a></h3>
+<blockquote><pre>
+typedef struct TQ3BoxData {
+    TQ3Point3D                                  origin;
+    TQ3Vector3D                                 orientation;
+    TQ3Vector3D                                 majorAxis;
+    TQ3Vector3D                                 minorAxis;
+    TQ3AttributeSet                             *faceAttributeSet;
+    TQ3AttributeSet                             boxAttributeSet;
+} TQ3BoxData;
+</pre>
+</blockquote>
+<p>Data describing the state of a box object.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>origin</tt></td><td>Origin of the box (one of the corners).</td><tr>
+<tr valign=top><td><tt>orientation</tt></td><td>Orientation vector of the box.</td><tr>
+<tr valign=top><td><tt>majorAxis</tt></td><td>Major axis of the box.</td><tr>
+<tr valign=top><td><tt>minorAxis</tt></td><td>Minor axis of the box.</td><tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>Array of attribute set objects for the 6 faces.
+This field may be NULL, or individual sets in the
+array may be NULL.</td><tr>
+<tr valign=top><td><tt>boxAttributeSet</tt></td><td>Attribute set object holding attributes that apply
+to all of the faces.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3ConeData"></a>
+<h3><a name="TQ3ConeData">TQ3ConeData</a></h3>
+<blockquote><pre>
+typedef struct TQ3ConeData {
+    TQ3Point3D                                  origin;
+    TQ3Vector3D                                 orientation;
+    TQ3Vector3D                                 majorRadius;
+    TQ3Vector3D                                 minorRadius;
+    float                                       uMin;
+    float                                       uMax;
+    float                                       vMin;
+    float                                       vMax;
+    TQ3EndCap                                   caps;
+    TQ3AttributeSet                             interiorAttributeSet;
+    TQ3AttributeSet                             faceAttributeSet;
+    TQ3AttributeSet                             bottomAttributeSet;
+    TQ3AttributeSet                             coneAttributeSet;
+} TQ3ConeData;
+</pre>
+</blockquote>
+<p>Data describing the state of a cone object.  The orientation, major radius,
+and minor radius vectors need not be orthogonal, though they should be
+independent.
+<br><br>
+The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
+were apparently intended to allow partial cones, e.g., a cone with a wedge
+cut out of it.
+But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
+ever did either.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>origin</tt></td><td>The center of the base of the cone.</td><tr>
+<tr valign=top><td><tt>orientation</tt></td><td>Vector from the origin to the tip of the cone.</td><tr>
+<tr valign=top><td><tt>majorRadius</tt></td><td>A vector from the origin to a point on the perimeter
+of the base.</td><tr>
+<tr valign=top><td><tt>minorRadius</tt></td><td>A vector from the origin to a point on the perimeter
+of the base.</td><tr>
+<tr valign=top><td><tt>uMin</tt></td><td>Minimum value of the u parameter, which goes around
+the base.  Typically 0.</td><tr>
+<tr valign=top><td><tt>uMax</tt></td><td>Maximum value of the u parameter, which goes around
+the base.  Typically 1.</td><tr>
+<tr valign=top><td><tt>vMin</tt></td><td>Minimum value of the v parameter, which goes from
+base to tip.  Typically 0.</td><tr>
+<tr valign=top><td><tt>vMax</tt></td><td>Minimum value of the v parameter, which goes from
+base to tip.  Typically 1.</td><tr>
+<tr valign=top><td><tt>caps</tt></td><td>End cap masks, either <code>kQ3EndCapMaskBottom</code>
+or <code>kQ3EndCapNone</code>.</td><tr>
+<tr valign=top><td><tt>interiorAttributeSet</tt></td><td>Interior attributes.  Currently unused by Quesa
+rendering, so leave it NULL.</td><tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>Attributes that affect the face but not the bottom.
+May be NULL.</td><tr>
+<tr valign=top><td><tt>bottomAttributeSet</tt></td><td>Attributes that affect the bottom end cap.  May be NULL.</td><tr>
+<tr valign=top><td><tt>coneAttributeSet</tt></td><td>Attributes for all parts of the cone.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3CylinderData"></a>
+<h3><a name="TQ3CylinderData">TQ3CylinderData</a></h3>
+<blockquote><pre>
+typedef struct TQ3CylinderData {
+    TQ3Point3D                                  origin;
+    TQ3Vector3D                                 orientation;
+    TQ3Vector3D                                 majorRadius;
+    TQ3Vector3D                                 minorRadius;
+    float                                       uMin;
+    float                                       uMax;
+    float                                       vMin;
+    float                                       vMax;
+    TQ3EndCap                                   caps;
+    TQ3AttributeSet                             interiorAttributeSet;
+    TQ3AttributeSet                             topAttributeSet;
+    TQ3AttributeSet                             faceAttributeSet;
+    TQ3AttributeSet                             bottomAttributeSet;
+    TQ3AttributeSet                             cylinderAttributeSet;
+} TQ3CylinderData;
+</pre>
+</blockquote>
+<p>Data describing the state of a cylinder object.  The orientation, major radius,
+and minor radius vectors need not be orthogonal, though they should be
+independent.
+<br><br>
+The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
+were apparently intended to allow partial cylinders, e.g., a cylinder with a wedge
+cut out of it.
+But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
+ever did either.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>origin</tt></td><td>The center of the base of the cylinder.</td><tr>
+<tr valign=top><td><tt>orientation</tt></td><td>Vector from the origin to the center of the opposite end.</td><tr>
+<tr valign=top><td><tt>majorRadius</tt></td><td>A vector from the origin to a point on the perimeter
+of the base.</td><tr>
+<tr valign=top><td><tt>minorRadius</tt></td><td>A vector from the origin to a point on the perimeter
+of the base.</td><tr>
+<tr valign=top><td><tt>uMin</tt></td><td>Minimum value of the u parameter, which goes around
+the base.  Typically 0.</td><tr>
+<tr valign=top><td><tt>uMax</tt></td><td>Maximum value of the u parameter, which goes around
+the base.  Typically 1.</td><tr>
+<tr valign=top><td><tt>vMin</tt></td><td>Minimum value of the v parameter, which goes from the
+base to the other end.  Typically 0.</td><tr>
+<tr valign=top><td><tt>vMax</tt></td><td>Minimum value of the v parameter, which goes from the
+base to the other end.  Typically 1.</td><tr>
+<tr valign=top><td><tt>caps</tt></td><td>End cap masks, determining whether the cylinder is
+closed on one end, the other, or both.</td><tr>
+<tr valign=top><td><tt>interiorAttributeSet</tt></td><td>Interior attributes.  Currently unused by Quesa
+rendering, so leave it NULL.</td><tr>
+<tr valign=top><td><tt>topAttributeSet</tt></td><td>Attributes that affect the top end cap.  May be NULL.</td><tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>Attributes that affect the face but not the bottom or top.
+May be NULL.</td><tr>
+<tr valign=top><td><tt>bottomAttributeSet</tt></td><td>Attributes that affect the bottom end cap.  May be NULL.</td><tr>
+<tr valign=top><td><tt>cylinderAttributeSet</tt></td><td>Attributes for all parts of the cylinder.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3DiskData"></a>
+<h3><a name="TQ3DiskData">TQ3DiskData</a></h3>
+<blockquote><pre>
+typedef struct TQ3DiskData {
+    TQ3Point3D                                  origin;
+    TQ3Vector3D                                 majorRadius;
+    TQ3Vector3D                                 minorRadius;
+    float                                       uMin;
+    float                                       uMax;
+    float                                       vMin;
+    float                                       vMax;
+    TQ3AttributeSet                             diskAttributeSet;
+} TQ3DiskData;
+</pre>
+</blockquote>
+<p>Data describing the state of a disk object (a filled ellipse).  The major radius
+and minor radius vectors need not be orthogonal, though they should be independent.
+<br><br>
+The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
+were apparently intended to allow partial disks, e.g., a disk with a wedge
+cut out of it.
+But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
+ever did either.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>origin</tt></td><td>The center of the disk.</td><tr>
+<tr valign=top><td><tt>majorRadius</tt></td><td>A vector from the origin to a point on the perimeter
+of the disk.</td><tr>
+<tr valign=top><td><tt>minorRadius</tt></td><td>A vector from the origin to a point on the perimeter
+of the disk.</td><tr>
+<tr valign=top><td><tt>uMin</tt></td><td>Minimum value of the u parameter, which goes around
+the perimeter.  Typically 0.</td><tr>
+<tr valign=top><td><tt>uMax</tt></td><td>Maximum value of the u parameter, which goes around
+the perimeter.  Typically 1.</td><tr>
+<tr valign=top><td><tt>vMin</tt></td><td>Minimum value of the v parameter, which goes from the
+perimeter to the origin.  Typically 0.</td><tr>
+<tr valign=top><td><tt>vMax</tt></td><td>Minimum value of the v parameter, which goes from the
+perimeter to the origin.  Typically 1.</td><tr>
+<tr valign=top><td><tt>diskAttributeSet</tt></td><td>Attributes for the disk.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3EllipseData"></a>
+<h3><a name="TQ3EllipseData">TQ3EllipseData</a></h3>
+<blockquote><pre>
+typedef struct TQ3EllipseData {
+    TQ3Point3D                                  origin;
+    TQ3Vector3D                                 majorRadius;
+    TQ3Vector3D                                 minorRadius;
+    float                                       uMin;
+    float                                       uMax;
+    TQ3AttributeSet                             ellipseAttributeSet;
+} TQ3EllipseData;
+</pre>
+</blockquote>
+<p>Data describing the state of an ellipse.  The major radius and minor radius
+vectors need not be orthogonal, though they should be independent.
+You can make a partial ellipse by using values other than 0 and 1 for the
+<code>uMin</code> and <code>uMax</code> fields.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>origin</tt></td><td>Center of the ellipse.</td><tr>
+<tr valign=top><td><tt>majorRadius</tt></td><td>A vector from the origin to a point on the curve.</td><tr>
+<tr valign=top><td><tt>minorRadius</tt></td><td>Another vector from the origin to a point on the curve.</td><tr>
+<tr valign=top><td><tt>uMin</tt></td><td>Minimum value of the u parameter.  Typically 0.</td><tr>
+<tr valign=top><td><tt>uMax</tt></td><td>Maximum value of the u parameter.  Typically 1.</td><tr>
+<tr valign=top><td><tt>ellipseAttributeSet</tt></td><td>Attributes for the ellipse.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3EllipsoidData"></a>
+<h3><a name="TQ3EllipsoidData">TQ3EllipsoidData</a></h3>
+<blockquote><pre>
+typedef struct TQ3EllipsoidData {
+    TQ3Point3D                                  origin;
+    TQ3Vector3D                                 orientation;
+    TQ3Vector3D                                 majorRadius;
+    TQ3Vector3D                                 minorRadius;
+    float                                       uMin;
+    float                                       uMax;
+    float                                       vMin;
+    float                                       vMax;
+    TQ3EndCap                                   caps;
+    TQ3AttributeSet                             interiorAttributeSet;
+    TQ3AttributeSet                             ellipsoidAttributeSet;
+} TQ3EllipsoidData;
+</pre>
+</blockquote>
+<p>Data describing the state of an ellipsoid.  The major axis, minor axis, and
+orientation vectors need not be orthogonal, but should be independent.
+The ellipsoid can be expressed by a parametric equation
+<br><br>
+f(u,v) = origin + cos(&pi;v)orientation + sin(&pi;v)(cos(2&pi;u)majorRadius + sin(2&pi;u)minorRadius)
+<br><br>
+where u and v range from 0 to 1.
+<br><br>
+The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
+were apparently intended to allow partial ellipsoids, e.g., an ellipsoid with a wedge
+cut out of it.
+But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
+ever did either.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>origin</tt></td><td>Center of the ellipsoid.</td><tr>
+<tr valign=top><td><tt>orientation</tt></td><td>A vector from the origin to a point on the ellipsoid.</td><tr>
+<tr valign=top><td><tt>majorRadius</tt></td><td>A vector from the origin to a point on the ellipsoid.</td><tr>
+<tr valign=top><td><tt>minorRadius</tt></td><td>A vector from the origin to a point on the ellipsoid.</td><tr>
+<tr valign=top><td><tt>uMin</tt></td><td>Minimum value of the u parameter, which goes around
+the perimeter (the ellipse determined by the major and
+minor axes).  Typically 0.</td><tr>
+<tr valign=top><td><tt>uMax</tt></td><td>Maximum value of the u parameter.  Typically 1.</td><tr>
+<tr valign=top><td><tt>vMin</tt></td><td>Minimum value of the v parameter, which goes from the
+south pole (origin - orientation) to the north pole
+(origin + orientation).  Typically 0.</td><tr>
+<tr valign=top><td><tt>vMax</tt></td><td>Minimum value of the v parameter.  Typically 1.</td><tr>
+<tr valign=top><td><tt>caps</tt></td><td>Style of caps to be used on partial ellipsoids.
+Currently ignored by Quesa.</td><tr>
+<tr valign=top><td><tt>interiorAttributeSet</tt></td><td>Interior attributes.  Currently unused by Quesa
+rendering, so leave it NULL.</td><tr>
+<tr valign=top><td><tt>ellipsoidAttributeSet</tt></td><td>Attributes for the ellipsoid surface.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3GeneralPolygonContourData"></a>
+<h3><a name="TQ3GeneralPolygonContourData">TQ3GeneralPolygonContourData</a></h3>
+<blockquote><pre>
+typedef struct TQ3GeneralPolygonContourData {
+    TQ3Uns32                                    numVertices;
+    TQ3Vertex3D                                 *vertices;
+} TQ3GeneralPolygonContourData;
+</pre>
+</blockquote>
+<p>An ordered list of vertices forming a contour of a general polygon.
+Used within the <code>TQ3GeneralPolygonData</code> structure.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numVertices</tt></td><td>Number of vertices.  Must be at least 3.</td><tr>
+<tr valign=top><td><tt>vertices</tt></td><td>Array of vertices.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3GeneralPolygonData"></a>
+<h3><a name="TQ3GeneralPolygonData">TQ3GeneralPolygonData</a></h3>
+<blockquote><pre>
+typedef struct TQ3GeneralPolygonData {
+    TQ3Uns32                                    numContours;
+    TQ3GeneralPolygonContourData                *contours;
+    TQ3GeneralPolygonShapeHint                  shapeHint;
+    TQ3AttributeSet                             generalPolygonAttributeSet;
+} TQ3GeneralPolygonData;
+</pre>
+</blockquote>
+<p>Data describing a general polygon.  A general polygon is a closed figure
+defined by one or more coplanar closed curves called contours.  If there are
+holes, the even-odd rule determines which parts are inside.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numContours</tt></td><td>Number of contours in the following array.
+Must be at least 1.</td><tr>
+<tr valign=top><td><tt>contours</tt></td><td>Array of contours.</td><tr>
+<tr valign=top><td><tt>shapeHint</tt></td><td>Information about the shape of the general polygon,
+which may be used by the renderer to optimize
+drawing.</td><tr>
+<tr valign=top><td><tt>generalPolygonAttributeSet</tt></td><td>Set of attributes for the polygon.
+May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3LineData"></a>
+<h3><a name="TQ3LineData">TQ3LineData</a></h3>
+<blockquote><pre>
+typedef struct TQ3LineData {
+    TQ3Vertex3D                                 vertices[2];
+    TQ3AttributeSet                             lineAttributeSet;
+} TQ3LineData;
+</pre>
+</blockquote>
+<p>Data describing a line.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vertices</tt></td><td>Array of two vertices, the ends of the line.</td><tr>
+<tr valign=top><td><tt>lineAttributeSet</tt></td><td>Set of attributes for the line.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3MarkerData"></a>
+<h3><a name="TQ3MarkerData">TQ3MarkerData</a></h3>
+<blockquote><pre>
+typedef struct TQ3MarkerData {
+    TQ3Point3D                                  location;
+    TQ3Int32                                    xOffset;
+    TQ3Int32                                    yOffset;
+    TQ3Bitmap                                   bitmap;
+    TQ3AttributeSet                             markerAttributeSet;
+} TQ3MarkerData;
+</pre>
+</blockquote>
+<p>Data describing a bitmap marker, a 2-dimensional image drawn on top of a scene
+at a specified location.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>location</tt></td><td>Location of the marker, in world coordinates.</td><tr>
+<tr valign=top><td><tt>xOffset</tt></td><td>Horizontal offset from the <code>location</code> to the
+upper left corner of the marker, in pixels.</td><tr>
+<tr valign=top><td><tt>yOffset</tt></td><td>Vertical offset from the <code>location</code> to the
+upper left corner of the marker, in pixels.</td><tr>
+<tr valign=top><td><tt>bitmap</tt></td><td>A bitmap.  Each bit corresponds to a pixel in the image.</td><tr>
+<tr valign=top><td><tt>markerAttributeSet</tt></td><td>Marker attributes, which can for instance modify the color
+or transparency of the 1 bits.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3MeshIterator"></a>
+<h3><a name="TQ3MeshIterator">TQ3MeshIterator</a></h3>
+<blockquote><pre>
+typedef struct TQ3MeshIterator {
+    void                                        *var1;
+    void                                        *var2;
+    void                                        *var3;
+    struct {
+        void                                    *field1;
+        char                                    field2[4];
+    } var4;
+</pre>
+</blockquote>
+<p>This structure is used for iterating through various parts of a
+Mesh.  You should consider it opaque, because the meanings of the
+fields are not documented.
+ </p>
+<hr>
+<a name="//apple_ref/c/tag/TQ3NURBCurveData"></a>
+<h3><a name="TQ3NURBCurveData">TQ3NURBCurveData</a></h3>
+<blockquote><pre>
+typedef struct TQ3NURBCurveData {
+    TQ3Uns32                                    order;
+    TQ3Uns32                                    numPoints;
+    TQ3RationalPoint4D                          *controlPoints;
+    float                                       *knots;
+    TQ3AttributeSet                             curveAttributeSet;
+} TQ3NURBCurveData;
+</pre>
+</blockquote>
+<p>Data defining a NURBS curve, a 3-dimensional curve represented by
+a nonuniform rational B-spline equation.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>order</tt></td><td>The order of the curve, one more than the
+degree of the polynomials defining the curve.
+Must be greater than one.</td><tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Number of control points.  Must be greater than
+or equal to the order.</td><tr>
+<tr valign=top><td><tt>controlPoints</tt></td><td>Array of rational 4-dimensional control points.</td><tr>
+<tr valign=top><td><tt>knots</tt></td><td>Array of knots that define the curve.  The number
+of knots must equal the sum of <code>order</code>
+and <code>numPoints</code>.  The values must be
+nondecreasing.</td><tr>
+<tr valign=top><td><tt>curveAttributeSet</tt></td><td>Set of attributes for the curve.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3NURBPatchData"></a>
+<h3><a name="TQ3NURBPatchData">TQ3NURBPatchData</a></h3>
+<blockquote><pre>
+typedef struct TQ3NURBPatchData {
+    TQ3Uns32                                    uOrder;
+    TQ3Uns32                                    vOrder;
+    TQ3Uns32                                    numRows;
+    TQ3Uns32                                    numColumns;
+    TQ3RationalPoint4D                          *controlPoints;
+    float                                       *uKnots;
+    float                                       *vKnots;
+    TQ3Uns32                                    numTrimLoops;
+    TQ3NURBPatchTrimLoopData                    *trimLoops;
+    TQ3AttributeSet                             patchAttributeSet;
+} TQ3NURBPatchData;
+</pre>
+</blockquote>
+<p>Data describing a NURB patch, a surface defined by a ratio of B-spline surfaces.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>uOrder</tt></td><td>Order of the NURB patch in the u parametric direction.
+The order is one greater than the degree of the
+polynomial functions involved, and must be
+greater than one.</td><tr>
+<tr valign=top><td><tt>vOrder</tt></td><td>Order of the NURB patch in the v parametric direction.
+The order is one greater than the degree of the
+polynomial functions involved, and must be
+greater than one.</td><tr>
+<tr valign=top><td><tt>numRows</tt></td><td>Number of control points in the u parametric equation.
+Must be greater than 1.</td><tr>
+<tr valign=top><td><tt>numColumns</tt></td><td>Number of control points in the v parametric equation.
+Must be greater than 1.</td><tr>
+<tr valign=top><td><tt>controlPoints</tt></td><td>Array of rational 4-dimensional control points.
+They are listed first in the direction of increasing u
+and then in the direction of increasing v.
+The number of control points is <code>numRows</code> times
+<code>numColumns</code>.</td><tr>
+<tr valign=top><td><tt>uKnots</tt></td><td>Array of knots in the u parametric direction.  The
+number of these knots is the sum of <code>uOrder</code>
+and <code>numColumns</code>.  The values must be
+nondecreasing.</td><tr>
+<tr valign=top><td><tt>vKnots</tt></td><td>Array of knots in the v parametric direction.  The
+number of these knots is the sum of <code>vOrder</code>
+and <code>numRows</code>.  The values must be
+nondecreasing.</td><tr>
+<tr valign=top><td><tt>numTrimLoops</tt></td><td>Number of trim loops in the following array.
+Currently this should be 0.</td><tr>
+<tr valign=top><td><tt>trimLoops</tt></td><td>Pointer to an array of trim loop structures.
+Currently this should be NULL.</td><tr>
+<tr valign=top><td><tt>patchAttributeSet</tt></td><td>Set of attributes for the patch.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3NURBPatchTrimCurveData"></a>
+<h3><a name="TQ3NURBPatchTrimCurveData">TQ3NURBPatchTrimCurveData</a></h3>
+<blockquote><pre>
+typedef struct TQ3NURBPatchTrimCurveData {
+    TQ3Uns32                                    order;
+    TQ3Uns32                                    numPoints;
+    TQ3RationalPoint3D                          *controlPoints;
+    float                                       *knots;
+} TQ3NURBPatchTrimCurveData;
+</pre>
+</blockquote>
+<p>Curve that trims a NURB patch.  Note that this is similar to TQ3NURBCurveData,
+but lacks an attribute set.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>order</tt></td><td>The order of the curve, one more than the
+degree of the polynomials defining the curve.
+Must be greater than one.</td><tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Number of control points.  Must be greater than
+or equal to the order.</td><tr>
+<tr valign=top><td><tt>controlPoints</tt></td><td>Array of rational 4-dimensional control points.</td><tr>
+<tr valign=top><td><tt>knots</tt></td><td>Array of knots that define the curve.  The number
+of knots must equal the sum of <code>order</code>
+and <code>numPoints</code>.  The values must be
+nondecreasing.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3NURBPatchTrimLoopData"></a>
+<h3><a name="TQ3NURBPatchTrimLoopData">TQ3NURBPatchTrimLoopData</a></h3>
+<blockquote><pre>
+typedef struct TQ3NURBPatchTrimLoopData {
+    TQ3Uns32                                    numTrimCurves;
+    TQ3NURBPatchTrimCurveData                   *trimCurves;
+} TQ3NURBPatchTrimLoopData;
+</pre>
+</blockquote>
+<p>Data describing curves that trim a NURB patch.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numTrimCurves</tt></td><td>Number of curves in the following array.</td><tr>
+<tr valign=top><td><tt>trimCurves</tt></td><td>Pointer to an array of curves.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PixmapMarkerData"></a>
+<h3><a name="TQ3PixmapMarkerData">TQ3PixmapMarkerData</a></h3>
+<blockquote><pre>
+typedef struct TQ3PixmapMarkerData {
+    TQ3Point3D                                  position;
+    TQ3Int32                                    xOffset;
+    TQ3Int32                                    yOffset;
+    TQ3StoragePixmap                            pixmap;
+    TQ3AttributeSet                             pixmapMarkerAttributeSet;
+} TQ3PixmapMarkerData;
+</pre>
+</blockquote>
+<p>Data describing a pixmap marker, a 2-dimensional color image drawn on top of a scene
+at a specified location.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>position</tt></td><td>Location of the marker, in world coordinates.</td><tr>
+<tr valign=top><td><tt>xOffset</tt></td><td>Horizontal offset from the <code>position</code> to the
+upper left corner of the marker, in pixels.</td><tr>
+<tr valign=top><td><tt>yOffset</tt></td><td>Vertical offset from the <code>position</code> to the
+upper left corner of the marker, in pixels.</td><tr>
+<tr valign=top><td><tt>pixmap</tt></td><td>A pixmap.</td><tr>
+<tr valign=top><td><tt>pixmapMarkerAttributeSet</tt></td><td>A set of attributes for the marker.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PointData"></a>
+<h3><a name="TQ3PointData">TQ3PointData</a></h3>
+<blockquote><pre>
+typedef struct TQ3PointData {
+    TQ3Point3D                                  point;
+    TQ3AttributeSet                             pointAttributeSet;
+} TQ3PointData;
+</pre>
+</blockquote>
+<p>Data describing a point object.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point</tt></td><td>Location of the point.</td><tr>
+<tr valign=top><td><tt>pointAttributeSet</tt></td><td>Set of attributes for the point.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PolyLineData"></a>
+<h3><a name="TQ3PolyLineData">TQ3PolyLineData</a></h3>
+<blockquote><pre>
+typedef struct TQ3PolyLineData {
+    TQ3Uns32                                    numVertices;
+    TQ3Vertex3D                                 *vertices;
+    TQ3AttributeSet                             *segmentAttributeSet;
+    TQ3AttributeSet                             polyLineAttributeSet;
+} TQ3PolyLineData;
+</pre>
+</blockquote>
+<p>Data describing a connected but not closed curve made up of several straight line
+segments.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numVertices</tt></td><td>Number of vertices of the curve (one more than the
+number of line segments).  Must be at least 2.</td><tr>
+<tr valign=top><td><tt>vertices</tt></td><td>Pointer to an array of vertices.</td><tr>
+<tr valign=top><td><tt>segmentAttributeSet</tt></td><td>Pointer to an array of attribute sets, one for each
+segment.  If you do not want to assign attributes
+to any segment, this pointer may be NULL.</td><tr>
+<tr valign=top><td><tt>polyLineAttributeSet</tt></td><td>Set of attributes for the whole curve.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PolygonData"></a>
+<h3><a name="TQ3PolygonData">TQ3PolygonData</a></h3>
+<blockquote><pre>
+typedef struct TQ3PolygonData {
+    TQ3Uns32                                    numVertices;
+    TQ3Vertex3D                                 *vertices;
+    TQ3AttributeSet                             polygonAttributeSet;
+} TQ3PolygonData;
+</pre>
+</blockquote>
+<p>Data describing a simple convex polygon.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numVertices</tt></td><td>Number of vertices.  Must be at least 3.</td><tr>
+<tr valign=top><td><tt>vertices</tt></td><td>Pointer to an array of vertices.</td><tr>
+<tr valign=top><td><tt>polygonAttributeSet</tt></td><td>Set of attributes for the polygon.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PolyhedronData"></a>
+<h3><a name="TQ3PolyhedronData">TQ3PolyhedronData</a></h3>
+<blockquote><pre>
+typedef struct TQ3PolyhedronData {
+    TQ3Uns32                                    numVertices;
+    TQ3Vertex3D                                 *vertices;
+    TQ3Uns32                                    numEdges;
+    TQ3PolyhedronEdgeData                       *edges;
+    TQ3Uns32                                    numTriangles;
+    TQ3PolyhedronTriangleData                   *triangles;
+    TQ3AttributeSet                             polyhedronAttributeSet;
+} TQ3PolyhedronData;
+</pre>
+</blockquote>
+<p>Data describing a polyhedron.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numVertices</tt></td><td>Number of vertices in the following array.</td><tr>
+<tr valign=top><td><tt>vertices</tt></td><td>Pointer to array of vertices of the polyhedron.</td><tr>
+<tr valign=top><td><tt>numEdges</tt></td><td>Number of edges in the following array.  May be 0
+if you do not want to specify any edges.</td><tr>
+<tr valign=top><td><tt>edges</tt></td><td>Pointer to an array of edges.  May be NULL if you
+also specify 0 for <code>numEdges</code>.</td><tr>
+<tr valign=top><td><tt>numTriangles</tt></td><td>Number of triangles (faces) in the polygon.</td><tr>
+<tr valign=top><td><tt>triangles</tt></td><td>Pointer to an array of triangles.</td><tr>
+<tr valign=top><td><tt>polyhedronAttributeSet</tt></td><td>Set of attributes for the polyhedron.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PolyhedronEdgeData"></a>
+<h3><a name="TQ3PolyhedronEdgeData">TQ3PolyhedronEdgeData</a></h3>
+<blockquote><pre>
+typedef struct TQ3PolyhedronEdgeData {
+    TQ3Uns32                                    vertexIndices[2];
+    TQ3Uns32                                    triangleIndices[2];
+    TQ3AttributeSet                             edgeAttributeSet;
+} TQ3PolyhedronEdgeData;
+</pre>
+</blockquote>
+<p>Data describing an edge within a polyhedron.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vertexIndices</tt></td><td>Indices of the two vertices that are ends of the edge.</td><tr>
+<tr valign=top><td><tt>triangleIndices</tt></td><td>Indices of the two triangles that contain the edge.</td><tr>
+<tr valign=top><td><tt>edgeAttributeSet</tt></td><td>Set of attributes for the edge.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PolyhedronTriangleData"></a>
+<h3><a name="TQ3PolyhedronTriangleData">TQ3PolyhedronTriangleData</a></h3>
+<blockquote><pre>
+typedef struct TQ3PolyhedronTriangleData {
+    TQ3Uns32                                    vertexIndices[3];
+    TQ3PolyhedronEdge                           edgeFlag;
+    TQ3AttributeSet                             triangleAttributeSet;
+} TQ3PolyhedronTriangleData;
+</pre>
+</blockquote>
+<p>Data describing a triangle within a polyhedron.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vertexIndices</tt></td><td>Indices of the 3 vertices of the triangle.</td><tr>
+<tr valign=top><td><tt>edgeFlag</tt></td><td>Flags indicating which edges of the triangle should
+be rendered.  See <code>TQ3PolyhedronEdgeMasks</code>.</td><tr>
+<tr valign=top><td><tt>triangleAttributeSet</tt></td><td>Set of attributes for the triangle.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3TorusData"></a>
+<h3><a name="TQ3TorusData">TQ3TorusData</a></h3>
+<blockquote><pre>
+typedef struct TQ3TorusData {
+    TQ3Point3D                                  origin;
+    TQ3Vector3D                                 orientation;
+    TQ3Vector3D                                 majorRadius;
+    TQ3Vector3D                                 minorRadius;
+    float                                       ratio;
+    float                                       uMin;
+    float                                       uMax;
+    float                                       vMin;
+    float                                       vMax;
+    TQ3EndCap                                   caps;
+    TQ3AttributeSet                             interiorAttributeSet;
+    TQ3AttributeSet                             torusAttributeSet;
+} TQ3TorusData;
+</pre>
+</blockquote>
+<p>Data describing a generalized torus.  A torus is a surface formed by rotating an
+ellipse about an axis that is in the same plane as the ellipse but does not pass
+through the ellipse.
+<br><br>
+The kind of torus usually encountered in elementary mathematics, with circular
+cross sections, would be one where the <code>orientation</code>, <code>majorRadius</code>,
+and <code>minorRadius</code> vectors are mutually orthogonal, where
+<code>majorRadius</code> and <code>minorRadius</code> have the same length, and where
+<code>ratio</code> is 1.
+<br><br>
+The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
+were apparently intended to allow partial tori, e.g., a torus with a wedge
+cut out of it.
+But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
+ever did either.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>origin</tt></td><td>Center of rotation.</td><tr>
+<tr valign=top><td><tt>orientation</tt></td><td>Vector whose direction is the axis of rotation, and
+whose length is the length of the radius of the ellipse
+in the direction of the axis of rotation.</td><tr>
+<tr valign=top><td><tt>majorRadius</tt></td><td>Vector from the origin to the center of the ellipse.</td><tr>
+<tr valign=top><td><tt>minorRadius</tt></td><td>Vector from the origin to the center of a different
+cross-sectional ellipse.</td><tr>
+<tr valign=top><td><tt>ratio</tt></td><td>The ratio between the radius of the ellipse in the direction
+of <code>majorRadius</code>, and the length of
+<code>orientation</code>.</td><tr>
+<tr valign=top><td><tt>uMin</tt></td><td>Minimum value in the u parametric direction (the long way
+around.)  Normally 0.</td><tr>
+<tr valign=top><td><tt>uMax</tt></td><td>Maximum value in the u parametric direction (the long way
+around.)  Normally 1.</td><tr>
+<tr valign=top><td><tt>vMin</tt></td><td>Minimum value in the v parametric direction (the short way
+around.)  Normally 0.</td><tr>
+<tr valign=top><td><tt>vMax</tt></td><td>Maximum value in the v parametric direction (the short way
+around.)  Normally 1.</td><tr>
+<tr valign=top><td><tt>caps</tt></td><td>Cap style.  Should be kQ3EndCapNone.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3TriGridData"></a>
+<h3><a name="TQ3TriGridData">TQ3TriGridData</a></h3>
+<blockquote><pre>
+typedef struct TQ3TriGridData {
+    TQ3Uns32                                    numRows;
+    TQ3Uns32                                    numColumns;
+    TQ3Vertex3D                                 *vertices;
+    TQ3AttributeSet                             *facetAttributeSet;
+    TQ3AttributeSet                             triGridAttributeSet;
+} TQ3TriGridData;
+</pre>
+</blockquote>
+<p>Data describing a TriGrid object.  A TriGrid is defined by a grid of points in
+3-dimensional space.  Each set of 4 adjacent points (in the mth and (m+1)st row and
+nth and (n+1)st column) defines a quadrilateral that can be subdivided into
+triangles in 2 natural ways.  This subdivision is done in an alternating way,
+such that the vertex in the first row and first column belongs to two triangles.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numRows</tt></td><td>Number of rows of vertices.  Should be at least 2.</td><tr>
+<tr valign=top><td><tt>numColumns</tt></td><td>Number of columns of vertices.  Should be at least 2.</td><tr>
+<tr valign=top><td><tt>vertices</tt></td><td>Pointer to an array of vertices, listed in rectangular
+order, first by increasing columns and then by
+increasing rows.  The number of vertices should be
+<code>numRows</code> times <code>numColumns</code>.</td><tr>
+<tr valign=top><td><tt>facetAttributeSet</tt></td><td>Pointer to an array of triangle attributes.  May be
+NULL, but otherwise should point to an array of
+2&times;(<code>numRows</code>-1)&times;(<code>numColumns</code>-1)
+attribute sets.</td><tr>
+<tr valign=top><td><tt>triGridAttributeSet</tt></td><td>Set of attributes for the whole TriGrid object.
+May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3TriMeshAttributeData"></a>
+<h3><a name="TQ3TriMeshAttributeData">TQ3TriMeshAttributeData</a></h3>
+<blockquote><pre>
+typedef struct TQ3TriMeshAttributeData {
+    TQ3AttributeType                            attributeType;
+    void                                        *data;
+    char                                        *attributeUseArray;
+} TQ3TriMeshAttributeData;
+</pre>
+</blockquote>
+<p>A structure holding an array of attribute data of a particular type.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>attributeType</tt></td><td>Type of the attribute.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Pointer to an array of attribute data.  The number of
+members in the array is determined by context in the
+enclosing <code>TQ3TriMeshData</code> structure; for
+instance, if these are vertex attributes, the number
+of members is the number of vertices.  The size of each
+member depends on the attribute type.</td><tr>
+<tr valign=top><td><tt>attributeUseArray</tt></td><td>For non-custom attribute types, this must be NULL.
+For custom attribute types, it can point to an array
+of 1-byte 0s and 1s, with 1s indicating which items
+have the custom attribute.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3TriMeshData"></a>
+<h3><a name="TQ3TriMeshData">TQ3TriMeshData</a></h3>
+<blockquote><pre>
+typedef struct TQ3TriMeshData {
+    TQ3AttributeSet                             triMeshAttributeSet;
+
+    TQ3Uns32                                    numTriangles;
+    TQ3TriMeshTriangleData                      *triangles;
+
+    TQ3Uns32                                    numTriangleAttributeTypes;
+    TQ3TriMeshAttributeData                     *triangleAttributeTypes;
+
+    TQ3Uns32                                    numEdges;
+    TQ3TriMeshEdgeData                          *edges;
+
+    TQ3Uns32                                    numEdgeAttributeTypes;
+    TQ3TriMeshAttributeData                     *edgeAttributeTypes;
+
+    TQ3Uns32                                    numPoints;
+    TQ3Point3D                                  *points;
+
+    TQ3Uns32                                    numVertexAttributeTypes;
+    TQ3TriMeshAttributeData                     *vertexAttributeTypes;
+
+    TQ3BoundingBox                              bBox;
+} TQ3TriMeshData;
+</pre>
+</blockquote>
+<p>Structure describing a TriMesh object, which is an object composed of vertices, edges,
+and triangular faces.  The main difference between a TriMesh and a Polyhedron is that
+attribute data for vertices, edges, and faces are not stored in attribute sets, but
+in arrays of attribute data.  This is normally more efficient, so long as you are
+going to be assigning an attribute to every vertex, or every edge, or every face.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>triMeshAttributeSet</tt></td><td>Set of attributes for the whole object.  May be NULL.</td><tr>
+<tr valign=top><td><tt>numTriangles</tt></td><td>Number of triangles in the following array.</td><tr>
+<tr valign=top><td><tt>triangles</tt></td><td>Pointer to an array of triangle data.</td><tr>
+<tr valign=top><td><tt>numTriangleAttributeTypes</tt></td><td>Number of triangle attribute types listed in the
+following array.</td><tr>
+<tr valign=top><td><tt>triangleAttributeTypes</tt></td><td>Pointer to an array of attribute data for triangles (faces).
+May be NULL, if <code>numTriangleAttributeTypes</code> is 0.</td><tr>
+<tr valign=top><td><tt>numEdges</tt></td><td>Number of edges in the following array.</td><tr>
+<tr valign=top><td><tt>edges</tt></td><td>Pointer to an array of edge data.  If you do not wish to
+specify any edges, you can set this to NULL, and set
+<code>numEdges</code> to 0.</td><tr>
+<tr valign=top><td><tt>numEdgeAttributeTypes</tt></td><td>Number of edge attribute types in the following array.</td><tr>
+<tr valign=top><td><tt>edgeAttributeTypes</tt></td><td>Pointer to an array of edge attribute types.  May be NULL,
+provided that <code>numEdgeAttributeTypes</code> is 0.</td><tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Number of points (vertices).</td><tr>
+<tr valign=top><td><tt>points</tt></td><td>Pointer to an array of points.</td><tr>
+<tr valign=top><td><tt>numVertexAttributeTypes</tt></td><td>Number of vertex attribute types in the following array.</td><tr>
+<tr valign=top><td><tt>vertexAttributeTypes</tt></td><td>Pointer to an array of vertex attribute data.  May be NULL,
+so long as <code>numVertexAttributeTypes</code> is 0.</td><tr>
+<tr valign=top><td><tt>bBox</tt></td><td>Bounding box of the TriMesh.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3TriMeshEdgeData"></a>
+<h3><a name="TQ3TriMeshEdgeData">TQ3TriMeshEdgeData</a></h3>
+<blockquote><pre>
+typedef struct TQ3TriMeshEdgeData {
+    TQ3Uns32                                    pointIndices[2];
+    TQ3Uns32                                    triangleIndices[2];
+} TQ3TriMeshEdgeData;
+</pre>
+</blockquote>
+<p>Data defining an edge within a TriMesh.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>pointIndices</tt></td><td>Array of 2 indices into the TriMesh array of points,
+the ends of the edge.</td><tr>
+<tr valign=top><td><tt>triangleIndices</tt></td><td>Array of 2 indices into the TriMesh array of triangles,
+the triangles containing the edge.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3TriMeshTriangleData"></a>
+<h3><a name="TQ3TriMeshTriangleData">TQ3TriMeshTriangleData</a></h3>
+<blockquote><pre>
+typedef struct TQ3TriMeshTriangleData {
+    TQ3Uns32                                    pointIndices[3];
+} TQ3TriMeshTriangleData;
+</pre>
+</blockquote>
+<p>Data defining a triangle within a TriMesh.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>pointIndices</tt></td><td>Array of 3 indices into the TriMesh array of points.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3TriangleData"></a>
+<h3><a name="TQ3TriangleData">TQ3TriangleData</a></h3>
+<blockquote><pre>
+typedef struct TQ3TriangleData {
+    TQ3Vertex3D                                 vertices[3];
+    TQ3AttributeSet                             triangleAttributeSet;
+} TQ3TriangleData;
+</pre>
+</blockquote>
+<p>Data defining a single triangle.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vertices</tt></td><td>The 3 vertices of the triangle.</td><tr>
+<tr valign=top><td><tt>triangleAttributeSet</tt></td><td>Set of attributes for the triangle.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+</body></html>

@@ -1,0 +1,79 @@
+<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
+<a name="//apple_ref/c/tag/Nurb&nbsp;Limits"></a>
+<h3><a name="Nurb&nbsp;Limits">Nurb&nbsp;Limits</a></h3>
+<blockquote><pre>
+enum {
+	kQ3NURBCurveMaxOrder = 16,
+	kQ3NURBPatchMaxOrder = 16
+};
+</pre>
+</blockquote>
+<p>Miscellaneous limits for NURB curves and patches.
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NURBCurveMaxOrder"><tt>kQ3NURBCurveMaxOrder</tt></a></td><td>Maximum order for NURB curves.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NURBPatchMaxOrder"><tt>kQ3NURBPatchMaxOrder</tt></a></td><td>Maximum order for NURB patches. Note that this was
+set to 11 in QD3DGeometry.h, however a Develop article
+on NURBs indicated it should be 16.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3GeneralPolygonShapeHint"></a>
+<h3><a name="TQ3GeneralPolygonShapeHint">TQ3GeneralPolygonShapeHint</a></h3>
+<blockquote><pre>
+typedef enum TQ3GeneralPolygonShapeHint {
+    kQ3GeneralPolygonShapeHintComplex           = 0,
+    kQ3GeneralPolygonShapeHintConcave           = 1,
+    kQ3GeneralPolygonShapeHintConvex            = 2
+} TQ3GeneralPolygonShapeHint;
+</pre>
+</blockquote>
+<p>A general polygon has a shape hint that may be used by the renderer to
+optimize drawing.
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3GeneralPolygonShapeHintComplex"><tt>kQ3GeneralPolygonShapeHintComplex</tt></a></td><td>The general polygon has more
+than one contour, or is self-intersecting, or it is not
+known whether it is concave or convex.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3GeneralPolygonShapeHintConcave"><tt>kQ3GeneralPolygonShapeHintConcave</tt></a></td><td>There is exactly one contour, which
+is concave.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3GeneralPolygonShapeHintConvex"><tt>kQ3GeneralPolygonShapeHintConvex</tt></a></td><td>There is exactly one contour, which
+is convex.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PolyhedronEdgeMasks"></a>
+<h3><a name="TQ3PolyhedronEdgeMasks">TQ3PolyhedronEdgeMasks</a></h3>
+<blockquote><pre>
+typedef enum TQ3PolyhedronEdgeMasks {
+    kQ3PolyhedronEdgeNone                       = 0,
+    kQ3PolyhedronEdge01                         = (1 << 0),
+    kQ3PolyhedronEdge12                         = (1 << 1),
+    kQ3PolyhedronEdge20                         = (1 << 2),
+    kQ3PolyhedronEdgeAll                        = (kQ3PolyhedronEdge01 | kQ3PolyhedronEdge12 | kQ3PolyhedronEdge20)
+} TQ3PolyhedronEdgeMasks;
+</pre>
+</blockquote>
+<p>These are flags indicating which edges of a polyhedral triangle should be
+rendered.
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PolyhedronEdgeNone"><tt>kQ3PolyhedronEdgeNone</tt></a></td><td>No Edge.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PolyhedronEdge01"><tt>kQ3PolyhedronEdge01</tt></a></td><td>Render the edge between vertex 0 and vertex 1.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PolyhedronEdge12"><tt>kQ3PolyhedronEdge12</tt></a></td><td>Render the edge between vertex 1 and vertex 2.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PolyhedronEdge20"><tt>kQ3PolyhedronEdge20</tt></a></td><td>Render the edge between vertex 2 and vertex 0.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PolyhedronEdgeAll"><tt>kQ3PolyhedronEdgeAll</tt></a></td><td>Render all the edges.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+</body></html>

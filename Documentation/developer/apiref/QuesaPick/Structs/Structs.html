@@ -53,5 +53,102 @@ were submitted, the positions array will no longer be valid.
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+<a name="//apple_ref/c/tag/TQ3PickData"></a>
+<h3><a name="TQ3PickData">TQ3PickData</a></h3>
+<blockquote><pre>
+typedef struct TQ3PickData {
+    TQ3PickSort                                 sort;
+    TQ3PickDetail                               mask;
+    TQ3Uns32                                    numHitsToReturn;
+} TQ3PickData;
+</pre>
+</blockquote>
+<p>Describes the common state for a pick object.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>sort</tt></td><td>The type of sorting, if any, to performed on the results.</td><tr>
+<tr valign=top><td><tt>mask</tt></td><td>The type of pick information to be returned.</td><tr>
+<tr valign=top><td><tt>numHitsToReturn</tt></td><td>The number of hits to return. Set to <code>kQ3ReturnAllHits</code>
+to retrieve all hits.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3WindowPointPickData"></a>
+<h3><a name="TQ3WindowPointPickData">TQ3WindowPointPickData</a></h3>
+<blockquote><pre>
+typedef struct TQ3WindowPointPickData {
+    TQ3PickData                                 data;
+    TQ3Point2D                                  point;
+    float                                       vertexTolerance;
+    float                                       edgeTolerance;
+} TQ3WindowPointPickData;
+</pre>
+</blockquote>
+<p>Describes the state for a window-point pick object.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>data</tt></td><td>The common state for the pick.</td><tr>
+<tr valign=top><td><tt>point</tt></td><td>The pick point in local window coordinates.</td><tr>
+<tr valign=top><td><tt>vertexTolerance</tt></td><td>The vertex tolerance.  Only relevant to picking Point objects.</td><tr>
+<tr valign=top><td><tt>edgeTolerance</tt></td><td>The edge tolerance.  Only relevant to picking one-dimensional
+objects such as Lines and PolyLines.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3WindowRectPickData"></a>
+<h3><a name="TQ3WindowRectPickData">TQ3WindowRectPickData</a></h3>
+<blockquote><pre>
+typedef struct TQ3WindowRectPickData {
+    TQ3PickData                                 data;
+    TQ3Area                                     rect;
+} TQ3WindowRectPickData;
+</pre>
+</blockquote>
+<p>Describes the state for a window-rect pick object.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>data</tt></td><td>The common state for the pick.</td><tr>
+<tr valign=top><td><tt>rect</tt></td><td>The pick rect in local window coordinates.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3WorldRayPickData"></a>
+<h3><a name="TQ3WorldRayPickData">TQ3WorldRayPickData</a></h3>
+<blockquote><pre>
+typedef struct TQ3WorldRayPickData {
+    TQ3PickData                                 data;
+    TQ3Ray3D                                    ray;
+    float                                       vertexTolerance;
+    float                                       edgeTolerance;
+} TQ3WorldRayPickData;
+</pre>
+</blockquote>
+<p>Describes the state for a world-ray pick object.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>data</tt></td><td>The common state for the pick.</td><tr>
+<tr valign=top><td><tt>ray</tt></td><td>The pick ray in world coordinates.</td><tr>
+<tr valign=top><td><tt>vertexTolerance</tt></td><td>The vertex tolerance.  Only relevant to picking Point objects.</td><tr>
+<tr valign=top><td><tt>edgeTolerance</tt></td><td>The edge tolerance.  Only relevant to picking one-dimensional
+objects such as Lines and PolyLines.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
 </body></html>

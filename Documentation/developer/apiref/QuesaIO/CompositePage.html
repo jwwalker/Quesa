@@ -850,7 +850,7 @@ Q3File_Close.
 <tr valign=top><td><tt>theFile</tt></td><td>The file object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_GetExternalReferences"></a>
@@ -920,10 +920,10 @@ Q3File_GetMode (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theFile</tt></td><td>The file object.</td></tr>
-<tr valign=top><td><tt>mode</tt></td><td>On output, the current mode mask.</td></tr>
+<tr valign=top><td><tt>mode</tt></td><td>Receives the current mode mask.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_GetNextObjectType"></a>
@@ -1019,10 +1019,10 @@ Q3File_GetVersion (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theFile</tt></td><td>The file object.</td></tr>
-<tr valign=top><td><tt>version</tt></td><td>On output, the file format version.</td></tr>
+<tr valign=top><td><tt>version</tt></td><td>Receives the file format version.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_IsEndOfContainer"></a>
@@ -1142,10 +1142,10 @@ Q3File_IsOpen (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theFile</tt></td><td>The file object.</td></tr>
-<tr valign=top><td><tt>isOpen</tt></td><td>On output, kQ3True if the file is open.</td></tr>
+<tr valign=top><td><tt>isOpen</tt></td><td>Receives kQ3True if the file is open.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_MarkAsExternalReference"></a>
@@ -1211,11 +1211,11 @@ with it, and must not already be open.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theFile</tt></td><td>The file object.</td></tr>
-<tr valign=top><td><tt>mode</tt></td><td>On output, a combination of TQ3FileModeMasks values.
+<tr valign=top><td><tt>mode</tt></td><td>Receives a combination of TQ3FileModeMasks values.
 Pass NULL if you don't need this information.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_OpenWrite"></a>
@@ -1243,7 +1243,7 @@ Currently, Quesa ignores the mode parameter and writes in binary stream mode.
 <tr valign=top><td><tt>mode</tt></td><td>A combination of TQ3FileModeMasks values.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_ReadObject"></a>
@@ -1398,6 +1398,36 @@ the typical usage of this function and any special requirements.
 </table>
 </blockquote>
 <b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Float32_ReadArray"></a>
+<h3><a name="Q3Float32_ReadArray">Q3Float32_ReadArray</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Float32_ReadArray (
+	TQ3Uns32					numFloats,
+	TQ3Float32*					floatArray,
+	TQ3FileObject            	theFile
+);
+</tt><br>
+</pre></blockquote>
+<p>Read an array of 32-bit floating point numbers from a file object.
+<br><br>
+Calling this function has somewhat less overhead than calling
+Q3Float32_Read repeatedly.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numFloats</tt></td><td>Number of numbers to read.</td></tr>
+<tr valign=top><td><tt>floatArray</tt></td><td>Address of array to receive the numbers.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Float32_Write"></a>
@@ -2082,20 +2112,19 @@ Q3Size_Pad (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Pad a number of bytes to be long-word aligned.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+In other words, this rounds a number up to a multiple of 4.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>size</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>size</tt></td><td>An unsigned integer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Next multiple of 4.
  
 <hr>
 <a name="//apple_ref/c/func/Q3String_Read"></a>
@@ -2108,22 +2137,82 @@ Q3String_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Read a C string from a file.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Note that the length parameter is an output-only parameter.  That is,
+this function does not know the size of your buffer, it simply
+assumes that you have allocated <code>kQ3StringMaximumLength</code> bytes.
+<br><br>
+If you pass NULL for the buffer, <code>Q3String_Read</code> will still
+find the length of the string, but will leave the file object's position
+at the beginning of the string.
+<br><br>
+If it reads a string of length at least <code>kQ3StringMaximumLength</code>,
+and you have passed a non-NULL buffer, then Quesa will post the warning
+<code>kQ3WarningStringExceedsMaximumLength</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>length</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Buffer to receive string data, of size
+<code>kQ3StringMaximumLength</code>, or NULL.</td></tr>
+<tr valign=top><td><tt>length</tt></td><td>Receives length in bytes of string data that was read,
+not including the terminating NUL character.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3String_ReadUnlimited"></a>
+<h3><a name="Q3String_ReadUnlimited">Q3String_ReadUnlimited</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3String_ReadUnlimited(
+    char                          *data,
+    TQ3Uns32                      *ioLength,
+    TQ3FileObject                 theFile
+);
+</tt><br>
+</pre></blockquote>
+<p>Read a NUL-terminated string (C string) from a file.
+<br><br>
+Unlike the QD3D function <code>Q3String_Read</code>, this function is not
+limited to reading at most <code>kQ3StringMaximumLength</code> bytes. Note that
+the length parameter is an input-output parameter.
+<br><br>
+If you pass NULL for the buffer, <code>Q3String_ReadUnlimited</code> will still
+find the length of the string, but will leave the file object's position
+at the beginning of the string.  Therefore, you can read a string of
+unknown size as follows:
+<br><br>
+<blockquote><pre><code>
+Q3String_Read( NULL, &stringSize, theFile );
+stringSize += 1;	// make room for terminal NUL byte
+buffer = Q3Memory_Allocate( stringSize );
+Q3String_Read( buffer, &stringSize, theFile );
+</code></pre></blockquote>
+<br><br>
+If you passed a non-NULL buffer that was not big enough for the whole string,
+Quesa posts <code>kQ3WarningStringExceedsMaximumLength</code>.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>data</tt></td><td>Buffer to receive string data, or NULL.</td></tr>
+<tr valign=top><td><tt>ioLength</tt></td><td>Pass the size of your buffer.  Receives the number of
+bytes of string data found in the file, not including
+the terminal NUL byte, even if it did not all fit in the
+buffer.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3String_Write"></a>
@@ -2135,21 +2224,50 @@ Q3String_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Write a NUL-terminated string (C string) to a file.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This writes a NUL-terminated string to a file, and if necessary writes
+up to 3 more pad bytes.  If the string's length, including the terminal
+NUL byte, exceeds <code>kQ3StringMaximumLength</code>, then the error
+<code>kQ3ErrorStringExceedsMaximumLength</code> will be posted and
+<code>kQ3StringMaximumLength</code> bytes will be written.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>A NUL-terminated string.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3String_WriteUnlimited"></a>
+<h3><a name="Q3String_WriteUnlimited">Q3String_WriteUnlimited</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3String_WriteUnlimited (
+    const char                    *data,
+    TQ3FileObject                 theFile
+);
+</tt><br>
+</pre></blockquote>
+<p>Write a NUL-terminated string (C string) to a file.  If necessary it writes
+up to 3 more pad bytes to make the total number of bytes a multiple of 4.
+<br><br>
+<em>This function is not available in QuickDraw 3D</em>.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>data</tt></td><td>A NUL-terminated string.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tangent2D_Read"></a>
@@ -2508,6 +2626,36 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
+<a name="//apple_ref/c/func/Q3Uns16_ReadArray"></a>
+<h3><a name="Q3Uns16_ReadArray">Q3Uns16_ReadArray</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Uns16_ReadArray (
+	TQ3Uns32					numNums,
+	TQ3Uns16*					intArray,
+	TQ3FileObject            	theFile
+);
+</tt><br>
+</pre></blockquote>
+<p>Read an array of 16-bit unsigned integers from a file object.
+<br><br>
+Calling this function has somewhat less overhead than calling
+Q3Uns16_Read repeatedly.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numNums</tt></td><td>Number of numbers to read.</td></tr>
+<tr valign=top><td><tt>intArray</tt></td><td>Address of array to receive the numbers.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3Uns16_Write"></a>
 <h3><a name="Q3Uns16_Write">Q3Uns16_Write</a></h3>
 <blockquote><pre><tt>TQ3Status  
@@ -2558,6 +2706,36 @@ the typical usage of this function and any special requirements.
 </table>
 </blockquote>
 <b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Uns32_ReadArray"></a>
+<h3><a name="Q3Uns32_ReadArray">Q3Uns32_ReadArray</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Uns32_ReadArray (
+	TQ3Uns32					numNums,
+	TQ3Uns32*					intArray,
+	TQ3FileObject            	theFile
+);
+</tt><br>
+</pre></blockquote>
+<p>Read an array of 32-bit unsigned integers from a file object.
+<br><br>
+Calling this function has somewhat less overhead than calling
+Q3Uns32_Read repeatedly.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numNums</tt></td><td>Number of numbers to read.</td></tr>
+<tr valign=top><td><tt>intArray</tt></td><td>Address of array to receive the numbers.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Uns32_Write"></a>
@@ -2662,6 +2840,36 @@ the typical usage of this function and any special requirements.
 </table>
 </blockquote>
 <b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Uns8_ReadArray"></a>
+<h3><a name="Q3Uns8_ReadArray">Q3Uns8_ReadArray</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Uns8_ReadArray (
+	TQ3Uns32					numNums,
+	TQ3Uns8*					intArray,
+	TQ3FileObject            	theFile
+);
+</tt><br>
+</pre></blockquote>
+<p>Read an array of 8-bit unsigned integers from a file object.
+<br><br>
+Calling this function has somewhat less overhead than calling
+Q3Uns8_Read repeatedly.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numNums</tt></td><td>Number of numbers to read.</td></tr>
+<tr valign=top><td><tt>intArray</tt></td><td>Address of array to receive the numbers.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Uns8_Write"></a>
@@ -3454,5 +3662,97 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+<h2>Typedefs</h2>
+<a name="//apple_ref/c/tdef/TQ3XObjectReadDataMethod"></a>
+<h3><a name="TQ3XObjectReadDataMethod">TQ3XObjectReadDataMethod</a></h3>
+<b>Abstract:</b> Object method of type <code>kQ3XMethodTypeObjectReadData</code> for a
+custom element or attribute.
+
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectReadDataMethod)</b>(TQ3Object parentObject, TQ3FileObject theFile);</tt><br>
+</blockquote>
+<p>The method normally reads the element's data using functions such as
+<code>Q3Float32_Read</code> and <code>Q3File_ReadObject</code> (for child objects),
+then adds the element data to its parent set.
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>parentObject</tt></td><td>Set object to receive the new element or attribute.</td><tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XObjectTraverseDataMethod"></a>
+<h3><a name="TQ3XObjectTraverseDataMethod">TQ3XObjectTraverseDataMethod</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectTraverseDataMethod)</b>(TQ3Object object, void *data, TQ3ViewObject view);</tt><br>
+</blockquote>
+<p>This is the custom object method of type <code>kQ3XMethodTypeObjectTraverseData</code>.
+The QuickDraw 3D documention mentions this method, but does not explain how it
+differs from <code>TQ3XObjectTraverseMethod</code>.  Quesa does not use it.
+ </p>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XObjectTraverseMethod"></a>
+<h3><a name="TQ3XObjectTraverseMethod">TQ3XObjectTraverseMethod</a></h3>
+<b>Abstract:</b> Traversal method (<code>kQ3XMethodTypeObjectTraverse</code>) for a
+custom element or attribute.
+
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectTraverseMethod)</b>(TQ3Object object, void *data, TQ3ViewObject view);</tt><br>
+</blockquote>
+<p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
+objects are to be written and how much space each will use, and the actual
+writing.  Two phases are necessary because the start of a container includes
+the total length of the container, but this cannot be known without asking
+each member of the container.
+<br><br>
+Typically, this method will call <code>Q3XView_SubmitWriteData</code> to
+specify the immediate object data, and then call <code>Q3Object_Submit</code>
+for each child object.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to traverse.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The object's instance data.  In the case of a custom element,
+this is the internal form of the element data.</td><tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.
+result		Success or failure of the operation.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XObjectWriteMethod"></a>
+<h3><a name="TQ3XObjectWriteMethod">TQ3XObjectWriteMethod</a></h3>
+<b>Abstract:</b> Object method of type <code>kQ3XMethodTypeObjectWrite</code> for a
+custom element or attribute.
+
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectWriteMethod)</b>(const void *data, TQ3FileObject theFile);</tt><br>
+</blockquote>
+<p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
+objects are to be written and how much space each will use, and the actual
+writing.  Two phases are necessary because the start of a container includes
+the total length of the container, but this cannot be known without asking
+each member of the container.
+<br><br>
+This method will write the object's instance data using functions such as
+<code>Q3Float32_Write</code>.  An class with no instance data other than
+child objects does not need to provide this method.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>data</tt></td><td>Instance data to write.  This will be the data passed to
+<code>Q3XView_SubmitWriteData</code> by the traversal method.</td><tr>
+<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
 </body></html>

@@ -10,6 +10,8 @@ Q3BoundingBox_Copy (
 </pre></blockquote>
 <p>Copy a bounding box.
 <br><br>
+Available in inline form as Q3BFastoundingBox_Copy.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -34,6 +36,8 @@ Q3BoundingBox_Set (
 </tt><br>
 </pre></blockquote>
 <p>Set a bounding box.
+<br><br>
+Available in inline form as Q3FastBoundingBox_Set.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -189,6 +193,8 @@ Q3BoundingSphere_Copy (
 </pre></blockquote>
 <p>Copy a bounding sphere.
 <br><br>
+Available in inline form as Q3FastBoundingSphere_Copy.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -213,6 +219,8 @@ Q3BoundingSphere_Set (
 </tt><br>
 </pre></blockquote>
 <p>Set a bounding sphere.
+<br><br>
+Available in inline form as Q3FastBoundingSphere_Set.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -355,6 +363,60 @@ Q3BoundingSphere_UnionRationalPoint4D (
 </table>
 </blockquote>
 <b>Result:</b> Convenience copy of result parameter.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Math_InvSquareRoot"></a>
+<h3><a name="Q3Math_InvSquareRoot">Q3Math_InvSquareRoot</a></h3>
+<blockquote><pre><tt>float  
+Q3Math_InvSquareRoot (
+    float                         x
+);
+</tt><br>
+</pre></blockquote>
+<p>Obtain a fast, but possibly inaccurate, inverse square root.
+<br><br>
+The available precision depends on the current architecture, but will
+suffice for most non-accumulating 3D operations. If a reliable degree
+of precision is required, 1.0/sqrt() should be used instead.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>x</tt></td><td>The number whose inverse square root should be returned.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Approximate inverse square root of x.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Math_SquareRoot"></a>
+<h3><a name="Q3Math_SquareRoot">Q3Math_SquareRoot</a></h3>
+<blockquote><pre><tt>float  
+Q3Math_SquareRoot (
+    float                         x
+);
+</tt><br>
+</pre></blockquote>
+<p>Obtain a fast, but possibly inaccurate, square root.
+<br><br>
+The available precision depends on the current architecture, but will
+suffice for most non-accumulating 3D operations. If a reliable degree
+of precision is required, sqrt() should be used instead.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>x</tt></td><td>The number whose square root should be returned.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Approximate square root of x.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Matrix3x3_Adjoint"></a>
@@ -1073,6 +1135,8 @@ Q3Param2D_Distance (
 </pre></blockquote>
 <p>Return Euclidean distance between two UV parameter points.
 <br><br>
+Available in inline form as Q3FastParam2D_Distance.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1095,6 +1159,8 @@ Q3Param2D_DistanceSquared (
 </tt><br>
 </pre></blockquote>
 <p>Return the squared Euclidean distance between two UV parameter points.
+<br><br>
+Available in inline form as Q3FastParam2D_DistanceSquared.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1127,6 +1193,8 @@ Put another way, this function gives you the weighted average of points
 p1 and p2, with the weights given by r1 and r2.  (Note that r1+r2 must
 be nonzero.)
 <br><br>
+Available in inline form as Q3FastParam2D_RRatio.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1154,6 +1222,8 @@ Q3Param2D_Set (
 </pre></blockquote>
 <p>Set a 2D parameterization value (i.e., a UV coordinate).
 <br><br>
+Available in inline form as Q3FastParam2D_Set.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1178,6 +1248,8 @@ Q3Param2D_Subtract (
 </tt><br>
 </pre></blockquote>
 <p>Subtract 2D parametric point p2 from p1.
+<br><br>
+Available in inline form as Q3FastParam2D_Subtract.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1232,6 +1304,8 @@ Q3Param2D_Vector2D_Add (
 </pre></blockquote>
 <p>Add a 2D vector to a parametric (UV) point.
 <br><br>
+Available in inline form as Q3FastParam2D_Vector2D_Add.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1256,6 +1330,8 @@ Q3Param2D_Vector2D_Subtract (
 </tt><br>
 </pre></blockquote>
 <p>Subtract a 2D vector from a parametric (UV) point.
+<br><br>
+Available in inline form as Q3FastParam2D_Vector2D_Subtract.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1319,6 +1395,8 @@ three 2D points, that is, of the vectors p2-p1 and p3-p2.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
+Available in inline form as Q3FastPoint2D_CrossProductTri.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1343,6 +1421,8 @@ Q3Point2D_Distance (
 </pre></blockquote>
 <p>Return Euclidean distance between two 2D points.
 <br><br>
+Available in inline form as Q3FastPoint2D_Distance.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1365,6 +1445,8 @@ Q3Point2D_DistanceSquared (
 </tt><br>
 </pre></blockquote>
 <p>Return the squared Euclidean distance between two 2D points.
+<br><br>
+Available in inline form as Q3FastPoint2D_DistanceSquared.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1403,6 +1485,8 @@ the weight of p1, and r2 is the weight of p2.
 <br><br>
 As usual, we do as QD3D does, not as the docs say.
 <br><br>
+Available in inline form as Q3FastPoint2D_RRatio.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1430,6 +1514,8 @@ Q3Point2D_Set (
 </pre></blockquote>
 <p>Set a 2D point.
 <br><br>
+Available in inline form as Q3FastPoint2D_Set.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1454,6 +1540,8 @@ Q3Point2D_Subtract (
 </tt><br>
 </pre></blockquote>
 <p>Subtract the 2D point p2 from p1.
+<br><br>
+Available in inline form as Q3FastPoint2D_Subtract.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1519,6 +1607,8 @@ The Apple version incorrectly declares the type of 'result' to
 be TQ3Point3D rather than TQ3RationalPoint3D. At a binary level
 there is no difference, but at the source code level the Apple
 version forces the use of the incorrect type or type casting.
+<br><br>
+Available in inline form as Q3FastPoint2D_To3D.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1593,7 +1683,9 @@ Q3Point2D_Vector2D_Add (
 </tt><br>
 </pre></blockquote>
 <p>Add a 2D vector to a point.
-<br><br><br>
+<br><br>
+Available in inline form as Q3FastPoint2D_Vector2D_Add.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1618,6 +1710,8 @@ Q3Point2D_Vector2D_Subtract (
 </tt><br>
 </pre></blockquote>
 <p>Subtract a 2D vector from a point.
+<br><br>
+Available in inline form as Q3FastPoint2D_Vector2D_Subtract.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1680,6 +1774,8 @@ Q3Point3D_CrossProductTri (
 <p>Return the cross product of triangle triangle defined by three
 3D points, that is, of the vectors p2-p1 and p3-p2.
 <br><br>
+Available in inline form as Q3FastPoint3D_CrossProductTri.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1705,6 +1801,8 @@ Q3Point3D_Distance (
 </pre></blockquote>
 <p>Return Euclidean distance between two 3D points.
 <br><br>
+Available in inline form as Q3FastPoint3D_Distance.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1727,6 +1825,8 @@ Q3Point3D_DistanceSquared (
 </tt><br>
 </pre></blockquote>
 <p>Return the squared Euclidean distance between two 3D points.
+<br><br>
+Available in inline form as Q3FastPoint3D_DistanceSquared.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1765,6 +1865,8 @@ the weight of p1, and r2 is the weight of p2.
 <br><br>
 As usual, we do as QD3D does, not as the docs say.
 <br><br>
+Available in inline form as Q3FastPoint3D_RRatio.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1793,6 +1895,8 @@ Q3Point3D_Set (
 </pre></blockquote>
 <p>Set a 3D point.
 <br><br>
+Available in inline form as Q3FastPoint3D_Set.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1818,6 +1922,8 @@ Q3Point3D_Subtract (
 </tt><br>
 </pre></blockquote>
 <p>Subtract 3D point p2 from p1.
+<br><br>
+Available in inline form as Q3FastPoint3D_Subtract.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -1878,6 +1984,8 @@ Q3Point3D_To4D (
 </tt><br>
 </pre></blockquote>
 <p>Convert 3D point to rational 4D, setting w to 1.
+<br><br>
+Available in inline form as Q3FastPoint3D_To4D.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2009,6 +2117,8 @@ Q3Point3D_Vector3D_Add (
 </pre></blockquote>
 <p>Add a 3D vector to a point.
 <br><br>
+Available in inline form as Q3FastPoint3D_Vector3D_Add.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2034,6 +2144,8 @@ Q3Point3D_Vector3D_Subtract (
 </pre></blockquote>
 <p>Subtract 3D vector from point.
 <br><br>
+Available in inline form as Q3FastPoint3D_Vector3D_Subtract.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2058,6 +2170,8 @@ Q3PolarPoint_Set (
 </tt><br>
 </pre></blockquote>
 <p>Set a 2D polar-coordinates point.
+<br><br>
+Available in inline form as Q3FastPolarPoint_Set.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2085,6 +2199,8 @@ Q3PolarPoint_ToPoint2D (
 <br><br>
 The angle (theta) here is measured counter-clockwise from the +x axis.
 <br><br>
+Available in inline form as Q3FastPolarPoint_ToPoint2D.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2107,6 +2223,8 @@ Q3Quaternion_Copy (
 </tt><br>
 </pre></blockquote>
 <p>Copy a quaternion.
+<br><br>
+Available in inline form as Q3FastQuaternion_Copy.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2131,6 +2249,8 @@ Q3Quaternion_Dot (
 </pre></blockquote>
 <p>Return the dot product of q1 and q2.
 <br><br>
+Available in inline form as Q3FastQuaternion_Dot.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2141,6 +2261,44 @@ Q3Quaternion_Dot (
 </table>
 </blockquote>
 <b>Result:</b> Dot product of q1 and q2.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_GetAxisAndAngle"></a>
+<h3><a name="Q3Quaternion_GetAxisAndAngle">Q3Quaternion_GetAxisAndAngle</a></h3>
+<blockquote><pre><tt>TQ3Vector3D * 
+Q3Quaternion_GetAxisAndAngle (
+	const TQ3Quaternion           *quaternion,
+	TQ3Vector3D                   *outAxis,
+	float                         *outAngle
+);
+</tt><br>
+</pre></blockquote>
+<p>Get the rotation axis and/or angle represented by a quaternion.
+<br><br>
+Note that for correct results, the quaternion should be normalized.
+<br><br>
+If the quaternion represents a null rotation, then outAngle will be
+set to 0.0 and outAxis will be set to <0, 1, 0> (since in this case
+the rotation axis is undefined, but we want to always give you a 
+valid axis).
+<br><br>
+Either outAxis or outAngle may be null if you are not interested in
+that result.  (You could even pass null for both, but that would be
+rather pointless.)
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Address of a quaternion to inspect.</td></tr>
+<tr valign=top><td><tt>outAxis</tt></td><td>Address of a vector to set to the rotation axis (may be null).</td></tr>
+<tr valign=top><td><tt>outAngle</tt></td><td>Address of a float to set to the rotation angle (may be null).</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Convenience copy of outAxis parameter.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Quaternion_InterpolateFast"></a>
@@ -2224,6 +2382,8 @@ Q3Quaternion_Invert (
 <br><br>
 For correct results, the quaternion should be normalized
 before inverting.
+<br><br>
+Available in inline form as Q3FastQuaternion_Invert.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2333,6 +2493,8 @@ This is often needed when combining or interpolating between
 quaternions, to keep accumulated error from causing your
 quaternion values to "blow up".
 <br><br>
+Available in inline form as Q3FastQuaternion_Normalize.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2359,6 +2521,8 @@ Q3Quaternion_Set (
 </pre></blockquote>
 <p>Set a quaternion with its individual w, x, y, and z components.
 <br><br>
+Available in inline form as Q3FastQuaternion_Set.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2383,6 +2547,8 @@ Q3Quaternion_SetIdentity (
 </tt><br>
 </pre></blockquote>
 <p>Set a quaternion to the identity value (1,0,0,0).
+<br><br>
+Available in inline form as Q3FastQuaternion_SetIdentity.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2625,6 +2791,8 @@ Q3RationalPoint3D_Distance (
 This operation makes no sense mathematically, but is included
 for backwards compatibility with QD3D.
 <br><br>
+Available in inline form as Q3FastRationalPoint3D_Distance.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2652,6 +2820,8 @@ Q3RationalPoint3D_DistanceSquared (
 This operation makes no sense mathematically, but is included
 for backwards compatibility with QD3D.
 <br><br>
+Available in inline form as Q3FastRationalPoint3D_DistanceSquared.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2678,6 +2848,8 @@ Q3RationalPoint3D_Set (
 </pre></blockquote>
 <p>Set a 3D rational point (x,y,w).
 <br><br>
+Available in inline form as Q3FastRationalPoint3D_Set.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2702,6 +2874,8 @@ Q3RationalPoint3D_To2D (
 </tt><br>
 </pre></blockquote>
 <p>Convert rational 3D point to 2D, dividing by w.
+<br><br>
+Available in inline form as Q3FastRationalPoint3D_To2D.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2761,6 +2935,8 @@ Q3RationalPoint3D_ToVector2D (
 </tt><br>
 </pre></blockquote>
 <p>Convert 3D rational point to 2D vector, discarding w.
+<br><br>
+Available in inline form as Q3FastRationalPoint3D_ToVector2D.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -2847,6 +3023,8 @@ Q3RationalPoint4D_Distance (
 This operation makes no sense mathematically, but is included
 for backwards compatibility with QD3D.
 <br><br>
+Available in inline form as Q3FastRationalPoint4D_Distance.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2873,6 +3051,8 @@ Q3RationalPoint4D_DistanceSquared (
 <br><br>
 This operation makes no sense mathematically, but is included
 for backwards compatibility with QD3D.
+<br><br>
+Available in inline form as Q3FastRationalPoint4D_DistanceSquared.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2912,6 +3092,8 @@ the weight of p1, and r2 is the weight of p2.
 <br><br>
 As usual, we do as QD3D does, not as the docs say.
 <br><br>
+Available in inline form as Q3FastRationalPoint4D_RRatio.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2941,6 +3123,8 @@ Q3RationalPoint4D_Set (
 </pre></blockquote>
 <p>Set a 4D rational point (x,y,z,w).
 <br><br>
+Available in inline form as Q3FastRationalPoint4D_Set.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -2965,6 +3149,8 @@ Q3RationalPoint4D_To3D (
 </tt><br>
 </pre></blockquote>
 <p>Convert rational 4D point to 3D, dividing by w.
+<br><br>
+Available in inline form as Q3FastRationalPoint4D_To3D.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3022,6 +3208,8 @@ Q3RationalPoint4D_ToVector3D (
 </tt><br>
 </pre></blockquote>
 <p>Convert 4D rational point to 3D vector, discarding w.
+<br><br>
+Available in inline form as Q3FastRationalPoint4D_ToVector3D.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -3187,6 +3375,8 @@ Q3SphericalPoint_Set (
 </pre></blockquote>
 <p>Set a 3D spherical-coordinates point.
 <br><br>
+Available in inline form as Q3FastSphericalPoint_Set.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3224,6 +3414,46 @@ Q3SphericalPoint_ToPoint3D (
 <b>Result:</b> Convenience copy of result parameter.
  
 <hr>
+<a name="//apple_ref/c/func/Q3Triangle_CrossProductArray"></a>
+<h3><a name="Q3Triangle_CrossProductArray">Q3Triangle_CrossProductArray</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Triangle_CrossProductArray(
+    TQ3Uns32                    numTriangles,
+    const TQ3Uns8               *usageFlags,
+    const TQ3Uns32              *theIndices,
+    const TQ3Point3D            *thePoints,
+    TQ3Vector3D                 *theNormals
+);
+</tt><br>
+</pre></blockquote>
+<p>Calculate an array of triangle normals.
+<br><br>
+Triangles are specified as a contiguous array of triangle indices,
+and a contiguous array of points. The result is a contiguous array
+of triangle normals.
+<br><br>
+Triangles may be omitted from processing with the usageFlags parameter,
+which should point to an array of TQ3Uns8 flags. If usageFlags is not
+NULL, only triangles whose corresponding entry in this array is 0 will
+be processed.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numTriangles</tt></td><td>The number of triangles to process.</td></tr>
+<tr valign=top><td><tt>usageFlags</tt></td><td>The optional usage flags, indicating the triangles to process.</td></tr>
+<tr valign=top><td><tt>theIndices</tt></td><td>The triangle indices.</td></tr>
+<tr valign=top><td><tt>thePoints</tt></td><td>The triangle points.</td></tr>
+<tr valign=top><td><tt>theNormals</tt></td><td>Receives the triangle normals.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3Vector2D_Add"></a>
 <h3><a name="Q3Vector2D_Add">Q3Vector2D_Add</a></h3>
 <blockquote><pre><tt>TQ3Vector2D * 
@@ -3235,6 +3465,8 @@ Q3Vector2D_Add (
 </tt><br>
 </pre></blockquote>
 <p>Add two 2D vectors.
+<br><br>
+Available in inline form as Q3FastVector2D_Add.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3263,6 +3495,8 @@ Q3Vector2D_Cross (
 Equivalently, we assume that the 2D vectors are really 3D vectors with
 z=0, then return the z coordinate of the cross product (0,0,z).
 <br><br>
+Available in inline form as Q3FastVector2D_Cross.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3286,6 +3520,8 @@ Q3Vector2D_Dot (
 </pre></blockquote>
 <p>Return the dot product of two 2D vectors.
 <br><br>
+Available in inline form as Q3FastVector2D_Dot.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3307,6 +3543,8 @@ Q3Vector2D_Length (
 </tt><br>
 </pre></blockquote>
 <p>Return length of 2D vector.
+<br><br>
+Available in inline form as Q3FastVector2D_Length.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3335,6 +3573,8 @@ vectors by length, or comparing a vector to a cut-off length).  But
 finding the squared length is much faster, since it avoids a costly
 square root computation.
 <br><br>
+Available in inline form as Q3FastVector2D_LengthSquared.
+<br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
@@ -3358,6 +3598,8 @@ Q3Vector2D_Negate (
 </tt><br>
 </pre></blockquote>
 <p>Scale a 2D vector by a factor of -1.
+<br><br>
+Available in inline form as Q3FastVector2D_Negate.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3384,6 +3626,8 @@ Q3Vector2D_Normalize (
 <br><br>
 To obtain valid results, the length of vector2D must not be 0.
 <br><br>
+Available in inline form as Q3FastVector2D_Normalize.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3407,6 +3651,8 @@ Q3Vector2D_Scale (
 </tt><br>
 </pre></blockquote>
 <p>Scale a 2D vector by the given factor.
+<br><br>
+Available in inline form as Q3FastVector2D_Scale.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3433,6 +3679,8 @@ Q3Vector2D_Set (
 </pre></blockquote>
 <p>Set a 2D vector.
 <br><br>
+Available in inline form as Q3FastVector2D_Set.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3457,6 +3705,8 @@ Q3Vector2D_Subtract (
 </tt><br>
 </pre></blockquote>
 <p>Subtract 2D vector v2 from v1.
+<br><br>
+Available in inline form as Q3FastVector2D_Subtract.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3523,6 +3773,8 @@ for backward-compatibility with QD3D.  Perhaps the QD3D
 implementation was really intended to convert a 2D vector into a 3D
 rational point -- see QDPoint2D_To3D, which does exactly that.
 <br><br>
+Available in inline form as Q3FastVector2D_To3D.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3545,6 +3797,8 @@ Q3Vector2D_ToRationalPoint3D (
 </tt><br>
 </pre></blockquote>
 <p>Convert 2D vector to 3D rational point, setting w to 0.
+<br><br>
+Available in inline form as Q3FastVector2D_ToRationalPoint3D.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -3603,6 +3857,8 @@ Q3Vector3D_Add (
 </pre></blockquote>
 <p>Add two 3D vectors.
 <br><br>
+Available in inline form as Q3FastVector3D_Add.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3627,6 +3883,8 @@ Q3Vector3D_Cross (
 </tt><br>
 </pre></blockquote>
 <p>Return 3D cross product of two 3D vectors.
+<br><br>
+Available in inline form as Q3FastVector3D_Cross.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3653,6 +3911,8 @@ Q3Vector3D_Dot (
 </pre></blockquote>
 <p>Return the dot product of two 3D vectors.
 <br><br>
+Available in inline form as Q3FastVector3D_Dot.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3665,6 +3925,44 @@ Q3Vector3D_Dot (
 <b>Result:</b> Dot product of the two vectors.
  
 <hr>
+<a name="//apple_ref/c/func/Q3Vector3D_DotArray"></a>
+<h3><a name="Q3Vector3D_DotArray">Q3Vector3D_DotArray</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Vector3D_DotArray(
+    TQ3Uns32                    numVectors,
+    const TQ3Vector3D           *firstVectors,
+    const TQ3Vector3D           *secondVectors,
+    float                       *dotProducts,
+    TQ3Boolean                  *dotLessThanZero
+);
+</tt><br>
+</pre></blockquote>
+<p>Calculate an array of dot products.
+<br><br>
+Given two arrays of vectors, an array of dot products is returned along
+with an array of TQ3Booleans indicating which dot products are less than
+zero.
+<br><br>
+At least one of dotProducts or dotLessThanZero must be non-NULL, however
+one parameter may be set to NULL if that information is not required.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numVectors</tt></td><td>The number of vectors to process.</td></tr>
+<tr valign=top><td><tt>firstVectors</tt></td><td>The first set of vectors.</td></tr>
+<tr valign=top><td><tt>secondVectors</tt></td><td>The second set of vectors.</td></tr>
+<tr valign=top><td><tt>dotProducts</tt></td><td>Receives the dot products.</td></tr>
+<tr valign=top><td><tt>dotLessThanZero</tt></td><td>Receives the "< 0.0" status of the dot products.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3Vector3D_Length"></a>
 <h3><a name="Q3Vector3D_Length">Q3Vector3D_Length</a></h3>
 <blockquote><pre><tt>float  
@@ -3674,6 +3972,8 @@ Q3Vector3D_Length (
 </tt><br>
 </pre></blockquote>
 <p>Return length of 2D vector.
+<br><br>
+Available in inline form as Q3FastVector3D_Length.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3702,6 +4002,8 @@ vectors by length, or comparing a vector to a cut-off length).  But
 finding the squared length is much faster, since it avoids a costly
 square root computation.
 <br><br>
+Available in inline form as Q3FastVector3D_LengthSquared.
+<br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
@@ -3725,6 +4027,8 @@ Q3Vector3D_Negate (
 </tt><br>
 </pre></blockquote>
 <p>Scale a 3D vector by a factor of -1.
+<br><br>
+Available in inline form as Q3FastVector3D_Negate.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3751,6 +4055,8 @@ Q3Vector3D_Normalize (
 <br><br>
 To obtain valid results, the length of vector3D must not be 0.
 <br><br>
+Available in inline form as Q3FastVector3D_Normalize.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3774,6 +4080,8 @@ Q3Vector3D_Scale (
 </tt><br>
 </pre></blockquote>
 <p>Scale a 3D vector by the given factor.
+<br><br>
+Available in inline form as Q3FastVector3D_Scale.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3801,6 +4109,8 @@ Q3Vector3D_Set (
 </pre></blockquote>
 <p>Set a 3D vector.
 <br><br>
+Available in inline form as Q3FastVector3D_Set.
+<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -3826,6 +4136,8 @@ Q3Vector3D_Subtract (
 </tt><br>
 </pre></blockquote>
 <p>Subtract 3D vector v2 from v1.
+<br><br>
+Available in inline form as Q3FastVector3D_Subtract.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3856,6 +4168,8 @@ for backward-compatibility with QD3D.  It's possible that the QD3D
 function was really intended to convert a 3D rational point to a
 2D vector -- see E3RationalPoint3D_To2D, which does the same thing
 for a 2D point.
+<br><br>
+Available in inline form as Q3FastVector3D_To2D.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -3915,6 +4229,8 @@ Q3Vector3D_ToRationalPoint4D (
 </tt><br>
 </pre></blockquote>
 <p>Convert 3D vector to 4D rational point, setting w to 0.
+<br><br>
+Available in inline form as Q3FastVector3D_ToRationalPoint4D.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -3988,5 +4304,5 @@ Note that for correct results, the quaternion should be normalized.
 <b>Result:</b> Convenience copy of result parameter.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
 </body></html>

@@ -238,7 +238,7 @@ Q3ObjectHierarchy_EmptySubClassData.
 <h3><a name="Q3ObjectHierarchy_GetTypeFromString">Q3ObjectHierarchy_GetTypeFromString</a></h3>
 <blockquote><pre><tt>TQ3Status  
 Q3ObjectHierarchy_GetTypeFromString (
-    TQ3ObjectClassNameString      objectClassString,
+    const TQ3ObjectClassNameString      objectClassString,
     TQ3ObjectType                 *objectClassType
 );
 </tt><br>
@@ -297,6 +297,40 @@ Q3ObjectHierarchy_IsTypeRegistered (
 </table>
 </blockquote>
 <b>Result:</b> True or false as the class is registered or not.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_CleanDispose"></a>
+<h3><a name="Q3Object_CleanDispose">Q3Object_CleanDispose</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Object_CleanDispose (
+    TQ3Object                     *theObject
+);
+</tt><br>
+</pre></blockquote>
+<p>Cleanly disposes of a Quesa object.
+<br><br>
+If theObject is not NULL, invokes Q3Object_Dispose to decrement the object
+reference count then clears the supplied pointer to prevent stale references.
+<br><br>
+Equivalent to:
+<br><br>
+if (theObject != NULL)
+{
+Q3Object_Dispose(theObject);
+theObject = NULL;
+}
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theObject</tt></td><td>The object to dispose (may be NULL).</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Object_Dispose"></a>
@@ -789,6 +823,33 @@ Q3Shared_GetReference (
 <b>Result:</b> The object whose reference count has been incremented.
  
 <hr>
+<a name="//apple_ref/c/func/Q3Shared_GetReferenceCount"></a>
+<h3><a name="Q3Shared_GetReferenceCount">Q3Shared_GetReferenceCount</a></h3>
+<blockquote><pre><tt>TQ3Uns32 
+Q3Shared_GetReferenceCount (
+	TQ3SharedObject               sharedObject
+);
+</tt><br>
+</pre></blockquote>
+<p>Return the reference count of a shared object.
+<br><br>
+This function should be used only for debugging.  If you are
+tempted to use it for something else, then you probably don't
+understand the correct way to work with reference-counted objects.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>sharedObject</tt></td><td>The object to test.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Reference count.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3Shared_GetType"></a>
 <h3><a name="Q3Shared_GetType">Q3Shared_GetType</a></h3>
 <blockquote><pre><tt>TQ3ObjectType  
@@ -838,5 +899,5 @@ return kQ3False if the object a reference count of one.
 <b>Result:</b> True or false as the object has more than one reference.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
 </body></html>

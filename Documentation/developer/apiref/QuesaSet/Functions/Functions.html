@@ -1,12 +1,13 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvetica"><h1>Functions</h1></font><hr><br>
+<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
 <a name="//apple_ref/c/func/Q3AttributeSet_Add"></a>
 <h3><a name="Q3AttributeSet_Add">Q3AttributeSet_Add</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3AttributeSet_Add (
- TQ3AttributeSet attributeSet,
- TQ3AttributeType theType,
- const void *data
-);</tt><br>
+    TQ3AttributeSet               attributeSet,
+    TQ3AttributeType              theType,
+    const void                    *data
+);
+</tt><br>
 </pre></blockquote>
 <p>Add an attribute to an attribute set.
 <br><br>
@@ -28,11 +29,12 @@ the specified type of attribute, it is replaced.
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Clear"></a>
 <h3><a name="Q3AttributeSet_Clear">Q3AttributeSet_Clear</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3AttributeSet_Clear (
- TQ3AttributeSet attributeSet,
- TQ3AttributeType theType
-);</tt><br>
+    TQ3AttributeSet               attributeSet,
+    TQ3AttributeType              theType
+);
+</tt><br>
 </pre></blockquote>
 <p>Remove an attribute from an attribute set.
 <br><br><br>
@@ -50,11 +52,12 @@ Q3AttributeSet_Clear (
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Contains"></a>
 <h3><a name="Q3AttributeSet_Contains">Q3AttributeSet_Contains</a></h3>
-<blockquote><pre><tt>TQ3Boolean 
+<blockquote><pre><tt>TQ3Boolean  
 Q3AttributeSet_Contains (
- TQ3AttributeSet attributeSet,
- TQ3AttributeType attributeType
-);</tt><br>
+    TQ3AttributeSet               attributeSet,
+    TQ3AttributeType              attributeType
+);
+</tt><br>
 </pre></blockquote>
 <p>Determine whether an attribute set contains a specified attribute.
 <br><br><br>
@@ -72,10 +75,11 @@ Q3AttributeSet_Contains (
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Empty"></a>
 <h3><a name="Q3AttributeSet_Empty">Q3AttributeSet_Empty</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3AttributeSet_Empty (
- TQ3AttributeSet target
-);</tt><br>
+    TQ3AttributeSet               target
+);
+</tt><br>
 </pre></blockquote>
 <p>Remove all attributes from an attribute set.
 <br><br><br>
@@ -92,12 +96,13 @@ Q3AttributeSet_Empty (
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Get"></a>
 <h3><a name="Q3AttributeSet_Get">Q3AttributeSet_Get</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3AttributeSet_Get (
- TQ3AttributeSet attributeSet,
- TQ3AttributeType theType,
- void *data
-);</tt><br>
+    TQ3AttributeSet               attributeSet,
+    TQ3AttributeType              theType,
+    void                          *data
+);
+</tt><br>
 </pre></blockquote>
 <p>Get attribute data from an attribute set.
 <br><br>
@@ -119,11 +124,12 @@ large enough for the given kind of attribute.
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_GetNextAttributeType"></a>
 <h3><a name="Q3AttributeSet_GetNextAttributeType">Q3AttributeSet_GetNextAttributeType</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3AttributeSet_GetNextAttributeType (
- TQ3AttributeSet source,
- TQ3AttributeType *theType
-);</tt><br>
+    TQ3AttributeSet               source,
+    TQ3AttributeType              *theType
+);
+</tt><br>
 </pre></blockquote>
 <p>Find the next attribute type in an attribute set.
 <br><br>
@@ -131,14 +137,14 @@ If you pass <code>kQ3AttributeTypeNone</code>, it will return the first attribut
 After reaching the last element type, it returns <code>kQ3AttributeTypeNone</code>.
 Hence, you could iterate through all the attribute types as follows:
 <br><br>
-<blockquote><code><pre>
+<blockquote><pre><code>
 TQ3AttributeType	theType = kQ3AttributeTypeNone;
-while ( Q3AttributeSet_GetNextAttributeType( set, &theType ) &&
+while ( Q3AttributeSet_GetNextAttributeType( set, &amp;theType ) &amp;&amp;
 &nbsp;	(theType != kQ3AttributeTypeNone) )
 {
 &nbsp;	DoSomething( theType );
 }
-</pre></code></blockquote>
+</code></pre></blockquote>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -154,12 +160,13 @@ while ( Q3AttributeSet_GetNextAttributeType( set, &theType ) &&
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Inherit"></a>
 <h3><a name="Q3AttributeSet_Inherit">Q3AttributeSet_Inherit</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3AttributeSet_Inherit (
- TQ3AttributeSet parent,
- TQ3AttributeSet child,
- TQ3AttributeSet result
-);</tt><br>
+    TQ3AttributeSet               parent,
+    TQ3AttributeSet               child,
+    TQ3AttributeSet               result
+);
+</tt><br>
 </pre></blockquote>
 <p>Configures an attribute set by copying all attributes from one set
 (the child) and then copying any attributes that were not in the
@@ -183,10 +190,11 @@ but any existing attributes in it will be removed.
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_New"></a>
 <h3><a name="Q3AttributeSet_New">Q3AttributeSet_New</a></h3>
-<blockquote><pre><tt>TQ3AttributeSet 
+<blockquote><pre><tt>TQ3AttributeSet  
 Q3AttributeSet_New (
- void
-);</tt><br>
+    void
+);
+</tt><br>
 </pre></blockquote>
 <p>Create an attribute set object.
 <br><br><br>
@@ -196,11 +204,12 @@ Q3AttributeSet_New (
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Submit"></a>
 <h3><a name="Q3AttributeSet_Submit">Q3AttributeSet_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3AttributeSet_Submit (
- TQ3AttributeSet attributeSet,
- TQ3ViewObject view
-);</tt><br>
+    TQ3AttributeSet               attributeSet,
+    TQ3ViewObject                 view
+);
+</tt><br>
 </pre></blockquote>
 <p>Submit an attribute set.
 <br><br>
@@ -220,12 +229,13 @@ This should only be used within a submitting loop.
 <hr>
 <a name="//apple_ref/c/func/Q3Attribute_Submit"></a>
 <h3><a name="Q3Attribute_Submit">Q3Attribute_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3Attribute_Submit (
- TQ3AttributeType attributeType,
- const void *data,
- TQ3ViewObject view
-);</tt><br>
+    TQ3AttributeType              attributeType,
+    const void                    *data,
+    TQ3ViewObject                 view
+);
+</tt><br>
 </pre></blockquote>
 <p>Submit an attribute in immediate mode.
 <br><br>
@@ -246,12 +256,13 @@ This should only be used within a submitting loop.
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Add"></a>
 <h3><a name="Q3Set_Add">Q3Set_Add</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3Set_Add (
- TQ3SetObject theSet,
- TQ3ElementType theType,
- const void *data
-);</tt><br>
+    TQ3SetObject                  theSet,
+    TQ3ElementType                theType,
+    const void                    *data
+);
+</tt><br>
 </pre></blockquote>
 <p>Add an element to a set.
 <br><br>
@@ -275,11 +286,12 @@ returned by <code>Q3XElementClass_Register</code>.
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Clear"></a>
 <h3><a name="Q3Set_Clear">Q3Set_Clear</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3Set_Clear (
- TQ3SetObject theSet,
- TQ3ElementType theType
-);</tt><br>
+    TQ3SetObject                  theSet,
+    TQ3ElementType                theType
+);
+</tt><br>
 </pre></blockquote>
 <p>Remove an element of a given type from a set.
 <br><br>
@@ -300,11 +312,12 @@ the function returns kQ3Failure.
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Contains"></a>
 <h3><a name="Q3Set_Contains">Q3Set_Contains</a></h3>
-<blockquote><pre><tt>TQ3Boolean 
+<blockquote><pre><tt>TQ3Boolean  
 Q3Set_Contains (
- TQ3SetObject theSet,
- TQ3ElementType theType
-);</tt><br>
+    TQ3SetObject                  theSet,
+    TQ3ElementType                theType
+);
+</tt><br>
 </pre></blockquote>
 <p>Determine whether a set contains an element of a given type.
 <br><br>
@@ -322,12 +335,13 @@ Q3Set_Contains (
 <hr>
 <a name="//apple_ref/c/func/Q3Set_CopyElement"></a>
 <h3><a name="Q3Set_CopyElement">Q3Set_CopyElement</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3Set_CopyElement(
- TQ3SetObject sourceSet,
- TQ3ElementType theType,
- TQ3SetObject destSet
-);</tt><br>
+	TQ3SetObject				sourceSet,
+	TQ3ElementType				theType,
+	TQ3SetObject				destSet
+);
+</tt><br>
 </pre></blockquote>
 <p>Copies an element from one set to another.
 <br><br>
@@ -351,10 +365,11 @@ type, the element will be replaced.
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Empty"></a>
 <h3><a name="Q3Set_Empty">Q3Set_Empty</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3Set_Empty (
- TQ3SetObject target
-);</tt><br>
+    TQ3SetObject                  target
+);
+</tt><br>
 </pre></blockquote>
 <p>Remove all elements from a set.
 <br><br>
@@ -371,12 +386,13 @@ Q3Set_Empty (
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Get"></a>
 <h3><a name="Q3Set_Get">Q3Set_Get</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3Set_Get (
- TQ3SetObject theSet,
- TQ3ElementType theType,
- void *data
-);</tt><br>
+    TQ3SetObject                  theSet,
+    TQ3ElementType                theType,
+    void                          *data
+);
+</tt><br>
 </pre></blockquote>
 <p>Copy the data of an element into a buffer you provide.
 <br><br>
@@ -395,11 +411,12 @@ Q3Set_Get (
 <hr>
 <a name="//apple_ref/c/func/Q3Set_GetNextElementType"></a>
 <h3><a name="Q3Set_GetNextElementType">Q3Set_GetNextElementType</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3Set_GetNextElementType (
- TQ3SetObject theSet,
- TQ3ElementType *theType
-);</tt><br>
+    TQ3SetObject                  theSet,
+    TQ3ElementType                *theType
+);
+</tt><br>
 </pre></blockquote>
 <p>Find the next element type in a set.
 <br><br>
@@ -407,14 +424,19 @@ If you pass <code>kQ3ElementTypeNone</code>, it will return the first element ty
 After reaching the last element type, it returns <code>kQ3ElementTypeNone</code>.
 Hence, you could iterate through all the element types as follows:
 <br><br>
-<blockquote><code><pre>
+<blockquote><pre><code>
 TQ3ElementType	theType = kQ3ElementTypeNone;
-while ( Q3Set_GetNextElementType( set, &theType ) &&
+while ( Q3Set_GetNextElementType( set, &amp;theType ) &amp;&amp;
 &nbsp;	(theType != kQ3ElementTypeNone) )
 {
 &nbsp;	DoSomething( theType );
 }
-</pre></code></blockquote>
+</code></pre></blockquote>
+<br><br>
+Search results are undefined if the set is edited while a search is in progress.
+Q3Set_GetNextElementType will always return a valid element type or kQ3ElementTypeNone,
+however some elements may be skipped if the set is modified before the final
+kQ3ElementTypeNone is returned.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -430,10 +452,11 @@ while ( Q3Set_GetNextElementType( set, &theType ) &&
 <hr>
 <a name="//apple_ref/c/func/Q3Set_GetType"></a>
 <h3><a name="Q3Set_GetType">Q3Set_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType 
+<blockquote><pre><tt>TQ3ObjectType  
 Q3Set_GetType (
- TQ3SetObject theSet
-);</tt><br>
+    TQ3SetObject                  theSet
+);
+</tt><br>
 </pre></blockquote>
 <p>Get the type of a set object.
 <br><br>
@@ -452,10 +475,11 @@ Returns kQ3SetTypeAttribute or kQ3ObjectTypeInvalid.
 <hr>
 <a name="//apple_ref/c/func/Q3Set_New"></a>
 <h3><a name="Q3Set_New">Q3Set_New</a></h3>
-<blockquote><pre><tt>TQ3SetObject 
+<blockquote><pre><tt>TQ3SetObject  
 Q3Set_New (
- void
-);</tt><br>
+    void
+);
+</tt><br>
 </pre></blockquote>
 <p>Create a new set, initially empty.
 <br><br>
@@ -467,13 +491,14 @@ Plain sets are less commonly used than attribute sets.
 <hr>
 <a name="//apple_ref/c/func/Q3XAttributeClass_Register"></a>
 <h3><a name="Q3XAttributeClass_Register">Q3XAttributeClass_Register</a></h3>
-<blockquote><pre><tt>TQ3XObjectClass 
+<blockquote><pre><tt>TQ3XObjectClass  
 Q3XAttributeClass_Register (
- TQ3AttributeType *attributeType,
- const char *className,
- TQ3Uns32 sizeOfElement,
- TQ3XMetaHandler metaHandler
-);</tt><br>
+    TQ3AttributeType              *attributeType,
+    const char                    *className,
+    TQ3Uns32                      sizeOfElement,
+    TQ3XMetaHandler               metaHandler
+);
+</tt><br>
 </pre></blockquote>
 <p>Register a custom attribute class.
 <br><br><br>
@@ -494,13 +519,14 @@ It may return NULL in some cases.</td></tr>
 <hr>
 <a name="//apple_ref/c/func/Q3XElementClass_Register"></a>
 <h3><a name="Q3XElementClass_Register">Q3XElementClass_Register</a></h3>
-<blockquote><pre><tt>TQ3XObjectClass 
+<blockquote><pre><tt>TQ3XObjectClass  
 Q3XElementClass_Register (
- TQ3ElementType *elementType,
- const char *name,
- TQ3Uns32 sizeOfElement,
- TQ3XMetaHandler metaHandler
-);</tt><br>
+    TQ3ElementType                *elementType,
+    const char                    *name,
+    TQ3Uns32                      sizeOfElement,
+    TQ3XMetaHandler               metaHandler
+);
+</tt><br>
 </pre></blockquote>
 <p>Register a custom element class.
 <br><br>
@@ -536,16 +562,17 @@ You may return NULL for some methods.</td></tr>
 <hr>
 <a name="//apple_ref/c/func/Q3XElementType_GetElementSize"></a>
 <h3><a name="Q3XElementType_GetElementSize">Q3XElementType_GetElementSize</a></h3>
-<blockquote><pre><tt>TQ3Status 
+<blockquote><pre><tt>TQ3Status  
 Q3XElementType_GetElementSize (
- TQ3ElementType elementType,
- TQ3Uns32 *sizeOfElement
-);</tt><br>
+    TQ3ElementType                elementType,
+    TQ3Uns32                      *sizeOfElement
+);
+</tt><br>
 </pre></blockquote>
 <p>Return the size in bytes of an element type.
 <br><br>
 In the case of a custom element, this would be the same as the size
-you provided when you called Q3XElementClass_Register.
+you provided when you called <code>Q3XElementClass_Register</code>.
 <br><br><br>
 </p>
 <h4>Parameters</h4>
@@ -559,5 +586,5 @@ you provided when you called Q3XElementClass_Register.
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 6/2/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
 </body></html>

@@ -29,21 +29,18 @@ Q3MeshEdgePart_GetEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the mesh edge that corresponds to a mesh edge part.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>meshEdgePartObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edge</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>meshEdgePartObject</tt></td><td>The mesh edge to query.</td></tr>
+<tr valign=top><td><tt>edge</tt></td><td>Receives the mesh edge that corresponds to meshEdgePartObject.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MeshFacePart_GetFace"></a>
@@ -55,21 +52,18 @@ Q3MeshFacePart_GetFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the mesh face that corresponds to a mesh face part.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>meshFacePartObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>meshFacePartObject</tt></td><td>The mesh face to query.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>Receives the mesh face that corresponds to meshFacePartObject.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MeshPart_GetComponent"></a>
@@ -81,21 +75,18 @@ Q3MeshPart_GetComponent (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the mesh component that contains a mesh part object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>meshPartObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>component</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>meshPartObject</tt></td><td>The mesh part to query.</td></tr>
+<tr valign=top><td><tt>component</tt></td><td>Receives the mesh component that contains meshPartObject.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MeshPart_GetType"></a>
@@ -106,20 +97,21 @@ Q3MeshPart_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the type of a mesh part object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Returns kQ3MeshPartTypeMeshFacePart, kQ3MeshPartTypeMeshEdgePart,
+or kQ3MeshPartTypeMeshVertexPart. If the type can not be determined,
+returns kQ3ObjectTypeInvalid.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>meshPartObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>meshPartObject</tt></td><td>The mesh part to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the mesh part.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MeshVertexPart_GetVertex"></a>
@@ -131,21 +123,18 @@ Q3MeshVertexPart_GetVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the mesh vertex that corresponds to a mesh vertex part.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>meshVertexPartObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>meshVertexPartObject</tt></td><td>The mesh vertex to query.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>Receives the mesh vertex that corresponds to meshVertedPartObject.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_EmptyHitList"></a>
@@ -156,20 +145,17 @@ Q3Pick_EmptyHitList (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Empty the hit list of a pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to update.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetData"></a>
@@ -181,21 +167,18 @@ Q3Pick_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the common state of a pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the common state of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetEdgeTolerance"></a>
@@ -207,21 +190,18 @@ Q3Pick_GetEdgeTolerance (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the edge tolerance of a pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edgeTolerance</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>edgeTolerance</tt></td><td>Receives the edge tolerance of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetNumHits"></a>
@@ -233,21 +213,18 @@ Q3Pick_GetNumHits (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of hits of a pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numHits</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>numHits</tt></td><td>Receives the number of hits of a pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetPickDetailData"></a>
@@ -261,23 +238,26 @@ Q3Pick_GetPickDetailData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the data for a pick result.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+When the kQ3PickDetailMaskPath data is requested, it must be disposed
+of by the caller using Q3HitPath_EmptyData.
+<br><br>
+Pick results are indexed from 0, and the number of available
+pick results is returned by Q3Pick_GetNumHits.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>pickDetailValue</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>detailData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the hit to query.</td></tr>
+<tr valign=top><td><tt>pickDetailValue</tt></td><td>The type of data requested from the hit.</td></tr>
+<tr valign=top><td><tt>detailData</tt></td><td>Receives the data from the hit.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetPickDetailValidMask"></a>
@@ -290,22 +270,22 @@ Q3Pick_GetPickDetailValidMask (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the available data mask for a pick result.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Pick results are indexed from 0, and the number of available
+pick results is returned by Q3Pick_GetNumHits.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>pickDetailValidMask</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the hit to query.</td></tr>
+<tr valign=top><td><tt>pickDetailValidMask</tt></td><td>Receives the available data mask for the hit.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetType"></a>
@@ -316,20 +296,19 @@ Q3Pick_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the type of a pick object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Returns kQ3ObjectTypeInvalid if the pick type is unknown.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the pick object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetVertexTolerance"></a>
@@ -341,21 +320,18 @@ Q3Pick_GetVertexTolerance (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the vertex tolerance of a pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertexTolerance</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>vertexTolerance</tt></td><td>Receives the vertex tolerance of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_SetData"></a>
@@ -367,21 +343,18 @@ Q3Pick_SetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the common state of a pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to update.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The new common state for the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_SetEdgeTolerance"></a>
@@ -393,21 +366,18 @@ Q3Pick_SetEdgeTolerance (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the edge tolerance of a pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edgeTolerance</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to update.</td></tr>
+<tr valign=top><td><tt>edgeTolerance</tt></td><td>The new edge tolerance of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_SetVertexTolerance"></a>
@@ -419,21 +389,18 @@ Q3Pick_SetVertexTolerance (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the vertex tolerance of a pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertexTolerance</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to update.</td></tr>
+<tr valign=top><td><tt>vertexTolerance</tt></td><td>The new vertex tolerance of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ShapePart_GetShape"></a>
@@ -445,21 +412,18 @@ Q3ShapePart_GetShape (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the shape object that contains a shape part object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shapePartObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>shapeObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shapePartObject</tt></td><td>The shape part to query.</td></tr>
+<tr valign=top><td><tt>shapeObject</tt></td><td>Receives the shape object that contains shapePartObject.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ShapePart_GetType"></a>
@@ -470,17 +434,14 @@ Q3ShapePart_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the type of a shape part object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shapePartObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shapePartObject</tt></td><td>The shape part to query.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Description of the function result.
@@ -495,21 +456,18 @@ Q3WindowPointPick_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the data of a window-point pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WindowPointPick_GetPoint"></a>
@@ -521,21 +479,18 @@ Q3WindowPointPick_GetPoint (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the pick point of a window-point pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>point</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>point</tt></td><td>Receives the pick point of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WindowPointPick_New"></a>
@@ -546,20 +501,17 @@ Q3WindowPointPick_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new window-point pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data for the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new pick object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WindowPointPick_SetData"></a>
@@ -571,21 +523,18 @@ Q3WindowPointPick_SetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the data for a window-point pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to update.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The new data for the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WindowPointPick_SetPoint"></a>
@@ -597,21 +546,18 @@ Q3WindowPointPick_SetPoint (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the pick point of a window-point pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>point</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to update.</td></tr>
+<tr valign=top><td><tt>point</tt></td><td>The new pick point for the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WindowRectPick_GetData"></a>
@@ -623,21 +569,18 @@ Q3WindowRectPick_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the data of a window-rect pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WindowRectPick_GetRect"></a>
@@ -649,21 +592,18 @@ Q3WindowRectPick_GetRect (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the pick rect of a window-rect pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rect</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>rect</tt></td><td>Receives the pick rect of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WindowRectPick_New"></a>
@@ -674,20 +614,17 @@ Q3WindowRectPick_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new window-rect pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data for the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new pick object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WindowRectPick_SetData"></a>
@@ -699,21 +636,18 @@ Q3WindowRectPick_SetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the data of a window-rect pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to update.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The new data for the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WindowRectPick_SetRect"></a>
@@ -725,21 +659,18 @@ Q3WindowRectPick_SetRect (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the pick rect of a window-rect pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rect</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to update.</td></tr>
+<tr valign=top><td><tt>rect</tt></td><td>The new pick rect of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WorldRayPick_GetData"></a>
@@ -751,21 +682,18 @@ Q3WorldRayPick_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the data of a world-ray pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data for the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WorldRayPick_GetRay"></a>
@@ -777,21 +705,18 @@ Q3WorldRayPick_GetRay (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the pick ray of a world-ray pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>ray</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to query.</td></tr>
+<tr valign=top><td><tt>ray</tt></td><td>Receives the ray of the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WorldRayPick_New"></a>
@@ -802,20 +727,17 @@ Q3WorldRayPick_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new world-ray pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data for the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new pick object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WorldRayPick_SetData"></a>
@@ -827,21 +749,18 @@ Q3WorldRayPick_SetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the data of a world-ray pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to update.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The new data for the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WorldRayPick_SetRay"></a>
@@ -853,22 +772,19 @@ Q3WorldRayPick_SetRay (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the pick ray of a world-ray pick object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>ray</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object to update.</td></tr>
+<tr valign=top><td><tt>ray</tt></td><td>The new ray for the pick object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
 </body></html>

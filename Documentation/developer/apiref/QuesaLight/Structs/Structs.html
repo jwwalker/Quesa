@@ -1,0 +1,135 @@
+<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
+<a name="//apple_ref/c/tag/TQ3DirectionalLightData"></a>
+<h3><a name="TQ3DirectionalLightData">TQ3DirectionalLightData</a></h3>
+<blockquote><pre>
+typedef struct TQ3DirectionalLightData {
+    TQ3LightData                                lightData;
+    TQ3Boolean                                  castsShadows;
+    TQ3Vector3D                                 direction;
+} TQ3DirectionalLightData;
+</pre>
+</blockquote>
+<p>Describes the state for a directional light.
+<br><br>
+A directional light is defined by a vector, which indicates the
+world-space direction away from the light source.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>lightData</tt></td><td>The common state for the light.</td><tr>
+<tr valign=top><td><tt>castsShadows</tt></td><td>Indicates if the light casts shadows.</td><tr>
+<tr valign=top><td><tt>direction</tt></td><td>The direction of the light.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3LightData"></a>
+<h3><a name="TQ3LightData">TQ3LightData</a></h3>
+<blockquote><pre>
+typedef struct TQ3LightData {
+    TQ3Boolean                                  isOn;
+    float                                       brightness;
+    TQ3ColorRGB                                 color;
+} TQ3LightData;
+</pre>
+</blockquote>
+<p>Describes the common state for a light.
+<br><br>
+The common light state includes the on/off state, brightness, and color.
+Brightness and color values should be between 0.0 and 1.0 inclusive.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>isOn</tt></td><td>Controls if the light is active or not.</td><tr>
+<tr valign=top><td><tt>brightness</tt></td><td>The brightness of the light.</td><tr>
+<tr valign=top><td><tt>color</tt></td><td>The colour of the light.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PointLightData"></a>
+<h3><a name="TQ3PointLightData">TQ3PointLightData</a></h3>
+<blockquote><pre>
+typedef struct TQ3PointLightData {
+    TQ3LightData                                lightData;
+    TQ3Boolean                                  castsShadows;
+    TQ3AttenuationType                          attenuation;
+    TQ3Point3D                                  location;
+} TQ3PointLightData;
+</pre>
+</blockquote>
+<p>Describes the state for a point light.
+<br><br>
+A point light is defined by a coordinate in world space, and an
+attenuation value which controls how the light diminishes with
+distance.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>lightData</tt></td><td>The common state for the light.</td><tr>
+<tr valign=top><td><tt>castsShadows</tt></td><td>Indicates if the light casts shadows.</td><tr>
+<tr valign=top><td><tt>attenuation</tt></td><td>The attenuation style of the light.</td><tr>
+<tr valign=top><td><tt>location</tt></td><td>The location of the light.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3SpotLightData"></a>
+<h3><a name="TQ3SpotLightData">TQ3SpotLightData</a></h3>
+<blockquote><pre>
+typedef struct TQ3SpotLightData {
+    TQ3LightData                                lightData;
+    TQ3Boolean                                  castsShadows;
+    TQ3AttenuationType                          attenuation;
+    TQ3Point3D                                  location;
+    TQ3Vector3D                                 direction;
+    float                                       hotAngle;
+    float                                       outerAngle;
+    TQ3FallOffType                              fallOff;
+} TQ3SpotLightData;
+</pre>
+</blockquote>
+<p>Describes the state for a spot light.
+<br><br>
+A spot light is defined by a coordinate in world space, a vector
+away from that coordinate, and an attenuation value which controls
+how the light diminishes with distance.
+<br><br>
+A spot light casts a cone of light, where the cone is defined by
+two angles. The hot angle is the angle from the center of the light
+cone to the point where the light intensity starts to drop, and the
+outerAngle is the angle from the center of the light to the point
+where the light intensity has fallen to zero.
+<br><br>
+The way the light intensity diminishes between the hotAngle and
+outerAngle values is controlled by the light fallOff value.
+<br><br>
+Both hotAngle and outerAngle are half-angles from the center of the
+light cone, and are specified in radians. They both range from 0.0
+to kQ3Pi/2.0 (inclusive), and the outerAngle must be equal than or
+greater to the hotAngle.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>lightData</tt></td><td>The common state for the light.</td><tr>
+<tr valign=top><td><tt>castsShadows</tt></td><td>Indicates if the light casts shadows.</td><tr>
+<tr valign=top><td><tt>attenuation</tt></td><td>The attenuation style of the light.</td><tr>
+<tr valign=top><td><tt>location</tt></td><td>The location of the light.</td><tr>
+<tr valign=top><td><tt>direction</tt></td><td>The direction of the light.</td><tr>
+<tr valign=top><td><tt>hotAngle</tt></td><td>The half-angle where the light intensity starts to drop.</td><tr>
+<tr valign=top><td><tt>outerAngle</tt></td><td>The half-angle where the light intensity reaches zero.</td><tr>
+<tr valign=top><td><tt>fallOff</tt></td><td>The fall off between the hotAngle and the outerAngle.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+</body></html>
