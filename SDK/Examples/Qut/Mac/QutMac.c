@@ -880,8 +880,12 @@ qut_mainloop(void)
 		WaitNextEvent(everyEvent, &theEvent, gSleepTime, NULL);
 		switch (theEvent.what) {
 			case updateEvt:
-				// Clear the update event
+				// Clear the window on an update event
 				BeginUpdate(gWindow);
+				
+				BackColor(whiteColor);
+				EraseRect(&dragRect);
+				
 				EndUpdate(gWindow);
 				break;
 
