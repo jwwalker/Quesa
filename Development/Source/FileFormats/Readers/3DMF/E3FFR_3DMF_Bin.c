@@ -772,7 +772,7 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 				
 				if(theClass == NULL){
 				
-					if(objectType < 0) {// custom object
+					if((objectType < 0) || (objectType = kQ3SharedTypeViewHints/*Temporary patch*/)) {// custom object
 						instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
 						result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
 						instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
