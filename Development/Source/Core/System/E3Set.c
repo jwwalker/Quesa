@@ -65,7 +65,6 @@
 const TQ3Uns32 kSetTableSize									= 6;
 
 
-#define E3XAttributeSet_GetPointer Q3XAttributeSet_GetPointer
 
 
 
@@ -2568,6 +2567,11 @@ E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 // 			so you have to know what data had been returned,
 //			and this is only true with built-in attributes,
 //			if you want custom attributes you have to call Q3Set_Get
+//
+//			We should remove this restriction in the future, and allow direct
+//			access to the internal data of custom attributes as well: renderers
+//			may well want to register their own custom attributes for apps and
+//			still get fast access to them during a rendering loop.
 //-----------------------------------------------------------------------------
 void *
 E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType)
