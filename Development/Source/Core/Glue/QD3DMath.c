@@ -1146,45 +1146,54 @@ Q3Vector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2)
 //      Q3Vector3D_DotArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Vector3D_DotArray(TQ3Uns32				numVectors,
-					const TQ3Vector3D		*firstVectors,
-					const TQ3Vector3D		*secondVectors,
-					float					*dotProducts,
-					TQ3Boolean				*dotLessThanZero)
+Q3Vector3D_DotArray(
+    const TQ3Vector3D *inFirstVectors3D,
+    const TQ3Vector3D *inSecondVectors3D,
+    float *outDotProducts,
+    TQ3Boolean *outDotLessThanZeros,
+    TQ3Uns32 numVectors,
+    TQ3Uns32 inStructSize,
+    TQ3Uns32 outDotProductStructSize,
+    TQ3Uns32 outDotLessThanZeroStructSize)
 {
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(numVectors != 0,               kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstVectors),    kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(secondVectors),   kQ3Failure);
-	
-	if (dotProducts != NULL)
-		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dotProducts), kQ3Failure);
-	
-	if (dotLessThanZero != NULL)
-		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dotLessThanZero), kQ3Failure);
-	
-	if (dotProducts == NULL && dotLessThanZero == NULL)
-		return(kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inFirstVectors3D),    kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inSecondVectors3D),   kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outDotProducts != NULL || outDotLessThanZeros != NULL, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outDotProducts == NULL || Q3_VALID_PTR(outDotProducts), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outDotLessThanZeros == NULL || Q3_VALID_PTR(outDotLessThanZeros), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(inStructSize >= sizeof(TQ3Vector3D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outDotProducts == NULL || outDotProductStructSize >= sizeof(float), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outDotLessThanZeros == NULL || outDotLessThanZeroStructSize >= sizeof(TQ3Boolean), kQ3Failure);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
+	if (0) // Further checks on inFirstVectors3D
+		return(kQ3Failure);
+
+	if (0) // Further checks on inSecondVectors3D
+		return(kQ3Failure);
+
+	if (0) // Further checks on outDotProducts
+		return(kQ3Failure);
+
+	if (0) // Further checks on outDotLessThanZeros
+		return(kQ3Failure);
+
 	if (0) // Further checks on numVectors
 		return(kQ3Failure);
 
-	if (0) // Further checks on firstVectors
+	if (0) // Further checks on inStructSize
 		return(kQ3Failure);
 
-	if (0) // Further checks on secondVectors
+	if (0) // Further checks on outDotProductStructSize
 		return(kQ3Failure);
 
-	if (0) // Further checks on dotProducts
-		return(kQ3Failure);
-
-	if (0) // Further checks on dotLessThanZero
+	if (0) // Further checks on outDotLessThanZeroStructSize
 		return(kQ3Failure);
 #endif
 
@@ -1196,7 +1205,7 @@ Q3Vector3D_DotArray(TQ3Uns32				numVectors,
 
 
 	// Call our implementation
-	return(E3Vector3D_DotArray(numVectors, firstVectors, secondVectors, dotProducts, dotLessThanZero));
+	return(E3Vector3D_DotArray(inFirstVectors3D, inSecondVectors3D, outDotProducts, outDotLessThanZeros, numVectors, inStructSize, outDotProductStructSize, outDotLessThanZeroStructSize));
 }
 
 
@@ -3438,7 +3447,7 @@ Q3RationalPoint4D_Transform(const TQ3RationalPoint4D *rationalPoint4D, const TQ3
 //      Q3Vector2D_To2DTransformArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Vector2D_To2DTransformArray(const TQ3Vector2D *inVectors2D, const TQ3Matrix3x3 *matrix3x3, TQ3Vector2D *outVectors2D, TQ3Int32 numVectors, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
+Q3Vector2D_To2DTransformArray(const TQ3Vector2D *inVectors2D, const TQ3Matrix3x3 *matrix3x3, TQ3Vector2D *outVectors2D, TQ3Uns32 numVectors, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
 {
 
 
@@ -3446,7 +3455,8 @@ Q3Vector2D_To2DTransformArray(const TQ3Vector2D *inVectors2D, const TQ3Matrix3x3
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inVectors2D),  kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3),    kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outVectors2D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(numVectors >= 1,            kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(inStructSize >= sizeof(TQ3Vector2D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outStructSize >= sizeof(TQ3Vector2D), kQ3Failure);
 
 
 
@@ -3479,7 +3489,7 @@ Q3Vector2D_To2DTransformArray(const TQ3Vector2D *inVectors2D, const TQ3Matrix3x3
 
 
 	// Call our implementation
-	return(E3Vector2D_To2DTransformArray(inVectors2D, matrix3x3, outVectors2D, (TQ3Uns32) numVectors, inStructSize, outStructSize));
+	return(E3Vector2D_To2DTransformArray(inVectors2D, matrix3x3, outVectors2D, numVectors, inStructSize, outStructSize));
 }
 
 
@@ -3490,7 +3500,7 @@ Q3Vector2D_To2DTransformArray(const TQ3Vector2D *inVectors2D, const TQ3Matrix3x3
 //      Q3Vector3D_To3DTransformArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Vector3D_To3DTransformArray(const TQ3Vector3D *inVectors3D, const TQ3Matrix4x4 *matrix4x4, TQ3Vector3D *outVectors3D, TQ3Int32 numVectors, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
+Q3Vector3D_To3DTransformArray(const TQ3Vector3D *inVectors3D, const TQ3Matrix4x4 *matrix4x4, TQ3Vector3D *outVectors3D, TQ3Uns32 numVectors, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
 {
 
 
@@ -3498,7 +3508,8 @@ Q3Vector3D_To3DTransformArray(const TQ3Vector3D *inVectors3D, const TQ3Matrix4x4
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inVectors3D),  kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4),    kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outVectors3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(numVectors >= 1,            kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(inStructSize >= sizeof(TQ3Vector3D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outStructSize >= sizeof(TQ3Vector3D), kQ3Failure);
 
 
 
@@ -3531,7 +3542,7 @@ Q3Vector3D_To3DTransformArray(const TQ3Vector3D *inVectors3D, const TQ3Matrix4x4
 
 
 	// Call our implementation
-	return(E3Vector3D_To3DTransformArray(inVectors3D, matrix4x4, outVectors3D, (TQ3Uns32) numVectors, inStructSize, outStructSize));
+	return(E3Vector3D_To3DTransformArray(inVectors3D, matrix4x4, outVectors3D, numVectors, inStructSize, outStructSize));
 }
 
 
@@ -3542,7 +3553,7 @@ Q3Vector3D_To3DTransformArray(const TQ3Vector3D *inVectors3D, const TQ3Matrix4x4
 //      Q3Point2D_To2DTransformArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Point2D_To2DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *matrix3x3, TQ3Point2D *outPoints2D, TQ3Int32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
+Q3Point2D_To2DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *matrix3x3, TQ3Point2D *outPoints2D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
 {
 
 
@@ -3550,7 +3561,8 @@ Q3Point2D_To2DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *m
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inPoints2D), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outPoints2D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(numPoints >= 1, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(inStructSize >= sizeof(TQ3Point2D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outStructSize >= sizeof(TQ3Point2D), kQ3Failure);
 
 
 
@@ -3583,7 +3595,60 @@ Q3Point2D_To2DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *m
 
 
 	// Call our implementation
-	return(E3Point2D_To2DTransformArray(inPoints2D, matrix3x3, outPoints2D, (TQ3Uns32) numPoints, inStructSize, outStructSize));
+	return(E3Point2D_To2DTransformArray(inPoints2D, matrix3x3, outPoints2D, numPoints, inStructSize, outStructSize));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_To3DTransformArray : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Point2D_To3DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *matrix3x3, TQ3RationalPoint3D *outRationalPoints3D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inPoints2D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outRationalPoints3D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(inStructSize >= sizeof(TQ3Point2D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outStructSize >= sizeof(TQ3RationalPoint3D), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on inPoints2D
+		return(kQ3Failure);
+
+	if (0) // Further checks on matrix3x3
+		return(kQ3Failure);
+
+	if (0) // Further checks on outRationalPoints3D
+		return(kQ3Failure);
+
+	if (0) // Further checks on numPoints
+		return(kQ3Failure);
+
+	if (0) // Further checks on inStructSize
+		return(kQ3Failure);
+
+	if (0) // Further checks on outStructSize
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_To3DTransformArray(inPoints2D, matrix3x3, outRationalPoints3D, numPoints, inStructSize, outStructSize));
 }
 
 
@@ -3594,7 +3659,7 @@ Q3Point2D_To2DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *m
 //      Q3RationalPoint3D_To3DTransformArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D *inRationalPoints3D, const TQ3Matrix3x3 *matrix3x3, TQ3RationalPoint3D *outRationalPoints3D, TQ3Int32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
+Q3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D *inRationalPoints3D, const TQ3Matrix3x3 *matrix3x3, TQ3RationalPoint3D *outRationalPoints3D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
 {
 
 
@@ -3602,7 +3667,8 @@ Q3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D *inRationalPoints3
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inRationalPoints3D), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outRationalPoints3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(numPoints >= 1, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(inStructSize >= sizeof(TQ3RationalPoint3D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outStructSize >= sizeof(TQ3RationalPoint3D), kQ3Failure);
 
 
 
@@ -3635,7 +3701,7 @@ Q3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D *inRationalPoints3
 
 
 	// Call our implementation
-	return(E3RationalPoint3D_To3DTransformArray(inRationalPoints3D, matrix3x3, outRationalPoints3D, (TQ3Uns32) numPoints, inStructSize, outStructSize));
+	return(E3RationalPoint3D_To3DTransformArray(inRationalPoints3D, matrix3x3, outRationalPoints3D, numPoints, inStructSize, outStructSize));
 }
 
 
@@ -3646,7 +3712,7 @@ Q3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D *inRationalPoints3
 //      Q3Point3D_To3DTransformArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *matrix4x4, TQ3Point3D *outPoints3D, TQ3Int32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
+Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *matrix4x4, TQ3Point3D *outPoints3D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
 {
 
 
@@ -3654,7 +3720,8 @@ Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *m
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inPoints3D), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outPoints3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(numPoints >= 1, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(inStructSize >= sizeof(TQ3Point3D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outStructSize >= sizeof(TQ3Point3D), kQ3Failure);
 
 
 
@@ -3687,7 +3754,7 @@ Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *m
 
 
 	// Call our implementation
-	return(E3Point3D_To3DTransformArray(inPoints3D, matrix4x4, outPoints3D, (TQ3Uns32) numPoints, inStructSize, outStructSize));
+	return(E3Point3D_To3DTransformArray(inPoints3D, matrix4x4, outPoints3D, numPoints, inStructSize, outStructSize));
 }
 
 
@@ -3698,7 +3765,7 @@ Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *m
 //      Q3Point3D_To4DTransformArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *matrix4x4, TQ3RationalPoint4D *outRationalPoints4D, TQ3Int32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
+Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *matrix4x4, TQ3RationalPoint4D *outRationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
 {
 
 
@@ -3706,7 +3773,8 @@ Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *m
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inPoints3D), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outRationalPoints4D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(numPoints >= 1, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(inStructSize >= sizeof(TQ3Point3D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outStructSize >= sizeof(TQ3RationalPoint4D), kQ3Failure);
 
 
 
@@ -3739,7 +3807,7 @@ Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *m
 
 
 	// Call our implementation
-	return(E3Point3D_To4DTransformArray(inPoints3D, matrix4x4, outRationalPoints4D, (TQ3Uns32) numPoints, inStructSize, outStructSize));
+	return(E3Point3D_To4DTransformArray(inPoints3D, matrix4x4, outRationalPoints4D, numPoints, inStructSize, outStructSize));
 }
 
 
@@ -3750,7 +3818,7 @@ Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *m
 //      Q3RationalPoint4D_To4DTransformArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D *inRationalPoints4D, const TQ3Matrix4x4 *matrix4x4, TQ3RationalPoint4D *outRationalPoints4D, TQ3Int32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
+Q3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D *inRationalPoints4D, const TQ3Matrix4x4 *matrix4x4, TQ3RationalPoint4D *outRationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
 {
 
 
@@ -3758,7 +3826,8 @@ Q3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D *inRationalPoints4
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inRationalPoints4D), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outRationalPoints4D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(numPoints >= 1, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(inStructSize >= sizeof(TQ3RationalPoint4D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outStructSize >= sizeof(TQ3RationalPoint4D), kQ3Failure);
 
 
 
@@ -3791,7 +3860,7 @@ Q3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D *inRationalPoints4
 
 
 	// Call our implementation
-	return(E3RationalPoint4D_To4DTransformArray(inRationalPoints4D, matrix4x4, outRationalPoints4D, (TQ3Uns32) numPoints, inStructSize, outStructSize));
+	return(E3RationalPoint4D_To4DTransformArray(inRationalPoints4D, matrix4x4, outRationalPoints4D, numPoints, inStructSize, outStructSize));
 }
 
 
@@ -6117,7 +6186,6 @@ Q3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *p
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere),  NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), NULL);
-	Q3_REQUIRE_OR_RESULT(numPoints >= 1,         NULL);
 
 
 
@@ -6162,7 +6230,6 @@ Q3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3Ra
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere),  NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoints4D), NULL);
-	Q3_REQUIRE_OR_RESULT(numPoints >= 1,         NULL);
 
 
 

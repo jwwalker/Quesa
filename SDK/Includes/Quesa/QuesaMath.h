@@ -705,22 +705,28 @@ Q3Vector3D_Dot (
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param numVectors       The number of vectors to process.
- *  @param firstVectors     The first set of vectors.
- *  @param secondVectors    The second set of vectors.
- *  @param dotProducts      Receives the dot products.
- *  @param dotLessThanZero  Receives the "< 0.0" status of the dot products.
- *  @result                 Success or failure of the operation.
+ *  @param inFirstVectors3D             First array of 3D vectors to dot.
+ *  @param inSecondVectors3D            Second array of 3D vectors to dot.
+ *  @param outDotProducts               Array of scalars to receive the dot products.
+ *  @param outDotLessThanZeros          Array of booleans to receive the "< 0.0" status of the dot products.
+ *  @param numVectors                   How many elements are in each array.
+ *  @param inStructSize                 Size of one element of input arrays, typically sizeof(TQ3Vector3D).
+ *  @param outDotProductStructSize      Size of one element of the outDotProducts array, typically sizeof(float).
+ *  @param outDotLessThanZeroStructSize Size of one element of the outDotLessThanZeros array, typically sizeof(TQ3Boolean).
+ *  @result                             kQ3Success or some error code.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector3D_DotArray(
-    TQ3Uns32                    numVectors,
-    const TQ3Vector3D           *firstVectors,
-    const TQ3Vector3D           *secondVectors,
-    float                       *dotProducts,
-    TQ3Boolean                  *dotLessThanZero
+    const TQ3Vector3D             *inFirstVectors3D,
+    const TQ3Vector3D             *inSecondVectors3D,
+    float                         *outDotProducts,
+    TQ3Boolean                    *outDotLessThanZeros,
+    TQ3Uns32                      numVectors,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outDotProductStructSize,
+    TQ3Uns32                      outDotLessThanZeroStructSize
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -1940,7 +1946,7 @@ Q3RationalPoint4D_AffineComb (
  *		Note that the translation and perspective components of the
  *		matrix is ignored (as if it were really a 2x2 matrix).
  *
- *		Contrast with E3Point2D_Transform, which does the full 3x3
+ *		Contrast with Q3Point2D_Transform, which does the full 3x3
  *		transformation.
  *
  *  @param vector2D         Address of a vector to transform.
@@ -1966,7 +1972,7 @@ Q3Vector2D_Transform (
  *		Note that the translation and perspective components of the
  *		matrix is ignored (as if it were really a 3x3 matrix).
  *
- *		Contrast with E3Point3D_Transform, which does the full 4x4
+ *		Contrast with Q3Point3D_Transform, which does the full 4x4
  *		transformation.
  *
  *  @param vector3D         Address of a vector to transform.
@@ -2009,9 +2015,6 @@ Q3Point2D_Transform (
  *  @discussion
  *      Transform a 2D parametric point by a 3x3 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
  *  @param point2D          Address of a point to transform.
  *  @param matrix3x3        Address of a 3x3 transformation matrix.
  *  @param result           Address of point to set (may be the same as point2D).
@@ -2030,7 +2033,7 @@ Q3Param2D_Transform (
  *  @function
  *      Q3RationalPoint3D_Transform
  *  @discussion
- *		Transform 3D rational point by 3x3 matrix.
+ *		Transform a 3D rational point by 3x3 matrix.
  *
  *      <em>This function is not available in QD3D.</em>
  *
@@ -2118,7 +2121,7 @@ Q3Vector2D_To2DTransformArray (
     const TQ3Vector2D             *inVectors2D,
     const TQ3Matrix3x3            *matrix3x3,
     TQ3Vector2D                   *outVectors2D,
-    TQ3Int32                      numVectors,
+    TQ3Uns32                      numVectors,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -2153,7 +2156,7 @@ Q3Vector3D_To3DTransformArray (
     const TQ3Vector3D             *inVectors3D,
     const TQ3Matrix4x4            *matrix4x4,
     TQ3Vector3D                   *outVectors3D,
-    TQ3Int32                      numVectors,
+    TQ3Uns32                      numVectors,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -2188,7 +2191,42 @@ Q3Point2D_To2DTransformArray (
     const TQ3Point2D              *inPoints2D,
     const TQ3Matrix3x3            *matrix3x3,
     TQ3Point2D                    *outPoints2D,
-    TQ3Int32                      numPoints,
+    TQ3Uns32                      numPoints,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outStructSize
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3Point2D_To3DTransformArray
+ *  @discussion
+ *      Transform an array of 2D points by a 3x3 matrix into 3D rational points.
+ *
+ *		When you have many vectors to transform, this is a more efficient
+ *		alternative to calling Q3Point2D_To3D and Q3RationalPoint3D_Transform repeatedly.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param inPoints2D       Array of 2D points to transform.
+ *  @param matrix3x3        Transformation matrix.
+ *  @param outRationalPoints3D Array of points to receive output.
+ *  @param numPoints        How many points are in each array.
+ *  @param inStructSize     Size of one element of the input array, typically sizeof(TQ3Point2D).
+ *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3RationalPoint3D).
+ *  @result                 kQ3Success or some error code.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Point2D_To3DTransformArray (
+    const TQ3Point2D              *inPoints2D,
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3RationalPoint3D            *outRationalPoints3D,
+    TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -2223,7 +2261,7 @@ Q3RationalPoint3D_To3DTransformArray (
     const TQ3RationalPoint3D      *inRationalPoints3D,
     const TQ3Matrix3x3            *matrix3x3,
     TQ3RationalPoint3D            *outRationalPoints3D,
-    TQ3Int32                      numPoints,
+    TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -2241,8 +2279,6 @@ Q3RationalPoint3D_To3DTransformArray (
  *		When you have many points to transform, this is a more efficient
  *		alternative to calling Q3Point3D_Transform repeatedly.
  *
- *      <em>This function is not available in QD3D.</em>
- *
  *  @param inPoints3D       Array of 3D points to transform.
  *  @param matrix4x4        Transformation matrix.
  *  @param outPoints3D      Array of points to receive output (may be the same as inPoints3D).
@@ -2256,7 +2292,7 @@ Q3Point3D_To3DTransformArray (
     const TQ3Point3D              *inPoints3D,
     const TQ3Matrix4x4            *matrix4x4,
     TQ3Point3D                    *outPoints3D,
-    TQ3Int32                      numPoints,
+    TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -2268,6 +2304,9 @@ Q3Point3D_To3DTransformArray (
  *      Q3Point3D_To4DTransformArray
  *  @discussion
  *      Transform an array of 3D points by a 4x4 matrix into 4D rational points.
+ *
+ *		When you have many vectors to transform, this is a more efficient
+ *		alternative to calling Q3Point3D_To4D and Q3RationalPoint4D_Transform repeatedly.
  *
  *  @param inPoints3D       Array of 3D points to transform.
  *  @param matrix4x4        Transformation matrix.
@@ -2282,7 +2321,7 @@ Q3Point3D_To4DTransformArray (
     const TQ3Point3D              *inPoints3D,
     const TQ3Matrix4x4            *matrix4x4,
     TQ3RationalPoint4D            *outRationalPoints4D,
-    TQ3Int32                      numPoints,
+    TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -2311,7 +2350,7 @@ Q3RationalPoint4D_To4DTransformArray (
     const TQ3RationalPoint4D      *inRationalPoints4D,
     const TQ3Matrix4x4            *matrix4x4,
     TQ3RationalPoint4D            *outRationalPoints4D,
-    TQ3Int32                      numPoints,
+    TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
