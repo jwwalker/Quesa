@@ -66,8 +66,37 @@ extern "C" {
 //      Constants
 //-----------------------------------------------------------------------------
 // Custom element names (as defined by QD3D)
+/*!
+	@constant	CEcNameElementName
+	@discussion	Class name of the name element.
+	
+				Ordinarily you will not need to use the class name, because you
+				can manipulate name elements using the functions
+				CENameElement_SetData, CENameElement_GetData, and
+				CENameElement_EmptyData.
+*/
 #define CEcNameElementName                      "Apple Computer, Inc.:NameElement"
+
+/*!
+	@constant	CEcUrlElementName
+	@discussion	Class name of the URL element.
+	
+				Ordinarily you will not need to use the class name, because you
+				can manipulate name elements using the functions
+				CEUrlElement_SetData, CEUrlElement_GetData, and
+				CEUrlElement_EmptyData.
+*/
 #define CEcUrlElementName                       "Apple Computer, Inc.:URLElement"
+
+/*!
+	@constant	CEcWireElementName
+	@discussion	Class name of the wire element.
+	
+				Ordinarily you will not need to use the class name, because you
+				can manipulate name elements using the functions
+				CEWireElement_SetData, CEWireElement_SetData, and
+				CEWireElement_EmptyData.
+*/
 #define CEcWireElementName                      "Apple Computer, Inc.:WireElement"
 
 
