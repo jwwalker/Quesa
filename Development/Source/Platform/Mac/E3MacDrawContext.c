@@ -988,6 +988,53 @@ E3MacDrawContext_New(const TQ3MacDrawContextData *drawContextData)
 
 
 //=============================================================================
+//      E3MacDrawContext_NewWithWindow : Create a new Mac Draw Context object.
+//-----------------------------------------------------------------------------
+TQ3DrawContextObject
+E3MacDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget)
+{	TQ3MacDrawContextData	macDrawContextData;
+	TQ3DrawContextData		drawContextData;
+	TQ3DrawContextObject	drawContext;
+
+
+
+	// Check we have a suitable target for the draw context
+	if (drawContextType != kQ3DrawContextTypeMacintosh)
+		return(NULL);
+
+
+
+	// Prepare the draw context
+	Q3ColorARGB_Set(&drawContextData.clearImageColor, kQ3DrawContextDefaultBackgroundColour);
+
+	drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
+	drawContextData.paneState         = kQ3False;
+	drawContextData.maskState		  = kQ3False;
+	drawContextData.doubleBufferState = kQ3True;
+	drawContextData.pane.min.x        = 0.0f;
+	drawContextData.pane.min.y        = 0.0f;
+	drawContextData.pane.max.x        = 0.0f;
+	drawContextData.pane.max.y        = 0.0f;
+
+	macDrawContextData.drawContextData = drawContextData;
+	macDrawContextData.window          = (CWindowPtr) drawContextTarget;
+	macDrawContextData.library         = kQ3Mac2DLibraryNone;
+	macDrawContextData.viewPort        = NULL;
+	macDrawContextData.grafPort        = NULL;
+	
+
+
+	// Create the draw context
+	drawContext = Q3MacDrawContext_New(&macDrawContextData);
+
+	return(drawContext);
+}
+
+
+
+
+
+//=============================================================================
 //      E3MacDrawContext_SetWindow : Set the window.
 //-----------------------------------------------------------------------------
 TQ3Status

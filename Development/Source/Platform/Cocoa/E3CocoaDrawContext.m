@@ -290,6 +290,50 @@ E3CocoaDrawContext_New(const TQ3CocoaDrawContextData *drawContextData)
 
 
 //=============================================================================
+//      E3CocoaDrawContext_NewWithWindow : Create a new Cocoa Draw Context.
+//-----------------------------------------------------------------------------
+TQ3DrawContextObject
+E3CocoaDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget)
+{	TQ3CocoaDrawContextData		cocoaDrawContextData;
+	TQ3DrawContextData			drawContextData;
+	TQ3DrawContextObject		drawContext;
+
+
+
+	// Check we have a suitable target for the draw context
+	if (drawContextType != kQ3DrawContextTypeCocoa)
+		return(NULL);
+
+
+
+	// Prepare the draw context
+	Q3ColorARGB_Set(&drawContextData.clearImageColor, kQ3DrawContextDefaultBackgroundColour);
+
+	drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
+	drawContextData.paneState         = kQ3False;
+	drawContextData.maskState		  = kQ3False;
+	drawContextData.doubleBufferState = kQ3True;
+	drawContextData.pane.min.x        = 0.0f;
+	drawContextData.pane.min.y        = 0.0f;
+	drawContextData.pane.max.x        = 0.0f;
+	drawContextData.pane.max.y        = 0.0f;
+
+	cocoaDrawContextData.drawContextData = drawContextData;
+	cocoaDrawContextData.nsView          = (NSView *) drawContextTarget;
+
+
+
+	// Create the draw context
+	drawContext = Q3CocoaDrawContext_New(&cocoaDrawContextData);
+
+	return(drawContext);
+}
+
+
+
+
+
+//=============================================================================
 //      E3CocoaDrawContext_SetNSView : Set the view for an Cocoa draw context.
 //-----------------------------------------------------------------------------
 //		Note :	Quesa is not involved in any OS-specific reference counting,

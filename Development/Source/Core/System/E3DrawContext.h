@@ -53,6 +53,15 @@ extern "C" {
 
 
 //=============================================================================
+//      Public constants
+//-----------------------------------------------------------------------------
+#define kQ3DrawContextDefaultBackgroundColour			1.0f, 0.9f, 0.9f, 1.0f
+
+
+
+
+
+//=============================================================================
 //      Public types
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -183,6 +192,7 @@ typedef struct TQ3DrawContextUnionData {
 // Cross platform
 TQ3Status				E3DrawContext_RegisterClass(void);
 TQ3Status				E3DrawContext_UnregisterClass(void);
+TQ3DrawContextObject	E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget);
 TQ3Status				E3DrawContext_Update(TQ3DrawContextObject drawContext);
 void					E3DrawContext_ResetState(TQ3DrawContextObject drawContext);
 TQ3Status				E3DrawContext_CreateRegions(TQ3DrawContextObject drawContext, TQ3Uns32 numRegions);
@@ -218,6 +228,7 @@ TQ3Status				E3MacDrawContext_RegisterClass(void);
 TQ3Status				E3MacDrawContext_UnregisterClass(void);
 
 TQ3DrawContextObject	E3MacDrawContext_New(const TQ3MacDrawContextData *drawContextData);
+TQ3DrawContextObject	E3MacDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget);
 TQ3Status				E3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, CWindowPtr window);
 TQ3Status				E3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, CWindowPtr *window);
 TQ3Status				E3MacDrawContext_SetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort viewPort);
@@ -235,6 +246,7 @@ TQ3Status				E3XDrawContext_RegisterClass(void);
 TQ3Status				E3XDrawContext_UnregisterClass(void);
 
 TQ3DrawContextObject	E3XDrawContext_New(const TQ3XDrawContextData * xContextData);
+TQ3DrawContextObject	E3XDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget);
 TQ3Status				E3XDrawContext_SetDisplay(TQ3DrawContextObject drawContext, const Display *display);
 TQ3Status				E3XDrawContext_GetDisplay(TQ3DrawContextObject drawContext, Display **display);
 TQ3Status				E3XDrawContext_SetDrawable(TQ3DrawContextObject drawContext, Drawable drawable);
@@ -257,6 +269,7 @@ TQ3Status				E3Win32DCDrawContext_RegisterClass(void);
 TQ3Status				E3Win32DCDrawContext_UnregisterClass(void);
 
 TQ3DrawContextObject	E3Win32DCDrawContext_New(const TQ3Win32DCDrawContextData *drawContextData);
+TQ3DrawContextObject	E3Win32DDDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget);
 TQ3Status				E3Win32DCDrawContext_SetDC(TQ3DrawContextObject drawContext, HDC newHDC);
 TQ3Status				E3Win32DCDrawContext_GetDC(TQ3DrawContextObject drawContext, HDC *curHDC);
 
@@ -275,6 +288,7 @@ TQ3Status				E3BeDrawContext_RegisterClass(void);
 TQ3Status				E3BeDrawContext_UnregisterClass(void);
 
 TQ3DrawContextObject	E3BeDrawContext_New(const TQ3BeDrawContextData *drawContextData);
+TQ3DrawContextObject	E3BeDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget);
 TQ3Status				E3BeDrawContext_SetView(TQ3DrawContextObject drawContext, BView *theView);
 TQ3Status				E3BeDrawContext_GetView(TQ3DrawContextObject drawContext, BView **theView);
 #endif
@@ -286,6 +300,7 @@ TQ3Status				E3CocoaDrawContext_RegisterClass(void);
 TQ3Status				E3CocoaDrawContext_UnregisterClass(void);
 
 TQ3DrawContextObject	E3CocoaDrawContext_New(const TQ3CocoaDrawContextData *drawContextData);
+TQ3DrawContextObject	E3CocoaDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget);
 TQ3Status				E3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView);
 TQ3Status				E3CocoaDrawContext_GetNSView(TQ3DrawContextObject drawContext, void **nsView);
 #endif
