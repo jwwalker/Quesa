@@ -96,8 +96,6 @@ typedef enum TQ3ViewStackState TQ3ViewStackState;
 typedef struct TQ3ViewStackItem {
 	TQ3ViewStackState			stackState;
 	TQ3AttributeSet				attributeSet;
-	TQ3Matrix4x4				matrixLocal;
-	TQ3Matrix4x4				matrixGroupToWorld;
 	TQ3Matrix4x4				matrixLocalToWorld;
 	TQ3ShaderObject				shaderIllumination;
 	TQ3ShaderObject				shaderSurface;
@@ -198,8 +196,6 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 
 
 	// Initialise the item
-	Q3Matrix4x4_SetIdentity(&theItem->matrixLocal);
-	Q3Matrix4x4_SetIdentity(&theItem->matrixGroupToWorld);
 	Q3Matrix4x4_SetIdentity(&theItem->matrixLocalToWorld);
 
 	theItem->stackState				 = kQ3ViewStateAll;
@@ -2213,43 +2209,6 @@ E3View_PickStack_PopGroup(TQ3ViewObject theView)
 
 
 //=============================================================================
-//      E3View_State_InitGroupMatrix : Modifies the local->world matrix state.
-//-----------------------------------------------------------------------------
-void
-E3View_State_InitGroupMatrix(TQ3ViewObject theView)
-{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3Matrix4x4 	*localMatrix;
-	TQ3Matrix4x4 	*groupMatrix;
-
-
-
-	// Validate our state
-	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
-
-
-
-	// Get the matrices we need
-	localMatrix = &instanceData->stackState[instanceData->stackCount-1].matrixLocal;
-	groupMatrix = &instanceData->stackState[instanceData->stackCount-1].matrixGroupToWorld;
-
-
-
-	// Multiply in the matrix
-	Q3Matrix4x4_Multiply(localMatrix, groupMatrix, groupMatrix);
-	Q3Matrix4x4_SetIdentity(localMatrix);
-
-
-
-	// Update the renderer
-	e3view_stack_update(theView, kQ3ViewStateMatrixLocalToWorld);
-}
-
-
-
-
-
-//=============================================================================
 //      E3View_State_AddMatrixLocalToWorld : Accumulate a matrix.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -2279,11 +2238,7 @@ E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *th
 
 	// Multiply in the matrix
 	Q3Matrix4x4_Multiply(theMatrix,
-						 &theItem->matrixLocal,
-						 &theItem->matrixLocal);
-
-	Q3Matrix4x4_Multiply(&theItem->matrixLocal,
-						 &theItem->matrixGroupToWorld,
+						 &theItem->matrixLocalToWorld,
 						 &theItem->matrixLocalToWorld);
 
 
