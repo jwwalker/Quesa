@@ -46,27 +46,11 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-// Allocate an uninitialised block of memory
 void		*E3Memory_Allocate(TQ3Uns32 theSize);
-
-
-// Allocate an cleared block of memory
 void		*E3Memory_AllocateClear(TQ3Uns32 theSize);
-
-
-// Free a block of memory
 void		E3Memory_Free(void **thePtr);
-
-
-// Attempt to reallocate a block of memory
 TQ3Status	E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize);
-
-
-// Initialise a block of memory
 void		E3Memory_Initialize(void *thePtr, TQ3Uns32 theSize, TQ3Uns8 theValue);
-
-
-// Clear a block of memory
 void		E3Memory_Clear(void *thePtr, TQ3Uns32 theSize);
 
 
