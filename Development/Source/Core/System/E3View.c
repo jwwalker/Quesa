@@ -94,6 +94,7 @@ typedef enum TQ3ViewStackState TQ3ViewStackState;
 //-----------------------------------------------------------------------------
 // Stack data
 typedef struct TQ3ViewStackItem {
+	struct TQ3ViewStackItem*	next;
 	TQ3ViewStackState			stackState;
 	TQ3AttributeSet				attributeSet;
 	TQ3Matrix4x4				matrixLocalToWorld;
@@ -135,9 +136,7 @@ typedef struct TQ3ViewData {
 
 
 	// View stack
-	TQ3Uns32					stackAllocCount;		// how many items are allocated for the stack
-	TQ3Uns32					stackCount;				// how many we're actually using
-	TQ3ViewStackItem			*stackState;			// array of those items
+	TQ3ViewStackItem			*stackState;			// linked list of stack items
 
 
 	// Bounds state
@@ -198,6 +197,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	// Initialise the item
 	Q3Matrix4x4_SetIdentity(&theItem->matrixLocalToWorld);
 
+	theItem->next					 = NULL;
 	theItem->stackState				 = kQ3ViewStateAll;
 	theItem->attributeSet            = Q3Set_New/*Q3AttributeSet_New*/();
 	theItem->shaderIllumination		 = Q3NULLIllumination_New();
@@ -313,7 +313,7 @@ e3view_stack_update(TQ3ViewObject theView, TQ3ViewStackState stateChange)
 
 
 	// If the stack is empty, we're done
-	if (instanceData->stackCount == 0)
+	if (instanceData->stackState == NULL)
 		{
 		// dair, anyone know why is this commented out?
 /*
@@ -333,7 +333,7 @@ e3view_stack_update(TQ3ViewObject theView, TQ3ViewStackState stateChange)
 
 	// Find the item at the top of the stack
 	Q3_ASSERT_VALID_PTR(instanceData->stackState);
-	theItem = &instanceData->stackState[instanceData->stackCount-1];
+	theItem = instanceData->stackState;
 
 
 
@@ -437,7 +437,6 @@ static TQ3Status
 e3view_stack_push(TQ3ViewObject theView)
 {	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
 	TQ3ViewStackItem	*newTop, *oldTop;
-	TQ3Status			qd3dStatus;
 
 
 	// Validate our parameters
@@ -445,39 +444,29 @@ e3view_stack_push(TQ3ViewObject theView)
 
 
 
-	// Grow the view stack if needed to the hold the new item
-	if (instanceData->stackCount >= instanceData->stackAllocCount)
+	// Grow the view stack to the hold the new item
+	newTop = Q3Memory_Allocate( sizeof(TQ3ViewStackItem) );
+	if (newTop == NULL)
 		{
-		// Double the stack size each time we need to grow
-		TQ3Uns32 newCount = instanceData->stackAllocCount * 2L;
-		if (newCount < 2L)
-			newCount = 2L;
-			
-		qd3dStatus = Q3Memory_Reallocate(&instanceData->stackState,
-									  sizeof(TQ3ViewStackItem) * newCount);
-		if (qd3dStatus != kQ3Success)
-			return(qd3dStatus);
-		instanceData->stackAllocCount = newCount;
+		return kQ3Failure;
 		}
-
+	oldTop = instanceData->stackState;
+	instanceData->stackState = newTop;
+	
 
 	// If this is the first item, initialise it
-	if (instanceData->stackCount == 0)
-		e3view_stack_initialise(instanceData->stackState);
-	
+	if (oldTop == NULL)
+		{
+		e3view_stack_initialise(newTop);
+		newTop->next = oldTop;
+		}
 	
 	// Otherwise, clone what was on the top to the new top
 	else
 		{
-		// Get a pointer to the old top and the new top
-		Q3_ASSERT_VALID_PTR(instanceData->stackState);
-		newTop = &instanceData->stackState[instanceData->stackCount];
-		oldTop = &instanceData->stackState[instanceData->stackCount-1];
-
-
-
 		// Take a copy of the state
 		Q3Memory_Copy(oldTop, newTop, sizeof(TQ3ViewStackItem));
+		newTop->next = oldTop;
 
 
 
@@ -505,10 +494,6 @@ e3view_stack_push(TQ3ViewObject theView)
 
 
 
-	// Increment the stack count
-	instanceData->stackCount++;		
-	Q3_ASSERT(instanceData->stackCount <= instanceData->stackAllocCount);
-	
 	return(kQ3Success);
 }
 
@@ -524,33 +509,34 @@ e3view_stack_pop(TQ3ViewObject theView)
 {	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
 	TQ3ViewStackState		theState;
 	TQ3Status				qd3dStatus;
+	TQ3ViewStackItem*		theItem;
 
 
 
 	// Validate our parameters and state
 	Q3_ASSERT_VALID_PTR(theView);
-	Q3_REQUIRE(instanceData->stackCount != 0);
 	Q3_REQUIRE(Q3_VALID_PTR(instanceData->stackState));
 
 
 
 	// Save the state mask for the topmost item
-	theState = instanceData->stackState[instanceData->stackCount-1].stackState;
+	theState = instanceData->stackState->stackState;
 
 
 
 	// Dispose of the shared objects in the topmost item
-	Q3Object_CleanDispose(&instanceData->stackState[instanceData->stackCount-1].attributeSet);
-	Q3Object_CleanDispose(&instanceData->stackState[instanceData->stackCount-1].shaderIllumination);
-	Q3Object_CleanDispose(&instanceData->stackState[instanceData->stackCount-1].shaderSurface);
-	Q3Object_CleanDispose(&instanceData->stackState[instanceData->stackCount-1].styleHighlight);
-	Q3Object_CleanDispose(&instanceData->stackState[instanceData->stackCount-1].attributeSurfaceShader);
+	Q3Object_CleanDispose(&instanceData->stackState->attributeSet);
+	Q3Object_CleanDispose(&instanceData->stackState->shaderIllumination);
+	Q3Object_CleanDispose(&instanceData->stackState->shaderSurface);
+	Q3Object_CleanDispose(&instanceData->stackState->styleHighlight);
+	Q3Object_CleanDispose(&instanceData->stackState->attributeSurfaceShader);
 
 
 
-	// Shrink the stack to get rid of the last item
-	instanceData->stackCount--;
-	// Note: for performance reasons, we don't actually reduce the stack allocation.
+	// Shrink the stack to get rid of the top item
+	theItem = instanceData->stackState;
+	instanceData->stackState = instanceData->stackState->next;
+	Q3Memory_Free( &theItem );
 
 
 
@@ -569,7 +555,6 @@ e3view_stack_pop(TQ3ViewObject theView)
 static void
 e3view_stack_pop_clean(TQ3ViewObject theView)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3Status		qd3dStatus;
 
 
 	// Validate our parameters
@@ -578,15 +563,8 @@ e3view_stack_pop_clean(TQ3ViewObject theView)
 
 
 	// Pop the stack clean
-	while (instanceData->stackCount != 0)
+	while (instanceData->stackState != NULL)
 		e3view_stack_pop(theView);
-
-
-	// And release the stack memory
-	qd3dStatus = Q3Memory_Reallocate(&instanceData->stackState, 0);
-	Q3_ASSERT(kQ3Success == qd3dStatus);
-	if (kQ3Success == qd3dStatus)
-		instanceData->stackAllocCount = 0;
 }
 
 
@@ -616,7 +594,7 @@ e3view_bounds_box_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 poin
 
 
 	// Get the local to world matrix
-	localToWorld = &instanceData->stackState[instanceData->stackCount-1].matrixLocalToWorld;
+	localToWorld = &instanceData->stackState->matrixLocalToWorld;
 	Q3_ASSERT_VALID_PTR(localToWorld);
 
 
@@ -661,7 +639,7 @@ e3view_bounds_box_approx(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 poi
 
 
 	// Get the local to world matrix
-	localToWorld = &instanceData->stackState[instanceData->stackCount-1].matrixLocalToWorld;
+	localToWorld = &instanceData->stackState->matrixLocalToWorld;
 	Q3_ASSERT_VALID_PTR(localToWorld);
 
 
@@ -736,7 +714,7 @@ e3view_bounds_sphere_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 p
 
 
 	// Get the local to world matrix
-	localToWorld = &instanceData->stackState[instanceData->stackCount-1].matrixLocalToWorld;
+	localToWorld = &instanceData->stackState->matrixLocalToWorld;
 	Q3_ASSERT_VALID_PTR(localToWorld);
 
 
@@ -783,7 +761,7 @@ e3view_bounds_sphere_approx(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 
 
 
 	// Get the local to world matrix
-	localToWorld = &instanceData->stackState[instanceData->stackCount-1].matrixLocalToWorld;
+	localToWorld = &instanceData->stackState->matrixLocalToWorld;
 	Q3_ASSERT_VALID_PTR(localToWorld);
 
 
@@ -1454,7 +1432,7 @@ e3pop_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObjec
 
 
 	// If the stack is empty, we can't pop
-	if (instanceData->stackCount == 0)
+	if (instanceData->stackState == NULL)
 		return(kQ3Failure);
 
 
@@ -2240,13 +2218,12 @@ TQ3Status
 E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *theMatrix)
 {	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
 	TQ3Status			qd3dStatus;
-	TQ3ViewStackItem	*theItem;
+	TQ3Matrix4x4*		matrixState;
 
 
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
@@ -2257,14 +2234,14 @@ E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *th
 
 
 	// Get the matrix we need
-	theItem = &instanceData->stackState[instanceData->stackCount-1];
+	matrixState = &instanceData->stackState->matrixLocalToWorld;
 
 
 
 	// Multiply in the matrix
 	Q3Matrix4x4_Multiply(theMatrix,
-						 &theItem->matrixLocalToWorld,
-						 &theItem->matrixLocalToWorld);
+						 matrixState,
+						 matrixState);
 
 
 
@@ -2289,12 +2266,11 @@ E3View_State_GetLocalToWorld(TQ3ViewObject theView)
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Return the state
-	return(&instanceData->stackState[instanceData->stackCount-1].matrixLocalToWorld);
+	return(&instanceData->stackState->matrixLocalToWorld);
 }
 
 
@@ -2315,12 +2291,11 @@ E3View_State_GetStyleSubdivision(TQ3ViewObject theView)
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Return the state
-	return(&instanceData->stackState[instanceData->stackCount-1].styleSubdivision);
+	return(&instanceData->stackState->styleSubdivision);
 }
 
 
@@ -2339,12 +2314,11 @@ E3View_State_SetShaderIllumination(TQ3ViewObject theView, const TQ3IlluminationS
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	E3Shared_Replace(&instanceData->stackState[instanceData->stackCount-1].shaderIllumination, theData);
+	E3Shared_Replace(&instanceData->stackState->shaderIllumination, theData);
 
 
 
@@ -2368,12 +2342,11 @@ E3View_State_SetShaderSurface(	TQ3ViewObject theView, const TQ3SurfaceShaderObje
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	E3Shared_Replace(&instanceData->stackState[instanceData->stackCount-1].shaderSurface, theData);
+	E3Shared_Replace(&instanceData->stackState->shaderSurface, theData);
 
 
 
@@ -2400,18 +2373,17 @@ E3View_State_SetStyleSubdivision(TQ3ViewObject theView, const TQ3SubdivisionStyl
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].styleSubdivision = *theData;
+	instanceData->stackState->styleSubdivision = *theData;
 
 
 
 	// Normalise it
 	if (theData->method != kQ3SubdivisionMethodConstant)
-		instanceData->stackState[instanceData->stackCount-1].styleSubdivision.c2 = 0.0f;
+		instanceData->stackState->styleSubdivision.c2 = 0.0f;
 
 
 
@@ -2435,12 +2407,11 @@ E3View_State_SetStylePickID(TQ3ViewObject theView, TQ3Uns32 pickID)
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].stylePickID = pickID;
+	instanceData->stackState->stylePickID = pickID;
 
 
 
@@ -2464,12 +2435,11 @@ E3View_State_SetStylePickParts(TQ3ViewObject theView, TQ3PickParts pickParts)
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].stylePickParts = pickParts;
+	instanceData->stackState->stylePickParts = pickParts;
 
 
 
@@ -2493,12 +2463,11 @@ E3View_State_SetStyleReceiveShadows(TQ3ViewObject theView, TQ3Boolean receiveSha
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].styleReceiveShadows = receiveShadows;
+	instanceData->stackState->styleReceiveShadows = receiveShadows;
 
 
 
@@ -2522,12 +2491,11 @@ E3View_State_SetStyleFill(TQ3ViewObject theView, TQ3FillStyle fillStyle)
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].styleFill = fillStyle;
+	instanceData->stackState->styleFill = fillStyle;
 
 
 
@@ -2551,12 +2519,11 @@ E3View_State_SetStyleBackfacing(TQ3ViewObject theView, TQ3BackfacingStyle backfa
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].styleBackfacing = backfacingStyle;
+	instanceData->stackState->styleBackfacing = backfacingStyle;
 
 
 
@@ -2580,12 +2547,11 @@ E3View_State_SetStyleInterpolation(TQ3ViewObject theView, TQ3InterpolationStyle 
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].styleInterpolation = interpolationStyle;
+	instanceData->stackState->styleInterpolation = interpolationStyle;
 
 
 
@@ -2609,12 +2575,11 @@ E3View_State_SetStyleHighlight(TQ3ViewObject theView, TQ3AttributeSet highlightA
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	E3Shared_Replace(&instanceData->stackState[instanceData->stackCount-1].styleHighlight, highlightAttribute);
+	E3Shared_Replace(&instanceData->stackState->styleHighlight, highlightAttribute);
 
 
 
@@ -2638,12 +2603,11 @@ E3View_State_SetStyleOrientation(TQ3ViewObject theView, TQ3OrientationStyle fron
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].styleOrientation = frontFacingDirection;
+	instanceData->stackState->styleOrientation = frontFacingDirection;
 
 
 
@@ -2667,12 +2631,11 @@ E3View_State_SetStyleAntiAlias(TQ3ViewObject theView, const TQ3AntiAliasStyleDat
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].styleAntiAlias = *theData;
+	instanceData->stackState->styleAntiAlias = *theData;
 
 
 
@@ -2696,12 +2659,11 @@ E3View_State_SetStyleFog(TQ3ViewObject theView, const TQ3FogStyleData *theData)
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].styleFog = *theData;
+	instanceData->stackState->styleFog = *theData;
 
 
 
@@ -2725,12 +2687,11 @@ E3View_State_SetAttributeSurfaceUV(TQ3ViewObject theView, const TQ3Param2D *theD
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].attributeSurfaceUV = *theData;
+	instanceData->stackState->attributeSurfaceUV = *theData;
 
 
 
@@ -2754,12 +2715,11 @@ E3View_State_SetAttributeShadingUV(TQ3ViewObject theView, const TQ3Param2D *theD
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].attributeShadingUV = *theData;
+	instanceData->stackState->attributeShadingUV = *theData;
 
 
 
@@ -2783,12 +2743,11 @@ E3View_State_SetAttributeNormal(TQ3ViewObject theView, const TQ3Vector3D *theDat
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].attributeNormal = *theData;
+	instanceData->stackState->attributeNormal = *theData;
 
 
 
@@ -2812,12 +2771,11 @@ E3View_State_SetAttributeAmbientCoefficient(TQ3ViewObject theView, const float *
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].attributeAmbientCoefficient = *theData;
+	instanceData->stackState->attributeAmbientCoefficient = *theData;
 
 
 
@@ -2841,12 +2799,11 @@ E3View_State_SetAttributeDiffuseColor(TQ3ViewObject theView, const TQ3ColorRGB *
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].attributeDiffuseColor = *theData;
+	instanceData->stackState->attributeDiffuseColor = *theData;
 
 
 
@@ -2870,12 +2827,11 @@ E3View_State_SetAttributeSpecularColor(TQ3ViewObject theView, const TQ3ColorRGB 
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].attributeSpecularColor = *theData;
+	instanceData->stackState->attributeSpecularColor = *theData;
 
 
 
@@ -2899,12 +2855,11 @@ E3View_State_SetAttributeSpecularControl(TQ3ViewObject theView, const float *the
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].attributeSpecularControl = *theData;
+	instanceData->stackState->attributeSpecularControl = *theData;
 
 
 
@@ -2928,12 +2883,11 @@ E3View_State_SetAttributeTransparencyColor(TQ3ViewObject theView, const TQ3Color
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].attributeTransparencyColor = *theData;
+	instanceData->stackState->attributeTransparencyColor = *theData;
 
 
 
@@ -2957,12 +2911,11 @@ E3View_State_SetAttributeSurfaceTangent(TQ3ViewObject theView, const TQ3Tangent2
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].attributeSurfaceTangent = *theData;
+	instanceData->stackState->attributeSurfaceTangent = *theData;
 
 
 
@@ -2986,12 +2939,11 @@ E3View_State_SetAttributeHighlightState(TQ3ViewObject theView, const TQ3Switch *
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	instanceData->stackState[instanceData->stackCount-1].attributeHighlightState = *theData;
+	instanceData->stackState->attributeHighlightState = *theData;
 
 
 
@@ -3015,12 +2967,11 @@ E3View_State_SetAttributeSurfaceShader(TQ3ViewObject theView, const TQ3SurfaceSh
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Set the value
-	E3Shared_Replace(&instanceData->stackState[instanceData->stackCount-1].attributeSurfaceShader, *theData);
+	E3Shared_Replace(&instanceData->stackState->attributeSurfaceShader, *theData);
 
 
 
@@ -3991,7 +3942,7 @@ E3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint
 
 
 	// Get the local to world matrix
-	localToWorld = &instanceData->stackState[instanceData->stackCount-1].matrixLocalToWorld;
+	localToWorld = &instanceData->stackState->matrixLocalToWorld;
 	Q3_ASSERT_VALID_PTR(localToWorld);
 
 
@@ -4150,12 +4101,11 @@ E3View_GetLocalToWorldMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*theMatrix = instanceData->stackState[instanceData->stackCount-1].matrixLocalToWorld;
+	*theMatrix = instanceData->stackState->matrixLocalToWorld;
 
 	return(kQ3Success);
 }
@@ -4252,12 +4202,11 @@ E3View_GetBackfacingStyleState(TQ3ViewObject theView, TQ3BackfacingStyle *backfa
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*backfacingStyle = instanceData->stackState[instanceData->stackCount-1].styleBackfacing;
+	*backfacingStyle = instanceData->stackState->styleBackfacing;
 
 	return(kQ3Success);
 }
@@ -4285,12 +4234,11 @@ E3View_GetInterpolationStyleState(TQ3ViewObject theView, TQ3InterpolationStyle *
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*interpolationType = instanceData->stackState[instanceData->stackCount-1].styleInterpolation;
+	*interpolationType = instanceData->stackState->styleInterpolation;
 
 	return(kQ3Success);
 }
@@ -4318,12 +4266,11 @@ E3View_GetFillStyleState(TQ3ViewObject theView, TQ3FillStyle *fillStyle)
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*fillStyle = instanceData->stackState[instanceData->stackCount-1].styleFill;
+	*fillStyle = instanceData->stackState->styleFill;
 
 	return(kQ3Success);
 }
@@ -4351,14 +4298,13 @@ E3View_GetHighlightStyleState(TQ3ViewObject theView, TQ3AttributeSet *highlightS
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
 	*highlightStyle = NULL;
-	if (instanceData->stackState[instanceData->stackCount-1].styleHighlight != NULL)
-		*highlightStyle = Q3Shared_GetReference(instanceData->stackState[instanceData->stackCount-1].styleHighlight);
+	if (instanceData->stackState->styleHighlight != NULL)
+		*highlightStyle = Q3Shared_GetReference(instanceData->stackState->styleHighlight);
 
 	return(kQ3Success);
 }
@@ -4386,12 +4332,11 @@ E3View_GetSubdivisionStyleState(TQ3ViewObject theView, TQ3SubdivisionStyleData *
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*subdivisionStyle = instanceData->stackState[instanceData->stackCount-1].styleSubdivision;
+	*subdivisionStyle = instanceData->stackState->styleSubdivision;
 
 	return(kQ3Success);
 }
@@ -4419,12 +4364,11 @@ E3View_GetOrientationStyleState(TQ3ViewObject theView, TQ3OrientationStyle *fron
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*frontFacingDirectionStyle = instanceData->stackState[instanceData->stackCount-1].styleOrientation;
+	*frontFacingDirectionStyle = instanceData->stackState->styleOrientation;
 
 	return(kQ3Success);
 }
@@ -4452,12 +4396,11 @@ E3View_GetReceiveShadowsStyleState(TQ3ViewObject theView, TQ3Boolean *receives)
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*receives = instanceData->stackState[instanceData->stackCount-1].styleReceiveShadows;
+	*receives = instanceData->stackState->styleReceiveShadows;
 
 	return(kQ3Success);
 }
@@ -4485,12 +4428,11 @@ E3View_GetPickIDStyleState(TQ3ViewObject theView, TQ3Uns32 *pickIDStyle)
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*pickIDStyle = instanceData->stackState[instanceData->stackCount-1].stylePickID;
+	*pickIDStyle = instanceData->stackState->stylePickID;
 
 	return(kQ3Success);
 }
@@ -4518,12 +4460,11 @@ E3View_GetPickPartsStyleState(TQ3ViewObject theView, TQ3PickParts *pickPartsStyl
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*pickPartsStyle = instanceData->stackState[instanceData->stackCount-1].stylePickParts;
+	*pickPartsStyle = instanceData->stackState->stylePickParts;
 
 	return(kQ3Success);
 }
@@ -4551,12 +4492,11 @@ E3View_GetAntiAliasStyleState(TQ3ViewObject theView, TQ3AntiAliasStyleData *anti
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*antiAliasData = instanceData->stackState[instanceData->stackCount-1].styleAntiAlias;
+	*antiAliasData = instanceData->stackState->styleAntiAlias;
 
 	return(kQ3Success);
 }
@@ -4584,12 +4524,11 @@ E3View_GetFogStyleState(TQ3ViewObject theView, TQ3FogStyleData *fogData)
 
 	// Validate our state
 	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-	Q3_ASSERT(instanceData->stackCount != 0);
 
 
 
 	// Get the value
-	*fogData = instanceData->stackState[instanceData->stackCount-1].styleFog;
+	*fogData = instanceData->stackState->styleFog;
 
 	return(kQ3Success);
 }
@@ -4660,11 +4599,11 @@ E3View_GetAttributeSetState(TQ3ViewObject theView, TQ3AttributeSet *attributeSet
 
 
 	// If there's anything on the stack, return the current attribute set
-	if (instanceData->stackCount != 0)
+	if (instanceData->stackState != NULL)
 		{
 		Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
-		if(instanceData->stackState[instanceData->stackCount-1].attributeSet != NULL)
-			*attributeSet = Q3Shared_GetReference(instanceData->stackState[instanceData->stackCount-1].attributeSet);
+		if(instanceData->stackState->attributeSet != NULL)
+			*attributeSet = Q3Shared_GetReference(instanceData->stackState->attributeSet);
 		else
 			Q3View_GetDefaultAttributeSet (theView, attributeSet);
 		}
