@@ -1,0 +1,68 @@
+<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvetica"><h1>Structs</h1></font><hr><br>
+<a name="//apple_ref/c/tag/TQ3RotateAboutAxisTransformData"></a>
+<h3><a name="TQ3RotateAboutAxisTransformData">TQ3RotateAboutAxisTransformData</a></h3>
+<blockquote><pre>
+typedef  struct  TQ3RotateAboutAxisTransformData  {
+  TQ3Point3D  origin;
+  TQ3Vector3D  orientation;
+  TQ3Float32  radians;
+}  TQ3RotateAboutAxisTransformData;
+</pre>
+</blockquote>
+<p>State data for a transform object that rotates about an arbitrary axis.
+Note that the orientation vector must be normalized.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>origin</tt></td><td>A point on the axis of rotation.</td><tr>
+<tr valign=top><td><tt>orientation</tt></td><td>A normal vector determining the direction of the axis.</td><tr>
+<tr valign=top><td><tt>radians</tt></td><td>Number of radians to rotate about the axis.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3RotateAboutPointTransformData"></a>
+<h3><a name="TQ3RotateAboutPointTransformData">TQ3RotateAboutPointTransformData</a></h3>
+<blockquote><pre>
+typedef  struct  TQ3RotateAboutPointTransformData  {
+  TQ3Axis  axis;
+  TQ3Float32  radians;
+  TQ3Point3D  about;
+}  TQ3RotateAboutPointTransformData;
+</pre>
+</blockquote>
+<p>State data for a rotate-about-point transform.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>axis</tt></td><td>Enumerated value specifying the x, y, or z axis.</td><tr>
+<tr valign=top><td><tt>radians</tt></td><td>Number of radians to rotate about the axis.</td><tr>
+<tr valign=top><td><tt>about</tt></td><td>A point on the desired axis of rotation.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3RotateTransformData"></a>
+<h3><a name="TQ3RotateTransformData">TQ3RotateTransformData</a></h3>
+<blockquote><pre>
+typedef  struct  TQ3RotateTransformData  {
+  TQ3Axis  axis;
+  TQ3Float32  radians;
+}  TQ3RotateTransformData;
+</pre>
+</blockquote>
+<p>State data for a rotate transform.
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>axis</tt></td><td>Enumerated value specifying the x, y, or z axis.</td><tr>
+<tr valign=top><td><tt>radians</tt></td><td>Number of radians to rotate about the axis.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 6/1/2002 </a></font></p>
+</body></html>

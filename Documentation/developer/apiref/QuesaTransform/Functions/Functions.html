@@ -1,1250 +1,1075 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
+<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvetica"><h1>Functions</h1></font><hr><br>
 <a name="//apple_ref/c/func/Q3MatrixTransform_Get"></a>
 <h3><a name="Q3MatrixTransform_Get">Q3MatrixTransform_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3MatrixTransform_Get (
-    TQ3TransformObject            transform,
-    TQ3Matrix4x4                  *matrix
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Matrix4x4 *matrix
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the matrix of a matrix transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>The matrix transform object.</td></tr>
+<tr valign=top><td><tt>matrix</tt></td><td>(output) The matrix of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MatrixTransform_New"></a>
 <h3><a name="Q3MatrixTransform_New">Q3MatrixTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
+<blockquote><pre><tt>TQ3TransformObject 
 Q3MatrixTransform_New (
-    const TQ3Matrix4x4            *matrix
-);
-</tt><br>
+ const TQ3Matrix4x4 *matrix
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
-<br><br>
+<p>Create a new matrix transform.
+<br><br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>matrix</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix</tt></td><td>Initial matrix of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A new transform object, or NULL on failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MatrixTransform_Set"></a>
 <h3><a name="Q3MatrixTransform_Set">Q3MatrixTransform_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3MatrixTransform_Set (
-    TQ3TransformObject            transform,
-    const TQ3Matrix4x4            *matrix
-);
-</tt><br>
+ TQ3TransformObject transform,
+ const TQ3Matrix4x4 *matrix
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the matrix of a matrix transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>The matrix transform object.</td></tr>
+<tr valign=top><td><tt>matrix</tt></td><td>The new matrix.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MatrixTransform_Submit"></a>
 <h3><a name="Q3MatrixTransform_Submit">Q3MatrixTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3MatrixTransform_Submit (
-    const TQ3Matrix4x4            *matrix,
-    TQ3ViewObject                 view
-);
-</tt><br>
+ const TQ3Matrix4x4 *matrix,
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a matrix transform in immediate mode.
+Should only be used within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>matrix</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix</tt></td><td>Matrix of the desired transform.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_Get"></a>
 <h3><a name="Q3QuaternionTransform_Get">Q3QuaternionTransform_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3QuaternionTransform_Get (
-    TQ3TransformObject            transform,
-    TQ3Quaternion                 *quaternion
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Quaternion *quaternion
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the quaternion data of a quaternion transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A quaternion transform object.</td></tr>
+<tr valign=top><td><tt>quaternion</tt></td><td>(output) Quaternion data specifying the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_New"></a>
 <h3><a name="Q3QuaternionTransform_New">Q3QuaternionTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
+<blockquote><pre><tt>TQ3TransformObject 
 Q3QuaternionTransform_New (
-    const TQ3Quaternion           *quaternion
-);
-</tt><br>
+ const TQ3Quaternion *quaternion
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new quaternion transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>quaternion</tt></td><td>Quaternion data specifying the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A new quaternion transform object, or NULL on failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_Set"></a>
 <h3><a name="Q3QuaternionTransform_Set">Q3QuaternionTransform_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3QuaternionTransform_Set (
-    TQ3TransformObject            transform,
-    const TQ3Quaternion           *quaternion
-);
-</tt><br>
+ TQ3TransformObject transform,
+ const TQ3Quaternion *quaternion
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the quaternion data of a quaternion transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A quaternion transform object.</td></tr>
+<tr valign=top><td><tt>quaternion</tt></td><td>Quaternion data specifying the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_Submit"></a>
 <h3><a name="Q3QuaternionTransform_Submit">Q3QuaternionTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3QuaternionTransform_Submit (
-    const TQ3Quaternion           *quaternion,
-    TQ3ViewObject                 view
-);
-</tt><br>
+ const TQ3Quaternion *quaternion,
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a quaternion transform in immediate mode.  Should only be called
+within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>quaternion</tt></td><td>Quaternion data specifying the transform.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ResetTransform_New"></a>
 <h3><a name="Q3ResetTransform_New">Q3ResetTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
+<blockquote><pre><tt>TQ3TransformObject 
 Q3ResetTransform_New (
-    void
-);
-</tt><br>
+ void
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Create a new reset transform.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+When transforms are submitted, they normally concatenate together, as
+modified by groups or push and pop operations.  Submitting a reset
+transform is a shortcut which sets the current transform to the identity.
 <br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A new reset transform, or NULL on failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ResetTransform_Submit"></a>
 <h3><a name="Q3ResetTransform_Submit">Q3ResetTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3ResetTransform_Submit (
-    TQ3ViewObject                 view
-);
-</tt><br>
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a reset transform in immediate mode.  This should only be called
+within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetAngle"></a>
 <h3><a name="Q3RotateAboutAxisTransform_GetAngle">Q3RotateAboutAxisTransform_GetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutAxisTransform_GetAngle (
-    TQ3TransformObject            transform,
-    float                         *radians
-);
-</tt><br>
+ TQ3TransformObject transform,
+ float *radians
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the angle of rotation of a rotate-about-axis transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
+<tr valign=top><td><tt>radians</tt></td><td>(output) The angle of rotation, in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetData"></a>
 <h3><a name="Q3RotateAboutAxisTransform_GetData">Q3RotateAboutAxisTransform_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutAxisTransform_GetData (
-    TQ3TransformObject            transform,
-    TQ3RotateAboutAxisTransformData *data
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3RotateAboutAxisTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the state of a rotate-about-axis transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>(output) Structure receiving the state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetOrientation"></a>
 <h3><a name="Q3RotateAboutAxisTransform_GetOrientation">Q3RotateAboutAxisTransform_GetOrientation</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutAxisTransform_GetOrientation (
-    TQ3TransformObject            transform,
-    TQ3Vector3D                   *axis
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Vector3D *axis
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the axis direction of a rotate-about-axis transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>(output) The axis direction vector.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetOrigin"></a>
 <h3><a name="Q3RotateAboutAxisTransform_GetOrigin">Q3RotateAboutAxisTransform_GetOrigin</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutAxisTransform_GetOrigin (
-    TQ3TransformObject            transform,
-    TQ3Point3D                    *origin
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Point3D *origin
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get a point lying on the axis of a rotate-about-axis transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>origin</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
+<tr valign=top><td><tt>origin</tt></td><td>(output) A point on the desired axis of rotation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_New"></a>
 <h3><a name="Q3RotateAboutAxisTransform_New">Q3RotateAboutAxisTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
+<blockquote><pre><tt>TQ3TransformObject 
 Q3RotateAboutAxisTransform_New (
-    const TQ3RotateAboutAxisTransformData *data
-);
-</tt><br>
+ const TQ3RotateAboutAxisTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new transform object for rotation about an arbitrary axis.
+Note that the orientation vector must be normalized.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Structure specifying the initial state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A new rotate-about-axis transform object, or NULL on failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetAngle"></a>
 <h3><a name="Q3RotateAboutAxisTransform_SetAngle">Q3RotateAboutAxisTransform_SetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutAxisTransform_SetAngle (
-    TQ3TransformObject            transform,
-    float                         radians
-);
-</tt><br>
+ TQ3TransformObject transform,
+ float radians
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the angle of rotation of a rotate-about-axis transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
+<tr valign=top><td><tt>radians</tt></td><td>New angle of rotation, in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetData"></a>
 <h3><a name="Q3RotateAboutAxisTransform_SetData">Q3RotateAboutAxisTransform_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutAxisTransform_SetData (
-    TQ3TransformObject            transform,
-    const TQ3RotateAboutAxisTransformData *data
-);
-</tt><br>
+ TQ3TransformObject transform,
+ const TQ3RotateAboutAxisTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the state of a rotate-about-axis transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Structure specifying the new state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetOrientation"></a>
 <h3><a name="Q3RotateAboutAxisTransform_SetOrientation">Q3RotateAboutAxisTransform_SetOrientation</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutAxisTransform_SetOrientation (
-    TQ3TransformObject            transform,
-    const TQ3Vector3D             *axis
-);
-</tt><br>
+ TQ3TransformObject transform,
+ const TQ3Vector3D *axis
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the axis direction of a rotate-about-axis transform object.
+You must provide a normalized vector.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>New axis direction vector (normalized).</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetOrigin"></a>
 <h3><a name="Q3RotateAboutAxisTransform_SetOrigin">Q3RotateAboutAxisTransform_SetOrigin</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutAxisTransform_SetOrigin (
-    TQ3TransformObject            transform,
-    const TQ3Point3D              *origin
-);
-</tt><br>
+ TQ3TransformObject transform,
+ const TQ3Point3D *origin
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Specify a new point lying on the axis of a rotate-about-axis transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>origin</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
+<tr valign=top><td><tt>origin</tt></td><td>A point on the desired axis of rotation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_Submit"></a>
 <h3><a name="Q3RotateAboutAxisTransform_Submit">Q3RotateAboutAxisTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutAxisTransform_Submit (
-    const TQ3RotateAboutAxisTransformData *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+ const TQ3RotateAboutAxisTransformData *data,
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a rotate-about-axis transform in immediate mode.
+Should only be called within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Structure specifying the state of the transform.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAboutPoint"></a>
 <h3><a name="Q3RotateAboutPointTransform_GetAboutPoint">Q3RotateAboutPointTransform_GetAboutPoint</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutPointTransform_GetAboutPoint (
-    TQ3TransformObject            transform,
-    TQ3Point3D                    *about
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Point3D *about
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get a point on the axis of rotation of a rotate-about-point transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>about</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
+<tr valign=top><td><tt>about</tt></td><td>(output) A point on the axis of rotation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAngle"></a>
 <h3><a name="Q3RotateAboutPointTransform_GetAngle">Q3RotateAboutPointTransform_GetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutPointTransform_GetAngle (
-    TQ3TransformObject            transform,
-    float                         *radians
-);
-</tt><br>
+ TQ3TransformObject transform,
+ float *radians
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the angle of a rotate-about-point transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
+<tr valign=top><td><tt>radians</tt></td><td>(output) The angle in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAxis"></a>
 <h3><a name="Q3RotateAboutPointTransform_GetAxis">Q3RotateAboutPointTransform_GetAxis</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutPointTransform_GetAxis (
-    TQ3TransformObject            transform,
-    TQ3Axis                       *axis
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Axis *axis
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the axis of a rotate-about-point transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>(output) Enumerated value specifying the axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetData"></a>
 <h3><a name="Q3RotateAboutPointTransform_GetData">Q3RotateAboutPointTransform_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutPointTransform_GetData (
-    TQ3TransformObject            transform,
-    TQ3RotateAboutPointTransformData *data
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3RotateAboutPointTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the state of a rotate-about-point transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>(output) Structure to receive the state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_New"></a>
 <h3><a name="Q3RotateAboutPointTransform_New">Q3RotateAboutPointTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
+<blockquote><pre><tt>TQ3TransformObject 
 Q3RotateAboutPointTransform_New (
-    const TQ3RotateAboutPointTransformData *data
-);
-</tt><br>
+ const TQ3RotateAboutPointTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new transform for rotation about an axis that is parallel to
+the x, y, or z axis.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Structure containing the initial state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A new rotate-about-point transform, or NULL on failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAboutPoint"></a>
 <h3><a name="Q3RotateAboutPointTransform_SetAboutPoint">Q3RotateAboutPointTransform_SetAboutPoint</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutPointTransform_SetAboutPoint (
-    TQ3TransformObject            transform,
-    const TQ3Point3D              *about
-);
-</tt><br>
+ TQ3TransformObject transform,
+ const TQ3Point3D *about
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the point on the axis of rotation of a rotate-about-point transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>about</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
+<tr valign=top><td><tt>about</tt></td><td>A point on the desired axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAngle"></a>
 <h3><a name="Q3RotateAboutPointTransform_SetAngle">Q3RotateAboutPointTransform_SetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutPointTransform_SetAngle (
-    TQ3TransformObject            transform,
-    float                         radians
-);
-</tt><br>
+ TQ3TransformObject transform,
+ float radians
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the angle of a rotate-about-point transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
+<tr valign=top><td><tt>radians</tt></td><td>The new angle in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAxis"></a>
 <h3><a name="Q3RotateAboutPointTransform_SetAxis">Q3RotateAboutPointTransform_SetAxis</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutPointTransform_SetAxis (
-    TQ3TransformObject            transform,
-    TQ3Axis                       axis
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Axis axis
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the axis of a rotate-about-point transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>The new axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetData"></a>
 <h3><a name="Q3RotateAboutPointTransform_SetData">Q3RotateAboutPointTransform_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutPointTransform_SetData (
-    TQ3TransformObject            transform,
-    const TQ3RotateAboutPointTransformData *data
-);
-</tt><br>
+ TQ3TransformObject transform,
+ const TQ3RotateAboutPointTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the state of a rotate-about-point transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Structure containing the new state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_Submit"></a>
 <h3><a name="Q3RotateAboutPointTransform_Submit">Q3RotateAboutPointTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateAboutPointTransform_Submit (
-    const TQ3RotateAboutPointTransformData *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+ const TQ3RotateAboutPointTransformData *data,
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a rotate-about-point transform in immediate mode.
+Should only be used within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Structure containing the state of the transform.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_GetAngle"></a>
 <h3><a name="Q3RotateTransform_GetAngle">Q3RotateTransform_GetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateTransform_GetAngle (
-    TQ3TransformObject            transform,
-    float                         *radians
-);
-</tt><br>
+ TQ3TransformObject transform,
+ float *radians
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the angle of rotation of a rotate transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
+<tr valign=top><td><tt>radians</tt></td><td>(output) The angle in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_GetAxis"></a>
 <h3><a name="Q3RotateTransform_GetAxis">Q3RotateTransform_GetAxis</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateTransform_GetAxis (
-    TQ3TransformObject            renderable,
-    TQ3Axis                       *axis
-);
-</tt><br>
+ TQ3TransformObject renderable,
+ TQ3Axis *axis
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the axis of a rotate transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderable</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>renderable</tt></td><td>The rotate transform object.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>(output) An enumerated value specifying the axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_GetData"></a>
 <h3><a name="Q3RotateTransform_GetData">Q3RotateTransform_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateTransform_GetData (
-    TQ3TransformObject            transform,
-    TQ3RotateTransformData        *data
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3RotateTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the state of a rotate transform object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>(output) Receives data specifying the state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_New"></a>
 <h3><a name="Q3RotateTransform_New">Q3RotateTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
+<blockquote><pre><tt>TQ3TransformObject 
 Q3RotateTransform_New (
-    const TQ3RotateTransformData  *data
-);
-</tt><br>
+ const TQ3RotateTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a transform object for rotation about the x, y, or z axis.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Data specifying the initial state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new transform object, or NULL on failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_SetAngle"></a>
 <h3><a name="Q3RotateTransform_SetAngle">Q3RotateTransform_SetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateTransform_SetAngle (
-    TQ3TransformObject            transform,
-    float                         radians
-);
-</tt><br>
+ TQ3TransformObject transform,
+ float radians
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the angle of a rotate transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
+<tr valign=top><td><tt>radians</tt></td><td>New angle of rotation in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_SetAxis"></a>
 <h3><a name="Q3RotateTransform_SetAxis">Q3RotateTransform_SetAxis</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateTransform_SetAxis (
-    TQ3TransformObject            transform,
-    TQ3Axis                       axis
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Axis axis
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the axis of a rotate transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>New axis of rotation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_SetData"></a>
 <h3><a name="Q3RotateTransform_SetData">Q3RotateTransform_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateTransform_SetData (
-    TQ3TransformObject            transform,
-    const TQ3RotateTransformData  *data
-);
-</tt><br>
+ TQ3TransformObject transform,
+ const TQ3RotateTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the data of a rotate transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Data specifying the new state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_Submit"></a>
 <h3><a name="Q3RotateTransform_Submit">Q3RotateTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3RotateTransform_Submit (
-    const TQ3RotateTransformData  *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+ const TQ3RotateTransformData *data,
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a rotate transform in immediate mode.
+Should only be used within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Data specifying the transform.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_Get"></a>
 <h3><a name="Q3ScaleTransform_Get">Q3ScaleTransform_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3ScaleTransform_Get (
-    TQ3TransformObject            transform,
-    TQ3Vector3D                   *scale
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Vector3D *scale
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the scale factors of a scale transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>scale</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A scale transform object.</td></tr>
+<tr valign=top><td><tt>scale</tt></td><td>(output) Vector containing the 3 scale factors.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_New"></a>
 <h3><a name="Q3ScaleTransform_New">Q3ScaleTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
+<blockquote><pre><tt>TQ3TransformObject 
 Q3ScaleTransform_New (
-    const TQ3Vector3D             *scale
-);
-</tt><br>
+ const TQ3Vector3D *scale
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new scale transform.  It multiplies the x, y, and z coordinates by
+the components of a given vector.  Most commonly, the 3 scale factors are
+identical positive numbers.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>scale</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>scale</tt></td><td>Vector specifying scale factors for each coordinate.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A new scale transform object, or NULL on failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_Set"></a>
 <h3><a name="Q3ScaleTransform_Set">Q3ScaleTransform_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3ScaleTransform_Set (
-    TQ3TransformObject            transform,
-    const TQ3Vector3D             *scale
-);
-</tt><br>
+ TQ3TransformObject transform,
+ const TQ3Vector3D *scale
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the scale factors of a scale transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>scale</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A scale transform object.</td></tr>
+<tr valign=top><td><tt>scale</tt></td><td>Vector containing the 3 scale factors.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_Submit"></a>
 <h3><a name="Q3ScaleTransform_Submit">Q3ScaleTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3ScaleTransform_Submit (
-    const TQ3Vector3D             *scale,
-    TQ3ViewObject                 view
-);
-</tt><br>
+ const TQ3Vector3D *scale,
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a scale transform in immediate mode.  This should only be called
+within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>scale</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>scale</tt></td><td>Vector containing the 3 scale factors.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Transform_GetMatrix"></a>
 <h3><a name="Q3Transform_GetMatrix">Q3Transform_GetMatrix</a></h3>
 <blockquote><pre><tt>TQ3Matrix4x4 * 
 Q3Transform_GetMatrix (
-    TQ3TransformObject            transform,
-    TQ3Matrix4x4                  *matrix
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Matrix4x4 *matrix
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
-<br><br>
+<p>Get the 4&#215;4 matrix of a transform object.
+<br><br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A transform object.</td></tr>
+<tr valign=top><td><tt>matrix</tt></td><td>(output) The matrix of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Address of the resulting matrix, for convenience.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Transform_GetType"></a>
 <h3><a name="Q3Transform_GetType">Q3Transform_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
+<blockquote><pre><tt>TQ3ObjectType 
 Q3Transform_GetType (
-    TQ3TransformObject            transform
-);
-</tt><br>
+ TQ3TransformObject transform
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the subtype of a transform object.  Returns <code>kQ3TransformTypeMatrix</code>,
+<code>kQ3TransformTypeScale</code>, <code>kQ3TransformTypeTranslate</code>,
+<code>kQ3TransformTypeRotate</code>, <code>kQ3TransformTypeRotateAboutPoint</code>,
+<code>kQ3TransformTypeRotateAboutAxis</code>, <code>kQ3TransformTypeQuaternion</code>,
+<code>kQ3TransformTypeReset</code>, or <code>kQ3ObjectTypeInvalid</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A transform object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A transform object type or <code>kQ3ObjectTypeInvalid</code>.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Transform_Submit"></a>
 <h3><a name="Q3Transform_Submit">Q3Transform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3Transform_Submit (
-    TQ3TransformObject            transform,
-    TQ3ViewObject                 view
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
-<br><br>
+<p>Submit a transform object.  Should only be used within a submitting loop.
+<br><br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A transform object.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_Get"></a>
 <h3><a name="Q3TranslateTransform_Get">Q3TranslateTransform_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3TranslateTransform_Get (
-    TQ3TransformObject            transform,
-    TQ3Vector3D                   *translate
-);
-</tt><br>
+ TQ3TransformObject transform,
+ TQ3Vector3D *translate
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the translation vector of a translate transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>translate</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A translate transform object.</td></tr>
+<tr valign=top><td><tt>translate</tt></td><td>(output) Vector by which the transform translates.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_New"></a>
 <h3><a name="Q3TranslateTransform_New">Q3TranslateTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
+<blockquote><pre><tt>TQ3TransformObject 
 Q3TranslateTransform_New (
-    const TQ3Vector3D             *translate
-);
-</tt><br>
+ const TQ3Vector3D *translate
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new translation transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>translate</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>translate</tt></td><td>Vector by which to translate.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A new transform object, or NULL on failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_Set"></a>
 <h3><a name="Q3TranslateTransform_Set">Q3TranslateTransform_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3TranslateTransform_Set (
-    TQ3TransformObject            transform,
-    const TQ3Vector3D             *translate
-);
-</tt><br>
+ TQ3TransformObject transform,
+ const TQ3Vector3D *translate
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Change the translation vector of a translate transform.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>translate</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>transform</tt></td><td>A translate transform object.</td></tr>
+<tr valign=top><td><tt>translate</tt></td><td>New vector by which to translate.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_Submit"></a>
 <h3><a name="Q3TranslateTransform_Submit">Q3TranslateTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3TranslateTransform_Submit (
-    const TQ3Vector3D             *translate,
-    TQ3ViewObject                 view
-);
-</tt><br>
+ const TQ3Vector3D *translate,
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a translate transform in immediate mode.  Should only be
+called within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>translate</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>translate</tt></td><td>Vector by which to translate.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 6/1/2002 </a></font></p>
 </body></html>
