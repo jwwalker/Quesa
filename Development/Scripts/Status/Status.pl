@@ -74,8 +74,8 @@ my $kTemplateHeader = <<'TEMPLATE_HEADER';
 	<a href="../info/screenshots.html">Screenshots</a><br>
 	<a href="../info/download.html">Download</a><br>
 	<a href="../info/list.html">Mailing List</a><br>
-	<a href="http://quesa.DesignCommunity.com/info/list_archive.html">List Archive</a><br>
-	<a href="http://quesa.DesignCommunity.com/quesa_forum.html">Quesa Forum</a><br>
+	<a href="../info/list_archive.html">List Archive</a><br>
+	<a href="http://www.quesa.org/quesa_forum.html">Quesa Forum</a><br>
 
 	<br>
 	<table border=0 bgcolor="#404090" width="100%">
@@ -83,6 +83,7 @@ my $kTemplateHeader = <<'TEMPLATE_HEADER';
 	<a href="../developer/todo.html">Todo</a><br>
 	<a href="../developer/bugs.html">Bug List</a><br>
 	<a href="../developer/cvs.html">CVS Server</a><br>
+	<a href="../developer/apiref/MasterTOC.html">API Reference</a><br>
 
 	<br>
 	<table border=0 bgcolor="#404090" width="100%">
