@@ -39,6 +39,20 @@ ln -sf ../Makefile.am.examples Makefile.am
 ln -sf ../../../../SDK/Examples/Qut
 ln -sf "../../../../SDK/Examples/Geom Test/Geom Test.c" GeomTest.c
 ln -sf "../../../../SDK/Examples/Import Test/Import Test.c" ImportTest.c
+ln -sf "../../../../SDK/Examples/Camera Test/Camera Test.c" CameraTest.c
+ln -sf "../../../../SDK/Examples/Dump Group/Dump Group.c" DumpGroup.c
+ln -sf "../../../../SDK/Examples/Light Test/Light Test.c" LightTest.c
+
+mkdir Models
+pushd Models
+
+ln -sf "../../../../../SDK/Examples/Support Files/Models/3DMF/Quesa Logo.3dmf" QuesaLogo.3dmf
+ln -sf "../../../../../SDK/Examples/Support Files/Models/3DMF/Pod Racer.3dmf" PodRacer.3dmf
+ln -sf "../../../../../SDK/Examples/Support Files/Models/3DMF/F18.3dmf" F18.3dmf
+ln -sf "../../../../../SDK/Examples/Support Files/Models/3DMF/F15.3dmf" F15.3dmf
+
+
+popd
 
 popd
 
