@@ -84,14 +84,14 @@ TQ3Status			E3Group_GetNextObjectPosition(TQ3GroupObject group, TQ3Object object
 TQ3Status			E3Group_GetPreviousObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position);
 
 TQ3GroupObject		E3DisplayGroup_New(void);
-TQ3ObjectType		E3DisplayGroup_GetType(TQ3GroupObject group);
-TQ3Status			E3DisplayGroup_GetState(TQ3GroupObject group, TQ3DisplayGroupState *state);
-TQ3Status			E3DisplayGroup_SetState(TQ3GroupObject group, TQ3DisplayGroupState state);
-TQ3Status			E3DisplayGroup_Submit(TQ3GroupObject group, TQ3ViewObject view);
-TQ3Status			E3DisplayGroup_SetAndUseBoundingBox(TQ3GroupObject group, TQ3BoundingBox *bBox);
-TQ3Status			E3DisplayGroup_GetBoundingBox(TQ3GroupObject group, TQ3BoundingBox *bBox);
-TQ3Status			E3DisplayGroup_RemoveBoundingBox(TQ3GroupObject group);
-TQ3Status			E3DisplayGroup_CalcAndUseBoundingBox(TQ3GroupObject group, TQ3ComputeBounds computeBounds, TQ3ViewObject view);
+TQ3ObjectType		E3DisplayGroup_GetType(TQ3GroupObject theGroup);
+TQ3Status			E3DisplayGroup_GetState(TQ3GroupObject theGroup, TQ3DisplayGroupState *state);
+TQ3Status			E3DisplayGroup_SetState(TQ3GroupObject theGroup, TQ3DisplayGroupState state);
+TQ3Status			E3DisplayGroup_Submit(TQ3GroupObject theGroup, TQ3ViewObject theView);
+TQ3Status			E3DisplayGroup_SetAndUseBoundingBox(TQ3GroupObject theGroup, TQ3BoundingBox *bBox);
+TQ3Status			E3DisplayGroup_GetBoundingBox(TQ3GroupObject theGroup, TQ3BoundingBox *bBox);
+TQ3Status			E3DisplayGroup_RemoveBoundingBox(TQ3GroupObject theGroup);
+TQ3Status			E3DisplayGroup_CalcAndUseBoundingBox(TQ3GroupObject theGroup, TQ3ComputeBounds computeBounds, TQ3ViewObject view);
 
 TQ3GroupObject		E3LightGroup_New(void);
 TQ3GroupObject		E3InfoGroup_New(void);
