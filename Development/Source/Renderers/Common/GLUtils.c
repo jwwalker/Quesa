@@ -37,6 +37,52 @@
 #include "GLUtils.h"
 
 #include <stdio.h>
+#include <string.h>
+
+
+
+
+
+//=============================================================================
+//      Private functions
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+//      isOpenGLExtensionPresent : Search the OpenGL extension string.
+//-----------------------------------------------------------------------------
+// Note: the OpenGL extension string consists of extension names separated by
+// spaces.  It would be more convenient if there were spaces at the start and
+// end, but that is not the case.
+static TQ3Boolean
+isOpenGLExtensionPresent( const char* inNames, const char* inExtName )
+{
+	TQ3Boolean	foundExtension = kQ3False;
+	size_t	nameLength = strlen( inExtName );
+	
+	if (inNames != NULL)
+	{
+		while (inNames[0] != '\0')
+		{
+			unsigned long	firstExtLength = strcspn( inNames, " " );
+			
+			if ( (nameLength == firstExtLength) &&
+				(strncmp( inExtName, inNames, firstExtLength ) == 0) )
+			{
+				foundExtension = kQ3True;
+				break;
+			}
+			
+			inNames += firstExtLength;
+			if (inNames[0] == ' ')
+			{
+				inNames += 1;
+			}
+		}
+	}
+	
+	return foundExtension;
+}
+
 
 
 
@@ -196,7 +242,11 @@ GLUtils_SizeOfPixelType(TQ3PixelType pixelType)
 //-----------------------------------------------------------------------------
 void		GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 {
-	const char*	openGLVersion;
+	const char*	openGLVersion = (const char*)glGetString( GL_VERSION );
+	const char*	openGLExtensions = (const char*)glGetString( GL_EXTENSIONS );
+	
+	// Initialize to default value, all off.
+	memset( featureFlags, 0, sizeof(TQ3GLExtensions) );
 	
 	// Check for features that depend on OpenGL version
 	openGLVersion = (const char*)glGetString( GL_VERSION );
@@ -204,16 +254,19 @@ void		GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 	{
 		int		majorVers, minorVers;
 		int		numScanned = sscanf( openGLVersion, "%d.%d", &majorVers, &minorVers );
+
 		if (numScanned == 2)
 		{
 			if ( (majorVers >= 1) && (minorVers >= 2) )
 			{
 				featureFlags->separateSpecularColor = kQ3True;
 			}
-			else
-			{
-				featureFlags->separateSpecularColor = kQ3False;
-			}
 		}
+	}
+	
+	// Check for extensions.
+	if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_separate_specular_color" ))
+	{
+		featureFlags->separateSpecularColor = kQ3True;
 	}
 }
