@@ -72,6 +72,7 @@ TQ3Status				E3FileFormat_GenericReadBinary_16(TQ3FileFormatObject format, TQ3In
 TQ3Status				E3FileFormat_GenericReadBinary_32(TQ3FileFormatObject format, TQ3Int32* data);
 TQ3Status				E3FileFormat_GenericReadBinary_64(TQ3FileFormatObject format, TQ3Int64* data);
 TQ3Status				E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data, TQ3Uns32 *length);
+TQ3Status				E3FileFormat_GenericReadBinary_StringPadded(TQ3FileFormatObject format, char* data, TQ3Uns32 *length, TQ3Boolean padTo4);
 TQ3Status				E3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);
 TQ3Status				E3FileFormat_GenericReadBinSwap_16(TQ3FileFormatObject format, TQ3Int16* data);
 TQ3Status				E3FileFormat_GenericReadBinSwap_32(TQ3FileFormatObject format, TQ3Int32* data);
