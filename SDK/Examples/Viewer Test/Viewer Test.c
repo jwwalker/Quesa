@@ -131,6 +131,23 @@ createGeomTriangle(void)
 
 
 
+//=============================================================================
+//      readModel : reads a model from file.
+//-----------------------------------------------------------------------------
+static TQ3GroupObject
+readModel(void)
+{   TQ3StorageObject	storageObj;
+
+	// Get the file
+	storageObj = Qut_SelectMetafileToOpen();
+
+	// Read it
+	if( storageObj != NULL )
+		return Qut_ReadModel(storageObj);
+
+	return NULL;
+}
+
 
 
 //=============================================================================
@@ -141,6 +158,16 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 {
 #pragma unused(theView)
 #pragma unused(menuItem)
+
+	// The only menu command we handle here is Open.
+	TQ3GroupObject newModel = readModel();
+	if (gViewer != NULL && newModel != NULL)
+		{
+		Q3Viewer_UseGroup(gViewer, newModel);
+		Q3Viewer_Draw(gViewer);
+		}
+	
+	Q3Object_Dispose(newModel);
 }
 
 
@@ -248,6 +275,8 @@ App_Initialise(void)
 	Qut_SetRedrawFunc(appRedraw);
 	Qut_CreateWindow("Viewer Test", 300, 300, kQ3True);
 	Qut_CreateView(NULL);
+	Qut_CreateMenu(appMenuSelect);
+	Qut_CreateMenuItem(1, "Open Model...");
 
 	// Create the geometry
 	group = Q3DisplayGroup_New();
@@ -276,6 +305,8 @@ App_Initialise(void)
 		Q3Viewer_UseGroup(gViewer, group);
 		Q3Viewer_Draw(gViewer);
 		}
+	
+	Q3Object_Dispose(group);
 }
 
 
