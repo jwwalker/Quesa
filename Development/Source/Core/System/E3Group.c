@@ -842,20 +842,16 @@ static TQ3Status
 e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3XGroupStartIterateMethod		startIterateMethod;
 	TQ3XGroupEndIterateMethod		endIterateMethod;
-	TQ3GroupPosition				theIterator;
+	TQ3GroupPosition				thePosition;
 	TQ3Status						qd3dStatus;
 	TQ3Object						subObject;
+	TQ3ViewMode						viewMode;
 
 
 
 	// Find our methods
-	startIterateMethod = (TQ3XGroupStartIterateMethod)
-								E3ClassTree_GetMethod(theObject->theClass,
-													  kQ3XMethodType_GroupStartIterate);
-
-	endIterateMethod = (TQ3XGroupEndIterateMethod)
-								E3ClassTree_GetMethod(theObject->theClass,
-													  kQ3XMethodType_GroupEndIterate);
+	startIterateMethod = (TQ3XGroupStartIterateMethod) E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodType_GroupStartIterate);
+	endIterateMethod   = (TQ3XGroupEndIterateMethod)   E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodType_GroupEndIterate);
 
 	if (startIterateMethod == NULL || endIterateMethod == NULL)
 		{
@@ -865,8 +861,19 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 
 
 
+	// Grab the view mode. If we're picking, push the group onto the view stack
+	viewMode = E3View_GetViewMode(theView);
+	if (viewMode == kQ3ViewModePicking)
+		{
+		qd3dStatus = E3View_PickStack_PushGroup(theView, theObject);
+		if (qd3dStatus != kQ3Success)
+			return(qd3dStatus);
+		}
+
+
+
 	// Submit the contents of the group
-	qd3dStatus = startIterateMethod(theObject, &theIterator, &subObject, theView);
+	qd3dStatus = startIterateMethod(theObject, &thePosition, &subObject, theView);
 	if (qd3dStatus == kQ3Success)
 		{
 		do
@@ -876,20 +883,34 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 				break;
 
 
+
+			// If we're picking, update the view
+			if (viewMode == kQ3ViewModePicking)
+				E3View_PickStack_UpdatePosition(theView, thePosition);
+
+
+
 			// Submit the object
 			qd3dStatus = Q3Object_Submit(subObject, theView);
 			if (qd3dStatus == kQ3Failure)
 				return(kQ3Failure);
 
 
+
 			// Get the next object	
-			qd3dStatus = endIterateMethod(theObject, &theIterator, &subObject, theView);
+			qd3dStatus = endIterateMethod(theObject, &thePosition, &subObject, theView);
 			if (qd3dStatus == kQ3Failure)
 				return(kQ3Failure);
 
 			}
 		while(1);
 		}
+
+
+
+	// If we're picking, pop the view off the view stack
+	if (viewMode == kQ3ViewModePicking)
+		E3View_PickStack_PopGroup(theView);
 
 	return(qd3dStatus);
 }
