@@ -503,8 +503,8 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 				subdivU = subdivV = 30.0f;
 			case kQ3SubdivisionMethodConstant:
 				// First some sanity checking on subdivisionData
-				subdivU = (TQ3Uns32)E3Num_Max(E3Num_Min(subdivU, 256.0f), 1.0f);
-				subdivV = (TQ3Uns32)E3Num_Max(E3Num_Min(subdivV, 256.0f), 1.0f);
+				subdivU = (float) ((TQ3Uns32)E3Num_Max(E3Num_Min(subdivU, 256.0f), 1.0f));
+				subdivV = (float) ((TQ3Uns32)E3Num_Max(E3Num_Min(subdivV, 256.0f), 1.0f));
 				
 				// Find the interesting knots (ie skip the repeated knots)
 				interestingU = (float *) E3Memory_Allocate((geomData->numColumns - geomData->uOrder + 2) * sizeof(float));
