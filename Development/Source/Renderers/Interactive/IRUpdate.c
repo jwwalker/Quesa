@@ -847,11 +847,11 @@ ir_state_reset(TQ3InteractiveData *instanceData)
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
-//      IRRenderer_State_Initialise : Update our state for a geometry.
+//      IRRenderer_State_StartPass : Start a frame.
 //-----------------------------------------------------------------------------
 #pragma mark -
 void
-IRRenderer_State_Initialise(TQ3InteractiveData *instanceData, TQ3ViewObject theView)
+IRRenderer_State_StartPass(TQ3InteractiveData *instanceData, TQ3ViewObject theView)
 {
 
 
@@ -864,10 +864,10 @@ IRRenderer_State_Initialise(TQ3InteractiveData *instanceData, TQ3ViewObject theV
 
 
 //=============================================================================
-//      IRRenderer_State_Terminate : Clean up our state.
+//      IRRenderer_State_EndPass : Finish a frame.
 //-----------------------------------------------------------------------------
 void
-IRRenderer_State_Terminate(TQ3InteractiveData *instanceData)
+IRRenderer_State_EndPass(TQ3InteractiveData *instanceData)
 {
 
 

@@ -55,12 +55,12 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-void				IRRenderer_Lights_Initialise(
+void				IRRenderer_Lights_StartPass(
 								TQ3InteractiveData		*instanceData,
 							 	TQ3CameraObject			theCamera,
 								TQ3GroupObject			theLights);
 
-void				IRRenderer_Lights_Terminate(
+void				IRRenderer_Lights_EndPass(
 								TQ3InteractiveData		*instanceData);
 
 
