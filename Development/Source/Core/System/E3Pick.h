@@ -53,65 +53,48 @@ extern "C" {
 
 
 //=============================================================================
-//      Types
-//-----------------------------------------------------------------------------
-typedef struct TQ3PickedData *TQ3PickedDataPtr;
-
-typedef struct TQ3PickedData {
-	TQ3PickedDataPtr	next;
-	TQ3PickDetail		validMask;
-	TQ3Int32			pickID;
-	TQ3HitPath			path;
-	TQ3SharedObject		object;
-	TQ3Matrix4x4		localToWorldMatrix;
-	TQ3Point3D			xyz;
-	float				distance;
-	TQ3Vector3D			normal;
-	TQ3ShapePartObject	shapePart;
-	TQ3PickParts		pickPart;
-	TQ3Param2D			uv;
-} TQ3PickedData;
-
-
-
-
-
-//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 TQ3Status				E3Pick_RegisterClass(void);
 TQ3Status				E3Pick_UnregisterClass(void);
 
-TQ3ObjectType			E3Pick_GetType(TQ3PickObject pick);
-TQ3Status				E3Pick_GetData(TQ3PickObject pick, TQ3PickData *data);
-TQ3Status				E3Pick_SetData(TQ3PickObject pick, const TQ3PickData *data);
-TQ3Status				E3Pick_GetVertexTolerance(TQ3PickObject pick, float *vertexTolerance);
-TQ3Status				E3Pick_GetEdgeTolerance(TQ3PickObject pick, float *edgeTolerance);
-TQ3Status				E3Pick_SetVertexTolerance(TQ3PickObject pick, float vertexTolerance);
-TQ3Status				E3Pick_SetEdgeTolerance(TQ3PickObject pick, float edgeTolerance);
-TQ3Status				E3Pick_GetNumHits(TQ3PickObject pick, TQ3Uns32 *numHits);
-TQ3Status				E3Pick_AddHitData(TQ3PickObject pick, const TQ3PickedData* data);
-TQ3Status				E3Pick_EmptyHitList(TQ3PickObject pick);
-TQ3Status				E3Pick_GetPickDetailValidMask(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail *pickDetailValidMask);
-TQ3Status				E3Pick_GetPickDetailData(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail pickDetailValue, void *detailData);
+TQ3ObjectType			E3Pick_GetType(TQ3PickObject thePick);
+TQ3Status				E3Pick_GetData(TQ3PickObject thePick, TQ3PickData *data);
+TQ3Status				E3Pick_SetData(TQ3PickObject thePick, const TQ3PickData *data);
+TQ3Status				E3Pick_GetVertexTolerance(TQ3PickObject thePick, float *vertexTolerance);
+TQ3Status				E3Pick_GetEdgeTolerance(TQ3PickObject thePick, float *edgeTolerance);
+TQ3Status				E3Pick_SetVertexTolerance(TQ3PickObject thePick, float vertexTolerance);
+TQ3Status				E3Pick_SetEdgeTolerance(TQ3PickObject thePick, float edgeTolerance);
+TQ3Status				E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits);
+TQ3Status				E3Pick_EmptyHitList(TQ3PickObject thePick);
+TQ3Status				E3Pick_GetPickDetailValidMask(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail *pickDetailValidMask);
+TQ3Status				E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pickDetailValue, void *detailData);
+
+TQ3Status				E3Pick_RecordHit(TQ3PickObject        		thePick,
+											TQ3ViewObject     		theView,
+											TQ3Object         		hitObject,
+											const TQ3Point3D  		*hitXYZ,
+											const TQ3Vector3D 		*hitNormal,
+											const TQ3Param2D  		*hitUV,
+											TQ3ShapePartObject		hitShape);
 
 TQ3PickObject			E3WindowPointPick_New(const TQ3WindowPointPickData *data);
-TQ3Status				E3WindowPointPick_GetPoint(TQ3PickObject pick, TQ3Point2D *point);
-TQ3Status				E3WindowPointPick_SetPoint(TQ3PickObject pick, const TQ3Point2D *point);
-TQ3Status				E3WindowPointPick_GetData(TQ3PickObject pick, TQ3WindowPointPickData *data);
-TQ3Status				E3WindowPointPick_SetData(TQ3PickObject pick, const TQ3WindowPointPickData *data);
+TQ3Status				E3WindowPointPick_GetPoint(TQ3PickObject thePick, TQ3Point2D *point);
+TQ3Status				E3WindowPointPick_SetPoint(TQ3PickObject thePick, const TQ3Point2D *point);
+TQ3Status				E3WindowPointPick_GetData(TQ3PickObject thePick, TQ3WindowPointPickData *data);
+TQ3Status				E3WindowPointPick_SetData(TQ3PickObject thePick, const TQ3WindowPointPickData *data);
 
 TQ3PickObject			E3WindowRectPick_New(const TQ3WindowRectPickData *data);
-TQ3Status				E3WindowRectPick_GetRect(TQ3PickObject pick, TQ3Area *rect);
-TQ3Status				E3WindowRectPick_SetRect(TQ3PickObject pick, const TQ3Area *rect);
-TQ3Status				E3WindowRectPick_GetData(TQ3PickObject pick, TQ3WindowRectPickData *data);
-TQ3Status				E3WindowRectPick_SetData(TQ3PickObject pick, const TQ3WindowRectPickData *data);
+TQ3Status				E3WindowRectPick_GetRect(TQ3PickObject thePick, TQ3Area *rect);
+TQ3Status				E3WindowRectPick_SetRect(TQ3PickObject thePick, const TQ3Area *rect);
+TQ3Status				E3WindowRectPick_GetData(TQ3PickObject thePick, TQ3WindowRectPickData *data);
+TQ3Status				E3WindowRectPick_SetData(TQ3PickObject thePick, const TQ3WindowRectPickData *data);
 
 TQ3PickObject			E3WorldRayPick_New(const TQ3WorldRayPickData *data);
-TQ3Status				E3WorldRayPick_GetRay(TQ3PickObject pick, TQ3Ray3D *ray);
-TQ3Status				E3WorldRayPick_SetRay(TQ3PickObject pick, const TQ3Ray3D *ray);
-TQ3Status				E3WorldRayPick_GetData(TQ3PickObject pick, TQ3WorldRayPickData *data);
-TQ3Status				E3WorldRayPick_SetData(TQ3PickObject pick, const TQ3WorldRayPickData *data);
+TQ3Status				E3WorldRayPick_GetRay(TQ3PickObject thePick, TQ3Ray3D *ray);
+TQ3Status				E3WorldRayPick_SetRay(TQ3PickObject thePick, const TQ3Ray3D *ray);
+TQ3Status				E3WorldRayPick_GetData(TQ3PickObject thePick, TQ3WorldRayPickData *data);
+TQ3Status				E3WorldRayPick_SetData(TQ3PickObject thePick, const TQ3WorldRayPickData *data);
 
 TQ3MeshPartObject		E3MeshPart_New(const TQ3MeshComponent data);
 TQ3ObjectType			E3MeshPart_GetType(TQ3MeshPartObject meshPartObject);

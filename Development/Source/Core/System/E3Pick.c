@@ -34,6 +34,8 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3View.h"
+#include "E3Group.h"
 #include "E3Pick.h"
 
 
@@ -43,15 +45,38 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+// Pick hit result
+typedef struct TQ3PickHit {
+	// Next hit in the list
+	struct TQ3PickHit			*nextHit;
+
+	// Mask indicating valid fields for this hit
+	TQ3PickDetail				validMask;
+
+	// Data for this hit
+	TQ3Uns32					pickedID;
+	TQ3HitPath					pickedPath;
+	TQ3PickParts				pickedPart;
+	TQ3SharedObject				pickedObject;
+	TQ3ShapePartObject			pickedShape;
+	TQ3Point3D					hitXYZ;
+	TQ3Param2D					hitUV;
+	TQ3Vector3D					hitNormal;
+	float						hitDistance;
+	TQ3Matrix4x4				localToWorld;
+} TQ3PickHit;
+
+
+// Pick object instance data
 typedef struct {
 	// Common data
 	TQ3Uns32							numHits;
-	TQ3PickedData*						pickedData;
-	
-	// Pick specific. Note that we assume that a TQ3PickData
-	// structure is the first item within each pick structure,
-	// since this lets us use a union and have the common data
-	// overlap.
+	TQ3PickHit							*pickHits;
+
+
+	// Pick specific. Note that we assume that a TQ3PickData structure
+	// is the first item within each pick structure, since this lets us
+	// use a union and have the common data overlap.
 	union	{
 		TQ3PickData 					common;
 		TQ3WindowPointPickData			windowPointData;
@@ -67,22 +92,282 @@ typedef struct {
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      e3pick_hit_duplicate_path : Duplicate a TQ3HitPath.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3pick_hit_duplicate_path(TQ3HitPath *pickedPath, TQ3HitPath *newPath)
+{	TQ3Uns32		theSize;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pickedPath), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(newPath),    kQ3Failure);
+
+
+
+	// Duplicate the position array. Note that we assume group positions
+	// are simple objects and are not reference counted - this will cause
+	// a memory leak if this is ever changed.
+	theSize            = pickedPath->depth * sizeof(TQ3GroupPosition);
+	newPath->positions = (TQ3GroupPosition *) Q3Memory_Allocate(theSize);
+	if (newPath->positions == NULL)
+		return(kQ3Failure);
+
+	memcpy(newPath->positions, pickedPath->positions, theSize);
+
+
+
+	// Finish off the new hit path structure
+	newPath->rootGroup = Q3Shared_GetReference(pickedPath->rootGroup);
+	newPath->depth     = pickedPath->depth;
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3pick_hit_initialise : Initialise a TQ3PickHit.
+//-----------------------------------------------------------------------------
+static void
+e3pick_hit_initialise(TQ3PickHit				*theHit,
+						TQ3PickObject			thePick,
+						TQ3ViewObject			theView,
+						TQ3Object				hitObject,
+						const TQ3Point3D		*hitXYZ,
+						const TQ3Vector3D		*hitNormal,
+						const TQ3Param2D		*hitUV,
+						TQ3ShapePartObject		hitShape)
+{	TQ3CameraPlacement		cameraPlacement;
+	TQ3HitPath				*currentPath;
+	TQ3Status				qd3dStatus;
+	TQ3CameraObject			theCamera;
+	TQ3Vector3D				eyeVector;
+	TQ3PickData				pickData;
+	TQ3ObjectType			theType;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE(Q3_VALID_PTR(theHit));
+	Q3_REQUIRE(Q3_VALID_PTR(thePick));
+	Q3_REQUIRE(Q3_VALID_PTR(theView));
+	Q3_REQUIRE(Q3_VALID_PTR(hitObject));
+
+
+
+	// Get the data for the pick object
+	qd3dStatus = Q3Pick_GetData(thePick, &pickData);
+	if (qd3dStatus != kQ3Success)
+		return;
+
+
+
+	// Save the pick ID
+	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskPickID))
+		{
+		qd3dStatus = Q3View_GetPickIDStyleState(theView, &theHit->pickedID);
+		if (qd3dStatus == kQ3Success)
+			theHit->validMask |= kQ3PickDetailMaskPickID;
+		}
+
+
+
+	// Save the path to the hit object
+	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskPath))
+		{
+		currentPath = E3View_PickStack_CurrentPath(theView);
+		qd3dStatus  = e3pick_hit_duplicate_path(currentPath, &theHit->pickedPath);
+		if (qd3dStatus == kQ3Success)
+			theHit->validMask |= kQ3PickDetailMaskPath;
+		}
+
+
+
+	// Save the hit object
+	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskObject))
+		{
+		theHit->pickedObject = Q3Shared_GetReference(hitObject);
+		theHit->validMask   |= kQ3PickDetailMaskObject;
+		}
+
+
+
+	// Save the local->world matrix
+	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskLocalToWorldMatrix))
+		{
+		qd3dStatus = E3View_GetLocalToWorldMatrixState(theView, &theHit->localToWorld);
+		if (qd3dStatus == kQ3Success)
+			theHit->validMask |= kQ3PickDetailMaskLocalToWorldMatrix;
+		}
+
+
+
+	// Save the world coordinates of the hit point
+	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskXYZ) && hitXYZ != NULL)
+		{
+		theHit->hitXYZ     = *hitXYZ;
+		theHit->validMask |= kQ3PickDetailMaskXYZ;
+		}
+
+
+
+	// Save the distance to the viewer
+	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskDistance) && hitXYZ != NULL)
+		{
+		qd3dStatus = Q3View_GetCamera(theView, &theCamera);
+		if (qd3dStatus == kQ3Success)
+			{
+			Q3Camera_GetPlacement(theCamera, &cameraPlacement);
+			Q3Point3D_Subtract(hitXYZ, &cameraPlacement.cameraLocation, &eyeVector);
+			Q3Object_Dispose(theCamera);
+
+			theHit->hitDistance = Q3Vector3D_Length(&eyeVector);
+			theHit->validMask  |= kQ3PickDetailMaskDistance;
+			}
+		}
+
+
+
+	// Save the normal at the hit point
+	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskNormal) && hitNormal != NULL)
+		{
+		Q3Vector3D_Normalize(hitNormal, &theHit->hitNormal);
+		theHit->validMask |= kQ3PickDetailMaskNormal;
+		}
+
+
+
+	// Save the shape part
+	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskShapePart))
+		{
+		theHit->pickedShape = Q3Shared_GetReference(hitShape);
+		theHit->validMask  |= kQ3PickDetailMaskShapePart;
+		}
+
+
+
+	// Save the pick part
+	//
+	// Pick parts are only supported for meshes at present - from the QD3D docs,
+	// that appears to be the only geometry which supports picking of sub-object
+	// components.
+	//
+	// To determine what type of sub-object has been picked, we assume that the
+	// appropriate shape part has been supplied by the mesh and return its type.
+	// If no shape part has been supplied, or it's not a face/edge/vertex, we
+	// return that the entire object has been picked.
+	//
+	// This assumes the mesh object's picking implementation has examined the
+	// current pick part style and picked the appropriate sub-object types.
+	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskPickPart))
+		{
+		// Set up the default
+		theHit->pickedPart = kQ3PickPartsObject;
+		theHit->validMask |= kQ3PickDetailMaskPickPart;
+		
+		
+		// If we have a shape part, indicate what type
+		if (hitShape != NULL)
+			{
+			theType = Q3Object_GetLeafType(hitShape);
+			switch (theType) {
+				case kQ3MeshPartTypeMeshFacePart:
+					theHit->pickedPart = kQ3PickPartsMaskFace;
+					break;
+
+				case kQ3MeshPartTypeMeshEdgePart:
+					theHit->pickedPart = kQ3PickPartsMaskEdge;
+					break;
+
+				case kQ3MeshPartTypeMeshVertexPart:
+					theHit->pickedPart = kQ3PickPartsMaskVertex;
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
+
+
+
+	// Save the UV at the hit point
+	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskUV) && hitUV != NULL)
+		{
+		theHit->hitUV      = *hitUV;
+		theHit->validMask |= kQ3PickDetailMaskUV;
+		}
+}
+
+
+
+
+
+//=============================================================================
+//      e3pick_hit_find : Find the nth pick hit in a list.
+//-----------------------------------------------------------------------------
+static TQ3PickHit *
+e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
+{	TQ3PickHit		*currentHit = pickInstanceData->pickHits;
+
+
+
+	// Check we're not out of range
+	if (n > pickInstanceData->numHits)
+		return(NULL);
+
+
+
+	// Walk through the list to find the right item
+	while (currentHit != NULL && n != 0)
+		{
+		n--;
+		currentHit = currentHit->nextHit;
+		}
+
+	return(currentHit);
+}
+
+
+
+
+
+//=============================================================================
 //      e3pick_windowpoint_new : Window point pick new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3pick_windowpoint_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3PickUnionData				*instanceData = (TQ3PickUnionData *) privateData;
-	const TQ3WindowPointPickData	*pickData   = (const TQ3WindowPointPickData *) paramData;
-#pragma unused(theObject)
+	const TQ3WindowPointPickData	*pickData     = (const TQ3WindowPointPickData *) paramData;
 
 
 
 	// Initialise our instance data
-	instanceData->numHits				= 0;
-	instanceData->pickedData			= NULL;
-	instanceData->data.windowPointData 	= *pickData;
+	instanceData->data.windowPointData = *pickData;
 
 	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3pick_windowpoint_delete : Window point pick delete method.
+//-----------------------------------------------------------------------------
+static void
+e3pick_windowpoint_delete(TQ3Object theObject, void *privateData)
+{
+#pragma unused(privateData)
+
+
+
+	// Empty the pick list
+	E3Pick_EmptyHitList(theObject);
 }
 
 
@@ -103,6 +388,10 @@ e3pick_windowpoint_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3pick_windowpoint_new;
 			break;
+
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3pick_windowpoint_delete;
+			break;
 		}
 	
 	return(theMethod);
@@ -118,17 +407,32 @@ e3pick_windowpoint_metahandler(TQ3XMethodType methodType)
 static TQ3Status
 e3pick_windowrect_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3PickUnionData				*instanceData = (TQ3PickUnionData *) privateData;
-	const TQ3WindowRectPickData		*pickData   = (const TQ3WindowRectPickData *) paramData;
-#pragma unused(theObject)
+	const TQ3WindowRectPickData		*pickData     = (const TQ3WindowRectPickData *) paramData;
 
 
 
 	// Initialise our instance data
-	instanceData->numHits			  = 0;
-	instanceData->pickedData		  = NULL;
 	instanceData->data.windowRectData = *pickData;
 
 	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3pick_windowrect_delete : Window rect pick delete method.
+//-----------------------------------------------------------------------------
+static void
+e3pick_windowrect_delete(TQ3Object theObject, void *privateData)
+{
+#pragma unused(privateData)
+
+
+
+	// Empty the pick list
+	E3Pick_EmptyHitList(theObject);
 }
 
 
@@ -149,6 +453,10 @@ e3pick_windowrect_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3pick_windowrect_new;
 			break;
+
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3pick_windowrect_delete;
+			break;
 		}
 	
 	return(theMethod);
@@ -163,18 +471,33 @@ e3pick_windowrect_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3pick_worldray_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3PickUnionData				*instanceData = (TQ3PickUnionData *) privateData;
-	const TQ3WorldRayPickData		*pickData   = (const TQ3WorldRayPickData *) paramData;
-#pragma unused(theObject)
+{	TQ3PickUnionData			*instanceData = (TQ3PickUnionData *) privateData;
+	const TQ3WorldRayPickData	*pickData     = (const TQ3WorldRayPickData *) paramData;
 
 
 
 	// Initialise our instance data
-	instanceData->numHits			= 0;
-	instanceData->pickedData		= NULL;
-	instanceData->data.worldRayData	= *pickData;
+	instanceData->data.worldRayData = *pickData;
 
 	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3pick_worldray_delete : World ray pick delete method.
+//-----------------------------------------------------------------------------
+static void
+e3pick_worldray_delete(TQ3Object theObject, void *privateData)
+{
+#pragma unused(privateData)
+
+
+
+	// Empty the pick list
+	E3Pick_EmptyHitList(theObject);
 }
 
 
@@ -195,6 +518,10 @@ e3pick_worldray_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3pick_worldray_new;
 			break;
+
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3pick_worldray_delete;
+			break;
 		}
 	
 	return(theMethod);
@@ -210,8 +537,8 @@ e3pick_worldray_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 static TQ3Status
 e3shapepart_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3ShapeObject				*instanceData = (TQ3ShapeObject *)       privateData;
-	const TQ3ShapeObject		*shape        = (const TQ3ShapeObject *) paramData;
+{	TQ3ShapeObject			*instanceData = (TQ3ShapeObject *)       privateData;
+	const TQ3ShapeObject	*shape        = (const TQ3ShapeObject *) paramData;
 #pragma unused(theObject)
 
 
@@ -221,6 +548,7 @@ e3shapepart_new(TQ3Object theObject, void *privateData, const void *paramData)
 		*instanceData = Q3Shared_GetReference(*shape);
 	else
 		*instanceData = NULL;
+
 	return(kQ3Success);
 }
 
@@ -233,7 +561,7 @@ e3shapepart_new(TQ3Object theObject, void *privateData, const void *paramData)
 //-----------------------------------------------------------------------------
 static void
 e3shapepart_delete(TQ3Object theObject, void *privateData)
-{	TQ3ShapeObject				*instanceData = (TQ3ShapeObject *) privateData;
+{	TQ3ShapeObject			*instanceData = (TQ3ShapeObject *) privateData;
 #pragma unused(theObject)
 
 
@@ -279,8 +607,8 @@ e3shapepart_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3meshpart__new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3MeshComponent				*instanceData = (TQ3MeshComponent *)       privateData;
-	const TQ3MeshComponent			*data         = (const TQ3MeshComponent *) paramData;
+{	TQ3MeshComponent			*instanceData = (TQ3MeshComponent *)       privateData;
+	const TQ3MeshComponent		*data         = (const TQ3MeshComponent *) paramData;
 #pragma unused(theObject)
 
 
@@ -408,8 +736,8 @@ e3meshpart_edge_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3meshpart_vertex_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3MeshVertex				*instanceData = (TQ3MeshVertex *)       privateData;
-	const TQ3MeshVertex			*data         = (const TQ3MeshVertex *) paramData;
+{	TQ3MeshVertex			*instanceData = (TQ3MeshVertex *)       privateData;
+	const TQ3MeshVertex		*data         = (const TQ3MeshVertex *) paramData;
 #pragma unused(theObject)
 
 
@@ -558,18 +886,18 @@ E3Pick_UnregisterClass(void)
 
 
 
-//-----------------------------------------------------------------------------
+//=============================================================================
 //      E3Pick_GetType : Gets the pick object's type.
 //-----------------------------------------------------------------------------
 #pragma mark -
 #pragma mark ========== Picks ==========
 #pragma mark -
 TQ3ObjectType
-E3Pick_GetType(TQ3PickObject pick)
+E3Pick_GetType(TQ3PickObject thePick)
 {
 
 	// Return the type, always a leaf type
-	return(E3ClassTree_GetObjectType(pick, kQ3ObjectTypePick));
+	return(E3ClassTree_GetObjectType(thePick, kQ3ObjectTypePick));
 }
 
 
@@ -580,8 +908,8 @@ E3Pick_GetType(TQ3PickObject pick)
 //      E3Pick_GetData : Gets the pick object's data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetData(TQ3PickObject pick, TQ3PickData *data)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3Pick_GetData(TQ3PickObject thePick, TQ3PickData *data)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -598,8 +926,8 @@ E3Pick_GetData(TQ3PickObject pick, TQ3PickData *data)
 //      E3Pick_SetData : Sets the pick object's data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_SetData(TQ3PickObject pick, const TQ3PickData *data)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3Pick_SetData(TQ3PickObject thePick, const TQ3PickData *data)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -616,21 +944,26 @@ E3Pick_SetData(TQ3PickObject pick, const TQ3PickData *data)
 //      E3Pick_GetVertexTolerance : Gets the pick object's vertex tolerance.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetVertexTolerance(TQ3PickObject pick, float *vertexTolerance)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3Pick_GetVertexTolerance(TQ3PickObject thePick, float *vertexTolerance)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+	TQ3Status			qd3dStatus    = kQ3Success;
+
 
 
 	// Get the field
-	if (Q3Object_IsType(pick, kQ3PickTypeWindowPoint))
-		{
+	if (Q3Object_IsType(thePick, kQ3PickTypeWindowPoint))
 		*vertexTolerance = instanceData->data.windowPointData.vertexTolerance;
-		return(kQ3Success);
-		}
+
+	else if (Q3Object_IsType(thePick, kQ3PickTypeWorldRay))
+		*vertexTolerance = instanceData->data.worldRayData.vertexTolerance;
+
 	else
 		{
-		*vertexTolerance = 0;
-		return(kQ3Failure);
+		*vertexTolerance = 0.0f;
+		qd3dStatus       = kQ3Failure;
 		}
+
+	return(qd3dStatus);
 }
 
 
@@ -641,22 +974,26 @@ E3Pick_GetVertexTolerance(TQ3PickObject pick, float *vertexTolerance)
 //      E3Pick_GetEdgeTolerance : Gets the pick object's edge tolerance.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetEdgeTolerance(TQ3PickObject pick, float *edgeTolerance)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3Pick_GetEdgeTolerance(TQ3PickObject thePick, float *edgeTolerance)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+	TQ3Status			qd3dStatus    = kQ3Success;
 
 
 
 	// Get the field
-	if (Q3Object_IsType(pick, kQ3PickTypeWindowPoint))
-		{
+	if (Q3Object_IsType(thePick, kQ3PickTypeWindowPoint))
 		*edgeTolerance = instanceData->data.windowPointData.edgeTolerance;
-		return(kQ3Success);
-		}
+
+	else if (Q3Object_IsType(thePick, kQ3PickTypeWorldRay))
+		*edgeTolerance = instanceData->data.worldRayData.edgeTolerance;
+
 	else
 		{
-		*edgeTolerance = 0;
-		return(kQ3Failure);
+		*edgeTolerance = 0.0f;
+		qd3dStatus     = kQ3Failure;
 		}
+
+	return(qd3dStatus);
 }
 
 
@@ -667,18 +1004,23 @@ E3Pick_GetEdgeTolerance(TQ3PickObject pick, float *edgeTolerance)
 //      E3Pick_SetVertexTolerance : Sets the pick object's vertex tolerance.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_SetVertexTolerance(TQ3PickObject pick, float vertexTolerance)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3Pick_SetVertexTolerance(TQ3PickObject thePick, float vertexTolerance)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+	TQ3Status			qd3dStatus    = kQ3Success;
 
 
 
 	// Set the field
-	if (Q3Object_IsType(pick, kQ3PickTypeWindowPoint))
-		{
+	if (Q3Object_IsType(thePick, kQ3PickTypeWindowPoint))
 		instanceData->data.windowPointData.vertexTolerance = vertexTolerance;
-		return(kQ3Success);
-		}
-	return(kQ3Failure);
+
+	else if (Q3Object_IsType(thePick, kQ3PickTypeWorldRay))
+		instanceData->data.worldRayData.vertexTolerance = vertexTolerance;
+
+	else
+		qd3dStatus = kQ3Failure;
+	
+	return(qd3dStatus);
 }
 
 
@@ -689,18 +1031,23 @@ E3Pick_SetVertexTolerance(TQ3PickObject pick, float vertexTolerance)
 //      E3Pick_SetEdgeTolerance : Sets the pick object's edge tolerance.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_SetEdgeTolerance(TQ3PickObject pick, float edgeTolerance)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3Pick_SetEdgeTolerance(TQ3PickObject thePick, float edgeTolerance)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+	TQ3Status			qd3dStatus    = kQ3Success;
 
 
 
 	// Set the field
-	if (Q3Object_IsType(pick, kQ3PickTypeWindowPoint))
-		{
+	if (Q3Object_IsType(thePick, kQ3PickTypeWindowPoint))
 		instanceData->data.windowPointData.edgeTolerance = edgeTolerance;
-		return(kQ3Success);
-		}
-	return(kQ3Failure);
+
+	else if (Q3Object_IsType(thePick, kQ3PickTypeWorldRay))
+		instanceData->data.worldRayData.edgeTolerance = edgeTolerance;
+
+	else
+		qd3dStatus = kQ3Failure;
+	
+	return(qd3dStatus);
 }
 
 
@@ -711,8 +1058,8 @@ E3Pick_SetEdgeTolerance(TQ3PickObject pick, float edgeTolerance)
 //      E3Pick_GetNumHits : Gets the pick object's number of hits.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetNumHits(TQ3PickObject pick, TQ3Uns32 *numHits)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -726,136 +1073,47 @@ E3Pick_GetNumHits(TQ3PickObject pick, TQ3Uns32 *numHits)
 
 
 //=============================================================================
-//      E3Pick_EmptyHitList : Adds a new picked data to the hit list.
-//		(Semi-private, no access to the 3rd party programmer)
-//-----------------------------------------------------------------------------
-//		Note :	This will not take any references to the TQ3Objects
-//				so you must not dispose of them.
-//				This routine takes ownership of the data.
-//-----------------------------------------------------------------------------
-#pragma mark -
-TQ3Status
-E3Pick_AddHitData(TQ3PickObject pick, const TQ3PickedData* data)
-{	TQ3PickedData* newData = (TQ3PickedData*) Q3Memory_Allocate(sizeof(TQ3PickedData));
-
-	if (newData)
-		{
-		TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) pick->instanceData;
-		TQ3PickedData		*current = instanceData->pickedData;
-		
-		*newData = *data;
-		++instanceData->numHits;
-		
-		if (current)
-			{
-			// add it in the correct position
-			if (newData->validMask & kQ3PickDetailMaskDistance)
-				{
-				register float distance = newData->distance; // put into register for speed
-				TQ3PickSort sort = instanceData->data.common.sort;
-				
-				if (sort == kQ3PickSortNearToFar)
-					{
-					register TQ3PickedData* next = current->next;
-					if (next)
-						{
-						while (next)
-							{
-							if (next->validMask & kQ3PickDetailMaskDistance)
-								{
-								if (next->distance > distance)
-									{
-									// insert after current
-									current->next = newData;
-									newData->next = next;
-									break;
-									}
-								}
-							current = next;
-							next = next->next;
-							}
-						}
-					else // this is the end of the chain
-						{
-						current->next = newData;
-						newData->next = NULL;
-						}
-					}
-				else
-				if (sort == kQ3PickSortFarToNear)
-					{
-					register TQ3PickedData* prev = NULL;
-					while (current)
-						{
-						if (current->validMask & kQ3PickDetailMaskDistance)
-							{
-							if (current->distance < distance)
-								{
-								// insert before current
-								newData->next = current;
-								if (prev)
-									prev->next = newData;
-								else // first time round the loop, insert at beginning of list
-									instanceData->pickedData = newData;
-								break;
-								}
-							}
-						prev = current;
-						current = current->next;
-						}
-					}
-				else // no sorting, add newData to beginning
-					{
-					instanceData->pickedData = newData;
-					newData->next = current;
-					}
-				}
-			else // newData has no valid distance value
-				{
-				while (current->next)
-					current = current->next;
-				current->next = newData;
-				newData->next = NULL;
-				}
-			}
-		else // this is the first item
-			{
-			instanceData->pickedData = newData;
-			newData->next = NULL;
-			}
-		return(kQ3Success);
-		}
-	return(kQ3Failure);
-}
-
-
-
-
-
-//=============================================================================
 //      E3Pick_EmptyHitList : Empties the hit list.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_EmptyHitList(TQ3PickObject pick)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) pick->instanceData;
-	TQ3PickedData		*current = instanceData->pickedData;
-	
-	instanceData->pickedData = NULL;
-	instanceData->numHits = 0;
-	
-	while (current)
+E3Pick_EmptyHitList(TQ3PickObject thePick)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+	TQ3PickHit			*currentHit;
+	TQ3PickHit			*nextHit;
+
+
+
+	// Dispose of the hit list
+	currentHit = instanceData->pickHits;
+	while (currentHit != NULL)
 		{
-		TQ3PickedData* next = current->next;
-		if (current->validMask & kQ3PickDetailMaskPath)
-			Q3HitPath_EmptyData (&current->path);
-		if (current->validMask & kQ3PickDetailMaskObject)
-			Q3Object_Dispose (current->object);
-		if (current->validMask & kQ3PickDetailMaskShapePart)
-			Q3Object_Dispose (current->shapePart);
-		Q3Memory_Free (&current);
-		current = next;
+		// Grab the next item in the list
+		nextHit = currentHit->nextHit;
+		
+		
+		// Dispose of the item
+		if (E3Bit_Test(currentHit->validMask, kQ3PickDetailMaskPath))
+			Q3HitPath_EmptyData(&currentHit->pickedPath);
+
+		if (E3Bit_Test(currentHit->validMask, kQ3PickDetailMaskObject))
+			Q3Object_Dispose(currentHit->pickedObject);
+
+		if (E3Bit_Test(currentHit->validMask, kQ3PickDetailMaskShapePart))
+			Q3Object_Dispose(currentHit->pickedShape);
+
+		Q3Memory_Free(&currentHit);
+
+
+		// Move on to the next item in the list
+		currentHit = nextHit;
 		}
-	
+
+
+
+	// Reset our state
+	instanceData->numHits  = 0;
+	instanceData->pickHits = NULL;
+
 	return(kQ3Success);
 }
 
@@ -867,27 +1125,26 @@ E3Pick_EmptyHitList(TQ3PickObject pick)
 //      E3Pick_GetPickDetailValidMask : Gets the pick mask for the nth pick.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetPickDetailValidMask(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail *pickDetailValidMask)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) pick->instanceData;
-	
-	if (index < instanceData->numHits)
+E3Pick_GetPickDetailValidMask(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail *pickDetailValidMask)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+	TQ3PickHit			*theHit;
+
+
+
+	// Find the item
+	theHit = e3pick_hit_find(instanceData, index);
+	if (theHit == NULL)
 		{
-		TQ3PickedData *current = instanceData->pickedData;
-		
-		while (current && index)
-			{
-			--index;
-			current = current->next;
-			}
-		
-		if (current)
-			{
-			*pickDetailValidMask = current->validMask;
-			return(kQ3Success);
-			}
+		*pickDetailValidMask = kQ3PickDetailNone;
+		return(kQ3Failure);
 		}
-	*pickDetailValidMask = kQ3PickDetailNone;
-	return(kQ3Failure);
+
+
+
+	// Return the mask
+	*pickDetailValidMask = theHit->validMask;
+
+	return(kQ3Success);
 }
 
 
@@ -898,65 +1155,209 @@ E3Pick_GetPickDetailValidMask(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail 
 //      E3Pick_GetPickDetailData : Gets the data for the nth object's detail.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetPickDetailData(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail pickDetailValue, void *detailData)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) pick->instanceData;
-	
-	if (index < instanceData->numHits)
-		{
-		TQ3PickedData *current = instanceData->pickedData;
+E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pickDetailValue, void *detailData)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+	TQ3Status			qd3dStatus;
+	TQ3PickHit			*theHit;
 
-		while (current && index)
-			{
-			--index;
-			current = current->next;
-			}
-		
-		if (current)
-			{
-			if (current->validMask & pickDetailValue)
-				{
-				switch (pickDetailValue)
-					{
-					case kQ3PickDetailMaskPickID:
-						*((TQ3Int32*)(detailData)) = current->pickID;
-						break;
-					case kQ3PickDetailMaskPath:
-						*((TQ3HitPath*)(detailData)) = current->path;
-						if (current->path.rootGroup)
-							((TQ3HitPath*)(detailData))->rootGroup = Q3Shared_GetReference (current->path.rootGroup);
-						break;
-					case kQ3PickDetailMaskObject:
-						*((TQ3SharedObject*)(detailData)) = Q3Shared_GetReference (current->object);
-						break;
-					case kQ3PickDetailMaskLocalToWorldMatrix:
-						*((TQ3Matrix4x4*)(detailData)) = current->localToWorldMatrix;
-						break;
-					case kQ3PickDetailMaskXYZ:
-						*((TQ3Point3D*)(detailData)) = current->xyz;
-						break;
-					case kQ3PickDetailMaskDistance:
-						*((float*)(detailData)) = current->distance;
-						break;
-					case kQ3PickDetailMaskNormal:
-						*((TQ3Vector3D*)(detailData)) = current->normal;
-						break;
-					case kQ3PickDetailMaskShapePart:
-						*((TQ3ShapePartObject*)(detailData)) = Q3Shared_GetReference (current->shapePart);
-						break;
-					case kQ3PickDetailMaskPickPart:
-						*((TQ3PickParts*)(detailData)) = current->pickPart;
-						break;
-					case kQ3PickDetailMaskUV:
-						*((TQ3Param2D*)(detailData)) = current->uv;
-						break;
-					default:
-						return(kQ3Failure);
-					}
-				return(kQ3Success);
-				}
-			}
+
+
+	// Find the item
+	theHit = e3pick_hit_find(instanceData, index);
+	if (theHit == NULL)
+		return(kQ3Failure);
+
+
+
+	// Check to see if the data is present
+	if (!E3Bit_Test(theHit->validMask, pickDetailValue))
+		return(kQ3Failure);
+
+
+
+	// Return the data
+	qd3dStatus = kQ3Success;
+	switch (pickDetailValue) {
+		case kQ3PickDetailMaskPickID:
+			*((TQ3Int32*)(detailData)) = theHit->pickedID;
+			break;
+		case kQ3PickDetailMaskPath:
+			qd3dStatus = e3pick_hit_duplicate_path(&theHit->pickedPath, (TQ3HitPath *) detailData);
+			break;
+		case kQ3PickDetailMaskObject:
+			*((TQ3SharedObject*)(detailData)) = Q3Shared_GetReference(theHit->pickedObject);
+			break;
+		case kQ3PickDetailMaskLocalToWorldMatrix:
+			*((TQ3Matrix4x4*)(detailData)) = theHit->localToWorld;
+			break;
+		case kQ3PickDetailMaskXYZ:
+			*((TQ3Point3D*)(detailData)) = theHit->hitXYZ;
+			break;
+		case kQ3PickDetailMaskDistance:
+			*((float*)(detailData)) = theHit->hitDistance;
+			break;
+		case kQ3PickDetailMaskNormal:
+			*((TQ3Vector3D*)(detailData)) = theHit->hitNormal;
+			break;
+		case kQ3PickDetailMaskShapePart:
+			*((TQ3ShapePartObject*)(detailData)) = Q3Shared_GetReference(theHit->pickedShape);
+			break;
+		case kQ3PickDetailMaskPickPart:
+			*((TQ3PickParts*)(detailData)) = theHit->pickedPart;
+			break;
+		case kQ3PickDetailMaskUV:
+			*((TQ3Param2D*)(detailData)) = theHit->hitUV;
+			break;
+		default:
+			qd3dStatus = kQ3Failure;
 		}
-	return(kQ3Failure);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Pick_RecordHit : Record a hit against a pick object.
+//-----------------------------------------------------------------------------
+//		Note :	Invoked when a successful pick between a geometry and a pick
+//				object is detected. Responsible for saving the details of the
+//				pick in the pick object's results list.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Pick_RecordHit(TQ3PickObject				thePick,
+					TQ3ViewObject			theView,
+					TQ3Object				hitObject,
+					const TQ3Point3D		*hitXYZ,
+					const TQ3Vector3D		*hitNormal,
+					const TQ3Param2D		*hitUV,
+					TQ3ShapePartObject		hitShape)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+	TQ3PickHit			*theHit, *currentHit, *previousHit;
+	TQ3Boolean			savedHit, foundHit;
+	TQ3PickSort			sortType;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(thePick),   kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theView),   kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(hitObject), kQ3Failure);
+
+
+
+	// Allocate another hit record (groan :-)
+	theHit = Q3Memory_AllocateClear(sizeof(TQ3PickHit));
+	if (theHit == NULL)
+		return(kQ3Failure);
+
+
+
+	// Fill out the data for the hit
+	e3pick_hit_initialise(theHit, thePick, theView, hitObject,
+						  hitXYZ, hitNormal, hitUV, hitShape);
+
+
+
+	// Decide what kind of sorting is in effect. We try and sort if asked to, unless
+	// we couldn't establish a distance for the hit. In that case (e.g., it's window
+	// rect pick and the user has incorrectly asked for the results to be sorted)
+	// we simply fall back to unsorted.
+	//
+	// To simplify the code below, we also revert to unsorted if the list is empty.
+	sortType = instanceData->data.common.sort;
+
+	if (!E3Bit_Test(theHit->validMask, kQ3PickDetailMaskDistance))
+		sortType = kQ3PickSortNone;
+
+	if (instanceData->pickHits == NULL)
+		sortType = kQ3PickSortNone;
+
+
+
+	// Save the hit into the correct position within the list
+	switch (sortType) {
+		case kQ3PickSortNone:
+			// Add it to the head of the list
+			theHit->nextHit        = instanceData->pickHits;
+			instanceData->pickHits = theHit;
+			break;
+
+
+		case kQ3PickSortNearToFar:
+		case kQ3PickSortFarToNear:
+			// We assume the list is non-empty. We walk through the list until we find
+			// the hit that is closer/further than the current hit, and save ourselves
+			// immediately before it to preserve the sorting order.
+			//
+			// Note that pick hits which don't have a distance will always come to the
+			// front of the list, although this shouldn't cause problems.
+			Q3_ASSERT(instanceData->pickHits != NULL);
+			currentHit  = instanceData->pickHits;
+			previousHit = NULL;
+			savedHit    = kQ3False;
+
+
+			// Search the list
+			while (currentHit != NULL && !savedHit)
+				{
+				// Check this node
+				foundHit = E3Bit_Test(currentHit->validMask, kQ3PickDetailMaskDistance);
+				if (foundHit)
+					{
+					// Stop when we find a node further away
+					if (sortType == kQ3PickSortNearToFar)
+						foundHit = (currentHit->hitDistance > theHit->hitDistance);
+
+					// Or stop when we find a node that's closer
+					else
+						foundHit = (currentHit->hitDistance < theHit->hitDistance);
+					}
+
+
+				// If we found the right place, save ourselves before it
+				if (foundHit)
+					{
+					// Point the previous node at this node
+					if (previousHit != NULL)
+						previousHit->nextHit = theHit;
+					else
+						instanceData->pickHits = theHit;
+
+					// Point this node at the next node
+					theHit->nextHit = currentHit;
+
+					// We're done
+					savedHit = true;
+					}
+
+
+				// Move on to the next node
+				previousHit = currentHit;
+				currentHit  = currentHit->nextHit;
+				}
+
+
+			// If we didn't save it yet, append it to the end
+			if (!savedHit)
+				previousHit->nextHit = theHit;
+			break;
+
+
+		default:
+			Q3_ASSERT(!"Unknown sort type");
+			Q3Memory_Free(&theHit);
+			return(kQ3Failure);
+		}
+
+
+
+	// Increment the hit count
+	instanceData->numHits++;
+
+	return(kQ3Success);
 }
 
 
@@ -986,8 +1387,8 @@ E3WindowPointPick_New(const TQ3WindowPointPickData *data)
 //      E3WindowPointPick_GetPoint : Gets the window point pick's point.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WindowPointPick_GetPoint(TQ3PickObject pick, TQ3Point2D *point)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WindowPointPick_GetPoint(TQ3PickObject thePick, TQ3Point2D *point)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1004,8 +1405,8 @@ E3WindowPointPick_GetPoint(TQ3PickObject pick, TQ3Point2D *point)
 //      E3WindowPointPick_SetPoint : Sets the window point pick's point.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WindowPointPick_SetPoint(TQ3PickObject pick, const TQ3Point2D *point)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WindowPointPick_SetPoint(TQ3PickObject thePick, const TQ3Point2D *point)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1022,8 +1423,8 @@ E3WindowPointPick_SetPoint(TQ3PickObject pick, const TQ3Point2D *point)
 //      E3WindowPointPick_GetData : Gets the window point pick's data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WindowPointPick_GetData(TQ3PickObject pick, TQ3WindowPointPickData *data)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WindowPointPick_GetData(TQ3PickObject thePick, TQ3WindowPointPickData *data)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1040,8 +1441,8 @@ E3WindowPointPick_GetData(TQ3PickObject pick, TQ3WindowPointPickData *data)
 //      E3WindowPointPick_SetData : Sets the window point pick's data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WindowPointPick_SetData(TQ3PickObject pick, const TQ3WindowPointPickData *data)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WindowPointPick_SetData(TQ3PickObject thePick, const TQ3WindowPointPickData *data)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1077,8 +1478,8 @@ E3WindowRectPick_New(const TQ3WindowRectPickData *data)
 //      E3WindowRectPick_GetRect : Gets the window rect pick's rect.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WindowRectPick_GetRect(TQ3PickObject pick, TQ3Area *rect)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WindowRectPick_GetRect(TQ3PickObject thePick, TQ3Area *rect)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1095,8 +1496,8 @@ E3WindowRectPick_GetRect(TQ3PickObject pick, TQ3Area *rect)
 //      E3WindowRectPick_SetRect : Sets the window rect pick's rect.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WindowRectPick_SetRect(TQ3PickObject pick, const TQ3Area *rect)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WindowRectPick_SetRect(TQ3PickObject thePick, const TQ3Area *rect)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1113,8 +1514,8 @@ E3WindowRectPick_SetRect(TQ3PickObject pick, const TQ3Area *rect)
 //      E3WindowRectPick_GetData : Gets the window rect pick's data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WindowRectPick_GetData(TQ3PickObject pick, TQ3WindowRectPickData *data)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WindowRectPick_GetData(TQ3PickObject thePick, TQ3WindowRectPickData *data)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1131,8 +1532,8 @@ E3WindowRectPick_GetData(TQ3PickObject pick, TQ3WindowRectPickData *data)
 //      E3WindowRectPick_SetData : Sets the window rect pick's data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WindowRectPick_SetData(TQ3PickObject pick, const TQ3WindowRectPickData *data)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WindowRectPick_SetData(TQ3PickObject thePick, const TQ3WindowRectPickData *data)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1168,8 +1569,8 @@ E3WorldRayPick_New(const TQ3WorldRayPickData *data)
 //      E3WorldRayPick_GetRay : Gets the world ray pick's ray.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WorldRayPick_GetRay(TQ3PickObject pick, TQ3Ray3D *ray)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WorldRayPick_GetRay(TQ3PickObject thePick, TQ3Ray3D *ray)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1186,8 +1587,8 @@ E3WorldRayPick_GetRay(TQ3PickObject pick, TQ3Ray3D *ray)
 //      E3WorldRayPick_SetRay : Sets the world ray pick's ray.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WorldRayPick_SetRay(TQ3PickObject pick, const TQ3Ray3D *ray)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WorldRayPick_SetRay(TQ3PickObject thePick, const TQ3Ray3D *ray)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1204,8 +1605,8 @@ E3WorldRayPick_SetRay(TQ3PickObject pick, const TQ3Ray3D *ray)
 //      E3WorldRayPick_GetData : Gets the world ray pick's data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WorldRayPick_GetData(TQ3PickObject pick, TQ3WorldRayPickData *data)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WorldRayPick_GetData(TQ3PickObject thePick, TQ3WorldRayPickData *data)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1222,8 +1623,8 @@ E3WorldRayPick_GetData(TQ3PickObject pick, TQ3WorldRayPickData *data)
 //      E3WorldRayPick_SetData : Sets the world ray pick's data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WorldRayPick_SetData(TQ3PickObject pick, const TQ3WorldRayPickData *data)
-{	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
+E3WorldRayPick_SetData(TQ3PickObject thePick, const TQ3WorldRayPickData *data)
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
 
 
 
@@ -1459,13 +1860,16 @@ E3MeshVertexPart_GetVertex(TQ3MeshVertexPartObject meshVertexPartObject, TQ3Mesh
 TQ3Status
 E3HitPath_EmptyData(TQ3HitPath *hitPath)
 {
-	if (hitPath->rootGroup)
-		{
-		Q3Object_Dispose (hitPath->rootGroup);
-		hitPath->rootGroup = NULL;
-		}
+
+
+	// Dispose of the hit path data
+	E3Object_DisposeAndForget(hitPath->rootGroup);
+	Q3Memory_Free(&hitPath->positions);
+
+
+
+	// And reset it
 	hitPath->depth = 0;
-	hitPath->positions = NULL;
-		
+
 	return(kQ3Success);
 }
