@@ -2205,7 +2205,7 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 {
-#define _READ_MESH_AS_POLYS
+//#define _READ_MESH_AS_POLYS
 //#define _READ_MESH_AS_TRIMESH
 #define	_FLIP_MESH_ORIENTATION	1
 
@@ -2669,7 +2669,7 @@ cleanUp:
 		absFaceVertexIndices = E3Integer_Abs(numFaceVertexIndices);
 		
 		if(allocatedFaceIndices < absFaceVertexIndices){
-			if(Q3Memory_Reallocate (&faceVertices, absFaceVertexIndices) != kQ3Success)
+			if(Q3Memory_Reallocate (&faceVertices, (absFaceVertexIndices*sizeof(TQ3MeshVertex))) != kQ3Success)
 			goto cleanUp;
 			allocatedFaceIndices = absFaceVertexIndices;
 			}
@@ -2678,8 +2678,8 @@ cleanUp:
 		for(j = 0; j< (TQ3Uns32) (absFaceVertexIndices); j++){
 			if(Q3Uns32_Read(&index, theFile)!= kQ3Success)
 				{
-				goto cleanUp;
 				readFailed = kQ3True;
+				goto cleanUp;
 				}
 			faceVertices[j] = vertices[index];
 			}
@@ -2716,10 +2716,8 @@ cleanUp:
 						}
 					}
 				}
-			else if(Q3Object_IsType (childObject, kQ3SetypeAttribute)){
-				for(i = 0; i< numFaces; i++){
-					Q3Mesh_SetFaceAttributeSet (mesh, faces[i], childObject);
-					}
+			else if(Q3Object_IsType (childObject, kQ3SetTypeAttribute)){
+					Q3Geometry_SetAttributeSet (mesh, childObject);
 				}
 			else if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListVertex)){
 				for(i = 0; i< numVertices; i++){
