@@ -75,13 +75,6 @@ TQ3ObjectType		E3Attribute_AttributeToClassType(TQ3AttributeType theType);
 TQ3XAttributeMask	E3AttributeSet_AccessMask(TQ3AttributeSet attributeSet);
 TQ3Status			E3Attribute_Submit(TQ3AttributeType attributeType, const void *attributeData, TQ3ViewObject theView);
 TQ3AttributeSet		E3AttributeSet_New(void);
-TQ3Status			E3AttributeSet_Add(TQ3AttributeSet attributeSet, TQ3AttributeType theType, const void *data);
-TQ3Boolean			E3AttributeSet_Contains(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType);
-TQ3Status			E3AttributeSet_Get(TQ3AttributeSet attributeSet, TQ3AttributeType theType, void *data);
-TQ3Status			E3AttributeSet_Clear(TQ3AttributeSet attributeSet, TQ3AttributeType theType);
-TQ3Status			E3AttributeSet_Empty(TQ3AttributeSet attributeSet);
-TQ3Status			E3AttributeSet_GetNextAttributeType(TQ3AttributeSet source, TQ3AttributeType *theType);
-TQ3Status			E3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject View);
 TQ3Status			E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3AttributeSet result);
 
 TQ3XObjectClass		E3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32 sizeOfElement, TQ3XMetaHandler metaHandler);
