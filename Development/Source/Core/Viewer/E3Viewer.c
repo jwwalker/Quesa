@@ -40,12 +40,11 @@
 #include <NumberFormatting.h>			// HACK used to support NumToString hack.
 #include <QuickDraw.h>
 
-
-
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
 typedef struct {
+	TQ3Uns32				mValidViewer;		// guard word
 	TQ3ViewObject			mView;
 	TQ3GroupObject			mGroup;
 	void					*mWindow;
@@ -73,6 +72,23 @@ typedef struct {
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
+#define kQ3ValidViewer		0xFEEDD0D0
+#define kQ3InvalidViewer	0xDEADD0D0
+
+const TQ3Uns32 kQ3ViewerInternalDefault 	
+	= kQ3ViewerFlagActive
+	 | kQ3ViewerFlagShowControlStrip
+	 | kQ3ViewerFlagButtonTruck
+	 | kQ3ViewerFlagButtonOrbit
+	 | kQ3ViewerFlagButtonDolly
+	 | kQ3ViewerFlagButtonReset
+	 | kQ3ViewerFlagButtonOptions
+	 | kQ3ViewerFlagDragMode
+	 | kQ3ViewerFlagDrawDragBorder
+	 | kQ3ViewerFlagDrawFrame
+	 | kQ3ViewerFlagDrawGrowBox
+	 | kQ3ViewerFlagShowControlStrip
+	;
 
 // mouse tracking modes
 enum {
@@ -90,6 +106,19 @@ enum {
 //-----------------------------------------------------------------------------
 TQ3GeometryObject sGuideCircle = NULL;
 
+
+//=============================================================================
+//      Utilities
+//-----------------------------------------------------------------------------
+
+#define CheckViewerFailure(_viewer)	if (!_viewer || (((TQ3ViewerData *) _viewer->instanceData)->mValidViewer != kQ3ValidViewer)) return kQ3Failure
+#define CheckViewerFalse(_viewer)	if (!_viewer || ((TQ3ViewerData*)(_viewer->instanceData))->mValidViewer != kQ3ValidViewer) return 0
+#define CheckViewerNULL(_viewer)	if (!_viewer || ((TQ3ViewerData*)(_viewer->instanceData))->mValidViewer != kQ3ValidViewer) return NULL
+
+static TQ3ViewerData* instance_data( TQ3ViewerObject theViewer )
+{
+	return (TQ3ViewerData *) theViewer->instanceData;
+}
 
 
 //=============================================================================
@@ -680,6 +709,7 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
+	instanceData->mValidViewer = kQ3ValidViewer;
 	instanceData->mView  = Q3View_New();
 	instanceData->mGroup = Q3OrderedDisplayGroup_New();
 	instanceData->mWindow = params->mWindow;
@@ -687,17 +717,7 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 	Q3Quaternion_SetIdentity(&instanceData->mOrientation);
 	
 	if (kQ3ViewerFlagDefault & params->mFlags)
-		instanceData->mFlags = kQ3ViewerFlagButtonCamera
-							 | kQ3ViewerFlagButtonTruck
-							 | kQ3ViewerFlagButtonOrbit
-							 | kQ3ViewerFlagButtonDolly
-							 | kQ3ViewerFlagButtonReset
-							 | kQ3ViewerFlagButtonOptions
-							 | kQ3ViewerFlagDragMode
-							 | kQ3ViewerFlagDrawDragBorder
-							 | kQ3ViewerFlagDrawFrame
-							 | kQ3ViewerFlagDrawGrowBox
-							 | kQ3ViewerFlagShowControlStrip;
+		instanceData->mFlags = kQ3ViewerInternalDefault;
 		
 	instanceData->mFlags |= params->mFlags;
 	
@@ -735,6 +755,9 @@ e3viewer_delete(TQ3Object theObject, void *privateData)
 	// Dispose of our instance data
 	E3Object_DisposeAndForget(instanceData->mView);
 	E3Object_DisposeAndForget(instanceData->mGroup);
+
+	// Mark viewer as invalid
+	instanceData->mValidViewer = kQ3InvalidViewer;
 }
 
 
@@ -763,6 +786,10 @@ e3viewer_metahandler(TQ3XMethodType methodType)
 	
 	return(theMethod);
 }
+
+
+
+
 
 //=============================================================================
 //      Public functions
@@ -1279,12 +1306,24 @@ E3Viewer_SetCurrentButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Viewer_GetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *theColor)
+E3Viewer_GetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *color)
 {
+	TQ3Status status= kQ3Failure;
+	if (color == NULL)
+		return status;
 
+	CheckViewerFailure (theViewer);
+	if (instance_data(theViewer)->mView)
+		{
+		TQ3DrawContextObject theContext;
+		if ((Q3View_GetDrawContext (instance_data(theViewer)->mView, &theContext) == kQ3Success) && theContext)
+			{
+			status = Q3DrawContext_GetClearImageColor (theContext, color);
+			Q3Object_Dispose (theContext);
+			}
+		}
+	return status;
 
-	// To be implemented...
-	return(kQ3Failure);
 }
 
 
@@ -1297,12 +1336,22 @@ E3Viewer_GetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *theColor)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Viewer_SetBackgroundColor(TQ3ViewerObject theViewer, const TQ3ColorARGB *theColor)
+E3Viewer_SetBackgroundColor(TQ3ViewerObject theViewer, const TQ3ColorARGB *color)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	TQ3Status status = kQ3Failure;
+	if (color == NULL)
+		return status;
+	CheckViewerFailure (theViewer);
+	if (instance_data(theViewer)->mView)
+		{
+		TQ3DrawContextObject theContext;
+		if ((Q3View_GetDrawContext (instance_data(theViewer)->mView, &theContext) == kQ3Success) && theContext)
+			{
+			status = Q3DrawContext_SetClearImageColor (theContext, color);
+			Q3Object_Dispose (theContext);
+			}
+		}
+	return status;
 }
 
 
@@ -1321,8 +1370,13 @@ E3Viewer_GetView(TQ3ViewerObject theViewer)
 	
 
 
+#if 0
 	// Return another reference to our view
+	// ... is not a good solution, c.f 3DGPwQD3D, p3-4
 	theView = Q3Shared_GetReference(instanceData->mView);
+#else
+	theView= instanceData->mView;
+#endif
 	
 	return(theView);
 }
@@ -1357,10 +1411,8 @@ E3Viewer_RestoreView(TQ3ViewerObject theViewer)
 TQ3Uns32
 E3Viewer_GetFlags(TQ3ViewerObject theViewer)
 {
-
-
-	// To be implemented...
-	return(NULL);
+	CheckViewerFalse (theViewer);
+	return(instance_data(theViewer)->mFlags);
 }
 
 
@@ -1374,11 +1426,33 @@ E3Viewer_GetFlags(TQ3ViewerObject theViewer)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
-{
+{	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) theViewer;
+	TQ3Uns32 oldFlags;
 
+	CheckViewerFailure (theViewer);
+	
+	oldFlags = instanceData->mFlags;
+	
+	if (theFlags & kQ3ViewerDefault)
+		{
+		theFlags &= ~kQ3ViewerDefault; // knock off default bit
+		theFlags |= kQ3ViewerInternalDefault; // add on my flags, leaving any other bits the app may have set
+		}
 
-	// To be implemented...
-	return(kQ3Failure);
+	// The Mac does here some drag flag modification, could be done in E3SysViewer_SetFlags
+
+	instanceData->mFlags = theFlags;
+	
+	oldFlags &= theFlags; // old flags now holds the bits that were NOT changed
+	if ((oldFlags & kQ3ViewerControllerVisible) == 0) // kQ3ViewerControllerVisible bit WAS changed
+		{
+		E3Viewer_SetBounds (theViewer, &instanceData->mArea);
+		}
+
+//	E3SysViewer_SetFlags(theViewer,theFlags);
+
+	E3Viewer_Draw (theViewer);
+	return kQ3Success;
 }
 
 
@@ -1483,10 +1557,7 @@ E3Viewer_GetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *theWidth, TQ3U
 void *
 E3Viewer_GetWindow(TQ3ViewerObject theViewer)
 {
-
-
-	// To be implemented...
-	return(NULL);
+	return instance_data(theViewer)->mWindow;
 }
 
 
@@ -1594,7 +1665,7 @@ E3Viewer_GetState(TQ3ViewerObject theViewer)
 
 
 	// To be implemented...
-	return(NULL);
+	return(0);
 }
 
 
@@ -1609,10 +1680,10 @@ E3Viewer_GetState(TQ3ViewerObject theViewer)
 TQ3Status
 E3Viewer_EditCut(TQ3ViewerObject theViewer)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	TQ3Status status = E3Viewer_EditCopy (theViewer);
+	if (status == kQ3Success)
+		return E3Viewer_EditClear (theViewer);
+	return status;
 }
 
 
@@ -1663,10 +1734,13 @@ E3Viewer_EditPaste(TQ3ViewerObject theViewer)
 TQ3Status
 E3Viewer_EditClear(TQ3ViewerObject theViewer)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	CheckViewerFailure (theViewer);
+	if (instance_data(theViewer)->mGroup)
+		{
+		Q3Group_EmptyObjects (instance_data(theViewer)->mGroup);
+		Q3Viewer_Draw (theViewer);
+		}
+	return kQ3Success;
 }
 
 
