@@ -39,16 +39,24 @@
 #include "E3Prefix.h"
 
 
-// OpenGL
-#include <GL/gl.h>
-#include <GL/glu.h>
+// OpenGL (everywhere but Mac OS X)
+#if !TARGET_RT_MAC_MACHO
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#endif
 
 
 // OpenGL (platform specific)
 #if QUESA_OS_MACINTOSH
-	#include <agl.h>
-	#include <aglRenderers.h>
-
+	#if TARGET_RT_MAC_MACHO
+            #include <OpenGL/gl.h>
+            #include <OpenGL/glu.h>
+            #include <AGL/agl.h>
+            #include <AGL/aglRenderers.h>
+        #else
+            #include <agl.h>
+            #include <aglRenderers.h>
+        #endif
 
 #elif QUESA_OS_UNIX
 	#include <GL/glx.h>

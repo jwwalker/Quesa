@@ -35,6 +35,8 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
+// Everyone but Mac OS X MachO
+#if !defined(TARGET_RT_MAC_MACHO) || !TARGET_RT_MAC_MACHO
 #include "Quesa.h"
 #include "QuesaCamera.h"
 #include "QuesaController.h"
@@ -57,6 +59,30 @@
 #include "QuesaTransform.h"
 #include "QuesaView.h"
 #include "QuesaViewer.h"
+#else
+#include "Quesa/Quesa.h"
+#include "Quesa/QuesaCamera.h"
+#include "Quesa/QuesaController.h"
+#include "Quesa/QuesaCustomElements.h"
+#include "Quesa/QuesaDrawContext.h"
+#include "Quesa/QuesaErrors.h"
+#include "Quesa/QuesaExtension.h"
+#include "Quesa/QuesaGeometry.h"
+#include "Quesa/QuesaGroup.h"
+#include "Quesa/QuesaIO.h"
+#include "Quesa/QuesaLight.h"
+#include "Quesa/QuesaMath.h"
+#include "Quesa/QuesaPick.h"
+#include "Quesa/QuesaRenderer.h"
+#include "Quesa/QuesaSet.h"
+#include "Quesa/QuesaShader.h"
+#include "Quesa/QuesaStorage.h"
+#include "Quesa/QuesaString.h"
+#include "Quesa/QuesaStyle.h"
+#include "Quesa/QuesaTransform.h"
+#include "Quesa/QuesaView.h"
+#include "Quesa/QuesaViewer.h"
+#endif
 
 #include <stdlib.h>
 #include <string.h>
@@ -80,6 +106,8 @@
 	#include <QDOffscreen.h>
 	#include <QuickTimeComponents.h>
 	#include <ImageCompression.h>
+
+	#include "QutMac.h"
 #endif
 
 #if QUESA_OS_WIN32

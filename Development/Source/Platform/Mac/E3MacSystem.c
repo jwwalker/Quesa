@@ -38,7 +38,12 @@
 
 #include <CodeFragments.h>
 #include <Folders.h>
-#include <agl.h>
+
+#if TARGET_RT_MAC_MACHO
+	#include <AGL/agl.h>
+#else
+	#include <agl.h>
+#endif
 
 #if Q3_PROFILE
 	#include <Profiler.h>
