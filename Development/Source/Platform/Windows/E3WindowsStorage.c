@@ -5,7 +5,7 @@
         Windows specific Storage calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -66,6 +66,18 @@ typedef struct TQ3Win32StorageData {
 
 
 
+class E3Win32Storage : public E3Storage  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Win32StorageData						instanceData ;
+	} ;
+	
+
+
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
@@ -92,14 +104,10 @@ e3storage_win32_new(TQ3Object theObject, void *privateData, const void *paramDat
 //      e3storage_win32_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_win32_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeWin32);
-	DWORD					fileSize;
-
-
-
+e3storage_win32_getsize ( E3Win32Storage* storage, TQ3Uns32 *size )
+	{
 	// Make sure the file is open
-	if (instanceData->theFile == NULL)
+	if (storage->instanceData.theFile == NULL)
 		{
 		E3ErrorManager_PostError(kQ3ErrorFileNotOpen, kQ3False);
 		return(kQ3Failure);
@@ -108,7 +116,7 @@ e3storage_win32_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 
 
 	// Get the file size
-	fileSize = GetFileSize(instanceData->theFile, NULL);
+	DWORD fileSize = GetFileSize(storage->instanceData.theFile, NULL);
 	if (fileSize == 0xFFFFFFFF)
 		{
 		*size = 0;
@@ -118,7 +126,7 @@ e3storage_win32_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 	*size = (TQ3Uns32) fileSize;
 	
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -130,15 +138,10 @@ e3storage_win32_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 //		Note : Currently unbuffered - may cause performance problems.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_win32_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeWin32);
-	BOOL					theResult;
-	DWORD					newPos;
-
-
-
+e3storage_win32_read ( E3Win32Storage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
+	{
 	// Make sure the file is open
-	if (instanceData->theFile == NULL)
+	if (storage->instanceData.theFile == NULL)
 		{
 		E3ErrorManager_PostError(kQ3ErrorFileNotOpen, kQ3False);
 		return(kQ3Failure);
@@ -147,19 +150,19 @@ e3storage_win32_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSiz
 
 
 	// Seek to the offset
-	newPos = SetFilePointer(instanceData->theFile, offset, NULL, FILE_BEGIN);
+	DWORD newPos = SetFilePointer(storage->instanceData.theFile, offset, NULL, FILE_BEGIN);
 	if (newPos == 0xFFFFFFFF)
 		return(kQ3Failure);
 
 
 
 	// Read the data	
-	theResult = ReadFile(instanceData->theFile, data, (DWORD) dataSize, (LPDWORD) sizeRead, NULL);
+	BOOL theResult = ReadFile(storage->instanceData.theFile, data, (DWORD) dataSize, (LPDWORD) sizeRead, NULL);
 	if (!theResult)
 		return(kQ3Failure);
 	
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -171,15 +174,10 @@ e3storage_win32_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSiz
 //		Note : Currently unbuffered - may cause performance problems.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_win32_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeWin32);
-	BOOL					theResult;
-	DWORD					newPos;
-
-
-
+e3storage_win32_write ( E3Win32Storage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten )
+	{
 	// Make sure the file is open
-	if (instanceData->theFile == NULL)
+	if (storage->instanceData.theFile == NULL)
 		{
 		E3ErrorManager_PostError(kQ3ErrorFileNotOpen, kQ3False);
 		return(kQ3Failure);
@@ -188,19 +186,19 @@ e3storage_win32_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSi
 
 
 	// Seek to the offset
-	newPos = SetFilePointer(instanceData->theFile, offset, NULL, FILE_BEGIN);
+	DWORD newPos = SetFilePointer(storage->instanceData.theFile, offset, NULL, FILE_BEGIN);
 	if (newPos == 0xFFFFFFFF)
 		return(kQ3Failure);
 
 
 
 	// Write the data	
-	theResult = WriteFile(instanceData->theFile, data, (DWORD) dataSize, (LPDWORD) sizeWritten, NULL);
+	BOOL theResult = WriteFile(storage->instanceData.theFile, data, (DWORD) dataSize, (LPDWORD) sizeWritten, NULL);
 	if (!theResult)
 		return(kQ3Failure);
 	
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -254,11 +252,11 @@ E3Win32Storage_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeStorage,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeStorage,
 											kQ3StorageTypeWin32,
 											kQ3ClassNameStorageWin32,
 											e3storage_win32_metahandler,
-											sizeof(TQ3Win32StorageData));
+											~sizeof(E3Win32Storage));
 
 	return(qd3dStatus);
 }
@@ -277,7 +275,7 @@ E3Win32Storage_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StorageTypeWin32, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypeWin32, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -291,15 +289,10 @@ E3Win32Storage_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3StorageObject
 E3Win32Storage_New(HANDLE hFile)
-{	TQ3Object			theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StorageTypeWin32, kQ3False, hFile);
-
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance ( kQ3StorageTypeWin32, kQ3False, hFile ) ;
+	}
 
 
 
@@ -310,21 +303,18 @@ E3Win32Storage_New(HANDLE hFile)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Win32Storage_Set(TQ3StorageObject storage, HANDLE hFile)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeWin32);
-
-
-
+	{
 	// Clean up the instance data
-	if (instanceData->theFile != NULL)
-		CloseHandle(instanceData->theFile);
+	if ( ( (E3Win32Storage*) storage )->instanceData.theFile != NULL )
+		CloseHandle ( instanceData->theFile ) ;
 
 
 
 	// Update the instance data
-	instanceData->theFile = hFile;
+	( (E3Win32Storage*) storage )->instanceData.theFile = hFile ;
 
-	return(kQ3Success);	
-}
+	return kQ3Success ;	
+	}
 
 
 
@@ -335,15 +325,12 @@ E3Win32Storage_Set(TQ3StorageObject storage, HANDLE hFile)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Win32Storage_Get(TQ3StorageObject storage, HANDLE *hFile)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeWin32);
-
-
-
+	{
 	// Return the handle
-	*hFile = instanceData->theFile;
+	*hFile = ( (E3Win32Storage*) storage )->instanceData.theFile ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 

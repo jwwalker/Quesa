@@ -5,7 +5,7 @@
         Unix specific Storage calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,37 @@
 
 
 //=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3UnixStorage : public E3Storage // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3UnixPathStorage : public E3PathStorage  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3UnixStorage_RegisterClass : Register the class.
@@ -64,7 +95,7 @@ E3UnixStorage_RegisterClass(void)
 
 
 	// Find the path storage class
-	theClass = E3ClassTree_GetClassByType(kQ3StorageTypePath);
+	theClass = E3ClassTree::GetClass ( kQ3StorageTypePath ) ;
 	if (theClass == NULL)
 		return(kQ3Failure);
 
@@ -80,18 +111,18 @@ E3UnixStorage_RegisterClass(void)
 	// API was officially obsoleted, this will be OK - since nobody
 	// should be using this API anyway, anyone who does can just switch
 	// to the official PathStorage object.
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeStorage,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeStorage,
 											kQ3StorageTypeUnix,
 											kQ3ClassNameStorageUnix,
 											NULL,
-											0);
+											~sizeof(UnixStorage));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3StorageTypeUnix,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3StorageTypeUnix,
 												kQ3UnixStorageTypePath,
 												kQ3ClassNameStorageUnixPath,
-												E3ClassTree_GetMetaHandler(theClass),
-												E3ClassTree_GetInstanceSize(theClass));
+												theClass->GetMetaHandler (),
+												~sizeof(UnixPathStorage));
 
 	return(qd3dStatus);
 }
@@ -110,8 +141,8 @@ E3UnixStorage_UnregisterClass(void)
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3UnixStorageTypePath, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StorageTypeUnix,     kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3UnixStorageTypePath, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypeUnix,     kQ3True);
 
 	return(qd3dStatus);
 }
@@ -130,7 +161,7 @@ E3UnixPathStorage_New(const char *pathName)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3UnixStorageTypePath, kQ3False, pathName);
+	theObject = E3ClassTree::CreateInstance(kQ3UnixStorageTypePath, kQ3False, pathName);
 
 	return(theObject);
 }
