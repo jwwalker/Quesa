@@ -152,7 +152,7 @@ e3read_3dmf_read_pixmap(TQ3StoragePixmap* 	pixmap, TQ3FileObject theFile)
 //      e3read_3dmf_gather_mesh_vertex_attribute : Gather vertex attributes.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet
-e3read_3dmf_gather_mesh_vertex_attribute( void *userData, TQ3Uns32 setIndex )
+e3read_3dmf_gather_mesh_vertex_attribute( const void *userData, TQ3Uns32 setIndex )
 {
 	TQ3AttributeSet*	attSets = (TQ3AttributeSet*) userData;
 	
@@ -2350,7 +2350,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 					Q3Shared_GetReference( childObject );
 			}
 			
-			E3Object_DisposeAndForget(childObject);
+			Q3Object_CleanDispose(&childObject);
 		}
 	}
 	
@@ -2374,17 +2374,17 @@ cleanUp:
 		Q3Memory_Free( &vertexAttributes[i].data );
 		Q3Memory_Free( &vertexAttributes[i].attributeUseArray );
 	}
-	E3Object_DisposeAndForget(childObject);
+	Q3Object_CleanDispose(&childObject);
 	if (attSets != NULL)
 	{
 		for (i = 0; i < numVertices; ++i)
 		{
-			E3Object_DisposeAndForget( attSets[i] );
+			Q3Object_CleanDispose( &attSets[i] );
 		}	
 		
 		Q3Memory_Free(&attSets);
 	}
-	E3Object_DisposeAndForget(trimeshData.triMeshAttributeSet);
+	Q3Object_CleanDispose(&trimeshData.triMeshAttributeSet);
 
 	return theTriMesh;
 	
