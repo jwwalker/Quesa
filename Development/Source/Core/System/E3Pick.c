@@ -250,7 +250,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the shape part
-	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskShapePart))
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskShapePart) && (hitShape != NULL))
 		{
 		theHit->pickedShape = Q3Shared_GetReference(hitShape);
 		theHit->validMask  |= kQ3PickDetailMaskShapePart;
