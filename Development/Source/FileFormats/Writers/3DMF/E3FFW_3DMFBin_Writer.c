@@ -51,7 +51,7 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 	const TQ3Uns32 TOC_GROW_SIZE = 64;
 
 	TE3FFormat3DMF_TOC	*toc = fileFormatPrivate->toc;
-	TQ3Int32			tocSize, i;
+	TQ3Uns32			tocSize, i;
 
 	TQ3Boolean			createReference = kQ3False;
 	TQ3Boolean			forceTOC = kQ3False;
@@ -419,7 +419,7 @@ E3FFW_3DMF_Close( TQ3FileFormatObject format, TQ3Boolean abort )
 	TE3FFormatW3DMF_Data*	instanceData = (TE3FFormatW3DMF_Data*)format->instanceData;
 	TQ3Status				status = kQ3Success;
 	TE3FFormat3DMF_TOC		*toc = instanceData->toc;
-	TQ3Int32				i;
+	TQ3Uns32				i;
 	
 	if(toc != NULL) // delete the toc
 		{
@@ -929,9 +929,9 @@ E3FFW_3DMF_TOC_Traverse(TQ3Object object,
 	#pragma unused(object)
 	TE3FFormatW3DMF_Data		*fileFormatPrivate = (TE3FFormatW3DMF_Data*)data;
 	TE3FFormat3DMF_TOC		*toc = fileFormatPrivate->toc;
-	TQ3Int32				tocSize = 0;
-	TQ3Int32				i;
-	TQ3Int32				tocEntrySize = 16;
+	TQ3Uns32				tocSize = 0;
+	TQ3Uns32				i;
+	TQ3Uns32				tocEntrySize = 16;
 	
 	//compute size
 	for(i = 0; i < toc->nEntries; i++)
@@ -966,7 +966,7 @@ E3FFW_3DMF_TOC_Write(const void *object,
 
 	TQ3Uns64 		nextToc = {0,0};
 	TQ3Status 		writeStatus;
-	TQ3Int32		i;
+	TQ3Uns32		i;
 	
 
 	
