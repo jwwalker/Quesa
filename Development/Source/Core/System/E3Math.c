@@ -2716,12 +2716,12 @@ E3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4,
 		
 		// Determine v1 component of smallest absolute value
 		iSmall = 0;
-		valueSmall = fabs(v1->x);
+		valueSmall = (float) fabs(v1->x);
 		for (i = 1; i < 3; ++i)
 		{
 			float value;
 			
-			value = fabs(((float*) (v1))[i]);
+			value = (float) fabs(((float*) (v1))[i]);
 			if (value < valueSmall)
 			{
 				iSmall = i;
@@ -3417,12 +3417,12 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 			
 			// Determine v1 component of smallest in absolute value
 			iSmall = 0;
-			valueSmall = fabsf(v1->x);
+			valueSmall = (float) fabs (v1->x);
 			for (i = 1; i < 3; ++i)
 			{
 				float value;
 				
-				value = fabs(((float*) v1)[i]);
+				value = (float) fabs(((float*) v1)[i]);
 				if (value < valueSmall)
 				{
 					iSmall = i;
