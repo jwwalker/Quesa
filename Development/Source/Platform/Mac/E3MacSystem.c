@@ -130,6 +130,7 @@ E3MacSystem_Terminate(void)
 {	AGLContext		glContext;
 
 
+
 	// If we're profiling, dump the results and terminate the profiler
 #if Q3_PROFILE
 	ProfilerDump("\pQuesa Profile Log");
@@ -138,21 +139,13 @@ E3MacSystem_Terminate(void)
 
 
 
-	// If a renderer left an OpenGL context active, shut it down. This fixes
-	// a crash on exit on some apps if they exit without destroying renderers
-	// that use OpenGL.
+	// Shut down OpenGL. This fixes a crash on exit on some apps on Mac OS 9
+	// if they exit without destroying renderer objects that use OpenGL.
 	//
-	// Note that we may not actually have any renderers which use OpenGL, and
-	// so we need to test to see if OpenGL is present first.
-	if ((TQ3Uns32) aglGetCurrentContext != (TQ3Uns32) kUnresolvedCFragSymbolAddress)
-		{
-		glContext = aglGetCurrentContext();
-		if (glContext != NULL)
-			{
-			aglSetCurrentContext(NULL);
-			aglSetDrawable(glContext, NULL);
-			}
-		}
+	// Since we may not have any renderers which use OpenGL, we assume that
+	// we've been weak linked and test for the symbol first.
+	if ((TQ3Uns32) aglResetLibrary != (TQ3Uns32) kUnresolvedCFragSymbolAddress)
+		aglResetLibrary();
 }
 
 
