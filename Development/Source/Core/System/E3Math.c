@@ -32,59 +32,6 @@
 		License along with this library; if not, write to the Free Software
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
-
-// dair, temporary check-in so that we've got a record of exactly what was
-// changed during the big math re-org
-* Fixed 6/2/00 by Jeff Frey. Inefficiency: Q3Vector3D_TransformQuaternion and QPoint3D_TransformQuaternion are implemented using more multiplications than are necessary. 
-* Fixed 6/4/00 by Jeff Frey. Error (Minor): Q3Vector3D_Cross does not return the correct result when the result parameter is the same as either v1 or v2 (or both). 
-* Fixed 7/10/00 by Rob Zako. Error (Minor): Q3Vector2D_Transform does not return the correct result when the result parameter is the same as the vector2D parameter. 
-* Fixed 7/10/00 by Rob Zako. In Q3BoundingBox_Copy, rename src -> bBox and dest -> result. 
-* Fixed 7/10/00 by Rob Zako. In Q3BoundingBox_Union, rename v1 -> b1 and v2 -> b2. 
-* Fixed 7/10/00 by Rob Zako. In Q3BoundingSphere_Copy, rename src -> bSphere and dest -> result. 
-* Fixed 7/10/00 by Rob Zako. In Q3Matrix3x3_Multiply and Q3Matrix4x4_Multiply, rename matrixA -> m1 and matrixB -> m2. 
-* Fixed 7/10/00 by Rob Zako. In Q3Matrix4x4_SetRotateAboutAxis, rename orientation -> axis. 
-* Fixed 7/10/00 by Rob Zako. In Q3Point2D_AffineComb and Q3Param2D_AffineComb, rename nPoints -> numPoints. 
-* Fixed 7/10/00 by Rob Zako. In Q3Point3D_CrossProductTri, rename point1 -> p1, point2 -> p2, point3 -> p3 and crossVector -> result. 
-* Fixed 7/10/00 by Rob Zako. In Q3Point3D_To3DTransformArray and Q3Point3D_To4DTransformArray, rename inPoint3D -> inPoints3D. 
-* Fixed 7/10/00 by Rob Zako. In Q3Point3D_To3DTransformArray, Q3Point3D_To4DTransformArray, Q3RationalPoint4D_To4DTransformArray, Q3Matrix4x4_SetQuaternion and Q3Quaternion_SetMatrix, rename matrix -> matrix4x4. 
-* Fixed 7/10/00 by Rob Zako. In Q3Point3D_To3DTransformArray, rename outPoint3D -> outPoints3D. 
-* Fixed 7/10/00 by Rob Zako. In Q3Point3D_To4DTransformArray and Q3RationalPoint4D_To4DTransformArray, rename outPoint4D -> outRationalPoints4D. 
-* Fixed 7/10/00 by Rob Zako. In Q3RationalPoint4D_To4DTransformArray, rename inPoint4D -> inRationalPoints4D. 
-* Added 7/12/00 by Rob Zako. Missing Function (Possible): float Q3Vector2D_LengthSquared(const TQ3Vector2D *vector2D); 
-* Added 7/12/00 by Rob Zako. Missing Function (Possible): float Q3Vector3D_LengthSquared(const TQ3Vector3D *vector3D); 
-* Fixed 7/12/00 by Rob Zako. Error (Minor): The functions Q3Point2D_AffineComb, Q3Param2D_AffineComb, Q3Point3D_AffineComb, Q3RationalPoint3D_AffineComb and Q3RationalPoint4D_AffineComb return incorrect results when the sum of the weights is not 1.0. Note that the description of these functions in 3D Graphics Programming With QuickDraw 3D 1.5.4 incorrectly states that the sum of the weights must be 1.0, but the QD3D 1.6 implementations work correctly even when the sum of the weights is not 1.0. 
-* Fixed 7/12/00 by Rob Zako. Error (Possible): The function Q3Point2D_To3D returns a TQ3Point3D. It should return a TQ3RationalPoint3D, in similarity with Q3Point3D_To4D. 
-* Added 7/13/00 by Rob Zako. Missing Function (Possible): TQ3RationalPoint3D *Q3RationalPoint3D_Transform(const TQ3RationalPoint3D *rationalPoint3D, const TQ3Matrix3x3 *matrix3x3, TQ3RationalPoint3D *result); 
-* Added 7/13/00 by Rob Zako. Missing Function (Possible): TQ3RationalPoint3D *Q3Vector2D_ToRationalPoint3D(const TQ3Vector2D *vector2D, TQ3RationalPoint3D *result); 
-* Added 7/13/00 by Rob Zako. Missing Function (Possible): TQ3RationalPoint4D *Q3Vector3D_ToRationalPoint4D(const TQ3Vector3D *vector3D, TQ3RationalPoint4D *result); 
-* Added 7/13/00 by Rob Zako. Missing Function (Possible): TQ3Status Q3Point2D_To2DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *matrix3x3, TQ3Point2D *outPoints2D, long numPoints, unsigned long inStructSize, unsigned long outStructSize); 
-* Added 7/13/00 by Rob Zako. Missing Function (Possible): TQ3Status Q3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D *inRationalPoints3D, const TQ3Matrix3x3 *matrix3x3, TQ3RationalPoint3D *outRationalPoints3D, long numPoints, unsigned long inStructSize, unsigned long outStructSize); 
-* Added 7/13/00 by Rob Zako. Missing Function (Possible): TQ3Status Q3Vector2D_To2DTransformArray(const TQ3Vector2D *inVectors2D, const TQ3Matrix3x3 *matrix3x3, TQ3Vector2D *outVectors2D, long numVectors, unsigned long inStructSize, unsigned long outStructSize); 
-* Added 7/13/00 by Rob Zako. Missing Function (Possible): TQ3Status Q3Vector3D_To3DTransformArray(const TQ3Vector3D *inVectors3D, const TQ3Matrix4x4 *matrix4x4, TQ3Vector3D *outVectors3D, long numVectors, unsigned long inStructSize, unsigned long outStructSize); 
-* Added 7/13/00 by Rob Zako. Missing Function (Possible): TQ3Vector2D *Q3RationalPoint3D_ToVector2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Vector2D *result); 
-* Added 7/13/00 by Rob Zako. Missing Function (Possible): TQ3Vector3D *Q3RationalPoint4D_ToVector3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Vector3D *result); 
-* Added 7/13/00 by Rob Zako. Missing Function (Possible): float *Q3Point2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2, const TQ3Point2D *p3); 
-* Fixed 7/13/00 by Rob Zako. Error (Minor): For some inputs, the Quesa 1.6d12 implementation of Q3Point3D_CrossProductTri returns a slightly less accurate result than the QD3D 1.6 implementation returns. The reason for the difference seems to be that Quesa 1.6d12 uses p2-p1 and p3-p1 whereas QD3D 1.6 uses p2-p1 and p3-p2. 
-* Fixed 7/13/00 by Rob Zako. Error (Minor): Q3Point2D_ToPolar and Q3Point3D_ToSpherical produce an invalid result when the input is the origin (0,0) or (0,0,0). 
-* Fixed 7/13/00 by Rob Zako. Error (Minor): Q3Point3D_ToSpherical produces an incorrect result when the input is close to the origin (0,0,0). 
-* Fixed 7/13/00 by Rob Zako. Error (Minor): Q3Point3D_ToSpherical produces an invalid result when both x and y are zero. 
-* Fixed 7/13/00 by Rob Zako. In Q3RationalPoint3D_AffineComb, rename points3D -> rationalPoints3D. 
-* Fixed 7/13/00 by Rob Zako. In Q3RationalPoint3D_Set and Q3RationalPoint3D_To2D, rename point3D -> rationalPoint3D. 
-* Fixed 7/13/00 by Rob Zako. In Q3RationalPoint4D_AffineComb, In Q3BoundingBox_SetFromRationalPoints4D and In Q3BoundingSphere_SetFromRationalPoints4D, rename points4D -> rationalPoints4D. 
-* Fixed 7/13/00 by Rob Zako. In Q3RationalPoint4D_Set, Q3RationalPoint4D_To3D, Q3RationalPoint4D_Transform, Q3BoundingBox_UnionRationalPoint4D and Q3BoundingSphere_UnionRationalPoint4D, rename point4D -> rationalPoint4D.
-* Added 7/17/00 by Rob Zako. Missing Function (Possible): TQ3Matrix3x3 *Q3Matrix3x3_SetRotate(const TQ3Matrix3x3 *matrix3x3, float angle); 
-* Fixed 8/10/00 by Jeff Frey and Rob Zako. Error (Minor): Q3Quaternion_SetRotateAboutAxis returns incorrect results. 
-* Fixed 8/10/00 by Rob Zako. Error (Minor): Although not clearly documented in 3D Graphics Programming With QuickDraw 3D 1.5.4, Q3BoundingBox_UnionRationalPoint4D returns incorrect results. It should do a 3-dimensional calculation using 4-dimensional rational points, not a 4-dimensional calculation. In other words, Q3BoundingBox_UnionRationalPoint4D should return the same result as would be returned by converting point4D to a 3-dimensional point and then calling Q3BoundingBox_UnionPoint3D. 
-* Fixed 8/10/00 by Rob Zako. Error (Minor): E3BoundingBox_SetFromRationalPoints4D sometimes returns the incorrect result if the first 4D rational point has w different from 1. 
-* Fixed 8/10/00 by Rob Zako. Error (Minor): E3Matrix4x4_SetRotateVectorToVector sometimes returns a slightly or significantly inaccurate result when v1 and v2 are (approximately) parallel or anti-parallel. 
-* Fixed 8/10/00 by Rob Zako. Error (Minor): Q3BoundingBox_Union does not return the correct result when either b1 or b2 (or both) are empty. 
-* Fixed 8/10/00 by Rob Zako. Error (Minor): Q3BoundingBox_UnionPoint3D and Q3BoundingBox_UnionRationalPoint4D sometimes fail to set result->isEmpty (when the bBox parameter is nonempty?). 
-* Fixed 8/10/00 by Rob Zako. Error (Minor): Q3Matrix3x3_Invert returns the transpose of the inverse matrix rather than simply the inverse matrix. (Thanks to Oscar Morales for catching this bug!) 
-* Fixed 8/10/00 by Rob Zako. Error (Possible): For some inputs, the Quesa 1.6d12 implementation of Q3Matrix3x3_Invert and Q3Matrix4x4_Invert return a slightly different result from the result the QD3D 1.6 implementation returns. The difference may not be significant, but the stability of the Quesa algorithm should be investigated. 
-* Fixed 8/10/00 by Rob Zako. Error (Possible): The Quesa 1.6d12 implementation of Q3Quaternion_IsIdentity returns true only if q=(w,y,x,z) is exactly equal to (1,0,0,0). The QD3D 1.6 implementation is less strict, returning true regardless of the value of w so long as x, y and z are approximately zero. 
-* Fixed 8/10/00 by Rob Zako. Warning (Minor): Q3Matrix4x4_SetRotateVectorToVector and Q3Quaternion_SetRotateVectorToVector return correct results even for unnormalized vectors. This behavior is acceptable but less efficient. 
-
-
 */
 //=============================================================================
 //      Include files
