@@ -364,6 +364,7 @@ typedef enum {
  *  @constant kQ3WarningTypeSameVersionAlreadyRegistered   Type same version already registered.
  *  @constant kQ3WarningTypeNewerVersionAlreadyRegistered  Type newer version already registered.
  *  @constant kQ3WarningInvalidObjectInGroupMetafile       Invalid object in group metafile.
+ *	@constant kQ3WarningQuaternionNotNormalized            Quaternion is not normalized.
  */
 typedef enum {
     kQ3WarningNone                              = 0,
@@ -407,6 +408,11 @@ typedef enum {
     kQ3WarningTypeSameVersionAlreadyRegistered  = -28263,
     kQ3WarningTypeNewerVersionAlreadyRegistered = -28262,
     kQ3WarningInvalidObjectInGroupMetafile      = -28261,
+
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+	kQ3WarningQuaternionNotNormalized			= -28260,
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
     kQ3WarningSize32                            = 0xFFFFFFFF
 } TQ3Warning;
 

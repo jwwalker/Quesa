@@ -234,6 +234,7 @@ static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
 	{ kQ3WarningTypeSameVersionAlreadyRegistered,	"Quesa Warning: " "Type same version already registered" },
 	{ kQ3WarningTypeNewerVersionAlreadyRegistered,	"Quesa Warning: " "Type newer version already registered" },
 	{ kQ3WarningInvalidObjectInGroupMetafile,		"Quesa Warning: " "Invalid object in group metafile" },
+	{ kQ3WarningQuaternionNotNormalized,			"Quesa Warning: " "Quaternion is not normalized" },
 	{ kQ3WarningNone, NULL } };
 
 
