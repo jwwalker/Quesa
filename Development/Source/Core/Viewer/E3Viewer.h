@@ -202,11 +202,11 @@ OSErr			E3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong);
 
 //=============================================================================
 //      Function prototypes
-//      Old cross-platform QD3D Viewer APIs
+//      Windows versions of old cross-platform QD3D Viewer APIs
 //-----------------------------------------------------------------------------
 #pragma mark old common APIs
 
-#if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+#if QUESA_OS_WIN32
 
 TQ3Status		E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision);
 TQ3Status		E3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision);
