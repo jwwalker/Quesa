@@ -71,6 +71,8 @@ void		GLDrawContext_SetCurrent(void *glContext);
 // Update the state
 void		GLDrawContext_SetClearFlags(TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags);
 void		GLDrawContext_SetBackgroundColour(TQ3DrawContextObject theDrawContext);
+TQ3Boolean	GLDrawContext_UpdateWindowClip(void *glContext);
+TQ3Boolean	GLDrawContext_UpdateWindowPosition(void *glContext);
 
 
 

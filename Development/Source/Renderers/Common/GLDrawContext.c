@@ -289,6 +289,38 @@ gldrawcontext_mac_setcurrent(void *glContext)
 	if (aglGetCurrentContext() != (AGLContext) glContext)
 		aglSetCurrentContext((AGLContext) glContext);
 }
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_mac_updateclip : Update OpenGL context clipping.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+gldrawcontext_mac_updateclip(void *glContext)
+{
+
+
+	// Update the context
+	return((TQ3Boolean) aglUpdateContext(glContext));
+}
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_mac_updatepos : Update OpenGL context position.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+gldrawcontext_mac_updatepos(void *glContext)
+{
+
+
+	// Update the context
+	return((TQ3Boolean) aglUpdateContext(glContext));
+}
 #endif // QUESA_OS_MACINTOSH
 
 
@@ -458,6 +490,38 @@ gldrawcontext_x11_setcurrent(void *glContext)
 	if (glXGetCurrentContext()  != theContext->glContext ||
 		glXGetCurrentDrawable() != theContext->glDrawable)
 		glXMakeCurrent(theContext->theDisplay, theContext->glDrawable, theContext->glContext);
+}
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_x11_updateclip : Update OpenGL context clipping.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+gldrawcontext_x11_updateclip(void *glContext)
+{
+
+
+	// Not required
+	return(kQ3False);
+}
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_x11_updatepos : Update OpenGL context position.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+gldrawcontext_x11_updatepos(void *glContext)
+{
+
+
+	// Not required
+	return(kQ3False);
 }
 #endif // QUESA_OS_UNIX
 
@@ -709,6 +773,38 @@ gldrawcontext_win_setcurrent(void *glContext)
 		wglGetCurrentContext() != theContext->glContext)
 		wglMakeCurrent(theContext->theDC, theContext->glContext);
 }
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_win_updateclip : Update OpenGL context clipping.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+gldrawcontext_win_updateclip(void *glContext)
+{
+
+
+	// Not required
+	return(kQ3False);
+}
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_win_updatepos : Update OpenGL context position.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+gldrawcontext_win_updatepos(void *glContext)
+{
+
+
+	// Not required
+	return(kQ3False);
+}
 #endif // QUESA_OS_WIN32
 
 
@@ -766,6 +862,38 @@ static void
 gldrawcontext_be_setcurrent(void *glContext)
 {
 	// To be implemented
+}
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_be_updateclip : Update OpenGL context clipping.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+gldrawcontext_be_updateclip(void *glContext)
+{
+
+
+	// Not required
+	return(kQ3False);
+}
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_be_updatepos : Update OpenGL context position.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+gldrawcontext_be_updatepos(void *glContext)
+{
+
+
+	// Not required
+	return(kQ3False);
 }
 #endif // QUESA_OS_BE
 
@@ -981,3 +1109,80 @@ GLDrawContext_SetBackgroundColour(TQ3DrawContextObject theDrawContext)
 	Q3DrawContext_GetClearImageColor(theDrawContext, &theColour);
 	glClearColor(theColour.r, theColour.g, theColour.b, theColour.a);
 }
+
+
+
+
+
+//=============================================================================
+//		GLDrawContext_UpdateWindowClip : Update clipping for an OpenGL context.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+GLDrawContext_UpdateWindowClip(void *glContext)
+{	TQ3Boolean		wasUpdated;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glContext), kQ3False);
+
+
+
+	// Update the context
+#if QUESA_OS_MACINTOSH
+	wasUpdated = gldrawcontext_mac_updateclip(glContext);
+
+#elif QUESA_OS_UNIX
+	wasUpdated = gldrawcontext_x11_updateclip(glContext);
+
+#elif QUESA_OS_WIN32
+	wasUpdated = gldrawcontext_win_updateclip(glContext);
+
+#elif QUESA_OS_BE
+	wasUpdated = gldrawcontext_be_updateclip(glContext);
+
+#elif QUESA_OS_COCOA
+	wasUpdated = gldrawcontext_cocoa_updateclip(glContext);
+#endif
+
+	return(wasUpdated);
+}
+
+
+
+
+
+//=============================================================================
+//		GLDrawContext_UpdateWindowPosition : Update pos for an OpenGL context.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+GLDrawContext_UpdateWindowPosition(void *glContext)
+{	TQ3Boolean		wasUpdated;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glContext), kQ3False);
+
+
+
+	// Update the context
+#if QUESA_OS_MACINTOSH
+	wasUpdated = gldrawcontext_mac_updatepos(glContext);
+
+#elif QUESA_OS_UNIX
+	wasUpdated = gldrawcontext_x11_updatepos(glContext);
+
+#elif QUESA_OS_WIN32
+	wasUpdated = gldrawcontext_win_updatepos(glContext);
+
+#elif QUESA_OS_BE
+	wasUpdated = gldrawcontext_be_updatepos(glContext);
+
+#elif QUESA_OS_COCOA
+	wasUpdated = gldrawcontext_cocoa_updatepos(glContext);
+#endif
+
+	return(wasUpdated);
+}
+
