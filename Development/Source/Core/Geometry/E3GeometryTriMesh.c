@@ -799,33 +799,21 @@ e3geom_trimesh_pick_screen_bounds(TQ3ViewObject theView, TQ3Object theObject, co
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_trimesh_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
-{	TQ3Status					qd3dStatus = kQ3Success;
-	TQ3Area						windowBounds;
+{	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
+	TQ3Status					qd3dStatus = kQ3Success;
 	TQ3WindowPointPickData		pickData;
 	TQ3Ray3D					theRay;
-
 
 
 	// Get the pick data
 	Q3WindowPointPick_GetData(thePick, &pickData);
 
 
-
-	// Obtain our window bounding rectangle
-	e3geom_trimesh_pick_screen_bounds(theView, theObject, objectData, &windowBounds);
-
-
-
-	// See if we fall within the pick
-	//
-	// Note that we could perform a further test, and see if theRay intersects our
-	// global bounding box - however we assume that a test against the bounds
-	// in screen space will reject most TriMeshes, and so a further test against
-	// the bounds at this point will probably succeed.
-	if ((pickData.point.x >= windowBounds.min.x) && (pickData.point.x <= windowBounds.max.x) &&
-		(pickData.point.y >= windowBounds.min.y) && (pickData.point.y <= windowBounds.max.y))
+	// See if the pick ray falls within our bounding box.
+	E3View_GetRayThroughPickPoint(theView, &theRay);
+	if (kQ3True == E3Ray3D_IntersectBoundingBox(&theRay, &instanceData->bBox, NULL))
 		{
-		E3View_GetRayThroughPickPoint(theView, &theRay);
+		// It does, so do the actual triangle-level hit test.
 		qd3dStatus = e3geom_trimesh_pick_with_ray(theView, thePick, &theRay, theObject, objectData);
 		}
 
