@@ -231,12 +231,12 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3XGroupEndReadMethod)(
  *  @function
  *      Q3Group_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new generic group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function returns a newly created, empty Group object.  If
+ *		some error occurs during creation, this returns NULL.
  *
- *  @result                 Description of the function result.
+ *  @result                 Newly created group, or NULL.
  */
 EXTERN_API_C ( TQ3GroupObject  )
 Q3Group_New (
@@ -249,13 +249,14 @@ Q3Group_New (
  *  @function
  *      Q3Group_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Return the type of a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function returns the group type, as an enum such as 
+ *		kQ3GroupTypeDisplay, kQ3GroupTypeInfo, or kQ3GroupTypeLight.
+ *		(Returns kQ3ObjectTypeInvalid if the type cannot be determined.)
  *
- *  @param group            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to inspect.
+ *  @result                 Type of that group.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Group_GetType (
@@ -268,14 +269,22 @@ Q3Group_GetType (
  *  @function
  *      Q3Group_AddObject
  *  @discussion
- *      One-line description of this function.
+ *      Append an object to a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the group is unordered (which really means unsorted), the
+ *		object is appended to the end of the group.  If it is ordered
+ *		(i.e. sorted), it is appended to the end of the subset of 
+ *		objects in the group of the same type as the given <code>object</code>.
  *
- *  @param group            Description of the parameter.
- *  @param object           Description of the parameter.
- *  @result                 Description of the function result.
+ *		The group increments the object's reference count, so you can safely
+ *		dispose of your own reference if you no longer need it.
+ *
+ *		If for some reason the object cannot be appended, this function
+ *		returns NULL.
+ *
+ *  @param group            Group to add an object to.
+ *  @param object           Object to be added.
+ *  @result                 Resulting position of <code>object</code> in <code>group</code>.
  */
 EXTERN_API_C ( TQ3GroupPosition  )
 Q3Group_AddObject (
@@ -289,15 +298,21 @@ Q3Group_AddObject (
  *  @function
  *      Q3Group_AddObjectBefore
  *  @discussion
- *      One-line description of this function.
+ *      Insert an object into a group before a specified position.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function adds an object to a group, before the object at the
+ *		specified position.
  *
- *  @param group            Description of the parameter.
- *  @param position         Description of the parameter.
- *  @param object           Description of the parameter.
- *  @result                 Description of the function result.
+ *		The group increments the object's reference count, so you can safely
+ *		dispose of your own reference if you no longer need it.
+ *
+ *		If for some reason the object cannot be appended, this function
+ *		returns NULL.
+ *
+ *  @param group            Group to add an object to.
+ *  @param position         Position before which to add the object.
+ *  @param object           Object to be added.
+ *  @result                 Resulting position of <code>object</code> in <code>group</code>.
  */
 EXTERN_API_C ( TQ3GroupPosition  )
 Q3Group_AddObjectBefore (
@@ -312,15 +327,21 @@ Q3Group_AddObjectBefore (
  *  @function
  *      Q3Group_AddObjectAfter
  *  @discussion
- *      One-line description of this function.
+ *      Insert an object into a group after a specified position.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function adds an object to a group, just after the object at the
+ *		specified position.
  *
- *  @param group            Description of the parameter.
- *  @param position         Description of the parameter.
- *  @param object           Description of the parameter.
- *  @result                 Description of the function result.
+ *		The group increments the object's reference count, so you can safely
+ *		dispose of your own reference if you no longer need it.
+ *
+ *		If for some reason the object cannot be appended, this function
+ *		returns NULL.
+ *
+ *  @param group            Group to add an object to.
+ *  @param position         Position after which to add the object.
+ *  @param object           Object to be added.
+ *  @result                 Resulting position of <code>object</code> in <code>group</code>.
  */
 EXTERN_API_C ( TQ3GroupPosition  )
 Q3Group_AddObjectAfter (
@@ -335,15 +356,19 @@ Q3Group_AddObjectAfter (
  *  @function
  *      Q3Group_GetPositionObject
  *  @discussion
- *      One-line description of this function.
+ *      Get the object located at a certain position in a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function obtains a reference to the group member at a 
+ *		specified position.  Note that the reference count of the
+ *		object is incremented, so you must dispose of this reference
+ *		when you no longer need it.
  *
- *  @param group            Description of the parameter.
- *  @param position         Description of the parameter.
- *  @param object           Description of the parameter.
- *  @result                 Description of the function result.
+ *      Sets *object to NULL if there is no object at the given position.
+ *
+ *  @param group            Group to inspect.
+ *  @param position         Position of desired object.
+ *  @param object           Receives a reference to the indicated object.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPositionObject (
@@ -358,15 +383,22 @@ Q3Group_GetPositionObject (
  *  @function
  *      Q3Group_SetPositionObject
  *  @discussion
- *      One-line description of this function.
+ *      Sets the object at a specified position in a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function replaces a member of a group.  The reference to 
+ *		the object previously at the specified position is disposed of,
+ *		and a reference to the given object is stored in its place.
  *
- *  @param group            Description of the parameter.
- *  @param position         Description of the parameter.
- *  @param object           Description of the parameter.
- *  @result                 Description of the function result.
+ *		The group increments the object's reference count, so you can safely
+ *		dispose of your own reference if you no longer need it.
+ *
+ *		If for some reason the object cannot be appended, this function
+ *		returns NULL.
+ *
+ *  @param group            Group to replace an object in.
+ *  @param position         Position of object to replace.
+ *  @param object           Object to be stored.
+ *  @result                 Resulting position of <code>object</code> in <code>group</code>.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_SetPositionObject (
@@ -381,14 +413,18 @@ Q3Group_SetPositionObject (
  *  @function
  *      Q3Group_RemovePosition
  *  @discussion
- *      One-line description of this function.
+ *      Remove an object from a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function deletes an object reference from a group, returning it to
+ *		the caller.  Note that if you don't need the object, you must dispose
+ *		of the returned reference; otherwise it will leak.
  *
- *  @param group            Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *		After this function successfully completes, <code>position</code>
+ *		is invalid.
+ *
+ *  @param group            Group to remove an object from.
+ *  @param position         Position of object to remove.
+ *  @result                 Object that was removed.
  */
 EXTERN_API_C ( TQ3Object  )
 Q3Group_RemovePosition (
@@ -402,14 +438,14 @@ Q3Group_RemovePosition (
  *  @function
  *      Q3Group_GetFirstPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the first position in a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This can be used in conjunction with <code>Q3Group_GetNextPosition</code>
+ *		to iterate over all members of a group.
  *
- *  @param group            Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group of interest.
+ *  @param position         Receives the position of the first object in <code>group</code>.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetFirstPosition (
@@ -423,14 +459,14 @@ Q3Group_GetFirstPosition (
  *  @function
  *      Q3Group_GetLastPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the last position in a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This can be used in conjunction with <code>Q3Group_GetPreviousPosition</code>
+ *		to iterate backwards over all members of a group.
  *
- *  @param group            Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group of interest.
+ *  @param position         Receives the position of the last object in <code>group</code>.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetLastPosition (
@@ -444,14 +480,15 @@ Q3Group_GetLastPosition (
  *  @function
  *      Q3Group_GetNextPosition
  *  @discussion
- *      One-line description of this function.
+ *      Advance to the next position in a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function updates the <code>position</code> to refer to the
+ *		next position in the group.  If there are no further objects
+ *		in the group, <code>*position</code> is set to NULL.
  *
- *  @param group            Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group of interest.
+ *  @param position         Address of position to advance.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetNextPosition (
