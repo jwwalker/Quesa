@@ -1023,17 +1023,17 @@ E3Object_Duplicate(TQ3Object theObject)
 	// Reject draw context and view objects
 	//
 	// Note - the current Quesa implementation does not support
-	// duplicating storage objects (although this is part of the
-	// the QD3D behaviour).
+	// duplicating file storage objects, as opposed to memory storage objects.
 	//
 	// When this is functionality is added, the kQ3SharedTypeStorage
 	// test should be removed.
 	//
 	// If this causes your app problems, please contact Jose Cruanyes
-	// or Dair Grant to discuss a fix.
+	// or James Walker to discuss a fix.
 	if (Q3Object_IsType(theObject, kQ3ObjectTypeView)        ||
 		Q3Object_IsType(theObject, kQ3SharedTypeDrawContext) ||
-		Q3Object_IsType(theObject, kQ3SharedTypeStorage))
+		(Q3Object_IsType(theObject, kQ3SharedTypeStorage) &&
+			!Q3Object_IsType(theObject, kQ3StorageTypeMemory)))
 		{
 		E3ErrorManager_PostError(kQ3ErrorInvalidObjectType, kQ3False);
 		return(NULL);
