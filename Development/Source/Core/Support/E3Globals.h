@@ -121,7 +121,7 @@ extern "C" {
 #define kQ3ClassNameFileFormatW_3DMF_SW_Bin			"Quesa:FileFormat:Writer:3DMF Stream Binary Swapped"
 #define kQ3ClassNameFileFormatW_3DMF_NW_Bin			"Quesa:FileFormat:Writer:3DMF Normal Binary Swapped"
 #define kQ3ClassNameFileFormatW_3DMF_DW_Bin			"Quesa:FileFormat:Writer:3DMF Database Binary Swapped"
-#define kQ3ClassNameFileFormatW_3DMF_DSW_Bin			"Quesa:FileFormat:Writer:3DMF Database Stream Binary Swapped"
+#define kQ3ClassNameFileFormatW_3DMF_DSW_Bin		"Quesa:FileFormat:Writer:3DMF Database Stream Binary Swapped"
 #define kQ3ClassNameGeometry						"Geometry"
 #define kQ3ClassNameGeometryBox						"Box"
 #define kQ3ClassNameGeometryBundle					"GeometryBundle"
@@ -416,7 +416,12 @@ typedef struct E3Globals {
 	// Class tree
 	E3HashTablePtr			classTree;
 	E3ClassInfoPtr			classTreeRoot;
-	TQ3ObjectType			nextType;
+	TQ3ObjectType			classNextType;
+	TQ3Uns32				classStats1;
+	TQ3Uns32				classStats2;
+	TQ3Uns32				classStats3;
+	TQ3Uns32				classStats4;
+	TQ3Uns32				classStats5;
 	
 
 	// Shared libraries
@@ -453,6 +458,7 @@ typedef struct E3Globals {
 	DMNotificationUPP		dmNotifyUPP;
 	TQ3Boolean				dmNotifiedChanges;
 #endif
+
 
 	// Debugging
 #if Q3_DEBUG

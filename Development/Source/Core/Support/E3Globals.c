@@ -54,42 +54,47 @@
 //      Global variables
 //-----------------------------------------------------------------------------
 //		Note : Code should access these via E3Globals_Get(); do not access
-//				them directly (except in E3System.c).
+//			   them directly (except in E3System.c).
 //-----------------------------------------------------------------------------
 E3Globals gE3Globals = {
-	kQ3False,				// systemInitialised;
-	kQ3False,				// systemDoBottleneck;
-	0,						// systemRefCount;
-	0,						// classTree;
-	0,						// classTreeRoot;
-	0,						// nextType;
-	0,						// sharedLibraryCount;
-	0,						// sharedLibraryInfo;
-	kQ3False,				// errMgrClearError;
-	kQ3False,				// errMgrClearWarning;
-	kQ3False,				// errMgrClearNotice;
-	kQ3False,				// errMgrClearPlatform;
-	kQ3False,				// errMgrIsFatalError;
-	kQ3ErrorNone,			// errMgrOldestError;
-	kQ3WarningNone,			// errMgrOldestWarning;
-	kQ3NoticeNone,			// errMgrOldestNotice;
-	0,						// errMgrOldestPlatform;
-	kQ3ErrorNone,			// errMgrLatestError;
-	kQ3WarningNone,			// errMgrLatestWarning;
-	kQ3NoticeNone,			// errMgrLatestNotice;
-	0,						// errMgrLatestPlatform;
-	0,						// errMgrHandlerFuncError;
-	0,						// errMgrHandlerFuncWarning;
-	0,						// errMgrHandlerFuncNotice;
-	0,						// errMgrHandlerFuncPlatform;
-	0,						// errMgrHandlerDataError;
-	0,						// errMgrHandlerDataWarning;
-	0,						// errMgrHandlerDataNotice;
-	0,						// errMgrHandlerDataPlatform;
+	kQ3False,				// systemInitialised
+	kQ3False,				// systemDoBottleneck
+	0,						// systemRefCount
+	0,						// classTree
+	0,						// classTreeRoot
+	0,						// classNextType
+	0,						// classStats1
+	0,						// classStats2
+	0,						// classStats3
+	0,						// classStats4
+	0,						// classStats5
+	0,						// sharedLibraryCount
+	0,						// sharedLibraryInfo
+	kQ3False,				// errMgrClearError
+	kQ3False,				// errMgrClearWarning
+	kQ3False,				// errMgrClearNotice
+	kQ3False,				// errMgrClearPlatform
+	kQ3False,				// errMgrIsFatalError
+	kQ3ErrorNone,			// errMgrOldestError
+	kQ3WarningNone,			// errMgrOldestWarning
+	kQ3NoticeNone,			// errMgrOldestNotice
+	0,						// errMgrOldestPlatform
+	kQ3ErrorNone,			// errMgrLatestError
+	kQ3WarningNone,			// errMgrLatestWarning
+	kQ3NoticeNone,			// errMgrLatestNotice
+	0,						// errMgrLatestPlatform
+	0,						// errMgrHandlerFuncError
+	0,						// errMgrHandlerFuncWarning
+	0,						// errMgrHandlerFuncNotice
+	0,						// errMgrHandlerFuncPlatform
+	0,						// errMgrHandlerDataError
+	0,						// errMgrHandlerDataWarning
+	0,						// errMgrHandlerDataNotice
+	0,						// errMgrHandlerDataPlatform
 
 #if QUESA_OS_MACINTOSH
-	0,						// dmNotifyUPP;
-	kQ3False,				// dmNotifiedChanges;
+	0,						// dmNotifyUPP
+	kQ3False,				// dmNotifiedChanges
 #endif
 
 #if Q3_DEBUG
