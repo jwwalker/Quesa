@@ -1374,27 +1374,119 @@ e3ffw_3DMF_triangle_write(const TQ3TriangleData *object,
 	return(writeStatus);
 }
 
+
+
+
+
 //=============================================================================
 //      e3ffw_3DMF_line_traverse : Line traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_line_traverse(TQ3Object object,
+					 TQ3LineData *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Object attributeList = NULL;
+	TQ3Uns32 i;
+	TQ3Status qd3dstatus;
+	
+	qd3dstatus = Q3XView_SubmitWriteData( view, 24, (void*)data, NULL );
+	
+	if ( (qd3dstatus == kQ3Success) &&
+		((data->vertices[0].attributeSet != NULL) || (data->vertices[1].attributeSet != NULL)) )
+	{
+		attributeList = E3FFormat_3DMF_VertexAttributeSetList_New(2);
+	}
+	
+	if (attributeList != NULL)
+	{
+		for (i=0; i < 2 && qd3dstatus == kQ3Success; ++i)
+		{
+			if (data->vertices[i].attributeSet != NULL)
+			{
+				qd3dstatus = E3FFormat_3DMF_AttributeSetList_Set( attributeList, i, data->vertices[i].attributeSet );
+			}
+		}
+		if (qd3dstatus == kQ3Success)
+			qd3dstatus = Q3Object_Submit (attributeList, view);
+		Q3Object_Dispose(attributeList);
+	}
+
+	if (data->lineAttributeSet != NULL && qd3dstatus == kQ3Success)
+		Q3Object_Submit( data->lineAttributeSet, view );
+	
+	
+	return qd3dstatus;
+}
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_line_write : Line write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_line_write(const TQ3LineData *object,
+				TQ3FileObject theFile)
+{
+	TQ3Status writeStatus;
+	
+	writeStatus = Q3Point3D_Write(&object->vertices[0].point,theFile);
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write(&object->vertices[1].point,theFile);
+	
+	
+	return (writeStatus);
+}
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_point_traverse : Point traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_point_traverse(TQ3Object object,
+					 TQ3PointData *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus;
+	
+	qd3dstatus = Q3XView_SubmitWriteData( view, 12, (void*)data, NULL );
+	
+
+	if (data->pointAttributeSet != NULL && qd3dstatus == kQ3Success)
+		Q3Object_Submit( data->pointAttributeSet, view );
+	
+	
+	return qd3dstatus;
+}
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_point_write : Point write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_point_write(const TQ3PointData *object,
+				TQ3FileObject theFile)
+{
+	TQ3Status writeStatus;
+	
+	writeStatus = Q3Point3D_Write( &object->point, theFile );
+	
+	
+	return (writeStatus);
+}
 
 
 
@@ -1813,24 +1905,188 @@ e3ffw_3DMF_mesh_write( const TQ3MeshData *meshData,
 //=============================================================================
 //      e3ffw_3DMF_polygon_traverse : Polygon traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_polygon_traverse(TQ3Object object,
+					 TQ3PolygonData *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus;
+	TQ3Object attributeList = NULL;
+	TQ3Uns32 i;
+	
+	qd3dstatus = Q3XView_SubmitWriteData( view, sizeof(TQ3Uns32) + data->numVertices*sizeof(TQ3Point3D), (void*)data, NULL );
+
+
+
+	// attribute set list for vertices
+	for (i = 0; (i < data->numVertices) && (qd3dstatus == kQ3Success); ++i)
+	{
+		if (data->vertices[i].attributeSet != NULL)
+		{
+			attributeList = E3FFormat_3DMF_VertexAttributeSetList_New(  data->numVertices );
+			break;
+		}
+	}
+	
+	if (attributeList != NULL)
+	{
+		for (i = 0; (i < data->numVertices) && (qd3dstatus == kQ3Success); ++i)
+		{
+			if (data->vertices[i].attributeSet != NULL)
+			{
+				qd3dstatus = E3FFormat_3DMF_AttributeSetList_Set( attributeList, i, data->vertices[i].attributeSet );
+			}
+		}
+		if (qd3dstatus == kQ3Success)
+			qd3dstatus = Q3Object_Submit( attributeList, view );
+		Q3Object_CleanDispose(&attributeList);
+	}
+
+
+
+	// overall attribute set
+	if (data->polygonAttributeSet != NULL && qd3dstatus == kQ3Success)
+		Q3Object_Submit( data->polygonAttributeSet, view );
+	
+	
+	return qd3dstatus;
+}
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_polygon_write : Polygon write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_polygon_write(const TQ3PolyLineData *object,
+				TQ3FileObject theFile)
+{
+	TQ3Status writeStatus;
+	TQ3Uns32	i;
+
+	writeStatus = Q3Uns32_Write( object->numVertices, theFile );
+	
+	for (i = 0; (i < object->numVertices) && (writeStatus == kQ3Success); ++i)
+	{
+		writeStatus = Q3Point3D_Write( &object->vertices[i].point, theFile );
+	}
+
+	return writeStatus;
+}
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_polyline_traverse : Polyline traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_polyline_traverse(TQ3Object object,
+					 TQ3PolyLineData *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus;
+	TQ3Object attributeList = NULL;
+	TQ3Uns32 i;
+	
+	qd3dstatus = Q3XView_SubmitWriteData( view, sizeof(TQ3Uns32) + data->numVertices*sizeof(TQ3Point3D), (void*)data, NULL );
+	
+	
+	// attribute set list for segments
+	if ( (qd3dstatus == kQ3Success) && (data->segmentAttributeSet != NULL) )
+	{
+		for (i = 0; (i < data->numVertices - 1) && (qd3dstatus == kQ3Success); ++i)
+		{
+			if (data->segmentAttributeSet[i] != NULL)
+			{
+				attributeList = E3FFormat_3DMF_GeomAttributeSetList_New(  data->numVertices - 1 );
+				break;
+			}
+		}
+		
+		if (attributeList != NULL)
+		{
+			for (i = 0; (i < data->numVertices - 1) && (qd3dstatus == kQ3Success); ++i)
+			{
+				if (data->segmentAttributeSet[i] != NULL)
+				{
+					qd3dstatus = E3FFormat_3DMF_AttributeSetList_Set( attributeList, i, data->segmentAttributeSet[i] );
+				}
+			}
+			if (qd3dstatus == kQ3Success)
+				qd3dstatus = Q3Object_Submit( attributeList, view );
+			Q3Object_CleanDispose(&attributeList);
+		}
+	}
+	
+	
+
+	// attribute set list for vertices
+	for (i = 0; (i < data->numVertices) && (qd3dstatus == kQ3Success); ++i)
+	{
+		if (data->vertices[i].attributeSet != NULL)
+		{
+			attributeList = E3FFormat_3DMF_VertexAttributeSetList_New(  data->numVertices );
+			break;
+		}
+	}
+	
+	if (attributeList != NULL)
+	{
+		for (i = 0; (i < data->numVertices) && (qd3dstatus == kQ3Success); ++i)
+		{
+			if (data->vertices[i].attributeSet != NULL)
+			{
+				qd3dstatus = E3FFormat_3DMF_AttributeSetList_Set( attributeList, i, data->vertices[i].attributeSet );
+			}
+		}
+		if (qd3dstatus == kQ3Success)
+			qd3dstatus = Q3Object_Submit( attributeList, view );
+		Q3Object_CleanDispose(&attributeList);
+	}
+
+
+
+	// overall attribute set
+	if (data->polyLineAttributeSet != NULL && qd3dstatus == kQ3Success)
+		Q3Object_Submit( data->polyLineAttributeSet, view );
+	
+	
+	return qd3dstatus;
+}
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_polyline_write : Polyline write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_polyline_write(const TQ3PolyLineData *object,
+				TQ3FileObject theFile)
+{
+	TQ3Status writeStatus;
+	TQ3Uns32	i;
+
+	writeStatus = Q3Uns32_Write( object->numVertices, theFile );
+	
+	for (i = 0; (i < object->numVertices) && (writeStatus == kQ3Success); ++i)
+	{
+		writeStatus = Q3Point3D_Write( &object->vertices[i].point, theFile );
+	}
+
+	return writeStatus;
+}
+
+
 
 
 
@@ -2203,15 +2459,64 @@ e3ffw_3DMF_disk_write( const TQ3DiskData *data,
 }
 
 
+
+
+
 //=============================================================================
 //      e3ffw_3DMF_ellipse_traverse : Ellipse traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_ellipse_traverse(TQ3Object object,
+					 TQ3EllipseData *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	TQ3Status	status;
+	
+	status = Q3XView_SubmitWriteData( view, 44, (void*)data, NULL );
+
+
+	// Overall attribute set
+	if ( (status == kQ3Success) && (data->ellipseAttributeSet != NULL) )
+		status = Q3Object_Submit( data->ellipseAttributeSet, view );
+
+
+	return status;
+}
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_ellipse_write : Ellipse write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_ellipse_write( const TQ3EllipseData *data,
+				TQ3FileObject theFile )
+{
+	TQ3Status	writeStatus = kQ3Success;
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->majorRadius, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->minorRadius, theFile );
+		
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write( &data->origin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMax, theFile );
+	
+	
+	return writeStatus;
+}
+
+
 
 
 
@@ -3112,6 +3417,21 @@ E3FFW_3DMF_RegisterGeom(void)
 	
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeMesh,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_mesh_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeMesh,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_mesh_write);
+
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeLine,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_line_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeLine,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_line_write);
+
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePoint,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_point_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePoint,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_point_write);
+
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePolyLine,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_polyline_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePolyLine,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_polyline_write);
+
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipse,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_ellipse_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipse,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_ellipse_write);
+
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePolygon,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_polygon_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePolygon,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_polygon_write);
 	
 	return kQ3Success;
 }
