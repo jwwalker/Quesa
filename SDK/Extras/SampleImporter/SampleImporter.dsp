@@ -8,12 +8,12 @@ CFG=SampleImporter - Win32 Release
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "SamleImporter.mak".
+!MESSAGE NMAKE /f "SampleImporter.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "SamleImporter.mak" CFG="SampleImporter - Win32 Release"
+!MESSAGE NMAKE /f "SampleImporter.mak" CFG="SampleImporter - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -25,7 +25,6 @@ CFG=SampleImporter - Win32 Release
 # PROP AllowPerConfigDependencies 0
 # PROP Scc_ProjName ""
 # PROP Scc_LocalPath "Desktop"
-# PROP WCE_FormatVersion "6.0"
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -44,20 +43,20 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I "..\..\Includes\Apple"  /I "..\..\Includes\Quesa" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I "..\..\Includes\Apple" /I "..\..\Includes\Quesa" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"Release/SampleImporter.bsc"
+# ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"Release/SampleImporter.xq3"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy          Debug\SampleImporter.xq3         c:\winnt\system32\ 
+PostBuild_Cmds=copy           Debug\SampleImporter.xq3          c:\winnt\system32\ 
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "SampleImporter - Win32 Debug"
@@ -88,7 +87,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"Debug/SampleImporter.xq3" /pdbtype:sept
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy          Debug\SampleImporter.xq3         c:\winnt\system32\ 
+PostBuild_Cmds=copy           Debug\SampleImporter.xq3          c:\winnt\system32\ 
 # End Special Build Tool
 
 !ENDIF 
