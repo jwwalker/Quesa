@@ -466,6 +466,11 @@ ir_geom_cache_prim_render(const TQ3CachedPrim *thePrim)
 			glBegin(GL_POINT);
 			numVerts = 1;
 			break;
+        
+        case kQ3PrimNone:
+        default:
+            Q3_ASSERT(!"Should never happen");
+            break;
 		}
 
 
@@ -561,6 +566,11 @@ ir_geom_submit_prim_render(TQ3ViewObject			theView,
 			glBegin(GL_POINT);
 			numVerts = 1;
 			break;
+        
+        case kQ3PrimNone:
+        default:
+            Q3_ASSERT(!"Should never happen");
+            break;
 		}
 
 

@@ -497,7 +497,7 @@ ir_state_texture_convert_depth(TQ3Uns32			theWidth,
 					// Convert the row
 					for (x = 0; x < theWidth; x++)
 						{
-				    n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
+                        n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
 						alphaBits = (n >> 15) & 0x0001;
 						redBits   = (n >> 10) & 0x001F;
 						greenBits = (n >>  5) & 0x001F;
