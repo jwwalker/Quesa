@@ -202,7 +202,7 @@ e3tessellate_add_edge(E3TessellateState *theState, TQ3Uns32 vertexIndex0, TQ3Uns
 	// Initialise the new edge
 	theEdge->pointIndices[0]    = vertexIndex0;
 	theEdge->pointIndices[1]    = vertexIndex1;
-	theEdge->triangleIndices[0] = theState->triMeshData.numTriangles;
+	theEdge->triangleIndices[0] = theState->triMeshData.numTriangles - 1;
 	theEdge->triangleIndices[1] = kQ3ArrayIndexNULL;
 	
 	return(kQ3True);
