@@ -211,23 +211,29 @@ typedef struct TQ3ViewData {
 	const void					*endFrameData;
 } TQ3ViewData;
 
+
+
+
+
 //=============================================================================
 //      Internal function prototypes.
 //-----------------------------------------------------------------------------
+static TQ3Status e3View_SubmitRetained_Error(   TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitRetained_Render(  TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitRetained_Pick(    TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitRetained_Write(   TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitRetained_Bounds(  TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitRetained_BadMode( TQ3ViewObject theView , TQ3Object theObject ) ;
 
-static TQ3Status e3View_SubmitRetained_Error ( TQ3ViewObject theView , TQ3Object theObject ) ;
-static TQ3Status e3View_SubmitRetained_Render ( TQ3ViewObject theView , TQ3Object theObject ) ;
-static TQ3Status e3View_SubmitRetained_Pick ( TQ3ViewObject theView , TQ3Object theObject ) ;
-static TQ3Status e3View_SubmitRetained_Write ( TQ3ViewObject theView , TQ3Object theObject ) ;
-static TQ3Status e3View_SubmitRetained_Bounds ( TQ3ViewObject theView , TQ3Object theObject ) ;
-static TQ3Status e3View_SubmitRetained_BadMode ( TQ3ViewObject theView , TQ3Object theObject ) ;
+static TQ3Status e3View_SubmitImmediate_Error(   TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+static TQ3Status e3View_SubmitImmediate_Render(  TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+static TQ3Status e3View_SubmitImmediate_Pick(    TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+static TQ3Status e3View_SubmitImmediate_Write(   TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+static TQ3Status e3View_SubmitImmediate_Bounds(  TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+static TQ3Status e3View_SubmitImmediate_BadMode( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
 
-static TQ3Status e3View_SubmitImmediate_Error ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
-static TQ3Status e3View_SubmitImmediate_Render ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
-static TQ3Status e3View_SubmitImmediate_Pick ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
-static TQ3Status e3View_SubmitImmediate_Write ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
-static TQ3Status e3View_SubmitImmediate_Bounds ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
-static TQ3Status e3View_SubmitImmediate_BadMode ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) ;
+
+
 
 
 //=============================================================================
@@ -1602,7 +1608,10 @@ e3View_SubmitRetained_Error(TQ3ViewObject theView, TQ3Object theObject)
 	E3ErrorManager_PostError(theError, kQ3False);
 	return(kQ3Failure);
 	}
-	
+
+
+
+
 
 //=============================================================================
 //      e3View_SubmitRetained_Pick : viewMode == kQ3ViewModePicking.
@@ -1660,8 +1669,10 @@ e3View_SubmitRetained_Pick(TQ3ViewObject theView, TQ3Object theObject)
 	
 	return(qd3dStatus);
 	}
-	
-	
+
+
+
+
 
 //=============================================================================
 //      e3View_SubmitRetained_Write : viewMode == kQ3ViewModeWriting.
@@ -1685,8 +1696,10 @@ e3View_SubmitRetained_Write(TQ3ViewObject theView, TQ3Object theObject)
 
 	return(qd3dStatus);
 	}
-	
-	
+
+
+
+
 
 //=============================================================================
 //      e3View_SubmitRetained_Bounds : viewMode == kQ3ViewModeCalcBounds.
@@ -1706,8 +1719,10 @@ e3View_SubmitRetained_Bounds(TQ3ViewObject theView, TQ3Object theObject)
 
 	return(qd3dStatus);
 	}
-	
-	
+
+
+
+
 
 //=============================================================================
 //      e3View_SubmitRetained_BadMode : viewMode is none of the above.
@@ -1719,8 +1734,8 @@ e3View_SubmitRetained_BadMode(TQ3ViewObject theView, TQ3Object theObject)
 	E3ErrorManager_PostError(kQ3ErrorUnsupportedFunctionality, kQ3False);
 	return kQ3Failure ;
 	}
-	
-	
+
+
 
 
 
@@ -1770,7 +1785,10 @@ e3View_SubmitRetained_Render(TQ3ViewObject theView, TQ3Object theObject)
 
 	return(qd3dStatus);
 	}
-	
+
+
+
+
 
 //=============================================================================
 //      ee3View_SubmitRetained : Submit an object to a view.
@@ -1820,6 +1838,9 @@ e3View_SubmitImmediate_Error ( TQ3ViewObject theView , TQ3ObjectType objectType 
 	}
 
 
+
+
+
 //=============================================================================
 //      e3View_SubmitImmediate_Render : viewMode == kQ3ViewModeDrawing.
 //-----------------------------------------------------------------------------
@@ -1854,6 +1875,9 @@ e3View_SubmitImmediate_Render ( TQ3ViewObject theView , TQ3ObjectType objectType
 
 	return qd3dStatus ;
 	}
+
+
+
 
 
 //=============================================================================
@@ -1906,6 +1930,9 @@ e3View_SubmitImmediate_Pick ( TQ3ViewObject theView , TQ3ObjectType objectType ,
 	}
 
 
+
+
+
 //=============================================================================
 //      e3View_SubmitImmediate_Write : viewMode == kQ3ViewModeWriting.
 //-----------------------------------------------------------------------------
@@ -1939,6 +1966,10 @@ e3View_SubmitImmediate_Write ( TQ3ViewObject theView , TQ3ObjectType objectType 
 
 	return qd3dStatus ;
 	}
+
+
+
+
 
 //=============================================================================
 //      e3View_SubmitImmediate_Bounds : viewMode == kQ3ViewModeCalcBounds.
@@ -1975,6 +2006,9 @@ e3View_SubmitImmediate_Bounds ( TQ3ViewObject theView , TQ3ObjectType objectType
 	}
 
 
+
+
+
 //=============================================================================
 //      e3View_SubmitImmediate_BadMode : viewMode is none of the above.
 //-----------------------------------------------------------------------------
@@ -1985,6 +2019,9 @@ e3View_SubmitImmediate_BadMode ( TQ3ViewObject theView , TQ3ObjectType objectTyp
 	E3ErrorManager_PostError(kQ3ErrorUnsupportedFunctionality, kQ3False);
 	return(kQ3Failure);
 	}
+
+
+
 
 
 //=============================================================================
@@ -3160,16 +3197,15 @@ E3View_State_SetStyleAntiAlias(TQ3ViewObject theView, const TQ3AntiAliasStyleDat
 
 
 
-	if (memcmp( &instanceData->viewStack->styleAntiAlias, theData, sizeof(TQ3AntiAliasStyleData)) != 0)
-	{
-		// Set the value
+	// Set the state
+	//
+	// Multiple submits of a style within a group simply override each other, and
+	// so we can avoid updating the renderer if the style state does not change.
+	if (memcmp(&instanceData->viewStack->styleAntiAlias, theData, sizeof(TQ3AntiAliasStyleData)) != 0)
+		{
 		instanceData->viewStack->styleAntiAlias = *theData;
-
-
-
-		// Update the renderer
 		qd3dStatus = e3view_stack_update(theView, kQ3ViewStateStyleAntiAlias);
-	}
+		}
 }
 
 
@@ -3191,16 +3227,15 @@ E3View_State_SetStyleFog(TQ3ViewObject theView, const TQ3FogStyleData *theData)
 
 
 
-	if (memcmp( &instanceData->viewStack->styleFog, theData, sizeof(TQ3AntiAliasStyleData)) != 0)
-	{
-		// Set the value
+	// Set the state
+	//
+	// Multiple submits of a style within a group simply override each other, and
+	// so we can avoid updating the renderer if the style state does not change.
+	if (memcmp( &instanceData->viewStack->styleFog, theData, sizeof(TQ3FogStyleData)) != 0)
+		{
 		instanceData->viewStack->styleFog = *theData;
-
-
-
-		// Update the renderer
 		qd3dStatus = e3view_stack_update(theView, kQ3ViewStateStyleFog);
-	}
+		}
 }
 
 
