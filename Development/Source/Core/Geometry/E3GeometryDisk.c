@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Disk : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3DiskData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -490,14 +507,11 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 //      e3geom_disk_get_attribute : Disk get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_disk_get_attribute(TQ3GeometryObject theObject)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeDisk);
-
-
-
+e3geom_disk_get_attribute ( E3Disk* disk )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->diskAttributeSet);
-}
+	return & disk->instanceData.diskAttributeSet ;
+	}
 
 
 
@@ -559,11 +573,11 @@ E3GeometryDisk_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeDisk,
 											kQ3ClassNameGeometryDisk,
 											e3geom_disk_metahandler,
-											sizeof(TQ3DiskData));
+											~sizeof(E3Disk));
 
 	return(qd3dStatus);
 }
@@ -582,7 +596,7 @@ E3GeometryDisk_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeDisk, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeDisk, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -646,25 +660,24 @@ E3Disk_Submit(const TQ3DiskData *diskData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_SetData(TQ3GeometryObject theDisk, const TQ3DiskData *diskData)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
-
-
+	{
+	E3Disk* disk = (E3Disk*) theDisk ;
 
 	// Set the data
-	instanceData->origin      = diskData->origin;
-	instanceData->majorRadius = diskData->majorRadius;
-	instanceData->minorRadius = diskData->minorRadius;
-	instanceData->uMin   	  = diskData->uMin;
-	instanceData->uMax   	  = diskData->uMax;
-	instanceData->vMin   	  = diskData->vMin;
-	instanceData->vMax   	  = diskData->vMax;
+	disk->instanceData.origin      = diskData->origin ;
+	disk->instanceData.majorRadius = diskData->majorRadius ;
+	disk->instanceData.minorRadius = diskData->minorRadius ;
+	disk->instanceData.uMin   	  = diskData->uMin ;
+	disk->instanceData.uMax   	  = diskData->uMax ;
+	disk->instanceData.vMin   	  = diskData->vMin ;
+	disk->instanceData.vMax   	  = diskData->vMax ;
 
-	E3Shared_Replace(&instanceData->diskAttributeSet, diskData->diskAttributeSet);
+	E3Shared_Replace ( &disk->instanceData.diskAttributeSet, diskData->diskAttributeSet ) ;
 
-	Q3Shared_Edited(theDisk);
+	Q3Shared_Edited ( disk ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -675,23 +688,22 @@ E3Disk_SetData(TQ3GeometryObject theDisk, const TQ3DiskData *diskData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_GetData(TQ3GeometryObject theDisk, TQ3DiskData *diskData)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
-
-
+	{
+	E3Disk* disk = (E3Disk*) theDisk ;
 
 	// Get the data
-	diskData->origin      = instanceData->origin;
-	diskData->majorRadius = instanceData->majorRadius;
-	diskData->minorRadius = instanceData->minorRadius;
-	diskData->uMin   	  = instanceData->uMin;
-	diskData->uMax   	  = instanceData->uMax;
-	diskData->vMin   	  = instanceData->vMin;
-	diskData->vMax   	  = instanceData->vMax;
+	diskData->origin      = disk->instanceData.origin ;
+	diskData->majorRadius = disk->instanceData.majorRadius ;
+	diskData->minorRadius = disk->instanceData.minorRadius ;
+	diskData->uMin   	  = disk->instanceData.uMin ;
+	diskData->uMax   	  = disk->instanceData.uMax ;
+	diskData->vMin   	  = disk->instanceData.vMin ;
+	diskData->vMax   	  = disk->instanceData.vMax ;
 
-	E3Shared_Acquire(&diskData->diskAttributeSet, instanceData->diskAttributeSet);
+	E3Shared_Acquire ( & diskData->diskAttributeSet, disk->instanceData.diskAttributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -720,17 +732,16 @@ E3Disk_EmptyData(TQ3DiskData *diskData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_SetOrigin(TQ3GeometryObject theDisk, const TQ3Point3D *origin)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
-
-
+	{
+	E3Disk* disk = (E3Disk*) theDisk ;
 
 	// Set the origin
-	instanceData->origin = *origin;
+	disk->instanceData.origin = *origin ;
 	
-	Q3Shared_Edited(theDisk);
+	Q3Shared_Edited ( disk ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -741,17 +752,16 @@ E3Disk_SetOrigin(TQ3GeometryObject theDisk, const TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_SetMajorRadius(TQ3GeometryObject theDisk, const TQ3Vector3D *majorRadius)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
-
-
+	{
+	E3Disk* disk = (E3Disk*) theDisk ;
 
 	// Set the major radius
-	instanceData->majorRadius = *majorRadius;
+	disk->instanceData.majorRadius = *majorRadius ;
 	
-	Q3Shared_Edited(theDisk);
+	Q3Shared_Edited ( disk ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -762,17 +772,16 @@ E3Disk_SetMajorRadius(TQ3GeometryObject theDisk, const TQ3Vector3D *majorRadius)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_SetMinorRadius(TQ3GeometryObject theDisk, const TQ3Vector3D *minorRadius)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
-
-
+	{
+	E3Disk* disk = (E3Disk*) theDisk ;
 
 	// Set the minor radius
-	instanceData->minorRadius = *minorRadius;
+	disk->instanceData.minorRadius = *minorRadius ;
 	
-	Q3Shared_Edited(theDisk);
+	Q3Shared_Edited ( disk ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -783,15 +792,14 @@ E3Disk_SetMinorRadius(TQ3GeometryObject theDisk, const TQ3Vector3D *minorRadius)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_GetOrigin(TQ3GeometryObject theDisk, TQ3Point3D *origin)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
-
-
+	{
+	E3Disk* disk = (E3Disk*) theDisk ;
 
 	// Get the origin
-	*origin = instanceData->origin;
+	*origin = disk->instanceData.origin;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -802,15 +810,14 @@ E3Disk_GetOrigin(TQ3GeometryObject theDisk, TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_GetMajorRadius(TQ3GeometryObject theDisk, TQ3Vector3D *majorRadius)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
-
-
+	{
+	E3Disk* disk = (E3Disk*) theDisk ;
 
 	// Get the major radius
-	*majorRadius = instanceData->majorRadius;
+	*majorRadius = disk->instanceData.majorRadius ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -821,12 +828,11 @@ E3Disk_GetMajorRadius(TQ3GeometryObject theDisk, TQ3Vector3D *majorRadius)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_GetMinorRadius(TQ3GeometryObject theDisk, TQ3Vector3D *minorRadius)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
-
-
+	{
+	E3Disk* disk = (E3Disk*) theDisk ;
 
 	// Get the minor radius
-	*minorRadius = instanceData->minorRadius;
+	*minorRadius = disk->instanceData.minorRadius ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
