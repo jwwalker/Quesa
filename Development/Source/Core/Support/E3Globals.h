@@ -207,6 +207,7 @@ extern "C" {
 #define kQ3ClassNameUnknownBinary					"UnknownBinary"
 #define kQ3ClassNameUnknownText						"UnknownText"
 #define kQ3ClassNameView							"View"
+#define kQ3ClassNameViewer							"Quesa:Viewer"
 #define kQ3ClassNameStorageWin32					"Win32Storage"
 #define kQ3ClassNameAttributeSetList				"AttributeSetList"
 #define kQ3ClassNameAttributeArray					"AttributeArray"
