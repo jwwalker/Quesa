@@ -13,9 +13,12 @@
  * There is no warranty or other guarantee of fitness of this software
  * for any purpose.  It is provided solely "as is".
  *
- * $Id: poly.cpp,v 1.1 2002-12-18 18:36:42 pepe Exp $
+ * $Id: poly.cpp,v 1.2 2004-11-30 01:10:20 jwwalker Exp $
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.1  2002/12/18 18:36:42  pepe
+ * First upload
+ *
  * Revision 4.0.1.1  91/11/26  21:25:34  cek
  * patch3: Additional check for degenerate polygon.
  * 
@@ -35,10 +38,10 @@ unsigned long PolyTests, PolyHits;
  * Create a reference to a polygon with vertices equal to those
  * on the linked-list "plist."
  */
-Polygon *
+RayShade::Polygon *
 PolygonCreate(PointList *plist,int npoints,int flipflag)
 {
-	Polygon *poly;
+	RayShade::Polygon *poly;
 	Float indexval;
 	Vector *prev, *cur, anorm;
 	PointList *curp, *pltmp;
@@ -46,10 +49,10 @@ PolygonCreate(PointList *plist,int npoints,int flipflag)
 
 	if (npoints < 3) {
 		RLerror(RL_WARN, "Degenerate polygon.\n");
-		return (Polygon *)NULL;
+		return (RayShade::Polygon *)NULL;
 	}
 	
-	poly = (Polygon *)share_malloc(sizeof(Polygon));
+	poly = (RayShade::Polygon *)share_malloc(sizeof(RayShade::Polygon));
 	/*
 	 * Allocate space for the vertices.
 	 */
@@ -85,7 +88,7 @@ PolygonCreate(PointList *plist,int npoints,int flipflag)
 		 */
 		RLerror(RL_WARN, "Degenerate polygon.\n");
 		free((voidstar)poly->points);
-		return (Polygon *)NULL;
+		return (RayShade::Polygon *)NULL;
 	}
 
 	/*
@@ -139,7 +142,7 @@ PolygonCreate(PointList *plist,int npoints,int flipflag)
 static int
 PolygonIntersect(GeomRef gref,Ray* ray,Float mindist,Float* maxdist)
 {
-	Polygon *poly = (Polygon*)gref;
+	RayShade::Polygon *poly = (RayShade::Polygon*)gref;
 
 	register int winding, i;
 	Vector dir, pos;
@@ -239,7 +242,7 @@ PolygonIntersect(GeomRef gref,Ray* ray,Float mindist,Float* maxdist)
 static int
 PolygonNormal(GeomRef gref,Vector* /*pos*/,Vector* nrm,Vector* gnrm)
 {
-	Polygon *poly = (Polygon*)gref;
+	RayShade::Polygon *poly = (RayShade::Polygon*)gref;
 	*gnrm = *nrm = poly->norm;
 	return FALSE;
 }
@@ -248,7 +251,7 @@ PolygonNormal(GeomRef gref,Vector* /*pos*/,Vector* nrm,Vector* gnrm)
 static void
 PolygonUV(GeomRef gref,Vector* pos,Vector* /*norm*/,Vec2d* uv,Vector* dpdu,Vector* dpdv)
 {
-	Polygon *poly = (Polygon*)gref;
+	RayShade::Polygon *poly = (RayShade::Polygon*)gref;
 	/*
 	 * Since there's no nice way to do this, we wimp out and
 	 * do the following...
@@ -273,7 +276,7 @@ PolygonUV(GeomRef gref,Vector* pos,Vector* /*norm*/,Vec2d* uv,Vector* dpdu,Vecto
 static void
 PolygonBounds(GeomRef gref, Float bounds[2][3])
 {
-	Polygon *poly = (Polygon*)gref;
+	RayShade::Polygon *poly = (RayShade::Polygon*)gref;
 	register int i;
 
 	bounds[LOW][X] = bounds[HIGH][X] = poly->points[0].x;
