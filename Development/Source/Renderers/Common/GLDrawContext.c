@@ -1374,7 +1374,7 @@ GLDrawContext_UpdateWindowPosition(void *glContext)
 //-----------------------------------------------------------------------------
 GLfloat
 GLDrawContext_GetMinLineWidth(void *glContext)
-{	GLfloat		lineWidth;
+{	GLfloat		lineWidth[2];
 
 
 
@@ -1391,8 +1391,8 @@ GLDrawContext_GetMinLineWidth(void *glContext)
 	// Get the minimum line width
 	//
 	// The 0.1f is arbitrary, but is a reasonably small value.
-	lineWidth = 0.1f;
-	glGetFloatv(GL_LINE_WIDTH_RANGE, &lineWidth);
+	lineWidth[0] = 0.1f;
+	glGetFloatv(GL_LINE_WIDTH_RANGE, lineWidth);
 
-	return(lineWidth);
+	return(lineWidth[0]);
 }
