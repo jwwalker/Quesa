@@ -354,22 +354,23 @@ IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
 								const TQ3Point3D	*thePoints,
 								const TQ3Vector3D	*theNormals,
 								TQ3TriFlags			*theFlags)
-{	TQ3Uns32		sizeEyeToTri, sizeDotProducts, sizeDotLessThanZero;
-	TQ3Uns32		offEyeToTri, offDotProducts, offDotLessThanZero;
+{	TQ3Uns32		sizeTriToEye, sizeDotProducts, sizeDotLessThanZero;
+	TQ3Uns32		offTriToEye, offDotProducts, offDotLessThanZero;
 	TQ3Boolean		*dotLessThanZero;
 	TQ3Uns32		n, requiredSize;
 	float			*dotProducts;
 	TQ3Status		qd3dStatus;
-	TQ3Vector3D		*eyeToTri;
+	TQ3Vector3D		*triToEye;
+	TQ3Vector3D		orthoTriToEye;
 
 
 
 	// Grow the geometry scratch space
-	sizeEyeToTri        = (numTriangles * sizeof(TQ3Vector3D));
+	sizeTriToEye        = (numTriangles * sizeof(TQ3Vector3D));
 	sizeDotProducts     = (numTriangles * sizeof(float));
 	sizeDotLessThanZero = (numTriangles * sizeof(TQ3Boolean));
 
-	requiredSize = (sizeEyeToTri + sizeDotProducts + sizeDotLessThanZero);
+	requiredSize = (sizeTriToEye + sizeDotProducts + sizeDotLessThanZero);
 	
 	if (requiredSize > instanceData->geomSize)
 		{
@@ -383,11 +384,11 @@ IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
 
 
 	// Set up the pointers
-	offEyeToTri        = 0;
-	offDotProducts     = offEyeToTri    + sizeEyeToTri;
+	offTriToEye        = 0;
+	offDotProducts     = offTriToEye    + sizeTriToEye;
 	offDotLessThanZero = offDotProducts + sizeDotProducts;
 
-	eyeToTri        = (TQ3Vector3D *) &instanceData->geomData[offEyeToTri];
+	triToEye        = (TQ3Vector3D *) &instanceData->geomData[offTriToEye];
 	dotProducts     = (float       *) &instanceData->geomData[offDotProducts];
 	dotLessThanZero = (TQ3Boolean  *) &instanceData->geomData[offDotLessThanZero];
 
@@ -399,7 +400,7 @@ IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
 	// at least 4-byte aligned (or we'll take a large performance hit on PowerPC). All our
 	// items are multiples of 4 bytes at present, but this will catch us if we allocate any
 	// single byte entries in the future.
-	Q3_ASSERT(((TQ3Uns32) eyeToTri)        % 4 == 0);
+	Q3_ASSERT(((TQ3Uns32) triToEye)        % 4 == 0);
 	Q3_ASSERT(((TQ3Uns32) dotProducts)     % 4 == 0);
 	Q3_ASSERT(((TQ3Uns32) dotLessThanZero) % 4 == 0);
 
@@ -412,19 +413,21 @@ IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
 	// the eye position to one of the triangle's vertices.
 	if (instanceData->cameraIsOrtho)
 		{
+		Q3Vector3D_Negate( &instanceData->stateLocalCameraViewVector, &orthoTriToEye );
+
 		for (n = 0; n < numTriangles; n++)
-			eyeToTri[n] = instanceData->stateLocalCameraViewVector;
+			triToEye[n] = orthoTriToEye;
 		}
 	else
 		{
 		for (n = 0; n < numTriangles; n++)
-			Q3Point3D_Subtract(&instanceData->stateLocalCameraPosition, &thePoints[theIndices[n * 3]], &eyeToTri[n]);
+			Q3Point3D_Subtract(&instanceData->stateLocalCameraPosition, &thePoints[theIndices[n * 3]], &triToEye[n]);
 		}
 
 
 
 	// Calculate the dot products
-	qd3dStatus = Q3Vector3D_DotArray(numTriangles, theNormals, eyeToTri, dotProducts, dotLessThanZero);
+	qd3dStatus = Q3Vector3D_DotArray(numTriangles, theNormals, triToEye, dotProducts, dotLessThanZero);
 
 
 
