@@ -688,7 +688,8 @@ E3ClassTree::UnregisterClass ( TQ3ObjectType classType, TQ3Boolean isRequired )
 
 	Q3Memory_Free(&theClass->className);
 	E3HashTable_Destroy(&theClass->methodTable);
-	Q3Memory_Free(&theClass);
+	
+	delete theClass ;
 	
 	return kQ3Success ;
 	}
