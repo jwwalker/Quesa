@@ -208,7 +208,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #if QUESA_SUPPORT_QUICKTIME
-	#if ((QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS) || (QUESA_OS_COCOA))
+    #if ((QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS) || (QUESA_OS_COCOA))
         #include <QuickTime/Movies.h>
     #else
         #include <Movies.h>
@@ -369,25 +369,55 @@ typedef enum {
 } TQ3Axis;
 
 
-// Pixel types
+/*!
+ *  @enum
+ *      TQ3PixelType
+ *  @discussion
+ *      Fundamental pixel formats.
+ *
+ *  @constant kQ3PixelTypeRGB32      8 bits for red, green, and blue. Alpha ignored.
+ *  @constant kQ3PixelTypeARGB32     8 bits for alpha, red, green, and blue.
+ *  @constant kQ3PixelTypeRGB16      5 bits for red, green, and blue. Alpha ignored.
+ *  @constant kQ3PixelTypeARGB16     1 bit for alpha. 5 bits for red, green, and blue.
+ *  @constant kQ3PixelTypeRGB16_565  5 bits for red, 6 bits for green, 5 bits for blue.
+ *  @constant kQ3PixelTypeRGB24      8 bits for red, green, and blue. No alpha byte.
+ */
 typedef enum {
-    kQ3PixelTypeRGB32                           = 0,                // Ignore:8, R:8, G:8, B:8
-    kQ3PixelTypeARGB32                          = 1,                // Alpha:8,  R:8, G:8, B:8
-    kQ3PixelTypeRGB16                           = 2,                // Ignore:1, R:5, G:5, B:5
-    kQ3PixelTypeARGB16                          = 3,                // Alpha:1,  R:5, G:5, B:5
-    kQ3PixelTypeRGB16_565                       = 4,                //           R:5, G:6, B:5
-    kQ3PixelTypeRGB24                           = 5                 //           R:8, G:8, B:8
+    kQ3PixelTypeRGB32                           = 0,
+    kQ3PixelTypeARGB32                          = 1,
+    kQ3PixelTypeRGB16                           = 2,
+    kQ3PixelTypeARGB16                          = 3,
+    kQ3PixelTypeRGB16_565                       = 4,
+    kQ3PixelTypeRGB24                           = 5
 } TQ3PixelType;
 
 
-// Byte order
+/*!
+ *  @enum
+ *      TQ3Endian
+ *  @discussion
+ *      Fundamental endian type.
+ *
+ *  @constant kQ3EndianBig       Big endian.
+ *  @constant kQ3EndianLittle    Little endian.
+ */
 typedef enum {
     kQ3EndianBig                                = 0,
     kQ3EndianLittle                             = 1
 } TQ3Endian;
 
 
-// Surface caps
+/*!
+ *  @enum
+ *      TQ3EndCapMasks
+ *  @discussion
+ *      Fundamental end caps type.
+ *
+ *  @constant kQ3EndCapNone           No end caps.
+ *  @constant kQ3EndCapMaskTop        Top end cap.
+ *  @constant kQ3EndCapMaskBottom     Bottom end cap.
+ *  @constant kQ3EndCapMaskInterior   Interior end cap.
+ */
 typedef enum {
     kQ3EndCapNone                               = 0,
     kQ3EndCapMaskTop                            = (1 << 0),
@@ -396,22 +426,43 @@ typedef enum {
 } TQ3EndCapMasks;
 
 
-// Elements
-enum {
+/*!
+ *  @enum
+ *      TQ3ElementTypes
+ *  @discussion
+ *      Fundamental element types.
+ *
+ *  @constant kQ3ElementTypeNone     Indicates no element.
+ *  @constant kQ3ElementTypeUnknown  Indicates unknown element type.
+ *  @constant kQ3ElementTypeSet      Indicates set element.
+ */
+typedef enum {
     kQ3ElementTypeNone                          = 0,
     kQ3ElementTypeUnknown                       = 1,
     kQ3ElementTypeSet                           = 2
-};
+} TQ3ElementTypes;
 
 
-// Bounds
+/*!
+ *  @enum
+ *      TQ3ComputeBounds
+ *  @discussion
+ *      Bounds accuracy types.
+ *
+ *  @constant kQ3ComputeBoundsExact          Compute exact bounds by transforming vertices
+ *                                           to world coordinates then calculating bounds.
+ *                                           Slower, but more accurate.
+ *  @constant kQ3ComputeBoundsApproximate    Compute approximate bounds by transforming
+ *                                           local bounding box to world coordinates.
+ *                                           Faster, but less accurate.
+ */
 typedef enum {
     kQ3ComputeBoundsExact                       = 0,
     kQ3ComputeBoundsApproximate                 = 1
 } TQ3ComputeBounds;
 
 
-// Object method types
+// Method types
 enum {
     kQ3XMethodTypeObjectUnregister              = Q3_METHOD_TYPE('u', 'n', 'r', 'g'),
     kQ3XMethodTypeObjectIsDrawable              = Q3_METHOD_TYPE('i', 's', 'd', 'r')
@@ -654,6 +705,7 @@ typedef struct {
     float                                       y;
 } TQ3Vector2D;
 
+
 /*!
  *  @struct
  *      TQ3Vector3D
@@ -670,6 +722,7 @@ typedef struct {
     float                                       z;
 } TQ3Vector3D;
 
+
 /*!
  *  @struct
  *      TQ3Point2D
@@ -683,6 +736,7 @@ typedef struct {
     float                                       x;
     float                                       y;
 } TQ3Point2D;
+
 
 /*!
  *  @struct
@@ -700,12 +754,35 @@ typedef struct {
     float                                       z;
 } TQ3Point3D;
 
+
+/*!
+ *  @struct
+ *      TQ3RationalPoint3D
+ *  @discussion
+ *      Fundamental 3D rational point type.
+ *
+ *  @field x                x coordinate.
+ *  @field y                y coordinate.
+ *  @field w                Point weight.
+ */
 typedef struct {
     float                                       x;
     float                                       y;
     float                                       w;
 } TQ3RationalPoint3D;
 
+
+/*!
+ *  @struct
+ *      TQ3RationalPoint4D
+ *  @discussion
+ *      Fundamental 4D rational point type.
+ *
+ *  @field x                x coordinate.
+ *  @field y                y coordinate.
+ *  @field z                z coordinate.
+ *  @field w                Point weight.
+ */
 typedef struct {
     float                                       x;
     float                                       y;
@@ -713,6 +790,18 @@ typedef struct {
     float                                       w;
 } TQ3RationalPoint4D;
 
+
+/*!
+ *  @struct
+ *      TQ3Quaternion
+ *  @discussion
+ *      Fundamental Quaternion type.
+ *
+ *  @field w                w component.
+ *  @field x                x component.
+ *  @field y                y component.
+ *  @field z                z component.
+ */
 typedef struct {
     float                                       w;
     float                                       x;
@@ -720,38 +809,112 @@ typedef struct {
     float                                       z;
 } TQ3Quaternion;
 
+
+/*!
+ *  @struct
+ *      TQ3Ray3D
+ *  @discussion
+ *      Fundamental ray type.
+ *
+ *  @field origin           Origin of ray.
+ *  @field direction        Direction of ray.
+ */
 typedef struct {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 direction;
 } TQ3Ray3D;
 
+
+/*!
+ *  @struct
+ *      TQ3Param2D
+ *  @discussion
+ *      Fundamental 2D parametric point type.
+ *
+ *  @field u                u component.
+ *  @field v                v component.
+ */
 typedef struct {
     float                                       u;
     float                                       v;
 } TQ3Param2D;
 
+
+/*!
+ *  @struct
+ *      TQ3Param3D
+ *  @discussion
+ *      Fundamental 3D parametric point type.
+ *
+ *  @field u                u component.
+ *  @field v                v component.
+ *  @field w                w component.
+ */
 typedef struct {
     float                                       u;
     float                                       v;
     float                                       w;
 } TQ3Param3D;
 
+
+/*!
+ *  @struct
+ *      TQ3Tangent2D
+ *  @discussion
+ *      Fundamental 2D parametric surface tangent type.
+ *
+ *  @field uTangent         Tangent in the u direction.
+ *  @field vTangent         Tangent in the v direction.
+ */
 typedef struct {
     TQ3Vector3D                                 uTangent;
     TQ3Vector3D                                 vTangent;
 } TQ3Tangent2D;
 
+
+/*!
+ *  @struct
+ *      TQ3Tangent3D
+ *  @discussion
+ *      Fundamental 3D parametric surface tangent type.
+ *
+ *  @field uTangent         Tangent in the u direction.
+ *  @field vTangent         Tangent in the v direction.
+ *  @field wTangent         Tangent in the w direction.
+ */
 typedef struct {
     TQ3Vector3D                                 uTangent;
     TQ3Vector3D                                 vTangent;
     TQ3Vector3D                                 wTangent;
 } TQ3Tangent3D;
 
+
+/*!
+ *  @struct
+ *      TQ3PolarPoint
+ *  @discussion
+ *      Fundamental polar point type.
+ *
+ *  @field r                Distance along the radius vector from polar origin.
+ *  @field theta            Angle in radians between polar axis and the radius vector.
+ */
 typedef struct {
     float                                       r;
     float                                       theta;
 } TQ3PolarPoint;
 
+
+/*!
+ *  @struct
+ *      TQ3SphericalPoint
+ *  @discussion
+ *      Fundamental spherical point type.
+ *
+ *  @field r                Distance along the radius vector from polar origin.
+ *  @field theta            Angle in radians between x axis and the projection of the
+ *                          radius vector onto the xy plane.
+ *  @field phi              Angle in radians between z axis and the radius vector.
+ */
 typedef struct {
     float                                       rho;
     float                                       theta;
@@ -760,12 +923,34 @@ typedef struct {
 
 
 // Color types
+/*!
+ *  @struct
+ *      TQ3ColorRGB
+ *  @discussion
+ *      Fundamental RGB colour type.
+ *
+ *  @field r                Red component, between 0.0 and 1.0.
+ *  @field g                Green component, between 0.0 and 1.0.
+ *  @field b                Blue component, between 0.0 and 1.0.
+ */
 typedef struct {
     float                                       r;
     float                                       g;
     float                                       b;
 } TQ3ColorRGB;
 
+
+/*!
+ *  @struct
+ *      TQ3ColorARGB
+ *  @discussion
+ *      Fundamental ARGB point type.
+ *
+ *  @field a                Alpha component, between 0.0 (transparent) and 1.0 (opaque).
+ *  @field r                Red component, between 0.0 and 1.0.
+ *  @field g                Green component, between 0.0 and 1.0.
+ *  @field b                Blue component, between 0.0 and 1.0.
+ */
 typedef struct {
     float                                       a;
     float                                       r;
@@ -775,6 +960,15 @@ typedef struct {
 
 
 // Vertex type
+/*!
+ *  @struct
+ *      TQ3Vertex3D
+ *  @discussion
+ *      Fundamental vertex type.
+ *
+ *  @field point            Location of the vertex.
+ *  @field attributeSet     Attribute set for the vertex.
+ */
 typedef struct {
     TQ3Point3D                                  point;
     TQ3AttributeSet                             attributeSet;
@@ -782,16 +976,48 @@ typedef struct {
 
 
 // Matrix types
+/*!
+ *  @struct
+ *      TQ3Matrix3x3
+ *  @discussion
+ *      Fundamental 3x3 matrix type.
+ *
+ *  @field value            3x3 array of values that define the matrix.
+ */
 typedef struct {
     float                                       value[3][3];
 } TQ3Matrix3x3;
 
+
+/*!
+ *  @struct
+ *      TQ3Matrix4x4
+ *  @discussion
+ *      Fundamental 4x4 matrix type.
+ *
+ *  @field value            4x4 array of values that define the matrix.
+ */
 typedef struct {
     float                                       value[4][4];
 } TQ3Matrix4x4;
 
 
 // Bitmap/Pixmap types
+/*!
+ *  @struct
+ *      TQ3Pixmap
+ *  @discussion
+ *      Fundamental Pixmap type.
+ *
+ *  @field image            Pointer to (height*rowBytes) sized block of memory containing the image data.
+ *  @field width            Width of the image.
+ *  @field height           Height of the image.
+ *  @field rowBytes         Distance in bytes from begining of one row of image data to the next.
+ *  @field pixelSize        Size in bits of each pixel.
+ *  @field pixelType        The pixel format of the image data. The format must be appropriate for pixelSize.
+ *  @field bitOrder         The order in which bits in a byte are addressed within the image data.
+ *  @field byteOrder        The order in which bytes in a word are addressed within the image data.
+ */
 typedef struct {
     void                                        *image;
     TQ3Uns32                                    width;
@@ -803,6 +1029,22 @@ typedef struct {
     TQ3Endian                                   byteOrder;
 } TQ3Pixmap;
 
+
+/*!
+ *  @struct
+ *      TQ3StoragePixmap
+ *  @discussion
+ *      Fundamental storage Pixmap type.
+ *
+ *  @field image            A storage object that contains the image data.
+ *  @field width            Width of the image.
+ *  @field height           Height of the image.
+ *  @field rowBytes         Distance in bytes from begining of one row of image data to the next.
+ *  @field pixelSize        Size in bits of each pixel.
+ *  @field pixelType        The pixel format of the image data. The format must be appropriate for pixelSize.
+ *  @field bitOrder         The order in which bits in a byte are addressed within the image data.
+ *  @field byteOrder        The order in which bytes in a word are addressed within the image data.
+ */
 typedef struct {
     TQ3StorageObject                            image;
     TQ3Uns32                                    width;
@@ -814,6 +1056,20 @@ typedef struct {
     TQ3Endian                                   byteOrder;
 } TQ3StoragePixmap;
 
+
+/*!
+ *  @struct
+ *      TQ3Bitmap
+ *  @discussion
+ *      Fundamental Bitmap type.
+ *
+ *  @field image            Pointer to (height*rowBytes) sized block of memory containing the image data.
+ *                          Note that each row of image data starts on a new byte.
+ *  @field width            Width of the image.
+ *  @field height           Height of the image.
+ *  @field rowBytes         Distance in bytes from begining of one row of image data to the next.
+ *  @field bitOrder         The order in which bits in a byte are addressed within the image data.
+ */
 typedef struct {
     TQ3Uns8                                     *image;
     TQ3Uns32                                    width;
@@ -822,6 +1078,18 @@ typedef struct {
     TQ3Endian                                   bitOrder;
 } TQ3Bitmap;
 
+
+/*!
+ *  @struct
+ *      TQ3MipmapImage
+ *  @discussion
+ *      Fundamental Mipmap image type.
+ *
+ *  @field width            Width of the mipmap, which must be a power of 2.
+ *  @field height           Height of the mipmap, which must be a power of 2.
+ *  @field rowBytes         Distance in bytes from begining of one row of image data to the next.
+ *  @field offset           Offset in bytes from the begining of the image base to this mipmap.
+ */
 typedef struct {
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -829,6 +1097,21 @@ typedef struct {
     TQ3Uns32                                    offset;
 } TQ3MipmapImage;
 
+
+/*!
+ *  @struct
+ *      TQ3Mipmap
+ *  @discussion
+ *      Fundamental Mipmap image type.
+ *
+ *  @field image            A storage object that contains the image data.
+ *  @field useMipmapping    Flag indicating if mipmapping should be used and all mipmaps have been supplied.
+ *  @field pixelType        The pixel format of the image data.
+ *  @field bitOrder         The order in which bits in a byte are addressed within the image data.
+ *  @field byteOrder        The order in which bytes in a word are addressed within the image data.
+ *  @field reserved         Reserved - must be set to 0.
+ *  @field mipmaps          Up to 32 mip-map image specifications.
+ */
 typedef struct {
     TQ3StorageObject                            image;
     TQ3Boolean                                  useMipmapping;
@@ -839,6 +1122,22 @@ typedef struct {
     TQ3MipmapImage                              mipmaps[32];
 } TQ3Mipmap;
 
+
+/*!
+ *  @struct
+ *      TQ3CompressedPixmap
+ *  @discussion
+ *      QuickTime compressed Pixmap image type. Only available on platforms with QuickTime.
+ *
+ *  @field compressedImage     A storage object that contains the QuickTime compressed image data.
+ *  @field imageDescByteOrder  Endianness of data in the imageDesc field.
+ *  @field imageDesc           QuickTime image description.
+ *  @field makeMipmaps         Indicates if mipmapping is required.
+ *  @field width               Width of the image.
+ *  @field height              Height of the image.
+ *  @field pixelSize           Size in bits of each pixel (must be 16 or 32).
+ *  @field pixelType           The pixel format of the image data. The format must be appropriate for pixelSize.
+ */
 typedef struct {
     TQ3StorageObject                            compressedImage;
     TQ3Endian                                   imageDescByteOrder;
@@ -852,22 +1151,63 @@ typedef struct {
 
 
 // Mathematical types
+/*!
+ *  @struct
+ *      TQ3Area
+ *  @discussion
+ *      Fundamental area type.
+ *
+ *  @field min              Minimum corner of area.
+ *  @field max              Maximum corner of area.
+ */
 typedef struct {
     TQ3Point2D                                  min;
     TQ3Point2D                                  max;
 } TQ3Area;
 
+
+/*!
+ *  @struct
+ *      TQ3PlaneEquation
+ *  @discussion
+ *      Fundamental plane equation type.
+ *
+ *  @field normal           The normal vector to the plane.
+ *  @field constant         The plane constant (the value d in the plane equation ax+by+cz+d=0).
+ */
 typedef struct {
     TQ3Vector3D                                 normal;
     float                                       constant;
 } TQ3PlaneEquation;
 
+
+/*!
+ *  @struct
+ *      TQ3BoundingBox
+ *  @discussion
+ *      Fundamental bounding box type.
+ *
+ *  @field min              Minimum corner of bounding box.
+ *  @field max              Maximum corner of bounding box.
+ *  @field isEmpty          Is the bounding box empty. The box is only valid if isEmpty is kQ3False.
+ */
 typedef struct {
     TQ3Point3D                                  min;
     TQ3Point3D                                  max;
     TQ3Boolean                                  isEmpty;
 } TQ3BoundingBox;
 
+
+/*!
+ *  @struct
+ *      TQ3BoundingSphere
+ *  @discussion
+ *      Fundamental bounding sphere type.
+ *
+ *  @field origin           Origin of bounding sphere.
+ *  @field radius           Radius of bounding sphere.
+ *  @field isEmpty          Is the bounding sphere empty? The sphere is only valid if isEmpty is kQ3False.
+ */
 typedef struct {
     TQ3Point3D                                  origin;
     float                                       radius;
@@ -876,6 +1216,15 @@ typedef struct {
 
 
 // Subclass type
+/*!
+ *  @struct
+ *      TQ3SubClassData
+ *  @discussion
+ *      Object sub-class type.
+ *
+ *  @field numClasses       The number of types contained in classTypes.
+ *  @field classTypes       The types of the sub-classes.
+ */
 typedef struct {
     TQ3Uns32                                    numClasses;
     TQ3ObjectType                               *classTypes;
@@ -968,7 +1317,7 @@ Q3GetVersion (
  *      Q3GetReleaseVersion
  *  @discussion
  *      Returns the revision of the installed Quesa software in the format of the
- *		first four bytes of a Macintosh <code>'vers'</code> resource.
+ *      first four bytes of a Macintosh <code>'vers'</code> resource.
  *
  *      The four bytes contain 1) the major revision level, 2) the minor revision,
  *      3) the development stage, and 4) the prerelease revision level, respectively.
@@ -1261,13 +1610,14 @@ Q3Object_IsType (
  *  @function
  *      Q3Shared_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a shared object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Retursn kQ3ObjectTypeInvalid if the object is not a shared object or
+ *      the type can not be determined. Returns a kQ3SharedTypeXXXX value
+ *      for shared objects.
  *
- *  @param sharedObject     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sharedObject     The object to test.
+ *  @result                 The type of the shared object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Shared_GetType (
@@ -1280,13 +1630,10 @@ Q3Shared_GetType (
  *  @function
  *      Q3Shared_GetReference
  *  @discussion
- *      One-line description of this function.
+ *      Increment the reference count of a shared object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param sharedObject     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sharedObject     The object whose reference count should be incremented.
+ *  @result                 The object whose reference count has been incremented.
  */
 EXTERN_API_C ( TQ3SharedObject  )
 Q3Shared_GetReference (
@@ -1299,13 +1646,13 @@ Q3Shared_GetReference (
  *  @function
  *      Q3Shared_IsReferenced
  *  @discussion
- *      One-line description of this function.
+ *      Determine if a shared object has more than one reference to it.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns kQ3True if the object has more than one reference to it. Will
+ *      return kQ3False if the object a reference count of one.
  *
- *  @param sharedObject     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sharedObject     The object to test.
+ *  @result                 True or false as the object has more than one reference.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3Shared_IsReferenced (
@@ -1318,13 +1665,14 @@ Q3Shared_IsReferenced (
  *  @function
  *      Q3Shared_GetEditIndex
  *  @discussion
- *      One-line description of this function.
+ *      Get the edit index of a shared object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      An edit index is a unique number associated with a shared object, which
+ *      changes each time the object is edited. By testing this number, you
+ *      can determine when an object has been edited.
  *
- *  @param sharedObject     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sharedObject     The object to query.
+ *  @result                 The current edit index of the object.
  */
 EXTERN_API_C ( TQ3Uns32  )
 Q3Shared_GetEditIndex (
@@ -1337,13 +1685,14 @@ Q3Shared_GetEditIndex (
  *  @function
  *      Q3Shared_Edited
  *  @discussion
- *      One-line description of this function.
+ *      Change the edit index of a shared object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Editing a shared object will change its edit index automatically: this
+ *      function is typically used for shared plug-in objects who need to indicate
+ *      to Quesa that their private data has changed.
  *
- *  @param sharedObject     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sharedObject     The object to update.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Shared_Edited (
@@ -1356,13 +1705,14 @@ Q3Shared_Edited (
  *  @function
  *      Q3Shape_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a shape object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Retursn kQ3ObjectTypeInvalid if the object is not a shape object or
+ *      the type can not be determined. Returns a kQ3ShapeTypeXXXX value
+ *      for shape objects.
  *
- *  @param shape            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shape            The object to test.
+ *  @result                 The type of the shape object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Shape_GetType (
@@ -1375,14 +1725,13 @@ Q3Shape_GetType (
  *  @function
  *      Q3Shape_GetSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the set currently associated with a shape.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note that this is not the same as the attribute set of a geometry object.
  *
- *  @param shape            Description of the parameter.
- *  @param theSet           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shape            The object to query.
+ *  @param theSet           Receives the set of the object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Shape_GetSet (
@@ -1396,14 +1745,13 @@ Q3Shape_GetSet (
  *  @function
  *      Q3Shape_SetSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the set currently associated with a shape.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note that this is not the same as the attribute set of a geometry object.
  *
- *  @param shape            Description of the parameter.
- *  @param theSet           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shape            The object to update.
+ *  @param theSet           The new set for the object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Shape_SetSet (
@@ -1417,15 +1765,12 @@ Q3Shape_SetSet (
  *  @function
  *      Q3Shape_AddElement
  *  @discussion
- *      One-line description of this function.
+ *      Add an element to a shape.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shape            Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shape            The object to update.
+ *  @param theType          The type of the element data.
+ *  @param data             The element data.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Shape_AddElement (
@@ -1440,15 +1785,12 @@ Q3Shape_AddElement (
  *  @function
  *      Q3Shape_GetElement
  *  @discussion
- *      One-line description of this function.
+ *      Get an element from a shape.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shape            Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shape            The object to query.
+ *  @param theType          The type of the element data.
+ *  @param data             Receives the element data.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Shape_GetElement (
@@ -1463,14 +1805,11 @@ Q3Shape_GetElement (
  *  @function
  *      Q3Shape_ContainsElement
  *  @discussion
- *      One-line description of this function.
+ *      Check to see if a shape contains an element of a given type.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shape            Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shape            The object to query.
+ *  @param theType          The type of the element data to look for.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3Shape_ContainsElement (
@@ -1484,14 +1823,16 @@ Q3Shape_ContainsElement (
  *  @function
  *      Q3Shape_GetNextElementType
  *  @discussion
- *      One-line description of this function.
+ *      Iterate through the element types in a shape.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Pass in kQ3ElementTypeNone to start iterating through the element
+ *      types in the shape, and pass back the returned value to obtain
+ *      the next type. Is set to kQ3ElementTypeNone if there are no more
+ *      elements in the shape.
  *
- *  @param shape            Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shape            The object to query.
+ *  @param theType          Receives the next element type.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Shape_GetNextElementType (
@@ -1505,13 +1846,10 @@ Q3Shape_GetNextElementType (
  *  @function
  *      Q3Shape_EmptyElements
  *  @discussion
- *      One-line description of this function.
+ *      Empty a shape of any elements it contains.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shape            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shape            The object to update.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Shape_EmptyElements (
@@ -1524,14 +1862,11 @@ Q3Shape_EmptyElements (
  *  @function
  *      Q3Shape_ClearElement
  *  @discussion
- *      One-line description of this function.
+ *      Empty a shape of a particular type of element.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shape            Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shape            The object to update.
+ *  @param theType          The element type to remove.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Shape_ClearElement (
@@ -1545,13 +1880,14 @@ Q3Shape_ClearElement (
  *  @function
  *      Q3Bitmap_Empty
  *  @discussion
- *      One-line description of this function.
+ *      Release the memory used by a TQ3Bitmap.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Should be used to release the data used by TQ3Bitmaps returned by
+ *      Quesa. You should not call Q3Bitmap_Empty on TQ3Bitmaps whose
+ *      image data was allocated by you.
  *
- *  @param bitmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param bitmap           The TQ3Bitmap whose image data should be released.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Bitmap_Empty (
@@ -1564,14 +1900,14 @@ Q3Bitmap_Empty (
  *  @function
  *      Q3Bitmap_GetImageSize
  *  @discussion
- *      One-line description of this function.
+ *      Determine how much image data would be required for a TQ3Bitmap.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns the smallest block of memory that could hold a bitmap
+ *      with the specified dimensions.
  *
- *  @param width            Description of the parameter.
- *  @param height           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param width            The proposed width of the bitmap.
+ *  @param height           The proposed height of the bitmap.
+ *  @result                 The number of bytes needed for the bitmap.
  */
 EXTERN_API_C ( TQ3Uns32  )
 Q3Bitmap_GetImageSize (
