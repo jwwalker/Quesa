@@ -57,12 +57,13 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint on
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-#pragma enumsalwaysint on
 
 
 
@@ -1620,13 +1621,14 @@ Q3XDrawRegion_GetGDHandle (
 #endif // QUESA_OS_MACINTOSH
 
 
-#pragma enumsalwaysint reset
 
 
 
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint reset
+
 #ifdef __cplusplus
 }
 #endif

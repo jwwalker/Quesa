@@ -54,12 +54,13 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint on
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-#pragma enumsalwaysint on
 
 
 
@@ -1102,13 +1103,14 @@ Q3ResetTransform_Submit (
 );
 
 
-#pragma enumsalwaysint reset
 
 
 
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint reset
+
 #ifdef __cplusplus
 }
 #endif

@@ -54,12 +54,13 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint on
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-#pragma enumsalwaysint on
 
 
 
@@ -879,13 +880,14 @@ Q3CompressedPixmapTexture_CompressImage (
 #endif // QUESA_SUPPORT_QUICKTIME
 
 
-#pragma enumsalwaysint reset
 
 
 
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint reset
+
 #ifdef __cplusplus
 }
 #endif

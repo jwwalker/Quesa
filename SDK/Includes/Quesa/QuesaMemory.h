@@ -47,12 +47,13 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint on
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-#pragma enumsalwaysint on
 
 
 
@@ -199,13 +200,14 @@ Q3Memory_Clear (
 );
 
 
-#pragma enumsalwaysint reset
 
 
 
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
+#pragma enumsalwaysint reset
+
 #ifdef __cplusplus
 }
 #endif
