@@ -93,11 +93,13 @@ typedef enum TQ3GeneralPolygonShapeHint {
  *	@discussion
  *		Miscellaneous limits for NURB curves and patches.
  *	@constant	kQ3NURBCurveMaxOrder	Maximum order for NURB curves.
- *	@constant	kQ3NURBPatchMaxOrder	Maximum order for NURB patches.
+ *	@constant	kQ3NURBPatchMaxOrder	Maximum order for NURB patches. Note that this was
+ *                                      set to 11 in QD3DGeometry.h, however a Develop article
+ *                                      on NURBs indicated it should be 16.
  */
 enum {
 	kQ3NURBCurveMaxOrder = 16,
-	kQ3NURBPatchMaxOrder = 11
+	kQ3NURBPatchMaxOrder = 16
 };
 
 
