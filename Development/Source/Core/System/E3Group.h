@@ -184,32 +184,33 @@ public :
 
 class E3GroupInfo : public E3ShapeInfo
 	{
-	TQ3XGroupAddObjectMethod				addObjectMethod ;
-	TQ3XGroupAddObjectBeforeMethod			addObjectBeforeMethod ;
-	TQ3XGroupAddObjectAfterMethod			addObjectAfterMethod ;
-	TQ3XGroupSetPositionObjectMethod		setPositionObjectMethod ;
-	TQ3XGroupRemovePositionMethod			removePositionMethod ;
+	const TQ3XGroupAddObjectMethod				addObjectMethod ;
+	const TQ3XGroupAddObjectBeforeMethod		addObjectBeforeMethod ;
+	const TQ3XGroupAddObjectAfterMethod			addObjectAfterMethod ;
+	const TQ3XGroupSetPositionObjectMethod		setPositionObjectMethod ;
+	const TQ3XGroupRemovePositionMethod			removePositionMethod ;
 	
-	TQ3XGroupGetFirstPositionOfTypeMethod	getFirstPositionOfTypeMethod ;
-	TQ3XGroupGetLastPositionOfTypeMethod	getLastPositionOfTypeMethod ;
-	TQ3XGroupGetNextPositionOfTypeMethod	getNextPositionOfTypeMethod ;
-	TQ3XGroupGetPrevPositionOfTypeMethod	getPrevPositionOfTypeMethod ;
-	TQ3XGroupCountObjectsOfTypeMethod		countObjectsOfTypeMethod ;
-	TQ3XGroupEmptyObjectsOfTypeMethod		emptyObjectsOfTypeMethod ;
+	const TQ3XGroupGetFirstPositionOfTypeMethod	getFirstPositionOfTypeMethod ;
+	const TQ3XGroupGetLastPositionOfTypeMethod	getLastPositionOfTypeMethod ;
+	const TQ3XGroupGetNextPositionOfTypeMethod	getNextPositionOfTypeMethod ;
+	const TQ3XGroupGetPrevPositionOfTypeMethod	getPrevPositionOfTypeMethod ;
+	const TQ3XGroupCountObjectsOfTypeMethod		countObjectsOfTypeMethod ;
+	const TQ3XGroupEmptyObjectsOfTypeMethod		emptyObjectsOfTypeMethod ;
 	
-	TQ3XGroupGetFirstObjectPositionMethod	getFirstObjectPositionMethod ;	
-	TQ3XGroupGetLastObjectPositionMethod	getLastObjectPositionMethod ;
-	TQ3XGroupGetNextObjectPositionMethod	getNextObjectPositionMethod ;
-	TQ3XGroupGetPrevObjectPositionMethod	getPrevObjectPositionMethod ;
+	const TQ3XGroupGetFirstObjectPositionMethod	getFirstObjectPositionMethod ;	
+	const TQ3XGroupGetLastObjectPositionMethod	getLastObjectPositionMethod ;
+	const TQ3XGroupGetNextObjectPositionMethod	getNextObjectPositionMethod ;
+	const TQ3XGroupGetPrevObjectPositionMethod	getPrevObjectPositionMethod ;
 	
-	TQ3XGroupPositionNewMethod				positionNewMethod ;
-	TQ3XGroupPositionDeleteMethod			positionDeleteMethod ;
+	const TQ3XGroupPositionNewMethod			positionNewMethod ;
 
-	TQ3XGroupStartIterateMethod				startIterateMethod ;
-	TQ3XGroupEndIterateMethod				endIterateMethod ;
-	
 public :
-	TQ3XGroupAcceptObjectMethod				acceptObjectMethod ;
+	const TQ3XGroupAcceptObjectMethod			acceptObjectMethod ;
+	
+	const TQ3XGroupStartIterateMethod			startIterateMethod ;
+	const TQ3XGroupEndIterateMethod				endIterateMethod ;
+	
+	const TQ3XGroupPositionDeleteMethod			positionDeleteMethod ;
 
 										E3GroupInfo	(
 													TQ3XMetaHandler	newClassMetaHandler,
