@@ -77,6 +77,8 @@
 //-----------------------------------------------------------------------------
 pascal OSErr E3MacCFM_Initialise(const CFragInitBlock *initBlock);
 pascal OSErr E3MacCFM_Terminate(void);
+Q3_EXTERN_API_C(void) E3MacMachoFrameworkInit();
+Q3_EXTERN_API_C(void) E3MacMachoFrameworkTerminate();
 
 
 
@@ -85,12 +87,16 @@ pascal OSErr E3MacCFM_Terminate(void);
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
-typedef struct E3MacSystem_CFMSlot *E3MacSystem_CFMSlotPtr;
+typedef struct E3MacSystem_PluginSlot *E3MacSystem_PluginSlotPtr;
 
-typedef struct E3MacSystem_CFMSlot {
+typedef struct E3MacSystem_PluginSlot {
+#if TARGET_RT_MAC_MACHO
+	CFBundleRef					pluginBundle;
+#else
 	CFragConnectionID			CFM_ID;
-	E3MacSystem_CFMSlotPtr		nextSlot;
-} E3MacSystem_CFMSlot;
+#endif
+	E3MacSystem_PluginSlotPtr	nextSlot;
+} E3MacSystem_PluginSlot;
 
 
 
@@ -100,7 +106,7 @@ typedef struct E3MacSystem_CFMSlot {
 //-----------------------------------------------------------------------------
 static AliasHandle gQuesaLib = NULL;
 short gShlbResFile = 0;
-static E3MacSystem_CFMSlotPtr e3macsystem_cfmSlotHead = NULL;
+static E3MacSystem_PluginSlotPtr e3macsystem_pluginSlotHead = NULL;
 
 
 
@@ -108,7 +114,38 @@ static E3MacSystem_CFMSlotPtr e3macsystem_cfmSlotHead = NULL;
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3mac_load_plugin : Load a plug-in.
+
+#if TARGET_RT_MAC_MACHO
+//-----------------------------------------------------------------------------
+//      e3macho_load_plugin : Load a CFM plug-in.
+//-----------------------------------------------------------------------------
+static void e3macho_load_plugin( CFBundleRef theBundle )
+{
+	E3MacSystem_PluginSlotPtr newSlot = NULL;
+	short oldResFile = CurResFile();
+	
+	// Load the plugin, which causes the function marked as CALL_ON_LOAD
+	// to be called.
+	if (CFBundleLoadExecutable( theBundle ))
+	{
+		newSlot = (E3MacSystem_PluginSlotPtr)Q3Memory_Allocate(sizeof(E3MacSystem_PluginSlot));
+		
+		if (newSlot != NULL)
+		{
+			newSlot->pluginBundle = theBundle;
+			CFRetain( theBundle );
+			newSlot->nextSlot = e3macsystem_pluginSlotHead;
+			e3macsystem_pluginSlotHead = newSlot;
+		}
+	}
+	
+	// In case the plug-in's initialization routine changed the resource file
+	UseResFile( oldResFile );
+}
+
+#else	// CFM
+//-----------------------------------------------------------------------------
+//      e3mac_load_plugin : Load a CFM plug-in.
 //-----------------------------------------------------------------------------
 static void
 e3mac_load_plugin(const FSSpec *theFSSpec)
@@ -116,7 +153,7 @@ e3mac_load_plugin(const FSSpec *theFSSpec)
 	Str255				theStr;
 	OSErr				theErr;
 	short				oldResFile;
-	E3MacSystem_CFMSlotPtr newSlot = NULL;
+	E3MacSystem_PluginSlotPtr newSlot = NULL;
 
 
 	// Validate our parameters
@@ -124,9 +161,7 @@ e3mac_load_plugin(const FSSpec *theFSSpec)
 
 
 
-
-
-	newSlot = (E3MacSystem_CFMSlotPtr)Q3Memory_Allocate(sizeof(E3MacSystem_CFMSlot));
+	newSlot = (E3MacSystem_PluginSlotPtr)Q3Memory_Allocate(sizeof(E3MacSystem_PluginSlot));
 	if(newSlot != NULL){
 		oldResFile = CurResFile();
 
@@ -138,8 +173,8 @@ e3mac_load_plugin(const FSSpec *theFSSpec)
 								 kPrivateCFragCopy, &newSlot->CFM_ID,
 								 &mainAddr, theStr);
 		if((theErr == noErr) && (newSlot->CFM_ID != NULL)){
-			newSlot->nextSlot = e3macsystem_cfmSlotHead;
-			e3macsystem_cfmSlotHead = newSlot;
+			newSlot->nextSlot = e3macsystem_pluginSlotHead;
+			e3macsystem_pluginSlotHead = newSlot;
 		}
 		else{//GetDiskFragment failed
 			Q3Memory_Free(&newSlot);
@@ -149,7 +184,7 @@ e3mac_load_plugin(const FSSpec *theFSSpec)
 		UseResFile( oldResFile );
 	}
 }
-
+#endif
 
 
 
@@ -170,11 +205,50 @@ e3mac_load_plugin(const FSSpec *theFSSpec)
 //-----------------------------------------------------------------------------
 static void
 e3mac_load_plugins(const FSSpec *fileInDirToScan)
-{	Boolean			targetIsFolder;
+{
+	OSErr			theErr;
+#if TARGET_RT_MAC_MACHO
+	FSSpec			dirSpec;
+	FSRef			dirRef;
+	CFURLRef		dirURL = NULL;
+	CFArrayRef		pluginsArray = NULL;
+	CFIndex			numPlugins;
+	CFIndex			i;
+	CFBundleRef		plugBundle = NULL;
+	
+	// Convert vRefNum and dirID to a URL.
+	theErr = FSMakeFSSpec( fileInDirToScan->vRefNum, fileInDirToScan->parID, "\p", &dirSpec );
+	if (theErr == noErr)
+		theErr = FSpMakeFSRef( &dirSpec, &dirRef );
+	if (theErr == noErr)
+		dirURL = CFURLCreateFromFSRef( NULL, &dirRef );
+	
+	// Look for plugins in the directory.
+	if (dirURL != NULL)
+	{
+		pluginsArray = CFBundleCreateBundlesFromDirectory( NULL, dirURL, CFSTR("quesaplug") );
+		
+		if (pluginsArray != NULL)
+		{
+			numPlugins = CFArrayGetCount( pluginsArray );
+			
+			for (i = 0; i < numPlugins; ++i)
+			{
+				plugBundle = (CFBundleRef) CFArrayGetValueAtIndex( pluginsArray, i );
+				e3macho_load_plugin( plugBundle );
+			}
+			
+			CFRelease( pluginsArray );
+		}
+		
+		CFRelease( dirURL );
+	}
+	
+#else	// CFM
+	Boolean			targetIsFolder;
 	Boolean			wasAliased;
 	FSSpec			theFSSpec;
 	TQ3Int16		theIndex;
-	OSErr			theErr;
 	CInfoPBRec		thePB;
 
 
@@ -220,6 +294,7 @@ e3mac_load_plugins(const FSSpec *fileInDirToScan)
 		theIndex++;
 		}
 	while (theErr == noErr);
+#endif
 }
 
 
@@ -244,12 +319,79 @@ e3mac_find_folder_spec( short vRefNum, OSType folderType, FSSpec* outSpec )
 
 
 
+#pragma mark -
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
+
+#if TARGET_RT_MAC_MACHO
+//-----------------------------------------------------------------------------
+//      E3MacMachoFrameworkInit : Mach-o initialise routine.
+//-----------------------------------------------------------------------------
+void E3MacMachoFrameworkInit()
+{
+	CFBundleRef		myBundle = CFBundleGetBundleWithIdentifier( CFSTR("org.Quesa.Quesa") );
+	
+	if (myBundle != NULL)
+	{
+		// Note: leave the gQuesaLib AliasHandle as NULL.  The only reason we were
+		// getting the alias to the shared library was so that we could look for
+		// plug-ins in the same directory.  However, we do not expect to find plug-ins
+		// in the same location as a framework.
+		
+		short oldResFile = CurResFile();
+		gShlbResFile = CFBundleOpenBundleResourceMap( myBundle );
+		UseResFile(oldResFile);
+	}
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------
+//      E3MacMachoFrameworkTerminate : Mach-o terminate routine.
+//-----------------------------------------------------------------------------
+#pragma CALL_ON_UNLOAD	E3MacMachoFrameworkTerminate
+void E3MacMachoFrameworkTerminate()
+{
+	// Close the resource file.
+	CFBundleRef		myBundle = CFBundleGetBundleWithIdentifier( CFSTR("org.Quesa.Quesa") );
+	
+	if ( (myBundle != NULL) && (gShlbResFile != 0) && (gShlbResFile != -1) )
+	{
+		CFBundleCloseBundleResourceMap( myBundle, gShlbResFile );
+	}
+
+
+
+	// If Quesa has not been shut down yet, it probably means that the
+	// application crashed.  In that case, any remaining objects probably
+	// don't constitute true leaks.
+	#if QUESA_ALLOW_QD3D_EXTENSIONS && Q3_DEBUG
+	if ( Q3IsInitialized() )
+	{
+		Q3Memory_StopRecording();
+	}
+	#endif
+
+
+
+	// Make sure Quesa has been shut down by the app. We keep polling
+	// Q3IsInitialized until it returns false, to make sure we decrement
+	// the system reference count down to 0.
+	while (Q3IsInitialized())
+		Q3Exit();
+	
+}
+
+
+
+
+#else	// CFM
+//-----------------------------------------------------------------------------
 //      E3MacCFM_Initialise : CFM initialise routine.
 //-----------------------------------------------------------------------------
-#pragma mark -
 pascal OSErr
 E3MacCFM_Initialise(const CFragInitBlock *initBlock)
 {	OSErr	theErr;
@@ -314,6 +456,7 @@ E3MacCFM_Terminate(void)
 
 	return(noErr);
 }
+#endif
 
 
 
@@ -527,17 +670,22 @@ E3MacSystem_LoadPlugins(void)
 void
 E3MacSystem_UnloadPlugins(void)
 {
-		E3MacSystem_CFMSlotPtr nextSlot;
-		E3MacSystem_CFMSlotPtr currentSlot;
+		E3MacSystem_PluginSlotPtr nextSlot;
+		E3MacSystem_PluginSlotPtr currentSlot;
 
-		nextSlot = e3macsystem_cfmSlotHead;
+		nextSlot = e3macsystem_pluginSlotHead;
 
 		while( nextSlot != NULL){
 			currentSlot = nextSlot;
 			nextSlot = currentSlot->nextSlot;
+		#if TARGET_RT_MAC_MACHO
+			CFBundleUnloadExecutable( currentSlot->pluginBundle );
+			CFRelease( currentSlot->pluginBundle );
+		#else
 			CloseConnection(&currentSlot->CFM_ID);
+		#endif
 			Q3Memory_Free(&currentSlot);
 		}
 		
-	e3macsystem_cfmSlotHead = NULL;
+	e3macsystem_pluginSlotHead = NULL;
 }
