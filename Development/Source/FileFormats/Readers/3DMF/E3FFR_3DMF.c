@@ -639,7 +639,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			theAttribute->data = E3Memory_Allocate(sizeof(TQ3Tangent2D) * numElems);
 			if(theAttribute->data == NULL)
 				return NULL;
-			elemSwitch = (long *)theAttribute->data;
+			elemSwitch = (TQ3Int32 *)theAttribute->data;
 			for(i = 0; i< numElems;i++){
 				Q3Int32_Read(elemSwitch,theFile);
 				elemSwitch++;

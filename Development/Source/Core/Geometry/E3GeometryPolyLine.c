@@ -545,7 +545,7 @@ E3PolyLine_EmptyData(TQ3PolyLineData *polyLineData)
 //      E3PolyLine_GetVertexPosition :	Get the position of polyline vertex
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_GetVertexPosition(	TQ3GeometryObject polyLine, unsigned long index, 
+E3PolyLine_GetVertexPosition(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
 								TQ3Point3D *position)
 {
 	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) polyLine->instanceData;
@@ -563,7 +563,7 @@ E3PolyLine_GetVertexPosition(	TQ3GeometryObject polyLine, unsigned long index,
 //      E3PolyLine_SetVertexPosition :	Set the position of polyline vertex
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_SetVertexPosition(	TQ3GeometryObject polyLine, unsigned long index, 
+E3PolyLine_SetVertexPosition(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
 								const TQ3Point3D *position)
 {
 	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) polyLine->instanceData;
@@ -583,7 +583,7 @@ E3PolyLine_SetVertexPosition(	TQ3GeometryObject polyLine, unsigned long index,
 //      E3PolyLine_GetVertexAttributeSet :	Get polyline vertex attribute set
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_GetVertexAttributeSet(	TQ3GeometryObject polyLine, unsigned long index, 
+E3PolyLine_GetVertexAttributeSet(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
 									TQ3AttributeSet *attributeSet)
 {
 	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) polyLine->instanceData;
@@ -602,7 +602,7 @@ E3PolyLine_GetVertexAttributeSet(	TQ3GeometryObject polyLine, unsigned long inde
 //      E3PolyLine_SetVertexAttributeSet :	Set polyline vertex attriubte set
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_SetVertexAttributeSet(	TQ3GeometryObject polyLine, unsigned long index, 
+E3PolyLine_SetVertexAttributeSet(	TQ3GeometryObject polyLine, TQ3Uns32 index, 
 									TQ3AttributeSet attributeSet)
 {
 	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) polyLine->instanceData;
@@ -625,7 +625,7 @@ E3PolyLine_SetVertexAttributeSet(	TQ3GeometryObject polyLine, unsigned long inde
 //				a vertex index, rather than a segment - is this correct?
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, unsigned long index, TQ3AttributeSet *attributeSet)
+E3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) polyLine->instanceData;
 
 
@@ -647,7 +647,7 @@ E3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, unsigned long inde
 //				a vertex index, rather than a segment - is this correct?
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, unsigned long index, TQ3AttributeSet attributeSet)
+E3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {	TQ3PolyLineData		*instanceData = (TQ3PolyLineData *) polyLine->instanceData;
 
 

@@ -71,8 +71,8 @@ TQ3Status				E3FileFormat_GenericReadBinary_8(TQ3FileFormatObject format, TQ3Int
 TQ3Status				E3FileFormat_GenericReadBinary_16(TQ3FileFormatObject format, TQ3Int16* data);
 TQ3Status				E3FileFormat_GenericReadBinary_32(TQ3FileFormatObject format, TQ3Int32* data);
 TQ3Status				E3FileFormat_GenericReadBinary_64(TQ3FileFormatObject format, TQ3Int64* data);
-TQ3Status				E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data, unsigned long *length);
-TQ3Status				E3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char* data, unsigned long length);
+TQ3Status				E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data, TQ3Uns32 *length);
+TQ3Status				E3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);
 TQ3Status				E3FileFormat_GenericReadBinSwap_16(TQ3FileFormatObject format, TQ3Int16* data);
 TQ3Status				E3FileFormat_GenericReadBinSwap_32(TQ3FileFormatObject format, TQ3Int32* data);
 TQ3Status				E3FileFormat_GenericReadBinSwap_64(TQ3FileFormatObject format, TQ3Int64* data);
@@ -88,9 +88,9 @@ TQ3Status				E3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, TQ3I
 TQ3Status				E3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, TQ3Int32 data);
 TQ3Status				E3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, TQ3Int64 data);
 TQ3Status				E3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, 
-															const char* data, unsigned long *length);
+															const char* data, TQ3Uns32 *length);
 TQ3Status				E3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format, 
-															const unsigned char* data, unsigned long length);
+															const unsigned char* data, TQ3Uns32 length);
 TQ3Status				E3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, TQ3Int16 data);
 TQ3Status				E3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, TQ3Int32 data);
 TQ3Status				E3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, TQ3Int64 data);
@@ -105,11 +105,11 @@ TQ3Status				E3FileFormatClass_GetFormatNameString(TQ3ObjectType 		formatClassTy
 													 TQ3ObjectClassNameString  formatClassString);
 TQ3Status				E3FileFormat_GetConfigurationData(TQ3FileFormatObject 	format,
 													 unsigned char *		dataBuffer,
-													 unsigned long 			bufferSize,
-													 unsigned long *		actualDataSize);
+													 TQ3Uns32 				bufferSize,
+													 TQ3Uns32 *				actualDataSize);
 TQ3Status				E3FileFormat_SetConfigurationData(TQ3FileFormatObject 	format,
-													 unsigned char *		dataBuffer,
-													 unsigned long 			bufferSize);
+													 unsigned char *			dataBuffer,
+													 TQ3Uns32 					bufferSize);
 
 //-----------------------------------------------------------------------------
 

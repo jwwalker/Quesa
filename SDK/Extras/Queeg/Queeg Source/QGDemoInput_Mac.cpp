@@ -53,7 +53,7 @@ static int isPressed(unsigned short k )
 {
 	unsigned char km[16];
 
-	GetKeys( (unsigned long *) km);
+	GetKeys( (UInt32 *) km);
 	return ( ( km[k>>3] >> (k & 7) ) & 1);
 }
 
@@ -66,7 +66,7 @@ int QGKeyIsPressed( KeyNeed whichKey )
 	switch (whichKey)
 	{
 		case keyAny: {
-			unsigned long km[4];
+			UInt32 km[4];
 			GetKeys(km);
 			return km[0] or km[1] or km[2] or km[3];
 		} break;

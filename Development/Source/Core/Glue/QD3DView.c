@@ -1598,7 +1598,7 @@ Q3View_GetReceiveShadowsStyleState(TQ3ViewObject view, TQ3Boolean *receives)
 //      Q3View_GetPickIDStyleState : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3View_GetPickIDStyleState(TQ3ViewObject view, unsigned long *pickIDStyle)
+Q3View_GetPickIDStyleState(TQ3ViewObject view, TQ3Uns32 *pickIDStyle)
 {
 
 

@@ -291,7 +291,7 @@ Q3RendererClass_GetNickNameString(TQ3ObjectType rendererClassType, TQ3ObjectClas
 //      Q3Renderer_GetConfigurationData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Renderer_GetConfigurationData(TQ3RendererObject renderer, unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize)
+Q3Renderer_GetConfigurationData(TQ3RendererObject renderer, unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
 
 
@@ -337,7 +337,7 @@ Q3Renderer_GetConfigurationData(TQ3RendererObject renderer, unsigned char *dataB
 //      Q3Renderer_SetConfigurationData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Renderer_SetConfigurationData(TQ3RendererObject renderer, unsigned char *dataBuffer, unsigned long bufferSize)
+Q3Renderer_SetConfigurationData(TQ3RendererObject renderer, unsigned char *dataBuffer, TQ3Uns32 bufferSize)
 {
 
 
@@ -456,7 +456,7 @@ Q3InteractiveRenderer_GetCSGEquation(TQ3RendererObject renderer, TQ3CSGEquation 
 //      Q3InteractiveRenderer_SetPreferences : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_SetPreferences(TQ3RendererObject renderer, long vendorID, long engineID)
+Q3InteractiveRenderer_SetPreferences(TQ3RendererObject renderer, TQ3Int32 vendorID, TQ3Int32 engineID)
 {
 
 
@@ -497,7 +497,7 @@ Q3InteractiveRenderer_SetPreferences(TQ3RendererObject renderer, long vendorID, 
 //      Q3InteractiveRenderer_GetPreferences : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_GetPreferences(TQ3RendererObject renderer, long *vendorID, long *engineID)
+Q3InteractiveRenderer_GetPreferences(TQ3RendererObject renderer, TQ3Int32 *vendorID, TQ3Int32 *engineID)
 {
 
 
@@ -617,7 +617,7 @@ Q3InteractiveRenderer_GetDoubleBufferBypass(TQ3RendererObject renderer, TQ3Boole
 //      Q3InteractiveRenderer_SetRAVEContextHints : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject renderer, unsigned long RAVEContextHints)
+Q3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject renderer, TQ3Uns32 RAVEContextHints)
 {
 
 
@@ -655,7 +655,7 @@ Q3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject renderer, unsigned l
 //      Q3InteractiveRenderer_GetRAVEContextHints : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject renderer, unsigned long *RAVEContextHints)
+Q3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject renderer, TQ3Uns32 *RAVEContextHints)
 {
 
 
@@ -694,7 +694,7 @@ Q3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject renderer, unsigned l
 //      Q3InteractiveRenderer_SetRAVETextureFilter : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject renderer, unsigned long RAVEtextureFilterValue)
+Q3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject renderer, TQ3Uns32 RAVEtextureFilterValue)
 {
 
 
@@ -732,7 +732,7 @@ Q3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject renderer, unsigned 
 //      Q3InteractiveRenderer_GetRAVETextureFilter : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject renderer, unsigned long *RAVEtextureFilterValue)
+Q3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject renderer, TQ3Uns32 *RAVEtextureFilterValue)
 {
 
 
@@ -771,7 +771,7 @@ Q3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject renderer, unsigned 
 //      Q3InteractiveRenderer_CountRAVEDrawContexts : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject renderer, unsigned long *numRAVEContexts)
+Q3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject renderer, TQ3Uns32 *numRAVEContexts)
 {
 
 
@@ -810,7 +810,7 @@ Q3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject renderer, unsigned
 //      Q3InteractiveRenderer_GetRAVEDrawContexts : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject renderer, TQADrawContext **raveDrawContextList, TQAEngine **raveDrawingEnginesList, unsigned long *numRAVEContexts, TQ3RaveDestroyCallback raveDestroyCallback)
+Q3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject renderer, TQADrawContext **raveDrawContextList, TQAEngine **raveDrawingEnginesList, TQ3Uns32 *numRAVEContexts, TQ3RaveDestroyCallback raveDestroyCallback)
 {
 
 
@@ -860,7 +860,7 @@ Q3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject renderer, TQADrawCon
 //      Q3XView_IdleProgress : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3XView_IdleProgress(TQ3ViewObject view, unsigned long current, unsigned long completed)
+Q3XView_IdleProgress(TQ3ViewObject view, TQ3Uns32 current, TQ3Uns32 completed)
 {
 
 

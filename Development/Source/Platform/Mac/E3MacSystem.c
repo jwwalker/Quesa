@@ -47,6 +47,7 @@
 
 
 
+
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
@@ -163,14 +164,14 @@ E3MacSystem_Terminate(void)
 //-----------------------------------------------------------------------------
 void
 E3MacSystem_LoadPlugins(void)
-{	FSSpec			theFSSpec;
+{	SInt16			extensionFolderVolRefNum;
+	SInt32			extensionFolderDirID;
+	Boolean			targetIsFolder;
+	Boolean			wasAliased;
+	FSSpec			theFSSpec;
 	TQ3Uns32		theIndex;
 	OSErr			theErr;
 	CInfoPBRec		thePB;
-	Boolean targetIsFolder;
-	Boolean wasAliased;
-	long extensionFolderDirID;
-	short extensionFolderVolRefNum;
 
 
 
@@ -193,17 +194,20 @@ E3MacSystem_LoadPlugins(void)
 		thePB.dirInfo.ioNamePtr   = theFSSpec.name;
 		
 		theErr = PBGetCatInfoSync(&thePB);
+
 		if (theErr == noErr)
 			theErr = FSMakeFSSpec(extensionFolderVolRefNum,
-													 	extensionFolderDirID,
-													 	theFSSpec.name, &theFSSpec);
+									extensionFolderDirID,
+									theFSSpec.name, &theFSSpec);
+
 		if (theErr == noErr)
 			theErr = ResolveAliasFile(&theFSSpec, kQ3True, &targetIsFolder, &wasAliased);
+
+
 		// If this isn't a directory, check the type
 		if (!targetIsFolder)
 			{
 			// If this is a plug-in, load it
-			
 			if (thePB.hFileInfo.ioFlFndrInfo.fdType  == kQ3XExtensionMacFileType &&
 				thePB.hFileInfo.ioFlFndrInfo.fdCreator == kQ3XExtensionMacCreatorType)
 				e3mac_load_plugin(&theFSSpec);

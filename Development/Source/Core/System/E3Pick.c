@@ -711,7 +711,7 @@ E3Pick_SetEdgeTolerance(TQ3PickObject pick, float edgeTolerance)
 //      E3Pick_GetNumHits : Gets the pick object's number of hits.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetNumHits(TQ3PickObject pick, unsigned long *numHits)
+E3Pick_GetNumHits(TQ3PickObject pick, TQ3Uns32 *numHits)
 {	TQ3PickUnionData *instanceData = (TQ3PickUnionData *) pick->instanceData;
 
 
@@ -867,7 +867,7 @@ E3Pick_EmptyHitList(TQ3PickObject pick)
 //      E3Pick_GetPickDetailValidMask : Gets the pick mask for the nth pick.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetPickDetailValidMask(TQ3PickObject pick, unsigned long index, TQ3PickDetail *pickDetailValidMask)
+E3Pick_GetPickDetailValidMask(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail *pickDetailValidMask)
 {	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) pick->instanceData;
 	
 	if (index < instanceData->numHits)
@@ -898,7 +898,7 @@ E3Pick_GetPickDetailValidMask(TQ3PickObject pick, unsigned long index, TQ3PickDe
 //      E3Pick_GetPickDetailData : Gets the data for the nth object's detail.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetPickDetailData(TQ3PickObject pick, unsigned long index, TQ3PickDetail pickDetailValue, void *detailData)
+E3Pick_GetPickDetailData(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail pickDetailValue, void *detailData)
 {	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) pick->instanceData;
 	
 	if (index < instanceData->numHits)
@@ -918,7 +918,7 @@ E3Pick_GetPickDetailData(TQ3PickObject pick, unsigned long index, TQ3PickDetail 
 				switch (pickDetailValue)
 					{
 					case kQ3PickDetailMaskPickID:
-						*((long*)(detailData)) = current->pickID;
+						*((TQ3Int32*)(detailData)) = current->pickID;
 						break;
 					case kQ3PickDetailMaskPath:
 						*((TQ3HitPath*)(detailData)) = current->path;

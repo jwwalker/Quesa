@@ -46,7 +46,7 @@
 //      E3Error_Register : Register a callback.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Error_Register(TQ3ErrorMethod errorPost, long reference)
+E3Error_Register(TQ3ErrorMethod errorPost, TQ3Int32 reference)
 {
 
 
@@ -63,7 +63,7 @@ E3Error_Register(TQ3ErrorMethod errorPost, long reference)
 //      E3Warning_Register : Register a callback.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Warning_Register(TQ3WarningMethod warningPost, long reference)
+E3Warning_Register(TQ3WarningMethod warningPost, TQ3Int32 reference)
 {
 
 
@@ -80,7 +80,7 @@ E3Warning_Register(TQ3WarningMethod warningPost, long reference)
 //      E3Notice_Register : Register a callback.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Notice_Register(TQ3NoticeMethod noticePost, long reference)
+E3Notice_Register(TQ3NoticeMethod noticePost, TQ3Int32 reference)
 {
 
 

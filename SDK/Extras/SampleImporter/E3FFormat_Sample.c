@@ -467,7 +467,7 @@ SampleImporterLoad(void)
 //      SampleImporterExit : CFM exit point for Mac.
 //-----------------------------------------------------------------------------
 #if OS_MACINTOSH
-long
+TQ3Int32
 SampleImporterExit(void)
 {
 

@@ -63,10 +63,10 @@ TQ3Status			E3NURBCurve_Submit(const TQ3NURBCurveData *curveData, TQ3ViewObject 
 TQ3Status			E3NURBCurve_SetData(TQ3GeometryObject theCurve, const TQ3NURBCurveData *nurbCurveData);
 TQ3Status			E3NURBCurve_GetData(TQ3GeometryObject theCurve, TQ3NURBCurveData *nurbCurveData);
 TQ3Status			E3NURBCurve_EmptyData(TQ3NURBCurveData *nurbCurveData);
-TQ3Status			E3NURBCurve_SetControlPoint(TQ3GeometryObject theCurve, unsigned long pointIndex, const TQ3RationalPoint4D *point4D);
-TQ3Status			E3NURBCurve_GetControlPoint(TQ3GeometryObject theCurve, unsigned long pointIndex, TQ3RationalPoint4D *point4D);
-TQ3Status			E3NURBCurve_SetKnot(TQ3GeometryObject theCurve, unsigned long knotIndex, float knotValue);
-TQ3Status			E3NURBCurve_GetKnot(TQ3GeometryObject theCurve, unsigned long knotIndex, float *knotValue);
+TQ3Status			E3NURBCurve_SetControlPoint(TQ3GeometryObject theCurve, TQ3Uns32 pointIndex, const TQ3RationalPoint4D *point4D);
+TQ3Status			E3NURBCurve_GetControlPoint(TQ3GeometryObject theCurve, TQ3Uns32 pointIndex, TQ3RationalPoint4D *point4D);
+TQ3Status			E3NURBCurve_SetKnot(TQ3GeometryObject theCurve, TQ3Uns32 knotIndex, float knotValue);
+TQ3Status			E3NURBCurve_GetKnot(TQ3GeometryObject theCurve, TQ3Uns32 knotIndex, float *knotValue);
 
 
 

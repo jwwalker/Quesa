@@ -109,7 +109,7 @@ Q3Storage_GetType(TQ3StorageObject storage)
 //      Q3Storage_GetSize : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Storage_GetSize(TQ3StorageObject storage, unsigned long *size)
+Q3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size)
 {
 
 
@@ -148,7 +148,7 @@ Q3Storage_GetSize(TQ3StorageObject storage, unsigned long *size)
 //      Q3Storage_GetData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Storage_GetData(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, unsigned char *data, unsigned long *sizeRead)
+Q3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
 {
 
 
@@ -197,7 +197,7 @@ Q3Storage_GetData(TQ3StorageObject storage, unsigned long offset, unsigned long 
 //      Q3Storage_SetData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Storage_SetData(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, const unsigned char *data, unsigned long *sizeWritten)
+Q3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
 {
 
 
@@ -281,7 +281,7 @@ Q3MemoryStorage_GetType(TQ3StorageObject storage)
 //      Q3MemoryStorage_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
-Q3MemoryStorage_New(const unsigned char *buffer, unsigned long validSize)
+Q3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize)
 {
 
 
@@ -318,7 +318,7 @@ Q3MemoryStorage_New(const unsigned char *buffer, unsigned long validSize)
 //      Q3MemoryStorage_Set : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, unsigned long validSize)
+Q3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Uns32 validSize)
 {
 
 
@@ -360,7 +360,7 @@ Q3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, unsig
 //      Q3MemoryStorage_NewBuffer : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
-Q3MemoryStorage_NewBuffer(unsigned char *buffer, unsigned long validSize, unsigned long bufferSize)
+Q3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize)
 {
 
 
@@ -400,7 +400,7 @@ Q3MemoryStorage_NewBuffer(unsigned char *buffer, unsigned long validSize, unsign
 //      Q3MemoryStorage_SetBuffer : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, unsigned long validSize, unsigned long bufferSize)
+Q3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize)
 {
 
 
@@ -448,7 +448,7 @@ Q3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, unsig
 //				Interactive Renderer calls this with several NULL parameters.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, unsigned long *validSize, unsigned long *bufferSize)
+Q3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize)
 {
 
 
@@ -615,7 +615,7 @@ Q3PathStorage_Get(TQ3StorageObject theStorage, char *pathName)
 #pragma mark -
 #if OS_MACINTOSH
 TQ3StorageObject
-Q3HandleStorage_New(Handle handle, unsigned long validSize)
+Q3HandleStorage_New(Handle handle, TQ3Uns32 validSize)
 {
 
 
@@ -651,7 +651,7 @@ Q3HandleStorage_New(Handle handle, unsigned long validSize)
 //      Q3HandleStorage_Set : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3HandleStorage_Set(TQ3StorageObject storage, Handle handle, unsigned long validSize)
+Q3HandleStorage_Set(TQ3StorageObject storage, Handle handle, TQ3Uns32 validSize)
 {
 
 
@@ -692,7 +692,7 @@ Q3HandleStorage_Set(TQ3StorageObject storage, Handle handle, unsigned long valid
 //      Q3HandleStorage_Get : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3HandleStorage_Get(TQ3StorageObject storage, Handle *handle, unsigned long *validSize)
+Q3HandleStorage_Get(TQ3StorageObject storage, Handle *handle, TQ3Uns32 *validSize)
 {
 
 

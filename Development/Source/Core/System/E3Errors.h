@@ -56,9 +56,9 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Cross platform
-TQ3Status			E3Error_Register(TQ3ErrorMethod errorPost,       long reference);
-TQ3Status			E3Warning_Register(TQ3WarningMethod warningPost, long reference);
-TQ3Status			E3Notice_Register(TQ3NoticeMethod noticePost,    long reference);
+TQ3Status			E3Error_Register(TQ3ErrorMethod errorPost,       TQ3Int32 reference);
+TQ3Status			E3Warning_Register(TQ3WarningMethod warningPost, TQ3Int32 reference);
+TQ3Status			E3Notice_Register(TQ3NoticeMethod noticePost,    TQ3Int32 reference);
 TQ3Boolean			E3Error_IsFatalError(TQ3Error theError);
 TQ3Error			E3Error_Get(TQ3Error *firstError);
 TQ3Warning			E3Warning_Get(TQ3Warning *firstWarning);

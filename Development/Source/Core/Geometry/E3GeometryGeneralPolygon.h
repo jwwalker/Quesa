@@ -63,10 +63,10 @@ TQ3Status			E3GeneralPolygon_Submit(const TQ3GeneralPolygonData *generalPolygonD
 TQ3Status			E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolygonData *generalPolygonData);
 TQ3Status			E3GeneralPolygon_GetData(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonData *generalPolygonData);
 TQ3Status			E3GeneralPolygon_EmptyData(TQ3GeneralPolygonData *generalPolygonData);
-TQ3Status			E3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, TQ3Point3D *position);
-TQ3Status			E3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, const TQ3Point3D *position);
-TQ3Status			E3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, TQ3AttributeSet *attributeSet);
-TQ3Status			E3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, TQ3AttributeSet attributeSet);
+TQ3Status			E3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3Point3D *position);
+TQ3Status			E3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, const TQ3Point3D *position);
+TQ3Status			E3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3AttributeSet *attributeSet);
+TQ3Status			E3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3AttributeSet attributeSet);
 TQ3Status			E3GeneralPolygon_SetShapeHint(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonShapeHint shapeHint);
 TQ3Status			E3GeneralPolygon_GetShapeHint(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonShapeHint *shapeHint);
 

@@ -264,7 +264,7 @@ ir_interactive_style(TQ3XMethodType methodType)
 //      ir_interactive_nickname : Get the renderer nick name.
 //-----------------------------------------------------------------------------
 static TQ3Status
-ir_interactive_nickname(unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize)
+ir_interactive_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
 
 

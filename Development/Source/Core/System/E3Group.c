@@ -58,7 +58,7 @@ typedef struct TQ3XGroupPosition { // 12 bytes overhead per object in a group
 typedef struct { // 16 bytes overhead per group
 // initialised in e3group_new
 	TQ3XGroupPosition						listHead;
-	unsigned long							groupPositionSize;
+	TQ3Uns32								groupPositionSize;
 } TQ3GroupData;
 
 
@@ -134,7 +134,7 @@ e3group_new(TQ3Object theObject, void *privateData, const void *paramData)
 	instanceData->listHead.prev        = &instanceData->listHead;
 	instanceData->listHead.object      = theObject; // points to itself but never used
 	instanceData->listHead.privateData = NULL;      // See E3XGroup_GetPositionPrivate notes
-	instanceData->groupPositionSize    = (unsigned long) E3ClassTree_GetMethod(theClass, kQ3XMethodType_GroupPositionSize);
+	instanceData->groupPositionSize    = (TQ3Uns32) E3ClassTree_GetMethod(theClass, kQ3XMethodType_GroupPositionSize);
 
 	return(kQ3Success);
 }
@@ -527,7 +527,7 @@ e3group_getprevpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 //      e3group_countobjectsoftype : Group count objects of type method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3group_countobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType, unsigned long *number)
+e3group_countobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 *number)
 {	TQ3GroupData			*instanceData = e3group_findinstance(group);
 	TQ3XGroupPosition		*finish;
 	TQ3XGroupPosition		*pos;
@@ -2108,7 +2108,7 @@ E3Group_GetPreviousPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 //      E3Group_CountObjects : Counts the number of objects in a group.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Group_CountObjects(TQ3GroupObject group, unsigned long *nObjects)
+E3Group_CountObjects(TQ3GroupObject group, TQ3Uns32 *nObjects)
 {	TQ3XGroupCountObjectsOfTypeMethod	countObjectsOfTypeMethod;
 	TQ3Status							result;
 
@@ -2282,7 +2282,7 @@ E3Group_GetPreviousPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ
 //      E3Group_CountObjectsOfType : Count the objects of a certain type.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, unsigned long *nObjects)
+E3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 *nObjects)
 {	TQ3XGroupCountObjectsOfTypeMethod	countObjectsOfTypeMethod;
 	TQ3Status							result;
 

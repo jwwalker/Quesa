@@ -252,7 +252,7 @@ static TQ3Status
 e3urlelement_readdata (TQ3Object object, TQ3FileObject file)
 {
 	TCEUrlDataPrivate 	urlData;
-	unsigned long		length;
+	TQ3Uns32			length;
 	char 				buffer[kQ3StringMaximumLength];
 	
 	if (Q3String_Read (buffer, &length, file) == kQ3Failure)

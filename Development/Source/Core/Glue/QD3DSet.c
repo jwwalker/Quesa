@@ -727,7 +727,7 @@ Q3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 //      Q3XElementClass_Register : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3XObjectClass
-Q3XElementClass_Register(TQ3ElementType *elementType, const char *name, unsigned long sizeOfElement, TQ3XMetaHandler metaHandler)
+Q3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32 sizeOfElement, TQ3XMetaHandler metaHandler)
 {
 
 
@@ -771,7 +771,7 @@ Q3XElementClass_Register(TQ3ElementType *elementType, const char *name, unsigned
 //      Q3XElementType_GetElementSize : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3XElementType_GetElementSize(TQ3ElementType elementType, unsigned long *sizeOfElement)
+Q3XElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElement)
 {
 
 
@@ -808,7 +808,7 @@ Q3XElementType_GetElementSize(TQ3ElementType elementType, unsigned long *sizeOfE
 //      Q3XAttributeClass_Register : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3XObjectClass
-Q3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorName, unsigned long sizeOfElement, TQ3XMetaHandler metaHandler)
+Q3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorName, TQ3Uns32 sizeOfElement, TQ3XMetaHandler metaHandler)
 {
 
 

@@ -532,7 +532,7 @@ Q3Group_GetPreviousPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 //      Q3Group_CountObjects : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Group_CountObjects(TQ3GroupObject group, unsigned long *nObjects)
+Q3Group_CountObjects(TQ3GroupObject group, TQ3Uns32 *nObjects)
 {
 
 
@@ -774,7 +774,7 @@ Q3Group_GetPreviousPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ
 //      Q3Group_CountObjectsOfType : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, unsigned long *nObjects)
+Q3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 *nObjects)
 {
 
 

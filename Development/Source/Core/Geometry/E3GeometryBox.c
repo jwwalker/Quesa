@@ -966,7 +966,7 @@ E3Box_GetMinorAxis(TQ3GeometryObject theBox, TQ3Vector3D *minorAxis)
 //      E3Box_GetFaceAttributeSet : Get a face attribute set for a box object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Box_GetFaceAttributeSet(TQ3GeometryObject theBox, unsigned long faceIndex, TQ3AttributeSet *faceAttributeSet)
+E3Box_GetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3AttributeSet *faceAttributeSet)
 {	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
 
 
@@ -988,7 +988,7 @@ E3Box_GetFaceAttributeSet(TQ3GeometryObject theBox, unsigned long faceIndex, TQ3
 //      E3Box_SetFaceAttributeSet : Set a face attribute set for a box object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Box_SetFaceAttributeSet(TQ3GeometryObject theBox, unsigned long faceIndex, TQ3AttributeSet faceAttributeSet)
+E3Box_SetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3AttributeSet faceAttributeSet)
 {	TQ3BoxData		*instanceData = (TQ3BoxData *) theBox->instanceData;
 
 

@@ -421,7 +421,7 @@ E3PixmapMarker_SetPosition(TQ3GeometryObject pixmapMarker, const TQ3Point3D *pos
 //      E3PixmapMarker_GetXOffset : Get horizontal position of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, long *xOffset)
+E3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *xOffset)
 {
 	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) pixmapMarker->instanceData;
 	
@@ -440,7 +440,7 @@ E3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, long *xOffset)
 //      E3PixmapMarker_SetXOffset : Set horizontal position of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, long xOffset)
+E3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 xOffset)
 {
 	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) pixmapMarker->instanceData;
 	
@@ -461,7 +461,7 @@ E3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, long xOffset)
 //      E3PixmapMarker_GetYOffset :	Get the vertical position of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, long *yOffset)
+E3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *yOffset)
 {
 	const TQ3PixmapMarkerData *	instanceData = (const TQ3PixmapMarkerData *) pixmapMarker->instanceData;
 	
@@ -479,7 +479,7 @@ E3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, long *yOffset)
 //      E3PixmapMarker_SetYOffset :	Set the vertical position of a PixmapMarker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, long yOffset)
+E3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 yOffset)
 {
 	TQ3PixmapMarkerData *		instanceData = (TQ3PixmapMarkerData *) pixmapMarker->instanceData;
 	

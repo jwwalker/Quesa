@@ -66,10 +66,10 @@
 #define kClosedHandCursor	-129
 
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
-const unsigned long kQ3ViewerCanDrawDragBorders	=	kQ3ViewerDragMode			|
+const TQ3Uns32 kQ3ViewerCanDrawDragBorders	=		kQ3ViewerDragMode			|
 													kQ3ViewerDrawDragBorder		;
 
-const unsigned long kQ3ViewerInternalDefault 	=	kQ3ViewerActive				|
+const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 													kQ3ViewerControllerVisible	|
 													kQ3ViewerDrawFrame			|
 													kQ3ViewerButtonCamera		|
@@ -82,9 +82,9 @@ const unsigned long kQ3ViewerInternalDefault 	=	kQ3ViewerActive				|
 													kQ3ViewerDrawDragBorder 	|
 													kQ3ViewerButtonOptions		;
 #else
-const unsigned long kQ3ViewerCanDrawDragBorders	=	0;
+const TQ3Uns32 kQ3ViewerCanDrawDragBorders	=		0;
 
-const unsigned long kQ3ViewerInternalDefault 	=	kQ3ViewerActive				|
+const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 													kQ3ViewerControllerVisible	|
 													kQ3ViewerButtonCamera		|
 													kQ3ViewerButtonTruck		|
@@ -104,7 +104,7 @@ const unsigned long kQ3ViewerInternalDefault 	=	kQ3ViewerActive				|
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 	#define kAppHeapThreshold                   (50 * 1024)
 	
-	static void* E3Memory_Allocate (unsigned long theSize)
+	static void* E3Memory_Allocate (TQ3Uns32 theSize)
 		{
 		TQ3Uns32    totalMem, memAvail, requiredSize;
 	    Handle      theHnd, *hndPtr;
@@ -128,7 +128,7 @@ const unsigned long kQ3ViewerInternalDefault 	=	kQ3ViewerActive				|
 	    theHnd = TempNewHandle(requiredSize, &theErr);
 	    if (theHnd == NULL)
 	        {
-	        PurgeSpace((long *) &totalMem, (long *) &memAvail);
+	        PurgeSpace((SInt32 *) &totalMem, (SInt32 *) &memAvail);
 	        if (requiredSize + kAppHeapThreshold <= memAvail)
 	            {
 	            PurgeMem(requiredSize);       
@@ -246,9 +246,9 @@ enum TModalButtons
 
 typedef struct TQ3ViewerData
 	{
-	unsigned long							validViewer;
-	unsigned long							flags;
-	unsigned long							currentButton;
+	TQ3Uns32								validViewer;
+	TQ3Uns32								flags;
+	TQ3Uns32								currentButton;
 	TQ3ViewObject							theView;
 	TQ3GroupObject							theObjects;
 	TQ3GroupObject							theViewHints;
@@ -284,8 +284,8 @@ static TQ3EventRecord* gEventPtr = NULL;
 static TQ3ViewerData* gDragViewer = NULL;
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 	static AliasHandle gAliasHandle = NULL;
-	static short gResFileRefNum = 0;
-	static unsigned long gResFileCount = 0;
+	static TQ3Int16 gResFileRefNum = 0;
+	static TQ3Uns32 gResFileCount = 0;
 #endif
 
 
@@ -365,7 +365,7 @@ e3_viewer_button_to_external(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 
 
 static TQ3Status
-e3callallplugins (TQ3ViewerData* theViewer, long handler)
+e3callallplugins (TQ3ViewerData* theViewer, TQ3Int32 handler)
 	{
 	void* plugin;
 	TQ3Status result;
@@ -462,7 +462,7 @@ e3callallplugins (TQ3ViewerData* theViewer, long handler)
 				
 				case kQ3XMethodType_ViewerPluginAddDragFlavors:
 					{
-					unsigned long itemRef = 0;
+					TQ3Uns32 itemRef = 0;
 					result = ((TQ3XViewerPluginAddDragFlavorsMethod)(method)) (theViewer->theView, plugin, theViewer->theDrag, itemRef);
 					break;
 					}
@@ -482,7 +482,7 @@ e3callallplugins (TQ3ViewerData* theViewer, long handler)
 
 
 static TQ3ViewStatus
-e3callallviewstatusplugins (TQ3ViewerData* theViewer, long handler)
+e3callallviewstatusplugins (TQ3ViewerData* theViewer, TQ3Int32 handler)
 	{
 	void* plugin;
 	TQ3ViewStatus result = kQ3ViewStatusDone;
@@ -513,7 +513,7 @@ e3callallviewstatusplugins (TQ3ViewerData* theViewer, long handler)
 
 
 static TQ3Status
-e3callallpluginswithparams (TQ3ViewerData* theViewer, long handler, void* evt, unsigned long param1, unsigned long param2)
+e3callallpluginswithparams (TQ3ViewerData* theViewer, TQ3Int32 handler, void* evt, TQ3Uns32 param1, TQ3Uns32 param2)
 	{
 	void* plugin;
 	TQ3Status result = kQ3Success;
@@ -563,7 +563,7 @@ e3callallpluginswithparams (TQ3ViewerData* theViewer, long handler, void* evt, u
 					}
 				
 				case kQ3XMethodType_ViewerPluginDoDrop:
-					result = ((TQ3XViewerPluginDoDropMethod)(method)) (theViewer, plugin, (DragReference)(param1), param2, *(long*)(evt));
+					result = ((TQ3XViewerPluginDoDropMethod)(method)) (theViewer, plugin, (DragReference)(param1), param2, *(TQ3Int32*)(evt));
 					break;
 				}
 			}
@@ -575,8 +575,8 @@ e3callallpluginswithparams (TQ3ViewerData* theViewer, long handler, void* evt, u
 static TQ3Status
 e3checkcancel (void)
 	{
-	static long sNextCheck = 0 ;
-	long ticks;
+	static UInt32 sNextCheck = 0 ;
+	UInt32 ticks;
 	return kQ3Success; // ???
 	
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
@@ -613,7 +613,7 @@ e3checkcancel (void)
 
 
 static TQ3Status
-e3callindexplugin (TQ3ViewerData* theViewer, unsigned long index, long handler, void* param)
+e3callindexplugin (TQ3ViewerData* theViewer, TQ3Uns32 index, TQ3Int32 handler, void* param)
 	{
 	TQ3XMetaHandler metaHandler;
 	if ((index >= eLastButton) || (index < 0))
@@ -626,7 +626,7 @@ e3callindexplugin (TQ3ViewerData* theViewer, unsigned long index, long handler, 
 			{
 			TQ3Status result = kQ3Success;
 		#if defined(OS_MACINTOSH) && OS_MACINTOSH
-			short oldResFile = CurResFile ();
+			TQ3Int16 oldResFile = CurResFile ();
 			UseResFile (gResFileRefNum);
 		#endif
 			switch (handler)
@@ -694,12 +694,12 @@ static TQ3Status
 e3idleprogressmethod ( // only called for non-interactive renderers
 	TQ3ViewObject		theView,
 	const void*			data,
-	unsigned long		current,
-	unsigned long		completed)
+	TQ3Uns32			current,
+	TQ3Uns32			completed)
 	{
-	static long sNextFlush = 0;
+	static UInt32 sNextFlush = 0;
 	TQ3ViewMode mode;
-	long ticks;
+	UInt32 ticks;
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 	ticks = TickCount ();
 #else
@@ -715,7 +715,7 @@ e3idleprogressmethod ( // only called for non-interactive renderers
 	if (data)
 		{
 		TQ3ViewerData* viewerData = (TQ3ViewerData*)(data);
-		unsigned long percentage = (float)(current) / (float)(completed) * 100.0f;
+		TQ3Uns32 percentage = (float)(current) / (float)(completed) * 100.0f;
 	#if defined(OS_MACINTOSH) && OS_MACINTOSH
 		if (viewerData->statusBar)
 			SetControlValue (viewerData->statusBar, percentage);
@@ -1050,7 +1050,7 @@ e3resetcamerabounds (TQ3ViewerData* viewerData)
 
 
 static TQ3Status
-e3drawtool (TQ3ViewerData* viewerData, unsigned long buttonMask, unsigned long buttonNumber)
+e3drawtool (TQ3ViewerData* viewerData, TQ3Uns32 buttonMask, TQ3Uns32 buttonNumber)
 	{
 	if (viewerData->theWindow == NULL)
 		return kQ3Success;
@@ -1060,7 +1060,7 @@ e3drawtool (TQ3ViewerData* viewerData, unsigned long buttonMask, unsigned long b
 		TQ3XMetaHandler metaHandler = viewerData->metaHandlers [buttonNumber];
 		TQ3Area area;
 	#if (defined(OS_MACINTOSH) && OS_MACINTOSH) || (defined(OS_WIN32) && OS_WIN32)
-		short oldResFile = CurResFile ();
+		TQ3Int16 oldResFile = CurResFile ();
 		TQ3Rect r;
 		TQ3Rect iconRect;
 		TQ3Result err = Q3ViewerGetButtonRect (viewerData, e3_viewer_button_to_external((TQ3ViewerObject) viewerData, buttonNumber), &r);
@@ -1107,9 +1107,9 @@ e3drawtool (TQ3ViewerData* viewerData, unsigned long buttonMask, unsigned long b
 
 
 static TQ3Status
-e3clickbutton (TQ3ViewerData* theViewer, unsigned long button)
+e3clickbutton (TQ3ViewerData* theViewer, TQ3Uns32 button)
 	{
-	unsigned long oldButton = theViewer->currentButton;
+	TQ3Uns32 oldButton = theViewer->currentButton;
 	TQ3Status status = e3callindexplugin (theViewer, theViewer->currentButton, kQ3XMethodType_ViewerPluginUnclickTool, NULL);
 	if (status == kQ3Failure) // plug-in does not want to be unclicked
 		{
@@ -1162,15 +1162,15 @@ e3pointinrect (TQ3Point2D* pt, TQ3Rect* r)
 static void
 e3balloonhelp (TQ3ViewerData* theViewer, Point pt)
 	{
-	if ((long)(HMGetBalloons) != kUnresolvedCFragSymbolAddress)
+	if ((UInt32)(HMGetBalloons) != kUnresolvedCFragSymbolAddress)
 		{
 		if (HMGetBalloons()) // Balloon help is on
 			{
 			if (!HMIsBalloon ()) // there is already a balloon showing
 				{
 				GrafPtr oldPort;
-				short oldResFile = CurResFile ();
-				short strId = kDragAreaStrID;
+				TQ3Int16 oldResFile = CurResFile ();
+				TQ3Int16 strId = kDragAreaStrID;
 				Rect alternateRect = theViewer->theRect;
 				HMMessageRecord aHelpMsg;
 				aHelpMsg.hmmHelpType = khmmString;
@@ -1184,7 +1184,7 @@ e3balloonhelp (TQ3ViewerData* theViewer, Point pt)
 					}
 				else
 					{
-					long button = 0;
+					UInt32 button = 0;
 					Rect r;
 					do
 						{
@@ -1275,7 +1275,7 @@ e3sendproc (FlavorType theType, void *dragSendRefCon, ItemReference theItemRef, 
 			}
 		if ((err == noErr) && data)
 			{
-			unsigned long size;
+			TQ3Uns32 size;
 			watch = GetCursor (watchCursor);
 			if (watch)
 				SetCursor (*watch);
@@ -1291,7 +1291,7 @@ e3sendproc (FlavorType theType, void *dragSendRefCon, ItemReference theItemRef, 
 			}
 		}
 	else
-	if (e3callallpluginswithparams (theViewer, kQ3XMethodType_ViewerPluginDoDrop, &theType, (unsigned long)theDragRef, theItemRef) == kQ3Success)
+	if (e3callallpluginswithparams (theViewer, kQ3XMethodType_ViewerPluginDoDrop, &theType, (TQ3Uns32)theDragRef, theItemRef) == kQ3Success)
 		return noErr;
 	else
 		return badDragFlavorErr;
@@ -1307,7 +1307,7 @@ e3acceptabledrag (TQ3ViewerData* theViewer, DragReference theDragRef)
 	err = GetDragItemReferenceNumber (theDragRef, 1, &theItemRef); // only look at the first item
 	if (err == noErr)
 		{
-		long index = 1;
+		UInt32 index = 1;
 		do
 			{
 			FlavorType theType;
@@ -1326,7 +1326,7 @@ e3acceptabledrag (TQ3ViewerData* theViewer, DragReference theDragRef)
 						return theSpec.fileType = '3DMF';
 					}
 				else
-				if (e3callallpluginswithparams (theViewer, kQ3XMethodType_ViewerPluginDragAcceptable, &theType, (unsigned long)theDragRef, theItemRef) == kQ3Success)
+				if (e3callallpluginswithparams (theViewer, kQ3XMethodType_ViewerPluginDragAcceptable, &theType, (TQ3Uns32)theDragRef, theItemRef) == kQ3Success)
 					return true;
 				// continues with next flavor from here
 				}
@@ -1433,7 +1433,7 @@ e3receivehandler (WindowPtr, void *handlerRefCon, DragReference theDragRef)
 				err = GetDragItemReferenceNumber (theDragRef, 1, &theItemRef); // only look at the first item
 				if (err == noErr)
 					{
-					long index = 1;
+					UInt32 index = 1;
 					do
 						{
 						FlavorType theType;
@@ -1469,7 +1469,7 @@ e3receivehandler (WindowPtr, void *handlerRefCon, DragReference theDragRef)
 								err = GetFlavorData (theDragRef, theItemRef, theType, &theSpec, &actualSize, 0);
 								if ((err == noErr) && (actualSize == sizeof (HFSFlavor)) && (theSpec.fileType == '3DMF'))
 									{
-									short refnum;
+									TQ3Int16 refnum;
 									err = FSpOpenDF (&theSpec.fileSpec, fsRdPerm, &refnum);
 									if (err == noErr)
 										{
@@ -1494,7 +1494,7 @@ e3receivehandler (WindowPtr, void *handlerRefCon, DragReference theDragRef)
 static void
 e3dodrag (TQ3ViewerData* theViewer, TQ3EventRecord* theEvent)
 	{
-	if ((long)(NewDrag) != kUnresolvedCFragSymbolAddress)
+	if ((UInt32)(NewDrag) != kUnresolvedCFragSymbolAddress)
 		{
 		DragReference theDrag;
 		OSErr err = NewDrag (&theDrag);
@@ -1504,7 +1504,7 @@ e3dodrag (TQ3ViewerData* theViewer, TQ3EventRecord* theEvent)
 			DragSendDataUPP sendProcUPP;
 			// create a drag region
 			RgnHandle theRegion = NewRgn ();
-			short oldResFile = CurResFile ();
+			TQ3Int16 oldResFile = CurResFile ();
 			UseResFile (gResFileRefNum);
 			if (theRegion)
 				{
@@ -1637,7 +1637,7 @@ e3_viewer_button_to_internal(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Result
-Q3ViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision)
+Q3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 	{
 	if (majorRevision)
 		*majorRevision = kQ3MajorRevision;
@@ -1653,7 +1653,7 @@ Q3ViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision)
 //-----------------------------------------------------------------------------
 
 TQ3Result
-Q3ViewerGetReleaseVersion(unsigned long *releaseRevision)
+Q3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 	{
 	if (releaseRevision)
 		*releaseRevision = (kQ3MajorRevision << 16) | (kQ3MinorRevision << 8) | kQ3FixRevision;
@@ -1667,9 +1667,9 @@ Q3ViewerGetReleaseVersion(unsigned long *releaseRevision)
 //      Q3ViewerNew : Creates a new viewer object.
 //-----------------------------------------------------------------------------
 TQ3ViewerObject
-Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, unsigned long flags)
+Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 	{
-	unsigned long index;
+	TQ3Uns32 index;
 	TQ3ViewerData* viewerData;
 	if (rect == NULL)
 		return NULL;
@@ -1724,7 +1724,7 @@ Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, unsigned long flags)
 	#if defined(OS_MACINTOSH) && OS_MACINTOSH
 		viewerData->statusBar = NULL;
 		viewerData->theDrag = NULL;
-		if ((long)(NewDrag) == kUnresolvedCFragSymbolAddress)
+		if ((UInt32)(NewDrag) == kUnresolvedCFragSymbolAddress)
 			{
 			viewerData->flags &= ~kQ3ViewerDragMode;
 			viewerData->flags &= ~kQ3ViewerDraggingInOff;
@@ -1979,7 +1979,7 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 //-----------------------------------------------------------------------------
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 OSErr
-Q3ViewerUseFile(TQ3ViewerObject theViewer, long refNum)
+Q3ViewerUseFile(TQ3ViewerObject theViewer, SInt32 refNum)
 	{
 	TQ3StorageObject store;
 	CheckViewerFailure (theViewer);
@@ -2026,7 +2026,7 @@ Q3ViewerUseFile(TQ3ViewerObject theViewer, HANDLE fileHandle)
 //      Q3ViewerUseData : Reads in the objects from a 3DMF stream.
 //-----------------------------------------------------------------------------
 TQ3Result
-Q3ViewerUseData(TQ3ViewerObject theViewer, void *data, long size)
+Q3ViewerUseData(TQ3ViewerObject theViewer, void *data, TQ3Int32 size)
 	{
 	TQ3StorageObject store;
 	if (data == NULL)
@@ -2054,7 +2054,7 @@ Q3ViewerUseData(TQ3ViewerObject theViewer, void *data, long size)
 //-----------------------------------------------------------------------------
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 OSErr
-Q3ViewerWriteFile(TQ3ViewerObject theViewer, long refNum)
+Q3ViewerWriteFile(TQ3ViewerObject theViewer, TQ3Int32 refNum)
 	{
 	TQ3StorageObject store;
 	CheckViewerFailure (theViewer);
@@ -2097,7 +2097,7 @@ Q3ViewerWriteFile(TQ3ViewerObject theViewer, HANDLE fileHandle)
 //-----------------------------------------------------------------------------
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 
-unsigned long
+TQ3Uns32
 Q3ViewerWriteData(TQ3ViewerObject theViewer, Handle data)
 	{
 	TQ3StorageObject store;
@@ -2109,7 +2109,7 @@ Q3ViewerWriteData(TQ3ViewerObject theViewer, Handle data)
 		{
 		TQ3ViewerData* viewerData = (TQ3ViewerData*)theViewer;
 		TQ3Status err = e3writefile (viewerData, store);
-		unsigned long result = GetHandleSize (data);
+		TQ3Uns32 result = GetHandleSize (data);
 		Q3Object_Dispose (store);
 		if (err == kQ3Success)
 			return result; // return the actual size of the data written
@@ -2123,11 +2123,11 @@ TQ3Status
 Q3ViewerWriteData(
 	TQ3ViewerObject		theViewer,
 	void				*data,
-	unsigned long		dataSize,
-	unsigned long		*actualDataSize)
+	TQ3Uns32			dataSize,
+	TQ3Uns32			*actualDataSize)
 	{
 	TQ3StorageObject store;
-	unsigned long actualSize;
+	TQ3Uns32 actualSize;
 	if (data == NULL)
 		return kQ3Failure;
 	CheckViewerFailure (theViewer);
@@ -2374,9 +2374,9 @@ Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
 //      Q3ViewerGetButtonRect : Returns the rect of a specified button.
 //-----------------------------------------------------------------------------
 TQ3Result
-Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, unsigned long button, TQ3Rect *rect)
+Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, TQ3Rect *rect)
 	{
-	unsigned long flags;
+	TQ3Uns32 flags;
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
 	if (rect == NULL)
 		return kQ3BadResult;
@@ -2440,7 +2440,7 @@ Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, unsigned long button, TQ3Rect *
 //=============================================================================
 //      Q3ViewerGetCurrentButton : Returns the currently selected button.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 Q3ViewerGetCurrentButton(TQ3ViewerObject theViewer)
 	{	TQ3Uns32		theButton;
 
@@ -2460,7 +2460,7 @@ Q3ViewerGetCurrentButton(TQ3ViewerObject theViewer)
 //      Q3ViewerSetCurrentButton : Sets the current button.
 //-----------------------------------------------------------------------------
 TQ3Result
-Q3ViewerSetCurrentButton(TQ3ViewerObject theViewer, unsigned long button)
+Q3ViewerSetCurrentButton(TQ3ViewerObject theViewer, TQ3Uns32 button)
 	{
 	CheckViewerFailure (theViewer);
 
@@ -2618,9 +2618,9 @@ Q3ViewerRestoreView(TQ3ViewerObject theViewer)
 //      Q3ViewerSetFlags : Sets the viewers flags.
 //-----------------------------------------------------------------------------
 TQ3Result
-Q3ViewerSetFlags(TQ3ViewerObject theViewer, unsigned long flags)
+Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 	{
-	unsigned long oldFlags;
+	TQ3Uns32 oldFlags;
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
 	CheckViewerFailure (theViewer);
 	
@@ -2633,7 +2633,7 @@ Q3ViewerSetFlags(TQ3ViewerObject theViewer, unsigned long flags)
 		}
 	
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
-	if ((long)(NewDrag) == kUnresolvedCFragSymbolAddress)
+	if ((UInt32)(NewDrag) == kUnresolvedCFragSymbolAddress)
 		{
 		flags &= ~kQ3ViewerDragMode;
 		flags &= ~kQ3ViewerDraggingInOff;
@@ -2695,7 +2695,7 @@ Q3ViewerSetFlags(TQ3ViewerObject theViewer, unsigned long flags)
 //=============================================================================
 //      Q3ViewerGetFlags : Returns the viewers flags.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 Q3ViewerGetFlags(TQ3ViewerObject theViewer)
 	{
 	CheckViewerFalse (theViewer);
@@ -2783,7 +2783,7 @@ Q3ViewerGetBounds(TQ3ViewerObject theViewer, TQ3Rect *bounds)
 //      Q3ViewerSetDimension : Sets the width and height of the viewer.
 //-----------------------------------------------------------------------------
 TQ3Result
-Q3ViewerSetDimension(TQ3ViewerObject theViewer, unsigned long width, unsigned long height)
+Q3ViewerSetDimension(TQ3ViewerObject theViewer, TQ3Uns32 width, TQ3Uns32 height)
 	{
 	TQ3Rect r;
 	CheckViewerFailure (theViewer);
@@ -2801,7 +2801,7 @@ Q3ViewerSetDimension(TQ3ViewerObject theViewer, unsigned long width, unsigned lo
 //      Q3ViewerGetDimension : Gets the width and height of the viewer.
 //-----------------------------------------------------------------------------
 TQ3Result
-Q3ViewerGetDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned long *height)
+Q3ViewerGetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height)
 	{
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
 	CheckViewerFailure (theViewer);
@@ -2827,12 +2827,12 @@ Q3ViewerGetDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned l
 //      Q3ViewerGetMinimumDimension : Gets the minimum dimensions of the viewer.
 //-----------------------------------------------------------------------------
 TQ3Result
-Q3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned long *height)
+Q3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height)
 	{
 	TQ3Rect r;
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
-	short theWidth = kQ3MinimumWidth;
-	short theHeight = kQ3MinimumHeight;
+	TQ3Int16 theWidth = kQ3MinimumWidth;
+	TQ3Int16 theHeight = kQ3MinimumHeight;
 	CheckViewerFailure (theViewer);
 	if (viewer->flags & kQ3ViewerControllerVisible)
 		theHeight += kQ3ControllerHeight;
@@ -2879,7 +2879,7 @@ Q3ViewerAdjustCursor(TQ3ViewerObject theViewer, Point *pt)
 		else
 			{
 			CursHandle h;
-			short oldResFile = CurResFile ();
+			TQ3Int16 oldResFile = CurResFile ();
 			UseResFile (gResFileRefNum);
 			h = GetCursor (kHandCursor);
 			if (h)
@@ -2899,7 +2899,7 @@ Q3ViewerAdjustCursor(TQ3ViewerObject theViewer, Point *pt)
 #pragma mark --- unimplemented Windows OS ---
 
 TQ3Boolean
-Q3ViewerAdjustCursor(TQ3ViewerObject theViewer, long x , long y)
+Q3ViewerAdjustCursor(TQ3ViewerObject theViewer, TQ3Int32 x , TQ3Int32 y)
 	{
 	CheckViewerFalse (theViewer);
 	// To be implemented...
@@ -2930,11 +2930,11 @@ Q3ViewerCursorChanged(TQ3ViewerObject theViewer)
 //=============================================================================
 //      Q3ViewerGetState : Returns the state of the viewer.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 Q3ViewerGetState(TQ3ViewerObject theViewer)
 	{
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
-	unsigned long result = kQ3ViewerEmpty;
+	TQ3Uns32 result = kQ3ViewerEmpty;
 	CheckViewerFalse (theViewer);
 	if (viewer->theObjects)
 		{
@@ -2955,10 +2955,10 @@ Q3ViewerGetState(TQ3ViewerObject theViewer)
 //-----------------------------------------------------------------------------
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 Boolean
-Q3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, unsigned long *actualSize)
+Q3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, TQ3Uns32 *actualSize)
 #else
 TQ3Boolean
-Q3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, unsigned long stringSize, unsigned long *actualSize)
+Q3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, TQ3Uns32 stringSize, TQ3Uns32 *actualSize)
 #endif
 	{
 	CheckViewerFalse (theViewer);
@@ -3056,8 +3056,8 @@ Q3ViewerCopy(TQ3ViewerObject theViewer)
 		if (status == kQ3Success)
 			{
 			PicHandle picH;
-			long result;
-			unsigned long validSize;
+			UInt32 result;
+			TQ3Uns32 validSize;
 			ZeroScrap (); // clear out the old scrap
 			if (Q3HandleStorage_Get (theStore, &h, &validSize) == kQ3Success)
 				result = PutScrap (validSize, '3DMF', *h);
@@ -3109,8 +3109,8 @@ Q3ViewerCopy(TQ3ViewerObject theViewer)
 OSErr
 Q3ViewerPaste(TQ3ViewerObject theViewer)
 	{
-	long size;
-	long offset = 0; // must zero out offset
+	TQ3Int32 size;
+	TQ3Int32 offset = 0; // must zero out offset
 	CheckViewerFailure (theViewer);
 	size = LoadScrap ();
 	if (size < 0)
@@ -3173,7 +3173,7 @@ Q3ViewerPaste(TQ3ViewerObject theViewer)
 //      Q3ViewerMouseDown : Called when the mouse if first clicked.
 //-----------------------------------------------------------------------------
 TQ3BoolResult
-Q3ViewerMouseDown(TQ3ViewerObject theViewer, long x, long y)
+Q3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 	{
 	TQ3Point2D pt;
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
@@ -3183,7 +3183,7 @@ Q3ViewerMouseDown(TQ3ViewerObject theViewer, long x, long y)
 	pt.y = y;
 	if (e3pointinrect (&pt, &viewer->theRect))
 		{
-		unsigned long button;
+		TQ3Uns32 button;
 		TQ3Rect r;
 		
 		// see if mouse hit main area
@@ -3225,7 +3225,7 @@ Q3ViewerMouseDown(TQ3ViewerObject theViewer, long x, long y)
 //      Q3ViewerContinueTracking : Tracks the mouse while it is down.
 //-----------------------------------------------------------------------------
 TQ3BoolResult
-Q3ViewerContinueTracking(TQ3ViewerObject theViewer, long x, long y)
+Q3ViewerContinueTracking(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 	{
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
 	TQ3Point2D pt;
@@ -3254,7 +3254,7 @@ Q3ViewerContinueTracking(TQ3ViewerObject theViewer, long x, long y)
 //      Q3ViewerMouseUp : Does the stuff when the mouse is released.
 //-----------------------------------------------------------------------------
 TQ3BoolResult
-Q3ViewerMouseUp(TQ3ViewerObject theViewer, long x, long y)
+Q3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 	{
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
 	TQ3Point2D pt;
@@ -3324,7 +3324,7 @@ Q3ViewerSetPaneResizeNotifyCallback(TQ3ViewerObject theViewer, TQ3ViewerPaneResi
 //      Q3ViewerGetCameraCount : Returns the number of custom views.
 //-----------------------------------------------------------------------------
 TQ3Result
-Q3ViewerGetCameraCount(TQ3ViewerObject theViewer, unsigned long *cnt)
+Q3ViewerGetCameraCount(TQ3ViewerObject theViewer, TQ3Uns32 *cnt)
 	{
 	if (cnt)
 		{
@@ -3343,7 +3343,7 @@ Q3ViewerGetCameraCount(TQ3ViewerObject theViewer, unsigned long *cnt)
 //      Q3ViewerSetCameraByNumber : Sets the view to user camera n.
 //-----------------------------------------------------------------------------
 TQ3Result
-Q3ViewerSetCameraByNumber(TQ3ViewerObject theViewer, unsigned long cameraNo)
+Q3ViewerSetCameraByNumber(TQ3ViewerObject theViewer, TQ3Uns32 cameraNo)
 	{
 	TQ3ViewerData* viewer;
 	TQ3GroupPosition pos;
@@ -3354,7 +3354,7 @@ Q3ViewerSetCameraByNumber(TQ3ViewerObject theViewer, unsigned long cameraNo)
 	status = Q3Group_GetFirstPosition (viewer->theViewHints, &pos);
 	if (status == kQ3Success)
 		{
-		unsigned long count = 1;
+		TQ3Uns32 count = 1;
 		while (cameraNo < count)
 			{
 			status = Q3Group_GetNextPosition (viewer->theViewHints, &pos);
@@ -3780,7 +3780,7 @@ Q3ViewerEvent(TQ3ViewerObject theViewer, EventRecord *evt)
 			{
 			Point pt = evt->where;
 			WindowPtr theWindow;
-			short part = FindWindow (pt, &theWindow);
+			TQ3Int16 part = FindWindow (pt, &theWindow);
 			if (part == inGrow)
 				{
 				if (viewer->windowResizeCallbackMethod)
@@ -3885,7 +3885,7 @@ Q3ViewerGetPict(TQ3ViewerObject theViewer)
 	GWorldPtr theGWorld;
 	PixMapHandle thePixMap;
 	PicHandle thePicture = NULL;
-	short pixelDepth = 32;
+	TQ3Int16 pixelDepth = 32;
 	TQ3ViewObject theView;
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
 	
@@ -3949,7 +3949,7 @@ Q3ViewerGetPict(TQ3ViewerObject theViewer)
 					GWorldPtr oldGWorld;
 					GDHandle oldDevice;
 					TQ3Status status;
-					unsigned long oldFlags = viewer->flags;
+					TQ3Uns32 oldFlags = viewer->flags;
 				
 				#if defined(OS_MACINTOSH) && OS_MACINTOSH
 					// turn off the draw border flag

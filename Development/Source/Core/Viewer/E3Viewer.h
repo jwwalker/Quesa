@@ -167,7 +167,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XPluginAfterDrawMethod )(TQ3ViewObject th
 // Called periodically during submission of objects during drawing, picking, writing and bounding box/sphere.
 // All registered plug-ins must be called
 typedef CALLBACK_API_C( TQ3Status , TQ3XPluginDuringSubmitMethod )
-	(TQ3ViewObject theView, TQ3SharedObject thePlugin, unsigned long current, unsigned long max, TQ3ViewMode mode); // mode is either draw, pick, writing, calc etc.
+	(TQ3ViewObject theView, TQ3SharedObject thePlugin, TQ3Uns32 current, TQ3Uns32 max, TQ3ViewMode mode); // mode is either draw, pick, writing, calc etc.
 
 #define kQ3XMethodType_PluginAfterStartDraw				Q3_METHOD_TYPE('p','a','s','d')
 // Called just after Q3View_StartDrawing. Submit any of your objects.
@@ -211,7 +211,7 @@ typedef CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginBeforeEndPickingMethod )(TQ3Vi
 
 //---- TQ3PluginTypeViewer methods ----
 typedef CALLBACK_API_C( TQ3Status , TQ3XPluginViewerParamMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginViewerParamEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, long param1, long param2);
+typedef CALLBACK_API_C( TQ3Status , TQ3XPluginViewerParamEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
 typedef CALLBACK_API_C( TQ3Status , TQ3XPluginViewerParamPointMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Point2D* pt);
 
 #define kQ3XMethodType_ViewerPluginNewViewer			Q3_METHOD_TYPE('v','n','e','w')
@@ -286,25 +286,25 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDrawContextChangedMethod )(T
 
 #define kQ3XMethodType_ViewerPluginDoToolEvent			Q3_METHOD_TYPE('v','d','o','t')
 // Called when the selected tool has been clicked in the main viewer area. Do your stuff.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, long param1, long param2);
+typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
 // On Mac evt is an EventRecord* and param1 and param2 are not used
 // On Windows, ???
 
 #define kQ3XMethodType_ViewerPluginDoToolStart			Q3_METHOD_TYPE('v','d','t','s')
 // Called when the selected tool has been clicked in the main viewer area. Do your stuff.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, long x, long y);
+typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Int32 x, TQ3Int32 y);
 
 #define kQ3XMethodType_ViewerPluginDoToolTracking		Q3_METHOD_TYPE('v','d','t','t')
 // Called when the selected tool is tracking in the main viewer area. Do your stuff.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolTrackingMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, long x, long y);
+typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolTrackingMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Int32 x, TQ3Int32 y);
 
 #define kQ3XMethodType_ViewerPluginDoToolEnd			Q3_METHOD_TYPE('v','d','t','e')
 // Called when the selected tool is finished in the main viewer area. Do your stuff.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolEndMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, long x, long y);
+typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolEndMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Int32 x, TQ3Int32 y);
 
 #define kQ3XMethodType_ViewerPluginDoKeyDown			Q3_METHOD_TYPE('v','d','c','d')
 // Called when the selected tool has been told that the key is for it. Do your stuff.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoKeyDownMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, long param1, long param2);
+typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoKeyDownMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
 // On Mac evt is an EventRecord* and param1 and param2 are not used
 // On Windows, ???
 
@@ -313,33 +313,33 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoKeyDownMethod )(TQ3ViewerO
 // If you return kQ3Success the event will not be passed on to the viewer as the plug-in will have dealt with it.
 // You can do some processing depending on the event and still return kQ3Failure to allow the event to be passed on.
 // Should be called for each registered Viewer plug-in.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginBeforeEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, long param1, long param2);
+typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginBeforeEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
 // On Mac evt is an EventRecord* and param1 and param2 are not used
 // On Windows, ???
 
 #define kQ3XMethodType_ViewerPluginAfterEvent			Q3_METHOD_TYPE('v','a','e','v')
 // Called when your tool is active and an event has been processed. Should be called for each YPE('p','a','s','p')
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAfterEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, long param1, long param2);
+typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAfterEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
 
 //---- TQ3PluginTypeViewer methods ----
 
 #define	kQ3XMethodType_ViewerPluginDragAcceptable		Q3_METHOD_TYPE('v','d','r','a')
 // Called when the viewer is about to accept a drop. Return the acceptable flavor.
-typedef CALLBACK_API_C( TQ3Boolean , TQ3XViewerPluginDragAcceptableMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, unsigned long item, long* myFlavor);
+typedef CALLBACK_API_C( TQ3Boolean , TQ3XViewerPluginDragAcceptableMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, TQ3Uns32 item, TQ3Int32* myFlavor);
 // On Mac, drag is a DragReference, item is an ItemReference, myFlavor is an OSType
 // On Windows, drag is a Handle, item is unused, myFlavor is unused
 
 #define kQ3XMethodType_ViewerPluginDoDrop				Q3_METHOD_TYPE('v','d','d','r')
 // Called when the viewer has dropped your flavor type. Return kQ3Success if you succeeded
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoDropMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, unsigned long item, long yourFlavor);
+typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoDropMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, TQ3Uns32 item, TQ3Int32 yourFlavor);
 // On Mac, drag is a DragReference, item is an ItemReference, yourFlavor is an OSType
 // On Windows, drag is a Handle, item is unused, yourFlavor is unused
 
 #define kQ3XMethodType_ViewerPluginAddDragFlavors		Q3_METHOD_TYPE('v','a','d','f')
 // Called when the viewer is about to start a drag.
 // Mac only ??
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAddDragFlavorsMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, unsigned long item);
+typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAddDragFlavorsMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, TQ3Uns32 item);
 // On Mac, drag is a DragReference, item is an ItemReference
 
 
@@ -347,10 +347,10 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAddDragFlavorsMethod )(TQ3Vi
 
 #define kQ3XMethodType_InterObjectMessage				Q3_METHOD_TYPE('i','o','m','e')
 // Useful means of allowing objects to communicate with each other.
-// We will need a call like Q3Object_SendMessage (TQ3Object fromObject, TQ3Object toObject, long message, void* data, unsigned long length);
+// We will need a call like Q3Object_SendMessage (TQ3Object fromObject, TQ3Object toObject, TQ3Int32 message, void* data, TQ3Uns32 length);
 // message is any value you like and depends on the object you are communicating with.
 // Define your own messaging system between your own plug-in suites.
-typedef CALLBACK_API_C( TQ3Status , TQ3XObjectMessageMethod )(TQ3Object fromObject, long message, void* messageData, unsigned long messageDataLength);
+typedef CALLBACK_API_C( TQ3Status , TQ3XObjectMessageMethod )(TQ3Object fromObject, TQ3Int32 message, void* messageData, TQ3Uns32 messageDataLength);
 
 
 
@@ -359,55 +359,55 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XObjectMessageMethod )(TQ3Object fromObje
 //-----------------------------------------------------------------------------
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 
-OSErr			Q3ViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision);
-OSErr			Q3ViewerGetReleaseVersion(unsigned long *releaseRevision);
-TQ3ViewerObject	Q3ViewerNew(CGrafPtr port, Rect *rect, unsigned long flags);
+OSErr			Q3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision);
+OSErr			Q3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision);
+TQ3ViewerObject	Q3ViewerNew(CGrafPtr port, Rect *rect, TQ3Uns32 flags);
 OSErr			Q3ViewerDispose(TQ3ViewerObject theViewer);
-OSErr			Q3ViewerUseFile(TQ3ViewerObject theViewer, long refNum);
-OSErr			Q3ViewerUseData(TQ3ViewerObject theViewer, void *data, long size);
-OSErr			Q3ViewerWriteFile(TQ3ViewerObject theViewer, long refNum);
-unsigned long	Q3ViewerWriteData(TQ3ViewerObject theViewer, Handle data);
+OSErr			Q3ViewerUseFile(TQ3ViewerObject theViewer, TQ3Int32 refNum);
+OSErr			Q3ViewerUseData(TQ3ViewerObject theViewer, void *data, TQ3Int32 size);
+OSErr			Q3ViewerWriteFile(TQ3ViewerObject theViewer, TQ3Int32 refNum);
+TQ3Uns32		Q3ViewerWriteData(TQ3ViewerObject theViewer, Handle data);
 OSErr			Q3ViewerDraw(TQ3ViewerObject theViewer);
 OSErr			Q3ViewerDrawContent(TQ3ViewerObject theViewer);
 OSErr			Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer);
 Boolean			Q3ViewerEvent(TQ3ViewerObject theViewer, EventRecord *evt);
 PicHandle		Q3ViewerGetPict(TQ3ViewerObject theViewer);
-OSErr			Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, unsigned long button, Rect *rect);
-unsigned long	Q3ViewerGetCurrentButton(TQ3ViewerObject theViewer);
-OSErr			Q3ViewerSetCurrentButton(TQ3ViewerObject theViewer, unsigned long button);
+OSErr			Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, Rect *rect);
+TQ3Uns32		Q3ViewerGetCurrentButton(TQ3ViewerObject theViewer);
+OSErr			Q3ViewerSetCurrentButton(TQ3ViewerObject theViewer, TQ3Uns32 button);
 OSErr			Q3ViewerUseGroup(TQ3ViewerObject theViewer, TQ3GroupObject group);
 TQ3GroupObject	Q3ViewerGetGroup(TQ3ViewerObject theViewer);
 OSErr			Q3ViewerSetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *color);
 OSErr			Q3ViewerGetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *color);
 TQ3ViewObject	Q3ViewerGetView(TQ3ViewerObject theViewer);
 OSErr			Q3ViewerRestoreView(TQ3ViewerObject theViewer);
-OSErr			Q3ViewerSetFlags(TQ3ViewerObject theViewer, unsigned long flags);
-unsigned long	Q3ViewerGetFlags(TQ3ViewerObject theViewer);
+OSErr			Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags);
+TQ3Uns32		Q3ViewerGetFlags(TQ3ViewerObject theViewer);
 OSErr			Q3ViewerSetBounds(TQ3ViewerObject theViewer, Rect *bounds);
 OSErr			Q3ViewerGetBounds(TQ3ViewerObject theViewer, Rect *bounds);
-OSErr			Q3ViewerSetDimension(TQ3ViewerObject theViewer, unsigned long width, unsigned long height);
-OSErr			Q3ViewerGetDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned long *height);
-OSErr			Q3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned long *height);
+OSErr			Q3ViewerSetDimension(TQ3ViewerObject theViewer, TQ3Uns32 width, TQ3Uns32 height);
+OSErr			Q3ViewerGetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height);
+OSErr			Q3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height);
 OSErr			Q3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port);
 CGrafPtr		Q3ViewerGetPort(TQ3ViewerObject theViewer);
 Boolean			Q3ViewerAdjustCursor(TQ3ViewerObject theViewer, Point *pt);
 OSErr			Q3ViewerCursorChanged(TQ3ViewerObject theViewer);
-unsigned long	Q3ViewerGetState(TQ3ViewerObject theViewer);
+TQ3Uns32		Q3ViewerGetState(TQ3ViewerObject theViewer);
 OSErr			Q3ViewerClear(TQ3ViewerObject theViewer);
 OSErr			Q3ViewerCut(TQ3ViewerObject theViewer);
 OSErr			Q3ViewerCopy(TQ3ViewerObject theViewer);
 OSErr			Q3ViewerPaste(TQ3ViewerObject theViewer);
-Boolean			Q3ViewerMouseDown(TQ3ViewerObject theViewer, long x, long y);
-Boolean			Q3ViewerContinueTracking(TQ3ViewerObject theViewer, long x, long y);
-Boolean			Q3ViewerMouseUp(TQ3ViewerObject theViewer, long x, long y);
+Boolean			Q3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
+Boolean			Q3ViewerContinueTracking(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
+Boolean			Q3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
 Boolean			Q3ViewerHandleKeyEvent(TQ3ViewerObject theViewer, EventRecord *evt);
 OSErr			Q3ViewerSetDrawingCallbackMethod(TQ3ViewerObject theViewer, TQ3ViewerDrawingCallbackMethod callbackMethod, const void *data);
 OSErr			Q3ViewerSetWindowResizeCallback(TQ3ViewerObject theViewer, TQ3ViewerWindowResizeCallbackMethod windowResizeCallbackMethod, const void *data);
 OSErr			Q3ViewerSetPaneResizeNotifyCallback(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyCallbackMethod paneResizeNotifyCallbackMethod, const void *data);
 OSErr			Q3ViewerUndo(TQ3ViewerObject theViewer);
-Boolean			Q3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, unsigned long *cnt);
-OSErr			Q3ViewerGetCameraCount(TQ3ViewerObject theViewer, unsigned long *cnt);
-OSErr			Q3ViewerSetCameraByNumber(TQ3ViewerObject theViewer, unsigned long cameraNo);
+Boolean			Q3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, TQ3Uns32 *cnt);
+OSErr			Q3ViewerGetCameraCount(TQ3ViewerObject theViewer, TQ3Uns32 *cnt);
+OSErr			Q3ViewerSetCameraByNumber(TQ3ViewerObject theViewer, TQ3Uns32 cameraNo);
 OSErr			Q3ViewerSetCameraByView(TQ3ViewerObject theViewer, TQ3ViewerCameraView viewType);
 OSErr			Q3ViewerSetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType rendererType);
 OSErr			Q3ViewerGetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType *rendererType);
@@ -420,30 +420,30 @@ OSErr			Q3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong);
 #else
 
 // common prototypes for all other platforms
-TQ3Status		Q3ViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision);
-TQ3Status		Q3ViewerGetReleaseVersion(unsigned long *releaseRevision);
+TQ3Status		Q3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision);
+TQ3Status		Q3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision);
 TQ3Status		Q3ViewerDispose(TQ3ViewerObject theViewer);
-TQ3Status		Q3ViewerUseData(TQ3ViewerObject theViewer, void *data, long size);
-TQ3Status		Q3ViewerWriteData(TQ3ViewerObject theViewer, void *data, unsigned long dataSize, unsigned long *actualDataSize);
+TQ3Status		Q3ViewerUseData(TQ3ViewerObject theViewer, void *data, TQ3Int32 size);
+TQ3Status		Q3ViewerWriteData(TQ3ViewerObject theViewer, void *data, TQ3Uns32 dataSize, TQ3Uns32 *actualDataSize);
 TQ3Status		Q3ViewerDraw(TQ3ViewerObject theViewer);
 TQ3Status		Q3ViewerDrawContent(TQ3ViewerObject theViewer);
 TQ3Status		Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer);
-unsigned long	Q3ViewerGetCurrentButton(TQ3ViewerObject theViewer);
-TQ3Status		Q3ViewerSetCurrentButton(TQ3ViewerObject theViewer, unsigned long button);
+TQ3Uns32		Q3ViewerGetCurrentButton(TQ3ViewerObject theViewer);
+TQ3Status		Q3ViewerSetCurrentButton(TQ3ViewerObject theViewer, TQ3Uns32 button);
 TQ3Status		Q3ViewerUseGroup(TQ3ViewerObject theViewer, TQ3GroupObject group);
 TQ3GroupObject	Q3ViewerGetGroup(TQ3ViewerObject theViewer);
 TQ3Status		Q3ViewerSetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *color);
 TQ3Status		Q3ViewerGetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *color);
 TQ3ViewObject	Q3ViewerGetView(TQ3ViewerObject theViewer);
 TQ3Status		Q3ViewerRestoreView(TQ3ViewerObject theViewer);
-TQ3Status		Q3ViewerSetFlags(TQ3ViewerObject theViewer, unsigned long flags);
-unsigned long	Q3ViewerGetFlags(TQ3ViewerObject theViewer);
-TQ3Status		Q3ViewerSetDimension(TQ3ViewerObject theViewer, unsigned long width, unsigned long height);
-TQ3Status		Q3ViewerGetDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned long *height);
-TQ3Status		Q3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned long *height);
-TQ3Boolean		Q3ViewerAdjustCursor(TQ3ViewerObject theViewer, long x , long y);
+TQ3Status		Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags);
+TQ3Uns32		Q3ViewerGetFlags(TQ3ViewerObject theViewer);
+TQ3Status		Q3ViewerSetDimension(TQ3ViewerObject theViewer, TQ3Uns32 width, TQ3Uns32 height);
+TQ3Status		Q3ViewerGetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height);
+TQ3Status		Q3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height);
+TQ3Boolean		Q3ViewerAdjustCursor(TQ3ViewerObject theViewer, TQ3Int32 x , TQ3Int32 y);
 TQ3Status		Q3ViewerCursorChanged(TQ3ViewerObject theViewer);
-unsigned long	Q3ViewerGetState(TQ3ViewerObject theViewer);
+TQ3Uns32		Q3ViewerGetState(TQ3ViewerObject theViewer);
 TQ3Status		Q3ViewerClear(TQ3ViewerObject theViewer);
 TQ3Status		Q3ViewerCut(TQ3ViewerObject theViewer);
 TQ3Status		Q3ViewerCopy(TQ3ViewerObject theViewer);
@@ -452,9 +452,9 @@ TQ3Status		Q3ViewerSetDrawingCallbackMethod(TQ3ViewerObject theViewer, TQ3Viewer
 TQ3Status		Q3ViewerSetWindowResizeCallback(TQ3ViewerObject theViewer, TQ3ViewerWindowResizeCallbackMethod windowResizeCallbackMethod, const void *data);
 TQ3Status		Q3ViewerSetPaneResizeNotifyCallback(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyCallbackMethod paneResizeNotifyCallbackMethod, const void *data);
 TQ3Status		Q3ViewerUndo(TQ3ViewerObject theViewer);
-TQ3Boolean		Q3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, unsigned long stringSize, unsigned long *actualSize);
-TQ3Status		Q3ViewerGetCameraCount(TQ3ViewerObject theViewer, unsigned long *cnt);
-TQ3Status		Q3ViewerSetCameraByNumber(TQ3ViewerObject theViewer, unsigned long cameraNo);
+TQ3Boolean		Q3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, TQ3Uns32 stringSize, TQ3Uns32 *actualSize);
+TQ3Status		Q3ViewerGetCameraCount(TQ3ViewerObject theViewer, TQ3Uns32 *cnt);
+TQ3Status		Q3ViewerSetCameraByNumber(TQ3ViewerObject theViewer, TQ3Uns32 cameraNo);
 TQ3Status		Q3ViewerSetCameraByView(TQ3ViewerObject theViewer, TQ3ViewerCameraView viewType);
 TQ3Status		Q3ViewerSetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType rendererType);
 TQ3Status		Q3ViewerGetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType *rendererType);
@@ -467,33 +467,33 @@ TQ3Status		Q3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong)
 // specific prototypes for all other platforms
 	#if defined(OS_WIN32) && OS_WIN32
 
-TQ3ViewerObject	Q3ViewerNew(HWND theWindow, const RECT *rect, unsigned long flags);
+TQ3ViewerObject	Q3ViewerNew(HWND theWindow, const RECT *rect, TQ3Uns32 flags);
 TQ3Status		Q3ViewerUseFile(TQ3ViewerObject theViewer, HANDLE fileHandle);
 TQ3Status		Q3ViewerWriteFile(TQ3ViewerObject theViewer, HANDLE fileHandle);
 
 HBITMAP			Q3ViewerGetBitmap(TQ3ViewerObject theViewer);
-TQ3Status		Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, unsigned long button, RECT *rect);
+TQ3Status		Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, RECT *rect);
 TQ3Status		Q3ViewerSetBounds(TQ3ViewerObject theViewer, RECT *bounds);
 TQ3Status		Q3ViewerGetBounds(TQ3ViewerObject theViewer, RECT *bounds);
 
-BOOL			Q3ViewerMouseDown(TQ3ViewerObject theViewer, long x, long y);
-BOOL			Q3ViewerContinueTracking(TQ3ViewerObject theViewer, long x, long y);
-BOOL			Q3ViewerMouseUp(TQ3ViewerObject theViewer, long x, long y);
+BOOL			Q3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
+BOOL			Q3ViewerContinueTracking(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
+BOOL			Q3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
 	#else
 
-TQ3ViewerObject	Q3ViewerNew(void* theWindow, const TQ3Area *rect, unsigned long flags);
+TQ3ViewerObject	Q3ViewerNew(void* theWindow, const TQ3Area *rect, TQ3Uns32 flags);
 
 TQ3Status		Q3ViewerUseFile(TQ3ViewerObject theViewer, void *fileRef);
 TQ3Status		Q3ViewerWriteFile(TQ3ViewerObject theViewer, void *fileRef);
 void*			Q3ViewerGetPicture(TQ3ViewerObject theViewer);
 
-TQ3Status		Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, unsigned long button, TQ3Area *rect);
+TQ3Status		Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, TQ3Area *rect);
 TQ3Status		Q3ViewerSetBounds(TQ3ViewerObject theViewer, TQ3Area *bounds);
 TQ3Status		Q3ViewerGetBounds(TQ3ViewerObject theViewer, TQ3Area *bounds);
 
-TQ3Boolean		Q3ViewerMouseDown(TQ3ViewerObject theViewer, long x, long y);
-TQ3Boolean		Q3ViewerContinueTracking(TQ3ViewerObject theViewer, long x, long y);
-TQ3Boolean		Q3ViewerMouseUp(TQ3ViewerObject theViewer, long x, long y);
+TQ3Boolean		Q3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
+TQ3Boolean		Q3ViewerContinueTracking(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
+TQ3Boolean		Q3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
 
 	#endif
 #endif

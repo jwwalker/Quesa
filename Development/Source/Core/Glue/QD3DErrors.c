@@ -74,7 +74,7 @@
 //      Q3Error_Register : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Error_Register(TQ3ErrorMethod errorPost, long reference)
+Q3Error_Register(TQ3ErrorMethod errorPost, TQ3Int32 reference)
 {
 
 
@@ -110,7 +110,7 @@ Q3Error_Register(TQ3ErrorMethod errorPost, long reference)
 //      Q3Warning_Register : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Warning_Register(TQ3WarningMethod warningPost, long reference)
+Q3Warning_Register(TQ3WarningMethod warningPost, TQ3Int32 reference)
 {
 
 
@@ -146,7 +146,7 @@ Q3Warning_Register(TQ3WarningMethod warningPost, long reference)
 //      Q3Notice_Register : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Notice_Register(TQ3NoticeMethod noticePost, long reference)
+Q3Notice_Register(TQ3NoticeMethod noticePost, TQ3Int32 reference)
 {
 
 

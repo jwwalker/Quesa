@@ -63,12 +63,12 @@ TQ3Status			E3PolyLine_Submit(const TQ3PolyLineData *polyLineData, TQ3ViewObject
 TQ3Status			E3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineData);
 TQ3Status			E3PolyLine_GetData(TQ3GeometryObject polyLine, TQ3PolyLineData *polyLineData);
 TQ3Status			E3PolyLine_EmptyData(TQ3PolyLineData *polyLineData);
-TQ3Status			E3PolyLine_GetVertexPosition(TQ3GeometryObject polyLine, unsigned long index, TQ3Point3D *position);
-TQ3Status			E3PolyLine_SetVertexPosition(TQ3GeometryObject polyLine, unsigned long index, const TQ3Point3D *position);
-TQ3Status			E3PolyLine_GetVertexAttributeSet(TQ3GeometryObject polyLine, unsigned long index, TQ3AttributeSet *attributeSet);
-TQ3Status			E3PolyLine_SetVertexAttributeSet(TQ3GeometryObject polyLine, unsigned long index, TQ3AttributeSet attributeSet);
-TQ3Status			E3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, unsigned long index, TQ3AttributeSet *attributeSet);
-TQ3Status			E3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, unsigned long index, TQ3AttributeSet attributeSet);
+TQ3Status			E3PolyLine_GetVertexPosition(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3Point3D *position);
+TQ3Status			E3PolyLine_SetVertexPosition(TQ3GeometryObject polyLine, TQ3Uns32 index, const TQ3Point3D *position);
+TQ3Status			E3PolyLine_GetVertexAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet);
+TQ3Status			E3PolyLine_SetVertexAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet attributeSet);
+TQ3Status			E3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet);
+TQ3Status			E3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet attributeSet);
 
 
 

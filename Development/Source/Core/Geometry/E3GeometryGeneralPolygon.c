@@ -786,7 +786,7 @@ E3GeneralPolygon_EmptyData(TQ3GeneralPolygonData *generalPolygonData)
 //      E3GeneralPolygon_GetVertexPosition : Get the position of a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, TQ3Point3D *position)
+E3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3Point3D *position)
 {	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
 
 
@@ -805,7 +805,7 @@ E3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, unsigned lo
 //      E3GeneralPolygon_SetVertexPosition : Set the position of a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, const TQ3Point3D *position)
+E3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, const TQ3Point3D *position)
 {	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
 
 
@@ -826,7 +826,7 @@ E3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, unsigned lo
 //      E3GeneralPolygon_GetVertexAttributeSet : Get vertex attributes.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, TQ3AttributeSet *attributeSet)
+E3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3AttributeSet *attributeSet)
 {	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
 
 
@@ -845,7 +845,7 @@ E3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, unsigne
 //      E3GeneralPolygon_SetVertexAttributeSet : Set vertex attributes.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, TQ3AttributeSet attributeSet)
+E3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3AttributeSet attributeSet)
 {	TQ3GeneralPolygonData		*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
 
 

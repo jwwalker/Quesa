@@ -342,7 +342,7 @@ Q3Pick_SetEdgeTolerance(TQ3PickObject pick, float edgeTolerance)
 //      Q3Pick_GetNumHits : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Pick_GetNumHits(TQ3PickObject pick, unsigned long *numHits)
+Q3Pick_GetNumHits(TQ3PickObject pick, TQ3Uns32 *numHits)
 {
 
 
@@ -416,7 +416,7 @@ Q3Pick_EmptyHitList(TQ3PickObject pick)
 //      Q3Pick_GetPickDetailValidMask : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Pick_GetPickDetailValidMask(TQ3PickObject pick, unsigned long index, TQ3PickDetail *pickDetailValidMask)
+Q3Pick_GetPickDetailValidMask(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail *pickDetailValidMask)
 {
 
 
@@ -458,7 +458,7 @@ Q3Pick_GetPickDetailValidMask(TQ3PickObject pick, unsigned long index, TQ3PickDe
 //      Q3Pick_GetPickDetailData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Pick_GetPickDetailData(TQ3PickObject pick, unsigned long index, TQ3PickDetail pickDetailValue, void *detailData)
+Q3Pick_GetPickDetailData(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail pickDetailValue, void *detailData)
 {
 
 

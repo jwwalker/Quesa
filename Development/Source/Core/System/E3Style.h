@@ -66,10 +66,10 @@ TQ3Status			E3SubdivisionStyle_Submit(const TQ3SubdivisionStyleData *data, TQ3Vi
 TQ3Status			E3SubdivisionStyle_SetData(TQ3StyleObject subdiv, const TQ3SubdivisionStyleData *data);
 TQ3Status			E3SubdivisionStyle_GetData(TQ3StyleObject subdiv, TQ3SubdivisionStyleData *data);
 
-TQ3StyleObject		E3PickIDStyle_New(unsigned long id);
-TQ3Status			E3PickIDStyle_Submit(unsigned long id, TQ3ViewObject theView);
-TQ3Status			E3PickIDStyle_Get(TQ3StyleObject pickIDObject, unsigned long *id);
-TQ3Status			E3PickIDStyle_Set(TQ3StyleObject pickIDObject, unsigned long id);
+TQ3StyleObject		E3PickIDStyle_New(TQ3Uns32 id);
+TQ3Status			E3PickIDStyle_Submit(TQ3Uns32 id, TQ3ViewObject theView);
+TQ3Status			E3PickIDStyle_Get(TQ3StyleObject pickIDObject, TQ3Uns32 *id);
+TQ3Status			E3PickIDStyle_Set(TQ3StyleObject pickIDObject, TQ3Uns32 id);
 
 TQ3StyleObject		E3PickPartsStyle_New(TQ3PickParts parts);
 TQ3Status			E3PickPartsStyle_Submit(TQ3PickParts parts, TQ3ViewObject theView);

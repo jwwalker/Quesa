@@ -103,7 +103,7 @@ void *
     theHnd = TempNewHandle(requiredSize, &theErr);
     if (theHnd == NULL)
         {
-        PurgeSpace((long *) &totalMem, (long *) &memAvail);
+        PurgeSpace((SInt32 *) &totalMem, (SInt32 *) &memAvail);
         if (requiredSize + kAppHeapThreshold <= memAvail)
             {
             PurgeMem(requiredSize);       

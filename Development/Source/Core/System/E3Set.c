@@ -2030,7 +2030,7 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3XObjectClass
-E3XElementClass_Register(TQ3ElementType *elementType, const char *name, unsigned long sizeOfElement, TQ3XMetaHandler metaHandler)
+E3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32 sizeOfElement, TQ3XMetaHandler metaHandler)
 {	TQ3Status			qd3dStatus;
 	E3ClassInfoPtr		theClass;
 
@@ -2066,7 +2066,7 @@ E3XElementClass_Register(TQ3ElementType *elementType, const char *name, unsigned
 //      E3XElementType_GetElementSize : Get the size of an element.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3XElementType_GetElementSize(TQ3ElementType elementType, unsigned long *sizeOfElement)
+E3XElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElement)
 {	E3ClassInfoPtr		theClass;
 
 
@@ -2096,7 +2096,7 @@ E3XElementType_GetElementSize(TQ3ElementType elementType, unsigned long *sizeOfE
 //      E3XAttributeClass_Register : Register an attribute class.
 //-----------------------------------------------------------------------------
 TQ3XObjectClass
-E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorName, unsigned long sizeOfElement, TQ3XMetaHandler metaHandler)
+E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorName, TQ3Uns32 sizeOfElement, TQ3XMetaHandler metaHandler)
 {	TQ3Status			qd3dStatus;
 	E3ClassInfoPtr		theClass;
 

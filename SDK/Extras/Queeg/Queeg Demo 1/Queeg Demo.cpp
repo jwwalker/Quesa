@@ -46,15 +46,15 @@
 const TQ3ColorARGB 	kColorARGBBackground 		= {1.0f, 0.0f, 0.0f, 0.1f};
 const float			kObjectHeight				= 2.0f;
 
-const unsigned long kTargetGroup = 0x0001;		// things we can shoot
-const unsigned long kGroundGroup = 0x0002;		// things that can support us
+const TQ3Uns32 kTargetGroup = 0x0001;		// things we can shoot
+const TQ3Uns32 kGroundGroup = 0x0002;		// things that can support us
 
 //=============================================================================
 //      Internal globals
 //-----------------------------------------------------------------------------
 QGObject	*gObject	= NULL;
 QGScene		*gScene		= NULL;
-unsigned short gWhichCam = 2;
+TQ3Uns16     gWhichCam = 2;
 
 
 

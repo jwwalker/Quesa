@@ -71,8 +71,8 @@ TQ3Status			E3Box_GetOrigin(TQ3GeometryObject theBox, TQ3Point3D *origin);
 TQ3Status			E3Box_GetOrientation(TQ3GeometryObject theBox, TQ3Vector3D *orientation);
 TQ3Status			E3Box_GetMajorAxis(TQ3GeometryObject theBox, TQ3Vector3D *majorAxis);
 TQ3Status			E3Box_GetMinorAxis(TQ3GeometryObject theBox, TQ3Vector3D *minorAxis);
-TQ3Status			E3Box_GetFaceAttributeSet(TQ3GeometryObject theBox, unsigned long faceIndex, TQ3AttributeSet *faceAttributeSet);
-TQ3Status			E3Box_SetFaceAttributeSet(TQ3GeometryObject theBox, unsigned long faceIndex, TQ3AttributeSet faceAttributeSet);
+TQ3Status			E3Box_GetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3AttributeSet *faceAttributeSet);
+TQ3Status			E3Box_SetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3AttributeSet faceAttributeSet);
 
 
 

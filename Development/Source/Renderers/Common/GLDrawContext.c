@@ -118,7 +118,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 		// Pixmap
 		case kQ3DrawContextTypePixmap:
-    		// Get the window
+    		// Get the pixmap
 			qd3dStatus = Q3PixmapDrawContext_GetPixmap(theDrawContext, &thePixmap);
 			if (qd3dStatus != kQ3Success || thePixmap.image == NULL)
 				return(NULL);

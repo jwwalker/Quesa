@@ -25,7 +25,7 @@
 class QGTriMesh
 {
   public:
-	QGTriMesh(unsigned long qtyVertices, unsigned long qtyTriangles, 
+	QGTriMesh(TQ3Uns32 qtyVertices, TQ3Uns32 qtyTriangles, 
 			TQ3Boolean textured=kQ3False, TQ3Boolean smooth=kQ3True);		// constructor
 	QGTriMesh(const QGTriMesh&);				// constructor -- copies all data
 	QGTriMesh(TQ3GeometryObject triMesh);		// constructor -- copies Quesa Trimesh data

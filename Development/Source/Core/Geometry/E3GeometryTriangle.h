@@ -63,10 +63,10 @@ TQ3Status			E3Triangle_Submit(const TQ3TriangleData *triangleData, TQ3ViewObject
 TQ3Status			E3Triangle_SetData(TQ3GeometryObject theTriangle, const TQ3TriangleData *triangleData);
 TQ3Status			E3Triangle_GetData(TQ3GeometryObject theTriangle, TQ3TriangleData *triangleData);
 TQ3Status			E3Triangle_EmptyData(TQ3TriangleData *triangleData);
-TQ3Status			E3Triangle_GetVertexPosition(TQ3GeometryObject theTriangle, unsigned long index, TQ3Point3D *point);
-TQ3Status			E3Triangle_SetVertexPosition(TQ3GeometryObject theTriangle, unsigned long index, const TQ3Point3D *point);
-TQ3Status			E3Triangle_GetVertexAttributeSet(TQ3GeometryObject theTriangle, unsigned long index, TQ3AttributeSet *attributeSet);
-TQ3Status			E3Triangle_SetVertexAttributeSet(TQ3GeometryObject theTriangle, unsigned long index, TQ3AttributeSet attributeSet);
+TQ3Status			E3Triangle_GetVertexPosition(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3Point3D *point);
+TQ3Status			E3Triangle_SetVertexPosition(TQ3GeometryObject theTriangle, TQ3Uns32 index, const TQ3Point3D *point);
+TQ3Status			E3Triangle_GetVertexAttributeSet(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3AttributeSet *attributeSet);
+TQ3Status			E3Triangle_SetVertexAttributeSet(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3AttributeSet attributeSet);
 
 
 

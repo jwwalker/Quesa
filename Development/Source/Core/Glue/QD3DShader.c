@@ -1038,7 +1038,7 @@ Q3Texture_GetType(TQ3TextureObject texture)
 //      Q3Texture_GetWidth : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Texture_GetWidth(TQ3TextureObject texture, unsigned long *width)
+Q3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
 {
 
 
@@ -1077,7 +1077,7 @@ Q3Texture_GetWidth(TQ3TextureObject texture, unsigned long *width)
 //      Q3Texture_GetHeight : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Texture_GetHeight(TQ3TextureObject texture, unsigned long *height)
+Q3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height)
 {
 
 
@@ -1452,7 +1452,7 @@ Q3CompressedPixmapTexture_SetCompressedPixmap(TQ3TextureObject texture, const TQ
 //      Q3CompressedPixmapTexture_CompressImage : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *compressedPixmap, PixMapHandle sourcePixMap, CodecType codecType, CodecComponent codecComponent, short codedDepth, CodecQ codecQuality)
+Q3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *compressedPixmap, PixMapHandle sourcePixMap, CodecType codecType, CodecComponent codecComponent, TQ3Int16 codedDepth, CodecQ codecQuality)
 {
 
 

@@ -54,7 +54,7 @@ static TQ3Status
 e3geom_curve_copydata(const TQ3NURBCurveData *src, TQ3NURBCurveData *dst, TQ3Boolean isDuplicate)
 {
 	TQ3Status		qd3dStatus = kQ3Success;
-	long				theSize;
+	TQ3Uns32		theSize;
 	// copy order,numPoints
 	dst->order = src->order;
 	dst->numPoints = src->numPoints;
@@ -266,9 +266,9 @@ e3_evaluate_nurbs_curve_u( float theUParam, const TQ3NURBCurveData *geomData, TQ
  * Finds all of the 'interesting' (non-repetitive knots)
  */
 static TQ3Uns32
-e3_interesting_knots( float * inKnots, unsigned long numPoints, unsigned long order, float * interestingK )
+e3_interesting_knots( float * inKnots, TQ3Uns32 numPoints, TQ3Uns32 order, float * interestingK )
 {
-	unsigned long start, stop, n;
+	TQ3Uns32 start, stop, n;
 	interestingK[0] = inKnots[order - 1];
 	start = 0;
 	stop = 1;
@@ -410,7 +410,7 @@ e3geom_nurbcurve_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 #pragma unused(theObject)
 
 /* Unused.  Posterity's sake.
-	unsigned long	i;
+	TQ3Uns32	i;
 	TQ3Point3D		*boundP;
 
 	// Bounds are easy to do for a NURB, it's the control points
@@ -653,7 +653,7 @@ E3NURBCurve_EmptyData(TQ3NURBCurveData *curveData)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBCurve_SetControlPoint(TQ3GeometryObject theCurve, unsigned long pointIndex, const TQ3RationalPoint4D *point4D)
+E3NURBCurve_SetControlPoint(TQ3GeometryObject theCurve, TQ3Uns32 pointIndex, const TQ3RationalPoint4D *point4D)
 {
 	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
@@ -674,7 +674,7 @@ E3NURBCurve_SetControlPoint(TQ3GeometryObject theCurve, unsigned long pointIndex
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBCurve_GetControlPoint(TQ3GeometryObject theCurve, unsigned long pointIndex, TQ3RationalPoint4D *point4D)
+E3NURBCurve_GetControlPoint(TQ3GeometryObject theCurve, TQ3Uns32 pointIndex, TQ3RationalPoint4D *point4D)
 {
 	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
@@ -694,7 +694,7 @@ E3NURBCurve_GetControlPoint(TQ3GeometryObject theCurve, unsigned long pointIndex
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBCurve_SetKnot(TQ3GeometryObject theCurve, unsigned long knotIndex, float knotValue)
+E3NURBCurve_SetKnot(TQ3GeometryObject theCurve, TQ3Uns32 knotIndex, float knotValue)
 {
 	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
@@ -715,7 +715,7 @@ E3NURBCurve_SetKnot(TQ3GeometryObject theCurve, unsigned long knotIndex, float k
 //		Note : Untested
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBCurve_GetKnot(TQ3GeometryObject theCurve, unsigned long knotIndex, float *knotValue)
+E3NURBCurve_GetKnot(TQ3GeometryObject theCurve, TQ3Uns32 knotIndex, float *knotValue)
 {
 	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 

@@ -65,10 +65,10 @@ TQ3Status			E3PixmapMarker_GetData(TQ3GeometryObject theGeom, TQ3PixmapMarkerDat
 TQ3Status			E3PixmapMarker_EmptyData(TQ3PixmapMarkerData *pixmapMarkerData);
 TQ3Status			E3PixmapMarker_GetPosition(TQ3GeometryObject pixmapMarker, TQ3Point3D *position);
 TQ3Status			E3PixmapMarker_SetPosition(TQ3GeometryObject pixmapMarker, const TQ3Point3D *position);
-TQ3Status			E3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, long *xOffset);
-TQ3Status			E3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, long xOffset);
-TQ3Status			E3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, long *yOffset);
-TQ3Status			E3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, long yOffset);
+TQ3Status			E3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *xOffset);
+TQ3Status			E3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 xOffset);
+TQ3Status			E3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *yOffset);
+TQ3Status			E3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 yOffset);
 TQ3Status			E3PixmapMarker_GetPixmap(TQ3GeometryObject pixmapMarker, TQ3StoragePixmap *pixmap);
 TQ3Status			E3PixmapMarker_SetPixmap(TQ3GeometryObject pixmapMarker, const TQ3StoragePixmap *pixmap);
 

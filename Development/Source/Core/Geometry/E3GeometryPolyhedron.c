@@ -1060,7 +1060,7 @@ E3Polyhedron_EmptyData(TQ3PolyhedronData *polyhedronData)
 //      E3Polyhedron_GetVertexPosition : Get the position of a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polyhedron_GetVertexPosition(TQ3GeometryObject thePolyhedron, unsigned long index, TQ3Point3D *point)
+E3Polyhedron_GetVertexPosition(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, TQ3Point3D *point)
 {	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
 
 
@@ -1079,7 +1079,7 @@ E3Polyhedron_GetVertexPosition(TQ3GeometryObject thePolyhedron, unsigned long in
 //      E3Polyhedron_SetVertexPosition : Set the position of a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polyhedron_SetVertexPosition(TQ3GeometryObject thePolyhedron, unsigned long index, const TQ3Point3D *point)
+E3Polyhedron_SetVertexPosition(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, const TQ3Point3D *point)
 {	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
 
 
@@ -1100,7 +1100,7 @@ E3Polyhedron_SetVertexPosition(TQ3GeometryObject thePolyhedron, unsigned long in
 //      E3Polyhedron_GetVertexAttributeSet : Get the attribute set of a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject thePolyhedron, unsigned long index, TQ3AttributeSet *attributeSet)
+E3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
 
 
@@ -1119,7 +1119,7 @@ E3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject thePolyhedron, unsigned lon
 //      E3Polyhedron_SetVertexAttributeSet : Set the attribute set of a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject thePolyhedron, unsigned long index, TQ3AttributeSet attributeSet)
+E3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
 
 
@@ -1144,7 +1144,7 @@ E3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject thePolyhedron, unsigned lon
 //				bitwise copy to prevent memory leaks.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polyhedron_GetTriangleData(TQ3GeometryObject thePolyhedron, unsigned long triangleIndex, TQ3PolyhedronTriangleData *triangleData)
+E3Polyhedron_GetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleIndex, TQ3PolyhedronTriangleData *triangleData)
 {	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
 
 
@@ -1174,7 +1174,7 @@ E3Polyhedron_GetTriangleData(TQ3GeometryObject thePolyhedron, unsigned long tria
 //				bitwise copy to prevent memory leaks.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polyhedron_SetTriangleData(TQ3GeometryObject thePolyhedron, unsigned long triangleIndex, const TQ3PolyhedronTriangleData *triangleData)
+E3Polyhedron_SetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleIndex, const TQ3PolyhedronTriangleData *triangleData)
 {	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
 
 
@@ -1206,7 +1206,7 @@ E3Polyhedron_SetTriangleData(TQ3GeometryObject thePolyhedron, unsigned long tria
 //				bitwise copy to prevent memory leaks.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polyhedron_GetEdgeData(TQ3GeometryObject thePolyhedron, unsigned long edgeIndex, TQ3PolyhedronEdgeData *edgeData)
+E3Polyhedron_GetEdgeData(TQ3GeometryObject thePolyhedron, TQ3Uns32 edgeIndex, TQ3PolyhedronEdgeData *edgeData)
 {	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
 
 
@@ -1238,7 +1238,7 @@ E3Polyhedron_GetEdgeData(TQ3GeometryObject thePolyhedron, unsigned long edgeInde
 //				bitwise copy to prevent memory leaks.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polyhedron_SetEdgeData(TQ3GeometryObject thePolyhedron, unsigned long edgeIndex, const TQ3PolyhedronEdgeData *edgeData)
+E3Polyhedron_SetEdgeData(TQ3GeometryObject thePolyhedron, TQ3Uns32 edgeIndex, const TQ3PolyhedronEdgeData *edgeData)
 {	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
 
 

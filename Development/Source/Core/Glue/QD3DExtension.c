@@ -75,7 +75,7 @@
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3XObjectClass
-Q3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *objectType, char *objectName, TQ3XMetaHandler metaHandler, TQ3XMetaHandler virtualMetaHandler, unsigned long methodsSize, unsigned long instanceSize)
+Q3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *objectType, char *objectName, TQ3XMetaHandler metaHandler, TQ3XMetaHandler virtualMetaHandler, TQ3Uns32 methodsSize, TQ3Uns32 instanceSize)
 {
 
 
@@ -478,7 +478,7 @@ Q3XSharedLibrary_Register(TQ3XSharedLibraryInfo *sharedLibraryInfo)
 //      Q3XSharedLibrary_Unregister : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3XSharedLibrary_Unregister(unsigned long sharedLibrary)
+Q3XSharedLibrary_Unregister(TQ3Uns32 sharedLibrary)
 {
 
 

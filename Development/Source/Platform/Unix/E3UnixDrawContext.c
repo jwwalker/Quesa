@@ -356,7 +356,7 @@ E3XDrawContext_GetColormapData(TQ3DrawContextObject drawContext, TQ3XColormapDat
 //				viewer is not really a TQ3Object.
 //-----------------------------------------------------------------------------
 TQ3XBufferObject
-E3XBuffers_New(Display *dpy, unsigned long numBuffers, Window window)
+E3XBuffers_New(Display *dpy, TQ3Uns32 numBuffers, Window window)
 {	TQ3XBufferObject		theBuffer;
 
 

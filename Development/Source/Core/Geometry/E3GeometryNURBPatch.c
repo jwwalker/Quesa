@@ -238,7 +238,7 @@ e3geom_nurbpatch_duplicate(TQ3Object fromObject, const void *fromPrivateData,
  * 		 non-recursive algorithms.  Esp since this is cached.
  */
 static float
-e3_evaluate_nurbpatch_basis( float u, unsigned long i, unsigned long k, float *knots ) {
+e3_evaluate_nurbpatch_basis( float u, TQ3Uns32 i, TQ3Uns32 k, float *knots ) {
 	
 	float theResult ;
 	float bottomL, bottomR, fracL, fracR ;
@@ -277,7 +277,7 @@ e3_evaluate_nurbpatch_basis( float u, unsigned long i, unsigned long k, float *k
  * Computes the derivative of the basis function
  *m/
 static float
-e3_evaluate_nurbpatch_basis_deriv( float u, unsigned long i, unsigned long k, float *knots ) {
+e3_evaluate_nurbpatch_basis_deriv( float u, TQ3Uns32 i, TQ3Uns32 k, float *knots ) {
 		
 	//float theResult ;
 	float bottomL, bottomR, fracL, fracR ;
@@ -312,7 +312,7 @@ e3_evaluate_nurbpatch_basis_deriv( float u, unsigned long i, unsigned long k, fl
 static void
 e3_evaluate_nurbpatch_uv( float u, float v, const TQ3NURBPatchData * patchData, /*TQ3Vector3D * outNormal, TQ3Param2D * outuv,*/ TQ3Point3D * outPoint ) {
 	
-	unsigned long	iU, jV ;
+	TQ3Uns32	iU, jV ;
 	float			xTop, yTop, zTop;//, xTopDu, yTopDu, zTopDu, xTopDv, yTopDv, zTopDv ;
 	float			OneOverBottom, bottom;//, bottomDu, bottomDv ;
 	//TQ3Vector3D		dU, dV ;
@@ -397,8 +397,8 @@ e3_evaluate_nurbpatch_normal( float u, float v, const TQ3NURBPatchData * patchDa
  * Finds all of the 'interesting' (non-repetitive knots)
  */
 static TQ3Uns32
-e3_interesting_knots( float * inKnots, unsigned long numPoints, unsigned long order, float * interestingK ) {
-	unsigned long start, stop, n;
+e3_interesting_knots( float * inKnots, TQ3Uns32 numPoints, TQ3Uns32 order, float * interestingK ) {
+	TQ3Uns32 start, stop, n;
 	interestingK[0] = inKnots[order - 1];
 	start = 0;
 	stop = 1;
@@ -779,7 +779,7 @@ e3geom_nurbpatch_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 #pragma unused(theObject)
 
 /* Unused.  Posterity's sake.
-	unsigned long	i, numPoints;
+	TQ3Uns32	i, numPoints;
 	TQ3Point3D		*boundP;
 
 
@@ -1025,7 +1025,7 @@ E3NURBPatch_EmptyData(TQ3NURBPatchData *nurbPatchData)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, unsigned long rowIndex, unsigned long columnIndex, const TQ3RationalPoint4D *point4D)
+E3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, const TQ3RationalPoint4D *point4D)
 {
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 
@@ -1046,7 +1046,7 @@ E3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, unsigned long rowIndex,
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, unsigned long rowIndex, unsigned long columnIndex, TQ3RationalPoint4D *point4D)
+E3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3RationalPoint4D *point4D)
 {
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 
@@ -1066,7 +1066,7 @@ E3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, unsigned long rowIndex,
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float knotValue)
+E3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knotValue)
 {
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 
@@ -1087,7 +1087,7 @@ E3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float knotValue)
+E3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knotValue)
 {
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 
@@ -1108,7 +1108,7 @@ E3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float *knotValue)
+E3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *knotValue)
 {
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 	
@@ -1128,7 +1128,7 @@ E3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float *knotValue)
+E3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *knotValue)
 {
 	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
 	

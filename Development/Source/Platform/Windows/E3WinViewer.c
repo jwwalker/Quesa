@@ -76,7 +76,7 @@
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
-E3WinViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision)
+E3WinViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 {
 
 
@@ -94,7 +94,7 @@ E3WinViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerGetReleaseVersion(unsigned long *releaseRevision)
+E3WinViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 {
 
 
@@ -112,7 +112,7 @@ E3WinViewerGetReleaseVersion(unsigned long *releaseRevision)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3ViewerObject
-E3WinViewerNew(HWND window, const RECT *rect, unsigned long flags)
+E3WinViewerNew(HWND window, const RECT *rect, TQ3Uns32 flags)
 {
 
 
@@ -166,7 +166,7 @@ E3WinViewerUseFile(TQ3ViewerObject viewer, HANDLE fileHandle)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerUseData(TQ3ViewerObject viewer, void *data, unsigned long size)
+E3WinViewerUseData(TQ3ViewerObject viewer, void *data, TQ3Uns32 size)
 {
 
 
@@ -202,7 +202,7 @@ E3WinViewerWriteFile(TQ3ViewerObject viewer, HANDLE fileHandle)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerWriteData(TQ3ViewerObject viewer, void *data, unsigned long dataSize, unsigned long *actualDataSize)
+E3WinViewerWriteData(TQ3ViewerObject viewer, void *data, TQ3Uns32 dataSize, TQ3Uns32 *actualDataSize)
 {
 
 
@@ -274,7 +274,7 @@ E3WinViewerDrawControlStrip(TQ3ViewerObject viewer)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 BOOL
-E3WinViewerMouseDown(TQ3ViewerObject viewer, long x, long y)
+E3WinViewerMouseDown(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
 
 
@@ -292,7 +292,7 @@ E3WinViewerMouseDown(TQ3ViewerObject viewer, long x, long y)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 BOOL
-E3WinViewerContinueTracking(TQ3ViewerObject viewer, long x, long y)
+E3WinViewerContinueTracking(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
 
 
@@ -310,7 +310,7 @@ E3WinViewerContinueTracking(TQ3ViewerObject viewer, long x, long y)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 BOOL
-E3WinViewerMouseUp(TQ3ViewerObject viewer, long x, long y)
+E3WinViewerMouseUp(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
 
 
@@ -346,7 +346,7 @@ E3WinViewerGetBitmap(TQ3ViewerObject viewer)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerGetButtonRect(TQ3ViewerObject viewer, unsigned long button, RECT *rectangle)
+E3WinViewerGetButtonRect(TQ3ViewerObject viewer, TQ3Uns32 button, RECT *rectangle)
 {
 
 
@@ -363,7 +363,7 @@ E3WinViewerGetButtonRect(TQ3ViewerObject viewer, unsigned long button, RECT *rec
 //-----------------------------------------------------------------------------
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 E3WinViewerGetCurrentButton(TQ3ViewerObject viewer)
 {
 
@@ -382,7 +382,7 @@ E3WinViewerGetCurrentButton(TQ3ViewerObject viewer)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerSetCurrentButton(TQ3ViewerObject viewer, unsigned long button)
+E3WinViewerSetCurrentButton(TQ3ViewerObject viewer, TQ3Uns32 button)
 {
 
 
@@ -508,7 +508,7 @@ E3WinViewerRestoreView(TQ3ViewerObject viewer)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerSetFlags(TQ3ViewerObject viewer, unsigned long flags)
+E3WinViewerSetFlags(TQ3ViewerObject viewer, TQ3Uns32 flags)
 {
 
 
@@ -525,7 +525,7 @@ E3WinViewerSetFlags(TQ3ViewerObject viewer, unsigned long flags)
 //-----------------------------------------------------------------------------
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 E3WinViewerGetFlags(TQ3ViewerObject viewer)
 {
 
@@ -580,7 +580,7 @@ E3WinViewerGetBounds(TQ3ViewerObject viewer, RECT *bounds)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerSetDimension(TQ3ViewerObject viewer, unsigned long width, unsigned long height)
+E3WinViewerSetDimension(TQ3ViewerObject viewer, TQ3Uns32 width, TQ3Uns32 height)
 {
 
 
@@ -598,7 +598,7 @@ E3WinViewerSetDimension(TQ3ViewerObject viewer, unsigned long width, unsigned lo
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerGetDimension(TQ3ViewerObject viewer, unsigned long *width, unsigned long *height)
+E3WinViewerGetDimension(TQ3ViewerObject viewer, TQ3Uns32 *width, TQ3Uns32 *height)
 {
 
 
@@ -616,7 +616,7 @@ E3WinViewerGetDimension(TQ3ViewerObject viewer, unsigned long *width, unsigned l
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerGetMinimumDimension(TQ3ViewerObject viewer, unsigned long *width, unsigned long *height)
+E3WinViewerGetMinimumDimension(TQ3ViewerObject viewer, TQ3Uns32 *width, TQ3Uns32 *height)
 {
 
 
@@ -706,7 +706,7 @@ E3WinViewerGetControlStrip(TQ3ViewerObject viewer)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-E3WinViewerAdjustCursor(TQ3ViewerObject viewer, long x, long y)
+E3WinViewerAdjustCursor(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
 
 
@@ -741,7 +741,7 @@ E3WinViewerCursorChanged(TQ3ViewerObject viewer)
 //-----------------------------------------------------------------------------
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 E3WinViewerGetState(TQ3ViewerObject viewer)
 {
 
@@ -850,7 +850,7 @@ E3WinViewerUndo(TQ3ViewerObject viewer)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-E3WinViewerGetUndoString(TQ3ViewerObject viewer, char *theString, unsigned long stringSize, unsigned long *actualSize)
+E3WinViewerGetUndoString(TQ3ViewerObject viewer, char *theString, TQ3Uns32 stringSize, TQ3Uns32 *actualSize)
 {
 
 
@@ -868,7 +868,7 @@ E3WinViewerGetUndoString(TQ3ViewerObject viewer, char *theString, unsigned long 
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerGetCameraCount(TQ3ViewerObject viewer, unsigned long *count)
+E3WinViewerGetCameraCount(TQ3ViewerObject viewer, TQ3Uns32 *count)
 {
 
 
@@ -886,7 +886,7 @@ E3WinViewerGetCameraCount(TQ3ViewerObject viewer, unsigned long *count)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3WinViewerSetCameraNumber(TQ3ViewerObject viewer, unsigned long cameraNo)
+E3WinViewerSetCameraNumber(TQ3ViewerObject viewer, TQ3Uns32 cameraNo)
 {
 
 

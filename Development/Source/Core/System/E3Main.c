@@ -661,7 +661,7 @@ E3IsInitialized(void)
 //				format. For example, 12 is represented as 0x12.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3GetVersion(unsigned long *majorRevision, unsigned long *minorRevision)
+E3GetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 {
 
 
@@ -689,7 +689,7 @@ E3GetVersion(unsigned long *majorRevision, unsigned long *minorRevision)
 //			"Inside Macintosh: Macintosh Toolbox Essential", p. 7-69.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3GetReleaseVersion(unsigned long *releaseRevision)
+E3GetReleaseVersion(TQ3Uns32 *releaseRevision)
 {
 
 
@@ -1188,7 +1188,7 @@ E3Shared_IsReferenced(TQ3SharedObject sharedObject)
 //=============================================================================
 //      E3Shared_GetEditIndex : Return the edit index of a shared object.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 E3Shared_GetEditIndex(TQ3SharedObject sharedObject)
 {	TQ3SharedData		*instanceData;
 
@@ -1577,8 +1577,8 @@ E3Bitmap_Empty(TQ3Bitmap *theBitmap)
 //=============================================================================
 //      E3Bitmap_GetImageSize : Get the amount of memory required for a bitmap.
 //-----------------------------------------------------------------------------
-unsigned long
-E3Bitmap_GetImageSize(unsigned long theWidth, unsigned long theHeight)
+TQ3Uns32
+E3Bitmap_GetImageSize(TQ3Uns32 theWidth, TQ3Uns32 theHeight)
 {	TQ3Uns32		imageSize;
 
 

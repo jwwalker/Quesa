@@ -175,7 +175,7 @@ gngeneric_geom(TQ3XMethodType methodType)
 //      gngeneric_nickname : Get the renderer nick name.
 //-----------------------------------------------------------------------------
 static TQ3Status
-gngeneric_nickname(unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize)
+gngeneric_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
 
 

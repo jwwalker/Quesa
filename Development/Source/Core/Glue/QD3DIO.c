@@ -123,7 +123,7 @@ Q3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 //      Q3XView_SubmitSubObjectData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, unsigned long size, void *data, TQ3XDataDeleteMethod deleteData)
+Q3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3Uns32 size, void *data, TQ3XDataDeleteMethod deleteData)
 {
 
 
@@ -1959,7 +1959,7 @@ Q3Size_Pad(TQ3Size size)
 //      Q3String_Read : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3String_Read(char *data, unsigned long *length, TQ3FileObject theFile)
+Q3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
 {
 
 
@@ -2041,7 +2041,7 @@ Q3String_Write(const char *data, TQ3FileObject theFile)
 //      Q3RawData_Read : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3RawData_Read(unsigned char *data, unsigned long size, TQ3FileObject theFile)
+Q3RawData_Read(unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 {
 
 
@@ -2083,7 +2083,7 @@ Q3RawData_Read(unsigned char *data, unsigned long size, TQ3FileObject theFile)
 //      Q3RawData_Write : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3RawData_Write(const unsigned char *data, unsigned long size, TQ3FileObject theFile)
+Q3RawData_Write(const unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 {
 
 
@@ -3623,7 +3623,7 @@ Q3ViewHints_GetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid
 //      Q3ViewHints_SetDimensions : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, unsigned long width, unsigned long height)
+Q3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 width, TQ3Uns32 height)
 {
 
 
@@ -3664,7 +3664,7 @@ Q3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, unsigned long width, uns
 //      Q3ViewHints_GetDimensions : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3ViewHints_GetDimensions(TQ3ViewHintsObject viewHints, unsigned long *width, unsigned long *height)
+Q3ViewHints_GetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 *width, TQ3Uns32 *height)
 {
 
 
@@ -4232,7 +4232,7 @@ Q3FileFormatClass_GetFormatNameString(TQ3ObjectType formatClassType, TQ3ObjectCl
 //      Q3FileFormat_GetConfigurationData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GetConfigurationData(TQ3FileFormatObject format, unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize)
+Q3FileFormat_GetConfigurationData(TQ3FileFormatObject format, unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
 
 
@@ -4278,7 +4278,7 @@ Q3FileFormat_GetConfigurationData(TQ3FileFormatObject format, unsigned char *dat
 //      Q3FileFormat_SetConfigurationData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_SetConfigurationData(TQ3RendererObject format, unsigned char *dataBuffer, unsigned long bufferSize)
+Q3FileFormat_SetConfigurationData(TQ3RendererObject format, unsigned char *dataBuffer, TQ3Uns32 bufferSize)
 {
 
 
@@ -4476,7 +4476,7 @@ Q3FileFormat_GenericReadBinary_64(TQ3FileFormatObject format, TQ3Int64 *data)
 //      Q3FileFormat_GenericReadBinary_String : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char *data, unsigned long *length)
+Q3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char *data, TQ3Uns32 *length)
 {
 
 
@@ -4519,7 +4519,7 @@ Q3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char *data, un
 //      Q3FileFormat_GenericReadBinary_Raw : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char *data, unsigned long length)
+Q3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char *data, TQ3Uns32 length)
 {
 
 
@@ -4931,7 +4931,7 @@ Q3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, TQ3Int64 data)
 //      Q3FileFormat_GenericWriteBinary_String : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char *data, unsigned long *length)
+Q3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char *data, TQ3Uns32 *length)
 {
 
 
@@ -4974,7 +4974,7 @@ Q3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char *d
 //      Q3FileFormat_GenericWriteBinary_Raw : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format, const unsigned char *data, unsigned long length)
+Q3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format, const unsigned char *data, TQ3Uns32 length)
 {
 
 

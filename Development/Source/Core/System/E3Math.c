@@ -1138,16 +1138,16 @@ TQ3Status
 E3Point3D_To3DTransformArray(const TQ3Point3D		*inPoint3D,
 								const TQ3Matrix4x4	*matrix,
 								TQ3Point3D			*outPoint3D,
-								long				numPoints,
-								unsigned long		inStructSize,
-								unsigned long		outStructSize)
+								TQ3Uns32			numPoints,
+								TQ3Uns32			inStructSize,
+								TQ3Uns32			outStructSize)
 {
 
 	// we'll just call the standard transformation function here;
 	// compiler may choose to inline
 	const char *inp=(const char*)inPoint3D;
 	char       *outp=(char*)outPoint3D;
-	long i;
+	TQ3Uns32 i;
 	for (i=0; i<numPoints; i++) {
 		E3Point3D_Transform( (const TQ3Point3D*)inp, matrix, (TQ3Point3D*)outp );
 		inp += inStructSize;
@@ -1172,9 +1172,9 @@ TQ3Status
 E3Point3D_To4DTransformArray(const TQ3Point3D		*inPoint3D,
 								const TQ3Matrix4x4	*matrix,
 								TQ3RationalPoint4D	*outPoint4D,
-								long				numPoints,
-								unsigned long		inStructSize,
-								unsigned long		outStructSize)
+								TQ3Uns32			numPoints,
+								TQ3Uns32			inStructSize,
+								TQ3Uns32			outStructSize)
 {
 
 	// we'll just call the standard transformation function here;
@@ -1182,7 +1182,7 @@ E3Point3D_To4DTransformArray(const TQ3Point3D		*inPoint3D,
 	// (this could probably be done more efficiently)
 	const char *inp=(const char*)inPoint3D;
 	char       *outp=(char*)outPoint4D;
-	long i;
+	TQ3Uns32 i;
 	for (i=0; i<numPoints; i++) {
 		// start by extending the 3D point to 4D
 		const TQ3Point3D *inpoint = (const TQ3Point3D*)inp;
@@ -1212,15 +1212,15 @@ TQ3Status
 E3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D	*inPoint4D,
 										const TQ3Matrix4x4		*matrix,
 										TQ3RationalPoint4D		*outPoint4D,
-										long					numPoints,
-										unsigned long			inStructSize,
-										unsigned long			outStructSize)
+										TQ3Uns32				numPoints,
+										TQ3Uns32				inStructSize,
+										TQ3Uns32				outStructSize)
 {
 	// we'll just call the standard transformation function here;
 	// compiler may choose to inline
 	const char *inp=(const char*)inPoint4D;
 	char       *outp=(char*)outPoint4D;
-	long i;
+	TQ3Uns32 i;
 	for (i=0; i<numPoints; i++) {
 		E3RationalPoint4D_Transform( (const TQ3RationalPoint4D*)inp, matrix, (TQ3RationalPoint4D*)outp );
 		inp += inStructSize;
@@ -1384,7 +1384,7 @@ E3SphericalPoint_ToPoint3D(const TQ3SphericalPoint *sphericalPoint, TQ3Point3D *
 TQ3Point2D *
 E3Point2D_AffineComb(const TQ3Point2D	*points2D,
 						const float		*weights,
-						unsigned long	nPoints,
+						TQ3Uns32		nPoints,
 						TQ3Point2D		*result)
 {
 	float x=0, y=0;
@@ -1410,7 +1410,7 @@ E3Point2D_AffineComb(const TQ3Point2D	*points2D,
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Param2D *
-E3Param2D_AffineComb(const TQ3Param2D *params2D, const float *weights, unsigned long nPoints, TQ3Param2D *result)
+E3Param2D_AffineComb(const TQ3Param2D *params2D, const float *weights, TQ3Uns32 nPoints, TQ3Param2D *result)
 {
 	float u=0, v=0;
 	const float *w=weights;
@@ -1436,7 +1436,7 @@ E3Param2D_AffineComb(const TQ3Param2D *params2D, const float *weights, unsigned 
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3RationalPoint3D *
-E3RationalPoint3D_AffineComb(const TQ3RationalPoint3D *points3D, const float *weights, unsigned long numPoints, TQ3RationalPoint3D *result)
+E3RationalPoint3D_AffineComb(const TQ3RationalPoint3D *points3D, const float *weights, TQ3Uns32 numPoints, TQ3RationalPoint3D *result)
 {
 	float x=0, y=0, z=0;
 	const float *w=weights;
@@ -1463,7 +1463,7 @@ E3RationalPoint3D_AffineComb(const TQ3RationalPoint3D *points3D, const float *we
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Point3D *
-E3Point3D_AffineComb(const TQ3Point3D *points3D, const float *weights, unsigned long numPoints, TQ3Point3D *result)
+E3Point3D_AffineComb(const TQ3Point3D *points3D, const float *weights, TQ3Uns32 numPoints, TQ3Point3D *result)
 {
 	float x=0, y=0, z=0;
 	const float *w=weights;
@@ -1491,7 +1491,7 @@ E3Point3D_AffineComb(const TQ3Point3D *points3D, const float *weights, unsigned 
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3RationalPoint4D *
-E3RationalPoint4D_AffineComb(const TQ3RationalPoint4D *points4D, const float *weights, unsigned long numPoints, TQ3RationalPoint4D *result)
+E3RationalPoint4D_AffineComb(const TQ3RationalPoint4D *points4D, const float *weights, TQ3Uns32 numPoints, TQ3RationalPoint4D *result)
 {
 	float x=0, y=0, z=0, w=0;
 	const float *wgt=weights;
@@ -3142,7 +3142,7 @@ E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox, const TQ3Rational
 //-----------------------------------------------------------------------------
 TQ3BoundingBox *
 E3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox, const TQ3Point3D *points3D,
-								unsigned long numPoints, unsigned long structSize)
+								TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 	const char *inp=((const char*)points3D) + structSize;
 	TQ3Uns32 i;
@@ -3171,7 +3171,7 @@ E3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox, const TQ3Point3D *points3D,
 //												enclose the given set of points.
 //-----------------------------------------------------------------------------
 TQ3BoundingBox *
-E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox, const TQ3RationalPoint4D *points4D, unsigned long numPoints, unsigned long structSize)
+E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox, const TQ3RationalPoint4D *points4D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 	const char *inp=(const char*)points4D;
 	TQ3Uns32 i;
@@ -3422,7 +3422,7 @@ E3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphere *bSphere, const TQ
 //-----------------------------------------------------------------------------
 TQ3BoundingSphere *
 E3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *points3D,
-									unsigned long numPoints, unsigned long structSize)
+									TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 	const char *inp=((const char*)points3D) + structSize;
 	TQ3Uns32 i;
@@ -3453,7 +3453,7 @@ E3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *p
 //				it's doing.
 //-----------------------------------------------------------------------------
 TQ3BoundingSphere *
-E3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3RationalPoint4D *points4D, unsigned long numPoints, unsigned long structSize)
+E3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3RationalPoint4D *points4D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 	const char *inp=((const char*)points4D) + structSize;
 	TQ3Uns32 i;

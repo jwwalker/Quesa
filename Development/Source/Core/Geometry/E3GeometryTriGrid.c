@@ -66,8 +66,8 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 	dst->triGridAttributeSet = NULL;
 	
 	// copy raw data
-	theSize = sizeof(unsigned long)			// numRows
-		+ sizeof(unsigned long);			// numCols
+	theSize = sizeof(TQ3Uns32)			// numRows
+		+ sizeof(TQ3Uns32);				// numCols
 	memcpy( dst, src, theSize );
 
 	// copy the vertices
@@ -646,11 +646,11 @@ E3TriGrid_EmptyData(TQ3TriGridData *trigridData)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, unsigned long rowIndex,
-			unsigned long columnIndex, TQ3Point3D *position)
+E3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex,
+			TQ3Uns32 columnIndex, TQ3Point3D *position)
 {
 	TQ3TriGridData		*trigridData = (TQ3TriGridData *) triGrid->instanceData;
-	unsigned long idx = rowIndex * trigridData->numColumns + columnIndex;
+	TQ3Uns32 idx = rowIndex * trigridData->numColumns + columnIndex;
 	*position = trigridData->vertices[idx].point;
 	
 	return(kQ3Success);
@@ -667,11 +667,11 @@ E3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, unsigned long rowIndex,
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, unsigned long rowIndex,
-			unsigned long columnIndex, const TQ3Point3D *position)
+E3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex,
+			TQ3Uns32 columnIndex, const TQ3Point3D *position)
 {
 	TQ3TriGridData		*trigridData = (TQ3TriGridData *) triGrid->instanceData;
-	unsigned long idx = rowIndex * trigridData->numColumns + columnIndex;
+	TQ3Uns32 idx = rowIndex * trigridData->numColumns + columnIndex;
 	trigridData->vertices[idx].point = *position;
 	
 	Q3Shared_Edited(triGrid);
@@ -689,11 +689,11 @@ E3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, unsigned long rowIndex,
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, unsigned long rowIndex,
-			unsigned long columnIndex, TQ3AttributeSet *attributeSet)
+E3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex,
+			TQ3Uns32 columnIndex, TQ3AttributeSet *attributeSet)
 {
 	TQ3TriGridData		*trigridData = (TQ3TriGridData *) triGrid->instanceData;
-	unsigned long idx = rowIndex * trigridData->numColumns + columnIndex;
+	TQ3Uns32 idx = rowIndex * trigridData->numColumns + columnIndex;
 	E3Shared_Acquire(attributeSet, trigridData->vertices[idx].attributeSet);
 	
 	return(kQ3Success);
@@ -710,10 +710,10 @@ E3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, unsigned long rowInde
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, unsigned long rowIndex, unsigned long columnIndex, TQ3AttributeSet attributeSet)
+E3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3AttributeSet attributeSet)
 {
 	TQ3TriGridData		*trigridData = (TQ3TriGridData *) triGrid->instanceData;
-	unsigned long idx = rowIndex * trigridData->numColumns + columnIndex;
+	TQ3Uns32 idx = rowIndex * trigridData->numColumns + columnIndex;
 	E3Shared_Replace(&trigridData->vertices[idx].attributeSet, attributeSet);
 
 	Q3Shared_Edited(triGrid);
@@ -730,7 +730,7 @@ E3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, unsigned long rowInde
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, unsigned long faceIndex,
+E3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex,
 			TQ3AttributeSet *facetAttributeSet)
 {
 	TQ3TriGridData		*trigridData = (TQ3TriGridData *) triGrid->instanceData;
@@ -751,7 +751,7 @@ E3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, unsigned long faceInde
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriGrid_SetFacetAttributeSet(TQ3GeometryObject triGrid, unsigned long faceIndex,
+E3TriGrid_SetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex,
 			TQ3AttributeSet facetAttributeSet)
 {
 	TQ3TriGridData		*trigridData = (TQ3TriGridData *) triGrid->instanceData;

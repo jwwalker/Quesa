@@ -56,7 +56,7 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Cross platform
-TQ3XObjectClass			E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *objectType, char *objectName, TQ3XMetaHandler metaHandler, TQ3XMetaHandler virtualMetaHandler, unsigned long methodsSize, unsigned long instanceSize);
+TQ3XObjectClass			E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *objectType, char *objectName, TQ3XMetaHandler metaHandler, TQ3XMetaHandler virtualMetaHandler, TQ3Uns32 methodsSize, TQ3Uns32 instanceSize);
 TQ3Status				E3XObjectHierarchy_UnregisterClass(TQ3XObjectClass objectClass);
 TQ3Object				E3XObjectHierarchy_NewObject(TQ3XObjectClass objectClass, void *parameters);
 TQ3Status				E3XObjectHierarchy_GetClassVersion(TQ3ObjectType objectClassType, TQ3XObjectClassVersion *version);
@@ -68,7 +68,7 @@ void					*E3XObjectClass_GetPrivate(TQ3XObjectClass objectClass, TQ3Object targe
 TQ3XObjectClass			E3XObject_GetClass(TQ3Object object);
 
 TQ3Status				E3XSharedLibrary_Register(TQ3XSharedLibraryInfo *sharedLibraryInfo);
-TQ3Status				E3XSharedLibrary_Unregister(unsigned long sharedLibrary);
+TQ3Status				E3XSharedLibrary_Unregister(TQ3Uns32 sharedLibrary);
 
 void					E3XError_Post(TQ3Error theError);
 void					E3XWarning_Post(TQ3Warning theWarning);

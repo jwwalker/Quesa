@@ -106,7 +106,7 @@ typedef struct {
 //      e3storage_mac_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_mac_getsize(TQ3StorageObject storage, unsigned long *size)
+e3storage_mac_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 {
 	SInt32	theLength;
 	OSErr	err;
@@ -124,7 +124,7 @@ e3storage_mac_getsize(TQ3StorageObject storage, unsigned long *size)
 		return(kQ3Failure);
 	}
 	
-	*size = (unsigned long)theLength;
+	*size = (TQ3Uns32)theLength;
 	
 	return(kQ3Success);
 }
@@ -137,7 +137,7 @@ e3storage_mac_getsize(TQ3StorageObject storage, unsigned long *size)
 //      e3storage_mac_fillbuffer : Fill our buffer.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_mac_fillbuffer(TQ3StorageObject storage,TE3_MacStorageDataPtr instanceData, unsigned long offset)
+e3storage_mac_fillbuffer(TQ3StorageObject storage,TE3_MacStorageDataPtr instanceData, TQ3Uns32 offset)
 {
 	OSErr	err;
 
@@ -188,7 +188,7 @@ e3storage_mac_fillbuffer(TQ3StorageObject storage,TE3_MacStorageDataPtr instance
 //      e3storage_mac_read : Read data from the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_mac_read(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, unsigned char *data, unsigned long *sizeRead)
+e3storage_mac_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
 {
 	OSErr					err;
 	TQ3Object				parent;
@@ -287,7 +287,7 @@ e3storage_mac_read(TQ3StorageObject storage, unsigned long offset, unsigned long
 //      e3storage_mac_write : Write data to the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_mac_write(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, const unsigned char *data, unsigned long *sizeWritten)
+e3storage_mac_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
 {
 	// TODO for now the writing methods remain unbuffered
 
@@ -657,7 +657,7 @@ e3storage_mac_handle_delete(TQ3Object storage, void *privateData)
 //      e3storage_mac_handle_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_mac_handle_getsize(TQ3StorageObject storage, unsigned long *size)
+e3storage_mac_handle_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 {	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) storage->instanceData;
 
 
@@ -676,7 +676,7 @@ e3storage_mac_handle_getsize(TQ3StorageObject storage, unsigned long *size)
 //      e3storage_mac_handle_read : Read data from the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_mac_handle_read(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, unsigned char *data, unsigned long *sizeRead)
+e3storage_mac_handle_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
 {	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) storage->instanceData;
 	TQ3Uns32 				bytesToRead;
 
@@ -717,7 +717,7 @@ e3storage_mac_handle_read(TQ3StorageObject storage, unsigned long offset, unsign
 //      e3storage_mac_handle_write : Write data to the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_mac_handle_write(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, const unsigned char *data, unsigned long *sizeWritten)
+e3storage_mac_handle_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
 {	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) storage->instanceData;
 	TQ3Uns32 				newSize, bytesToWrite;
 
@@ -879,7 +879,7 @@ E3MacStorage_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3StorageObject
-E3HandleStorage_New(Handle handle, unsigned long validSize)
+E3HandleStorage_New(Handle handle, TQ3Uns32 validSize)
 {	TQ3HandleStorageData		storageData;
 	TQ3Object					theObject;
 
@@ -903,7 +903,7 @@ E3HandleStorage_New(Handle handle, unsigned long validSize)
 //      E3HandleStorage_Set : Set the Handle for a Handle storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3HandleStorage_Set(TQ3StorageObject storage, Handle handle, unsigned long validSize)
+E3HandleStorage_Set(TQ3StorageObject storage, Handle handle, TQ3Uns32 validSize)
 {	TQ3HandleStorageData	*instanceData  = (TQ3HandleStorageData *) storage->instanceData;
 	OSErr					theErr;
 
@@ -951,7 +951,7 @@ E3HandleStorage_Set(TQ3StorageObject storage, Handle handle, unsigned long valid
 //      E3HandleStorage_Get : Get info about a Handle storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3HandleStorage_Get(TQ3StorageObject storage, Handle *handle, unsigned long *validSize)
+E3HandleStorage_Get(TQ3StorageObject storage, Handle *handle, TQ3Uns32 *validSize)
 {	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) storage->instanceData;
 
 

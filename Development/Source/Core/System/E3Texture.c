@@ -613,7 +613,7 @@ E3Texture_GetType(TQ3TextureObject texture)
 //      E3Texture_GetWidth : Get the width of the texture in pixels.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Texture_GetWidth(TQ3TextureObject texture, unsigned long *width)
+E3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
 {	TQ3XTextureDimensionsMethod		textureDimensions;
 	TQ3Point2D						theDimensions;
 
@@ -633,7 +633,7 @@ E3Texture_GetWidth(TQ3TextureObject texture, unsigned long *width)
 	// Get the texture width
 	textureDimensions(texture, &theDimensions);
 	
-	*width = (unsigned long) theDimensions.x;
+	*width = (TQ3Uns32) theDimensions.x;
 	
 	return(kQ3Success);
 }
@@ -646,7 +646,7 @@ E3Texture_GetWidth(TQ3TextureObject texture, unsigned long *width)
 //      E3Texture_GetHeight : Get the height of a texture in pixels.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Texture_GetHeight(TQ3TextureObject texture, unsigned long *height)
+E3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height)
 {	TQ3XTextureDimensionsMethod		textureDimensions;
 	TQ3Point2D						theDimensions;
 
@@ -666,7 +666,7 @@ E3Texture_GetHeight(TQ3TextureObject texture, unsigned long *height)
 	// Get the texture height
 	textureDimensions(texture, &theDimensions);
 	
-	*height = (unsigned long) theDimensions.y;
+	*height = (TQ3Uns32) theDimensions.y;
 	
 	return(kQ3Success);
 }
@@ -989,7 +989,7 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 										PixMapHandle 			sourcePixMap, 
 										CodecType				codecType, 
 										CodecComponent			codecComponent, 
-										short					codedDepth, 
+										TQ3Int16				codedDepth, 
 										CodecQ					codecQuality)
 {
 
@@ -997,7 +997,7 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 	// If we support QuickTime, compress the image
 #if QUESA_SUPPORT_QUICKTIME
 	ImageDescriptionHandle	imageDescH 			= NULL;
-	long					maxCompressedSize	= 0;
+	TQ3Int32				maxCompressedSize	= 0;
 	Handle					compressedDataH		= NULL;
 	Ptr						compressedDataP		= NULL;
 	OSErr					theErr				= noErr;
@@ -1100,9 +1100,9 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 		
 	// store the data in storage objects
 	compressedImage = Q3MemoryStorage_New(	(unsigned char *) compressedDataP, 
-											(unsigned long) (**imageDescH).dataSize ) ;
+											(TQ3Uns32)        (**imageDescH).dataSize ) ;
 	imageDesc		= Q3MemoryStorage_New( 	(unsigned char *) imageDescH, 
-											(unsigned long) (**imageDescH).idSize ) ;
+											(TQ3Uns32)        (**imageDescH).idSize ) ;
 	
 		
 	// make sure memory was allocated

@@ -501,8 +501,8 @@ e3fformat_3dmf_hex_to_dec(unsigned char hex)
 //      e3fformat_3dmf_hexraw_to_raw : converta a string in form 0x0AAA in binary.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_hexraw_to_raw(char* hexBuffer, unsigned long hexBufferLength,
-							unsigned char* destination, unsigned long* offset,unsigned long maxLen)
+e3fformat_3dmf_hexraw_to_raw(char* hexBuffer, TQ3Uns32 hexBufferLength,
+							unsigned char* destination, TQ3Uns32* offset,TQ3Uns32 maxLen)
 {
 	TQ3Uns32 hexBuffIndex = 2;
 	unsigned char* destinationPtr;
@@ -535,7 +535,7 @@ e3fformat_3dmf_hexraw_to_raw(char* hexBuffer, unsigned long hexBufferLength,
 //      e3fformat_3dmf_text_read_raw : Reads Binary data from stream.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_read_raw(TQ3FileFormatObject format, unsigned char* data, unsigned long length)
+e3fformat_3dmf_text_read_raw(TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length)
 {
 	char buffer[256];
 	TQ3Status result = kQ3Success;

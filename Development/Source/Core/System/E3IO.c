@@ -287,7 +287,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, unsigned long size, void *data, TQ3XDataDeleteMethod deleteData)
+E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3Uns32 size, void *data, TQ3XDataDeleteMethod deleteData)
 {
 
 

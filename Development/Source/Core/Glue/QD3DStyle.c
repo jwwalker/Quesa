@@ -301,7 +301,7 @@ Q3SubdivisionStyle_GetData(TQ3StyleObject subdiv, TQ3SubdivisionStyleData *data)
 //      Q3PickIDStyle_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3StyleObject
-Q3PickIDStyle_New(unsigned long id)
+Q3PickIDStyle_New(TQ3Uns32 id)
 {
 
 
@@ -334,7 +334,7 @@ Q3PickIDStyle_New(unsigned long id)
 //      Q3PickIDStyle_Submit : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PickIDStyle_Submit(unsigned long id, TQ3ViewObject view)
+Q3PickIDStyle_Submit(TQ3Uns32 id, TQ3ViewObject view)
 {
 
 
@@ -372,7 +372,7 @@ Q3PickIDStyle_Submit(unsigned long id, TQ3ViewObject view)
 //      Q3PickIDStyle_Get : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PickIDStyle_Get(TQ3StyleObject pickIDObject, unsigned long *id)
+Q3PickIDStyle_Get(TQ3StyleObject pickIDObject, TQ3Uns32 *id)
 {
 
 
@@ -411,7 +411,7 @@ Q3PickIDStyle_Get(TQ3StyleObject pickIDObject, unsigned long *id)
 //      Q3PickIDStyle_Set : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PickIDStyle_Set(TQ3StyleObject pickIDObject, unsigned long id)
+Q3PickIDStyle_Set(TQ3StyleObject pickIDObject, TQ3Uns32 id)
 {
 
 

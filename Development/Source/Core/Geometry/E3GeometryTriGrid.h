@@ -63,12 +63,12 @@ TQ3Status			E3TriGrid_Submit(const TQ3TriGridData *triGridData, TQ3ViewObject th
 TQ3Status			E3TriGrid_SetData(TQ3GeometryObject triGrid, const TQ3TriGridData *triGridData);
 TQ3Status			E3TriGrid_GetData(TQ3GeometryObject triGrid, TQ3TriGridData *triGridData);
 TQ3Status			E3TriGrid_EmptyData(TQ3TriGridData *triGridData);
-TQ3Status			E3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, unsigned long rowIndex, unsigned long columnIndex, TQ3Point3D *position);
-TQ3Status			E3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, unsigned long rowIndex, unsigned long columnIndex, const TQ3Point3D *position);
-TQ3Status			E3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, unsigned long rowIndex, unsigned long columnIndex, TQ3AttributeSet *attributeSet);
-TQ3Status			E3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, unsigned long rowIndex, unsigned long columnIndex, TQ3AttributeSet attributeSet);
-TQ3Status			E3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, unsigned long faceIndex, TQ3AttributeSet *facetAttributeSet);
-TQ3Status			E3TriGrid_SetFacetAttributeSet(TQ3GeometryObject triGrid, unsigned long faceIndex, TQ3AttributeSet facetAttributeSet);
+TQ3Status			E3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3Point3D *position);
+TQ3Status			E3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, const TQ3Point3D *position);
+TQ3Status			E3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3AttributeSet *attributeSet);
+TQ3Status			E3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3AttributeSet attributeSet);
+TQ3Status			E3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex, TQ3AttributeSet *facetAttributeSet);
+TQ3Status			E3TriGrid_SetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex, TQ3AttributeSet facetAttributeSet);
 
 
 

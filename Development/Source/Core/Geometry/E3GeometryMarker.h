@@ -65,10 +65,10 @@ TQ3Status			E3Marker_GetData(TQ3GeometryObject theGeom, TQ3MarkerData *markerDat
 TQ3Status			E3Marker_EmptyData(TQ3MarkerData *markerData);
 TQ3Status			E3Marker_GetPosition(TQ3GeometryObject theMarker, TQ3Point3D *location);
 TQ3Status			E3Marker_SetPosition(TQ3GeometryObject theMarker, const TQ3Point3D *location);
-TQ3Status			E3Marker_GetXOffset(TQ3GeometryObject theMarker, long *xOffset);
-TQ3Status			E3Marker_SetXOffset(TQ3GeometryObject theMarker, long xOffset);
-TQ3Status			E3Marker_GetYOffset(TQ3GeometryObject theMarker, long *yOffset);
-TQ3Status			E3Marker_SetYOffset(TQ3GeometryObject theMarker, long yOffset);
+TQ3Status			E3Marker_GetXOffset(TQ3GeometryObject theMarker, TQ3Int32 *xOffset);
+TQ3Status			E3Marker_SetXOffset(TQ3GeometryObject theMarker, TQ3Int32 xOffset);
+TQ3Status			E3Marker_GetYOffset(TQ3GeometryObject theMarker, TQ3Int32 *yOffset);
+TQ3Status			E3Marker_SetYOffset(TQ3GeometryObject theMarker, TQ3Int32 yOffset);
 TQ3Status			E3Marker_GetBitmap(TQ3GeometryObject theMarker, TQ3Bitmap *bitmap);
 TQ3Status			E3Marker_SetBitmap(TQ3GeometryObject theMarker, const TQ3Bitmap *bitmap);
 

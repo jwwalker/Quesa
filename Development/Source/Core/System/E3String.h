@@ -60,7 +60,7 @@ TQ3Status			E3String_UnregisterClass(void);
 
 TQ3ObjectType		E3String_GetType(TQ3StringObject stringObj);
 TQ3StringObject		E3CString_New(const char *str);
-TQ3Status			E3CString_GetLength(TQ3StringObject stringObj, unsigned long *length);
+TQ3Status			E3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length);
 TQ3Status			E3CString_SetString(TQ3StringObject stringObj, const char *str);
 TQ3Status			E3CString_GetString(TQ3StringObject stringObj, char **str);
 TQ3Status			E3CString_EmptyData(char **str);

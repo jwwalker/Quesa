@@ -234,7 +234,7 @@ TQ3Status				E3XDrawContext_SetColormap(TQ3DrawContextObject drawContext, Colorm
 TQ3Status				E3XDrawContext_GetColormap(TQ3DrawContextObject drawContext, Colormap *colormap);
 TQ3Status				E3XDrawContext_SetColormapData(TQ3DrawContextObject drawContext, const TQ3XColormapData *colormapData);
 TQ3Status				E3XDrawContext_GetColormapData(TQ3DrawContextObject drawContext, TQ3XColormapData *colormapData);
-TQ3XBufferObject		E3XBuffers_New(Display *dpy, unsigned long numBuffers, Window window);
+TQ3XBufferObject		E3XBuffers_New(Display *dpy, TQ3Uns32 numBuffers, Window window);
 void					E3XBuffers_Swap(Display *dpy, TQ3XBufferObject buffers);
 XVisualInfo			   *E3X_GetVisualInfo(Display *dpy, Screen *screen);
 #endif

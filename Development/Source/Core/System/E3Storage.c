@@ -81,7 +81,7 @@ typedef struct {
 //      e3storage_memory_read : Read data from the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_memory_read(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, unsigned char *data, unsigned long *sizeRead)
+e3storage_memory_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
 {	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
 	TQ3Uns32 		bytesToRead = dataSize;
 	TQ3Status		result = kQ3Failure;
@@ -112,7 +112,7 @@ e3storage_memory_read(TQ3StorageObject storage, unsigned long offset, unsigned l
 //      e3storage_memory_write : Write data to the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_memory_write(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, const unsigned char *data, unsigned long *sizeWritten)
+e3storage_memory_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
 {	TE3_MemoryStorageData	*instanceData = (TE3_MemoryStorageData *) storage->instanceData;
 	TQ3Uns32 				bytesToWrite;
 
@@ -152,7 +152,7 @@ e3storage_memory_write(TQ3StorageObject storage, unsigned long offset, unsigned 
 //      e3storage_memory_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_memory_getsize(TQ3StorageObject storage, unsigned long *size)
+e3storage_memory_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 {	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
 
 	*size = instanceData->validSize;
@@ -417,7 +417,7 @@ e3storage_path_close(TQ3StorageObject storage)
 //      e3storage_path_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_path_getsize(TQ3StorageObject storage, unsigned long *size)
+e3storage_path_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 {	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) storage->instanceData;
 	fpos_t					oldPos, endPos;
 
@@ -457,7 +457,7 @@ e3storage_path_getsize(TQ3StorageObject storage, unsigned long *size)
 
 
 	// Return the length of the file	
-	*size = (unsigned long) endPos;
+	*size = (TQ3Uns32) endPos;
 
 	return(kQ3Success);
 }
@@ -472,7 +472,7 @@ e3storage_path_getsize(TQ3StorageObject storage, unsigned long *size)
 //		Note : Currently unbuffered - may cause performance problems.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_path_read(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, unsigned char *data, unsigned long *sizeRead)
+e3storage_path_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
 {	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) storage->instanceData;
 
 
@@ -505,7 +505,7 @@ e3storage_path_read(TQ3StorageObject storage, unsigned long offset, unsigned lon
 //		Note : Currently unbuffered - may cause performance problems.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_path_write(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, const unsigned char *data, unsigned long *sizeWritten)
+e3storage_path_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
 {	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) storage->instanceData;
 
 
@@ -687,7 +687,7 @@ E3Storage_GetType(TQ3StorageObject storage)
 //      E3Storage_GetSize : Return the size of data in a storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Storage_GetSize(TQ3StorageObject storage, unsigned long *size)
+E3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size)
 {
 	TQ3Status result = kQ3Failure;
 	// get the subclass method;
@@ -708,7 +708,7 @@ E3Storage_GetSize(TQ3StorageObject storage, unsigned long *size)
 //      E3Storage_GetData : Return the data in a storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Storage_GetData(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, unsigned char *data, unsigned long *sizeRead)
+E3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
 {
 	TQ3Status result = kQ3Failure;
 	// get the subclass method;
@@ -732,7 +732,7 @@ E3Storage_GetData(TQ3StorageObject storage, unsigned long offset, unsigned long 
 //			   sizeWritten, the storage grows to accept new data
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Storage_SetData(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, const unsigned char *data, unsigned long *sizeWritten)
+E3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
 {
 	
 	TQ3Status result = kQ3Failure;
@@ -773,7 +773,7 @@ E3MemoryStorage_GetType(TQ3StorageObject storage)
 //      E3MemoryStorage_New : Creates a new storage copying the buffer.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
-E3MemoryStorage_New(const unsigned char *buffer, unsigned long validSize)
+E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize)
 {	TQ3Object				theObject;
 	TE3_MemoryStorageData	objectData;
 	
@@ -798,7 +798,7 @@ E3MemoryStorage_New(const unsigned char *buffer, unsigned long validSize)
 //      E3MemoryStorage_Set : Sets the buffer for a storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, unsigned long validSize)
+E3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Uns32 validSize)
 {	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
 	TQ3Status				qd3dStatus;
 	
@@ -852,7 +852,7 @@ E3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, unsig
 //      E3MemoryStorage_NewBuffer : Creates a new storage using the buffer.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
-E3MemoryStorage_NewBuffer(unsigned char *buffer, unsigned long validSize, unsigned long bufferSize)
+E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize)
 {	TQ3Object				theObject;
 	TE3_MemoryStorageData	objectData;
 	
@@ -878,7 +878,7 @@ E3MemoryStorage_NewBuffer(unsigned char *buffer, unsigned long validSize, unsign
 //      E3MemoryStorage_SetBuffer : Set the data for a storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, unsigned long validSize, unsigned long bufferSize)
+E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize)
 {	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
 	TQ3Status				qd3dStatus;
 
@@ -943,7 +943,7 @@ E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, unsig
 //				Renderer calls us with some parameters as NULL.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, unsigned long *validSize, unsigned long *bufferSize)
+E3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize)
 {	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
 
 	if(buffer != NULL)

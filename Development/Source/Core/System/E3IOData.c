@@ -832,7 +832,7 @@ E3Size_Pad(TQ3Size size)
 //      E3String_Read : Read a string.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3String_Read(char *data, unsigned long *length, TQ3FileObject theFile)
+E3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
 {
 	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
 	TQ3XFFormatStringReadMethod 	stringRead;
@@ -882,7 +882,7 @@ E3String_Write(const char *data, TQ3FileObject theFile)
 //      E3RawData_Read : Read a block of raw data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3RawData_Read(unsigned char *data, unsigned long size, TQ3FileObject theFile)
+E3RawData_Read(unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 {
 	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
 	TQ3XFFormatRawReadMethod	 	rawRead;
@@ -907,7 +907,7 @@ E3RawData_Read(unsigned char *data, unsigned long size, TQ3FileObject theFile)
 //      E3RawData_Write : Write a block of raw data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3RawData_Write(const unsigned char *data, unsigned long size, TQ3FileObject theFile)
+E3RawData_Write(const unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 {
 	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
 	TQ3XFFormatRawWriteMethod	 	rawWrite;
@@ -1855,7 +1855,7 @@ E3ViewHints_GetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, unsigned long width, unsigned long height)
+E3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 width, TQ3Uns32 height)
 {
 
 
@@ -1873,7 +1873,7 @@ E3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, unsigned long width, uns
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetDimensions(TQ3ViewHintsObject viewHints, unsigned long *width, unsigned long *height)
+E3ViewHints_GetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 *width, TQ3Uns32 *height)
 {
 
 

@@ -62,10 +62,10 @@ TQ3GeometryObject	E3Line_New(const TQ3LineData *lineData);
 TQ3Status			E3Line_Submit(const TQ3LineData *lineData, TQ3ViewObject theView);
 TQ3Status			E3Line_GetData(TQ3GeometryObject theLine, TQ3LineData *lineData);
 TQ3Status			E3Line_SetData(TQ3GeometryObject theLine, const TQ3LineData *lineData);
-TQ3Status			E3Line_GetVertexPosition(TQ3GeometryObject theLine, unsigned long index, TQ3Point3D *position);
-TQ3Status			E3Line_SetVertexPosition(TQ3GeometryObject theLine, unsigned long index, const TQ3Point3D *position);
-TQ3Status			E3Line_GetVertexAttributeSet(TQ3GeometryObject theLine, unsigned long index, TQ3AttributeSet *attributeSet);
-TQ3Status			E3Line_SetVertexAttributeSet(TQ3GeometryObject theLine, unsigned long index, TQ3AttributeSet attributeSet);
+TQ3Status			E3Line_GetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3Point3D *position);
+TQ3Status			E3Line_SetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, const TQ3Point3D *position);
+TQ3Status			E3Line_GetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet);
+TQ3Status			E3Line_SetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3AttributeSet attributeSet);
 TQ3Status			E3Line_EmptyData(TQ3LineData *lineData);
 
 

@@ -355,7 +355,7 @@ E3Mesh_VertexNew(TQ3GeometryObject theMesh, const TQ3Vertex3D *vertex)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3MeshFace
-E3Mesh_FaceNew(TQ3GeometryObject theMesh, unsigned long numVertices, const TQ3MeshVertex *vertices, TQ3AttributeSet attributeSet)
+E3Mesh_FaceNew(TQ3GeometryObject theMesh, TQ3Uns32 numVertices, const TQ3MeshVertex *vertices, TQ3AttributeSet attributeSet)
 {
 
 
@@ -481,7 +481,7 @@ E3Mesh_ContourToFace(TQ3GeometryObject theMesh, TQ3MeshContour contour)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetNumComponents(TQ3GeometryObject theMesh, unsigned long *numComponents)
+E3Mesh_GetNumComponents(TQ3GeometryObject theMesh, TQ3Uns32 *numComponents)
 {
 
 
@@ -499,7 +499,7 @@ E3Mesh_GetNumComponents(TQ3GeometryObject theMesh, unsigned long *numComponents)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetNumEdges(TQ3GeometryObject theMesh, unsigned long *numEdges)
+E3Mesh_GetNumEdges(TQ3GeometryObject theMesh, TQ3Uns32 *numEdges)
 {
 
 
@@ -517,7 +517,7 @@ E3Mesh_GetNumEdges(TQ3GeometryObject theMesh, unsigned long *numEdges)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetNumVertices(TQ3GeometryObject theMesh, unsigned long *numVertices)
+E3Mesh_GetNumVertices(TQ3GeometryObject theMesh, TQ3Uns32 *numVertices)
 {
 
 
@@ -535,7 +535,7 @@ E3Mesh_GetNumVertices(TQ3GeometryObject theMesh, unsigned long *numVertices)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetNumFaces(TQ3GeometryObject theMesh, unsigned long *numFaces)
+E3Mesh_GetNumFaces(TQ3GeometryObject theMesh, TQ3Uns32 *numFaces)
 {
 
 
@@ -553,7 +553,7 @@ E3Mesh_GetNumFaces(TQ3GeometryObject theMesh, unsigned long *numFaces)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetNumCorners(TQ3GeometryObject theMesh, unsigned long *numCorners)
+E3Mesh_GetNumCorners(TQ3GeometryObject theMesh, TQ3Uns32 *numCorners)
 {
 
 
@@ -589,7 +589,7 @@ E3Mesh_GetOrientable(TQ3GeometryObject theMesh, TQ3Boolean *orientable)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetComponentNumVertices(TQ3GeometryObject theMesh, TQ3MeshComponent component, unsigned long *numVertices)
+E3Mesh_GetComponentNumVertices(TQ3GeometryObject theMesh, TQ3MeshComponent component, TQ3Uns32 *numVertices)
 {
 
 
@@ -607,7 +607,7 @@ E3Mesh_GetComponentNumVertices(TQ3GeometryObject theMesh, TQ3MeshComponent compo
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetComponentNumEdges(TQ3GeometryObject theMesh, TQ3MeshComponent component, unsigned long *numEdges)
+E3Mesh_GetComponentNumEdges(TQ3GeometryObject theMesh, TQ3MeshComponent component, TQ3Uns32 *numEdges)
 {
 
 
@@ -679,7 +679,7 @@ E3Mesh_GetVertexCoordinates(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, TQ3
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetVertexIndex(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, unsigned long *index)
+E3Mesh_GetVertexIndex(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, TQ3Uns32 *index)
 {
 
 
@@ -789,7 +789,7 @@ E3Mesh_SetVertexAttributeSet(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, TQ
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetFaceNumVertices(TQ3GeometryObject theMesh, TQ3MeshFace face, unsigned long *numVertices)
+E3Mesh_GetFaceNumVertices(TQ3GeometryObject theMesh, TQ3MeshFace face, TQ3Uns32 *numVertices)
 {
 
 
@@ -825,7 +825,7 @@ E3Mesh_GetFacePlaneEquation(TQ3GeometryObject theMesh, TQ3MeshFace face, TQ3Plan
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetFaceNumContours(TQ3GeometryObject theMesh, TQ3MeshFace face, unsigned long *numContours)
+E3Mesh_GetFaceNumContours(TQ3GeometryObject theMesh, TQ3MeshFace face, TQ3Uns32 *numContours)
 {
 
 
@@ -843,7 +843,7 @@ E3Mesh_GetFaceNumContours(TQ3GeometryObject theMesh, TQ3MeshFace face, unsigned 
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetFaceIndex(TQ3GeometryObject theMesh, TQ3MeshFace face, unsigned long *index)
+E3Mesh_GetFaceIndex(TQ3GeometryObject theMesh, TQ3MeshFace face, TQ3Uns32 *index)
 {
 
 
@@ -1043,7 +1043,7 @@ E3Mesh_GetContourFace(TQ3GeometryObject theMesh, TQ3MeshContour contour, TQ3Mesh
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Mesh_GetContourNumVertices(TQ3GeometryObject theMesh, TQ3MeshContour contour, unsigned long *numVertices)
+E3Mesh_GetContourNumVertices(TQ3GeometryObject theMesh, TQ3MeshContour contour, TQ3Uns32 *numVertices)
 {
 
 

@@ -354,7 +354,7 @@ E3Line_SetData(TQ3GeometryObject theLine, const TQ3LineData *lineData)
 //      E3Line_GetVertexPosition :	Get the vertex position at index
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Line_GetVertexPosition(TQ3GeometryObject theLine, unsigned long index, TQ3Point3D *position)
+E3Line_GetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3Point3D *position)
 {
 	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
 
@@ -372,7 +372,7 @@ E3Line_GetVertexPosition(TQ3GeometryObject theLine, unsigned long index, TQ3Poin
 //      E3Line_SetVertexPosition :	Set the vertex at index
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Line_SetVertexPosition(TQ3GeometryObject theLine, unsigned long index, const TQ3Point3D *position)
+E3Line_SetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, const TQ3Point3D *position)
 {
 	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
 	
@@ -392,7 +392,7 @@ E3Line_SetVertexPosition(TQ3GeometryObject theLine, unsigned long index, const T
 //      E3Line_GetVertexAttributeSet :	Get attributes for vertex at index
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Line_GetVertexAttributeSet(TQ3GeometryObject theLine, unsigned long index, TQ3AttributeSet *attributeSet)
+E3Line_GetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {
 	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
 
@@ -411,7 +411,7 @@ E3Line_GetVertexAttributeSet(TQ3GeometryObject theLine, unsigned long index, TQ3
 //      E3Line_SetVertexAttributeSet : Set the attributes for vertex at index.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Line_SetVertexAttributeSet(TQ3GeometryObject theLine, unsigned long index, TQ3AttributeSet attributeSet)
+E3Line_SetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {
 	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
 

@@ -745,7 +745,7 @@ Q3Box_GetMinorAxis(TQ3GeometryObject box, TQ3Vector3D *minorAxis)
 //      Q3Box_GetFaceAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Box_GetFaceAttributeSet(TQ3GeometryObject box, unsigned long faceIndex, TQ3AttributeSet *faceAttributeSet)
+Q3Box_GetFaceAttributeSet(TQ3GeometryObject box, TQ3Uns32 faceIndex, TQ3AttributeSet *faceAttributeSet)
 {
 
 
@@ -787,7 +787,7 @@ Q3Box_GetFaceAttributeSet(TQ3GeometryObject box, unsigned long faceIndex, TQ3Att
 //      Q3Box_SetFaceAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Box_SetFaceAttributeSet(TQ3GeometryObject box, unsigned long faceIndex, TQ3AttributeSet faceAttributeSet)
+Q3Box_SetFaceAttributeSet(TQ3GeometryObject box, TQ3Uns32 faceIndex, TQ3AttributeSet faceAttributeSet)
 {
 
 
@@ -3881,7 +3881,7 @@ Q3GeneralPolygon_EmptyData(TQ3GeneralPolygonData *generalPolygonData)
 //      Q3GeneralPolygon_GetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, TQ3Point3D *position)
+Q3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3Point3D *position)
 {
 
 
@@ -3926,7 +3926,7 @@ Q3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, unsigned lo
 //      Q3GeneralPolygon_SetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, const TQ3Point3D *position)
+Q3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, const TQ3Point3D *position)
 {
 
 
@@ -3971,7 +3971,7 @@ Q3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, unsigned lo
 //      Q3GeneralPolygon_GetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, TQ3AttributeSet *attributeSet)
+Q3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3AttributeSet *attributeSet)
 {
 
 
@@ -4016,7 +4016,7 @@ Q3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, unsigne
 //      Q3GeneralPolygon_SetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject generalPolygon, unsigned long contourIndex, unsigned long pointIndex, TQ3AttributeSet attributeSet)
+Q3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3AttributeSet attributeSet)
 {
 
 
@@ -4288,7 +4288,7 @@ Q3Line_SetData(TQ3GeometryObject line, const TQ3LineData *lineData)
 //      Q3Line_GetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Line_GetVertexPosition(TQ3GeometryObject line, unsigned long index, TQ3Point3D *position)
+Q3Line_GetVertexPosition(TQ3GeometryObject line, TQ3Uns32 index, TQ3Point3D *position)
 {
 
 
@@ -4330,7 +4330,7 @@ Q3Line_GetVertexPosition(TQ3GeometryObject line, unsigned long index, TQ3Point3D
 //      Q3Line_SetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Line_SetVertexPosition(TQ3GeometryObject line, unsigned long index, const TQ3Point3D *position)
+Q3Line_SetVertexPosition(TQ3GeometryObject line, TQ3Uns32 index, const TQ3Point3D *position)
 {
 
 
@@ -4372,7 +4372,7 @@ Q3Line_SetVertexPosition(TQ3GeometryObject line, unsigned long index, const TQ3P
 //      Q3Line_GetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Line_GetVertexAttributeSet(TQ3GeometryObject line, unsigned long index, TQ3AttributeSet *attributeSet)
+Q3Line_GetVertexAttributeSet(TQ3GeometryObject line, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {
 
 
@@ -4414,7 +4414,7 @@ Q3Line_GetVertexAttributeSet(TQ3GeometryObject line, unsigned long index, TQ3Att
 //      Q3Line_SetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Line_SetVertexAttributeSet(TQ3GeometryObject line, unsigned long index, TQ3AttributeSet attributeSet)
+Q3Line_SetVertexAttributeSet(TQ3GeometryObject line, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {
 
 
@@ -4752,7 +4752,7 @@ Q3Marker_SetPosition(TQ3GeometryObject marker, const TQ3Point3D *location)
 //      Q3Marker_GetXOffset : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Marker_GetXOffset(TQ3GeometryObject marker, long *xOffset)
+Q3Marker_GetXOffset(TQ3GeometryObject marker, TQ3Int32 *xOffset)
 {
 
 
@@ -4791,7 +4791,7 @@ Q3Marker_GetXOffset(TQ3GeometryObject marker, long *xOffset)
 //      Q3Marker_SetXOffset : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Marker_SetXOffset(TQ3GeometryObject marker, long xOffset)
+Q3Marker_SetXOffset(TQ3GeometryObject marker, TQ3Int32 xOffset)
 {
 
 
@@ -4829,7 +4829,7 @@ Q3Marker_SetXOffset(TQ3GeometryObject marker, long xOffset)
 //      Q3Marker_GetYOffset : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Marker_GetYOffset(TQ3GeometryObject marker, long *yOffset)
+Q3Marker_GetYOffset(TQ3GeometryObject marker, TQ3Int32 *yOffset)
 {
 
 
@@ -4868,7 +4868,7 @@ Q3Marker_GetYOffset(TQ3GeometryObject marker, long *yOffset)
 //      Q3Marker_SetYOffset : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Marker_SetYOffset(TQ3GeometryObject marker, long yOffset)
+Q3Marker_SetYOffset(TQ3GeometryObject marker, TQ3Int32 yOffset)
 {
 
 
@@ -5044,7 +5044,7 @@ Q3Mesh_VertexNew(TQ3GeometryObject mesh, const TQ3Vertex3D *vertex)
 //      Q3Mesh_FaceNew : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3MeshFace
-Q3Mesh_FaceNew(TQ3GeometryObject mesh, unsigned long numVertices, const TQ3MeshVertex *vertices, TQ3AttributeSet attributeSet)
+Q3Mesh_FaceNew(TQ3GeometryObject mesh, TQ3Uns32 numVertices, const TQ3MeshVertex *vertices, TQ3AttributeSet attributeSet)
 {
 
 
@@ -5314,7 +5314,7 @@ Q3Mesh_ContourToFace(TQ3GeometryObject mesh, TQ3MeshContour contour)
 //      Q3Mesh_GetNumComponents : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetNumComponents(TQ3GeometryObject mesh, unsigned long *numComponents)
+Q3Mesh_GetNumComponents(TQ3GeometryObject mesh, TQ3Uns32 *numComponents)
 {
 
 
@@ -5353,7 +5353,7 @@ Q3Mesh_GetNumComponents(TQ3GeometryObject mesh, unsigned long *numComponents)
 //      Q3Mesh_GetNumEdges : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetNumEdges(TQ3GeometryObject mesh, unsigned long *numEdges)
+Q3Mesh_GetNumEdges(TQ3GeometryObject mesh, TQ3Uns32 *numEdges)
 {
 
 
@@ -5392,7 +5392,7 @@ Q3Mesh_GetNumEdges(TQ3GeometryObject mesh, unsigned long *numEdges)
 //      Q3Mesh_GetNumVertices : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetNumVertices(TQ3GeometryObject mesh, unsigned long *numVertices)
+Q3Mesh_GetNumVertices(TQ3GeometryObject mesh, TQ3Uns32 *numVertices)
 {
 
 
@@ -5431,7 +5431,7 @@ Q3Mesh_GetNumVertices(TQ3GeometryObject mesh, unsigned long *numVertices)
 //      Q3Mesh_GetNumFaces : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetNumFaces(TQ3GeometryObject mesh, unsigned long *numFaces)
+Q3Mesh_GetNumFaces(TQ3GeometryObject mesh, TQ3Uns32 *numFaces)
 {
 
 
@@ -5470,7 +5470,7 @@ Q3Mesh_GetNumFaces(TQ3GeometryObject mesh, unsigned long *numFaces)
 //      Q3Mesh_GetNumCorners : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetNumCorners(TQ3GeometryObject mesh, unsigned long *numCorners)
+Q3Mesh_GetNumCorners(TQ3GeometryObject mesh, TQ3Uns32 *numCorners)
 {
 
 
@@ -5548,7 +5548,7 @@ Q3Mesh_GetOrientable(TQ3GeometryObject mesh, TQ3Boolean *orientable)
 //      Q3Mesh_GetComponentNumVertices : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetComponentNumVertices(TQ3GeometryObject mesh, TQ3MeshComponent component, unsigned long *numVertices)
+Q3Mesh_GetComponentNumVertices(TQ3GeometryObject mesh, TQ3MeshComponent component, TQ3Uns32 *numVertices)
 {
 
 
@@ -5590,7 +5590,7 @@ Q3Mesh_GetComponentNumVertices(TQ3GeometryObject mesh, TQ3MeshComponent componen
 //      Q3Mesh_GetComponentNumEdges : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetComponentNumEdges(TQ3GeometryObject mesh, TQ3MeshComponent component, unsigned long *numEdges)
+Q3Mesh_GetComponentNumEdges(TQ3GeometryObject mesh, TQ3MeshComponent component, TQ3Uns32 *numEdges)
 {
 
 
@@ -5758,7 +5758,7 @@ Q3Mesh_GetVertexCoordinates(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Poi
 //      Q3Mesh_GetVertexIndex : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetVertexIndex(TQ3GeometryObject mesh, TQ3MeshVertex vertex, unsigned long *index)
+Q3Mesh_GetVertexIndex(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Uns32 *index)
 {
 
 
@@ -6009,7 +6009,7 @@ Q3Mesh_SetVertexAttributeSet(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3At
 //      Q3Mesh_GetFaceNumVertices : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetFaceNumVertices(TQ3GeometryObject mesh, TQ3MeshFace face, unsigned long *numVertices)
+Q3Mesh_GetFaceNumVertices(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Uns32 *numVertices)
 {
 
 
@@ -6093,7 +6093,7 @@ Q3Mesh_GetFacePlaneEquation(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3PlaneEq
 //      Q3Mesh_GetFaceNumContours : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetFaceNumContours(TQ3GeometryObject mesh, TQ3MeshFace face, unsigned long *numContours)
+Q3Mesh_GetFaceNumContours(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Uns32 *numContours)
 {
 
 
@@ -6135,7 +6135,7 @@ Q3Mesh_GetFaceNumContours(TQ3GeometryObject mesh, TQ3MeshFace face, unsigned lon
 //      Q3Mesh_GetFaceIndex : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetFaceIndex(TQ3GeometryObject mesh, TQ3MeshFace face, unsigned long *index)
+Q3Mesh_GetFaceIndex(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Uns32 *index)
 {
 
 
@@ -6603,7 +6603,7 @@ Q3Mesh_GetContourFace(TQ3GeometryObject mesh, TQ3MeshContour contour, TQ3MeshFac
 //      Q3Mesh_GetContourNumVertices : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Mesh_GetContourNumVertices(TQ3GeometryObject mesh, TQ3MeshContour contour, unsigned long *numVertices)
+Q3Mesh_GetContourNumVertices(TQ3GeometryObject mesh, TQ3MeshContour contour, TQ3Uns32 *numVertices)
 {
 
 
@@ -8066,7 +8066,7 @@ Q3NURBCurve_EmptyData(TQ3NURBCurveData *nurbCurveData)
 //      Q3NURBCurve_SetControlPoint : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3NURBCurve_SetControlPoint(TQ3GeometryObject curve, unsigned long pointIndex, const TQ3RationalPoint4D *point4D)
+Q3NURBCurve_SetControlPoint(TQ3GeometryObject curve, TQ3Uns32 pointIndex, const TQ3RationalPoint4D *point4D)
 {
 
 
@@ -8109,7 +8109,7 @@ Q3NURBCurve_SetControlPoint(TQ3GeometryObject curve, unsigned long pointIndex, c
 //      Q3NURBCurve_GetControlPoint : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3NURBCurve_GetControlPoint(TQ3GeometryObject curve, unsigned long pointIndex, TQ3RationalPoint4D *point4D)
+Q3NURBCurve_GetControlPoint(TQ3GeometryObject curve, TQ3Uns32 pointIndex, TQ3RationalPoint4D *point4D)
 {
 
 
@@ -8152,7 +8152,7 @@ Q3NURBCurve_GetControlPoint(TQ3GeometryObject curve, unsigned long pointIndex, T
 //      Q3NURBCurve_SetKnot : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3NURBCurve_SetKnot(TQ3GeometryObject curve, unsigned long knotIndex, float knotValue)
+Q3NURBCurve_SetKnot(TQ3GeometryObject curve, TQ3Uns32 knotIndex, float knotValue)
 {
 
 
@@ -8206,7 +8206,7 @@ Q3NURBCurve_SetKnot(TQ3GeometryObject curve, unsigned long knotIndex, float knot
 //      Q3NURBCurve_GetKnot : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3NURBCurve_GetKnot(TQ3GeometryObject curve, unsigned long knotIndex, float *knotValue)
+Q3NURBCurve_GetKnot(TQ3GeometryObject curve, TQ3Uns32 knotIndex, float *knotValue)
 {
 
 
@@ -8406,7 +8406,7 @@ Q3NURBPatch_GetData(TQ3GeometryObject nurbPatch, TQ3NURBPatchData *nurbPatchData
 //      Q3NURBPatch_SetControlPoint : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, unsigned long rowIndex, unsigned long columnIndex, const TQ3RationalPoint4D *point4D)
+Q3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, const TQ3RationalPoint4D *point4D)
 {
 
 
@@ -8453,7 +8453,7 @@ Q3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, unsigned long rowIndex,
 //      Q3NURBPatch_GetControlPoint : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, unsigned long rowIndex, unsigned long columnIndex, TQ3RationalPoint4D *point4D)
+Q3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3RationalPoint4D *point4D)
 {
 
 
@@ -8500,7 +8500,7 @@ Q3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, unsigned long rowIndex,
 //      Q3NURBPatch_SetUKnot : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float knotValue)
+Q3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knotValue)
 {
 
 
@@ -8554,7 +8554,7 @@ Q3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 //      Q3NURBPatch_SetVKnot : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float knotValue)
+Q3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knotValue)
 {
 
 
@@ -8608,7 +8608,7 @@ Q3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 //      Q3NURBPatch_GetUKnot : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float *knotValue)
+Q3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *knotValue)
 {
 
 
@@ -8654,7 +8654,7 @@ Q3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 //      Q3NURBPatch_GetVKnot : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float *knotValue)
+Q3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *knotValue)
 {
 
 
@@ -8997,7 +8997,7 @@ Q3PixmapMarker_SetPosition(TQ3GeometryObject pixmapMarker, const TQ3Point3D *pos
 //      Q3PixmapMarker_GetXOffset : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, long *xOffset)
+Q3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *xOffset)
 {
 
 
@@ -9036,7 +9036,7 @@ Q3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, long *xOffset)
 //      Q3PixmapMarker_SetXOffset : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, long xOffset)
+Q3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 xOffset)
 {
 
 
@@ -9074,7 +9074,7 @@ Q3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, long xOffset)
 //      Q3PixmapMarker_GetYOffset : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, long *yOffset)
+Q3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *yOffset)
 {
 
 
@@ -9113,7 +9113,7 @@ Q3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, long *yOffset)
 //      Q3PixmapMarker_SetYOffset : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, long yOffset)
+Q3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 yOffset)
 {
 
 
@@ -9678,7 +9678,7 @@ Q3Polygon_EmptyData(TQ3PolygonData *polygonData)
 //      Q3Polygon_GetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polygon_GetVertexPosition(TQ3GeometryObject polygon, unsigned long index, TQ3Point3D *point)
+Q3Polygon_GetVertexPosition(TQ3GeometryObject polygon, TQ3Uns32 index, TQ3Point3D *point)
 {
 
 
@@ -9720,7 +9720,7 @@ Q3Polygon_GetVertexPosition(TQ3GeometryObject polygon, unsigned long index, TQ3P
 //      Q3Polygon_SetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polygon_SetVertexPosition(TQ3GeometryObject polygon, unsigned long index, const TQ3Point3D *point)
+Q3Polygon_SetVertexPosition(TQ3GeometryObject polygon, TQ3Uns32 index, const TQ3Point3D *point)
 {
 
 
@@ -9762,7 +9762,7 @@ Q3Polygon_SetVertexPosition(TQ3GeometryObject polygon, unsigned long index, cons
 //      Q3Polygon_GetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polygon_GetVertexAttributeSet(TQ3GeometryObject polygon, unsigned long index, TQ3AttributeSet *attributeSet)
+Q3Polygon_GetVertexAttributeSet(TQ3GeometryObject polygon, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {
 
 
@@ -9804,7 +9804,7 @@ Q3Polygon_GetVertexAttributeSet(TQ3GeometryObject polygon, unsigned long index, 
 //      Q3Polygon_SetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polygon_SetVertexAttributeSet(TQ3GeometryObject polygon, unsigned long index, TQ3AttributeSet attributeSet)
+Q3Polygon_SetVertexAttributeSet(TQ3GeometryObject polygon, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {
 
 
@@ -10030,7 +10030,7 @@ Q3Polyhedron_EmptyData(TQ3PolyhedronData *polyhedronData)
 //      Q3Polyhedron_SetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polyhedron_SetVertexPosition(TQ3GeometryObject polyhedron, unsigned long index, const TQ3Point3D *point)
+Q3Polyhedron_SetVertexPosition(TQ3GeometryObject polyhedron, TQ3Uns32 index, const TQ3Point3D *point)
 {
 
 
@@ -10072,7 +10072,7 @@ Q3Polyhedron_SetVertexPosition(TQ3GeometryObject polyhedron, unsigned long index
 //      Q3Polyhedron_GetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polyhedron_GetVertexPosition(TQ3GeometryObject polyhedron, unsigned long index, TQ3Point3D *point)
+Q3Polyhedron_GetVertexPosition(TQ3GeometryObject polyhedron, TQ3Uns32 index, TQ3Point3D *point)
 {
 
 
@@ -10114,7 +10114,7 @@ Q3Polyhedron_GetVertexPosition(TQ3GeometryObject polyhedron, unsigned long index
 //      Q3Polyhedron_SetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject polyhedron, unsigned long index, TQ3AttributeSet attributeSet)
+Q3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject polyhedron, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {
 
 
@@ -10155,7 +10155,7 @@ Q3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject polyhedron, unsigned long i
 //      Q3Polyhedron_GetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject polyhedron, unsigned long index, TQ3AttributeSet *attributeSet)
+Q3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject polyhedron, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {
 
 
@@ -10197,7 +10197,7 @@ Q3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject polyhedron, unsigned long i
 //      Q3Polyhedron_GetTriangleData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polyhedron_GetTriangleData(TQ3GeometryObject polyhedron, unsigned long triangleIndex, TQ3PolyhedronTriangleData *triangleData)
+Q3Polyhedron_GetTriangleData(TQ3GeometryObject polyhedron, TQ3Uns32 triangleIndex, TQ3PolyhedronTriangleData *triangleData)
 {
 
 
@@ -10239,7 +10239,7 @@ Q3Polyhedron_GetTriangleData(TQ3GeometryObject polyhedron, unsigned long triangl
 //      Q3Polyhedron_SetTriangleData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polyhedron_SetTriangleData(TQ3GeometryObject polyhedron, unsigned long triangleIndex, const TQ3PolyhedronTriangleData *triangleData)
+Q3Polyhedron_SetTriangleData(TQ3GeometryObject polyhedron, TQ3Uns32 triangleIndex, const TQ3PolyhedronTriangleData *triangleData)
 {
 
 
@@ -10281,7 +10281,7 @@ Q3Polyhedron_SetTriangleData(TQ3GeometryObject polyhedron, unsigned long triangl
 //      Q3Polyhedron_GetEdgeData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polyhedron_GetEdgeData(TQ3GeometryObject polyhedron, unsigned long edgeIndex, TQ3PolyhedronEdgeData *edgeData)
+Q3Polyhedron_GetEdgeData(TQ3GeometryObject polyhedron, TQ3Uns32 edgeIndex, TQ3PolyhedronEdgeData *edgeData)
 {
 
 
@@ -10323,7 +10323,7 @@ Q3Polyhedron_GetEdgeData(TQ3GeometryObject polyhedron, unsigned long edgeIndex, 
 //      Q3Polyhedron_SetEdgeData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Polyhedron_SetEdgeData(TQ3GeometryObject polyhedron, unsigned long edgeIndex, const TQ3PolyhedronEdgeData *edgeData)
+Q3Polyhedron_SetEdgeData(TQ3GeometryObject polyhedron, TQ3Uns32 edgeIndex, const TQ3PolyhedronEdgeData *edgeData)
 {
 
 
@@ -10558,7 +10558,7 @@ Q3PolyLine_EmptyData(TQ3PolyLineData *polyLineData)
 //      Q3PolyLine_GetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PolyLine_GetVertexPosition(TQ3GeometryObject polyLine, unsigned long index, TQ3Point3D *position)
+Q3PolyLine_GetVertexPosition(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3Point3D *position)
 {
 
 
@@ -10600,7 +10600,7 @@ Q3PolyLine_GetVertexPosition(TQ3GeometryObject polyLine, unsigned long index, TQ
 //      Q3PolyLine_SetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PolyLine_SetVertexPosition(TQ3GeometryObject polyLine, unsigned long index, const TQ3Point3D *position)
+Q3PolyLine_SetVertexPosition(TQ3GeometryObject polyLine, TQ3Uns32 index, const TQ3Point3D *position)
 {
 
 
@@ -10642,7 +10642,7 @@ Q3PolyLine_SetVertexPosition(TQ3GeometryObject polyLine, unsigned long index, co
 //      Q3PolyLine_GetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PolyLine_GetVertexAttributeSet(TQ3GeometryObject polyLine, unsigned long index, TQ3AttributeSet *attributeSet)
+Q3PolyLine_GetVertexAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {
 
 
@@ -10684,7 +10684,7 @@ Q3PolyLine_GetVertexAttributeSet(TQ3GeometryObject polyLine, unsigned long index
 //      Q3PolyLine_SetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PolyLine_SetVertexAttributeSet(TQ3GeometryObject polyLine, unsigned long index, TQ3AttributeSet attributeSet)
+Q3PolyLine_SetVertexAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {
 
 
@@ -10725,7 +10725,7 @@ Q3PolyLine_SetVertexAttributeSet(TQ3GeometryObject polyLine, unsigned long index
 //      Q3PolyLine_GetSegmentAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, unsigned long index, TQ3AttributeSet *attributeSet)
+Q3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {
 
 
@@ -10767,7 +10767,7 @@ Q3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, unsigned long inde
 //      Q3PolyLine_SetSegmentAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, unsigned long index, TQ3AttributeSet attributeSet)
+Q3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {
 
 
@@ -11567,7 +11567,7 @@ Q3Triangle_EmptyData(TQ3TriangleData *triangleData)
 //      Q3Triangle_GetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Triangle_GetVertexPosition(TQ3GeometryObject triangle, unsigned long index, TQ3Point3D *point)
+Q3Triangle_GetVertexPosition(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3Point3D *point)
 {
 
 
@@ -11613,7 +11613,7 @@ Q3Triangle_GetVertexPosition(TQ3GeometryObject triangle, unsigned long index, TQ
 //      Q3Triangle_SetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Triangle_SetVertexPosition(TQ3GeometryObject triangle, unsigned long index, const TQ3Point3D *point)
+Q3Triangle_SetVertexPosition(TQ3GeometryObject triangle, TQ3Uns32 index, const TQ3Point3D *point)
 {
 
 
@@ -11659,7 +11659,7 @@ Q3Triangle_SetVertexPosition(TQ3GeometryObject triangle, unsigned long index, co
 //      Q3Triangle_GetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Triangle_GetVertexAttributeSet(TQ3GeometryObject triangle, unsigned long index, TQ3AttributeSet *attributeSet)
+Q3Triangle_GetVertexAttributeSet(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {
 
 
@@ -11705,7 +11705,7 @@ Q3Triangle_GetVertexAttributeSet(TQ3GeometryObject triangle, unsigned long index
 //      Q3Triangle_SetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Triangle_SetVertexAttributeSet(TQ3GeometryObject triangle, unsigned long index, TQ3AttributeSet attributeSet)
+Q3Triangle_SetVertexAttributeSet(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {
 
 
@@ -11935,7 +11935,7 @@ Q3TriGrid_EmptyData(TQ3TriGridData *triGridData)
 //      Q3TriGrid_GetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, unsigned long rowIndex, unsigned long columnIndex, TQ3Point3D *position)
+Q3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3Point3D *position)
 {
 
 
@@ -11980,7 +11980,7 @@ Q3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, unsigned long rowIndex, u
 //      Q3TriGrid_SetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, unsigned long rowIndex, unsigned long columnIndex, const TQ3Point3D *position)
+Q3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, const TQ3Point3D *position)
 {
 
 
@@ -12025,7 +12025,7 @@ Q3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, unsigned long rowIndex, u
 //      Q3TriGrid_GetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, unsigned long rowIndex, unsigned long columnIndex, TQ3AttributeSet *attributeSet)
+Q3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3AttributeSet *attributeSet)
 {
 
 
@@ -12070,7 +12070,7 @@ Q3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, unsigned long rowInde
 //      Q3TriGrid_SetVertexAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, unsigned long rowIndex, unsigned long columnIndex, TQ3AttributeSet attributeSet)
+Q3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3AttributeSet attributeSet)
 {
 
 
@@ -12114,7 +12114,7 @@ Q3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, unsigned long rowInde
 //      Q3TriGrid_GetFacetAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, unsigned long faceIndex, TQ3AttributeSet *facetAttributeSet)
+Q3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex, TQ3AttributeSet *facetAttributeSet)
 {
 
 
@@ -12156,7 +12156,7 @@ Q3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, unsigned long faceInde
 //      Q3TriGrid_SetFacetAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3TriGrid_SetFacetAttributeSet(TQ3GeometryObject triGrid, unsigned long faceIndex, TQ3AttributeSet facetAttributeSet)
+Q3TriGrid_SetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex, TQ3AttributeSet facetAttributeSet)
 {
 
 

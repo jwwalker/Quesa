@@ -331,8 +331,8 @@ typedef CALLBACK_API_C(TQ3Status, TQ3XStorageWriteDataMethod)(TQ3StorageObject s
 																TQ3Uns32		dataSize,
 																const TQ3Uns8	*data,
 																TQ3Uns32		*sizeWritten);
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageGetSizeMethod)(TQ3StorageObject storage, unsigned long *size);
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageSetSizeMethod)(TQ3StorageObject storage, unsigned long size);
+typedef CALLBACK_API_C(TQ3Status, TQ3XStorageGetSizeMethod)(TQ3StorageObject storage, TQ3Uns32 *size);
+typedef CALLBACK_API_C(TQ3Status, TQ3XStorageSetSizeMethod)(TQ3StorageObject storage, TQ3Uns32 size);
 typedef CALLBACK_API_C(TQ3Status, TQ3XStorageOpenMethod)(TQ3StorageObject storage, TQ3Boolean forWriting);
 typedef CALLBACK_API_C(TQ3Status, TQ3XStorageCloseMethod)(TQ3StorageObject storage);
 

@@ -40,7 +40,7 @@ class QGObject
 	// add trimeshes from a 3DMF buffer, or from a QD3D (possibly compound) object...
 	// return the number of trimeshes added
 	virtual short AddFrom3DMF(const char* filename);
-	virtual short AddFrom3DMF(unsigned char* buffer, unsigned long bufsize);
+	virtual short AddFrom3DMF(unsigned char* buffer, TQ3Uns32 bufsize);
 	virtual short AddQD3DObject(const TQ3Object qd3dObj);
 
 	// COLLISION MANAGEMENT

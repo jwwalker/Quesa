@@ -59,8 +59,8 @@ TQ3Status				E3Texture_RegisterClass(void);
 TQ3Status				E3Texture_UnregisterClass(void);
 
 TQ3ObjectType			E3Texture_GetType(	TQ3TextureObject texture);
-TQ3Status				E3Texture_GetWidth(	TQ3TextureObject texture, unsigned long *width);
-TQ3Status				E3Texture_GetHeight(TQ3TextureObject texture, unsigned long *height);
+TQ3Status				E3Texture_GetWidth(	TQ3TextureObject texture, TQ3Uns32 *width);
+TQ3Status				E3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height);
 
 TQ3TextureObject		E3PixmapTexture_New(const TQ3StoragePixmap *pixmap);
 TQ3Status				E3PixmapTexture_GetPixmap(	TQ3TextureObject texture, TQ3StoragePixmap *pixmap);
@@ -73,7 +73,7 @@ TQ3Status				E3MipmapTexture_SetMipmap(TQ3TextureObject texture, const TQ3Mipmap
 TQ3TextureObject		E3CompressedPixmapTexture_New(const TQ3CompressedPixmap *compressedPixmap);
 TQ3Status				E3CompressedPixmapTexture_GetCompressedPixmap(TQ3TextureObject texture, TQ3CompressedPixmap *compressedPixmap);
 TQ3Status				E3CompressedPixmapTexture_SetCompressedPixmap(TQ3TextureObject texture, const TQ3CompressedPixmap *compressedPixmap);
-TQ3Status				E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *compressedPixmap, PixMapHandle sourcePixMap, CodecType codecType, CodecComponent codecComponent, short codedDepth, CodecQ codecQuality);
+TQ3Status				E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *compressedPixmap, PixMapHandle sourcePixMap, CodecType codecType, CodecComponent codecComponent, TQ3Int16 codedDepth, CodecQ codecQuality);
 
 
 

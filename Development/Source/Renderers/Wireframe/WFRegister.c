@@ -194,7 +194,7 @@ wf_wireframe_style(TQ3XMethodType methodType)
 //      wf_wireframe_nickname : Get the renderer nick name.
 //-----------------------------------------------------------------------------
 static TQ3Status
-wf_wireframe_nickname(unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize)
+wf_wireframe_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
 
 

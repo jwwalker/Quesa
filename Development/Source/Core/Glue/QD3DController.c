@@ -75,7 +75,7 @@
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
-Q3Controller_GetListChanged(TQ3Boolean *listChanged, unsigned long *serialNumber)
+Q3Controller_GetListChanged(TQ3Boolean *listChanged, TQ3Uns32 *serialNumber)
 {
 
 
@@ -290,7 +290,7 @@ Q3Controller_GetActivation(TQ3ControllerRef controllerRef, TQ3Boolean *active)
 //      Q3Controller_GetSignature : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Controller_GetSignature(TQ3ControllerRef controllerRef, char *signature, unsigned long numChars)
+Q3Controller_GetSignature(TQ3ControllerRef controllerRef, char *signature, TQ3Uns32 numChars)
 {
 
 
@@ -330,7 +330,7 @@ Q3Controller_GetSignature(TQ3ControllerRef controllerRef, char *signature, unsig
 //      Q3Controller_SetChannel : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Controller_SetChannel(TQ3ControllerRef controllerRef, unsigned long channel, const void *data, unsigned long dataSize)
+Q3Controller_SetChannel(TQ3ControllerRef controllerRef, TQ3Uns32 channel, const void *data, TQ3Uns32 dataSize)
 {
 
 
@@ -373,7 +373,7 @@ Q3Controller_SetChannel(TQ3ControllerRef controllerRef, unsigned long channel, c
 //      Q3Controller_GetChannel : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Controller_GetChannel(TQ3ControllerRef controllerRef, unsigned long channel, void *data, unsigned long *dataSize)
+Q3Controller_GetChannel(TQ3ControllerRef controllerRef, TQ3Uns32 channel, void *data, TQ3Uns32 *dataSize)
 {
 
 
@@ -417,7 +417,7 @@ Q3Controller_GetChannel(TQ3ControllerRef controllerRef, unsigned long channel, v
 //      Q3Controller_GetValueCount : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Controller_GetValueCount(TQ3ControllerRef controllerRef, unsigned long *valueCount)
+Q3Controller_GetValueCount(TQ3ControllerRef controllerRef, TQ3Uns32 *valueCount)
 {
 
 
@@ -603,7 +603,7 @@ Q3Controller_Track3DCursor(TQ3ControllerRef controllerRef, TQ3Boolean *track3DCu
 //      Q3Controller_GetButtons : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Controller_GetButtons(TQ3ControllerRef controllerRef, unsigned long *buttons)
+Q3Controller_GetButtons(TQ3ControllerRef controllerRef, TQ3Uns32 *buttons)
 {
 
 
@@ -640,7 +640,7 @@ Q3Controller_GetButtons(TQ3ControllerRef controllerRef, unsigned long *buttons)
 //      Q3Controller_SetButtons : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Controller_SetButtons(TQ3ControllerRef controllerRef, unsigned long buttons)
+Q3Controller_SetButtons(TQ3ControllerRef controllerRef, TQ3Uns32 buttons)
 {
 
 
@@ -898,7 +898,7 @@ Q3Controller_MoveTrackerOrientation(TQ3ControllerRef controllerRef, const TQ3Qua
 //      Q3Controller_GetValues : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Controller_GetValues(TQ3ControllerRef controllerRef, unsigned long valueCount, float *values, TQ3Boolean *changed, unsigned long *serialNumber)
+Q3Controller_GetValues(TQ3ControllerRef controllerRef, TQ3Uns32 valueCount, float *values, TQ3Boolean *changed, TQ3Uns32 *serialNumber)
 {
 
 
@@ -946,7 +946,7 @@ Q3Controller_GetValues(TQ3ControllerRef controllerRef, unsigned long valueCount,
 //      Q3Controller_SetValues : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Controller_SetValues(TQ3ControllerRef controllerRef, const float *values, unsigned long valueCount)
+Q3Controller_SetValues(TQ3ControllerRef controllerRef, const float *values, TQ3Uns32 valueCount)
 {
 
 
@@ -1283,7 +1283,7 @@ Q3Tracker_GetActivation(TQ3TrackerObject trackerObject, TQ3Boolean *active)
 //      Q3Tracker_GetButtons : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Tracker_GetButtons(TQ3TrackerObject trackerObject, unsigned long *buttons)
+Q3Tracker_GetButtons(TQ3TrackerObject trackerObject, TQ3Uns32 *buttons)
 {
 
 
@@ -1322,7 +1322,7 @@ Q3Tracker_GetButtons(TQ3TrackerObject trackerObject, unsigned long *buttons)
 //      Q3Tracker_ChangeButtons : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Tracker_ChangeButtons(TQ3TrackerObject trackerObject, TQ3ControllerRef controllerRef, unsigned long buttons, unsigned long buttonMask)
+Q3Tracker_ChangeButtons(TQ3TrackerObject trackerObject, TQ3ControllerRef controllerRef, TQ3Uns32 buttons, TQ3Uns32 buttonMask)
 {
 
 
@@ -1366,7 +1366,7 @@ Q3Tracker_ChangeButtons(TQ3TrackerObject trackerObject, TQ3ControllerRef control
 //      Q3Tracker_GetPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Tracker_GetPosition(TQ3TrackerObject trackerObject, TQ3Point3D *position, TQ3Vector3D *delta, TQ3Boolean *changed, unsigned long *serialNumber)
+Q3Tracker_GetPosition(TQ3TrackerObject trackerObject, TQ3Point3D *position, TQ3Vector3D *delta, TQ3Boolean *changed, TQ3Uns32 *serialNumber)
 {
 
 
@@ -1501,7 +1501,7 @@ Q3Tracker_MovePosition(TQ3TrackerObject trackerObject, TQ3ControllerRef controll
 //      Q3Tracker_GetOrientation : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Tracker_GetOrientation(TQ3TrackerObject trackerObject, TQ3Quaternion *orientation, TQ3Quaternion *delta, TQ3Boolean *changed, unsigned long *serialNumber)
+Q3Tracker_GetOrientation(TQ3TrackerObject trackerObject, TQ3Quaternion *orientation, TQ3Quaternion *delta, TQ3Boolean *changed, TQ3Uns32 *serialNumber)
 {
 
 
@@ -1636,7 +1636,7 @@ Q3Tracker_MoveOrientation(TQ3TrackerObject trackerObject, TQ3ControllerRef contr
 //      Q3Tracker_SetEventCoordinates : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Tracker_SetEventCoordinates(TQ3TrackerObject trackerObject, unsigned long timeStamp, unsigned long buttons, const TQ3Point3D *position, const TQ3Quaternion *orientation)
+Q3Tracker_SetEventCoordinates(TQ3TrackerObject trackerObject, TQ3Uns32 timeStamp, TQ3Uns32 buttons, const TQ3Point3D *position, const TQ3Quaternion *orientation)
 {
 
 
@@ -1685,7 +1685,7 @@ Q3Tracker_SetEventCoordinates(TQ3TrackerObject trackerObject, unsigned long time
 //      Q3Tracker_GetEventCoordinates : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Tracker_GetEventCoordinates(TQ3TrackerObject trackerObject, unsigned long timeStamp, unsigned long *buttons, TQ3Point3D *position, TQ3Quaternion *orientation)
+Q3Tracker_GetEventCoordinates(TQ3TrackerObject trackerObject, TQ3Uns32 timeStamp, TQ3Uns32 *buttons, TQ3Point3D *position, TQ3Quaternion *orientation)
 {
 
 
@@ -1789,7 +1789,7 @@ Q3CursorTracker_SetTrackDeltas(TQ3Boolean trackDeltas)
 //      Q3CursorTracker_GetAndClearDeltas : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3CursorTracker_GetAndClearDeltas(float *depth, TQ3Quaternion *orientation, TQ3Boolean *hasOrientation, TQ3Boolean *changed, unsigned long *serialNumber)
+Q3CursorTracker_GetAndClearDeltas(float *depth, TQ3Quaternion *orientation, TQ3Boolean *hasOrientation, TQ3Boolean *changed, TQ3Uns32 *serialNumber)
 {
 
 

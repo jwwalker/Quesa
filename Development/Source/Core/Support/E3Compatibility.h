@@ -49,18 +49,18 @@ extern "C" {
 EXTERN_API_C( TQ3XObjectClass )
 Q3AttributeClass_Register		(TQ3AttributeType		attributeType,
 								 const char				*creatorName,
-								 unsigned long 			sizeOfElement,
+								 TQ3Uns32	 			sizeOfElement,
 								 TQ3XMetaHandler 		metaHandler);
 
 EXTERN_API_C( TQ3XObjectClass )
 Q3ElementClass_Register			(TQ3ElementType			elementType,
 								 const char				*name,
-								 unsigned long			sizeOfElement,
+								 TQ3Uns32				sizeOfElement,
 								 TQ3XMetaHandler		metaHandler);
 
 EXTERN_API_C( TQ3Status )
 Q3ElementType_GetElementSize	(TQ3ElementType			elementType,
-								 unsigned long			*sizeOfElement);
+								 TQ3Uns32				*sizeOfElement);
 
 EXTERN_API_C( TQ3Quaternion * )
 Q3Quaternion_SetRotateX			(TQ3Quaternion			*quaternion,
@@ -111,8 +111,8 @@ EiObjectHierarchy_RegisterClassByType	(TQ3ObjectType 		parentType,
 										 char *				objectName,
 										 TQ3XMetaHandler 	metaHandler,
 										 TQ3XMetaHandler 	virtualMetaHandler,
-										 unsigned long 		methodsSize,
-										 unsigned long 		instanceSize);
+										 TQ3Uns32	 		methodsSize,
+										 TQ3Uns32	 		instanceSize);
 
 
 

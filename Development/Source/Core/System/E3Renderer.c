@@ -1037,7 +1037,7 @@ E3RendererClass_GetNickNameString(TQ3ObjectType rendererClassType, TQ3ObjectClas
 //      E3Renderer_GetConfigurationData : Get a renderer's config data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Renderer_GetConfigurationData(TQ3RendererObject theRenderer, unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize)
+E3Renderer_GetConfigurationData(TQ3RendererObject theRenderer, unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {	TQ3XRendererGetConfigurationDataMethod	getConfigData;
 	TQ3Status								qd3dStatus;
 
@@ -1075,7 +1075,7 @@ E3Renderer_GetConfigurationData(TQ3RendererObject theRenderer, unsigned char *da
 //      E3Renderer_SetConfigurationData : Set a renderer's config data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Renderer_SetConfigurationData(TQ3RendererObject theRenderer, unsigned char *dataBuffer, unsigned long bufferSize)
+E3Renderer_SetConfigurationData(TQ3RendererObject theRenderer, unsigned char *dataBuffer, TQ3Uns32 bufferSize)
 {	TQ3XRendererSetConfigurationDataMethod	setConfigData;
 	TQ3Status								qd3dStatus;
 
@@ -1149,7 +1149,7 @@ E3InteractiveRenderer_GetCSGEquation(TQ3RendererObject theRenderer, TQ3CSGEquati
 //      E3InteractiveRenderer_SetPreferences : Set the vendor/engine ID.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_SetPreferences(TQ3RendererObject theRenderer, long vendorID, long engineID)
+E3InteractiveRenderer_SetPreferences(TQ3RendererObject theRenderer, TQ3Int32 vendorID, TQ3Int32 engineID)
 {	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
 
 
@@ -1170,7 +1170,7 @@ E3InteractiveRenderer_SetPreferences(TQ3RendererObject theRenderer, long vendorI
 //      E3InteractiveRenderer_GetPreferences : Get the vendor/engine ID.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_GetPreferences(TQ3RendererObject theRenderer, long *vendorID, long *engineID)
+E3InteractiveRenderer_GetPreferences(TQ3RendererObject theRenderer, TQ3Int32 *vendorID, TQ3Int32 *engineID)
 {	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
 
 
@@ -1229,7 +1229,7 @@ E3InteractiveRenderer_GetDoubleBufferBypass(TQ3RendererObject theRenderer, TQ3Bo
 //      E3InteractiveRenderer_SetRAVEContextHints : Set the RAVE hints.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject theRenderer, unsigned long RAVEContextHints)
+E3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject theRenderer, TQ3Uns32 RAVEContextHints)
 {	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
 
 
@@ -1249,7 +1249,7 @@ E3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject theRenderer, unsigne
 //      E3InteractiveRenderer_GetRAVEContextHints : Get the RAVE hints.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject theRenderer, unsigned long *RAVEContextHints)
+E3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject theRenderer, TQ3Uns32 *RAVEContextHints)
 {	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
 
 
@@ -1268,7 +1268,7 @@ E3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject theRenderer, unsigne
 //      E3InteractiveRenderer_SetRAVETextureFilter : Set the RAVE filter.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, unsigned long RAVEtextureFilterValue)
+E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns32 RAVEtextureFilterValue)
 {	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
 
 
@@ -1288,7 +1288,7 @@ E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, unsign
 //      E3InteractiveRenderer_GetRAVETextureFilter : Get the RAVE filter.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject theRenderer, unsigned long *RAVEtextureFilterValue)
+E3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns32 *RAVEtextureFilterValue)
 {	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
 
 
@@ -1309,7 +1309,7 @@ E3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject theRenderer, unsign
 //		Note : Quesa does not support RAVE, so we return 0.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject theRenderer, unsigned long *numRAVEContexts)
+E3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject theRenderer, TQ3Uns32 *numRAVEContexts)
 {
 #pragma unused(theRenderer)
 
@@ -1331,7 +1331,7 @@ E3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject theRenderer, unsig
 //		Note : Quesa does not support RAVE, so we return NULL.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject theRenderer, TQADrawContext **raveDrawContextList, TQAEngine **raveDrawingEnginesList, unsigned long *numRAVEContexts, TQ3RaveDestroyCallback raveDestroyCallback)
+E3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject theRenderer, TQADrawContext **raveDrawContextList, TQAEngine **raveDrawingEnginesList, TQ3Uns32 *numRAVEContexts, TQ3RaveDestroyCallback raveDestroyCallback)
 {
 #pragma unused(theRenderer)
 #pragma unused(raveDestroyCallback)
@@ -1847,7 +1847,7 @@ E3XDrawRegion_GetGDHandle(TQ3XDrawRegion drawRegion, GDHandle *gdHandle)
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
-E3XView_IdleProgress(TQ3ViewObject theView, unsigned long current, unsigned long completed)
+E3XView_IdleProgress(TQ3ViewObject theView, TQ3Uns32 current, TQ3Uns32 completed)
 {	TQ3Status		qd3dStatus;
 
 

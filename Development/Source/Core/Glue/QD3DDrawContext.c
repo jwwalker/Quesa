@@ -1189,7 +1189,7 @@ Q3MacDrawContext_Get2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContex
 #pragma mark -
 #if OS_UNIX
 TQ3XBufferObject
-Q3XBuffers_New(Display *dpy, unsigned long numBuffers, Window window)
+Q3XBuffers_New(Display *dpy, TQ3Uns32 numBuffers, Window window)
 {
 
 

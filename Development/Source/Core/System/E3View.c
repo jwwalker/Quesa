@@ -3544,7 +3544,7 @@ E3View_GetReceiveShadowsStyleState(TQ3ViewObject theView, TQ3Boolean *receives)
 //		Note : Can only be called within a submitting loop.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3View_GetPickIDStyleState(TQ3ViewObject theView, unsigned long *pickIDStyle)
+E3View_GetPickIDStyleState(TQ3ViewObject theView, TQ3Uns32 *pickIDStyle)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
 
 

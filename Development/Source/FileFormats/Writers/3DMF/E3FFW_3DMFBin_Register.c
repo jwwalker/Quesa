@@ -167,7 +167,7 @@ e3ffw_3dmfbin_geom(TQ3XMethodType methodType)
 //      e3ffw_3dmfbin_formatname : Get the format name.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3ffw_3dmfbin_formatname(unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize)
+e3ffw_3dmfbin_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
 
 

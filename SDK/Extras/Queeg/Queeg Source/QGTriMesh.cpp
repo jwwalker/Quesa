@@ -57,7 +57,7 @@
 //			allocating space for the given number of vertices and triangles,
 //			with or without texture UVs and vertex normals.
 //-----------------------------------------------------------------------------
-QGTriMesh::QGTriMesh( unsigned long qtyVertices, unsigned long qtyTriangles, 
+QGTriMesh::QGTriMesh( TQ3Uns32 qtyVertices, TQ3Uns32 qtyTriangles, 
 		TQ3Boolean hasUV, TQ3Boolean smooth )
 : mBoundsDirty(kQ3True)
 {
@@ -429,7 +429,7 @@ void QGTriMesh::ComputeNormals( TQ3Boolean doVertexNormals )
 	
 	// First, compute the triangle normals, by taking the cross product
 	// of the first two segments.
-	unsigned long t;
+	TQ3Uns32 t;
 	for (t=0; t<mTriMeshData.numTriangles; t++) {
 		TQ3Point3D *p0 = &mTriMeshData.points[mTriMeshData.triangles[t].pointIndices[0]];
 		TQ3Point3D *p1 = &mTriMeshData.points[mTriMeshData.triangles[t].pointIndices[1]];
@@ -446,13 +446,13 @@ void QGTriMesh::ComputeNormals( TQ3Boolean doVertexNormals )
 
 		// Now, we need to compute vector normals by averaging the face
 		// normals adjoining each vertex.
-		unsigned long v;
+		TQ3Uns32 v;
 		for (v=0; v<mTriMeshData.numPoints; v++) {
 			VertexNormals()[v].x = VertexNormals()[v].y = VertexNormals()[v].z = 0;	
 		}
 		
 		for (t=0; t<mTriMeshData.numTriangles; t++) {
-			unsigned long v = mTriMeshData.triangles[t].pointIndices[0];
+			TQ3Uns32 v = mTriMeshData.triangles[t].pointIndices[0];
 			// OFI: replace this with fast inline code:
 			Q3Vector3D_Add( &VertexNormals()[v], &FaceNormals()[t], &VertexNormals()[v] );
 		}
@@ -473,7 +473,7 @@ void QGTriMesh::Move(const float dx, const float dy, const float dz)
 	// since this is mere translation, no need to update normals etc.
 	
 	// Loop over all points in the mesh, applying the delta.
-	for (unsigned long i=0; i<mTriMeshData.numPoints; i++) {
+	for (TQ3Uns32 i=0; i<mTriMeshData.numPoints; i++) {
 		mTriMeshData.points[i].x += dx;
 		mTriMeshData.points[i].y += dy;
 		mTriMeshData.points[i].z += dz;
@@ -493,7 +493,7 @@ void QGTriMesh::Scale(const float scaleFactor)
 	// When scaling uniformly, no need to update normals.
 
 	// Loop over all points in the mesh, applying the scaling.
-	for (unsigned long i=0; i<mTriMeshData.numPoints; i++) {
+	for (TQ3Uns32 i=0; i<mTriMeshData.numPoints; i++) {
 		mTriMeshData.points[i].x *= scaleFactor;
 		mTriMeshData.points[i].y *= scaleFactor;
 		mTriMeshData.points[i].z *= scaleFactor;
@@ -513,7 +513,7 @@ void QGTriMesh::Scale(const float scaleX, const float scaleY, const float scaleZ
 	
 	// Loop over all points in the mesh, applying the scaling.
 	float len = sqrt( scaleX*scaleX + scaleY*scaleY + scaleZ*scaleZ );
-	for (unsigned long i=0; i<mTriMeshData.numPoints; i++) {
+	for (TQ3Uns32 i=0; i<mTriMeshData.numPoints; i++) {
 		mTriMeshData.points[i].x *= scaleX;
 		mTriMeshData.points[i].y *= scaleY;
 		mTriMeshData.points[i].z *= scaleZ;
@@ -533,7 +533,7 @@ void QGTriMesh::Scale(const float scaleX, const float scaleY, const float scaleZ
 //-----------------------------------------------------------------------------
 void QGTriMesh::Transform( const TQ3Matrix4x4& transform )
 {
-	unsigned long i;
+	TQ3Uns32 i;
 	if (!mSmooth) {
 
 		// No smoothing (vertex normals)?  Just transform the points...
@@ -574,7 +574,7 @@ void QGTriMesh::Transform( const TQ3Matrix4x4& transform )
 void QGTriMesh::FlipSurface()
 {
 	// flip every triangle in the mesh, making the other surface the front
-	for (unsigned long i=0; i<mTriMeshData.numTriangles; i++) {
+	for (TQ3Uns32 i=0; i<mTriMeshData.numTriangles; i++) {
 		SWAP(mTriMeshData.triangles[i].pointIndices[0], mTriMeshData.triangles[i].pointIndices[1]);
 	}
 }
@@ -593,8 +593,8 @@ TQ3Boolean QGTriMesh::LineIntersectsMesh(const TQ3Point3D& p1,const TQ3Point3D& 
 	if (not QG_LineIntersectsBox(p1, p2, mTriMeshData.bBox)) return kQ3False;
 
 	// check every triangle in the mesh
-	for (unsigned long i=0; i<mTriMeshData.numTriangles; i++) {
-		unsigned long *indices = mTriMeshData.triangles[i].pointIndices;
+	for (TQ3Uns32 i=0; i<mTriMeshData.numTriangles; i++) {
+		TQ3Uns32 *indices = mTriMeshData.triangles[i].pointIndices;
 		if (QG_LineIntersectsFacet(p1,p2,
 									mTriMeshData.points[indices[0]],
 									mTriMeshData.points[indices[1]],

@@ -54,7 +54,7 @@
 typedef struct TQ3HitData {
 	TQ3PickParts			part;
 	TQ3PickDetail			validMask;
-	unsigned long 			pickID;
+	TQ3Uns32	 			pickID;
 	TQ3HitPath				path;
 	TQ3Object				object;
 	TQ3Matrix4x4			localToWorldMatrix;
@@ -76,7 +76,7 @@ typedef struct TQ3HitData {
 TQ3XObjectClass
 Q3AttributeClass_Register(TQ3AttributeType		attributeType,
 							const char          *name,
-							unsigned long       sizeOfElement,
+							TQ3Uns32            sizeOfElement,
 							TQ3XMetaHandler     metaHandler)
 {	TQ3Status			qd3dStatus;
 	E3ClassInfoPtr		theClass;
@@ -110,7 +110,7 @@ Q3AttributeClass_Register(TQ3AttributeType		attributeType,
 TQ3XObjectClass
 Q3ElementClass_Register(TQ3ElementType			elementType,
 							const char			*name,
-							unsigned long		sizeOfElement,
+							TQ3Uns32			sizeOfElement,
 							TQ3XMetaHandler		metaHandler)
 {	TQ3Status			qd3dStatus;
 	E3ClassInfoPtr		theClass;
@@ -142,7 +142,7 @@ Q3ElementClass_Register(TQ3ElementType			elementType,
 //      Q3ElementType_GetElementSize : Compatibility function.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3ElementType_GetElementSize(TQ3ElementType elementType, unsigned long *sizeOfElement)
+Q3ElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElement)
 {
 
 	// Call the new function
@@ -412,8 +412,8 @@ EiObjectHierarchy_RegisterClassByType(TQ3ObjectType 		parentType,
 										char *				className,
 										TQ3XMetaHandler 	metaHandler,
 										TQ3XMetaHandler 	virtualMetaHandler,
-										unsigned long 		methodsSize,
-										unsigned long 		instanceSize)
+										TQ3Uns32	 		methodsSize,
+										TQ3Uns32	 		instanceSize)
 {	TQ3Status			qd3dStatus;
 	E3ClassInfoPtr		theClass;
 #pragma unused(virtualMetaHandler)

@@ -187,7 +187,7 @@ E3Read_3DMF_String_C(TQ3FileObject theFile)
 {
 	TQ3StringObject theNewString;
 	char *buffer = NULL;
-	unsigned long bytesRead;
+	TQ3Uns32 bytesRead;
 	
 	buffer = (char *) E3Memory_Allocate(kQ3StringMaximumLength);
 	bytesRead = kQ3StringMaximumLength;

@@ -70,13 +70,13 @@ TQ3Status			E3Group_GetFirstPosition(TQ3GroupObject group, TQ3GroupPosition *pos
 TQ3Status			E3Group_GetLastPosition(TQ3GroupObject group, TQ3GroupPosition *position);
 TQ3Status			E3Group_GetNextPosition(TQ3GroupObject group, TQ3GroupPosition *position);
 TQ3Status			E3Group_GetPreviousPosition(TQ3GroupObject group, TQ3GroupPosition *position);
-TQ3Status			E3Group_CountObjects(TQ3GroupObject group, unsigned long *nObjects);
+TQ3Status			E3Group_CountObjects(TQ3GroupObject group, TQ3Uns32 *nObjects);
 TQ3Status			E3Group_EmptyObjects(TQ3GroupObject group);
 TQ3Status			E3Group_GetFirstPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position);
 TQ3Status			E3Group_GetLastPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position);
 TQ3Status			E3Group_GetNextPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position);
 TQ3Status			E3Group_GetPreviousPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position);
-TQ3Status			E3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, unsigned long *nObjects);
+TQ3Status			E3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 *nObjects);
 TQ3Status			E3Group_EmptyObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType);
 TQ3Status			E3Group_GetFirstObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position);
 TQ3Status			E3Group_GetLastObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position);

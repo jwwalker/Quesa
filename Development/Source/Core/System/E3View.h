@@ -169,7 +169,7 @@ TQ3Status				E3View_GetHighlightStyleState(TQ3ViewObject theView, TQ3AttributeSe
 TQ3Status				E3View_GetSubdivisionStyleState(TQ3ViewObject theView, TQ3SubdivisionStyleData *subdivisionStyle);
 TQ3Status				E3View_GetOrientationStyleState(TQ3ViewObject theView, TQ3OrientationStyle *frontFacingDirectionStyle);
 TQ3Status				E3View_GetReceiveShadowsStyleState(TQ3ViewObject theView, TQ3Boolean *receives);
-TQ3Status				E3View_GetPickIDStyleState(TQ3ViewObject theView, unsigned long *pickIDStyle);
+TQ3Status				E3View_GetPickIDStyleState(TQ3ViewObject theView, TQ3Uns32 *pickIDStyle);
 TQ3Status				E3View_GetPickPartsStyleState(TQ3ViewObject theView, TQ3PickParts *pickPartsStyle);
 TQ3Status				E3View_GetAntiAliasStyleState(TQ3ViewObject theView, TQ3AntiAliasStyleData *antiAliasData);
 TQ3Status				E3View_GetDefaultAttributeSet(TQ3ViewObject theView, TQ3AttributeSet *attributeSet);

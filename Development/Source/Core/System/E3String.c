@@ -257,7 +257,7 @@ E3CString_New(const char *str)
 //      E3CString_GetLength : Get the length of a C string object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3CString_GetLength(TQ3StringObject stringObj, unsigned long *length)
+E3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
 {	TQ3StringPtr		*instanceData = (TQ3StringPtr *) stringObj->instanceData;
 
 

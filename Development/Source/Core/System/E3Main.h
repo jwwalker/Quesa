@@ -58,8 +58,8 @@ extern "C" {
 TQ3Status			E3Initialize(void);
 TQ3Status			E3Exit(void);
 TQ3Boolean			E3IsInitialized(void);
-TQ3Status			E3GetVersion(unsigned long *majorRevision, unsigned long *minorRevision);
-TQ3Status			E3GetReleaseVersion(unsigned long *releaseRevision);
+TQ3Status			E3GetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision);
+TQ3Status			E3GetReleaseVersion(TQ3Uns32 *releaseRevision);
 
 TQ3Status			E3ObjectHierarchy_GetTypeFromString(TQ3ObjectClassNameString objectClassString, TQ3ObjectType *objectClassType);
 TQ3Status			E3ObjectHierarchy_GetStringFromType(TQ3ObjectType objectClassType, TQ3ObjectClassNameString objectClassString);
@@ -80,7 +80,7 @@ TQ3Boolean			E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType);
 TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);
 TQ3SharedObject		E3Shared_GetReference(TQ3SharedObject sharedObject);
 TQ3Boolean			E3Shared_IsReferenced(TQ3SharedObject sharedObject);
-unsigned long		E3Shared_GetEditIndex(TQ3SharedObject sharedObject);
+TQ3Uns32			E3Shared_GetEditIndex(TQ3SharedObject sharedObject);
 TQ3Status			E3Shared_Edited(TQ3SharedObject sharedObject);
 
 TQ3ObjectType		E3Shape_GetType(TQ3ShapeObject theShape);
@@ -94,7 +94,7 @@ TQ3Status			E3Shape_EmptyElements(TQ3ShapeObject theShape);
 TQ3Status			E3Shape_ClearElement(TQ3ShapeObject theShape, TQ3ElementType theType);
 
 TQ3Status			E3Bitmap_Empty(TQ3Bitmap *theBitmap);
-unsigned long		E3Bitmap_GetImageSize(unsigned long theWidth, unsigned long theHeight);
+TQ3Uns32			E3Bitmap_GetImageSize(TQ3Uns32 theWidth, TQ3Uns32 theHeight);
 
 
 

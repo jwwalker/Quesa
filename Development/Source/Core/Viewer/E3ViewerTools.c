@@ -157,7 +157,7 @@ TQ3Status E3ViewerPlugins_RegisterClass (void)
 #pragma mark { OS dependent methods }
 
 
-static TQ3Status GetOSHelpString (long id, Str255 helpString)
+static TQ3Status GetOSHelpString (TQ3Int32 id, Str255 helpString)
 	{
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 	GetIndString (helpString, kHelpStrings, id);
@@ -169,7 +169,7 @@ static TQ3Status GetOSHelpString (long id, Str255 helpString)
 	}
 
 
-static TQ3Status DrawOSTool (TQ3Area* area, long id)
+static TQ3Status DrawOSTool (TQ3Area* area, TQ3Int32 id)
 	{
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 	TQ3Rect r;
@@ -186,7 +186,7 @@ static TQ3Status DrawOSTool (TQ3Area* area, long id)
 	}
 
 
-static void SetOSCursor (long id)
+static void SetOSCursor (TQ3Int32 id)
 	{
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 	if (id)
@@ -205,14 +205,14 @@ static void SetOSCursor (long id)
 	}
 
 
-static long
-OSPopupMenuSelect (TQ3Rect* r, long id)
+static TQ3Int32
+OSPopupMenuSelect (TQ3Rect* r, TQ3Int32 id)
 	{
 #if defined(OS_MACINTOSH) && OS_MACINTOSH
 	MenuHandle menu = GetMenu (id);
 	if (menu && r)
 		{
-		long result;
+		TQ3Int32 result;
 		Point pt;
 		pt.h = r->right;
 		pt.v = r->top + 1;
@@ -233,7 +233,7 @@ OSPopupMenuSelect (TQ3Rect* r, long id)
 
 
 static void
-OSGetDelta (float* x, float*y, TQ3EventRecord* evt, long param1, long param2)
+OSGetDelta (float* x, float*y, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
 	{
 #pragma unused (evt, param1, param2)
 	if (x)
@@ -309,13 +309,13 @@ static TQ3Status DoubleClickTool (TQ3ViewerObject, TQ3SharedObject)
 	}
 
 
-static TQ3Status DoToolEvent (TQ3ViewerObject, TQ3SharedObject, TQ3EventRecord*, long, long)
+static TQ3Status DoToolEvent (TQ3ViewerObject, TQ3SharedObject, TQ3EventRecord*, TQ3Int32, TQ3Int32)
 	{
 	return kQ3Success; // allow the event to pass on
 	}
 
 
-static TQ3Status DoToolKeyDown (TQ3ViewerObject, TQ3SharedObject, TQ3EventRecord*, long, long)
+static TQ3Status DoToolKeyDown (TQ3ViewerObject, TQ3SharedObject, TQ3EventRecord*, TQ3Int32, TQ3Int32)
 	{
 	return kQ3Failure; // did not handle it
 	}
@@ -383,7 +383,7 @@ static TQ3Status CameraClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 	TQ3Rect r;
 	if (Q3ViewerGetButtonRect (theViewer, Q3ViewerGetCurrentButton (theViewer), &r) == kQ3GoodResult)
 		{
-		short menuItem = OSPopupMenuSelect (&r, kCameraMenuID) & 0x0000FFFF;
+		TQ3Int16 menuItem = OSPopupMenuSelect (&r, kCameraMenuID) & 0x0000FFFF;
 		if (menuItem)
 			Q3ViewerSetCameraByView (theViewer, (TQ3ViewerCameraView)(menuItem - 1)); // cos menu items are 1 based but TQ3ViewerCameraView is zero based
 		}
@@ -472,7 +472,7 @@ static TQ3Status DoDollyToolMove (TQ3ViewerObject theViewer, TQ3Point2D* delta)
 	}
 
 
-static TQ3Status DoDollyToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, long param1, long param2)
+static TQ3Status DoDollyToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
 	{
 	TQ3Point2D delta;
 	OSGetDelta (&delta.x, &delta.y, evt, param1, param2);
@@ -588,7 +588,7 @@ static TQ3Status DoTruckToolMove (TQ3ViewerObject theViewer, float delta)
 	}
 
 
-static TQ3Status DoTruckToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, long param1, long param2)
+static TQ3Status DoTruckToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
 	{
 	float delta;
 	OSGetDelta (NULL, &delta, evt, param1, param2);
@@ -757,7 +757,7 @@ DoOrbitToolMove(TQ3ViewerObject theViewer, TQ3Point2D *delta)
 }
 
 
-static TQ3Status DoOrbitToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, long param1, long param2)
+static TQ3Status DoOrbitToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
 	{
 	TQ3Point2D delta;
 	OSGetDelta (&delta.x, &delta.y, evt, param1, param2);
@@ -885,7 +885,7 @@ static TQ3Status DoZoomToolMove (TQ3ViewerObject theViewer, float delta)
 	}
 
 
-static TQ3Status DoZoomToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, long param1, long param2)
+static TQ3Status DoZoomToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
 	{
 	float delta;
 	OSGetDelta (NULL, &delta, evt, param1, param2);
@@ -1010,7 +1010,7 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 		
 		TQ3ObjectType rendererTypes [kMaxRenderers];
 		Str255 name;
-		long menuResult;
+		TQ3Int32 menuResult;
 		TQ3Boolean isOn;
 		Boolean hasConfigure = false;
 		MenuHandle theRendererMenu = GetMenu (kRendererMenuID);
@@ -1024,8 +1024,8 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 			err = Q3ObjectHierarchy_GetSubClassData (kQ3SharedTypeRenderer, &subClassData);
 			if (err == kQ3Success)
 				{
-				unsigned long rendererCount = 0;
-				unsigned long i;
+				TQ3Uns32 rendererCount = 0;
+				TQ3Uns32 i;
 				for (i = 0; i < subClassData.numClasses; ++i)
 					{
 					TQ3ObjectType theType = subClassData.classTypes [i];
@@ -1037,7 +1037,7 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 							err = Q3ObjectHierarchy_GetStringFromType (theType, rendererClassString);
 						if ((err == kQ3Success) && (rendererCount < kMaxRenderers))
 							{
-							long j = 0;
+							TQ3Int32 j = 0;
 							while (rendererClassString [j] && (j < 255))
 								{
 								name [j + 1] = rendererClassString [j];
@@ -1080,7 +1080,7 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 							float brightness;
 							if (Q3Light_GetBrightness (object, &brightness) == kQ3Success)
 								{
-								long item = brightness * 10.0f;
+								TQ3Int32 item = brightness * 10.0f;
 								if (item <= 0)
 									item = 1;
 								else
@@ -1111,8 +1111,8 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 		
 		if (menuResult)
 			{
-			short menuItem = menuResult & 0x0000FFFF;
-			short menu = menuResult >> 16;
+			TQ3Int16 menuItem = menuResult & 0x0000FFFF;
+			TQ3Int16 menu = menuResult >> 16;
 			if (menu == kRendererMenuID)
 				{
 				if (hasConfigure && (menuItem == CountMItems (theRendererMenu))) // last menu item
@@ -1259,7 +1259,7 @@ static TQ3Status AboutClickTool (TQ3ViewerObject, TQ3SharedObject)
 			err = ICFindConfigFile (inst, 0, nil);
 			if (!err)
 				{
-				long selStart, selEnd;
+				TQ3Int32 selStart, selEnd;
 				selStart = selEnd = 0;
 				err = ICLaunchURL (inst, "\p", (char*)&url[1], url[0], &selStart, &selEnd);
 				}

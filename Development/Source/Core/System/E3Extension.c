@@ -60,7 +60,7 @@
 //				exist (and so we don't support it).
 //-----------------------------------------------------------------------------
 TQ3XObjectClass
-E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *objectType, char *objectName, TQ3XMetaHandler metaHandler, TQ3XMetaHandler virtualMetaHandler, unsigned long methodsSize, unsigned long instanceSize)
+E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *objectType, char *objectName, TQ3XMetaHandler metaHandler, TQ3XMetaHandler virtualMetaHandler, TQ3Uns32 methodsSize, TQ3Uns32 instanceSize)
 {	TQ3Status			qd3dStatus;
 	E3ClassInfoPtr		theClass;
 #pragma unused(virtualMetaHandler)
@@ -352,7 +352,7 @@ E3XSharedLibrary_Register(TQ3XSharedLibraryInfo *sharedLibraryInfo)
 //		Note : Does nothing at the moment.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3XSharedLibrary_Unregister(unsigned long sharedLibrary)
+E3XSharedLibrary_Unregister(TQ3Uns32 sharedLibrary)
 {
 
 

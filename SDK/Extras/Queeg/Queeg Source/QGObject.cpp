@@ -142,7 +142,7 @@ short QGObject::AddFrom3DMF(const char* filename)
 	
 	// get the file size
 	fseek(file, 0, SEEK_END);
-	long eof = ftell(file);
+	SInt32 eof = ftell(file);
 	fseek(file, 0, SEEK_SET);
 	
 	// allocate space and read into memory
@@ -164,7 +164,7 @@ short QGObject::AddFrom3DMF(const char* filename)
 //=============================================================================
 //      QGObject::AddFrom3DMF : Add TriMeshes found in a 3DMF buffer.
 //-----------------------------------------------------------------------------
-short QGObject::AddFrom3DMF(unsigned char* buffer, unsigned long bufsize)
+short QGObject::AddFrom3DMF(unsigned char* buffer, TQ3Uns32 bufsize)
 {
 	// Add objects from the given buffer, which must contain 3DMF data.
 	// Return count of objects added.
@@ -273,7 +273,7 @@ void QGObject::ResetRadius()
 	VecIterate(meshno, mTriMeshes) {
 		TQ3Point3D* pts = mTriMeshes[meshno]->Points();
 		short qtyPts = mTriMeshes[meshno]->QtyPoints();
-		for (unsigned long i=0; i<qtyPts; i++) {
+		for (TQ3Uns32 i=0; i<qtyPts; i++) {
 			float d = Q3Point3D_DistanceSquared( &pts[i], &center );
 			if (d > maxd) maxd = d;
 		}
@@ -348,7 +348,7 @@ void QGObject::CurrentCollisions(SimpleVector<QGObject*> mObjects, short firstId
 	// check for collisions between us and every object in the given range...
 	// OFI: restructure this using a separate block per test, using goto to jump to the next object
 	bool useBox = (mCollMethod == kBoxMethod);
-	for (unsigned long i=firstIdx; i<lastIdx; i++) {
+	for (TQ3Uns32 i=firstIdx; i<lastIdx; i++) {
 		QGObject *other = mObjects[i];
 		// first, check the collision masks and other's sphere radius
 		if (((mCollisionGroup & other->mCollisionMask) or

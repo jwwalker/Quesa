@@ -36,11 +36,11 @@
 //		Release macros
 //-----------------------------------------------------------------------------
 #define E3_FOUR_BYTE_CONSTANT(a,b,c,d) 				\
-			((const unsigned long) 					\
-			((const unsigned long) (a) << 24) | 	\
-			((const unsigned long) (b) << 16) |		\
-			((const unsigned long) (c) << 8)  | 	\
-			((const unsigned long) (d)))
+			((const TQ3Uns32) 						\
+			((const TQ3Uns32) (a) << 24) |		 	\
+			((const TQ3Uns32) (b) << 16) |			\
+			((const TQ3Uns32) (c) << 8)  |		 	\
+			((const TQ3Uns32) (d)))
 
 
 

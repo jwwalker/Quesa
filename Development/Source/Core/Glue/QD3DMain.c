@@ -138,7 +138,7 @@ Q3IsInitialized(void)
 //      Q3GetVersion : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3GetVersion(unsigned long *majorRevision, unsigned long *minorRevision)
+Q3GetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 {
 
 
@@ -176,7 +176,7 @@ Q3GetVersion(unsigned long *majorRevision, unsigned long *minorRevision)
 //      Q3GetReleaseVersion : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3GetReleaseVersion(unsigned long *releaseRevision)
+Q3GetReleaseVersion(TQ3Uns32 *releaseRevision)
 {
 
 
@@ -810,7 +810,7 @@ Q3Shared_IsReferenced(TQ3SharedObject sharedObject)
 //=============================================================================
 //      Q3Shared_GetEditIndex : Quesa API entry point.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 Q3Shared_GetEditIndex(TQ3SharedObject sharedObject)
 {
 
@@ -1262,8 +1262,8 @@ Q3Bitmap_Empty(TQ3Bitmap *bitmap)
 //=============================================================================
 //      Q3Bitmap_GetImageSize : Quesa API entry point.
 //-----------------------------------------------------------------------------
-unsigned long
-Q3Bitmap_GetImageSize(unsigned long width, unsigned long height)
+TQ3Uns32
+Q3Bitmap_GetImageSize(TQ3Uns32 width, TQ3Uns32 height)
 {
 
 

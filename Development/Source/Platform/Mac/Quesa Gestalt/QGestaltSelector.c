@@ -45,7 +45,7 @@
 //=============================================================================
 //      Code resource entry point
 //-----------------------------------------------------------------------------
-pascal OSErr main(OSType theSelector, long *theResponse)
+pascal OSErr main(OSType theSelector, SInt32 *theResponse)
 {
 
 

@@ -75,7 +75,7 @@
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
-Q3WinViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision)
+Q3WinViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 {
 
 
@@ -113,7 +113,7 @@ Q3WinViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision
 //      Q3WinViewerGetReleaseVersion : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerGetReleaseVersion(unsigned long *releaseRevision)
+Q3WinViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 {
 
 
@@ -147,7 +147,7 @@ Q3WinViewerGetReleaseVersion(unsigned long *releaseRevision)
 //      Q3WinViewerNew : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3ViewerObject
-Q3WinViewerNew(HWND window, const RECT *rect, unsigned long flags)
+Q3WinViewerNew(HWND window, const RECT *rect, TQ3Uns32 flags)
 {
 
 
@@ -256,7 +256,7 @@ Q3WinViewerUseFile(TQ3ViewerObject viewer, HANDLE fileHandle)
 //      Q3WinViewerUseData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerUseData(TQ3ViewerObject viewer, void *data, unsigned long size)
+Q3WinViewerUseData(TQ3ViewerObject viewer, void *data, TQ3Uns32 size)
 {
 
 
@@ -332,7 +332,7 @@ Q3WinViewerWriteFile(TQ3ViewerObject viewer, HANDLE fileHandle)
 //      Q3WinViewerWriteData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerWriteData(TQ3ViewerObject viewer, void *data, unsigned long dataSize, unsigned long *actualDataSize)
+Q3WinViewerWriteData(TQ3ViewerObject viewer, void *data, TQ3Uns32 dataSize, TQ3Uns32 *actualDataSize)
 {
 
 
@@ -475,7 +475,7 @@ Q3WinViewerDrawControlStrip(TQ3ViewerObject viewer)
 //      Q3WinViewerMouseDown : Quesa API entry point.
 //-----------------------------------------------------------------------------
 BOOL
-Q3WinViewerMouseDown(TQ3ViewerObject viewer, long x, long y)
+Q3WinViewerMouseDown(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
 
 
@@ -514,7 +514,7 @@ Q3WinViewerMouseDown(TQ3ViewerObject viewer, long x, long y)
 //      Q3WinViewerContinueTracking : Quesa API entry point.
 //-----------------------------------------------------------------------------
 BOOL
-Q3WinViewerContinueTracking(TQ3ViewerObject viewer, long x, long y)
+Q3WinViewerContinueTracking(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
 
 
@@ -553,7 +553,7 @@ Q3WinViewerContinueTracking(TQ3ViewerObject viewer, long x, long y)
 //      Q3WinViewerMouseUp : Quesa API entry point.
 //-----------------------------------------------------------------------------
 BOOL
-Q3WinViewerMouseUp(TQ3ViewerObject viewer, long x, long y)
+Q3WinViewerMouseUp(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
 
 
@@ -625,7 +625,7 @@ Q3WinViewerGetBitmap(TQ3ViewerObject viewer)
 //      Q3WinViewerGetButtonRect : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerGetButtonRect(TQ3ViewerObject viewer, unsigned long button, RECT *rectangle)
+Q3WinViewerGetButtonRect(TQ3ViewerObject viewer, TQ3Uns32 button, RECT *rectangle)
 {
 
 
@@ -664,7 +664,7 @@ Q3WinViewerGetButtonRect(TQ3ViewerObject viewer, unsigned long button, RECT *rec
 //=============================================================================
 //      Q3WinViewerGetCurrentButton : Quesa API entry point.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 Q3WinViewerGetCurrentButton(TQ3ViewerObject viewer)
 {
 
@@ -698,7 +698,7 @@ Q3WinViewerGetCurrentButton(TQ3ViewerObject viewer)
 //      Q3WinViewerSetCurrentButton : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerSetCurrentButton(TQ3ViewerObject viewer, unsigned long button)
+Q3WinViewerSetCurrentButton(TQ3ViewerObject viewer, TQ3Uns32 button)
 {
 
 
@@ -945,7 +945,7 @@ Q3WinViewerRestoreView(TQ3ViewerObject viewer)
 //      Q3WinViewerSetFlags : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerSetFlags(TQ3ViewerObject viewer, unsigned long flags)
+Q3WinViewerSetFlags(TQ3ViewerObject viewer, TQ3Uns32 flags)
 {
 
 
@@ -980,7 +980,7 @@ Q3WinViewerSetFlags(TQ3ViewerObject viewer, unsigned long flags)
 //=============================================================================
 //      Q3WinViewerGetFlags : Quesa API entry point.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 Q3WinViewerGetFlags(TQ3ViewerObject viewer)
 {
 
@@ -1088,7 +1088,7 @@ Q3WinViewerGetBounds(TQ3ViewerObject viewer, RECT *bounds)
 //      Q3WinViewerSetDimension : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerSetDimension(TQ3ViewerObject viewer, unsigned long width, unsigned long height)
+Q3WinViewerSetDimension(TQ3ViewerObject viewer, TQ3Uns32 width, TQ3Uns32 height)
 {
 
 
@@ -1127,7 +1127,7 @@ Q3WinViewerSetDimension(TQ3ViewerObject viewer, unsigned long width, unsigned lo
 //      Q3WinViewerGetDimension : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerGetDimension(TQ3ViewerObject viewer, unsigned long *width, unsigned long *height)
+Q3WinViewerGetDimension(TQ3ViewerObject viewer, TQ3Uns32 *width, TQ3Uns32 *height)
 {
 
 
@@ -1168,7 +1168,7 @@ Q3WinViewerGetDimension(TQ3ViewerObject viewer, unsigned long *width, unsigned l
 //      Q3WinViewerGetMinimumDimension : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerGetMinimumDimension(TQ3ViewerObject viewer, unsigned long *width, unsigned long *height)
+Q3WinViewerGetMinimumDimension(TQ3ViewerObject viewer, TQ3Uns32 *width, TQ3Uns32 *height)
 {
 
 
@@ -1352,7 +1352,7 @@ Q3WinViewerGetControlStrip(TQ3ViewerObject viewer)
 //      Q3WinViewerAdjustCursor : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-Q3WinViewerAdjustCursor(TQ3ViewerObject viewer, long x, long y)
+Q3WinViewerAdjustCursor(TQ3ViewerObject viewer, TQ3Int32 x, TQ3Int32 y)
 {
 
 
@@ -1423,7 +1423,7 @@ Q3WinViewerCursorChanged(TQ3ViewerObject viewer)
 //=============================================================================
 //      Q3WinViewerGetState : Quesa API entry point.
 //-----------------------------------------------------------------------------
-unsigned long
+TQ3Uns32
 Q3WinViewerGetState(TQ3ViewerObject viewer)
 {
 
@@ -1622,7 +1622,7 @@ Q3WinViewerUndo(TQ3ViewerObject viewer)
 //      Q3WinViewerGetUndoString : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-Q3WinViewerGetUndoString(TQ3ViewerObject viewer, char *theString, unsigned long stringSize, unsigned long *actualSize)
+Q3WinViewerGetUndoString(TQ3ViewerObject viewer, char *theString, TQ3Uns32 stringSize, TQ3Uns32 *actualSize)
 {
 
 
@@ -1666,7 +1666,7 @@ Q3WinViewerGetUndoString(TQ3ViewerObject viewer, char *theString, unsigned long 
 //      Q3WinViewerGetCameraCount : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerGetCameraCount(TQ3ViewerObject viewer, unsigned long *count)
+Q3WinViewerGetCameraCount(TQ3ViewerObject viewer, TQ3Uns32 *count)
 {
 
 
@@ -1703,7 +1703,7 @@ Q3WinViewerGetCameraCount(TQ3ViewerObject viewer, unsigned long *count)
 //      Q3WinViewerSetCameraNumber : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3WinViewerSetCameraNumber(TQ3ViewerObject viewer, unsigned long cameraNo)
+Q3WinViewerSetCameraNumber(TQ3ViewerObject viewer, TQ3Uns32 cameraNo)
 {
 
 

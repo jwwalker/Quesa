@@ -75,7 +75,7 @@
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Controller_GetListChanged(TQ3Boolean *listChanged, unsigned long *serialNumber)
+E3Controller_GetListChanged(TQ3Boolean *listChanged, TQ3Uns32 *serialNumber)
 {
 
 
@@ -183,7 +183,7 @@ E3Controller_GetActivation(TQ3ControllerRef controllerRef, TQ3Boolean *active)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Controller_GetSignature(TQ3ControllerRef controllerRef, char *signature, unsigned long numChars)
+E3Controller_GetSignature(TQ3ControllerRef controllerRef, char *signature, TQ3Uns32 numChars)
 {
 
 
@@ -201,7 +201,7 @@ E3Controller_GetSignature(TQ3ControllerRef controllerRef, char *signature, unsig
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Controller_SetChannel(TQ3ControllerRef controllerRef, unsigned long channel, const void *data, unsigned long dataSize)
+E3Controller_SetChannel(TQ3ControllerRef controllerRef, TQ3Uns32 channel, const void *data, TQ3Uns32 dataSize)
 {
 
 
@@ -219,7 +219,7 @@ E3Controller_SetChannel(TQ3ControllerRef controllerRef, unsigned long channel, c
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Controller_GetChannel(TQ3ControllerRef controllerRef, unsigned long channel, void *data, unsigned long *dataSize)
+E3Controller_GetChannel(TQ3ControllerRef controllerRef, TQ3Uns32 channel, void *data, TQ3Uns32 *dataSize)
 {
 
 
@@ -237,7 +237,7 @@ E3Controller_GetChannel(TQ3ControllerRef controllerRef, unsigned long channel, v
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Controller_GetValueCount(TQ3ControllerRef controllerRef, unsigned long *valueCount)
+E3Controller_GetValueCount(TQ3ControllerRef controllerRef, TQ3Uns32 *valueCount)
 {
 
 
@@ -327,7 +327,7 @@ E3Controller_Track3DCursor(TQ3ControllerRef controllerRef, TQ3Boolean *track3DCu
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Controller_GetButtons(TQ3ControllerRef controllerRef, unsigned long *buttons)
+E3Controller_GetButtons(TQ3ControllerRef controllerRef, TQ3Uns32 *buttons)
 {
 
 
@@ -345,7 +345,7 @@ E3Controller_GetButtons(TQ3ControllerRef controllerRef, unsigned long *buttons)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Controller_SetButtons(TQ3ControllerRef controllerRef, unsigned long buttons)
+E3Controller_SetButtons(TQ3ControllerRef controllerRef, TQ3Uns32 buttons)
 {
 
 
@@ -471,7 +471,7 @@ E3Controller_MoveTrackerOrientation(TQ3ControllerRef controllerRef, const TQ3Qua
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Controller_GetValues(TQ3ControllerRef controllerRef, unsigned long valueCount, float *values, TQ3Boolean *changed, unsigned long *serialNumber)
+E3Controller_GetValues(TQ3ControllerRef controllerRef, TQ3Uns32 valueCount, float *values, TQ3Boolean *changed, TQ3Uns32 *serialNumber)
 {
 
 
@@ -489,7 +489,7 @@ E3Controller_GetValues(TQ3ControllerRef controllerRef, unsigned long valueCount,
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Controller_SetValues(TQ3ControllerRef controllerRef, const float *values, unsigned long valueCount)
+E3Controller_SetValues(TQ3ControllerRef controllerRef, const float *values, TQ3Uns32 valueCount)
 {
 
 
@@ -652,7 +652,7 @@ E3Tracker_GetActivation(TQ3TrackerObject trackerObject, TQ3Boolean *active)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Tracker_GetButtons(TQ3TrackerObject trackerObject, unsigned long *buttons)
+E3Tracker_GetButtons(TQ3TrackerObject trackerObject, TQ3Uns32 *buttons)
 {
 
 
@@ -670,7 +670,7 @@ E3Tracker_GetButtons(TQ3TrackerObject trackerObject, unsigned long *buttons)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Tracker_ChangeButtons(TQ3TrackerObject trackerObject, TQ3ControllerRef controllerRef, unsigned long buttons, unsigned long buttonMask)
+E3Tracker_ChangeButtons(TQ3TrackerObject trackerObject, TQ3ControllerRef controllerRef, TQ3Uns32 buttons, TQ3Uns32 buttonMask)
 {
 
 
@@ -688,7 +688,7 @@ E3Tracker_ChangeButtons(TQ3TrackerObject trackerObject, TQ3ControllerRef control
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Tracker_GetPosition(TQ3TrackerObject trackerObject, TQ3Point3D *position, TQ3Vector3D *delta, TQ3Boolean *changed, unsigned long *serialNumber)
+E3Tracker_GetPosition(TQ3TrackerObject trackerObject, TQ3Point3D *position, TQ3Vector3D *delta, TQ3Boolean *changed, TQ3Uns32 *serialNumber)
 {
 
 
@@ -742,7 +742,7 @@ E3Tracker_MovePosition(TQ3TrackerObject trackerObject, TQ3ControllerRef controll
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Tracker_GetOrientation(TQ3TrackerObject trackerObject, TQ3Quaternion *orientation, TQ3Quaternion *delta, TQ3Boolean *changed, unsigned long *serialNumber)
+E3Tracker_GetOrientation(TQ3TrackerObject trackerObject, TQ3Quaternion *orientation, TQ3Quaternion *delta, TQ3Boolean *changed, TQ3Uns32 *serialNumber)
 {
 
 
@@ -796,7 +796,7 @@ E3Tracker_MoveOrientation(TQ3TrackerObject trackerObject, TQ3ControllerRef contr
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Tracker_SetEventCoordinates(TQ3TrackerObject trackerObject, unsigned long timeStamp, unsigned long buttons, const TQ3Point3D *position, const TQ3Quaternion *orientation)
+E3Tracker_SetEventCoordinates(TQ3TrackerObject trackerObject, TQ3Uns32 timeStamp, TQ3Uns32 buttons, const TQ3Point3D *position, const TQ3Quaternion *orientation)
 {
 
 
@@ -814,7 +814,7 @@ E3Tracker_SetEventCoordinates(TQ3TrackerObject trackerObject, unsigned long time
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Tracker_GetEventCoordinates(TQ3TrackerObject trackerObject, unsigned long timeStamp, unsigned long *buttons, TQ3Point3D *position, TQ3Quaternion *orientation)
+E3Tracker_GetEventCoordinates(TQ3TrackerObject trackerObject, TQ3Uns32 timeStamp, TQ3Uns32 *buttons, TQ3Point3D *position, TQ3Quaternion *orientation)
 {
 
 
@@ -869,7 +869,7 @@ E3CursorTracker_SetTrackDeltas(TQ3Boolean trackDeltas)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3CursorTracker_GetAndClearDeltas(float *depth, TQ3Quaternion *orientation, TQ3Boolean *hasOrientation, TQ3Boolean *changed, unsigned long *serialNumber)
+E3CursorTracker_GetAndClearDeltas(float *depth, TQ3Quaternion *orientation, TQ3Boolean *hasOrientation, TQ3Boolean *changed, TQ3Uns32 *serialNumber)
 {
 
 

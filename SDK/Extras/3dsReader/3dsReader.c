@@ -378,7 +378,7 @@ parse3DSChunk (TQ3FileObject theFile, TQ3Uns32 endPos, TparamData *paramData)
 			break;
 		case kChunkMaterialName:
 			if (paramData->material != NULL) {
-				unsigned long length;
+				TQ3Uns32 length;
 				continueParsing = (TQ3Boolean)(Q3String_Read (buffer, &length, theFile) == kQ3Success);
 				REPORT ((sLogFile, "kChunkMaterialName %s\n", buffer));
 				if (continueParsing) {
@@ -484,7 +484,7 @@ parse3DSChunk (TQ3FileObject theFile, TQ3Uns32 endPos, TparamData *paramData)
 			break;
 		case kChunkTextureFile:
 			if (paramData->material != NULL) {
-				unsigned long length;
+				TQ3Uns32 length;
 				continueParsing = (TQ3Boolean)(Q3String_Read (buffer, &length, theFile) == kQ3Success);
 				REPORT ((sLogFile, "kChunkTextureFile %s\n", buffer));
 				if (continueParsing) {
@@ -500,7 +500,7 @@ parse3DSChunk (TQ3FileObject theFile, TQ3Uns32 endPos, TparamData *paramData)
 		//
 		case kChunkObjBlock:
 			{
-				unsigned long length;
+				TQ3Uns32 length;
 				continueParsing = (TQ3Boolean)(Q3String_Read (buffer, &length, theFile) == kQ3Success);
 				REPORT ((sLogFile, "kChunkObjBlock %s\n", buffer));
 				paramData->pointsPolygons = newPointsPolygonData ();
@@ -607,7 +607,7 @@ parse3DSChunk (TQ3FileObject theFile, TQ3Uns32 endPos, TparamData *paramData)
 		case kChunkFaceMaterial:
 			if (paramData->pointsPolygons != NULL) {
 				TmaterialGroupData *materialGroup;
-				unsigned long length;
+				TQ3Uns32 length;
 				continueParsing = (TQ3Boolean)(Q3String_Read (buffer, &length, theFile) == kQ3Success);
 				REPORT ((sLogFile, "kChunkFaceMaterial %s\n", buffer));
 				materialGroup = &(paramData->pointsPolygons->materialGroup);
@@ -1312,7 +1312,7 @@ E3FFormat_3ds_Reader_Entry(void)
 //      E3FFormat_3ds_Reader_Exit : CFM exit point for Mac.
 //-----------------------------------------------------------------------------
 #if OS_MACINTOSH
-long
+TQ3Int32
 E3FFormat_3ds_Reader_Exit(void)
 {
 

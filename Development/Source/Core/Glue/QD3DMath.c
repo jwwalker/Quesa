@@ -2479,7 +2479,7 @@ Q3RationalPoint4D_Transform(const TQ3RationalPoint4D *point4D, const TQ3Matrix4x
 //      Q3Point3D_To3DTransformArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoint3D, const TQ3Matrix4x4 *matrix, TQ3Point3D *outPoint3D, long numPoints, unsigned long inStructSize, unsigned long outStructSize)
+Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoint3D, const TQ3Matrix4x4 *matrix, TQ3Point3D *outPoint3D, TQ3Int32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
 {
 
 
@@ -2520,7 +2520,7 @@ Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoint3D, const TQ3Matrix4x4 *ma
 
 
 	// Call our implementation
-	return(E3Point3D_To3DTransformArray(inPoint3D, matrix, outPoint3D, numPoints, inStructSize, outStructSize));
+	return(E3Point3D_To3DTransformArray(inPoint3D, matrix, outPoint3D, (TQ3Uns32) numPoints, inStructSize, outStructSize));
 }
 
 
@@ -2531,7 +2531,7 @@ Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoint3D, const TQ3Matrix4x4 *ma
 //      Q3Point3D_To4DTransformArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoint3D, const TQ3Matrix4x4 *matrix, TQ3RationalPoint4D *outPoint4D, long numPoints, unsigned long inStructSize, unsigned long outStructSize)
+Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoint3D, const TQ3Matrix4x4 *matrix, TQ3RationalPoint4D *outPoint4D, TQ3Int32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
 {
 
 
@@ -2572,7 +2572,7 @@ Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoint3D, const TQ3Matrix4x4 *ma
 
 
 	// Call our implementation
-	return(E3Point3D_To4DTransformArray(inPoint3D, matrix, outPoint4D, numPoints, inStructSize, outStructSize));
+	return(E3Point3D_To4DTransformArray(inPoint3D, matrix, outPoint4D, (TQ3Uns32) numPoints, inStructSize, outStructSize));
 }
 
 
@@ -2583,7 +2583,7 @@ Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoint3D, const TQ3Matrix4x4 *ma
 //      Q3RationalPoint4D_To4DTransformArray : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D *inPoint4D, const TQ3Matrix4x4 *matrix, TQ3RationalPoint4D *outPoint4D, long numPoints, unsigned long inStructSize, unsigned long outStructSize)
+Q3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D *inPoint4D, const TQ3Matrix4x4 *matrix, TQ3RationalPoint4D *outPoint4D, TQ3Int32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize)
 {
 
 
@@ -2624,7 +2624,7 @@ Q3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D *inPoint4D, const 
 
 
 	// Call our implementation
-	return(E3RationalPoint4D_To4DTransformArray(inPoint4D, matrix, outPoint4D, numPoints, inStructSize, outStructSize));
+	return(E3RationalPoint4D_To4DTransformArray(inPoint4D, matrix, outPoint4D, (TQ3Uns32) numPoints, inStructSize, outStructSize));
 }
 
 
@@ -2863,7 +2863,7 @@ Q3SphericalPoint_ToPoint3D(const TQ3SphericalPoint *sphericalPoint, TQ3Point3D *
 //      Q3Point2D_AffineComb : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Point2D *
-Q3Point2D_AffineComb(const TQ3Point2D *points2D, const float *weights, unsigned long nPoints, TQ3Point2D *result)
+Q3Point2D_AffineComb(const TQ3Point2D *points2D, const float *weights, TQ3Uns32 nPoints, TQ3Point2D *result)
 {
 
 
@@ -2908,7 +2908,7 @@ Q3Point2D_AffineComb(const TQ3Point2D *points2D, const float *weights, unsigned 
 //      Q3Param2D_AffineComb : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Param2D *
-Q3Param2D_AffineComb(const TQ3Param2D *params2D, const float *weights, unsigned long nPoints, TQ3Param2D *result)
+Q3Param2D_AffineComb(const TQ3Param2D *params2D, const float *weights, TQ3Uns32 nPoints, TQ3Param2D *result)
 {
 
 
@@ -2953,7 +2953,7 @@ Q3Param2D_AffineComb(const TQ3Param2D *params2D, const float *weights, unsigned 
 //      Q3RationalPoint3D_AffineComb : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3RationalPoint3D *
-Q3RationalPoint3D_AffineComb(const TQ3RationalPoint3D *points3D, const float *weights, unsigned long numPoints, TQ3RationalPoint3D *result)
+Q3RationalPoint3D_AffineComb(const TQ3RationalPoint3D *points3D, const float *weights, TQ3Uns32 numPoints, TQ3RationalPoint3D *result)
 {
 
 
@@ -2998,7 +2998,7 @@ Q3RationalPoint3D_AffineComb(const TQ3RationalPoint3D *points3D, const float *we
 //      Q3Point3D_AffineComb : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Point3D *
-Q3Point3D_AffineComb(const TQ3Point3D *points3D, const float *weights, unsigned long numPoints, TQ3Point3D *result)
+Q3Point3D_AffineComb(const TQ3Point3D *points3D, const float *weights, TQ3Uns32 numPoints, TQ3Point3D *result)
 {
 
 
@@ -3043,7 +3043,7 @@ Q3Point3D_AffineComb(const TQ3Point3D *points3D, const float *weights, unsigned 
 //      Q3RationalPoint4D_AffineComb : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3RationalPoint4D *
-Q3RationalPoint4D_AffineComb(const TQ3RationalPoint4D *points4D, const float *weights, unsigned long numPoints, TQ3RationalPoint4D *result)
+Q3RationalPoint4D_AffineComb(const TQ3RationalPoint4D *points4D, const float *weights, TQ3Uns32 numPoints, TQ3RationalPoint4D *result)
 {
 
 
@@ -5115,7 +5115,7 @@ Q3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox, const TQ3Rational
 //      Q3BoundingBox_SetFromPoints3D : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3BoundingBox *
-Q3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox, const TQ3Point3D *points3D, unsigned long numPoints, unsigned long structSize)
+Q3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox, const TQ3Point3D *points3D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 
 
@@ -5160,7 +5160,7 @@ Q3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox, const TQ3Point3D *points3D, 
 //      Q3BoundingBox_SetFromRationalPoints4D : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3BoundingBox *
-Q3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox, const TQ3RationalPoint4D *points4D, unsigned long numPoints, unsigned long structSize)
+Q3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox, const TQ3RationalPoint4D *points4D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 
 
@@ -5413,7 +5413,7 @@ Q3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphere *bSphere, const TQ
 //      Q3BoundingSphere_SetFromPoints3D : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3BoundingSphere *
-Q3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *points3D, unsigned long numPoints, unsigned long structSize)
+Q3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *points3D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 
 
@@ -5458,7 +5458,7 @@ Q3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *p
 //      Q3BoundingSphere_SetFromRationalPoints4D : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3BoundingSphere *
-Q3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3RationalPoint4D *points4D, unsigned long numPoints, unsigned long structSize)
+Q3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3RationalPoint4D *points4D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 
 

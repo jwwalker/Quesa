@@ -691,7 +691,7 @@ E3Polygon_EmptyData(TQ3PolygonData *polygonData)
 //      E3Polygon_GetVertexPosition : Get the position for a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polygon_GetVertexPosition(TQ3GeometryObject thePolygon, unsigned long index, TQ3Point3D *point)
+E3Polygon_GetVertexPosition(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3Point3D *point)
 {	TQ3PolygonData		*instanceData = (TQ3PolygonData *) thePolygon->instanceData;
 
 
@@ -710,7 +710,7 @@ E3Polygon_GetVertexPosition(TQ3GeometryObject thePolygon, unsigned long index, T
 //      E3Polygon_SetVertexPosition : Set the position for a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polygon_SetVertexPosition(TQ3GeometryObject thePolygon, unsigned long index, const TQ3Point3D *point)
+E3Polygon_SetVertexPosition(TQ3GeometryObject thePolygon, TQ3Uns32 index, const TQ3Point3D *point)
 {	TQ3PolygonData		*instanceData = (TQ3PolygonData *) thePolygon->instanceData;
 
 
@@ -731,7 +731,7 @@ E3Polygon_SetVertexPosition(TQ3GeometryObject thePolygon, unsigned long index, c
 //      E3Polygon_GetVertexAttributeSet : Get the attribute set for a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polygon_GetVertexAttributeSet(TQ3GeometryObject thePolygon, unsigned long index, TQ3AttributeSet *attributeSet)
+E3Polygon_GetVertexAttributeSet(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
 {	TQ3PolygonData		*instanceData = (TQ3PolygonData *) thePolygon->instanceData;
 
 
@@ -750,7 +750,7 @@ E3Polygon_GetVertexAttributeSet(TQ3GeometryObject thePolygon, unsigned long inde
 //      E3Polygon_SetVertexAttributeSet : Set the attribute set for a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polygon_SetVertexAttributeSet(TQ3GeometryObject thePolygon, unsigned long index, TQ3AttributeSet attributeSet)
+E3Polygon_SetVertexAttributeSet(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3AttributeSet attributeSet)
 {	TQ3PolygonData		*instanceData = (TQ3PolygonData *) thePolygon->instanceData;
 
 

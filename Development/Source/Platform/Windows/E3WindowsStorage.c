@@ -156,7 +156,7 @@ e3storage_win32_close(TQ3StorageObject storage)
 //      e3storage_win32_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_win32_getsize(TQ3StorageObject storage, unsigned long *size)
+e3storage_win32_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 {	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) storage->instanceData;
 	DWORD					fileSize;
 
@@ -194,7 +194,7 @@ e3storage_win32_getsize(TQ3StorageObject storage, unsigned long *size)
 //		Note : Currently unbuffered - may cause performance problems.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_win32_read(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, unsigned char *data, unsigned long *sizeRead)
+e3storage_win32_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
 {	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) storage->instanceData;
 	BOOL					theResult;
 	DWORD					newPos;
@@ -235,7 +235,7 @@ e3storage_win32_read(TQ3StorageObject storage, unsigned long offset, unsigned lo
 //		Note : Currently unbuffered - may cause performance problems.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_win32_write(TQ3StorageObject storage, unsigned long offset, unsigned long dataSize, const unsigned char *data, unsigned long *sizeWritten)
+e3storage_win32_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
 {	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) storage->instanceData;
 	BOOL					theResult;
 	DWORD					newPos;

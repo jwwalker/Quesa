@@ -44,8 +44,6 @@
 #include <QD3DIO.h>
 #include <QD3DStorage.h>
 
-#include "QuesaStorage.h"
-
 #if OS_MACINTOSH
 	#include <console.h>
 #endif
@@ -208,7 +206,7 @@ PrintAttributeSetType(TQ3Object object)
 							"HighlightState",
 							"SurfaceShader"
 						};
-	unsigned long		i, total, count;
+	TQ3Ins32			i, total, count;
 	TQ3Status			status;
 
 	if (Q3Object_IsType(object, kQ3SetTypeAttribute) == kQ3False) {
@@ -265,7 +263,7 @@ PrintAttributeSetType(TQ3Object object)
 //      PrintGroupElementsAndRecurse : Dump a group and recurse.
 //-----------------------------------------------------------------------------
 static void
-PrintGroupElementsAndRecurse( TQ3GroupObject theGroup, unsigned long depth )
+PrintGroupElementsAndRecurse( TQ3GroupObject theGroup, TQ3Uns32 depth )
 {
  
 	TQ3GroupPosition			thePosition ;

@@ -418,7 +418,7 @@ E3Marker_SetPosition(TQ3GeometryObject theMarker, const TQ3Point3D *location)
 //      E3Marker_GetXOffset : Get horizontal offset of a marker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Marker_GetXOffset(TQ3GeometryObject theMarker, long *xOffset)
+E3Marker_GetXOffset(TQ3GeometryObject theMarker, TQ3Int32 *xOffset)
 {
 	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) theMarker->instanceData;
 
@@ -437,7 +437,7 @@ E3Marker_GetXOffset(TQ3GeometryObject theMarker, long *xOffset)
 //      E3Marker_SetXOffset : Set horizontal offset of a marker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Marker_SetXOffset(TQ3GeometryObject theMarker, long xOffset)
+E3Marker_SetXOffset(TQ3GeometryObject theMarker, TQ3Int32 xOffset)
 {
 	TQ3MarkerData *		instanceData = (TQ3MarkerData *) theMarker->instanceData;
 
@@ -458,7 +458,7 @@ E3Marker_SetXOffset(TQ3GeometryObject theMarker, long xOffset)
 //      E3Marker_GetYOffset : Get vertical offset of a marker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Marker_GetYOffset(TQ3GeometryObject theMarker, long *yOffset)
+E3Marker_GetYOffset(TQ3GeometryObject theMarker, TQ3Int32 *yOffset)
 {
 	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) theMarker->instanceData;
 	
@@ -477,7 +477,7 @@ E3Marker_GetYOffset(TQ3GeometryObject theMarker, long *yOffset)
 //      E3Marker_SetYOffset : Set vertical offset of a marker
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Marker_SetYOffset(TQ3GeometryObject theMarker, long yOffset)
+E3Marker_SetYOffset(TQ3GeometryObject theMarker, TQ3Int32 yOffset)
 {
 	TQ3MarkerData *		instanceData = (TQ3MarkerData *) theMarker->instanceData;
 

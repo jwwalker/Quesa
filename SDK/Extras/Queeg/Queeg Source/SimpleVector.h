@@ -36,7 +36,7 @@ class SimpleVector {
 	// inspectors
 	inline unsigned short size() const;			// get number of items
 	inline unsigned short bufitems() const;		// number of items the buffer can hold
-	inline unsigned long bufbytes() const;		// size of buffer in bytes
+	inline TQ3Uns32 bufbytes() const;		// size of buffer in bytes
 	
 	// insertion (moves all following items)
 	inline void insert(const T& item, const short idx);
@@ -120,7 +120,7 @@ inline unsigned short SimpleVector<T>::bufitems() const
 }
 
 template <class T>
-inline unsigned long SimpleVector<T>::bufbytes() const
+inline TQ3Uns32 SimpleVector<T>::bufbytes() const
 {
 	return mBufItems * sizeof(T);
 }

@@ -89,11 +89,11 @@ TQ3Status				E3Pick_GetVertexTolerance(TQ3PickObject pick, float *vertexToleranc
 TQ3Status				E3Pick_GetEdgeTolerance(TQ3PickObject pick, float *edgeTolerance);
 TQ3Status				E3Pick_SetVertexTolerance(TQ3PickObject pick, float vertexTolerance);
 TQ3Status				E3Pick_SetEdgeTolerance(TQ3PickObject pick, float edgeTolerance);
-TQ3Status				E3Pick_GetNumHits(TQ3PickObject pick, unsigned long *numHits);
+TQ3Status				E3Pick_GetNumHits(TQ3PickObject pick, TQ3Uns32 *numHits);
 TQ3Status				E3Pick_AddHitData(TQ3PickObject pick, const TQ3PickedData* data);
 TQ3Status				E3Pick_EmptyHitList(TQ3PickObject pick);
-TQ3Status				E3Pick_GetPickDetailValidMask(TQ3PickObject pick, unsigned long index, TQ3PickDetail *pickDetailValidMask);
-TQ3Status				E3Pick_GetPickDetailData(TQ3PickObject pick, unsigned long index, TQ3PickDetail pickDetailValue, void *detailData);
+TQ3Status				E3Pick_GetPickDetailValidMask(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail *pickDetailValidMask);
+TQ3Status				E3Pick_GetPickDetailData(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail pickDetailValue, void *detailData);
 
 TQ3PickObject			E3WindowPointPick_New(const TQ3WindowPointPickData *data);
 TQ3Status				E3WindowPointPick_GetPoint(TQ3PickObject pick, TQ3Point2D *point);

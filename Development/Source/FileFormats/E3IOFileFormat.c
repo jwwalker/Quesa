@@ -249,7 +249,7 @@ E3FileFormat_GenericReadBinary_64(TQ3FileFormatObject format, TQ3Int64* data)
 //												string from stream.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data, unsigned long *length)
+E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data, TQ3Uns32 *length)
 {
 	TQ3Uns32 					sizeRead = 0;
 	TQ3Status 					result = kQ3Failure;
@@ -292,7 +292,7 @@ E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data, un
 //      E3FileFormat_GenericReadBinary_Raw : Reads length bytes from storage.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char* data, unsigned long length)
+E3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length)
 {
 	TQ3Uns32 sizeRead = 0;
 	TQ3Status result = kQ3Failure;
@@ -549,7 +549,7 @@ E3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, TQ3Int64 data)
 //												string to a stream.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char* data, unsigned long *length)
+E3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char* data, TQ3Uns32 *length)
 {
 
 
@@ -565,7 +565,7 @@ E3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char* d
 //      E3FileFormat_GenericWriteBinary_Raw : Writes length bytes to a storage.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format,const unsigned char* data, unsigned long length)
+E3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format,const unsigned char* data, TQ3Uns32 length)
 {
 	TQ3Uns32 sizeWrite = 0;
 	TQ3Status result = kQ3Failure;
@@ -752,7 +752,7 @@ E3FileFormatClass_GetFormatNameString(TQ3ObjectType fileFormatClassType, TQ3Obje
 //      E3FileFormat_GetConfigurationData : Get a fileFormat's config data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize)
+E3FileFormat_GetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {	TQ3XRendererGetConfigurationDataMethod	getConfigData;
 	TQ3Status								qd3dStatus;
 
@@ -790,7 +790,7 @@ E3FileFormat_GetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *
 //      E3FileFormat_SetConfigurationData : Set a fileFormat's config data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_SetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *dataBuffer, unsigned long bufferSize)
+E3FileFormat_SetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *dataBuffer, TQ3Uns32 bufferSize)
 {	TQ3XRendererSetConfigurationDataMethod	setConfigData;
 	TQ3Status								qd3dStatus;
 

@@ -443,7 +443,7 @@ e3geom_ellipsoid_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 	// We'll do this by constructing a box that just
 	// encloses the ellipse.  Points 4-7 are the top, 0-3 are the bottom corners.
 	TQ3Point3D p[8];
-	short i;
+	TQ3Uns32   i;
 
 	Q3Point3D_Vector3D_Add( &instanceData->origin, &instanceData->majorRadius, &p[0] );
 	Q3Point3D_Vector3D_Add( &p[0], &instanceData->minorRadius, &p[0] );

@@ -144,7 +144,7 @@ Q3CString_New(const char *str)
 //      Q3CString_GetLength : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3CString_GetLength(TQ3StringObject stringObj, unsigned long *length)
+Q3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
 {
 
 

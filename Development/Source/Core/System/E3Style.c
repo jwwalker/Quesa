@@ -569,7 +569,7 @@ E3Style_RegisterClass(void)
 												kQ3StyleTypePickID,
 												kQ3ClassNameStylePickID,
 												e3style_pickid_metahandler,
-												sizeof(unsigned long));
+												sizeof(TQ3Uns32));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
@@ -783,7 +783,7 @@ E3SubdivisionStyle_GetData(TQ3StyleObject subdiv, TQ3SubdivisionStyleData *data)
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3StyleObject
-E3PickIDStyle_New(unsigned long id)
+E3PickIDStyle_New(TQ3Uns32 id)
 {	TQ3StyleObject	theObject;
 
 
@@ -801,7 +801,7 @@ E3PickIDStyle_New(unsigned long id)
 //      E3PickIDStyle_Submit : Submit the style.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PickIDStyle_Submit(unsigned long id, TQ3ViewObject theView)
+E3PickIDStyle_Submit(TQ3Uns32 id, TQ3ViewObject theView)
 {	TQ3Status		qd3dStatus;
 
 
@@ -820,8 +820,8 @@ E3PickIDStyle_Submit(unsigned long id, TQ3ViewObject theView)
 //      E3PickIDStyle_Get : Get the data for the style.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PickIDStyle_Get(TQ3StyleObject pickIDObject, unsigned long *id)
-{	unsigned long* instanceData = (unsigned long*)pickIDObject->instanceData ;
+E3PickIDStyle_Get(TQ3StyleObject pickIDObject, TQ3Uns32 *id)
+{	TQ3Uns32* instanceData = (TQ3Uns32*)pickIDObject->instanceData ;
 	
 	
 	
@@ -837,8 +837,8 @@ E3PickIDStyle_Get(TQ3StyleObject pickIDObject, unsigned long *id)
 //      E3PickIDStyle_Set : Set the data for the style.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3PickIDStyle_Set(TQ3StyleObject pickIDObject, unsigned long id)
-{	unsigned long* instanceData = (unsigned long*)pickIDObject->instanceData ;
+E3PickIDStyle_Set(TQ3StyleObject pickIDObject, TQ3Uns32 id)
+{	TQ3Uns32* instanceData = (TQ3Uns32*)pickIDObject->instanceData ;
 	
 	
 	
