@@ -957,6 +957,9 @@ IRRenderer_State_FlushTextureCache(TQ3InteractiveData *instanceData, TQ3Boolean 
 	// If we're to flush everything, dispose of everything in the cache and reset it to empty
 	if (forceFlush)
 		{
+		if (instanceData->glContext != NULL)
+			GLDrawContext_SetCurrent(instanceData->glContext);
+		
 		// Dispose of the objects in the cache
 		while (instanceData->cachedTextureCount != 0)
 			{
