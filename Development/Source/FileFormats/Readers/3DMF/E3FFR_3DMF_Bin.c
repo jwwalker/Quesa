@@ -763,12 +763,19 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 				
 			break;
 			} /* Container*/
+		
+		case kQ3ShapeTypeLight :
+			
+			objectType = kQ3LightData ; // This is because in QuickDraw3D, Apple used the code 'lght' for both the light object and the light data sub object. 
+			// N.B. falls through to default case - no break
 			
 		default:
 			{
-			if(objectType != 0){
+			if(objectType != 0)
+				{
 				// find the proper class
-				if(objectType < 0) {// custom object
+				if(objectType < 0)
+					{// custom object
 					// find it via the types array
 					for(i = 0; i < instanceData->typesNum ; i++)
 						{
@@ -784,15 +791,15 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 				
 				E3FFormat_3DMF_Bin_Check_ContainerEnd(instanceData);
 				
-				if(theClass == NULL){
-				
+				if(theClass == NULL)
+					{
 					if (objectType < 0)
 						{
 						instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
 						result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
 						instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
 						}
-					else if ( (kQ3SharedTypeViewHints == objectType /*Temporary patch*/) ||
+					else if ( /*(kQ3SharedTypeViewHints == objectType /*Temporary patch) ||*/
 						(Q3_OBJECT_TYPE('d', 'g', 'b', 'b') == objectType /*Temporary patch*/) ||
 						(Q3_OBJECT_TYPE('e', 'd', 'i', 't') == objectType /*Temporary patch*/) )
 						{
@@ -802,66 +809,70 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 					else // corrupted. finish here
 						instanceData->MFData.baseData.currentStoragePosition = instanceData->MFData.baseData.logicalEOF;
 					}
-					
-				else{
-						// If there is no data, first try a default read method
-						if (objectSize == 0)
+				else
+					{
+					// If there is no data, first try a default read method
+					if (objectSize == 0)
+						{
+						readDefaultMethod = (TQ3XObjectReadDefaultMethod) theClass->GetMethod ( kQ3XMethodTypeObjectReadDefault ) ;
+						
+						if (readDefaultMethod != NULL)
 							{
-							readDefaultMethod = (TQ3XObjectReadDefaultMethod) theClass->GetMethod ( kQ3XMethodTypeObjectReadDefault ) ;
-							
-							if (readDefaultMethod != NULL)
-								{
-								result = readDefaultMethod( theFile );
-								}
+							result = readDefaultMethod( theFile );
 							}
-							
-						// If there was no read default method, use the plain read method
-						if (readDefaultMethod == NULL)
+						}
+						
+					// If there was no read default method, use the plain read method
+					if (readDefaultMethod == NULL)
+						{
+						readMethod = (TQ3XObjectReadMethod) theClass->GetMethod ( kQ3XMethodTypeObjectRead ) ;
+						
+						if (readMethod != NULL)
 							{
-							readMethod = (TQ3XObjectReadMethod) theClass->GetMethod ( kQ3XMethodTypeObjectRead ) ;
-							
-							if (readMethod != NULL)
-								{
-								result = readMethod(theFile);
-								}
+							result = readMethod(theFile);
 							}
+						}
 
-						if ( (readMethod != NULL) || (readDefaultMethod != NULL) )
+					if ( (readMethod != NULL) || (readDefaultMethod != NULL) )
+						{
+						if (result != NULL && tocEntryIndex >= 0)
 							{
-							if (result != NULL && tocEntryIndex >= 0)
+							// save in TOC
+							instanceData->MFData.toc->tocEntries[tocEntryIndex].objType = Q3Object_GetLeafType(result);
+							E3Shared_Replace(&instanceData->MFData.toc->tocEntries[tocEntryIndex].object, result);
+							}
+						}
+					else
+						{
+						TQ3XObjectReadDataMethod readData = (TQ3XObjectReadDataMethod)
+												theClass->GetMethod ( kQ3XMethodTypeObjectReadData ) ;
+						if (readData != NULL)
+							{
+							result = Q3Set_New();
+							if (result != NULL)
 								{
-								// save in TOC
-								instanceData->MFData.toc->tocEntries[tocEntryIndex].objType = Q3Object_GetLeafType(result);
-								E3Shared_Replace(&instanceData->MFData.toc->tocEntries[tocEntryIndex].object, result);
+								readData( result, theFile );
 								}
-							// align position (just in case)
-							instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
+							}
+						else
+						if ( objectSize == 0 )
+							{
+							// We know what the object's class is, and that it has no data. Try creating one.
+							result = theClass->CreateInstance ( kQ3False , NULL ) ;
+								// If CreateInstance fails it will return nil and we produce the same result as the alternative below
 							}
 						else
 							{
-							TQ3XObjectReadDataMethod readData = (TQ3XObjectReadDataMethod)
-													theClass->GetMethod ( kQ3XMethodTypeObjectReadData ) ;
-							if (readData != NULL)
-								{
-								result = Q3Set_New();
-								if (result != NULL)
-									{
-									readData( result, theFile );
-									}
-								instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
-								}
-							else
-								{
-								// probably Quesa Fault, just jump the data
-								//instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
-								//result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
-								instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
-								}
+							// probably Quesa Fault, just jump the data
+							//instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
+							//result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
 							}
 						}
+					instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8 ;// align position
 					}
-				else // corrupted. finish here
-					instanceData->MFData.baseData.currentStoragePosition = instanceData->MFData.baseData.logicalEOF;
+				}
+			else // corrupted. finish here
+				instanceData->MFData.baseData.currentStoragePosition = instanceData->MFData.baseData.logicalEOF;
 			break;
 			} /* default */
 		} /* switch(objectType) */

@@ -1936,380 +1936,599 @@ E3UnknownBinary_EmptyTypeString(char **typeString)
 
 
 
+#pragma mark -
 //=============================================================================
-//      E3ViewHints_New : One-line description of the method.
+//      E3ViewHints
+//=============================================================================
+
+
+//=============================================================================
+//      Internal functions
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      e3viewhints_new : View hints new method.
+//-----------------------------------------------------------------------------
+TQ3Status
+e3viewhints_new ( E3ViewHints* theObject, void *privateData, const void *paramData )
+	{
+	// Initialise our instance data
+	
+#pragma unused(privateData)
+	if ( paramData )
+		{
+		const TQ3ViewObject theView = (const TQ3ViewObject) paramData ;
+
+		Q3View_GetRenderer ( theView , &theObject->renderer ) ;
+		Q3View_GetCamera ( theView , &theObject->camera ) ;
+		Q3View_GetAttributeSetState ( theView , &theObject->attributeSet ) ;
+		}
+	else
+		{
+		theObject->renderer = NULL ;
+		theObject->camera = NULL ;
+		theObject->attributeSet = NULL ;
+		}
+
+	
+	theObject->lightGroup = NULL ;
+	theObject->isValidSetDimensions = kQ3False ;
+	theObject->widthDimensions = 0 ;
+	theObject->heightDimensions = 0 ;
+	theObject->isValidSetMaskState = kQ3False ;
+	theObject->mask.image = NULL ;
+	theObject->mask.width = 0 ;
+	theObject->mask.height = 0 ;
+	theObject->mask.rowBytes = 0 ;
+	theObject->mask.bitOrder = kQ3EndianBig ;
+	theObject->clearMethod = kQ3ClearMethodNone  ;
+	Q3ColorARGB_Set ( &theObject->clearImageColor, 1.0f, 1.0f, 1.0f, 1.0f ) ;
+
+	return kQ3Success ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3viewhints_delete : View hints delete method.
+//-----------------------------------------------------------------------------
+void
+e3viewhints_delete ( E3ViewHints* theObject, void *privateData )
+	{
+#pragma unused(privateData)
+
+	// Dispose of our instance data
+	if ( theObject->renderer )
+		Q3Object_Dispose ( theObject->renderer ) ;
+	if ( theObject->camera )
+		Q3Object_Dispose ( theObject->camera ) ;
+	if ( theObject->attributeSet )
+		Q3Object_Dispose ( theObject->attributeSet ) ;
+	if ( theObject->lightGroup )
+		Q3Object_Dispose ( theObject->lightGroup ) ;
+	}
+
+
+
+
+//=============================================================================
+//      e3viewhints_read : View hints read method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3viewhints_read ( TQ3FileObject theFile )
+	{
+	TQ3Status result = kQ3Success ;
+
+	// Create the object
+	E3ViewHints* theObject = (E3ViewHints*) E3ClassTree::CreateInstance ( kQ3SharedTypeViewHints, kQ3False, NULL ) ;
+	
+	if ( theObject )
+		{
+		TQ3GroupObject lightGroup = NULL ;
+		while ( ! Q3File_IsEndOfContainer ( theFile, NULL ) )
+			{
+			if ( TQ3Object childObject = Q3File_ReadObject ( theFile ) )
+				{
+				if ( Q3Object_IsType ( childObject , kQ3SharedTypeRenderer )  )
+					theObject->SetRenderer ( childObject ) ;
+				else
+				if ( Q3Object_IsType ( childObject , kQ3ShapeTypeCamera )  )
+					theObject->SetCamera ( childObject ) ;
+				else
+				if ( Q3Object_IsType ( childObject , kQ3ShapeTypeLight )  )
+					{
+					if ( lightGroup == NULL )
+						lightGroup = Q3LightGroup_New () ;
+					if ( lightGroup != NULL )
+						Q3Group_AddObject ( lightGroup , childObject ) ;
+					}
+				else
+				if ( Q3Object_IsType ( childObject , kQ3SetTypeAttribute )  )
+					theObject->SetAttributeSet ( childObject ) ;
+				else
+				if ( Q3Object_IsType ( childObject , kQ3ImageClearColour )  )
+					{
+					theObject->SetClearImageMethod ( kQ3ClearMethodWithColor ) ;
+					theObject->SetClearImageColor ( (TQ3ColorARGB*) childObject->FindLeafInstanceData () ) ;
+					}
+				else
+				if ( Q3Object_IsType ( childObject , kQ3ImageDimensions )  )
+					{		
+					theObject->SetDimensionsState ( kQ3True ) ;
+					TQ3Uns32* p = (TQ3Uns32*) childObject->FindLeafInstanceData () ;
+					theObject->SetDimensions ( p [ 0 ] , p [ 1 ] ) ;
+					}
+				else
+/*
+To be written:
+				if ( Q3Object_IsType ( childObject , ? ) )
+					{
+					theObject->SetMaskState ( kQ3True ) ;
+					theObject->SetMask ( TQ3Bitmap* mask ) ;
+					}
+*/				
+				Q3Object_Dispose ( childObject ) ; // decrement reference count
+				}
+			}
+
+//				result = Q3Float32_Read(&instanceData->value[i][j],theFile);
+		if ( lightGroup )
+			{
+			theObject->SetLightGroup ( lightGroup ) ;
+			Q3Object_Dispose ( lightGroup ) ; // decrement reference count
+			}
+
+		if ( result != kQ3Success )
+			{
+			Q3Object_Dispose ( theObject ) ;
+			return NULL ;
+			}
+		}
+	
+	return theObject ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_shaderuvtransform_write : Shader UV Transform read method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3viewhints_write(TQ3Matrix3x3 *object,TQ3FileObject theFile) //I know this is wrong but it is just a place marker at the moment. Peter Michelsen
+{
+	TQ3Status						result = kQ3Success;
+	//TQ3Uns32						i,j;
+
+	//	for( i = 0; ((i< 3) && (result == kQ3Success)); i++)
+	//		for( j = 0; ((j< 3) && (result == kQ3Success)); j++)
+	//			result = Q3Float32_Write(object->value[i][j],theFile);
+
+	return(result);
+}
+
+
+
+//=============================================================================
+//      viewhints_metahandler : viewhints metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+viewhints_metahandler ( TQ3XMethodType methodType )
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectNew:
+			return (TQ3XFunctionPointer) e3viewhints_new;
+
+		case kQ3XMethodTypeObjectDelete:
+			return (TQ3XFunctionPointer) e3viewhints_delete;
+
+		case kQ3XMethodTypeObjectRead:
+			return (TQ3XFunctionPointer) e3viewhints_read;
+		
+		case kQ3XMethodTypeObjectSubmitWrite:
+			return (TQ3XFunctionPointer) e3viewhints_write;
+		}
+
+	return NULL ;
+	}
+
+
+
+//=============================================================================
+//      E3ViewHints_RegisterClass : ViewHints register.
 //-----------------------------------------------------------------------------
 #pragma mark -
+TQ3Status
+E3ViewHints_RegisterClass ( void )
+	{
+	// Register the View Hints group class
+	return Q3_REGISTER_CLASS	(	kQ3ClassNameViewHint,
+									viewhints_metahandler,
+									E3ViewHints ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      E3ViewHints_UnregisterClass : ViewHints unregister.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3ViewHints_UnregisterClass(void)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Unregister the classes
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeViewHints, kQ3True);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ViewHints_New : Create a new View Hints object.
+//-----------------------------------------------------------------------------
 TQ3ViewHintsObject
-E3ViewHints_New(TQ3ViewObject view)
-{
-
-
-	// To be implemented...
-	return(NULL);
-}
+E3ViewHints_New ( TQ3ViewObject view )
+	{
+	return E3ClassTree::CreateInstance ( kQ3SharedTypeViewHints, kQ3False, view ) ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_SetRenderer : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::SetRenderer : Set the view hint's renderer.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetRenderer(TQ3ViewHintsObject viewHints, TQ3RendererObject renderer)
-{
+E3ViewHints::SetRenderer ( TQ3RendererObject theRenderer )
+	{
+	E3Shared_Replace ( &renderer, theRenderer ) ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_GetRenderer : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::GetRenderer : Get the view hint's renderer.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetRenderer(TQ3ViewHintsObject viewHints, TQ3RendererObject *renderer)
-{
+E3ViewHints::GetRenderer ( TQ3RendererObject* theRenderer )
+	{
+	// Make sure we have a renderer
+	if ( renderer == NULL )
+		{
+		*theRenderer = NULL ; // Assign a return value
+		return kQ3Failure ;
+		}
 
 
-	// To be implemented...
-	return(kQ3Failure);
-}
+
+	// Create a new reference to our renderer
+	*theRenderer = Q3Shared_GetReference ( renderer ) ;
+
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_SetCamera : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::SetCamera : Set the view hint's camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetCamera(TQ3ViewHintsObject viewHints, TQ3CameraObject camera)
-{
+E3ViewHints::SetCamera ( TQ3CameraObject theCamera )
+	{
+	// Replace the existing renderer reference
+	E3Shared_Replace ( &camera, theCamera ) ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_GetCamera : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::GetCamera : Get the view hint's camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetCamera(TQ3ViewHintsObject viewHints, TQ3CameraObject *camera)
-{
+E3ViewHints::GetCamera ( TQ3CameraObject* theCamera )
+	{
+	// Make sure we have a camera
+	if ( camera == NULL )
+		{
+		*theCamera = NULL ; // Assign a return value
+		return kQ3Failure ;
+		}
 
 
-	// To be implemented...
-	return(kQ3Failure);
-}
+
+	// Create a new reference to our camera
+	*theCamera = Q3Shared_GetReference ( camera ) ;
+
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_SetLightGroup : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::SetLightGroup : Set the view hint's light group.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetLightGroup(TQ3ViewHintsObject viewHints, TQ3GroupObject lightGroup)
-{
+E3ViewHints::SetLightGroup ( TQ3GroupObject theLightGroup )
+	{
+	// Replace the existing light group reference
+	E3Shared_Replace ( &lightGroup, theLightGroup ) ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_GetLightGroup : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::GetLightGroup : Get the view hint's light group.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetLightGroup(TQ3ViewHintsObject viewHints, TQ3GroupObject *lightGroup)
-{
+E3ViewHints::GetLightGroup ( TQ3GroupObject* theLightGroup )
+	{
+	// Make sure we have a light group
+	if ( lightGroup == NULL )
+		{
+		*theLightGroup = NULL ; // Assign a return value
+		return kQ3Failure ;
+		}
 
 
-	// To be implemented...
-	return(kQ3Failure);
-}
+
+	// Create a new reference to our light group
+	*theLightGroup = Q3Shared_GetReference ( lightGroup ) ;
+
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_SetAttributeSet : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::SetAttributeSet : Set the view hint's attribute set.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetAttributeSet(TQ3ViewHintsObject viewHints, TQ3AttributeSet attributeSet)
-{
+E3ViewHints::SetAttributeSet ( TQ3AttributeSet theAttributeSet )
+	{
+	// Replace the existing attribute set reference
+	E3Shared_Replace ( &attributeSet, theAttributeSet ) ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_GetAttributeSet : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::GetAttributeSet : Get the view hint's attribute set.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetAttributeSet(TQ3ViewHintsObject viewHints, TQ3AttributeSet *attributeSet)
-{
+E3ViewHints::GetAttributeSet ( TQ3AttributeSet* theAttributeSet )
+	{
+	// Make sure we have an attribute set
+	if ( attributeSet == NULL )
+		{
+		*theAttributeSet = NULL ; // Assign a return value
+		return kQ3Failure ;
+		}
 
 
-	// To be implemented...
-	return(kQ3Failure);
-}
+
+	// Create a new reference to our attribute set
+	*theAttributeSet = Q3Shared_GetReference ( attributeSet ) ;
+
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_SetDimensionsState : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::SetDimensionsState : Set the view hint's dimension state.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean isValid)
-{
+E3ViewHints::SetDimensionsState ( TQ3Boolean isValid )
+	{
+	isValidSetDimensions = isValid ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_GetDimensionsState : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::GetDimensionsState : Get the view hint's dimension state.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid)
-{
+E3ViewHints::GetDimensionsState ( TQ3Boolean* isValid )
+	{
+	*isValid = isValidSetDimensions ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_SetDimensions : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::SetDimensions : Set the view hint's dimensions.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 width, TQ3Uns32 height)
-{
+E3ViewHints::SetDimensions ( TQ3Uns32 width, TQ3Uns32 height )
+	{
+	widthDimensions = width ;
+	heightDimensions = height ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_GetDimensions : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::GetDimensions : Get the view hint's dimensions.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 *width, TQ3Uns32 *height)
-{
+E3ViewHints::GetDimensions ( TQ3Uns32* width, TQ3Uns32* height )
+	{
+	*width = widthDimensions ;
+	*height = heightDimensions ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_SetMaskState : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::SetMaskState : Set the view hint's set mask state.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetMaskState(TQ3ViewHintsObject viewHints, TQ3Boolean isValid)
-{
+E3ViewHints::SetMaskState ( TQ3Boolean isValid )
+	{
+	isValidSetMaskState = isValid ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_GetMaskState : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::GetMaskState : Get the view hint's set mask state.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetMaskState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid)
-{
+E3ViewHints::GetMaskState ( TQ3Boolean* isValid )
+	{
+	*isValid = isValidSetMaskState ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_SetMask : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::SetMask : Set the view hint's set mask.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetMask(TQ3ViewHintsObject viewHints, const TQ3Bitmap *mask)
-{
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+E3ViewHints::SetMask ( const TQ3Bitmap* theMask )
+	{
+	// Copy the mask image. We don't compare the current
+	// state, and assume that setting a mask may cause a rebuild.
+	return E3Bitmap_Replace ( theMask, &mask, kQ3True ) ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_GetMask : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::GetMask : Get the view hint's set mask.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetMask(TQ3ViewHintsObject viewHints, TQ3Bitmap *mask)
-{
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+E3ViewHints::GetMask ( TQ3Bitmap* theMask )
+	{
+	// Copy the mask image and update our flags
+	return E3Bitmap_Replace ( &mask, theMask, kQ3False ) ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_SetClearImageMethod : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::SetClearImageMethod : Set the view hint's clear image method.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetClearImageMethod(TQ3ViewHintsObject viewHints, TQ3DrawContextClearImageMethod clearMethod)
-{
+E3ViewHints::SetClearImageMethod ( TQ3DrawContextClearImageMethod theClearMethod )
+	{
+	// Set the clear image method [ and update our flags? ]
+	if ( clearMethod != theClearMethod )
+		 clearMethod = theClearMethod ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_GetClearImageMethod : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::GetClearImageMethod : Get the view hint's clear image method.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetClearImageMethod(TQ3ViewHintsObject viewHints, TQ3DrawContextClearImageMethod *clearMethod)
-{
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+E3ViewHints::GetClearImageMethod ( TQ3DrawContextClearImageMethod* theClearMethod )
+	{
+	// Return the clear image method
+	*theClearMethod = clearMethod ;
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_SetClearImageColor : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::SetClearImageColor : Set the view hint's clear image colour.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_SetClearImageColor(TQ3ViewHintsObject viewHints, const TQ3ColorARGB *color)
-{
+E3ViewHints::SetClearImageColor ( const TQ3ColorARGB* color )
+	{
+	// Set the clear colour and update our flags
+	if ( memcmp ( &clearImageColor, color, sizeof ( TQ3ColorARGB ) ) != 0 )
+		clearImageColor = *color ;
 
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+	return kQ3Success ;
+	}
 
 
 
 
 
 //=============================================================================
-//      E3ViewHints_GetClearImageColor : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3ViewHints::GetClearImageColor : Get the view hint's clear image colour.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewHints_GetClearImageColor(TQ3ViewHintsObject viewHints, TQ3ColorARGB *color)
-{
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
+E3ViewHints::GetClearImageColor ( TQ3ColorARGB* color )
+	{
+	// Return the clear colour
+	*color = clearImageColor ;
+	return kQ3Success ;
+	}
 
 
 

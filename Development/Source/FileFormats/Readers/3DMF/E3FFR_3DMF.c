@@ -66,13 +66,13 @@
 
 
 
-class E3AttibuteSetList : public E3Shared // This is not a leaf class, but only classes in this,
+class E3AttributeSetList : public E3Shared // This is not a leaf class, but only classes in this,
 								// file inherit from it, so it can be declared here in
 								// the .c file rather than in the .h file, hence all
 								// the fields can be public as nobody should be
 								// including this file.
 	{
-Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetList, E3AttibuteSetList, E3Shared )
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetList, E3AttributeSetList, E3Shared )
 public :
 
 	TE3FFormat3DMF_AttributeSetList_Data	instanceData ;
@@ -80,12 +80,12 @@ public :
 	
 
 
-class E3GeomAttributeSetList : public E3AttibuteSetList  // This is a leaf class so no other classes use this,
+class E3GeomAttributeSetList : public E3AttributeSetList  // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
-Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetListGeometry, E3GeomAttributeSetList, E3AttibuteSetList )
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetListGeometry, E3GeomAttributeSetList, E3AttributeSetList )
 public :
 
 	// There is no extra data for this class
@@ -93,12 +93,12 @@ public :
 	
 
 
-class E3FaceAttributeSetList : public E3AttibuteSetList  // This is a leaf class so no other classes use this,
+class E3FaceAttributeSetList : public E3AttributeSetList  // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
-Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetListFace, E3FaceAttributeSetList, E3AttibuteSetList )
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetListFace, E3FaceAttributeSetList, E3AttributeSetList )
 public :
 
 	// There is no extra data for this class
@@ -106,12 +106,12 @@ public :
 	
 
 
-class E3VertexAttributeSetList : public E3AttibuteSetList  // This is a leaf class so no other classes use this,
+class E3VertexAttributeSetList : public E3AttributeSetList  // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
-Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetListVertex, E3VertexAttributeSetList, E3AttibuteSetList )
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetListVertex, E3VertexAttributeSetList, E3AttributeSetList )
 public :
 
 	// There is no extra data for this class
@@ -323,6 +323,87 @@ Q3_CLASS_ENUMS ( kQ3ShapeTypeReference, E3Reference, E3Shared )
 public :
 
 	TQ3Uns32								instanceData ;
+	} ;
+	
+
+
+class E3CameraPlacement : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3CameraPlacment, E3CameraPlacement, OpaqueTQ3Object )
+public :
+
+	TQ3CameraPlacement						instanceData ;
+	} ;
+	
+
+
+class E3CameraRange : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3CameraRange, E3CameraRange, OpaqueTQ3Object )
+public :
+
+	TQ3CameraRange							instanceData ;
+	} ;
+	
+
+
+class E3CameraViewPort : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3CameraViewPort, E3CameraViewPort, OpaqueTQ3Object )
+public :
+
+	TQ3CameraViewPort						instanceData ;
+	} ;
+	
+
+
+class E3LightData : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+	// N.B. In QuickDraw3D, this sub object's ID was 'lght', the same as the Light object. Messy!
+	// Here we use 'lida' instead and have a stick plaster elsewhere to map between 'lght' and 'lida'
+Q3_CLASS_ENUMS ( kQ3LightData, E3LightData, OpaqueTQ3Object )
+public :
+
+	TQ3LightData							instanceData ;
+	} ;
+	
+
+
+class E3ImageClearColour : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3ImageClearColour, E3ImageClearColour, OpaqueTQ3Object )
+public :
+
+	TQ3ColorARGB						instanceData ;
+	} ;
+	
+
+
+class E3ImageDimensions : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3ImageDimensions, E3ImageDimensions, OpaqueTQ3Object )
+public :
+
+	TQ3Uns32							width ;
+	TQ3Uns32							height ;
 	} ;
 	
 
@@ -1396,7 +1477,7 @@ e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	#pragma unused(data)
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = & ( (E3AttibuteSetList*) object )->instanceData ;
+	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = & ( (E3AttributeSetList*) object )->instanceData ;
 	TQ3Size size = 0;
 	TQ3Uns32* dataToWrite;
 	TQ3Uns32 i,j;
@@ -1549,7 +1630,7 @@ e3fformat_3dmf_geomattributesetlist_read(TQ3FileObject theFile)
 	
 	if(theObject){
 	
-		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttibuteSetList*) theObject )->instanceData ) != kQ3Success)
+		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttributeSetList*) theObject )->instanceData ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -1597,7 +1678,7 @@ e3fformat_3dmf_faceattributesetlist_read(TQ3FileObject theFile)
 	
 	if(theObject){
 	
-		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttibuteSetList*) theObject )->instanceData ) != kQ3Success)
+		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttributeSetList*) theObject )->instanceData ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -1645,7 +1726,7 @@ e3fformat_3dmf_vertexattributesetlist_read(TQ3FileObject theFile)
 	
 	if(theObject){
 	
-		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttibuteSetList*) theObject )->instanceData ) != kQ3Success)
+		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttributeSetList*) theObject )->instanceData ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -1999,6 +2080,253 @@ e3fformat_3dmf_attributearray_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3fformat_3dmf_cameraplacement_read : Camera placement read object method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_cameraplacement_read  ( TQ3FileObject theFile )
+	{
+	TQ3CameraPlacement instanceData ;
+	
+	Q3Point3D_Read ( &instanceData.cameraLocation, theFile ) ;
+	Q3Point3D_Read ( &instanceData.pointOfInterest, theFile ) ;
+	Q3Vector3D_Read ( &instanceData.upVector, theFile ) ;
+	
+	// Create the object and return it
+	return E3ClassTree::CreateInstance ( kQ3CameraPlacment, kQ3False, &instanceData ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_cameraplacemnt_metahandler : Camera placement metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3fformat_3dmf_cameraplacement_metahandler ( TQ3XMethodType methodType )
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectRead:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_cameraplacement_read ;
+
+//		case kQ3XMethodTypeObjectTraverse:
+//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		}
+
+	return NULL ;
+	}
+
+
+//=============================================================================
+//      e3fformat_3dmf_camerarange_read : Camera range read object method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_camerarange_read  ( TQ3FileObject theFile )
+	{
+	TQ3CameraRange instanceData ;
+	
+	Q3Float32_Read ( &instanceData.hither, theFile ) ;
+	Q3Float32_Read ( &instanceData.yon, theFile ) ;
+	
+	// Create the object and return it
+	return E3ClassTree::CreateInstance ( kQ3CameraRange, kQ3False, &instanceData ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_camerarange_metahandler : Camera range metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3fformat_3dmf_camerarange_metahandler ( TQ3XMethodType methodType )
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectRead:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_camerarange_read ;
+
+//		case kQ3XMethodTypeObjectTraverse:
+//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		}
+
+	return NULL ;
+	}
+
+
+//=============================================================================
+//      e3fformat_3dmf_cameraviewport_read : Camera range read object method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_cameraviewport_read  ( TQ3FileObject theFile )
+	{
+	TQ3CameraViewPort instanceData ;
+	
+	Q3Point2D_Read ( &instanceData.origin, theFile ) ;
+	Q3Float32_Read ( &instanceData.width, theFile ) ;
+	Q3Float32_Read ( &instanceData.height, theFile ) ;
+	
+	// Create the object and return it
+	return E3ClassTree::CreateInstance ( kQ3CameraViewPort, kQ3False, &instanceData ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_camerarange_metahandler : Camera range metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3fformat_3dmf_cameraviewport_metahandler ( TQ3XMethodType methodType )
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectRead:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_cameraviewport_read ;
+
+//		case kQ3XMethodTypeObjectTraverse:
+//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		}
+
+	return NULL ;
+	}
+
+
+//=============================================================================
+//      e3fformat_3dmf_imageclearcolour_read : Light data read object method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_imageclearcolour_read  ( TQ3FileObject theFile )
+	{
+	TQ3ColorARGB instanceData ;
+	
+	Q3Float32_Read ( &instanceData.a, theFile ) ;
+	Q3Float32_Read ( &instanceData.r, theFile ) ;
+	Q3Float32_Read ( &instanceData.g, theFile ) ;
+	Q3Float32_Read ( &instanceData.b, theFile ) ;
+	
+	// Create the object and return it
+	return E3ClassTree::CreateInstance ( kQ3ImageClearColour, kQ3False, &instanceData ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_imageclearcolour_metahandler : Light data metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3fformat_3dmf_imageclearcolour_metahandler ( TQ3XMethodType methodType )
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectRead:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_imageclearcolour_read ;
+
+//		case kQ3XMethodTypeObjectTraverse:
+//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		}
+
+	return NULL ;
+	}
+
+
+//=============================================================================
+//      e3fformat_3dmf_imagedimensions_read : Light data read object method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_imagedimensions_read  ( TQ3FileObject theFile )
+	{
+	struct TempStruct
+		{
+		TQ3Uns32	width ;
+		TQ3Uns32	height ;
+		} ;
+		
+	TempStruct instanceData ;
+	
+	Q3Uns32_Read ( &instanceData.width, theFile ) ;
+	Q3Uns32_Read ( &instanceData.height, theFile ) ;
+	
+	// Create the object and return it
+	return E3ClassTree::CreateInstance ( kQ3ImageDimensions, kQ3False, &instanceData ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_imagedimensions_metahandler : Light data metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3fformat_3dmf_imagedimensions_metahandler ( TQ3XMethodType methodType )
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectRead:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_imagedimensions_read ;
+
+//		case kQ3XMethodTypeObjectTraverse:
+//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		}
+
+	return NULL ;
+	}
+
+
+//=============================================================================
+//      e3fformat_3dmf_lightdata_read : Light data read object method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_lightdata_read  ( TQ3FileObject theFile )
+	{
+	TQ3LightData instanceData ;
+	
+	Q3Int32_Read ( (TQ3Int32*) &instanceData.isOn, theFile ) ;
+	Q3Float32_Read ( &instanceData.brightness, theFile ) ;
+	Q3Float32_Read ( &instanceData.color.r, theFile ) ;
+	Q3Float32_Read ( &instanceData.color.g, theFile ) ;
+	Q3Float32_Read ( &instanceData.color.b, theFile ) ;
+	
+	// Create the object and return it
+	return E3ClassTree::CreateInstance ( kQ3LightData, kQ3False, &instanceData ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_camerarange_metahandler : Light data metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3fformat_3dmf_lightdata_metahandler ( TQ3XMethodType methodType )
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectRead:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_lightdata_read ;
+
+//		case kQ3XMethodTypeObjectTraverse:
+//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		}
+
+	return NULL ;
+	}
+
+
+//=============================================================================
 //      e3fformat_3dmf_endgroup_read : EndGroup read object method.
 //-----------------------------------------------------------------------------
 //		Note : nothing to read, just create the object as marker
@@ -2073,7 +2401,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameAttributeSetList,
 											e3fformat_3dmf_attributesetlist_metahandler,
-											E3AttibuteSetList ) ;
+											E3AttributeSetList ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameAttributeSetListGeometry,
@@ -2147,6 +2475,42 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameShaderUVTransform,
 											e3fformat_3dmf_shaderuvtransform_metahandler,
 											E3ShaderUVTransform ) ;
+
+
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameCameraPlacment,
+											e3fformat_3dmf_cameraplacement_metahandler,
+											E3CameraPlacement ) ;
+
+
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameCameraRange,
+											e3fformat_3dmf_camerarange_metahandler,
+											E3CameraRange ) ;
+
+
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameCameraViewPort,
+											e3fformat_3dmf_cameraviewport_metahandler,
+											E3CameraViewPort ) ;
+
+
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameImageClearColour,
+											e3fformat_3dmf_imageclearcolour_metahandler,
+											E3ImageClearColour ) ;
+
+
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameImageDimensions,
+											e3fformat_3dmf_imagedimensions_metahandler,
+											E3ImageDimensions ) ;
+
+
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameLightData,
+											e3fformat_3dmf_lightdata_metahandler,
+											E3LightData ) ;
 
 
 	// Register the end group class
@@ -2634,7 +2998,7 @@ E3FFormat_3DMF_MeshEdges_Assign(TQ3Object theMeshEdges, TQ3GeometryObject theMes
 TQ3AttributeSet
 E3FFormat_3DMF_AttributeSetList_Get(TQ3Object theAttributeSetList, TQ3Uns32 index)
 {
-	TE3FFormat3DMF_AttributeSetList_Data* instanceData = & ( (E3AttibuteSetList*) theAttributeSetList )->instanceData ;
+	TE3FFormat3DMF_AttributeSetList_Data* instanceData = & ( (E3AttributeSetList*) theAttributeSetList )->instanceData ;
 	
 	TQ3AttributeSet result = NULL;
 	
@@ -2658,7 +3022,7 @@ TQ3Status
 E3FFormat_3DMF_AttributeSetList_Set(TQ3Object theAttributeSetList,
 										TQ3Uns32 index, TQ3AttributeSet theAttributeSet)
 {
-	TE3FFormat3DMF_AttributeSetList_Data* instanceData = & ( (E3AttibuteSetList*) theAttributeSetList )->instanceData ;
+	TE3FFormat3DMF_AttributeSetList_Data* instanceData = & ( (E3AttributeSetList*) theAttributeSetList )->instanceData ;
 	Q3_REQUIRE_OR_RESULT(instanceData != NULL,kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(instanceData->attributeSetCounter != 0,kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(instanceData->attributeSetCounter > index,kQ3Failure);
@@ -2686,7 +3050,7 @@ E3FFormat_3DMF_FaceAttributeSetList_New(TQ3Size size)
 	
 	if(theObject){
 	
-		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttibuteSetList*) theObject )->instanceData, size ) != kQ3Success)
+		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttributeSetList*) theObject )->instanceData, size ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -2712,7 +3076,7 @@ E3FFormat_3DMF_VertexAttributeSetList_New(TQ3Size size)
 	
 	if(theObject){
 	
-		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttibuteSetList*) theObject )->instanceData, size ) != kQ3Success)
+		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttributeSetList*) theObject )->instanceData, size ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -2738,7 +3102,7 @@ E3FFormat_3DMF_GeomAttributeSetList_New(TQ3Size size)
 	
 	if(theObject){
 	
-		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttibuteSetList*) theObject )->instanceData, size ) != kQ3Success)
+		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttributeSetList*) theObject )->instanceData, size ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;

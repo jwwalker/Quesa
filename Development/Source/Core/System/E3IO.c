@@ -218,6 +218,9 @@ E3File_RegisterClass()
 		qd3dStatus = E3Unknown_RegisterClass ();
 
 	if(qd3dStatus == kQ3Success)
+		qd3dStatus = E3ViewHints_RegisterClass ();
+
+	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3FileFormat_RegisterClass ();
 
 	return(qd3dStatus);

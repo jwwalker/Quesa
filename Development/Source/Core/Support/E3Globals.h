@@ -252,6 +252,12 @@ extern "C" {
 #define kQ3ClassNameReference						"Reference"
 #define kQ3ClassNameType							"Type"
 #define kQ3ClassNameViewHint						"ViewHint"
+#define kQ3ClassNameCameraPlacment					"CameraPlacement"
+#define kQ3ClassNameCameraRange						"CameraRange"
+#define kQ3ClassNameCameraViewPort					"CameraViewPort"
+#define kQ3ClassNameLightData						"LightData"
+#define kQ3ClassNameImageClearColour				"ImageClearColor"
+#define kQ3ClassNameImageDimensions					"ImageDimensions"
 
 
 // Class types
@@ -310,6 +316,12 @@ extern "C" {
 #define kQ3AttributeSetTypeFaceCap					Q3_OBJECT_TYPE('f', 'c', 'a', 's')
 #define kQ3AttributeSetTypeInteriorCap				Q3_OBJECT_TYPE('i', 'c', 'a', 's')
 #define kQ3AttributeSetTypeTopCap					Q3_OBJECT_TYPE('t', 'c', 'a', 's')
+#define kQ3CameraPlacment							Q3_OBJECT_TYPE('c', 'm', 'p', 'l')
+#define kQ3CameraRange								Q3_OBJECT_TYPE('c', 'm', 'r', 'g')
+#define kQ3CameraViewPort							Q3_OBJECT_TYPE('c', 'm', 'v', 'p')
+#define kQ3ImageClearColour							Q3_OBJECT_TYPE('i', 'm', 'c', 'c')
+#define kQ3ImageDimensions							Q3_OBJECT_TYPE('i', 'm', 'd', 'm')
+#define kQ3LightData								Q3_OBJECT_TYPE('l', 'i', 'd', 'a')
 #define kQ3ObjectTypeAttributeArray					Q3_OBJECT_TYPE('a', 't', 'a', 'r')
 #define kQ3ObjectTypeAttributeSetList				Q3_OBJECT_TYPE('r', 'a', 's', 'l')
 #define kQ3ObjectTypeAttributeSetListFace			Q3_OBJECT_TYPE('f', 'a', 's', 'l')
