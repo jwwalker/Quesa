@@ -61,7 +61,7 @@
 #include "E3Prefix.h"
 
 #include <Memory.h>
-#include <Types.h>
+#include <MacTypes.h>
 #include <Gestalt.h>
 
 #include <pool_alloc.h>
