@@ -171,6 +171,8 @@ Q3_CLASS_ENUMS ( kQ3ShapeTypeGroup, E3Group, E3ShapeData )
 		
 public :
 
+	static TQ3Boolean						IsOfMyClass ( TQ3Object object ) ;
+	
 	E3GroupInfo*							GetClass ( void ) { return (E3GroupInfo*) OpaqueTQ3Object::GetClass () ; }
 
 	TQ3XGroupPosition*						createPosition ( TQ3Object object ) ;
