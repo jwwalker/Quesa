@@ -136,15 +136,31 @@ e3drawcontext_pixmap_update(TQ3DrawContextObject theDrawContext)
 	instanceData->drawRegions[0].deviceScaleY            = (float) thePixmap->height;
 	instanceData->drawRegions[0].windowScaleX            = (float) thePixmap->width;
 	instanceData->drawRegions[0].windowScaleY            = (float) thePixmap->height;
+	instanceData->drawRegions[0].theDescriptor.width		 = thePixmap->width ;
+	instanceData->drawRegions[0].theDescriptor.height		 = thePixmap->height;
 	instanceData->drawRegions[0].theDescriptor.rowBytes	 = thePixmap->rowBytes;
 	instanceData->drawRegions[0].theDescriptor.pixelSize = thePixmap->pixelSize;
 	instanceData->drawRegions[0].theDescriptor.pixelType = pixelType;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.redShift	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.redMask	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenShift	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenMask	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.blueShift	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.blueMask	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.alphaShift	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.alphaMask	 = ???;
 	instanceData->drawRegions[0].theDescriptor.bitOrder	 = thePixmap->bitOrder;
 	instanceData->drawRegions[0].theDescriptor.byteOrder = thePixmap->byteOrder;
+	instanceData->drawRegions[0].theDescriptor.clipMask = NULL;
 	instanceData->drawRegions[0].imageBuffer             = thePixmap->image;
 	instanceData->drawRegions[0].isActive                = kQ3True;
 	instanceData->drawRegions[0].clipMaskState           = kQ3XClipMaskFullyExposed;
 
+	// clear the DrawContext
+	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor){
+		NULL;
+		}
+		
 
 
 	// Update the state flag
