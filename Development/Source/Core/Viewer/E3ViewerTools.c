@@ -413,7 +413,11 @@ OSPopupMenuSelect (TQ3Rect* r, TQ3Int32 id)
 		return result;
 		}
 	else
-		SysBeep (30);
+		{
+		// unable to locate the menu, or no rect given,
+		// so we can't do the menu select.
+		//SysBeep (30);
+		}
 #else
 	#pragma unused (id, r)
 #endif
