@@ -204,6 +204,13 @@ qut_about_proc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 
+static void qut_update_fps_display()
+{
+	char	theFPS[100];
+	sprintf( theFPS, "FPS: %.2f", gFPS );
+	SetWindowText( (HWND)gWindow, theFPS );
+}
+
 
 
 
@@ -233,7 +240,7 @@ qut_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				   break;
 
 				case IDM_EXIT:
-				   DestroyWindow(hWnd);
+				   PostQuitMessage(0);
 				   break;
 
 				case IDM_STYLE_SHADER_NULL:
@@ -348,25 +355,14 @@ qut_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 
 
-		case WM_DESTROY:
+		case WM_CLOSE:
 			PostQuitMessage(0);
 			break;
 
 
 		case WM_TIMER:
+			qut_update_fps_display();
 			Qut_RenderFrame();
-			break;
-
-
-		case WM_SIZE:
-			qut_get_window_size((HWND) gWindow, &thePane);
-			
-			Q3View_GetDrawContext(gView, &theDrawContext);
-			if (theDrawContext != NULL)
-				{
-				Q3DrawContext_SetPane(theDrawContext, &thePane);
-				Q3Object_Dispose(theDrawContext);
-				}
 			break;
 
 
@@ -596,11 +592,11 @@ Qut_CreateDrawContext(void)
 		{
 		// Fill in the draw context data
 		winDrawContextData.drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
-		winDrawContextData.drawContextData.clearImageColor.a = 0.0f;
+		winDrawContextData.drawContextData.clearImageColor.a = 1.0f;
 		winDrawContextData.drawContextData.clearImageColor.r = 1.0f;
 		winDrawContextData.drawContextData.clearImageColor.g = 1.0f;
 		winDrawContextData.drawContextData.clearImageColor.b = 1.0f;
-		winDrawContextData.drawContextData.paneState         = kQ3True;
+		winDrawContextData.drawContextData.paneState         = kQ3False;
 		winDrawContextData.drawContextData.maskState		 = kQ3False;	
 		winDrawContextData.drawContextData.doubleBufferState = kQ3True;
 		}
