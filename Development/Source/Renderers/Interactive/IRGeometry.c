@@ -1893,18 +1893,17 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 					TQ3InteractiveData		*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3TriMeshData			*geomData)
-{	TQ3ColorRGB					*theColour, *edgeColours, *triColours, *vertexColours;
+{	TQ3Boolean					hasHilightColour, canTexture, backFaceGL, backFaceQuesa;
+	TQ3ColorRGB					*theColour, *edgeColours, *triColours, *vertexColours;
 	TQ3Vector3D					*triNormals, *vertexNormals, theNormal;
+	TQ3TriMeshTriangleData		*triangleList, tmpTriangleList;
 	TQ3Boolean					*triHilightState;
 	TQ3ColorRGB					theHilightColour;
 	TQ3AttributeSet				geomAttributes;
-	TQ3TriMeshTriangleData		*triangleList;
+	TQ3Uns32					n, thePath;
 	TQ3Param2D					*vertexUVs;
 	TQ3Status					qd3dStatus;
-	TQ3Boolean					hasHilightColour;
-	TQ3Boolean					canTexture;
 	TQ3TriMeshEdgeData			*edgeList;
-	TQ3Uns32					n;
 #pragma unused(theGeom)
 
 
@@ -2161,14 +2160,14 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 		//		NULL		NULL			NULL				vertexNormals		1
 		if ((vertexColours != NULL && vertexNormals != NULL) ||
 		    (triColours    == NULL && vertexNormals != NULL))
-		    n = 1;
+		    thePath = 1;
 
 
 		// Path 4:
 		//		triColours	NULL			NULL				vertexNormals		4
 		//		triColours	triNormals		NULL				vertexNormals		4
 		else if (vertexNormals != NULL)
-			n = 4;
+			thePath = 4;
 
 
 		// Path 3:
@@ -2177,13 +2176,13 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 		//		NULL		triNormals		NULL				NULL				3
 		else if ((triNormals != NULL && vertexColours != NULL) ||
 				 (triColours == NULL && triNormals    != NULL))
-			n = 3;
+			thePath = 3;
 
 
 		// Path 2:
 		//		triColours	triNormals		NULL				NULL				2
 		else if (triNormals != NULL)
-			n = 2;
+			thePath = 2;
 
 
 		// Path 6:
@@ -2192,45 +2191,92 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 		//		NULL		NULL			NULL				NULL				6
 		else if (vertexColours != NULL ||
 				 triColours    == NULL)
-			n = 6;
+			thePath = 6;
 
 
 		// Path 5:
 		//		triColours	NULL			NULL				NULL				5
 		else 
 			{
-			n = 5;
+			thePath = 5;
 			Q3_ASSERT(triColours != NULL && triNormals == NULL && vertexColours == NULL && vertexNormals == NULL);
 			}
 
 
 
+		// Then handle each case in turn
+		//
+		// Note that this code is slightly verbose, in that the basic division is duplicated
+		// to handle hilighted triangles. These should be consolidated into one when we switch
+		// to a copy-on-write model for the TriMesh attributes to correctly handle inheritance
+		// as the hilight colours can be applied as part of the inheritance copying (which
+		// will simplify the path to getting the data to OpenGL).
+		triangleList  = geomData->triangles;
 		if (triHilightState == NULL || hasHilightColour == kQ3False)
 			{
-			// Then handle each case in turn
-			triangleList  = geomData->triangles;
-			switch (n) {
+			switch (thePath) {
 				case 1:
-					// Draw trimesh using single call and vertex arrays
-					glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, triangleList);
-					break;
-				
 				case 2:
-					// Draw triangles, specify triangle normals and triangle colours
-					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
-						{
-						glColor3fv( (const GLfloat *) (triColours + n));
-						glNormal3fv((const GLfloat *) (triNormals + n));
-						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
-						}
-					break;
-				
 				case 3:
-					// Draw triangles, specify triangle normals
-					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+					// If we're not doing back-face removal, take the simple case
+					if (instanceData->stateBackfacing == kQ3BackfacingStyleBoth || thePath == 1)
 						{
-						glNormal3fv((const GLfloat *) (triNormals + n));
-						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+						// Draw in one go
+						if (thePath == 1)
+							glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, triangleList);
+						
+						// Or draw individual triangles
+						else
+							{
+							for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+								{
+								if (thePath == 2)
+									glColor3fv((const GLfloat *) (triColours + n));
+								glNormal3fv((const GLfloat *) (triNormals + n));
+								glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+								}
+							}
+						}
+					
+					
+					// Otherwise submit each triangle in turn, to handle flipping
+					else
+						{
+						for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+							{
+							// Set up the colour/normal
+							if (thePath == 2)
+								glColor3fv((const GLfloat *) (triColours + n));
+							
+							if (thePath == 2 || thePath == 3)
+								glNormal3fv((const GLfloat *) (triNormals + n));
+
+
+							// Calculate triangle normals
+							Q3Point3D_CrossProductTri(&geomData->points[triangleList->pointIndices[0]],
+													  &geomData->points[triangleList->pointIndices[1]],
+													  &geomData->points[triangleList->pointIndices[2]],
+													  &theNormal);
+							Q3Vector3D_Normalize(&theNormal, &theNormal);
+
+
+							// Calculate OpenGL's and QD3D's backfacing normals. OpenGL back-facing depends
+							// on CW/CCW vertex direction, QD3D depends on the assigned face normal.
+							backFaceGL    = (Q3Vector3D_Dot(&theNormal,     &instanceData->stateLocalCameraViewVector) < 0.0f);
+							backFaceQuesa = (Q3Vector3D_Dot(&triNormals[n], &instanceData->stateLocalCameraViewVector) < 0.0f);
+
+
+							// Reverse the vertex indices if the don't match OpenGL's idea of back-facing
+							if (backFaceGL != backFaceQuesa)
+								{
+								tmpTriangleList.pointIndices[0] = triangleList->pointIndices[2];
+								tmpTriangleList.pointIndices[1] = triangleList->pointIndices[1];
+								tmpTriangleList.pointIndices[2] = triangleList->pointIndices[0];
+								glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &tmpTriangleList);
+								}
+							else
+								glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+							}
 						}
 					break;
 					
@@ -2282,49 +2328,97 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 			}
 		else
 			{
-
-			// Then handle each case in turn
-			triangleList  = geomData->triangles;
-			switch (n) {
+			switch (thePath) {
 				case 1:
-					// Draw trimesh using single call and vertex arrays
-					glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, triangleList);
-					break;
-					
 				case 2:
-					// Draw triangles, specify triangle normals and triangle colours
-					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
-						{
-						if (triHilightState[n])
-							glColor3fv((const GLfloat *)&theHilightColour);
-						else
-							glColor3fv( (const GLfloat *) (triColours + n));
-						glNormal3fv((const GLfloat *) (triNormals + n));
-						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
-						}
-					break;
-					
 				case 3:
-					// Draw triangles, specify triangle normals
-					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+					// If we're not doing back-face removal, take the simple case
+					if (instanceData->stateBackfacing == kQ3BackfacingStyleBoth || thePath == 1)
 						{
-						if (triHilightState[n])
-							glColor3fv((const GLfloat *)&theHilightColour);
+						// Draw in one go
+						if (thePath == 1)
+							glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, triangleList);
+						
+						// Or draw individual triangles
 						else
-							glNormal3fv((const GLfloat *) (triNormals + n));
-						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+							{
+							for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+								{
+								if (triHilightState[n])
+									glColor3fv((const GLfloat *) &theHilightColour);
+								else
+									{
+									if (thePath == 2)
+										glColor3fv((const GLfloat *) (triColours + n));
+									else
+										glColor3fv((const GLfloat *) theColour);
+									}
+									
+								glNormal3fv((const GLfloat *) (triNormals + n));
+								glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+								}
+							}
+						}
+					
+					
+					// Otherwise submit each triangle in turn, to handle flipping
+					else
+						{
+						for (n = 0; n < geomData->numTriangles; n++, triangleList++)
+							{
+							// Set up the colour/normal
+							if (triHilightState[n])
+								glColor3fv((const GLfloat *) &theHilightColour);
+							else
+								{
+								if (thePath == 2)
+									glColor3fv((const GLfloat *) (triColours + n));
+								else
+									glColor3fv((const GLfloat *) theColour);
+								}
+							
+							if (thePath == 2 || thePath == 3)
+								glNormal3fv((const GLfloat *) (triNormals + n));
+
+
+							// Calculate triangle normals
+							Q3Point3D_CrossProductTri(&geomData->points[triangleList->pointIndices[0]],
+													  &geomData->points[triangleList->pointIndices[1]],
+													  &geomData->points[triangleList->pointIndices[2]],
+													  &theNormal);
+							Q3Vector3D_Normalize(&theNormal, &theNormal);
+
+
+							// Calculate OpenGL's and QD3D's backfacing normals. OpenGL back-facing depends
+							// on CW/CCW vertex direction, QD3D depends on the assigned face normal.
+							backFaceGL    = (Q3Vector3D_Dot(&theNormal,     &instanceData->stateLocalCameraViewVector) < 0.0f);
+							backFaceQuesa = (Q3Vector3D_Dot(&triNormals[n], &instanceData->stateLocalCameraViewVector) < 0.0f);
+
+
+							// Reverse the vertex indices if the don't match OpenGL's idea of back-facing
+							if (backFaceGL != backFaceQuesa)
+								{
+								tmpTriangleList.pointIndices[0] = triangleList->pointIndices[2];
+								tmpTriangleList.pointIndices[1] = triangleList->pointIndices[1];
+								tmpTriangleList.pointIndices[2] = triangleList->pointIndices[0];
+								glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &tmpTriangleList);
+								}
+							else
+								glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
+							}
 						}
 					break;
-					
+
 				case 4:
 					// Draw triangles, specify triangle colours (must have vertex normals)
 					Q3_ASSERT(vertexNormals != NULL);
 					for (n = 0; n < geomData->numTriangles; n++, triangleList++)
 						{
 						if (triHilightState[n])
-							glColor3fv((const GLfloat *)&theHilightColour);
+							glColor3fv((const GLfloat *) &theHilightColour);
 						else
-							glColor3fv( (const GLfloat *) (triColours + n));
+							glColor3fv((const GLfloat *) (triColours + n));
+
 						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
 						}
 					break;
@@ -2340,9 +2434,10 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 						Q3Vector3D_Normalize (&theNormal, &theNormal);
 		
 						if (triHilightState[n])
-							glColor3fv((const GLfloat *)&theHilightColour);
+							glColor3fv((const GLfloat *) &theHilightColour);
 						else
-							glColor3fv( (const GLfloat *) (triColours + n));
+							glColor3fv((const GLfloat *) (triColours + n));
+
 						glNormal3fv((const GLfloat *) &theNormal);
 						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
 						}
@@ -2358,9 +2453,12 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 												  &theNormal);
 						Q3Vector3D_Normalize (&theNormal, &theNormal);
 		
-						glNormal3fv((const GLfloat *) &theNormal);
 						if (triHilightState[n])
-							glColor3fv((const GLfloat *)&theHilightColour);
+							glColor3fv((const GLfloat *) &theHilightColour);
+						else
+							glColor3fv((const GLfloat *) theColour);
+
+						glNormal3fv((const GLfloat *) &theNormal);
 						glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, triangleList);
 						}
 					break;
