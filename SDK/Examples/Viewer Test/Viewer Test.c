@@ -256,7 +256,21 @@ App_Initialise(void)
 	// Create the viewer
 	area.min.x = area.min.y = 0.0f;
 	area.max.x = area.max.y = 300.0f;
-	gViewer = Q3Viewer_New( GetWindowPort((WindowRef)Qut_GetWindow()), &area, kQ3ViewerFlagDefault );
+	gViewer = Q3Viewer_New( GetWindowPort((WindowRef)Qut_GetWindow()), &area, 
+				kQ3ViewerFlagButtonCamera
+			  | kQ3ViewerFlagButtonTruck
+			  | kQ3ViewerFlagButtonOrbit
+			  | kQ3ViewerFlagButtonZoom
+			  | kQ3ViewerFlagButtonDolly
+			  | kQ3ViewerFlagButtonReset
+			  | kQ3ViewerFlagButtonOptions
+			  | kQ3ViewerFlagDragMode
+			  | kQ3ViewerFlagDrawFrame
+			  | kQ3ViewerFlagDrawGrowBox
+			  | kQ3ViewerFlagDrawDragBorder
+			  | kQ3ViewerFlagShowControlStrip
+			  | kQ3ViewerFlagOutputTextMode	
+				 );
 	if (gViewer != NULL)
 		{
 		Q3Viewer_UseGroup(gViewer, group);
