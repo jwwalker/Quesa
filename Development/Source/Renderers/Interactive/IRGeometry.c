@@ -373,9 +373,10 @@ ir_geom_cache_prim_add(TQ3ViewObject			theView,
 
 
 	// Set up the primitive state
-	thePrim->theType    = theType;
-	thePrim->theFlags   = theFlags;
-	thePrim->theTexture = instanceData->stateTextureObject;
+	thePrim->theType              = theType;
+	thePrim->theFlags             = theFlags;
+	thePrim->theTexture           = instanceData->stateTextureObject;
+	thePrim->textureIsTransparent = instanceData->stateTextureIsTransparent;
 
 
 
@@ -963,6 +964,12 @@ ir_geom_trimesh_is_transparent(TQ3InteractiveData		*instanceData,
 
 
 
+	// Check the current texture state
+	if (instanceData->stateTextureIsTransparent)
+		return(kQ3True);
+
+
+
 	// Check the current geometry state
 	theColour     = instanceData->stateGeomTransparencyColour;
 	isTransparent = (TQ3Boolean) (theColour->r != 1.0f ||
@@ -1210,16 +1217,26 @@ IRGeometry_FlushPrimCache(TQ3ViewObject				theView,
 
 
 
-		// Set up the blending mode, disabling writes to the z-buffer
+		// Enable blending and turn off writes to the z-buffer
 	    glEnable(GL_BLEND);
 		glDepthMask(GL_FALSE);
-	    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
 
 		// Draw the primitives
 		for (n = 0; n < instanceData->cachedPrimUsed; n++)
+			{
+			// Select the appropriate blend mode: the primitive is either
+			// transparent due to its texture, or due to vertex alpha.
+			if (instanceData->cachedPrims[n].textureIsTransparent)
+				glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+			else
+			    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+			// Render the primitive
 			ir_geom_cache_prim_render(&instanceData->cachedPrims[n]);
+			}
 
 
 
@@ -1312,7 +1329,8 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 
 
 	// Submit the triangle
-	ir_geom_submit_prim(theView, instanceData, kQ3PrimTriangle, kQ3False,
+	ir_geom_submit_prim(theView, instanceData, kQ3PrimTriangle,
+						instanceData->stateTextureIsTransparent,
 						triNormal,
 						thePoints,
 						theNormals,

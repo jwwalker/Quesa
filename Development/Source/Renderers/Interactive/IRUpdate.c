@@ -75,6 +75,59 @@ ir_state_is_power_of_2(TQ3Uns32 x)
 
 
 //=============================================================================
+//      ir_state_texture_pixel_type : Get the pixel type of a texture.
+//-----------------------------------------------------------------------------
+static TQ3PixelType
+ir_state_texture_pixel_type(TQ3TextureObject theTexture)
+{	TQ3Status				qd3dStatus;
+	TQ3StoragePixmap		thePixmap;
+	TQ3Mipmap				theMipmap;
+	TQ3PixelType			pixelType;
+	TQ3ObjectType			theType;
+
+
+
+	// Initialise ourselves
+	Q3Memory_Clear(&thePixmap, sizeof(thePixmap));
+	Q3Memory_Clear(&theMipmap, sizeof(theMipmap));
+
+
+
+	// Grab the pixel type
+	pixelType = kQ3PixelTypeUnknown;
+	theType   = Q3Texture_GetType(theTexture);
+	switch (theType) {
+		case kQ3TextureTypePixmap:
+			qd3dStatus = Q3PixmapTexture_GetPixmap(theTexture, &thePixmap);
+			if (qd3dStatus == kQ3Success)
+				pixelType = thePixmap.pixelType;
+			break;
+	
+		case kQ3TextureTypeMipmap:
+			qd3dStatus = Q3MipmapTexture_GetMipmap(theTexture, &theMipmap);
+			if (qd3dStatus == kQ3Success)
+				pixelType = theMipmap.pixelType;
+			break;
+
+		case kQ3TextureTypeCompressedPixmap:
+		default:
+			break;
+		}
+
+
+
+	// Clean up
+	E3Object_DisposeAndForget(thePixmap.image);
+	E3Object_DisposeAndForget(theMipmap.image);
+
+	return(pixelType);
+}
+
+
+
+
+
+//=============================================================================
 //      ir_state_texture_convert_pixmap : Convert a QD3D Pixmap texture.
 //-----------------------------------------------------------------------------
 //		Note :	The texture state has already been set - we just need to
@@ -103,15 +156,11 @@ ir_state_texture_convert_pixmap(TQ3TextureObject theTexture)
 
 
 	// Get the image data for the pixmap in a form that OpenGL can accept
-	basePtr = IRRenderer_Texture_ConvertImage(thePixmap.image, thePixmap.pixelType,
-												thePixmap.width,
-												thePixmap.height,
-												thePixmap.rowBytes,
-												thePixmap.byteOrder,
-												&theWidth,
-												&theHeight,
-												&rowBytes,
-												&glPixelType);
+	basePtr = IRRenderer_Texture_ConvertImage(thePixmap.image,    thePixmap.pixelType,
+											  thePixmap.width,    thePixmap.height,
+											  thePixmap.rowBytes, thePixmap.byteOrder,
+											  &theWidth,          &theHeight,
+											  &rowBytes,          &glPixelType);
 
 
 
@@ -184,14 +233,12 @@ ir_state_texture_convert_mipmap(TQ3TextureObject theTexture)
 
 	// Get the image data for the mipmap in a form that OpenGL can accept
 	basePtr = IRRenderer_Texture_ConvertImage(theMipmap.image, theMipmap.pixelType,
-												theMipmap.mipmaps[0].width,
-												theMipmap.mipmaps[0].height,
-												theMipmap.mipmaps[0].rowBytes,
-												theMipmap.byteOrder,
-												&theWidth,
-												&theHeight,
-												&rowBytes,
-												&glPixelType);
+											  theMipmap.mipmaps[0].width,
+											  theMipmap.mipmaps[0].height,
+											  theMipmap.mipmaps[0].rowBytes,
+											  theMipmap.byteOrder,
+											  &theWidth, &theHeight,
+											  &rowBytes, &glPixelType);
 
 
 
@@ -783,6 +830,7 @@ ir_state_reset(TQ3InteractiveData *instanceData)
 	instanceData->stateCurrentSpecularControl = -1.0f;
 	instanceData->stateTextureActive          = kQ3False;
 	instanceData->stateTextureObject          = 0;
+	instanceData->stateTextureIsTransparent   = kQ3False;
 	instanceData->stateTextureForceWhite      = kQ3False;
 
     instanceData->stateGeomDiffuseColour      = &instanceData->stateDefaultDiffuseColour;
@@ -2349,6 +2397,7 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 							 		TQ3ShaderObject		*shaderData)
 {	TQ3TextureObject	theTexture;
 	TQ3Status			qd3dStatus;
+	TQ3PixelType		pixelType;
 	TQ3ObjectType		theType;
 
 
@@ -2374,7 +2423,13 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 	instanceData->stateTextureActive = (TQ3Boolean) (theTexture != NULL);
 	if (!instanceData->stateTextureActive)
 		{
-		instanceData->stateTextureObject = 0;
+		// Reset our state
+		instanceData->stateTextureObject        = 0;
+		instanceData->stateTextureIsTransparent = kQ3False;
+
+
+		// Disable the texture
+		glDisable(GL_ALPHA_TEST);
 		glDisable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, instanceData->stateTextureObject);
 		}
@@ -2398,7 +2453,26 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 		// Enable the texture object
 		if (qd3dStatus == kQ3Success)
 			{
-			instanceData->stateTextureObject = (GLuint) theTexture;
+			// Adjust our state.
+			//
+			// If the texture has 8 bits of alpha we need to set our transparency flag, so that
+			// any further geometry will be added to the transparency cache to be sorted and
+			// submitted at the end.
+			//
+			// If the texture has a single bit of alpha, we enable the alpha test. No sorting
+			// is needed, as the alpha is a simple on/off test.
+			pixelType = ir_state_texture_pixel_type(theTexture);
+			instanceData->stateTextureObject        = (GLuint) theTexture;
+			instanceData->stateTextureIsTransparent = (pixelType == kQ3PixelTypeARGB32);
+
+			if (pixelType == kQ3PixelTypeARGB16)
+				{
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.5f);
+				}
+
+
+			// Enable the texture
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, instanceData->stateTextureObject);
 			}

@@ -72,6 +72,7 @@ typedef struct TQ3CachedPrim {
 	TQ3PrimType				theType;
 	TQ3PrimFlags			theFlags;
 	GLuint					theTexture;
+	TQ3Boolean				textureIsTransparent;
 	float					zMin;
 	float					zMax;
 
@@ -135,6 +136,7 @@ typedef struct TQ3InteractiveData {
 	float					stateCurrentSpecularControl;
 	TQ3Boolean				stateTextureActive;
 	GLuint					stateTextureObject;
+	TQ3Boolean				stateTextureIsTransparent;
 	TQ3Boolean				stateTextureForceWhite;
 
 	TQ3ColorRGB				*stateGeomDiffuseColour;
