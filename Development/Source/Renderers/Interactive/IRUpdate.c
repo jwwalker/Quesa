@@ -151,6 +151,32 @@ IRRenderer_State_EndPass(TQ3InteractiveData *instanceData)
 
 
 //=============================================================================
+//      IRRenderer_SpecularControl_to_GLshininess : Map Quesa specular control to OpenGL shininess.
+//-----------------------------------------------------------------------------
+//		This function was arrived at heuristically, but notice several properties:
+//		1. as long as specularControl >= 0, shininess >= 0.
+//		2. as specularControl increases, shininess increases.
+//		3. as specularControl tends to infinity, shininess approaches 128 (the maximum
+//		allowed by OpenGL).
+GLfloat
+IRRenderer_SpecularControl_to_GLshininess( float specularControl )
+{
+	GLfloat		shininess;
+	
+	if (specularControl < 0.0f)
+		specularControl = 0.0f;
+
+
+	shininess = 128.0f - (20.0f * 128.0f)/(specularControl + 20.0f);
+	
+	return shininess;
+}
+
+
+
+
+
+//=============================================================================
 //      IRRenderer_State_AdjustGL : Adjust the OpenGL state for a geometry.
 //-----------------------------------------------------------------------------
 //		Note :	Although QD3D allows us to specify some attributes at a
@@ -194,16 +220,7 @@ IRRenderer_State_AdjustGL(TQ3InteractiveData *instanceData)
 			instanceData->stateCurrentSpecularControl = instanceData->stateGeomSpecularControl;
 			specularControl                           = instanceData->stateCurrentSpecularControl;
 			
-			if (specularControl < 0.0f)
-				specularControl = 0.0f;
-
-
-			// This function was arrived at heuristically, but notice several properties:
-			// 1. as long as specularControl >= 0, shininess >= 0.
-			// 2. as specularControl increases, shininess increases.
-			// 3. as specularControl tends to infinity, shininess approaches 128 (the maximum
-			//    allowed by OpenGL).
-			shininess = 128.0f - (20.0f * 128.0f)/(specularControl + 20.0f);
+			shininess = IRRenderer_SpecularControl_to_GLshininess( specularControl );
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
 			}
 		}
