@@ -274,7 +274,7 @@ e3_interesting_knots( float * inKnots, unsigned long numPoints, unsigned long or
 	stop = 1;
 	n = 1;
 	
-	while ( true ) {
+	while ( kQ3True ) {
 		while ( stop < numPoints + 1 && inKnots[start] == inKnots[stop] )
 			stop++;
 		if ( stop < numPoints + 1 ) {
