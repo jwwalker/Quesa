@@ -888,18 +888,27 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 	TQ3Int32			selection = 0;
 	TQ3Int32			selectedMenu = 0;
 	TQ3Status			status;
-	TQ3Area				rect;
 	TQ3Boolean			option;
 	TQ3ObjectType		rendererTypes[kMaxRenderers];
 	TQ3Uns32			rendererCount = 0;
 	TQ3ObjectType		currentRenderer = 0L;
-
 	#if QUESA_OS_MACINTOSH
+	MenuHandle			rendererMenu;
 	MenuHandle			optionsMenu;
 	MenuHandle			lightsMenu;
-	MenuHandle			rendererMenu;
 	short				oldResFile = CurResFile();
+	TQ3Area				rect;
+	#endif
 
+
+
+	// Get the current and available renderers
+	e3viewer_getRendererList(rendererTypes, &rendererCount);
+	status = E3Viewer_GetRendererType(theViewer, &currentRenderer);
+
+
+
+	#if QUESA_OS_MACINTOSH
 	if (!view) return;
 	if (gShlbResFile) UseResFile(gShlbResFile);
 
@@ -924,8 +933,6 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 		}
 	
 	// prepare the Renderer submenu
-	e3viewer_getRendererList(rendererTypes, &rendererCount);
-	status = E3Viewer_GetRendererType(theViewer, &currentRenderer);
 	rendererMenu = GetMenu(kRendererMenuID);
 	if (rendererMenu)
 		{
