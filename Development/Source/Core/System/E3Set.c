@@ -1658,14 +1658,14 @@ E3Set_RegisterClass(void)
 											kQ3SharedTypeSet,
 											kQ3ClassNameSet,
 											e3set_metahandler,
-											~sizeof(E3Set));
+											sizeof(E3Set));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeSet,
 												kQ3SetTypeAttribute,
 												kQ3ClassNameSetAttribute,
 												e3attributeset_metahandler,
-												~sizeof(E3AttributeSet));
+												sizeof(E3AttributeSet));
 
 
 
@@ -1675,98 +1675,98 @@ E3Set_RegisterClass(void)
 												kQ3ObjectTypeElement,
 												kQ3ClassNameElement,
 												e3element_metahandler,
-												~sizeof(E3Element));
+												sizeof(E3Element));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeElement,
 												kQ3ElementTypeAttribute,
 												kQ3ClassNameAttribute,
 												e3element_metahandler,
-												~sizeof(E3Attribute));
+												sizeof(E3Attribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeElement,
 												kQ3ObjectTypeSetElement,
 												kQ3ClassNameSetElement,
 												e3setelement_metahandler,
-												~sizeof(E3SetElement));
+												sizeof(E3SetElement));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeSurfaceUV,
 												kQ3ClassNameAttributeSurfaceUV,
 												e3attribute_surfaceuv_metahandler,
-												~sizeof(E3SurfaceUVAttribute));
+												sizeof(E3SurfaceUVAttribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeShadingUV,
 												kQ3ClassNameAttributeShadingUV,
 												e3attribute_shadinguv_metahandler,
-												~sizeof(E3ShadingUVAttribute));
+												sizeof(E3ShadingUVAttribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeNormal,
 												kQ3ClassNameAttributeNormal,
 												e3attribute_normal_metahandler,
-												~sizeof(E3NormalAttribute));
+												sizeof(E3NormalAttribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeAmbientCoefficient,
 												kQ3ClassNameAttributeAmbientCoefficient,
 												e3attribute_ambientcoefficient_metahandler,
-												~sizeof(E3AmbientCoefficientAttribute));
+												sizeof(E3AmbientCoefficientAttribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeDiffuseColor,
 												kQ3ClassNameAttributeDiffuseColor,
 												e3attribute_diffusecolor_metahandler,
-												~sizeof(E3DiffuseColorAttribute));
+												sizeof(E3DiffuseColorAttribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeSpecularColor,
 												kQ3ClassNameAttributeSpecularColor,
 												e3attribute_specularcolor_metahandler,
-												~sizeof(E3SpecularColorAttribute));
+												sizeof(E3SpecularColorAttribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeSpecularControl,
 												kQ3ClassNameAttributeSpecularControl,
 												e3attribute_specularcontrol_metahandler,
-												~sizeof(E3SpecularControlAttribute));
+												sizeof(E3SpecularControlAttribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeTransparencyColor,
 												kQ3ClassNameAttributeTransparencyColor,
 												e3attribute_transparencycolor_metahandler,
-												~sizeof(E3TransparencyColorAttribute));
+												sizeof(E3TransparencyColorAttribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeSurfaceTangent,
 												kQ3ClassNameAttributeSurfaceTangent,
 												e3attribute_surfacetangent_metahandler,
-												~sizeof(E3SurfaceTangentAttribute));
+												sizeof(E3SurfaceTangentAttribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeHighlightState,
 												kQ3ClassNameAttributeHighlightState,
 												e3attribute_highlightstate_metahandler,
-												~sizeof(E3HighlightStateAttribute));
+												sizeof(E3HighlightStateAttribute));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeSurfaceShader,
 												kQ3ClassNameAttributeSurfaceShader,
 												e3attribute_surfaceshader_metahandler,
-												~sizeof(E3SurfaceShaderAttribute));
+												sizeof(E3SurfaceShaderAttribute));
 
 	return(qd3dStatus);
 }
@@ -2721,7 +2721,7 @@ E3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32
 											*elementType ,
 											name ,
 											metaHandler ,
-											~ ( sizeOfElement + sizeof ( E3Element ) ) ); 
+											sizeOfElement + sizeof ( E3Element ) ); 
 	if ( qd3dStatus == kQ3Failure )
 		return NULL ;
 
@@ -2792,7 +2792,7 @@ E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 											*attributeType ,
 											creatorName ,
 											metaHandler ,
-											~ ( sizeOfElement + sizeof ( E3Attribute ) ) ) ;
+											sizeOfElement + sizeof ( E3Attribute ) ) ;
 	if ( qd3dStatus == kQ3Failure )
 		return NULL ;
 

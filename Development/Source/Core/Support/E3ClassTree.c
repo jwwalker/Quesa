@@ -433,15 +433,6 @@ E3ClassTree::GetNextClassType ( void )
 //				at the root of the class tree. This can only be performed once,
 //				and it is an error to attempt to create two nodes at the root.
 //
-// Temporarily, instanceSize is replaced by instanceSizeAndFlag. For old style
-// instance records which do not inherit from their base class, this is just the
-// sizeof the record, for new style ones which do inherit, it is ~sizeof the
-// record. Originally this was planned to be minus, but bitwise complement does
-// affect zero wheras minus does not. When everything has been converted, the code
-// for handling old style ones will be removed, but keeping the check on the
-// parameter so the tildas in the calling code do not need to be removed immediately
-// but when convenient when other work is done on each file.
-//
 //-----------------------------------------------------------------------------
 TQ3Status
 E3ClassTree::RegisterExternalClass (

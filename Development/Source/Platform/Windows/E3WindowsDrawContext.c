@@ -404,7 +404,7 @@ E3Win32DCDrawContext_RegisterClass(void)
 											kQ3DrawContextTypeWin32DC,
 											kQ3ClassNameDrawContextWin32DC,
 											e3drawcontext_win32dc_metahandler,
-											~sizeof(E3Win32DCDrawContext));
+											sizeof(E3Win32DCDrawContext));
 
 	return(qd3dStatus);
 }
@@ -547,7 +547,7 @@ E3DDSurfaceDrawContext_RegisterClass(void)
 											kQ3DrawContextTypeDDSurface,
 											kQ3ClassNameDrawContextDDSurface,
 											e3drawcontext_ddsurface_metahandler,
-											~sizeof(E3DDSurfaceDrawContext));
+											sizeof(E3DDSurfaceDrawContext));
 
 	return(qd3dStatus);
 }

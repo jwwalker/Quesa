@@ -256,7 +256,7 @@ E3Win32Storage_RegisterClass(void)
 											kQ3StorageTypeWin32,
 											kQ3ClassNameStorageWin32,
 											e3storage_win32_metahandler,
-											~sizeof(E3Win32Storage));
+											sizeof(E3Win32Storage));
 
 	return(qd3dStatus);
 }
