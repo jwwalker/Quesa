@@ -59,6 +59,7 @@ const TQ3Uns32 kTriMeshLockedReadOnly								= (1 << 1);
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+// TriMesh instance data
 typedef struct {
 	TQ3Boolean			theFlags;
 	TQ3TriMeshData		geomData;
@@ -1205,6 +1206,23 @@ e3geom_trimesh_get_attribute(TQ3GeometryObject theObject)
 
 
 //=============================================================================
+//      e3geom_trimesh_get_public_data : TriMesh get public data pointer.
+//-----------------------------------------------------------------------------
+static const void *
+e3geom_trimesh_get_public_data(TQ3GeometryObject theObject)
+{	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) theObject->instanceData;
+
+
+
+	// Return the address of the geometry public data
+	return(&instanceData->geomData);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_trimesh_metahandler : TriMesh metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -1241,6 +1259,10 @@ e3geom_trimesh_metahandler(TQ3XMethodType methodType)
 		
 		case kQ3XMethodTypeGeomGetAttribute:
 			theMethod = (TQ3XFunctionPointer) e3geom_trimesh_get_attribute;
+			break;
+		
+		case kQ3XMethodTypeGeomGetPublicData:
+			theMethod = (TQ3XFunctionPointer) e3geom_trimesh_get_public_data;
 			break;
 		}
 	
