@@ -1337,8 +1337,6 @@ E3Param2D_DistanceSquared(const TQ3Param2D *p1, const TQ3Param2D *p2)
 //=============================================================================
 //      E3RationalPoint3D_Distance : Return Euclidean distance.
 //-----------------------------------------------------------------------------
-//		Note : This operation makes no sense mathematically.
-//-----------------------------------------------------------------------------
 float
 E3RationalPoint3D_Distance(const TQ3RationalPoint3D *p1, const TQ3RationalPoint3D *p2)
 {
@@ -1351,8 +1349,6 @@ E3RationalPoint3D_Distance(const TQ3RationalPoint3D *p1, const TQ3RationalPoint3
 
 //=============================================================================
 //      E3RationalPoint3D_DistanceSquared :	Return squared Euclidean distance.
-//-----------------------------------------------------------------------------
-//		Note : This operation makes no sense mathematically.
 //-----------------------------------------------------------------------------
 float
 E3RationalPoint3D_DistanceSquared(const TQ3RationalPoint3D *p1, const TQ3RationalPoint3D *p2)
@@ -1393,8 +1389,6 @@ E3Point3D_DistanceSquared(const TQ3Point3D *p1, const TQ3Point3D *p2)
 //=============================================================================
 //      E3RationalPoint4D_Distance : Return Euclidean distance.
 //-----------------------------------------------------------------------------
-//		Note : This operation makes no sense mathematically.
-//-----------------------------------------------------------------------------
 float
 E3RationalPoint4D_Distance(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2)
 {
@@ -1407,8 +1401,6 @@ E3RationalPoint4D_Distance(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4
 
 //=============================================================================
 //      E3RationalPoint4D_DistanceSquared : Return squared Euclidean distance.
-//-----------------------------------------------------------------------------
-//		Note : This operation makes no sense mathematically.
 //-----------------------------------------------------------------------------
 float
 E3RationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2)
@@ -1800,7 +1792,6 @@ E3Point3D_RRatio(const TQ3Point3D *p1, const TQ3Point3D *p2, float r1, float r2,
 //									segment from p1 to p2.
 //-----------------------------------------------------------------------------
 //		Note : 'result' may be the same as 'p1' and/or 'p2'.
-//				This operation makes no sense mathematically.
 //
 //				The QD3D docs claim that the ratio used is r1/(r1+r2), but
 //				we found by direct experimentation that the QD3D library (1.6)
@@ -1881,8 +1872,6 @@ E3Param2D_AffineComb(const TQ3Param2D	*params2D,
 //-----------------------------------------------------------------------------
 //		Note :	Weights are NOT required to sum to 1, but we they must not sum
 //				to 0.
-//
-//				This operation makes no sense mathematically.
 //-----------------------------------------------------------------------------
 TQ3RationalPoint3D *
 E3RationalPoint3D_AffineComb(const TQ3RationalPoint3D	*rationalPoints3D,
@@ -1892,21 +1881,19 @@ E3RationalPoint3D_AffineComb(const TQ3RationalPoint3D	*rationalPoints3D,
 {
 	float x = 0.0f;
 	float y = 0.0f;
-	float w = 0.0f;
 	float totalWeight = 0.0f;
 	TQ3Uns32 i;
 	
 	for (i = 0; i < numPoints; ++i)
 	{
-		x += rationalPoints3D[i].x * weights[i];
-		y += rationalPoints3D[i].y * weights[i];
-		w += rationalPoints3D[i].w * weights[i];
+		x += rationalPoints3D[i].x / rationalPoints3D[i].w * weights[i];
+		y += rationalPoints3D[i].y / rationalPoints3D[i].w * weights[i];
 		totalWeight += weights[i];
 	}
 
 	result->x = x / totalWeight;
 	result->y = y / totalWeight;
-	result->w = w / totalWeight;
+	result->w = 1.0f;
 	
 	return(result);
 }
@@ -1958,8 +1945,6 @@ E3Point3D_AffineComb(const TQ3Point3D	*points3D,
 //-----------------------------------------------------------------------------
 //		Note :	Weights are NOT required to sum to 1, but we they must not sum
 //				to 0.
-//
-//				This operation makes no sense mathematically.
 //-----------------------------------------------------------------------------
 TQ3RationalPoint4D *
 E3RationalPoint4D_AffineComb(const TQ3RationalPoint4D	*rationalPoints4D,
@@ -1970,23 +1955,21 @@ E3RationalPoint4D_AffineComb(const TQ3RationalPoint4D	*rationalPoints4D,
 	float x = 0.0f;
 	float y = 0.0f;
 	float z = 0.0f;
-	float w = 0.0f;
 	float totalWeight = 0.0f;
 	TQ3Uns32 i;
 	
 	for (i = 0; i < numPoints; ++i)
 	{
-		x += rationalPoints4D[i].x * weights[i];
-		y += rationalPoints4D[i].y * weights[i];
-		z += rationalPoints4D[i].z * weights[i];
-		w += rationalPoints4D[i].w * weights[i];
+		x += rationalPoints4D[i].x / rationalPoints4D[i].w * weights[i];
+		y += rationalPoints4D[i].y / rationalPoints4D[i].w * weights[i];
+		z += rationalPoints4D[i].z / rationalPoints4D[i].w * weights[i];
 		totalWeight += weights[i];
 	}
 
 	result->x = x / totalWeight;
 	result->y = y / totalWeight;
 	result->z = z / totalWeight;
-	result->w = w / totalWeight;
+	result->w = 1.0f;
 	
 	return(result);
 }
