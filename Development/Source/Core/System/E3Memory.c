@@ -59,12 +59,18 @@
 //      Internal constants
 //-----------------------------------------------------------------------------
 // Build constants
-#if Q3_DEBUG
-	#define Q3_MEMORY_DEBUG								1
+#ifndef Q3_MEMORY_DEBUG
+	#if Q3_DEBUG
+		#define Q3_MEMORY_DEBUG								1
+	#else
+		#define Q3_MEMORY_DEBUG								0
+	#endif
+#endif
+
+#if Q3_MEMORY_DEBUG
 	#define Q3_MEMORY_HEADER							sizeof(TQ3Uns32)
 	#define Q3_MEMORY_TRAILER							1
 #else
-	#define Q3_MEMORY_DEBUG								0
 	#define Q3_MEMORY_HEADER							0
 	#define Q3_MEMORY_TRAILER							0
 #endif
@@ -1016,7 +1022,7 @@ E3SlabMemory_GetCount(TQ3SlabObject theSlab)
 TQ3Status
 E3SlabMemory_SetCount(TQ3SlabObject theSlab, TQ3Uns32 numItems)
 {	TQ3SlabData		*instanceData = (TQ3SlabData *) E3ClassTree_FindInstanceData(theSlab, kQ3ObjectTypeSlab);
-	TQ3Uns32		theSize, growSize;
+	TQ3Uns32		theSize, expSize;
 	TQ3Status		qd3dStatus;
 
 
@@ -1032,15 +1038,11 @@ E3SlabMemory_SetCount(TQ3SlabObject theSlab, TQ3Uns32 numItems)
 		{
 		// Determine how much we should grow
 		//
-		// If the item size is small enough, we pre-allocate space to reduce the
-		// number of allocations needed to grow the slab over its lifetime. If
-		// the item size is beyond the threshold, we simply grow to fit.
-		if (instanceData->itemSize <= kSlabSmallItemSize)
-			{
-			growSize = theSize - instanceData->dataSize;
-			growSize = E3Num_Max(growSize, kSlabSmallGrowSize);
-			theSize  = instanceData->dataSize + growSize;
-			}
+		// To prevent the reallocating and copying from taking more and more time
+		// as the slab grows, we need to grow exponentially.
+		expSize = instanceData->dataSize + instanceData->dataSize/2;
+		expSize = E3Num_Max( expSize, kSlabSmallGrowSize );
+		theSize = E3Num_Max( theSize, expSize );
 
 
 
