@@ -204,6 +204,9 @@ ir_interactive_attribute(TQ3XMethodType methodType)
 
         case kQ3AttributeTypeTransparencyColor:
             return((TQ3XFunctionPointer) IRRenderer_Update_Attribute_TransparencyColour);
+           
+        case kQ3AttributeTypeSurfaceShader:
+             return((TQ3XFunctionPointer) IRRenderer_Update_Shader_Surface);
 		}
 	
 	return(theMethod);
