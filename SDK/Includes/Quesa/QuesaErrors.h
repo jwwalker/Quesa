@@ -725,7 +725,7 @@ Q3Notice_Get (
 
 /*!
  *  @function
- *      Q3Error_PlatformGet  
+ *      Q3Error_PlatformGet
  *  @discussion
  *      Gets platform-specific error codes.
  *		This is a generalization of Q3MacintoshError_Get, and may be used in place

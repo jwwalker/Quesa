@@ -2766,7 +2766,7 @@ Q3ViewHints_GetClearImageColor (
 
 /*!
  *  @function
- *      Q3File_GetFileFormat  
+ *      Q3File_GetFileFormat
  *  @discussion
  *      Get the file format used to process a file.
  *
@@ -3403,7 +3403,7 @@ Q3FileFormat_GenericWriteBinary_String (
 
 /*!
  *  @function
- *      Q3FileFormat_GenericWriteBinary_Raw 
+ *      Q3FileFormat_GenericWriteBinary_Raw
  *  @discussion
  *      Write a block of data to a file format.
  *

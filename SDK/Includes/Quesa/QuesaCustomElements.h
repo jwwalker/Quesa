@@ -239,7 +239,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3ObjectEventCallback)(
 //-----------------------------------------------------------------------------
 /*!
  *  @function
- *      CENameElement_SetData  
+ *      CENameElement_SetData
  *  @discussion
  *      Set the name element for an object.
  *
@@ -282,7 +282,7 @@ CENameElement_GetData (
 
 /*!
  *  @function
- *      CENameElement_EmptyData  
+ *      CENameElement_EmptyData
  *  @discussion
  *      Release the data returned by CENameElement_GetData.
  *
@@ -298,7 +298,7 @@ CENameElement_EmptyData (
 
 /*!
  *  @function
- *      CEUrlElement_SetData  
+ *      CEUrlElement_SetData
  *  @discussion
  *      Set the URL element for an object.
  *
@@ -318,7 +318,7 @@ CEUrlElement_SetData (
 
 /*!
  *  @function
- *      CEUrlElement_GetData  
+ *      CEUrlElement_GetData
  *  @discussion
  *      Get the URL element for an object.
  *
@@ -340,7 +340,7 @@ CEUrlElement_GetData (
 
 /*!
  *  @function
- *      CEUrlElement_EmptyData  
+ *      CEUrlElement_EmptyData
  *  @discussion
  *      Release the data returned by CEUrlElement_GetData.
  *
@@ -358,7 +358,7 @@ CEUrlElement_EmptyData (
 
 /*!
  *  @function
- *      CEWireElement_SetData  
+ *      CEWireElement_SetData
  *  @discussion
  *      Set the QuickTime wired element for an object.
  *
@@ -376,7 +376,7 @@ CEWireElement_SetData (
 
 /*!
  *  @function
- *      CEWireElement_GetData  
+ *      CEWireElement_GetData
  *  @discussion
  *      Get the QuickTime wired element for an object.
  *
@@ -398,7 +398,7 @@ CEWireElement_GetData (
 
 /*!
  *  @function
- *      CEWireElement_EmptyData  
+ *      CEWireElement_EmptyData
  *  @discussion
  *      Release the data returned by CEWireElement_GetData.
  *

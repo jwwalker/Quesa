@@ -918,7 +918,7 @@ Q3Vector2D_Length (
 
 /*!
  *  @function
- *      Q3Vector2D_LengthSquared  
+ *      Q3Vector2D_LengthSquared
  *  @discussion
  *		Return squared length of 2D vector.
  *
@@ -966,7 +966,7 @@ Q3Vector3D_Length (
 
 /*!
  *  @function
- *      Q3Vector3D_LengthSquared 
+ *      Q3Vector3D_LengthSquared
  *  @discussion
  *		Return squared length of 2D vector.
  *
@@ -1081,7 +1081,7 @@ Q3Param2D_DistanceSquared (
 
 /*!
  *  @function
- *      Q3RationalPoint3D_Distance 
+ *      Q3RationalPoint3D_Distance
  *  @discussion
  *		Returns the Euclidian distance between two rational 3D points.
  *
@@ -1116,7 +1116,7 @@ Q3RationalPoint3D_Distance (
  *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
- *  @result                 Square of the distance between the given points, 
+ *  @result                 Square of the distance between the given points,
  *							treating w as a spatial coordinate.
  */
 Q3_EXTERN_API_C ( float  )
@@ -1204,7 +1204,7 @@ Q3RationalPoint4D_Distance (
  *
  *  @param p1               Address of first point of interest.
  *  @param p2               Address of second point of interest.
- *  @result                 Square of the distance between the given points, 
+ *  @result                 Square of the distance between the given points,
  *							treating w as a spatial coordinate.
  */
 Q3_EXTERN_API_C ( float  )
@@ -2632,7 +2632,7 @@ Q3Matrix3x3_SetRotateAboutPoint (
  *  @function
  *      Q3Matrix4x4_SetRotateAboutPoint
  *  @discussion
- *      Set a 4x4 matrix to rotate about axes through apoint and 
+ *      Set a 4x4 matrix to rotate about axes through a point and
  *		parallel to the X, Y, and Z axes (in that order).
  *
  *		This order of rotations is rarely useful, but it's kept for backwards
@@ -3111,7 +3111,7 @@ Q3Quaternion_SetRotateVectorToVector (
  *		quaternion, converting to a matrix, then converting back (with
  *		this function).
  *
- *		QD3D's result is something ridiculous; in Quesa, this function 
+ *		QD3D's result is something ridiculous; in Quesa, this function
  *		returns the original quaternion (or something equivalent).
  *
  *  @param quaternion       Address of a quaternion to set.
@@ -3347,7 +3347,7 @@ Q3Quaternion_InterpolateLinear (
  *
  *		If the quaternion represents a null rotation, then outAngle will be
  *		set to 0.0 and outAxis will be set to <0, 1, 0> (since in this case
- *		the rotation axis is undefined, but we want to always give you a 
+ *		the rotation axis is undefined, but we want to always give you a
  *		valid axis).
  *
  *		The returned angle in radians will be in the range [0, 2*pi].
