@@ -224,6 +224,8 @@ static void qut_set_depth_buffer( TQ3Uns32 inDepthBits )
 		Q3View_GetRenderer( gView, &theRenderer );
 		Q3Object_AddElement( theRenderer, kQ3ElementTypeDepthBits, &inDepthBits );
 		Q3Object_Dispose( theRenderer );
+	#else
+		inDepthBits = 0;
 	#endif
 		
 		Q3Object_Dispose( drawContext );
