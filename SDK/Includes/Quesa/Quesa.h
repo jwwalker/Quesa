@@ -624,6 +624,8 @@ enum {
                 kQ3MeshPartTypeMeshFacePart     = Q3_OBJECT_TYPE('m', 'f', 'a', 'c'),
                 kQ3MeshPartTypeMeshEdgePart     = Q3_OBJECT_TYPE('m', 'e', 'd', 'g'),
                 kQ3MeshPartTypeMeshVertexPart   = Q3_OBJECT_TYPE('m', 'v', 't', 'x'),
+        kQ3SharedTypeControllerState            = Q3_OBJECT_TYPE('c', 't', 's', 't'),
+        kQ3SharedTypeTracker                    = Q3_OBJECT_TYPE('t', 'r', 'k', 'r'),
         kQ3SharedTypeViewHints                  = Q3_OBJECT_TYPE('v', 'w', 'h', 'n'),
         kQ3SharedTypeEndGroup                   = Q3_OBJECT_TYPE('e', 'n', 'd', 'g')
 };
