@@ -546,7 +546,7 @@ TQ3StorageObject
 Qut_SelectMetafile(void)
 {	Str255				thePrompt = "\pSelect a model:";
 	SFTypeList			fileTypes = { '3DMF', 'TEXT', '3DS ', 'BINA' };
-	const short			numTypes  = 4;
+	const TQ3Int16		numTypes  = 4;
 	/*
 		Jose'
 		note we have to found a global mechanism to choose the supported file formats
