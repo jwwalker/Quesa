@@ -133,7 +133,6 @@ E3FileFormat_Init(TQ3FileFormatObject theFileFormat, TQ3StorageObject storage)
 	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) theFileFormat->instanceData;
 	E3ClassInfoPtr storageClass;
 	E3ClassInfoPtr fformatClass;
-	TQ3XStorageGetSizeMethod	 	getSize;
 	
 	fformatClass = theFileFormat->theClass;
 
@@ -145,12 +144,9 @@ E3FileFormat_Init(TQ3FileFormatObject theFileFormat, TQ3StorageObject storage)
 	
 	instanceData->currentStoragePosition = 0;
 	instanceData->readInGroup = kQ3True;
-	
-	getSize   = (TQ3XStorageGetSizeMethod)
-					E3ClassTree_GetMethod(storageClass, kQ3XMethodTypeStorageGetSize);
 
 	
-	if(getSize(storage, &instanceData->logicalEOF) == kQ3Failure)
+	if(Q3Storage_GetSize(storage, &instanceData->logicalEOF) == kQ3Failure)
 		return kQ3Failure;
 	}
 	
@@ -870,7 +866,7 @@ E3FileFormat_Method_StartPass(TQ3ViewObject theView)
 
 
 
-	// No-op if no renderer set
+	// No-op if no file FormatSet set
 	if (theFormat == NULL)
 		return(kQ3Success);
 
