@@ -158,11 +158,28 @@ ir_geom_polyline_submit_transparent(TQ3ViewObject				theView,
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
+//      IRGeometry_Terminate : Terminate the geometry state.
+//-----------------------------------------------------------------------------
+#pragma mark -
+void
+IRGeometry_Terminate(TQ3InteractiveData *instanceData)
+{
+
+
+	// Dispose of the geometry state
+	instanceData->geomSize = 0;
+	Q3Memory_Free(&instanceData->geomData);
+}
+
+
+
+
+
+//=============================================================================
 //      IRGeometry_Attribute_Combine : Combine view and geometry attributes.
 //-----------------------------------------------------------------------------
 //		Note : Caller must dispose of the new attribute set.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3AttributeSet
 IRGeometry_Attribute_Combine(TQ3ViewObject theView, TQ3AttributeSet geomAttributes)
 {   TQ3AttributeSet     newAttributes, viewAttributes;
@@ -322,34 +339,86 @@ IRGeometry_Attribute_GetUV(TQ3InteractiveData *instanceData, TQ3AttributeSet the
 
 
 //=============================================================================
-//      IRGeometry_Triangle_CalcFlags : Calculate the flags for a triangle
+//      IRGeometry_Triangle_CalcFlags : Calculate the flags for triangles.
 //-----------------------------------------------------------------------------
-TQ3TriFlags
+TQ3Status
 IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
-								const TQ3Vector3D	*triNormal,
-								const TQ3Point3D	*pointOnTri)
-{	TQ3Boolean		isBackfacing;
-	float			dotProduct;
-	TQ3Vector3D		eyeToTri;
-	TQ3Uns32		theFlags;
+								TQ3Uns32			numTriangles,
+								const TQ3Uns32		*theIndices,
+								const TQ3Point3D	*thePoints,
+								const TQ3Vector3D	*theNormals,
+								TQ3TriFlags			*theFlags)
+{	TQ3Uns32		sizeEyeToTri, sizeDotProducts, sizeDotLessThanZero;
+	TQ3Uns32		offEyeToTri, offDotProducts, offDotLessThanZero;
+	TQ3Boolean		*dotLessThanZero;
+	TQ3Uns32		n, requiredSize;
+	float			*dotProducts;
+	TQ3Status		qd3dStatus;
+	TQ3Vector3D		*eyeToTri;
 
 
 
-	// Determine the eye->triangle vector to use
+	// Grow the geometry scratch space
+	sizeEyeToTri        = (numTriangles * sizeof(TQ3Vector3D));
+	sizeDotProducts     = (numTriangles * sizeof(float));
+	sizeDotLessThanZero = (numTriangles * sizeof(TQ3Boolean));
+
+	requiredSize = (sizeEyeToTri + sizeDotProducts + sizeDotLessThanZero);
+	
+	if (requiredSize > instanceData->geomSize)
+		{
+		qd3dStatus = Q3Memory_Reallocate(&instanceData->geomData, requiredSize);
+		if (qd3dStatus != kQ3Success)
+			return(qd3dStatus);
+		
+		instanceData->geomSize = requiredSize;
+		}
+
+
+
+	// Set up the pointers
+	offEyeToTri        = 0;
+	offDotProducts     = offEyeToTri    + sizeEyeToTri;
+	offDotLessThanZero = offDotProducts + sizeDotProducts;
+
+	eyeToTri        = (TQ3Vector3D *) &instanceData->geomData[offEyeToTri];
+	dotProducts     = (float       *) &instanceData->geomData[offDotProducts];
+	dotLessThanZero = (TQ3Boolean  *) &instanceData->geomData[offDotLessThanZero];
+
+
+
+	// Verify our pointers are aligned
+	//
+	// Not strictly an error, but for performance we want to make sure that our pointers are
+	// at least 4-byte aligned (or we'll take a large performance hit on PowerPC). All our
+	// items are multiples of 4 bytes at present, but this will catch us if we allocate any
+	// single byte entries in the future.
+	Q3_ASSERT(((TQ3Uns32) eyeToTri)        % 4 == 0);
+	Q3_ASSERT(((TQ3Uns32) dotProducts)     % 4 == 0);
+	Q3_ASSERT(((TQ3Uns32) dotLessThanZero) % 4 == 0);
+
+
+
+	// Determine the eye->triangle vectors to use
 	//
 	// For orthographic cameras we can use the camera's view direction (in
 	// local coordinates), but for perspective cameras we need a vector from
 	// the eye position to one of the triangle's vertices.
 	if (instanceData->cameraIsOrtho)
-		eyeToTri = instanceData->stateLocalCameraViewVector;
+		{
+		for (n = 0; n < numTriangles; n++)
+			eyeToTri[n] = instanceData->stateLocalCameraViewVector;
+		}
 	else
-		Q3Point3D_Subtract(&instanceData->stateLocalCameraPosition, pointOnTri, &eyeToTri);
+		{
+		for (n = 0; n < numTriangles; n++)
+			Q3Point3D_Subtract(&instanceData->stateLocalCameraPosition, &thePoints[theIndices[n * 3]], &eyeToTri[n]);
+		}
 
 
 
-	// Determine if the triangle is back-facing
-	dotProduct   = Q3Vector3D_Dot(triNormal, &eyeToTri);
-	isBackfacing = (TQ3Boolean) (dotProduct < 0.0f);
+	// Calculate the dot products
+	qd3dStatus = Q3Vector3D_DotArray(numTriangles, theNormals, eyeToTri, dotProducts, dotLessThanZero);
 
 
 
@@ -357,18 +426,24 @@ IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
 	//
 	// Back-facing triangles aren't visible if we're to remove them, and
 	// they're flipped if we're to flip them for rendering.
-	theFlags = kQ3TriFlagVisible;
-
-	if (isBackfacing)
+	if (qd3dStatus == kQ3Success)
 		{
-		if (instanceData->stateBackfacing == kQ3BackfacingStyleRemove)
-			theFlags = kQ3TriFlagCulled;
-		
-		else if (instanceData->stateBackfacing == kQ3BackfacingStyleFlip)
-			theFlags |= kQ3TriFlagFlipped;
-		}
+		for (n = 0; n < numTriangles; n++)
+			{
+			theFlags[n] = kQ3TriFlagVisible;
 
-	return(theFlags);
+			if (dotLessThanZero[n])
+				{
+				if (instanceData->stateBackfacing == kQ3BackfacingStyleRemove)
+					theFlags[n] = kQ3TriFlagCulled;
+		
+				else if (instanceData->stateBackfacing == kQ3BackfacingStyleFlip)
+					theFlags[n] |= kQ3TriFlagFlipped;
+				}
+			}
+		}
+	
+	return(qd3dStatus);
 }
 
 
