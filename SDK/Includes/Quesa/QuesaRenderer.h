@@ -174,7 +174,7 @@ typedef enum TQ3CSGEquation {
  *  @discussion
  *      Draw Context validation mask flags.
  *
- *  @constant kQ3XDrawContextValidationClearFlags           The clear state is invalid.
+ *  @constant kQ3XDrawContextValidationClearFlags           The draw context state is valid.
  *  @constant kQ3XDrawContextValidationDoubleBuffer         The double buffer state is invalid.
  *  @constant kQ3XDrawContextValidationShader               The shader state is invalid.
  *  @constant kQ3XDrawContextValidationClearFunction        The clear method state is invalid.
@@ -192,6 +192,7 @@ typedef enum TQ3CSGEquation {
  *  @constant kQ3XDrawContextValidationBackgroundShader     The background shader state is invalid.
  *  @constant kQ3XDrawContextValidationColorPalette         The color palette state is invalid (unupported).
  *  @constant kQ3XDrawContextValidationRAVETextureFilter    The RAVE texture filter state is invalid (unupported).
+ *	@constant kQ3XDrawContextValidationDepthState			The depth testing state (glDepthMask, glDepthFunc) is invalid.
  *  @constant kQ3XDrawContextValidationAll                  The draw context state is invalid.
  */
 typedef enum TQ3XDrawContextValidationMasks {
@@ -213,6 +214,7 @@ typedef enum TQ3XDrawContextValidationMasks {
     kQ3XDrawContextValidationBackgroundShader   = (1 << 14),
     kQ3XDrawContextValidationColorPalette       = (1 << 15),
     kQ3XDrawContextValidationRAVETextureFilter  = (1 << 16),
+    kQ3XDrawContextValidationDepthState 		= (1 << 17),
     kQ3XDrawContextValidationAll                = 0xFFFFFFFF,
     kQ3XDrawContextValidationSize32             = 0xFFFFFFFF
 } TQ3XDrawContextValidationMasks;
