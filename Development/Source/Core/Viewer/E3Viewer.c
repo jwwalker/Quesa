@@ -56,6 +56,10 @@ typedef struct {
 	TQ3Uns32				mTrackingData;		// which button we're tracking, etc.
 	TQ3Boolean				mTrackingValid;		// false when user cancels by dragging out of bounds
 	TQ3Int32				mTrackH, mTrackV;	// last h/v mouse position during track
+	TQ3Vector3D				mTranslation;		// translation currently applied to the object
+	TQ3Vector2D				mPixelScale;		// world units (at z=0) per pixel of screen space
+	float					mSqrRadius;			// squared radius of a bounding sphere
+	TQ3Quaternion			mOrientation;		// current orientation, relative to initial
 } TQ3ViewerData;
 
 typedef struct {
@@ -295,11 +299,50 @@ static void e3viewer_pressButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 }
 
 //=============================================================================
-//      e3viewer_applyZoom : Respond a mouse movement while using the
+//      e3viewer_windowToWorld : Find the world coordinates associated
+//			with the given window coordinates, at the Z-plane that bisects
+//			the object (for now, we assume this is Z=0).
+//-----------------------------------------------------------------------------
+static void e3viewer_windowToWorld(TQ3ViewerObject theViewer, 
+		TQ3Int32 hPos, TQ3Int32 vPos, TQ3Point3D *out)
+{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+
+	Q3_ASSERT_VALID_PTR(out);				// out must not be null
+	
+	out->z = 0.0f;
+	// Our camera currently always points straight down the Z axis, so
+	// this is straightforward:
+	out->x = instanceData->mPixelScale.x
+		   * ((float)hPos - (instanceData->mArea.max.x + instanceData->mArea.min.x)*0.5f);
+	out->y = instanceData->mPixelScale.y
+		   * ((float)vPos - (instanceData->mArea.max.y + instanceData->mArea.min.y)*0.5f);
+}
+
+//=============================================================================
+//      e3viewer_windowToObject : Find the object-relative coordinates 
+//			associated with the given window coordinates.
+//-----------------------------------------------------------------------------
+static void e3viewer_windowToObject(TQ3ViewerObject theViewer, 
+		TQ3Int32 hPos, TQ3Int32 vPos, TQ3Point3D *out)
+{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+
+	Q3_ASSERT_VALID_PTR(out);				// out must not be null
+	
+	// Start by finding world coordinates.
+	e3viewer_windowToWorld(theViewer, hPos, vPos, out);
+	
+	// Then, subtract the object position.
+	out->x -= instanceData->mTranslation.x;
+	out->y -= instanceData->mTranslation.y;
+	out->z -= instanceData->mTranslation.z;
+}
+
+//=============================================================================
+//      e3viewer_applyTruck : Respond a mouse movement while using the
 //			zoom tool.  Do this by moving the camera towards or away
 //			from the origin.
 //-----------------------------------------------------------------------------
-static void e3viewer_applyZoom(TQ3ViewerObject theViewer,
+static void e3viewer_applyTruck(TQ3ViewerObject theViewer,
 			TQ3Int32 oldY, TQ3Int32 newY)
 {
 	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
@@ -327,6 +370,57 @@ static void e3viewer_applyZoom(TQ3ViewerObject theViewer,
 	
 	Q3Camera_SetPlacement(camera, &placement);	
 	Q3Object_Dispose(camera);
+	E3Viewer_DrawContent(theViewer);
+}
+
+//=============================================================================
+//      e3viewer_applyDolly : Respond a mouse movement while using the
+//			dolly tool.  Do this by translating the object in the XY plane.
+//-----------------------------------------------------------------------------
+static void e3viewer_applyDolly(TQ3ViewerObject theViewer, TQ3Int32 oldX,
+			TQ3Int32 oldY, TQ3Int32 newX, TQ3Int32 newY)
+{
+	TQ3ViewerData	*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+
+	// We need to know out how many units in 3D space (at the XY plane
+	// centered on the object) correspond to the given pixel deltas.
+	// That was found in the last rendering, and stored in mPixelScale.
+	
+	// Then, adjust the translation vector accordingly.
+	instanceData->mTranslation.x += (float)(newX-oldX) * instanceData->mPixelScale.x;
+	instanceData->mTranslation.y += (float)(newY-oldY) * instanceData->mPixelScale.y;
+
+	// And redraw the view.
+	E3Viewer_DrawContent(theViewer);
+}
+
+//=============================================================================
+//      e3viewer_applyOrbit : Respond a mouse movement while using the
+//			orbit tool in "virtual trackball" mode.
+//-----------------------------------------------------------------------------
+static void e3viewer_applyOrbit(TQ3ViewerObject theViewer, TQ3Int32 oldX,
+			TQ3Int32 oldY, TQ3Int32 newX, TQ3Int32 newY)
+{
+	TQ3ViewerData	*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+
+	// (not yet implemented)
+
+	// And redraw the view.
+	E3Viewer_DrawContent(theViewer);
+}
+
+//=============================================================================
+//      e3viewer_applyRoll : Respond a mouse movement while using the
+//			orbit tool in "roll" (rotation about the Z axis) mode.
+//-----------------------------------------------------------------------------
+static void e3viewer_applyRoll(TQ3ViewerObject theViewer, TQ3Int32 oldX,
+			TQ3Int32 oldY, TQ3Int32 newX, TQ3Int32 newY)
+{
+	TQ3ViewerData	*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+
+	// (not yet implemented)
+
+	// And redraw the view.
 	E3Viewer_DrawContent(theViewer);
 }
 
@@ -392,6 +486,36 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 	
 }
 
+//=============================================================================
+//      e3viewer_groupChanged : Called whenever the group data in the viewer
+//			changes.  Recomputes the bounding sphere, and anything else we
+//			might need to remember about the data.
+//-----------------------------------------------------------------------------
+static void e3viewer_groupChanged(TQ3ViewerObject theViewer)
+{
+	TQ3ViewerData	*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3DisplayGroupObject group;
+	TQ3Status		status;
+	TQ3BoundingBox	bbox;
+	
+	// get the geometry group
+	group = E3Viewer_GetGroup(theViewer);
+
+	// there's currently no easy way to compute a bounding sphere,
+	// so we'll approximate it from a bounding box
+	status = Q3DisplayGroup_CalcAndUseBoundingBox(group, kQ3ComputeBoundsExact, 
+			instanceData->mView);
+	
+	if (status)
+		{
+		Q3DisplayGroup_GetBoundingBox(group, &bbox);
+		instanceData->mSqrRadius = 0.25f
+				* ((bbox.max.x - bbox.min.x)*(bbox.max.x - bbox.min.x)
+				 + (bbox.max.y - bbox.min.y)*(bbox.max.y - bbox.min.y));
+		}
+	
+	Q3Object_Dispose(group);
+}
 
 #pragma mark -
 //=============================================================================
@@ -668,6 +792,9 @@ E3Viewer_UseGroup(TQ3ViewerObject theViewer, TQ3GroupObject theGroup)
 	// Set our group, replacing any existing group
 	E3Shared_Replace(&instanceData->mGroup, theGroup);
 	
+	// Update bounding radius, etc.
+	e3viewer_groupChanged(theViewer);
+	
 	return(kQ3Success);
 }
 
@@ -778,6 +905,8 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 	TQ3Uns32			i;
 	TQ3ViewObject		view = instanceData->mView;
 	TQ3Status			status;
+	TQ3Point3D			worldPt;
+	TQ3Point2D			windowPt[2];
 	
 	status = Q3View_StartRendering(view);
 	if (kQ3Success != status)
@@ -785,11 +914,23 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 		
 	for (i=0; i<100; i++)				// try submitting up to 100 times
 		{
-			// submit geometry
-			Q3Object_Submit(instanceData->mGroup, view);
-			
-			// finish the job (retraversing if needed)
-			if (Q3View_EndRendering(view) != kQ3ViewStatusRetraverse) break;
+		// submit transforms
+		Q3TranslateTransform_Submit( &instanceData->mTranslation, view );
+	
+		// submit geometry
+		Q3Object_Submit(instanceData->mGroup, view);
+		
+		// while we're at it, let's gather info that we need to interpret
+		// mouse drags -- namely, the conversion factor from screen to world units.
+		worldPt.x = worldPt.y = worldPt.z = 0.0f;
+		Q3View_TransformWorldToWindow(view, &worldPt, &windowPt[0]);
+		worldPt.x = worldPt.y = 1.0f;
+		Q3View_TransformWorldToWindow(view, &worldPt, &windowPt[1]);
+		instanceData->mPixelScale.x = 1.0f / (windowPt[1].x - windowPt[0].x);
+		instanceData->mPixelScale.y = 1.0f / (windowPt[1].y - windowPt[0].y);
+		
+		// finish the job (retraversing if needed)
+		if (Q3View_EndRendering(view) != kQ3ViewStatusRetraverse) break;
 		}
 	
 	return(kQ3Success);
@@ -1464,7 +1605,8 @@ E3Viewer_EventMouseDown(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 	TQ3Uns32			button;
 	TQ3Area				rect;
-		
+	TQ3Point3D			objPos;
+			
 	// Was the click in a button?
 	button = e3viewer_buttonAtPoint(theViewer, hPos, vPos);
 	if (button)
@@ -1484,6 +1626,17 @@ E3Viewer_EventMouseDown(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 		instanceData->mTrackH = hPos;
 		instanceData->mTrackV = vPos;
 		instanceData->mTrackingValid = kQ3True;
+		// store the current drag mode in mTrackingData;
+		// but as a special case, we distinguish Z-axis rotation from trackball
+		// rotation in the dolly tool by adding 1
+		instanceData->mTrackingData = E3Viewer_GetCurrentButton(theViewer);
+		if (kQ3ViewerFlagButtonOrbit == instanceData->mTrackingData)
+			{
+			e3viewer_windowToObject(theViewer, hPos, vPos, &objPos);
+			if (objPos.x*objPos.x + objPos.y*objPos.y > instanceData->mSqrRadius)
+				instanceData->mTrackingData++;		// indicates Z-axis rotation
+			}
+		
 		return kQ3True;
 		}
 		
@@ -1532,7 +1685,24 @@ E3Viewer_EventMouseTrack(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos
 				
 	if (kTrackContentGrab == instanceData->mTrackingMode)
 		{
-		e3viewer_applyZoom(theViewer, instanceData->mTrackV, vPos);
+		switch (instanceData->mTrackingData)
+			{
+			case kQ3ViewerFlagButtonTruck:
+				e3viewer_applyTruck(theViewer, instanceData->mTrackV, vPos);
+				break;
+			case kQ3ViewerFlagButtonDolly:
+				e3viewer_applyDolly(theViewer, 
+						instanceData->mTrackH, instanceData->mTrackV, hPos, vPos);
+				break;
+			case kQ3ViewerFlagButtonOrbit:
+				e3viewer_applyOrbit(theViewer, 
+						instanceData->mTrackH, instanceData->mTrackV, hPos, vPos);
+				break;
+			case kQ3ViewerFlagButtonOrbit+1:
+				e3viewer_applyRoll(theViewer, 
+						instanceData->mTrackH, instanceData->mTrackV, hPos, vPos);
+				break;
+			}
 		instanceData->mTrackH = hPos;
 		instanceData->mTrackV = vPos;
 		return kQ3True;
