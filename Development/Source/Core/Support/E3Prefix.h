@@ -135,6 +135,12 @@
 #endif
 
 
+// Enable internal timing stats
+#ifndef QUESA_TIMING_STATS
+	#define QUESA_TIMING_STATS									0
+#endif
+
+
 // Should we register the built-in plug-ins?
 #ifndef QUESA_REGISTER_BUILTIN_PLUGINS
 	#define QUESA_REGISTER_BUILTIN_PLUGINS						1
