@@ -82,7 +82,7 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 
 
 	// Allocate the context structure
-	theContext = (CocoaGLContext *) E3Memory_AllocateClear(sizeof(CocoaGLContext));
+	theContext = (CocoaGLContext *) Q3Memory_AllocateClear(sizeof(CocoaGLContext));
 	if (theContext == NULL)
 		return(NULL);
 
@@ -164,7 +164,7 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 	return(theContext);
 
 fail:
-	E3Memory_Free(&theContext);
+	Q3Memory_Free(&theContext);
 	return(NULL);
 }
 
@@ -194,7 +194,7 @@ gldrawcontext_cocoa_destroy(void *glContext)
 
 
 	// Dispose of the GL state
-	E3Memory_Free(&theContext);
+	Q3Memory_Free(&theContext);
 }
 
 

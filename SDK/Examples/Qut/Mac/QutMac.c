@@ -839,7 +839,7 @@ qut_mainloop(void)
 	TQ3Point2D				q3MousePoint, q3MouseDiff;
 	Point					lastMouse, theMouse;
 	TQ3DrawContextObject	theDrawContext;
-	UInt32					windowSize;
+	TQ3Uns32				windowSize;
 	WindowPtr				theWindow;
 	EventRecord				theEvent;
 	SInt16					partCode;

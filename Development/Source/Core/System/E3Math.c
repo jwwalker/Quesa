@@ -138,7 +138,7 @@
 //				See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
 //-----------------------------------------------------------------------------
 static float
-e3matrix_determinant(float **a, TQ3Uns32 n)
+e3matrix_determinant(float **a, TQ3Int32 n)
 {
 	#define A(x,y) a[x][y]
 	
@@ -3389,7 +3389,7 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 		float cosHalfAngle;
 		float factor;
 		
-		cosHalfAngle = sqrt((1 + cosAngle) * 0.5f);
+		cosHalfAngle = (float) sqrt((1 + cosAngle) * 0.5f);
 		
 		// Note: sin(angle/2) = sin(angle) / (2 * cos(angle/2)) = sin(angle) * factor
 		

@@ -58,7 +58,7 @@
 //      Internal macros
 //----------------------------------------------------------------------------
 // Alignment - see Tech Note 1174
-#define AlignPtrToBoundary(_rawPtr, _align)		(Ptr) ((((UInt32) _rawPtr)+(_align)-1) & ~((_align)-1))
+#define AlignPtrToBoundary(_rawPtr, _align)		(Ptr) ((((TQ3Uns32) _rawPtr)+(_align)-1) & ~((_align)-1))
 
 
 

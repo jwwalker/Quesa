@@ -48,7 +48,7 @@
 void
 E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 {   Str255		theStr;
-	UInt32		n;
+	TQ3Uns32	n;
 
 
 

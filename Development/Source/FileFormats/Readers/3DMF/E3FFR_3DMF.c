@@ -66,7 +66,7 @@ typedef struct TE3FFormat3DMF_AttributeSetList_Data {
 //-----------------------------------------------------------------------------
 static void
 delete_attributeset_list(TE3FFormat3DMF_AttributeSetList_Data *theList)
-{	UInt32		n;
+{	TQ3Uns32		n;
 
 
 

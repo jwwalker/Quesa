@@ -37,26 +37,28 @@
 #include "E3System.h"
 
 
+
+
+
 //=============================================================================
-//      Private types
+//      Internal types
 //-----------------------------------------------------------------------------
-typedef struct E3WindowsSystem_DLLSlot *E3WindowsSystem_DLLSlotPtr;
-
-typedef struct E3WindowsSystem_DLLSlot{
-
+typedef struct E3WindowsSystem_DLLSlot {
 	HMODULE						Dll;
 	E3WindowsSystem_DLLSlotPtr	nextSlot;
+} E3WindowsSystem_DLLSlot, *E3WindowsSystem_DLLSlotPtr;
 
-}E3WindowsSystem_DLLSlot;
+
 
 
 
 //=============================================================================
-//      Private global data
+//      Internal globals
 //-----------------------------------------------------------------------------
-
-
 E3WindowsSystem_DLLSlot* e3windowssystem_dllSlotHead = NULL;
+
+
+
 
 
 //=============================================================================
@@ -77,10 +79,13 @@ e3windowsystem_unloadplugins()
 			currentSlot = nextSlot;
 			nextSlot = currentSlot->nextSlot;
 			FreeLibrary(currentSlot->Dll);
-			E3Memory_Free(&currentSlot);
+			Q3Memory_Free(&currentSlot);
 		}
 
 }
+
+
+
 
 
 //=============================================================================
@@ -93,7 +98,7 @@ e3windowsystem_load1plugin(LPTSTR path)
 
 
 
-	newSlot = (E3WindowsSystem_DLLSlot*)E3Memory_Allocate(sizeof(E3WindowsSystem_DLLSlot));
+	newSlot = (E3WindowsSystem_DLLSlot*)Q3Memory_Allocate(sizeof(E3WindowsSystem_DLLSlot));
 	if(newSlot != NULL){
 		newSlot->Dll = LoadLibrary(path);
 		if(newSlot->Dll != NULL){
@@ -101,13 +106,16 @@ e3windowsystem_load1plugin(LPTSTR path)
 			e3windowssystem_dllSlotHead = newSlot;
 		}
 		else{//LoadLibrary failed
-			E3Memory_Free(&newSlot);
+			Q3Memory_Free(&newSlot);
 		}
 	}
 
 	return newSlot;
 
 }
+
+
+
 
 
 //=============================================================================
@@ -149,6 +157,10 @@ e3windowsystem_loadplugins(LPTSTR dir, LPTSTR ext)
  
 	FindClose(hFindFile); 
 }
+
+
+
+
 
 //=============================================================================
 //      Public functions

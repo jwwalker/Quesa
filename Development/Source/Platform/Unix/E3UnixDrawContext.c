@@ -369,7 +369,7 @@ E3XBuffers_New(Display *dpy, TQ3Uns32 numBuffers, Window window)
 
 
 	// Allocate the 'object'
-	theBuffer = (TQ3XBufferObject) E3Memory_Allocate(sizeof(OpaqueTQ3XBufferObject));
+	theBuffer = (TQ3XBufferObject) Q3Memory_Allocate(sizeof(OpaqueTQ3XBufferObject));
 	if (theBuffer == NULL)
 		return(NULL);
 

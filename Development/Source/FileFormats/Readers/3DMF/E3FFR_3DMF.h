@@ -80,22 +80,22 @@ typedef struct {
 
 // Stack data
 typedef struct {
-	TQ3Uns32							level;
+	TQ3Uns32						level;
 	TQ3ObjectType					objectType;
-	TQ3Size								size;
-	TQ3XObjectWriteMethod	writeMethod;
-	void									*data;
-	TQ3XDataDeleteMethod 	deleteData;
+	TQ3Size							size;
+	TQ3XObjectWriteMethod			writeMethod;
+	void							*data;
+	TQ3XDataDeleteMethod 			deleteData;
 } TQ33DMFWStackItem;
 
 typedef struct {
 	TQ3FFormatBaseData				baseData;
 	TE3FFormat3DMF_TOC				*toc;
-	TQ3FileMode								fileMode;
-	TQ3ObjectType							lastObjectType;
+	TQ3FileMode						fileMode;
+	TQ3ObjectType					lastObjectType;
 	// objects stack
-	TQ3Uns32									stackCount;
-	TQ33DMFWStackItem					*stack;
+	TQ3Uns32						stackCount;
+	TQ33DMFWStackItem				*stack;
 
 } TE3FFormatW3DMF_Data;
 

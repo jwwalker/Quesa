@@ -50,7 +50,7 @@ QutTexture_CreateGWorldFromPICT(PicHandle thePicture, TQ3PixelType pixelType)
  	Boolean				shouldDither;
  	GDHandle			saveDevice;
 	CGrafPtr			savePort;
-	UInt32				theDepth;
+	TQ3Uns32			theDepth;
 	OSErr				theErr;
 
 
@@ -145,7 +145,7 @@ QutTexture_CreateGWorldFromFile(const FSSpec *theFSSpec, TQ3PixelType pixelType)
 	ImageDescriptionHandle		imageDescHnd;
 	ComponentInstance			theImporter;
 	GWorldPtr					theGWorld;
-	UInt32						theDepth;
+	TQ3Uns32					theDepth;
 	Rect						theRect;
 	OSErr						theErr;
 
@@ -360,7 +360,7 @@ TQ3TextureObject
 QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 									TQ3PixelType	pixelType,
 									TQ3Boolean		wantMipMaps)
-{	UInt32					theWidth, theHeight, rowBytes, pixelBytes;
+{	TQ3Uns32				x, y, theWidth, theHeight, rowBytes, pixelBytes;
 	TQ3TextureObject		qd3dTextureObject;
 	TQ3ShaderObject			qd3dTextureShader;
 	TQ3StorageObject		qd3dMemoryStorage;
@@ -368,7 +368,6 @@ QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 	TQ3Mipmap				qd3dMipMap;
 	UInt16					*pixelPtr;
 	UInt8					*baseAddr;
-	UInt32					x, y;
 
 
 
