@@ -301,23 +301,24 @@ e3geom_nurbcurve_evaluate_nurbs_curve_u( float theUParam, const TQ3NURBCurveData
 static TQ3Uns32
 e3geom_nurbcurve_interesting_knots( const float * inKnots, TQ3Uns32 numPoints, TQ3Uns32 order, float * interestingK )
 {
-	TQ3Uns32 start, stop, n;
-	interestingK[0] = inKnots[order - 1];
-	start = 0;
-	stop = 1;
-	n = 1;
+	TQ3Uns32 count, n ;
+	interestingK[0] = inKnots[order - 1] ;
 	
-	while ( kQ3True ) {
-		while ( stop < numPoints + 1 && inKnots[start] == inKnots[stop] )
-			stop++;
-		if ( stop < numPoints + 1 ) {
-			interestingK[n] = inKnots[stop];
-			start = stop;
-			n++;
+	count = 1 ;
+	for( n = order ; n <= numPoints ; n++ ) {
+		
+		// if current knot differs from the previous, add this knot
+		if( inKnots[n] != inKnots[n-1] ) {
+			interestingK[ count ] = inKnots[n] ;
+			count++ ;
 		}
-		else break;
-	}
-	return (TQ3Uns32)n;
+		
+	} // ~for( n in knot vector )
+	
+#if Q3_DEBUG
+	Q3_ASSERT( count <= numPoints - order + 2 ) ;
+#endif
+	return (TQ3Uns32) count ;
 }
 
 
@@ -333,10 +334,11 @@ e3geom_nurbcurve_interesting_knots( const float * inKnots, TQ3Uns32 numPoints, T
 //-----------------------------------------------------------------------------
 static void
 e3geom_nurbcurve_constant_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, float subdivU, const TQ3NURBCurveData *geomData )
-{	float		*interestingU, increment ;
-	TQ3Uns32	n, i, numInt ;
+{	float		*interestingU, increment, ooSubdivU ;
+	TQ3Uns32	n, i, numInt, numSubdivU ;
 	
-	
+	numSubdivU = (TQ3Uns32) subdivU ;
+	ooSubdivU = 1.0f / subdivU ;
 	
 	// Find the interesting knots (ie skip the repeated knots)
 	interestingU = (float *) Q3Memory_Allocate((geomData->numPoints - geomData->order + 2) * sizeof(float));
@@ -345,31 +347,36 @@ e3geom_nurbcurve_constant_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints
 		return ;
 	}
 	numInt = e3geom_nurbcurve_interesting_knots( geomData->knots, geomData->numPoints, geomData->order, interestingU );
-	*numPoints = (numInt-1)*((TQ3Uns32)subdivU) + 1;
-
-	// This check is problematic... must rephrase it somehow
+	/*
+	// we don't need to find the interesting knots, we can expend useless effort ;)
+	// NOTE: if you uncomment this code, be sure to comment out the Q3Memory_Free at the end of this function
+	interestingU = geomData->knots ;
+	numInt = geomData->numPoints + geomData->order ;
+	*/
+	*numPoints = (numInt - 1) * numSubdivU + 1 ;
+	
+	// We may want to limit the number of points at some point
 	//numPoints = E3Num_Max(E3Num_Min(numPoints, 256), 3);
-
-
-	// Allocate the memory we need for the PolyLine (zeroed since we don't
-	// need the attribute set field, and want it cleared to NULL).
+	
+	
+	// Allocate the memory we need (zeroed since we don't need the attribute set field, and want it cleared)
 	*theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear(*numPoints * sizeof(TQ3Vertex3D));
-	if (*theVertices == NULL) {
-		//*theVertices = NULL ;
+	if (*theVertices == NULL)
 		return ;
-	}
 	
 	// Now calculate the vertices of the polyLine
-	for (n = 0; n < numInt - 1; n++ ) {
-		increment = (interestingU[n+1] - interestingU[n]) / subdivU;
+	for( n = 0 ; n < numInt - 1 ; n++ ) {
+		increment = (interestingU[n+1] - interestingU[n]) * ooSubdivU ;
 		
-		for (i = 0; i < (TQ3Uns32) subdivU; i++ ) {
+		for( i = 0 ; i < numSubdivU ; i++ ) {
 				e3geom_nurbcurve_evaluate_nurbs_curve_u(
 										interestingU[n] + ((float)i)*increment,
 										geomData,
-										&(*theVertices)[n*((TQ3Uns32)subdivU) + i].point);
+										&(*theVertices)[n*numSubdivU + i].point
+										) ;
 		}
-	}
+	} // ~for( n in numInt )
+	
 	// Final evaluation
 	e3geom_nurbcurve_evaluate_nurbs_curve_u(
 										interestingU[numInt - 1],
