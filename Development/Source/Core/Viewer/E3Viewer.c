@@ -60,6 +60,7 @@ typedef struct {
 	TQ3Vector2D				mPixelScale;		// world units (at z=0) per pixel of screen space
 	float					mSqrRadius;			// squared radius of a bounding sphere
 	TQ3Quaternion			mOrientation;		// current orientation, relative to initial
+	TQ3GeometryObject		mGuideGeom;			// guide circle, etc. (or NULL)
 } TQ3ViewerData;
 
 typedef struct {
@@ -81,6 +82,14 @@ enum {
 	kTrackFrameGrab				= 3
 };
 
+#define kGuideCircleSides 32
+
+
+//=============================================================================
+//      Internal static variables
+//-----------------------------------------------------------------------------
+TQ3GeometryObject sGuideCircle = NULL;
+
 
 
 //=============================================================================
@@ -91,6 +100,24 @@ static TQ3Boolean e3Rect_ContainsPoint(const TQ3Area *theRect, TQ3Int32 hPos, TQ
 {
 	return (hPos >= theRect->min.x && hPos < theRect->max.x 
 		 && vPos >= theRect->min.y && vPos < theRect->max.y);
+}
+
+
+//=============================================================================
+//      e3viewer_angle : Return the angle (in radians) corresponding to the
+//			given XY delta.
+//-----------------------------------------------------------------------------
+static float e3viewer_angle(float dx, float dy)
+{
+	float dist = sqrt(dx*dx + dy*dy);
+	// OFI: compute dist via trig instead of sqrt!
+	float ang;
+	if (dx*dx > dy*dy) {
+		ang = dy > 0 ? acos(dx/dist) : kQ32Pi -acos(dx/dist);
+	} else {
+		ang = dx > 0 ? asin(dy/dist) : kQ3Pi - asin(dy/dist);
+	}
+	return (ang > 0 ? ang : ang+kQ32Pi);
 }
 
 
@@ -202,6 +229,43 @@ static TQ3Uns32 e3viewer_contentArea(TQ3ViewerData *data, TQ3Area *outArea)
 	return 0;
 }
 
+
+//=============================================================================
+//      e3viewer_createGuideCircle : Create the geometry of the "guide
+//			circle" shown while the user is rolling the model.
+//-----------------------------------------------------------------------------
+static TQ3GeometryObject e3viewer_createGuideCircle(void)
+{	TQ3Vertex3D			theVertices[kGuideCircleSides] = {0.0f};
+	TQ3PolyLineData		polyLineData;
+	TQ3GeometryObject	thePolyLine;
+	TQ3Uns32			n;
+	TQ3ColorRGB			color = {0.5f, 0.5f, 0.5f};
+
+	// Set up the data
+	polyLineData.numVertices          = kGuideCircleSides;
+	polyLineData.vertices             = theVertices;
+	polyLineData.polyLineAttributeSet = Q3AttributeSet_New();
+	if (polyLineData.polyLineAttributeSet != NULL)
+			Q3AttributeSet_Add(polyLineData.polyLineAttributeSet,
+								kQ3AttributeTypeDiffuseColor,
+								&color);
+	polyLineData.segmentAttributeSet  = NULL;
+
+	for (n = 0; n < kGuideCircleSides; n++)
+		{
+		theVertices[n].point.x = cos(kQ32Pi * (float)n / (float)(kGuideCircleSides-1));
+		theVertices[n].point.y = sin(kQ32Pi * (float)n / (float)(kGuideCircleSides-1));
+		}
+
+	// Create the geometry
+	thePolyLine = Q3PolyLine_New(&polyLineData);
+
+	// Clean up
+	if (polyLineData.polyLineAttributeSet != NULL)
+		Q3Object_Dispose(polyLineData.polyLineAttributeSet);
+
+	return(thePolyLine);
+}
 
 //=============================================================================
 //      e3viewer_drawButton : Draw one control strip button.
@@ -402,8 +466,48 @@ static void e3viewer_applyOrbit(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 			TQ3Int32 oldY, TQ3Int32 newX, TQ3Int32 newY)
 {
 	TQ3ViewerData	*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3Ray3D		ray;
+	TQ3Vector3D		oldPos = {0.0f}, newPos = {0.0f};
+	TQ3Boolean		good;
+	TQ3Sphere		ball = {0.0f};
+	float			length;
+	TQ3Quaternion	q;
+	
+	if (oldX == newX && oldY == newY) return;
 
-	// (not yet implemented)
+	// We need to find the old and new mouse clicks on the 3D virtual trackball
+	// that surrounds the object.  We can do that by solving for the intersection
+	// of a line (through the point clicked and parallel to the Z axis) with
+	// the sphere.
+	
+	// (QuesaMath has a handy extension function that does exactly that.)
+	ball.radius = sqrt(instanceData->mSqrRadius);	
+	ray.direction.x = ray.direction.y = 0.0f;
+	ray.direction.z = 1.0f;
+
+	e3viewer_windowToObject(theViewer, oldX, oldY, &ray.origin);
+ 	good = Q3Ray3D_IntersectSphere(&ray, &ball, (TQ3Point3D*)&oldPos);
+ 	if (!good)
+ 		{
+ 		length = Q3Vector3D_Length((TQ3Vector3D*)&ray.origin);
+ 		oldPos.x = ray.origin.x * length / ball.radius;
+ 		oldPos.y = ray.origin.y * length / ball.radius;
+ 		}
+	e3viewer_windowToObject(theViewer, newX, newY, &ray.origin);
+ 	good = Q3Ray3D_IntersectSphere(&ray, &ball, (TQ3Point3D*)&newPos);
+ 	if (!good)
+ 		{
+ 		length = Q3Vector3D_Length((TQ3Vector3D*)&ray.origin);
+ 		newPos.x = ray.origin.x * length / ball.radius;
+ 		newPos.y = ray.origin.y * length / ball.radius;
+ 		}
+	
+	// Now, construct a quaternion that rotates between these two points.
+	Q3Quaternion_SetRotateVectorToVector(&q, &oldPos, &newPos);
+
+	// Then rotate the object by this amount.
+	Q3Quaternion_Multiply(&instanceData->mOrientation, &q, &instanceData->mOrientation);
+	Q3Quaternion_Normalize(&instanceData->mOrientation, &instanceData->mOrientation);
 
 	// And redraw the view.
 	E3Viewer_DrawContent(theViewer);
@@ -417,10 +521,25 @@ static void e3viewer_applyRoll(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 			TQ3Int32 oldY, TQ3Int32 newX, TQ3Int32 newY)
 {
 	TQ3ViewerData	*instanceData = (TQ3ViewerData *) theViewer->instanceData;
-
-	// (not yet implemented)
-
+	TQ3Point3D		oldPos, newPos;
+	float			oldAngle, newAngle;
+	TQ3Quaternion	q;
+	
+	if (oldX == newX && oldY == newY) return;
+		
+	// Find the old and new angles relative to the center of the object.
+	e3viewer_windowToObject(theViewer, oldX, oldY, &oldPos);
+	e3viewer_windowToObject(theViewer, newX, newY, &newPos);
+	oldAngle = e3viewer_angle(oldPos.x, oldPos.y);
+	newAngle = e3viewer_angle(newPos.x, newPos.y);
+	
+	// Then, rotate the object around the Z axis by the difference.
+	Q3Quaternion_SetRotate_Z(&q, newAngle - oldAngle);
+	Q3Quaternion_Multiply(&instanceData->mOrientation, &q, &instanceData->mOrientation);
+	Q3Quaternion_Normalize(&instanceData->mOrientation, &instanceData->mOrientation);
+	
 	// And redraw the view.
+	instanceData->mGuideGeom = sGuideCircle;
 	E3Viewer_DrawContent(theViewer);
 }
 
@@ -435,6 +554,10 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 	TQ3RendererObject				renderer;
 	TQ3ViewAngleAspectCameraData	camData = {0};
 	TQ3CameraObject					camera;
+	TQ3GroupObject					lights;
+	TQ3LightObject					light;
+	TQ3LightData 					ambientData;
+	TQ3DirectionalLightData 		floodData;
 	
 	// Set up the draw context, renderer, etc.
 
@@ -468,21 +591,48 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 	camData.cameraData.viewPort.width = 2.0f;
 	camData.cameraData.viewPort.height = 2.0f;	
 	camData.fov = 40.0f * 0.0174532925f;		// (convert degrees to radians)
-	camData.aspectRatioXToY = (instanceData->mArea.max.x - instanceData->mArea.min.x)
-							/ (instanceData->mArea.max.y - instanceData->mArea.min.y);
+	camData.aspectRatioXToY = 
+			(contextData.drawContextData.pane.max.x - contextData.drawContextData.pane.min.x)
+		  / (contextData.drawContextData.pane.max.y - contextData.drawContextData.pane.min.y);
 	
 	camera = Q3ViewAngleAspectCamera_New(&camData);
 	
+	// lights...
+	lights = Q3LightGroup_New();
+
+	// Ambient light:
+	ambientData.isOn = kQ3True;
+	ambientData.brightness = 0.4;
+	ambientData.color.r = ambientData.color.g = ambientData.color.b = 1.0f;
+	light = Q3AmbientLight_New(&ambientData);
+	Q3Group_AddObject( lights, light );
+	Q3Object_Dispose(light);
+
+	// Flood light:
+	floodData.lightData.isOn = kQ3True;
+	floodData.lightData.brightness = 0.6f;
+	floodData.lightData.color.r = floodData.lightData.color.g = floodData.lightData.color.b = 1.0f;
+	floodData.castsShadows = kQ3False;
+	floodData.direction.x = 0.18f;
+	floodData.direction.z = 0.22f;
+	floodData.direction.y = -0.8f;
+	Q3Vector3D_Normalize(&floodData.direction, &floodData.direction);
+	light = Q3DirectionalLight_New(&floodData);
+	Q3Group_AddObject( lights, light );
+	Q3Object_Dispose(light);
 	
+		
 	// hook it all together
 	Q3View_SetDrawContext(instanceData->mView, drawContext);
 	Q3View_SetCamera(instanceData->mView, camera);
 	Q3View_SetRenderer(instanceData->mView, renderer);
+	Q3View_SetLightGroup(instanceData->mView, lights);
 
 	// clean up
 	Q3Object_Dispose(drawContext);
 	Q3Object_Dispose(camera);
 	Q3Object_Dispose(renderer);
+	Q3Object_Dispose(lights);
 	
 }
 
@@ -534,7 +684,8 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 	instanceData->mGroup = Q3OrderedDisplayGroup_New();
 	instanceData->mWindow = params->mWindow;
 	instanceData->mArea = *params->mArea;
-
+	Q3Quaternion_SetIdentity(&instanceData->mOrientation);
+	
 	if (kQ3ViewerFlagDefault & params->mFlags)
 		instanceData->mFlags = kQ3ViewerFlagButtonCamera
 							 | kQ3ViewerFlagButtonTruck
@@ -716,6 +867,10 @@ E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 
 	// Create the object
 	theViewer = E3ClassTree_CreateInstance(kQ3ObjectTypeViewer, kQ3False, &paramData);
+	
+	// While we're at it, make sure our extra geometry is ready.
+	if (NULL == sGuideCircle)
+		sGuideCircle = e3viewer_createGuideCircle();
 	
 	return(theViewer);
 }
@@ -907,6 +1062,7 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 	TQ3Status			status;
 	TQ3Point3D			worldPt;
 	TQ3Point2D			windowPt[2];
+	TQ3Vector3D			scale;
 	
 	status = Q3View_StartRendering(view);
 	if (kQ3Success != status)
@@ -914,9 +1070,18 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 		
 	for (i=0; i<100; i++)				// try submitting up to 100 times
 		{
-		// submit transforms
+		// submit transforms (and guide circle, if any)
 		Q3TranslateTransform_Submit( &instanceData->mTranslation, view );
-	
+		if (NULL != instanceData->mGuideGeom)
+			{
+			Q3Push_Submit(view);
+			scale.x = scale.y = scale.z = sqrt(instanceData->mSqrRadius);
+			Q3ScaleTransform_Submit(&scale, view);
+			Q3Object_Submit(instanceData->mGuideGeom, view);
+			Q3Pop_Submit(view);
+			}
+		Q3QuaternionTransform_Submit( &instanceData->mOrientation, view );
+		
 		// submit geometry
 		Q3Object_Submit(instanceData->mGroup, view);
 		
@@ -928,6 +1093,8 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 		Q3View_TransformWorldToWindow(view, &worldPt, &windowPt[1]);
 		instanceData->mPixelScale.x = 1.0f / (windowPt[1].x - windowPt[0].x);
 		instanceData->mPixelScale.y = 1.0f / (windowPt[1].y - windowPt[0].y);
+		
+		// submit the guide geometry, if any
 		
 		// finish the job (retraversing if needed)
 		if (Q3View_EndRendering(view) != kQ3ViewStatusRetraverse) break;
@@ -1740,6 +1907,11 @@ E3Viewer_EventMouseUp(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 	if (kTrackContentGrab == instanceData->mTrackingMode)
 		{
 		instanceData->mTrackingMode = kNotTracking;
+		if (instanceData->mGuideGeom)
+			{
+			instanceData->mGuideGeom = NULL;
+			E3Viewer_DrawContent(theViewer);
+			}
 		return kQ3True;
 		}
 		
