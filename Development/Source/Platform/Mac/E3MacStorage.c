@@ -374,8 +374,6 @@ e3storage_mac_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 	Q3_REQUIRE_OR_RESULT((instanceData->fsRefNum != -1),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(instanceData->buffer != NULL,kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(!e3storage_mac_hasFlag(instanceData, kQ3MacStorage_ReadOnlyFlag),kQ3Failure);
-	Q3_ASSERT( (instanceData->bufferStart == kQ3MacStorage_BufferInvalid) ||
-		(instanceData->bufferStart + instanceData->validBufferSize == offset) );
 
 
 	// check buffer out of range
@@ -389,6 +387,9 @@ e3storage_mac_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 		instanceData->bufferStart = offset;
 		}
 	
+	Q3_ASSERT( (instanceData->bufferStart == kQ3MacStorage_BufferInvalid) ||
+		(instanceData->bufferStart + instanceData->validBufferSize == offset) );
+
 	// we have a valid buffer
 	if( dataSize >= kQ3MacStorage_MaxSizeBuffered)
 		{// write directly
