@@ -446,7 +446,7 @@ static TQ3Status
 e3main_registercoreclasses(void)
 	{
 	// Register the classes
-	E3Root* rootInfo = new ( std::nothrow ) E3Root ( e3root_metahandler , nil ) ;
+	E3Root* rootInfo = new ( std::nothrow ) E3Root ( e3root_metahandler , NULL ) ;
 	TQ3Status qd3dStatus = E3ClassTree::RegisterClass (
 											rootInfo,
 											OpaqueTQ3Object::eClassType,
