@@ -20,9 +20,9 @@
 #define IDM_INTERPOLATION_STYLE_PIXEL           117
 #define IDM_ORIENTATION_STYLE_CLOCKWISE         118
 #define IDM_ORIENTATION_STYLE_COUNTER_CLOCKWISE 119
-#define IDM_ANTI-ALIAS_STYLE_OFF                120
-#define IDM_ANTI-ALIAS_STYLE_EDGES              121
-#define IDM_ANTI-ALIAS_STYLE_FILLED             122
+#define IDM_ANTIALIAS_STYLE_NONE                120
+#define IDM_ANTIALIAS_STYLE_EDGES               121
+#define IDM_ANTIALIAS_STYLE_FILLED              122
 #define IDM_FOG_STYLE_ON                        123
 #define IDM_FOG_STYLE_OFF                       124
 #define IDM_SUBDIVISION_STYLE_CONSTANT1         125

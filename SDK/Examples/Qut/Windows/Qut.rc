@@ -56,9 +56,9 @@ BEGIN
         MENUITEM "Orientation Style Clockwise",         IDM_ORIENTATION_STYLE_CLOCKWISE
         MENUITEM "Orientation Style Counter-Clockwise", IDM_ORIENTATION_STYLE_COUNTER_CLOCKWISE
         MENUITEM SEPARATOR
-        MENUITEM "Anti-Alias Style Off",                IDM_ANTI-ALIAS_STYLE_OFF
-        MENUITEM "Anti-Alias Style Edges",              IDM_ANTI-ALIAS_STYLE_EDGES
-        MENUITEM "Anti-Alias Style Filled",             IDM_ANTI-ALIAS_STYLE_FILLED
+        MENUITEM "Anti-Alias Style Off",                IDM_ANTIALIAS_STYLE_NONE
+        MENUITEM "Anti-Alias Style Edges",              IDM_ANTIALIAS_STYLE_EDGES
+        MENUITEM "Anti-Alias Style Filled",             IDM_ANTIALIAS_STYLE_FILLED
         MENUITEM SEPARATOR
         MENUITEM "Fog Style On",                        IDM_FOG_STYLE_ON
         MENUITEM "Fog Style Off",                       IDM_FOG_STYLE_OFF
