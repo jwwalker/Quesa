@@ -48,6 +48,7 @@
 // Quesa
 #include "E3Prefix.h"
 #include "GLPrefix.h"
+#include "CQ3ObjectRef.h"
 
 
 
@@ -123,7 +124,8 @@ typedef struct TQ3QualityFilter {
 
 // Cached texture data
 typedef struct TQ3CachedTexture {
-	TQ3TextureObject		cachedTextureObject;
+	CQ3ObjectRef			cachedTextureObject;
+	CQ3ObjectRef			cachedTextureShader;
 	TQ3Matrix3x3			theTransform;
 	TQ3QualityFilter		qualityFilter;
 	TQ3Uns32				editIndexShader;
