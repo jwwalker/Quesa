@@ -215,11 +215,17 @@ E3Viewer_GetReleaseVersion(TQ3Uns32 *releaseRevision)
 //-----------------------------------------------------------------------------
 TQ3ViewerObject
 E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
-{
+{	TQ3ViewerObject		theViewer;
 
 
-	// To be implemented...
-	return(NULL);
+
+	// Create the object
+	// NOTE: the following is failing because kQ3ObjectTypeViewer is not
+	// recognized.  I wonder if the Viewer should just be a built-in
+	// part of Quesa now, since it seems to rely on a lot of the Quesa
+	// internals (like the class map).
+	theViewer = E3ClassTree_CreateInstance(kQ3ObjectTypeViewer, kQ3False, NULL);
+	return(theViewer);
 }
 
 
@@ -234,6 +240,8 @@ E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 TQ3Status
 E3Viewer_Dispose(TQ3ViewerObject theViewer)
 {
+	// Dair: do we need this?
+	// There's no such method in E3Group.c, for example...
 
 
 	// To be implemented...
