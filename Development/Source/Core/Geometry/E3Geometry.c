@@ -93,23 +93,6 @@
 
 
 //=============================================================================
-//      Internal types
-//-----------------------------------------------------------------------------
-// Geometry data
-typedef struct TQ3GeometryData {
-	TQ3Uns32					cameraEditIndex;
-	TQ3SubdivisionStyleData		styleSubdivision;
-	TQ3OrientationStyle			styleOrientation;
-	TQ3Uns32					cachedEditIndex;
-	TQ3Object					cachedObject;
-	float						cachedDeterminant;
-} TQ3GeometryData;
-
-
-
-
-
-//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3geometry_get_attributes : Get a pointer to a geometry attribute set.
@@ -147,16 +130,17 @@ e3geometry_get_attributes(TQ3GeometryObject theGeom)
 //=============================================================================
 //      e3geometry_delete : Geometry delete method.
 //-----------------------------------------------------------------------------
-static void
+void
 e3geometry_delete(TQ3Object theObject, void *privateData)
-{	TQ3GeometryData			*instanceData = (TQ3GeometryData *) privateData;
-#pragma unused(theObject)
+	{
+#pragma unused(privateData)
+	E3Geometry* instanceData = (E3Geometry*) theObject ;
 
 
 
 	// Clean up
-	Q3Object_CleanDispose(&instanceData->cachedObject);
-}
+	Q3Object_CleanDispose ( &instanceData->cachedObject ) ;
+	}
 
 
 
@@ -165,11 +149,12 @@ e3geometry_delete(TQ3Object theObject, void *privateData)
 //=============================================================================
 //      e3geometry_duplicate : Geometry duplicate method.
 //-----------------------------------------------------------------------------
-static TQ3Status
+TQ3Status
 e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 					 TQ3Object toObject,   void       *toPrivateData)
-{	const TQ3GeometryData	*fromInstanceData = (const TQ3GeometryData *) fromPrivateData;
-	TQ3GeometryData			*toInstanceData   = (      TQ3GeometryData *) toPrivateData;
+	{
+	const E3Geometry* fromInstanceData = (const E3Geometry*) fromObject ;
+	E3Geometry* toInstanceData   = (E3Geometry*) toObject ;
 
 
 
@@ -181,8 +166,8 @@ e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	toInstanceData->cachedObject      = NULL;
 	toInstanceData->cachedDeterminant = 0.0f;
 	
-	return kQ3Success;
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -202,10 +187,12 @@ e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //				repeat the process until one of the required geometry types is
 //				reached.
 //-----------------------------------------------------------------------------
-static TQ3Status
+
+
+// N.B. e3geometry_submit_decomposed is not really a method of E3Geometry as theObject is often nil
+TQ3Status
 e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status						qd3dStatus  = kQ3Failure;
-	TQ3GeometryData					*instanceData;
 	TQ3XGeomCacheIsValidMethod		cacheIsValid;
 	TQ3XGeomCacheUpdateMethod		cacheUpdate;
 	TQ3Object						tmpObject;
@@ -238,8 +225,7 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 
 
 		// Find our instance data
-		instanceData = (TQ3GeometryData *) E3ClassTree_FindInstanceData(theObject, kQ3ShapeTypeGeometry);
-		Q3_ASSERT_VALID_PTR(instanceData);
+		E3Geometry* instanceData = (E3Geometry*) theObject ;
 
 
 
@@ -479,13 +465,12 @@ e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theO
 //				If the geometry does use subdivision, we also need to inspect
 //				the camera's edit index and the current subdivision style.
 //-----------------------------------------------------------------------------
-static TQ3Boolean
+TQ3Boolean
 e3geometry_cache_isvalid(TQ3ViewObject theView,
 						TQ3ObjectType objectType, TQ3GeometryObject theGeom,
 						const void   *geomData,   TQ3Object         cachedGeom)
 {	float					theDet, detRatio;
 	TQ3OrientationStyle		theOrientation;
-	TQ3GeometryData			*instanceData;
 	TQ3Matrix4x4			localToWorld;
 	TQ3Uns32				editIndex;
 	E3ClassInfoPtr			theClass;
@@ -499,7 +484,7 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 
 
 	// Find our instance data
-	instanceData = (TQ3GeometryData *) E3ClassTree_FindInstanceData(theGeom, kQ3ShapeTypeGeometry);
+	E3Geometry* instanceData = (E3Geometry*) theGeom ;
 	Q3_ASSERT_VALID_PTR(instanceData);
 
 
@@ -726,11 +711,11 @@ E3Geometry_RegisterClass(void)
 
 
 	// Register the geometry classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShape,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
 											kQ3ShapeTypeGeometry,
 											kQ3ClassNameGeometry,
 											e3geometry_metahandler,
-											sizeof(TQ3GeometryData));
+											~sizeof(E3Geometry));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3GeometryBox_RegisterClass();
