@@ -259,8 +259,8 @@ static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
 	{ kQ3WarningInvalidObjectInGroupMetafile,		"Quesa Warning: " "Invalid object in group metafile" },
 	{ kQ3WarningQuaternionNotNormalized,			"Quesa Warning: " "Quaternion is not normalized" },
 	{ kQ3WarningNormalCanNotBeFlipped,				"Quesa Warning: " "Normal can not be flipped correctly" },
-	{ kQ3WarningTriMeshTriangleNotNormalized,		"Quesa Warning: " "TriMesh triangle normal is normalized" },
-	{ kQ3WarningTriMeshVertexNotNormalized,			"Quesa Warning: " "TriMesh vertex normal is not normalized" },
+	{ kQ3WarningTriangleNotNormalized,				"Quesa Warning: " "Triangle normal is not normalized" },
+	{ kQ3WarningVertexNotNormalized,				"Quesa Warning: " "Vertex normal is not normalized" },
 	{ kQ3WarningReadInfiniteFloatingPointNumber,	"Quesa Warning: " "Read infinite floating-point number" },
 	{ kQ3WarningReadBadNormalVector,				"Quesa Warning: " "Read bad (unnormalizable) normal vector" },
 	{ kQ3WarningNone, NULL } };
