@@ -18,13 +18,7 @@
 <!--=========================================================================-->
 <h3>Quesa Scripts</h3>
 <p>
-This directory contains various Perl scripts which were used in the
-development of Quesa.
-</p>
-
-<p>
-These scripts are not required for developing with Quesa, but are
-included in the distribution in case they are useful in the future:
+This directory contains various Perl scripts used in the development of Quesa.
 </p>
 
 <table width="80%" align=center border=0>
@@ -60,6 +54,15 @@ Generates the status table for the docs.
 Generates the API level documentation from the headers. A customised version of Apple's
 <a href="http://www.opensource.apple.com/projects/headerdoc/">HeaderDoc</a> script.
 Licensed under the <a href="http://www.opensource.apple.com/apsl/">APSL</a>.
+</td>
+</tr>
+
+<tr valign=top>
+<td align=left>BuildRelease</td>
+<td align=left>
+Generates the Mac (.sit), Unix (.tar.gz), and Windows (.zip) release archives from the
+source. Must be run under MacPerl, with the cpan-mac modules installed (see the script
+heade for more details).
 </td>
 </tr>
 
