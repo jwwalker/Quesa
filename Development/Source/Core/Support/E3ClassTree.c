@@ -90,6 +90,7 @@ typedef struct E3ClassInfo {
 	TQ3XMetaHandler		classMetaHandler;
 	E3HashTablePtr		methodTable;
 
+
 	// Instances
 	TQ3Uns32			numInstances;
 	TQ3Uns32			instanceSize;	
@@ -386,7 +387,7 @@ e3class_dump_class(FILE *theFile, TQ3Uns32 indent, E3ClassInfoPtr theClass)
 					theClass->className,
 					theClass->numInstances == 0 ? "" : " *** MEMORY LEAK ***");
 
-	if ( (theClass->classType < 0) && (theClass->classType >= theGlobals->nextType) )
+	if ( (theClass->classType < 0) && (theClass->classType >= theGlobals->classNextType) )
 		fprintf(theFile, "%s-> classType    = 0x%lx\n", thePad, theClass->classType);
 	else
 		fprintf(theFile, "%s-> classType    = %c%c%c%c\n", thePad,
@@ -472,9 +473,9 @@ E3ClassTree_GetNextClassType(void)
 
 
 	// Decrement the class type, and return the next available type
-	--theGlobals->nextType;
+	theGlobals->classNextType--;
 	
-	return(theGlobals->nextType);
+	return(theGlobals->classNextType);
 }
 
 
@@ -1046,42 +1047,6 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 
 
 //=============================================================================
-//      E3ClassTree_FindParentInstance : Find the parent object of an object.
-//-----------------------------------------------------------------------------
-//		Note :	Given an object, we walk upwards through its parent objects
-//				until we find one with the appropriate class type.
-//-----------------------------------------------------------------------------
-TQ3Object
-E3ClassTree_FindParentInstance(TQ3Object theObject, TQ3ObjectType classType)
-{	TQ3Object		parentObject;
-
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theObject), NULL);
-	Q3_CLASS_VERIFY(theObject);
-
-
-
-	// Check to see if this is object is what we're looking for
-	if (theObject->theClass->classType == classType)
-		return(theObject);
-
-
-
-	// Walk up the parents of the object, looking for the correct one
-	parentObject = theObject->parentObject;
-	while (parentObject != NULL && parentObject->theClass->classType != classType)
-		parentObject = parentObject->parentObject;
-	
-	return(parentObject);
-}
-
-
-
-
-
-//=============================================================================
 //      E3ClassTree_FindInstanceData : Find the instance data of an object.
 //-----------------------------------------------------------------------------
 //		Note :	Given an object, we walk upwards through its parent objects
@@ -1094,7 +1059,8 @@ E3ClassTree_FindParentInstance(TQ3Object theObject, TQ3ObjectType classType)
 //-----------------------------------------------------------------------------
 void *
 E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
-{	TQ3Object		parentObject;
+{	void				*instanceData;
+	TQ3Object			parentObject;
 
 
 
@@ -1103,22 +1069,26 @@ E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
 	Q3_CLASS_VERIFY(theObject);
 
 
+	// Find the instance data
+	//
+	// The instance data is either on this object, or one of its parents.
+	instanceData = NULL;
 
-	// Check to see if this is object is what we're looking for
 	if (theObject->theClass->classType == classType)
-		return(theObject->instanceData);
+		instanceData = theObject->instanceData;
 
+	else
+		{
+		parentObject = theObject->parentObject;
 
+		while (parentObject != NULL && parentObject->theClass->classType != classType)
+			parentObject = parentObject->parentObject;
 
-	// Walk up the parents of the object, looking for the correct one
-	parentObject = theObject->parentObject;
-	while (parentObject != NULL && parentObject->theClass->classType != classType)
-		parentObject = parentObject->parentObject;
+		if (parentObject != NULL)
+			instanceData = parentObject->instanceData;
+		}
 
-	if (parentObject != NULL)
-		return(parentObject->instanceData);
-	
-	return(NULL);
+	return(instanceData);
 }
 
 
@@ -1166,6 +1136,25 @@ E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType)
 	// Return the appropriate type
 	return theType;
 
+}
+
+
+
+
+
+//=============================================================================
+//      E3ClassTree_IsObjectValid : Is an object valid?
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3ClassTree_IsObjectValid(TQ3Object theObject)
+{	TQ3Boolean	isValid;
+
+
+
+	// Check to see if the object is valid
+	isValid = (theObject->quesaTag == kQ3ObjectTypeQuesa);
+	
+	return(isValid);
 }
 
 
@@ -1472,17 +1461,22 @@ E3ClassTree_GetMethod(E3ClassInfoPtr theClass, TQ3XMethodType methodType)
 
 
 
-	// Check the hash table
+	// Find the method
+	//
+	// We first check the hash table for the class. If this fails, we invoke the
+	// metahandler for the class to obtain the method and store it away in the
+	// hash table for future use.
+	//
+	// When invoking the metahandler, we inherit methods that this class doesn't
+	// implement from the parent - ensuring that the hash table is eventually
+	// populated with all of the (invoked) methods of the class.
 	theMethod = (TQ3XFunctionPointer) E3HashTable_Find(theClass->methodTable, methodType);
-	if (theMethod != NULL)
-		return(theMethod);
-
-
-
-	// Find the method, allowing inheritence, and save it for later
-	theMethod = e3class_find_method(theClass, methodType, kQ3True);
-	if (theMethod != NULL)
-		E3HashTable_Add(theClass->methodTable, methodType, theMethod);
+	if (theMethod == NULL)
+		{
+		theMethod = e3class_find_method(theClass, methodType, kQ3True);
+		if (theMethod != NULL)
+			E3HashTable_Add(theClass->methodTable, methodType, theMethod);
+		}
 
 	return(theMethod);
 }
@@ -1579,6 +1573,16 @@ E3ClassTree_Dump(void)
 
 	fprintf(theFile, "class tree, num items     = %lu\n",
 						E3HashTable_GetNumItems(theGlobals->classTree));
+
+	fprintf(theFile, "class tree, table size    = %lu\n",
+						E3HashTable_GetTableSize(theGlobals->classTree));
+
+	fprintf(theFile, "class tree, stat counters = %d/%d/%d/%d/%d\n",
+						theGlobals->classStats1,
+						theGlobals->classStats2,
+						theGlobals->classStats3,
+						theGlobals->classStats4,
+						theGlobals->classStats5);
 
 	fprintf(theFile, "class tree, table size    = %lu\n",
 						E3HashTable_GetTableSize(theGlobals->classTree));
