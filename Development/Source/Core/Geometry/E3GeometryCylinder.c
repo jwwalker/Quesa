@@ -675,8 +675,25 @@ E3Cylinder_New(const TQ3CylinderData *cylinderData)
 
 
 
-	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeCylinder, kQ3False, cylinderData);
+	if (cylinderData == NULL)
+	{
+		TQ3CylinderData	defaultCylinder = {
+			{ 0.0f, 0.0f, 0.0f },
+			{ 1.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f },
+			0.0f, 1.0f, 0.0f, 1.0f,
+			kQ3EndCapNone,
+			NULL, NULL, NULL, NULL, NULL
+		};
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeCylinder, kQ3False, &defaultCylinder);
+	}
+	else
+	{
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeCylinder, kQ3False, cylinderData);
+	}
+
+
 	return(theObject);
 }
 

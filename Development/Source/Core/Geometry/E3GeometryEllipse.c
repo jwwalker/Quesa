@@ -136,7 +136,7 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 {	float						theAngle, deltaAngle;
 	TQ3SubdivisionStyleData		subdivisionData;
 	TQ3Vertex3D					*theVertices;
-	TQ3Uns32					numPoints, n;
+	TQ3Uns32					numPoints, numSides, n;
 	TQ3PolyLineData				polyLineData;
 	TQ3GeometryObject			thePolyLine;
 	TQ3Status					qd3dStatus;
@@ -145,20 +145,20 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 
 	// Get the subdivision style, to figure out how many sides we should have.
-	numPoints  = 10;
+	numSides  = 10;
 	qd3dStatus = Q3View_GetSubdivisionStyleState(theView, &subdivisionData);
 	if (qd3dStatus == kQ3Success)
 		{
 		switch (subdivisionData.method) {
 			case kQ3SubdivisionMethodConstant:
 				// For an ellipse, parameter c1 is the number of sides and c2 is unused
-				numPoints = (TQ3Uns32) subdivisionData.c1;
+				numSides = (TQ3Uns32) subdivisionData.c1;
 				break;
 			
 			case kQ3SubdivisionMethodWorldSpace:
 				// Keep the length of any side less than or equal to c1 - so divide
 				// the diameter by c1
-				numPoints = (TQ3Uns32) ((kQ32Pi * Q3Vector3D_Length(&geomData->majorRadius)) / subdivisionData.c1);
+				numSides = (TQ3Uns32) ((kQ32Pi * Q3Vector3D_Length(&geomData->majorRadius)) / subdivisionData.c1);
 				break;
 
 			case kQ3SubdivisionMethodScreenSpace:
@@ -166,7 +166,8 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 				break;
 			}
 		}
-	numPoints = E3Num_Max(E3Num_Min(numPoints, 256), 4);
+	numSides = E3Num_Max(E3Num_Min(numSides, 256), 4);
+	numPoints = numSides + 1;
 
 
 
@@ -179,7 +180,7 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 	// Define the ellipse, as a cosine/sine combination of major and minor radius vectors
 	theAngle   = (geomData->uMin * kQ32Pi);
-	deltaAngle = ((geomData->uMax - geomData->uMin) * kQ32Pi) / (float) numPoints;
+	deltaAngle = ((geomData->uMax - geomData->uMin) * kQ32Pi) / (float) numSides;
 
 	for (n = 0; n < numPoints; n++)
 		{
@@ -328,9 +329,24 @@ E3Ellipse_New(const TQ3EllipseData *ellipseData)
 {	TQ3Object		theObject;
 
 
+	if (ellipseData == NULL)
+	{
+		// This is not what the 3DMF specification claims to be the default, but it seems
+		// to be what QD3D actually does.
+		TQ3EllipseData	defaultEllipse = {
+			{ 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f },
+			0.0f, 1.0f, NULL
+		};
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeEllipse, kQ3False, &defaultEllipse);
+	}
+	else
+	{
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeEllipse, kQ3False, ellipseData);
+	}
 
-	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeEllipse, kQ3False, ellipseData);
+
 	return(theObject);
 }
 
