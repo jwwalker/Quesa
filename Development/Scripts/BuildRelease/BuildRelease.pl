@@ -455,11 +455,15 @@ sub removeBinaryFiles
 
 
 	# Remove any left-overs from builds
+	#
+	# dair - perhaps do this with a scan for file types, to pick up
+	# shared libs/profile output in the example apps area?
 	print "    removing binaries\n";
 	my @theFiles = ();
 
 	push(@theFiles, $releaseDir . ":Development:Projects:Mac:Quesa Custom Elements Data:");
 	push(@theFiles, $releaseDir . ":Development:Projects:Mac:Quesa Data:");
+	push(@theFiles, $releaseDir . ":Development:Projects:Mac:Quesa Gestalt Data:");
 	push(@theFiles, $releaseDir . ":Development:Projects:Mac:Quesa Stubs Data:");
 	push(@theFiles, $releaseDir . ":Development:Projects:Mac:Quesa Viewer Data:");
 	push(@theFiles, $releaseDir . ":Development:Projects:Mac:QuesaCarbonDebug_PCH");
