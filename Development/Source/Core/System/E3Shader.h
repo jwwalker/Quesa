@@ -88,6 +88,10 @@ Q3_CLASS_ENUMS ( kQ3ShapeTypeShader, E3Shader, E3Shape )
 
 public :
 
+	static TQ3Boolean	IsOfMyClass ( TQ3Object object ) ;
+	
+	TQ3ObjectType		GetType ( void ) ;
+	TQ3Status			Submit ( TQ3ViewObject view ) ;
 	TQ3Status			SetUVTransform ( const TQ3Matrix3x3* uvTransform ) ;
 	TQ3Status			GetUVTransform ( TQ3Matrix3x3* uvTransform ) ;
 	TQ3Status			SetUBoundary ( TQ3ShaderUVBoundary uBoundary ) ;
@@ -122,21 +126,14 @@ float *					E3ColorRGB_Luminance(const TQ3ColorRGB *color, float *luminance);
 TQ3Status				E3Shader_RegisterClass(void);
 TQ3Status				E3Shader_UnregisterClass(void);
 
-TQ3ObjectType			E3Shader_GetType(TQ3ShaderObject shader);
-TQ3Status				E3Shader_Submit(TQ3ShaderObject shader, TQ3ViewObject view);
-//TQ3Status				E3Shader_SetUVTransform(TQ3ShaderObject shader, const TQ3Matrix3x3 *uvTransform);
-//TQ3Status				E3Shader_GetUVTransform(TQ3ShaderObject shader, TQ3Matrix3x3 *uvTransform);
-//TQ3Status				E3Shader_SetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary uBoundary);
-//TQ3Status				E3Shader_SetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary vBoundary);
-//TQ3Status				E3Shader_GetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *uBoundary);
-//TQ3Status				E3Shader_GetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *vBoundary);
-
 TQ3ObjectType			E3IlluminationShader_GetType(TQ3ShaderObject shader);
 TQ3ShaderObject			E3PhongIllumination_New(void);
 TQ3ShaderObject			E3LambertIllumination_New(void);
 TQ3ShaderObject			E3NULLIllumination_New(void);
 
 TQ3ObjectType			E3SurfaceShader_GetType(TQ3SurfaceShaderObject shader);
+
+TQ3Boolean				E3TextureShader_IsOfMyClass ( TQ3Object object ) ;
 TQ3ShaderObject			E3TextureShader_New(TQ3TextureObject texture);
 TQ3Status				E3TextureShader_GetTexture(TQ3ShaderObject shader, TQ3TextureObject *texture);
 TQ3Status				E3TextureShader_SetTexture(TQ3ShaderObject shader, TQ3TextureObject texture);

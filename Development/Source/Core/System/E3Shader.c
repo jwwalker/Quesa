@@ -767,14 +767,37 @@ E3Shader_UnregisterClass(void)
 
 
 //=============================================================================
-//      E3Shader_GetType : Get the type of a shader.
+//      E3Shader::IsOfMyClass : Check if object pointer is valid and of type Shader
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3ShapeTypeShader )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
 //-----------------------------------------------------------------------------
 #pragma mark -
+TQ3Boolean
+E3Shader::IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Shader ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
+//      E3Shader_GetType : Get the type of a shader.
+//-----------------------------------------------------------------------------
 TQ3ObjectType
-E3Shader_GetType(TQ3ShaderObject shader)
+E3Shader::GetType ()
 	{
 	// Return the type
-	return shader->GetObjectType ( kQ3ShapeTypeShader ) ;
+	return GetObjectType ( kQ3ShapeTypeShader ) ;
 	}
 
 
@@ -788,16 +811,11 @@ E3Shader_GetType(TQ3ShaderObject shader)
 //				submit the object as a retained submit.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_Submit(TQ3ShaderObject shader, TQ3ViewObject view)
-{	TQ3Status		qd3dStatus;
-
-
-
+E3Shader::Submit ( TQ3ViewObject view )
+	{
 	// Submit the shader to the view
-	qd3dStatus = E3View_SubmitRetained(view, shader);
-
-	return(qd3dStatus);
-}
+	return E3View_SubmitRetained ( view, this ) ;
+	}
 
 
 
@@ -983,6 +1001,30 @@ E3SurfaceShader_GetType(TQ3SurfaceShaderObject shader)
 	{
 	// Return the type
 	return shader->GetObjectType ( kQ3ShaderTypeSurface ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      E3TextureShader_IsOfMyClass : Check if object pointer is valid and of type TextureShader
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3SharedTypeTexture )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+#pragma mark -
+TQ3Boolean
+E3TextureShader_IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3TextureShader ) ;
+		
+	return kQ3False ;
 	}
 
 

@@ -1796,6 +1796,29 @@ E3Set_UnregisterClass(void)
 
 
 //=============================================================================
+//      E3Set::IsOfMyClass : Check if object pointer is valid and of type set
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3SharedTypeSet )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Set::IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Set ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3Set_New : Create a set object.
 //-----------------------------------------------------------------------------
 TQ3SetObject
