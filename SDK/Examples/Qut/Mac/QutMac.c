@@ -164,7 +164,9 @@ qut_handle_menu(TQ3Uns32 menuInfo)
 	ModalFilterUPP 		dialogFilter;
 	DialogItemIndex		dialogItem;
 	DialogPtr			theDialog; 
+#if !TARGET_API_MAC_CARBON
 	Str255				theStr;
+#endif
 
 
 
@@ -273,7 +275,7 @@ qut_handle_key(const EventRecord *theEvent)
 //=============================================================================
 //		qut_handle_nav_event : Event callback from Nav Services.
 //-----------------------------------------------------------------------------
-static void
+static pascal void
 qut_handle_nav_event(NavEventCallbackMessage    callBackSelector,
 						NavCBRecPtr             callBackParms,
 						NavCallBackUserData     callBackUD)
@@ -299,7 +301,9 @@ static void
 qut_initialize(void)
 {	TQ3Status		qd3dStatus;
 	Handle			theMenuBar;
+#if !TARGET_API_MAC_CARBON
 	TQ3Uns32		n;
+#endif
 	
 
 
@@ -565,7 +569,9 @@ Qut_SelectMetafile(void)
 	FSSpec				theFSSpec;
     AEDesc              theAEDesc;
 	NavReplyRecord      navReply;
+#if !TARGET_API_MAC_CARBON
 	StandardFileReply	sfReply;
+#endif
 	OSErr				theErr;
 
 
@@ -602,7 +608,7 @@ Qut_SelectMetafile(void)
 
 		// Clean up
 		NavUnload();
-		DisposeRoutineDescriptor(navEventFilterUPP);
+		DisposeNavEventUPP(navEventFilterUPP);
 
 		if (!navReply.validRecord)
 			return(NULL);
@@ -611,7 +617,7 @@ Qut_SelectMetafile(void)
 
 		// Extract the file
 		AEGetNthDesc(&navReply.selection, 1, typeFSS, &theAEKeyword, &theAEDesc);
-		memcpy(&theFSSpec, *(theAEDesc.dataHandle), sizeof(FSSpec));
+		AEGetDescData(&theAEDesc, &theFSSpec, sizeof(FSSpec));
 		}
 
 
@@ -652,7 +658,9 @@ Qut_SelectPictureFile(void *theFile, TQ3Uns32 fileLen)
     AEKeyword           theAEKeyword;
     AEDesc              theAEDesc;
 	NavReplyRecord      navReply;
+#if !TARGET_API_MAC_CARBON
 	StandardFileReply	sfReply;
+#endif
 	OSErr				theErr;
 
 
@@ -685,7 +693,7 @@ Qut_SelectPictureFile(void *theFile, TQ3Uns32 fileLen)
 
 		// Clean up
 		NavUnload();
-		DisposeRoutineDescriptor(navEventFilterUPP);
+		DisposeNavEventUPP(navEventFilterUPP);
 
 		if (!navReply.validRecord)
 			return(kQ3Failure);
@@ -694,7 +702,7 @@ Qut_SelectPictureFile(void *theFile, TQ3Uns32 fileLen)
 
 		// Extract the file
 		AEGetNthDesc(&navReply.selection, 1, typeFSS, &theAEKeyword, &theAEDesc);
-		memcpy(theFile, *(theAEDesc.dataHandle), sizeof(FSSpec));
+		AEGetDescData(&theAEDesc, theFile, sizeof(FSSpec));
 		}
 
 

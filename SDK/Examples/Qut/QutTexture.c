@@ -102,8 +102,8 @@ QutTexture_CreateGWorldFromPICT(PicHandle thePicture, TQ3PixelType pixelType)
 		SetGWorld(theGWorld, NULL);
 		LockPixels(GetGWorldPixMap(theGWorld));
 
-		CopyBits(&((GrafPtr) deepGWorld)->portBits,
-				 &((GrafPtr) theGWorld)->portBits,
+		CopyBits(GetPortBitMapForCopyBits(deepGWorld),
+				 GetPortBitMapForCopyBits(theGWorld),
 				 &(*thePicture)->picFrame,
 				 &(*thePicture)->picFrame,
 				 ditherCopy, NULL);

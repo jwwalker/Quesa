@@ -37,7 +37,17 @@
 //-----------------------------------------------------------------------------
 #if !TARGET_API_MAC_CARBON
 	// Get the bounds for a port
-	#define GetPortBounds(_port, _rect)		*(_rect) = _port->portRect;
+	#define GetPortBounds(_port, _rect)			*(_rect) = _port->portRect;
+
+
+	// Get the data for an AE descriptor
+	#define AEGetDescData(_ae, _ptr, _size)		memcpy(_ptr, *((_ae)->dataHandle), _size);
+	
+	
+	// Get the port bits of a port
+	#define GetPortBitMapForCopyBits(_port)		&((GrafPtr) _port)->portBits
+
+
 #endif
 
 
