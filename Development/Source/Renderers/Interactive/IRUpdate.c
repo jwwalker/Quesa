@@ -230,6 +230,12 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 
 
 
+	// Flush any buffered triangles
+	if (instanceData->triBufferActive)
+		IRTriBuffer_Draw(theView, instanceData);
+
+
+
 	// Determine the camera position and view vector in local coordinates
 	Q3Matrix4x4_Invert(theMatrix, &cameraToLocal);
 
