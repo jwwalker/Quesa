@@ -152,10 +152,6 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Ellipse;
 			break;
 
-		case kQ3GeometryTypeEllipsoid:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Ellipsoid;
-			break;
-
 		case kQ3GeometryTypePolyhedron:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Polyhedron;
 			break;
