@@ -107,7 +107,7 @@ Q3Camera_GetType(TQ3CameraObject camera)
 
 
 	// Call our implementation
-	return(E3Camera_GetType(camera));
+	return ( (E3Camera*) camera )->GetType () ;
 }
 
 
@@ -148,7 +148,7 @@ Q3Camera_SetData(TQ3CameraObject camera, const TQ3CameraData *cameraData)
 
 
 	// Call our implementation
-	return(E3Camera_SetData(camera, cameraData));
+	return ( (E3Camera*) camera )->SetData ( cameraData ) ;
 }
 
 
@@ -186,7 +186,7 @@ Q3Camera_GetData(TQ3CameraObject camera, TQ3CameraData *cameraData)
 
 
 	// Call our implementation
-	return(E3Camera_GetData(camera, cameraData));
+	return ( (E3Camera*) camera )->GetData ( cameraData ) ;
 }
 
 
@@ -227,7 +227,7 @@ Q3Camera_SetPlacement(TQ3CameraObject camera, const TQ3CameraPlacement *placemen
 
 
 	// Call our implementation
-	return(E3Camera_SetPlacement(camera, placement));
+	return ( (E3Camera*) camera )->SetPlacement ( placement ) ;
 }
 
 
@@ -265,7 +265,7 @@ Q3Camera_GetPlacement(TQ3CameraObject camera, TQ3CameraPlacement *placement)
 
 
 	// Call our implementation
-	return(E3Camera_GetPlacement(camera, placement));
+	return ( (E3Camera*) camera )->GetPlacement ( placement ) ;
 }
 
 
@@ -303,7 +303,7 @@ Q3Camera_SetRange(TQ3CameraObject camera, const TQ3CameraRange *range)
 
 
 	// Call our implementation
-	return(E3Camera_SetRange(camera, range));
+	return ( (E3Camera*) camera )->SetRange ( range ) ;
 }
 
 
@@ -341,7 +341,7 @@ Q3Camera_GetRange(TQ3CameraObject camera, TQ3CameraRange *range)
 
 
 	// Call our implementation
-	return(E3Camera_GetRange(camera, range));
+	return ( (E3Camera*) camera )->GetRange ( range ) ;
 }
 
 
@@ -379,7 +379,7 @@ Q3Camera_SetViewPort(TQ3CameraObject camera, const TQ3CameraViewPort *viewPort)
 
 
 	// Call our implementation
-	return(E3Camera_SetViewPort(camera, viewPort));
+	return ( (E3Camera*) camera )->SetViewPort ( viewPort ) ;
 }
 
 
@@ -417,7 +417,7 @@ Q3Camera_GetViewPort(TQ3CameraObject camera, TQ3CameraViewPort *viewPort)
 
 
 	// Call our implementation
-	return(E3Camera_GetViewPort(camera, viewPort));
+	return ( (E3Camera*) camera )->GetViewPort ( viewPort ) ;
 }
 
 
@@ -455,7 +455,7 @@ Q3Camera_GetWorldToView(TQ3CameraObject camera, TQ3Matrix4x4 *worldToView)
 
 
 	// Call our implementation
-	return(E3Camera_GetWorldToView(camera, worldToView));
+	return ( (E3Camera*) camera )->GetWorldToView ( worldToView ) ;
 }
 
 
@@ -493,7 +493,7 @@ Q3Camera_GetWorldToFrustum(TQ3CameraObject camera, TQ3Matrix4x4 *worldToFrustum)
 
 
 	// Call our implementation
-	return(E3Camera_GetWorldToFrustum(camera, worldToFrustum));
+	return ( (E3Camera*) camera )->GetWorldToFrustum ( worldToFrustum ) ;
 }
 
 
@@ -531,7 +531,7 @@ Q3Camera_GetViewToFrustum(TQ3CameraObject camera, TQ3Matrix4x4 *viewToFrustum)
 
 
 	// Call our implementation
-	return(E3Camera_GetViewToFrustum(camera, viewToFrustum));
+	return ( (E3Camera*) camera )->GetViewToFrustum ( viewToFrustum ) ;
 }
 
 
@@ -607,7 +607,7 @@ Q3OrthographicCamera_GetData(TQ3CameraObject camera, TQ3OrthographicCameraData *
 
 
 	// Call our implementation
-	return(E3OrthographicCamera_GetData(camera, cameraData));
+	return ( (E3OrthographicCamera*) camera )->GetData ( cameraData ) ;
 }
 
 
@@ -649,7 +649,7 @@ Q3OrthographicCamera_SetData(TQ3CameraObject camera, const TQ3OrthographicCamera
 
 
 	// Call our implementation
-	return(E3OrthographicCamera_SetData(camera, cameraData));
+	return ( (E3OrthographicCamera*) camera )->SetData ( cameraData ) ;
 }
 
 
@@ -686,7 +686,7 @@ Q3OrthographicCamera_SetLeft(TQ3CameraObject camera, float left)
 
 
 	// Call our implementation
-	return(E3OrthographicCamera_SetLeft(camera, left));
+	return ( (E3OrthographicCamera*) camera )->SetLeft ( left ) ;
 }
 
 
@@ -724,7 +724,7 @@ Q3OrthographicCamera_GetLeft(TQ3CameraObject camera, float *left)
 
 
 	// Call our implementation
-	return(E3OrthographicCamera_GetLeft(camera, left));
+	return ( (E3OrthographicCamera*) camera )->GetLeft ( left ) ;
 }
 
 
@@ -761,7 +761,7 @@ Q3OrthographicCamera_SetTop(TQ3CameraObject camera, float top)
 
 
 	// Call our implementation
-	return(E3OrthographicCamera_SetTop(camera, top));
+	return ( (E3OrthographicCamera*) camera )->SetTop ( top ) ;
 }
 
 
@@ -799,7 +799,7 @@ Q3OrthographicCamera_GetTop(TQ3CameraObject camera, float *top)
 
 
 	// Call our implementation
-	return(E3OrthographicCamera_GetTop(camera, top));
+	return ( (E3OrthographicCamera*) camera )->GetTop ( top ) ;
 }
 
 
@@ -836,7 +836,7 @@ Q3OrthographicCamera_SetRight(TQ3CameraObject camera, float right)
 
 
 	// Call our implementation
-	return(E3OrthographicCamera_SetRight(camera, right));
+	return ( (E3OrthographicCamera*) camera )->SetRight ( right ) ;
 }
 
 
@@ -874,7 +874,7 @@ Q3OrthographicCamera_GetRight(TQ3CameraObject camera, float *right)
 
 
 	// Call our implementation
-	return(E3OrthographicCamera_GetRight(camera, right));
+	return ( (E3OrthographicCamera*) camera )->GetRight ( right ) ;
 }
 
 
@@ -911,7 +911,7 @@ Q3OrthographicCamera_SetBottom(TQ3CameraObject camera, float bottom)
 
 
 	// Call our implementation
-	return(E3OrthographicCamera_SetBottom(camera, bottom));
+	return ( (E3OrthographicCamera*) camera )->SetBottom ( bottom ) ;
 }
 
 
@@ -949,7 +949,7 @@ Q3OrthographicCamera_GetBottom(TQ3CameraObject camera, float *bottom)
 
 
 	// Call our implementation
-	return(E3OrthographicCamera_GetBottom(camera, bottom));
+	return ( (E3OrthographicCamera*) camera )->GetBottom ( bottom ) ;
 }
 
 
@@ -1025,7 +1025,7 @@ Q3ViewPlaneCamera_GetData(TQ3CameraObject camera, TQ3ViewPlaneCameraData *camera
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_GetData(camera, cameraData));
+	return ( (E3ViewPlaneCamera*) camera )->GetData ( cameraData ) ;
 }
 
 
@@ -1067,7 +1067,7 @@ Q3ViewPlaneCamera_SetData(TQ3CameraObject camera, const TQ3ViewPlaneCameraData *
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_SetData(camera, cameraData));
+	return ( (E3ViewPlaneCamera*) camera )->SetData ( cameraData ) ;
 }
 
 
@@ -1104,7 +1104,7 @@ Q3ViewPlaneCamera_SetViewPlane(TQ3CameraObject camera, float viewPlane)
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_SetViewPlane(camera, viewPlane));
+	return ( (E3ViewPlaneCamera*) camera )->SetViewPlane ( viewPlane ) ;
 }
 
 
@@ -1142,7 +1142,7 @@ Q3ViewPlaneCamera_GetViewPlane(TQ3CameraObject camera, float *viewPlane)
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_GetViewPlane(camera, viewPlane));
+	return ( (E3ViewPlaneCamera*) camera )->GetViewPlane ( viewPlane ) ;
 }
 
 
@@ -1179,7 +1179,7 @@ Q3ViewPlaneCamera_SetHalfWidth(TQ3CameraObject camera, float halfWidthAtViewPlan
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_SetHalfWidth(camera, halfWidthAtViewPlane));
+	return ( (E3ViewPlaneCamera*) camera )->SetHalfWidth ( halfWidthAtViewPlane ) ;
 }
 
 
@@ -1217,7 +1217,7 @@ Q3ViewPlaneCamera_GetHalfWidth(TQ3CameraObject camera, float *halfWidthAtViewPla
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_GetHalfWidth(camera, halfWidthAtViewPlane));
+	return ( (E3ViewPlaneCamera*) camera )->GetHalfWidth ( halfWidthAtViewPlane ) ;
 }
 
 
@@ -1254,7 +1254,7 @@ Q3ViewPlaneCamera_SetHalfHeight(TQ3CameraObject camera, float halfHeightAtViewPl
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_SetHalfHeight(camera, halfHeightAtViewPlane));
+	return ( (E3ViewPlaneCamera*) camera )->SetHalfHeight ( halfHeightAtViewPlane ) ;
 }
 
 
@@ -1292,7 +1292,7 @@ Q3ViewPlaneCamera_GetHalfHeight(TQ3CameraObject camera, float *halfHeightAtViewP
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_GetHalfHeight(camera, halfHeightAtViewPlane));
+	return ( (E3ViewPlaneCamera*) camera )->GetHalfHeight ( halfHeightAtViewPlane ) ;
 }
 
 
@@ -1329,7 +1329,7 @@ Q3ViewPlaneCamera_SetCenterX(TQ3CameraObject camera, float centerXOnViewPlane)
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_SetCenterX(camera, centerXOnViewPlane));
+	return ( (E3ViewPlaneCamera*) camera )->SetCenterX ( centerXOnViewPlane ) ;
 }
 
 
@@ -1367,7 +1367,7 @@ Q3ViewPlaneCamera_GetCenterX(TQ3CameraObject camera, float *centerXOnViewPlane)
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_GetCenterX(camera, centerXOnViewPlane));
+	return ( (E3ViewPlaneCamera*) camera )->GetCenterX ( centerXOnViewPlane ) ;
 }
 
 
@@ -1404,7 +1404,7 @@ Q3ViewPlaneCamera_SetCenterY(TQ3CameraObject camera, float centerYOnViewPlane)
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_SetCenterY(camera, centerYOnViewPlane));
+	return ( (E3ViewPlaneCamera*) camera )->SetCenterY ( centerYOnViewPlane ) ;
 }
 
 
@@ -1442,7 +1442,7 @@ Q3ViewPlaneCamera_GetCenterY(TQ3CameraObject camera, float *centerYOnViewPlane)
 
 
 	// Call our implementation
-	return(E3ViewPlaneCamera_GetCenterY(camera, centerYOnViewPlane));
+	return ( (E3ViewPlaneCamera*) camera )->GetCenterY ( centerYOnViewPlane ) ;
 }
 
 
@@ -1522,7 +1522,7 @@ Q3ViewAngleAspectCamera_SetData(TQ3CameraObject camera, const TQ3ViewAngleAspect
 
 
 	// Call our implementation
-	return(E3ViewAngleAspectCamera_SetData(camera, cameraData));
+	return ( (E3ViewAngleAspectCamera*) camera )->SetData ( cameraData ) ;
 }
 
 
@@ -1560,7 +1560,7 @@ Q3ViewAngleAspectCamera_GetData(TQ3CameraObject camera, TQ3ViewAngleAspectCamera
 
 
 	// Call our implementation
-	return(E3ViewAngleAspectCamera_GetData(camera, cameraData));
+	return ( (E3ViewAngleAspectCamera*) camera )->GetData ( cameraData ) ;
 }
 
 
@@ -1597,7 +1597,7 @@ Q3ViewAngleAspectCamera_SetFOV(TQ3CameraObject camera, float fov)
 
 
 	// Call our implementation
-	return(E3ViewAngleAspectCamera_SetFOV(camera, fov));
+	return ( (E3ViewAngleAspectCamera*) camera )->SetFOV ( fov ) ;
 }
 
 
@@ -1635,7 +1635,7 @@ Q3ViewAngleAspectCamera_GetFOV(TQ3CameraObject camera, float *fov)
 
 
 	// Call our implementation
-	return(E3ViewAngleAspectCamera_GetFOV(camera, fov));
+	return ( (E3ViewAngleAspectCamera*) camera )->GetFOV ( fov ) ;
 }
 
 
@@ -1672,7 +1672,7 @@ Q3ViewAngleAspectCamera_SetAspectRatio(TQ3CameraObject camera, float aspectRatio
 
 
 	// Call our implementation
-	return(E3ViewAngleAspectCamera_SetAspectRatio(camera, aspectRatioXToY));
+	return ( (E3ViewAngleAspectCamera*) camera )->SetAspectRatio ( aspectRatioXToY ) ;
 }
 
 
@@ -1710,7 +1710,7 @@ Q3ViewAngleAspectCamera_GetAspectRatio(TQ3CameraObject camera, float *aspectRati
 
 
 	// Call our implementation
-	return(E3ViewAngleAspectCamera_GetAspectRatio(camera, aspectRatioXToY));
+	return ( (E3ViewAngleAspectCamera*) camera )->GetAspectRatio ( aspectRatioXToY ) ;
 }
 
 

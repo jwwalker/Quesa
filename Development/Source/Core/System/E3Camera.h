@@ -48,7 +48,8 @@
 // Include files go here
 
 
-
+#include "E3Main.h"
+#include "QuesaCamera.h"
 
 
 //=============================================================================
@@ -63,54 +64,123 @@ extern "C" {
 
 
 //=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+
+
+
+class E3Camera : public TQ3ShapeData
+	{
+protected :
+
+    TQ3CameraData cameraData ;
+
+public :
+	static TQ3Status	RegisterClass ( void ) ;
+	static TQ3Status	UnregisterClass ( void ) ;
+
+	TQ3ObjectType		GetType ( void ) ;
+	TQ3Status			SetData ( const TQ3CameraData *cameraData ) ;
+	TQ3Status			GetData ( TQ3CameraData *CameraData ) ;
+	TQ3Status			SetPlacement ( const TQ3CameraPlacement *Placement ) ;
+	TQ3Status			GetPlacement ( TQ3CameraPlacement *placement ) ;
+	TQ3Status			SetRange ( const TQ3CameraRange *range ) ;	
+	TQ3Status			GetRange ( TQ3CameraRange *range ) ;
+	TQ3Status			SetViewPort ( const TQ3CameraViewPort *viewPort ) ;
+	TQ3Status			GetViewPort ( TQ3CameraViewPort *viewPort ) ;	
+	TQ3Status			GetWorldToView ( TQ3Matrix4x4 *worldToView ) ;
+	TQ3Status			GetWorldToFrustum ( TQ3Matrix4x4 *worldToFrustum ) ;
+	TQ3Status			GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum ) ;	
+	} ;
+	
+
+
+class E3OrthographicCamera : public E3Camera
+	{
+    float                                       left ;
+    float                                       top ;
+    float                                       right ;
+    float                                       bottom ;
+	
+public :
+
+	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
+	
+	TQ3Status			GetData ( TQ3OrthographicCameraData *CameraData ) ;
+	TQ3Status			SetData ( const TQ3OrthographicCameraData *CameraData ) ;
+	TQ3Status			SetLeft ( float Left ) ;
+	TQ3Status			GetLeft ( float *Left ) ;
+	TQ3Status			SetTop ( float Top ) ;
+	TQ3Status			GetTop ( float *Top ) ;
+	TQ3Status			SetRight ( float Right ) ;
+	TQ3Status			GetRight ( float *Right ) ;
+	TQ3Status			SetBottom ( float Bottom ) ;
+	TQ3Status			GetBottom ( float *Bottom ) ;
+	
+	
+	friend TQ3Status e3camera_orthographic_new(TQ3Object theObject, void *privateData, const void *paramData) ;
+	} ;
+	
+
+
+class E3ViewPlaneCamera : public E3Camera
+	{
+    float                                       viewPlane ;
+    float                                       halfWidthAtViewPlane ;
+    float                                       halfHeightAtViewPlane ;
+    float                                       centerXOnViewPlane ;
+    float                                       centerYOnViewPlane ;
+
+public :
+
+	TQ3Status			GetData ( TQ3ViewPlaneCameraData *CameraData ) ;
+	TQ3Status			SetData ( const TQ3ViewPlaneCameraData *CameraData ) ;
+	TQ3Status			SetViewPlane ( float ViewPlane ) ;
+	TQ3Status			GetViewPlane ( float *ViewPlane ) ;
+	TQ3Status			SetHalfWidth ( float HalfWidthAtViewPlane ) ;
+	TQ3Status			GetHalfWidth ( float *HalfWidthAtViewPlane ) ;
+	TQ3Status			SetHalfHeight ( float HalfHeightAtViewPlane ) ;
+	TQ3Status			GetHalfHeight ( float *HalfHeightAtViewPlane ) ;
+	TQ3Status			SetCenterX ( float CenterXOnViewPlane ) ;
+	TQ3Status			GetCenterX ( float *CenterXOnViewPlane ) ;
+	TQ3Status			SetCenterY ( float CenterYOnViewPlane ) ;
+	TQ3Status			GetCenterY ( float *CenterYOnViewPlane ) ;
+
+		
+	friend void e3camera_viewplane_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix) ;
+	friend TQ3Status e3camera_viewplane_new(TQ3Object theObject, void *privateData, const void *paramData) ;
+	} ;
+	
+
+
+class E3ViewAngleAspectCamera : public E3Camera
+	{
+    float                                       fov ;
+    float                                       aspectRatioXToY ;
+
+public :
+
+	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
+	TQ3Status			SetData ( const TQ3ViewAngleAspectCameraData *CameraData ) ;
+	TQ3Status			GetData ( TQ3ViewAngleAspectCameraData *CameraData ) ;
+	TQ3Status			SetFOV ( float Fov ) ;
+	TQ3Status			GetFOV ( float *Fov ) ;
+	TQ3Status			SetAspectRatio ( float AspectRatioXToY ) ;
+	TQ3Status			GetAspectRatio ( float *AspectRatioXToY ) ;
+	
+	friend TQ3Status e3camera_viewangle_new(TQ3Object theObject, void *privateData, const void *paramData) ;
+	} ;
+
+
+
+
+//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-TQ3Status			E3Camera_RegisterClass(void);
-TQ3Status			E3Camera_UnregisterClass(void);
 
-TQ3ObjectType		E3Camera_GetType(TQ3CameraObject theCamera);
-TQ3Status			E3Camera_SetData(TQ3CameraObject theCamera, const TQ3CameraData *cameraData);
-TQ3Status			E3Camera_GetData(TQ3CameraObject theCamera, TQ3CameraData *cameraData);
-TQ3Status			E3Camera_SetPlacement(TQ3CameraObject theCamera, const TQ3CameraPlacement *placement);
-TQ3Status			E3Camera_GetPlacement(TQ3CameraObject theCamera, TQ3CameraPlacement *placement);
-TQ3Status			E3Camera_SetRange(TQ3CameraObject theCamera, const TQ3CameraRange *range);
-TQ3Status			E3Camera_GetRange(TQ3CameraObject theCamera, TQ3CameraRange *range);
-TQ3Status			E3Camera_SetViewPort(TQ3CameraObject theCamera, const TQ3CameraViewPort *viewPort);
-TQ3Status			E3Camera_GetViewPort(TQ3CameraObject theCamera, TQ3CameraViewPort *viewPort);
-TQ3Status			E3Camera_GetWorldToView(TQ3CameraObject theCamera, TQ3Matrix4x4 *worldToView);
-TQ3Status			E3Camera_GetWorldToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *worldToFrustum);
-TQ3Status			E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum);
 TQ3CameraObject		E3OrthographicCamera_New(const TQ3OrthographicCameraData *orthographicData);
-TQ3Status			E3OrthographicCamera_GetData(TQ3CameraObject theCamera, TQ3OrthographicCameraData *cameraData);
-TQ3Status			E3OrthographicCamera_SetData(TQ3CameraObject theCamera, const TQ3OrthographicCameraData *cameraData);
-TQ3Status			E3OrthographicCamera_SetLeft(TQ3CameraObject theCamera, float left);
-TQ3Status			E3OrthographicCamera_GetLeft(TQ3CameraObject theCamera, float *left);
-TQ3Status			E3OrthographicCamera_SetTop(TQ3CameraObject theCamera, float top);
-TQ3Status			E3OrthographicCamera_GetTop(TQ3CameraObject theCamera, float *top);
-TQ3Status			E3OrthographicCamera_SetRight(TQ3CameraObject theCamera, float right);
-TQ3Status			E3OrthographicCamera_GetRight(TQ3CameraObject theCamera, float *right);
-TQ3Status			E3OrthographicCamera_SetBottom(TQ3CameraObject theCamera, float bottom);
-TQ3Status			E3OrthographicCamera_GetBottom(TQ3CameraObject theCamera, float *bottom);
 TQ3CameraObject		E3ViewPlaneCamera_New(const TQ3ViewPlaneCameraData *cameraData);
-TQ3Status			E3ViewPlaneCamera_GetData(TQ3CameraObject theCamera, TQ3ViewPlaneCameraData *cameraData);
-TQ3Status			E3ViewPlaneCamera_SetData(TQ3CameraObject theCamera, const TQ3ViewPlaneCameraData *cameraData);
-TQ3Status			E3ViewPlaneCamera_SetViewPlane(TQ3CameraObject theCamera, float viewPlane);
-TQ3Status			E3ViewPlaneCamera_GetViewPlane(TQ3CameraObject theCamera, float *viewPlane);
-TQ3Status			E3ViewPlaneCamera_SetHalfWidth(TQ3CameraObject theCamera, float halfWidthAtViewPlane);
-TQ3Status			E3ViewPlaneCamera_GetHalfWidth(TQ3CameraObject theCamera, float *halfWidthAtViewPlane);
-TQ3Status			E3ViewPlaneCamera_SetHalfHeight(TQ3CameraObject theCamera, float halfHeightAtViewPlane);
-TQ3Status			E3ViewPlaneCamera_GetHalfHeight(TQ3CameraObject theCamera, float *halfHeightAtViewPlane);
-TQ3Status			E3ViewPlaneCamera_SetCenterX(TQ3CameraObject theCamera, float centerXOnViewPlane);
-TQ3Status			E3ViewPlaneCamera_GetCenterX(TQ3CameraObject theCamera, float *centerXOnViewPlane);
-TQ3Status			E3ViewPlaneCamera_SetCenterY(TQ3CameraObject theCamera, float centerYOnViewPlane);
-TQ3Status			E3ViewPlaneCamera_GetCenterY(TQ3CameraObject theCamera, float *centerYOnViewPlane);
 TQ3CameraObject		E3ViewAngleAspectCamera_New(const TQ3ViewAngleAspectCameraData *cameraData);
-TQ3Status			E3ViewAngleAspectCamera_SetData(TQ3CameraObject theCamera, const TQ3ViewAngleAspectCameraData *cameraData);
-TQ3Status			E3ViewAngleAspectCamera_GetData(TQ3CameraObject theCamera, TQ3ViewAngleAspectCameraData *cameraData);
-TQ3Status			E3ViewAngleAspectCamera_SetFOV(TQ3CameraObject theCamera, float fov);
-TQ3Status			E3ViewAngleAspectCamera_GetFOV(TQ3CameraObject theCamera, float *fov);
-TQ3Status			E3ViewAngleAspectCamera_SetAspectRatio(TQ3CameraObject theCamera, float aspectRatioXToY);
-TQ3Status			E3ViewAngleAspectCamera_GetAspectRatio(TQ3CameraObject theCamera, float *aspectRatioXToY);
 
 
 

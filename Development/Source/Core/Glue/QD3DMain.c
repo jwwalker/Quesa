@@ -783,7 +783,7 @@ Q3Object_AddElement(TQ3Object object, TQ3ElementType theType, const void *data)
 
 
 	// Call our implementation
-	return(E3Object_AddElement(object, theType, data));
+	return object->AddElement ( theType, data ) ;
 }
 
 
@@ -824,7 +824,7 @@ Q3Object_GetElement(TQ3Object object, TQ3ElementType theType, void *data)
 
 
 	// Call our implementation
-	return(E3Object_GetElement(object, theType, data));
+	return object->GetElement ( theType, data ) ;
 }
 
 
@@ -861,7 +861,7 @@ Q3Object_ContainsElement(TQ3Object object, TQ3ElementType theType)
 
 
 	// Call our implementation
-	return(E3Object_ContainsElement(object, theType));
+	return object->ContainsElement ( theType ) ;
 }
 
 
@@ -899,7 +899,7 @@ Q3Object_GetNextElementType(TQ3Object object, TQ3ElementType *theType)
 
 
 	// Call our implementation
-	return(E3Object_GetNextElementType(object, theType));
+	return object->GetNextElementType ( theType ) ;
 }
 
 
@@ -933,7 +933,7 @@ Q3Object_EmptyElements(TQ3Object object)
 
 
 	// Call our implementation
-	return(E3Object_EmptyElements(object));
+	return object->EmptyElements () ;
 }
 
 
@@ -970,7 +970,7 @@ Q3Object_ClearElement(TQ3Object object, TQ3ElementType theType)
 
 
 	// Call our implementation
-	return(E3Object_ClearElement(object, theType));
+	return object->ClearElement ( theType ) ;
 }
 
 
@@ -1092,7 +1092,7 @@ Q3Object_GetSet ( TQ3Object object, TQ3SetObject* set )
 
 
 	// Call our implementation
-	return (E3Object_GetSet( object, set ));
+	return object->GetSet ( set ) ;
 }
 
 
@@ -1130,7 +1130,7 @@ Q3Object_SetSet ( TQ3Object object, TQ3SetObject set )
 
 
 	// Call our implementation
-	return (E3Object_SetSet( object, set ));
+	return object->SetSet ( set ) ;
 }
 
 
@@ -1199,7 +1199,7 @@ Q3Shared_GetReference(TQ3SharedObject sharedObject)
 
 
 	// Call our implementation
-	return(E3Shared_GetReference(sharedObject));
+	return ( (TQ3SharedData*) sharedObject )->GetReference () ;
 }
 
 
@@ -1233,7 +1233,7 @@ Q3Shared_IsReferenced(TQ3SharedObject sharedObject)
 
 
 	// Call our implementation
-	return(E3Shared_IsReferenced(sharedObject));
+	return ( (TQ3SharedData*) sharedObject )->IsReferenced () ;
 }
 
 
@@ -1267,7 +1267,7 @@ Q3Shared_GetReferenceCount( TQ3SharedObject               sharedObject )
 
 
 	// Call our implementation
-	return (E3Shared_GetReferenceCount( sharedObject ));
+	return ( (TQ3SharedData*) sharedObject )->GetReferenceCount () ;
 }
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -1302,7 +1302,7 @@ Q3Shared_GetEditIndex(TQ3SharedObject sharedObject)
 
 
 	// Call our implementation
-	return(E3Shared_GetEditIndex(sharedObject));
+	return ( (TQ3SharedData*) sharedObject )->GetEditIndex () ;
 }
 
 
@@ -1336,7 +1336,7 @@ Q3Shared_Edited(TQ3SharedObject sharedObject)
 
 
 	// Call our implementation
-	return(E3Shared_Edited(sharedObject));
+	return ( (TQ3SharedData*) sharedObject )->Edited () ;
 }
 
 
@@ -1488,7 +1488,7 @@ Q3Shape_AddElement(TQ3ShapeObject shape, TQ3ElementType theType, const void *dat
 
 
 	// Call our implementation
-	return(E3Object_AddElement(shape, theType, data));
+	return shape->AddElement ( theType, data ) ;
 }
 
 
@@ -1529,7 +1529,7 @@ Q3Shape_GetElement(TQ3ShapeObject shape, TQ3ElementType theType, void *data)
 
 
 	// Call our implementation
-	return(E3Object_GetElement(shape, theType, data));
+	return shape->GetElement ( theType, data ) ;
 }
 
 
@@ -1566,7 +1566,7 @@ Q3Shape_ContainsElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 	// Call our implementation
-	return(E3Object_ContainsElement(shape, theType));
+	return shape->ContainsElement ( theType ) ;
 }
 
 
@@ -1604,7 +1604,7 @@ Q3Shape_GetNextElementType(TQ3ShapeObject shape, TQ3ElementType *theType)
 
 
 	// Call our implementation
-	return(E3Object_GetNextElementType(shape, theType));
+	return shape->GetNextElementType ( theType ) ;
 }
 
 
@@ -1638,7 +1638,7 @@ Q3Shape_EmptyElements(TQ3ShapeObject shape)
 
 
 	// Call our implementation
-	return(E3Object_EmptyElements(shape));
+	return shape->EmptyElements () ;
 }
 
 
@@ -1675,7 +1675,7 @@ Q3Shape_ClearElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 	// Call our implementation
-	return(E3Object_ClearElement(shape, theType));
+	return shape->ClearElement ( theType ) ;
 }
 
 

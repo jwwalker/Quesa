@@ -48,7 +48,7 @@
 // Include files go here
 
 
-
+#include "E3Memory.h"
 
 
 //=============================================================================
@@ -57,6 +57,43 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+
+
+
+
+// Shared object data
+class TQ3SharedData : public OpaqueTQ3Object
+	{
+	TQ3Uns32		refCount;
+	TQ3Uns32		editIndex;
+	
+	friend TQ3Status	e3shared_new ( TQ3Object theObject, void *privateData, void *paramData ) ;
+	friend void			e3shared_dispose ( TQ3Object theObject ) ;
+	friend TQ3Status	e3shared_duplicate (	TQ3Object fromObject,
+												const void *fromPrivateData,
+						 						TQ3Object toObject,
+						 						void *toPrivateData ) ;
+						 						
+public :
+
+	TQ3SharedData*		GetReference ( void ) ;
+	TQ3Boolean			IsReferenced ( void ) ;
+	TQ3Uns32			GetReferenceCount ( void ) ;	
+	TQ3Uns32			GetEditIndex ( void ) ;
+	TQ3Status			Edited ( void ) ;
+	} ;
+
+
+
+class TQ3ShapeData : public TQ3SharedData
+	{
+	// Currently empty
+	} ;
 
 
 
@@ -87,26 +124,16 @@ TQ3Boolean			E3Object_IsWritable(TQ3Object theObject, TQ3FileObject theFile);
 TQ3ObjectType		E3Object_GetType(TQ3Object theObject);
 TQ3ObjectType		E3Object_GetLeafType(TQ3Object theObject);
 TQ3Boolean			E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType);
-TQ3Status			E3Object_AddElement(TQ3Object theObject, TQ3ElementType theType, const void *theData);
-TQ3Status			E3Object_GetElement(TQ3Object theObject, TQ3ElementType theType, void *theData);
-TQ3Boolean			E3Object_ContainsElement(TQ3Object theObject, TQ3ElementType theType);
-TQ3Status			E3Object_GetNextElementType(TQ3Object theObject, TQ3ElementType *theType);
-TQ3Status			E3Object_EmptyElements(TQ3Object theObject);
-TQ3Status			E3Object_ClearElement(TQ3Object theObject, TQ3ElementType theType);
-TQ3Status			E3Object_GetSet(TQ3Object theObject, TQ3SetObject *theSet);
-TQ3Status			E3Object_SetSet(TQ3Object theObject, TQ3SetObject theSet);
 
 TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);
-TQ3SharedObject		E3Shared_GetReference(TQ3SharedObject sharedObject);
-TQ3Boolean			E3Shared_IsReferenced(TQ3SharedObject sharedObject);
-TQ3Uns32			E3Shared_GetReferenceCount( TQ3SharedObject sharedObject );
-TQ3Uns32			E3Shared_GetEditIndex(TQ3SharedObject sharedObject);
-TQ3Status			E3Shared_Edited(TQ3SharedObject sharedObject);
+inline TQ3Status	E3Shared_Edited ( TQ3SharedObject sharedObject )
+	{ return ( (TQ3SharedData*) sharedObject )->Edited () ; }
 
 TQ3ObjectType		E3Shape_GetType(TQ3ShapeObject theShape);
 TQ3Status			E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet);
 TQ3Status			E3Shape_SetSet(TQ3ShapeObject theShape, TQ3SetObject theSet);
-TQ3Status			E3Shape_SubmitElements( TQ3ShapeObject inShape, TQ3ViewObject inView );
+inline TQ3Status	E3Shape_SubmitElements( TQ3ShapeObject inShape, TQ3ViewObject inView )
+	{ return inShape->SubmitElements ( inView ) ; }
 
 TQ3Status			E3Bitmap_Empty(TQ3Bitmap *theBitmap);
 TQ3Uns32			E3Bitmap_GetImageSize(TQ3Uns32 theWidth, TQ3Uns32 theHeight);

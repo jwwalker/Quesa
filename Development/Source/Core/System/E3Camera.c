@@ -64,19 +64,23 @@
 //      e3camera_orthographic_frustum_matrix : Get the view to frustum matrix.
 //-----------------------------------------------------------------------------
 static void
-e3camera_orthographic_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-	float							x, y, z, tx, ty;
+e3camera_orthographic_frustum_matrix ( TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
+	{
+	( ( E3OrthographicCamera* ) theCamera )->GetFrustumMatrix ( theMatrix ) ;
+	}
 
 
 
+void
+E3OrthographicCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
+	{
 	// Initialise ourselves
-	x  = 2.0f / (instanceData->right - instanceData->left);
-	y  = 2.0f / (instanceData->top   - instanceData->bottom);
-	z  = 1.0f / (instanceData->cameraData.range.yon - instanceData->cameraData.range.hither);
+	float x  = 2.0f / ( right - left ) ;
+	float y  = 2.0f / ( top   - bottom ) ;
+	float z  = 1.0f / ( cameraData.range.yon - cameraData.range.hither ) ;
 
-	tx = -(instanceData->right + instanceData->left)   / (instanceData->right - instanceData->left);
-	ty = -(instanceData->top   + instanceData->bottom) / (instanceData->top   - instanceData->bottom);
+	float tx = - ( right + left )   / ( right - left ) ;
+	float ty = - ( top   + bottom ) / ( top   - bottom ) ;
 
 
 
@@ -87,8 +91,8 @@ e3camera_orthographic_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *th
 	theMatrix->value[1][1] = y;
 	theMatrix->value[3][1] = ty;
 	theMatrix->value[2][2] = z;
-	theMatrix->value[3][2] = instanceData->cameraData.range.hither * z;
-}
+	theMatrix->value[3][2] = cameraData.range.hither * z ;
+	}
 
 
 
@@ -97,18 +101,22 @@ e3camera_orthographic_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *th
 //=============================================================================
 //      e3camera_orthographic_new : Orthographic camera new method.
 //-----------------------------------------------------------------------------
-static TQ3Status
+TQ3Status
 e3camera_orthographic_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3OrthographicCameraData			*instanceData = (TQ3OrthographicCameraData *)       privateData;
-	const TQ3OrthographicCameraData		*cameraData   = (const TQ3OrthographicCameraData *) paramData;
-#pragma unused(theObject)
+	{
+	const TQ3OrthographicCameraData		*CameraData   = (const TQ3OrthographicCameraData *) paramData;
+#pragma unused(privateData)
 
 
 
 	// Initialise our instance data
-	*instanceData = *cameraData;
-	return(kQ3Success);
-}
+	( (E3OrthographicCamera*) theObject )->cameraData = CameraData->cameraData ;
+	( (E3OrthographicCamera*) theObject )->left = CameraData->left ;
+	( (E3OrthographicCamera*) theObject )->top = CameraData->top ;
+	( (E3OrthographicCamera*) theObject )->right = CameraData->right ;
+	( (E3OrthographicCamera*) theObject )->bottom = CameraData->bottom ;
+	return kQ3Success ;
+	}
 
 
 
@@ -144,9 +152,9 @@ e3camera_orthographic_metahandler(TQ3XMethodType methodType)
 //=============================================================================
 //      e3camera_viewplane_frustum_matrix : Get the view to frustum matrix.
 //-----------------------------------------------------------------------------
-static void
+void
 e3camera_viewplane_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
+{	
 
 
 
@@ -162,18 +170,23 @@ e3camera_viewplane_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMa
 //=============================================================================
 //      e3camera_viewplane_new : View Plane camera new method.
 //-----------------------------------------------------------------------------
-static TQ3Status
+TQ3Status
 e3camera_viewplane_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3ViewPlaneCameraData			*instanceData = (TQ3ViewPlaneCameraData *)       privateData;
-	const TQ3ViewPlaneCameraData	*cameraData   = (const TQ3ViewPlaneCameraData *) paramData;
-#pragma unused(theObject)
+	{
+	const TQ3ViewPlaneCameraData	*CameraData   = (const TQ3ViewPlaneCameraData *) paramData;
+#pragma unused(privateData)
 
 
 
 	// Initialise our instance data
-	*instanceData = *cameraData;
-	return(kQ3Success);
-}
+	( (E3ViewPlaneCamera*) theObject )->cameraData = CameraData->cameraData ;
+	( (E3ViewPlaneCamera*) theObject )->viewPlane = CameraData->viewPlane ;
+	( (E3ViewPlaneCamera*) theObject )->halfWidthAtViewPlane = CameraData->halfWidthAtViewPlane ;
+	( (E3ViewPlaneCamera*) theObject )->halfHeightAtViewPlane = CameraData->halfHeightAtViewPlane ;
+	( (E3ViewPlaneCamera*) theObject )->centerXOnViewPlane = CameraData->centerXOnViewPlane ;
+	( (E3ViewPlaneCamera*) theObject )->centerYOnViewPlane = CameraData->centerYOnViewPlane ;
+	return kQ3Success ;
+	}
 
 
 
@@ -211,28 +224,28 @@ e3camera_viewplane_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static void
 e3camera_viewangle_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
-{	TQ3ViewAngleAspectCameraData	*instanceData = (TQ3ViewAngleAspectCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewAngleAspect);
-	float							zNear, zFar, oneOverZFar;
-	float							w, h, q;
-	float							a, c;
+	{
+	( ( E3ViewAngleAspectCamera* ) theCamera )->GetFrustumMatrix ( theMatrix ) ;
+	}
 
 
-
+void
+E3ViewAngleAspectCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
+	{
 	// Initialise ourselves
-	zNear       = instanceData->cameraData.range.hither;
-	zFar        = instanceData->cameraData.range.yon;
-	oneOverZFar = 1.0f / zFar;
+	float zNear       = cameraData.range.hither;
+	float zFar        = cameraData.range.yon;
+	float oneOverZFar = 1.0f / zFar;
 	
-	a = 1.0f / (1.0f - zNear * oneOverZFar);
-	c = (-zNear * a) / (zNear * zFar);
+	float a = 1.0f / (1.0f - zNear * oneOverZFar);
+	float c = (-zNear * a) / (zNear * zFar);
 
-	if (instanceData->aspectRatioXToY <= 1.0f)
-		w = 1.0f / (float) tan(instanceData->fov * 0.5f);
-	else
-		w = 1.0f / (float) tan(instanceData->fov * 0.5f) / instanceData->aspectRatioXToY;
+	float w = 1.0f / (float) tan ( fov * 0.5f ) ;
+	if ( aspectRatioXToY > 1.0f )
+		w = w / aspectRatioXToY ;
 
-	h = w * instanceData->aspectRatioXToY;
-	q = zFar / (zFar - zNear);
+	float h = w * aspectRatioXToY;
+	float q = zFar / (zFar - zNear);
 
 
 
@@ -244,7 +257,8 @@ e3camera_viewangle_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMa
 	theMatrix->value[2][3] = c / q;
 	theMatrix->value[3][2] = q * zNear * oneOverZFar;
 	theMatrix->value[3][3] = 0.0f;
-}
+	}
+
 
 
 
@@ -253,18 +267,20 @@ e3camera_viewangle_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMa
 //=============================================================================
 //      e3camera_viewangle_new : View Angle camera new method.
 //-----------------------------------------------------------------------------
-static TQ3Status
+TQ3Status
 e3camera_viewangle_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3ViewAngleAspectCameraData			*instanceData = (TQ3ViewAngleAspectCameraData *)       privateData;
-	const TQ3ViewAngleAspectCameraData		*cameraData   = (const TQ3ViewAngleAspectCameraData *) paramData;
-#pragma unused(theObject)
+	{
+	const TQ3ViewAngleAspectCameraData* CameraData = (const TQ3ViewAngleAspectCameraData *) paramData;
+#pragma unused(privateData)
 
 
 
 	// Initialise our instance data
-	*instanceData = *cameraData;
-	return(kQ3Success);
-}
+	( (E3ViewAngleAspectCamera*) theObject )->cameraData = CameraData->cameraData ;
+	( (E3ViewAngleAspectCamera*) theObject )->fov = CameraData->fov ;
+	( (E3ViewAngleAspectCamera*) theObject )->aspectRatioXToY = CameraData->aspectRatioXToY ;
+	return kQ3Success ;
+	}
 
 
 
@@ -304,38 +320,38 @@ e3camera_viewangle_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
-E3Camera_RegisterClass(void)
+E3Camera::RegisterClass(void)
 {	TQ3Status		qd3dStatus;
 
 
 
 	// Register the camera classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShape,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
 											kQ3ShapeTypeCamera,
 											kQ3ClassNameCamera,
 											NULL,
-											0);
+											~sizeof ( E3Camera ) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeCamera,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeCamera,
 												kQ3CameraTypeOrthographic,
 												kQ3ClassNameCameraOrthographic,
 												e3camera_orthographic_metahandler,
-												sizeof(TQ3OrthographicCameraData));
+												~sizeof ( E3OrthographicCamera ) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeCamera,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeCamera,
 												kQ3CameraTypeViewPlane,
 												kQ3ClassNameCameraViewPlane,
 												e3camera_viewplane_metahandler,
-												sizeof(TQ3ViewPlaneCameraData));
+												~sizeof ( E3ViewPlaneCamera ) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeCamera,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeCamera,
 												kQ3CameraTypeViewAngleAspect,
 												kQ3ClassNameCameraViewAngle,
 												e3camera_viewangle_metahandler,
-												sizeof(TQ3ViewAngleAspectCameraData));
+												~sizeof ( E3ViewAngleAspectCamera ) ) ;
 
 	return(qd3dStatus);
 }
@@ -348,19 +364,16 @@ E3Camera_RegisterClass(void)
 //      E3Camera_UnregisterClass : Unregister the camera classes.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+E3Camera::UnregisterClass(void)
+	{
 	// Unregister the camera classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3CameraTypeViewAngleAspect, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3CameraTypeViewPlane,       kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3CameraTypeOrthographic,    kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShapeTypeCamera,           kQ3True);
+	TQ3Status qd3dStatus = E3ClassTree::UnregisterClass ( kQ3CameraTypeViewAngleAspect, kQ3True ) ;
+	* ( (TQ3Int32*) &qd3dStatus ) &= E3ClassTree::UnregisterClass ( kQ3CameraTypeViewPlane,       kQ3True ) ;
+	* ( (TQ3Int32*) &qd3dStatus ) &= E3ClassTree::UnregisterClass ( kQ3CameraTypeOrthographic,    kQ3True ) ;
+	* ( (TQ3Int32*) &qd3dStatus ) &= E3ClassTree::UnregisterClass ( kQ3ShapeTypeCamera,           kQ3True ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ; // We used to only return the result of the final unregister, now we return failure if any of them failed
+	}
 
 
 
@@ -370,13 +383,11 @@ E3Camera_UnregisterClass(void)
 //      E3Camera_GetType : Return the type of a camera.
 //-----------------------------------------------------------------------------
 TQ3ObjectType
-E3Camera_GetType(TQ3CameraObject theCamera)
-{
-
-
+E3Camera::GetType ( void )
+	{
 	// Return the type
-	return(E3ClassTree_GetObjectType(theCamera, kQ3ShapeTypeCamera));
-}
+	return GetObjectType ( kQ3ShapeTypeCamera ) ;
+	}
 
 
 
@@ -386,17 +397,15 @@ E3Camera_GetType(TQ3CameraObject theCamera)
 //      E3Camera_SetData : Set the data for a camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_SetData(TQ3CameraObject theCamera, const TQ3CameraData *cameraData)
-{	TQ3CameraData		*instanceData = (TQ3CameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3ObjectTypeLeaf);
-
-
-
+E3Camera::SetData ( const TQ3CameraData *CameraData )
+	{
 	// Set the camera data
-	*instanceData = *cameraData;
-	Q3Shared_Edited(theCamera);
+	cameraData = *CameraData ;
+	
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -406,15 +415,14 @@ E3Camera_SetData(TQ3CameraObject theCamera, const TQ3CameraData *cameraData)
 //      E3Camera_GetData : Return the data for a camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_GetData(TQ3CameraObject theCamera, TQ3CameraData *cameraData)
-{	TQ3CameraData		*instanceData = (TQ3CameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3ObjectTypeLeaf);
-
-
-
+E3Camera::GetData ( TQ3CameraData *CameraData )
+	{
 	// Return the camera data
-	*cameraData = *instanceData;
-	return(kQ3Success);
-}
+	
+	*CameraData = cameraData ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -424,17 +432,14 @@ E3Camera_GetData(TQ3CameraObject theCamera, TQ3CameraData *cameraData)
 //      E3Camera_SetPlacement : Set the placement for a camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_SetPlacement(TQ3CameraObject theCamera, const TQ3CameraPlacement *placement)
-{	TQ3CameraData		*instanceData = (TQ3CameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3ObjectTypeLeaf);
-
-
-
+E3Camera::SetPlacement ( const TQ3CameraPlacement *Placement )
+	{
 	// Set the camera placement
-	instanceData->placement = *placement;
-	Q3Shared_Edited(theCamera);
+	cameraData.placement = *Placement ;
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -444,16 +449,13 @@ E3Camera_SetPlacement(TQ3CameraObject theCamera, const TQ3CameraPlacement *place
 //      E3Camera_GetPlacement : Return the placement of a camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_GetPlacement(TQ3CameraObject theCamera, TQ3CameraPlacement *placement)
-{	TQ3CameraData		*instanceData = (TQ3CameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3ObjectTypeLeaf);
-
-
-
+E3Camera::GetPlacement ( TQ3CameraPlacement *placement )
+	{
 	// Return the camera placement
-	*placement = instanceData->placement;
+	*placement = cameraData.placement ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -463,17 +465,15 @@ E3Camera_GetPlacement(TQ3CameraObject theCamera, TQ3CameraPlacement *placement)
 //      E3Camera_SetRange : Set the range for a camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_SetRange(TQ3CameraObject theCamera, const TQ3CameraRange *range)
-{	TQ3CameraData		*instanceData = (TQ3CameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3ObjectTypeLeaf);
-
-
-
+E3Camera::SetRange ( const TQ3CameraRange *range )
+	{
 	// Set the camera range
-	instanceData->range = *range;
-	Q3Shared_Edited(theCamera);
+	cameraData.range = *range ;
+	
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -483,15 +483,13 @@ E3Camera_SetRange(TQ3CameraObject theCamera, const TQ3CameraRange *range)
 //      E3Camera_GetRange : Return the range of a camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_GetRange(TQ3CameraObject theCamera, TQ3CameraRange *range)
-{	TQ3CameraData		*instanceData = (TQ3CameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3ObjectTypeLeaf);
-
-
-
+E3Camera::GetRange ( TQ3CameraRange *range )
+	{
 	// Return the camera range
-	*range = instanceData->range;
-	return(kQ3Success);
-}
+	*range = cameraData.range ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -501,17 +499,15 @@ E3Camera_GetRange(TQ3CameraObject theCamera, TQ3CameraRange *range)
 //      E3Camera_SetViewPort : Set the viewport for a camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_SetViewPort(TQ3CameraObject theCamera, const TQ3CameraViewPort *viewPort)
-{	TQ3CameraData		*instanceData = (TQ3CameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3ObjectTypeLeaf);
-
-
-
+E3Camera::SetViewPort ( const TQ3CameraViewPort *viewPort )
+	{
 	// Set the camera viewport
-	instanceData->viewPort = *viewPort;
-	Q3Shared_Edited(theCamera);
+	cameraData.viewPort = *viewPort ;
+	
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -521,15 +517,13 @@ E3Camera_SetViewPort(TQ3CameraObject theCamera, const TQ3CameraViewPort *viewPor
 //      E3Camera_GetViewPort : Return the viewport of a camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_GetViewPort(TQ3CameraObject theCamera, TQ3CameraViewPort *viewPort)
-{	TQ3CameraData		*instanceData = (TQ3CameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3ObjectTypeLeaf);
-
-
-
+E3Camera::GetViewPort ( TQ3CameraViewPort *viewPort )
+	{
 	// Return the camera viewport
-	*viewPort = instanceData->viewPort;
-	return(kQ3Success);
-}
+	*viewPort = cameraData.viewPort ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -546,20 +540,20 @@ E3Camera_GetViewPort(TQ3CameraObject theCamera, TQ3CameraViewPort *viewPort)
 //				y axis.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_GetWorldToView(TQ3CameraObject theCamera, TQ3Matrix4x4 *worldToView)
-{	TQ3CameraData		*instanceData = (TQ3CameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3ObjectTypeLeaf);
+E3Camera::GetWorldToView ( TQ3Matrix4x4 *worldToView )
+	{
 	TQ3Matrix4x4		translateMatrix;
 	TQ3Vector3D			n, v, u;
 
 
 
 	// Work out our vectors
-	Q3Point3D_Subtract(&instanceData->placement.cameraLocation,
-					   &instanceData->placement.pointOfInterest,
+	Q3Point3D_Subtract(&cameraData.placement.cameraLocation,
+					   &cameraData.placement.pointOfInterest,
 					   &n);
 
 	Q3Vector3D_Normalize(&n, &n);
-	Q3Vector3D_Normalize(&instanceData->placement.upVector, &v);
+	Q3Vector3D_Normalize(&cameraData.placement.upVector, &v);
 
 	Q3Vector3D_Cross(&v, &n, &u);
 	Q3Vector3D_Normalize(&u, &u);
@@ -588,14 +582,14 @@ E3Camera_GetWorldToView(TQ3CameraObject theCamera, TQ3Matrix4x4 *worldToView)
 
 	// Multiply in the translation matrix
 	Q3Matrix4x4_SetTranslate(&translateMatrix,
-								-instanceData->placement.cameraLocation.x,
-								-instanceData->placement.cameraLocation.y,
-								-instanceData->placement.cameraLocation.z);
+								- cameraData.placement.cameraLocation.x,
+								- cameraData.placement.cameraLocation.y,
+								- cameraData.placement.cameraLocation.z);
 
 	Q3Matrix4x4_Multiply(&translateMatrix, worldToView, worldToView);
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -605,20 +599,20 @@ E3Camera_GetWorldToView(TQ3CameraObject theCamera, TQ3Matrix4x4 *worldToView)
 //      E3Camera_GetWorldToFrustum : Return a camera's world-to-frustum matrix.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_GetWorldToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *worldToFrustum)
-{	TQ3Matrix4x4		worldToView, viewToFrustum;
-	TQ3Status			qd3dStatus;
+E3Camera::GetWorldToFrustum ( TQ3Matrix4x4 *worldToFrustum )
+	{
+	TQ3Matrix4x4		worldToView, viewToFrustum;
 	
 
 
 	// Get the two matrices we need, and multiply them together
-	qd3dStatus = Q3Camera_GetWorldToView(theCamera,   &worldToView);
-	qd3dStatus = Q3Camera_GetViewToFrustum(theCamera, &viewToFrustum);
+	Q3Camera_GetWorldToView( this ,   &worldToView);
+	Q3Camera_GetViewToFrustum( this , &viewToFrustum);
 
 	Q3Matrix4x4_Multiply(&worldToView, &viewToFrustum, worldToFrustum);
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -628,10 +622,8 @@ E3Camera_GetWorldToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *worldToFrust
 //      E3Camera_GetViewToFrustum : Return a camera's view-to-frustum matrix.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum)
-{	float								scaleWidth, scaleHeight;
-	float								translateX, translateY;
-	TQ3XCameraFrustumMatrixMethod		frustumMatrixMethod;
+E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
+	{
 	TQ3Matrix4x4						viewPortMatrix;
 	TQ3CameraViewPort					viewPort;
 
@@ -643,10 +635,10 @@ E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum
 
 
 	// Get the camera method
-	frustumMatrixMethod = (TQ3XCameraFrustumMatrixMethod)
-						  E3ClassTree_GetMethodByObject(theCamera, kQ3XMethodTypeCameraFrustumMatrix);
-	if (frustumMatrixMethod == NULL)
-		return(kQ3Failure);
+	TQ3XCameraFrustumMatrixMethod frustumMatrixMethod = (TQ3XCameraFrustumMatrixMethod)
+						  E3ClassTree_GetMethodByObject ( this, kQ3XMethodTypeCameraFrustumMatrix ) ;
+	if ( frustumMatrixMethod == NULL )
+		return kQ3Failure ;
 
 
 
@@ -655,7 +647,7 @@ E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum
 	// This matrix transforms the viewing coordinate system to the canonical
 	// frustum. This ranges from -1 to +1 in x and y, and 0 to -1 in z (where
 	// 0 is the near clip plane, and -1 is the  far clip plane).
-	frustumMatrixMethod(theCamera, viewToFrustum);
+	frustumMatrixMethod( this, viewToFrustum);
 
 
 
@@ -670,13 +662,13 @@ E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum
 	//
 	// The default view port corresponds to the full -1/+1 range, and so the
 	// additional transforms will be identity transforms for that case.
-	Q3Camera_GetViewPort(theCamera, &viewPort);
+	Q3Camera_GetViewPort( this, &viewPort);
 
 
 
 	// Translate the view port to the origin
-	translateX = viewPort.origin.x + (viewPort.width  / 2.0f);
-	translateY = viewPort.origin.y - (viewPort.height / 2.0f);
+	float translateX = viewPort.origin.x + (viewPort.width  / 2.0f);
+	float translateY = viewPort.origin.y - (viewPort.height / 2.0f);
 
 	Q3Matrix4x4_SetTranslate(&viewPortMatrix, -translateX, -translateY, 0.0f);
 	Q3Matrix4x4_Multiply(viewToFrustum, &viewPortMatrix, viewToFrustum);
@@ -684,14 +676,14 @@ E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum
 
 
 	// Scale it back up to -1 to +1 in x and y
-	scaleWidth  = 2.0f / viewPort.width;
-	scaleHeight = 2.0f / viewPort.height;
+	float scaleWidth  = 2.0f / viewPort.width;
+	float scaleHeight = 2.0f / viewPort.height;
 
  	Q3Matrix4x4_SetScale(&viewPortMatrix, scaleWidth, scaleHeight, 1.0f);
 	Q3Matrix4x4_Multiply(viewToFrustum, &viewPortMatrix, viewToFrustum);
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -703,14 +695,10 @@ E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum
 #pragma mark -
 TQ3CameraObject
 E3OrthographicCamera_New(const TQ3OrthographicCameraData *orthographicData)
-{	TQ3Object		theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3CameraTypeOrthographic, kQ3False, orthographicData);
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance ( kQ3CameraTypeOrthographic, kQ3False, orthographicData, kQ3True ) ;
+	}
 
 
 
@@ -720,15 +708,13 @@ E3OrthographicCamera_New(const TQ3OrthographicCameraData *orthographicData)
 //      E3OrthographicCamera_GetData : Return an orthographic camera's data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3OrthographicCamera_GetData(TQ3CameraObject theCamera, TQ3OrthographicCameraData *cameraData)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-
-
-
+E3OrthographicCamera::GetData ( TQ3OrthographicCameraData *CameraData )
+	{
 	// Return the camera's data
-	*cameraData = *instanceData;
-	return(kQ3Success);
-}
+	*CameraData = * ( ( TQ3OrthographicCameraData* ) &cameraData ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -738,17 +724,15 @@ E3OrthographicCamera_GetData(TQ3CameraObject theCamera, TQ3OrthographicCameraDat
 //      E3OrthographicCamera_SetData : Set the data for an orthographic camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3OrthographicCamera_SetData(TQ3CameraObject theCamera, const TQ3OrthographicCameraData *cameraData)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-
-
-
+E3OrthographicCamera::SetData ( const TQ3OrthographicCameraData *CameraData )
+	{
 	// Return the camera's data
-	*instanceData = *cameraData;
-	Q3Shared_Edited(theCamera);
+	* ( ( TQ3OrthographicCameraData* ) &cameraData ) = *CameraData ;
+	
+	Q3Shared_Edited ( this );
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -758,17 +742,15 @@ E3OrthographicCamera_SetData(TQ3CameraObject theCamera, const TQ3OrthographicCam
 //      E3OrthographicCamera_SetLeft : Set the left field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3OrthographicCamera_SetLeft(TQ3CameraObject theCamera, float left)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-
-
-
+E3OrthographicCamera::SetLeft ( float Left )
+	{
 	// Set the field
-	instanceData->left = left;
-	Q3Shared_Edited(theCamera);
+	left = Left ;
+	
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -778,15 +760,13 @@ E3OrthographicCamera_SetLeft(TQ3CameraObject theCamera, float left)
 //      E3OrthographicCamera_GetLeft : Return the left field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3OrthographicCamera_GetLeft(TQ3CameraObject theCamera, float *left)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-
-
-
+E3OrthographicCamera::GetLeft ( float *Left )
+	{
 	// Return the field
-	*left = instanceData->left;
-	return(kQ3Success);
-}
+	*Left = left ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -796,17 +776,15 @@ E3OrthographicCamera_GetLeft(TQ3CameraObject theCamera, float *left)
 //      E3OrthographicCamera_SetTop : Set the top field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3OrthographicCamera_SetTop(TQ3CameraObject theCamera, float top)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-
-
-
+E3OrthographicCamera::SetTop ( float Top) 
+	{
 	// Set the field
-	instanceData->top = top;
-	Q3Shared_Edited(theCamera);
+	top = Top ;
 
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( this ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -816,15 +794,13 @@ E3OrthographicCamera_SetTop(TQ3CameraObject theCamera, float top)
 //      E3OrthographicCamera_GetTop : Return the top field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3OrthographicCamera_GetTop(TQ3CameraObject theCamera, float *top)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-
-
-
+E3OrthographicCamera::GetTop ( float *Top )
+	{
 	// Return the field
-	*top = instanceData->top;
-	return(kQ3Success);
-}
+	*Top = top ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -834,17 +810,15 @@ E3OrthographicCamera_GetTop(TQ3CameraObject theCamera, float *top)
 //      E3OrthographicCamera_SetRight : Set the right field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3OrthographicCamera_SetRight(TQ3CameraObject theCamera, float right)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-
-
-
+E3OrthographicCamera::SetRight ( float Right )
+	{
 	// Set the field
-	instanceData->right = right;
-	Q3Shared_Edited(theCamera);
+	right = Right ;
 
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( this ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -854,15 +828,13 @@ E3OrthographicCamera_SetRight(TQ3CameraObject theCamera, float right)
 //      E3OrthographicCamera_GetRight : Return the right field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3OrthographicCamera_GetRight(TQ3CameraObject theCamera, float *right)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-
-
-
+E3OrthographicCamera::GetRight ( float *Right )
+	{
 	// Return the field
-	*right = instanceData->right;
-	return(kQ3Success);
-}
+	*Right = right ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -872,17 +844,15 @@ E3OrthographicCamera_GetRight(TQ3CameraObject theCamera, float *right)
 //      E3OrthographicCamera_SetBottom : Set the bottom field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3OrthographicCamera_SetBottom(TQ3CameraObject theCamera, float bottom)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-
-
-
+E3OrthographicCamera::SetBottom ( float Bottom )
+	{
 	// Set the field
-	instanceData->bottom = bottom;
-	Q3Shared_Edited(theCamera);
+	bottom = Bottom ;
 
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( this ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -892,15 +862,13 @@ E3OrthographicCamera_SetBottom(TQ3CameraObject theCamera, float bottom)
 //      E3OrthographicCamera_GetBottom : Return the bottom field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3OrthographicCamera_GetBottom(TQ3CameraObject theCamera, float *bottom)
-{	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeOrthographic);
-
-
-
+E3OrthographicCamera::GetBottom ( float *Bottom )
+	{
 	// Return the field
-	*bottom = instanceData->bottom;
-	return(kQ3Success);
-}
+	*Bottom = bottom ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -929,15 +897,13 @@ E3ViewPlaneCamera_New(const TQ3ViewPlaneCameraData *cameraData)
 //      E3ViewPlaneCamera_GetData : Return a view plane camera's data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_GetData(TQ3CameraObject theCamera, TQ3ViewPlaneCameraData *cameraData)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::GetData ( TQ3ViewPlaneCameraData *CameraData)
+	{
 	// Return the camera's data
-	*cameraData = *instanceData;
-	return(kQ3Success);
-}
+	*CameraData = * ( (TQ3ViewPlaneCameraData*) &cameraData ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -947,17 +913,15 @@ E3ViewPlaneCamera_GetData(TQ3CameraObject theCamera, TQ3ViewPlaneCameraData *cam
 //      E3ViewPlaneCamera_SetData : Set the data for a view plane camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_SetData(TQ3CameraObject theCamera, const TQ3ViewPlaneCameraData *cameraData)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::SetData ( const TQ3ViewPlaneCameraData *CameraData )
+	{
 	// Set the camera's data
-	*instanceData = *cameraData;
-	Q3Shared_Edited(theCamera);
+	* ( (TQ3ViewPlaneCameraData*) &cameraData ) = *CameraData;
 
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( this ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -967,17 +931,15 @@ E3ViewPlaneCamera_SetData(TQ3CameraObject theCamera, const TQ3ViewPlaneCameraDat
 //      E3ViewPlaneCamera_SetViewPlane : Set the view plane field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_SetViewPlane(TQ3CameraObject theCamera, float viewPlane)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::SetViewPlane ( float ViewPlane )
+	{
 	// Set the field
-	instanceData->viewPlane = viewPlane;
-	Q3Shared_Edited(theCamera);
+	viewPlane = ViewPlane ;
 
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( this ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -987,15 +949,13 @@ E3ViewPlaneCamera_SetViewPlane(TQ3CameraObject theCamera, float viewPlane)
 //      E3ViewPlaneCamera_GetViewPlane : Return the view plane field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_GetViewPlane(TQ3CameraObject theCamera, float *viewPlane)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::GetViewPlane ( float *ViewPlane )
+	{
 	// Return the field
-	*viewPlane = instanceData->viewPlane;
-	return(kQ3Success);
-}
+	*ViewPlane = viewPlane ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -1005,17 +965,15 @@ E3ViewPlaneCamera_GetViewPlane(TQ3CameraObject theCamera, float *viewPlane)
 //      E3ViewPlaneCamera_SetHalfWidth : Set the half width field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_SetHalfWidth(TQ3CameraObject theCamera, float halfWidthAtViewPlane)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::SetHalfWidth ( float HalfWidthAtViewPlane )
+	{
 	// Set the field
-	instanceData->halfWidthAtViewPlane = halfWidthAtViewPlane;
-	Q3Shared_Edited(theCamera);
+	halfWidthAtViewPlane = HalfWidthAtViewPlane ;
 
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( this ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -1025,15 +983,13 @@ E3ViewPlaneCamera_SetHalfWidth(TQ3CameraObject theCamera, float halfWidthAtViewP
 //      E3ViewPlaneCamera_GetHalfWidth : Return the half width field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_GetHalfWidth(TQ3CameraObject theCamera, float *halfWidthAtViewPlane)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::GetHalfWidth ( float *HalfWidthAtViewPlane )
+	{
 	// Return the field
-	*halfWidthAtViewPlane = instanceData->halfWidthAtViewPlane;
-	return(kQ3Success);
-}
+	*HalfWidthAtViewPlane = halfWidthAtViewPlane ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -1043,17 +999,15 @@ E3ViewPlaneCamera_GetHalfWidth(TQ3CameraObject theCamera, float *halfWidthAtView
 //      E3ViewPlaneCamera_SetHalfHeight : Set the half height field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_SetHalfHeight(TQ3CameraObject theCamera, float halfHeightAtViewPlane)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::SetHalfHeight ( float HalfHeightAtViewPlane )
+	{
 	// Set the field
-	instanceData->halfHeightAtViewPlane = halfHeightAtViewPlane;
-	Q3Shared_Edited(theCamera);
+	halfHeightAtViewPlane = HalfHeightAtViewPlane ;
 
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( this ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -1063,15 +1017,13 @@ E3ViewPlaneCamera_SetHalfHeight(TQ3CameraObject theCamera, float halfHeightAtVie
 //      E3ViewPlaneCamera_GetHalfHeight : Return the half height field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_GetHalfHeight(TQ3CameraObject theCamera, float *halfHeightAtViewPlane)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::GetHalfHeight ( float *HalfHeightAtViewPlane )
+	{
 	// Return the field
-	*halfHeightAtViewPlane = instanceData->halfHeightAtViewPlane;
-	return(kQ3Success);
-}
+	*HalfHeightAtViewPlane = halfHeightAtViewPlane ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -1081,17 +1033,15 @@ E3ViewPlaneCamera_GetHalfHeight(TQ3CameraObject theCamera, float *halfHeightAtVi
 //      E3ViewPlaneCamera_SetCenterX : Set the center X field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_SetCenterX(TQ3CameraObject theCamera, float centerXOnViewPlane)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::SetCenterX ( float CenterXOnViewPlane )
+	{
 	// Set the field
-	instanceData->centerXOnViewPlane = centerXOnViewPlane;
-	Q3Shared_Edited(theCamera);
+	centerXOnViewPlane = CenterXOnViewPlane ;
 
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( this ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -1101,15 +1051,13 @@ E3ViewPlaneCamera_SetCenterX(TQ3CameraObject theCamera, float centerXOnViewPlane
 //      E3ViewPlaneCamera_GetCenterX : Return the center X field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_GetCenterX(TQ3CameraObject theCamera, float *centerXOnViewPlane)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::GetCenterX ( float *CenterXOnViewPlane )
+	{
 	// Return the field
-	*centerXOnViewPlane = instanceData->centerXOnViewPlane;
-	return(kQ3Success);
-}
+	*CenterXOnViewPlane = centerXOnViewPlane ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -1119,17 +1067,15 @@ E3ViewPlaneCamera_GetCenterX(TQ3CameraObject theCamera, float *centerXOnViewPlan
 //      E3ViewPlaneCamera_SetCenterY : Set the center Y field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_SetCenterY(TQ3CameraObject theCamera, float centerYOnViewPlane)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::SetCenterY ( float CenterYOnViewPlane )
+	{
 	// Set the field
-	instanceData->centerYOnViewPlane = centerYOnViewPlane;
-	Q3Shared_Edited(theCamera);
+	centerYOnViewPlane = CenterYOnViewPlane ;
 
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( this ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -1139,15 +1085,13 @@ E3ViewPlaneCamera_SetCenterY(TQ3CameraObject theCamera, float centerYOnViewPlane
 //      E3ViewPlaneCamera_GetCenterY : Return the center Y field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewPlaneCamera_GetCenterY(TQ3CameraObject theCamera, float *centerYOnViewPlane)
-{	TQ3ViewPlaneCameraData		*instanceData = (TQ3ViewPlaneCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewPlane);
-
-
-
+E3ViewPlaneCamera::GetCenterY ( float *CenterYOnViewPlane )
+	{
 	// Return the field
-	*centerYOnViewPlane = instanceData->centerYOnViewPlane;
-	return(kQ3Success);
-}
+	*CenterYOnViewPlane = centerYOnViewPlane ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -1176,17 +1120,15 @@ E3ViewAngleAspectCamera_New(const TQ3ViewAngleAspectCameraData *cameraData)
 //      E3ViewAngleAspectCamera_SetData : Set the data for a view angle camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewAngleAspectCamera_SetData(TQ3CameraObject theCamera, const TQ3ViewAngleAspectCameraData *cameraData)
-{	TQ3ViewAngleAspectCameraData		*instanceData = (TQ3ViewAngleAspectCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewAngleAspect);
-
-
-
+E3ViewAngleAspectCamera::SetData ( const TQ3ViewAngleAspectCameraData *CameraData )
+	{
 	// Set the camera's data
-	*instanceData = *cameraData;
-	Q3Shared_Edited(theCamera);
+	* ( (TQ3ViewAngleAspectCameraData*) &cameraData ) = *CameraData ;
+	
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1196,15 +1138,13 @@ E3ViewAngleAspectCamera_SetData(TQ3CameraObject theCamera, const TQ3ViewAngleAsp
 //      E3ViewAngleAspectCamera_GetData : Return a view angle camera.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewAngleAspectCamera_GetData(TQ3CameraObject theCamera, TQ3ViewAngleAspectCameraData *cameraData)
-{	TQ3ViewAngleAspectCameraData		*instanceData = (TQ3ViewAngleAspectCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewAngleAspect);
-
-
-
+E3ViewAngleAspectCamera::GetData ( TQ3ViewAngleAspectCameraData *CameraData )
+	{
 	// Return the camera's data
-	*cameraData = *instanceData;
-	return(kQ3Success);
-}
+	*CameraData = * ( (TQ3ViewAngleAspectCameraData*) &cameraData ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -1214,17 +1154,15 @@ E3ViewAngleAspectCamera_GetData(TQ3CameraObject theCamera, TQ3ViewAngleAspectCam
 //      E3ViewAngleAspectCamera_SetFOV : Set the FOV field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewAngleAspectCamera_SetFOV(TQ3CameraObject theCamera, float fov)
-{	TQ3ViewAngleAspectCameraData		*instanceData = (TQ3ViewAngleAspectCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewAngleAspect);
-
-
-
+E3ViewAngleAspectCamera::SetFOV ( float Fov )
+	{
 	// Set the field
-	instanceData->fov = fov;
-	Q3Shared_Edited(theCamera);
+	fov = Fov ;
+	
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1234,15 +1172,13 @@ E3ViewAngleAspectCamera_SetFOV(TQ3CameraObject theCamera, float fov)
 //      E3ViewAngleAspectCamera_GetFOV : Return the FOV field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewAngleAspectCamera_GetFOV(TQ3CameraObject theCamera, float *fov)
-{	TQ3ViewAngleAspectCameraData		*instanceData = (TQ3ViewAngleAspectCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewAngleAspect);
-
-
-
+E3ViewAngleAspectCamera::GetFOV ( float *Fov )
+	{
 	// Return the field
-	*fov = instanceData->fov;
-	return(kQ3Success);
-}
+	*Fov = fov ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -1252,17 +1188,15 @@ E3ViewAngleAspectCamera_GetFOV(TQ3CameraObject theCamera, float *fov)
 //      E3ViewAngleAspectCamera_SetAspectRatio : Set the aspect ratio field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewAngleAspectCamera_SetAspectRatio(TQ3CameraObject theCamera, float aspectRatioXToY)
-{	TQ3ViewAngleAspectCameraData		*instanceData = (TQ3ViewAngleAspectCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewAngleAspect);
-
-
-
+E3ViewAngleAspectCamera::SetAspectRatio ( float AspectRatioXToY )
+	{
 	// Set the field
-	instanceData->aspectRatioXToY = aspectRatioXToY;
-	Q3Shared_Edited(theCamera);
+	aspectRatioXToY = AspectRatioXToY ;
+	
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1272,15 +1206,13 @@ E3ViewAngleAspectCamera_SetAspectRatio(TQ3CameraObject theCamera, float aspectRa
 //      E3ViewAngleAspectCamera_GetAspectRatio : Return the aspect ratio field.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ViewAngleAspectCamera_GetAspectRatio(TQ3CameraObject theCamera, float *aspectRatioXToY)
-{	TQ3ViewAngleAspectCameraData		*instanceData = (TQ3ViewAngleAspectCameraData *) E3ClassTree_FindInstanceData(theCamera, kQ3CameraTypeViewAngleAspect);
-
-
-
+E3ViewAngleAspectCamera::GetAspectRatio ( float *AspectRatioXToY )
+	{
 	// Return the field
-	*aspectRatioXToY = instanceData->aspectRatioXToY;
-	return(kQ3Success);
-}
+	*AspectRatioXToY = aspectRatioXToY ;
+
+	return kQ3Success ;
+	}
 
 
 
