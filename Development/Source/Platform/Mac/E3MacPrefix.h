@@ -36,7 +36,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include <Displays.h>
-
+#include "E3CarbonCoating.h"
 
 
 
