@@ -89,9 +89,9 @@ TQ3Object			E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 												const void		*paramData);
 void				E3ClassTree_DestroyInstance(TQ3Object theObject);
 TQ3Object			E3ClassTree_DuplicateInstance(TQ3Object theObject);
-TQ3Object			E3ClassTree_FindParentInstance(TQ3Object theObject, TQ3ObjectType classType);
 void				*E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType);
 TQ3ObjectType		E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType);
+TQ3Boolean			E3ClassTree_IsObjectValid(TQ3Object theObject);
 
 
 // Locate a class
