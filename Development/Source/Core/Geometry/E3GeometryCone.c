@@ -617,8 +617,24 @@ E3Cone_New(const TQ3ConeData *coneData)
 
 
 
-	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeCone, kQ3False, coneData);
+	if (coneData == NULL)
+	{
+		TQ3ConeData		defaultCone = {
+			{ 0.0f, 0.0f, 0.0f },
+			{ 1.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f },
+			0.0f, 1.0f, 0.0f, 1.0f,
+			kQ3EndCapNone,
+			NULL, NULL, NULL, NULL
+		};
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeCone, kQ3False, &defaultCone);
+	}
+	else
+	{
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeCone, kQ3False, coneData);
+	}
+
 	return(theObject);
 }
 

@@ -231,10 +231,10 @@ e3geom_box_create_face( TQ3GroupObject inGroup,
 	TQ3Vector3D		triangleNormals[2];
 	TQ3Vector3D		majCrossMin;
 	TQ3Param2D		vertexUVs[4] = {
-		{ 0.0, 0.0 },
-		{ 1.0, 0.0 },
-		{ 1.0, 1.0 },
-		{ 0.0, 1.0 }
+		{ 0.0f, 0.0f },
+		{ 1.0f, 0.0f },
+		{ 1.0f, 1.0f },
+		{ 0.0f, 1.0f }
 	};
 	TQ3TriMeshAttributeData		vertexAtts[2];
 	TQ3TriMeshAttributeData		triangleAtts[1];
@@ -340,6 +340,7 @@ static TQ3Object
 e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 					const TQ3BoxData *inBoxData )
 {
+#pragma unused(theView, theGeom)
 	TQ3Object	theGroup = Q3DisplayGroup_New();
 	TQ3Vector3D	antiMajor, antiMinor, antiOrientation;
 	TQ3Point3D	workPt;
@@ -566,9 +567,22 @@ E3Box_New(const TQ3BoxData *boxData)
 {	TQ3Object			theObject;
 
 
+	if (boxData == NULL)
+	{
+		TQ3BoxData	defaultBox = {
+			{ 0.0f, 0.0f, 0.0f },
+			{ 1.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f },
+			NULL, NULL
+		};
+		theObject = E3ClassTree_CreateInstance( kQ3GeometryTypeBox, kQ3False, &defaultBox );
+	}
+	else
+	{
+		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeBox, kQ3False, boxData);
+	}
 
-	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeBox, kQ3False, boxData);
 	return(theObject);
 }
 
