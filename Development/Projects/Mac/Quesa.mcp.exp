@@ -33,6 +33,7 @@ Q3BackfacingStyle_Submit
 Q3Bitmap_Empty
 Q3Bitmap_GetImageSize
 Q3BoundingBox_Copy
+Q3BoundingBox_Reset
 Q3BoundingBox_Set
 Q3BoundingBox_SetFromPoints3D
 Q3BoundingBox_SetFromRationalPoints4D
@@ -40,6 +41,7 @@ Q3BoundingBox_Union
 Q3BoundingBox_UnionPoint3D
 Q3BoundingBox_UnionRationalPoint4D
 Q3BoundingSphere_Copy
+Q3BoundingSphere_Reset
 Q3BoundingSphere_Set
 Q3BoundingSphere_SetFromPoints3D
 Q3BoundingSphere_SetFromRationalPoints4D
