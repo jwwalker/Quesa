@@ -86,7 +86,7 @@ e3geom_marker_pixel_is_set(const TQ3MarkerData *instanceData, TQ3Int32 x, TQ3Int
 
 
 	// Test the pixel
-	return(E3Bit_Test(theByte, 1 << bitOffset));
+	return(E3Bit_IsSet(theByte, 1 << bitOffset));
 }
 
 

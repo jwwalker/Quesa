@@ -166,7 +166,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the pick ID
-	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskPickID))
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskPickID))
 		{
 		qd3dStatus = Q3View_GetPickIDStyleState(theView, &theHit->pickedID);
 		if (qd3dStatus == kQ3Success)
@@ -176,7 +176,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the path to the hit object
-	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskPath))
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskPath))
 		{
 		currentPath = E3View_PickStack_GetPickedPath(theView);
 		qd3dStatus  = e3pick_hit_duplicate_path(currentPath, &theHit->pickedPath);
@@ -187,7 +187,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the hit object
-	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskObject))
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskObject))
 		{
 		theHit->pickedObject = E3View_PickStack_GetPickedObject(theView);
 		if (theHit->pickedObject != NULL)
@@ -197,7 +197,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the local->world matrix
-	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskLocalToWorldMatrix))
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskLocalToWorldMatrix))
 		{
 		qd3dStatus = E3View_GetLocalToWorldMatrixState(theView, &theHit->localToWorld);
 		if (qd3dStatus == kQ3Success)
@@ -207,7 +207,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the world coordinates of the hit point
-	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskXYZ) && hitXYZ != NULL)
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskXYZ) && hitXYZ != NULL)
 		{
 		theHit->hitXYZ     = *hitXYZ;
 		theHit->validMask |= kQ3PickDetailMaskXYZ;
@@ -216,7 +216,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the distance to the viewer
-	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskDistance) && hitXYZ != NULL)
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskDistance) && hitXYZ != NULL)
 		{
 		if (Q3Pick_GetType( thePick ) == kQ3PickTypeWorldRay)
 			{
@@ -241,7 +241,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the normal at the hit point
-	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskNormal) && hitNormal != NULL)
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskNormal) && hitNormal != NULL)
 		{
 		Q3Vector3D_Normalize(hitNormal, &theHit->hitNormal);
 		theHit->validMask |= kQ3PickDetailMaskNormal;
@@ -250,7 +250,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the shape part
-	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskShapePart))
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskShapePart))
 		{
 		theHit->pickedShape = Q3Shared_GetReference(hitShape);
 		theHit->validMask  |= kQ3PickDetailMaskShapePart;
@@ -271,7 +271,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	//
 	// This assumes the mesh object's picking implementation has examined the
 	// current pick part style and picked the appropriate sub-object types.
-	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskPickPart))
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskPickPart))
 		{
 		// Set up the default
 		theHit->pickedPart = kQ3PickPartsObject;
@@ -304,7 +304,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the UV at the hit point
-	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskUV) && hitUV != NULL)
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskUV) && hitUV != NULL)
 		{
 		theHit->hitUV      = *hitUV;
 		theHit->validMask |= kQ3PickDetailMaskUV;
@@ -1141,13 +1141,13 @@ E3Pick_EmptyHitList(TQ3PickObject thePick)
 		
 		
 		// Dispose of the item
-		if (E3Bit_Test(currentHit->validMask, kQ3PickDetailMaskPath))
+		if (E3Bit_IsSet(currentHit->validMask, kQ3PickDetailMaskPath))
 			Q3HitPath_EmptyData(&currentHit->pickedPath);
 
-		if (E3Bit_Test(currentHit->validMask, kQ3PickDetailMaskObject))
+		if (E3Bit_IsSet(currentHit->validMask, kQ3PickDetailMaskObject))
 			Q3Object_Dispose(currentHit->pickedObject);
 
-		if (E3Bit_Test(currentHit->validMask, kQ3PickDetailMaskShapePart))
+		if (E3Bit_IsSet(currentHit->validMask, kQ3PickDetailMaskShapePart))
 			Q3Object_Dispose(currentHit->pickedShape);
 
 		Q3Memory_Free(&currentHit);
@@ -1219,7 +1219,7 @@ E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pi
 
 
 	// Check to see if the data is present
-	if (!E3Bit_Test(theHit->validMask, pickDetailValue))
+	if (E3Bit_IsNotSet(theHit->validMask, pickDetailValue))
 		return(kQ3Failure);
 
 
@@ -1315,7 +1315,7 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 	// To simplify the code below, we also revert to unsorted if the list is empty.
 	sortType = instanceData->data.common.sort;
 
-	if (!E3Bit_Test(theHit->validMask, kQ3PickDetailMaskDistance))
+	if (E3Bit_IsNotSet(theHit->validMask, kQ3PickDetailMaskDistance))
 		sortType = kQ3PickSortNone;
 
 	if (instanceData->pickHits == NULL)
@@ -1350,7 +1350,7 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 			while (currentHit != NULL && !savedHit)
 				{
 				// Check this node
-				foundHit = E3Bit_Test(currentHit->validMask, kQ3PickDetailMaskDistance);
+				foundHit = E3Bit_IsSet(currentHit->validMask, kQ3PickDetailMaskDistance);
 				if (foundHit)
 					{
 					// Stop when we find a node further away

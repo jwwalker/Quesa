@@ -1236,19 +1236,19 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 		{
 		switch (theMode) {
 			case kQ3ViewModeDrawing:
-				shouldSubmit = E3Bit_Test(theState, kQ3DisplayGroupStateMaskIsDrawn);
+				shouldSubmit = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsDrawn);
 				break;
 			
 			case kQ3ViewModePicking:
-				shouldSubmit = E3Bit_Test(theState, kQ3DisplayGroupStateMaskIsPicked);
+				shouldSubmit = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsPicked);
 				break;
 
 			case kQ3ViewModeWriting:
-				shouldSubmit = E3Bit_Test(theState, kQ3DisplayGroupStateMaskIsWritten);
+				shouldSubmit = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsWritten);
 				break;
 			
 			case kQ3ViewModeCalcBounds:
-				shouldSubmit = (TQ3Boolean)!E3Bit_Test(theState, kQ3DisplayGroupStateMaskIsNotForBounding);
+				shouldSubmit = E3Bit_IsNotSet(theState, kQ3DisplayGroupStateMaskIsNotForBounding);
 				break;
 
 			default:
@@ -1264,7 +1264,7 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 	if (shouldSubmit)
 		{
 		// If the group isn't inline, push the view state and reset the matrix
-		isInline = E3Bit_Test(theState, kQ3DisplayGroupStateMaskIsInline);
+		isInline = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsInline);
 		if (!isInline)
 			{
 			Q3Push_Submit(theView);

@@ -410,22 +410,22 @@ TQ3Boolean E3Rect_ClipLine(const TQ3Area *theRect, TQ3Point2D *lineStart, TQ3Poi
 
 
 			// Find the intersection point with the clipping rectangle
-			if (E3Bit_Test(codeOutside, kClipTop))
+			if (E3Bit_IsSet(codeOutside, kClipTop))
 				{
 				x = lineStart->x + (lineEnd->x - lineStart->x) * (theRect->min.y - lineStart->y) / (lineEnd->y - lineStart->y);
 				y = theRect->min.y;
 				}
-			else if (E3Bit_Test(codeOutside, kClipBottom))
+			else if (E3Bit_IsSet(codeOutside, kClipBottom))
 				{
 				x = lineStart->x + (lineEnd->x - lineStart->x) * (theRect->max.y - lineStart->y) / (lineEnd->y - lineStart->y);
 				y = theRect->max.y;
 				}
-			else if (E3Bit_Test(codeOutside, kClipRight))
+			else if (E3Bit_IsSet(codeOutside, kClipRight))
 				{
 				y = lineStart->y + (lineEnd->y - lineStart->y) * (theRect->max.x - lineStart->x) / (lineEnd->x - lineStart->x);
 				x = theRect->max.x;
 				}
-			else if (E3Bit_Test(codeOutside, kClipLeft))
+			else if (E3Bit_IsSet(codeOutside, kClipLeft))
 				{
 				y = lineStart->y + (lineEnd->y - lineStart->y) * (theRect->min.x - lineStart->x) / (lineEnd->x - lineStart->x);
 				x = theRect->min.x;
