@@ -624,6 +624,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	const GLfloat				kBlackColor[4] = {
 									0.0f, 0.0f, 0.0f, 1.0f
 								};
+	GLboolean					savedDepthMask;
 
 
 
@@ -658,6 +659,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 		Q3CameraTransform_Submit(&cameraTransformData, theView);
 
 	    glEnable(GL_BLEND);
+	    glGetBooleanv( GL_DEPTH_WRITEMASK, &savedDepthMask );
 		glDepthMask(GL_FALSE);
 		
 		// The first pass will not include specularity, so we set the specular color black.
@@ -704,7 +706,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 		// Reset the OpenGL state
 		glEnable(GL_COLOR_MATERIAL);
-		glDepthMask(GL_TRUE);
+		glDepthMask( savedDepthMask );
 	    glDisable(GL_BLEND);
 	    
 
