@@ -94,7 +94,11 @@ typedef enum TQ3ViewStackState TQ3ViewStackState;
 //-----------------------------------------------------------------------------
 // Stack data
 typedef struct TQ3ViewStackItem {
+	// Next stack item
 	struct TQ3ViewStackItem*	next;
+	
+	
+	// Stack item state
 	TQ3ViewStackState			stackState;
 	TQ3AttributeSet				attributeSet;
 	TQ3Matrix4x4				matrixLocalToWorld;
@@ -136,7 +140,7 @@ typedef struct TQ3ViewData {
 
 
 	// View stack
-	TQ3ViewStackItem			*stackState;			// linked list of stack items
+	TQ3ViewStackItem			*stackState;
 
 
 	// Bounds state
@@ -199,7 +203,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 
 	theItem->next					 = NULL;
 	theItem->stackState				 = kQ3ViewStateAll;
-	theItem->attributeSet            = Q3Set_New/*Q3AttributeSet_New*/();
+	theItem->attributeSet            = Q3AttributeSet_New();
 	theItem->shaderIllumination		 = Q3NULLIllumination_New();
 	theItem->shaderSurface			 = NULL;
 	theItem->styleBackfacing         = kQ3BackfacingStyleBoth;
@@ -314,20 +318,7 @@ e3view_stack_update(TQ3ViewObject theView, TQ3ViewStackState stateChange)
 
 	// If the stack is empty, we're done
 	if (instanceData->stackState == NULL)
-		{
-		// dair, anyone know why is this commented out?
-/*
-		// If we're drawing, flush any references the renderer might have to shared objects
-		if (instanceData->viewMode == kQ3ViewModeDrawing)
-			{
-			E3Renderer_Method_UpdateShader(theView,    kQ3ShaderTypeIllumination,     NULL);
-			E3Renderer_Method_UpdateShader(theView,    kQ3ShaderTypeSurface,          NULL);
-			E3Renderer_Method_UpdateStyle(theView,     kQ3StyleTypeHighlight,         NULL);
-			E3Renderer_Method_UpdateAttribute(theView, kQ3AttributeTypeSurfaceShader, NULL);
-			}
-*/
 		return(kQ3Success);
-		}
 
 
 
@@ -1284,7 +1275,7 @@ e3view_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	instanceData->viewAttributes = Q3Set_New/*Q3AttributeSet_New*/();
+	instanceData->viewAttributes = Q3AttributeSet_New();
 	if (instanceData->viewAttributes != NULL)
 		{
 		// Add the attributes
