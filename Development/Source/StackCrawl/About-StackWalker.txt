@@ -1,1 +1,0 @@
-The StackWalker code is from HeapManager, free software from <http://www.biit.com>.  Some modifications were made for Quesa, as noted in comments in the source.  See also the HeapManager License file.
