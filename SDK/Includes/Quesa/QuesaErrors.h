@@ -265,17 +265,17 @@ typedef enum {
 typedef CALLBACK_API_C(void,                TQ3ErrorMethod)(
                             TQ3Error            firstError,
                             TQ3Error            lastError,
-                            TQ3Uns32            userData);
+                            TQ3Int32            userData);
                             
 typedef CALLBACK_API_C(void,                TQ3WarningMethod)(
                             TQ3Warning          firstWarning,
                             TQ3Warning          lastWarnin,
-                            TQ3Uns32            userData);
+                            TQ3Int32            userData);
                             
 typedef CALLBACK_API_C(void,                TQ3NoticeMethod)(
                             TQ3Notice           firstNotice,
                             TQ3Notice           lastNotice,
-                            TQ3Uns32            userData);
+                            TQ3Int32            userData);
 
 
 
