@@ -4398,14 +4398,14 @@ Q3Matrix4x4_SetRotateAboutAxis(TQ3Matrix4x4 *matrix4x4, const TQ3Point3D *origin
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
 	if (0) // Further checks on origin
 		return(NULL);
 
-	if (0) // Further checks on axis
-		return(NULL);
+	// Further checks on axis
+	if (fabs( Q3FastVector3D_Length( axis ) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 
 	if (0) // Further checks on angle
 		return(NULL);
@@ -4446,11 +4446,17 @@ Q3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4, const TQ3Vector3D *
 	if (0) // Further checks on matrix4x4
 		return(NULL);
 
-	if (0) // Further checks on v1
-		return(NULL);
+	// Further checks on v1
+	if (fabs( Q3FastVector3D_Length( v1 ) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 
-	if (0) // Further checks on v2
-		return(NULL);
+	// Further checks on v2
+	if (fabs( Q3FastVector3D_Length( v2 ) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 #endif
 
 
@@ -5178,8 +5184,11 @@ Q3Quaternion_SetRotateAboutAxis(TQ3Quaternion *quaternion, const TQ3Vector3D *ax
 	if (0) // Further checks on quaternion
 		return(NULL);
 
-	if (0) // Further checks on axis
-		return(NULL);
+	// Further checks on axis
+	if (fabs( Q3FastVector3D_Length( axis ) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 
 	if (0) // Further checks on angle
 		return(NULL);
@@ -5220,11 +5229,17 @@ Q3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion, const TQ3Vector3
 	if (0) // Further checks on quaternion
 		return(NULL);
 
-	if (0) // Further checks on v1
-		return(NULL);
+	// Further checks on v1
+	if (fabs( Q3FastVector3D_Length( v1 ) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 
-	if (0) // Further checks on v2
-		return(NULL);
+	// Further checks on v2
+	if (fabs( Q3FastVector3D_Length( v2 ) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 #endif
 
 
@@ -5333,8 +5348,11 @@ Q3Quaternion_IsIdentity(const TQ3Quaternion *quaternion)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(kQ3False);
+	// Further checks on quaternion
+	if (fabs( sqrt(Q3FastQuaternion_Dot( quaternion, quaternion )) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
+	}
 #endif
 
 
@@ -5444,8 +5462,11 @@ Q3Quaternion_Invert(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
+	// Further checks on quaternion
+	if (fabs( sqrt(Q3FastQuaternion_Dot( quaternion, quaternion )) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
+	}
 
 	if (0) // Further checks on result
 		return(NULL);
@@ -5644,9 +5665,6 @@ Q3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 TQ3Vector3D *
 Q3Quaternion_GetAxisAndAngle(const TQ3Quaternion *quaternion, TQ3Vector3D *outAxis, float *outAngle)
 {
-#if Q3_DEBUG
-	float qlength;
-#endif
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
@@ -5656,9 +5674,10 @@ Q3Quaternion_GetAxisAndAngle(const TQ3Quaternion *quaternion, TQ3Vector3D *outAx
 	// Debug build checks
 #if Q3_DEBUG
 	// Further checks on quaternion
-	qlength = (float) sqrt(E3Quaternion_Dot(quaternion, quaternion));
-	if (qlength < 1.0f - kQ3RealZero || qlength > 1.0f + kQ3RealZero)
-		return(NULL);			// quaternion must be normalized
+	if (fabs( sqrt(Q3FastQuaternion_Dot( quaternion, quaternion )) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
+	}
 
 	if (0) // Further checks on outAngle
 		return(NULL);
@@ -5700,8 +5719,11 @@ Q3Vector3D_TransformQuaternion(const TQ3Vector3D *vector3D, const TQ3Quaternion 
 	if (0) // Further checks on vector3D
 		return(NULL);
 
-	if (0) // Further checks on quaternion
-		return(NULL);
+	// Further checks on quaternion
+	if (fabs( sqrt(Q3FastQuaternion_Dot( quaternion, quaternion )) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
+	}
 
 	if (0) // Further checks on result
 		return(NULL);
@@ -5742,8 +5764,11 @@ Q3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ3Quaternion *qu
 	if (0) // Further checks on point3D
 		return(NULL);
 
-	if (0) // Further checks on quaternion
-		return(NULL);
+	// Further checks on quaternion
+	if (fabs( sqrt(Q3FastQuaternion_Dot( quaternion, quaternion )) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
+	}
 
 	if (0) // Further checks on result
 		return(NULL);
@@ -6444,8 +6469,11 @@ Q3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3P
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on theRay
-		return(kQ3False);
+	// Further checks on theRay
+	if (fabs( Q3FastVector3D_Length( &theRay->direction) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 
 	if (0) // Further checks on theSphere
 		return(kQ3False);
@@ -6486,8 +6514,11 @@ Q3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on theRay
-		return(kQ3False);
+	// Further checks on theRay
+	if (fabs( Q3FastVector3D_Length( &theRay->direction) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 
 	if (0) // Further checks on theBounds
 		return(kQ3False);
