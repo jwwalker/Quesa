@@ -46,7 +46,11 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 // GLU callback
-typedef GLvoid (*GLcallback)();
+#ifndef CALLBACK
+	#define CALLBACK
+#endif
+
+typedef void (CALLBACK *GLcallback)();
 
 
 // Tessellator state
@@ -880,8 +884,6 @@ E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theContours, TQ3At
 		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
 		return(NULL);
 		}
-
-
 
 	// Set it up
 	gluTessProperty(theTess, GLU_TESS_WINDING_RULE,   GLU_TESS_WINDING_ODD);

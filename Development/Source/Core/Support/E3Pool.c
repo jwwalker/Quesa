@@ -131,7 +131,7 @@ E3Pool_AllocateTagged(
 	Q3_ASSERT_VALID_PTR(poolPtr);
 	Q3_ASSERT(itemOffset >= sizeof(TE3PoolBlock));
 	Q3_ASSERT(itemSize >= sizeof(TE3PoolItem));
-	Q3_ASSERT(blockLength > (tagItemPtr == NULL ? 0 : 1));
+	Q3_ASSERT(blockLength > (tagItemPtr == NULL ? 0UL : 1UL));
 
 	// If no free items in pool...
 	if (poolPtr->private_itemPtr == NULL)

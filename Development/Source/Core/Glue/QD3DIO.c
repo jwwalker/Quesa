@@ -1920,7 +1920,7 @@ Q3Size_Pad(TQ3Size size)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on size
-		return(NULL);
+		return(size);
 #endif
 
 
