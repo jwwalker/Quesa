@@ -710,6 +710,7 @@ Q3Object_IsType(TQ3Object object, TQ3ObjectType theType)
 
 
 	// Release build checks
+	Q3_REQUIRE_OR_RESULT(object != NULL, kQ3False);
 	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 
 
