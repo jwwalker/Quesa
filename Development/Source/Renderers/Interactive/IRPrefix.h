@@ -91,6 +91,7 @@ typedef struct TQ3CachedTexture {
 	GLuint					qualityFilter;
 	TQ3Uns32				editIndexShader;
 	TQ3Uns32				editIndexTexture;
+	TQ3Uns32				editIndexStorage;
 	TQ3ShaderUVBoundary		boundaryU;
 	TQ3ShaderUVBoundary		boundaryV;
 } TQ3CachedTexture;
