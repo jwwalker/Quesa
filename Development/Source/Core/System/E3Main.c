@@ -366,6 +366,8 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 				sIsMakingListHead = kQ3False;
 				Q3_REQUIRE_OR_RESULT( theGlobals->listHead != NULL, kQ3Failure );
 			}
+			Q3_ASSERT( E3ClassTree_GetType(theGlobals->listHead->theClass) ==
+				kQ3ObjectTypeRoot );
 			
 			// insert the new node between the list header and last normal node
 			instanceData->next = theGlobals->listHead;
@@ -696,7 +698,14 @@ E3Exit(void)
 		{
 			E3ErrorManager_PostError( kQ3ErrorMemoryLeak, kQ3False );
 			Q3Memory_DumpRecording( "Quesa-leaks.txt", "Q3Exit" );
+			Q3Memory_ForgetRecording();
 		}
+	#endif
+	
+	#if Q3_DEBUG
+		// Reset leak-checking globals to initial state
+		Q3Memory_Free( &theGlobals->listHead );
+		theGlobals->isLeakChecking = kQ3False;
 	#endif
 
 
