@@ -1330,7 +1330,6 @@ e3ffw_3DMF_cone_traverse( TQ3Object object,
 	TQ3Status	status;
 	TQ3XObjectClass	theClass;
 	TQ3Uns32*	capData;
-	TQ3Object	subObject;
 	
 	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
 	
@@ -1350,11 +1349,7 @@ e3ffw_3DMF_cone_traverse( TQ3Object object,
 	// optional face cap attribute set
 	if ( (status == kQ3Success) && (data->faceAttributeSet != NULL) )
 	{
-		subObject = E3ClassTree_CreateInstance( kQ3AttributeSetTypeFaceCap,
-			kQ3False, &data->faceAttributeSet );
-		Q3_REQUIRE_OR_RESULT( subObject != NULL, kQ3Failure );
-		
-		status = E3FileFormat_Method_SubmitObject( view, subObject,
+		status = E3FileFormat_Method_SubmitObject( view, NULL,
 			kQ3AttributeSetTypeFaceCap, data->faceAttributeSet );
 	}
 	
@@ -1362,11 +1357,7 @@ e3ffw_3DMF_cone_traverse( TQ3Object object,
 	if ( (status == kQ3Success) && (data->bottomAttributeSet != NULL) &&
 		((data->caps & kQ3EndCapMaskBottom) != 0) )
 	{
-		subObject = E3ClassTree_CreateInstance( kQ3AttributeSetTypeBottomCap,
-			kQ3False, &data->bottomAttributeSet );
-		Q3_REQUIRE_OR_RESULT( subObject != NULL, kQ3Failure );
-		
-		status = E3FileFormat_Method_SubmitObject( view, subObject,
+		status = E3FileFormat_Method_SubmitObject( view, NULL,
 			kQ3AttributeSetTypeBottomCap, data->bottomAttributeSet );
 	}
 	
@@ -1426,7 +1417,6 @@ e3ffw_3DMF_cylinder_traverse( TQ3Object object,
 	TQ3Status	status;
 	TQ3XObjectClass	theClass;
 	TQ3Uns32*	capData;
-	TQ3Object	subObject;
 	
 	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
 	
@@ -1446,10 +1436,7 @@ e3ffw_3DMF_cylinder_traverse( TQ3Object object,
 	// optional face cap attribute set
 	if ( (status == kQ3Success) && (data->faceAttributeSet != NULL) )
 	{
-		subObject = E3ClassTree_CreateInstance( kQ3AttributeSetTypeFaceCap,
-			kQ3False, &data->faceAttributeSet );
-		
-		status = E3FileFormat_Method_SubmitObject( view, subObject,
+		status = E3FileFormat_Method_SubmitObject( view, NULL,
 			kQ3AttributeSetTypeFaceCap, data->faceAttributeSet );
 	}
 	
@@ -1457,11 +1444,7 @@ e3ffw_3DMF_cylinder_traverse( TQ3Object object,
 	if ( (status == kQ3Success) && (data->bottomAttributeSet != NULL) &&
 		((data->caps & kQ3EndCapMaskBottom) != 0) )
 	{
-		subObject = E3ClassTree_CreateInstance( kQ3AttributeSetTypeBottomCap,
-			kQ3False, &data->bottomAttributeSet );
-		Q3_REQUIRE_OR_RESULT( subObject != NULL, kQ3Failure );
-		
-		status = E3FileFormat_Method_SubmitObject( view, subObject,
+		status = E3FileFormat_Method_SubmitObject( view, NULL,
 			kQ3AttributeSetTypeBottomCap, data->bottomAttributeSet );
 	}
 	
@@ -1469,11 +1452,7 @@ e3ffw_3DMF_cylinder_traverse( TQ3Object object,
 	if ( (status == kQ3Success) && (data->topAttributeSet != NULL) &&
 		((data->caps & kQ3EndCapMaskTop) != 0) )
 	{
-		subObject = E3ClassTree_CreateInstance( kQ3AttributeSetTypeTopCap,
-			kQ3False, &data->topAttributeSet );
-		Q3_REQUIRE_OR_RESULT( subObject != NULL, kQ3Failure );
-		
-		status = E3FileFormat_Method_SubmitObject( view, subObject,
+		status = E3FileFormat_Method_SubmitObject( view, NULL,
 			kQ3AttributeSetTypeTopCap, data->topAttributeSet );
 	}
 	
