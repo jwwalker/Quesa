@@ -191,15 +191,15 @@ typedef struct TQ3OrthographicCameraData {
  *      of an off-center viewing frustum.
  *
  *      The frustum is formed by following the camera view direction for a given
- *      distance, then taking the specified square on that plane. The frustum
- *      extends from the camera position through the four edges of this square.
+ *      distance, then taking the specified rectangle on that plane. The frustum
+ *      extends from the camera position through the four edges of this rectangle.
  *
  *  @field cameraData                The common state for the camera.
  *  @field viewPlane                 The distance from the camera to the view plane.
- *  @field halfWidthAtViewPlane      The half-width of the square on the view plane.
- *  @field halfHeightAtViewPlane     The half-height of the square on the view plane.
- *  @field centerXOnViewPlane        The x-center of the square on the view plane.
- *  @field centerYOnViewPlane        The y-center of the square on the view plane.
+ *  @field halfWidthAtViewPlane      The half-width of the rectangle on the view plane.
+ *  @field halfHeightAtViewPlane     The half-height of the rectangle on the view plane.
+ *  @field centerXOnViewPlane        The x-center of the rectangle on the view plane.
+ *  @field centerYOnViewPlane        The y-center of the rectangle on the view plane.
  */
 typedef struct TQ3ViewPlaneCameraData {
     TQ3CameraData                               cameraData;
@@ -265,14 +265,11 @@ Q3Camera_GetType (
  *  @function
  *      Q3Camera_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the common state for a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param cameraData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param cameraData       The new common state for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_SetData (
@@ -286,14 +283,11 @@ Q3Camera_SetData (
  *  @function
  *      Q3Camera_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the common state of a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param cameraData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param cameraData       Receives the common state of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetData (
@@ -307,14 +301,11 @@ Q3Camera_GetData (
  *  @function
  *      Q3Camera_SetPlacement
  *  @discussion
- *      One-line description of this function.
+ *      Set the placement for a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param placement        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param placement        The new placement for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_SetPlacement (
@@ -328,14 +319,11 @@ Q3Camera_SetPlacement (
  *  @function
  *      Q3Camera_GetPlacement
  *  @discussion
- *      One-line description of this function.
+ *      Get the placement of a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param placement        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param placement        Receives the placement of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetPlacement (
@@ -349,14 +337,11 @@ Q3Camera_GetPlacement (
  *  @function
  *      Q3Camera_SetRange
  *  @discussion
- *      One-line description of this function.
+ *      Set the range for a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param range            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param range            The new range for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_SetRange (
@@ -370,14 +355,11 @@ Q3Camera_SetRange (
  *  @function
  *      Q3Camera_GetRange
  *  @discussion
- *      One-line description of this function.
+ *      Get the range of a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param range            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param range            Receives the range of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetRange (
@@ -391,14 +373,11 @@ Q3Camera_GetRange (
  *  @function
  *      Q3Camera_SetViewPort
  *  @discussion
- *      One-line description of this function.
+ *      Set the view port for a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param viewPort         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param viewPort         The new view port for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_SetViewPort (
@@ -412,14 +391,11 @@ Q3Camera_SetViewPort (
  *  @function
  *      Q3Camera_GetViewPort
  *  @discussion
- *      One-line description of this function.
+ *      Get the view port of a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param viewPort         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param viewPort         Receives the view port of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetViewPort (
@@ -433,14 +409,16 @@ Q3Camera_GetViewPort (
  *  @function
  *      Q3Camera_GetWorldToView
  *  @discussion
- *      One-line description of this function.
+ *      Get the world-to-view matrix of a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The world-to-view matrix transforms world coordinates to a coordinate
+ *      system relative to the camera. The origin of this coordinate system is
+ *      the camera location, with the camera view pointing down the -z axis
+ *      and the camera up vector placed along the +y axis.
  *
- *  @param camera           Description of the parameter.
- *  @param worldToView      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param worldToView      Receives the world-to-view matrix of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetWorldToView (
@@ -454,14 +432,15 @@ Q3Camera_GetWorldToView (
  *  @function
  *      Q3Camera_GetWorldToFrustum
  *  @discussion
- *      One-line description of this function.
+ *      Get the world-to-frustum matrix of a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The world-to-frustum matrix transforms world coordinates to the viewing
+ *      frustum coordinate system. It is equivalent to multiplying the matrices
+ *      returned by Q3Camera_GetWorldToView and Q3Camera_GetViewToFrustum.
  *
- *  @param camera           Description of the parameter.
- *  @param worldToFrustum   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param worldToFrustum   Receives the world-to-frustum matrix of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetWorldToFrustum (
@@ -475,14 +454,18 @@ Q3Camera_GetWorldToFrustum (
  *  @function
  *      Q3Camera_GetViewToFrustum
  *  @discussion
- *      One-line description of this function.
+ *      Get the view-to-frustum matrix of a camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The view-to-frustum matrix transforms the camera coordinate system
+ *      (as returned by Q3Camera_GetWorldToView) to the viewing frustum
+ *      coordinate system.
  *
- *  @param camera           Description of the parameter.
- *  @param viewToFrustum    Description of the parameter.
- *  @result                 Description of the function result.
+ *      The frustum coordinate system ranges from 0.0 to 1.0 in z, and from
+ *      -1.0 to +1.0 in both x and y.
+ *
+ *  @param camera           The camera to query.
+ *  @param viewToFrustum    Receives the view-to-frustum matrix of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetViewToFrustum (
@@ -496,13 +479,10 @@ Q3Camera_GetViewToFrustum (
  *  @function
  *      Q3OrthographicCamera_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new orthographic camera object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param orthographicData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param orthographicData The data for the camera object.
+ *  @result                 The new camera object.
  */
 EXTERN_API_C ( TQ3CameraObject  )
 Q3OrthographicCamera_New (
@@ -515,14 +495,11 @@ Q3OrthographicCamera_New (
  *  @function
  *      Q3OrthographicCamera_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data for an orthographic camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param cameraData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param cameraData       Receives the data of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_GetData (
@@ -536,18 +513,15 @@ Q3OrthographicCamera_GetData (
  *  @function
  *      Q3OrthographicCamera_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for an orthographic camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param cameraData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param cameraData       The new data for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetData (
-    TQ3CameraObject               camera,
+    TQ3CameraObject                  camera,
     const TQ3OrthographicCameraData *cameraData
 );
 
@@ -557,14 +531,11 @@ Q3OrthographicCamera_SetData (
  *  @function
  *      Q3OrthographicCamera_SetLeft
  *  @discussion
- *      One-line description of this function.
+ *      Set the left side of the viewing frustum of an orthographic camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param left             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param left             The new left side for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetLeft (
@@ -578,14 +549,11 @@ Q3OrthographicCamera_SetLeft (
  *  @function
  *      Q3OrthographicCamera_GetLeft
  *  @discussion
- *      One-line description of this function.
+ *      Get the left side of the viewing frustum of an orthographic camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param left             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param left             Receives the left side of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_GetLeft (
@@ -599,14 +567,11 @@ Q3OrthographicCamera_GetLeft (
  *  @function
  *      Q3OrthographicCamera_SetTop
  *  @discussion
- *      One-line description of this function.
+ *      Set the top side of the viewing frustum of an orthographic camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param top              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param top              The new top side for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetTop (
@@ -620,14 +585,11 @@ Q3OrthographicCamera_SetTop (
  *  @function
  *      Q3OrthographicCamera_GetTop
  *  @discussion
- *      One-line description of this function.
+ *      Get the top side of the viewing frustum of an orthographic camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param top              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param top              Receives the top side of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_GetTop (
@@ -641,14 +603,11 @@ Q3OrthographicCamera_GetTop (
  *  @function
  *      Q3OrthographicCamera_SetRight
  *  @discussion
- *      One-line description of this function.
+ *      Set the right side of the viewing frustum of an orthographic camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param right            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param right            The new right side for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetRight (
@@ -662,14 +621,11 @@ Q3OrthographicCamera_SetRight (
  *  @function
  *      Q3OrthographicCamera_GetRight
  *  @discussion
- *      One-line description of this function.
+ *      Get the right side of the viewing frustum of an orthographic camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param right            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param right            Receives the right side of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_GetRight (
@@ -683,14 +639,11 @@ Q3OrthographicCamera_GetRight (
  *  @function
  *      Q3OrthographicCamera_SetBottom
  *  @discussion
- *      One-line description of this function.
+ *      Set the bottom side of the viewing frustum of an orthographic camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param bottom           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param bottom           The new bottom side for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetBottom (
@@ -704,14 +657,11 @@ Q3OrthographicCamera_SetBottom (
  *  @function
  *      Q3OrthographicCamera_GetBottom
  *  @discussion
- *      One-line description of this function.
+ *      Get the bottom side of the viewing frustum of an orthographic camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param bottom           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param bottom           Receives the bottom side of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_GetBottom (
@@ -725,13 +675,10 @@ Q3OrthographicCamera_GetBottom (
  *  @function
  *      Q3ViewPlaneCamera_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new view plane camera object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cameraData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cameraData       The data for the camera object.
+ *  @result                 The new camera object.
  */
 EXTERN_API_C ( TQ3CameraObject  )
 Q3ViewPlaneCamera_New (
@@ -744,14 +691,11 @@ Q3ViewPlaneCamera_New (
  *  @function
  *      Q3ViewPlaneCamera_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data for a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param cameraData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param cameraData       Receives the data of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetData (
@@ -765,14 +709,11 @@ Q3ViewPlaneCamera_GetData (
  *  @function
  *      Q3ViewPlaneCamera_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param cameraData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param cameraData       The new data for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetData (
@@ -786,14 +727,14 @@ Q3ViewPlaneCamera_SetData (
  *  @function
  *      Q3ViewPlaneCamera_SetViewPlane
  *  @discussion
- *      One-line description of this function.
+ *      Set the view plane distance for a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The view plane distance is the distance along the camera view vector
+ *      from the camera location.
  *
- *  @param camera           Description of the parameter.
- *  @param viewPlane        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param viewPlane        The new view plane distance for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetViewPlane (
@@ -807,14 +748,14 @@ Q3ViewPlaneCamera_SetViewPlane (
  *  @function
  *      Q3ViewPlaneCamera_GetViewPlane
  *  @discussion
- *      One-line description of this function.
+ *      Get the view plane distance of a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The view plane distance is the distance along the camera view vector
+ *      from the camera location.
  *
- *  @param camera           Description of the parameter.
- *  @param viewPlane        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param viewPlane        Receives the view plane distance of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetViewPlane (
@@ -828,14 +769,14 @@ Q3ViewPlaneCamera_GetViewPlane (
  *  @function
  *      Q3ViewPlaneCamera_SetHalfWidth
  *  @discussion
- *      One-line description of this function.
+ *      Set the half-width of the view rectangle of a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The area of the view plane which will be rendered is a rectangle,
+ *      whose width is twice the specified half-width.
  *
- *  @param camera           Description of the parameter.
- *  @param halfWidthAtViewPlane Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera                  The camera to update.
+ *  @param halfWidthAtViewPlane    The new half-width of the view rectangle.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetHalfWidth (
@@ -849,14 +790,14 @@ Q3ViewPlaneCamera_SetHalfWidth (
  *  @function
  *      Q3ViewPlaneCamera_GetHalfWidth
  *  @discussion
- *      One-line description of this function.
+ *      Get the half-width of the view rectangle of a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The area of the view plane which will be rendered is a rectangle,
+ *      whose width is twice the returned half-width.
  *
- *  @param camera           Description of the parameter.
- *  @param halfWidthAtViewPlane Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera                  The camera to query.
+ *  @param halfWidthAtViewPlane    Receives the half-width of the view rectangle.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetHalfWidth (
@@ -870,14 +811,14 @@ Q3ViewPlaneCamera_GetHalfWidth (
  *  @function
  *      Q3ViewPlaneCamera_SetHalfHeight
  *  @discussion
- *      One-line description of this function.
+ *      Set the half-height of the view rectangle of a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The area of the view plane which will be rendered is a rectangle,
+ *      whose height is twice the specified half-height.
  *
- *  @param camera           Description of the parameter.
- *  @param halfHeightAtViewPlane Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera                  The camera to update.
+ *  @param halfHeightAtViewPlane   The new half-height of the view rectangle.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetHalfHeight (
@@ -891,14 +832,14 @@ Q3ViewPlaneCamera_SetHalfHeight (
  *  @function
  *      Q3ViewPlaneCamera_GetHalfHeight
  *  @discussion
- *      One-line description of this function.
+ *      Get the half-height of the view rectangle of a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The area of the view plane which will be rendered is a rectangle,
+ *      whose height is twice the returned half-height.
  *
- *  @param camera           Description of the parameter.
- *  @param halfHeightAtViewPlane Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera                  The camera to query.
+ *  @param halfHeightAtViewPlane   Receives the half-height of the view rectangle.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetHalfHeight (
@@ -912,14 +853,14 @@ Q3ViewPlaneCamera_GetHalfHeight (
  *  @function
  *      Q3ViewPlaneCamera_SetCenterX
  *  @discussion
- *      One-line description of this function.
+ *      Set the x coordinate of the view rectangle center of a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The area of the view plane which will be rendered is a rectangle, whose
+ *      origin in x is at the specified coordinate.
  *
- *  @param camera           Description of the parameter.
- *  @param centerXOnViewPlane Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera                  The camera to update.
+ *  @param centerXOnViewPlane      The new x coordinate for the center of the view rectangle.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetCenterX (
@@ -933,14 +874,14 @@ Q3ViewPlaneCamera_SetCenterX (
  *  @function
  *      Q3ViewPlaneCamera_GetCenterX
  *  @discussion
- *      One-line description of this function.
+ *      Get the x coordinate of the view rectangle center of a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The area of the view plane which will be rendered is a rectangle, whose
+ *      origin in x is at the returned coordinate.
  *
- *  @param camera           Description of the parameter.
- *  @param centerXOnViewPlane Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera                  The camera to query.
+ *  @param centerXOnViewPlane      Receives the x coordinate of the center of the view rectangle.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetCenterX (
@@ -954,14 +895,14 @@ Q3ViewPlaneCamera_GetCenterX (
  *  @function
  *      Q3ViewPlaneCamera_SetCenterY
  *  @discussion
- *      One-line description of this function.
+ *      Set the y coordinate of the view rectangle center of a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The area of the view plane which will be rendered is a rectangle, whose
+ *      origin in y is at the specified coordinate.
  *
- *  @param camera           Description of the parameter.
- *  @param centerYOnViewPlane Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera                  The camera to update.
+ *  @param centerYOnViewPlane      The new y coordinate for the center of the view rectangle.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetCenterY (
@@ -975,14 +916,14 @@ Q3ViewPlaneCamera_SetCenterY (
  *  @function
  *      Q3ViewPlaneCamera_GetCenterY
  *  @discussion
- *      One-line description of this function.
+ *      Get the y coordinate of the view rectangle center of a view plane camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The area of the view plane which will be rendered is a rectangle, whose
+ *      origin in y is at the returned coordinate.
  *
- *  @param camera           Description of the parameter.
- *  @param centerYOnViewPlane Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera                  The camera to query.
+ *  @param centerYOnViewPlane      Receives the y coordinate of the center of the view rectangle.
+ *  @result                        Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetCenterY (
@@ -996,13 +937,10 @@ Q3ViewPlaneCamera_GetCenterY (
  *  @function
  *      Q3ViewAngleAspectCamera_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new view angle aspect camera object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cameraData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cameraData       The data for the camera object.
+ *  @result                 The new camera object.
  */
 EXTERN_API_C ( TQ3CameraObject  )
 Q3ViewAngleAspectCamera_New (
@@ -1015,18 +953,15 @@ Q3ViewAngleAspectCamera_New (
  *  @function
  *      Q3ViewAngleAspectCamera_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a view angle aspect camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param cameraData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param cameraData       The new data for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_SetData (
-    TQ3CameraObject               camera,
+    TQ3CameraObject                     camera,
     const TQ3ViewAngleAspectCameraData *cameraData
 );
 
@@ -1036,14 +971,11 @@ Q3ViewAngleAspectCamera_SetData (
  *  @function
  *      Q3ViewAngleAspectCamera_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data for a view angle aspect camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param camera           Description of the parameter.
- *  @param cameraData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param cameraData       Receives the data of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_GetData (
@@ -1057,14 +989,13 @@ Q3ViewAngleAspectCamera_GetData (
  *  @function
  *      Q3ViewAngleAspectCamera_SetFOV
  *  @discussion
- *      One-line description of this function.
+ *      Set the field of view for a view angle aspect camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The field of view is specified in radians.
  *
- *  @param camera           Description of the parameter.
- *  @param fov              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param fov              The new field of view for the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_SetFOV (
@@ -1078,14 +1009,13 @@ Q3ViewAngleAspectCamera_SetFOV (
  *  @function
  *      Q3ViewAngleAspectCamera_GetFOV
  *  @discussion
- *      One-line description of this function.
+ *      Get the field of view of a view angle aspect camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The field of view is specified in radians.
  *
- *  @param camera           Description of the parameter.
- *  @param fov              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param fov              Receives the field of view of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_GetFOV (
@@ -1099,14 +1029,15 @@ Q3ViewAngleAspectCamera_GetFOV (
  *  @function
  *      Q3ViewAngleAspectCamera_SetAspectRatio
  *  @discussion
- *      One-line description of this function.
+ *      Set the aspect ratio for a view angle aspect camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the aspect ratio is greater than 1.0, the field of view of the
+ *      camera is vertical. If it is less than 1.0, the field of view is
+ *      horizontal.
  *
- *  @param camera           Description of the parameter.
- *  @param aspectRatioXToY  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to update.
+ *  @param aspectRatioXToY  The new horizontal-to-vertical aspect ratio of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_SetAspectRatio (
@@ -1120,14 +1051,15 @@ Q3ViewAngleAspectCamera_SetAspectRatio (
  *  @function
  *      Q3ViewAngleAspectCamera_GetAspectRatio
  *  @discussion
- *      One-line description of this function.
+ *      Get the aspect ratio of a view angle aspect camera.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the aspect ratio is greater than 1.0, the field of view of the
+ *      camera is vertical. If it is less than 1.0, the field of view is
+ *      horizontal.
  *
- *  @param camera           Description of the parameter.
- *  @param aspectRatioXToY  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param camera           The camera to query.
+ *  @param aspectRatioXToY  Receives the horizontal-to-vertical aspect ratio of the camera.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_GetAspectRatio (
