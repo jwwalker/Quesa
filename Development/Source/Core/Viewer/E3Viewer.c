@@ -434,7 +434,7 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 		PixMapHandle imagePM = NULL, maskPM = NULL;
 		Rect srcRect = {0,0,28,32};
 		
-		SetPort((CGrafPtr)data->mWindow);
+		SetPort((GrafPtr)data->mWindow);
 
 		E3Area_ToRect(butnRect, &r);
 		drawInfo.state = down ? kThemeStatePressed : kThemeStateActive;
@@ -540,7 +540,7 @@ static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect
 		Boolean active;
 		
 		E3Area_ToRect(stripRect, &r);
-		SetPort((CGrafPtr)data->mWindow);
+		SetPort((GrafPtr)data->mWindow);
 		window = GetWindowFromPort((CGrafPtr)data->mWindow);
 
 		// Let's use the Appearance Manager to draw a proper themed background.
@@ -574,7 +574,7 @@ static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 	#if QUESA_OS_MACINTOSH
 		Rect r;
 		Pattern	pat;
-		SetPort((CGrafPtr)data->mWindow);
+		SetPort((GrafPtr)data->mWindow);
 
 		E3Area_ToRect(rect, &r);
 		ForeColor(blackColor);
