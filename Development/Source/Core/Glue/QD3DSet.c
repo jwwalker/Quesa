@@ -716,7 +716,7 @@ Q3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject view)
 
 
 	// Call our implementation
-	return(E3Set_SubmitElements(attributeSet, view));
+	return(E3AttributeSet_Submit(attributeSet, view));
 }
 
 

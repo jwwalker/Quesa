@@ -2341,6 +2341,24 @@ E3Attribute_Submit(TQ3AttributeType attributeType, const void *attributeData, TQ
 
 
 //=============================================================================
+//      E3AttributeSet_Submit : Submit a display group.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3AttributeSet_Submit(TQ3AttributeSet theSet, TQ3ViewObject theView)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Submit the set to the view
+	qd3dStatus = E3View_SubmitRetained(theView, theSet);
+
+	return(qd3dStatus);
+}
+
+
+
+
+//=============================================================================
 //      E3AttributeSet_New : Create an attribute set.
 //-----------------------------------------------------------------------------
 TQ3AttributeSet

@@ -75,6 +75,7 @@ TQ3Status			E3AttributeSet_GetNextAttributeType(TQ3AttributeSet theSet, TQ3Attri
 TQ3AttributeType	E3Attribute_ClassToAttributeType(TQ3ObjectType theType);
 TQ3ObjectType		E3Attribute_AttributeToClassType(TQ3AttributeType theType);
 TQ3Status			E3Attribute_Submit(TQ3AttributeType attributeType, const void *attributeData, TQ3ViewObject theView);
+TQ3Status			E3AttributeSet_Submit(TQ3AttributeSet theSet, TQ3ViewObject theView);
 TQ3AttributeSet		E3AttributeSet_New(void);
 TQ3Status			E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3AttributeSet result);
 
