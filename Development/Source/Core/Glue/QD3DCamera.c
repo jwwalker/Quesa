@@ -125,8 +125,11 @@ Q3Camera_SetData(TQ3CameraObject camera, const TQ3CameraData *cameraData)
 	if (0) // Further checks on camera
 		return(kQ3Failure);
 
-	if (0) // Further checks on cameraData
-		return(kQ3Failure);
+	// Further checks on cameraData
+	if (fabs( Q3FastVector3D_Length( &cameraData->placement.upVector ) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 #endif
 
 
@@ -203,8 +206,11 @@ Q3Camera_SetPlacement(TQ3CameraObject camera, const TQ3CameraPlacement *placemen
 	if (0) // Further checks on camera
 		return(kQ3Failure);
 
-	if (0) // Further checks on placement
-		return(kQ3Failure);
+	// Further checks on placement
+	if (fabs( Q3FastVector3D_Length( &placement->upVector ) - 1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 #endif
 
 
@@ -549,8 +555,12 @@ Q3OrthographicCamera_New(const TQ3OrthographicCameraData *orthographicData)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on orthographicData
-		return(NULL);
+	// Further checks on orthographicData
+	if (fabs( Q3FastVector3D_Length( &orthographicData->cameraData.placement.upVector ) -
+		1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 #endif
 
 
@@ -627,8 +637,12 @@ Q3OrthographicCamera_SetData(TQ3CameraObject camera, const TQ3OrthographicCamera
 	if (0) // Further checks on camera
 		return(kQ3Failure);
 
-	if (0) // Further checks on cameraData
-		return(kQ3Failure);
+	// Further checks on cameraData
+	if (fabs( Q3FastVector3D_Length( &cameraData->cameraData.placement.upVector ) -
+		1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 #endif
 
 
@@ -969,8 +983,12 @@ Q3ViewPlaneCamera_New(const TQ3ViewPlaneCameraData *cameraData)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on cameraData
-		return(NULL);
+	// Further checks on cameraData
+	if (fabs( Q3FastVector3D_Length( &cameraData->cameraData.placement.upVector ) -
+		1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 #endif
 
 
@@ -1047,8 +1065,12 @@ Q3ViewPlaneCamera_SetData(TQ3CameraObject camera, const TQ3ViewPlaneCameraData *
 	if (0) // Further checks on camera
 		return(kQ3Failure);
 
-	if (0) // Further checks on cameraData
-		return(kQ3Failure);
+	// Further checks on cameraData
+	if (fabs( Q3FastVector3D_Length( &cameraData->cameraData.placement.upVector ) -
+		1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 #endif
 
 
@@ -1466,8 +1488,12 @@ Q3ViewAngleAspectCamera_New(const TQ3ViewAngleAspectCameraData *cameraData)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on cameraData
-		return(NULL);
+	// Further checks on cameraData
+	if (fabs( Q3FastVector3D_Length( &cameraData->cameraData.placement.upVector ) -
+		1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 #endif
 
 
@@ -1505,8 +1531,12 @@ Q3ViewAngleAspectCamera_SetData(TQ3CameraObject camera, const TQ3ViewAngleAspect
 	if (0) // Further checks on camera
 		return(kQ3Failure);
 
-	if (0) // Further checks on cameraData
-		return(kQ3Failure);
+	// Further checks on cameraData
+	if (fabs( Q3FastVector3D_Length( &cameraData->cameraData.placement.upVector ) -
+		1.0f ) > kQ3RealZero)
+	{
+		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
 #endif
 
 
