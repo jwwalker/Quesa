@@ -1450,6 +1450,12 @@ QutMac_SelectMetafileToOpen(FSSpec* theFSSpec)
 		// Extract the file
 		AEGetNthDesc(&navReply.selection, 1, typeFSS, &theAEKeyword, &theAEDesc);
 		AEGetDescData(&theAEDesc, theFSSpec, sizeof(FSSpec));
+		
+		
+		
+		// Clean up
+		AEDisposeDesc( &theAEDesc );
+		NavDisposeReply( &navReply );
 		}
 
 
