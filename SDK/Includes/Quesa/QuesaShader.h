@@ -282,7 +282,7 @@ Q3ColorARGB_Accumulate (
  *
  *      Available in inline form as Q3FastColorRGB_Set.
  *
- *  @param color            Description of the parameter.
+ *  @param color            The color to set.
  *  @param r                The red component for the color.
  *  @param g                The green component for the color.
  *  @param b                The blue component for the color.
@@ -460,13 +460,10 @@ Q3ColorRGB_Luminance (
  *  @function
  *      Q3Shader_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a shader object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to query.
+ *  @result                 The type of the shader.
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Shader_GetType (
@@ -479,14 +476,11 @@ Q3Shader_GetType (
  *  @function
  *      Q3Shader_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a shader to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to submit.
+ *  @param view             The view to submit the shader to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_Submit (
@@ -500,14 +494,11 @@ Q3Shader_Submit (
  *  @function
  *      Q3Shader_SetUVTransform
  *  @discussion
- *      One-line description of this function.
+ *      Set the UV transform for a shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @param uvTransform      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to update.
+ *  @param uvTransform      The new UV transform for the shader.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_SetUVTransform (
@@ -521,14 +512,11 @@ Q3Shader_SetUVTransform (
  *  @function
  *      Q3Shader_GetUVTransform
  *  @discussion
- *      One-line description of this function.
+ *      Get the UV transform for a shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @param uvTransform      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to query.
+ *  @param uvTransform      Receives the UV transform of the shader.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_GetUVTransform (
@@ -542,14 +530,11 @@ Q3Shader_GetUVTransform (
  *  @function
  *      Q3Shader_SetUBoundary
  *  @discussion
- *      One-line description of this function.
+ *      Set the U boundary behaviour for a shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @param uBoundary        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to update.
+ *  @param uBoundary        The U boundary behaviour for the shader.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_SetUBoundary (
@@ -563,14 +548,11 @@ Q3Shader_SetUBoundary (
  *  @function
  *      Q3Shader_SetVBoundary
  *  @discussion
- *      One-line description of this function.
+ *      Set the V boundary behaviour for a shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @param vBoundary        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to update.
+ *  @param vBoundary        The V boundary behaviour for the shader.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_SetVBoundary (
@@ -584,14 +566,11 @@ Q3Shader_SetVBoundary (
  *  @function
  *      Q3Shader_GetUBoundary
  *  @discussion
- *      One-line description of this function.
+ *      Get the U boundary behaviour of a shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @param uBoundary        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to query.
+ *  @param uBoundary        Receives the U boundary behaviour of the shader.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_GetUBoundary (
@@ -605,14 +584,11 @@ Q3Shader_GetUBoundary (
  *  @function
  *      Q3Shader_GetVBoundary
  *  @discussion
- *      One-line description of this function.
+ *      Get the V boundary behaviour of a shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @param vBoundary        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to query.
+ *  @param vBoundary        Receives the V boundary behaviour of the shader.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_GetVBoundary (
@@ -626,13 +602,10 @@ Q3Shader_GetVBoundary (
  *  @function
  *      Q3IlluminationShader_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of an illumination shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to query.
+ *  @result                 The type of the illumination shader.
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3IlluminationShader_GetType (
@@ -645,12 +618,9 @@ Q3IlluminationShader_GetType (
  *  @function
  *      Q3PhongIllumination_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a Phong illumination shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @result                 Description of the function result.
+ *  @result                 The new illumination shader.
  */
 Q3_EXTERN_API_C ( TQ3ShaderObject  )
 Q3PhongIllumination_New (
@@ -663,12 +633,9 @@ Q3PhongIllumination_New (
  *  @function
  *      Q3LambertIllumination_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a Lambert illumination shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @result                 Description of the function result.
+ *  @result                 The new illumination shader.
  */
 Q3_EXTERN_API_C ( TQ3ShaderObject  )
 Q3LambertIllumination_New (
@@ -681,12 +648,9 @@ Q3LambertIllumination_New (
  *  @function
  *      Q3NULLIllumination_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a NULL illumination shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @result                 Description of the function result.
+ *  @result                 The new illumination shader.
  */
 Q3_EXTERN_API_C ( TQ3ShaderObject  )
 Q3NULLIllumination_New (
@@ -699,13 +663,10 @@ Q3NULLIllumination_New (
  *  @function
  *      Q3SurfaceShader_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a surface shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to query.
+ *  @result                 The type of the surface shader.
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3SurfaceShader_GetType (
@@ -718,13 +679,10 @@ Q3SurfaceShader_GetType (
  *  @function
  *      Q3TextureShader_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a texture shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param texture          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param texture          The texture object for the shader.
+ *  @result                 The new texture shader.
  */
 Q3_EXTERN_API_C ( TQ3ShaderObject  )
 Q3TextureShader_New (
@@ -737,14 +695,14 @@ Q3TextureShader_New (
  *  @function
  *      Q3TextureShader_GetTexture
  *  @discussion
- *      One-line description of this function.
+ *      Get the texture from a texture shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the returned shader is incremented, and the
+ *      caller must release their reference when done.
  *
- *  @param shader           Description of the parameter.
- *  @param texture          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to query.
+ *  @param texture          Receives the texture from the texture shader.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TextureShader_GetTexture (
@@ -758,14 +716,11 @@ Q3TextureShader_GetTexture (
  *  @function
  *      Q3TextureShader_SetTexture
  *  @discussion
- *      One-line description of this function.
+ *      Set the texture for a texture shader.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param shader           Description of the parameter.
- *  @param texture          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param shader           The shader to update.
+ *  @param texture          The texture for the shader.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TextureShader_SetTexture (
@@ -779,13 +734,10 @@ Q3TextureShader_SetTexture (
  *  @function
  *      Q3Texture_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a texture object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param texture          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param texture          The texture to query.
+ *  @result                 The type of the texture object.
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Texture_GetType (
@@ -798,14 +750,11 @@ Q3Texture_GetType (
  *  @function
  *      Q3Texture_GetWidth
  *  @discussion
- *      One-line description of this function.
+ *      Get the width of a texture object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param texture          Description of the parameter.
- *  @param width            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param texture          The texture to query.
+ *  @param width            Receives the width of the texture object.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Texture_GetWidth (
@@ -819,14 +768,11 @@ Q3Texture_GetWidth (
  *  @function
  *      Q3Texture_GetHeight
  *  @discussion
- *      One-line description of this function.
+ *      Get the height of a texture object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param texture          Description of the parameter.
- *  @param height           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param texture          The texture to query.
+ *  @param height           Receives the height of the texture object.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Texture_GetHeight (
@@ -840,13 +786,10 @@ Q3Texture_GetHeight (
  *  @function
  *      Q3PixmapTexture_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a pixmap texture.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pixmap           The pixmap to be used by the texture.
+ *  @result                 The new pixmap texture.
  */
 Q3_EXTERN_API_C ( TQ3TextureObject  )
 Q3PixmapTexture_New (
@@ -859,14 +802,11 @@ Q3PixmapTexture_New (
  *  @function
  *      Q3PixmapTexture_GetPixmap
  *  @discussion
- *      One-line description of this function.
+ *      Get the pixmap from a pixmap texture.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param texture          Description of the parameter.
- *  @param pixmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param texture          The texture to query.
+ *  @param pixmap           Receives the pixmap of the texture.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapTexture_GetPixmap (
@@ -880,14 +820,11 @@ Q3PixmapTexture_GetPixmap (
  *  @function
  *      Q3PixmapTexture_SetPixmap
  *  @discussion
- *      One-line description of this function.
+ *      Set the pixmap for a pixmap texture.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param texture          Description of the parameter.
- *  @param pixmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param texture          The texture to update.
+ *  @param pixmap           The new pixmap for the texture.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapTexture_SetPixmap (
@@ -901,13 +838,10 @@ Q3PixmapTexture_SetPixmap (
  *  @function
  *      Q3MipmapTexture_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a mipmap texture.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param mipmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param mipmap           The mipmap to be used by the texture.
+ *  @result                 The new mipmap texture.
  */
 Q3_EXTERN_API_C ( TQ3TextureObject  )
 Q3MipmapTexture_New (
@@ -920,14 +854,11 @@ Q3MipmapTexture_New (
  *  @function
  *      Q3MipmapTexture_GetMipmap
  *  @discussion
- *      One-line description of this function.
+ *      Get the mipmap from a mipmap texture.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param texture          Description of the parameter.
- *  @param mipmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param texture          The texture to query.
+ *  @param mipmap           Receives the mipmap of the texture.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MipmapTexture_GetMipmap (
@@ -941,14 +872,11 @@ Q3MipmapTexture_GetMipmap (
  *  @function
  *      Q3MipmapTexture_SetMipmap
  *  @discussion
- *      One-line description of this function.
+ *      Set the mipmap for a mipmap texture.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param texture          Description of the parameter.
- *  @param mipmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param texture          The texture to update.
+ *  @param mipmap           The new mipmap for the texture.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MipmapTexture_SetMipmap (
@@ -962,13 +890,12 @@ Q3MipmapTexture_SetMipmap (
  *  @function
  *      Q3CompressedPixmapTexture_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a compressed pixmap texture.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function is only available on platforms that support QuickTime.
  *
- *  @param compressedPixmap Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param compressedPixmap The compressed pixmap for the texture.
+ *  @result                 The new compressed pixmap texture.
  */
 Q3_EXTERN_API_C ( TQ3TextureObject  )
 Q3CompressedPixmapTexture_New (
@@ -981,14 +908,13 @@ Q3CompressedPixmapTexture_New (
  *  @function
  *      Q3CompressedPixmapTexture_GetCompressedPixmap
  *  @discussion
- *      One-line description of this function.
+ *      Get the compressed pixmap from a compressed pixmap texture.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function is only available on platforms that support QuickTime.
  *
- *  @param texture          Description of the parameter.
- *  @param compressedPixmap Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param texture          The texture to query.
+ *  @param compressedPixmap Receives the compressed pixmap of the texture.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CompressedPixmapTexture_GetCompressedPixmap (
@@ -1002,14 +928,13 @@ Q3CompressedPixmapTexture_GetCompressedPixmap (
  *  @function
  *      Q3CompressedPixmapTexture_SetCompressedPixmap
  *  @discussion
- *      One-line description of this function.
+ *      Set the compressed pixmap for a compressed pixmap texture.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function is only available on platforms that support QuickTime.
  *
- *  @param texture          Description of the parameter.
- *  @param compressedPixmap Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param texture          The texture to update.
+ *  @param compressedPixmap The new compressed pixmap for the texture.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CompressedPixmapTexture_SetCompressedPixmap (
@@ -1023,18 +948,17 @@ Q3CompressedPixmapTexture_SetCompressedPixmap (
  *  @function
  *      Q3CompressedPixmapTexture_CompressImage
  *  @discussion
- *      One-line description of this function.
+ *      Create a compressed pixmap from a PixMapHandle.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function is only available on platforms that support QuickTime.
  *
- *  @param compressedPixmap Description of the parameter.
- *  @param sourcePixMap     Description of the parameter.
- *  @param codecType        Description of the parameter.
- *  @param codecComponent   Description of the parameter.
- *  @param codedDepth       Description of the parameter.
- *  @param codecQuality     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param compressedPixmap Receives the compressed pixmap.
+ *  @param sourcePixMap     The uncompressed PixMapHandle.
+ *  @param codecType        The QuickTime codec to use for compression.
+ *  @param codecComponent   The QuickTime component to use for compression.
+ *  @param codedDepth       The depth the codec should compress to.
+ *  @param codecQuality     The quality the codec should compress to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CompressedPixmapTexture_CompressImage (
