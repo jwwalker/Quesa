@@ -590,7 +590,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 			
 			//Create the bits
 			theContext->backBuffer = CreateDIBSection(NULL, (BITMAPINFO*)&bmih,
-																								DIB_RGB_COLORS, &theContext->pBits, NULL, 0);
+				DIB_RGB_COLORS, (void**)&theContext->pBits, NULL, 0);
 			if(theContext->backBuffer == NULL){
 				Q3Error_PlatformPost(GetLastError());
 				goto fail;
