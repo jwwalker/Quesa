@@ -282,6 +282,7 @@ e3class_find_by_name(E3ClassInfoPtr theClass, const char *className)
 static TQ3XFunctionPointer
 e3class_find_method(E3ClassInfoPtr theClass, TQ3XMethodType methodType, TQ3Boolean canInherit)
 {	TQ3XFunctionPointer		theMethod;
+	TQ3Boolean				areDone;
 
 
 
@@ -290,18 +291,31 @@ e3class_find_method(E3ClassInfoPtr theClass, TQ3XMethodType methodType, TQ3Boole
 
 
 
-	// Query the metahandler for the method
+	// Walk up the class tree until we find the method
+	areDone   = kQ3False;
 	theMethod = NULL;
+	do
+		{
+		// Check the current class
+		if (theClass->classMetaHandler != NULL)
+			theMethod = theClass->classMetaHandler(methodType);
 
-	if (theClass->classMetaHandler != NULL)
-		theMethod = theClass->classMetaHandler(methodType);
+
+
+		// If this class doesn't implement it, and we can inherit, try the parent
+		if (theMethod == NULL && theClass->theParent != NULL && canInherit)
+			theClass = theClass->theParent;
+
+
+		// Otherwise, we're done
+		else
+			areDone = kQ3True;
+		}
+	while (!areDone);
 
 
 
-	// If this class doesn't implement it, and we can inherit, try the parent
-	if (theMethod == NULL && theClass->theParent != NULL && canInherit)
-		theMethod = e3class_find_method(theClass->theParent, methodType, canInherit);
-
+	// Return whatever we found
 	return(theMethod);
 }
 

@@ -91,7 +91,7 @@ typedef struct E3HashTable {
 //-----------------------------------------------------------------------------
 static E3HashTableNodePtr *
 e3hash_find_node(E3HashTablePtr theTable, TQ3ObjectType theKey)
-{	TQ3Uns32		n, theIndex;
+{	TQ3Uns32		theIndex;
 	TQ3Uns8			*thePtr;
 	
 
@@ -106,8 +106,10 @@ e3hash_find_node(E3HashTablePtr theTable, TQ3ObjectType theKey)
 	theIndex = 0;
 	thePtr   = (TQ3Uns8 *) &theKey;
 	
-	for (n = 0; n < 4; n++)
-		theIndex = (TQ3Uns32) (((theIndex * 3) + thePtr[n]) % theTable->tableSize);
+	theIndex = (TQ3Uns32) (((theIndex * 3) + thePtr[0]) % theTable->tableSize);
+	theIndex = (TQ3Uns32) (((theIndex * 3) + thePtr[1]) % theTable->tableSize);
+	theIndex = (TQ3Uns32) (((theIndex * 3) + thePtr[2]) % theTable->tableSize);
+	theIndex = (TQ3Uns32) (((theIndex * 3) + thePtr[3]) % theTable->tableSize);
 
 	Q3_ASSERT(theIndex >= 0 && theIndex < theTable->tableSize);
 
@@ -405,6 +407,7 @@ void E3HashTable_Remove(E3HashTablePtr theTable, TQ3ObjectType theKey)
 void *
 E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey)
 {	E3HashTableNodePtr		theNode, *nodePtr;
+	E3HashTableItemPtr		theItem;
 	TQ3Uns32				n;
 	
 
@@ -429,10 +432,13 @@ E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey)
 
 
 	// Otherwise, look for the item
+	theItem = theNode->theItems;
 	for (n = 0; n < theNode->numItems; n++)
 		{
-		if (theKey == theNode->theItems[n].theKey)
-			return(theNode->theItems[n].theItem);
+		if (theKey == theItem->theKey)
+			return(theItem->theItem);
+		
+		theItem++;
 		}
 
 	return(NULL);
