@@ -777,7 +777,8 @@ E3MacDrawContext_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_UnregisterClass(void)
-{#if !TARGET_API_MAC_CARBON
+{
+#if !TARGET_API_MAC_CARBON
 	E3GlobalsPtr			theGlobals = E3Globals_Get();
 	ProcessSerialNumber		thePSN;
 #endif
