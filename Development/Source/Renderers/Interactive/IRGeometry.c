@@ -38,7 +38,6 @@
 #include "IRTransparent.h"
 #include "IRUpdate.h"
 
-#include "GLPrefix.h"
 #include "GLDrawContext.h"
 
 
