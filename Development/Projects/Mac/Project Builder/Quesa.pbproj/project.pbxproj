@@ -3493,7 +3493,6 @@
 </dict>
 </plist>
 ";
-			shouldUseHeadermap = 0;
 		};
 		05D44048FF17D5547F000001 = {
 			buildActionMask = 2147483647;
@@ -5281,6 +5280,7 @@
 				0157031E00C1B6E77F000001,
 				0157031F00C1B6E77F000001,
 			);
+			hasScannedForEncodings = 1;
 			isa = PBXProject;
 			mainGroup = 0867D691FE84028FC02AAC07;
 			productRefGroup = 00D410A2FEDA3A0AC0A80006;
@@ -5365,7 +5365,6 @@
 </dict>
 </plist>
 ";
-			shouldUseHeadermap = 0;
 		};
 		0867D69DFE84028FC02AAC07 = {
 			buildActionMask = 2147483647;
@@ -5800,7 +5799,6 @@
 </dict>
 </plist>
 ";
-			shouldUseHeadermap = 0;
 		};
 		F549DB1C04A6225D01000064 = {
 			buildActionMask = 2147483647;
@@ -7811,7 +7809,6 @@
 </dict>
 </plist>
 ";
-			shouldUseHeadermap = 0;
 		};
 		F549DC0C04A6236801000064 = {
 			buildActionMask = 2147483647;
@@ -9745,11 +9742,13 @@
 			};
 		};
 		F549DCFB04A626A001000064 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRTriBuffer.c;
 			refType = 4;
 		};
 		F549DCFC04A626A001000064 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = IRTriBuffer.h;
 			refType = 4;

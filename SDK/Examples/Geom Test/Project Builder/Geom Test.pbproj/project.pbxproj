@@ -6,6 +6,7 @@
 	objectVersion = 38;
 	objects = {
 		00D09AA2FEE24BF0C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = QutMac.h;
 			path = ../../Qut/Mac/QutMac.h;
@@ -81,12 +82,14 @@
 //033
 //034
 		03F20AB0FEE9A4E17F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = QutTexture.c;
 			path = ../../Qut/QutTexture.c;
 			refType = 4;
 		};
 		03F20AB1FEE9A4E17F000001 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = QutTexture.h;
 			path = ../../Qut/QutTexture.h;
@@ -120,6 +123,7 @@
 //063
 //064
 		06B177C6FEDA5986C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = "Geom Test.c";
 			path = "../Geom Test.c";
@@ -140,18 +144,21 @@
 			refType = 4;
 		};
 		06B177C8FEDA5986C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = Qut.c;
 			path = ../../Qut/Qut.c;
 			refType = 4;
 		};
 		06B177C9FEDA5986C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = Qut.h;
 			path = ../../Qut/Qut.h;
 			refType = 4;
 		};
 		06B177CAFEDA5986C0A80006 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = QutInternal.h;
 			path = ../../Qut/QutInternal.h;
@@ -167,6 +174,7 @@
 			refType = 4;
 		};
 		06B177CDFEDA5986C0A80006 = {
+			fileEncoding = 30;
 			indentWidth = 2;
 			isa = PBXFileReference;
 			name = QutMac.c;
@@ -245,6 +253,7 @@
 			refType = 4;
 		};
 		0867D6ABFE840B52C02AAC07 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = English;
 			path = English.lproj/InfoPlist.strings;
@@ -289,6 +298,7 @@
 				0157032C00C1BABE7F000001,
 				0157032D00C1BABE7F000001,
 			);
+			hasScannedForEncodings = 1;
 			isa = PBXProject;
 			mainGroup = 20286C29FDCF999611CA2CEA;
 			projectDirPath = "";
@@ -394,7 +404,6 @@
 </dict>
 </plist>
 ";
-			shouldUseHeadermap = 1;
 		};
 		20286C35FDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
