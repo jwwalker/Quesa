@@ -2089,9 +2089,9 @@ E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
 	
 	oldFlags = instanceData->mFlags;
 	
-	if (theFlags & kQ3ViewerDefault)
+	if (theFlags & kQ3ViewerFlagDefault)
 		{
-		theFlags &= ~kQ3ViewerDefault; // knock off default bit
+		theFlags &= ~kQ3ViewerFlagDefault; // knock off default bit
 		theFlags |= kQ3ViewerInternalDefault; // add on my flags, leaving any other bits the app may have set
 		}
 
@@ -2100,7 +2100,7 @@ E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
 	instanceData->mFlags = theFlags;
 	
 	oldFlags &= theFlags; // old flags now holds the bits that were NOT changed
-	if ((oldFlags & kQ3ViewerControllerVisible) == 0) // kQ3ViewerControllerVisible bit WAS changed
+	if ((oldFlags & kQ3ViewerFlagControllerVisible) == 0) // kQ3ViewerControllerVisible bit WAS changed
 		{
 		E3Viewer_SetBounds (theViewer, &instanceData->mArea);
 		}
