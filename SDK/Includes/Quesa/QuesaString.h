@@ -37,12 +37,14 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-// be sure QD3DString.h is not included
+// Disable QD3D header
 #ifdef __QD3DSTRING__
 #error
 #endif
-// avoid the inclusion of QD3DString.h
+
 #define __QD3DSTRING__
+
+
 
 
 
@@ -54,10 +56,12 @@ extern "C" {
 #endif
 
 
+
+
+
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-
 /*
  *	Q3String_GetType
  *		Description of function

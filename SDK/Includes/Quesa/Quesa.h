@@ -177,22 +177,17 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-
 #if QUESA_OS_MACINTOSH
-
-	#ifndef __MACTYPES__
-		#include <MacTypes.h>
-	#endif
+	#include <MacTypes.h>
 
 #elif QUESA_OS_WIN32
-
-	#ifndef _WINDOWS_
-		#include <Windows.h>
-	#endif
+	#include <Windows.h>
 	
 #endif
 
 #include <stdio.h>
+
+
 
 
 
@@ -219,47 +214,50 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-
 // Basic types
-
-typedef	unsigned char		TQ3Uns8;
-typedef	signed char			TQ3Int8;
-typedef	unsigned short		TQ3Uns16;
-typedef	signed short		TQ3Int16;
-typedef	unsigned long		TQ3Uns32;
-typedef	signed long			TQ3Int32;
-typedef float				TQ3Float32;
-typedef double				TQ3Float64;
-typedef TQ3Uns32			TQ3Size;
+typedef	unsigned char							TQ3Uns8;
+typedef	signed char								TQ3Int8;
+typedef	unsigned short							TQ3Uns16;
+typedef	signed short							TQ3Int16;
+typedef	unsigned long							TQ3Uns32;
+typedef	signed long								TQ3Int32;
+typedef float									TQ3Float32;
+typedef double									TQ3Float64;
+typedef TQ3Uns32								TQ3Size;
 
 #if QUESA_HOST_IS_BIG_ENDIAN
 
 	typedef struct {
-		TQ3Uns32				hi;
-		TQ3Uns32				lo;
+		TQ3Uns32								hi;
+		TQ3Uns32								lo;
 	} TQ3Uns64;
 	
 	typedef struct {
-		TQ3Int32				hi;
-		TQ3Uns32				lo;
+		TQ3Int32								hi;
+		TQ3Uns32								lo;
 	} TQ3Int64;
 
 #else
 
 	typedef struct {
-		TQ3Uns32				lo;
-		TQ3Uns32				hi;
+		TQ3Uns32								lo;
+		TQ3Uns32								hi;
 	} TQ3Uns64;
 	
 	typedef struct {
-		TQ3Uns32				lo;
-		TQ3Int32				hi;
+		TQ3Uns32								lo;
+		TQ3Int32								hi;
 	} TQ3Int64;
 
 #endif
 
 
-// close the extern clause to include "QD3D.h"
+
+
+
+//=============================================================================
+//      Evil hack - close the extern clause, include QD3D.h, and re-open it
+//-----------------------------------------------------------------------------
 #ifdef __cplusplus 
 }
 #endif
@@ -269,6 +267,7 @@ typedef TQ3Uns32			TQ3Size;
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 
 

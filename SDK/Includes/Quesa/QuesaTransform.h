@@ -37,12 +37,11 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-
-// be sure QD3DTransform.h is not included
+// Disable QD3D header
 #ifdef __QD3DTRANSFORM__
 #error
 #endif
-// avoid the inclusion of QD3DTransform.h
+
 #define __QD3DTRANSFORM__
 
 
@@ -58,34 +57,40 @@ extern "C" {
 
 
 
+
+
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
+// Rotate transform data
 typedef struct {
-	TQ3Axis 							axis;
-	TQ3Float32 						radians;
+	TQ3Axis										axis;
+	TQ3Float32									radians;
 } TQ3RotateTransformData;
 
 
+// Rotate about point transform data
 typedef struct {
-	TQ3Axis 							axis;
-	TQ3Float32 						radians;
-	TQ3Point3D 						about;
+	TQ3Axis										axis;
+	TQ3Float32 									radians;
+	TQ3Point3D 									about;
 } TQ3RotateAboutPointTransformData;
 
 
+// Rotate about axis transform data
 typedef struct {
-	TQ3Point3D 						origin;
-	TQ3Vector3D 					orientation;
-	TQ3Float32 						radians;
+	TQ3Point3D 									origin;
+	TQ3Vector3D 								orientation;
+	TQ3Float32 									radians;
 } TQ3RotateAboutAxisTransformData;
+
+
 
 
 
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-
 /*
  *	Q3Transform_GetType
  *		Description of function
@@ -661,6 +666,7 @@ EXTERN_API_C ( TQ3Status  )
 Q3ResetTransform_Submit (
 	TQ3ViewObject                 view
 );
+
 
 
 

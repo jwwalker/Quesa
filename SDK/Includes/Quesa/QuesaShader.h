@@ -37,18 +37,17 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-// be sure QD3DShader.h is not included
+// Disable QD3D header
 #ifdef __QD3DSHADER__
 #error
 #endif
-// avoid the inclusion of QD3DShader.h
+
 #define __QD3DSHADER__
 
 #if QUESA_SUPPORT_QUICKTIME
-	#ifndef __MOVIES__
-		#include <Movies.h>
-	#endif
+	#include <Movies.h>
 #endif
+
 
 
 
@@ -67,10 +66,12 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
+// Shader boundary types
 typedef enum {
-	kQ3ShaderUVBoundaryWrap			= 0,
-	kQ3ShaderUVBoundaryClamp		= 1
-	} TQ3ShaderUVBoundary;
+	kQ3ShaderUVBoundaryWrap						= 0,
+	kQ3ShaderUVBoundaryClamp					= 1
+} TQ3ShaderUVBoundary;
+
 
 
 
@@ -78,7 +79,6 @@ typedef enum {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-
 /*
  *	Q3ColorRGB_Set
  *		Description of function

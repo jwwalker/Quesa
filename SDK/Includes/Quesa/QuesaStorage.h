@@ -37,33 +37,22 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
-// be sure QD3DStorage.h is not included
+// Disable QD3D header
 #ifdef __QD3DSTORAGE__
 #error
 #endif
-// avoid the inclusion of QD3DStorage.h
+
 #define __QD3DSTORAGE__
 
 #if QUESA_OS_MACINTOSH
-
-	#ifndef __MACTYPES__
-		#include <MacTypes.h>
-	#endif
-
-	#ifndef __FILES__
-		#include <Files.h>
-	#endif
+	#include <MacTypes.h>
+	#include <Files.h>
 
 #elif QUESA_OS_WIN32
-
-	#ifndef _WINDOWS_
-		#include <Windows.h>
-	#endif
-	
+	#include <Windows.h>
 #endif
 
 #include <stdio.h>
-
 
 
 
@@ -77,10 +66,12 @@ extern "C" {
 #endif
 
 
+
+
+
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-
 /*
  *	Q3PathStorage_New
  *		Description of function

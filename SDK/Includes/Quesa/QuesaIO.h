@@ -41,12 +41,13 @@
 #include "QuesaView.h"
 #include "QuesaRenderer.h"
 
-// be sure QD3DIO.h is not included
+// Disable QD3D header
 #ifdef __QD3DIO__
 #error
 #endif
-// avoid the inclusion of QD3DIO.h
+
 #define __QD3DIO__
+
 
 
 
@@ -59,11 +60,31 @@ extern "C" {
 #endif
 
 
+
+
+
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
+// File modes
+typedef enum {
+	kQ3FileModeNormal							= 0,
+	kQ3FileModeStream							= (1 << 0),
+	kQ3FileModeDatabase							= (1 << 1),
+	kQ3FileModeText								= (1 << 2)
+} TQ3FileModeMasks;
+
+
+// Read states
+typedef enum {
+	kQ3FileReadWholeGroup						= 0,
+	kQ3FileReadObjectsInGroup					= (1 << 0),
+	kQ3FileCurrentlyInsideGroup					= (1 << 1)
+} TQ3FileReadGroupStateMasks;
+
+
 // File format types
-enum{
+enum {
 	kQ3ObjectTypeFileFormat									= Q3_OBJECT_TYPE('F', 'F', 'm', 't'),
 		kQ3FileFormatTypeReader								= Q3_OBJECT_TYPE('F', 'm', 't', 'R'),
 			kQ3FFormatReaderType3DMFBin						= Q3_OBJECT_TYPE('F', 'r', 'b', 'i'),
@@ -79,184 +100,181 @@ enum{
 			kQ3FFormatWriterType3DMFDatabaseText			= Q3_OBJECT_TYPE('F', 'w', 'd', 't'),
 			kQ3FFormatWriterType3DMFDatabaseStreamBin		= Q3_OBJECT_TYPE('F', 'd', 's', 'b'),
 			kQ3FFormatWriterType3DMFDatabaseStreamText		= Q3_OBJECT_TYPE('F', 'd', 's', 't')
-	};
-	
-// the old QD3D File modes
-enum {
-	kQ3FileModeNormal	= 0,
-	kQ3FileModeStream	= 1,
-	kQ3FileModeDatabase	= 2,
-	kQ3FileModeText		= 4
-	};
-
+};
 
 
 // File format methods
 enum {
 	// Common
-	kQ3XMethodTypeFFormatClose									= Q3_METHOD_TYPE('F', 'c', 'l', 's'),
-	kQ3XMethodTypeFFormatGetFormatType							= Q3_METHOD_TYPE('F', 'g', 'f', 't'),
+	kQ3XMethodTypeFFormatClose					= Q3_METHOD_TYPE('F', 'c', 'l', 's'),
+	kQ3XMethodTypeFFormatGetFormatType			= Q3_METHOD_TYPE('F', 'g', 'f', 't'),
 
 	// Read
-	kQ3XMethodTypeFFormatCanRead								= Q3_METHOD_TYPE('F', 'i', 'l', 'F'),
-	kQ3XMethodTypeFFormatReadHeader								= Q3_METHOD_TYPE('F', 'r', 'h', 'd'),
-	kQ3XMethodTypeFFormatReadObject								= Q3_METHOD_TYPE('F', 'r', 'o', 'b'),
-	kQ3XMethodTypeFFormatSkipObject								= Q3_METHOD_TYPE('F', 's', 'o', 'b'),
-	kQ3XMethodTypeFFormatGetNextType							= Q3_METHOD_TYPE('F', 'g', 'n', 't'),
+	kQ3XMethodTypeFFormatCanRead				= Q3_METHOD_TYPE('F', 'i', 'l', 'F'),
+	kQ3XMethodTypeFFormatReadHeader				= Q3_METHOD_TYPE('F', 'r', 'h', 'd'),
+	kQ3XMethodTypeFFormatReadObject				= Q3_METHOD_TYPE('F', 'r', 'o', 'b'),
+	kQ3XMethodTypeFFormatSkipObject				= Q3_METHOD_TYPE('F', 's', 'o', 'b'),
+	kQ3XMethodTypeFFormatGetNextType			= Q3_METHOD_TYPE('F', 'g', 'n', 't'),
 
 	// Used for Q3XXX_ReadMethods, no strict need to override to implement a new format
-	kQ3XMethodTypeFFormatFloat32Read							= Q3_METHOD_TYPE('F', 'f', '3', 'r'),
-	kQ3XMethodTypeFFormatFloat64Read							= Q3_METHOD_TYPE('F', 'f', '6', 'r'),
-	kQ3XMethodTypeFFormatInt8Read								= Q3_METHOD_TYPE('F', 'i', '8', 'r'),
-	kQ3XMethodTypeFFormatInt16Read								= Q3_METHOD_TYPE('F', 'i', '1', 'r'),
-	kQ3XMethodTypeFFormatInt32Read								= Q3_METHOD_TYPE('F', 'i', '3', 'r'),
-	kQ3XMethodTypeFFormatInt64Read								= Q3_METHOD_TYPE('F', 'i', '6', 'r'),
-	kQ3XMethodTypeFFormatStringRead								= Q3_METHOD_TYPE('F', 's', 't', 'r'),
-	kQ3XMethodTypeFFormatRawRead								= Q3_METHOD_TYPE('F', 'r', 'w', 'r'),
+	kQ3XMethodTypeFFormatFloat32Read			= Q3_METHOD_TYPE('F', 'f', '3', 'r'),
+	kQ3XMethodTypeFFormatFloat64Read			= Q3_METHOD_TYPE('F', 'f', '6', 'r'),
+	kQ3XMethodTypeFFormatInt8Read				= Q3_METHOD_TYPE('F', 'i', '8', 'r'),
+	kQ3XMethodTypeFFormatInt16Read				= Q3_METHOD_TYPE('F', 'i', '1', 'r'),
+	kQ3XMethodTypeFFormatInt32Read				= Q3_METHOD_TYPE('F', 'i', '3', 'r'),
+	kQ3XMethodTypeFFormatInt64Read				= Q3_METHOD_TYPE('F', 'i', '6', 'r'),
+	kQ3XMethodTypeFFormatStringRead				= Q3_METHOD_TYPE('F', 's', 't', 'r'),
+	kQ3XMethodTypeFFormatRawRead				= Q3_METHOD_TYPE('F', 'r', 'w', 'r'),
 
 	// Write
-	kQ3XMethodTypeFFormatWriteHeader							= Q3_METHOD_TYPE('F', 'w', 'h', 'd'),
+	kQ3XMethodTypeFFormatWriteHeader			= Q3_METHOD_TYPE('F', 'w', 'h', 'd'),
 
 	// Used for Q3XXX_WriteMethods, no strict need to override to implement a new format
-	kQ3XMethodTypeFFormatFloat32Write							= Q3_METHOD_TYPE('F', 'f', '3', 'w'),
-	kQ3XMethodTypeFFormatFloat64Write							= Q3_METHOD_TYPE('F', 'f', '6', 'w'),
-	kQ3XMethodTypeFFormatInt8Write								= Q3_METHOD_TYPE('F', 'i', '8', 'w'),
-	kQ3XMethodTypeFFormatInt16Write								= Q3_METHOD_TYPE('F', 'i', '1', 'w'),
-	kQ3XMethodTypeFFormatInt32Write								= Q3_METHOD_TYPE('F', 'i', '3', 'w'),
-	kQ3XMethodTypeFFormatInt64Write								= Q3_METHOD_TYPE('F', 'i', '6', 'w'),
-	kQ3XMethodTypeFFormatStringWrite							= Q3_METHOD_TYPE('F', 's', 't', 'w'),
-	kQ3XMethodTypeFFormatRawWrite								= Q3_METHOD_TYPE('F', 'r', 'w', 'w')
+	kQ3XMethodTypeFFormatFloat32Write			= Q3_METHOD_TYPE('F', 'f', '3', 'w'),
+	kQ3XMethodTypeFFormatFloat64Write			= Q3_METHOD_TYPE('F', 'f', '6', 'w'),
+	kQ3XMethodTypeFFormatInt8Write				= Q3_METHOD_TYPE('F', 'i', '8', 'w'),
+	kQ3XMethodTypeFFormatInt16Write				= Q3_METHOD_TYPE('F', 'i', '1', 'w'),
+	kQ3XMethodTypeFFormatInt32Write				= Q3_METHOD_TYPE('F', 'i', '3', 'w'),
+	kQ3XMethodTypeFFormatInt64Write				= Q3_METHOD_TYPE('F', 'i', '6', 'w'),
+	kQ3XMethodTypeFFormatStringWrite			= Q3_METHOD_TYPE('F', 's', 't', 'w'),
+	kQ3XMethodTypeFFormatRawWrite				= Q3_METHOD_TYPE('F', 'r', 'w', 'w')
 };
+
 
 // Object 3DMF I/O methods
 enum {
-	kQ3XMethodTypeObjectFileVersion								= Q3_METHOD_TYPE('v', 'e', 'r', 's'),
-	// write
-	kQ3XMethodTypeObjectTraverse								= Q3_METHOD_TYPE('t', 'r', 'v', 's'),
-	kQ3XMethodTypeObjectTraverseData							= Q3_METHOD_TYPE('t', 'r', 'v', 'd'),
-	kQ3XMethodTypeObjectWrite									= Q3_METHOD_TYPE('w', 'r', 'i', 't'),
-	// read
-	kQ3XMethodTypeObjectReadData								= Q3_METHOD_TYPE('r', 'd', 'd', 't'),
-	kQ3XMethodTypeObjectRead									= Q3_METHOD_TYPE('r', 'e', 'a', 'd'),
-	kQ3XMethodTypeObjectAttach									= Q3_METHOD_TYPE('a', 't', 't', 'c')
+	// Version
+	kQ3XMethodTypeObjectFileVersion				= Q3_METHOD_TYPE('v', 'e', 'r', 's'),
+
+	// Write
+	kQ3XMethodTypeObjectTraverse				= Q3_METHOD_TYPE('t', 'r', 'v', 's'),
+	kQ3XMethodTypeObjectTraverseData			= Q3_METHOD_TYPE('t', 'r', 'v', 'd'),
+	kQ3XMethodTypeObjectWrite					= Q3_METHOD_TYPE('w', 'r', 'i', 't'),
+
+	// Read
+	kQ3XMethodTypeObjectReadData				= Q3_METHOD_TYPE('r', 'd', 'd', 't'),
+	kQ3XMethodTypeObjectRead					= Q3_METHOD_TYPE('r', 'e', 'a', 'd'),
+	kQ3XMethodTypeObjectAttach					= Q3_METHOD_TYPE('a', 't', 't', 'c')
 };
 
 
-enum {
-	kQ3FileReadWholeGroup			= 0,
-	kQ3FileReadObjectsInGroup		= 1,
-	kQ3FileCurrentlyInsideGroup		= 2
-	};
+
 
 
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-
-typedef TQ3Uns32						TQ3FileMode;
-typedef TQ3Uns32						TQ3FileVersion;
-typedef TQ3Uns32						TQ3FileReadGroupState;
-
-
-
-// A FileFormat object derives from TQ3Object
-typedef TQ3Object 						TQ3FileFormatObject;
+// File types
+typedef TQ3Uns32								TQ3FileMode;
+typedef TQ3Uns32								TQ3FileVersion;
+typedef TQ3Uns32								TQ3FileReadGroupState;
+typedef TQ3Object		 						TQ3FileFormatObject;
 
 
-// Method types
-
-// 3DMF Write
-typedef CALLBACK_API_C(TQ3Status,		TQ3XObjectTraverseMethod)		(TQ3Object object, void *data, TQ3ViewObject view);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XObjectTraverseDataMethod)	(TQ3Object object, void *data, TQ3ViewObject view);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XObjectWriteMethod)			(const void *object, TQ3FileObject theFile);
-typedef CALLBACK_API_C(void,			TQ3XDataDeleteMethod)			(void *data);
-
-// 3DMF Read
-typedef CALLBACK_API_C(TQ3Object,		TQ3XObjectReadMethod)			(TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XObjectReadDataMethod)		(TQ3Object parentObject, TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XObjectAttachMethod)			(TQ3Object childObject, TQ3Object parentObject);
+// Method types - 3DMF write
+typedef CALLBACK_API_C(TQ3Status,				TQ3XObjectTraverseMethod)		(TQ3Object object, void *data, TQ3ViewObject view);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XObjectTraverseDataMethod)	(TQ3Object object, void *data, TQ3ViewObject view);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XObjectWriteMethod)			(const void *object, TQ3FileObject theFile);
+typedef CALLBACK_API_C(void,					TQ3XDataDeleteMethod)			(void *data);
 
 
+// Method types - 3DMF read
+typedef CALLBACK_API_C(TQ3Object,				TQ3XObjectReadMethod)			(TQ3FileObject theFile);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XObjectReadDataMethod)		(TQ3Object parentObject, TQ3FileObject theFile);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XObjectAttachMethod)			(TQ3Object childObject, TQ3Object parentObject);
 
-// Common
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatCloseMethod)			(TQ3FileFormatObject format, TQ3Boolean abort);
-typedef CALLBACK_API_C(TQ3FileMode,		TQ3XFFormatGetFormatTypeMethod)	(TQ3FileObject theFile);
 
-// Read
-typedef CALLBACK_API_C(TQ3Boolean,		TQ3XFFormatCanReadMethod)		(TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatReadHeaderMethod)	(TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3Object,		TQ3XFFormatReadObjectMethod)	(TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatSkipObjectMethod)	(TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3ObjectType,	TQ3XFFormatGetNextTypeMethod)	(TQ3FileObject theFile);
+// Method types - file format common
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatCloseMethod)			(TQ3FileFormatObject format, TQ3Boolean abort);
+typedef CALLBACK_API_C(TQ3FileMode,				TQ3XFFormatGetFormatTypeMethod)	(TQ3FileObject theFile);
 
-// Used for Q3XXX_ReadMethods, no strict need to override to implement a new Format
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatFloat32ReadMethod)	(TQ3FileFormatObject format, TQ3Float32* data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatFloat64ReadMethod)	(TQ3FileFormatObject format, TQ3Float64* data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt8ReadMethod)		(TQ3FileFormatObject format, TQ3Int8* data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt16ReadMethod)		(TQ3FileFormatObject format, TQ3Int16* data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt32ReadMethod)		(TQ3FileFormatObject format, TQ3Int32* data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt64ReadMethod)		(TQ3FileFormatObject format, TQ3Int64* data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatStringReadMethod)	(TQ3FileFormatObject format, char* data, TQ3Uns32 *length);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatRawReadMethod)		(TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);
 
-// Write
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatWriteHeaderMethod)	(TQ3FileObject theFile, TQ3FileMode mode);
+// Method types - file format read
+typedef CALLBACK_API_C(TQ3Boolean,				TQ3XFFormatCanReadMethod)		(TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatReadHeaderMethod)	(TQ3FileObject theFile);
+typedef CALLBACK_API_C(TQ3Object,				TQ3XFFormatReadObjectMethod)	(TQ3FileObject theFile);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatSkipObjectMethod)	(TQ3FileObject theFile);
+typedef CALLBACK_API_C(TQ3ObjectType,			TQ3XFFormatGetNextTypeMethod)	(TQ3FileObject theFile);
 
-// Used for Q3XXX_WriteMethods
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatFloat32WriteMethod)	(TQ3FileFormatObject format, TQ3Float32 data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatFloat64WriteMethod)	(TQ3FileFormatObject format, TQ3Float64 data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt8WriteMethod)		(TQ3FileFormatObject format, TQ3Int8 data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt16WriteMethod)	(TQ3FileFormatObject format, TQ3Int16 data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt32WriteMethod)	(TQ3FileFormatObject format, TQ3Int32 data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt64WriteMethod)	(TQ3FileFormatObject format, TQ3Int64 data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatStringWriteMethod)	(TQ3FileFormatObject format, const char* data);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatRawWriteMethod)		(TQ3FileFormatObject format, const unsigned char* data, TQ3Uns32 length);
 
-// idling
-typedef CALLBACK_API_C(TQ3Status,		TQ3FileIdleMethod)				(TQ3FileObject theFile, const void *idlerData);
+// Method types - file format write
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatWriteHeaderMethod)	(TQ3FileObject theFile, TQ3FileMode mode);
+
+
+// Method types - used for Q3XXX_ReadMethods (not required when implementing a new format)
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatFloat32ReadMethod)	(TQ3FileFormatObject format, TQ3Float32* data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatFloat64ReadMethod)	(TQ3FileFormatObject format, TQ3Float64* data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatInt8ReadMethod)		(TQ3FileFormatObject format, TQ3Int8* data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatInt16ReadMethod)		(TQ3FileFormatObject format, TQ3Int16* data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatInt32ReadMethod)		(TQ3FileFormatObject format, TQ3Int32* data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatInt64ReadMethod)		(TQ3FileFormatObject format, TQ3Int64* data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatStringReadMethod)	(TQ3FileFormatObject format, char* data, TQ3Uns32 *length);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatRawReadMethod)		(TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);
+
+
+// Method types - used for Q3XXX_WriteMethods
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatFloat32WriteMethod)	(TQ3FileFormatObject format, TQ3Float32 data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatFloat64WriteMethod)	(TQ3FileFormatObject format, TQ3Float64 data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatInt8WriteMethod)		(TQ3FileFormatObject format, TQ3Int8 data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatInt16WriteMethod)	(TQ3FileFormatObject format, TQ3Int16 data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatInt32WriteMethod)	(TQ3FileFormatObject format, TQ3Int32 data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatInt64WriteMethod)	(TQ3FileFormatObject format, TQ3Int64 data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatStringWriteMethod)	(TQ3FileFormatObject format, const char* data);
+typedef CALLBACK_API_C(TQ3Status,				TQ3XFFormatRawWriteMethod)		(TQ3FileFormatObject format, const unsigned char* data, TQ3Uns32 length);
+
+
+// Method types - misc
+typedef CALLBACK_API_C(TQ3Status,				TQ3FileIdleMethod)				(TQ3FileObject theFile, const void *idlerData);
+
 
 // FileFormat common data (must be first field in struct)			
 typedef struct {
 	// Initialised by Quesa
-	TQ3Uns32					baseDataVersion;
-	TQ3StorageObject			storage;
-	TQ3Uns32					currentStoragePosition;
-	TQ3Uns32					logicalEOF;
+	TQ3Uns32									baseDataVersion;
+	TQ3StorageObject							storage;
+	TQ3Uns32									currentStoragePosition;
+	TQ3Uns32									logicalEOF;
 
 
 	// Initialised by the importer
-	TQ3FileVersion				fileVersion;
-	TQ3Boolean					noMoreObjects;
-	TQ3Endian					byteOrder;
-	TQ3Boolean					readInGroup;
-	TQ3Int32					groupDeepCounter;
-	TQ3Uns32					*reserved1;
-	TQ3Uns32					*reserved2;
-	TQ3Uns32					*reserved3;
+	TQ3FileVersion								fileVersion;
+	TQ3Boolean									noMoreObjects;
+	TQ3Endian									byteOrder;
+	TQ3Boolean									readInGroup;
+	TQ3Int32									groupDeepCounter;
+	TQ3Uns32									*reserved1;
+	TQ3Uns32									*reserved2;
+	TQ3Uns32									*reserved3;
 } TQ3FFormatBaseData;
 
-// Unknown text
-typedef struct {
-	char						*objectName;
-	char						*contents;
-}TQ3UnknownTextData;
 
 // Unknown text
 typedef struct {
-	TQ3ObjectType 					objectType;
-	TQ3Size		 					size;
-	TQ3Endian 						byteOrder;
-	char							*contents;
+	char										*objectName;
+	char										*contents;
+}TQ3UnknownTextData;
+
+
+// Unknown text
+typedef struct {
+	TQ3ObjectType 								objectType;
+	TQ3Size		 								size;
+	TQ3Endian 									byteOrder;
+	char										*contents;
 } TQ3UnknownBinaryData;
+
+
+
 
 
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
+// Version
+#define Q3FileVersion(_major, _minor)					\
+		(TQ3FileVersion) ((((TQ3Uns32) _major & 0xFFFF) << 16) | ((TQ3Uns32) _major & 0xFFFF))
 
-// version
-#define Q3FileVersion(_major, _minor)	(TQ3FileVersion) ((((TQ3Uns32) _major & 0xFFFF) << 16) | ((TQ3Uns32) _major & 0xFFFF))
-#define kQ3FileVersionCurrent	Q3FileVersion(1,6)
+#define kQ3FileVersionCurrent							Q3FileVersion(1, 6)
 
 
 
@@ -265,7 +283,6 @@ typedef struct {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-
 /*
  *	Q3XView_SubmitWriteData
  *		Description of function
