@@ -942,9 +942,9 @@ e3group_startiterate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object
 	TQ3Object			theObject = NULL;
 #pragma unused (view)
 
-	err = Q3Group_GetFirstPosition (group, &thePosition);
+	err = ( (E3Group*) group )->GetFirstPosition( &thePosition );
 	if ((err == kQ3Success) && (thePosition != NULL))
-		err = Q3Group_GetPositionObject (group, thePosition, &theObject);
+		err = ((E3Group*)group)->GetPositionObject( thePosition, &theObject );
 
 	if (object)
 		*object = theObject;
@@ -968,13 +968,13 @@ e3group_enditerate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object *
 #pragma unused (view)
 
 
-	Q3Object_CleanDispose(object);
+	E3Object_CleanDispose(object);
 
-	err = Q3Group_GetNextPosition (group, iterator);
+	err = ((E3Group*)group)->GetNextPosition( iterator );
 	if (err == kQ3Success)
 		{
 		if (*iterator)
-			err = Q3Group_GetPositionObject (group, *iterator, object);
+			err = ((E3Group*)group)->GetPositionObject (*iterator, object);
 		}
 	return(err);
 
@@ -2692,7 +2692,7 @@ E3Group::GetPositionObject ( TQ3GroupPosition position, TQ3Object *object )
 	TQ3XGroupPosition* pos = (TQ3XGroupPosition*) position ;
 	if ( pos && pos->object )
 		{
-		*object = Q3Shared_GetReference ( pos->object ) ;
+		*object = ( (E3Shared*)(pos->object) )->GetReference();
 		return kQ3Success ;
 		}
 		
