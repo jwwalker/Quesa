@@ -10,7 +10,7 @@
         easily display 3D models for the user's inspection and manipulation.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2002, Quesa Developers.
+        Quesa Copyright © 1999-2003, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         
@@ -367,7 +367,7 @@ typedef Q3_CALLBACK_API_C(OSErr,               TQ3ViewerDrawingCallbackMethod)(
 #if QUESA_OS_WIN32
 
 /*!
- *  @struct
+ *  @typedef
  *      TQ3ViewerDrawingCallbackMethod
  *  @discussion
  *		Callback which is invoked by the viewer after it draws any part of itself,

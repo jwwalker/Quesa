@@ -1,1 +1,5 @@
-/* Localized versions of Info.plist keys */CFBundleName = "Background Test";CFBundleShortVersionString = "Background Test version 0.0.1d1";CFBundleGetInfoString = "Background Test version 0.0.1d1, Copyright 2000, MyGreatSoftware.";
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "Background Test";
+CFBundleShortVersionString = "Background Test version 0.0.1d1";
+CFBundleGetInfoString = "Background Test version 0.0.1d1, Copyright 1999-2003, Quesa Developers.";
