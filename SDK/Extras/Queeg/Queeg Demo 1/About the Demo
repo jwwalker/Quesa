@@ -1,0 +1,18 @@
+About the Queeg Demo
+====================
+
+The current demo gives you control of a racer in a simple environment.
+Use the arrow keys to drive the racer around.  The camera remains in a
+fixed position with respect to the racer, but you can choose two
+different positions via the "Special" menu.  The racer does not yet
+pitch or roll; that will be coming soon.
+
+The background image is low-resolution (128x128 per side) to limit
+the download size of this package.  As a result, the clouds look a bit
+blocky; just remember that we could easily swap in a higher-resolution
+model.  (The same goes for the other models as well.)
+
+You'll also notice a big ugly bright-green triangle.  If you "shoot"
+this by pointing at it and holding the spacebar, it will move.  There
+is no point to this, other than another test of the ray-casting 
+function.

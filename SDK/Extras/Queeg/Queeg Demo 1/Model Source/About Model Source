@@ -1,0 +1,18 @@
+About These Files
+=================
+
+The files in the "Model Source" folder are the original files from which the
+3DMF models for the demo were made.
+
+These models were made with Meshwork, a shareware trimesh modeler:
+	   http://codenautics.com/meshwork/
+
+The "background.pov" model was also made with the help of POV-Ray:
+	   http://mac.povray.org/
+	   
+These models are public domain; feel free to use them as you see fit.
+
+Cheers,
+-- Joe
+
+joe@strout.net, 13 Jan 2000

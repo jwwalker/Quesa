@@ -1,0 +1,74 @@
+Queeg Progress Log
+==================
+
+Current status: QGObject and QGTriMesh are working and should be portable (except
+perhaps for work-arounds for certain broken compilers).  QGScene is underway.
+This comprises all the basic functionality, i.e., object and camera management.
+
+12/15/99
+========
+Working on the first demo.  Decided to implement QGDemoInput rather than hard-code
+a path (thanks to John Klima for the Windows version of that).  Working OK, but I
+find that the camera-management methods are inadequate.  Need to reconsider how to
+handle the camera.
+
+Really, the camera should be treated as just a special kind of object.  But as far
+as movement goes, it should use all the same methods; and users may even want to
+involve it in collisions and such.  One can even imagine wanting to have a visible
+model attached to a camera -- not blocking its view, but indicating its position
+(perhaps to a second camera).  Rare, but imaginable.
+
+So, we need a QGCamera class which derives from QGObject, and to use that for
+camera management.  That's done and working nicely, though we don't yet support
+roll and pitch for the camera (i.e., changing of the "up vector") -- that's next.
+
+Then, it will be very handy to support a list of "interest points" attached to any
+object.  These will be updated whenever the object is updated, and they'll provide
+an easy way to, for example, attach a camera above and behind a craft, always
+looking out over the hood.
+
+12/21/99
+========
+Interest points are now done (wow that was easy), and used in the demo to set the
+camera (in either of two positions).  There's an aesthetic problem caused by the
+camera tracking *too* well -- it would look better if it lagged behind a bit.
+This is a common need, so it deserves a bit of thought.
+
+
+12/27/99
+========
+Camera lagging has been back-burnered for the moment.  A background model has been
+added, generated in POV-Ray using the CubeRender technique.  Two of the sides had
+to be flipped to get them all to line up right with Meshwork's texture mapping; the
+POV-Ray script should be updated to make them come out right, so all you have to do
+is paste them into an existing background model.
+
+
+12/28/99
+========
+Kenny's working on the QGUtils, using code from Paul Bourke.  He's pointed out
+other code which may be faster (http://www.acm.org/jgt/papers/MollerTrumbore97/code.html),
+but we can go with the code we have for now and consider replacing it later in the
+optimization phase.
+
+
+1/03/00
+=======
+A line segment/bounding box intersection test has been added to QGUtils, and is used
+in the trimesh line intersection test.  This should result in substantial improvements
+in performance, especially when there are many objects in the scene.
+
+Andrew's helping get the demo to compile with VC++, which is not a proper ANSI C++
+compiler and has lots of annoying problems.  (Thanks, Andrew!)
+
+
+1/14/00
+=======
+Cleaning up the directory for bundling with Quesa 0.0.10.  We don't have pitch or
+roll working yet in Demo 1, which is a shame, but it will have to do as I'm out of
+time before this release.  Also missing from this release is Kenny's Demo 2, which
+will be some sort of tank combat game.
+
+
+
+

@@ -1,0 +1,23 @@
+Parts is Parts
+==============
+
+Queeg is designed to be non-monolithic: you can take just the bits you need, and 
+exclude the rest.
+
+QGUtils includes some handy functions for finding the intersection of a line 
+segment with a triangle or bounding box, etc.  It is self-contained and can be
+used without any other Queeg files.
+
+QGTriMesh is wholly self-contained; it doesn't even include any header files from
+the other classes.
+
+QGObject includes the header file from QGScene, but doesn't actually require it.
+You can use a QGObject in any old Quesa application, just by calling the object's
+Submit method and passing it a view.  However, because it does need to talk to
+the scene for certain operations, you'll still have to include QGScene in your
+project.  This is unfortunate, and I'll try to fix it at some point.
+
+QGScene is really handy, though.  Sure, you could do scene and camera layout in
+pure Quesa + QGObject.  But QGScene is there to also provide collision detection,
+visibility testing, ray-casting, and other handy stuff.
+

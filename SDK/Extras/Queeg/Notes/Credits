@@ -1,0 +1,11 @@
+Queeg has been developed primarily by Joe Strout <joe@strout.net> under Mac OS,
+with some general help from:
+	Kenny Grant <kenny@kagi.com>
+	
+Windows porting has been greatly aided by:
+	Andrew Cunningham <andrewc@vasci.com> (using VC++)
+	John Klima <klima@echonyc.com> (wrote QGDemoInput_Win.cpp)
+	Kirk Haynes <khaynes@tampabay.rr.com> (using CodeWarrior)
+
+Thanks to everybody (no doubt including a few I've forgotten to mention here)
+who have helped make Queeg a reality.

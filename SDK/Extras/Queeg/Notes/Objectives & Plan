@@ -1,0 +1,83 @@
+Objectives
+==========
+
+Queeg is designed to take care of much of the common bookkeeping tasks involved in 
+making 3D games or similar real-time 3D applications.  Specific objectives planned
+for Queeg are:
+
+1. Object management: easily build a model "on the fly" or from a file, represent
+it internally in an efficient form, and provide methods to manipulate it in various
+ways (movement, rotation, scaling, etc.).  There will also be an optional list of
+"interest points" attached to each object, for use in camera tracking and such.
+
+2. Camera management: methods to simplify having the camera track an object,
+zoom about a scene, move smoothly from one target to another, etc.
+
+3. Character animation: a bone-based mesh deformation system will be provide a
+mechanism for smooth character animation (also useful for models of machines with
+moving parts, e.g. tank turrets).
+
+4. Collision detection: Queeg objects have collision groups and masks, and where
+those overlap, Queeg can check for collisions at the individual-triangle level
+(after first checking with cruder techniques, of course).
+
+5. Ray-casting: Queeg will be able to report the first object in the scene to be
+hit by a ray (and which bone or triangle was hit, and where in 3D space), useful
+for all sorts of things from portals to gunfire.
+
+6. Object culling: Queeg will provide a simple first-pass object culling mechanism
+("culling" means not bothering to submit objects which won't be visible).
+
+This functionality should drastically reduce the time it takes to develop almost
+any real-time 3D application.  Functionality which is specifically *not* included
+in Queeg includes the following:
+
+	- Network support
+	- input devices (joysticks, keyboard, etc.)
+	- sound/music
+
+So Queeg is not everything you need to make a game; other toolkits will be needed
+to finish the product.  Queeg's job is to help with the 3D graphics, and I hope that
+it will do this well.
+
+
+Development Plan
+================
+
+To meet the objectives above, we need a plan -- mainly, what order to do things in,
+and some milestones to measure our progress.  Here's a rough plan:
+
+Phase 1: basic low-level functionality
+	+ QGTriMesh
+	+ QGObject
+	+ basic QGScene (supporting multiple objects and camera movements)
+	+ interest points
+	+ Demo: a simple glider flying around a scene, with the camera tracking
+		one of several interest points; no collisions or object interactions
+
+Phase 2: ray-casting, collision handling
+	+ ray-cast function
+	- use of ray-cast to keep camera's point of interest always in view
+	+ use of ray-cast for altitude maintenance
+	- Demo: glider can now shoot, using ray-cast to find point hit and
+		display a flash; also maintains altitude over a varied terrain
+
+Phase 3: more collision handling
+	- basic collision detection (bounding boxes/spheres only)
+	- triangle-level collision handling available for all objects
+	- Demo: as before, but now you can't drive through walls, and you can
+		also shoot "missiles" which are little objects that hit accurately
+
+Phase 4: bones & keyframe animation
+	- QGBonedObject
+	- animation mix-ins, and in particular, keyframe animation
+	- Demo: replace tanks or gliders with running/jumping humanoids
+
+Phase 5: optimizations
+	- object culling
+	- code tweaking
+	- [MAYBE] portal engine
+
+Each phase is terminated by a demo, and considered complete when that demo runs
+correctly on at least two different platforms.  As each item in the above plan is
+completed, it will be checked off by replacing the "-" with "+" before the item.
