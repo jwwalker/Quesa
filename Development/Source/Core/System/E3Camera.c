@@ -56,30 +56,28 @@
 static void
 e3camera_orthographic_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
 {	TQ3OrthographicCameraData		*instanceData = (TQ3OrthographicCameraData *) theCamera->instanceData;
-	float							x, y, z, tx, ty, tz;
+	float							x, y, z, tx, ty;
 
 
 
 	// Initialise ourselves
 	x  = 2.0f / (instanceData->right - instanceData->left);
 	y  = 2.0f / (instanceData->top   - instanceData->bottom);
-	z  = 2.0f / (instanceData->cameraData.range.yon - instanceData->cameraData.range.hither);
+	z  = 1.0f / (instanceData->cameraData.range.yon - instanceData->cameraData.range.hither);
 
 	tx = -(instanceData->right + instanceData->left)   / (instanceData->right - instanceData->left);
 	ty = -(instanceData->top   + instanceData->bottom) / (instanceData->top   - instanceData->bottom);
-	tz = (instanceData->cameraData.range.yon + instanceData->cameraData.range.hither) /
-   		 (instanceData->cameraData.range.yon - instanceData->cameraData.range.hither);
 
 
 
 	// Set up the matrix
 	Q3Matrix4x4_SetIdentity(theMatrix);
 	theMatrix->value[0][0] = x;
-	theMatrix->value[0][3] = tx;
+	theMatrix->value[3][0] = tx;
 	theMatrix->value[1][1] = y;
-	theMatrix->value[1][3] = ty;
-	theMatrix->value[2][2] = z / 2.0f;
-	theMatrix->value[3][2] = tz / (instanceData->cameraData.range.yon / instanceData->cameraData.range.hither);
+	theMatrix->value[3][1] = ty;
+	theMatrix->value[2][2] = z;
+	theMatrix->value[3][2] = instanceData->cameraData.range.hither * z;
 }
 
 
