@@ -190,11 +190,29 @@ e3drawcontext_win32dc_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Are
 
 
 
-	// Return our dimensions
-	thePane->min.x = 0.0f;
-	thePane->min.y = 0.0f;
-	thePane->max.x = (float) GetDeviceCaps(instanceData->data.win32Data.theData.hdc, HORZRES);
-	thePane->max.y = (float) GetDeviceCaps(instanceData->data.win32Data.theData.hdc, VERTRES);
+	// Return the dimensions associated with our HDC.
+	HWND win = WindowFromDC( instanceData->data.win32Data.theData.hdc );
+	if (win) {
+		// GetClientRect just gives you the width and height.  We'll assume
+		// that the coordinates needed are local (HWND) coordinates, such
+		// that the top-left corner is 0,0.
+		RECT r;
+		GetClientRect( win, &r );
+		thePane->min.x = (float) 0;
+		thePane->min.y = (float) 0;
+		thePane->max.x = (float) r.right;
+		thePane->max.y = (float) r.bottom;
+		}
+	else {
+		// If for some reason we can't get the HWND, then we'll have to fall back on returning
+		// the dimensions of the screen.  This may not be right, but it's probably better
+		// than nothing.
+		thePane->min.x = 0.0f;
+		thePane->min.y = 0.0f;
+		thePane->max.x = (float) GetDeviceCaps(instanceData->data.win32Data.theData.hdc, HORZRES);
+		thePane->max.y = (float) GetDeviceCaps(instanceData->data.win32Data.theData.hdc, VERTRES);
+		}
+
 }
 
 
