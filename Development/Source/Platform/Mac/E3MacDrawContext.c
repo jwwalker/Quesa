@@ -100,11 +100,13 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 									RgnHandle			clipRgn)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
 	Rect						windowRect, deviceRect, overlapRect, paneRect;
+	Rect						portRect, visRect, contentRect;
 	TQ3MacDrawContext2DLibrary	theLibrary;
-	WindowPeek					theWindow;
 	GDHandle					theDevice;
 	TQ3Boolean					isActive;
-	RgnHandle					visRgn;
+	CWindowPtr					theWindow;
+	RgnHandle					visRgn;				// visible region of window
+	RgnHandle					contentRgn;			// content region of window (in global coords)
 
 
 
@@ -113,7 +115,7 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 	theLibrary = instanceData->data.macData.theData.library;
 	if (theLibrary == kQ3Mac2DLibraryQuickDraw            &&
 		instanceData->data.macData.theData.window != NULL &&
-		instanceData->data.macData.theData.window == instanceData->data.macData.theData.grafPort)
+		instanceData->data.macData.theData.window == (CWindowPtr)instanceData->data.macData.theData.grafPort)
 		theLibrary = kQ3Mac2DLibraryNone;
 		
 
@@ -122,14 +124,21 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 	switch (theLibrary) {
 		case kQ3Mac2DLibraryNone:
 			// Get the window and the draw region's device
-			theWindow = (WindowPeek) instanceData->data.macData.theData.window;
+			theWindow = instanceData->data.macData.theData.window;
 			theDevice = (GDHandle)   instanceData->drawRegions[theRegion].platformHandle;
 
 
 
 			// Work out rectangles. If a pane has been specified, we adjust the window
 			// rect accordingly (i.e., as if the window was the size of the pane).
-			windowRect = (*theWindow->contRgn)->rgnBBox;
+			// Work out regions, too, as we'll need them shortly.
+			GetWindowContentRect( theWindow, &windowRect );
+			GetPortVisibleRegion( GetWindowPort(theWindow), visRgn );
+			GetWindowContentRegion( theWindow, contentRgn );
+			GetPortBounds( GetWindowPort(theWindow), &portRect );
+			contentRect = windowRect;
+			GetRegionBounds( visRgn, &visRect );
+
 			deviceRect = (*theDevice)->gdRect;
 
 			if (instanceData->data.common.paneState)
@@ -156,20 +165,22 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 
 				// If the window is completely visible, we return an empty region.
 				// Otherwise, we return the visible region in device coordinates.
-				visRgn = theWindow->port.visRgn;
-				if ((*visRgn)->rgnSize == 10 && EqualRect(&(*visRgn)->rgnBBox, &theWindow->port.portRect))
+				#if TARGET_API_MAC_CARBON
+				  if (IsRegionRectangular(visRgn) && EqualRect( &visRect, &portRect ))
+				#else
+				  if ((*visRgn)->rgnSize == 10 && EqualRect(&(*visRgn)->rgnBBox, &portRect))
+				#endif
 					{
 					*clipMaskState = kQ3XClipMaskFullyExposed;
-					RectRgn(clipRgn, &theWindow->port.portRect);
+					RectRgn(clipRgn, &portRect);
 					}
 				else
 					{
 					*clipMaskState = kQ3XClipMaskPartiallyExposed;
-					CopyRgn(theWindow->port.visRgn, clipRgn);
+					CopyRgn(visRgn, clipRgn);
 					}
 
-				OffsetRgn(clipRgn, (*theWindow->contRgn)->rgnBBox.left,
-								   (*theWindow->contRgn)->rgnBBox.top);
+				OffsetRgn(clipRgn, contentRect.left, contentRect.top);
 				}
 			break;
 		
@@ -354,7 +365,8 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 	TQ3MacDrawContext2DLibrary	theLibrary;
 	Rect						windowRect, paneRect;
 	TQ3XDrawContextValidation	stateChanges;
-	WindowPeek					theWindow;
+	CWindowPtr					theWindow;
+	RgnHandle					visRgn;				// visible region of window
 
 
 
@@ -377,7 +389,7 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 	theLibrary = instanceData->data.macData.theData.library;
 	if (theLibrary == kQ3Mac2DLibraryQuickDraw            &&
 		instanceData->data.macData.theData.window != NULL &&
-		instanceData->data.macData.theData.window == instanceData->data.macData.theData.grafPort)
+		instanceData->data.macData.theData.window == (CWindowPtr)instanceData->data.macData.theData.grafPort)
 		theLibrary = kQ3Mac2DLibraryNone;
 
 
@@ -389,8 +401,8 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 			//
 			// If a pane has been specified, we adjust the window rect
 			// accordingly (i.e., as if the window was the size of the pane).
-			theWindow  = (WindowPeek) instanceData->data.macData.theData.window;
-			windowRect = (*theWindow->contRgn)->rgnBBox;
+			theWindow  = (CWindowPtr) instanceData->data.macData.theData.window;
+			GetWindowContentRect( theWindow, &windowRect );
 
 			if (instanceData->data.common.paneState)
 				{
@@ -426,14 +438,15 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 
 
 			// Check to see if the window clipping has changed
-			if (!EqualRgn(theWindow->port.visRgn, instanceData->data.macData.visRgn))
+			GetPortVisibleRegion( GetWindowPort(theWindow), visRgn );
+			if (!EqualRgn(visRgn, instanceData->data.macData.visRgn)) {
 				stateChanges |= kQ3XDrawContextValidationWindowClip;
-
+			}
 
 
 			// Save the winow details for next time
 			instanceData->data.macData.windowRect = windowRect;
-			CopyRgn(theWindow->port.visRgn, instanceData->data.macData.visRgn);
+			CopyRgn(visRgn, instanceData->data.macData.visRgn);
 			break;
 
 		
@@ -766,7 +779,7 @@ E3MacDrawContext_UnregisterClass(void)
 		GetCurrentProcess(&thePSN);
 		DMRemoveNotifyProc(theGlobals->dmNotifyUPP, &thePSN);
 
-		DisposeRoutineDescriptor(theGlobals->dmNotifyUPP);
+		DisposeDMNotificationUPP(theGlobals->dmNotifyUPP);
 		theGlobals->dmNotifyUPP = NULL;
 		}
 
