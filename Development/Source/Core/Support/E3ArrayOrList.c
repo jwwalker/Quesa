@@ -1760,7 +1760,7 @@ e3listSequence_Create(
 	tailNodePtr->nextNodePtr_private = tailNodePtr;
 
 	itemSize = E3ListInfo_ItemSize(listInfoPtr);
-	for (i = 0; i < length; ++i)
+	for (i = 0; i < (TQ3Uns32) length; ++i)
 	{
 		TE3GenericItem* itemPtr;
 

@@ -201,12 +201,9 @@ E3XDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTar
 	drawContextData.pane.max.x        = 0.0f;
 	drawContextData.pane.max.y        = 0.0f;
 
+	Q3Memory_Clear(&x11DrawContextData, sizeof(x11DrawContextData));
 	x11DrawContextData.contextData  = drawContextData;
-	x11DrawContextData.display      = NULL;
-	x11DrawContextData.drawable     = NULL;
 	x11DrawContextData.visual       = (Visual *) drawContextTarget;
-	x11DrawContextData.cmap         = NULL;
-	x11DrawContextData.colorMapData = NULL;
 	
 
 
