@@ -36,6 +36,7 @@
 #include "E3Prefix.h"
 #include "E3View.h"
 #include "E3Geometry.h"
+#include "E3GeometryTriMesh.h"
 #include "E3GeometryTriGrid.h"
 
 
@@ -246,30 +247,89 @@ e3geom_trigrid_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //				for use in building a cached geometry.
 //-----------------------------------------------------------------------------
 static void 
-e3geom_trigrid_addtriangle(TQ3GroupObject group, const TQ3TriGridData *geomData,
-                           TQ3Uns32 n0, TQ3Uns32 n1, TQ3Uns32 n2, TQ3Uns32 tnum)
-{
-	TQ3TriangleData triangleData;
+e3geom_trigrid_addtriangle(TQ3GroupObject			group,
+							const TQ3TriGridData	*geomData,
+							TQ3OrientationStyle		theOrientation,
+							TQ3Uns32				n0,
+							TQ3Uns32				n1,
+							TQ3Uns32				n2,
+							TQ3Uns32				tnum)
+{	TQ3TriangleData		triangleData;
 	TQ3GeometryObject	theTriangle;
+	TQ3Vector3D			theNormal;
 
-	// copy vertex data (including vertex attributes)
-	Q3Memory_Copy( &geomData->vertices[n0], &triangleData.vertices[0], sizeof(TQ3Vertex3D) );
-	Q3Memory_Copy( &geomData->vertices[n1], &triangleData.vertices[1], sizeof(TQ3Vertex3D) );
-	Q3Memory_Copy( &geomData->vertices[n2], &triangleData.vertices[2], sizeof(TQ3Vertex3D) );
 
-	// copy triangle attributes	
-	if (geomData->facetAttributeSet != NULL) {
-		E3AttributeSet_Combine( geomData->triGridAttributeSet, geomData->facetAttributeSet[tnum],
-				&triangleData.triangleAttributeSet );
-	} else {
-		triangleData.triangleAttributeSet = geomData->triGridAttributeSet;	
-	}
-	
-	// build and add the triangle
+
+	// Initialise the data
+	Q3Memory_Clear(&triangleData, sizeof(TQ3TriangleData));
+
+
+
+	// Set up the triangle
+	//
+	// We ensure there is a triangle normal for each face, to allow efficient
+	// culling even if no normal has been defined.
+	triangleData.triangleAttributeSet = Q3AttributeSet_New();
+	if (triangleData.triangleAttributeSet != NULL)
+		{
+		if (geomData->triGridAttributeSet != NULL)
+			Q3AttributeSet_Inherit(geomData->triGridAttributeSet,
+								   triangleData.triangleAttributeSet,
+								   triangleData.triangleAttributeSet);
+		
+		if (geomData->facetAttributeSet != NULL && geomData->facetAttributeSet[tnum] != NULL)
+			Q3AttributeSet_Inherit(geomData->facetAttributeSet[tnum],
+								   triangleData.triangleAttributeSet,
+								   triangleData.triangleAttributeSet);
+
+		if (!Q3AttributeSet_Contains(triangleData.triangleAttributeSet, kQ3AttributeTypeNormal))
+			{
+			// Calculate the triangle normal
+			//
+			// We can find the normal for a CCW triangle with Q3Point3D_CrossProductTri.
+			Q3Point3D_CrossProductTri(&geomData->vertices[n0].point,
+									  &geomData->vertices[n1].point,
+									  &geomData->vertices[n2].point,
+									  &theNormal);
+
+
+			// Reverse the normal if required
+			//
+			// Since the default normal for a triangle depends on the current orientation
+			// style, we need to reverse the normal if the triangle is actually CW.
+			if (theOrientation == kQ3OrientationStyleClockwise)
+				Q3Vector3D_Negate(&theNormal, &theNormal);
+
+			Q3AttributeSet_Add(triangleData.triangleAttributeSet, kQ3AttributeTypeNormal, &theNormal);
+			}
+		}
+
+
+
+	// Set up the vertices
+	//
+	// We copy the vertex attributes, but don't increment the reference counts of
+	// their attribute sets. This is OK, since it's a local copy so simply saves us
+	// having to release the attribute sets afterwards.
+	Q3Memory_Copy(&geomData->vertices[n0], &triangleData.vertices[0], sizeof(TQ3Vertex3D));
+	Q3Memory_Copy(&geomData->vertices[n1], &triangleData.vertices[1], sizeof(TQ3Vertex3D));
+	Q3Memory_Copy(&geomData->vertices[n2], &triangleData.vertices[2], sizeof(TQ3Vertex3D));
+
+
+
+	// Create the triangle
 	theTriangle = Q3Triangle_New(&triangleData);
 	if (theTriangle != NULL)
 		Q3Group_AddObjectAndDispose(group, &theTriangle);	
+
+
+
+	// Clean up
+	Q3Object_CleanDispose(&triangleData.triangleAttributeSet);
 }
+
+
+
 
 
 //=============================================================================
@@ -281,26 +341,34 @@ e3geom_trigrid_addtriangle(TQ3GroupObject group, const TQ3TriGridData *geomData,
 static TQ3Object
 e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3TriGridData *geomData)
 {
-#pragma unused(theView)
-
-	TQ3GroupObject		theGroup;
+	TQ3GroupObject				theGroup;
+	TQ3OrientationStyle			theOrientation;
 	TQ3TriMeshData		triMeshData;
 	TQ3GeometryObject	theTriMesh;
-
 	TQ3TriMeshTriangleData *triangles;
 	TQ3Point3D *points;
 	TQ3Uns32 numpoints, numtriangles;
 	TQ3Uns32 i, col, row, tnum=0, vnum=0;
 	TQ3Boolean cacheAsTriangles = kQ3False;		// to always test triangles, set this to true!
-	
+#pragma unused(theView)
+
+
+
+	// Get the current orientation
+	theOrientation = E3View_State_GetStyleOrientation(theView);
+
+
+
+	// decide whether to cache as triangles or a trimesh
 	numpoints = geomData->numRows * geomData->numColumns;
 	numtriangles = 2 * (geomData->numRows-1) * (geomData->numColumns-1);
 
-	// decide whether to cache as triangles or a trimesh
 	if (geomData->facetAttributeSet != NULL) cacheAsTriangles = kQ3True;
 	for (i=0; i<numpoints && cacheAsTriangles==kQ3False; i++) {
 		if (geomData->vertices[i].attributeSet != NULL) cacheAsTriangles = kQ3True;
 	}
+
+
 
 	// --------------------------- caching as triangles -----------------------
 	if (cacheAsTriangles) {
@@ -313,13 +381,13 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		for (row=0; row < geomData->numRows-1; row++) {
 			for (col=0; col < geomData->numColumns-1; col++) {
 				vnum = (row * geomData->numColumns) + col;
-				e3geom_trigrid_addtriangle( theGroup, geomData, 
+				e3geom_trigrid_addtriangle( theGroup, geomData, theOrientation,
 					vnum,
 					vnum + 1 + ((col & 1) ? geomData->numColumns : 0),
 					vnum + geomData->numColumns,
 					tnum );
 				tnum++;
-				e3geom_trigrid_addtriangle( theGroup, geomData, 
+				e3geom_trigrid_addtriangle( theGroup, geomData, theOrientation,
 					vnum + ((col & 1) ? 0 : geomData->numColumns),
 					vnum + 1,
 					vnum + geomData->numColumns + 1,
@@ -369,7 +437,7 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	// set up remaining trimesh data
 	triMeshData.numPoints                 = numpoints;
 	triMeshData.points                    = points;
-	triMeshData.numTriangles              = tnum; // numtriangles;
+	triMeshData.numTriangles              = tnum;
 	triMeshData.triangles                 = triangles;
 	triMeshData.numTriangleAttributeTypes = 0;
 	triMeshData.triangleAttributeTypes    = NULL;
@@ -383,13 +451,20 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox, triMeshData.points, numpoints, sizeof(TQ3Point3D));
 
+
+
+	// Create the TriMesh
 	theTriMesh = Q3TriMesh_New(&triMeshData);
+	if (theTriMesh != NULL)
+		E3TriMesh_AddTriangleNormals(theTriMesh, theOrientation);
+
+
 
 	// Clean up
 	Q3Memory_Free(&points);
 	Q3Memory_Free(&triangles);
 
-	return theTriMesh;
+	return(theTriMesh);
 }
 
 
@@ -468,6 +543,10 @@ e3geom_trigrid_metahandler(TQ3XMethodType methodType)
 		
 		case kQ3XMethodTypeGeomGetAttribute:
 			theMethod = (TQ3XFunctionPointer) e3geom_trigrid_get_attribute;
+			break;
+
+		case kQ3XMethodTypeGeomUsesOrientation:
+			theMethod = (TQ3XFunctionPointer) kQ3True;
 			break;
 		}
 	

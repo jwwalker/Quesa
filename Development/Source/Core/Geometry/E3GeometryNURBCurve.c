@@ -356,7 +356,7 @@ e3geom_nurbcurve_constant_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints
 	*numPoints = (numInt - 1) * numSubdivU + 1 ;
 	
 	// We may want to limit the number of points at some point
-	//numPoints = E3Num_Max(E3Num_Min(numPoints, 256), 3);
+	//numPoints = E3Num_Clamp(numPoints, 3, 256);
 	
 	
 	// Allocate the memory we need (zeroed since we don't need the attribute set field, and want it cleared)

@@ -182,7 +182,7 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 				break;
 			}
 		}
-	numSides = E3Num_Max(E3Num_Min(numSides, 256), 4);
+	numSides = E3Num_Clamp(numSides, 4, 256);
 	numPoints = numSides + 1;
 
 

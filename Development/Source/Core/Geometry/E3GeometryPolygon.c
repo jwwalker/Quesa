@@ -34,10 +34,11 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Set.h"
 #include "E3View.h"
 #include "E3Geometry.h"
+#include "E3GeometryTriMesh.h"
 #include "E3GeometryPolygon.h"
-#include "E3Set.h"
 
 
 
@@ -159,6 +160,7 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 {	TQ3TriMeshAttributeData		vertexAttributes[kQ3AttributeTypeNumTypes];
 	TQ3Uns32					n, numEdges, numTriangles;
 	TQ3TriMeshAttributeData		edgeAttributes[1];
+	TQ3OrientationStyle			theOrientation;
 	TQ3TriMeshTriangleData		*theTriangles;
 	TQ3TriMeshData				triMeshData;
 	TQ3GeometryObject			theTriMesh;
@@ -295,9 +297,17 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 
 
-	// Create the TriMesh and clean up
+	// Create the TriMesh
 	theTriMesh = Q3TriMesh_New(&triMeshData);
-
+	if (theTriMesh != NULL)
+		{
+		theOrientation = E3View_State_GetStyleOrientation(theView);
+		E3TriMesh_AddTriangleNormals(theTriMesh, theOrientation);
+		}
+		
+	
+	
+	// Clean up
 	Q3Memory_Free(&thePoints);
 	Q3Memory_Free(&theTriangles);
 	Q3Memory_Free(&theEdges);
@@ -386,6 +396,10 @@ e3geom_polygon_metahandler(TQ3XMethodType methodType)
 		
 		case kQ3XMethodTypeGeomGetAttribute:
 			theMethod = (TQ3XFunctionPointer) e3geom_polygon_get_attribute;
+			break;
+
+		case kQ3XMethodTypeGeomUsesOrientation:
+			theMethod = (TQ3XFunctionPointer) kQ3True;
 			break;
 		}
 	

@@ -535,11 +535,12 @@ e3geom_trimesh_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //      e3geom_trimesh_triangle_new : Retrieve a triangle from the TriMesh.
 //-----------------------------------------------------------------------------
 static void
-e3geom_trimesh_triangle_new(const TQ3TriMeshData *theTriMesh, TQ3Uns32 theIndex, TQ3TriangleData *theTriangle)
-{	TQ3Uns32			n, m, i0, i1, i2, vertIndex, attrSize;
-	TQ3Vector3D			theNormal;
-	TQ3ObjectType		attrType;
-	E3ClassInfoPtr		theClass;
+e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriMesh, TQ3Uns32 theIndex, TQ3TriangleData *theTriangle)
+{	TQ3Uns32				n, m, i0, i1, i2, vertIndex, attrSize;
+	TQ3OrientationStyle		theOrientation;
+	TQ3Vector3D				theNormal;
+	TQ3ObjectType			attrType;
+	E3ClassInfoPtr			theClass;
 
 
 
@@ -581,9 +582,13 @@ e3geom_trimesh_triangle_new(const TQ3TriMeshData *theTriMesh, TQ3Uns32 theIndex,
 			}
 
 
-		// Add a normal if it was missing
+
+		// Add the triangle normal
 		if (!Q3AttributeSet_Contains(theTriangle->triangleAttributeSet, kQ3AttributeTypeNormal))
 			{
+			// Calculate the triangle normal
+			//
+			// We can find the normal for a CCW triangle with Q3Point3D_CrossProductTri.
 			i0 = theTriMesh->triangles[theIndex].pointIndices[0];
 			i1 = theTriMesh->triangles[theIndex].pointIndices[1];
 			i2 = theTriMesh->triangles[theIndex].pointIndices[2];
@@ -594,6 +599,17 @@ e3geom_trimesh_triangle_new(const TQ3TriMeshData *theTriMesh, TQ3Uns32 theIndex,
 									  &theNormal);
 			Q3Vector3D_Normalize(&theNormal, &theNormal);
 
+
+			// Reverse the normal if required
+			//
+			// Since the default normal for a triangle depends on the current orientation
+			// style, we need to reverse the normal if the triangle is actually CW.
+			theOrientation = E3View_State_GetStyleOrientation(theView);
+			if (theOrientation == kQ3OrientationStyleClockwise)
+				Q3Vector3D_Negate(&theNormal, &theNormal);
+
+
+			// Add the normal
 			Q3AttributeSet_Add(theTriangle->triangleAttributeSet, kQ3AttributeTypeNormal, &theNormal);
 			}
 		}
@@ -685,7 +701,7 @@ e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	for (n = 0; n < instanceData->geomData.numTriangles; n++)
 		{
 		// Extract the triangle
-		e3geom_trimesh_triangle_new(&instanceData->geomData, n, &triangleData);
+		e3geom_trimesh_triangle_new(theView, &instanceData->geomData, n, &triangleData);
 
 
 		// Create it
@@ -810,7 +826,7 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject			theView,
 		if (E3Ray3D_IntersectTriangle(theRay, &worldPoints[v0], &worldPoints[v1], &worldPoints[v2], cullBackface, &theHit))
 			{
 			// Create the triangle, and update the vertices to the transformed coordinates
-			e3geom_trimesh_triangle_new(&instanceData->geomData, n, &worldTriangle);
+			e3geom_trimesh_triangle_new(theView, &instanceData->geomData, n, &worldTriangle);
 			worldTriangle.vertices[0].point = worldPoints[v0];
 			worldTriangle.vertices[1].point = worldPoints[v1];
 			worldTriangle.vertices[2].point = worldPoints[v2];
@@ -1263,6 +1279,10 @@ e3geom_trimesh_metahandler(TQ3XMethodType methodType)
 		
 		case kQ3XMethodTypeGeomGetPublicData:
 			theMethod = (TQ3XFunctionPointer) e3geom_trimesh_get_public_data;
+			break;
+
+		case kQ3XMethodTypeGeomUsesOrientation:
+			theMethod = (TQ3XFunctionPointer) kQ3True;
 			break;
 		}
 	

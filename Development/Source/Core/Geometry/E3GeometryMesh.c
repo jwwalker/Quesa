@@ -3809,10 +3809,8 @@ e3geom_mesh_duplicate(
 //=============================================================================
 //      e3geom_mesh_cache_new_as_polys : Mesh cache new method.
 //-----------------------------------------------------------------------------
-static
-TQ3Object
-e3geom_mesh_cache_new_as_polys(
-	const TE3MeshData* meshPtr)
+static TQ3GroupObject
+e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 {
 #define _MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW 16
 
@@ -3981,10 +3979,8 @@ cleanup:
 //=============================================================================
 //      e3geom_mesh_cache_new_as_polyhedron : Mesh cache new method.
 //-----------------------------------------------------------------------------
-static
-TQ3Object
-e3geom_mesh_cache_new_as_polyhedron(
-	const TE3MeshData* meshPtr)
+static TQ3GroupObject
+e3geom_mesh_cache_new_as_polyhedron(const TE3MeshData *meshPtr)
 {
 /*
 	TQ3GeometryObject polyhedron;
@@ -4221,36 +4217,49 @@ cleanup_1:
 //=============================================================================
 //      e3geom_mesh_cache_new : Mesh cache new method.
 //-----------------------------------------------------------------------------
-static
-TQ3Object
-e3geom_mesh_cache_new(
-	TQ3ViewObject view,
-	TQ3GeometryObject meshObject,
-	const TE3MeshData* meshPtr)
-{
+static TQ3Object
+e3geom_mesh_cache_new(TQ3ViewObject view, TQ3GeometryObject meshObject,const TE3MeshData *meshPtr)
+{	TQ3Boolean					needToUsePolys;
+	TQ3AttributeSet 			faceAttributes;
+	const TE3MeshFaceData		*meshFace;
+	TQ3Object					theGroup;
 #pragma unused(meshObject)
 #pragma unused(view)
-	const TE3MeshFaceData* 			facePtr;
-	TQ3AttributeSet 				attr;
-	
 
+
+
+	// Check for an empty mesh
 	if (e3mesh_NumFaces(meshPtr) == 0)
 		return NULL;
-	else if(meshPtr->numCorners || e3mesh_NumFaces(meshPtr) == 1)
-		return e3geom_mesh_cache_new_as_polys(meshPtr);
+
+
+
+	// Examine the mesh to see if we need to use individual polygons
+	if (meshPtr->numCorners || e3mesh_NumFaces(meshPtr) == 1)
+		needToUsePolys = kQ3True;
 	else
 		{
-		facePtr = e3meshFaceArrayOrList_FirstItemConst(&meshPtr->faceArrayOrList);
-		attr = facePtr->attributeSet;
-		facePtr = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, facePtr);
-		while (facePtr != NULL)
-			{ // bail out at first different attributeSet
-			if(facePtr->attributeSet != attr)
-				return e3geom_mesh_cache_new_as_polys(meshPtr);
-			facePtr = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, facePtr);
-			}
-		return e3geom_mesh_cache_new_as_polyhedron(meshPtr);
+		meshFace       = e3meshFaceArrayOrList_FirstItemConst(&meshPtr->faceArrayOrList);
+		faceAttributes = meshFace->attributeSet;
+		needToUsePolys = kQ3False;
+
+		do
+			{
+			needToUsePolys = (meshFace->attributeSet != faceAttributes);
+			meshFace       = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, meshFace);
+			}		
+		while (meshFace != NULL && !needToUsePolys);
 		}
+
+
+
+	// Create an appropriate representation
+	if (needToUsePolys)
+		theGroup = e3geom_mesh_cache_new_as_polys(meshPtr);
+	else
+		theGroup = e3geom_mesh_cache_new_as_polyhedron(meshPtr);
+
+	return(theGroup);
 }
 
 

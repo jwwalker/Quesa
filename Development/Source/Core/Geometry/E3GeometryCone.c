@@ -36,6 +36,7 @@
 #include "E3Prefix.h"
 #include "E3View.h"
 #include "E3Geometry.h"
+#include "E3GeometryTriMesh.h"
 #include "E3GeometryCone.h"
 
 
@@ -197,11 +198,11 @@ e3geom_cone_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* inData,
 	TQ3Uns32 inNumSides, TQ3Uns32 inNumBands, TQ3Boolean inTipPresent )
 {
-	float				ang=0.0f, dang, cosAngle, sinAngle;
+	float				ang, dang, cosAngle, sinAngle;
 	float				startAngle, endAngle;
 	float				v, vStep;
-	TQ3Vector3D			workVec, otherVec, sideVec, radialVec, prevSideVec;
-	TQ3Vector3D			vertNormVec, faceNormVec;
+	TQ3Vector3D			workVec, otherVec, sideVec, radialVec;
+	TQ3Vector3D			vertNormVec;
 	TQ3Point3D			bottomPt;
 	TQ3Vector3D			majXMinor, majXOrient, minXOrient;
 	TQ3Param2D			*uvs;
@@ -209,10 +210,8 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	TQ3GeometryObject	theTriMesh;
 	TQ3Point3D 			*points;
 	TQ3Vector3D 		*normals;
-	TQ3Vector3D			*faceNorms;
 	TQ3TriMeshTriangleData *triangles;
 	TQ3TriMeshAttributeData vertexAttributes[2];
-	TQ3TriMeshAttributeData	faceAttributes;
 	TQ3Uns32			numpoints, numFaces;
 	TQ3Uns32			i, j;
 
@@ -277,14 +276,12 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	normals   = (TQ3Vector3D *)            Q3Memory_Allocate( numpoints*sizeof(TQ3Vector3D) );
 	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate( numpoints * sizeof(TQ3Param2D) );
 	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( numFaces*sizeof(TQ3TriMeshTriangleData) );
-	faceNorms = (TQ3Vector3D *)            Q3Memory_Allocate( numFaces*sizeof(TQ3Vector3D) );
-	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL || faceNorms == NULL)
+	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL)
 	{
 		Q3Memory_Free(&points);
 		Q3Memory_Free(&normals);
 		Q3Memory_Free(&uvs);
 		Q3Memory_Free(&triangles);
-		Q3Memory_Free(&faceNorms);
 		
 		return;
 	}
@@ -298,6 +295,7 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	// and between bands j and j+1, there are two triangles, numbered 2*(inNumSides*j+i) and
 	// 2*(inNumSides*j+i)+1.  The exception is that if the tip is present, then the last
 	// band (j = inNumBands - 1) has only one triangle per side, number 2*(inNumSides*j)+i.
+	ang = 0.0f;
 	for (i=0, ang = startAngle; i <= inNumSides; ++i, ang += dang)
 	{
 		cosAngle = (float) cos(ang);
@@ -323,17 +321,7 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 		Q3Vector3D_Scale( &majXOrient, - sinAngle, &workVec );
 		Q3Vector3D_Scale( &minXOrient, cosAngle, &otherVec );
 		Q3Vector3D_Add( &workVec, &otherVec, &workVec );
-		Q3Vector3D_Add( &workVec, &majXMinor, &workVec );
-		Q3Vector3D_Normalize( &workVec, &vertNormVec );
-		
-		
-		// The triangle normal will be the same for every triangle between i-1 and i.
-		if (i > 0)
-		{
-			Q3Vector3D_Cross( &prevSideVec, &sideVec, &faceNormVec );
-			Q3Vector3D_Normalize( &faceNormVec, &faceNormVec );
-		}
-		prevSideVec = sideVec;
+		Q3Vector3D_Add( &workVec, &majXMinor, &vertNormVec );
 
 		
 		for (j = 0, v = inData->vMin; j <= inNumBands; ++j, v += vStep)
@@ -361,8 +349,6 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 						(inNumSides+1)*(j-1) + i;
 					triangles[2*(inNumSides*(j-1))+i-1].pointIndices[2] =
 						(inNumSides+1)*(j) + i;
-					
-					faceNorms[2*(inNumSides*(j-1))+i-1] = faceNormVec;
 				}
 				else
 				{
@@ -381,9 +367,6 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 						(inNumSides+1)*(j-1) + i;
 					triangles[2*(inNumSides*(j-1)+i-1)+1].pointIndices[2] =
 						(inNumSides+1)*(j) + i;
-						
-					faceNorms[2*(inNumSides*(j-1)+i-1)] = faceNormVec;
-					faceNorms[2*(inNumSides*(j-1)+i-1)+1] = faceNormVec;
 				}
 			}
 		}
@@ -400,16 +383,12 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	vertexAttributes[1].data              = uvs;
 	vertexAttributes[1].attributeUseArray = NULL;
 	
-	faceAttributes.attributeType     = kQ3AttributeTypeNormal;
-	faceAttributes.data = faceNorms;
-	faceAttributes.attributeUseArray = NULL;
-	
 	triMeshData.numPoints                 = numpoints;
 	triMeshData.points                    = points;
 	triMeshData.numTriangles              = numFaces;
 	triMeshData.triangles                 = triangles;
-	triMeshData.numTriangleAttributeTypes = 1;
-	triMeshData.triangleAttributeTypes    = &faceAttributes;
+	triMeshData.numTriangleAttributeTypes = 0;
+	triMeshData.triangleAttributeTypes    = NULL;
 	triMeshData.numEdges                  = 0;
 	triMeshData.edges                     = NULL;
 	triMeshData.numEdgeAttributeTypes     = 0;
@@ -427,7 +406,10 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	// Create the TriMesh and add to the group
 	theTriMesh = Q3TriMesh_New(&triMeshData);
 	if (theTriMesh != NULL)
+		{
+		E3TriMesh_AddTriangleNormals(theTriMesh, kQ3OrientationStyleCounterClockwise);
 		Q3Group_AddObjectAndDispose( ioGroup, &theTriMesh );
+		}
 
 
 
@@ -436,20 +418,14 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	Q3Memory_Free(&normals);
 	Q3Memory_Free(&uvs);
 	Q3Memory_Free(&triangles);
-	Q3Memory_Free(&faceNorms);
 }
 
 
 
 
 
-
-
-
-
-
 //=============================================================================
-//      e3geom_cone_create_interior : Helper for e3geom_cone_cache_new.
+//      e3geom_cone_create_interior : Create the interior of the cone.
 //-----------------------------------------------------------------------------
 static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeData* inData,
 	TQ3Boolean inHasTip )
@@ -547,7 +523,6 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			interiorPts[1] = bottomCenter;
 			interiorPts[2] = topCenter;
 			Q3Vector3D_Cross( &inData->orientation, &radialVec, &workVec );
-			Q3Vector3D_Normalize( &workVec, &workVec );
 			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = workVec;
 			interiorFaceNorms[0] = workVec;
 			interiorUVs[0].u = 0.0f;
@@ -561,6 +536,7 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			intGeom = Q3TriMesh_New( &intTriMeshData );
 			if (intGeom != NULL)
 			{
+				E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
 				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
 			}
 			
@@ -574,7 +550,6 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			interiorPts[0] = bottomCenter;
 			interiorPts[2] = topCenter;
 			Q3Vector3D_Cross( &radialVec, &inData->orientation, &workVec );
-			Q3Vector3D_Normalize( &workVec, &workVec );
 			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = workVec;
 			interiorFaceNorms[0] = workVec;
 			interiorUVs[0].u = 0.5f;
@@ -584,6 +559,7 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			intGeom = Q3TriMesh_New( &intTriMeshData );
 			if (intGeom != NULL)
 			{
+				E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
 				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
 			}
 		}
@@ -606,7 +582,6 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			Q3Point3D_Vector3D_Add( &topCenter, &workVec, &interiorPts[2] );
 			
 			Q3Vector3D_Cross( &inData->orientation, &radialVec, &workVec );
-			Q3Vector3D_Normalize( &workVec, &workVec );
 			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = interiorPtNorms[3] =
 				workVec;
 			interiorFaceNorms[0] = interiorFaceNorms[1] = workVec;
@@ -624,6 +599,7 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			intGeom = Q3TriMesh_New( &intTriMeshData );
 			if (intGeom != NULL)
 			{
+				E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
 				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
 			}
 			
@@ -641,7 +617,6 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			Q3Point3D_Vector3D_Add( &topCenter, &workVec, &interiorPts[3] );
 
 			Q3Vector3D_Cross( &radialVec, &inData->orientation, &workVec );
-			Q3Vector3D_Normalize( &workVec, &workVec );
 			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = interiorPtNorms[3] =
 				workVec;
 			interiorFaceNorms[0] = interiorFaceNorms[1] = workVec;
@@ -659,6 +634,7 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			intGeom = Q3TriMesh_New( &intTriMeshData );
 			if (intGeom != NULL)
 			{
+				E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
 				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
 			}
 		}
@@ -676,15 +652,15 @@ static TQ3Object
 e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3ConeData *geomData)
 {
 #pragma unused( theGeom )
-	float				uMin, uMax, vMin, vMax;
-	float				dotCross;
-	TQ3GroupObject		theGroup;
-	TQ3Uns32			sides = 10;
-	TQ3Uns32			bands = 10;
-	TQ3Vector3D			workVec;
-	TQ3SubdivisionStyleData subdivisionData;
-	TQ3ConeData			faceData;
-	TQ3Boolean			isTipPresent;
+	float						uMin, uMax, vMin, vMax, dotCross;
+	TQ3SubdivisionStyleData		subdivisionData;
+	TQ3Boolean					isTipPresent;
+	TQ3Uns32					sides = 10;
+	TQ3Uns32					bands = 10;
+	TQ3ConeData					faceData;
+	TQ3StyleObject				theStyle;
+	TQ3GroupObject				theGroup;
+	TQ3Vector3D					workVec;
 
 
 
@@ -736,18 +712,28 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 
-	// Create a group to hold the cached geometry, and add overall attributes
+	// Create a group to hold the cached geometry
 	theGroup = Q3DisplayGroup_New();
 	if (theGroup == NULL)
 	{
 		E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
 		return NULL;
 	}
-	
+
+
+
+	// Add the orientation style
+	//
+	// All of the TriMeshes which form the cone have triangle normals created in a CCW style,
+	// so we need to add an orientation to our group to ensure they are always treated as such.
+	theStyle = Q3OrientationStyle_New(kQ3OrientationStyleCounterClockwise);
+	Q3Group_AddObjectAndDispose(theGroup, &theStyle);
+
+
+
+	// Add the cone attributes	
 	if (geomData->coneAttributeSet != NULL)
-	{
 		Q3Group_AddObject( theGroup, geomData->coneAttributeSet );
-	}
 
 
 
