@@ -62,6 +62,7 @@ class E3Torus : public E3Geometry // This is a leaf class so no other classes us
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeTorus, E3Torus, E3Geometry )
 public :
 
 	TQ3TorusData			instanceData ;
@@ -551,19 +552,12 @@ e3geom_torus_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryTorus_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeTorus,
-											kQ3ClassNameGeometryTorus,
-											e3geom_torus_metahandler,
-											sizeof(E3Torus));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryTorus,
+								e3geom_torus_metahandler,
+								E3Torus ) ;
+	}
 
 
 

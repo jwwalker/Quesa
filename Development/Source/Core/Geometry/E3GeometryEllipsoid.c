@@ -62,6 +62,7 @@ class E3Ellipsoid : public E3Geometry // This is a leaf class so no other classe
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeEllipsoid, E3Ellipsoid, E3Geometry )
 public :
 
 	TQ3EllipsoidData			instanceData ;
@@ -604,19 +605,12 @@ e3geom_ellipsoid_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryEllipsoid_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeEllipsoid,
-											kQ3ClassNameGeometryEllipsoid,
-											e3geom_ellipsoid_metahandler,
-											sizeof(E3Ellipsoid));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryEllipsoid,
+								e3geom_ellipsoid_metahandler,
+								E3Ellipsoid ) ;
+	}
 
 
 

@@ -98,6 +98,10 @@ class E3GeometryInfo : public E3ShapeInfo
 
 public :
 
+	const TQ3XGeomCacheNewMethod	 	cacheNew ;
+	const TQ3XGeomGetAttributeMethod	getAttribute ;
+	const TQ3XGeomGetPublicDataMethod	getPublicData ;
+	
 									E3GeometryInfo	(
 											TQ3XMetaHandler	newClassMetaHandler,
 											E3ClassInfo*	newParent

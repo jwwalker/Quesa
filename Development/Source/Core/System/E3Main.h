@@ -88,6 +88,7 @@ private :
 
 
 
+#define Q3_CLASS_INFO_IS_CLASS(_classInfo, _class) ((_classInfo)->IsClass ( _class::eClassType, _class::eClassDepth ))
 #define Q3_OBJECT_IS_CLASS(_object, _class) ((_object)->IsClass ( _class::eClassType, _class::eClassDepth ))
 
 

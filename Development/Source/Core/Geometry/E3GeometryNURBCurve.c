@@ -61,6 +61,7 @@ class E3NURBCurve : public E3Geometry // This is a leaf class so no other classe
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeNURBCurve, E3NURBCurve, E3Geometry )
 public :
 
 	TQ3NURBCurveData			instanceData ;
@@ -905,19 +906,12 @@ e3geom_nurbcurve_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryNURBCurve_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypeNURBCurve,
-											kQ3ClassNameGeometryNURBCurve,
-											e3geom_nurbcurve_metahandler,
-											sizeof(E3NURBCurve));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryNURBCurve,
+								e3geom_nurbcurve_metahandler,
+								E3NURBCurve ) ;
+	}
 
 
 

@@ -61,6 +61,7 @@
 class E3Polygon : public E3Geometry // This is a leaf class so no other files use this,
 									// so it can be local and hance all the fields public
 	{
+Q3_CLASS_ENUMS ( kQ3GeometryTypePolygon, E3Polygon, E3Geometry )
 public :
 
 	TQ3PolygonData		instanceData ;
@@ -442,19 +443,12 @@ e3geom_polygon_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryPolygon_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
-											kQ3GeometryTypePolygon,
-											kQ3ClassNameGeometryPolygon,
-											e3geom_polygon_metahandler,
-											sizeof(E3Polygon));
-
-	return(qd3dStatus);
-}
+	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryPolygon,
+								e3geom_polygon_metahandler,
+								E3Polygon ) ;
+	}
 
 
 
