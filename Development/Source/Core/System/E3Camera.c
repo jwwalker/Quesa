@@ -511,7 +511,7 @@ E3Camera_GetViewPort(TQ3CameraObject theCamera, TQ3CameraViewPort *viewPort)
 //				placement of the camera; it establishes the camera location as
 //				the origin of the view space, with the view vector (that is,
 //				the vector from the camera's eye toward the point of interest)
-//				placed along the Ðz axis and the up vector placed along the
+//				placed along the -z axis and the up vector placed along the
 //				y axis.
 //-----------------------------------------------------------------------------
 TQ3Status
