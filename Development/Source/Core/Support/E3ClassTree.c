@@ -1038,6 +1038,41 @@ E3ClassTree_FindParentInstance(TQ3Object theObject, TQ3ObjectType classType)
 
 
 //=============================================================================
+//      E3ClassTree_FindInstanceData : Find the instance data of an object.
+//-----------------------------------------------------------------------------
+//		Note :	Given an object, we walk upwards through its parent objects
+//				until we find one with the appropriate class type. We then
+//				return the appropriate instance data.
+//
+//				Useful for objects which are inherited from, as this allows
+//				them to pass in a possible sub-classed object and obtain their
+//				instance data rather than the child class.
+//-----------------------------------------------------------------------------
+void *
+E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
+{	TQ3Object		parentObject;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theObject), NULL);
+	e3class_verify(theObject);
+
+
+
+	// Find the appropriate parent, and return its instance data
+	parentObject = E3ClassTree_FindParentInstance(theObject, classType);
+	if (parentObject != NULL)
+		return(parentObject->instanceData);
+	
+	return(NULL);
+}
+
+
+
+
+
+//=============================================================================
 //      E3ClassTree_GetObjectType : Get a method for a class.
 //-----------------------------------------------------------------------------
 //		Note :	Gets the type of the instance first child of the instance of
