@@ -70,9 +70,11 @@ typedef struct TQ3ViewerData {
 	TQ3Uns32				mTrackingData;		// which button we're tracking, etc.
 	TQ3Boolean				mTrackingValid;		// false when user cancels by dragging out of bounds
 	TQ3Int32				mTrackH, mTrackV;	// last h/v mouse position during track
+	TQ3Vector3D				mTranslateToOrigin;	// move the object to center it at 0,0,0
+	TQ3Vector3D				mObjectScale;		// convert the object to 1,1,1
 	TQ3Vector3D				mTranslation;		// translation currently applied to the object
 	TQ3Vector2D				mPixelScale;		// world units (at z=0) per pixel of screen space
-	float					mSqrRadius;			// squared radius of a bounding sphere
+	float					mRadius;			// radius of a bounding sphere
 	TQ3Quaternion			mOrientation;		// current orientation, relative to initial
 	TQ3GeometryObject		mGuideGeom;			// guide circle, etc. (or NULL)
 	TQ3AntiAliasStyleData	mStyleAntiAlias;	// anti-aliasing style
@@ -99,7 +101,7 @@ typedef struct TQ3ViewerParams {
 
 #define kMaxRenderers		20
 
-#define kQ3ViewerDefaultZ	10.0f
+#define kQ3ViewerDefaultZ	7.0f
 
 #define kCameraMenuID		8042L
 #define kOptionsMenuID		8043L
@@ -1124,8 +1126,8 @@ static void e3viewer_applyTruck(TQ3ViewerObject theViewer,
 		zoom = 1.0f + (oldY-newY)*0.004f;
 
 	placement.cameraLocation.z *= zoom;
-	if (placement.cameraLocation.z < 1.0f)
-		placement.cameraLocation.z = 1.0f;
+	if (placement.cameraLocation.z < 0.1f)
+		placement.cameraLocation.z = 0.1f;
 	
 	Q3Camera_SetPlacement(camera, &placement);	
 	Q3Object_Dispose(camera);
@@ -1176,7 +1178,7 @@ static void e3viewer_applyOrbit(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 	// the sphere.
 	
 	// (QuesaMath has a handy extension function that does exactly that.)
-	ball.radius = sqrt(instanceData->mSqrRadius);	
+	ball.radius = instanceData->mRadius;	
 	ray.direction.x = ray.direction.y = 0.0f;
 	ray.direction.z = 1.0f;
 
@@ -1289,11 +1291,11 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 
 		// camera
 		camData.cameraData.placement.cameraLocation.x = 0.0f;
-		camData.cameraData.placement.cameraLocation.y = 1.0f;
+		camData.cameraData.placement.cameraLocation.y = 0.0f;
 		camData.cameraData.placement.cameraLocation.z = kQ3ViewerDefaultZ;
 		camData.cameraData.placement.upVector.y = 1.0f;
-		camData.cameraData.range.hither = 1.0f;
-		camData.cameraData.range.yon = 10000.0f;
+		camData.cameraData.range.hither = 0.05f;
+		camData.cameraData.range.yon = 10.0f;
 		camData.cameraData.viewPort.origin.x = -1.0f;
 		camData.cameraData.viewPort.origin.y = 1.0f;
 		camData.cameraData.viewPort.width = 2.0f;
@@ -1359,6 +1361,7 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer)
 	TQ3DisplayGroupObject group;
 	TQ3Status		status;
 	TQ3BoundingBox	bbox;
+	float			xBounds, yBounds, zBounds, scaleFactor;
 	
 	// get the geometry group
 	group = E3Viewer_GetGroup(theViewer);
@@ -1371,9 +1374,33 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer)
 	if (status)
 		{
 		Q3DisplayGroup_GetBoundingBox(group, &bbox);
-		instanceData->mSqrRadius = 0.25f
-				* ((bbox.max.x - bbox.min.x)*(bbox.max.x - bbox.min.x)
-				 + (bbox.max.y - bbox.min.y)*(bbox.max.y - bbox.min.y));
+
+		xBounds = (bbox.max.x - bbox.min.x);
+		yBounds = (bbox.max.y - bbox.min.y);
+		zBounds = (bbox.max.z - bbox.min.z);
+
+		instanceData->mRadius = Q3Point3D_Distance(&bbox.max,&bbox.min) / 2;
+				 
+		instanceData->mTranslateToOrigin.x = (bbox.min.x - bbox.max.x) / 2.0;
+		instanceData->mTranslateToOrigin.y = (bbox.min.y - bbox.max.y) / 2.0;
+		instanceData->mTranslateToOrigin.z = (bbox.min.z - bbox.max.z) / 2.0;
+		
+		scaleFactor = (xBounds > yBounds)     ? xBounds : yBounds;
+		scaleFactor = (zBounds > scaleFactor) ? zBounds : scaleFactor;
+		scaleFactor = 1.0f / (scaleFactor * 0.7f);
+
+		if (xBounds <= 0.0003f && yBounds <= 0.0003f && zBounds <= 0.0003f)
+			scaleFactor = 1.0f;
+
+		instanceData->mTranslateToOrigin.x = -(bbox.min.x + (xBounds * 0.5f));
+		instanceData->mTranslateToOrigin.y = -(bbox.min.y + (yBounds * 0.5f));
+		instanceData->mTranslateToOrigin.z = -(bbox.min.z + (zBounds * 0.5f));
+
+		instanceData->mObjectScale.x = scaleFactor;
+		instanceData->mObjectScale.y = scaleFactor;
+		instanceData->mObjectScale.z = scaleFactor;
+	
+		instanceData->mRadius *= scaleFactor;
 		}
 	
 	Q3Object_Dispose(group);
@@ -1813,20 +1840,24 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 
 		// submit transforms (and guide circle, if any)
 		Q3TranslateTransform_Submit( &instanceData->mTranslation, view );
+
 		if (NULL != instanceData->mGuideGeom)
 			{
 			Q3Push_Submit(view);
-			scale.x = scale.y = scale.z = sqrt(instanceData->mSqrRadius);
+			scale.x = scale.y = scale.z = instanceData->mRadius;
 			Q3ScaleTransform_Submit(&scale, view);
 			Q3Object_Submit(instanceData->mGuideGeom, view);
 			Q3Pop_Submit(view);
 			}
-		Q3QuaternionTransform_Submit( &instanceData->mOrientation, view );
 
 		// submit shader
 		Q3Shader_Submit( instanceData->mShader, view );
 		
 		// submit geometry
+		Q3QuaternionTransform_Submit( &instanceData->mOrientation, view );
+		Q3ScaleTransform_Submit(&instanceData->mObjectScale,         view);
+		Q3TranslateTransform_Submit(&instanceData->mTranslateToOrigin, view);
+
 		Q3Object_Submit(instanceData->mGroup, view);
 		
 		// while we're at it, let's gather info that we need to interpret
@@ -1837,9 +1868,7 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 		Q3View_TransformWorldToWindow(view, &worldPt, &windowPt[1]);
 		instanceData->mPixelScale.x = 1.0f / (windowPt[1].x - windowPt[0].x);
 		instanceData->mPixelScale.y = 1.0f / (windowPt[1].y - windowPt[0].y);
-		
-		// submit the guide geometry, if any
-		
+				
 		// finish the job (retraversing if needed)
 		if (Q3View_EndRendering(view) != kQ3ViewStatusRetraverse) break;
 		}
@@ -2638,7 +2667,7 @@ E3Viewer_EventMouseDown(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 		if (kQ3ViewerFlagButtonOrbit == instanceData->mTrackingData)
 			{
 			e3viewer_windowToObject(theViewer, hPos, vPos, &objPos);
-			if (objPos.x*objPos.x + objPos.y*objPos.y > instanceData->mSqrRadius)
+			if (sqrt(objPos.x*objPos.x + objPos.y*objPos.y) > instanceData->mRadius)
 				instanceData->mTrackingData++;		// indicates Z-axis rotation
 			}
 		
