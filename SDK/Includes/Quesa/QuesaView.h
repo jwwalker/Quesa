@@ -916,6 +916,7 @@ Q3View_GetDrawContext (
  *      Q3View_GetLocalToWorldMatrixState
  *  @discussion
  *      Get the local-to-world matrix state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view             The view to query.
  *  @param matrix           Receives the local-to-world matrix.
@@ -940,12 +941,16 @@ Q3View_GetLocalToWorldMatrixState (
  *		specify where a point falls within the viewing frustum.  In frustum
  *		space, the viewable area ranges in X from -1 (left) to 1 (right); in
  *		Y from -1 (bottom) to 1 (top), and in Z from 0 (near clipping plane)
- *		to 1 (far clipping plane).
+ *		to -1 (far clipping plane).
  *
  *		Note that this matrix cannot sensibly transform a point which is at
  *		or behind the near clipping plane.
  *
  *		This matrix may be inverted for frustum-to-world transformations.
+ *
+ *		This function must be called within a submitting loop.  If you need
+ *		this matrix when you are not in a submitting loop, use
+ *		Q3Camera_GetWorldToFrustum instead.
  *
  *  @param view             The view to query.
  *  @param matrix           Receives the local-to-frustum matrix.
@@ -964,6 +969,7 @@ Q3View_GetWorldToFrustumMatrixState (
  *      Q3View_GetFrustumToWindowMatrixState
  *  @discussion
  *      Get the frustum-to-window matrix state from a view.
+ *		Must be called within a submitting loop.
  *
  *		This matrix may be used (via Q3Point3D_Transform) to transform
  *		points from frustum coordinates into window coordinates.  See

@@ -434,6 +434,8 @@ Q3Camera_GetWorldToView (
  *      The world-to-frustum matrix transforms world coordinates to the viewing
  *      frustum coordinate system. It is equivalent to multiplying the matrices
  *      returned by Q3Camera_GetWorldToView and Q3Camera_GetViewToFrustum.
+ *		See the documentation of Q3View_GetWorldToFrustumMatrixState for more
+ *		information.
  *
  *  @param camera           The camera to query.
  *  @param worldToFrustum   Receives the world-to-frustum matrix of the camera.
@@ -457,7 +459,7 @@ Q3Camera_GetWorldToFrustum (
  *      (as returned by Q3Camera_GetWorldToView) to the viewing frustum
  *      coordinate system.
  *
- *      The frustum coordinate system ranges from 0.0 to 1.0 in z, and from
+ *      The frustum coordinate system ranges from 0.0 to -1.0 in z, and from
  *      -1.0 to +1.0 in both x and y.
  *
  *  @param camera           The camera to query.
