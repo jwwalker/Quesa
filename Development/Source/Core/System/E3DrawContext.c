@@ -425,6 +425,9 @@ E3DrawContext_GetDevicePixelTypeFromBPP(TQ3Uns32 pixelSize)
 		case 32:
 			pixelType = kQ3XDevicePixelTypeRGB32;
 			break;
+		case 24:
+			pixelType = kQ3XDevicePixelTypeRGB24;
+			break;
 		case 16:
 			pixelType = kQ3XDevicePixelTypeRGB16;
 			break;
