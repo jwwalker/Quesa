@@ -2,12 +2,13 @@
 <a name="//apple_ref/c/tag/TQ3RaveEngineID"></a>
 <h3><a name="TQ3RaveEngineID">TQ3RaveEngineID</a></h3>
 <blockquote><pre>
-typedef enum {
+typedef long TQ3RaveEngineID;
+enum {
     kQAEngine_AppleSW                           = 0,
     kQAEngine_AppleHW                           = -1,
     kQAEngine_AppleHW2                          = 1,
     kQAEngine_AppleHW3                          = 2
-} TQ3RaveEngineID;
+};
 </pre>
 </blockquote>
 <p>RAVE engine IDs. Obsolete, but preserved for source compatibility.
@@ -27,7 +28,8 @@ typedef enum {
 <a name="//apple_ref/c/tag/TQ3RaveVendorID"></a>
 <h3><a name="TQ3RaveVendorID">TQ3RaveVendorID</a></h3>
 <blockquote><pre>
-typedef enum {
+typedef long TQ3RaveVendorID;
+enum {
     kQAVendor_BestChoice                        = -1,
     kQAVendor_Apple                             = 0,
     kQAVendor_ATI                               = 1,
@@ -43,7 +45,7 @@ typedef enum {
     kQAVendor_MicroConversions                  = 11,
     kQAVendor_PurpleShark                       = 12,
     kQAVendor_VillageTronic                     = 14
-} TQ3RaveVendorID;
+};
 </pre>
 </blockquote>
 <p>RAVE vendor IDs. Obsolete, but preserved for source compatibility.
@@ -74,11 +76,12 @@ typedef enum {
 <a name="//apple_ref/c/tag/TQ3TextureFilter"></a>
 <h3><a name="TQ3TextureFilter">TQ3TextureFilter</a></h3>
 <blockquote><pre>
-typedef enum {
-    kQATextureFilter_Fast                       = 0,                // Pick nearest pixel
-    kQATextureFilter_Mid                        = 1,                // Perform some filtering
-    kQATextureFilter_Best                       = 2                 // Perform high quality filtering
-} TQ3TextureFilter;
+typedef unsigned long TQ3TextureFilter;
+enum {
+    kQATextureFilter_Fast                       = 0,
+    kQATextureFilter_Mid                        = 1,
+    kQATextureFilter_Best                       = 2
+};
 </pre>
 </blockquote>
 <p>Texture filter type.
@@ -89,7 +92,7 @@ typedef enum {
 <table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQATextureFilter_Fast"><tt>kQATextureFilter_Fast</tt></a></td><td>Select nearest pixel.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQATextureFilter_Mid"><tt>kQATextureFilter_Mid</tt></a></td><td>Perform some filtering.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQATextureFilter_Mid"><tt>kQATextureFilter_Mid</tt></a></td><td>Perform basic filtering.</td><tr>
 <tr valign=top><td><a name="//apple_ref/c/econst/kQATextureFilter_Best"><tt>kQATextureFilter_Best</tt></a></td><td>Perform high quality filtering.</td><tr>
 </table>
 </blockquote>
