@@ -74,6 +74,7 @@ class E3PropertyElement : public E3Element  // This is a leaf class so no other 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeCustomElementProperties, E3PropertyElement, E3Element )
 public :
 
 	TCEPropertyPrivate						instanceData ;
@@ -86,6 +87,7 @@ class E3NameElement : public E3Element  // This is a leaf class so no other clas
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeCustomElementName, E3NameElement, E3Element )
 public :
 
 	TQ3StringObject							instanceData ;
@@ -98,6 +100,7 @@ class E3URLElement : public E3Element  // This is a leaf class so no other class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeCustomElementUrl, E3URLElement, E3Element )
 public :
 
 	TCEUrlDataPrivate						instanceData ;
@@ -111,6 +114,7 @@ class E3WireElement : public E3Element  // This is a leaf class so no other clas
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeCustomElementWire, E3WireElement, E3Element )
 public :
 
 	QTAtomContainer							instanceData ;
@@ -124,6 +128,7 @@ class E3BitDepthElement : public E3Element  // This is a leaf class so no other 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ElementTypeDepthBits, E3BitDepthElement, E3Element )
 public :
 
 	TQ3Uns32								instanceData ;
@@ -136,6 +141,7 @@ class E3BeforeRenderElement : public E3Element  // This is a leaf class so no ot
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3CallbackElementTypeBeforeRender, E3BeforeRenderElement, E3Element )
 public :
 
 	TQ3ObjectEventCallback					instanceData ;
@@ -148,6 +154,7 @@ class E3AfterRenderElement : public E3Element  // This is a leaf class so no oth
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3CallbackElementTypeAfterRender, E3AfterRenderElement, E3Element )
 public :
 
 	TQ3ObjectEventCallback					instanceData ;
@@ -160,6 +167,7 @@ class E3BeforePickElement : public E3Element  // This is a leaf class so no othe
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3CallbackElementTypeBeforePick, E3BeforePickElement, E3Element )
 public :
 
 	TQ3ObjectEventCallback					instanceData ;
@@ -172,6 +180,7 @@ class E3AfterPickElement : public E3Element  // This is a leaf class so no other
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3CallbackElementTypeAfterPick, E3AfterPickElement, E3Element )
 public :
 
 	TQ3ObjectEventCallback					instanceData ;
