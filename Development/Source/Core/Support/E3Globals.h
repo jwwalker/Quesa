@@ -306,24 +306,28 @@ extern "C" {
 
 
 // 3DMF object types
-#define kQ3ObjectTypeMeshCorners					Q3_OBJECT_TYPE('c', 'r', 'n', 'r')
-#define kQ3ObjectTypeMeshEdges						Q3_OBJECT_TYPE('e', 'd', 'g', 'e')
-#define kQ3ObjectTypeAttributeSetList				Q3_OBJECT_TYPE('r', 'a', 's', 'l')
-#define kQ3ObjectTypeAttributeArray					Q3_OBJECT_TYPE('a', 't', 'a', 'r')
-#define kQ3ObjectTypeAttributeSetListGeometry		Q3_OBJECT_TYPE('g', 'a', 's', 'l')
-#define kQ3ObjectTypeAttributeSetListFace			Q3_OBJECT_TYPE('f', 'a', 's', 'l')
-#define kQ3ObjectTypeAttributeSetListVertex			Q3_OBJECT_TYPE('v', 'a', 's', 'l')
-#define kQ3ObjectTypeGeneralPolygonHint				Q3_OBJECT_TYPE('g', 'p', 'l', 'h')
-#define kQ3ObjectTypeDisplayGroupState				Q3_OBJECT_TYPE('d', 'g', 's', 't')
-#define kQ3AttributeSetTypeTopCap					Q3_OBJECT_TYPE('t', 'c', 'a', 's')
 #define kQ3AttributeSetTypeBottomCap				Q3_OBJECT_TYPE('b', 'c', 'a', 's')
 #define kQ3AttributeSetTypeFaceCap					Q3_OBJECT_TYPE('f', 'c', 'a', 's')
 #define kQ3AttributeSetTypeInteriorCap				Q3_OBJECT_TYPE('i', 'c', 'a', 's')
-#define kQ3ObjectTypeShaderUVTransform				Q3_OBJECT_TYPE('s', 'd', 'u', 'v')
-#define kQ3ObjectTypeShaderTransform				Q3_OBJECT_TYPE('s', 'd', 'x', 'f')
+#define kQ3AttributeSetTypeTopCap					Q3_OBJECT_TYPE('t', 'c', 'a', 's')
+#define kQ3ObjectTypeAttributeArray					Q3_OBJECT_TYPE('a', 't', 'a', 'r')
+#define kQ3ObjectTypeAttributeSetList				Q3_OBJECT_TYPE('r', 'a', 's', 'l')
+#define kQ3ObjectTypeAttributeSetListFace			Q3_OBJECT_TYPE('f', 'a', 's', 'l')
+#define kQ3ObjectTypeAttributeSetListGeometry		Q3_OBJECT_TYPE('g', 'a', 's', 'l')
+#define kQ3ObjectTypeAttributeSetListVertex			Q3_OBJECT_TYPE('v', 'a', 's', 'l')
+#define kQ3ObjectTypeDisplayGroupState				Q3_OBJECT_TYPE('d', 'g', 's', 't')
+#define kQ3ObjectTypeGeneralPolygonHint				Q3_OBJECT_TYPE('g', 'p', 'l', 'h')
 #define kQ3ObjectTypeGeometryCaps					Q3_OBJECT_TYPE('c', 'a', 'p', 's')
-#define kQ3ObjectTypeType							Q3_OBJECT_TYPE('t', 'y', 'p', 'e')
+#define kQ3ObjectTypeMeshCorners					Q3_OBJECT_TYPE('c', 'r', 'n', 'r')
+#define kQ3ObjectTypeMeshEdges						Q3_OBJECT_TYPE('e', 'd', 'g', 'e')
+#define kQ3ObjectTypeShaderTransform				Q3_OBJECT_TYPE('s', 'd', 'x', 'f')
+#define kQ3ObjectTypeShaderUVTransform				Q3_OBJECT_TYPE('s', 'd', 'u', 'v')
 #define kQ3ObjectTypeTOC							Q3_OBJECT_TYPE('t', 'o', 'c', ' ')
+#define kQ3ObjectTypeType							Q3_OBJECT_TYPE('t', 'y', 'p', 'e')
+
+
+// Internal object types
+#define kQ3ObjectTypeLeaf							Q3_OBJECT_TYPE('l', 'e', 'a', 'f')
 
 
 
@@ -384,6 +388,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageCloseMethod)(TQ3StorageObject st
 
 
 // Definition of TQ3Object
+#if !QUESA_OBJECTS_ARE_OPAQUE
+
 typedef struct OpaqueTQ3Object {
 	TQ3ObjectType		quesaTag;
 	E3ClassInfoPtr		theClass;
@@ -394,6 +400,8 @@ typedef struct OpaqueTQ3Object {
 	TQ3Object			childObject;
 #endif
 } OpaqueTQ3Object;
+
+#endif // !QUESA_OBJECTS_ARE_OPAQUE
 
 
 // Global state for each instance of Quesa.
