@@ -545,8 +545,12 @@ Qut_CreateWindow(const char		*windowTitle,
 TQ3StorageObject
 Qut_SelectMetafile(void)
 {	Str255				thePrompt = "\pSelect a model:";
-	SFTypeList			fileTypes = { '3DMF' };
-	const short			numTypes  = 1;
+	SFTypeList			fileTypes = { '3DMF', 'TEXT', '3DS ', 'BINA' };
+	const short			numTypes  = 4;
+	/*
+		Jose'
+		note we have to found a global mechanism to choose the supported file formats
+	*/
 	NavEventUPP         navEventFilterUPP;
  	NavDialogOptions    dialogOptions;
     AEKeyword           theAEKeyword;
