@@ -191,9 +191,9 @@ CImageTexture::Apply(
 			tmpsurf.diff.r = outval[rchan];
 			tmpsurf.diff.g = outval[gchan];
 			tmpsurf.diff.b = outval[bchan];
-			tmpsurf.amb.r = 0;
-			tmpsurf.amb.g = 0;
-			tmpsurf.amb.b = 0;
+			tmpsurf.amb.r = outval[rchan];
+			tmpsurf.amb.g = outval[gchan];
+			tmpsurf.amb.b = outval[gchan];
 			break;
 		case kImageTextureType_Color: /* amb, diff, spec */
 			tmpsurf.spec.r *= outval[rchan];
