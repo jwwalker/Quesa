@@ -57,7 +57,7 @@
 #include "E3StackCrawl.h"
 #include "QuesaMemory.h"
 #include <cstring>
-
+#include <LowMem.h>
 
 
 
@@ -108,6 +108,10 @@ const TQ3Uns32	kMaxCrawlBuffer	= 2048;
 //	 		prefixed with a period, which I have removed.
 //
 //		*	Further changes by dair, to allow compilation on Windows/Unix.
+//
+//		*	In GetCallerName, added code to bail out if we walk off the
+//			stack into the "weeds".  This is to fix a crash when running
+//			in a cooperative thread.
 //-----------------------------------------------------------------------------
 
 typedef struct TracebackTable
@@ -159,12 +163,26 @@ static void GetCallerName( const char** outName, short* outLength, short steps )
 	short tryCount = 1; 
 	long* callerStackPtr = GetSP();
 	
-	while( steps-- && callerStackPtr != 0 && (long*)*callerStackPtr != 0 )
-		callerStackPtr = (long*)*callerStackPtr;
+	long*	origStack = callerStackPtr;
+	long*	stackBase = (long*)LMGetCurStackBase();
 	
-	if (steps >= 0)	// JWWalker 5/29/2002
+	*outLength = 0;	// In case we bail out early
+	
+	while ( steps-- &&
+		callerStackPtr != 0 &&
+		(callerStackPtr >= origStack) &&
+		(callerStackPtr <= stackBase) &&
+		(long*)*callerStackPtr != 0 )
 	{
-		*outLength = 0;
+		callerStackPtr = (long*)*callerStackPtr;
+	}
+	
+	if (steps >= 0)
+	{
+		return;
+	}
+	if ( (callerStackPtr < origStack) || (callerStackPtr > stackBase) )
+	{
 		return;
 	}
 	
