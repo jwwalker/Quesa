@@ -55,6 +55,7 @@
 #include "GLPrefix.h"
 #include "GLDrawContext.h"
 #include "GLUtils.h"
+#include "GLTextureManager.h"
 
 
 
@@ -169,14 +170,11 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 				&instanceData->glClearFlags);
 			if (instanceData->glContext == NULL)
 				return(kQ3Failure);
+			
+			instanceData->textureCache = GLTextureMgr_GetTextureCache( instanceData->glContext );
 
 
 			GLUtils_CheckExtensions( &instanceData->glExtensions );
-
-
-			// Rebuild the OpenGL texture objects, since they will
-			// have been lost when the context is rebuilt.
-			IRRenderer_Texture_Rebuild(theView, instanceData);
 			}
 
 
