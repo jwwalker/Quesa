@@ -67,6 +67,7 @@ TQ3Boolean			E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType);
 TQ3Status			E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType);
 TQ3Status			E3Set_Empty(TQ3SetObject theSet);
 TQ3Status			E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType);
+TQ3Status			E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject destSet );
 
 TQ3AttributeType	E3Attribute_ClassToAttributeType(TQ3ObjectType theType);
 TQ3ObjectType		E3Attribute_AttributeToClassType(TQ3AttributeType theType);

@@ -1399,6 +1399,33 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 
 
 //=============================================================================
+//      E3Set_CopyElement : Copy an element from one set to another
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject destSet )
+{
+	void						*elementData;
+	TQ3Status					qd3dStatus;
+	TQ3Uns32					dataSize;
+
+
+
+	// Get the size and pointer for the data for the element
+	qd3dStatus = E3Set_AccessElementData(sourceSet, theType, &dataSize, &elementData);
+	if (qd3dStatus != kQ3Success)
+		return(qd3dStatus);
+
+
+	
+	qd3dStatus = Q3Set_Add( destSet, theType, elementData );
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
 //      E3Set_Contains : Does a set contain an element?
 //-----------------------------------------------------------------------------
 TQ3Boolean
