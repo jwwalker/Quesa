@@ -40,6 +40,9 @@
 #if QUESA_OS_MACINTOSH
 	#include "E3CarbonCoating.h"
 #endif
+#if QUESA_OS_WIN32
+	#include <math.h>
+#endif
 
 //=============================================================================
 //      Internal constants
@@ -198,7 +201,7 @@ const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 	#define kQ3GoodResult noErr
 	#define kQ3BadResult paramErr
 #else
-	#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
+	#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 		#define TQ3Rect RECT
 		#define ConstTQ3Rect const RECT
 		#define TQ3Port HWND
@@ -264,15 +267,17 @@ typedef struct TQ3ViewerData
 	void*									paneResizeNotifyCallbackData;
 	TQ3Rect									theRect;
 	TQ3Rect									drawRect;
-	TQ3Port								thePort;
+	TQ3Port									thePort;
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	ControlHandle							statusBar;
 	DragReference							theDrag;
 	DragReceiveHandlerUPP					receiveHandler;
 	DragTrackingHandlerUPP					trackingHandler;
 #elif defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
-	TQ3Port								the3DMFWindow;
+	// TQ3Port								the3DMFWindow;// ???
 	TQ3Port								theControllerWindow;
+	HDC												theDC;// should be released by QuesaViewer
+	DragReference							theDrag;
 #else
 	// other platforms
 #endif
@@ -594,8 +599,8 @@ e3callallpluginswithparams (TQ3ViewerData* theViewer, TQ3Int32 handler, void* ev
 static TQ3Status
 e3checkcancel (void)
 	{
-	static UInt32 sNextCheck = 0 ;
-	UInt32 ticks;
+	static TQ3Uns32 sNextCheck = 0 ;
+	TQ3Uns32 ticks;
 	return kQ3Success; // ???
 	
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
@@ -709,6 +714,44 @@ e3idlemethod (TQ3ViewObject theView, const void* viewerData) // only called for 
 	}
 
 
+//=============================================================================
+//      Useful conversion routines.
+//-----------------------------------------------------------------------------
+
+static TQ3Int16 as_short( TQ3Int32 x )
+// prevents conversion warnings
+{
+#define max_int16 (1<<16)-1
+#define min_int16 -((1<<16)-1)
+		return (x<=min_int16? min_int16 : (x>=max_int16? max_int16 : (TQ3Int16) x));
+#undef max_int16
+#undef min_int16
+}
+
+
+static TQ3Uns32 as_uns32( float x )
+// prevents conversion warnings
+{
+		return (x<0? 0 : (x>1<<31? 1<<31 : (TQ3Uns32) x));
+}
+
+
+#define _max_float 3.402823466f+38
+static float as_float( TQ3Int32 x )
+{
+// max_float is 3.402823466f+38 therefore more than the 32 bit range
+// however we encapsulate the truncation of significant digits in this routine
+		return (float) x;
+}
+
+
+static float float_from_double( double x )
+{
+		return (x<-_max_float? -_max_float : (x>_max_float? _max_float : (float) x));
+}
+#undef max_float
+
+
 static TQ3Status
 e3idleprogressmethod ( // only called for non-interactive renderers
 	TQ3ViewObject		theView,
@@ -716,9 +759,9 @@ e3idleprogressmethod ( // only called for non-interactive renderers
 	TQ3Uns32			current,
 	TQ3Uns32			completed)
 	{
-	static UInt32 sNextFlush = 0;
+	static TQ3Uns32 sNextFlush = 0;
 	TQ3ViewMode mode;
-	UInt32 ticks;
+	TQ3Uns32 ticks;
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	ticks = TickCount ();
 #else
@@ -734,7 +777,7 @@ e3idleprogressmethod ( // only called for non-interactive renderers
 	if (data)
 		{
 		TQ3ViewerData* viewerData = (TQ3ViewerData*)(data);
-		TQ3Uns32 percentage = (float)(current) / (float)(completed) * 100.0f;
+		TQ3Uns32 percentage = as_uns32((float)(current) / (float)(completed) * 100.0f);
 	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		if (viewerData->statusBar)
 			SetControlValue (viewerData->statusBar, percentage);
@@ -759,10 +802,10 @@ e3setdefaultdrawcontext (TQ3Rect* rect, TQ3DrawContextData* drawContextData)
 	drawContextData->clearImageColor.r = 1.0f;
 	drawContextData->clearImageColor.g = 1.0f;
 	drawContextData->clearImageColor.b = 1.0f;
-	drawContextData->pane.min.x = rect->left;
-	drawContextData->pane.min.y = rect->top;
-	drawContextData->pane.max.x = rect->right;
-	drawContextData->pane.max.y = rect->bottom;
+	drawContextData->pane.min.x = as_float(rect->left);
+	drawContextData->pane.min.y = as_float(rect->top);
+	drawContextData->pane.max.x = as_float(rect->right);
+	drawContextData->pane.max.y = as_float(rect->bottom);
 	drawContextData->paneState = kQ3True;
 	drawContextData->maskState = kQ3False;
 	drawContextData->doubleBufferState = kQ3True;
@@ -1068,6 +1111,31 @@ e3resetcamerabounds (TQ3ViewerData* viewerData)
 	}
 
 
+#if (defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
+// temporary Win patch
+static int CurResFile()
+{
+	return 0;
+}
+
+static void UseResFile (int refNum)
+{
+}
+
+static void PlotIconID (TQ3Rect* iconRect, int p1, int p2, int id)
+{
+}
+
+static void InitCursor()
+{
+}
+
+#define gResFileRefNum 0
+#define kAlignNone 0
+#define kTransformNone 0
+#endif
+
+
 static TQ3Status
 e3drawtool (TQ3ViewerData* viewerData, TQ3Uns32 buttonMask, TQ3Uns32 buttonNumber)
 	{
@@ -1083,12 +1151,12 @@ e3drawtool (TQ3ViewerData* viewerData, TQ3Uns32 buttonMask, TQ3Uns32 buttonNumbe
 		TQ3Rect r;
 		TQ3Rect iconRect;
 		TQ3Result err = Q3ViewerGetButtonRect (viewerData, e3_viewer_button_to_external((TQ3ViewerObject) viewerData, buttonNumber), &r);
-		if (err == noErr)
+		if (err == kQ3ErrorNone)
 			{
-			area.min.x = r.left;
-			area.min.y = r.top;
-			area.max.x = r.right;
-			area.max.y = r.bottom;
+			area.min.x = as_float(r.left);
+			area.min.y = as_float(r.top);
+			area.max.x = as_float(r.right);
+			area.max.y = as_float(r.bottom);
 			iconRect = r;
 			iconRect.bottom = iconRect.top + 32;
 			iconRect.right = iconRect.left + 32;
@@ -1704,7 +1772,9 @@ Q3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 //-----------------------------------------------------------------------------
 TQ3ViewerObject
 Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
+// such a big procedure, should be split up in smaller pieces...
 	{
+	TQ3Status status;
 	TQ3Uns32 index;
 	TQ3ViewerData* viewerData;
 	if (rect == NULL)
@@ -1732,7 +1802,7 @@ Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 	viewerData = (TQ3ViewerData*)E3Memory_Allocate (sizeof (TQ3ViewerData));
 	if (viewerData)
 		{
-		TQ3Status status = kQ3Failure;
+		status = kQ3Failure;
 		viewerData->validViewer = kQ3ValidViewer;
 		for (index = eFirstButton; index < eLastButton; ++index)
 			viewerData->metaHandlers [index]		= BaseToolMetaHandler;
@@ -1864,7 +1934,8 @@ Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 				#elif defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 					TQ3Win32DCDrawContextData drawContextData;
 					e3setdefaultdrawcontext (&viewerData->drawRect, &drawContextData.drawContextData);
-					drawContextData.hdc = (HDC)port; // (temp, need function call here). Be warned: port may be NULL
+					viewerData->theDC= GetDC(port); // (temp, need function call here). Be warned: port may be NULL
+					drawContextData.hdc= viewerData->theDC;
 					theContext = Q3Win32DCDrawContext_New (&drawContextData);
 				#else
 					theContext = NULL; // be warned: port may be NULL
@@ -1940,8 +2011,13 @@ Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 		e3callallplugins (viewerData, kQ3XMethodType_ViewerPluginRendererChanged);
 		e3callallplugins (viewerData, kQ3XMethodType_ViewerPluginLightsChanged);
 		e3callallplugins (viewerData, kQ3XMethodType_ViewerPluginDrawContextChanged);
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		if (port)
 			Q3ViewerSetPort ((TQ3ViewerObject)viewerData, port); // need to do this as it sets up the drag and drop stuff
+#elif defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
+		if (port)
+			status= Q3WinViewerSetWindow ((TQ3ViewerObject)viewerData, port); // need to do this as it sets up the drag and drop stuff
+#endif
 		}
 	else
 		Q3Exit ();
@@ -1958,9 +2034,13 @@ Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 TQ3Result
 Q3ViewerDispose(TQ3ViewerObject theViewer)
 	{
+#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
+	int winOk;
+#endif
 	TQ3ViewerData* viewerData = (TQ3ViewerData*)theViewer;
 	CheckViewerFailure (theViewer);
 	viewerData->validViewer = kQ3InvalidViewer;
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	if (viewerData->receiveHandler)
 		{
 		RemoveReceiveHandler (viewerData->receiveHandler, (WindowRef)(viewerData->thePort));
@@ -1981,6 +2061,9 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 		#endif
 		viewerData->trackingHandler = NULL;
 		}
+#elif defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
+		winOk= ReleaseDC(viewerData->thePort,viewerData->theDC);
+#endif
 	if (viewerData->theView)
 		{
 		Q3Object_Dispose (viewerData->theView);
@@ -2013,6 +2096,7 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 		}
 	e3callallplugins (viewerData, kQ3XMethodType_ViewerPluginDeleteViewer);
 	E3Memory_Free (&((void *) viewerData));
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	if (gResFileCount)
 		{
 		--gResFileCount;
@@ -2022,6 +2106,7 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 			gResFileRefNum = 0;
 			}
 		}
+#endif
 	// do not recode this as kQ3GoodResult is noErr on MacOS
 	if (Q3Exit () == kQ3Success)
 		return kQ3GoodResult;
@@ -2190,7 +2275,10 @@ Q3ViewerWriteData(
 	if (data == NULL)
 		return kQ3Failure;
 	CheckViewerFailure (theViewer);
-	store = Q3MemoryStorage_NewBuffer (data, dataSize, &actualSize);
+	store = Q3MemoryStorage_NewBuffer (data, dataSize, (TQ3Uns32)&actualSize);
+		// dawi: My compiler did warn me, I did add "(TQ3Uns32)"
+		// What is the meaning of the third parameter? Should it be "actualSize"?
+		// N.B. This is the only call of Q3MemoryStorage_NewBuffer in the Quesa Project.
 	if (store)
 		{
 		TQ3ViewerData* viewerData = (TQ3ViewerData*)theViewer;
@@ -2212,12 +2300,21 @@ Q3ViewerWriteData(
 TQ3Result
 Q3ViewerDraw(TQ3ViewerObject theViewer)
 	{
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	TQ3Result err;
 	CheckViewerFailure (theViewer);
 	err = Q3ViewerDrawControlStrip (theViewer);
 	if (!err)
 		err = Q3ViewerDrawContent (theViewer);
 	return err;
+#else
+	TQ3Result status;
+	CheckViewerFailure (theViewer);
+	status = Q3ViewerDrawControlStrip (theViewer);
+	if (status == kQ3Success) // this is 1!!!
+		status = Q3ViewerDrawContent (theViewer);
+	return status;
+#endif
 	}
 
 
@@ -2231,12 +2328,12 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 	TQ3DrawContextObject theContext;
 	TQ3ViewObject theView;
 	TQ3Status status;
+   
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	GrafPtr oldPort;
 	OSErr err = noErr;
 #endif
 	TQ3ViewerData* viewerData = (TQ3ViewerData*)theViewer;
-return kQ3Success;
 	CheckViewerFailure (theViewer);
 	if (!viewerData->thePort)
 		return kQ3BadResult;
@@ -2244,10 +2341,24 @@ return kQ3Success;
 	if (theView == NULL)
 		return kQ3BadResult;
 	
+#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
+// Very deep inside the rendering system seems to be a part which
+// throws bombs on negative rendering rects. (on Windows...)
+// As long as this bug persist, the viewer tries himself to do some special
+// optimized rendering for such a case.
+// However if the renderer does not need any drawing rect,
+// e.g. by playing a 3D sound, this is not a good idea.
+	if ((viewerData->drawRect.right<=viewerData->drawRect.left)
+		||(viewerData->drawRect.top>=viewerData->drawRect.bottom))
+		return kQ3GoodResult;
+#endif
+	
+// Initialize the graphics port
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	GetPort (&oldPort);
 	SetPort ((GrafPtr)(viewerData->thePort));
 #endif
+
 	if (viewerData->flags & kQ3ViewerCanDrawDragBorders)
 		{
 		TQ3Rect r = viewerData->drawRect;
@@ -2329,6 +2440,7 @@ return kQ3Success;
 	gViewMode = kQ3ViewModeInactive;
 #endif
 	e3callallplugins (viewerData, kQ3XMethodType_PluginAfterDraw);
+
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	SetPort (oldPort);
 	if (viewerData->statusBar)
@@ -2801,10 +2913,10 @@ Q3ViewerSetBounds(TQ3ViewerObject theViewer, TQ3Rect *bounds)
 			TQ3Status err;
 			TQ3Area area;
 		#if (defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH) || (defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
-			area.min.x = bounds->left;
-			area.min.y = bounds->top;
-			area.max.x = bounds->right;
-			area.max.y = bounds->bottom;
+			area.min.x = as_float(bounds->left);
+			area.min.y = as_float(bounds->top);
+			area.max.x = as_float(bounds->right);
+			area.max.y = as_float(bounds->bottom);
 		#else
 			area = bounds;
 		#endif
@@ -2914,12 +3026,12 @@ Q3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32
 	if (viewer->flags & kQ3ViewerControllerVisible)
 		theHeight += kQ3ControllerHeight;
 	if (Q3ViewerGetButtonRect (theViewer, e3_viewer_button_to_external(theViewer, eAboutBoxButton), &r) == kQ3GoodResult)
-		theWidth = r.right + kQ3ButtonGap;
+		theWidth = as_short(r.right + kQ3ButtonGap);
 	if (height)
 		*height = theHeight;
 	if (width)
 		*width = theWidth;
-	return(noErr);
+	return(kQ3GoodResult);
 	}
 
 
@@ -3060,7 +3172,7 @@ TQ3Result
 Q3ViewerUndo(TQ3ViewerObject theViewer)
 	{
 	CheckViewerFailure (theViewer);
-	return noErr; // we do not support Undo for now
+	return kQ3ErrorNone; // we do not support Undo for now
 	}
 
 
@@ -3260,8 +3372,8 @@ Q3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
 	CheckViewerFalse (theViewer);
 	gContinueTracking = 0;
-	pt.x = x;
-	pt.y = y;
+	pt.x = as_float(x);
+	pt.y = as_float(y);
 	if (e3pointinrect (&pt, &viewer->theRect))
 		{
 		TQ3Uns32 button;
@@ -3311,8 +3423,8 @@ Q3ViewerContinueTracking(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
 	TQ3Point2D pt;
 	CheckViewerFalse (theViewer);
-	pt.x = x;
-	pt.y = y;
+	pt.x = as_float(x);
+	pt.y = as_float(y);
 	if (e3pointinrect (&pt, &viewer->drawRect) || gContinueTracking)
 		{
 		gContinueTracking = 1; // once you are in you can stay in while the mouse is down
@@ -3341,8 +3453,8 @@ Q3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 	TQ3Point2D pt;
 	gContinueTracking = 0;
 	CheckViewerFalse (theViewer);
-	pt.x = x;
-	pt.y = y;
+	pt.x = as_float(x);
+	pt.y = as_float(y);
 	e3callindexplugin (viewer, viewer->currentButton, kQ3XMethodType_ViewerPluginDoToolEnd, (void*)(&pt));
 	return 1;
 	}
@@ -3611,7 +3723,7 @@ Q3ViewerSetCameraByView(TQ3ViewerObject theViewer, TQ3ViewerCameraView viewType)
 					viewVector.x = cameraData.placement.cameraLocation.x - cameraData.placement.pointOfInterest.x;
 					viewVector.y = cameraData.placement.cameraLocation.y - cameraData.placement.pointOfInterest.y;
 					viewVector.z = cameraData.placement.cameraLocation.z - cameraData.placement.pointOfInterest.z;
-					cameraData.range.yon = 4.0f * sqrt (viewVector.x * viewVector.x + viewVector.y * viewVector.y + viewVector.z * viewVector.z); // Pythag
+					cameraData.range.yon = float_from_double(4.0f * sqrt (viewVector.x * viewVector.x + viewVector.y * viewVector.y + viewVector.z * viewVector.z)); // Pythag
 					cameraData.range.hither = cameraData.range.yon / 10000.0f;
 					err = Q3Camera_SetData (theCamera, &cameraData);
 					}
@@ -4191,6 +4303,7 @@ Q3ViewerGetPort(TQ3ViewerObject theViewer)
 
 #if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 #pragma mark ---- Windows OS ----
+
 #pragma mark --- unimplemented ---
 //=============================================================================
 //      Q3ViewerGetBitmap : Converts the objects into an HBITMAP.
@@ -4210,8 +4323,81 @@ Q3ViewerGetBitmap(TQ3ViewerObject theViewer)
 TQ3Status
 Q3ViewerSetWindow(TQ3ViewerObject theViewer, HWND window)
 	{
+	TQ3Status err;
+	int winOk;
+	TQ3ViewerData* viewer;
+	HDC hdc;
 	CheckViewerFailure (theViewer);
+	// TODO
 	// To be implemented...
+	viewer= (TQ3ViewerData*)theViewer;
+	CheckViewerFailure (theViewer);
+	if (viewer->theView && window)
+		{
+		TQ3DrawContextObject theContext;
+		if ((Q3View_GetDrawContext (viewer->theView, &theContext) == kQ3Success) && theContext)
+			{
+			if (viewer->thePort != window)
+			{
+				winOk= ReleaseDC(viewer->thePort,viewer->theDC);
+				viewer->thePort= window;
+				hdc= GetDC(window);
+				err= Q3Win32DCDrawContext_SetDC(theContext,hdc);
+			}
+			Q3Object_Dispose (theContext);
+			if (err == kQ3Success)
+				{
+				e3callallplugins (viewer, kQ3XMethodType_ViewerPluginDrawContextChanged);
+				if (viewer->thePort)
+					{
+					// need to unset up a drag handler for viewer->theWindow
+#if 0
+// TODO
+					if (viewer->receiveHandler)
+						{
+						RemoveReceiveHandler (viewer->receiveHandler, (WindowRef)(viewer->theWindow));
+						#if TARGET_API_MAC_CARBON
+							DisposeDragReceiveHandlerUPP (viewer->receiveHandler);
+						#else
+							DisposeRoutineDescriptor (viewer->receiveHandler);
+						#endif
+						viewer->receiveHandler = NULL;
+						}
+#endif
+#if 0
+// TODO
+					if (viewer->trackingHandler)
+						{
+						RemoveTrackingHandler (viewer->trackingHandler, (WindowRef)(viewer->theWindow));
+						#if TARGET_API_MAC_CARBON
+							DisposeDragTrackingHandlerUPP (viewer->trackingHandler);
+						#else
+							DisposeRoutineDescriptor (viewer->trackingHandler);
+						#endif
+						viewer->trackingHandler = NULL;
+						}
+#endif
+					}
+				viewer->thePort = window;
+				Q3ViewerDraw (theViewer);
+				// need to set up a drag handler for this port if flags specify it
+#if 0
+// TODO
+				if ((viewer->flags & ::kQ3ViewerDragMode) && ((viewer->flags & kQ3ViewerDraggingInOff) == 0))
+					{
+					OSErr err;
+					viewer->receiveHandler = NewDragReceiveHandlerUPP (e3receivehandler);
+					if (viewer->receiveHandler)
+						err = InstallReceiveHandler (viewer->receiveHandler, (WindowRef)(viewer->theWindow), theViewer);
+					viewer->trackingHandler = NewDragTrackingHandlerUPP (e3trackinghandler);
+					if (viewer->trackingHandler)
+						err = InstallTrackingHandler (viewer->trackingHandler, (WindowRef)(viewer->theWindow), theViewer);
+					}
+#endif
+				return kQ3ErrorNone;
+				}
+			}
+		}
 	return kQ3Failure;
 	}
 
@@ -4234,7 +4420,7 @@ TQ3ViewerObject
 Q3ViewerGetViewer(HWND theWindow)
 	{
 	if (theWindow == NULL)
-		return NULL:
+		return NULL;
 	// To be implemented...
 	return NULL;
 	}
@@ -4257,7 +4443,7 @@ Q3ViewerGetControlStrip(TQ3ViewerObject theViewer)
 
 #pragma mark -
 
-#pragma mark ---- Other OS's ----
+#pragma mark ---- Other OSs ----
 
 
 #pragma mark -

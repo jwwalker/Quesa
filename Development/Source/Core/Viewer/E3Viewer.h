@@ -142,6 +142,10 @@ typedef enum TQ3ViewMode TQ3ViewMode;
 	typedef unsigned char Str255 [256];
 #endif
 
+#if QUESA_OS_WIN32
+	typedef HANDLE DragReference;// ??? dawi, just to be able to compile TQ3XViewerPluginDragAcceptableMethod etc...
+#endif
+
 // kQ3XMethodTypeObjectNew
 // Called after initialisation of your object. Initialise your plug-in instance
 // kQ3XMethodTypeObjectDelete
@@ -470,6 +474,7 @@ TQ3Status		Q3ViewerUseFile(TQ3ViewerObject theViewer, HANDLE fileHandle);
 TQ3Status		Q3ViewerWriteFile(TQ3ViewerObject theViewer, HANDLE fileHandle);
 
 HBITMAP			Q3ViewerGetBitmap(TQ3ViewerObject theViewer);
+HWND			Q3ViewerGetWindow(TQ3ViewerObject theViewer);
 TQ3Status		Q3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, RECT *rect);
 TQ3Status		Q3ViewerSetBounds(TQ3ViewerObject theViewer, RECT *bounds);
 TQ3Status		Q3ViewerGetBounds(TQ3ViewerObject theViewer, RECT *bounds);
