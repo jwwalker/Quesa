@@ -501,10 +501,6 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 
-
-
-
-
 //=============================================================================
 //      e3geom_cone_get_attribute : Cone get attribute set pointer.
 //-----------------------------------------------------------------------------

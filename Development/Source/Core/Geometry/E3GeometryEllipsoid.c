@@ -476,7 +476,6 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 
 
 
-
 //=============================================================================
 //      e3geom_ellipsoid_get_attribute : Ellipsoid get attribute set pointer.
 //-----------------------------------------------------------------------------
