@@ -48,16 +48,21 @@
 //-----------------------------------------------------------------------------
 //		Note :	We assume the correct OpenGL context is already active.
 //
-//				This should really be done by taking the QD3D view->frustum
-//				matrix and translating it over, since this would let us handle
-//				any camera type.
+//				We convert the camera by taking the QD3D view->frustum matrix,
+//				undo any viewport transformation, and re-apply it in reverse
+//				order (OpenGL seems to need the viewport transforms in the
+//				reverse order from that expected by the Interactive Renderer).
 //-----------------------------------------------------------------------------
 void
 GLCamera_SetProjection(TQ3CameraObject theCamera)
-{	TQ3OrthographicCameraData		orthographicData;
-	TQ3ViewAngleAspectCameraData	angleAspectData;
-	TQ3CameraRange					cameraRange;
-	TQ3ObjectType					cameraType;
+{	float						scaleWidth, scaleHeight, translateX, translateY;
+	TQ3Matrix4x4				viewToFrustum, viewPortMatrix;
+	GLfloat						glMatrixTranslate[16];
+	GLfloat						glMatrixViewport[16];
+	GLfloat						glMatrixScale[16];
+	TQ3OrthographicCameraData	orthographicData;
+	TQ3CameraRange				cameraRange;
+	TQ3CameraViewPort			viewPort;
 
 
 
@@ -81,39 +86,75 @@ GLCamera_SetProjection(TQ3CameraObject theCamera)
 
 
 
-	// Set an appropriate matrix for the camera
-	cameraType = Q3Camera_GetType(theCamera);
-    switch (cameraType) {
-    	// Orthographic camera
-    	case kQ3CameraTypeOrthographic:
-    		Q3OrthographicCamera_GetData(theCamera, &orthographicData);
-
-		    glOrtho(orthographicData.left,
-		    		   orthographicData.right,
-		    		   orthographicData.bottom,
-		    		   orthographicData.top,
-		    		   cameraRange.hither,
-		    		   cameraRange.yon);
-		    break;
+	// Get the camera view to frustum transform
+	Q3Camera_GetViewToFrustum(theCamera, &viewToFrustum);
 
 
 
-		// Angle camera
-		case kQ3CameraTypeViewAngleAspect:
-    		Q3ViewAngleAspectCamera_GetData(theCamera, &angleAspectData);
+	// If we're using a non-identity view port, we need to undo the effects
+	// of this transform from the view->frustum transform, and then re-apply
+	// them in reverse order (i.e., translate before scaling).
+	Q3Camera_GetViewPort(theCamera, &viewPort);
+	if (viewPort.origin.x != -1.0f || viewPort.origin.y !=  1.0f ||
+		viewPort.width    !=  2.0f || viewPort.height   !=  2.0f)
+		{
+		// Work out the scaling and translation required
+		scaleWidth  = 2.0f / viewPort.width;
+		scaleHeight = 2.0f / viewPort.height;
 
-		    gluPerspective(Q3Math_RadiansToDegrees(angleAspectData.fov),
-		    				angleAspectData.aspectRatioXToY,
-		    				cameraRange.hither,
-		    				cameraRange.yon);
-    		break;
+		translateX = -1.0f - (viewPort.origin.x * scaleWidth);
+		translateY =  1.0f - (viewPort.origin.y * scaleHeight);
 
 
 
-		// Unsupported
-		case kQ3CameraTypeViewPlane:
-		default:
-			break;
+		// Work out the translation, then undo it
+		Q3Matrix4x4_SetTranslate(&viewPortMatrix, translateX, translateY, 0.0f);
+		GLUtils_ConvertMatrix4x4(&viewPortMatrix, glMatrixTranslate);
+
+		Q3Matrix4x4_Invert(&viewPortMatrix, &viewPortMatrix);
+		Q3Matrix4x4_Multiply(&viewToFrustum, &viewPortMatrix, &viewToFrustum);
+
+
+
+		// Work out the scaling, then undo it
+ 		Q3Matrix4x4_SetScale(&viewPortMatrix, scaleWidth, scaleHeight, 1.0f);
+		GLUtils_ConvertMatrix4x4(&viewPortMatrix, glMatrixScale);
+
+		Q3Matrix4x4_Invert(&viewPortMatrix, &viewPortMatrix);
+		Q3Matrix4x4_Multiply(&viewToFrustum, &viewPortMatrix, &viewToFrustum);
+
+
+
+		// Pass the viewport distortion to OpenGL, in reverse order
+		glMultMatrixf(glMatrixTranslate);
+		glMultMatrixf(glMatrixScale);
+		}
+
+
+
+	// Special case orthographic cameras, since the QD3D->OpenGL
+	// translation doesn't work for them in its current form
+	if (Q3Camera_GetType(theCamera) == kQ3CameraTypeOrthographic)
+		{
+		Q3OrthographicCamera_GetData(theCamera, &orthographicData);
+		glOrtho(orthographicData.left,   orthographicData.right,
+				orthographicData.bottom, orthographicData.top,
+				cameraRange.hither,      cameraRange.yon);
+		}
+
+
+	// All other cameras are handled with the view->frustum matrix
+	else
+		{
+		GLUtils_ConvertMatrix4x4(&viewToFrustum, glMatrixViewport);
+	
+		glMatrixViewport[0]  *=   cameraRange.yon;
+		glMatrixViewport[5]  *=   cameraRange.yon;
+		glMatrixViewport[10] *= -(cameraRange.yon + cameraRange.hither);
+		glMatrixViewport[11] *=   cameraRange.yon;
+		glMatrixViewport[14] *= -(cameraRange.yon * 2.0f);
+	
+		glMultMatrixf(glMatrixViewport);
 		}
 }
 
