@@ -41,7 +41,7 @@
 #include "IRUpdate.h"
 
 #include "GLDrawContext.h"
-
+#include "GLUtils.h"
 
 
 
@@ -1252,32 +1252,38 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 //      ir_geom_trimesh_render : Render a TriMesh.
 //-----------------------------------------------------------------------------
 static void
-ir_geom_trimesh_render(TQ3VertexArray *vertexArray)
+ir_geom_trimesh_render(TQ3InteractiveData *instanceData,TQ3VertexArray *vertexArray)
 {	TQ3Uns32	n, m;
 
 
 
 	// Prepare to render
-	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(TQ3Point3D), vertexArray->vertexPoints);
 
+	GLUtils_UpdateClientState( (TQ3Boolean)(vertexArray->vertexDiffuse != NULL),
+		&instanceData->glClientStateColor, GL_COLOR_ARRAY );
+	
 	if (vertexArray->vertexDiffuse != NULL)
 		{
-		glEnableClientState(GL_COLOR_ARRAY);
 		glColorPointer(3, GL_FLOAT, sizeof(TQ3ColorRGB), vertexArray->vertexDiffuse);
 		}
 	else
 		glColor3fv(&vertexArray->geomFinalDiffuse.r);
 
+
+	GLUtils_UpdateClientState( (TQ3Boolean)(vertexArray->vertexNormals != NULL),
+		&instanceData->glClientStateNormal, GL_NORMAL_ARRAY );
+
 	if (vertexArray->vertexNormals != NULL)
 		{
-		glEnableClientState(GL_NORMAL_ARRAY);
 		glNormalPointer(GL_FLOAT, sizeof(TQ3Vector3D), vertexArray->vertexNormals);
 		}
 
+	GLUtils_UpdateClientState( (TQ3Boolean)(vertexArray->vertexUVs != NULL),
+		&instanceData->glClientStateUV, GL_TEXTURE_COORD_ARRAY );
+
 	if (vertexArray->vertexUVs != NULL)
 		{
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, sizeof(TQ3Param2D), vertexArray->vertexUVs);
 		}
 
@@ -1309,20 +1315,6 @@ ir_geom_trimesh_render(TQ3VertexArray *vertexArray)
 
 	else
 		glDrawElements(GL_TRIANGLES, vertexArray->numIndices, GL_UNSIGNED_INT, vertexArray->theIndices);
-
-
-	
-	// Clean up after rendering
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	if (vertexArray->vertexDiffuse != NULL)
-		glDisableClientState(GL_COLOR_ARRAY);
-
-	if (vertexArray->vertexNormals != NULL)
-		glDisableClientState(GL_NORMAL_ARRAY);
-
-	if (vertexArray->vertexUVs != NULL)
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 
@@ -1404,7 +1396,7 @@ IRGeometry_Submit_TriMesh(TQ3ViewObject				theView,
 
 	// If we have anything to render, do it
 	if (vertexArray.numIndices != 0)
-		ir_geom_trimesh_render(&vertexArray);
+		ir_geom_trimesh_render(instanceData, &vertexArray);
 
 
 
