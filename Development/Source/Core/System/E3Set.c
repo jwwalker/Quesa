@@ -1349,6 +1349,109 @@ e3element_metahandler(TQ3XMethodType methodType)
 
 
 
+#pragma mark -
+//=============================================================================
+//      e3setelement_copyadd : Copy add/get method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3setelement_copyadd (TQ3SetObject *source, TQ3SetObject *dest)
+{
+	*dest = Q3Shared_GetReference(*source);
+
+	return (*dest != NULL) ? kQ3Success : kQ3Failure;
+}
+
+
+
+
+
+//=============================================================================
+//      e3setelement_copyduplicate : Copy duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3setelement_copyduplicate( TQ3SetObject *source, TQ3SetObject *dest)
+{
+	*dest = Q3Object_Duplicate(*source);
+
+	return (*dest != NULL) ? kQ3Success : kQ3Failure;
+}
+
+
+
+
+
+//=============================================================================
+//      e3setelement_copyreplace : Copy replace method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3setelement_copyreplace (TQ3SetObject *source, TQ3SetObject *dest)
+{
+	TQ3SetObject	temp;
+	
+	temp = Q3Shared_GetReference(*source);
+	if (temp == NULL) 
+		return kQ3Failure;
+
+	if (*dest)
+		Q3Object_Dispose(*dest);
+	
+	*dest = temp;
+
+	return kQ3Success;
+}
+
+
+
+
+
+//=============================================================================
+//      e3setelement_delete : Delete method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3setelement_delete (TQ3SetObject *set)
+{
+	return Q3Object_CleanDispose( set );
+}
+
+
+
+
+
+//=============================================================================
+//      e3setelement_metahandler : Set element metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3setelement_metahandler(TQ3XMethodType methodType)
+{
+	TQ3XFunctionPointer		theMethod = NULL;
+	
+	switch (methodType)
+	{
+		case kQ3XMethodTypeElementCopyAdd:
+		case kQ3XMethodTypeElementCopyGet:
+			theMethod = (TQ3XFunctionPointer) e3setelement_copyadd;
+			break;
+
+		case kQ3XMethodTypeElementCopyDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3setelement_copyduplicate;
+			break;
+
+		case kQ3XMethodTypeElementCopyReplace:
+			theMethod = (TQ3XFunctionPointer) e3setelement_copyreplace;
+			break;
+
+		case kQ3XMethodTypeElementDelete:
+			theMethod = (TQ3XFunctionPointer) e3setelement_delete;
+			break;
+	}
+
+	return(theMethod);
+}
+
+
+
+
+
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
@@ -1411,6 +1514,13 @@ E3Set_RegisterClass(void)
 												kQ3ClassNameAttribute,
 												e3element_metahandler,
 												0);
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+												kQ3ObjectTypeSetElement,
+												kQ3ClassNameSetElement,
+												e3setelement_metahandler,
+												sizeof(TQ3SetObject));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
