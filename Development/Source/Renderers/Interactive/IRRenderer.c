@@ -172,6 +172,8 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 				return(kQ3Failure);
 			
 			instanceData->textureCache = GLTextureMgr_GetTextureCache( instanceData->glContext );
+			
+			Q3_ASSERT( GLTextureMgr_IsValidTextureCache( instanceData->textureCache ) );
 
 
 			GLUtils_CheckExtensions( &instanceData->glExtensions );
@@ -273,8 +275,8 @@ IRRenderer_StartPass(TQ3ViewObject			theView,
 TQ3ViewStatus
 IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 {
-#pragma unused(theView)
-
+	TQ3DrawContextObject	theDrawContext;
+	TQ3Boolean				swapFlag;
 
 
 	// Activate our context
@@ -289,7 +291,15 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 
 	// Swap the back buffer
-	GLDrawContext_SwapBuffers(instanceData->glContext);
+	Q3View_GetDrawContext( theView, &theDrawContext );
+	if ( (kQ3Failure == Q3Object_GetProperty( theDrawContext,
+		kQ3DrawContextPropertySwapBufferInEndPass, sizeof(swapFlag), NULL,
+		&swapFlag )) or
+		(swapFlag == kQ3True) )
+	{
+		GLDrawContext_SwapBuffers(instanceData->glContext);
+	}
+	Q3Object_Dispose( theDrawContext );
 
 
 
