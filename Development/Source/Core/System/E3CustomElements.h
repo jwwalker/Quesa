@@ -81,9 +81,11 @@ TQ3Status	E3WireElement_GetData(TQ3Object object, QTAtomContainer *wireData);
 TQ3Status	E3WireElement_EmptyData(QTAtomContainer *wireData);
 #endif
 
-
-
-
+TQ3Status	E3Object_GetProperty( TQ3Object object, TQ3ObjectType propType,
+								TQ3Uns32 bufferSize, TQ3Uns32* actualSize, void* buffer );
+TQ3Status	E3Object_RemoveProperty( TQ3Object object, TQ3ObjectType propType );
+TQ3Status	E3Object_SetProperty( TQ3Object object, TQ3ObjectType propType,
+								TQ3Uns32 dataSize, const void* data );
 
 //=============================================================================
 //		C++ postamble
