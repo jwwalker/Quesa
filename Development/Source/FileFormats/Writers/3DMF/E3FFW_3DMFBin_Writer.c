@@ -39,6 +39,132 @@
 #include "E3Main.h"
 
 
+
+
+//=============================================================================
+//      e3ffw_3DMF_filter_in_toc : Adds the object to the TOC if needed and
+//      returns a reference object
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object theObject , TQ3Object *theReference)
+{
+	const TQ3Uns32 TOC_GROW_SIZE = 64;
+
+	TE3FFormat3DMF_TOC	*toc = fileFormatPrivate->toc;
+	TQ3Int32			tocSize, i;
+
+	TQ3Boolean			createReference = kQ3False;
+	TQ3Boolean			forceTOC = kQ3False;
+	
+	switch (fileFormatPrivate->fileMode)
+		{
+		case kQ3FFormatWriterType3DMFStreamBin:
+			// do nothing
+			*theReference = Q3Shared_GetReference(theObject);
+			return (kQ3Success);
+			break;
+			
+		case kQ3FFormatWriterType3DMFDatabaseStreamBin:
+			forceTOC = kQ3True;
+			break;
+			
+		case kQ3FFormatWriterType3DMFDatabaseBin:
+			forceTOC = kQ3True;
+		case kQ3FFormatWriterType3DMFNormalBin:
+			createReference = kQ3True;
+			break;
+			
+		}
+		
+	// if this is the first time allocate the TOC
+	
+	if(toc == NULL)
+		{
+		tocSize = sizeof(TE3FFormat3DMF_TOC) + 
+				(sizeof(TE3FFormat3DMF_TOCEntry) * (TOC_GROW_SIZE - 1));
+				
+		toc = fileFormatPrivate->toc = Q3Memory_AllocateClear(tocSize);
+		if(toc == NULL)
+			return (kQ3Failure);
+			
+		toc->refSeed = 1;
+		toc->typeSeed = -1;
+		
+		}
+		
+		
+	
+	// search the object in toc
+	
+	for(i = 0; i < toc->nEntries; i++)
+		{
+		if(toc->tocEntries[i].object == theObject)
+			{ // found
+			if(createReference == kQ3True)
+				{
+				
+				if(toc->tocEntries[i].refID == 0)
+					{
+					toc->tocEntries[i].refID = toc->refSeed;
+					toc->refSeed++;
+					}
+					
+				*theReference = E3ClassTree_CreateInstance(kQ3ShapeTypeReference, kQ3False, &toc->tocEntries[i].refID);
+				return (kQ3Success);
+				
+				}
+			else
+				{
+				
+				*theReference = Q3Shared_GetReference(theObject);
+				return (kQ3Success);
+				
+				}
+			}
+		}
+		
+	// still here ? so not found, lets add it
+	
+	// make room for the new TOC entry
+
+	if((toc->nEntries != 0) && (toc->nEntries % TOC_GROW_SIZE == 0))
+		{
+		tocSize = sizeof(TE3FFormat3DMF_TOC) + 
+		
+				(sizeof(TE3FFormat3DMF_TOCEntry) * (toc->nEntries + TOC_GROW_SIZE - 1));
+		if(Q3Memory_Reallocate(&fileFormatPrivate->toc,tocSize) != kQ3Success)
+			return (kQ3Failure);
+			
+		toc = fileFormatPrivate->toc;
+		}
+		
+	if(forceTOC == kQ3True)
+		{
+		toc->tocEntries[toc->nEntries].refID = toc->refSeed;
+		toc->refSeed++;
+		}
+	else
+		toc->tocEntries[toc->nEntries].refID = 0;
+		
+	toc->tocEntries[toc->nEntries].object = Q3Shared_GetReference(theObject);
+	toc->tocEntries[toc->nEntries].objType = fileFormatPrivate->lastObjectType;
+	toc->tocEntries[toc->nEntries].objLocation.hi = 0;
+	toc->tocEntries[toc->nEntries].objLocation.lo = 0; // will be filled in e3ffw_3DMF_write_objects
+	
+	fileFormatPrivate->lastTocIndex = toc->nEntries;
+
+	toc->nEntries++;
+	
+	
+	
+	*theReference = Q3Shared_GetReference(theObject);
+		
+	return (kQ3Success);
+}
+
+
+
+
 //=============================================================================
 //      E3FFW_3DMF_type_Traverse : Traverse method for 'type' object.
 //-----------------------------------------------------------------------------
@@ -105,6 +231,8 @@ E3FFW_3DMF_type_Write( const void *data, TQ3FileObject file )
 }
 
 
+
+
 //=============================================================================
 //      e3ffw_3DMF_write_custom_types : Write a 'type' object for each custom type.
 //-----------------------------------------------------------------------------
@@ -152,7 +280,7 @@ e3ffw_3DMF_write_custom_types( TQ3ViewObject				theView,
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
-//      E3FFW_3DMFBin_StartFrame : Start a frame.
+//      E3FFW_3DMF_StartFile : Start a file, write headers.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FFW_3DMF_StartFile(TQ3ViewObject				theView,
@@ -162,7 +290,8 @@ E3FFW_3DMF_StartFile(TQ3ViewObject				theView,
 #pragma unused(theDrawContext)
 	TQ3Status	status;
 	
-	status = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, kQ3ObjectType3DMF, NULL);
+	
+	status = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, kQ3ObjectType3DMF, fileFormatPrivate);
 	
 	
 	if (status == kQ3Success)
@@ -173,6 +302,41 @@ E3FFW_3DMF_StartFile(TQ3ViewObject				theView,
 	
 	
 	return status;
+}
+
+
+
+//=============================================================================
+//      E3FFW_3DMF_EndPass : finish the file.
+//
+//		note: I'm using this instead the End File, because at that point the view submit loop is closed
+//				and we can't submit the TOC
+//
+//-----------------------------------------------------------------------------
+TQ3ViewStatus
+E3FFW_3DMF_EndPass(TQ3ViewObject				theView,
+						TE3FFormatW3DMF_Data		*fileFormatPrivate)
+{
+	TQ3Status				status = kQ3Success;
+	TE3FFormat3DMF_TOC		*toc = fileFormatPrivate->toc;
+	TQ3Uns64 				pos = {0,0};
+	TQ3FileObject 			theFile = E3View_AccessFile (theView);
+	
+	if(toc != NULL) // write the toc
+		{
+		pos.lo = fileFormatPrivate->baseData.currentStoragePosition;
+		status = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, kQ3ObjectTypeTOC, fileFormatPrivate);
+		
+		if((status == kQ3Success) && (pos.lo != fileFormatPrivate->baseData.currentStoragePosition))// something has been written 
+			{
+				fileFormatPrivate->baseData.currentStoragePosition = 16;
+				Q3Uns64_Write(pos, theFile);
+			}
+		
+		}
+	
+	
+	return kQ3ViewStatusDone;
 }
 
 
@@ -253,8 +417,24 @@ TQ3Status
 E3FFW_3DMF_Close( TQ3FileFormatObject format, TQ3Boolean abort )
 {
 	TE3FFormatW3DMF_Data*	instanceData = (TE3FFormatW3DMF_Data*)format->instanceData;
-	TQ3Status					status = kQ3Success;
+	TQ3Status				status = kQ3Success;
+	TE3FFormat3DMF_TOC		*toc = instanceData->toc;
+	TQ3Int32				i;
 	
+	if(toc != NULL) // delete the toc
+		{
+		for(i = 0; i < toc->nEntries; i++)
+			{
+			if(toc->tocEntries[i].object != NULL)
+				{
+				Q3Object_Dispose(toc->tocEntries[i].object);
+				}
+			}
+		Q3Memory_Free(&instanceData->toc);
+		}
+			
+		
+		
 	E3Shared_Replace( &instanceData->baseData.storage, NULL );
 	
 	return status;
@@ -282,6 +462,14 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 		container = 0;
 		
 		if(qd3dStatus == kQ3Success){
+		
+			if(instanceData->stack[i].tocIndex != kQ3ArrayIndexNULL)
+				{ // fill in the object position in the TOC
+				instanceData->toc->tocEntries[instanceData->stack[i].tocIndex].objLocation.lo =
+							 instanceData->baseData.currentStoragePosition;
+				}
+
+
 			//
 			// check for groups
 			//
@@ -335,6 +523,8 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 					qd3dStatus = Q3Uns32_Write(size,theFile);
 					}
 				}
+				
+					
 				
 				//write class
 				if(qd3dStatus == kQ3Success)
@@ -396,56 +586,69 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 					const void			*objectData)
 							
 {	TQ3Status		qd3dStatus = kQ3Success;
+	TQ3Object		submittedObject;
 	TQ3ObjectType	old_lastObjectType;
-	TQ3Object	old_lastObject;
+	TQ3Object		old_lastObject;
+	TQ3Uns32		old_lastTocIndex;
 	E3ClassInfoPtr theClass = NULL;
 	TQ3XObjectTraverseMethod traverse;
 	TQ3FileObject theFile = E3View_AccessFile (theView);
 	
+	old_lastTocIndex = fileFormatPrivate->lastTocIndex;
+	old_lastObject = fileFormatPrivate->lastObject;
+	old_lastObjectType = fileFormatPrivate->lastObjectType;
+
+//	fileFormatPrivate->lastObject = theObject; // called below since it can be substituted by a reference
+	fileFormatPrivate->lastObjectType = objectType;
+	fileFormatPrivate->lastTocIndex = kQ3ArrayIndexNULL;
+	
+	submittedObject = theObject;
 	
 	//find the object traverse method
 	if(theObject != NULL){
-		// search it in toc
-		// if found
-		// substitute with a reference object
-		// and up the reference counting
-		// else
-		// add it to the toc
-		// up the seed
-		theClass = theObject->theClass;
+		if(Q3Object_IsType(theObject, kQ3ObjectTypeShared))
+			{
+			if(e3ffw_3DMF_filter_in_toc(fileFormatPrivate, theObject, &submittedObject) != kQ3Success)
+				return (kQ3Failure);
+			}
+			// will add a reference to the object
+			// to retain the eventually made reference object
+		if(submittedObject != theObject)
+			{
+			fileFormatPrivate->lastObjectType = Q3Object_GetLeafType(submittedObject);
+			objectData = submittedObject->instanceData;
+			}
+			
+		theClass = submittedObject->theClass;
 		}
 	else
 		theClass = E3ClassTree_GetClassByType(objectType);
 	
 	if (theClass == NULL)
-		return(kQ3Success);
+		goto exit;
 
+	
 	traverse = (TQ3XObjectTraverseMethod)
 					E3ClassTree_GetMethod(theClass,
 										  kQ3XMethodTypeObjectTraverse);
 	if (traverse == NULL)
-		return(kQ3Success);
+		goto exit;
 
 	// mark our level
 	fileFormatPrivate->baseData.groupDeepCounter++;
-	old_lastObject = fileFormatPrivate->lastObject;
-	old_lastObjectType = fileFormatPrivate->lastObjectType;
-	fileFormatPrivate->lastObject = theObject;
-	fileFormatPrivate->lastObjectType = objectType;
+	fileFormatPrivate->lastObject = submittedObject;
 	
 	// Call the method
-	qd3dStatus = traverse(theObject, (void*)objectData, theView);
+	qd3dStatus = traverse(submittedObject, (void*)objectData, theView);
 	
 	// If this is a shape, submit any custom elements attached to it.
 	// This saves each shape traversal method from worrying about it.
-	if ( (qd3dStatus == kQ3Success) && (theObject != NULL) &&
-		Q3Object_IsType( theObject, kQ3SharedTypeShape ) )
+	if ( (qd3dStatus == kQ3Success) && (submittedObject != NULL) &&
+		Q3Object_IsType( submittedObject, kQ3SharedTypeShape ) )
 		{
-		qd3dStatus = E3Shape_SubmitElements( theObject, theView );
+		qd3dStatus = E3Shape_SubmitElements( submittedObject, theView );
 		}
 	
-	fileFormatPrivate->lastObjectType = old_lastObjectType;
-	fileFormatPrivate->lastObject = old_lastObject;
 	fileFormatPrivate->baseData.groupDeepCounter--;
 	
 	if((fileFormatPrivate->baseData.groupDeepCounter == 0) && (qd3dStatus == kQ3Success)){ // we're again in the root object
@@ -455,6 +658,17 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 			fileFormatPrivate->stackCount = 0;
 			Q3Memory_Free(&fileFormatPrivate->stack);
 			}
+		}
+exit:
+
+	fileFormatPrivate->lastObjectType = old_lastObjectType;
+	fileFormatPrivate->lastObject = old_lastObject;
+	fileFormatPrivate->lastTocIndex = old_lastTocIndex;
+
+	if(submittedObject != NULL && Q3Object_IsType(submittedObject, kQ3ObjectTypeShared))
+		{
+		// remove the reference made by e3ffw_3DMF_filter_in_toc
+		Q3Object_Dispose(submittedObject);
 		}
 	return (qd3dStatus);
 }
@@ -483,7 +697,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 
 	Q3_REQUIRE_OR_RESULT(E3View_GetViewMode(view) == kQ3ViewModeWriting, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theFormat), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFormat, kQ3FFormatWriterType3DMFStreamBin), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFormat, kQ3FileFormatTypeWriter), kQ3Failure);
 	
 	instanceData = (TE3FFormatW3DMF_Data *) theFormat->instanceData;
 
@@ -517,6 +731,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 	E3Shared_Acquire (&newItem->theObject, instanceData->lastObject);
 	newItem->writeMethod = writeMethod;
 	newItem->size = size;
+	newItem->tocIndex = instanceData->lastTocIndex;
 	newItem->data = data;
 	newItem->deleteData = deleteData;
 	
@@ -543,6 +758,7 @@ E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3
 	TQ3FileFormatObject		theFormat;
 	TE3FFormatW3DMF_Data	*instanceData;
 	TQ3ObjectType			objectType;
+	TQ3Uns32		old_lastTocIndex;
 
 	TQ3FileObject theFile = E3View_AccessFile (view);
 	
@@ -558,13 +774,16 @@ E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3
 	// mark our level
 	instanceData->baseData.groupDeepCounter++;
 	old_lastObjectType = instanceData->lastObjectType;
+	old_lastTocIndex = instanceData->lastTocIndex;
 	instanceData->lastObjectType = objectType;
+	instanceData->lastTocIndex = kQ3ArrayIndexNULL;
 	
 	// push data on the stack
-	qd3dStatus = Q3XView_SubmitWriteData (view, size, data, deleteData);
+	qd3dStatus = E3XView_SubmitWriteData (view, size, data, deleteData);
 	
 	instanceData->baseData.groupDeepCounter--;
 	instanceData->lastObjectType = old_lastObjectType;
+	instanceData->lastTocIndex = old_lastTocIndex;
 	
 	if((instanceData->baseData.groupDeepCounter == 0) && (qd3dStatus == kQ3Success)){
 		if(instanceData->stackCount != 0){
@@ -636,7 +855,7 @@ E3FFW_3DMF_Traverse(TQ3Object object,
 	#pragma unused(object)
 	#pragma unused(data)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 16, NULL, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 16, data, NULL);
 	
 	return qd3dstatus;
 }
@@ -649,15 +868,30 @@ TQ3Status
 E3FFW_3DMF_Write(const void *object,
 				TQ3FileObject theFile)
 {
-	#pragma unused(object)
-
+	TE3FFormatW3DMF_Data		*fileFormatPrivate = (TE3FFormatW3DMF_Data*)object;
 
 	TQ3Uns16 majorVersion = 1;
 	TQ3Uns16 minorVersion = 6;
-	TQ3FileMode fileMode = kQ3FileModeStream;
+	TQ3FileMode fileMode = kQ3FileModeNormal;
 	TQ3Uns64 toc = {0,0};
-
 	TQ3Status writeStatus;
+	
+	switch(fileFormatPrivate->fileMode)
+		{
+		case kQ3FFormatWriterType3DMFNormalBin:
+			fileMode = kQ3FileModeNormal;
+			break;
+		case kQ3FFormatWriterType3DMFStreamBin:
+			fileMode = kQ3FileModeStream;
+			break;
+		case kQ3FFormatWriterType3DMFDatabaseBin:
+			fileMode = kQ3FileModeDatabase;
+			break;
+		case kQ3FFormatWriterType3DMFDatabaseStreamBin:
+			fileMode = kQ3FileModeStream + kQ3FileModeDatabase;
+			break;
+		}
+
 	
 	writeStatus = Q3Uns16_Write(majorVersion,theFile);
 	
@@ -673,6 +907,114 @@ E3FFW_3DMF_Write(const void *object,
 	
 	return(writeStatus);
 }
+
+
+//=============================================================================
+//      E3FFW_3DMF_TOC_Traverse: The traverse method for the 3DMF TOC class.
+//-----------------------------------------------------------------------------
+
+TQ3Status
+E3FFW_3DMF_TOC_Traverse(TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	TE3FFormatW3DMF_Data		*fileFormatPrivate = (TE3FFormatW3DMF_Data*)data;
+	TE3FFormat3DMF_TOC		*toc = fileFormatPrivate->toc;
+	TQ3Int32				tocSize = 0;
+	TQ3Int32				i;
+	TQ3Int32				tocEntrySize = 16;
+	
+	//compute size
+	for(i = 0; i < toc->nEntries; i++)
+		{
+		if(toc->tocEntries[i].refID != 0)
+			{
+			tocSize++;
+			}
+		}
+		
+	if(tocSize == 0) // no TOC
+		return (kQ3Success);
+	
+	toc->nUsedEntries = tocSize;
+	tocSize *= tocEntrySize;
+	tocSize += 28;
+	
+	return Q3XView_SubmitWriteData (view, tocSize, data, NULL);
+	
+}
+
+//=============================================================================
+//      E3FFW_3DMF_TOC_Write: The write method for the 3DMF TOC class.
+//-----------------------------------------------------------------------------
+
+TQ3Status
+E3FFW_3DMF_TOC_Write(const void *object,
+				TQ3FileObject theFile)
+{
+	TE3FFormatW3DMF_Data	*fileFormatPrivate = (TE3FFormatW3DMF_Data*)object;
+	TE3FFormat3DMF_TOC		*toc = fileFormatPrivate->toc;
+
+	TQ3Uns64 		nextToc = {0,0};
+	TQ3Status 		writeStatus;
+	TQ3Int32		i;
+	
+
+	
+	writeStatus = Q3Uns64_Write(nextToc,theFile);
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write(toc->refSeed,theFile);
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write(toc->typeSeed,theFile);
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write(1,theFile); //tocEntryType QD3D 1.5 3DMF
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write(16,theFile); //tocEntrySize QD3D 1.5 3DMF
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write(toc->nUsedEntries,theFile);
+	
+	for(i = 0; i < toc->nEntries && (writeStatus == kQ3Success); i++)
+		{
+		if(toc->tocEntries[i].refID != 0)
+			{
+			if(writeStatus == kQ3Success)
+				writeStatus = Q3Uns32_Write(toc->tocEntries[i].refID,theFile);
+			if(writeStatus == kQ3Success)
+				writeStatus = Q3Uns64_Write(toc->tocEntries[i].objLocation,theFile);
+			if(writeStatus == kQ3Success)
+				writeStatus = Q3Uns32_Write(toc->tocEntries[i].objType,theFile);
+			}
+					
+		}
+		
+	
+	return(writeStatus);
+}
+
+
+
+//=============================================================================
+//      E3FFW_3DMF_Reference_Traverse: The traverse method for the 3DMF root class.
+//-----------------------------------------------------------------------------
+
+TQ3Status
+E3FFW_3DMF_Reference_Traverse(TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 4, data, NULL);
+	
+	return qd3dstatus;
+}
+
 
 
 //=============================================================================

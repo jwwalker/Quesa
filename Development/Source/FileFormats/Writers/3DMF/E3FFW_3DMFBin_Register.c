@@ -47,10 +47,16 @@
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
-#define kWriterFormatName								"QD3D 3DMF Binary"
 
+#define kBinNormalNickName							"3DMF Binary"
+#define kBinStreamNickName							"3DMF Binary Stream"
+#define kBinDatabaseNickName						"3DMF Binary Database"
+#define kBinDatabaseStreamNickName					"3DMF Binary Database Stream"
 
-
+#define kBinNormalSwapNickName						"3DMF Binary Byte swapped"
+#define kBinStreamSwapNickName						"3DMF Binary Stream Byte swapped"
+#define kBinDatabaseSwapNickName					"3DMF Binary Database Byte swapped"
+#define kBinDatabaseStreamSwapNickName				"3DMF Binary Database Stream Byte swapped"
 
 
 
@@ -104,6 +110,10 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Disk;
 			break;
 
+		case kQ3GeometryTypeBox:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Box;
+			break;
+
 /*
 		case kQ3GeometryTypeMarker:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Marker;
@@ -116,10 +126,6 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 
 /* 
 	by now let's convert everything to triangles
-		case kQ3GeometryTypeBox:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Box;
-			break;
-
 		case kQ3GeometryTypeGeneralPolygon:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_GeneralPolygon;
 			break;
@@ -167,15 +173,31 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3ffw_3dmfbin_new : Initialize the data.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3dmfbin_new(TQ3Object theObject, void *privateData, const void *paramData)
+{
+#pragma unused(theObject)
+	((TE3FFormatW3DMF_Data*)privateData)->fileMode = Q3Object_GetLeafType(theObject);
+	
+    return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
 //      e3ffw_3dmfbin_formatname : Get the format name.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3ffw_3dmfbin_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+e3ffw_3dmfbin_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize, const char * nickName)
 {
 
 
 	// Return the amount of space we need
-    *actualDataSize = strlen(kWriterFormatName) + 1;
+    *actualDataSize = strlen(nickName) + 1;
 
 
 
@@ -189,11 +211,107 @@ e3ffw_3dmfbin_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns3
 
 
 		// Return the string
-		Q3Memory_Copy(kWriterFormatName, dataBuffer, (*actualDataSize)-1);
+		Q3Memory_Copy(nickName, dataBuffer, (*actualDataSize)-1);
         dataBuffer[(*actualDataSize)-1] = 0x00;
         }
 
     return(kQ3Success);
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_N_formatname : Get the format name for normal files.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3dmfbin_N_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+{
+	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinNormalNickName);
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_S_formatname : Get the format name for stream files.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3dmfbin_S_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+{
+	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinStreamNickName);
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_D_formatname : Get the format name for database files.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3dmfbin_D_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+{
+	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseNickName);
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_DS_formatname : Get the format name for database stream files.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3dmfbin_DS_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+{
+	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseStreamNickName);
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_NW_formatname : Get the format name for normal swapped files.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3dmfbin_NW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+{
+	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinNormalSwapNickName);
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_SW_formatname : Get the format name for stream swapped files.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3dmfbin_SW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+{
+	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinStreamSwapNickName);
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_DW_formatname : Get the format name for database swapped files.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3dmfbin_DW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+{
+	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseSwapNickName);
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_DSW_formatname : Get the format name for database stream swapped files.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3dmfbin_DSW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+{
+	return e3ffw_3dmfbin_formatname(dataBuffer, bufferSize, actualDataSize, kBinDatabaseStreamSwapNickName);
 }
 
 
@@ -210,16 +328,20 @@ e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
+		case kQ3XMethodTypeObjectNew:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_new;
+			break;
+
 		case kQ3XMethodTypeRendererStartFrame:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_StartFile;
 			break;
 
-		case kQ3XMethodTypeRendererCancel:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Cancel;
+		case kQ3XMethodTypeRendererEndPass:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_EndPass;
 			break;
 
-		case kQ3XMethodTypeRendererGetNickNameString:
-			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_formatname;
+		case kQ3XMethodTypeRendererCancel:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Cancel;
 			break;
 
 		case kQ3XMethodTypeFFormatClose:
@@ -283,6 +405,273 @@ e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3ffw_3dmfbin_N_metahandler : Writer metahandler for normal files.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3ffw_3dmfbin_N_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+	// Return our methods
+	switch (methodType) {
+
+		case kQ3XMethodTypeRendererGetNickNameString:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_N_formatname;
+			break;
+
+		default: // get the common methods
+			theMethod = e3ffw_3dmfbin_metahandler (methodType);
+			break;
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_S_metahandler : Writer metahandler for stream files.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3ffw_3dmfbin_S_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+	// Return our methods
+	switch (methodType) {
+
+		case kQ3XMethodTypeRendererGetNickNameString:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_S_formatname;
+			break;
+
+		default: // get the common methods
+			theMethod = e3ffw_3dmfbin_metahandler (methodType);
+			break;
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_D_metahandler : Writer metahandler for database files.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3ffw_3dmfbin_D_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+	// Return our methods
+	switch (methodType) {
+
+		case kQ3XMethodTypeRendererGetNickNameString:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_D_formatname;
+			break;
+
+		default: // get the common methods
+			theMethod = e3ffw_3dmfbin_metahandler (methodType);
+			break;
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_DS_metahandler : Writer metahandler for database stream files.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3ffw_3dmfbin_DS_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+	// Return our methods
+	switch (methodType) {
+
+		case kQ3XMethodTypeRendererGetNickNameString:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_DS_formatname;
+			break;
+
+		default: // get the common methods
+			theMethod = e3ffw_3dmfbin_metahandler (methodType);
+			break;
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_swap_metahandler : Writer metahandler for swapped modes.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3ffw_3dmfbin_swap_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeFFormatFloat32Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinSwap_32;
+			break;
+
+		case kQ3XMethodTypeFFormatFloat64Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinSwap_64;
+			break;
+
+		case kQ3XMethodTypeFFormatInt16Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinSwap_16;
+			break;
+
+		case kQ3XMethodTypeFFormatInt32Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinSwap_32;
+			break;
+
+		case kQ3XMethodTypeFFormatInt64Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinSwap_64;
+			break;
+
+		default: // get the common methods
+			theMethod = e3ffw_3dmfbin_metahandler (methodType);
+			break;
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_NW_metahandler : Writer metahandler for normal swapped files.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3ffw_3dmfbin_NW_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+	// Return our methods
+	switch (methodType) {
+
+		case kQ3XMethodTypeRendererGetNickNameString:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_NW_formatname;
+			break;
+
+		default: // get the common methods
+			theMethod = e3ffw_3dmfbin_swap_metahandler (methodType);
+			break;
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_SW_metahandler : Writer metahandler for stream swapped files.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3ffw_3dmfbin_SW_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+	// Return our methods
+	switch (methodType) {
+
+		case kQ3XMethodTypeRendererGetNickNameString:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_SW_formatname;
+			break;
+
+		default: // get the common methods
+			theMethod = e3ffw_3dmfbin_swap_metahandler (methodType);
+			break;
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_DW_metahandler : Writer metahandler for database swapped files.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3ffw_3dmfbin_DW_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+	// Return our methods
+	switch (methodType) {
+
+		case kQ3XMethodTypeRendererGetNickNameString:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_DW_formatname;
+			break;
+
+		default: // get the common methods
+			theMethod = e3ffw_3dmfbin_swap_metahandler (methodType);
+			break;
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3dmfbin_DSW_metahandler : Writer metahandler for database stream swapped files.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3ffw_3dmfbin_DSW_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+	// Return our methods
+	switch (methodType) {
+
+		case kQ3XMethodTypeRendererGetNickNameString:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_DSW_formatname;
+			break;
+
+		default: // get the common methods
+			theMethod = e3ffw_3dmfbin_swap_metahandler (methodType);
+			break;
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3FFW_3DMFBin_Register : Register the writer.
@@ -293,11 +682,55 @@ E3FFW_3DMFBin_Register(void)
 {	TQ3Status		qd3dStatus;
 
 
-
+// the native formats
 	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
 											kQ3FFormatWriterType3DMFStreamBin,
-											kQ3ClassNameFileFormatW_3DMF_Bin,
-											e3ffw_3dmfbin_metahandler,
+											kQ3ClassNameFileFormatW_3DMF_S_Bin,
+											e3ffw_3dmfbin_S_metahandler,
+											sizeof(TE3FFormatW3DMF_Data));
+
+	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+											kQ3FFormatWriterType3DMFNormalBin,
+											kQ3ClassNameFileFormatW_3DMF_N_Bin,
+											e3ffw_3dmfbin_N_metahandler,
+											sizeof(TE3FFormatW3DMF_Data));
+
+	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+											kQ3FFormatWriterType3DMFDatabaseBin,
+											kQ3ClassNameFileFormatW_3DMF_D_Bin,
+											e3ffw_3dmfbin_D_metahandler,
+											sizeof(TE3FFormatW3DMF_Data));
+
+	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+											kQ3FFormatWriterType3DMFDatabaseStreamBin,
+											kQ3ClassNameFileFormatW_3DMF_DS_Bin,
+											e3ffw_3dmfbin_DS_metahandler,
+											sizeof(TE3FFormatW3DMF_Data));
+
+// the swapped formats
+
+	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+											kQ3FFormatWriterType3DMFStreamBinSwap,
+											kQ3ClassNameFileFormatW_3DMF_SW_Bin,
+											e3ffw_3dmfbin_SW_metahandler,
+											sizeof(TE3FFormatW3DMF_Data));
+
+	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+											kQ3FFormatWriterType3DMFNormalBinSwap,
+											kQ3ClassNameFileFormatW_3DMF_NW_Bin,
+											e3ffw_3dmfbin_NW_metahandler,
+											sizeof(TE3FFormatW3DMF_Data));
+
+	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+											kQ3FFormatWriterType3DMFDatabaseBinSwap,
+											kQ3ClassNameFileFormatW_3DMF_DW_Bin,
+											e3ffw_3dmfbin_DW_metahandler,
+											sizeof(TE3FFormatW3DMF_Data));
+
+	qd3dStatus = E3ClassTree_RegisterClass(kQ3FileFormatTypeWriter,
+											kQ3FFormatWriterType3DMFDatabaseStreamBinSwap,
+											kQ3ClassNameFileFormatW_3DMF_DSW_Bin,
+											e3ffw_3dmfbin_DSW_metahandler,
 											sizeof(TE3FFormatW3DMF_Data));
 
 	return(qd3dStatus);
