@@ -7,7 +7,7 @@
 		and provides routines for movement and collision detection
 
     COPYRIGHT:
-        Queeg/Quesa Copyright © 1999, Queeg/Quesa Developers.
+        Queeg/Quesa Copyright © 1999-2001, Queeg/Quesa Developers.
         
         For the list of Queeg/Quesa Developers, and contact details, see:
         

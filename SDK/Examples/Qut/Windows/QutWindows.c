@@ -12,7 +12,7 @@
 
     COPYRIGHT:
 
-        Quesa Copyright © 1999-2000, Quesa Developers.
+        Quesa Copyright © 1999-2001, Quesa Developers.
 
         
 
