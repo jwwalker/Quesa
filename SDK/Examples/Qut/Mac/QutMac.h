@@ -48,6 +48,13 @@
 	#define GetPortBitMapForCopyBits(_port)		&((GrafPtr) _port)->portBits
 
 
+	// Older UH support
+	#if (UNIVERSAL_INTERFACES_VERSION == 0x0320)
+		#ifndef DisposeNavEventUPP
+			#define DisposeNavEventUPP(userUPP)	DisposeRoutineDescriptor(userUPP)
+		#endif
+	#endif
+
 #endif
 
 
