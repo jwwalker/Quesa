@@ -235,7 +235,12 @@ IRGeometry_Attribute_GetDiffuse(TQ3InteractiveData		*instanceData,
 
 	// See if textures have turned colours off
 	if (canTexture && instanceData->stateTextureForceWhite)
-		return(NULL);
+		{
+		if (fallBackToWhite)
+			return(&kQ3ColourWhite);
+		else
+			return(NULL);
+		}
 
 
 
@@ -1066,7 +1071,7 @@ IRGeometry_Marker(TQ3ViewObject			theView,
 		{
 		srcRow = geomData->bitmap.image + (row           * rowBytes);
 		dstRow = flipBuffer             + (((h-1) - row) * rowBytes);
-		memcpy(dstRow, srcRow, rowBytes);
+		Q3Memory_Copy(srcRow, dstRow, rowBytes);
 		}
 
 
