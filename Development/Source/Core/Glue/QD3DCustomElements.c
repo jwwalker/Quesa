@@ -159,6 +159,31 @@ CENameElement_GetData(TQ3Object object, char **name)
 
 
 //=============================================================================
+//      CENameElement_GetData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+CENameElement_PeekData(TQ3Object object, const char **name)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(object), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(name), kQ3Failure);
+	
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3NameElement_PeekData(object, name));
+}
+
+
+
+
+
+//=============================================================================
 //      CENameElement_EmptyData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status

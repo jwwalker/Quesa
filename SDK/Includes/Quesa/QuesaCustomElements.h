@@ -282,6 +282,34 @@ CENameElement_GetData (
 
 /*!
  *  @function
+ *      CENameElement_PeekData
+ *  @discussion
+ *      Get the name element for an object.
+ *
+ *      The name parameter will receive a C string, or NULL if no name has
+ *      been associated with the object. If a non-NULL pointer is returned,
+ *      it should be considered read-only and temporary.  Unlike
+ *      CENameElement_GetData, this function returns the actual string within
+ *      the element, not a copy.
+ *
+ *	@availability			This function is not available in QD3D.
+ *  @param object           The object to query.
+ *  @param name             Receives the name associated with the object.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+CENameElement_PeekData (
+    TQ3Object                     object,
+    const char                    **name
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+/*!
+ *  @function
  *      CENameElement_EmptyData
  *  @discussion
  *      Release the data returned by CENameElement_GetData.
