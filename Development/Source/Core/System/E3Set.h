@@ -61,6 +61,31 @@ extern "C" {
 
 
 
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3Element : public OpaqueTQ3Object
+	{
+
+	// There is no extra data for this class
+
+public :
+	} ;
+	
+
+
+class E3Attribute : public E3Element
+	{
+
+	// There is no extra data for this class
+	
+	public :
+	} ;
+	
+
 
 //=============================================================================
 //      Function prototypes

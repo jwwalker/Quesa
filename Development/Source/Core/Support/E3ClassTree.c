@@ -1361,6 +1361,28 @@ E3InstanceNode::FindInstanceData ( TQ3ObjectType classType )
 
 
 
+void *
+E3InstanceNode::FindLeafInstanceData ( void ) // Same as FindInstanceData ( kQ3ObjectTypeLeaf ) but simpler
+	{
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
+	Q3_CLASS_VERIFY(this);
+
+	if ( theClass->includesParentData != kQ3False )
+		{
+		if ( theClass->theParent != NULL )
+			return (void*) ( (TQ3Uns8*) this + theClass->theParent->instanceSize ) ;
+		
+		return (void*) this ;
+		}
+	
+	return instanceData ;
+	}
+
+
+
+
+
 //=============================================================================
 //      E3ClassTree_GetObjectType : Get a method for a class.
 //-----------------------------------------------------------------------------

@@ -169,32 +169,6 @@ public :
 	
 
 
-class E3Element : public OpaqueTQ3Object // This is not a leaf class, but only classes in this,
-								// file inherit from it, so it can be declared here in
-								// the .c file rather than in the .h file, hence all
-								// the fields can be public as nobody should be
-								// including this file.
-	{
-public :
-
-	// There is no extra data for this class
-	} ;
-	
-
-
-class E3Attribute : public E3Element // This is not a leaf class, but only classes in this,
-								// file inherit from it, so it can be declared here in
-								// the .c file rather than in the .h file, hence all
-								// the fields can be public as nobody should be
-								// including this file.
-	{
-public :
-
-	// There is no extra data for this class
-	} ;
-	
-
-
 class E3SetElement : public E3Element // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
