@@ -1623,6 +1623,8 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 				
 			instanceData->attributes.surfaceShader = *((TQ3SurfaceShaderObject*)data);
 			Q3Shared_GetReference(instanceData->attributes.surfaceShader);
+			Q3_ASSERT( Q3Object_IsType( instanceData->attributes.surfaceShader,
+				kQ3ShaderTypeSurface ) );
 			break;
 		default:
 			// Find the element, and replace its data if it exists
