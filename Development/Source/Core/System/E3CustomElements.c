@@ -54,6 +54,15 @@ typedef struct TCEUrlDataPrivate {
 
 
 //=============================================================================
+//      Internal constants
+//-----------------------------------------------------------------------------
+#define kQ3ClassNameCustomElementDepthBits		"Quesa:DepthBitsElement"
+
+
+
+
+
+//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3nameelement_traverse : Traverse method (writing).
@@ -626,6 +635,17 @@ E3CustomElements_RegisterClass(void)
 					sizeof(QTAtomContainer));
 #endif
 
+	// The depth bits element does not need a metahandler, because it is plain old data
+	// and is never read or written (being attached to renderers, which aren't read or
+	// written).
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(
+					kQ3ObjectTypeElement,
+					kQ3ElementTypeDepthBits,
+					kQ3ClassNameCustomElementDepthBits,
+					NULL,
+					sizeof(TQ3Uns32));
+
 	return(qd3dStatus);
 }
 
@@ -649,6 +669,7 @@ E3CustomElements_UnregisterClass(void)
 
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeCustomElementName, kQ3True);
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeCustomElementUrl,  kQ3True);
+	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
 
 	return(qd3dStatus);
 }
@@ -662,9 +683,6 @@ E3CustomElements_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 //		Note :	Passing NULL for the name parameter removes the Name Element
 //				from the object, if one is present.
-//
-//				The object's type must be kQ3SharedTypeShape or
-//				kQ3SharedTypeSet.
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
@@ -673,19 +691,15 @@ E3NameElement_SetData(TQ3Object object, const char *name)
 	TQ3Status status;
 	TQ3StringObject	string = NULL;
 
-	if ((Q3Object_IsType(object, kQ3SharedTypeShape) == kQ3False) &&
-		(Q3Object_IsType(object, kQ3SharedTypeSet) == kQ3False))
-		return kQ3Failure;
-
 	if (name == NULL)
-		return Q3Shape_ClearElement(object, kQ3ObjectTypeCustomElementName);
+		return Q3Object_ClearElement(object, kQ3ObjectTypeCustomElementName);
 
 
 	string = Q3CString_New(name);
 	if (string == NULL)
 		return kQ3Failure;
 				
-	status = Q3Shape_AddElement(object, kQ3ObjectTypeCustomElementName, &string);
+	status = Q3Object_AddElement(object, kQ3ObjectTypeCustomElementName, &string);
 	Q3Object_Dispose(string);
 	
 	return status;
@@ -712,13 +726,9 @@ E3NameElement_GetData(TQ3Object object, char **name)
 	*name = NULL;
 
 	
-	if ((Q3Object_IsType(object, kQ3SharedTypeShape) == kQ3False) &&
-		(Q3Object_IsType(object, kQ3SharedTypeSet) == kQ3False))
-		return kQ3Failure;
-
-	if (Q3Shape_ContainsElement(object, kQ3ObjectTypeCustomElementName)) {
+	if (Q3Object_ContainsElement(object, kQ3ObjectTypeCustomElementName)) {
 	
-		status = Q3Shape_GetElement(object, kQ3ObjectTypeCustomElementName, (TQ3StringObject)&string);
+		status = Q3Object_GetElement(object, kQ3ObjectTypeCustomElementName, (TQ3StringObject)&string);
 		if (status == kQ3Failure)
 			return status;
 			
@@ -758,9 +768,6 @@ E3NameElement_EmptyData(char **name)
 //-----------------------------------------------------------------------------
 //		Note :	Passing NULL for the name parameter removes the URL Element
 //				from the object, if one is present.
-//
-//				The object's type must be kQ3SharedTypeShape or
-//				kQ3SharedTypeSet.
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
@@ -770,13 +777,9 @@ E3UrlElement_SetData(TQ3Object object, TCEUrlData *urlData)
 	TCEUrlDataPrivate  	urlDataPrivate;
 	TQ3StringObject		string = NULL;
 
-	if ((Q3Object_IsType(object, kQ3SharedTypeShape) == kQ3False) &&
-		(Q3Object_IsType(object, kQ3SharedTypeSet) == kQ3False))
-		return kQ3Failure;
-
 	// That's what QD3D does: you can't hold a description without url
 	if (urlData == NULL || urlData->url == NULL ||urlData->url[0] == '\0')
-		return Q3Shape_ClearElement(object, kQ3ObjectTypeCustomElementUrl);
+		return Q3Object_ClearElement(object, kQ3ObjectTypeCustomElementUrl);
 
 
 	// Validate our parameters
@@ -797,7 +800,7 @@ E3UrlElement_SetData(TQ3Object object, TCEUrlData *urlData)
 			urlDataPrivate.description = string;
 	}
 
-	status = Q3Shape_AddElement(object, kQ3ObjectTypeCustomElementUrl, &urlDataPrivate);
+	status = Q3Object_AddElement(object, kQ3ObjectTypeCustomElementUrl, &urlDataPrivate);
 		
 	if (string != NULL)
 		Q3Object_Dispose(string);
@@ -825,13 +828,9 @@ E3UrlElement_GetData(TQ3Object object, TCEUrlData **urlData)
 	*urlData = NULL;
 
 
-	if ((Q3Object_IsType(object, kQ3SharedTypeShape) == kQ3False) &&
-		(Q3Object_IsType(object, kQ3SharedTypeSet) == kQ3False))
-		return kQ3Failure;
-
-	if (Q3Shape_ContainsElement(object, kQ3ObjectTypeCustomElementUrl)) {
+	if (Q3Object_ContainsElement(object, kQ3ObjectTypeCustomElementUrl)) {
 	
-		status = Q3Shape_GetElement(object, kQ3ObjectTypeCustomElementUrl, &urlDataPrivate);
+		status = Q3Object_GetElement(object, kQ3ObjectTypeCustomElementUrl, &urlDataPrivate);
 		if (status == kQ3Failure)
 			return status;
 			
@@ -897,15 +896,8 @@ E3WireElement_SetData(TQ3Object object, QTAtomContainer wireData)
 
 
 
-	// Make sure we have a shape or a set
-	if ((Q3Object_IsType(object, kQ3SharedTypeShape) == kQ3False) &&
-		(Q3Object_IsType(object, kQ3SharedTypeSet)   == kQ3False))
-		return(kQ3Failure);
-
-
-
 	// Add the element
-	qd3dStatus = Q3Shape_AddElement(object, kQ3ObjectTypeCustomElementWire, &wireData);
+	qd3dStatus = Q3Object_AddElement(object, kQ3ObjectTypeCustomElementWire, &wireData);
 
 	return(qd3dStatus);
 }
@@ -930,17 +922,10 @@ E3WireElement_GetData(TQ3Object object, QTAtomContainer *wireData)
 
 
 
-	// Make sure we have a shape or a set
-	if ((Q3Object_IsType(object, kQ3SharedTypeShape) == kQ3False) &&
-		(Q3Object_IsType(object, kQ3SharedTypeSet)   == kQ3False))
-		return(kQ3Failure);
-
-
-
 	// Get the element
 	qd3dStatus = kQ3Success;
-	if (Q3Shape_ContainsElement(object, kQ3ObjectTypeCustomElementWire))
-		qd3dStatus = Q3Shape_GetElement(object, kQ3ObjectTypeCustomElementWire, wireData);
+	if (Q3Object_ContainsElement(object, kQ3ObjectTypeCustomElementWire))
+		qd3dStatus = Q3Object_GetElement(object, kQ3ObjectTypeCustomElementWire, wireData);
 
 	return(qd3dStatus);
 }
