@@ -731,6 +731,69 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      E3Read_3DMF_Shader_Lambert : Lambert illumination shader read object method.
+//-----------------------------------------------------------------------------
+//		Note : Nothing to read, just create the object
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Shader_Lambert(TQ3FileObject theFile)
+{
+	TQ3Object		theObject;
+
+	// Create the object
+	theObject = Q3LambertIllumination_New();
+	
+		
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Shader_Phong : Phong illumination shader read object method.
+//-----------------------------------------------------------------------------
+//		Note : Nothing to read, just create the object
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Shader_Phong(TQ3FileObject theFile)
+{
+	TQ3Object		theObject;
+
+	// Create the object
+	theObject = Q3PhongIllumination_New();
+	
+		
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Shader_NULL : NULL illumination shader read object method.
+//-----------------------------------------------------------------------------
+//		Note : Nothing to read, just create the object
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Shader_NULL(TQ3FileObject theFile)
+{
+	TQ3Object		theObject;
+
+	// Create the object
+	theObject = Q3NULLIllumination_New();
+	
+		
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
 //      E3Read_3DMF_Style_Subdivision : Subdivision read method.
 //-----------------------------------------------------------------------------
 TQ3Object

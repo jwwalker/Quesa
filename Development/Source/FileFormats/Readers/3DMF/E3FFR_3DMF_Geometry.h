@@ -78,6 +78,9 @@ TQ3Object		E3Read_3DMF_Group_Light(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Group(TQ3FileObject theFile);
 
 TQ3Object		E3Read_3DMF_Shader_Texture(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Shader_Lambert(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Shader_Phong(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Shader_NULL(TQ3FileObject theFile);
 
 TQ3Object		E3Read_3DMF_Style_Subdivision(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_PickID(TQ3FileObject theFile);

@@ -1372,6 +1372,9 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	//E3ClassTree_AddMethodByType(kQ3TextureTypeCompressedPixmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Texture);
 	E3ClassTree_AddMethodByType(kQ3ShapeTypeShader,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_shader_read);
 	E3ClassTree_AddMethodByType(kQ3SurfaceShaderTypeTexture,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Texture);
+	E3ClassTree_AddMethodByType(kQ3IlluminationTypePhong,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Phong);
+	E3ClassTree_AddMethodByType(kQ3IlluminationTypeLambert,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Lambert);
+	E3ClassTree_AddMethodByType(kQ3IlluminationTypeNULL,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_NULL);
 
 
 	// the Group read Methods
