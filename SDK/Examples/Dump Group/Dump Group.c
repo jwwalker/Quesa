@@ -39,10 +39,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <QD3D.h>
-#include <QD3DGroup.h>
-#include <QD3DIO.h>
-#include <QD3DStorage.h>
+#include "Quesa.h"
+#include "QuesaGroup.h"
+#include "QuesaIO.h"
+#include "QuesaStorage.h"
 
 #if OS_MACINTOSH
 	#include <console.h>

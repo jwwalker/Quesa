@@ -33,15 +33,13 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-#include <QD3D.h>
-#include <QD3DExtension.h>
-#include <QD3DGeometry.h>
-#include <QD3DMath.h>
-#include <QD3DGroup.h>
-#include <QD3DIO.h>
-#include <QD3DStorage.h>
-
+#include "Quesa.h"
+#include "QuesaExtension.h"
+#include "QuesaGeometry.h"
+#include "QuesaMath.h"
+#include "QuesaGroup.h"
 #include "QuesaIO.h"
+#include "QuesaStorage.h"
 
 #include "3dsReader.h"
 

@@ -45,7 +45,7 @@
 //-----------------------------------------------------------------------------
 
 #include "QGUtils.h"
-#include "QD3DMath.h"
+#include "QuesaMath.h"
 #include "Math.h"
 
 

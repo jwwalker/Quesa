@@ -43,19 +43,16 @@
 #include "QGTriMesh.h"
 #include "QGCamera.h"
 
-#include <QD3DDrawContext.h>
-#include <QD3DRenderer.h>
-#include <QD3DShader.h>
-#include <QD3DCamera.h>
-#include <QD3DLight.h>
-#include <QD3DGeometry.h>
-#include <QD3DGroup.h>
-#include <QD3DMath.h>
-#include <QD3DSet.h>
-#include <QD3DTransform.h>
-#include <QD3DAcceleration.h>
-
-
+#include "QuesaDrawContext.h"
+#include "QuesaRenderer.h"
+#include "QuesaShader.h"
+#include "QuesaCamera.h"
+#include "QuesaLight.h"
+#include "QuesaGeometry.h"
+#include "QuesaGroup.h"
+#include "QuesaMath.h"
+#include "QuesaSet.h"
+#include "QuesaTransform.h"
 
 
 

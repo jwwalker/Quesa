@@ -33,11 +33,12 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-#include <QD3D.h>
-#include <QD3DExtension.h>
-#include <QD3DCamera.h>
-#include <QD3DRenderer.h>
-#include <QD3DMath.h>
+#include "Quesa.h"
+#include "QuesaExtension.h"
+#include "QuesaCamera.h"
+#include "QuesaRenderer.h"
+#include "QuesaMath.h"
+
 #include <QD3DViewer.h>
 
 #include "E3Viewer.h"
@@ -49,6 +50,10 @@
 	#include <Fonts.h>
 	#include "ICAPI.h"
 #endif
+
+
+
+
 
 //=============================================================================
 //      Internal #defines
@@ -84,6 +89,9 @@
 		#define TQ3EventRecord	void
 	#endif
 #endif
+
+
+
 
 
 //=============================================================================
@@ -123,10 +131,16 @@
 #define kGetColorStrID		1L
 #define kConfigureStrID		2L
 
+
+
+
+
 //=============================================================================
 //      Internal variables
 //-----------------------------------------------------------------------------
 static TQ3Point2D gStartPt; // this variable can be shared amongst all tools as it is only used during tracking
+
+
 
 
 

@@ -41,15 +41,15 @@
 #include "QGTriMesh.h"
 #include "QGScene.h"
 #include "QueegMacros.h"
-#include <QD3DCamera.h>
-#include <QD3DStorage.h>
-#include <QD3DGroup.h>
-#include <QD3DIO.h>
+
+#include "QuesaCamera.h"
+#include "QuesaStorage.h"
+#include "QuesaGroup.h"
+#include "QuesaIO.h"
 
 
-//=============================================================================
-//      Internal constants
-//-----------------------------------------------------------------------------
+
+
 
 //=============================================================================
 //      QGObject::QGObject : Create an empty 3D object at the origin.

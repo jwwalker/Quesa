@@ -9,8 +9,9 @@
 class QGObject;
 #include "QGCamera.h"
 #include "SimpleVector.h"
-#include <QD3DStyle.h>
-#include <QD3DGeometry.h>
+
+#include "QuesaStyle.h"
+#include "QuesaGeometry.h"
 
 class QGScene
 {

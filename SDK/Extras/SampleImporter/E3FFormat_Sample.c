@@ -33,13 +33,10 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-#include <QD3D.h>
-#include <QD3DExtension.h>
-#include <QD3DIO.h>
-#include <QD3DStorage.h>
-
+#include "Quesa.h"
+#include "QuesaExtension.h"
 #include "QuesaIO.h"
-
+#include "QuesaStorage.h"
 
 #include "E3FFormat_Sample.h"
 

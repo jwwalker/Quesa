@@ -8,9 +8,9 @@
 #ifndef QGOBJECT_H
 #define QGOBJECT_H
 
-#include <QD3D.h>
-#include <QD3DCustomElements.h>
-#include <QD3DMath.h>
+#include "Quesa.h"
+#include "QuesaCustomElements.h"
+#include "QuesaMath.h"
 
 
 #include "SimpleVector.h"	// an expandable array

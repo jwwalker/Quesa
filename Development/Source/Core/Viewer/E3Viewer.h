@@ -35,32 +35,33 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
+// Quesa
+#include "Quesa.h"
+#include "QuesaCamera.h"
+#include "QuesaController.h"
+#include "QuesaCustomElements.h"
+#include "QuesaDrawContext.h"
+#include "QuesaErrors.h"
+#include "QuesaExtension.h"
+#include "QuesaGeometry.h"
+#include "QuesaGroup.h"
+#include "QuesaIO.h"
+#include "QuesaLight.h"
+#include "QuesaMath.h"
+#include "QuesaPick.h"
+#include "QuesaRenderer.h"
+#include "QuesaSet.h"
+#include "QuesaShader.h"
+#include "QuesaStorage.h"
+#include "QuesaString.h"
+#include "QuesaStyle.h"
+#include "QuesaTransform.h"
+#include "QuesaView.h"
+
+
 // QD3D
-#include <QD3D.h>
-#include <QD3DAcceleration.h>
-#include <QD3DCamera.h>
-#include <QD3DController.h>
-#include <QD3DCustomElements.h>
-#include <QD3DDrawContext.h>
-#include <QD3DErrors.h>
-#include <QD3DExtension.h>
-#include <QD3DGeometry.h>
-#include <QD3DGroup.h>
-#include <QD3DIO.h>
-#include <QD3DLight.h>
-#include <QD3DMath.h>
-#include <QD3DPick.h>
-#include <QD3DRenderer.h>
-#include <QD3DSet.h>
-#include <QD3DShader.h>
-#include <QD3DStorage.h>
-#include <QD3DString.h>
-#include <QD3DStyle.h>
-#include <QD3DTransform.h>
-#include <QD3DView.h>
 #include <QD3DViewer.h>
 #include <QD3DWinViewer.h>
-
 
 
 // Mac OS
@@ -84,12 +85,11 @@
 #endif
 
 
-
-
-
 // ANSI
 #include <string.h>
 #include <math.h>
+
+
 
 
 

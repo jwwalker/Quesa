@@ -18,9 +18,9 @@
 #ifndef QGTRIMESH_H
 #define QGTRIMESH_H
 
-#include <QD3D.h>
-#include <QD3DGeometry.h>
-#include <QD3DMath.h>
+#include "Quesa.h"
+#include "QuesaGeometry.h"
+#include "QuesaMath.h"
 
 class QGTriMesh
 {

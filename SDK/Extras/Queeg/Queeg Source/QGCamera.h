@@ -11,7 +11,7 @@
 #define QGCAMERA_H
 
 #include "QGObject.h"
-#include <QD3DCamera.h>
+#include "QuesaCamera.h"
 
 class QGCamera : public QGObject
 {

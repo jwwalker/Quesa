@@ -5,11 +5,7 @@
 #ifndef QGUTILS_H
 #define QGUTILS_H
 
-
-
-#ifndef __QD3D__
-#include <QD3D.h>
-#endif
+#include "Quesa.h"
 
 
 
