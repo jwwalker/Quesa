@@ -38,6 +38,7 @@
 // Include files go here
 
 #include "E3FFR_3DMF.h"
+#include "E3IOData.h"
 
 
 
@@ -182,6 +183,18 @@ TQ3Status			E3FFW_3DMF_TriMesh(
 								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3TriMeshData			*geomData);
+
+TQ3Status			E3FFW_3DMF_UnknownBin(
+								TQ3ViewObject			theView,
+								TE3FFormatW3DMF_Data	*instanceData,
+								TQ3GeometryObject		theGeom,
+								TE3UnknownBinary_Data	*objectData);
+
+TQ3Status			E3FFW_3DMF_UnknownText(
+								TQ3ViewObject			theView,
+								TE3FFormatW3DMF_Data	*instanceData,
+								TQ3GeometryObject		theGeom,
+								TQ3UnknownTextData		*objectData);
 
 
 TQ3Status			E3FFW_3DMF_RegisterGeom(void);
