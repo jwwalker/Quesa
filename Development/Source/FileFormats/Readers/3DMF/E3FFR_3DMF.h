@@ -176,6 +176,7 @@ TQ3AttributeSet				E3FFormat_3DMF_AttributeSetList_Get(TQ3Object theAttributeSet
 TQ3Status					E3FFormat_3DMF_AttributeSetList_Set(TQ3Object theAttributeSetList ,TQ3Uns32 index,
 							TQ3AttributeSet theAttributeSet);
 
+TQ3Object					E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData);
 void						E3FFormat_3DMF_MeshCorners_Assign(TQ3Object theMeshCorners, TQ3GeometryObject theMesh,
 																TQ3Uns32 nFaces, TQ3MeshFace* faces,
 																TQ3Uns32 nVertices, TQ3MeshVertex* vertices);
