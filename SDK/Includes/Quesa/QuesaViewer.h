@@ -1617,14 +1617,16 @@ Q3WinViewerDrawControlStrip (
  *  @function
  *      Q3WinViewerMouseDown
  *  @discussion
- *      One-line description of this function.
+ *      Will be called upon a mouse click in the content.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		It is the answer of the viewer window to a WM_LBUTTONDOWN 
+ *		message in in the content. Normally it will not be called from some
+ *		user program.
  *
- *  @param viewer           Description of the parameter.
- *  @param x                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @param x                The x coordinate of the pointer.
+ *  @param y                The y coordinate of the pointer.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( BOOL )
 Q3WinViewerMouseDown (
@@ -1638,14 +1640,16 @@ Q3WinViewerMouseDown (
  *  @function
  *      Q3WinViewerContinueTracking
  *  @discussion
- *      One-line description of this function.
+ *      Will be called upon mouse dragging in the content.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		It is the answer of the viewer window to a WM_MOUSEMOVE 
+ *		message in in the content when the mouse button is down. 
+ *		Normally it will not be called from some user program.
  *
- *  @param viewer           Description of the parameter.
- *  @param x                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @param x                The x coordinate of the pointer.
+ *  @param y                The y coordinate of the pointer.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( BOOL )
 Q3WinViewerContinueTracking (
@@ -1659,14 +1663,16 @@ Q3WinViewerContinueTracking (
  *  @function
  *      Q3WinViewerMouseUp
  *  @discussion
- *      One-line description of this function.
+ *      Will be called upon a mouse release in the content.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		It is the answer of the viewer window to a WM_LBUTTONUP
+ *		message in in the content. Normally it will not be called from some
+ *		user program.
  *
- *  @param viewer           Description of the parameter.
- *  @param x                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @param x                The x coordinate of the pointer.
+ *  @param y                The y coordinate of the pointer.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( BOOL )
 Q3WinViewerMouseUp (
