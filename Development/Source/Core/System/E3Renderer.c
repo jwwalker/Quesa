@@ -124,7 +124,8 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 														kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse,
 														kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose,
 														kQ3XMethodTypeRendererUpdateMatrixLocalToCamera,
-														kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum };
+														kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum,
+														kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum };
 
 	TQ3XMethodType									geomMethods[] = {
 														kQ3GeometryTypeBox,
@@ -349,8 +350,9 @@ E3Renderer_Method_StartFrame(TQ3ViewObject theView, TQ3DrawContextObject theDraw
 	startFrame = (TQ3XRendererStartFrameMethod)
 					E3ClassTree_GetMethod(theRenderer->theClass,
 										  kQ3XMethodTypeRendererStartFrame);
+	// No-op if renderer doesn't implements kQ3XMethodTypeRendererStartFrame
 	if (startFrame == NULL)
-		return(kQ3Failure);
+		return(kQ3Success);
 
 
 
@@ -385,8 +387,9 @@ E3Renderer_Method_StartPass(TQ3ViewObject theView, TQ3CameraObject theCamera, TQ
 	startPass = (TQ3XRendererStartPassMethod)
 					E3ClassTree_GetMethod(theRenderer->theClass,
 										  kQ3XMethodTypeRendererStartPass);
+	// No-op if renderer doesn't implements kQ3XMethodTypeRendererStartPass
 	if (startPass == NULL)
-		return(kQ3Failure);
+		return(kQ3Success);
 
 
 
@@ -421,8 +424,9 @@ E3Renderer_Method_EndPass(TQ3ViewObject theView)
 	endPass = (TQ3XRendererEndPassMethod)
 					E3ClassTree_GetMethod(theRenderer->theClass,
 										  kQ3XMethodTypeRendererEndPass);
+	// No-op if renderer doesn't implements kQ3XMethodTypeRendererEndPass
 	if (endPass == NULL)
-		return(kQ3ViewStatusError);
+		return(kQ3ViewStatusDone);
 
 
 
@@ -493,8 +497,10 @@ E3Renderer_Method_EndFrame(TQ3ViewObject theView, TQ3DrawContextObject theDrawCo
 	endFrame = (TQ3XRendererEndFrameMethod)
 					E3ClassTree_GetMethod(theRenderer->theClass,
 										  kQ3XMethodTypeRendererEndFrame);
+										  
+	// No-op if renderer doesn't implements kQ3XMethodTypeRendererEndFrame
 	if (endFrame == NULL)
-		return(kQ3Failure);
+		return(kQ3Success);
 
 
 
@@ -623,7 +629,6 @@ E3Renderer_Method_UpdateMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matri
 
 
 	// Call the inverse transpose method
-	haveInverse = kQ3False;
 	if (updateMatrixLocalToWorldInverseTranspose != NULL)
 		{
 		// Calculate the matrix
@@ -684,6 +689,43 @@ E3Renderer_Method_UpdateMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matri
 		}
 
 	return(qd3dStatus);
+}
+
+
+
+//=============================================================================
+//      E3Renderer_Method_UpdateMatrixWorldToFrustum : Matrix update method.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Renderer_Method_UpdateMatrixWorldToFrustum(TQ3ViewObject theView, const TQ3Matrix4x4 *theMatrix)
+{	TQ3RendererObject					theRenderer = E3View_AccessRenderer(theView);
+	TQ3XRendererUpdateMatrixMethod		updateMatrixWorldToFrustum;
+
+	TQ3Status							qd3dStatus = kQ3Success;
+
+
+
+	// No-op if no renderer set
+	if (theRenderer == NULL)
+		return(kQ3Success);
+
+
+
+	// Find the method
+	updateMatrixWorldToFrustum = (TQ3XRendererUpdateMatrixMethod)
+								E3ClassTree_GetMethod(theRenderer->theClass,
+					  				kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum);
+
+
+
+	// Call the method
+	if (updateMatrixWorldToFrustum != NULL)
+		{
+
+		qd3dStatus = updateMatrixWorldToFrustum(theView, theRenderer->instanceData, theMatrix);
+		}
+	return(qd3dStatus);
+
 }
 
 
