@@ -53,6 +53,7 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+#pragma mark struct TQ3ViewerData
 typedef struct TQ3ViewerData {
 	TQ3Uns32				mValidViewer;		// guard word
 	TQ3ViewObject			mView;
@@ -72,8 +73,10 @@ typedef struct TQ3ViewerData {
 	TQ3GeometryObject		mGuideGeom;			// guide circle, etc. (or NULL)
 	TQ3AntiAliasStyleData	mStyleAntiAlias;	// anti-aliasing style
 	TQ3BackfacingStyle		mStyleBackfacing;	// backfacing style
+	TQ3ShaderObject			mShader;			// current shader; either sPhongShader or sLamberShader
 } TQ3ViewerData;
 
+#pragma mark struct TQ3ViewerParams
 typedef struct TQ3ViewerParams {
 	void					*mWindow;
 	TQ3Area					*mArea;
@@ -81,7 +84,7 @@ typedef struct TQ3ViewerParams {
 } TQ3ViewerParams;
 
 
-
+#pragma mark -
 
 
 //=============================================================================
@@ -149,7 +152,9 @@ enum {
 //=============================================================================
 //      Internal static variables
 //-----------------------------------------------------------------------------
-TQ3GeometryObject sGuideCircle = NULL;
+static TQ3GeometryObject sGuideCircle = NULL;
+static TQ3ShaderObject sPhongShader = NULL;
+static TQ3ShaderObject sLambertShader = NULL;
 
 
 //=============================================================================
@@ -1312,15 +1317,19 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 		floodData.lightData.brightness = 0.6f;
 		floodData.lightData.color.r = floodData.lightData.color.g = floodData.lightData.color.b = 1.0f;
 		floodData.castsShadows = kQ3False;
-		floodData.direction.x = 0.18f;
-		floodData.direction.z = 0.22f;
-		floodData.direction.y = -0.8f;
+		floodData.direction.x = 0.2f;
+		floodData.direction.z = -0.2f;
+		floodData.direction.y = -0.6f;
 		Q3Vector3D_Normalize(&floodData.direction, &floodData.direction);
 		light = Q3DirectionalLight_New(&floodData);
 		Q3Group_AddObject( lights, light );
 		Q3Object_Dispose(light);
 		
-			
+		// Shader
+		if (NULL == sLambertShader)
+			sLambertShader = Q3LambertIllumination_New();
+		instanceData->mShader = sLambertShader;
+		
 		// hook it all together
 		Q3View_SetDrawContext(instanceData->mView, drawContext);
 		Q3View_SetCamera(instanceData->mView, camera);
@@ -1575,6 +1584,12 @@ E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 	if (NULL == sGuideCircle)
 		sGuideCircle = e3viewer_createGuideCircle();
 	
+	if (NULL == sPhongShader)
+		sPhongShader = Q3PhongIllumination_New();
+	
+	if (NULL == sLambertShader)
+		sLambertShader = Q3LambertIllumination_New();
+	
 	return(theViewer);
 }
 
@@ -1800,6 +1815,9 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 			Q3Pop_Submit(view);
 			}
 		Q3QuaternionTransform_Submit( &instanceData->mOrientation, view );
+
+		// submit shader
+		Q3Shader_Submit( instanceData->mShader, view );
 		
 		// submit geometry
 		Q3Object_Submit(instanceData->mGroup, view);
@@ -2926,17 +2944,16 @@ E3Viewer_SetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean removeBackface
 
 
 //=============================================================================
-//      E3Viewer_GetPhongShading : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_GetPhongShading : Return true if we're using phong shading.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_GetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phongShading)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	*phongShading = (instanceData->mShader == sPhongShader ? kQ3True : kQ3False);
+	
+	return kQ3Success;
 }
 
 
@@ -2944,16 +2961,21 @@ E3Viewer_GetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phongShading)
 
 
 //=============================================================================
-//      E3Viewer_SetPhongShading : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_SetPhongShading : Set the shader to phong shading or
+//			not phong shading (i.e., lambert shading).
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_SetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean phongShading)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3ShaderObject		desiredShader = (phongShading ? sPhongShader : sLambertShader);
 
+	if (desiredShader)
+		{
+		instanceData->mShader = desiredShader;
+		return kQ3Success;
+		}
 
-	// To be implemented...
 	return(kQ3Failure);
 }
 
