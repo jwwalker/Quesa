@@ -95,6 +95,8 @@ typedef struct OpaqueTQ3XDrawRegion {
 #if QUESA_OS_MACINTOSH
 typedef struct {
 	TQ3MacDrawContextData			theData;
+	TQ3Boolean						paneState;
+	TQ3Area							thePane;
 	Rect							windowRect;
 	RgnHandle						visRgn;
 } TQ3MacDrawContextState;
