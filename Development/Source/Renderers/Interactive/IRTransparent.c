@@ -40,6 +40,7 @@
 #include <stdlib.h>
 
 
+#define	SORT_EXPERIMENT	0
 
 
 
@@ -72,9 +73,32 @@ ir_geom_transparent_sort(const void *item1, const void *item2)
 		sortResult = 1;
 
 
+#if SORT_EXPERIMENT
+	else if (prim1->numVerts == 3)
+		{
+		float	testVal, minVal = kQ3MaxFloat;
+		int		i;
+		
+		for (i = 0; i < prim2->numVerts; ++i)
+			{
+			testVal = prim1->cameraSide.x * prim2->theVertices[i].thePoint.x +
+				prim1->cameraSide.y * prim2->theVertices[i].thePoint.y +
+				prim1->cameraSide.z * prim2->theVertices[i].thePoint.z;
+			minVal = E3Num_Min( minVal, testVal );
+			}
+		
+		// I seem to need a somewhat bigger fudge factor than kQ3RealZero here
+		if ( (minVal - prim1->planeConstant) >= -1.0e-5 )
+			sortResult = 1;
+		else 
+			sortResult = -1;
+		}
+#endif
+
 	// Primitives overlap
 	else
 		{
+		
 		// Treat the closest midpoint as the frontmost primitive
 		mid1 = prim1->zMin + ((prim1->zMax - prim1->zMin) * 0.5f);
 		mid2 = prim2->zMin + ((prim2->zMax - prim2->zMin) * 0.5f);
@@ -257,7 +281,6 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	TQ3Uns32				n;
 
 
-
 	// Validate our parameters
 	for (n = 0; n < numVerts; n++)
 		Q3_ASSERT(theVertices[0].theFlags == theVertices[n].theFlags);
@@ -278,7 +301,7 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	Q3View_GetWorldToFrustumMatrixState(theView, &worldToFrustum);
 
 
-
+	
 	// Set up the primitive state
 	thePrim->numVerts             = numVerts;
 	thePrim->theTexture           = instanceData->stateTextureObject;
@@ -316,6 +339,31 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 		
 		theVertex++;
 		}
+
+
+
+	#if SORT_EXPERIMENT
+	// Find the plane of the triangle, for an experiment in depth-sorting.	
+	if (numVerts == 3)
+		{
+		TQ3Point3D				cameraWorld;
+		TQ3Vector3D				cameraSideVec, cameraToTri;
+
+		Q3Point3D_Transform( &instanceData->stateLocalCameraPosition, &localToWorld, &cameraWorld );
+		Q3Point3D_Subtract( &thePrim->theVertices[0].thePoint, &cameraWorld, &cameraToTri );
+		Q3Point3D_CrossProductTri( &thePrim->theVertices[0].thePoint,
+			&thePrim->theVertices[1].thePoint,
+			&thePrim->theVertices[2].thePoint, &cameraSideVec );
+		if (Q3Vector3D_Dot( &cameraToTri, &cameraSideVec ) > 0.0f)
+			{
+			Q3Vector3D_Negate( &cameraSideVec, &cameraSideVec );
+			}
+		thePrim->cameraSide = cameraSideVec;
+		thePrim->planeConstant = cameraSideVec.x * thePrim->theVertices[0].thePoint.x +
+			cameraSideVec.y * thePrim->theVertices[0].thePoint.y +
+			cameraSideVec.z * thePrim->theVertices[0].thePoint.z;
+		}
+	#endif
 
 
 

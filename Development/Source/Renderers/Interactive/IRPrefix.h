@@ -95,6 +95,10 @@ typedef struct TQ3TransparentPrim {
 	TQ3OrientationStyle		orientationStyle;
 	TQ3FillStyle			fillStyle;
 	TQ3BackfacingStyle		backfacingStyle;
+	
+	// fields for experimental alternate depth sorting algorithm
+	TQ3Vector3D				cameraSide;
+	float					planeConstant;
 } TQ3TransparentPrim;
 
 
