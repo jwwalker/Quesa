@@ -172,7 +172,8 @@ typedef struct TQ3PickData {
  *      Describes the state for a window-point pick object.
  *
  *  @field data             The common state for the pick.
- *  @field point            The pick point in local window coordinates.
+ *  @field point            The pick point in local window coordinates.  Note that on Win32,
+ *							this means relative to the HWND which contains the view.
  *  @field vertexTolerance  The vertex tolerance.  Only relevant to picking Point objects.
  *  @field edgeTolerance    The edge tolerance.  Only relevant to picking one-dimensional
  *							objects such as Lines and PolyLines.
