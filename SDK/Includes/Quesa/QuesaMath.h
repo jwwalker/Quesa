@@ -1818,9 +1818,11 @@ Q3RationalPoint4D_RRatio (
  *      Return weighted combination of several 2D points.
  *
  *		Provide an array of points and a parallel array of weights, and
- *		this function will compute the weighted combination.  Note that
- *		the weights are NOT required to sum to 1, but the sum must be
- *		nonzero.
+ *		this function will compute the weighted combination.
+ *
+ *		Although the mathematical definition of an affine combination requires
+ *		that the weights sum to 1, this function does not.  It divides by the
+ *		sum of the weights, so it only requires that the sum is nonzero.
  *
  *		If you have only two points, use Q3Point2D_RRatio instead.
  *
@@ -1847,9 +1849,11 @@ Q3Point2D_AffineComb (
  *      Return weighted combination of several 2D parameter points.
  *
  *		Provide an array of points and a parallel array of weights, and
- *		this function will compute the weighted combination.  Note that
- *		the weights are NOT required to sum to 1, but the sum must be
- *		nonzero.
+ *		this function will compute the weighted combination.
+ *
+ *		Although the mathematical definition of an affine combination requires
+ *		that the weights sum to 1, this function does not.  It divides by the
+ *		sum of the weights, so it only requires that the sum is nonzero.
  *
  *		If you have only two points, use Q3Param2D_RRatio instead.
  *
@@ -1875,8 +1879,9 @@ Q3Param2D_AffineComb (
  *  @discussion
  *		Compute the weighted combination of several 3D rational points.
  *
- *      This operation makes no sense mathematically, but is included
- *		for compatibility with QD3D.
+ *		Although the mathematical definition of an affine combination requires
+ *		that the weights sum to 1, this function does not.  It divides by the
+ *		sum of the weights, so it only requires that the sum is nonzero.
  *
  *  @param rationalPoints3D Array of 3D rational points.
  *  @param weights          Array of weights.
@@ -1901,9 +1906,11 @@ Q3RationalPoint3D_AffineComb (
  *      Return weighted combination of several 3D points.
  *
  *		Provide an array of points and a parallel array of weights, and
- *		this function will compute the weighted combination.  Note that
- *		the weights are NOT required to sum to 1, but the sum must be
- *		nonzero.
+ *		this function will compute the weighted combination.
+ *
+ *		Although the mathematical definition of an affine combination requires
+ *		that the weights sum to 1, this function does not.  It divides by the
+ *		sum of the weights, so it only requires that the sum is nonzero.
  *
  *		If you have only two points, use Q3Point3D_RRatio instead.
  *
@@ -1929,8 +1936,9 @@ Q3Point3D_AffineComb (
  *  @discussion
  *		Compute the weighted combination of several 4D rational points.
  *
- *      This operation makes no sense mathematically, but is included
- *		for compatibility with QD3D.
+ *		Although the mathematical definition of an affine combination requires
+ *		that the weights sum to 1, this function does not.  It divides by the
+ *		sum of the weights, so it only requires that the sum is nonzero.
  *
  *  @param rationalPoints4D Array of 4D rational points.
  *  @param weights          Array of weights.
