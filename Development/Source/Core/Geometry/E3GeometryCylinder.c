@@ -295,6 +295,11 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 			case kQ3SubdivisionMethodScreenSpace:
 				// Not implemented
 				break;
+			
+			case kQ3SubdivisionMethodSize32:
+			default:
+				Q3_ASSERT(!"Unknown subdivision method");
+				break;
 		}
 	}
 	sides = E3Num_Clamp(sides, 3, 256);	// sanity checking

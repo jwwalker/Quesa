@@ -250,6 +250,11 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 			case kQ3SubdivisionMethodScreenSpace:
 				// Not implemented
 				break;
+			
+			case kQ3SubdivisionMethodSize32:
+			default:
+				Q3_ASSERT(!"Unknown subdivision method");
+				break;
 		}
 
 		// sanity checking -- important in case the user screws up the subdivisionData

@@ -1177,6 +1177,11 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 					goto surface_cache_new_error_cleanup ;
 				
 				break;
+			
+			case kQ3SubdivisionMethodSize32:
+			default:
+				Q3_ASSERT(!"Unknown subdivision method");
+				break;
 		}
 	}
 	

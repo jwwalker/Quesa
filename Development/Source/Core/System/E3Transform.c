@@ -256,6 +256,11 @@ e3transform_rotateaboutpoint_matrix(const void *transformData, TQ3Matrix4x4 *the
 			M(3,3) = 1.0f;
 			break;
 			}
+			
+		case kQ3AxisSize32:
+		default:
+			Q3_ASSERT(!"Unknown axis");
+			break;
 		}
 
 	#undef M

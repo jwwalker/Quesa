@@ -168,18 +168,24 @@ e3geom_box_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromObject),    kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toPrivateData), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromObject),      kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toPrivateData),   kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromPrivateData), kQ3Failure);
 
 
 
 	// Copy the data from fromObject to toObject
-	toInstanceData->origin      = fromInstanceData->origin;
-	toInstanceData->orientation = fromInstanceData->orientation;
-	toInstanceData->majorAxis   = fromInstanceData->majorAxis;
-	toInstanceData->minorAxis   = fromInstanceData->minorAxis;
-	toInstanceData->faceAttributeSet   = NULL;
+	toInstanceData->origin           = fromInstanceData->origin;
+	toInstanceData->orientation      = fromInstanceData->orientation;
+	toInstanceData->majorAxis        = fromInstanceData->majorAxis;
+	toInstanceData->minorAxis        = fromInstanceData->minorAxis;
+	toInstanceData->faceAttributeSet = NULL;
+	toInstanceData->boxAttributeSet  = NULL;
+
+
+	// Duplicate the attribute sets
+	if (fromInstanceData->boxAttributeSet != NULL)
+		toInstanceData->boxAttributeSet = Q3Object_Duplicate(fromInstanceData->boxAttributeSet);
 
 	if (fromInstanceData->faceAttributeSet != NULL)
 		{
@@ -196,12 +202,6 @@ e3geom_box_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 					toInstanceData->faceAttributeSet[n] = NULL;
 			}
 		}
-	
-	// duplicate the box attributes
-	if(fromInstanceData->boxAttributeSet)
-		toInstanceData->boxAttributeSet = Q3Object_Duplicate(fromInstanceData->boxAttributeSet);
-	else
-		toInstanceData->boxAttributeSet;
 		
 	return(kQ3Success);
 }
