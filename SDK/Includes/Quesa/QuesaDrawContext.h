@@ -844,6 +844,12 @@ Q3DrawContext_GetDoubleBufferState (
 
 
 /*!
+	@functiongroup	 Pixmap Draw Context
+*/
+
+
+
+/*!
  *  @function
  *      Q3PixmapDrawContext_New
  *  @discussion
@@ -901,6 +907,9 @@ Q3PixmapDrawContext_GetPixmap (
 //      Mac OS function prototypes
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
+/*!
+	@functiongroup	 MacOS Draw Context
+*/
 
 /*!
  *  @function
@@ -1070,6 +1079,9 @@ Q3MacDrawContext_Get2DLibrary (
 //      Unix function prototypes
 //-----------------------------------------------------------------------------
 #if QUESA_OS_UNIX
+/*!
+	@functiongroup	 X11 (Unix) Draw Context
+*/
 
 /*!
  *  @function
@@ -1339,6 +1351,9 @@ Q3XDrawContext_GetColormapData (
 //      Windows function prototypes
 //-----------------------------------------------------------------------------
 #if QUESA_OS_WIN32
+/*!
+	@functiongroup	 Windows Draw Context
+*/
 
 /*!
  *  @function
@@ -1392,6 +1407,9 @@ Q3Win32DCDrawContext_GetDC (
 
 
 
+/*!
+	@functiongroup	 Windows DirectDraw Draw Context
+*/
 /*!
  *  @function
  *      Q3DDSurfaceDrawContext_New
@@ -1452,10 +1470,13 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
 //      Be function prototypes
 //-----------------------------------------------------------------------------
 #if QUESA_OS_BE
+/*!
+	@functiongroup	 BeOS Draw Context
+*/
 
 /*!
  *  @function
- *      Q3BeDrawContext_New  
+ *      Q3BeDrawContext_New
  *  @discussion
  *      Create a new Be draw context object.
  *
@@ -1473,7 +1494,7 @@ Q3BeDrawContext_New (
 
 /*!
  *  @function
- *      Q3BeDrawContext_SetView  
+ *      Q3BeDrawContext_SetView
  *  @discussion
  *      Set the BView for a Be draw context.
  *
@@ -1493,7 +1514,7 @@ Q3BeDrawContext_SetView (
 
 /*!
  *  @function
- *      Q3BeDrawContext_GetView  
+ *      Q3BeDrawContext_GetView
  *  @discussion
  *      Get the BView for a Be draw context.
  *
@@ -1519,10 +1540,13 @@ Q3BeDrawContext_GetView (
 //      Cocoa function prototypes
 //-----------------------------------------------------------------------------
 #if QUESA_OS_COCOA
+/*!
+	@functiongroup	 Cocoa Draw Context
+*/
 
 /*!
  *  @function
- *      Q3CocoaDrawContext_New  
+ *      Q3CocoaDrawContext_New
  *  @discussion
  *      Create a new Cocoa draw context object.
  *
@@ -1540,7 +1564,7 @@ Q3CocoaDrawContext_New (
 
 /*!
  *  @function
- *      Q3CocoaDrawContext_SetNSView  
+ *      Q3CocoaDrawContext_SetNSView
  *  @discussion
  *      Set the NSView for a Cocoa draw context.
  *
@@ -1560,7 +1584,7 @@ Q3CocoaDrawContext_SetNSView (
 
 /*!
  *  @function
- *      Q3CocoaDrawContext_GetNSView  
+ *      Q3CocoaDrawContext_GetNSView
  *  @discussion
  *      Get the NSView of a Cocoa draw context.
  *
@@ -1578,6 +1602,12 @@ Q3CocoaDrawContext_GetNSView (
 
 #endif // QUESA_OS_COCOA
 
+
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 
