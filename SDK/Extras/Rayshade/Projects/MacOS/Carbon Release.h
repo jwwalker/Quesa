@@ -50,6 +50,12 @@
 
 #define TARGET_API_MAC_CARBON			1
 
+// When the RayShade code was written, it was naturally assumed that
+// the macintosh symbol would always be true when building for the Mac,
+// but it is in fact not defined in the Mach-O runtime architecture.
+#ifndef macintosh
+	#define macintosh	1
+#endif
 
 
 #endif
