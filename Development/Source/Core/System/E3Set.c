@@ -2461,8 +2461,19 @@ E3XElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElemen
 {	E3ClassInfoPtr		theClass;
 
 
+
 	// Assign a return value
 	*sizeOfElement = 0;
+
+
+
+	// Although this is a Q3X method (which are normally intended for external
+	// elements registered by applications), QD3D's version of this routine did
+	// accept the built-in attribute types for the elementType parameter.
+	//
+	// To be consistent with QD3D, we provide the same behaviour.
+	if (elementType > kQ3AttributeTypeNone && elementType < kQ3AttributeTypeNumTypes)
+		elementType = E3Attribute_AttributeToClassType(elementType);
 
 
 
