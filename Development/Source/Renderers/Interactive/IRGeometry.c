@@ -1474,13 +1474,116 @@ IRGeometry_Marker(TQ3ViewObject			theView,
 					TQ3InteractiveData	*instanceData,
 					TQ3GeometryObject	theGeom,
 					TQ3MarkerData		*geomData)
-{
-#pragma unused(theView)
+{	GLubyte				*flipBuffer, *srcRow, *dstRow;
+	TQ3Uns32			testRowBytes1, testRowBytes2;
+	TQ3Uns32			testRowBytes4, testRowBytes8;
+	TQ3Uns32			rowBytes, h, row, buffSize;
+	GLboolean			glValid, glLighting;
+	TQ3AttributeSet		geomAttributes;
+	TQ3Status			qd3dStatus;
 #pragma unused(theGeom)
 
 
 
-	// Render the geometry
+	// Activate our context
+	GLDrawContext_SetCurrent(instanceData->glContext);
+
+
+
+	// Initialise ourselves
+	flipBuffer = NULL;
+	glLighting = false;
+
+
+
+	// Update our state for this object
+	geomAttributes = ir_geom_attribute_combine(theView, geomData->markerAttributeSet);
+	qd3dStatus     = IRRenderer_State_Update(instanceData, geomAttributes);
+    if (qd3dStatus != kQ3Success)
+    	goto cleanup;
+
+
+
+	// Disable lighting
+	glLighting = glIsEnabled(GL_LIGHTING);
+	if (glLighting)
+		glDisable(GL_LIGHTING);
+
+
+
+	// Set up the raster position
+	glRasterPos3fv((const GLfloat *) &geomData->location);
+	glGetBooleanv(GL_CURRENT_RASTER_POSITION_VALID, &glValid);
+	if (!glValid)
+		goto cleanup;
+
+
+
+	// The raster position is now (top,left) of the image, but OpenGL draws
+	// from (bottom,left). First we calculate the bitmap data alignment.
+	glPixelStorei(GL_UNPACK_LSB_FIRST, ((GLboolean) geomData->bitmap.bitOrder == kQ3EndianLittle));
+
+	testRowBytes1 = (geomData->bitmap.width -1)/ 8+1;
+	testRowBytes2 = testRowBytes1/2 +2;
+	testRowBytes4 = testRowBytes1/4+4;
+	testRowBytes8 = testRowBytes1/8 +8;
+
+	if (geomData->bitmap.rowBytes == testRowBytes1)
+		glPixelStorei(GL_UNPACK_ALIGNMENT, (GLint) 1);
+	else if(geomData->bitmap.rowBytes == testRowBytes2)
+		glPixelStorei(GL_UNPACK_ALIGNMENT, (GLint) 2);
+	else if(geomData->bitmap.rowBytes == testRowBytes4)
+		glPixelStorei(GL_UNPACK_ALIGNMENT, (GLint) 4);
+	else if(geomData->bitmap.rowBytes == testRowBytes8)
+		glPixelStorei(GL_UNPACK_ALIGNMENT, (GLint) 8);
+	else
+		Q3_ASSERT(kQ3False);
+
+
+
+	// Invert the bitmap for OpenGL (we can't use glPixelZoom for bitmaps).
+	// Note that the "OpenGL Super Bible" incorrectly suggests that using a
+	// -ve height will flip the image (it won't).
+	rowBytes = geomData->bitmap.rowBytes;
+	h        = geomData->bitmap.height;
+	buffSize = rowBytes * h;
+
+	flipBuffer = (GLubyte *) E3Memory_Allocate(buffSize);
+	if (flipBuffer == NULL)
+		goto cleanup;
+	
+	for (row=0; row < h ;row++)
+		{
+		srcRow = geomData->bitmap.image + (row           * rowBytes);
+		dstRow = flipBuffer             + (((h-1) - row) * rowBytes);
+		memcpy(dstRow, srcRow, rowBytes);
+		}
+
+
+
+	// Render the marker
+	glColor3fv((const GLfloat *) instanceData->stateGeomDiffuseColour);
+	glBitmap((GLsizei) geomData->bitmap.width,
+			 (GLsizei) geomData->bitmap.height,
+			 (GLfloat) -geomData->xOffset,
+			 (GLfloat) (geomData->yOffset + geomData->bitmap.height),
+			 0.0f,
+			 0.0f,
+			 flipBuffer);
+
+
+
+	// Clean up
+cleanup:
+	// Restore lighting
+	if (glLighting)
+		glEnable(GL_LIGHTING);
+
+
+	// Release our memory
+	E3Object_DisposeAndForget(geomAttributes);
+	E3Memory_Free(&flipBuffer);
+
 	return(kQ3Success);
 }
 
@@ -1496,13 +1599,121 @@ IRGeometry_PixmapMarker(TQ3ViewObject			theView,
 						TQ3InteractiveData		*instanceData,
 						TQ3GeometryObject		theGeom,
 						TQ3PixmapMarkerData		*geomData)
-{
-#pragma unused(theView)
+{	TQ3Uns8				*origBasePtr, *newBasePtr;
+	GLboolean			glValid, glLighting;
+	TQ3AttributeSet		geomAttributes;
+	GLint				glPixelType;
+	TQ3Status			qd3dStatus;
+	TQ3Boolean			wasCopied;
 #pragma unused(theGeom)
 
 
 
-	// Render the geometry
+	// Activate our context
+	GLDrawContext_SetCurrent(instanceData->glContext);
+
+
+
+	// Initialise ourselves
+	newBasePtr = NULL;
+	glLighting = false;
+
+
+
+	// Update our state for this object
+	geomAttributes = ir_geom_attribute_combine(theView, geomData->pixmapMarkerAttributeSet);
+	qd3dStatus     = IRRenderer_State_Update(instanceData, geomAttributes);
+    if (qd3dStatus != kQ3Success)
+    	goto cleanup;
+
+
+
+	// Disable lighting
+	glLighting = glIsEnabled(GL_LIGHTING);
+	if (glLighting)
+		glDisable(GL_LIGHTING);
+
+
+
+	// Set up the raster position.
+	//
+	// Calling glBitmap with 0/0 width/height and NULL data moves the raster
+	// position by offset x/y. Note that the glPixelZoom(1.0,-1.0) complicates
+	// arithmetic somewhat.
+	glRasterPos3fv((const GLfloat *) &geomData->position);
+	glGetBooleanv(GL_CURRENT_RASTER_POSITION_VALID, &glValid);
+	if (!glValid)
+		goto cleanup;
+
+	glBitmap(0, 0, 0.0f, 0.0f,
+			 (GLfloat)  geomData->xOffset,
+			 (GLfloat) -geomData->yOffset,
+			 NULL);
+
+	glGetBooleanv(GL_CURRENT_RASTER_POSITION_VALID, &glValid);
+	if (!glValid)
+		goto cleanup;
+
+
+
+	// The image will be flipped around the current raster position.
+	// For pixmap markers, we always assume 4 byte alignment.
+	glPixelZoom(1.0f, -1.0f);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	glPixelStorei(GL_UNPACK_LSB_FIRST, (GLboolean) (geomData->pixmap.bitOrder == kQ3EndianLittle));
+
+
+
+	// Draw the marker. Note that we could draw more pixel formats directly
+	// in OpenGL 1.2, but for now we just handle 24bpp image data.
+	switch (geomData->pixmap.pixelType) {
+		case kQ3PixelTypeRGB24:
+			// Submit the marker image directly
+			glDrawPixels((GLsizei) geomData->pixmap.width,
+						 (GLsizei) geomData->pixmap.height,
+						 GL_RGB, GL_UNSIGNED_BYTE,
+						 (const GLvoid *) geomData->pixmap.image);
+			break;
+
+
+		default:
+			// Convert the image to 32bpp RGBA
+			origBasePtr = IRRenderer_Texture_GetData(geomData->pixmap.image, &wasCopied);
+			if (origBasePtr != NULL)
+				newBasePtr = IRRenderer_Texture_ConvertDepth(geomData->pixmap.width,
+															 geomData->pixmap.height,
+															 geomData->pixmap.rowBytes,
+															 origBasePtr,
+															 geomData->pixmap.pixelType,
+															 geomData->pixmap.byteOrder,
+															 &glPixelType);
+
+
+			// Submit the marker image and release the converted data
+			if (newBasePtr != NULL)
+				glDrawPixels((GLsizei) geomData->pixmap.width,
+							 (GLsizei) geomData->pixmap.height,
+							 GL_RGBA,GL_UNSIGNED_BYTE,
+							 (const GLvoid *) newBasePtr);
+	
+			if (origBasePtr != NULL)
+				IRRenderer_Texture_ReleaseData(geomData->pixmap.image, origBasePtr, wasCopied);
+			break;
+		}
+
+
+
+	// Clean up
+cleanup:
+	// Restore lighting
+	if (glLighting)
+		glEnable(GL_LIGHTING);
+
+
+	// Release our memory
+	E3Object_DisposeAndForget(geomAttributes);
+	E3Memory_Free(&newBasePtr);
+
 	return(kQ3Success);
 }
 

@@ -68,715 +68,6 @@
 
 
 //=============================================================================
-//      ir_state_texture_get_data : Get the data for an image.
-//-----------------------------------------------------------------------------
-//		Note : If possible, we try and avoid copying the image data.
-//-----------------------------------------------------------------------------
-static TQ3Uns8 *
-ir_state_texture_get_data(TQ3StorageObject theStorage, TQ3Boolean *wasCopied)
-{	TQ3Uns32			validSize, bufferSize;
-	TQ3Status			qd3dStatus;
-	TQ3Uns8				*basePtr;
-	TQ3ObjectType		theType;
-	
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theStorage), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(wasCopied), NULL);
-
-
-
-	// Get a pointer to the data for the image, ideally without copying
-	*wasCopied = kQ3False;
-	theType    = Q3Storage_GetType(theStorage);
-	switch (theType) {
-		case kQ3StorageTypeMemory:
-			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, &basePtr, &validSize, &bufferSize);
-			break;
-
-#if QUESA_OS_MACINTOSH
-		case kQ3MemoryStorageTypeHandle:
-			{	Handle	theHnd;
-			
-			qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
-			if (qd3dStatus == kQ3Success && theHnd != NULL)
-				{
-			    MoveHHi(theHnd);
-    			HLock(theHnd);
-    			basePtr = (TQ3Uns8 *) *theHnd;
-    			}
-    		}
-    		break;
-#endif
-
-		default:
-			qd3dStatus = Q3Storage_GetSize(theStorage, &bufferSize);
-			if (qd3dStatus == kQ3Success)
-				basePtr = (TQ3Uns8 *) E3Memory_Allocate(bufferSize);
-			
-			if (basePtr != NULL)
-				{
-				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, basePtr, &validSize);
-				*wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
-				
-				if (qd3dStatus != kQ3Success)
-					E3Memory_Free(&basePtr);
-				}
-			break;
-		}
-
-
-
-	// Return the image
-	if (qd3dStatus != kQ3Success)
-		return(NULL);
-	
-	return(basePtr);
-}
-
-
-
-
-
-//=============================================================================
-//      ir_state_texture_release_data : Release the data for an image.
-//-----------------------------------------------------------------------------
-//		Note :	If we copied the data for the image, we dispose of it here.
-//
-//				We also need to check for Mac Handle storage objects, and
-//				unlock the handle - we left it locked when the image data was
-//				acquired, since it may have saved us from having to copy the
-//				data.
-//-----------------------------------------------------------------------------
-static void
-ir_state_texture_release_data(TQ3StorageObject	theStorage,
-								TQ3Uns8			*basePtr,
-								TQ3Boolean		wasCopied)
-{
-#if QUESA_OS_MACINTOSH
-	TQ3Status			qd3dStatus;
-	TQ3Uns32			validSize;
-	TQ3ObjectType		theType;
-	Handle				theHnd;
-
-
-
-	// If this is a Mac handle object, unlock the handle
-	theType = Q3Storage_GetType(theStorage);
-	if (theType == kQ3MemoryStorageTypeHandle)
-		{
-		qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
-		if (qd3dStatus == kQ3Success && theHnd != NULL)
-			HUnlock(theHnd);
-		}
-#endif
-
-
-
-	// If the data was copied, dispose of it
-	if (wasCopied)
-		E3Memory_Free(&basePtr);
-}
-
-
-
-
-
-//=============================================================================
-//      ir_state_texture_convert_depth : Convert an image to a suitable depth.
-//-----------------------------------------------------------------------------
-//		Note :	OpenGL textures currently have to be 24 or 32bpp deep.
-//
-//				QD3D allows various depths, so we need to resample the QD3D
-//				texture to obtain a new image we can pass to OpenGL.
-//
-//				We always return 32bpp RGBA images, although we also set up
-//				outPixelType to act as a hint for the final desired depth (so
-//				shallower images will hopefully end up smaller when loaded into
-//				VRAM).
-//
-//				Note that we always have to create a new image, since even
-//				32bpp data from QD3D has to be turned from ARGB into RGBA.
-//
-//				We never return 24bpp images, since the missing alpha bytes
-//				will misalign the texture data. Even if no alpha is present in
-//				the QD3D texture, a dummy value is created.
-//-----------------------------------------------------------------------------
-static TQ3Uns8 *
-ir_state_texture_convert_depth(TQ3Uns32			theWidth,
-								TQ3Uns32		theHeight,
-								TQ3Uns32		srcRowBytes,
-								TQ3Uns8			*srcBasePtr,
-								TQ3PixelType	srcPixelType,
-								TQ3Endian 		srcByteOrder,
-								GLint			*glPixelType)
-{	TQ3Uns8				*dstBasePtr, *dstRow, *dstPixel, *srcRow, *srcPixel;
-	TQ3Uns32			redBits, greenBits, blueBits, alphaBits;
-	TQ3Uns32			x, y, n, dstRowBytes, srcDepth;
-
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(theWidth    != 0,          NULL);
-	Q3_REQUIRE_OR_RESULT(theHeight   != 0,          NULL);
-	Q3_REQUIRE_OR_RESULT(srcRowBytes != 0,          NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(srcBasePtr),  NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glPixelType), NULL);
-
-
-
-	// Allocate the buffer for the image data
-	dstBasePtr = (TQ3Uns8 *) E3Memory_Allocate(theWidth * theHeight * 4);
-	if (dstBasePtr == NULL)
-		return(NULL);
-
-
-
-	// Work out the information we need to convert the image
-	*glPixelType = GLUtils_ConvertPixelType(srcPixelType);
-	srcDepth     = GLUtils_SizeOfPixelType(srcPixelType)/8;
-	dstRowBytes  = theWidth * 4;
-
-	srcRow = srcBasePtr;
-	dstRow = dstBasePtr;
-
-
-
-	// Big endian conversion
-	if(srcByteOrder == kQ3EndianBig)
-		{
-		switch(srcPixelType) {
-			case kQ3PixelTypeARGB32:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-						dstPixel[0] = srcPixel[1];
-						dstPixel[1] = srcPixel[2];
-						dstPixel[2] = srcPixel[3];
-						dstPixel[3] = srcPixel[0];
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeARGB32
-			case kQ3PixelTypeRGB32:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-						dstPixel[0] = srcPixel[1];
-						dstPixel[1] = srcPixel[2];
-						dstPixel[2] = srcPixel[3];
-						dstPixel[3] = 0xFF;
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeRGB32
-			case kQ3PixelTypeRGB24:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-						dstPixel[0] = srcPixel[0];
-						dstPixel[1] = srcPixel[1];
-						dstPixel[2] = srcPixel[2];
-						dstPixel[3] = 0xFF;
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeRGB24
-			case kQ3PixelTypeARGB16:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-				    n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
-						alphaBits = (n >> 15) & 0x0001;
-						redBits   = (n >> 10) & 0x001F;
-						greenBits = (n >>  5) & 0x001F;
-						blueBits  = (n >>  0) & 0x001F;
-								
-						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
-						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
-						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
-						dstPixel[3] = (TQ3Uns8) (alphaBits * 0xFF);
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeARGB16
-			case kQ3PixelTypeRGB16:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
-						redBits   = (n >> 10) & 0x001F;
-						greenBits = (n >>  5) & 0x001F;
-						blueBits  = (n >>  0) & 0x001F;
-	
-						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
-						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
-						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
-						dstPixel[3] = 0xFF;
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeRGB16
-			case kQ3PixelTypeRGB16_565:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
-						redBits   = (n >> 11) & 0x001F;
-						greenBits = (n >>  5) & 0x003F;
-						blueBits  = (n >>  0) & 0x001F;
-	
-						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
-						dstPixel[1] = (TQ3Uns8) (greenBits * 4);
-						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
-						dstPixel[3] = 0xFF;
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeRGB16_565
-			}
-		}
-
-
-	// Little endian conversion
-	else
-		{
-		switch(srcPixelType) {
-			case kQ3PixelTypeARGB32:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-						dstPixel[0] = srcPixel[2];
-						dstPixel[1] = srcPixel[1];
-						dstPixel[2] = srcPixel[0];
-						dstPixel[3] = srcPixel[3];
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeARGB32
-			case kQ3PixelTypeRGB32:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-						dstPixel[0] = srcPixel[2];
-						dstPixel[1] = srcPixel[1];
-						dstPixel[2] = srcPixel[0];
-						dstPixel[3] = 0xFF;
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeRGB32
-			case kQ3PixelTypeRGB24:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-						dstPixel[0] = srcPixel[3];
-						dstPixel[1] = srcPixel[2];
-						dstPixel[2] = srcPixel[1];
-						dstPixel[3] = 0xFF;
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeRGB24
-			case kQ3PixelTypeARGB16:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-                        n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
-						alphaBits = (n >> 15) & 0x0001;
-						redBits   = (n >> 10) & 0x001F;
-						greenBits = (n >>  5) & 0x001F;
-						blueBits  = (n >>  0) & 0x001F;
-								
-						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
-						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
-						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
-						dstPixel[3] = (TQ3Uns8) (alphaBits * 0xFF);
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeARGB16
-			case kQ3PixelTypeRGB16:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
-						redBits   = (n >> 10) & 0x001F;
-						greenBits = (n >>  5) & 0x001F;
-						blueBits  = (n >>  0) & 0x001F;
-	
-						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
-						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
-						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
-						dstPixel[3] = 0xFF;
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeRGB16
-			case kQ3PixelTypeRGB16_565:
-				{
-				for (y = 0; y < theHeight; y++)
-					{
-					// Reset the pixel to the start of the row
-					srcPixel = srcRow;
-					dstPixel = dstRow;
-					// Convert the row
-					for (x = 0; x < theWidth; x++)
-						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
-						redBits   = (n >> 11) & 0x001F;
-						greenBits = (n >>  5) & 0x003F;
-						blueBits  = (n >>  0) & 0x001F;
-	
-						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
-						dstPixel[1] = (TQ3Uns8) (greenBits * 4);
-						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
-						dstPixel[3] = 0xFF;
-						// Move on to the next pixel
-						srcPixel += srcDepth;
-						dstPixel += 4;
-						}
-					// Move on to the next row
-					srcRow += srcRowBytes;
-					dstRow += dstRowBytes;
-					}
-				}
-				break;	//kQ3PixelTypeRGB16_565
-			}
-		}
-
-
-
-	// Return the new image
-	return(dstBasePtr);
-}
-
-
-
-
-
-//=============================================================================
-//      ir_state_texture_convert_size : Convert an image to a suitable size.
-//-----------------------------------------------------------------------------
-//		Note :	OpenGL textures currently have to be powers of 2 in size.
-//
-//				QD3D allows various sizes, so we need to resample the QD3D
-//				texture to obtain a new image we can pass to OpenGL.
-//
-//				We assume the input image is 32bpp deep.
-//-----------------------------------------------------------------------------
-static TQ3Uns8 *
-ir_state_texture_convert_size(TQ3Uns32			srcWidth,
-								TQ3Uns32		srcHeight,
-								TQ3Uns32		srcRowBytes,
-								TQ3Uns8			*srcBasePtr,
-								TQ3Uns32		*dstWidth,
-								TQ3Uns32		*dstHeight,
-								TQ3Uns32		*dstRowBytes)
-{	TQ3Uns32			theWidth, theHeight;
-	TQ3Uns8				*dstBasePtr;
-	GLint				maxGLSize;
-
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(srcWidth    != 0,                   NULL);
-	Q3_REQUIRE_OR_RESULT(srcHeight   != 0,                   NULL);
-	Q3_REQUIRE_OR_RESULT(srcRowBytes != 0,                   NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(srcBasePtr),           NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstWidth),             NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstHeight),            NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstRowBytes),          NULL);
-	Q3_REQUIRE_OR_RESULT(!ir_state_is_power_of_2(srcWidth),  NULL);
-	Q3_REQUIRE_OR_RESULT(!ir_state_is_power_of_2(srcHeight), NULL);
-
-
-
-	// Assign some return values
-	*dstWidth    = 0;
-	*dstHeight   = 0;
-	*dstRowBytes = 0;
-
-
-
-	// Work out how large the image should be. We scale up rather
-	// than down, resizing the image to the next largest power of 2.
-	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxGLSize);
-	theWidth  = 1;
-	theHeight = 1;
-
-	while (theWidth < srcWidth && theWidth <= (TQ3Uns32) maxGLSize)
-		theWidth *= 2;
-		
-	while (theHeight < srcHeight && theHeight <= (TQ3Uns32) maxGLSize)
-		theHeight *= 2;
-
-
-
-	// Allocate the buffer for the image data
-	dstBasePtr = (TQ3Uns8 *) E3Memory_Allocate(theWidth * theHeight * 4);
-	if (dstBasePtr == NULL)
-		return(NULL);
-
-
-
-	// Resize the image
-	gluScaleImage(GL_RGBA, srcWidth, srcHeight, GL_UNSIGNED_BYTE, srcBasePtr,
-						   theWidth, theHeight, GL_UNSIGNED_BYTE, dstBasePtr);
-
-
-
-	// Return the scaled image
-	*dstWidth    = theWidth;
-	*dstHeight   = theHeight;
-	*dstRowBytes = theWidth * 4;	
-
-	return(dstBasePtr);
-}
-
-
-
-
-
-//=============================================================================
-//      ir_state_texture_convert_image : Convert a QD3D texture.
-//-----------------------------------------------------------------------------
-//		Note :	Given a QD3D texture return a block of memory suitable for use
-//				as an OpenGL texture, as well as the appropriate size/depth
-//				description of the new texture.
-//
-//				QD3D textures are always converted to a 32bpp RGBA image for
-//				OpenGL, and our caller must dispose of this image after use.
-//-----------------------------------------------------------------------------
-static TQ3Uns8 *
-ir_state_texture_convert_image(TQ3StorageObject		theStorage,
-								TQ3PixelType		srcPixelType,
-								TQ3Uns32			srcWidth,
-								TQ3Uns32			srcHeight,
-								TQ3Uns32			srcRowBytes,
-								TQ3Endian 		srcByteOrder,
-								TQ3Uns32			*dstWidth,
-								TQ3Uns32			*dstHeight,
-								TQ3Uns32			*dstRowBytes,
-								GLint				*glPixelType)
-{	TQ3Uns8		*qd3dBasePtr, *depthBasePtr, *sizeBasePtr;
-	TQ3Boolean		wasCopied;
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theStorage),    NULL);
-	Q3_REQUIRE_OR_RESULT(srcWidth    != 0,            NULL);
-	Q3_REQUIRE_OR_RESULT(srcHeight   != 0,            NULL);
-	Q3_REQUIRE_OR_RESULT(srcRowBytes != 0,            NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstWidth),      NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstHeight),     NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstRowBytes),   NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glPixelType),   NULL);
-
-
-
-	// Set up some return values
-	*dstWidth    = 0;
-	*dstHeight   = 0;
-	*dstRowBytes = 0;
-	*glPixelType = GL_RGB;
-
-
-
-	// Get the QD3D texture data
-	qd3dBasePtr = ir_state_texture_get_data(theStorage, &wasCopied);
-	if (qd3dBasePtr == NULL)
-		return(NULL);
-
-
-
-	// Copy the texture to a temporary copy of the correct depth
-	depthBasePtr = ir_state_texture_convert_depth(srcWidth,       srcHeight,
-													srcRowBytes,  qd3dBasePtr,
-													srcPixelType, srcByteOrder, glPixelType);
-
-
-
-	// Release the QD3D texture data
-	ir_state_texture_release_data(theStorage, qd3dBasePtr, wasCopied);
-
-
-
-	// Bail if the depth copy failed
-	if (depthBasePtr == NULL)
-		return(NULL);
-
-
-
-	// If the image isn't a power of 2 in size, we also need to resize it		
-	if (!ir_state_is_power_of_2(srcWidth) || !ir_state_is_power_of_2(srcHeight))
-		{
-		// Resize the image
-		sizeBasePtr = ir_state_texture_convert_size(srcWidth, srcHeight, srcRowBytes, depthBasePtr,
-													dstWidth, dstHeight, dstRowBytes);
-
-
-		// Release the depth copy of the texture
-		E3Memory_Free(&depthBasePtr);
-
-
-		// Replace the depth copy with the size copy
-		depthBasePtr = sizeBasePtr;
-		}
-
-
-	// Otherwise, use the size as-is (setting rowBytes for the 32bpp output image)
-	else
-		{
-		*dstWidth    = srcWidth;
-		*dstHeight   = srcHeight;
-		*dstRowBytes = (srcWidth * 4);
-		}
-
-
-
-	// We're done - the final image is 32bpp RGBA, and a power of 2 in size
-	return(depthBasePtr);
-}
-
-
-
-
-
-//=============================================================================
 //      ir_state_texture_convert_pixmap : Convert a QD3D Pixmap texture.
 //-----------------------------------------------------------------------------
 //		Note :	The texture state has already been set - we just need to
@@ -805,7 +96,7 @@ ir_state_texture_convert_pixmap(TQ3TextureObject theTexture)
 
 
 	// Get the image data for the pixmap in a form that OpenGL can accept
-	basePtr = ir_state_texture_convert_image(thePixmap.image, thePixmap.pixelType,
+	basePtr = IRRenderer_Texture_ConvertImage(thePixmap.image, thePixmap.pixelType,
 												thePixmap.width,
 												thePixmap.height,
 												thePixmap.rowBytes,
@@ -885,7 +176,7 @@ ir_state_texture_convert_mipmap(TQ3TextureObject theTexture)
 
 
 	// Get the image data for the mipmap in a form that OpenGL can accept
-	basePtr = ir_state_texture_convert_image(theMipmap.image, theMipmap.pixelType,
+	basePtr = IRRenderer_Texture_ConvertImage(theMipmap.image, theMipmap.pixelType,
 												theMipmap.mipmaps[0].width,
 												theMipmap.mipmaps[0].height,
 												theMipmap.mipmaps[0].rowBytes,
@@ -1598,6 +889,715 @@ IRRenderer_Texture_Postamble(TQ3ViewObject			theView,
 	// need to turn it back on again for future objects.
 	else if (instanceData->stateTextureForceWhite)
 		glEnable(GL_TEXTURE_2D);
+}
+
+
+
+
+
+//=============================================================================
+//      IRRenderer_Texture_GetData : Get the data for an image.
+//-----------------------------------------------------------------------------
+//		Note : If possible, we try and avoid copying the image data.
+//-----------------------------------------------------------------------------
+TQ3Uns8 *
+IRRenderer_Texture_GetData(TQ3StorageObject theStorage, TQ3Boolean *wasCopied)
+{	TQ3Uns32			validSize, bufferSize;
+	TQ3Status			qd3dStatus;
+	TQ3Uns8				*basePtr;
+	TQ3ObjectType		theType;
+	
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theStorage), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(wasCopied), NULL);
+
+
+
+	// Get a pointer to the data for the image, ideally without copying
+	*wasCopied = kQ3False;
+	theType    = Q3Storage_GetType(theStorage);
+	switch (theType) {
+		case kQ3StorageTypeMemory:
+			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, &basePtr, &validSize, &bufferSize);
+			break;
+
+#if QUESA_OS_MACINTOSH
+		case kQ3MemoryStorageTypeHandle:
+			{	Handle	theHnd;
+			
+			qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
+			if (qd3dStatus == kQ3Success && theHnd != NULL)
+				{
+			    MoveHHi(theHnd);
+    			HLock(theHnd);
+    			basePtr = (TQ3Uns8 *) *theHnd;
+    			}
+    		}
+    		break;
+#endif
+
+		default:
+			qd3dStatus = Q3Storage_GetSize(theStorage, &bufferSize);
+			if (qd3dStatus == kQ3Success)
+				basePtr = (TQ3Uns8 *) E3Memory_Allocate(bufferSize);
+			
+			if (basePtr != NULL)
+				{
+				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, basePtr, &validSize);
+				*wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
+				
+				if (qd3dStatus != kQ3Success)
+					E3Memory_Free(&basePtr);
+				}
+			break;
+		}
+
+
+
+	// Return the image
+	if (qd3dStatus != kQ3Success)
+		return(NULL);
+	
+	return(basePtr);
+}
+
+
+
+
+
+//=============================================================================
+//      IRRenderer_Texture_ReleaseData : Release the data for an image.
+//-----------------------------------------------------------------------------
+//		Note :	If we copied the data for the image, we dispose of it here.
+//
+//				We also need to check for Mac Handle storage objects, and
+//				unlock the handle - we left it locked when the image data was
+//				acquired, since it may have saved us from having to copy the
+//				data.
+//-----------------------------------------------------------------------------
+void
+IRRenderer_Texture_ReleaseData(TQ3StorageObject	theStorage,
+								TQ3Uns8			*basePtr,
+								TQ3Boolean		wasCopied)
+{
+#if QUESA_OS_MACINTOSH
+	TQ3Status			qd3dStatus;
+	TQ3Uns32			validSize;
+	TQ3ObjectType		theType;
+	Handle				theHnd;
+
+
+
+	// If this is a Mac handle object, unlock the handle
+	theType = Q3Storage_GetType(theStorage);
+	if (theType == kQ3MemoryStorageTypeHandle)
+		{
+		qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
+		if (qd3dStatus == kQ3Success && theHnd != NULL)
+			HUnlock(theHnd);
+		}
+#endif
+
+
+
+	// If the data was copied, dispose of it
+	if (wasCopied)
+		E3Memory_Free(&basePtr);
+}
+
+
+
+
+
+//=============================================================================
+//      IRRenderer_Texture_ConvertDepth : Convert an image to a suitable depth.
+//-----------------------------------------------------------------------------
+//		Note :	OpenGL textures currently have to be 24 or 32bpp deep.
+//
+//				QD3D allows various depths, so we need to resample the QD3D
+//				texture to obtain a new image we can pass to OpenGL.
+//
+//				We always return 32bpp RGBA images, although we also set up
+//				outPixelType to act as a hint for the final desired depth (so
+//				shallower images will hopefully end up smaller when loaded into
+//				VRAM).
+//
+//				Note that we always have to create a new image, since even
+//				32bpp data from QD3D has to be turned from ARGB into RGBA.
+//
+//				We never return 24bpp images, since the missing alpha bytes
+//				will misalign the texture data. Even if no alpha is present in
+//				the QD3D texture, a dummy value is created.
+//-----------------------------------------------------------------------------
+TQ3Uns8 *
+IRRenderer_Texture_ConvertDepth(TQ3Uns32		theWidth,
+								TQ3Uns32		theHeight,
+								TQ3Uns32		srcRowBytes,
+								TQ3Uns8			*srcBasePtr,
+								TQ3PixelType	srcPixelType,
+								TQ3Endian 		srcByteOrder,
+								GLint			*glPixelType)
+{	TQ3Uns8				*dstBasePtr, *dstRow, *dstPixel, *srcRow, *srcPixel;
+	TQ3Uns32			redBits, greenBits, blueBits, alphaBits;
+	TQ3Uns32			x, y, n, dstRowBytes, srcDepth;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(theWidth    != 0,          NULL);
+	Q3_REQUIRE_OR_RESULT(theHeight   != 0,          NULL);
+	Q3_REQUIRE_OR_RESULT(srcRowBytes != 0,          NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(srcBasePtr),  NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glPixelType), NULL);
+
+
+
+	// Allocate the buffer for the image data
+	dstBasePtr = (TQ3Uns8 *) E3Memory_Allocate(theWidth * theHeight * 4);
+	if (dstBasePtr == NULL)
+		return(NULL);
+
+
+
+	// Work out the information we need to convert the image
+	*glPixelType = GLUtils_ConvertPixelType(srcPixelType);
+	srcDepth     = GLUtils_SizeOfPixelType(srcPixelType)/8;
+	dstRowBytes  = theWidth * 4;
+
+	srcRow = srcBasePtr;
+	dstRow = dstBasePtr;
+
+
+
+	// Big endian conversion
+	if(srcByteOrder == kQ3EndianBig)
+		{
+		switch(srcPixelType) {
+			case kQ3PixelTypeARGB32:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[1];
+						dstPixel[1] = srcPixel[2];
+						dstPixel[2] = srcPixel[3];
+						dstPixel[3] = srcPixel[0];
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeARGB32
+			case kQ3PixelTypeRGB32:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[1];
+						dstPixel[1] = srcPixel[2];
+						dstPixel[2] = srcPixel[3];
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB32
+			case kQ3PixelTypeRGB24:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[0];
+						dstPixel[1] = srcPixel[1];
+						dstPixel[2] = srcPixel[2];
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB24
+			case kQ3PixelTypeARGB16:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+				    n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+						alphaBits = (n >> 15) & 0x0001;
+						redBits   = (n >> 10) & 0x001F;
+						greenBits = (n >>  5) & 0x001F;
+						blueBits  = (n >>  0) & 0x001F;
+								
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = (TQ3Uns8) (alphaBits * 0xFF);
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeARGB16
+			case kQ3PixelTypeRGB16:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+						redBits   = (n >> 10) & 0x001F;
+						greenBits = (n >>  5) & 0x001F;
+						blueBits  = (n >>  0) & 0x001F;
+	
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB16
+			case kQ3PixelTypeRGB16_565:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+						redBits   = (n >> 11) & 0x001F;
+						greenBits = (n >>  5) & 0x003F;
+						blueBits  = (n >>  0) & 0x001F;
+	
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 4);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB16_565
+			}
+		}
+
+
+	// Little endian conversion
+	else
+		{
+		switch(srcPixelType) {
+			case kQ3PixelTypeARGB32:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[2];
+						dstPixel[1] = srcPixel[1];
+						dstPixel[2] = srcPixel[0];
+						dstPixel[3] = srcPixel[3];
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeARGB32
+			case kQ3PixelTypeRGB32:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[2];
+						dstPixel[1] = srcPixel[1];
+						dstPixel[2] = srcPixel[0];
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB32
+			case kQ3PixelTypeRGB24:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						dstPixel[0] = srcPixel[3];
+						dstPixel[1] = srcPixel[2];
+						dstPixel[2] = srcPixel[1];
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB24
+			case kQ3PixelTypeARGB16:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+                        n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
+						alphaBits = (n >> 15) & 0x0001;
+						redBits   = (n >> 10) & 0x001F;
+						greenBits = (n >>  5) & 0x001F;
+						blueBits  = (n >>  0) & 0x001F;
+								
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = (TQ3Uns8) (alphaBits * 0xFF);
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeARGB16
+			case kQ3PixelTypeRGB16:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
+						redBits   = (n >> 10) & 0x001F;
+						greenBits = (n >>  5) & 0x001F;
+						blueBits  = (n >>  0) & 0x001F;
+	
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 8);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB16
+			case kQ3PixelTypeRGB16_565:
+				{
+				for (y = 0; y < theHeight; y++)
+					{
+					// Reset the pixel to the start of the row
+					srcPixel = srcRow;
+					dstPixel = dstRow;
+					// Convert the row
+					for (x = 0; x < theWidth; x++)
+						{
+						n         = (TQ3Uns32) *((TQ3Uns16 *) E3EndianSwap16(srcPixel));
+						redBits   = (n >> 11) & 0x001F;
+						greenBits = (n >>  5) & 0x003F;
+						blueBits  = (n >>  0) & 0x001F;
+	
+						dstPixel[0] = (TQ3Uns8) (redBits   * 8);
+						dstPixel[1] = (TQ3Uns8) (greenBits * 4);
+						dstPixel[2] = (TQ3Uns8) (blueBits  * 8);
+						dstPixel[3] = 0xFF;
+						// Move on to the next pixel
+						srcPixel += srcDepth;
+						dstPixel += 4;
+						}
+					// Move on to the next row
+					srcRow += srcRowBytes;
+					dstRow += dstRowBytes;
+					}
+				}
+				break;	//kQ3PixelTypeRGB16_565
+			}
+		}
+
+
+
+	// Return the new image
+	return(dstBasePtr);
+}
+
+
+
+
+
+//=============================================================================
+//      IRRenderer_Texture_ConvertSize : Convert an image to a suitable size.
+//-----------------------------------------------------------------------------
+//		Note :	OpenGL textures currently have to be powers of 2 in size.
+//
+//				QD3D allows various sizes, so we need to resample the QD3D
+//				texture to obtain a new image we can pass to OpenGL.
+//
+//				We assume the input image is 32bpp deep.
+//-----------------------------------------------------------------------------
+TQ3Uns8 *
+IRRenderer_Texture_ConvertSize(TQ3Uns32			srcWidth,
+								TQ3Uns32		srcHeight,
+								TQ3Uns32		srcRowBytes,
+								TQ3Uns8			*srcBasePtr,
+								TQ3Uns32		*dstWidth,
+								TQ3Uns32		*dstHeight,
+								TQ3Uns32		*dstRowBytes)
+{	TQ3Uns32			theWidth, theHeight;
+	TQ3Uns8				*dstBasePtr;
+	GLint				maxGLSize;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(srcWidth    != 0,                   NULL);
+	Q3_REQUIRE_OR_RESULT(srcHeight   != 0,                   NULL);
+	Q3_REQUIRE_OR_RESULT(srcRowBytes != 0,                   NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(srcBasePtr),           NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstWidth),             NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstHeight),            NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstRowBytes),          NULL);
+	Q3_REQUIRE_OR_RESULT(!ir_state_is_power_of_2(srcWidth),  NULL);
+	Q3_REQUIRE_OR_RESULT(!ir_state_is_power_of_2(srcHeight), NULL);
+
+
+
+	// Assign some return values
+	*dstWidth    = 0;
+	*dstHeight   = 0;
+	*dstRowBytes = 0;
+
+
+
+	// Work out how large the image should be. We scale up rather
+	// than down, resizing the image to the next largest power of 2.
+	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxGLSize);
+	theWidth  = 1;
+	theHeight = 1;
+
+	while (theWidth < srcWidth && theWidth <= (TQ3Uns32) maxGLSize)
+		theWidth *= 2;
+		
+	while (theHeight < srcHeight && theHeight <= (TQ3Uns32) maxGLSize)
+		theHeight *= 2;
+
+
+
+	// Allocate the buffer for the image data
+	dstBasePtr = (TQ3Uns8 *) E3Memory_Allocate(theWidth * theHeight * 4);
+	if (dstBasePtr == NULL)
+		return(NULL);
+
+
+
+	// Resize the image
+	gluScaleImage(GL_RGBA, srcWidth, srcHeight, GL_UNSIGNED_BYTE, srcBasePtr,
+						   theWidth, theHeight, GL_UNSIGNED_BYTE, dstBasePtr);
+
+
+
+	// Return the scaled image
+	*dstWidth    = theWidth;
+	*dstHeight   = theHeight;
+	*dstRowBytes = theWidth * 4;	
+
+	return(dstBasePtr);
+}
+
+
+
+
+
+//=============================================================================
+//      IRRenderer_Texture_ConvertImage : Convert a QD3D texture.
+//-----------------------------------------------------------------------------
+//		Note :	Given a QD3D texture return a block of memory suitable for use
+//				as an OpenGL texture, as well as the appropriate size/depth
+//				description of the new texture.
+//
+//				QD3D textures are always converted to a 32bpp RGBA image for
+//				OpenGL, and our caller must dispose of this image after use.
+//-----------------------------------------------------------------------------
+TQ3Uns8 *
+IRRenderer_Texture_ConvertImage(TQ3StorageObject	theStorage,
+								TQ3PixelType		srcPixelType,
+								TQ3Uns32			srcWidth,
+								TQ3Uns32			srcHeight,
+								TQ3Uns32			srcRowBytes,
+								TQ3Endian 			srcByteOrder,
+								TQ3Uns32			*dstWidth,
+								TQ3Uns32			*dstHeight,
+								TQ3Uns32			*dstRowBytes,
+								GLint				*glPixelType)
+{	TQ3Uns8		*qd3dBasePtr, *depthBasePtr, *sizeBasePtr;
+	TQ3Boolean		wasCopied;
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theStorage),    NULL);
+	Q3_REQUIRE_OR_RESULT(srcWidth    != 0,            NULL);
+	Q3_REQUIRE_OR_RESULT(srcHeight   != 0,            NULL);
+	Q3_REQUIRE_OR_RESULT(srcRowBytes != 0,            NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstWidth),      NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstHeight),     NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstRowBytes),   NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glPixelType),   NULL);
+
+
+
+	// Set up some return values
+	*dstWidth    = 0;
+	*dstHeight   = 0;
+	*dstRowBytes = 0;
+	*glPixelType = GL_RGB;
+
+
+
+	// Get the QD3D texture data
+	qd3dBasePtr = IRRenderer_Texture_GetData(theStorage, &wasCopied);
+	if (qd3dBasePtr == NULL)
+		return(NULL);
+
+
+
+	// Copy the texture to a temporary copy of the correct depth
+	depthBasePtr = IRRenderer_Texture_ConvertDepth(srcWidth,      srcHeight,
+													srcRowBytes,  qd3dBasePtr,
+													srcPixelType, srcByteOrder, glPixelType);
+
+
+
+	// Release the QD3D texture data
+	IRRenderer_Texture_ReleaseData(theStorage, qd3dBasePtr, wasCopied);
+
+
+
+	// Bail if the depth copy failed
+	if (depthBasePtr == NULL)
+		return(NULL);
+
+
+
+	// If the image isn't a power of 2 in size, we also need to resize it		
+	if (!ir_state_is_power_of_2(srcWidth) || !ir_state_is_power_of_2(srcHeight))
+		{
+		// Resize the image
+		sizeBasePtr = IRRenderer_Texture_ConvertSize(srcWidth, srcHeight, srcRowBytes, depthBasePtr,
+													 dstWidth, dstHeight, dstRowBytes);
+
+
+		// Release the depth copy of the texture
+		E3Memory_Free(&depthBasePtr);
+
+
+		// Replace the depth copy with the size copy
+		depthBasePtr = sizeBasePtr;
+		}
+
+
+	// Otherwise, use the size as-is (setting rowBytes for the 32bpp output image)
+	else
+		{
+		*dstWidth    = srcWidth;
+		*dstHeight   = srcHeight;
+		*dstRowBytes = (srcWidth * 4);
+		}
+
+
+
+	// We're done - the final image is 32bpp RGBA, and a power of 2 in size
+	return(depthBasePtr);
 }
 
 
