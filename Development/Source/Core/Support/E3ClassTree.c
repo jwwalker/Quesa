@@ -439,8 +439,7 @@ E3ClassTree_Destroy(void)
 	// If we have a class tree, destroy it
 	if (theGlobals->classTree != NULL)
 		{
-		E3HashTable_Destroy(theGlobals->classTree);
-		theGlobals->classTree     = NULL;
+		E3HashTable_Destroy(&theGlobals->classTree);
 		theGlobals->classTreeRoot = NULL;
 		}
 }
@@ -529,7 +528,7 @@ E3ClassTree_RegisterClass(TQ3ObjectType			parentClassType,
 			Q3Memory_Free(&theClass->className);
 		
 		if (theClass->methodTable != NULL)
-			E3HashTable_Destroy(theClass->methodTable);
+			E3HashTable_Destroy(&theClass->methodTable);
 
 		Q3Memory_Free(&theClass);
 		return(kQ3Failure);
@@ -581,7 +580,7 @@ E3ClassTree_RegisterClass(TQ3ObjectType			parentClassType,
 
 		// Clean up the class
 		Q3Memory_Free(&theClass->className);
-		E3HashTable_Destroy(theClass->methodTable);
+		E3HashTable_Destroy(&theClass->methodTable);
 		Q3Memory_Free(&theClass);
 		}
 
@@ -665,7 +664,7 @@ E3ClassTree_UnregisterClass(TQ3ObjectType classType, TQ3Boolean isRequired)
 	Q3_ASSERT(theClass->theChildren == NULL);
 
 	Q3Memory_Free(&theClass->className);
-	E3HashTable_Destroy(theClass->methodTable);
+	E3HashTable_Destroy(&theClass->methodTable);
 	Q3Memory_Free(&theClass);
 	
 	return(kQ3Success);
