@@ -226,7 +226,6 @@ extern "C" {
 // Class types
 #define kQ3ObjectTypeQuesa							Q3_OBJECT_TYPE(0xDE, 0xAD, 0xD0, 0xD0)
 #define kQ3ObjectTypeRoot							Q3_OBJECT_TYPE('Q', 'r', 'o', 'o')
-#define kQ3ObjectTypeQuesaWireframe					Q3_OBJECT_TYPE('Q', 'r', 'n', 'w')
 #define kQ3ObjectTypeQuesaInteractive				Q3_OBJECT_TYPE('Q', 'r', 'n', 'i')
 #define kQ3ObjectTypeAttributeSurfaceUV				Q3_OBJECT_TYPE('s', 'r', 'u', 'v')
 #define kQ3ObjectTypeAttributeShadingUV				Q3_OBJECT_TYPE('s', 'h', 'u', 'v')
