@@ -55,14 +55,52 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-void				IRGeometry_Initialise(
-								TQ3InteractiveData		*instanceData,
-								TQ3CameraObject			theCamera);
+TQ3AttributeSet		IRGeometry_Attribute_Combine(
+								TQ3ViewObject			theView,
+								TQ3AttributeSet			geomAttributes);
 
-void				IRGeometry_FlushPrimCache(
+TQ3ColorRGB			*IRGeometry_Attribute_GetDiffuse(
+								TQ3InteractiveData		*instanceData,
+								TQ3AttributeSet			theAttributes,
+								TQ3Boolean				canTexture);
+
+TQ3ColorRGB			*IRGeometry_Attribute_GetTransparent(
+								TQ3InteractiveData		*instanceData,
+								TQ3AttributeSet			theAttributes);
+
+TQ3Vector3D			*IRGeometry_Attribute_GetNormal(
+								TQ3InteractiveData		*instanceData,
+								TQ3AttributeSet			theAttributes);
+
+TQ3Param2D			*IRGeometry_Attribute_GetUV(
+								TQ3InteractiveData		*instanceData,
+								TQ3AttributeSet			theAttributes);
+
+TQ3Boolean			IRGeometry_Triangle_IsVisible(
+								TQ3InteractiveData		*instanceData,
+								const TQ3Vector3D		*triNormal);
+
+void				IRGeometry_Primitive_Render(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
-								TQ3Boolean				renderFlush);
+								TQ3PrimType				theType,
+								TQ3PrimFlags			theFlags,
+								const TQ3Point3D		**thePoints,
+								const TQ3Vector3D		**theNormals,
+								const TQ3Param2D		**theUVs,
+								const TQ3ColorRGB		**colourDiffuse);
+
+void				IRGeometry_Primitive_Submit(
+								TQ3ViewObject			theView,
+								TQ3InteractiveData		*instanceData,
+								TQ3PrimType				theType,
+								TQ3Boolean				knowIsTransparent,
+								const TQ3Vector3D		*triNormal,
+								const TQ3Point3D		**thePoints,
+								const TQ3Vector3D		**theNormals,
+								const TQ3Param2D		**theUVs,
+								const TQ3ColorRGB		**colourDiffuse,
+								const TQ3ColorRGB		**colourTransparent);
 
 TQ3Status			IRGeometry_Triangle(
 								TQ3ViewObject			theView,
@@ -99,12 +137,6 @@ TQ3Status			IRGeometry_PolyLine(
 								TQ3InteractiveData		*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3PolyLineData			*geomData);
-
-TQ3Status			IRGeometry_TriMesh(
-								TQ3ViewObject			theView,
-								TQ3InteractiveData		*instanceData,
-								TQ3GeometryObject		theGeom,
-								TQ3TriMeshData			*geomData);
 
 
 
