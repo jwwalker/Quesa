@@ -88,27 +88,23 @@ Q3AttributeClass_Register(TQ3AttributeType		attributeType,
 							const char          *name,
 							TQ3Uns32            sizeOfElement,
 							TQ3XMetaHandler     metaHandler)
-{	TQ3Status			qd3dStatus;
-	E3ClassInfoPtr		theClass;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
-											attributeType,
-											name,
-											metaHandler,
-											sizeOfElement);
-	if (qd3dStatus != kQ3Success)
-		return(NULL);
+	TQ3Status qd3dStatus = E3ClassTree::RegisterClass ( kQ3ObjectTypeRoot ,
+											attributeType ,
+											name ,
+											metaHandler ,
+											~ ( sizeOfElement + sizeof ( OpaqueTQ3Object ) ) ) ;
+	if ( qd3dStatus != kQ3Success )
+		return NULL ;
 
 
 
 	// Find the class
-	theClass = E3ClassTree_GetClassByType(attributeType);
+	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( attributeType ) ;
 
-	return((TQ3XObjectClass) theClass);
-}
+	return (TQ3XObjectClass) theClass ;
+	}	
 
 
 
@@ -122,27 +118,23 @@ Q3ElementClass_Register(TQ3ElementType			elementType,
 							const char			*name,
 							TQ3Uns32			sizeOfElement,
 							TQ3XMetaHandler		metaHandler)
-{	TQ3Status			qd3dStatus;
-	E3ClassInfoPtr		theClass;
-
-
-
+	{
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
-											elementType,
-											name,
-											metaHandler,
-											sizeOfElement);
-	if (qd3dStatus != kQ3Success)
-		return(NULL);
+	TQ3Status qd3dStatus = E3ClassTree_RegisterClass ( kQ3ObjectTypeRoot ,
+											elementType ,
+											name ,
+											metaHandler ,
+											~ ( sizeOfElement + sizeof ( OpaqueTQ3Object ) ) ) ;
+	if ( qd3dStatus != kQ3Success )
+		return NULL ;
 
 
 
 	// Find the class
-	theClass = E3ClassTree_GetClassByType(elementType);
+	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( elementType ) ;
 
-	return((TQ3XObjectClass) theClass);
-}
+	return (TQ3XObjectClass) theClass ;
+	}
 
 
 
@@ -424,33 +416,32 @@ EiObjectHierarchy_RegisterClassByType(TQ3ObjectType 		parentType,
 										TQ3XMetaHandler 	virtualMetaHandler,
 										TQ3Uns32	 		methodsSize,
 										TQ3Uns32	 		instanceSize)
-{	TQ3Status			qd3dStatus;
-	E3ClassInfoPtr		theClass;
+	{
 #pragma unused(virtualMetaHandler)
 #pragma unused(methodsSize)
 
 
 
 	// Anchor classes off the root class
-	if (parentType == kQ3ObjectTypeInvalid)
-		parentType = kQ3ObjectTypeRoot;
+	if ( parentType == kQ3ObjectTypeInvalid )
+		parentType = kQ3ObjectTypeRoot ;
 
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(parentType,
-											classType,
-											className,
-											metaHandler,
-											instanceSize);
-	if (qd3dStatus != kQ3Success)
-		return(NULL);
+	TQ3Status qd3dStatus = E3ClassTree_RegisterClass ( parentType , // This will have to be last one to be changed to new style
+											classType ,
+											className ,
+											metaHandler ,
+											instanceSize ) ;
+	if ( qd3dStatus != kQ3Success )
+		return NULL ;
 
 
 
 	// Find the class
-	theClass = E3ClassTree_GetClassByType(classType);
+	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( classType ) ;
 
-	return((TQ3XObjectClass) theClass);
-}
+	return (TQ3XObjectClass) theClass;
+	}
 

@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,9 +45,41 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3DrawContext.h"
+#include "E3Main.h"
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3DrawContext : public TQ3SharedData // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3PixmapDrawContext : public E3DrawContext  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3DrawContextUnionData				instanceData ;
+	} ;
+	
 
 
 //=============================================================================
@@ -256,18 +288,18 @@ E3DrawContext_RegisterClass(void)
 
 
 	// Register the draw context classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 											kQ3SharedTypeDrawContext,
 											kQ3ClassNameDrawContext,
 											NULL,
-											0);
+											~sizeof(E3DrawContext));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeDrawContext,
 												kQ3DrawContextTypePixmap,
 												kQ3ClassNameDrawContextPixmap,
 												e3drawcontext_pixmap_metahandler,
-												sizeof(TQ3DrawContextUnionData));
+												~sizeof(E3PixmapDrawContext));
 
 #if QUESA_OS_MACINTOSH
 	if (qd3dStatus == kQ3Success)
@@ -310,7 +342,7 @@ E3DrawContext_UnregisterClass(void)
 
 
 	// Unregister the draw context classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3DrawContextTypePixmap, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DrawContextTypePixmap, kQ3True);
 
 #if QUESA_OS_MACINTOSH
 	qd3dStatus = E3MacDrawContext_UnregisterClass();
@@ -329,7 +361,7 @@ E3DrawContext_UnregisterClass(void)
     qd3dStatus = E3CocoaDrawContext_UnregisterClass();
 #endif
 
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3SharedTypeDrawContext, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeDrawContext, kQ3True);
 
 	return(qd3dStatus);
 }
