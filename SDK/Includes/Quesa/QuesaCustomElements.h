@@ -85,7 +85,7 @@ typedef enum {
 //      Types
 //-----------------------------------------------------------------------------
 // URL type
-typedef struct {
+typedef struct TCEUrlData {
     char                                        *url;
     char                                        *description;
     TCEUrlOptions                               options;

@@ -68,7 +68,7 @@ typedef struct TQ3PickHit {
 
 
 // Pick object instance data
-typedef struct {
+typedef struct TQ3PickUnionData {
 	// Common data
 	TQ3Uns32							numHits;
 	TQ3PickHit							*pickHits;

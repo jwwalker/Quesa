@@ -237,7 +237,7 @@ typedef CALLBACK_API_C(TQ3Status,               TQ3FileIdleMethod)              
 
 
 // FileFormat common data (must be first field in struct)           
-typedef struct {
+typedef struct TQ3FFormatBaseData {
     // Initialised by Quesa
     TQ3Uns32                                    baseDataVersion;
     TQ3StorageObject                            storage;
@@ -258,14 +258,14 @@ typedef struct {
 
 
 // Unknown text
-typedef struct {
+typedef struct TQ3UnknownTextData {
     char                                        *objectName;
     char                                        *contents;
 }TQ3UnknownTextData;
 
 
 // Unknown text
-typedef struct {
+typedef struct TQ3UnknownBinaryData {
     TQ3ObjectType                               objectType;
     TQ3Size                                     size;
     TQ3Endian                                   byteOrder;

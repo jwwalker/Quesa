@@ -55,7 +55,7 @@
 //-----------------------------------------------------------------------------
 // Platform specific types
 #if QUESA_OS_UNIX
-typedef struct {
+typedef struct X11GLContext {
 	Display			*theDisplay;
 	GLXContext		glContext;
 	GLXDrawable		glDrawable;
@@ -64,7 +64,7 @@ typedef struct {
 
 
 #if QUESA_OS_WIN32
-typedef struct {
+typedef struct WinGLContext {
 	HDC				theDC;
 	HGLRC			glContext;
 	HBITMAP 		backBuffer;

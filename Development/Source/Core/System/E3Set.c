@@ -62,14 +62,14 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 // Set data
-typedef struct {
+typedef struct TQ3SetData {
 	TQ3Uns32			numElements;		// Element count
 	TQ3ElementObject	*theElements;		// Element array (may contain empty slots)
 } TQ3SetData;
 
 
 // Attribute set data
-typedef struct {
+typedef struct TQ3AttributeSetData {
 	TQ3XAttributeMask	theMask;			// Attribute mask
 } TQ3AttributeSetData;
 

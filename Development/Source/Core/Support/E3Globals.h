@@ -369,7 +369,7 @@ typedef struct OpaqueTQ3Object {
 // Global state introduces penalties when running under a preemptively
 // threaded environment (which Quesa probably will, at some stage). Please
 // only use the global state as a last resort.
-typedef struct {
+typedef struct E3Globals {
 	// System
 	TQ3Boolean				systemInitialised;
 	TQ3Uns32				systemRefCount;

@@ -310,7 +310,7 @@ typedef struct TQAEngine                        TQAEngine;
 
 
 // Draw region color descriptor
-typedef struct {
+typedef struct TQ3XColorDescriptor {
     TQ3Uns32                                    redShift;
     TQ3Uns32                                    redMask;
     TQ3Uns32                                    greenShift;
@@ -323,7 +323,7 @@ typedef struct {
 
 
 // Draw region descriptor
-typedef struct {
+typedef struct TQ3XDrawRegionDescriptor {
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
     TQ3Uns32                                    rowBytes;
@@ -478,7 +478,7 @@ typedef CALLBACK_API_C(TQ3Boolean,          TQ3MacOSDialogEventHandler)(
 
 
 // Mac OS dialog anchor
-typedef struct {
+typedef struct TQ3DialogAnchor {
     TQ3MacOSDialogEventHandler                  clientEventHandler;
 } TQ3DialogAnchor;
 
@@ -494,7 +494,7 @@ typedef struct {
 #if QUESA_OS_WIN32
 
 // Windows dialog anchor
-typedef struct {
+typedef struct TQ3DialogAnchor {
     HWND                                        ownerWindow;
 } TQ3DialogAnchor;
 
@@ -510,7 +510,7 @@ typedef struct {
 #if QUESA_OS_UNIX
 
 // Unix dialog anchor
-typedef struct {
+typedef struct TQ3DialogAnchor {
     void                                        *notUsed;
 } TQ3DialogAnchor;
 
@@ -542,7 +542,7 @@ typedef struct TQ3DialogAnchor {
 #if QUESA_OS_COCOA
 
 // Cocoa dialog anchor
-typedef struct {
+typedef struct TQ3DialogAnchor {
     void                                        *notUsed;
 } TQ3DialogAnchor;
 

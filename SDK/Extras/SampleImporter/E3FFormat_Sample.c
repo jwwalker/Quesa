@@ -58,7 +58,7 @@
 //=============================================================================
 //      Internal yypes
 //-----------------------------------------------------------------------------
-typedef struct {
+typedef struct TE3FFormat_Sample_Data {
 	TQ3FFormatBaseData				baseData;
 		// add here the data for your importer
 } TE3FFormat_Sample_Data;

@@ -363,7 +363,7 @@ typedef TQ3ViewerDrawCallbackMethod TQ3ViewerDrawingCallbackMethod;
  *  @field nmhdr            Unknown.
  *  @field hDrop            The dropped files.
  */
-typedef struct {
+typedef struct TQ3ViewerDropFiles {
     NMHDR                           nmhdr;
     HANDLE                          hDrop;
 } TQ3ViewerDropFiles;
@@ -378,7 +378,7 @@ typedef struct {
  *  @field nmhdr            Unknown.
  *  @field view             The new view.
  */
-typedef struct {
+typedef struct TQ3ViewerSetView {
     NMHDR                           nmhdr;
     TQ3ViewerCameraView             view;
 } TQ3ViewerSetView;
@@ -393,7 +393,7 @@ typedef struct {
  *  @field nmhdr            Unknown.
  *  @field number           The new view index.
  */
-typedef struct {
+typedef struct TQ3ViewerSetViewNumber {
     NMHDR                           nmhdr;
     TQ3Uns32                        number;
 } TQ3ViewerSetViewNumber;
@@ -408,7 +408,7 @@ typedef struct {
  *  @field nmhdr            Unknown.
  *  @field hDrop            The button index.
  */
-typedef struct {
+typedef struct TQ3ViewerButtonSet {
     NMHDR                           nmhdr;
     TQ3Uns32                        button;
 } TQ3ViewerButtonSet;

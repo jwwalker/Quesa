@@ -43,7 +43,7 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
-typedef struct {
+typedef struct TCEUrlDataPrivate {
 	char *			url;
 	TQ3StringObject	description;
 	TCEUrlOptions 	options;

@@ -78,7 +78,7 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 // Geometry data
-typedef struct {
+typedef struct TQ3GeometryData {
 	TQ3Uns32					cameraEditIndex;
 	TQ3SubdivisionStyleData		subdivisionStyle;
 	TQ3Uns32					cachedEditIndex;

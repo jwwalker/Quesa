@@ -55,21 +55,21 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-typedef struct {
+typedef struct TE3FFormat3DMF_TOCEntry {
 	TQ3Uns32						refID;
 	TQ3Uns64						objLocation;
 	TQ3ObjectType					objType;
 	TQ3Object						object;
 } TE3FFormat3DMF_TOCEntry;
 
-typedef struct {
+typedef struct TE3FFormat3DMF_TOC {
 	TQ3Uns32						refSeed;
 	TQ3Int32						typeSeed;
 	TQ3Uns32						nEntries;
 	TE3FFormat3DMF_TOCEntry			tocEntries[1];// better a BTree?
 } TE3FFormat3DMF_TOC;
 
-typedef struct {
+typedef struct TE3FFormat3DMF_Data {
 	TQ3FFormatBaseData				baseData;
 	TE3FFormat3DMF_TOC				*toc;
 	TQ3FileMode						fileMode;
@@ -79,7 +79,7 @@ typedef struct {
 } TE3FFormat3DMF_Data;
 
 // Stack data
-typedef struct {
+typedef struct TQ33DMFWStackItem {
 	TQ3Uns32						level;
 	TQ3Object						theObject;
 	TQ3ObjectType					objectType;
@@ -89,23 +89,23 @@ typedef struct {
 	TQ3XDataDeleteMethod 			deleteData;
 } TQ33DMFWStackItem;
 
-typedef struct {
+typedef struct TE3FFormatW3DMF_Data {
 	TQ3FFormatBaseData				baseData;
 	TE3FFormat3DMF_TOC				*toc;
-	TQ3FileMode								fileMode;
-	TQ3ObjectType							lastObjectType;
-	TQ3Object									lastObject;
+	TQ3FileMode						fileMode;
+	TQ3ObjectType					lastObjectType;
+	TQ3Object						lastObject;
 	// objects stack
-	TQ3Uns32									stackCount;
-	TQ33DMFWStackItem					*stack;
-
+	TQ3Uns32						stackCount;
+	TQ33DMFWStackItem				*stack;
 } TE3FFormatW3DMF_Data;
 
 
-typedef struct {
-	TQ3Uns32			attributeSetCounter;
-	TQ3AttributeSet		*attributeSetArray;
+typedef struct TE3FFormat3DMF_AttributeSetList_Data {
+	TQ3Uns32						attributeSetCounter;
+	TQ3AttributeSet					*attributeSetArray;
 } TE3FFormat3DMF_AttributeSetList_Data;
+
 
 
 
@@ -132,16 +132,16 @@ TQ3Status					E3FFormat_3DMF_Reader_UnregisterClass(void);
 TQ3Status					E3FFW_3DMF_Register(void);
 TQ3Status					E3FFW_3DMF_Unregister(void);
 
-TQ3Object           E3FFormat_3DMF_FaceAttributeSetList_New(TQ3Size size);
-TQ3Object           E3FFormat_3DMF_VertexAttributeSetList_New(TQ3Size size);
-TQ3Object           E3FFormat_3DMF_GeomAttributeSetList_New(TQ3Size size);
-TQ3AttributeSet			E3FFormat_3DMF_AttributeSetList_Get(TQ3Object theAttributeSetList, TQ3Uns32 index);
-TQ3Status						E3FFormat_3DMF_AttributeSetList_Set(TQ3Object theAttributeSetList ,TQ3Uns32 index,
-										TQ3AttributeSet theAttributeSet);
+TQ3Object           		E3FFormat_3DMF_FaceAttributeSetList_New(TQ3Size size);
+TQ3Object           		E3FFormat_3DMF_VertexAttributeSetList_New(TQ3Size size);
+TQ3Object           		E3FFormat_3DMF_GeomAttributeSetList_New(TQ3Size size);
+TQ3AttributeSet				E3FFormat_3DMF_AttributeSetList_Get(TQ3Object theAttributeSetList, TQ3Uns32 index);
+TQ3Status					E3FFormat_3DMF_AttributeSetList_Set(TQ3Object theAttributeSetList ,TQ3Uns32 index,
+							TQ3AttributeSet theAttributeSet);
 
 TQ3GeneralPolygonShapeHint	E3FFormat_3DMF_GeneralPolygonHint_Get(TQ3Object theObject);
-TQ3EndCap										E3FFormat_3DMF_GeometryCapsMask_Get(TQ3Object theObject);
-TQ3DisplayGroupState				E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject);
+TQ3EndCap					E3FFormat_3DMF_GeometryCapsMask_Get(TQ3Object theObject);
+TQ3DisplayGroupState		E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject);
 TQ3AttributeSet				E3FFormat_3DMF_CapsAttributes_Get(TQ3Object theObject);
 
 TQ3Status               	E3FFormat_3DMF_ReadFlag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hint);

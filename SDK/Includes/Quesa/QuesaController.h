@@ -92,7 +92,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3ChannelSetMethod)(
 
 
 // Controller data
-typedef struct {
+typedef struct TQ3ControllerData {
     char                                        *signature;
     TQ3Uns32                                    valueCount;
     TQ3Uns32                                    channelCount;

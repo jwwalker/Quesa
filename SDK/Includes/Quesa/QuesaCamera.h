@@ -80,7 +80,7 @@ extern "C" {
  *                          of the camera. This vector is transformed to the y
  *                          axis of the viewing plane.
  */
-typedef struct {
+typedef struct TQ3CameraPlacement {
     TQ3Point3D                                  cameraLocation;
     TQ3Point3D                                  pointOfInterest;
     TQ3Vector3D                                 upVector;
@@ -100,14 +100,14 @@ typedef struct {
  *                          although if it is too large then artifacts may be visible
  *                          during rendering.
  */
-typedef struct {
+typedef struct TQ3CameraRange {
     float                                       hither;
     float                                       yon;
 } TQ3CameraRange;
 
 
 // Camera viewport
-typedef struct {
+typedef struct TQ3CameraViewPort {
     TQ3Point2D                                  origin;
     float                                       width;
     float                                       height;
@@ -115,7 +115,7 @@ typedef struct {
 
 
 // Camera data
-typedef struct {
+typedef struct TQ3CameraData {
     TQ3CameraPlacement                          placement;
     TQ3CameraRange                              range;
     TQ3CameraViewPort                           viewPort;
@@ -123,7 +123,7 @@ typedef struct {
 
 
 // Orthographic camera data
-typedef struct {
+typedef struct TQ3OrthographicCameraData {
     TQ3CameraData                               cameraData;
     float                                       left;
     float                                       top;
@@ -133,7 +133,7 @@ typedef struct {
 
 
 // Perspective view plane camera data
-typedef struct {
+typedef struct TQ3ViewPlaneCameraData {
     TQ3CameraData                               cameraData;
     float                                       viewPlane;
     float                                       halfWidthAtViewPlane;
@@ -144,7 +144,7 @@ typedef struct {
 
 
 // Perspective view angle camera data
-typedef struct {
+typedef struct TQ3ViewAngleAspectCameraData {
     TQ3CameraData                               cameraData;
     float                                       fov;
     float                                       aspectRatioXToY;

@@ -89,7 +89,7 @@ typedef enum {
 //      Types
 //-----------------------------------------------------------------------------
 // Light data
-typedef struct {
+typedef struct TQ3LightData {
     TQ3Boolean                                  isOn;
     float                                       brightness;
     TQ3ColorRGB                                 color;
@@ -97,7 +97,7 @@ typedef struct {
 
 
 // Directional light data
-typedef struct {
+typedef struct TQ3DirectionalLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
     TQ3Vector3D                                 direction;
@@ -105,7 +105,7 @@ typedef struct {
 
 
 // Point light data
-typedef struct {
+typedef struct TQ3PointLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
     TQ3AttenuationType                          attenuation;
@@ -114,7 +114,7 @@ typedef struct {
 
 
 // Spot light data
-typedef struct {
+typedef struct TQ3SpotLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
     TQ3AttenuationType                          attenuation;

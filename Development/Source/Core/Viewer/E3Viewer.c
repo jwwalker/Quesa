@@ -46,10 +46,13 @@
 #endif
 
 
+
+
+
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
-typedef struct {
+typedef struct TQ3ViewerData {
 	TQ3Uns32				mValidViewer;		// guard word
 	TQ3ViewObject			mView;
 	TQ3GroupObject			mGroup;
@@ -68,11 +71,14 @@ typedef struct {
 	TQ3GeometryObject		mGuideGeom;			// guide circle, etc. (or NULL)
 } TQ3ViewerData;
 
-typedef struct {
+typedef struct TQ3ViewerParams {
 	void					*mWindow;
 	TQ3Area					*mArea;
 	TQ3Uns32				mFlags;
-} te3ViewerParams;
+} TQ3ViewerParams;
+
+
+
 
 
 //=============================================================================
@@ -812,7 +818,7 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer)
 static TQ3Status
 e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) privateData;
-	te3ViewerParams			*params = (te3ViewerParams*) paramData;
+	TQ3ViewerParams			*params = (TQ3ViewerParams*) paramData;
 #pragma unused(theObject)
 
 
@@ -994,7 +1000,7 @@ TQ3ViewerObject
 E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 {	TQ3ViewerObject		theViewer;
 
-	te3ViewerParams		paramData;
+	TQ3ViewerParams		paramData;
 	
 	// Set up initial values (to be copied into the actual Quesa object).
 	paramData.mFlags = theFlags;

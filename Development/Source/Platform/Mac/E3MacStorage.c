@@ -66,7 +66,7 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 // Mac storage
-typedef struct TE3_MacStorageData{
+typedef struct TE3_MacStorageData {
 	TQ3Uns8		*buffer;
 	TQ3Uns32	bufferStart; // position of first byte in buffer in disk file
 	TQ3Uns32	validBufferSize; 
@@ -80,7 +80,7 @@ typedef TE3_MacStorageData *TE3_MacStorageDataPtr;
 
 
 // Handle storage
-typedef struct {
+typedef struct TQ3HandleStorageData {
 	TQ3Boolean		ownHandle;
 	TQ3Uns32		theSize;
 	Handle			theHnd;

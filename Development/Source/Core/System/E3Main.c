@@ -68,14 +68,14 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 // Shared object data
-typedef struct {
+typedef struct TQ3SharedData {
 	TQ3Uns32		refCount;
 	TQ3Uns32		editIndex;
 } TQ3SharedData;
 
 
 // Shape data
-typedef struct {
+typedef struct TQ3ShapeData {
 	TQ3SetObject	theSet;
 } TQ3ShapeData;
 

@@ -58,7 +58,7 @@ extern "C" {
 // Cocoa GL context type
 #if QUESA_OS_COCOA
 
-typedef struct {
+typedef struct CocoaGLContext {
 	void			*glContext;
 	void 			*nsView;
 } CocoaGLContext;

@@ -93,7 +93,7 @@ typedef struct OpaqueTQ3XDrawRegion {
 
 // Draw context state
 #if QUESA_OS_MACINTOSH
-typedef struct {
+typedef struct TQ3MacDrawContextState {
 	TQ3MacDrawContextData			theData;
 	TQ3Boolean						paneState;
 	TQ3Area							thePane;
@@ -109,29 +109,29 @@ typedef struct OpaqueTQ3XBufferObject {
 	Window							theWindow;
 } OpaqueTQ3XBufferObject;
 
-typedef struct {
+typedef struct TQ3XDrawContextState {
 	TQ3XDrawContextData				theData;
 } TQ3XDrawContextState;
 
 
 #elif QUESA_OS_WIN32
-typedef struct {
+typedef struct TQ3Win32DCDrawContextState {
 	TQ3Win32DCDrawContextData		theData;
 } TQ3Win32DCDrawContextState;
 
-typedef struct {
+typedef struct TQ3DDSurfaceDrawContextState {
 	TQ3DDSurfaceDrawContextData		theData;
 } TQ3DDSurfaceDrawContextState;
 
 
 #elif QUESA_OS_BE
-typedef struct {
+typedef struct TQ3BeDrawContextState {
 	TQ3BeDrawContextData			theData;
 } TQ3BeDrawContextState;
 
 
 #elif QUESA_OS_COCOA
-typedef struct {
+typedef struct TQ3CocoaDrawContextState {
 	TQ3CocoaDrawContextData			theData;
 } TQ3CocoaDrawContextState;
 

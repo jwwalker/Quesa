@@ -630,23 +630,23 @@ typedef double                                  TQ3Float64;
 typedef TQ3Uns32                                TQ3Size;
 
 #if QUESA_HOST_IS_BIG_ENDIAN
-    typedef struct {
+    typedef struct TQ3Uns64 {
         TQ3Uns32                                hi;
         TQ3Uns32                                lo;
     } TQ3Uns64;
     
-    typedef struct {
+    typedef struct TQ3Int64 {
         TQ3Int32                                hi;
         TQ3Uns32                                lo;
     } TQ3Int64;
 
 #else
-    typedef struct {
+    typedef struct TQ3Uns64 {
         TQ3Uns32                                lo;
         TQ3Uns32                                hi;
     } TQ3Uns64;
     
-    typedef struct {
+    typedef struct TQ3Int64 {
         TQ3Uns32                                lo;
         TQ3Int32                                hi;
     } TQ3Int64;
@@ -721,7 +721,7 @@ typedef TQ3Object                               TQ3PickObject;
  *  @field x                x coordinate.
  *  @field y                y coordinate.
  */
-typedef struct {
+typedef struct TQ3Vector2D {
     float                                       x;
     float                                       y;
 } TQ3Vector2D;
@@ -737,7 +737,7 @@ typedef struct {
  *  @field y                y coordinate.
  *  @field z                z coordinate.
  */
-typedef struct {
+typedef struct TQ3Vector3D {
     float                                       x;
     float                                       y;
     float                                       z;
@@ -753,7 +753,7 @@ typedef struct {
  *  @field x                x coordinate.
  *  @field y                y coordinate.
  */
-typedef struct {
+typedef struct TQ3Point2D {
     float                                       x;
     float                                       y;
 } TQ3Point2D;
@@ -769,7 +769,7 @@ typedef struct {
  *  @field y                y coordinate.
  *  @field z                z coordinate.
  */
-typedef struct {
+typedef struct TQ3Point3D {
     float                                       x;
     float                                       y;
     float                                       z;
@@ -786,7 +786,7 @@ typedef struct {
  *  @field y                y coordinate.
  *  @field w                Point weight.
  */
-typedef struct {
+typedef struct TQ3RationalPoint3D {
     float                                       x;
     float                                       y;
     float                                       w;
@@ -804,7 +804,7 @@ typedef struct {
  *  @field z                z coordinate.
  *  @field w                Point weight.
  */
-typedef struct {
+typedef struct TQ3RationalPoint4D {
     float                                       x;
     float                                       y;
     float                                       z;
@@ -823,7 +823,7 @@ typedef struct {
  *  @field y                y component.
  *  @field z                z component.
  */
-typedef struct {
+typedef struct TQ3Quaternion {
     float                                       w;
     float                                       x;
     float                                       y;
@@ -840,7 +840,7 @@ typedef struct {
  *  @field origin           Origin of ray.
  *  @field direction        Direction of ray.
  */
-typedef struct {
+typedef struct TQ3Ray3D {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 direction;
 } TQ3Ray3D;
@@ -855,7 +855,7 @@ typedef struct {
  *  @field origin           Origin of sphere.
  *  @field radius           Radius of sphere.
  */
-typedef struct {
+typedef struct TQ3Sphere {
     TQ3Point3D                                  origin;
     float                                       radius;
 } TQ3Sphere;
@@ -870,7 +870,7 @@ typedef struct {
  *  @field u                u component.
  *  @field v                v component.
  */
-typedef struct {
+typedef struct TQ3Param2D {
     float                                       u;
     float                                       v;
 } TQ3Param2D;
@@ -886,7 +886,7 @@ typedef struct {
  *  @field v                v component.
  *  @field w                w component.
  */
-typedef struct {
+typedef struct TQ3Param3D {
     float                                       u;
     float                                       v;
     float                                       w;
@@ -902,7 +902,7 @@ typedef struct {
  *  @field uTangent         Tangent in the u direction.
  *  @field vTangent         Tangent in the v direction.
  */
-typedef struct {
+typedef struct TQ3Tangent2D {
     TQ3Vector3D                                 uTangent;
     TQ3Vector3D                                 vTangent;
 } TQ3Tangent2D;
@@ -918,7 +918,7 @@ typedef struct {
  *  @field vTangent         Tangent in the v direction.
  *  @field wTangent         Tangent in the w direction.
  */
-typedef struct {
+typedef struct TQ3Tangent3D {
     TQ3Vector3D                                 uTangent;
     TQ3Vector3D                                 vTangent;
     TQ3Vector3D                                 wTangent;
@@ -934,7 +934,7 @@ typedef struct {
  *  @field r                Distance along the radius vector from polar origin.
  *  @field theta            Angle in radians between polar axis and the radius vector.
  */
-typedef struct {
+typedef struct TQ3PolarPoint {
     float                                       r;
     float                                       theta;
 } TQ3PolarPoint;
@@ -951,7 +951,7 @@ typedef struct {
  *                          radius vector onto the xy plane.
  *  @field phi              Angle in radians between z axis and the radius vector.
  */
-typedef struct {
+typedef struct TQ3SphericalPoint {
     float                                       rho;
     float                                       theta;
     float                                       phi;
@@ -969,7 +969,7 @@ typedef struct {
  *  @field g                Green component, between 0.0 and 1.0.
  *  @field b                Blue component, between 0.0 and 1.0.
  */
-typedef struct {
+typedef struct TQ3ColorRGB {
     float                                       r;
     float                                       g;
     float                                       b;
@@ -987,7 +987,7 @@ typedef struct {
  *  @field g                Green component, between 0.0 and 1.0.
  *  @field b                Blue component, between 0.0 and 1.0.
  */
-typedef struct {
+typedef struct TQ3ColorARGB {
     float                                       a;
     float                                       r;
     float                                       g;
@@ -1005,7 +1005,7 @@ typedef struct {
  *  @field point            Location of the vertex.
  *  @field attributeSet     Attribute set for the vertex.
  */
-typedef struct {
+typedef struct TQ3Vertex3D {
     TQ3Point3D                                  point;
     TQ3AttributeSet                             attributeSet;
 } TQ3Vertex3D;
@@ -1020,7 +1020,7 @@ typedef struct {
  *
  *  @field value            3x3 array of values that define the matrix.
  */
-typedef struct {
+typedef struct TQ3Matrix3x3 {
     float                                       value[3][3];
 } TQ3Matrix3x3;
 
@@ -1033,7 +1033,7 @@ typedef struct {
  *
  *  @field value            4x4 array of values that define the matrix.
  */
-typedef struct {
+typedef struct TQ3Matrix4x4 {
     float                                       value[4][4];
 } TQ3Matrix4x4;
 
@@ -1054,7 +1054,7 @@ typedef struct {
  *  @field bitOrder         The order in which bits in a byte are addressed within the image data.
  *  @field byteOrder        The order in which bytes in a word are addressed within the image data.
  */
-typedef struct {
+typedef struct TQ3Pixmap {
     void                                        *image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -1081,7 +1081,7 @@ typedef struct {
  *  @field bitOrder         The order in which bits in a byte are addressed within the image data.
  *  @field byteOrder        The order in which bytes in a word are addressed within the image data.
  */
-typedef struct {
+typedef struct TQ3StoragePixmap {
     TQ3StorageObject                            image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -1106,7 +1106,7 @@ typedef struct {
  *  @field rowBytes         Distance in bytes from begining of one row of image data to the next.
  *  @field bitOrder         The order in which bits in a byte are addressed within the image data.
  */
-typedef struct {
+typedef struct TQ3Bitmap {
     TQ3Uns8                                     *image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -1126,7 +1126,7 @@ typedef struct {
  *  @field rowBytes         Distance in bytes from begining of one row of image data to the next.
  *  @field offset           Offset in bytes from the begining of the image base to this mipmap.
  */
-typedef struct {
+typedef struct TQ3MipmapImage {
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
     TQ3Uns32                                    rowBytes;
@@ -1148,7 +1148,7 @@ typedef struct {
  *  @field reserved         Reserved - must be set to 0.
  *  @field mipmaps          Up to 32 mip-map image specifications.
  */
-typedef struct {
+typedef struct TQ3Mipmap {
     TQ3StorageObject                            image;
     TQ3Boolean                                  useMipmapping;
     TQ3PixelType                                pixelType;
@@ -1174,7 +1174,7 @@ typedef struct {
  *  @field pixelSize           Size in bits of each pixel (must be 16 or 32).
  *  @field pixelType           The pixel format of the image data. The format must be appropriate for pixelSize.
  */
-typedef struct {
+typedef struct TQ3CompressedPixmap {
     TQ3StorageObject                            compressedImage;
     TQ3Endian                                   imageDescByteOrder;
     TQ3StorageObject                            imageDesc;
@@ -1196,7 +1196,7 @@ typedef struct {
  *  @field min              Minimum corner of area.
  *  @field max              Maximum corner of area.
  */
-typedef struct {
+typedef struct TQ3Area {
     TQ3Point2D                                  min;
     TQ3Point2D                                  max;
 } TQ3Area;
@@ -1211,7 +1211,7 @@ typedef struct {
  *  @field normal           The normal vector to the plane.
  *  @field constant         The plane constant (the value d in the plane equation ax+by+cz+d=0).
  */
-typedef struct {
+typedef struct TQ3PlaneEquation {
     TQ3Vector3D                                 normal;
     float                                       constant;
 } TQ3PlaneEquation;
@@ -1227,7 +1227,7 @@ typedef struct {
  *  @field max              Maximum corner of bounding box.
  *  @field isEmpty          Is the bounding box empty. The box is only valid if isEmpty is kQ3False.
  */
-typedef struct {
+typedef struct TQ3BoundingBox {
     TQ3Point3D                                  min;
     TQ3Point3D                                  max;
     TQ3Boolean                                  isEmpty;
@@ -1244,7 +1244,7 @@ typedef struct {
  *  @field radius           Radius of bounding sphere.
  *  @field isEmpty          Is the bounding sphere empty? The sphere is only valid if isEmpty is kQ3False.
  */
-typedef struct {
+typedef struct TQ3BoundingSphere {
     TQ3Point3D                                  origin;
     float                                       radius;
     TQ3Boolean                                  isEmpty;
@@ -1261,7 +1261,7 @@ typedef struct {
  *  @field numClasses       The number of types contained in classTypes.
  *  @field classTypes       The types of the sub-classes.
  */
-typedef struct {
+typedef struct TQ3SubClassData {
     TQ3Uns32                                    numClasses;
     TQ3ObjectType                               *classTypes;
 } TQ3SubClassData;

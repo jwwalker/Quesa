@@ -56,12 +56,12 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-typedef struct {
+typedef struct TE3FFormat3DMF_TypeEntry {
 	TQ3Int32						typeID;
 	char							typeName[kQ3StringMaximumLength];
 } TE3FFormat3DMF_TypeEntry;
 
-typedef struct {
+typedef struct TE3FFormat3DMF_Bin_Data {
 	TE3FFormat3DMF_Data				MFData;
 	TQ3Uns32						containerEnd;
 	TQ3Uns32						typesNum;
