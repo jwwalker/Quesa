@@ -201,6 +201,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 {	void			*realPtr, *newPtr;
 	TQ3Status		qd3dStatus;
 	TQ3Uns32		padSize;
+	TQ3Uns32		oldSize, copySize;
 
 
 
@@ -215,16 +216,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 		{
 		// Check it looks OK
 		Q3_ASSERT_VALID_PTR(realPtr);
-
-
-		// If memory debugging is active, adjust for the header
-#if Q3_MEMORY_DEBUG
-		// Rewind past the header
-		realPtr = (void *) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
-#endif
 		}
-
-
 
 
 
@@ -248,7 +240,22 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 		
 		
 		// Reallocate the block, and see if it worked
+	#if Q3_MEMORY_DEBUG
+		// For debugging, we don't use realloc so that
+		// 1. the block always moves rather than grows
+		// 2. the freed block is scrubbed
+		newPtr = E3Memory_Allocate( newSize );
+		
+		if ( (newPtr != NULL) && (realPtr != NULL) )	// resize
+			{
+			oldSize = *(TQ3Uns32*) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
+			copySize = E3Num_Min( oldSize, newSize );
+			E3Memory_Copy( realPtr, newPtr, copySize );
+			E3Memory_Free( thePtr );
+			}
+	#else
 		newPtr     = realloc(realPtr, newSize + padSize);
+	#endif
 		qd3dStatus = (newPtr != NULL) ? kQ3Success : kQ3Failure;
 
 
@@ -258,27 +265,8 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 
 
-		// Update the pointer and return
 		if (qd3dStatus == kQ3Success)
 			{
-			// If memory debugging is active, update the contents
-	#if Q3_MEMORY_DEBUG
-			// Save the size
-			*((TQ3Uns32 *) newPtr) = newSize;
-			newPtr                 = (void *) (((TQ3Uns8 *) newPtr) + sizeof(TQ3Uns32));
-
-
-			// If we just allocated the block, fill it with rubbish
-			if (realPtr == NULL)
-				E3Memory_Initialize(newPtr, newSize + Q3_MEMORY_TRAILER, kMemoryUninitialised);
-			
-			
-			// If we resized the block, reset the trailer.
-			if ( realPtr != NULL )
-				E3Memory_Initialize(((TQ3Uns8 *) newPtr) + newSize, Q3_MEMORY_TRAILER, kMemoryUninitialised);
-	#endif
-
-
 			// Return the new pointer
 			*thePtr = newPtr;
 			}
