@@ -1908,6 +1908,16 @@ E3FFW_3DMF_Register(void)
 	
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+												kQ3ObjectTypeTOC,
+												kQ3ClassNameTOC,
+												NULL,
+												0);
+
+	E3ClassTree_AddMethodByType(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Traverse);
+	E3ClassTree_AddMethodByType(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Write);
+	
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
 												kQ3ObjectTypeType,
 												kQ3ClassNameType,
 												NULL,
@@ -1915,6 +1925,16 @@ E3FFW_3DMF_Register(void)
 
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeType,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_type_Traverse);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeType,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_type_Write);
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared, // on QD3D this is kQ3SharedTypeShape but the 
+												kQ3ShapeTypeReference,
+												kQ3ClassNameReference,
+												NULL,
+												sizeof(TQ3Uns32));
+
+	E3ClassTree_AddMethodByType(kQ3ShapeTypeReference,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Reference_Traverse);
+	E3ClassTree_AddMethodByType(kQ3ShapeTypeReference,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
 	
 	
 
@@ -1927,6 +1947,8 @@ E3FFW_3DMF_Register(void)
 
 	E3ClassTree_AddMethodByType(kQ3ShapeTypeGroup,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
 	E3ClassTree_AddMethodByType(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeOrdered,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeIOProxy,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
 	E3ClassTree_AddMethodByType(kQ3GroupTypeLight,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
 	E3ClassTree_AddMethodByType(kQ3GroupTypeInfo,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
 	
