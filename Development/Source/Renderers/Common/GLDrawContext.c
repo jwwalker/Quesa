@@ -185,7 +185,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 	if (glContext != NULL)
 		{
 		if (drawContextType == kQ3DrawContextTypeMacintosh)
-			aglSetDrawable(glContext, (AGLDrawable) theWindow);
+			aglSetDrawable(glContext, (AGLDrawable) GetWindowPort(theWindow));
 
 		else if (drawContextType == kQ3DrawContextTypePixmap)
 			aglSetOffScreen(glContext, thePixmap.width,    thePixmap.height,
