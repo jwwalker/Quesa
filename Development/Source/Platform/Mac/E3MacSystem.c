@@ -273,12 +273,22 @@ e3mac_load_plugins(const FSSpec *fileInDirToScan)
 				{
 				// Resolve any aliases
 				targetIsFolder = true;
-				ResolveAliasFile(&theFSSpec, true, &targetIsFolder, &wasAliased);
+				ResolveAliasFileWithMountFlags( &theFSSpec, true,
+					&targetIsFolder, &wasAliased, kResolveAliasFileNoUI );
 
 
 				// If this isn't a directory, check the type
 				if (!targetIsFolder)
 					{
+					if (wasAliased)
+						{
+						// Don't rely on the alias file having the right file type and creator.
+						FInfo	finderInfo;
+						FSpGetFInfo( &theFSSpec, &finderInfo );
+						thePB.hFileInfo.ioFlFndrInfo.fdType = finderInfo.fdType;
+						thePB.hFileInfo.ioFlFndrInfo.fdCreator = finderInfo.fdCreator;
+						}
+					
 					// If this is a plug-in, load it
 					if (thePB.hFileInfo.ioFlFndrInfo.fdType    == kQ3XExtensionMacFileType &&
 						thePB.hFileInfo.ioFlFndrInfo.fdCreator == kQ3XExtensionMacCreatorType)
