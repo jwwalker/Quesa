@@ -96,8 +96,8 @@ ir_geom_transparent_sort(const void *item1, const void *item2)
 
 
 	// Grab our parameters
-	prim1 = (TQ3TransparentPrim *) item1;
-	prim2 = (TQ3TransparentPrim *) item2;
+	prim1 = *(TQ3TransparentPrim **) item1;
+	prim2 = *(TQ3TransparentPrim **) item2;
 
 
 
@@ -432,6 +432,13 @@ IRTransBuffer_Initialize(TQ3InteractiveData *instanceData)
 	instanceData->transBufferSlab = Q3SlabMemory_New(sizeof(TQ3TransparentPrim), 0, NULL);
 	if (instanceData->transBufferSlab == NULL)
 		return(kQ3Failure);
+
+	instanceData->transPtrSlab = Q3SlabMemory_New(sizeof(TQ3TransparentPrim*), 0, NULL);
+	if (instanceData->transPtrSlab == NULL)
+	{
+		Q3Object_CleanDispose(&instanceData->transBufferSlab);
+		return(kQ3Failure);
+	}
 	
 	return(kQ3Success);
 }
@@ -450,6 +457,7 @@ IRTransBuffer_Terminate(TQ3InteractiveData *instanceData)
 
 	// Release our state
 	Q3Object_CleanDispose(&instanceData->transBufferSlab);
+	Q3Object_CleanDispose(&instanceData->transPtrSlab);
 }
 
 
@@ -479,6 +487,7 @@ void
 IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 {	TQ3Uns32				n, numPrims;
 	TQ3TransparentPrim		*thePrims;
+	TQ3TransparentPrim**	ptrs;
 
 
 
@@ -488,7 +497,18 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 		{
 		// Get the primitives, and sort them
 		thePrims = (TQ3TransparentPrim *) Q3SlabMemory_GetData( instanceData->transBufferSlab, 0);
-		qsort(thePrims, numPrims, sizeof(TQ3TransparentPrim), ir_geom_transparent_sort);
+		
+		if (kQ3Success != Q3SlabMemory_SetCount( instanceData->transPtrSlab, numPrims ))
+		{
+			return;
+		}
+		ptrs = (TQ3TransparentPrim **) Q3SlabMemory_GetData( instanceData->transPtrSlab, 0);
+		for (n = 0; n < numPrims; ++n)
+		{
+			ptrs[n] = &thePrims[n];
+		}
+		
+		qsort( ptrs, numPrims, sizeof(TQ3TransparentPrim*), ir_geom_transparent_sort );
 
 
 
@@ -514,14 +534,14 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 			// Select the appropriate blending function
 			//
 			// Primitives can be transparent due to a texture or their vertex alpha.
-			if (thePrims[n].textureIsTransparent)
+			if (ptrs[n]->textureIsTransparent)
 				glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 			else
 			    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
 			// Render the primitive
-			ir_geom_transparent_render(&thePrims[n]);
+			ir_geom_transparent_render(ptrs[n]);
 			}
 		
 		
@@ -534,6 +554,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	    
 	    // Empty the cache
 	    Q3SlabMemory_SetCount(instanceData->transBufferSlab, 0);
+	    Q3SlabMemory_SetCount(instanceData->transPtrSlab, 0);
 		}
 }
 

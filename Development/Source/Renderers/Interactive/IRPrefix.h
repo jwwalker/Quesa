@@ -146,6 +146,7 @@ typedef struct TQ3InteractiveData {
 
 	// Transparency buffer state
 	TQ3SlabObject			transBufferSlab;
+	TQ3SlabObject			transPtrSlab;
 
 
 	// Geometry state
