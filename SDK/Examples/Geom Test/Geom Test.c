@@ -82,6 +82,7 @@ enum {
 	kMenuItemDivider2,
 	kMenuItemMultiBox,
 	kMenuItemQuesaLogo,
+	kMenuItemDepthTest,
 	kMenuItemDivider3	
 };
 
@@ -1750,7 +1751,153 @@ createGeomQuesa(void)
 		Q3Object_Dispose(coneData.coneAttributeSet);
 
 	return(theGroup);
-}									
+}
+
+
+
+
+const TQ3Uns32	kNumDepthTriangles = 8;
+
+//=============================================================================
+//      createDepthBufferTest : Create an object to test the OpenGL depth buffer.
+//-----------------------------------------------------------------------------
+static TQ3Object
+createDepthBufferTest()
+{
+	TQ3GroupObject			theGroup;
+	TQ3GeometryObject		depthTriMesh, backdropTriMesh;
+	TQ3Point3D				depthPts[ kNumDepthTriangles * 3 ];
+	TQ3TriMeshTriangleData	depthTris[ kNumDepthTriangles ];
+	TQ3Vector3D				depthVertNorms[ kNumDepthTriangles * 3 ];
+	TQ3TriMeshAttributeData	depthVertAtts = {
+		kQ3AttributeTypeNormal,
+		NULL, NULL
+	};
+	TQ3Point3D				backPts[ 4 ] = {
+		{-1.0f, -1.0f, 0.0f },
+		{ 1.0f, -1.0f, 0.0f },
+		{ 1.0f,  1.0f, 0.0f },
+		{-1.0f,  1.0f, 0.0f }
+	};
+	TQ3TriMeshTriangleData	backTris[ 2 ] = { 
+		{{ 0, 1, 2 }}, {{ 0, 2, 3 }}
+	};
+	TQ3Vector3D				backVertNorms[ 4 ] = {
+		{ 0.0f, 0.0f, 1.0f },
+		{ 0.0f, 0.0f, 1.0f },
+		{ 0.0f, 0.0f, 1.0f },
+		{ 0.0f, 0.0f, 1.0f }
+	};
+	TQ3TriMeshAttributeData	backVertAtts = {
+		kQ3AttributeTypeNormal,
+		NULL, NULL
+	};
+	TQ3TriMeshData			depthData = {
+		NULL,
+		kNumDepthTriangles, NULL,
+		0, NULL,
+		0, NULL,
+		0, NULL,
+		kNumDepthTriangles * 3, NULL,
+		1, NULL
+	};
+	TQ3TriMeshData			backData = {
+		NULL,
+		2, NULL,
+		0, NULL,
+		0, NULL,
+		0, NULL,
+		4, NULL,
+		1, NULL
+	};
+	TQ3Uns32	n;
+
+
+	
+	// Create the group
+	theGroup = Q3DisplayGroup_New();
+	if (theGroup == NULL)
+		return(NULL);
+
+
+
+	// Create the backdrop
+	backVertAtts.data = backVertNorms;
+	backData.triangles = backTris;
+	backData.points = backPts;
+	backData.vertexAttributeTypes = &backVertAtts;
+	Q3BoundingBox_SetFromPoints3D( &backData.bBox, backData.points, backData.numPoints,
+		sizeof(TQ3Point3D) );
+	backData.triMeshAttributeSet = Q3AttributeSet_New();
+	if (backData.triMeshAttributeSet != NULL)
+	{
+		TQ3ColorRGB	backdropColor = {
+			1.0f, 0.5f, 0.0f
+		};
+		Q3AttributeSet_Add( backData.triMeshAttributeSet, kQ3AttributeTypeDiffuseColor,
+							&backdropColor );
+	}
+	backdropTriMesh = Q3TriMesh_New( &backData );
+	if (backdropTriMesh != NULL)
+		Q3Group_AddObject( theGroup, backdropTriMesh );
+
+	
+	// Create depth points and triangles
+	for (n = 0; n < kNumDepthTriangles; ++n)
+	{
+		depthPts[ n * 3 ].x = -1.0 + (n * 2.0) / kNumDepthTriangles;
+		depthPts[ n * 3 ].y = -1.0f;
+		depthPts[ n * 3 ].z = 0.01f / (1L << n);
+		depthPts[ n * 3 + 1 ].x = -1.0 + ((n+1) * 2.0) / kNumDepthTriangles;
+		depthPts[ n * 3 + 1 ].y = -1.0f;
+		depthPts[ n * 3 + 1 ].z = 0.01f / (1L << n);
+		depthPts[ n * 3 + 2 ].x = -1.0 + ((n+1) * 2.0) / kNumDepthTriangles;
+		depthPts[ n * 3 + 2 ].y = 1.0f;
+		depthPts[ n * 3 + 2 ].z = 0.01f / (1L << n);
+		depthVertNorms[ n * 3 ] = backVertNorms[0];
+		depthVertNorms[ n * 3 + 1 ] = backVertNorms[0];
+		depthVertNorms[ n * 3 + 2 ] = backVertNorms[0];
+		depthTris[ n ].pointIndices[ 0 ] = n * 3;
+		depthTris[ n ].pointIndices[ 1 ] = n * 3 + 1;
+		depthTris[ n ].pointIndices[ 2 ] = n * 3 + 2;
+	}
+	
+	
+	// Create the depth test geometry
+	depthVertAtts.data = depthVertNorms;
+	depthData.triangles = depthTris;
+	depthData.points = depthPts;
+	depthData.vertexAttributeTypes = &depthVertAtts;
+	Q3BoundingBox_SetFromPoints3D( &depthData.bBox, depthData.points, depthData.numPoints,
+		sizeof(TQ3Point3D) );
+	depthData.triMeshAttributeSet = Q3AttributeSet_New();
+	if (depthData.triMeshAttributeSet != NULL)
+	{
+		TQ3ColorRGB	depthColor = {
+			0.0f, 0.5f, 1.0f
+		};
+		Q3AttributeSet_Add( depthData.triMeshAttributeSet, kQ3AttributeTypeDiffuseColor,
+							&depthColor );
+	}
+	depthTriMesh = Q3TriMesh_New( &depthData );
+	if (depthTriMesh != NULL)
+		Q3Group_AddObject( theGroup, depthTriMesh );
+	
+	
+	
+	// Clean up
+	if (backData.triMeshAttributeSet != NULL)
+		Q3Object_Dispose( backData.triMeshAttributeSet );
+	if (backdropTriMesh != NULL)
+		Q3Object_Dispose( backdropTriMesh );
+	if (depthData.triMeshAttributeSet != NULL)
+		Q3Object_Dispose( depthData.triMeshAttributeSet );
+	if (depthTriMesh != NULL)
+		Q3Object_Dispose( depthTriMesh );
+
+
+	return(theGroup);
+}
 
 
 
@@ -2428,6 +2575,10 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemQuesaLogo:
 			theGeom = createGeomQuesa();
 			break;
+			
+		case kMenuItemDepthTest:
+			theGeom = createDepthBufferTest();
+			break;
 
 		default:
 			break;
@@ -2771,6 +2922,7 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "MultiBox");
 	Qut_CreateMenuItem(kMenuItemLast, "Quesa Logo");
+	Qut_CreateMenuItem(kMenuItemLast, "Depth Buffer Test");
 }
 
 
