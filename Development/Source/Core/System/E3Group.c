@@ -1202,7 +1202,7 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 				break;
 			
 			case kQ3ViewModeCalcBounds:
-				shouldSubmit = kQ3True;
+				shouldSubmit = !E3Bit_Test(theState, kQ3DisplayGroupStateMaskIsNotForBounding);
 				break;
 
 			default:
