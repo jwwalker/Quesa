@@ -81,7 +81,7 @@ static TQ3StringIdentifier gEnglishStringTable_Error[] = {
 	{ kQ3ErrorRegistrationFailed,					"Quesa Error: " "Registration failed" },
 	{ kQ3ErrorUnixError,							"Quesa Error: " "Unix error" },
 	{ kQ3ErrorMacintoshError,						"Quesa Error: " "Macintosh error" },
-	{ kQ3ErrorX11Error,								"Quesa Error: " "X11Error" },
+	{ kQ3ErrorX11Error,								"Quesa Error: " "X11 error" },
 	{ kQ3ErrorMemoryLeak,							"Quesa Error: " "Memory leak" },
 	{ kQ3ErrorOutOfMemory,							"Quesa Error: " "Out of memory" },
 	{ kQ3ErrorNULLParameter,						"Quesa Error: " "NULL parameter" },
@@ -188,6 +188,7 @@ static TQ3StringIdentifier gEnglishStringTable_Error[] = {
 	{ kQ3ErrorRenderingLoopFailed,					"Quesa Error: " "Rendering loop failed" },
 	{ kQ3ErrorWritingLoopFailed,					"Quesa Error: " "Writing loop failed" },
 	{ kQ3ErrorBoundingLoopFailed,					"Quesa Error: " "Bounding loop failed" },
+	{ kQ3ErrorPlatformError,						"Quesa Error: " "Platform-specific error" },
 	{ kQ3ErrorNone, NULL } };
 
 
@@ -373,9 +374,8 @@ E3Error_Get(TQ3Error *firstError)
 
 
 
-	// Get the state we need, and clear it
+	// Get the state we need
 	E3ErrorManager_GetError(firstError, &latestError);
-	E3ErrorManager_ClearError();
 	
 	return(latestError);
 }
@@ -393,9 +393,8 @@ E3Warning_Get(TQ3Warning *firstWarning)
 
 
 
-	// Get the state we need, and clear it
+	// Get the state we need
 	E3ErrorManager_GetWarning(firstWarning, &latestWarning);
-	E3ErrorManager_ClearWarning();
 	
 	return(latestWarning);
 }
@@ -413,9 +412,8 @@ E3Notice_Get(TQ3Notice *firstNotice)
 
 
 
-	// Get the state we need, and clear it
+	// Get the state we need
 	E3ErrorManager_GetNotice(firstNotice, &latestNotice);
-	E3ErrorManager_ClearNotice();
 	
 	return(latestNotice);
 }
@@ -428,17 +426,13 @@ E3Notice_Get(TQ3Notice *firstNotice)
 //      E3Error_PlatformGet : Get the oldest and latest platform specific err.
 //-----------------------------------------------------------------------------
 TQ3Uns32
-E3Error_PlatformGet(TQ3Uns32 *firstErr)
-{	TQ3Uns32		firstPlatform, latestPlatform;
+E3Error_PlatformGet(TQ3Uns32 *firstPlatform)
+{	TQ3Uns32		latestPlatform;
 
 
 
-	// Get the state we need, and clear it
-	E3ErrorManager_GetPlatformError(&firstPlatform, &latestPlatform);
-	E3ErrorManager_ClearPlatformError();
-	
-	if (firstErr != NULL)
-		*firstErr = firstPlatform;
+	// Get the state we need
+	E3ErrorManager_GetPlatformError(firstPlatform, &latestPlatform);
 		
 	return(latestPlatform);
 }
