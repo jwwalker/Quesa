@@ -174,5 +174,26 @@
 #endif
 
 
+// Are C++ exceptions enabled?
+#ifndef QUESA_USE_EXCEPTIONS
+	#ifdef __MWERKS__
+		#if __option(exceptions)
+			#define	QUESA_USE_EXCEPTIONS						1
+		#else
+			#define	QUESA_USE_EXCEPTIONS						0
+		#endif
+	#else
+		#define QUESA_USE_EXCEPTIONS							1
+	#endif
+#endif
+
+#if	QUESA_USE_EXCEPTIONS
+	#define		TRY			try
+	#define		CATCH_ALL	catch (...) {}
+#else
+	#define		TRY
+	#define		CATCH_ALL
+#endif
+
 
 #endif
