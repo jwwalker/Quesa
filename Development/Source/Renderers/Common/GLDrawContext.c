@@ -1264,3 +1264,34 @@ GLDrawContext_UpdateWindowPosition(void *glContext)
 	return(wasUpdated);
 }
 
+
+
+
+
+//=============================================================================
+//		GLDrawContext_GetMinLineWidth : Get the minimum allowed line width.
+//-----------------------------------------------------------------------------
+GLfloat
+GLDrawContext_GetMinLineWidth(void *glContext)
+{	GLfloat		lineWidth;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glContext), 1.0f);
+
+
+
+	// Activate the context
+	GLDrawContext_SetCurrent(glContext, kQ3False);
+
+
+
+	// Get the minimum line width
+	//
+	// The 0.1f is arbitrary, but is a reasonably small value.
+	lineWidth = 0.1f;
+	glGetFloatv(GL_LINE_WIDTH_RANGE, &lineWidth);
+
+	return(lineWidth);
+}
