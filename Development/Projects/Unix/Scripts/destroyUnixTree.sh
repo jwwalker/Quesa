@@ -12,6 +12,8 @@
 
 rm -rf ../../Unix/Source
 rm -rf ../../Unix/APIincludes
+rm -rf ../../Unix/Examples
+
 
 
 

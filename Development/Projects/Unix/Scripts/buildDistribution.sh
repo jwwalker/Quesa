@@ -15,9 +15,22 @@
 pushd ../../Unix || exit
 
 aclocal
-autoreconf -i
-autoreconf
+automake --add-missing
+automake
+autoconf
 ./configure
 make dist
 
 
+
+pushd Examples || exit
+
+aclocal
+automake --add-missing
+automake
+autoconf
+./configure
+make dist
+
+popd
+popd
