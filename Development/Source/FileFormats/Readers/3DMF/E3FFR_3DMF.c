@@ -110,12 +110,29 @@ e3fformat_3dmf_attribute_set_read(TQ3FileObject theFile)
 
 
 	// Read the elements in to the set
-	while (!Q3File_IsEndOfContainer(theFile, NULL) && e3fformat_3dmf_is_next_element(theFile))
-		e3fformat_3dmf_read_next_element(theSet, theFile);
+	while (!Q3File_IsEndOfContainer(theFile, NULL))
+	{
+		if (e3fformat_3dmf_is_next_element(theFile))
+		{
+			e3fformat_3dmf_read_next_element(theSet, theFile);
+		}
+		else
+		{
+			// Throwing away an unexpected object here may not be quite correct, but it is
+			// better than the previous code that stopped reading elements once an
+			// unregistered element was encountered.
+			TQ3Object	childObject = Q3File_ReadObject(theFile);
+			Q3Object_CleanDispose( &childObject );
+		}
+	}
+
 
 	return(theSet);
-
 }
+
+
+
+
 
 //=============================================================================
 //      e3fformat_3dmf_set_read : Creates and read an attribute set from a 3DMF.
@@ -134,8 +151,22 @@ e3fformat_3dmf_set_read(TQ3FileObject theFile)
 
 
 	// Read the elements in to the set
-	while (!Q3File_IsEndOfContainer(theFile, NULL) && e3fformat_3dmf_is_next_element(theFile))
-		e3fformat_3dmf_read_next_element(theSet, theFile);
+	while (!Q3File_IsEndOfContainer(theFile, NULL))
+	{
+		if (e3fformat_3dmf_is_next_element(theFile))
+		{
+			e3fformat_3dmf_read_next_element(theSet, theFile);
+		}
+		else
+		{
+			// Throwing away an unexpected object here may not be quite correct, but it is
+			// better than the previous code that stopped reading elements once an
+			// unregistered element was encountered.
+			TQ3Object	childObject = Q3File_ReadObject(theFile);
+			Q3Object_CleanDispose( &childObject );
+		}
+	}
+
 
 	return(theSet);
 
@@ -1595,7 +1626,7 @@ e3fformat_3dmf_attributearray_write(const TE3FFormat3DMF_AttributeArray_Data *da
 	TQ3Uns8*			attData;
 	TQ3XObjectWriteMethod	writeMethod;
 	
-	status = Q3Uns32_Write( attType, theFile );
+	status = Q3Uns32_Write( (TQ3Uns32)attType, theFile );
 	
 	if (status == kQ3Success)
 		status = Q3Uns32_Write( 0, theFile );
@@ -1635,7 +1666,7 @@ e3fformat_3dmf_attributearray_write(const TE3FFormat3DMF_AttributeArray_Data *da
 		{
 			for (i = 0; (status == kQ3Success) && (i < data->arraySize); ++i)
 			{
-				status = Q3Uns8_Write( data->attributeData->attributeUseArray[i], theFile );
+				status = Q3Uns8_Write( (TQ3Uns8)data->attributeData->attributeUseArray[i], theFile );
 			}
 		}
 	}
