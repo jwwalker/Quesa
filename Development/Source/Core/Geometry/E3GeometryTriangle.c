@@ -5,7 +5,7 @@
         Implementation of Quesa Triangle geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-20045, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Triangle : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3TriangleData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -352,14 +369,11 @@ e3geom_triangle_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 //      e3geom_triangle_get_attribute : Triangle get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_triangle_get_attribute(TQ3GeometryObject theObject)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeTriangle);
-
-
-
+e3geom_triangle_get_attribute ( E3Triangle* triangle )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->triangleAttributeSet);
-}
+	return & triangle->instanceData.triangleAttributeSet ;
+	}
 
 
 
@@ -421,11 +435,11 @@ E3GeometryTriangle_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeTriangle,
 											kQ3ClassNameGeometryTriangle,
 											e3geom_triangle_metahandler,
-											sizeof(TQ3TriangleData));
+											~sizeof(E3Triangle));
 
 	return(qd3dStatus);
 }
@@ -435,7 +449,7 @@ E3GeometryTriangle_RegisterClass(void)
 
 
 //=============================================================================
-//      E3GeometryTriangle_UnregisterClass : Unregister the class.
+//      E3GeometryTriangle::UnregisterClass : Unregister the class.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GeometryTriangle_UnregisterClass(void)
@@ -495,25 +509,23 @@ E3Triangle_Submit(const TQ3TriangleData *triangleData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_SetData(TQ3GeometryObject theTriangle, const TQ3TriangleData *triangleData)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
-	TQ3Uns32			n;
-
-
+	{
+	E3Triangle* triangle = (E3Triangle*) theTriangle ;
 
 	// Set the data
-	for (n = 0; n < 3; n++)
+	for ( TQ3Uns32 n = 0 ; n < 3 ; ++n )
 		{
-		instanceData->vertices[n].point = triangleData->vertices[n].point;
-		E3Shared_Replace(&instanceData->vertices[n].attributeSet,
-						  triangleData->vertices[n].attributeSet);
+		triangle->instanceData.vertices [ n ].point = triangleData->vertices [ n ].point ;
+		E3Shared_Replace ( & triangle->instanceData.vertices [ n ].attributeSet,
+							 triangleData->vertices [ n ].attributeSet ) ;
 		}
 
-	E3Shared_Replace(&instanceData->triangleAttributeSet, triangleData->triangleAttributeSet);
+	E3Shared_Replace ( & triangle->instanceData.triangleAttributeSet, triangleData->triangleAttributeSet ) ;
 
-	Q3Shared_Edited(theTriangle);
+	Q3Shared_Edited ( triangle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -524,24 +536,22 @@ E3Triangle_SetData(TQ3GeometryObject theTriangle, const TQ3TriangleData *triangl
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_GetData(TQ3GeometryObject theTriangle, TQ3TriangleData *triangleData)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
-	TQ3Uns32			n;
-
-
+	{
+	E3Triangle* triangle = (E3Triangle*) theTriangle ;
 
 	// Return the data
-	for (n = 0; n < 3; n++)
+	for ( TQ3Uns32 n = 0 ; n < 3 ; ++n )
 		{
-		triangleData->vertices[n].point = instanceData->vertices[n].point;
+		triangleData->vertices [ n ].point = triangle->instanceData.vertices [ n ].point ;
 
-		E3Shared_Acquire(&triangleData->vertices[n].attributeSet,
-						  instanceData->vertices[n].attributeSet);
+		E3Shared_Acquire ( & triangleData->vertices [ n ].attributeSet,
+							 triangle->instanceData.vertices [ n ].attributeSet ) ;
 		}
 
-	E3Shared_Acquire(&triangleData->triangleAttributeSet, instanceData->triangleAttributeSet);
+	E3Shared_Acquire ( & triangleData->triangleAttributeSet, triangle->instanceData.triangleAttributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -574,14 +584,14 @@ E3Triangle_EmptyData(TQ3TriangleData *triangleData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_GetVertexPosition(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3Point3D *point)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
-
+	{
+	E3Triangle* triangle = (E3Triangle*) theTriangle ;
 
 
 	// Return the position
-	*point = instanceData->vertices[index].point;
-	return(kQ3Success);
-}
+	*point = triangle->instanceData.vertices [ index ].point ;
+	return kQ3Success ;
+	}
 
 
 
@@ -592,17 +602,16 @@ E3Triangle_GetVertexPosition(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3P
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_SetVertexPosition(TQ3GeometryObject theTriangle, TQ3Uns32 index, const TQ3Point3D *point)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
-
-
+	{
+	E3Triangle* triangle = (E3Triangle*) theTriangle ;
 
 	// Set the position
-	instanceData->vertices[index].point = *point;
+	triangle->instanceData.vertices [ index ].point = *point ;
 
-	Q3Shared_Edited(theTriangle);
+	Q3Shared_Edited ( triangle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -613,15 +622,14 @@ E3Triangle_SetVertexPosition(TQ3GeometryObject theTriangle, TQ3Uns32 index, cons
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_GetVertexAttributeSet(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
-
-
+	{
+	E3Triangle* triangle = (E3Triangle*) theTriangle ;
 
 	// Return the attribute set
-	E3Shared_Acquire(attributeSet, instanceData->vertices[index].attributeSet);
+	E3Shared_Acquire ( attributeSet, triangle->instanceData.vertices [ index ].attributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -632,16 +640,16 @@ E3Triangle_GetVertexAttributeSet(TQ3GeometryObject theTriangle, TQ3Uns32 index, 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_SetVertexAttributeSet(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3AttributeSet attributeSet)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
-
-
+	{
+	E3Triangle* triangle = (E3Triangle*) theTriangle ;
 
 	// Set the attribute set
-	E3Shared_Replace(&instanceData->vertices[index].attributeSet, attributeSet);
-	Q3Shared_Edited(theTriangle);
+	E3Shared_Replace ( & triangle->instanceData.vertices [ index ].attributeSet, attributeSet ) ;
 
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( triangle ) ;
+
+	return kQ3Success ;
+	}
 
 
 
