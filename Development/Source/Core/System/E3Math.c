@@ -1155,7 +1155,7 @@ E3Point2D_ToPolar(const TQ3Point2D *point2D, TQ3PolarPoint *result)
 	}
 	else
 	{
-		result->r = (float) sqrt(x*x + y*y);
+		result->r = E3Math_SquareRoot(x*x + y*y);
 		result->theta = (float) atan2(y, x);
 		if (result->theta < 0.0f)
 			result->theta += kQ32Pi;
@@ -1217,7 +1217,7 @@ E3Point3D_ToSpherical(const TQ3Point3D *point3D, TQ3SphericalPoint *result)
 	}
 	else
 	{
-		result->rho = (float) sqrt(x*x + y*y + z*z);
+		result->rho = E3Math_SquareRoot(x*x + y*y + z*z);
 		result->phi = (float) acos(z/result->rho);
 		result->theta = (float) atan2(y, x);
 		if (result->theta < 0.0f)
@@ -1278,48 +1278,63 @@ E3Vector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2)
 
 
 //=============================================================================
-//      E3Vector3D_DotArray : Return an array of dot products.
+//      E3Vector3D_DotArray : Dot pair of arrays of 3D vectors.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Vector3D_DotArray(TQ3Uns32				numVectors,
-					const TQ3Vector3D		*firstVectors,
-					const TQ3Vector3D		*secondVectors,
-					float					*dotProducts,
-					TQ3Boolean				*dotLessThanZero)
-{	float		dotProduct;
-	TQ3Uns32	n;
-
-
+E3Vector3D_DotArray(
+	const TQ3Vector3D *inFirstVectors3D,
+	const TQ3Vector3D *inSecondVectors3D,
+	float *outDotProducts,
+	TQ3Boolean *outDotLessThanZeros,
+	TQ3Uns32 numVectors,
+	TQ3Uns32 inStructSize,
+	TQ3Uns32 outDotProductStructSize,
+	TQ3Uns32 outDotLessThanZeroStructSize)
+{
+	float dotProduct;
+	TQ3Uns32 i;
 
 	// Calculate the dot products
-	if (dotProducts != NULL && dotLessThanZero != NULL)
+	if (outDotProducts != NULL && outDotLessThanZeros != NULL)
+	{
+		for (i = 0; i < numVectors; ++i)
 		{
-		for (n = 0; n < numVectors; n++)
-			{
-			dotProduct         = Q3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
-			dotProducts[n]     = dotProduct;	
-			dotLessThanZero[n] = (TQ3Boolean) (dotProduct < 0.0f);
-			}
-		}
+			dotProduct           = Q3FastVector3D_Dot(inFirstVectors3D, inSecondVectors3D);
+			*outDotProducts      = dotProduct;	
+			*outDotLessThanZeros = (TQ3Boolean) (dotProduct < 0.0f);
 
-	else if (dotProducts != NULL)
-		{
-		for (n = 0; n < numVectors; n++)
-			{
-			dotProduct     = Q3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
-			dotProducts[n] = dotProduct;	
-			}
+			((const char*) inFirstVectors3D) += inStructSize;
+			((const char*) inSecondVectors3D) += inStructSize;
+			((char*) outDotProducts) += outDotProductStructSize;
+			((char*) outDotLessThanZeros) += outDotLessThanZeroStructSize;
 		}
+	}
+
+	else if (outDotProducts != NULL)
+	{
+		for (i = 0; i < numVectors; ++i)
+		{
+			dotProduct           = Q3FastVector3D_Dot(inFirstVectors3D, inSecondVectors3D);
+			*outDotProducts      = dotProduct;	
+
+			((const char*) inFirstVectors3D) += inStructSize;
+			((const char*) inSecondVectors3D) += inStructSize;
+			((char*) outDotProducts) += outDotProductStructSize;
+		}
+	}
 
 	else
+	{
+		for (i = 0; i < numVectors; ++i)
 		{
-		Q3_ASSERT(dotLessThanZero != NULL);
-		for (n = 0; n < numVectors; n++)
-			{
-			dotProduct         = Q3Vector3D_Dot(&firstVectors[n], &secondVectors[n]);
-			dotLessThanZero[n] = (TQ3Boolean) (dotProduct < 0.0f);
-			}
+			dotProduct           = Q3FastVector3D_Dot(inFirstVectors3D, inSecondVectors3D);
+			*outDotLessThanZeros = (TQ3Boolean) (dotProduct < 0.0f);
+
+			((const char*) inFirstVectors3D) += inStructSize;
+			((const char*) inSecondVectors3D) += inStructSize;
+			((char*) outDotLessThanZeros) += outDotLessThanZeroStructSize;
 		}
+	}
 	
 	return(kQ3Success);
 }
@@ -2424,15 +2439,14 @@ E3Vector2D_To2DTransformArray(const TQ3Vector2D		*inVectors2D,
 							  TQ3Uns32				inStructSize,
 							  TQ3Uns32				outStructSize)
 {
-	const char* in = (const char*) inVectors2D;
-	char* out = (char*) outVectors2D;
 	TQ3Uns32 i;
 	
 	for (i = 0; i < numVectors; ++i)
 	{
-		E3Vector2D_Transform((const TQ3Vector2D*) in, matrix3x3, (TQ3Vector2D*) out);
-		in += inStructSize;
-		out += outStructSize;
+		E3Vector2D_Transform(inVectors2D, matrix3x3, outVectors2D);
+
+		((const char*) inVectors2D) += inStructSize;
+		((char*) outVectors2D) += outStructSize;
 	}
 
 	return(kQ3Success);
@@ -2455,15 +2469,14 @@ E3Vector3D_To3DTransformArray(const TQ3Vector3D		*inVectors3D,
 							  TQ3Uns32				inStructSize,
 							  TQ3Uns32				outStructSize)
 {
-	const char* in = (const char*) inVectors3D;
-	char* out = (char*) outVectors3D;
 	TQ3Uns32 i;
 	
 	for (i = 0; i < numVectors; ++i)
 	{
-		E3Vector3D_Transform((const TQ3Vector3D*) in, matrix4x4, (TQ3Vector3D*) out);
-		in += inStructSize;
-		out += outStructSize;
+		E3Vector3D_Transform(inVectors3D, matrix4x4, outVectors3D);
+
+		((const char*) inVectors3D) += inStructSize;
+		((char*) outVectors3D) += outStructSize;
 	}
 
 	return(kQ3Success);
@@ -2486,15 +2499,47 @@ E3Point2D_To2DTransformArray(const TQ3Point2D		*inPoints2D,
 							 TQ3Uns32				inStructSize,
 							 TQ3Uns32				outStructSize)
 {
-	const char* in = (const char*) inPoints2D;
-	char* out = (char*) outPoints2D;
 	TQ3Uns32 i;
 	
 	for (i = 0; i < numPoints; ++i)
 	{
-		E3Point2D_Transform((const TQ3Point2D*) in, matrix3x3, (TQ3Point2D*) out);
-		in += inStructSize;
-		out += outStructSize;
+		E3Point2D_Transform(inPoints2D, matrix3x3, outPoints2D);
+
+		((const char*) inPoints2D) += inStructSize;
+		((char*) outPoints2D) += outStructSize;
+	}
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Point2D_To3DTransformArray :	Transform array of 2D points by 3x3
+//										matrix into 3D rational points.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Point2D_To3DTransformArray(const TQ3Point2D		*inPoints2D,
+							 const TQ3Matrix3x3		*matrix3x3,
+							 TQ3RationalPoint3D		*outRationalPoints3D,
+							 TQ3Uns32				numPoints,
+							 TQ3Uns32				inStructSize,
+							 TQ3Uns32				outStructSize)
+{
+	TQ3Uns32 i;
+	
+	for (i = 0; i < numPoints; ++i)
+	{
+		#define M(x,y) matrix3x3->value[x][y]
+		outRationalPoints3D->x = inPoints2D->x*M(0,0) + inPoints2D->y*M(1,0) + M(2,0);
+		outRationalPoints3D->y = inPoints2D->x*M(0,1) + inPoints2D->y*M(1,1) + M(2,1);
+		outRationalPoints3D->w = inPoints2D->x*M(0,2) + inPoints2D->y*M(1,2) + M(2,2);
+		#undef M
+
+		((const char*) inPoints2D) += inStructSize;
+		((char*) outRationalPoints3D) += outStructSize;
 	}
 
 	return(kQ3Success);
@@ -2518,16 +2563,14 @@ E3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D	*inRationalPoints3
 									 TQ3Uns32					inStructSize,
 									 TQ3Uns32					outStructSize)
 {
-	const char* in = (const char*) inRationalPoints3D;
-	char* out = (char*) outRationalPoints3D;
 	TQ3Uns32 i;
 	
 	for (i = 0; i < numPoints; ++i)
 	{
-		E3RationalPoint3D_Transform((const TQ3RationalPoint3D*) in, matrix3x3,
-			(TQ3RationalPoint3D*) out);
-		in += inStructSize;
-		out += outStructSize;
+		E3RationalPoint3D_Transform(inRationalPoints3D, matrix3x3, outRationalPoints3D);
+
+		((const char*) inRationalPoints3D) += inStructSize;
+		((char*) outRationalPoints3D) += outStructSize;
 	}
 
 	return(kQ3Success);
@@ -2549,19 +2592,17 @@ E3Point3D_To3DTransformArray(const TQ3Point3D		*inPoints3D,
 							 TQ3Uns32				numPoints,
 							 TQ3Uns32				inStructSize,
 							 TQ3Uns32				outStructSize)
-{	const char	*in  = (const char*) inPoints3D;
-	char		*out = (char *) outPoints3D;
-	TQ3Uns32	i;
-
-
+{
+	TQ3Uns32 i;
 
 	// Transform the points - will be in-lined in release builds
 	for (i = 0; i < numPoints; ++i)
-		{
-		E3Point3D_Transform((const TQ3Point3D *) in, matrix4x4, (TQ3Point3D *) out);
-		in  += inStructSize;
-		out += outStructSize;
-		}
+	{
+		E3Point3D_Transform(inPoints3D, matrix4x4, outPoints3D);
+
+		((const char*) inPoints3D) += inStructSize;
+		((char*) outPoints3D) += outStructSize;
+	}
 
 	return(kQ3Success);
 }
@@ -2582,21 +2623,19 @@ E3Point3D_To4DTransformArray(const TQ3Point3D		*inPoints3D,
 							 TQ3Uns32				inStructSize,
 							 TQ3Uns32				outStructSize)
 {
-	const TQ3Point3D* in = inPoints3D;
-	TQ3RationalPoint4D* out = outRationalPoints4D;
 	TQ3Uns32 i;
 	
 	for (i = 0; i < numPoints; ++i)
 	{
 		#define M(x,y) matrix4x4->value[x][y]
-		out->x = in->x*M(0,0) + in->y*M(1,0) + in->z*M(2,0) + M(3,0);
-		out->y = in->x*M(0,1) + in->y*M(1,1) + in->z*M(2,1) + M(3,1);
-		out->z = in->x*M(0,2) + in->y*M(1,2) + in->z*M(2,2) + M(3,2);
-		out->w = in->x*M(0,3) + in->y*M(1,3) + in->z*M(2,3) + M(3,3);
+		outRationalPoints4D->x = inPoints3D->x*M(0,0) + inPoints3D->y*M(1,0) + inPoints3D->z*M(2,0) + M(3,0);
+		outRationalPoints4D->y = inPoints3D->x*M(0,1) + inPoints3D->y*M(1,1) + inPoints3D->z*M(2,1) + M(3,1);
+		outRationalPoints4D->z = inPoints3D->x*M(0,2) + inPoints3D->y*M(1,2) + inPoints3D->z*M(2,2) + M(3,2);
+		outRationalPoints4D->w = inPoints3D->x*M(0,3) + inPoints3D->y*M(1,3) + inPoints3D->z*M(2,3) + M(3,3);
 		#undef M
 		
-		in  = (const TQ3Point3D   *) (((const char *)  in) + inStructSize);
-		out = (TQ3RationalPoint4D *) (((      char *) out) + outStructSize);
+		((const char*) inPoints3D) += inStructSize;
+		((char*) outRationalPoints4D) += outStructSize;
 	}
 
 	return(kQ3Success);
@@ -2620,16 +2659,14 @@ E3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D	*inRationalPoints4
 										TQ3Uns32				inStructSize,
 										TQ3Uns32				outStructSize)
 {
-	const char* in = (const char*) inRationalPoints4D;
-	char* out = (char*) outRationalPoints4D;
 	TQ3Uns32 i;
 	
 	for (i = 0; i < numPoints; ++i)
 	{
-		E3RationalPoint4D_Transform((const TQ3RationalPoint4D*) in, matrix4x4,
-			(TQ3RationalPoint4D*) out);
-		in += inStructSize;
-		out += outStructSize;
+		E3RationalPoint4D_Transform(inRationalPoints4D, matrix4x4, outRationalPoints4D);
+		
+		((const char*) inRationalPoints4D) += inStructSize;
+		((char*) outRationalPoints4D) += outStructSize;
 	}
 
 	return(kQ3Success);
@@ -3813,7 +3850,7 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 		float cosHalfAngle;
 		float factor;
 		
-		cosHalfAngle = (float) sqrt((1 + cosAngle) * 0.5f);
+		cosHalfAngle = E3Math_SquareRoot((1.0f + cosAngle) * 0.5f);
 		
 		// Note: sin(angle/2) = sin(angle) / (2 * cos(angle/2)) = sin(angle) * factor
 		
@@ -3918,8 +3955,8 @@ E3Quaternion_SetMatrix(TQ3Quaternion *quaternion, const TQ3Matrix4x4 *matrix4x4)
 	tr = M(0,0) + M(1,1) + M(2,2);
 
 	// check the diagonal
-	if (tr > 0.0) {
-		s = (float)sqrt(tr + 1.0);
+	if (tr > 0.0f) {
+		s = E3Math_SquareRoot(tr + 1.0f);
 		quaternion->w = s / 2.0f;
 		s = 0.5f / s;
 		quaternion->x = (M(1,2) - M(2,1)) * s;
@@ -3935,7 +3972,7 @@ E3Quaternion_SetMatrix(TQ3Quaternion *quaternion, const TQ3Matrix4x4 *matrix4x4)
 		j = nxt[i];
 		k = nxt[j];
 
-		s = (float) sqrt ((M(i,i) - (M(j,j) + M(k,k))) + 1.0);
+		s = E3Math_SquareRoot((M(i,i) - (M(j,j) + M(k,k))) + 1.0f);
 
 		q[i] = s * 0.5f;
 
@@ -4191,10 +4228,10 @@ E3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 
 	if ( (1.0f - cosom) > 0.01f ) {
 		// standard case (slerp)
-		omega = (float)acos(cosom);
-		sinom = (float)sin(omega);
-		scale0 = (float)sin((1.0 - t) * omega) / sinom;
-		scale1 = (float)sin(t * omega) / sinom;
+		omega = (float) acos(cosom);
+		sinom = (float) sin(omega);
+		scale0 = (float) sin((1.0f - t) * omega) / sinom;
+		scale1 = (float) sin(t * omega) / sinom;
 	} else {        
 		// "q1" and "q2" quaternions are very close 
 		//  ... so we can do a linear interpolation
@@ -4246,10 +4283,10 @@ E3Quaternion_GetAxisAndAngle(const TQ3Quaternion *q, TQ3Vector3D *outAxis, float
 		// w is the cosine of the half-angle.
 		float coshalf = q->w;
 		if (outAngle)
-			*outAngle = 2.0f * (float)acos(coshalf);
+			*outAngle = 2.0f * (float) acos(coshalf);
 		if (outAxis)
 			{
-			float sinhalf = (float) sqrt( 1.0f - coshalf * coshalf );
+			float sinhalf = E3Math_SquareRoot(1.0f - coshalf * coshalf);
 			outAxis->x = q->x / sinhalf;
 			outAxis->y = q->y / sinhalf;
 			outAxis->z = q->z / sinhalf;
@@ -4555,21 +4592,46 @@ E3BoundingSphere_Set(TQ3BoundingSphere *bSphere, const TQ3Point3D *origin, float
 //				Untested.
 //-----------------------------------------------------------------------------
 TQ3BoundingSphere *
-E3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *points3D,
-									TQ3Uns32 numPoints, TQ3Uns32 structSize)
+E3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *points3D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
-	if (numPoints == 0)
-		Q3FastBoundingSphere_Reset(bSphere);
-	else
+	switch (numPoints)
 	{
-		const char* in = (const char*) points3D;
-		TQ3Uns32 i;
-		
+	case 0:
+		Q3FastBoundingSphere_Reset(bSphere);
+		break;
+
+	case 1:
 		Q3FastBoundingSphere_Set(bSphere, points3D, 0.0f, kQ3False);
-		in += structSize;
-		
-		for (i = 1; i < numPoints; ++i, in += structSize)
-			E3BoundingSphere_UnionPoint3D(bSphere, (const TQ3Point3D*) in, bSphere);
+		break;
+
+	default:
+		{
+			TQ3BoundingBox bBox;
+
+			TQ3Point3D origin;
+			float radiusSquared;
+			TQ3Uns32 i;
+			const TQ3Point3D *currPoint3D;
+
+			// Determine the bounding box of the specified points
+			E3BoundingBox_SetFromPoints3D(&bBox, points3D, numPoints, structSize);
+
+			// Set the (initial) origin of the bounding sphere to the center of the bounding box
+			E3Point3D_RRatio(&bBox.min, &bBox.max, 0.5f, 0.5f, &origin);
+
+			// Set the (initial) radius of the bounding sphere to the maximum distance from the origin
+			radiusSquared = 0.0f;
+			for (i = 0, currPoint3D = points3D; i < numPoints; ++i, ((const char *) currPoint3D) += structSize)
+			{
+				float currRadiusSquared = Q3FastPoint3D_DistanceSquared(&origin, currPoint3D);
+
+				if (currRadiusSquared > radiusSquared)
+					radiusSquared = currRadiusSquared;
+			}
+
+			Q3FastBoundingSphere_Set(bSphere, &origin, E3Math_SquareRoot(radiusSquared), kQ3False);
+		}
+		break;
 	}
 
 	return(bSphere);
@@ -4673,7 +4735,7 @@ E3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2,
 			float x1=s1->origin.x, y1=s1->origin.y, z1=s1->origin.z;
 			float x2=s2->origin.x, y2=s2->origin.y, z2=s2->origin.z;
 			// find the deltas between their centers, and the distance.
-			float dx = x2-x1, dy = y2-y1, dz = z2-z1, dist=(float)sqrt(dx*dx+dy*dy+dz*dz);
+			float dx = x2-x1, dy = y2-y1, dz = z2-z1, dist = E3Math_SquareRoot(dx*dx + dy*dy + dz*dz);
 			
 			if (dist > 0.0f)
 			{
@@ -4696,7 +4758,7 @@ E3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2,
 					dy = fy1-fy2;
 					dz = fz1-fz2;
 				}
-				result->radius = (float)sqrt(dx*dx+dy*dy+dz*dz) / 2.0f;
+				result->radius = E3Math_SquareRoot(dx*dx + dy*dy + dz*dz) / 2.0f;
 			}
 			else
 			{
@@ -4737,7 +4799,7 @@ E3BoundingSphere_UnionPoint3D(const TQ3BoundingSphere *bSphere, const TQ3Point3D
 		float x1=bSphere->origin.x, y1=bSphere->origin.y, z1=bSphere->origin.z;
 		float x2=point3D->x, y2=point3D->y, z2=point3D->z;
 		// find the deltas between their centers, and the distance.
-		float dx = x2-x1, dy = y2-y1, dz = z2-z1, dist=(float)sqrt(dx*dx+dy*dy+dz*dz);
+		float dx = x2-x1, dy = y2-y1, dz = z2-z1, dist = E3Math_SquareRoot(dx*dx + dy*dy + dz*dz);
 		if (dist > bSphere->radius)
 		{
 			// find the far points.
@@ -4752,7 +4814,7 @@ E3BoundingSphere_UnionPoint3D(const TQ3BoundingSphere *bSphere, const TQ3Point3D
 			dx = fx1-x2;
 			dy = fy1-y2;
 			dz = fz1-z2;
-			result->radius = (float)sqrt(dx*dx+dy*dy+dz*dz) / 2.0f;
+			result->radius = E3Math_SquareRoot(dx*dx + dy*dy + dz*dz) / 2.0f;
 		}
 		else
 		{
@@ -4834,7 +4896,7 @@ E3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3P
 
 
 	// Calculate the distance along the ray to the intersection point
-	q = (float) sqrt(r2 - m2);
+	q = E3Math_SquareRoot(r2 - m2);
 	if (l2 > r2)
 		t = d - q;
 	else
@@ -5078,7 +5140,7 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 
 
 	// The ray intersects the triangle	
-	return (hitPoint->w >= 0.0? kQ3True : kQ3False);
+	return (hitPoint->w >= 0.0f ? kQ3True : kQ3False);
 }
 
 

@@ -427,7 +427,7 @@ IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
 
 
 	// Calculate the dot products
-	qd3dStatus = Q3Vector3D_DotArray(numTriangles, theNormals, triToEye, dotProducts, dotLessThanZero);
+	qd3dStatus = Q3Vector3D_DotArray(theNormals, triToEye, dotProducts, dotLessThanZero, numTriangles, sizeof(TQ3Vector3D), sizeof(float), sizeof(TQ3Boolean));
 
 
 

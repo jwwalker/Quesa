@@ -106,11 +106,7 @@ TQ3Point3D *			E3SphericalPoint_ToPoint3D(const TQ3SphericalPoint *sphericalPoin
 //-----------------------------------------------------------------------------
 float					E3Vector2D_Dot(const TQ3Vector2D *v1, const TQ3Vector2D *v2);
 float					E3Vector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2);
-TQ3Status				E3Vector3D_DotArray(TQ3Uns32				numVectors,
-											const TQ3Vector3D		*firstVectors,
-											const TQ3Vector3D		*secondVectors,
-											float					*dotProducts,
-											TQ3Boolean				*dotLessThanZero);
+TQ3Status				E3Vector3D_DotArray(const TQ3Vector3D *inFirstVectors3D, const TQ3Vector3D *inSecondVectors3D, float *outDotProducts, TQ3Boolean *outDotLessThanZeros, TQ3Uns32 numVectors, TQ3Uns32 inStructSize, TQ3Uns32 outDotProductStructSize, TQ3Uns32 outDotLessThanZeroStructSize);
 
 
 
@@ -268,6 +264,7 @@ TQ3RationalPoint4D *	E3RationalPoint4D_Transform(const TQ3RationalPoint4D *ratio
 TQ3Status				E3Vector2D_To2DTransformArray(const TQ3Vector2D *inVectors2D, const TQ3Matrix3x3 *matrix3x3, TQ3Vector2D *outVectors2D, TQ3Uns32 numVectors, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize);
 TQ3Status				E3Vector3D_To3DTransformArray(const TQ3Vector3D *inVectors3D, const TQ3Matrix4x4 *matrix4x4, TQ3Vector3D *outVectors3D, TQ3Uns32 numVectors, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize);
 TQ3Status				E3Point2D_To2DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *matrix3x3, TQ3Point2D *outPoints2D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize);
+TQ3Status				E3Point2D_To3DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *matrix3x3, TQ3RationalPoint3D *outRationalPoints3D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize);
 TQ3Status				E3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D *inRationalPoints3D, const TQ3Matrix3x3 *matrix3x3, TQ3RationalPoint3D *outRationalPoints3D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize);
 TQ3Status				E3Point3D_To3DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *matrix4x4, TQ3Point3D *outPoints3D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize);
 TQ3Status				E3Point3D_To4DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *matrix4x4, TQ3RationalPoint4D *outRationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 inStructSize, TQ3Uns32 outStructSize);
