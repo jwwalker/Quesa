@@ -1319,24 +1319,205 @@ e3ffw_3DMF_triangle_write(const TQ3TriangleData *object,
 //=============================================================================
 //      e3ffw_3DMF_cone_traverse : Cone traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_cone_traverse( TQ3Object object,
+					 TQ3ConeData *data,
+					 TQ3ViewObject view )
+{
+	TQ3Status	status;
+	TQ3XObjectClass	theClass;
+	TQ3Uns32*	capData;
+	TQ3Object	subObject;
+	
+	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
+	
+	// Optional bottom caps flag
+	if ( (status == kQ3Success) && ((data->caps & kQ3EndCapMaskBottom) != 0) )
+	{
+		capData = (TQ3Uns32*)Q3Memory_Allocate( sizeof(TQ3Uns32) );
+		Q3_REQUIRE_OR_RESULT( capData != NULL, kQ3Failure );
+		*capData = data->caps;
+		theClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeGeometryCaps );
+		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		
+		status = Q3XView_SubmitSubObjectData( view, theClass, 4, capData,
+			E3FFW_3DMF_Default_Delete );
+	}
+	
+	// optional face cap attribute set
+	if ( (status == kQ3Success) && (data->faceAttributeSet != NULL) )
+	{
+		subObject = E3ClassTree_CreateInstance( kQ3AttributeSetTypeFaceCap,
+			kQ3False, &data->faceAttributeSet );
+		Q3_REQUIRE_OR_RESULT( subObject != NULL, kQ3Failure );
+		
+		status = E3FileFormat_Method_SubmitObject( view, subObject,
+			kQ3AttributeSetTypeFaceCap, data->faceAttributeSet );
+	}
+	
+	// optional bottom cap attribute set
+	if ( (status == kQ3Success) && (data->bottomAttributeSet != NULL) &&
+		((data->caps & kQ3EndCapMaskBottom) != 0) )
+	{
+		subObject = E3ClassTree_CreateInstance( kQ3AttributeSetTypeBottomCap,
+			kQ3False, &data->bottomAttributeSet );
+		Q3_REQUIRE_OR_RESULT( subObject != NULL, kQ3Failure );
+		
+		status = E3FileFormat_Method_SubmitObject( view, subObject,
+			kQ3AttributeSetTypeBottomCap, data->bottomAttributeSet );
+	}
+	
+	// Overall attribute set
+	if ( (status == kQ3Success) && (data->coneAttributeSet != NULL) )
+		status = Q3Object_Submit( data->coneAttributeSet, view );
 
+
+	return status;
+}
 
 
 //=============================================================================
 //      e3ffw_3DMF_cone_write : Cone write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_cone_write( const TQ3ConeData *data,
+				TQ3FileObject theFile )
+{
+	TQ3Status	writeStatus = kQ3Failure;
+	
+	writeStatus = Q3Vector3D_Write( &data->orientation, theFile );
 
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->majorRadius, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->minorRadius, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write( &data->origin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMax, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->vMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->vMax, theFile );
+	
+	return writeStatus;
+}
 
 
 //=============================================================================
 //      e3ffw_3DMF_cylinder_traverse : Cylinder traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_cylinder_traverse( TQ3Object object,
+					 TQ3CylinderData *data,
+					 TQ3ViewObject view )
+{
+	TQ3Status	status;
+	TQ3XObjectClass	theClass;
+	TQ3Uns32*	capData;
+	TQ3Object	subObject;
+	
+	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
+	
+	// Optional bottom caps flag
+	if ( (status == kQ3Success) && ((data->caps & kQ3EndCapMaskBottom) != 0) )
+	{
+		capData = (TQ3Uns32*)Q3Memory_Allocate( sizeof(TQ3Uns32) );
+		Q3_REQUIRE_OR_RESULT( capData != NULL, kQ3Failure );
+		*capData = data->caps;
+		theClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeGeometryCaps );
+		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		
+		status = Q3XView_SubmitSubObjectData( view, theClass, 4, capData,
+			E3FFW_3DMF_Default_Delete );
+	}
+	
+	// optional face cap attribute set
+	if ( (status == kQ3Success) && (data->faceAttributeSet != NULL) )
+	{
+		subObject = E3ClassTree_CreateInstance( kQ3AttributeSetTypeFaceCap,
+			kQ3False, &data->faceAttributeSet );
+		
+		status = E3FileFormat_Method_SubmitObject( view, subObject,
+			kQ3AttributeSetTypeFaceCap, data->faceAttributeSet );
+	}
+	
+	// optional bottom cap attribute set
+	if ( (status == kQ3Success) && (data->bottomAttributeSet != NULL) &&
+		((data->caps & kQ3EndCapMaskBottom) != 0) )
+	{
+		subObject = E3ClassTree_CreateInstance( kQ3AttributeSetTypeBottomCap,
+			kQ3False, &data->bottomAttributeSet );
+		Q3_REQUIRE_OR_RESULT( subObject != NULL, kQ3Failure );
+		
+		status = E3FileFormat_Method_SubmitObject( view, subObject,
+			kQ3AttributeSetTypeBottomCap, data->bottomAttributeSet );
+	}
+	
+	// optional top cap attribute set
+	if ( (status == kQ3Success) && (data->topAttributeSet != NULL) &&
+		((data->caps & kQ3EndCapMaskTop) != 0) )
+	{
+		subObject = E3ClassTree_CreateInstance( kQ3AttributeSetTypeTopCap,
+			kQ3False, &data->topAttributeSet );
+		Q3_REQUIRE_OR_RESULT( subObject != NULL, kQ3Failure );
+		
+		status = E3FileFormat_Method_SubmitObject( view, subObject,
+			kQ3AttributeSetTypeTopCap, data->topAttributeSet );
+	}
+	
+	// Overall attribute set
+	if ( (status == kQ3Success) && (data->cylinderAttributeSet != NULL) )
+		status = Q3Object_Submit( data->cylinderAttributeSet, view );
+
+
+	return status;
+}
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_cylinder_write : Cylinder write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_cylinder_write( const TQ3CylinderData *data,
+				TQ3FileObject theFile )
+{
+	TQ3Status	writeStatus = kQ3Failure;
+	
+	writeStatus = Q3Vector3D_Write( &data->orientation, theFile );
+
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->majorRadius, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->minorRadius, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write( &data->origin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMax, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->vMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->vMax, theFile );
+	
+	return writeStatus;
+}
 
 
 
@@ -1437,12 +1618,63 @@ e3ffw_3DMF_ellipsoid_write( const TQ3EllipsoidData *data,
 //=============================================================================
 //      e3ffw_3DMF_torus_traverse : Torus traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_torus_traverse( TQ3Object object,
+					 TQ3TorusData *data,
+					 TQ3ViewObject view )
+{
+	TQ3Status	status;
+	
+	status = Q3XView_SubmitWriteData( view, 68, (void*)data, NULL );
+	
+
+	// Overall attribute set
+	if ( (data->torusAttributeSet != NULL) && (status == kQ3Success) )
+		status = Q3Object_Submit( data->torusAttributeSet, view );
+
+
+	return status;
+}
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_torus_write : Torus write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_torus_write( const TQ3TorusData *data,
+				TQ3FileObject theFile )
+{
+	TQ3Status	writeStatus = kQ3Failure;
+	
+	writeStatus = Q3Vector3D_Write( &data->orientation, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->majorRadius, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->minorRadius, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write( &data->origin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->ratio, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMax, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->vMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->vMax, theFile );
+	
+	return writeStatus;
+}
 
 
 //=============================================================================
@@ -2121,7 +2353,7 @@ E3FFW_3DMF_RegisterGeom()
 	E3ClassTree_AddMethodByType(kQ3StyleTypeBackfacing,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_backfacing_write);
 
 
-	// Triangle
+	// Geometries
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_triangle_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_triangle_write);
 	
@@ -2130,6 +2362,15 @@ E3FFW_3DMF_RegisterGeom()
 
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_ellipsoid_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_ellipsoid_write);
+
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeCone,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_cone_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeCone,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_cone_write);
+	
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTorus,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_torus_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTorus,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_torus_write);
+	
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeCylinder,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_cylinder_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeCylinder,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_cylinder_write);
 	
 	return kQ3Success;
 }
