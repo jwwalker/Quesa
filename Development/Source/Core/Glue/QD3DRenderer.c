@@ -213,14 +213,14 @@ Q3Renderer_HasModalConfigure(TQ3RendererObject renderer)
 //      Q3Renderer_ModalConfigure : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3Renderer_ModalConfigure(TQ3RendererObject renderer, TQ3DialogAnchor dialogAnchor, TQ3Boolean *canceled)
+Q3Renderer_ModalConfigure(TQ3RendererObject renderer, TQ3DialogAnchor dialogAnchor, TQ3Boolean *cancelled)
 {
 
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(canceled), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cancelled), kQ3Failure);
 
 
 
@@ -244,7 +244,7 @@ Q3Renderer_ModalConfigure(TQ3RendererObject renderer, TQ3DialogAnchor dialogAnch
 
 
 	// Call our implementation
-	return(E3Renderer_ModalConfigure(renderer, dialogAnchor, canceled));
+	return(E3Renderer_ModalConfigure(renderer, dialogAnchor, cancelled));
 }
 
 

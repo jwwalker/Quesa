@@ -966,7 +966,7 @@ E3Renderer_HasModalConfigure(TQ3RendererObject theRenderer)
 //      E3Renderer_ModalConfigure : Invoke a renderer's modal configure dialog.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Renderer_ModalConfigure(TQ3RendererObject theRenderer, TQ3DialogAnchor dialogAnchor, TQ3Boolean *canceled)
+E3Renderer_ModalConfigure(TQ3RendererObject theRenderer, TQ3DialogAnchor dialogAnchor, TQ3Boolean *cancelled)
 {	TQ3XRendererModalConfigureMethod	modalConfigure;
 	TQ3Status							qd3dStatus;
 
@@ -982,7 +982,7 @@ E3Renderer_ModalConfigure(TQ3RendererObject theRenderer, TQ3DialogAnchor dialogA
 
 
 	// Call the method
-	qd3dStatus = modalConfigure(theRenderer, dialogAnchor, canceled, theRenderer->instanceData);
+	qd3dStatus = modalConfigure(theRenderer, dialogAnchor, cancelled, theRenderer->instanceData);
 
 	return(qd3dStatus);
 }
