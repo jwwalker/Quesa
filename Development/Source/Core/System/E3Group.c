@@ -2559,6 +2559,29 @@ E3Group_UnregisterClass(void)
 
 
 //=============================================================================
+//      E3Group::IsOfMyClass : Check if object pointer is valid and of type Group
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3ShapeTypeGroup )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Group::IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Group ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3Group_New : Creates a new display group.
 //-----------------------------------------------------------------------------
 #pragma mark -

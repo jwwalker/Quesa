@@ -112,7 +112,7 @@ Q3Group_GetType(TQ3GroupObject group)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3ObjectTypeInvalid);
 
 
 
@@ -146,7 +146,7 @@ Q3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
 	Q3_REQUIRE_OR_RESULT(object && object->IsObjectValid (), NULL);
 
 
@@ -184,7 +184,7 @@ Q3Group_AddObjectAndDispose(TQ3GroupObject group, TQ3Object *theObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
 	
 	if (theObject != NULL && *theObject != NULL)
 		Q3_REQUIRE_OR_RESULT((*theObject)->IsObjectValid (), NULL);
@@ -224,7 +224,7 @@ Q3Group_AddObjectBefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Obje
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
 	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), NULL);
 
 
@@ -265,7 +265,7 @@ Q3Group_AddObjectAfter(TQ3GroupObject group, TQ3GroupPosition position, TQ3Objec
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
 	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), NULL);
 
 
@@ -306,7 +306,7 @@ Q3Group_GetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Ob
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(object), kQ3Failure);
 
 
@@ -347,7 +347,7 @@ Q3Group_SetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Ob
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), kQ3Failure);
 
 
@@ -388,7 +388,7 @@ Q3Group_RemovePosition(TQ3GroupObject group, TQ3GroupPosition position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
 
 
 
@@ -425,7 +425,7 @@ Q3Group_GetFirstPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -463,7 +463,7 @@ Q3Group_GetLastPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -501,7 +501,7 @@ Q3Group_GetNextPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -539,7 +539,7 @@ Q3Group_GetPreviousPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -577,7 +577,7 @@ Q3Group_CountObjects(TQ3GroupObject group, TQ3Uns32 *nObjects)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nObjects), kQ3Failure);
 
 
@@ -615,7 +615,7 @@ Q3Group_EmptyObjects(TQ3GroupObject group)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 
 
 
@@ -649,7 +649,7 @@ Q3Group_GetFirstPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gr
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -690,7 +690,7 @@ Q3Group_GetLastPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -731,7 +731,7 @@ Q3Group_GetNextPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -772,7 +772,7 @@ Q3Group_GetPreviousPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -813,7 +813,7 @@ Q3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nObjects), kQ3Failure);
 
 
@@ -854,7 +854,7 @@ Q3Group_EmptyObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 
 
 
@@ -891,7 +891,7 @@ Q3Group_GetFirstObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupP
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
@@ -933,7 +933,7 @@ Q3Group_GetLastObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
@@ -975,7 +975,7 @@ Q3Group_GetNextObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
@@ -1017,7 +1017,7 @@ Q3Group_GetPreviousObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3Gro
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
@@ -1122,7 +1122,7 @@ Q3DisplayGroup_GetType(TQ3GroupObject group)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3ObjectTypeInvalid);
 
 
 
@@ -1156,7 +1156,7 @@ Q3DisplayGroup_GetState(TQ3GroupObject group, TQ3DisplayGroupState *state)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(state), kQ3Failure);
 
 
@@ -1194,7 +1194,7 @@ Q3DisplayGroup_SetState(TQ3GroupObject group, TQ3DisplayGroupState state)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 
 
 
@@ -1231,7 +1231,7 @@ Q3DisplayGroup_Submit(TQ3GroupObject group, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
@@ -1269,7 +1269,7 @@ Q3DisplayGroup_SetAndUseBoundingBox(TQ3GroupObject group, TQ3BoundingBox *bBox)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), kQ3Failure);
 
 
@@ -1307,7 +1307,7 @@ Q3DisplayGroup_GetBoundingBox(TQ3GroupObject group, TQ3BoundingBox *bBox)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), kQ3Failure);
 
 
@@ -1345,7 +1345,7 @@ Q3DisplayGroup_RemoveBoundingBox(TQ3GroupObject group)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 
 
 
@@ -1379,7 +1379,7 @@ Q3DisplayGroup_CalcAndUseBoundingBox(TQ3GroupObject group, TQ3ComputeBounds comp
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
@@ -1462,7 +1462,7 @@ Q3XGroup_GetPositionPrivate(TQ3GroupObject group, TQ3GroupPosition position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
 
 
 
