@@ -1741,7 +1741,10 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 	if (copyGetMethod != NULL)
 		qd3dStatus = copyGetMethod((void *) elementData, (void *) data);
 	else
+		{
 		Q3Memory_Copy(elementData, data, dataSize);
+		qd3dStatus = kQ3Success;
+		}
 	
 	return(qd3dStatus);
 }
