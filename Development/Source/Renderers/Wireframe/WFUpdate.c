@@ -233,7 +233,7 @@ TQ3Status
 WFRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 									TQ3WireframeData			*instanceData,
 									TQ3AntiAliasStyleData		*styleData)
-{
+{	GLfloat		lineWidth;
 #pragma unused(theView)
 
 
@@ -254,6 +254,15 @@ WFRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 	if (styleData->state == kQ3On)
 		{
 		// Set up our aliasing thresholds
+		//
+		// Implementations should clamp anti-aliased lines to their minimum width
+		// automatically, however some common systems (Rev-A G5s, some iBooks and
+		// AlBooks) will draw zero-width lines if line smoothing is enabled.
+		//
+		// To avoid this we clamp our line widths to the minimum supported sizes,
+		// to ensure we always have a visible line.
+		lineWidth = E3Num_Max(kAALineSize, GLDrawContext_GetMinLineWidth(instanceData->glContext));
+
 		glPointSize(kAAPointSize);
 		glLineWidth(kAALineSize);
 
