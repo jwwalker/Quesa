@@ -159,8 +159,8 @@ static TQ3Status
 e3geom_box_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 					 TQ3Object toObject,   void       *toPrivateData)
 {	TQ3BoxData				*toInstanceData = (TQ3BoxData *) toPrivateData;
+	TQ3BoxData				*fromInstanceData = (TQ3BoxData *) fromPrivateData;
 	TQ3Status				qd3dStatus;
-#pragma unused(fromPrivateData)
 #pragma unused(toObject)
 
 
@@ -168,11 +168,35 @@ e3geom_box_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromObject),    kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toPrivateData), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromPrivateData), kQ3Failure);
 
 
 
 	// Copy the data from fromObject to toObject
-	qd3dStatus = Q3Box_GetData(fromObject, toInstanceData);
+	toInstanceData->origin      = fromInstanceData->origin;
+	toInstanceData->orientation = fromInstanceData->orientation;
+	toInstanceData->majorAxis   = fromInstanceData->majorAxis;
+	toInstanceData->minorAxis   = fromInstanceData->minorAxis;
+	toInstanceData->faceAttributeSet   = NULL;
+
+	if (fromInstanceData->faceAttributeSet != NULL)
+		{
+		// duplicate the faces attribute array
+		toInstanceData->faceAttributeSet = (TQ3AttributeSet *)Q3Memory_Allocate(6 * sizeof(TQ3AttributeSet));
+
+		if (toInstanceData->faceAttributeSet != NULL)
+			{
+			// duplicate the face attributes
+			for (n = 0; n < 6; n++)
+				if(fromInstanceData->faceAttributeSet[n] != NULL)
+					toInstanceData->faceAttributeSet[n] = Q3Object_Duplicate(fromInstanceData->faceAttributeSet[n]);
+				else
+					toInstanceData->faceAttributeSet[n];
+			}
+		}
+	
+	// duplicate the box attributes
+	toInstanceData->boxAttributeSet = Q3Object_Duplicate(fromInstanceData->boxAttributeSet);
 
 	return(qd3dStatus);
 }
