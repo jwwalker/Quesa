@@ -136,6 +136,7 @@ typedef struct TQ3XDrawContextState {
 #elif QUESA_OS_WIN32
 typedef struct TQ3Win32DCDrawContextState {
 	TQ3Win32DCDrawContextData		theData;
+	TQ3Area							windowRect;
 } TQ3Win32DCDrawContextState;
 
 typedef struct TQ3DDSurfaceDrawContextState {
