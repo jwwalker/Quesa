@@ -1419,7 +1419,7 @@ E3ClassInfo::GetMethod ( TQ3XMethodType methodType )
 		{
 		theMethod = Find_Method ( methodType, kQ3True ) ;
 		if (theMethod != NULL)
-			E3HashTable_Add ( methodTable, methodType, theMethod ) ;
+			E3HashTable_Add ( methodTable, methodType, (void *)theMethod ) ;
 		}
 
 	return theMethod ;
@@ -1466,7 +1466,7 @@ E3ClassInfo::AddMethod ( TQ3XMethodType methodType, TQ3XFunctionPointer theMetho
 
 
 	// Add the method to the hash table for the class
-	E3HashTable_Add ( methodTable, methodType, theMethod ) ;
+	E3HashTable_Add ( methodTable, methodType, (void*)theMethod ) ;
 	}
 
 
