@@ -1389,8 +1389,6 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 	TQ3ViewerParams			*params = (TQ3ViewerParams*) paramData;
 #pragma unused(theObject)
 
-
-
 	// Initialise our instance data
 	instanceData->mValidViewer = kQ3ValidViewer;
 	instanceData->mView  = Q3View_New();
@@ -1575,6 +1573,12 @@ E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 {	TQ3ViewerObject		theViewer;
 
 	TQ3ViewerParams		paramData;
+
+	// Make sure Quesa is initialized.  The QD3D Viewer would initialize QD3D
+	// when it was created, and deinitialize it when destroyed, so we need to
+	// do the same.  But our behavior is actually much better, since the calls
+	// to Q3Init and Q3Exit are counted, so we don't exit prematurely.
+	Q3Initialize();
 	
 	// Set up initial values (to be copied into the actual Quesa object).
 	paramData.mFlags = theFlags;
@@ -1609,9 +1613,8 @@ E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 TQ3Status
 E3Viewer_Dispose(TQ3ViewerObject theViewer)
 {
-	// Dair: do we need this?
-	// There's no such method in E3Group.c, for example...
-
+	// Deinitialize Quesa (see comments in E3Viewer_New).
+	Q3Exit();
 
 	// To be implemented...
 	return(kQ3Failure);
