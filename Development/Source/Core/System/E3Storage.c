@@ -123,11 +123,17 @@ e3storage_memory_grow(TQ3StorageObject storage, TQ3Uns32 requestedSize)
 {	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
 	TQ3Status				qd3dStatus;
 	TQ3Uns32				newSize;
+	TQ3Uns32				expSize;
 	
 	if((instanceData->ownBuffer == kQ3True) && 
-		(requestedSize > instanceData->bufferSize)){
+		(requestedSize > instanceData->bufferSize))
+	{
+		// Grow at least to twice the previous size.
+		expSize = instanceData->bufferSize * 2;
+		newSize = E3Num_Max( requestedSize, expSize );
 
-		newSize = ((requestedSize / instanceData->growSize) + 1) * instanceData->growSize;
+		// Round up to next multiple of growSize.
+		newSize = ((newSize / instanceData->growSize) + 1) * instanceData->growSize;
 		
 		qd3dStatus = Q3Memory_Reallocate(&instanceData->buffer,newSize);
 		if (qd3dStatus != kQ3Success)
