@@ -301,8 +301,8 @@ my $kTemplateE3H = <<'E3_HFILE_TEMPLATE';
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __E3UPPER_NAME__
-#define __E3UPPER_NAME__
+#ifndef E3UPPER_NAME_HDR
+#define E3UPPER_NAME_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------

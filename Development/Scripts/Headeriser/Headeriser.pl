@@ -73,12 +73,14 @@ my $kTemplateQ3H = <<'Q3_HFILE_TEMPLATE';
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __QUESA_UPPER_NAME__
-#define __QUESA_UPPER_NAME__
+#ifndef QUESA_UPPER_NAME_HDR
+#define QUESA_UPPER_NAME_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
+
+#include "QD3DFILE_NAME.h"
 
 
 
