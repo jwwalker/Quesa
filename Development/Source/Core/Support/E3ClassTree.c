@@ -64,6 +64,7 @@
 
 #include <time.h>
 #include <stdio.h>
+#include <new>
 
 
 
@@ -132,6 +133,36 @@ OpaqueTQ3Object::Verify ()
 
 
 //=============================================================================
+//      E3ClassInfo::E3ClassInfo : Constructor for class info of root class.
+//-----------------------------------------------------------------------------
+#pragma mark -
+
+E3ClassInfo::E3ClassInfo	(
+							TQ3XMetaHandler	newClassMetaHandler,
+							E3ClassInfo*	newParent // nil for root class of course
+						 	)
+	{
+	classType = 0 ;
+	className = NULL ;
+	methodTable = NULL ;
+	numInstances = 0 ;
+	instanceSize = 0 ;
+	numChildren = 0 ;
+	theChildren = NULL ;
+	for ( TQ3Int32 i = kQ3MaxBuiltInClassHierarchyDepth - 1 ; i >= 0 ; --i )
+		ownAndParentTypes [ i ] = 0 ;
+	
+	classMetaHandler = newClassMetaHandler ;
+	theParent = newParent ;
+	// The above two must be done before any sub class constructors are called as these 
+	// two fields are used in Find_Method which is called in the sub class constructors.
+	
+	// Also before this:
+	registerMethod = (TQ3XObjectRegisterMethod) Find_Method ( kQ3XMethodTypeObjectClassRegister , kQ3True ) ;
+	} ;
+
+
+//=============================================================================
 //      e3class_attach : Attach a child node to its parent.
 //-----------------------------------------------------------------------------
 //		Note :	We assume the child currently has no parent.
@@ -142,7 +173,6 @@ E3ClassInfo::Attach ( E3ClassInfoPtr theChild, E3ClassInfoPtr theParent )
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theChild),      kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theParent),     kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theChild->theParent == NULL, kQ3Failure);
 
 
 
@@ -157,8 +187,6 @@ E3ClassInfo::Attach ( E3ClassInfoPtr theChild, E3ClassInfoPtr theParent )
 	// Connect the child to the parent and the parent to the child
 	theParent->theChildren [ theParent->numChildren ] = theChild ;
 	theParent->numChildren++ ;
-	
-	theChild->theParent = theParent ;
 	
 	return kQ3Success ;
 	}
@@ -442,23 +470,21 @@ E3ClassTree::RegisterExternalClass (
 								TQ3XMetaHandler		classMetaHandler,
 								TQ3Uns32			leafInstanceSize )
 	{
-	E3ClassInfoPtr parentClass = E3ClassTree::GetClass ( parentClassType ) ;
-	if ( parentClass == NULL )
-		return kQ3Failure ;
-		
-	return E3ClassTree::RegisterClass ( parentClassType,
+	if ( E3ClassInfo* parentClass = E3ClassTree::GetClass ( parentClassType ) )
+		if ( E3ClassInfo* newClass = parentClass->registerMethod ( classMetaHandler, parentClass ) )
+			return E3ClassTree::RegisterClass ( newClass,
 										classType,
 										className,
-										classMetaHandler,
 										leafInstanceSize + parentClass->instanceSize ) ;
+	
+	return kQ3Failure ;
 	}
 	
 	
 TQ3Status
-E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
+E3ClassTree::RegisterClass (	E3ClassInfo*		newClass,
 								TQ3ObjectType		classType,
 								const char			*className,
-								TQ3XMetaHandler		classMetaHandler,
 								TQ3Uns32			instanceSize )
 	{
 	E3GlobalsPtr theGlobals = E3Globals_Get () ;
@@ -468,7 +494,7 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(className),                    kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(strlen(className) < kQ3StringMaximumLength, kQ3Failure);
 
-	if (parentClassType == kQ3ObjectTypeInvalid)
+	if ( newClass->theParent == NULL )
 		Q3_REQUIRE_OR_RESULT(theGlobals->classTree == NULL, kQ3Failure);
 
 
@@ -480,52 +506,42 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 
 
 	// Find the parent class
-	E3ClassInfoPtr parentClass = NULL;
-	if ( parentClassType != kQ3ObjectTypeInvalid )
+	if ( newClass->theParent != NULL )
 		{
-		parentClass = E3ClassTree::GetClass ( parentClassType ) ;
-		if ( parentClass == NULL )
-			return kQ3Failure ;
-		Q3_ASSERT ( instanceSize >= parentClass->instanceSize ) ;
+		Q3_ASSERT ( instanceSize >= newClass->theParent->instanceSize ) ;
 		}
 
 
 
-	// Allocate the new class
-	E3ClassInfoPtr theClass = (E3ClassInfoPtr) Q3Memory_AllocateClear ( sizeof ( E3ClassInfo ) ) ;
-	if ( theClass == NULL )
-		return kQ3Failure ;
+	newClass->className   = (char *) Q3Memory_Allocate ( strlen ( className ) + 1 ) ;
+	newClass->methodTable = E3HashTable_Create ( kMethodHashTableSize)  ;
 
-	theClass->className   = (char *) Q3Memory_Allocate ( strlen ( className ) + 1 ) ;
-	theClass->methodTable = E3HashTable_Create ( kMethodHashTableSize)  ;
-
-	if ( theClass->className == NULL || theClass->methodTable == NULL )
+	if ( newClass->className == NULL || newClass->methodTable == NULL )
 		{
-		if ( theClass->className != NULL )
-			Q3Memory_Free ( & theClass->className ) ;
+		if ( newClass->className != NULL )
+			Q3Memory_Free ( & newClass->className ) ;
 		
-		if ( theClass->methodTable != NULL )
-			E3HashTable_Destroy ( &theClass->methodTable ) ;
+		if ( newClass->methodTable != NULL )
+			E3HashTable_Destroy ( &newClass->methodTable ) ;
 
-		Q3Memory_Free ( &theClass ) ;
+		delete newClass ;
 		return kQ3Failure ;
 		}
 
 
 
 	// Initialise the class
-	theClass->classType        = classType ;
-	theClass->classMetaHandler = classMetaHandler ;
-	theClass->instanceSize     = instanceSize ;
+	newClass->classType        = classType ;
+	newClass->instanceSize     = instanceSize ;
 
-	strcpy ( theClass->className, className ) ;
+	strcpy ( newClass->className, className ) ;
 
 
 
 	// If we don't have a hash table yet, create it
 	if ( theGlobals->classTree == NULL )
 		{
-		theGlobals->classTreeRoot = theClass ;
+		theGlobals->classTreeRoot = newClass ;
 		theGlobals->classTree     = E3HashTable_Create ( kClassHashTableSize ) ;
 		if ( theGlobals->classTree == NULL )
 			qd3dStatus = kQ3Failure ;
@@ -535,22 +551,22 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 
 	// Store the class in the hash table
 	if ( qd3dStatus != kQ3Failure )
-		qd3dStatus = E3HashTable_Add ( theGlobals->classTree, classType, theClass ) ;
+		qd3dStatus = E3HashTable_Add ( theGlobals->classTree, classType, newClass ) ;
 
-	if ( qd3dStatus != kQ3Failure && parentClass != NULL )
-		qd3dStatus = E3ClassInfo::Attach ( theClass, parentClass ) ;
+	if ( qd3dStatus != kQ3Failure && newClass->theParent != NULL )
+		qd3dStatus = E3ClassInfo::Attach ( newClass, newClass->theParent ) ;
 		
 		
 	// Fill out the ownAndParentTypes array
 	TQ3Int32 ourClassDepth = 0 ;
 	E3ClassInfoPtr aClass ;
-	for ( aClass = parentClass ; aClass ; aClass = aClass->theParent )
+	for ( aClass = newClass->theParent ; aClass ; aClass = aClass->theParent )
 		++ourClassDepth ;
 
-	for ( aClass = theClass ; aClass ; aClass = aClass->theParent )
+	for ( aClass = newClass ; aClass ; aClass = aClass->theParent )
 		{
-		if ( ourClassDepth < kQ3MaxBuiltInClassHierarchyDepth ) ;
-			theClass->ownAndParentTypes [ ourClassDepth ] = aClass->classType ;
+		if ( ourClassDepth < kQ3MaxBuiltInClassHierarchyDepth )
+			newClass->ownAndParentTypes [ ourClassDepth ] = aClass->classType ;
 		--ourClassDepth ;
 		}
 
@@ -566,21 +582,37 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 				E3HashTable_Remove ( theGlobals->classTree, classType ) ;
 			}
 			
-		if ( theGlobals->classTreeRoot == theClass )
+		if ( theGlobals->classTreeRoot == newClass )
 				theGlobals->classTreeRoot = NULL ;
 
 
 		// Clean up the class
-		Q3Memory_Free ( & theClass->className ) ;
-		E3HashTable_Destroy ( & theClass->methodTable ) ;
-		Q3Memory_Free ( & theClass ) ;
+		Q3Memory_Free ( & newClass->className ) ;
+		E3HashTable_Destroy ( & newClass->methodTable ) ;
+		delete newClass ;
 		}
 
 	return qd3dStatus ;
 	}
 
 
-
+// Old syle version for compatibility with other files which have not been updated yet.
+TQ3Status
+E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
+								TQ3ObjectType		classType,
+								const char			*className,
+								TQ3XMetaHandler		classMetaHandler,
+								TQ3Int32			instanceSize )
+	{
+	return E3ClassTree::RegisterClass ( new ( std::nothrow ) E3Root ( 
+										classMetaHandler,
+										E3ClassTree::GetClass ( parentClassType )
+										),
+									classType,
+									className,
+									instanceSize
+									) ;
+	}
 
 
 //=============================================================================
