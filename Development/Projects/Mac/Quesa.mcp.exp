@@ -1312,7 +1312,6 @@ Q3Viewer_UseGroup
 Q3Viewer_WriteData
 Q3Viewer_WriteFile
 Q3Set_CopyElement
-Q3XElement_EmptyData
 
 # support for use as a statically-linked library
 #__ViewerInitialize

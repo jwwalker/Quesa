@@ -838,33 +838,6 @@ Q3XElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElemen
 
 
 //=============================================================================
-//      Q3XElement_EmptyData : Quesa API entry point.
-//-----------------------------------------------------------------------------
-TQ3Status
-Q3XElement_EmptyData( TQ3ElementType elementType, void* data )
-{
-
-
-	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-
-
-
-	// Call the bottleneck
-	E3System_Bottleneck();
-
-
-
-	// Call our implementation
-	return(E3XElement_EmptyData(elementType, data));
-}
-
-
-
-
-
-
-//=============================================================================
 //      Q3XAttributeClass_Register : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3XObjectClass
