@@ -80,39 +80,6 @@ typedef struct {
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3set_findinstance : Get the set data for a set object.
-//-----------------------------------------------------------------------------
-//		Note : Given a set object, we locate the set instance data.
-//-----------------------------------------------------------------------------
-static TQ3SetData *
-e3set_findinstance(TQ3SetObject theSet)
-{	TQ3SetData		*instanceData;
-	TQ3SetObject	theObject;
-
-
-
-	// Find the set object for this object. This may in fact be
-	// theSet, but we need to walk upwards in case it isn't.
-	theObject = E3ClassTree_FindParentInstance(theSet, kQ3SharedTypeSet);
-	if (theObject == NULL)
-		return(NULL);
-
-
-
-	// Get the instance data for the set object		
-	instanceData = (TQ3SetData *) theObject->instanceData;
-	Q3_ASSERT_VALID_PTR(instanceData);
-	Q3_ASSERT_VALID_PTR(E3ClassTree_GetInstanceSize(theObject->theClass)
-						== sizeof(TQ3SetData));
-
-	return(instanceData);
-}
-
-
-
-
-
-//=============================================================================
 //      e3set_delete : Set class delete method.
 //-----------------------------------------------------------------------------
 static void
@@ -1177,7 +1144,7 @@ E3Set_AccessElementData(TQ3SetObject theSet, TQ3ElementType theType, TQ3Uns32 *d
 
 
 	// Find the instance data
-	instanceData = e3set_findinstance(theSet);
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1269,7 +1236,7 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 
 
 	// Find the instance data
-	instanceData = e3set_findinstance(theSet);
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1414,7 +1381,7 @@ E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Find the instance data
-	instanceData = e3set_findinstance(theSet);
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3False);
 
@@ -1448,7 +1415,7 @@ E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Find the instance data
-	instanceData = e3set_findinstance(theSet);
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1488,7 +1455,7 @@ E3Set_Empty(TQ3SetObject theSet)
 
 
 	// Find the instance data
-	instanceData = e3set_findinstance(theSet);
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1538,7 +1505,7 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 
 
 	// Find the instance data
-	instanceData = e3set_findinstance(theSet);
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1919,7 +1886,7 @@ E3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject view)
 
 
 	// Find the instance data for the set
-	instanceData = e3set_findinstance(attributeSet);
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(attributeSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1969,8 +1936,8 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 
 
 	// Find the instance data
-	parentInstanceData = e3set_findinstance(parent);
-	childInstanceData  = e3set_findinstance(child);
+	parentInstanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(parent, kQ3SharedTypeSet);
+	childInstanceData  = (TQ3SetData *) E3ClassTree_FindInstanceData(child,  kQ3SharedTypeSet);
 
 	if (parentInstanceData == NULL || childInstanceData == NULL)
 		return(kQ3Failure);

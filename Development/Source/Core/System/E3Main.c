@@ -80,38 +80,6 @@ typedef struct {
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3shared_findinstance : Get the data for a shared object.
-//-----------------------------------------------------------------------------
-//		Note : Given a shared object, we locate the instance data.
-//-----------------------------------------------------------------------------
-static TQ3SharedData *
-e3shared_findinstance(TQ3SharedObject sharedObject)
-{	TQ3SharedData		*instanceData;
-	TQ3SharedObject		theObject;
-
-
-
-	// Find the shared object for this object. This may in fact be
-	// sharedObject, but we need to walk upwards in case it isn't.
-	theObject = E3ClassTree_FindParentInstance(sharedObject, kQ3ObjectTypeShared);
-	if (theObject == NULL)
-		return(NULL);
-
-
-
-	// Get the instance data for the shared object		
-	instanceData = (TQ3SharedData *) theObject->instanceData;
-	Q3_ASSERT_VALID_PTR(instanceData);
-	Q3_ASSERT_VALID_PTR(E3ClassTree_GetInstanceSize(theObject->theClass) == sizeof(TQ3SharedData));
-
-	return(instanceData);
-}
-
-
-
-
-
-//=============================================================================
 //      e3shared_new : Shared new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -143,7 +111,7 @@ e3shared_dispose(TQ3Object theObject)
 
 
 	// Find the instance data
-	instanceData = e3shared_findinstance(theObject);
+	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeShared);
 	if (instanceData == NULL)
 		return;
 
@@ -220,38 +188,6 @@ e3shared_metahandler(TQ3XMethodType methodType)
 		}
 	
 	return(theMethod);
-}
-
-
-
-
-
-//=============================================================================
-//      e3shape_findinstance : Get the data for a shape object.
-//-----------------------------------------------------------------------------
-//		Note : Given a shape object, we locate the instance data.
-//-----------------------------------------------------------------------------
-static TQ3ShapeData *
-e3shape_findinstance(TQ3ShapeObject shapeObject)
-{	TQ3ShapeData		*instanceData;
-	TQ3ShapeObject		theObject;
-
-
-
-	// Find the shape object for this object. This may in fact be
-	// shapeObject, but we need to walk upwards in case it isn't.
-	theObject = E3ClassTree_FindParentInstance(shapeObject, kQ3SharedTypeShape);
-	if (theObject == NULL)
-		return(NULL);
-
-
-
-	// Get the instance data for the shape object		
-	instanceData = (TQ3ShapeData *) theObject->instanceData;
-	Q3_ASSERT_VALID_PTR(instanceData);
-	Q3_ASSERT_VALID_PTR(E3ClassTree_GetInstanceSize(theObject->theClass) == sizeof(TQ3ShapeData));
-
-	return(instanceData);
 }
 
 
@@ -1145,7 +1081,7 @@ E3Shared_GetReference(TQ3SharedObject sharedObject)
 
 
 	// Find the instance data
-	instanceData = e3shared_findinstance(sharedObject);
+	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(sharedObject, kQ3ObjectTypeShared);
 	if (instanceData == NULL)
 		return(NULL);
 
@@ -1177,7 +1113,7 @@ E3Shared_IsReferenced(TQ3SharedObject sharedObject)
 
 
 	// Find the instance data
-	instanceData = e3shared_findinstance(sharedObject);
+	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(sharedObject, kQ3ObjectTypeShared);
 	if (instanceData == NULL)
 		return(kQ3False);
 
@@ -1201,7 +1137,7 @@ E3Shared_GetEditIndex(TQ3SharedObject sharedObject)
 
 
 	// Find the instance data
-	instanceData = e3shared_findinstance(sharedObject);
+	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(sharedObject, kQ3ObjectTypeShared);
 	if (instanceData == NULL)
 		return(0);
 
@@ -1225,7 +1161,7 @@ E3Shared_Edited(TQ3SharedObject sharedObject)
 
 
 	// Find the instance data
-	instanceData = e3shared_findinstance(sharedObject);
+	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(sharedObject, kQ3ObjectTypeShared);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1267,7 +1203,7 @@ E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet)
 
 
 	// Find the instance data
-	instanceData = e3shape_findinstance(theShape);
+	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1293,7 +1229,7 @@ E3Shape_SetSet(TQ3ShapeObject theShape, TQ3SetObject theSet)
 
 
 	// Find the instance data
-	instanceData = e3shape_findinstance(theShape);
+	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1334,7 +1270,7 @@ E3Shape_AddElement(TQ3ShapeObject theShape, TQ3ElementType theType, const void *
 
 
 	// Otherwise, we must have a shape - so find the instance data
-	instanceData = e3shape_findinstance(theShape);
+	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1388,7 +1324,7 @@ E3Shape_GetElement(TQ3ShapeObject theShape, TQ3ElementType theType, void *theDat
 
 
 	// Otherwise, we must have a shape - so find the instance data
-	instanceData = e3shape_findinstance(theShape);
+	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1430,7 +1366,7 @@ E3Shape_ContainsElement(TQ3ShapeObject theShape, TQ3ElementType theType)
 
 
 	// Otherwise, we must have a shape - so find the instance data
-	instanceData = e3shape_findinstance(theShape);
+	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
 	if (instanceData == NULL)
 		return(kQ3False);
 
@@ -1470,7 +1406,7 @@ E3Shape_GetNextElementType(TQ3ShapeObject theShape, TQ3ElementType *theType)
 
 
 	// Otherwise, we must have a shape - so find the instance data
-	instanceData = e3shape_findinstance(theShape);
+	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1508,7 +1444,7 @@ E3Shape_EmptyElements(TQ3ShapeObject theShape)
 
 
 	// Otherwise, we must have a shape - so find the instance data
-	instanceData = e3shape_findinstance(theShape);
+	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
@@ -1546,7 +1482,7 @@ E3Shape_ClearElement(TQ3ShapeObject theShape, TQ3ElementType theType)
 
 
 	// Otherwise, we must have a shape - so find the instance data
-	instanceData = e3shape_findinstance(theShape);
+	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(theShape, kQ3SharedTypeShape);
 	if (instanceData == NULL)
 		return(kQ3Failure);
 

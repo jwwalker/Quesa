@@ -64,43 +64,6 @@ typedef struct {
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3renderer_findinstance : Get the instance data for a renderer object.
-//-----------------------------------------------------------------------------
-//		Note : Given a renderer object, we locate the renderer instance data.
-//-----------------------------------------------------------------------------
-static TQ3RendererData *
-e3renderer_findinstance(TQ3RendererObject theRenderer)
-{	TQ3RendererData		*instanceData;
-	TQ3RendererObject	theObject;
-
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRenderer), NULL);
-
-
-
-	// Find the renderer object for this object. This may in fact be
-	// theRenderer, but we need to walk upwards in case it isn't.
-	theObject = E3ClassTree_FindParentInstance(theRenderer, kQ3SharedTypeRenderer);
-	if (theObject == NULL)
-		return(NULL);
-
-
-
-	// Get the instance data for the renderer object		
-	instanceData = (TQ3RendererData *) theObject->instanceData;
-	Q3_ASSERT_VALID_PTR(instanceData);
-	Q3_ASSERT_VALID_PTR(E3ClassTree_GetInstanceSize(theObject->theClass) == sizeof(TQ3RendererData));
-
-	return(instanceData);
-}
-
-
-
-
-
-//=============================================================================
 //      e3renderer_add_methods : Add the renderer methods to the class tree.
 //-----------------------------------------------------------------------------
 //		Note :	Renderer objects have several secondary metahandlers, which are
@@ -358,7 +321,7 @@ E3Renderer_Method_StartFrame(TQ3ViewObject theView, TQ3DrawContextObject theDraw
 
 
 	// Find the renderer instance data
-	instanceData = e3renderer_findinstance(theRenderer);
+	instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 	if (instanceData != NULL)
 		{
 		// If the draw context has to be reset, reset it now.
@@ -1136,7 +1099,7 @@ E3Renderer_SetConfigurationData(TQ3RendererObject theRenderer, unsigned char *da
 #pragma mark -
 TQ3Status
 E3InteractiveRenderer_SetCSGEquation(TQ3RendererObject theRenderer, TQ3CSGEquation equation)
-{	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
+{	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
@@ -1156,7 +1119,7 @@ E3InteractiveRenderer_SetCSGEquation(TQ3RendererObject theRenderer, TQ3CSGEquati
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InteractiveRenderer_GetCSGEquation(TQ3RendererObject theRenderer, TQ3CSGEquation *equation)
-{	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
+{	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
@@ -1175,7 +1138,7 @@ E3InteractiveRenderer_GetCSGEquation(TQ3RendererObject theRenderer, TQ3CSGEquati
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InteractiveRenderer_SetPreferences(TQ3RendererObject theRenderer, TQ3Int32 vendorID, TQ3Int32 engineID)
-{	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
+{	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
@@ -1196,7 +1159,7 @@ E3InteractiveRenderer_SetPreferences(TQ3RendererObject theRenderer, TQ3Int32 ven
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InteractiveRenderer_GetPreferences(TQ3RendererObject theRenderer, TQ3Int32 *vendorID, TQ3Int32 *engineID)
-{	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
+{	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
@@ -1216,7 +1179,7 @@ E3InteractiveRenderer_GetPreferences(TQ3RendererObject theRenderer, TQ3Int32 *ve
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InteractiveRenderer_SetDoubleBufferBypass(TQ3RendererObject theRenderer, TQ3Boolean bypass)
-{	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
+{	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
@@ -1236,7 +1199,7 @@ E3InteractiveRenderer_SetDoubleBufferBypass(TQ3RendererObject theRenderer, TQ3Bo
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InteractiveRenderer_GetDoubleBufferBypass(TQ3RendererObject theRenderer, TQ3Boolean *bypass)
-{	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
+{	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
@@ -1255,7 +1218,7 @@ E3InteractiveRenderer_GetDoubleBufferBypass(TQ3RendererObject theRenderer, TQ3Bo
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject theRenderer, TQ3Uns32 RAVEContextHints)
-{	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
+{	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
@@ -1275,7 +1238,7 @@ E3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject theRenderer, TQ3Uns3
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject theRenderer, TQ3Uns32 *RAVEContextHints)
-{	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
+{	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
@@ -1294,7 +1257,7 @@ E3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject theRenderer, TQ3Uns3
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns32 RAVEtextureFilterValue)
-{	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
+{	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
@@ -1316,7 +1279,7 @@ E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns32 *RAVEtextureFilterValue)
-{	TQ3RendererData		*instanceData = e3renderer_findinstance(theRenderer);
+{	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 

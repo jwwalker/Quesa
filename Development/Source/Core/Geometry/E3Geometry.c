@@ -91,43 +91,6 @@ typedef struct {
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3geometry_findinstance : Get the geometry data for a geometry object.
-//-----------------------------------------------------------------------------
-//		Note : Given a geometry object, we locate the geometry instance data.
-//-----------------------------------------------------------------------------
-static TQ3GeometryData *
-e3geometry_findinstance(TQ3GeometryObject theGeometry)
-{	TQ3GeometryData		*instanceData;
-	TQ3GeometryObject	theObject;
-
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theGeometry), NULL);
-
-
-
-	// Find the geometry object for this object. This may in fact be
-	// theGeometry, but we need to walk upwards in case it isn't.
-	theObject = E3ClassTree_FindParentInstance(theGeometry, kQ3ShapeTypeGeometry);
-	if (theObject == NULL)
-		return(NULL);
-
-
-
-	// Get the instance data for the geometry object		
-	instanceData = (TQ3GeometryData *) theObject->instanceData;
-	Q3_ASSERT_VALID_PTR(instanceData);
-	Q3_ASSERT_VALID_PTR(E3ClassTree_GetInstanceSize(theObject->theClass) == sizeof(TQ3GeometryData));
-
-	return(instanceData);
-}
-
-
-
-
-
-//=============================================================================
 //      e3geometry_get_attributes : Get a pointer to a geometry attribute set.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
@@ -239,7 +202,7 @@ e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 
 
 		// Find our instance data
-		instanceData = e3geometry_findinstance(theObject);
+		instanceData = (TQ3GeometryData *) E3ClassTree_FindInstanceData(theObject, kQ3ShapeTypeGeometry);
 		Q3_ASSERT_VALID_PTR(instanceData);
 
 
@@ -342,7 +305,7 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 
 
 	// Find our instance data
-	instanceData = e3geometry_findinstance(theGeom);
+	instanceData = (TQ3GeometryData *) E3ClassTree_FindInstanceData(theGeom, kQ3ShapeTypeGeometry);
 	Q3_ASSERT_VALID_PTR(instanceData);
 
 

@@ -703,9 +703,7 @@ E3Shader_Submit(TQ3ShaderObject shader, TQ3ViewObject view)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shader_SetUVTransform(TQ3ShaderObject shader, const TQ3Matrix3x3 *uvTransform)
-{	
-	TQ3ShaderData *	instanceData = 
-		(TQ3ShaderData*) E3ClassTree_FindParentInstance( shader, kQ3ShapeTypeShader )->instanceData ;
+{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
 
 
 
@@ -725,8 +723,7 @@ E3Shader_SetUVTransform(TQ3ShaderObject shader, const TQ3Matrix3x3 *uvTransform)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shader_GetUVTransform(TQ3ShaderObject shader, TQ3Matrix3x3 *uvTransform)
-{	const TQ3ShaderData *	instanceData = 
-		(const TQ3ShaderData*) E3ClassTree_FindParentInstance( shader, kQ3ShapeTypeShader )->instanceData ;
+{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
 
 
 
@@ -745,8 +742,7 @@ E3Shader_GetUVTransform(TQ3ShaderObject shader, TQ3Matrix3x3 *uvTransform)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shader_SetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary uBoundary)
-{	TQ3ShaderData *	instanceData = 
-		(TQ3ShaderData*) E3ClassTree_FindParentInstance( shader, kQ3ShapeTypeShader )->instanceData ;
+{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
 
 
 
@@ -766,8 +762,7 @@ E3Shader_SetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary uBoundary)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shader_SetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary vBoundary)
-{	TQ3ShaderData *	instanceData = 
-		(TQ3ShaderData*) E3ClassTree_FindParentInstance( shader, kQ3ShapeTypeShader )->instanceData ;
+{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
 
 
 
@@ -787,11 +782,11 @@ E3Shader_SetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary vBoundary)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shader_GetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *uBoundary)
-{	const TQ3ShaderData *	instanceData = 
-		(const TQ3ShaderData*) E3ClassTree_FindParentInstance( shader, kQ3ShapeTypeShader )->instanceData ;
+{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
 
 
-	// get the U boundary type	
+
+	// Get the U boundary type	
 	*uBoundary	= instanceData->uBoundary;
 	
 	return(kQ3Success);
@@ -806,11 +801,11 @@ E3Shader_GetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *uBoundary)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shader_GetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *vBoundary)
-{	const TQ3ShaderData *	instanceData = 
-		(const TQ3ShaderData*) E3ClassTree_FindParentInstance( shader, kQ3ShapeTypeShader )->instanceData ;
+{	TQ3ShaderData		*instanceData = (TQ3ShaderData*) E3ClassTree_FindInstanceData(shader, kQ3ShapeTypeShader);
 
-	
-	// get the V boundary type
+
+
+	// Get the V boundary type
 	*vBoundary	= instanceData->vBoundary;
 	
 	return(kQ3Success);
