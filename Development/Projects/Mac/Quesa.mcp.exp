@@ -1320,6 +1320,9 @@ Q3Memory_ForgetRecording
 Q3Memory_DumpRecording
 Q3Memory_CountRecords
 Q3Memory_NextRecordedObject
+Q3Error_ToString
+Q3Warning_ToString
+Q3Notice_ToString
 
 # support for use as a statically-linked library
 #__ViewerInitialize
