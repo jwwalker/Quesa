@@ -99,6 +99,7 @@ extern "C" {
 #define kQ3ClassNameFileFormatR_3DMF_BinSwap		"Quesa:FileFormat:Reader:3DMF Binary Swapped"
 #define kQ3ClassNameFileFormatR_3DMF_Text			"Quesa:FileFormat:Reader:3DMF Text"
 #define kQ3ClassNameFileFormatWriter				"Quesa:FileFormat:Writer"
+#define kQ3ClassNameFileFormatW_3DMF_Bin			"Quesa:FileFormat:Writer:3DMF Binary"
 #define kQ3ClassNameGeometry						"Geometry"
 #define kQ3ClassNameGeometryBox						"Box"
 #define kQ3ClassNameGeometryBundle					"GeometryBundle"
