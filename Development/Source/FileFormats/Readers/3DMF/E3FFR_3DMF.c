@@ -777,12 +777,12 @@ static TQ3Object
 e3fformat_3dmf_displaygroupstate_read(TQ3FileObject theFile)
 {
 	TQ3Object	theObject;
-	TQ3Uns32	state = 0;
+	TQ3Uns32	flags = 0;
 	
-	Q3Uns32_Read(&state,theFile);
+	E3FFormat_3DMF_ReadFlag( &flags, theFile, kQ3ObjectTypeDisplayGroupState );
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeDisplayGroupState, kQ3False, &state);
+	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeDisplayGroupState, kQ3False, &flags);
 	
 	return(theObject);
 }
