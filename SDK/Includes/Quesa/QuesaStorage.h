@@ -646,7 +646,10 @@ Q3FSSpecStorage_Get (
  *  @function
  *      Q3Win32Storage_New
  *  @discussion
- *      Create a new Win32 storage object.
+ *      This creates a storage object whose data is stored in a file,
+ *		specified by a file HANDLE for an open file.
+ *		The specified file must remain open as long as you use the storage
+ *		object, and it is your responsibility to close the file later.
  *
  *  @param hFile            A valid file handle.
  *  @result                 The new storage object.
