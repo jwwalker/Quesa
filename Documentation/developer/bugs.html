@@ -71,10 +71,6 @@ will typically have additional information on the nature of the problem.
 <tr><th>Severity</th><th>ID</th><th>Description</th>
 </tr>
 
-<tr><td>High</td><td>00057</td><td>
-Add picking support.
-</td></tr>
-
 <tr><td>High</td><td>00058</td><td>
 Finish Mesh implementation.
 </td></tr>
@@ -91,16 +87,8 @@ IR doesn't support specular colour/control at the vertex level.
 IR doesn't support ambient coefficient.
 </td></tr>
 
-<tr><td>Medium</td><td>00052</td><td>
-IR doesn't support alpha in textures.
-</td></tr>
-
 <tr><td>Medium</td><td>00053</td><td>
 Make use of kQ3XMethodTypeRendererIsBoundingBoxVisible method for culling and support in IR.
-</td></tr>
-
-<tr><td>Medium</td><td>00056</td><td>
-Memory leak when rendering with textures.
 </td></tr>
 
 <tr><td>Medium</td><td>00005</td><td>
@@ -109,7 +97,7 @@ Storage objects can not be duplicated, and will be rejected by Q3Object_Duplicat
 
 <tr><td>Medium</td><td>00023</td><td>
 Geometries which are decomposed to TriMeshes fix the attribute data at the time of creation,
-should use a special value to allow renderers to update the attribute data with the current
+should use the use array to allow renderers to update the attribute data with the current
 state to provide for inheritence.
 </td></tr>
 
@@ -118,23 +106,8 @@ Implicit geometries do not support screen space subdivision: unclear how to go f
 space back to world space?
 </td></tr>
 
-<tr><td>Medium</td><td>00021</td><td>
-The General Polygon geometry doesn't support holes or concave polygons: there is LGPL'd
-source within <a href="http://www.mesa3d.org/">Mesa</a> which could be adapted for this,
-or alternatively the Quesa renderers could support this geometry directly (by rendering
-an OpenGL general polygon).
-</td></tr>
-
 <tr><td>Medium</td><td>00024</td><td>
 QD3D viewer, doesn't let you rotate around model if running with Quesa.
-</td></tr>
-
-<tr><td>Medium</td><td>00025</td><td>
-Kazoo Player, no rotation with Apple's IR because renderer caches camera: bump edit index of camera is partial fix.
-</td></tr>
-
-<tr><td>Medium</td><td>00026</td><td>
-Multiple monitor support on Mac not fully functional.
 </td></tr>
 
 <tr><td>Medium</td><td>00031</td><td>
@@ -205,9 +178,6 @@ Pixmap/bitmap markers are culled by OpenGL if they are partially off-screen, sho
 
 <tr><td>Minor</td><td>00047</td><td>
 Wireframe renderer doesn't support pixmap/bitmap markers.
-</td></tr>
-<tr><td>Minor</td><td>00054</td><td>
-Qut, Carbon apps unable to show FPS on screen in Mac OS X (don't draw FPS over GL area).
 </td></tr>
 
 <tr><td>Minor</td><td>00055</td><td>
