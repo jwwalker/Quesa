@@ -45,19 +45,6 @@
 
 
 //=============================================================================
-//      Internal macros
-//-----------------------------------------------------------------------------
-#define E3Vector2D_IsBelowTolerance(vector2DPtr, tolerance) \
-	(Q3Vector2D_LengthSquared(vector2DPtr) < (tolerance) * (tolerance))
-
-#define E3Vector3D_IsBelowTolerance(vector3DPtr, tolerance) \
-	(Q3Vector3D_LengthSquared(vector3DPtr) < (tolerance) * (tolerance))
-
-
-
-
-
-//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //		Overview of matrix determinants and inverses
@@ -567,246 +554,21 @@ e3matrix4x4_invert(TQ3Matrix4x4* a)
 
 
 //=============================================================================
-//		e3matrix_determinant : Returns the determinant of the given matrix.
+//		e3vector3d_below_tolerance : Is a vector below a threshold?
 //-----------------------------------------------------------------------------
-//		Note :	The algorithm modifies the input matrix a.
-//
-//				The input matrix is an array of pointers to arrays of floats.
-//				This data structure allows the same function to handle matrices
-//				of different sizes without having to do do index arithmetic
-//				explicitly:
-//
-//					a[i][j] <---> ((float*) a)[i*n+j]
-//
-//
-//				This function uses Gaussian elimination with full pivoting to
-//				reduce the matrix to upper triangular form. Then the determinant
-//				is merely (plus or minus) the product of the diagonal elements.
-//
-//				Although the reduction would create 1's along the diagonal and
-//				0's below the diagonal, these elements are not calculated because
-//				they are not needed.
-//
-//				See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
-//-----------------------------------------------------------------------------
-#if 0 // No longer used
+static TQ3Boolean
+e3vector3d_below_tolerance(const TQ3Vector3D *theVector, double tol)
+{	float	vecLen2;
+	float	tol2;
 
-static float
-e3matrix_determinant(float **a, TQ3Int32 n)
-{
-	#define A(x,y) a[x][y]
-	
-	TQ3Int32 iSign, iPivot, jPivot;
-	TQ3Int32 i, j, k;
-	float determinant, big, element;
-	
-	// iSign is +1 or -1, depending on the number of row or column exchanges
-	iSign = 1;
-	
-	// Loop over n pivots
-	for (k = 0; k < n; ++k)
-	{
-		// Search unpivoted part of matrix for largest element to pivot on
-		big = -1.0f;
-		for (i = k; i < n; ++i)
-		{
-			for (j = k; j < n; ++j)
-			{
-				// Calculate absolute value of current element
-				element = A(i,j);
-				if (element < 0.0f)
-					element = -element;
-				
-				// Compare current element to largest element so far
-				if (element > big)
-				{
-					big = element;
-					iPivot = i;
-					jPivot = j;
-				}
-			}
-		}
-		
-		// If largest element is 0, the matrix is singular
-		if (big == 0.0f)
-			return(0.0f);
-		
-		// If necessary, put pivot element on diagonal at (k,k)
-		if (iPivot != k)
-		{
-			// Exchange rows
-			iSign = -iSign;
-			for (j = k; j < n; ++j)
-				E3Float_Swap(A(iPivot,j), A(k,j));
-		}
-		if (jPivot != k)
-		{
-			// Exchange columns
-			iSign = -iSign;
-			for (i = k; i < n; ++i)
-				E3Float_Swap(A(i,jPivot), A(i,k));
-		}
-		
-		// Divide pivot row (to the right of the pivot column) by pivot element
-		//
-		// Note: If we were dividing by the same element many times, it would
-		// make sense to multiply by its inverse. Since we divide by a given
-		// element at most 2 (3) times for a 3x3 (4x4) matrix -- and often
-		// less -- it doesn't make sense to pay for the extra floating-point
-		// operation.
-		element = A(k,k);
-		for (j = k+1; j < n; ++j)
-			A(k,j) /= element;
 
-		// Reduce rows below pivot row (and to the right of the pivot column)		
-		for (i = k+1; i < n; ++i)
-		{
-			element = A(i,k);
-			for (j = k+1; j < n; ++j)
-				A(i,j) -= A(k,j)*element;
-		}
-	}
-	
-	// Now that the matrix is upper triangular, calculate the determinant as
-	// the product of the diagonal elements
-	determinant = A(0,0);
-	for (k = 1; k < n; ++k)
-		determinant *= A(k,k);
-	if (iSign < 0)
-		determinant = -determinant;
-		
-	return(determinant);
-	
-	#undef A
+
+	// Check to see if we're below tolerance
+	vecLen2 = E3Vector3D_LengthSquared(theVector);
+	tol2    = tol * tol;
+
+	return((TQ3Boolean) vecLen2 < tol2);
 }
-
-#endif // Not used
-
-
-
-
-
-//=============================================================================
-//		e3matrix_invert : Transforms the given matrix into its inverse.
-//-----------------------------------------------------------------------------
-//		Note :	The input matrix is an array of pointers to arrays of floats.
-//				This data structure allows the same function to handle matrices
-//				of different sizes without having to do do index arithmetic
-//				explicitly:
-//
-//					a[i][j] <---> ((float*) a)[i*n+j]
-//
-//
-//				This function uses Gauss-Jordon elimination with full pivoting
-//				to transform the given matrix to the identity matrix while
-//				transforming the identity matrix to the inverse. As the given
-//				matrix is reduced to 1's and 0's column-by-column, the inverse
-//				matrix is created in its place column-by-column.
-//
-//				See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
-//-----------------------------------------------------------------------------
-#if 0 // No longer used
-
-static void
-e3matrix_invert(float **a, TQ3Int32 n, TQ3Int32 *ipiv, TQ3Int32 *indxr, TQ3Int32 *indxc)
-{
-	#define A(x,y) a[x][y]
-	
-	TQ3Int32 irow, icol;
-	TQ3Int32 i, j, k;   // *** WARNING: 'k' must be a SIGNED integer ***
-	float big, element;
-
-	// Initialize ipiv: ipiv[j] is 0 (1) if row/column j has not (has) been pivoted
-	for (j = 0; j < n; ++j)
-		ipiv[j] = 0;
-
-	// Loop over n pivots
-	for (k = 0; k < n; ++k)
-	{
-		// Search unpivoted part of matrix for largest element to pivot on
-		big = -1.0f;
-		for (i = 0; i < n; ++i)
-		{
-			if (ipiv[i])
-				continue;
-				
-			for (j = 0; j < n; ++j)
-			{
-				if (ipiv[j])
-					continue;
-					
-				// Calculate absolute value of current element
-				element = A(i,j);
-				if (element < 0.0f)
-					element = -element;
-				
-				// Compare current element to largest element so far
-				if (element > big)
-				{
-					big = element;
-					irow = i;
-					icol = j;
-				}
-			}
-		}
-		
-		// If largest element is 0, the matrix is singular
-		if (big <= 0.0f)
-		{
-			E3ErrorManager_PostError(kQ3ErrorNonInvertibleMatrix, kQ3False);
-			return;
-		}
-			
-		// Mark pivot row and column
-		++ipiv[icol];
-		indxr[k] = irow;
-		indxc[k] = icol;
-		
-		// If necessary, exchange rows to put pivot element on diagonal
-		if (irow != icol)
-		{
-			for (j = 0; j < n; ++j)
-				E3Float_Swap(A(irow,j), A(icol,j));
-		}
-
-		// Divide pivot row by pivot element
-		//
-		// Note: If we were dividing by the same element many times, it would
-		// make sense to multiply by its inverse. Since we divide by a given
-		// elemen only 3 (4) times for a 3x3 (4x4) matrix, it doesn't make sense
-		// to pay for the extra floating-point operation.
-		element = A(icol,icol);
-		A(icol,icol) = 1.0f;	// overwrite original matrix with inverse
-		for (j = 0; j < n; ++j)
-			A(icol,j) /= element;
-
-		// Reduce other rows
-		for (i = 0; i < n; ++i)
-		{
-			if (i == icol)
-				continue;
-
-			element = A(i,icol);
-			A(i,icol) = 0.0f;	// overwrite original matrix with inverse
-			for (j = 0; j < n; ++j)
-				A(i,j) -= A(icol,j)*element;
-		}
-	}
-	
-	// Permute columns
-	for (k = n; --k >= 0; )   // *** WARNING: 'k' must be a SIGNED integer ***
-	{
-		if (indxr[k] != indxc[k])
-		{
-			for (i = 0; i < n; ++i)
-				E3Float_Swap(A(i,indxr[k]), A(i,indxc[k]));
-		}
-	}
-	
-	#undef A
-}
-
-#endif // Not used
 
 
 
@@ -3228,7 +2990,7 @@ E3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4,
 	Q3Vector3D_Cross(v1, v2, &w);
 	
 	// Check if vector w is roughly zero
-	if (E3Vector3D_IsBelowTolerance(&w, 10.0f*FLT_EPSILON))
+	if (e3vector3d_below_tolerance(&w, 10.0f*FLT_EPSILON))
 	{
 		// Vectors v1 and v2 are approximately parallel or approximately anti-parallel
 		// (within 1.192092896e-07 radians or roughly 0.000007 degrees!)
@@ -3861,7 +3623,7 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 	
 	// Note: sin(angle) = |axis|
 		
-	if (! E3Vector3D_IsBelowTolerance(&axis, 10.0f*FLT_EPSILON))
+	if (!e3vector3d_below_tolerance(&axis, 10.0f*FLT_EPSILON))
 	{
 		// Vectors are neither approximately parallel nor approximately anti-parallel
 		
