@@ -523,14 +523,21 @@ Q3Viewer_GetReleaseVersion (
  *  @function
  *      Q3Viewer_New
  *  @discussion
- *      Creates a new Viewer object. Should be disposed of with Q3Viewer_Dispose
- *		or Q3Object_Dispose.
+ *      Creates a new Viewer object.
+ *
+ *      Q3Viewer_New will automatically initialise Quesa if it has not alreay been
+ *      initialised, as per QD3D's Q3ViewerNew function. If you rely on this behaviour,
+ *      you must dispose of the viewer object using Q3Viewer_Dispose to allow Quesa
+ *      to be terminated when the last viewer is destroyed.
+ *
+ *      If your application initialises Quesa before creating a viewer object, the
+ *      viewer can be disposed of with either Q3Viewer_Dispose or Q3Object_Dispose.
  *
  *		On Windows, the window parameter should be an HWND.  On Mac OS, it should be
  *		a CGrafPtr (which you can get from a WindowRef via GetWindowPort).
  *
- *		Note that Q3Viewer_New requires kQ3ViewerFlagXXXX constants for the flags
- *		parameter, not the QuickDraw 3D style kQ3ViewerXXXX constants.
+ *		Note that Q3Viewer_New takes kQ3ViewerFlagXXXX constants for theFlags, and not
+ *      QD3D's old kQ3ViewerXXXX constants.
  *
  *      <em>This function is not available in QD3D.</em>
  *
@@ -557,6 +564,14 @@ Q3Viewer_New(
  *      Q3Viewer_Dispose
  *  @discussion
  *      Disposes of a Viewer object.
+ *
+ *      Applications which rely on Q3Viewer_New to automatically initialise Quesa should
+ *      use Q3Viewer_Dispose to destroy viewer objects. This will allow Quesa to be shut
+ *      down when the last viewer object is destroyed.
+ *
+ *      Applications which initialise Quesa before creating a viewer object can dispose
+ *      of their viewers with either Q3Viewer_Dispose or Q3Object_Dispose. Quesa will not
+ *      be shut down until the application makes its final call to Q3Exit.
  *
  *      <em>This function is not available in QD3D.</em>
  *
