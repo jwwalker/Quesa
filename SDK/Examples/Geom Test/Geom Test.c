@@ -54,6 +54,49 @@
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
+
+#define		QUESA_PATH_STYLE_MAC_HFS	1
+#define		QUESA_PATH_STYLE_UNIX		2
+#define		QUESA_PATH_STYLE_WINDOWS	3
+
+#ifndef	QUESA_PATH_STYLE
+	#if QUESA_OS_MACINTOSH
+		#define		QUESA_PATH_STYLE	QUESA_PATH_STYLE_MAC_HFS
+	#elif QUESA_OS_WIN32
+		#define		QUESA_PATH_STYLE	QUESA_PATH_STYLE_WINDOWS
+	#else
+		#define		QUESA_PATH_STYLE	QUESA_PATH_STYLE_UNIX
+	#endif
+#endif
+
+#if QUESA_PATH_STYLE == QUESA_PATH_STYLE_MAC_HFS
+	#define		QUESA_LOGO_PATH		"::Support Files:Images:Quesa.tga"
+	#define		QUESA_FACE1_PATH	"::Support Files:Images:1.tga"
+	#define		QUESA_FACE2_PATH	"::Support Files:Images:2.tga"
+	#define		QUESA_FACE3_PATH	"::Support Files:Images:3.tga"
+	#define		QUESA_FACE4_PATH	"::Support Files:Images:4.tga"
+	#define		QUESA_FACE5_PATH	"::Support Files:Images:5.tga"
+	#define		QUESA_FACE6_PATH	"::Support Files:Images:6.tga"
+#elif QUESA_PATH_STYLE == QUESA_PATH_STYLE_WINDOWS
+	#define		QUESA_LOGO_PATH		"..\\Support Files\\Images\\Quesa.tga"
+	#define		QUESA_FACE1_PATH	"..\\Support Files\\Images\\1.tga"
+	#define		QUESA_FACE2_PATH	"..\\Support Files\\Images\\2.tga"
+	#define		QUESA_FACE3_PATH	"..\\Support Files\\Images\\3.tga"
+	#define		QUESA_FACE4_PATH	"..\\Support Files\\Images\\4.tga"
+	#define		QUESA_FACE5_PATH	"..\\Support Files\\Images\\5.tga"
+	#define		QUESA_FACE6_PATH	"..\\Support Files\\Images\\6.tga"
+#else
+	#define		QUESA_LOGO_PATH		"../Support Files/Images/Quesa.tga"
+	#define		QUESA_FACE1_PATH	"../Support Files/Images/1.tga"
+	#define		QUESA_FACE2_PATH	"../Support Files/Images/2.tga"
+	#define		QUESA_FACE3_PATH	"../Support Files/Images/3.tga"
+	#define		QUESA_FACE4_PATH	"../Support Files/Images/4.tga"
+	#define		QUESA_FACE5_PATH	"../Support Files/Images/5.tga"
+	#define		QUESA_FACE6_PATH	"../Support Files/Images/6.tga"
+#endif
+
+#define		QUESA_LOGO_FALLBACK_PATH		"Quesa.tga"
+
 enum {
 	kMenuItemToggleLocalBoundingBox = 1,
 	kMenuItemToggleWorldBoundingBox,
@@ -65,9 +108,7 @@ enum {
 	kMenuItemSaveModel,
 	kMenuItemDivider1,
 	kMenuItemGeometryBox,
-#if QUT_CAN_USE_TEXTURES
 	kMenuItemGeometryTexturedBox,
-#endif
 	kMenuItemGeometryCone,
 	kMenuItemGeometryCylinder,
 	kMenuItemGeometryDisk,
@@ -554,7 +595,6 @@ createGeomBox(void)
 //=============================================================================
 //      createGeomTexturedBox : Create a Box object with a texture on each face.
 //-----------------------------------------------------------------------------
-#if QUT_CAN_USE_TEXTURES
 static TQ3GeometryObject
 createGeomTexturedBox(void)
 {
@@ -563,9 +603,8 @@ createGeomTexturedBox(void)
 	TQ3GeometryObject	theBox;
 	TQ3Uns32			n;
 	TQ3ShaderObject		texShader;
-	ConstStringPtr		textureNames[6] = { "\p1.png", "\p2.png", "\p3.png",
-											"\p4.png", "\p5.png", "\p6.png" };
-	FSSpec				fileSpec;
+	char*				textureNames[6] = { QUESA_FACE1_PATH, QUESA_FACE2_PATH, QUESA_FACE3_PATH,
+											QUESA_FACE4_PATH, QUESA_FACE5_PATH, QUESA_FACE6_PATH };
 	
 	// Set up the data
 	Q3Point3D_Set(&boxData.origin,      -0.5f, -1.0f,  0.5f);
@@ -575,27 +614,21 @@ createGeomTexturedBox(void)
 	boxData.boxAttributeSet  = NULL;
 	boxData.faceAttributeSet = faceAttributes;
 	
-	HSetVol( "\p::Support Files:Images:", 0, 0 );
 
 	for (n = 0; n < 6; n++)
 	{
 		faceAttributes[n] = Q3AttributeSet_New();
 		if (faceAttributes[n] != NULL)
 		{
-			#if macintosh
-			if (0 == FSMakeFSSpec( 0, 0, textureNames[n], &fileSpec ))
+			texShader = QutTexture_CreateTextureFromTGAFile( textureNames[n] );
+			
+			if (texShader != NULL)
 			{
-				texShader = QutTexture_CreateTextureFromFile( &fileSpec,
-					kQ3PixelTypeRGB16, kQ3True );
-				if (texShader != NULL)
-				{
-					Q3AttributeSet_Add( faceAttributes[n], kQ3AttributeTypeSurfaceShader,
-						&texShader );
-					Q3Object_Dispose( texShader );
-				}
+				Q3AttributeSet_Add( faceAttributes[n], kQ3AttributeTypeSurfaceShader,
+					&texShader );
+				Q3Object_Dispose( texShader );
+				texShader = NULL;
 			}
-			#endif
-			//Q3AttributeSet_Add(faceAttributes[n], kQ3AttributeTypeDiffuseColor, &faceColour[n]);
 		}
 	}
 
@@ -613,7 +646,6 @@ createGeomTexturedBox(void)
 
 	return(theBox);
 }
-#endif
 
 
 
@@ -2193,7 +2225,9 @@ createTestRasterize(void)
 	TQ3ColorRGB				transColour   = { 0.75f, 0.75f, 0.75f };
 	TQ3GroupObject			theGroup, rasterGroup;
 	TQ3Vertex3D				theVertices[4];
+#if !TARGET_API_MAC_OS8
 	TQ3TransformObject		theTransform;
+#endif
 	TQ3PolygonData			polygonData;
 	TQ3GeometryObject		thePolygon;
 	TQ3GeometryObject		theGeom;
@@ -2211,7 +2245,7 @@ createTestRasterize(void)
 
 
 	// Create the rasterize transform (Quesa only)
-#if TARGET_API_MAC_CARBON
+#if !TARGET_API_MAC_OS8
 	theTransform = Q3RasterizeCameraTransform_New();
 	Q3Group_AddObjectAndDispose(rasterGroup, &theTransform);
 #endif
@@ -2579,7 +2613,7 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			break;
 			
 		case kMenuItemToggleWorldBoundingBox:
-			gShowWorldBounds = !gShowWorldBounds;
+			gShowWorldBounds = (TQ3Boolean)!gShowWorldBounds;
 			break;
 			
 		case kMenuItemToggleLocalBoundingSphere:
@@ -2613,11 +2647,9 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			theGeom = createGeomBox();
 			break;
 			
-	#if QUT_CAN_USE_TEXTURES
 		case kMenuItemGeometryTexturedBox:
 			theGeom = createGeomTexturedBox();
 			break;
-	#endif
 
 		case kMenuItemGeometryCone:
 			theGeom = createGeomCone();
@@ -2997,20 +3029,13 @@ App_Initialise(void)
 
 
 
-	// If we can use textures, try and load a texture
-#if QUT_CAN_USE_TEXTURES
-	{	FSSpec		theFSSpec;
-	
-	FSMakeFSSpec(0, 0, "\p::Support Files:Images:Quesa.jpg", &theFSSpec);
-	gSceneTexture = QutTexture_CreateTextureFromFile(&theFSSpec, kQ3PixelTypeRGB16, kQ3False);
+	// Try to load a texture
+	gSceneTexture = QutTexture_CreateTextureFromTGAFile( QUESA_LOGO_PATH );
 	if (gSceneTexture == NULL)
-		{
-		FSMakeFSSpec(0, 0, "\p:Quesa.jpg", &theFSSpec);
-		gSceneTexture = QutTexture_CreateTextureFromFile(&theFSSpec, kQ3PixelTypeRGB16, kQ3False);
-		}
+	{
+		gSceneTexture = QutTexture_CreateTextureFromTGAFile( QUESA_LOGO_FALLBACK_PATH );
 	}
-#endif
-
+	
 
 
 	// Initialise the matrices
@@ -3031,9 +3056,7 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "Save Model...");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Box");
-#if QUT_CAN_USE_TEXTURES
 	Qut_CreateMenuItem(kMenuItemLast, "Box (textured)");
-#endif
 	Qut_CreateMenuItem(kMenuItemLast, "Cone");
 	Qut_CreateMenuItem(kMenuItemLast, "Cylinder");
 	Qut_CreateMenuItem(kMenuItemLast, "Disk");
