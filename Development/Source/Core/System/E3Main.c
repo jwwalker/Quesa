@@ -1565,6 +1565,42 @@ E3Shape_ClearElement(TQ3ShapeObject theShape, TQ3ElementType theType)
 
 
 //=============================================================================
+//      E3Shape_SubmitElements : Submit custom elements of a shape.
+//-----------------------------------------------------------------------------
+//		This will be called by E3FFW_3DMF_TraverseObject to submit
+//		any custom elements that might be attached to the shape.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Shape_SubmitElements( TQ3ShapeObject inShape, TQ3ViewObject inView )
+{
+	TQ3ShapeData		*instanceData;
+	TQ3Status			qd3dStatus;
+
+
+
+	// Find the instance data
+	instanceData = (TQ3ShapeData *) E3ClassTree_FindInstanceData(inShape, kQ3SharedTypeShape);
+	if (instanceData == NULL)
+		return(kQ3Failure);
+
+
+
+	// Use the shape's set, if any.
+	if (instanceData->theSet == NULL)
+		qd3dStatus = kQ3Success;
+	else
+		qd3dStatus = E3Set_SubmitElements( instanceData->theSet, inView );
+	
+	
+	
+	return qd3dStatus;
+}
+
+
+
+
+
+//=============================================================================
 //      E3Bitmap_Empty : Dispose of the memory allocated for a bitmap.
 //-----------------------------------------------------------------------------
 #pragma mark -
