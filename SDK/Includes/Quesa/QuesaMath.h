@@ -80,6 +80,12 @@ extern "C" {
     #define kQ3MaxFloat                         ((TQ3Float32) 3.40282347e+38)
 #endif
 
+#ifdef FLT_MIN
+    #define kQ3MinFloat                         (FLT_MIN)
+#else
+    #define kQ3MinFloat                         ((TQ3Float32) 1.17549e-38)
+#endif
+
 #define kQ3Pi                                   ((TQ3Float32) 3.1415926535898)
 #define kQ32Pi                                  ((TQ3Float32) (2.0 * 3.1415926535898))
 #define kQ3PiOver2                              ((TQ3Float32) (3.1415926535898 / 2.0))
