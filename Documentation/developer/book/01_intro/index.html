@@ -16,11 +16,26 @@
 <!-- Page Content                                                            -->
 <!--=========================================================================-->
 <h2>Introduction</h2>
-<ol>
-	<li>What is Quesa?</li>
-</ol>
+
+<b>Quesa</b> (pronounced "kay-suh") is a high-level library for representing and displaying three-dimensional (3D) objects and scenes.  It is typically used in conjunction with some lower-level rendering platform, such as OpenGL.  Quesa includes the following features:
 
 
+<p><ul>
+<li><b>Scene-graph library</b> -- objects in Quesa can be grouped, and a group is just another sort of object; functions allow you to easily manage the hierarchy of objects in a scene.
+
+<p><li><b>Open source</b> -- Quesa is an open-source project with a liberal license, allowing you to contribute directly to its development and make use of it even in commercial products without any licensing fees.
+
+<p><li><b>Cross-platform</b> -- Quesa runs on Windows, Linux, classic MacOS, OS X, and more, making it easier for you to write cross-platform apps.
+
+<p><li><b>C interface</b> -- Quesa's API (Application Programmer's Interface) consists of C types and functions, which make it directly compatible with C/C++, and easily adaptable to other languages such as Java, Python, and REALbasic.
+
+<p><li><b>Object-oriented</b> -- despite the C API, Quesa uses object-oriented principles of inheritance and polymorphism.  Quesa objects are also reference-counted, which simplifies memory management.
+
+<p><li><b>File I/O</b> -- Quesa can read and write files containing nearly any set of 3D objects you can represent in memory.  The standard file format (3DMF) even supports object sharing (e.g., a texture object that's used by several geometric objects).
+
+<p><li><b>Extensible</b> -- several parts of Quesa support plug-ins; most notably, the renderer (which draws a scene to the screen or some other output) and the file I/O support plug-ins, allowing you to define new renderers or file formats, or take advantage of ones written by others.
+
+</ul>
 
 
 
