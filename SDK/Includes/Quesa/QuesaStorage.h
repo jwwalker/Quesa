@@ -45,8 +45,13 @@
 #define __QD3DSTORAGE__
 
 #if QUESA_OS_MACINTOSH
-	#include <MacTypes.h>
-	#include <Files.h>
+  	#if QUESA_UH_IN_FRAMEWORKS
+		#include <CarbonCore/MacTypes.h>
+		#include <CarbonCore/Files.h>
+  	#else
+		#include <MacTypes.h>
+		#include <Files.h>
+	#endif
 
 #elif QUESA_OS_WIN32
 	#include <Windows.h>

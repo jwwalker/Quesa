@@ -35,7 +35,11 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-#include <Displays.h>
+#if QUESA_UH_IN_FRAMEWORKS
+    #include <HIToolbox/Displays.h>
+#else
+	#include <Displays.h>
+#endif
 #include "E3CarbonCoating.h"
 
 

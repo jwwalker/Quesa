@@ -52,7 +52,11 @@
 //		Platform specific includes
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
-	#include <Windows.h>
+  	#if QUESA_UH_IN_FRAMEWORKS
+		#include <HIToolbox/MacWindows.h>
+	#else
+		#include <Windows.h>
+	#endif
 #endif // QUESA_OS_MACINTOSH
 
 #if QUESA_OS_WIN32

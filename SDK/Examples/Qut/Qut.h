@@ -97,17 +97,31 @@
 //      Platform specific
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
-	#include <Events.h>
-	#include <Devices.h>
-	#include <Fonts.h>
-	#include <Menus.h>
-	#include <Navigation.h>
-	#include <Windows.h>
-	#include <ToolUtils.h>
-	#include <QDOffscreen.h>
-	#include <QuickTimeComponents.h>
-	#include <ImageCompression.h>
-
+  	#if QUESA_UH_IN_FRAMEWORKS
+		#include <CarbonCore/Devices.h>
+		#include <CarbonCore/ToolUtils.h>
+		#include <HIToolbox/Events.h>
+		#include <HIToolbox/Menus.h>
+		#include <HIToolbox/MacWindows.h>
+		#include <NavigationServices/Navigation.h>
+		#include <QD/Fonts.h>
+		#include <QD/QDOffscreen.h>
+		#include <QD/QuickDraw.h>
+		#include <QuickTime/QuickTimeComponents.h>
+		#include <QuickTime/ImageCompression.h>
+  	#else
+		#include <Events.h>
+		#include <Devices.h>
+		#include <Fonts.h>
+		#include <Menus.h>
+		#include <Navigation.h>
+		#include <Windows.h>
+		#include <ToolUtils.h>
+		#include <QDOffscreen.h>
+		#include <QuickTimeComponents.h>
+		#include <ImageCompression.h>
+	#endif
+	
 	#include "QutMac.h"
 #endif
 

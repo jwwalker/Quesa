@@ -36,8 +36,13 @@
 #include "E3Prefix.h"
 #include "E3System.h"
 
-#include <CodeFragments.h>
-#include <Folders.h>
+#if QUESA_UH_IN_FRAMEWORKS
+    #include <CarbonCore/CodeFragments.h>
+    #include <CarbonCore/Folders.h>
+#else
+	#include <CodeFragments.h>
+	#include <Folders.h>
+#endif
 
 #if TARGET_RT_MAC_MACHO
 	#include <AGL/agl.h>

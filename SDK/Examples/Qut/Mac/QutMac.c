@@ -63,9 +63,15 @@
 //      Carbon include files
 //-----------------------------------------------------------------------------
 #if QUT_MAC_CARBON_EVENTS
-	#include <Carbon/CarbonEvents.h>
-	#include <Carbon/IBCarbonRuntime.h>
-	#include <Carbon/AERegistry.h>
+  	#if QUESA_UH_IN_FRAMEWORKS
+		#include <HIToolbox/CarbonEvents.h>
+		#include <IBCarbonRuntime/IBCarbonRuntime.h>
+		#include <AE/AERegistry.h>
+	#else
+		#include <Carbon/CarbonEvents.h>
+		#include <Carbon/IBCarbonRuntime.h>
+		#include <Carbon/AERegistry.h>
+	#endif
 #endif
 
 
