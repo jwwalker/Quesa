@@ -592,7 +592,12 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 			fsaaLevel = 0;
 
 		if (!aglSetInteger(instanceData->glContext, ATI_FSAA_SAMPLES, &fsaaLevel))
+			{
 			instanceData->glATIAvailableFSAA = kQ3False;
+			
+			// If ATI_FSAA_SAMPLES is not available, the AGL error will be set to AGL_BAD_ENUM.
+			(void) aglGetError();
+			}
 		}
 
 	#endif
