@@ -310,7 +310,7 @@ Q3Error_PlatformPost(TQ3Uns32 theErr)
 //      Q3MacintoshError_Get : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 OSErr
 Q3MacintoshError_Get(OSErr *firstMacErr)
 {

@@ -65,7 +65,7 @@
 #define kHandCursor			-128
 #define kClosedHandCursor	-129
 
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 const TQ3Uns32 kQ3ViewerCanDrawDragBorders	=		kQ3ViewerDragMode			|
 													kQ3ViewerDrawDragBorder		;
 
@@ -101,7 +101,7 @@ const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 	#endif
 	TQ3ViewMode gViewMode = kQ3ViewModeInactive;
 	
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	#define kAppHeapThreshold                   (50 * 1024)
 	
 	static void* E3Memory_Allocate (TQ3Uns32 theSize)
@@ -188,7 +188,7 @@ const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 //      Internal #defines
 //-----------------------------------------------------------------------------
 
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	#define TQ3Rect Rect
 	#define ConstTQ3Rect Rect
 	#define TQ3Window CGrafPtr
@@ -198,7 +198,7 @@ const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 	#define kQ3GoodResult noErr
 	#define kQ3BadResult paramErr
 #else
-	#if defined(OS_WIN32) && OS_WIN32)
+	#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
 		#define TQ3Rect RECT
 		#define ConstTQ3Rect const RECT
 		#define TQ3Window HWND
@@ -265,12 +265,12 @@ typedef struct TQ3ViewerData
 	TQ3Rect									theRect;
 	TQ3Rect									drawRect;
 	TQ3Window								theWindow;
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	ControlHandle							statusBar;
 	DragReference							theDrag;
 	DragReceiveHandlerUPP					receiveHandler;
 	DragTrackingHandlerUPP					trackingHandler;
-#elif defined(OS_WIN32) && OS_WIN32
+#elif defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 	TQ3Window								the3DMFWindow;
 	TQ3Window								theControllerWindow;
 #else
@@ -282,7 +282,7 @@ typedef struct TQ3ViewerData
 static char gContinueTracking = 0;
 static TQ3EventRecord* gEventPtr = NULL;
 static TQ3ViewerData* gDragViewer = NULL;
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	static AliasHandle gAliasHandle = NULL;
 	static TQ3Int16 gResFileRefNum = 0;
 	static TQ3Uns32 gResFileCount = 0;
@@ -579,14 +579,14 @@ e3checkcancel (void)
 	UInt32 ticks;
 	return kQ3Success; // ???
 	
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	ticks = TickCount ();
 #else
 	ticks = 0;
 #endif
 	if (ticks >= sNextCheck)
 		{
-	#if defined(OS_MACINTOSH) && OS_MACINTOSH
+	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		#define escKeyCode 		0x35 // See IM V-191.
 		#define commandKeyCode	0x37
 		#define periodKeyCode 	0x2F
@@ -625,7 +625,7 @@ e3callindexplugin (TQ3ViewerData* theViewer, TQ3Uns32 index, TQ3Int32 handler, v
 		if (method)
 			{
 			TQ3Status result = kQ3Success;
-		#if defined(OS_MACINTOSH) && OS_MACINTOSH
+		#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 			TQ3Int16 oldResFile = CurResFile ();
 			UseResFile (gResFileRefNum);
 		#endif
@@ -664,7 +664,7 @@ e3callindexplugin (TQ3ViewerData* theViewer, TQ3Uns32 index, TQ3Int32 handler, v
 					result = kQ3Failure;
 					break;
 				}
-		#if defined(OS_MACINTOSH) && OS_MACINTOSH
+		#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 			UseResFile (oldResFile);
 		#endif
 			return result;
@@ -700,14 +700,14 @@ e3idleprogressmethod ( // only called for non-interactive renderers
 	static UInt32 sNextFlush = 0;
 	TQ3ViewMode mode;
 	UInt32 ticks;
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	ticks = TickCount ();
 #else
 	ticks = 0;
 #endif
 	if (ticks >= sNextFlush)
 		{
-	#if defined(OS_MACINTOSH) && OS_MACINTOSH
+	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		sNextFlush = ticks + 60; // every second
 	#endif
 		Q3View_Flush (theView);
@@ -716,7 +716,7 @@ e3idleprogressmethod ( // only called for non-interactive renderers
 		{
 		TQ3ViewerData* viewerData = (TQ3ViewerData*)(data);
 		TQ3Uns32 percentage = (float)(current) / (float)(completed) * 100.0f;
-	#if defined(OS_MACINTOSH) && OS_MACINTOSH
+	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		if (viewerData->statusBar)
 			SetControlValue (viewerData->statusBar, percentage);
 	#endif
@@ -765,7 +765,7 @@ e3submitloop (TQ3ViewerData* viewerData)
 	if (viewerData->theObjects && (status == kQ3Success))
 		status = Q3DisplayGroup_Submit (viewerData->theObjects, viewerData->theView);
 	
-#if ! (defined(OS_MACINTOSH) && OS_MACINTOSH)
+#if ! (defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH)
 	if (viewerData->callbackMethod && (status == kQ3Success))
 		status = viewerData->callbackMethod (viewerData, viewerData->callbackData);
 #endif
@@ -773,7 +773,7 @@ e3submitloop (TQ3ViewerData* viewerData)
 	}
 
 
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 static TQ3Status
 e3submitloopwitherr (TQ3ViewerData* viewerData, OSErr* err)
 	{
@@ -1059,7 +1059,7 @@ e3drawtool (TQ3ViewerData* viewerData, TQ3Uns32 buttonMask, TQ3Uns32 buttonNumbe
 		TQ3Status status = kQ3Failure;
 		TQ3XMetaHandler metaHandler = viewerData->metaHandlers [buttonNumber];
 		TQ3Area area;
-	#if (defined(OS_MACINTOSH) && OS_MACINTOSH) || (defined(OS_WIN32) && OS_WIN32)
+	#if (defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH) || (defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
 		TQ3Int16 oldResFile = CurResFile ();
 		TQ3Rect r;
 		TQ3Rect iconRect;
@@ -1094,11 +1094,11 @@ e3drawtool (TQ3ViewerData* viewerData, TQ3Uns32 buttonMask, TQ3Uns32 buttonNumbe
 		if (status == kQ3Failure)
 			{
 			// draw default tool icon
-		#if defined(OS_MACINTOSH) && OS_MACINTOSH
+		#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 			PlotIconID (&iconRect, kAlignNone, kTransformNone, -128);
 		#endif
 			}
-	#if defined(OS_MACINTOSH) && OS_MACINTOSH
+	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		UseResFile (oldResFile);
 	#endif
 		}
@@ -1113,7 +1113,7 @@ e3clickbutton (TQ3ViewerData* theViewer, TQ3Uns32 button)
 	TQ3Status status = e3callindexplugin (theViewer, theViewer->currentButton, kQ3XMethodType_ViewerPluginUnclickTool, NULL);
 	if (status == kQ3Failure) // plug-in does not want to be unclicked
 		{
-	#if defined(OS_MACINTOSH) && OS_MACINTOSH
+	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		SysBeep (30);
 	#endif
 		return status;
@@ -1157,7 +1157,7 @@ e3pointinrect (TQ3Point2D* pt, TQ3Rect* r)
 	}
 
 
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 
 static void
 e3balloonhelp (TQ3ViewerData* theViewer, Point pt)
@@ -1675,7 +1675,7 @@ Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 		return NULL;
 	if (Q3Initialize () == kQ3Failure)
 		return NULL;
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	if (!gResFileRefNum)
 		{
 		Boolean wasChanged;
@@ -1721,7 +1721,7 @@ Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 		else
 			viewerData->flags = flags;
 
-	#if defined(OS_MACINTOSH) && OS_MACINTOSH
+	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		viewerData->statusBar = NULL;
 		viewerData->theDrag = NULL;
 		if ((UInt32)(NewDrag) == kUnresolvedCFragSymbolAddress)
@@ -1803,14 +1803,14 @@ Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 				if (status == kQ3Success)
 					{
 					TQ3DrawContextObject theContext;
-				#if defined(OS_MACINTOSH) && OS_MACINTOSH
+				#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 					TQ3MacDrawContextData drawContextData;
 					e3setdefaultdrawcontext (&viewerData->drawRect, &drawContextData.drawContextData);
 					drawContextData.window = drawContextData.grafPort = port; // be warned: port may be NULL
 					drawContextData.library = kQ3Mac2DLibraryNone;
 					drawContextData.viewPort = NULL; // do not support GX
 					theContext = Q3MacDrawContext_New (&drawContextData);
-				#elif defined(OS_WIN32) && OS_WIN32
+				#elif defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 					TQ3Win32DCDrawContextData drawContextData;
 					e3setdefaultdrawcontext (&viewerData->drawRect, &drawContextData.drawContextData);
 					drawContextData.hdc = (HDC)port; // (temp, need function call here). Be warned: port may be NULL
@@ -1977,7 +1977,7 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 //=============================================================================
 //      Q3ViewerUseFile : Reads in the objects from a file.
 //-----------------------------------------------------------------------------
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 OSErr
 Q3ViewerUseFile(TQ3ViewerObject theViewer, SInt32 refNum)
 	{
@@ -1999,7 +1999,7 @@ Q3ViewerUseFile(TQ3ViewerObject theViewer, SInt32 refNum)
 	}
 #endif
 
-#if defined(OS_WIN32) && OS_WIN32
+#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 TQ3Status
 Q3ViewerUseFile(TQ3ViewerObject theViewer, HANDLE fileHandle)
 	{
@@ -2052,7 +2052,7 @@ Q3ViewerUseData(TQ3ViewerObject theViewer, void *data, TQ3Int32 size)
 //=============================================================================
 //      Q3ViewerWriteFile : Writes the objects to a file.
 //-----------------------------------------------------------------------------
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 OSErr
 Q3ViewerWriteFile(TQ3ViewerObject theViewer, TQ3Int32 refNum)
 	{
@@ -2071,7 +2071,7 @@ Q3ViewerWriteFile(TQ3ViewerObject theViewer, TQ3Int32 refNum)
 	}
 #endif
 
-#if defined(OS_WIN32) && OS_WIN32
+#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 TQ3Status
 Q3ViewerWriteFile(TQ3ViewerObject theViewer, HANDLE fileHandle)
 	{
@@ -2095,7 +2095,7 @@ Q3ViewerWriteFile(TQ3ViewerObject theViewer, HANDLE fileHandle)
 //=============================================================================
 //      Q3ViewerWriteData : Writes the objects to a Handle.
 //-----------------------------------------------------------------------------
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 
 TQ3Uns32
 Q3ViewerWriteData(TQ3ViewerObject theViewer, Handle data)
@@ -2172,7 +2172,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 	TQ3DrawContextObject theContext;
 	TQ3ViewObject theView;
 	TQ3Status status;
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	GrafPtr oldPort;
 	OSErr err = noErr;
 #endif
@@ -2184,7 +2184,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 	if (theView == NULL)
 		return kQ3BadResult;
 	
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	GetPort (&oldPort);
 	SetPort ((GrafPtr)(viewerData->theWindow));
 #endif
@@ -2195,7 +2195,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 		r.left -= kQ3DragBorderWidth;
 		r.top -= kQ3DragBorderWidth;
 		r.bottom += kQ3DragBorderWidth;
-	#if defined(OS_MACINTOSH) && OS_MACINTOSH
+	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		{{
 		Pattern myGray = {0xAA, 0x00, 0xAA, 0x00, 0xAA, 0x00, 0xAA, 0x00};
 		PenNormal ();
@@ -2222,7 +2222,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 			if (!Q3Renderer_IsInteractive (theRenderer))
 				{
 				Q3View_SetIdleProgressMethod (theView, e3idleprogressmethod, (void*)(theViewer));
-			#if defined(OS_MACINTOSH) && OS_MACINTOSH
+			#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 				if (!viewerData->statusBar)
 					{
 					Rect r = {0, 0, 0, 0}; // get correct rectangle
@@ -2248,7 +2248,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 			{
 			status = e3callallplugins (viewerData, kQ3XMethodType_PluginAfterStartDraw);
 			if (status == kQ3Success)
-		#if defined(OS_MACINTOSH) && OS_MACINTOSH
+		#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 				status = e3submitloopwitherr (viewerData, &err);
 		#else
 				status = e3submitloop (viewerData);
@@ -2269,7 +2269,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 	gViewMode = kQ3ViewModeInactive;
 #endif
 	e3callallplugins (viewerData, kQ3XMethodType_PluginAfterDraw);
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	SetPort (oldPort);
 	if (viewerData->statusBar)
 		{
@@ -2293,7 +2293,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 //=============================================================================
 //      Q3ViewerDrawControlStrip : Draws just the control strip.
 //-----------------------------------------------------------------------------
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 
 OSErr
 Q3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
@@ -2632,7 +2632,7 @@ Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 		flags |= kQ3ViewerInternalDefault; // add on my flags, leaving any other bits the app may have set
 		}
 	
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	if ((UInt32)(NewDrag) == kUnresolvedCFragSymbolAddress)
 		{
 		flags &= ~kQ3ViewerDragMode;
@@ -2647,7 +2647,7 @@ Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 	if ((oldFlags & kQ3ViewerControllerVisible) == 0) // kQ3ViewerControllerVisible bit WAS changed
 		Q3ViewerSetBounds (viewer, &viewer->theRect);
 
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	if ((oldFlags & kQ3ViewerDraggingInOff) == 0) // kQ3ViewerDraggingInOff bit WAS changed
 		{
 		if (flags & kQ3ViewerDraggingInOff)
@@ -2723,7 +2723,7 @@ Q3ViewerSetBounds(TQ3ViewerObject theViewer, TQ3Rect *bounds)
 			{
 			TQ3Status err;
 			TQ3Area area;
-		#if (defined(OS_MACINTOSH) && OS_MACINTOSH) || (defined(OS_WIN32) && OS_WIN32)
+		#if (defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH) || (defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
 			area.min.x = bounds->left;
 			area.min.y = bounds->top;
 			area.max.x = bounds->right;
@@ -2805,7 +2805,7 @@ Q3ViewerGetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *heigh
 	{
 	TQ3ViewerData* viewer = (TQ3ViewerData*)theViewer;
 	CheckViewerFailure (theViewer);
-#if (defined(OS_MACINTOSH) && OS_MACINTOSH) || (defined(OS_WIN32) && OS_WIN32)
+#if (defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH) || (defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
 	if (width)
 		*width = viewer->theRect.right - viewer->theRect.left;
 	if (height)
@@ -2851,7 +2851,7 @@ Q3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32
 //=============================================================================
 //      Q3ViewerAdjustCursor : Adjusts the cursor if in the viewers rect.
 //-----------------------------------------------------------------------------
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 
 Boolean
 Q3ViewerAdjustCursor(TQ3ViewerObject theViewer, Point *pt)
@@ -2953,7 +2953,7 @@ Q3ViewerGetState(TQ3ViewerObject theViewer)
 //=============================================================================
 //      Q3ViewerGetUndoString : Returns the string for undo.
 //-----------------------------------------------------------------------------
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 Boolean
 Q3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, TQ3Uns32 *actualSize)
 #else
@@ -2962,7 +2962,7 @@ Q3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, TQ3Uns32 stringSize,
 #endif
 	{
 	CheckViewerFalse (theViewer);
-#if ! (defined(OS_MACINTOSH) && OS_MACINTOSH)
+#if ! (defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH)
 	if (stringSize > 0)
 #endif
 	if (str)
@@ -3028,7 +3028,7 @@ Q3ViewerCut(TQ3ViewerObject theViewer)
 //=============================================================================
 //      Q3ViewerCopy : Copies the objects onto the clipboard.
 //-----------------------------------------------------------------------------
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 
 OSErr
 Q3ViewerCopy(TQ3ViewerObject theViewer)
@@ -3104,7 +3104,7 @@ Q3ViewerCopy(TQ3ViewerObject theViewer)
 //=============================================================================
 //      Q3ViewerPaste : Copies the objects from the clipboard.
 //-----------------------------------------------------------------------------
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 
 OSErr
 Q3ViewerPaste(TQ3ViewerObject theViewer)
@@ -3210,7 +3210,7 @@ Q3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 		if (e3pointinrect (&pt, &r)) // in tool rect
 			return 1;
 		
-	#if defined(OS_MACINTOSH) && OS_MACINTOSH
+	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		// mouse must be in drag border
 		if ((viewer->flags & kQ3ViewerDragMode) && ((viewer->flags & kQ3ViewerDraggingOutOff) == 0))
 			e3dodrag (viewer, gEventPtr);
@@ -3237,7 +3237,7 @@ Q3ViewerContinueTracking(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 		gContinueTracking = 1; // once you are in you can stay in while the mouse is down
 		if (e3callindexplugin (viewer, viewer->currentButton, kQ3XMethodType_ViewerPluginDoToolTracking, (void*)(&pt)) == kQ3Failure)
 			return 0;
-	#if defined(OS_MACINTOSH) && OS_MACINTOSH
+	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		return StillDown ();
 	#else
 // To be implemented...
@@ -3758,7 +3758,7 @@ Q3ViewerGetGroupBounds(TQ3ViewerObject theViewer, TQ3BoundingBox* bounds)
 
 
 #pragma mark -
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 #pragma mark ----- Mac OS -----
 //=============================================================================
 //      Q3ViewerEvent : Returns whether this is a viewer event.
@@ -3951,7 +3951,7 @@ Q3ViewerGetPict(TQ3ViewerObject theViewer)
 					TQ3Status status;
 					TQ3Uns32 oldFlags = viewer->flags;
 				
-				#if defined(OS_MACINTOSH) && OS_MACINTOSH
+				#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 					// turn off the draw border flag
 					viewer->flags &= ~kQ3ViewerDrawDragBorder;
 				#endif
@@ -4095,7 +4095,7 @@ Q3ViewerGetPort(TQ3ViewerObject theViewer)
 
 #pragma mark -
 
-#if defined(OS_WIN32) && OS_WIN32
+#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 #pragma mark ---- Windows OS ----
 #pragma mark --- unimplemented ---
 //=============================================================================
@@ -4168,7 +4168,7 @@ Q3ViewerGetControlStrip(TQ3ViewerObject theViewer)
 
 #pragma mark -
 
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 
 
 OSErr __ViewerInitialize (const CFragInitBlock* initBlock);

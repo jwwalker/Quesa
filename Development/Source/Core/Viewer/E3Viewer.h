@@ -61,7 +61,7 @@
 
 
 // Mac OS
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	#include <Balloons.h>
 	#include <CodeFragments.h>
 	#include <ConditionalMacros.h>
@@ -462,7 +462,7 @@ TQ3Status		Q3ViewerSetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean phong);
 TQ3Status		Q3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong);
 
 // specific prototypes for all other platforms
-	#if defined(OS_WIN32) && OS_WIN32
+	#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 
 TQ3ViewerObject	Q3ViewerNew(HWND theWindow, const RECT *rect, TQ3Uns32 flags);
 TQ3Status		Q3ViewerUseFile(TQ3ViewerObject theViewer, HANDLE fileHandle);

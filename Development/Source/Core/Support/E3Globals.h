@@ -394,7 +394,7 @@ typedef struct {
 
 
 	// Platform specific (just Mac for now)
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	DMNotificationUPP		dmNotifyUPP;
 	TQ3Boolean				dmNotifiedChanges;
 #endif

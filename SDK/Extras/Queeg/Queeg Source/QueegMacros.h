@@ -11,7 +11,7 @@
 
 // define a macro to log errors and warnings in debug mode
 #if DEBUG
-	#if OS_MACINTOSH
+	#if QUESA_OS_MACINTOSH
 		#define DEBUGSTR(s) DebugStr(s)
 	#else
 		#define DEBUGSTR(s) ;

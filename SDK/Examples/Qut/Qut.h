@@ -69,7 +69,7 @@
 //=============================================================================
 //      Platform specific
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	#include <Events.h>
 	#include <Devices.h>
 	#include <Fonts.h>
@@ -82,7 +82,7 @@
 	#include <ImageCompression.h>
 #endif
 
-#if OS_WIN32
+#if QUESA_OS_WIN32
 	#include <Windows.h>
 	#pragma warning(disable : 4068)
 #endif

@@ -613,7 +613,7 @@ Q3PathStorage_Get(TQ3StorageObject theStorage, char *pathName)
 //      Q3HandleStorage_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 TQ3StorageObject
 Q3HandleStorage_New(Handle handle, TQ3Uns32 validSize)
 {
@@ -983,7 +983,7 @@ Q3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs)
 	// Call our implementation
 	return(E3FSSpecStorage_Get(storage, fs));
 }
-#endif // OS_MACINTOSH
+#endif // QUESA_OS_MACINTOSH
 
 
 
@@ -993,7 +993,7 @@ Q3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs)
 //      Q3Win32Storage_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_WIN32
+#if QUESA_OS_WIN32
 TQ3StorageObject
 Q3Win32Storage_New(HANDLE hFile)
 {
@@ -1096,7 +1096,7 @@ Q3Win32Storage_Get(TQ3StorageObject storage, HANDLE *hFile)
 	// Call our implementation
 	return(E3Win32Storage_Get(storage, hFile));
 }
-#endif // OS_WIN32
+#endif // QUESA_OS_WIN32
 
 
 
@@ -1106,7 +1106,7 @@ Q3Win32Storage_Get(TQ3StorageObject storage, HANDLE *hFile)
 //      Q3UnixPathStorage_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_UNIX
+#if QUESA_OS_UNIX
 TQ3StorageObject
 Q3UnixPathStorage_New(const char *pathName)
 {
@@ -1211,7 +1211,7 @@ Q3UnixPathStorage_Get(TQ3StorageObject storage, char *pathName)
 	// Call our implementation
 	return(E3UnixPathStorage_Get(storage, pathName));
 }
-#endif // OS_UNIX
+#endif // QUESA_OS_UNIX
 
 
 
@@ -1221,7 +1221,7 @@ Q3UnixPathStorage_Get(TQ3StorageObject storage, char *pathName)
 //      Q3BeStorage_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_BE
+#if QUESA_OS_BE
 TQ3StorageObject
 Q3BeStorage_New(BFile *theFile)
 {

@@ -1715,7 +1715,7 @@ Q3XDrawRegion_GetClipMask(TQ3XDrawRegion drawRegion, TQ3Bitmap **clipMask)
 //=============================================================================
 //      Q3XDrawRegion_GetClipRegion : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 TQ3Status
 Q3XDrawRegion_GetClipRegion(TQ3XDrawRegion drawRegion, RgnHandle *rgnHandle)
 {
@@ -1754,7 +1754,7 @@ Q3XDrawRegion_GetClipRegion(TQ3XDrawRegion drawRegion, RgnHandle *rgnHandle)
 //=============================================================================
 //      Q3XDrawRegion_GetGDHandle : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 TQ3Status
 Q3XDrawRegion_GetGDHandle(TQ3XDrawRegion drawRegion, GDHandle *gdHandle)
 {

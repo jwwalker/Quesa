@@ -46,7 +46,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if OS_WIN32
+#if QUESA_OS_WIN32
 #endif
 //=============================================================================
 //      Internal Types
@@ -1288,7 +1288,7 @@ E3FFormat_3ds_Reader_UnregisterClass(void)
 //=============================================================================
 //      E3FFormat_3ds_Reader_Entry : CFM entry point for Mac.
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 OSErr
 E3FFormat_3ds_Reader_Entry(void)
 {	
@@ -1309,7 +1309,7 @@ E3FFormat_3ds_Reader_Entry(void)
 //=============================================================================
 //      E3FFormat_3ds_Reader_Exit : CFM exit point for Mac.
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 TQ3Int32
 E3FFormat_3ds_Reader_Exit(void)
 {
@@ -1324,7 +1324,7 @@ E3FFormat_3ds_Reader_Exit(void)
 //=============================================================================
 //      DllMain : DLL entry point for Windows.
 //-----------------------------------------------------------------------------
-#if OS_WIN32
+#if QUESA_OS_WIN32
 BOOL APIENTRY
 DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 

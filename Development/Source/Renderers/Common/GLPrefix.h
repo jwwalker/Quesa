@@ -45,15 +45,15 @@
 
 
 // OpenGL (platform specific)
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	#include <agl.h>
 	#include <aglRenderers.h>
 
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	#include <GL/glx.h>
 
-#elif OS_BE
+#elif QUESA_OS_BE
 	#include <be/opengl/GLView.h>
 #endif
 
@@ -65,7 +65,7 @@
 //      Macros
 //-----------------------------------------------------------------------------
 // For Mac specific weak linking
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	#define QUESA_FOUND_OPENGL		((TQ3Uns32) aglGetVersion != (TQ3Uns32) kUnresolvedCFragSymbolAddress)
 #else
 	#define QUESA_FOUND_OPENGL		(1)

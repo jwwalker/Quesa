@@ -75,7 +75,7 @@ TQ3Status	E3FFormat_Sample_Reader_UnregisterClass(void);
 
 
 // CFM entry points (Mac)
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	OSErr	 SampleImporterLoad(void);
 	TQ3Int32 SampleImporterExit(void);
 #endif

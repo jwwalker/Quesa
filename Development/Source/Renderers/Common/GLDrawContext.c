@@ -52,7 +52,7 @@
 //		Internal types
 //-----------------------------------------------------------------------------
 // Platform specific types
-#if OS_UNIX
+#if QUESA_OS_UNIX
 typedef struct {
 	Display			*theDisplay;
 	GLXContext		glContext;
@@ -61,7 +61,7 @@ typedef struct {
 #endif
 
 
-#if OS_WIN32
+#if QUESA_OS_WIN32
 typedef struct {
 	HDC		theDC;
 	HGLRC	glContext;
@@ -77,7 +77,7 @@ typedef struct {
 //-----------------------------------------------------------------------------
 //		gldrawcontext_mac_new : Create an OpenGL context for a draw context.
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 static void *
 gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 {	GLint					glAttributes[kMaxGLAttributes];
@@ -271,7 +271,7 @@ gldrawcontext_mac_setcurrent(void *glContext)
 	if (aglGetCurrentContext() != (AGLContext) glContext)
 		aglSetCurrentContext((AGLContext) glContext);
 }
-#endif // OS_MACINTOSH
+#endif // QUESA_OS_MACINTOSH
 
 
 
@@ -281,7 +281,7 @@ gldrawcontext_mac_setcurrent(void *glContext)
 //		gldrawcontext_x11_new : Create an OpenGL context for a draw context.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_UNIX
+#if QUESA_OS_UNIX
 static void *
 gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 {	XVisualInfo				visualInfoTemplate;
@@ -437,7 +437,7 @@ gldrawcontext_x11_setcurrent(void *glContext)
 		glXGetCurrentDrawable() != theContext->glDrawable)
 		glXMakeCurrent(theContext->theDisplay, theContext->glDrawable, theContext->glContext);
 }
-#endif // OS_UNIX
+#endif // QUESA_OS_UNIX
 
 
 
@@ -447,7 +447,7 @@ gldrawcontext_x11_setcurrent(void *glContext)
 //		gldrawcontext_win_new : Create an OpenGL context for a draw context.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_WIN32
+#if QUESA_OS_WIN32
 static void *
 gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 {	TQ3ObjectType			drawContextType;
@@ -605,7 +605,7 @@ gldrawcontext_win_setcurrent(void *glContext)
 		wglGetCurrentContext() != theContext->glContext)
 		wglMakeCurrent(theContext->theDC, theContext->glContext);
 }
-#endif // OS_WIN32
+#endif // QUESA_OS_WIN32
 
 
 
@@ -615,7 +615,7 @@ gldrawcontext_win_setcurrent(void *glContext)
 //		gldrawcontext_be_new : Create an OpenGL context for a draw context.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_BE
+#if QUESA_OS_BE
 static void *
 gldrawcontext_be_new(TQ3DrawContextObject theDrawContext)
 {
@@ -663,7 +663,7 @@ gldrawcontext_be_setcurrent(void *glContext)
 {
 	// To be implemented
 }
-#endif // OS_BE
+#endif // QUESA_OS_BE
 
 
 
@@ -687,16 +687,16 @@ GLDrawContext_New(TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags)
 
 
 	// Create the context
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	glContext = gldrawcontext_mac_new(theDrawContext);
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	glContext = gldrawcontext_x11_new(theDrawContext);
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 	glContext = gldrawcontext_win_new(theDrawContext);
 
-#elif OS_BE
+#elif QUESA_OS_BE
 	glContext = gldrawcontext_be_new(theDrawContext);
 
 #else
@@ -734,16 +734,16 @@ GLDrawContext_Destroy(void **glContext)
 
 
 	// Destroy the context
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	gldrawcontext_mac_destroy(*glContext);
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	gldrawcontext_x11_destroy(*glContext);
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 	gldrawcontext_win_destroy(*glContext);
 
-#elif OS_BE
+#elif QUESA_OS_BE
 	gldrawcontext_be_destroy(*glContext);
 #endif
 
@@ -771,16 +771,16 @@ GLDrawContext_SwapBuffers(void *glContext)
 
 
 	// Swap the buffers on the context
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	gldrawcontext_mac_swapbuffers(glContext);
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	gldrawcontext_x11_swapbuffers(glContext);
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 	gldrawcontext_win_swapbuffers(glContext);
 
-#elif OS_BE
+#elif QUESA_OS_BE
 	gldrawcontext_be_swapbuffers(glContext);
 #endif
 }
@@ -803,16 +803,16 @@ GLDrawContext_SetCurrent(void *glContext)
 
 
 	// Activate the context
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	gldrawcontext_mac_setcurrent(glContext);
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	gldrawcontext_x11_setcurrent(glContext);
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 	gldrawcontext_win_setcurrent(glContext);
 
-#elif OS_BE
+#elif QUESA_OS_BE
 	gldrawcontext_be_setcurrent(glContext);
 #endif
 }

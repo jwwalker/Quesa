@@ -95,7 +95,7 @@ ir_state_texture_get_data(TQ3StorageObject theStorage, TQ3Boolean *wasCopied)
 			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, &basePtr, &validSize, &bufferSize);
 			break;
 
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 		case kQ3MemoryStorageTypeHandle:
 			{	Handle	theHnd;
 			
@@ -154,7 +154,7 @@ ir_state_texture_release_data(TQ3StorageObject	theStorage,
 								TQ3Uns8			*basePtr,
 								TQ3Boolean		wasCopied)
 {
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	TQ3Status			qd3dStatus;
 	TQ3Uns32			validSize;
 	TQ3ObjectType		theType;

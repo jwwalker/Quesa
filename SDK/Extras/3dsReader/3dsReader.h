@@ -66,7 +66,7 @@ extern "C" {
 
 
 // CFM entry points (Mac)
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	OSErr    E3FFormat_3ds_Reader_Entry(void);
 	TQ3Int32 E3FFormat_3ds_Reader_Exit(void);
 #endif

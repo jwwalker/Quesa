@@ -609,7 +609,7 @@ Q3XNotice_Post(TQ3Notice notice)
 //=============================================================================
 //      Q3XMacintoshError_Post : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 void
 Q3XMacintoshError_Post(OSErr macOSErr)
 {

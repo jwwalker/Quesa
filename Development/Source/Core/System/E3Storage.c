@@ -619,13 +619,13 @@ E3Storage_RegisterClass(void)
 	// Register the platform specific classes
 	if (qd3dStatus == kQ3Success)
 		{
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 		qd3dStatus = E3MacStorage_RegisterClass();
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 		qd3dStatus = E3UnixStorage_RegisterClass();
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 		qd3dStatus = E3Win32Storage_RegisterClass();
-#elif OS_BE
+#elif QUESA_OS_BE
 		qd3dStatus = E3BeStorage_RegisterClass();
 #endif
 		}
@@ -650,13 +650,13 @@ E3Storage_UnregisterClass(void)
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StorageTypePath,   kQ3True);
 
 
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	qd3dStatus = E3MacStorage_UnregisterClass();
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	qd3dStatus = E3UnixStorage_UnregisterClass();
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 	qd3dStatus = E3Win32Storage_UnregisterClass();
-#elif OS_BE
+#elif QUESA_OS_BE
 	qd3dStatus = E3BeStorage_UnregisterClass();
 #endif
 	

@@ -63,7 +63,7 @@ void		E3System_Bottleneck(void);
 
 
 // Mac specific
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 TQ3Status	E3MacSystem_Initialise(void);
 void		E3MacSystem_Terminate();
 void		E3MacSystem_LoadPlugins(void);
@@ -71,7 +71,7 @@ void		E3MacSystem_LoadPlugins(void);
 
 
 // Unix specific
-#if OS_UNIX
+#if QUESA_OS_UNIX
 TQ3Status	E3UnixSystem_Initialise(void);
 void		E3UnixSystem_Terminate(void);
 void		E3UnixSystem_LoadPlugins(void);
@@ -79,7 +79,7 @@ void		E3UnixSystem_LoadPlugins(void);
 
 
 // Windows specific
-#if OS_WIN32
+#if QUESA_OS_WIN32
 TQ3Status	E3WindowsSystem_Initialise(void);
 void		E3WindowsSystem_Terminate(void);
 void		E3WindowsSystem_LoadPlugins(void);
@@ -87,7 +87,7 @@ void		E3WindowsSystem_LoadPlugins(void);
 
 
 // Be specific
-#if OS_BE
+#if QUESA_OS_BE
 TQ3Status	E3BeSystem_Initialise(void);
 void		E3BeSystem_Terminate(void);
 void		E3BeSystem_LoadPlugins(void);

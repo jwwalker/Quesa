@@ -75,7 +75,7 @@ TQ3Status			E3PathStorage_Get(TQ3StorageObject theStorage, char *pathName);
 
 
 // Mac specific
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 TQ3Status			E3MacStorage_RegisterClass(void);
 TQ3Status			E3MacStorage_UnregisterClass(void);
 
@@ -93,7 +93,7 @@ TQ3Status			E3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs);
 
 
 // Windows specific
-#if OS_WIN32
+#if QUESA_OS_WIN32
 TQ3Status			E3Win32Storage_RegisterClass(void);
 TQ3Status			E3Win32Storage_UnregisterClass(void);
 
@@ -104,7 +104,7 @@ TQ3Status			E3Win32Storage_Get(TQ3StorageObject storage, HANDLE *hFile);
 
 
 // Unix specific
-#if OS_UNIX
+#if QUESA_OS_UNIX
 TQ3Status			E3UnixStorage_RegisterClass(void);
 TQ3Status			E3UnixStorage_UnregisterClass(void);
 
@@ -115,7 +115,7 @@ TQ3Status			E3UnixPathStorage_Get(TQ3StorageObject storage, char *pathName);
 
 
 // Be specific
-#if OS_BE
+#if QUESA_OS_BE
 TQ3Status			E3BeStorage_RegisterClass(void);
 TQ3Status			E3BeStorage_UnregisterClass(void);
 

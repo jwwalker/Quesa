@@ -842,7 +842,7 @@ Q3PixmapDrawContext_GetPixmap(TQ3DrawContextObject drawContext, TQ3Pixmap *pixma
 //      Q3MacDrawContext_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 TQ3DrawContextObject
 Q3MacDrawContext_New(const TQ3MacDrawContextData *drawContextData)
 {
@@ -1177,7 +1177,7 @@ Q3MacDrawContext_Get2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContex
 	// Call our implementation
 	return(E3MacDrawContext_Get2DLibrary(drawContext, library));
 }
-#endif // OS_MACINTOSH
+#endif // QUESA_OS_MACINTOSH
 
 
 
@@ -1187,7 +1187,7 @@ Q3MacDrawContext_Get2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContex
 //      Q3XBuffers_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_UNIX
+#if QUESA_OS_UNIX
 TQ3XBufferObject
 Q3XBuffers_New(Display *dpy, TQ3Uns32 numBuffers, Window window)
 {
@@ -1720,7 +1720,7 @@ Q3XDrawContext_GetColormapData(TQ3DrawContextObject drawContext, TQ3XColormapDat
 	// Call our implementation
 	return(E3XDrawContext_GetColormapData(drawContext, colormapData));
 }
-#endif // OS_UNIX
+#endif // QUESA_OS_UNIX
 
 
 
@@ -1730,7 +1730,7 @@ Q3XDrawContext_GetColormapData(TQ3DrawContextObject drawContext, TQ3XColormapDat
 //      Q3Win32DCDrawContext_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_WIN32
+#if QUESA_OS_WIN32
 TQ3DrawContextObject
 Q3Win32DCDrawContext_New(const TQ3Win32DCDrawContextData *drawContextData)
 {
@@ -1946,7 +1946,7 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ
 	// Call our implementation
 	return(E3DDSurfaceDrawContext_GetDirectDrawSurface(drawContext, ddSurfaceDescriptor));
 }
-#endif // OS_WIN32
+#endif // QUESA_OS_WIN32
 
 
 
@@ -1956,7 +1956,7 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ
 //      Q3BeDrawContext_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if OS_BE
+#if QUESA_OS_BE
 TQ3DrawContextObject
 Q3BeDrawContext_New(const TQ3BeDrawContextData *drawContextData)
 {
@@ -2060,4 +2060,4 @@ Q3BeDrawContext_GetView(TQ3DrawContextObject drawContext, BView **theView)
 	// Call our implementation
 	return(E3BeDrawContext_GetView(drawContext, theView));
 }
-#endif // OS_BE
+#endif // QUESA_OS_BE

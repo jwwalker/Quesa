@@ -43,7 +43,7 @@
 #include "E3Viewer.h"
 #include "E3ViewerTools.h"
 
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	#include <Menus.h>
 	#include <Icons.h>
 	#include <Fonts.h>
@@ -57,7 +57,7 @@
 //=============================================================================
 //      Internal #defines
 //-----------------------------------------------------------------------------
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	#ifndef TQ3Rect
 		#define TQ3Rect			Rect
 	#endif
@@ -72,7 +72,7 @@
 	#endif
 #else
 	#ifndef TQ3Rect
-		#if defined(OS_WIN32) && OS_WIN32)
+		#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
 			#define TQ3Rect		RECT
 		#else
 			#define TQ3Rect		TQ3Area
@@ -172,7 +172,7 @@ TQ3Status E3ViewerPlugins_RegisterClass (void)
 
 static TQ3Status GetOSHelpString (TQ3Int32 id, Str255 helpString)
 	{
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	GetIndString (helpString, kHelpStrings, id);
 	return kQ3Success;
 #else
@@ -184,7 +184,7 @@ static TQ3Status GetOSHelpString (TQ3Int32 id, Str255 helpString)
 
 static TQ3Status DrawOSTool (TQ3Area* area, TQ3Int32 id)
 	{
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	TQ3Rect r;
 	r.left = area->min.x;
 	r.right = r.left + 32;
@@ -201,7 +201,7 @@ static TQ3Status DrawOSTool (TQ3Area* area, TQ3Int32 id)
 
 static void SetOSCursor (TQ3Int32 id)
 	{
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	if (id)
 		{
 		CursHandle h = GetCursor (id);
@@ -221,7 +221,7 @@ static void SetOSCursor (TQ3Int32 id)
 static TQ3Int32
 OSPopupMenuSelect (TQ3Rect* r, TQ3Int32 id)
 	{
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	MenuHandle menu = GetMenu (id);
 	if (menu && r)
 		{
@@ -1004,7 +1004,7 @@ TQ3XFunctionPointer ResetToolMetaHandler (TQ3XMethodType methodType)
 #pragma mark { Options Tool }
 
 
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 
 static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 	{
@@ -1262,7 +1262,7 @@ TQ3XFunctionPointer OptionsToolMetaHandler (TQ3XMethodType methodType)
 static TQ3Status AboutClickTool (TQ3ViewerObject, TQ3SharedObject)
 	{
 	Str255 url = "\phttp://www.quesa.org/";
-#if defined(OS_MACINTOSH) && OS_MACINTOSH
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	if (Alert (kAboutAlertID, NULL) == kURLItem)
 		{
 		ICInstance inst = nil;

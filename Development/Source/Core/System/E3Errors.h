@@ -68,7 +68,7 @@ void				E3Error_PlatformPost(TQ3Uns32 theErr);
 
 
 // Platform specific
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 OSErr				E3MacintoshError_Get(OSErr *firstErr);
 #endif
 

@@ -92,7 +92,7 @@ typedef struct OpaqueTQ3XDrawRegion {
 
 
 // Draw context state
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 typedef struct {
 	TQ3MacDrawContextData			theData;
 	Rect							windowRect;
@@ -100,7 +100,7 @@ typedef struct {
 } TQ3MacDrawContextState;
 
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 typedef struct OpaqueTQ3XBufferObject {
 	TQ3Uns32						numBuffers;
 	Display							*theDisplay;
@@ -112,7 +112,7 @@ typedef struct {
 } TQ3XDrawContextState;
 
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 typedef struct {
 	TQ3Win32DCDrawContextData		theData;
 } TQ3Win32DCDrawContextState;
@@ -122,7 +122,7 @@ typedef struct {
 } TQ3DDSurfaceDrawContextState;
 
 
-#elif OS_BE
+#elif QUESA_OS_BE
 typedef struct {
 	TQ3BeDrawContextData			theData;
 } TQ3BeDrawContextState;
@@ -146,17 +146,17 @@ typedef struct TQ3DrawContextUnionData {
 		TQ3DrawContextData 				common;
 		TQ3PixmapDrawContextData		pixmapData;
 
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 		TQ3MacDrawContextState			macData;
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 		TQ3XDrawContextState			x11Data;
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 		TQ3Win32DCDrawContextState		win32Data;
 		TQ3DDSurfaceDrawContextState	winDDData;
 
-#elif OS_BE
+#elif QUESA_OS_BE
 		TQ3BeDrawContextState			beData;
 #endif
 	} data;
@@ -202,7 +202,7 @@ TQ3Status				E3PixmapDrawContext_GetPixmap(TQ3DrawContextObject drawContext, TQ3
 
 
 // Mac specific
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 TQ3Status				E3MacDrawContext_RegisterClass(void);
 TQ3Status				E3MacDrawContext_UnregisterClass(void);
 
@@ -219,7 +219,7 @@ TQ3Status				E3MacDrawContext_Get2DLibrary(TQ3DrawContextObject drawContext, TQ3
 
 
 // Unix specific
-#if OS_UNIX
+#if QUESA_OS_UNIX
 TQ3Status				E3XDrawContext_RegisterClass(void);
 TQ3Status				E3XDrawContext_UnregisterClass(void);
 
@@ -241,7 +241,7 @@ XVisualInfo			   *E3X_GetVisualInfo(Display *dpy, Screen *screen);
 
 
 // Windows specific
-#if OS_WIN32
+#if QUESA_OS_WIN32
 TQ3Status				E3Win32DCDrawContext_RegisterClass(void);
 TQ3Status				E3Win32DCDrawContext_UnregisterClass(void);
 
@@ -259,7 +259,7 @@ TQ3Status				E3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject dr
 
 
 // Be specific
-#if OS_BE
+#if QUESA_OS_BE
 TQ3Status				E3BeDrawContext_RegisterClass(void);
 TQ3Status				E3BeDrawContext_UnregisterClass(void);
 

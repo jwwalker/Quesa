@@ -230,22 +230,22 @@ E3DrawContext_RegisterClass(void)
 												e3drawcontext_pixmap_metahandler,
 												sizeof(TQ3DrawContextUnionData));
 
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3MacDrawContext_RegisterClass();
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3XDrawContext_RegisterClass();
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3Win32DCDrawContext_RegisterClass();
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3DDSurfaceDrawContext_RegisterClass();
 
-#elif OS_BE
+#elif QUESA_OS_BE
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3BeDrawContext_RegisterClass();
 #endif
@@ -269,17 +269,17 @@ E3DrawContext_UnregisterClass(void)
 	// Unregister the draw context classes
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3DrawContextTypePixmap, kQ3True);
 
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	qd3dStatus = E3MacDrawContext_UnregisterClass();
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	qd3dStatus = E3XDrawContext_UnregisterClass();
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 	qd3dStatus = E3Win32DCDrawContext_UnregisterClass();
 	qd3dStatus = E3DDSurfaceDrawContext_UnregisterClass();
 
-#elif OS_BE
+#elif QUESA_OS_BE
 	qd3dStatus = E3BeDrawContext_UnregisterClass();
 #endif
 

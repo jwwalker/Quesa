@@ -76,7 +76,7 @@ void					E3XNotice_Post(TQ3Notice theNotice);
 
 
 // Mac specific
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 void					E3XMacintoshError_Post(OSErr theErr);
 #endif
 

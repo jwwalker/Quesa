@@ -47,7 +47,7 @@
 //=============================================================================
 //      Platform specific #includes
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	#include <Errors.h>
 #endif
 
@@ -440,7 +440,7 @@ E3FFormat_Sample_Reader_UnregisterClass(void)
 //=============================================================================
 //      SampleImporterLoad : CFM entry point for Mac.
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 OSErr
 SampleImporterLoad(void)
 {
@@ -463,7 +463,7 @@ SampleImporterLoad(void)
 //=============================================================================
 //      SampleImporterExit : CFM exit point for Mac.
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 TQ3Int32
 SampleImporterExit(void)
 {
@@ -478,7 +478,7 @@ SampleImporterExit(void)
 //=============================================================================
 //      DllMain : DLL entry point for Windows.
 //-----------------------------------------------------------------------------
-#if OS_WIN32
+#if QUESA_OS_WIN32
 BOOL APIENTRY
 DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 

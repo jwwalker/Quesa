@@ -55,16 +55,16 @@ E3System_Initialise(void)
 
 
 	// Initialise the system
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	qd3dStatus = E3MacSystem_Initialise();
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	qd3dStatus = E3UnixSystem_Initialise();
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 	qd3dStatus = E3WindowsSystem_Initialise();
 
-#elif OS_BE
+#elif QUESA_OS_BE
 	qd3dStatus = E3BeSystem_Initialise();
 #endif
 
@@ -84,16 +84,16 @@ E3System_Terminate(void)
 
 
 	// Terminate the system
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	E3MacSystem_Terminate();
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	E3UnixSystem_Terminate();
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 	E3WindowsSystem_Terminate();
 
-#elif OS_BE
+#elif QUESA_OS_BE
 	E3BeSystem_Terminate();
 #endif
 }
@@ -127,16 +127,16 @@ E3System_LoadPlugins(void)
 
 
 	// Load the plug-ins on a per-platform basis
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	E3MacSystem_LoadPlugins();
 
-#elif OS_UNIX
+#elif QUESA_OS_UNIX
 	E3UnixSystem_LoadPlugins();
 
-#elif OS_WIN32
+#elif QUESA_OS_WIN32
 	E3WindowsSystem_LoadPlugins();
 
-#elif OS_BE
+#elif QUESA_OS_BE
 	E3BeSystem_LoadPlugins();
 #endif
 
