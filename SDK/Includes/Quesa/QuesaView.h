@@ -70,8 +70,18 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// View status
-typedef enum {
+/*!
+ *  @enum
+ *      TQ3ViewStatus
+ *  @discussion
+ *      View submit loop status.
+ *
+ *  @constant kQ3ViewStatusDone                 Submit loop completed successfully.
+ *  @constant kQ3ViewStatusRetraverse           Submit loop requires another pass.
+ *  @constant kQ3ViewStatusError                Submit loop encountered an error.
+ *  @constant kQ3ViewStatusCancelled            Submit loop was cancelled.
+ */
+typedef enum TQ3ViewStatus {
     kQ3ViewStatusDone                           = 0,
     kQ3ViewStatusRetraverse                     = 1,
     kQ3ViewStatusError                          = 2,
@@ -98,17 +108,50 @@ typedef enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// View callbacks
+/*!
+ *  @typedef
+ *      TQ3ViewIdleMethod
+ *  @discussion
+ *      Application callback for Q3View_SetIdleMethod.
+ *
+ *  @param theView          The view being submitted to.
+ *  @param idlerData        The application-specific data passed to Q3View_SetIdleMethod.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewIdleMethod)(
                             TQ3ViewObject       theView,
                             const void          *idlerData);
-                            
+
+
+/*!
+ *  @typedef
+ *      TQ3ViewIdleProgressMethod
+ *  @discussion
+ *      Application callback for Q3View_SetIdleProgressMethod.
+ *
+ *  @param theView              The view being submitted to.
+ *  @param idlerData            The application-specific data passed to Q3View_SetIdleProgressMethod.
+ *  @param progressCurrent      The number of work units completed.
+ *  @param progressCompleted    The total number of work units which will be completed.
+ *  @result                     Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewIdleProgressMethod)(
                             TQ3ViewObject       theView,
                             const void          *idlerData,
                             TQ3Uns32            progressCurrent,
                             TQ3Uns32            progressCompleted);
-                            
+
+
+/*!
+ *  @typedef
+ *      TQ3ViewEndFrameMethod
+ *  @discussion
+ *      Application callback for Q3View_SetEndFrameMethod.
+ *
+ *  @param theView          The view being submitted to.
+ *  @param endFrameData     The application-specific data passed to Q3View_SetEndFrameMethod.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(void,                TQ3ViewEndFrameMethod)(
                             TQ3ViewObject       theView,
                             void                *endFrameData);
@@ -124,12 +167,9 @@ typedef Q3_CALLBACK_API_C(void,                TQ3ViewEndFrameMethod)(
  *  @function
  *      Q3View_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @result                 Description of the function result.
+ *  @result                 The new view object.
  */
 Q3_EXTERN_API_C ( TQ3ViewObject  )
 Q3View_New (
@@ -181,13 +221,10 @@ Q3View_NewWithDefaults (
  *  @function
  *      Q3View_Cancel
  *  @discussion
- *      One-line description of this function.
+ *      Cancel a submit loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view being submitted to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_Cancel (
@@ -200,14 +237,15 @@ Q3View_Cancel (
  *  @function
  *      Q3View_SetRendererByType
  *  @discussion
- *      One-line description of this function.
+ *      Set the renderer for a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The renderer is specified by class type, e.g., kQ3RendererTypeInteractive
+ *      for the interactive renderer or kQ3RendererTypeWireFrame for the wire-frame
+ *      renderer.
  *
- *  @param view             Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to update.
+ *  @param theType          The type of the renderer to assign to the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetRendererByType (
@@ -221,14 +259,13 @@ Q3View_SetRendererByType (
  *  @function
  *      Q3View_SetRenderer
  *  @discussion
- *      One-line description of this function.
+ *      Set the renderer for a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the renderer will be incremented by the view.
  *
- *  @param view             Description of the parameter.
- *  @param renderer         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to update.
+ *  @param renderer         The renderer to assign to the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetRenderer (
@@ -242,14 +279,13 @@ Q3View_SetRenderer (
  *  @function
  *      Q3View_GetRenderer
  *  @discussion
- *      One-line description of this function.
+ *      Get the renderer from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the renderer is incremented.
  *
- *  @param view             Description of the parameter.
- *  @param renderer         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param renderer         Receives the renderer associated with the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetRenderer (
@@ -263,13 +299,10 @@ Q3View_GetRenderer (
  *  @function
  *      Q3View_StartRendering
  *  @discussion
- *      One-line description of this function.
+ *      Start a rendering loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to start rendering with.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartRendering (
@@ -282,13 +315,11 @@ Q3View_StartRendering (
  *  @function
  *      Q3View_EndRendering
  *  @discussion
- *      One-line description of this function.
+ *      End a rendering loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view being rendered to.
+ *  @result                 Success or failure of the rendering loop.
+ *                          Note that the result is a TQ3ViewStatus, not a TQ3Status.
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndRendering (
@@ -301,13 +332,13 @@ Q3View_EndRendering (
  *  @function
  *      Q3View_Flush
  *  @discussion
- *      One-line description of this function.
+ *      Flush the output from within a rendering loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      May only be called between a Q3View_StartRendering/Q3View_EndRendering sequence.
+ *      May or may not update the draw context - behaviour is renderer-dependent.
  *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to flush.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_Flush (
@@ -320,13 +351,13 @@ Q3View_Flush (
  *  @function
  *      Q3View_Sync
  *  @discussion
- *      One-line description of this function.
+ *      Flush the previous rendering loop to the draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Blocks until the previous rendering loop has updated the draw context. May only
+ *      be called after a call to Q3View_EndRendering.
  *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to sync.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_Sync (
@@ -339,14 +370,11 @@ Q3View_Sync (
  *  @function
  *      Q3View_StartBoundingBox
  *  @discussion
- *      One-line description of this function.
+ *      Start a bounding loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param computeBounds    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to start bounding with.
+ *  @param computeBounds    The accuracy of the calculated bounds.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartBoundingBox (
@@ -360,19 +388,17 @@ Q3View_StartBoundingBox (
  *  @function
  *      Q3View_EndBoundingBox
  *  @discussion
- *      One-line description of this function.
+ *      End a bounding loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view being bounded to.
+ *  @param theBounds        The result of the bounding loop.
+ *  @result                 Success or failure of the bounding loop.
+ *                          Note that the result is a TQ3ViewStatus, not a TQ3Status.
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndBoundingBox (
     TQ3ViewObject                 view,
-    TQ3BoundingBox                *result
+    TQ3BoundingBox                *theBounds
 );
 
 
@@ -381,14 +407,11 @@ Q3View_EndBoundingBox (
  *  @function
  *      Q3View_StartBoundingSphere
  *  @discussion
- *      One-line description of this function.
+ *      Start a bounding loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param computeBounds    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to start bounding with.
+ *  @param computeBounds    The accuracy of the calculated bounds.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartBoundingSphere (
@@ -402,19 +425,17 @@ Q3View_StartBoundingSphere (
  *  @function
  *      Q3View_EndBoundingSphere
  *  @discussion
- *      One-line description of this function.
+ *      End a bounding loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view being bounded to.
+ *  @param theBounds        The result of the bounding loop.
+ *  @result                 Success or failure of the bounding loop.
+ *                          Note that the result is a TQ3ViewStatus, not a TQ3Status.
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndBoundingSphere (
     TQ3ViewObject                 view,
-    TQ3BoundingSphere             *result
+    TQ3BoundingSphere             *theBounds
 );
 
 
@@ -423,14 +444,11 @@ Q3View_EndBoundingSphere (
  *  @function
  *      Q3View_StartPicking
  *  @discussion
- *      One-line description of this function.
+ *      Start a picking loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param pick             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to start picking with.
+ *  @param pick             The pick object for the pick loop.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartPicking (
@@ -444,13 +462,11 @@ Q3View_StartPicking (
  *  @function
  *      Q3View_EndPicking
  *  @discussion
- *      One-line description of this function.
+ *      End a picking loop.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view being picked to.
+ *  @result                 Success or failure of the picking loop.
+ *                          Note that the result is a TQ3ViewStatus, not a TQ3Status.
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndPicking (
@@ -463,14 +479,13 @@ Q3View_EndPicking (
  *  @function
  *      Q3View_GetCamera
  *  @discussion
- *      One-line description of this function.
+ *      Get the camera from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the camera is incremented.
  *
- *  @param view             Description of the parameter.
- *  @param camera           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param camera           Receives the camera associated with the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetCamera (
@@ -484,14 +499,13 @@ Q3View_GetCamera (
  *  @function
  *      Q3View_SetCamera
  *  @discussion
- *      One-line description of this function.
+ *      Set the camera for a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the camera will be incremented by the view.
  *
- *  @param view             Description of the parameter.
- *  @param camera           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to update.
+ *  @param camera           The camera to assign to the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetCamera (
@@ -505,14 +519,13 @@ Q3View_SetCamera (
  *  @function
  *      Q3View_SetLightGroup
  *  @discussion
- *      One-line description of this function.
+ *      Set the light group for a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the light group will be incremented by the view.
  *
- *  @param view             Description of the parameter.
- *  @param lightGroup       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to update.
+ *  @param lightGroup       The light group to assign to the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetLightGroup (
@@ -526,14 +539,13 @@ Q3View_SetLightGroup (
  *  @function
  *      Q3View_GetLightGroup
  *  @discussion
- *      One-line description of this function.
+ *      Get the light group from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the light group is incremented.
  *
- *  @param view             Description of the parameter.
- *  @param lightGroup       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param lightGroup       Receives the light group associated with the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetLightGroup (
@@ -589,15 +601,15 @@ Q3View_AddLight (
  *  @function
  *      Q3View_SetIdleMethod
  *  @discussion
- *      One-line description of this function.
+ *      Set the idle method for view submit operations.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      An idle method can be used to return control to the application
+ *      periodically during a submit loop.
  *
- *  @param view             Description of the parameter.
- *  @param idleMethod       Description of the parameter.
- *  @param idleData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to update.
+ *  @param idleMethod       The view idle callback.
+ *  @param idleData         Application-specific data for the callback.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetIdleMethod (
@@ -612,15 +624,18 @@ Q3View_SetIdleMethod (
  *  @function
  *      Q3View_SetIdleProgressMethod
  *  @discussion
- *      One-line description of this function.
+ *      Set the idle progress method for view submit operations.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      An idle method can be used to return control to the application
+ *      periodically during a submit loop.
  *
- *  @param view             Description of the parameter.
- *  @param idleMethod       Description of the parameter.
- *  @param idleData         Description of the parameter.
- *  @result                 Description of the function result.
+ *      The idle progress method allows renderers to pass progress information
+ *      to the application, to update the user interface during a render.
+ *
+ *  @param view             The view to update.
+ *  @param idleMethod       The view idle callback.
+ *  @param idleData         Application-specific data for the callback.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetIdleProgressMethod (
@@ -635,15 +650,12 @@ Q3View_SetIdleProgressMethod (
  *  @function
  *      Q3View_SetEndFrameMethod
  *  @discussion
- *      One-line description of this function.
+ *      Set the end frame method for view submit operations.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param endFrame         Description of the parameter.
- *  @param endFrameData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to update.
+ *  @param endFrame         The view end frame callback.
+ *  @param endFrameData     Application-specific data for the callback.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetEndFrameMethod (
@@ -658,13 +670,10 @@ Q3View_SetEndFrameMethod (
  *  @function
  *      Q3Push_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a push state operator to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to submit the state operator to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Push_Submit (
@@ -677,13 +686,10 @@ Q3Push_Submit (
  *  @function
  *      Q3Pop_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a pop state operator to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to submit the state operator to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pop_Submit (
@@ -696,12 +702,9 @@ Q3Pop_Submit (
  *  @function
  *      Q3Push_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a push state operator.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @result                 Description of the function result.
+ *  @result                 The new push state operator.
  */
 Q3_EXTERN_API_C ( TQ3StateOperatorObject  )
 Q3Push_New (
@@ -714,12 +717,9 @@ Q3Push_New (
  *  @function
  *      Q3Pop_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a pop state operator.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @result                 Description of the function result.
+ *  @result                 The new pop state operator.
  */
 Q3_EXTERN_API_C ( TQ3StateOperatorObject  )
 Q3Pop_New (
@@ -732,14 +732,11 @@ Q3Pop_New (
  *  @function
  *      Q3StateOperator_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a state operator to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param stateOperator    Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param stateOperator    The state operator to submit.
+ *  @param view             The view to submit the state operator to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3StateOperator_Submit (
@@ -753,14 +750,14 @@ Q3StateOperator_Submit (
  *  @function
  *      Q3View_IsBoundingBoxVisible
  *  @discussion
- *      One-line description of this function.
+ *      Test a bounding box for visibility.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The bounding box is compared against the view frustum of the camera
+ *      currently associated with the view.
  *
- *  @param view             Description of the parameter.
- *  @param bbox             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to check the bounding box against.
+ *  @param bbox             The bounding box to test.
+ *  @result                 True or false as the bounding box is visible.
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3View_IsBoundingBoxVisible (
@@ -774,14 +771,14 @@ Q3View_IsBoundingBoxVisible (
  *  @function
  *      Q3View_AllowAllGroupCulling
  *  @discussion
- *      One-line description of this function.
+ *      Set the group culling state of a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If group culling is active, a view will skip groups whose bounding
+ *      boxes are not visible.
  *
- *  @param view             Description of the parameter.
- *  @param allowCulling     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to update.
+ *  @param allowCulling     The new group culling state for the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_AllowAllGroupCulling (
@@ -879,14 +876,13 @@ Q3View_TransformWorldToWindow (
  *  @function
  *      Q3View_SetDrawContext
  *  @discussion
- *      One-line description of this function.
+ *      Set the draw context for a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the draw context will be incremented by the view.
  *
- *  @param view             Description of the parameter.
- *  @param drawContext      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to update.
+ *  @param drawContext      The draw context to assign to the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetDrawContext (
@@ -900,14 +896,13 @@ Q3View_SetDrawContext (
  *  @function
  *      Q3View_GetDrawContext
  *  @discussion
- *      One-line description of this function.
+ *      Get the draw context from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the draw context is incremented.
  *
- *  @param view             Description of the parameter.
- *  @param drawContext      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param drawContext      Receives the draw context associated with the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetDrawContext (
@@ -921,14 +916,11 @@ Q3View_GetDrawContext (
  *  @function
  *      Q3View_GetLocalToWorldMatrixState
  *  @discussion
- *      One-line description of this function.
+ *      Get the local-to-world matrix state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param matrix           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param matrix           Receives the local-to-world matrix.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetLocalToWorldMatrixState (
@@ -942,14 +934,11 @@ Q3View_GetLocalToWorldMatrixState (
  *  @function
  *      Q3View_GetWorldToFrustumMatrixState
  *  @discussion
- *      One-line description of this function.
+ *      Get the local-to-frustum matrix state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param matrix           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param matrix           Receives the local-to-frustum matrix.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetWorldToFrustumMatrixState (
@@ -963,14 +952,11 @@ Q3View_GetWorldToFrustumMatrixState (
  *  @function
  *      Q3View_GetFrustumToWindowMatrixState
  *  @discussion
- *      One-line description of this function.
+ *      Get the frustum-to-window matrix state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param matrix           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param matrix           Receives the frustum-to-window matrix.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetFrustumToWindowMatrixState (
@@ -984,14 +970,11 @@ Q3View_GetFrustumToWindowMatrixState (
  *  @function
  *      Q3View_GetBackfacingStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current backfacing style state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param backfacingStyle  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param backfacingStyle  Receives the current backfacing style state.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetBackfacingStyleState (
@@ -1005,14 +988,11 @@ Q3View_GetBackfacingStyleState (
  *  @function
  *      Q3View_GetInterpolationStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current interpolation style state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param interpolationType Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view                 The view to query.
+ *  @param interpolationType    Receives the current interpolation style state.
+ *  @result                     Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetInterpolationStyleState (
@@ -1026,14 +1006,11 @@ Q3View_GetInterpolationStyleState (
  *  @function
  *      Q3View_GetFillStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current fill style state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param fillStyle        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param fillStyle        Receives the current fill style state.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetFillStyleState (
@@ -1047,14 +1024,11 @@ Q3View_GetFillStyleState (
  *  @function
  *      Q3View_GetHighlightStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current highlight style state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param highlightStyle   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param highlightStyle   Receives the current highlight style state.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetHighlightStyleState (
@@ -1068,14 +1042,11 @@ Q3View_GetHighlightStyleState (
  *  @function
  *      Q3View_GetSubdivisionStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current subdivision style state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param subdivisionStyle Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param subdivisionStyle Receives the current subdivision style state.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetSubdivisionStyleState (
@@ -1089,14 +1060,11 @@ Q3View_GetSubdivisionStyleState (
  *  @function
  *      Q3View_GetOrientationStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current orientation style state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param fontFacingDirectionStyle Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view                        The view to query.
+ *  @param fontFacingDirectionStyle    Receives the current orientation style state.
+ *  @result                            Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetOrientationStyleState (
@@ -1110,14 +1078,11 @@ Q3View_GetOrientationStyleState (
  *  @function
  *      Q3View_GetReceiveShadowsStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current receive shadows style state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param receives         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param receives         Receives the current receive shadows style state.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetReceiveShadowsStyleState (
@@ -1131,14 +1096,11 @@ Q3View_GetReceiveShadowsStyleState (
  *  @function
  *      Q3View_GetPickIDStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current pick ID style state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param pickIDStyle      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param pickIDStyle      Receives the current pick ID style state.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetPickIDStyleState (
@@ -1152,14 +1114,11 @@ Q3View_GetPickIDStyleState (
  *  @function
  *      Q3View_GetPickPartsStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current pick parts style state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param pickPartsStyle   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param pickPartsStyle   Receives the current pick parts style state.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetPickPartsStyleState (
@@ -1173,14 +1132,11 @@ Q3View_GetPickPartsStyleState (
  *  @function
  *      Q3View_GetAntiAliasStyleState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current anti-alias style state from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param antiAliasData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param antiAliasData    Receives the current anti-alias style state.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetAntiAliasStyleState (
@@ -1194,12 +1150,12 @@ Q3View_GetAntiAliasStyleState (
  *  @function
  *      Q3View_GetFogStyleState
  *  @discussion
- *      Get the fog style associated with a view.
+ *      Get the current fog style associated with a view.
  *
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param theView          The view to query.
- *  @param fogData          Receives the current fog style for the viwe.
+ *  @param fogData          Receives the current fog style state.
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -1218,14 +1174,13 @@ Q3View_GetFogStyleState (
  *  @function
  *      Q3View_GetDefaultAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the default attribute set from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the attribute set is incremented.
  *
- *  @param view             Description of the parameter.
- *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param attributeSet     Receives the default attribute set.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetDefaultAttributeSet (
@@ -1239,14 +1194,13 @@ Q3View_GetDefaultAttributeSet (
  *  @function
  *      Q3View_SetDefaultAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the default attribute set for a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The reference count of the attribute set will be incremented by the view.
  *
- *  @param view             Description of the parameter.
- *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to update.
+ *  @param attributeSet     The attribute set to assign to the view.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetDefaultAttributeSet (
@@ -1260,14 +1214,11 @@ Q3View_SetDefaultAttributeSet (
  *  @function
  *      Q3View_GetAttributeSetState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current attribute state set from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param attributeSet     Receives the current attribute state set.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetAttributeSetState (
@@ -1281,15 +1232,12 @@ Q3View_GetAttributeSetState (
  *  @function
  *      Q3View_GetAttributeState
  *  @discussion
- *      One-line description of this function.
+ *      Get the current state of an attribute from a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param view             Description of the parameter.
- *  @param attributeType    Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to query.
+ *  @param attributeType    The attribute type to query.
+ *  @param data             Receives the current value for the specified attribute.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetAttributeState (

@@ -70,35 +70,89 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// CSG IDs attribute
-enum {
+/*!
+ *  @enum
+ *      TQ3AttributeTypeCSGID
+ *  @discussion
+ *      CSG attribute.
+ *
+ *  @constant kQ3AttributeTypeConstructiveSolidGeometryID    CSG attribute ID.
+ */
+typedef enum {
     kQ3AttributeTypeConstructiveSolidGeometryID = Q3_METHOD_TYPE('c', 's', 'g', 'i')
-};
+} TQ3AttributeTypeCSGID;
 
 
-// CSG objects
-enum {
+/*!
+ *  @enum
+ *      TQ3CSGObject
+ *  @discussion
+ *      CSG objects.
+ *
+ *  @constant kQ3SolidGeometryObjNone    Indicates no object.
+ *  @constant kQ3SolidGeometryObjA       Indicates the 'A' object.
+ *  @constant kQ3SolidGeometryObjB       Indicates the 'B' object.
+ *  @constant kQ3SolidGeometryObjC       Indicates the 'C' object.
+ *  @constant kQ3SolidGeometryObjD       Indicates the 'D' object.
+ *  @constant kQ3SolidGeometryObjE       Indicates the 'E' object.
+ */
+typedef enum TQ3CSGObject {
     kQ3SolidGeometryObjNone                     = -1,
     kQ3SolidGeometryObjA                        = 0,
     kQ3SolidGeometryObjB                        = 1,
     kQ3SolidGeometryObjC                        = 2,
     kQ3SolidGeometryObjD                        = 3,
-    kQ3SolidGeometryObjE                        = 4
-};
+    kQ3SolidGeometryObjE                        = 4,
+    kQ3SolidGeometrySize32                      = 0xFFFFFFFF
+} TQ3CSGObject;
 
 
-// CSG equation
-typedef enum {
+/*!
+ *  @enum
+ *      TQ3CSGEquation
+ *  @discussion
+ *      CSG equations.
+ *
+ *  @constant kQ3CSGEquationAandB         Indicates A and B.
+ *  @constant kQ3CSGEquationAandnotB      Indicates A and not B.
+ *  @constant kQ3CSGEquationAanBonCad     Indicates A and B on C.
+ *  @constant kQ3CSGEquationnotAandB      Indicates not A and B.
+ *  @constant kQ3CSGEquationnAaBorCanB    Indicates not A and B or C and B.
+ */
+typedef enum TQ3CSGEquation {
     kQ3CSGEquationAandB                         = 0x88888888,
     kQ3CSGEquationAandnotB                      = 0x22222222,
     kQ3CSGEquationAanBonCad                     = 0x2F222F22,
     kQ3CSGEquationnotAandB                      = 0x44444444,
-    kQ3CSGEquationnAaBorCanB                    = 0x74747474
+    kQ3CSGEquationnAaBorCanB                    = 0x74747474,
+    kQ3CSGEquationSize32                        = 0xFFFFFFFF
 } TQ3CSGEquation;
 
 
-// Attribute masks
-enum {
+/*!
+ *  @enum
+ *      TQ3XAttributeMask
+ *  @discussion
+ *      Attribute mask flags.
+ *
+ *  @constant kQ3XAttributeMaskNone                 No attributes.
+ *  @constant kQ3XAttributeMaskSurfaceUV            Surface UV attribute mask.
+ *  @constant kQ3XAttributeMaskShadingUV            Shading UV attribute mask.
+ *  @constant kQ3XAttributeMaskNormal               Normal attribute mask.
+ *  @constant kQ3XAttributeMaskAmbientCoefficient   Ambient coefficent attribute mask.
+ *  @constant kQ3XAttributeMaskDiffuseColor         Diffuse color attribute mask.
+ *  @constant kQ3XAttributeMaskSpecularColor        Specular color attribute mask.
+ *  @constant kQ3XAttributeMaskSpecularControl      Specular control attribute mask.
+ *  @constant kQ3XAttributeMaskTransparencyColor    Transparency color attribute mask.
+ *  @constant kQ3XAttributeMaskSurfaceTangent       Surface tangent attribute mask.
+ *  @constant kQ3XAttributeMaskHighlightState       Highlight state attribute mask.
+ *  @constant kQ3XAttributeMaskSurfaceShader        Surface shader attribute mask.
+ *  @constant kQ3XAttributeMaskCustomAttribute      Custom attribute mask.
+ *  @constant kQ3XAttributeMaskAll                  All attributes.
+ *  @constant kQ3XAttributeMaskInherited            Inherited attributes mask.
+ *  @constant kQ3XAttributeMaskInterpolated         Interpolated attributes mask.
+ */
+typedef enum TQ3XAttributeMask {
     kQ3XAttributeMaskNone                       = 0,
     kQ3XAttributeMaskSurfaceUV                  = (1 << (kQ3AttributeTypeSurfaceUV          - 1)),
     kQ3XAttributeMaskShadingUV                  = (1 << (kQ3AttributeTypeShadingUV          - 1)),
@@ -121,12 +175,38 @@ enum {
                                                   kQ3XAttributeMaskDiffuseColor       |
                                                   kQ3XAttributeMaskSpecularControl    |
                                                   kQ3XAttributeMaskTransparencyColor  |
-                                                  kQ3XAttributeMaskSurfaceTangent
-};
+                                                  kQ3XAttributeMaskSurfaceTangent,
+    kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
+} TQ3XAttributeMask;
 
 
-// Draw context validation masks
-typedef enum {
+/*!
+ *  @enum
+ *      TQ3XDrawContextValidationMasks
+ *  @discussion
+ *      Draw Context validation mask flags.
+ *
+ *  @constant kQ3XDrawContextValidationClearFlags           The clear state is invalid.
+ *  @constant kQ3XDrawContextValidationDoubleBuffer         The double buffer state is invalid.
+ *  @constant kQ3XDrawContextValidationShader               The shader state is invalid.
+ *  @constant kQ3XDrawContextValidationClearFunction        The clear method state is invalid.
+ *  @constant kQ3XDrawContextValidationActiveBuffer         The active buffer state is invalid.
+ *  @constant kQ3XDrawContextValidationInternalOffScreen    The internal off-screen state is invalid.
+ *  @constant kQ3XDrawContextValidationPane                 The pane state is invalid.
+ *  @constant kQ3XDrawContextValidationMask                 The mask state is invalid.
+ *  @constant kQ3XDrawContextValidationDevice               The device state is invalid.
+ *  @constant kQ3XDrawContextValidationWindow               The window state is invalid.
+ *  @constant kQ3XDrawContextValidationWindowSize           The window size state is invalid.
+ *  @constant kQ3XDrawContextValidationWindowClip           The window clip state is invalid.
+ *  @constant kQ3XDrawContextValidationWindowPosition       The window position state is invalid.
+ *  @constant kQ3XDrawContextValidationPlatformAttributes   The platform-specific state is invalid.
+ *  @constant kQ3XDrawContextValidationForegroundShader     The foreground shader state is invalid.
+ *  @constant kQ3XDrawContextValidationBackgroundShader     The background shader state is invalid.
+ *  @constant kQ3XDrawContextValidationColorPalette         The color palette state is invalid (unupported).
+ *  @constant kQ3XDrawContextValidationRAVETextureFilter    The RAVE texture filter state is invalid (unupported).
+ *  @constant kQ3XDrawContextValidationAll                  The draw context state is invalid.
+ */
+typedef enum TQ3XDrawContextValidationMasks {
     kQ3XDrawContextValidationClearFlags         = 0,
     kQ3XDrawContextValidationDoubleBuffer       = (1 << 0),
     kQ3XDrawContextValidationShader             = (1 << 1),
@@ -145,44 +225,117 @@ typedef enum {
     kQ3XDrawContextValidationBackgroundShader   = (1 << 14),
     kQ3XDrawContextValidationColorPalette       = (1 << 15),
     kQ3XDrawContextValidationRAVETextureFilter  = (1 << 16),
-    kQ3XDrawContextValidationAll                = 0xFFFFFFFF
+    kQ3XDrawContextValidationAll                = 0xFFFFFFFF,
+    kQ3XDrawContextValidationSize32             = 0xFFFFFFFF
 } TQ3XDrawContextValidationMasks;
 
 
-// Draw region pixel type (does not indicate byte order)
-typedef enum {
-    kQ3XDevicePixelTypeInvalid                  = 0,                // Unknown
-    kQ3XDevicePixelTypeRGB32                    = 1,                // Ignore:8, R:8, G:8, B:8
-    kQ3XDevicePixelTypeARGB32                   = 2,                // Alpha:8,  R:8, G:8, B:8
-    kQ3XDevicePixelTypeRGB24                    = 3,                //           R:8, G:8, B:8
-    kQ3XDevicePixelTypeRGB16                    = 4,                // Ignore:1, R:5, G:5, B:5
-    kQ3XDevicePixelTypeARGB16                   = 5,                // Alpha:1,  R:5, G:5, B:5
-    kQ3XDevicePixelTypeRGB16_565                = 6,                //           R:5, G:6, B:5
-    kQ3XDevicePixelTypeIndexed8                 = 7,                // 8 bit colour table index
-    kQ3XDevicePixelTypeIndexed4                 = 8,                // 4 bit colour table index
-    kQ3XDevicePixelTypeIndexed2                 = 9,                // 2 bit colour table index
-    kQ3XDevicePixelTypeIndexed1                 = 10                // 1 bit colour table index
+/*!
+ *  @enum
+ *      TQ3XDevicePixelType
+ *  @discussion
+ *      Draw Context pixel type. 16/32-bit pixel types use the native
+ *      byte order for integers of that size.
+ *
+ *  @constant kQ3XDevicePixelTypeInvalid      Invalid pixel format.
+ *  @constant kQ3XDevicePixelTypeRGB32        X:8, R:8, G:8, B:8.
+ *  @constant kQ3XDevicePixelTypeARGB32       A:8, R:8, G:8, B:8.
+ *  @constant kQ3XDevicePixelTypeRGB24             R:8, G:8, B:8.
+ *  @constant kQ3XDevicePixelTypeRGB16        X:1, R:5, G:5, B:5.
+ *  @constant kQ3XDevicePixelTypeARGB16       A:1, R:5, G:5, B:5.
+ *  @constant kQ3XDevicePixelTypeRGB16_565         R:5, G:6, B:5.
+ *  @constant kQ3XDevicePixelTypeIndexed8     8 bit colour table index (unupported).
+ *  @constant kQ3XDevicePixelTypeIndexed4     4 bit colour table index (unupported).
+ *  @constant kQ3XDevicePixelTypeIndexed2     2 bit colour table index (unupported).
+ *  @constant kQ3XDevicePixelTypeIndexed1     1 bit colour table index (unupported).
+ */
+typedef enum TQ3XDevicePixelType {
+    kQ3XDevicePixelTypeInvalid                  = 0,
+    kQ3XDevicePixelTypeRGB32                    = 1,
+    kQ3XDevicePixelTypeARGB32                   = 2,
+    kQ3XDevicePixelTypeRGB24                    = 3,
+    kQ3XDevicePixelTypeRGB16                    = 4,
+    kQ3XDevicePixelTypeARGB16                   = 5,
+    kQ3XDevicePixelTypeRGB16_565                = 6,
+    kQ3XDevicePixelTypeIndexed8                 = 7,
+    kQ3XDevicePixelTypeIndexed4                 = 8,
+    kQ3XDevicePixelTypeIndexed2                 = 9,
+    kQ3XDevicePixelTypeIndexed1                 = 10,
+    kQ3XDevicePixelTypeSize32                   = 0xFFFFFFFF
 } TQ3XDevicePixelType;
 
 
-// Draw region clip mask state
-typedef enum {
+/*!
+ *  @enum
+ *      TQ3XClipMaskState
+ *  @discussion
+ *      Draw Context clip mask state.
+ *
+ *  @constant kQ3XClipMaskFullyExposed        The draw context is not exposed.
+ *  @constant kQ3XClipMaskPartiallyExposed    The draw context is partially exposed.
+ *  @constant kQ3XClipMaskNotExposed          The draw context is fully exposed.
+ */
+typedef enum TQ3XClipMaskState {
     kQ3XClipMaskFullyExposed                    = 0,
     kQ3XClipMaskPartiallyExposed                = 1,
-    kQ3XClipMaskNotExposed                      = 2
+    kQ3XClipMaskNotExposed                      = 2,
+    kQ3XClipMaskSize32                          = 0xFFFFFFFF
 } TQ3XClipMaskState;
 
 
-// Draw region services mask
-typedef enum {
-    kQ3XDrawRegionServicesNoneFlag              = 0,
-    kQ3XDrawRegionServicesClearFlag             = (1 << 0),
-    kQ3XDrawRegionServicesDontLockDDSurfaceFlag = (1 << 1)
+/*!
+ *  @enum
+ *      TQ3XDrawRegionServicesMasks
+ *  @discussion
+ *      Draw Context services mask flags.
+ *
+ *  @constant kQ3XDrawRegionServicesNoneFlag                 No services are supported.
+ *  @constant kQ3XDrawRegionServicesClearFlag                Clearing is supported (unsupported).
+ *  @constant kQ3XDrawRegionServicesDontLockDDSurfaceFlag    DirectDraw locking is supported (unsupported).
+ */
+typedef enum TQ3XDrawRegionServicesMasks {
+    kQ3XDrawRegionServicesNoneFlag                 = 0,
+    kQ3XDrawRegionServicesClearFlag                = (1 << 0),
+    kQ3XDrawRegionServicesDontLockDDSurfaceFlag    = (1 << 1),
+    kQ3XDrawRegionServicesSize32                   = 0xFFFFFFFF
 } TQ3XDrawRegionServicesMasks;
 
 
-// Renderer methods
-enum {
+/*!
+ *  @enum
+ *      TQ3XMethodTypeRenderer
+ *  @discussion
+ *      Renderer method types.
+ *
+ *  @constant kQ3XMethodTypeRendererIsInteractive                               Is the renderer interactive?
+ *  @constant kQ3XMethodTypeRendererModalConfigure                              Display a application-modal configure dialog.
+ *  @constant kQ3XMethodTypeRendererGetNickNameString                           Get the user-level renderer name.
+ *  @constant kQ3XMethodTypeRendererGetConfigurationData                        Get renderer configuration data.
+ *  @constant kQ3XMethodTypeRendererSetConfigurationData                        Set renderer configuration data.
+ *  @constant kQ3XMethodTypeRendererStartFrame                                  Start a frame.
+ *  @constant kQ3XMethodTypeRendererStartPass                                   Start a pass within a frame.
+ *  @constant kQ3XMethodTypeRendererFlushFrame                                  Flush a frame.
+ *  @constant kQ3XMethodTypeRendererEndPass                                     End a pass within a frame.
+ *  @constant kQ3XMethodTypeRendererEndFrame                                    End a frame.
+ *  @constant kQ3XMethodTypeRendererCancel                                      Cancel rendering.
+ *  @constant kQ3XMethodTypeRendererPush                                        Push the renderer state.
+ *  @constant kQ3XMethodTypeRendererPop                                         Pop the renderer state.
+ *  @constant kQ3XMethodTypeRendererIsBoundingBoxVisible                        Is a local-coordinate bounding box visible to the camera?
+ *  @constant kQ3XMethodTypeRendererSubmitGeometryMetaHandler                   Meta-handler for geometry methods.
+ *  @constant kQ3XMethodTypeRendererSubmitCameraMetaHandler                     Meta-handler for camera methods.
+ *  @constant kQ3XMethodTypeRendererSubmitLightMetaHandler                      Meta-handler for light methods.
+ *  @constant kQ3XMethodTypeRendererUpdateStyleMetaHandler                      Meta-handler for style methods.
+ *  @constant kQ3XMethodTypeRendererUpdateAttributeMetaHandler                  Meta-handler for attribute methods.
+ *  @constant kQ3XMethodTypeRendererUpdateShaderMetaHandler                     Meta-handler for shader methods.
+ *  @constant kQ3XMethodTypeRendererUpdateMatrixMetaHandler                     Meta-handler for matrix methods.
+ *  @constant kQ3XMethodTypeRendererUpdateMatrixLocalToWorld                    The local-to-world matrix state has changed.
+ *  @constant kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse             The inverse-local-to-world matrix state has changed.
+ *  @constant kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose    The inverse-transpose-local-to-world matrix state has changed.
+ *  @constant kQ3XMethodTypeRendererUpdateMatrixLocalToCamera                   The local-to-camera matrix state has changed.
+ *  @constant kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum                  The local-to-frustum matrix state has changed.
+ *  @constant kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum                  The world-to-world matrix state has changed.
+ */
+typedef enum TQ3XMethodTypeRenderer {
     kQ3XMethodTypeRendererIsInteractive                             = Q3_METHOD_TYPE('i', 's', 'i', 'n'),
     kQ3XMethodTypeRendererModalConfigure                            = Q3_METHOD_TYPE('r', 'd', 'm', 'c'),
     kQ3XMethodTypeRendererGetNickNameString                         = Q3_METHOD_TYPE('r', 'd', 'n', 's'),
@@ -210,7 +363,7 @@ enum {
     kQ3XMethodTypeRendererUpdateMatrixLocalToCamera                 = Q3_METHOD_TYPE('u', 'l', 'c', 'x'),
     kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum                = Q3_METHOD_TYPE('u', 'l', 'f', 'x'),
     kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum                = Q3_METHOD_TYPE('u', 'w', 'f', 'x')
-};
+} TQ3XMethodTypeRenderer;
 
 
 /*!
@@ -223,12 +376,12 @@ enum {
  *  @constant kQATextureFilter_Mid     Perform basic filtering.
  *  @constant kQATextureFilter_Best    Perform high quality filtering.
  */
-typedef unsigned long TQ3TextureFilter;
-enum {
+typedef enum TQ3TextureFilter {
     kQATextureFilter_Fast                       = 0,
     kQATextureFilter_Mid                        = 1,
-    kQATextureFilter_Best                       = 2
-};
+    kQATextureFilter_Best                       = 2,
+    kQATextureFilter_Size32                     = 0xFFFFFFFF
+} TQ3TextureFilter;
 
 
 /*!
@@ -253,8 +406,7 @@ enum {
  *  @constant kQAVendor_PurpleShark         Purple Shark D3D shim.
  *  @constant kQAVendor_VillageTronic       VillageTronic.
  */
-typedef long TQ3RaveVendorID;
-enum {
+typedef enum TQ3RaveVendorID {
     kQAVendor_BestChoice                        = -1,
     kQAVendor_Apple                             = 0,
     kQAVendor_ATI                               = 1,
@@ -269,8 +421,9 @@ enum {
     kQAVendor_NumberNine                        = 10,
     kQAVendor_MicroConversions                  = 11,
     kQAVendor_PurpleShark                       = 12,
-    kQAVendor_VillageTronic                     = 14
-};
+    kQAVendor_VillageTronic                     = 14,
+    kQAVendor_Size32                            = 0xFFFFFFFF
+} TQ3RaveVendorID;
 
 
 /*!
@@ -284,13 +437,13 @@ enum {
  *  @constant kQAEngine_AppleHW2    Another Apple accelerator.
  *  @constant kQAEngine_AppleHW3    Yet another Apple accelerator.
  */
-typedef long TQ3RaveEngineID;
-enum {
+typedef enum TQ3RaveEngineID {
     kQAEngine_AppleSW                           = 0,
     kQAEngine_AppleHW                           = -1,
     kQAEngine_AppleHW2                          = 1,
-    kQAEngine_AppleHW3                          = 2
-};
+    kQAEngine_AppleHW3                          = 2,
+    kQAEngine_Size32                            = 0xFFFFFFFF
+} TQ3RaveEngineID;
 
 
 
@@ -299,19 +452,32 @@ enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Renderer types
-typedef TQ3Uns32                                TQ3XAttributeMask;
+// Renderer types (deprecated)
 typedef TQ3Uns32                                TQ3XDrawContextValidation;
 typedef TQ3Uns32                                TQ3XDrawRegionServices;
 typedef struct OpaqueTQ3XDrawRegion             *TQ3XDrawRegion;
 
 
-// RAVE types (deprecated, ignore)
+// RAVE types (deprecated)
 typedef struct TQADrawContext                   TQADrawContext;
 typedef struct TQAEngine                        TQAEngine;
 
 
-// Draw region color descriptor
+/*!
+ *  @struct
+ *      TQ3XColorDescriptor
+ *  @discussion
+ *      Draw region color descriptor.
+ *
+ *  @field redShift         Shift for red bits.
+ *  @field redMask          Mask for red bits.
+ *  @field greenShift       Shift for green bits.
+ *  @field greenMask        Mask for green bits.
+ *  @field blueShift        Shift for blue bits.
+ *  @field blueMask         Mask for blue bits.
+ *  @field alphaShift       Shift for alpha bits.
+ *  @field alphaMask        Mask for alpha bits.
+ */
 typedef struct TQ3XColorDescriptor {
     TQ3Uns32                                    redShift;
     TQ3Uns32                                    redMask;
@@ -324,7 +490,22 @@ typedef struct TQ3XColorDescriptor {
 } TQ3XColorDescriptor;
 
 
-// Draw region descriptor
+/*!
+ *  @struct
+ *      TQ3XDrawRegionDescriptor
+ *  @discussion
+ *      Draw region descriptor.
+ *
+ *  @field width            Width of draw region.
+ *  @field height           Height of draw region.
+ *  @field rowBytes         Row stride of draw region.
+ *  @field pixelSize        Pixel size of draw region.
+ *  @field pixelType        Pixel type of draw region.
+ *  @field colorDescriptor  Color descriptor of draw region.
+ *  @field bitOrder         Bit order of draw region.
+ *  @field byteOrder        Byte order of draw region.
+ *  @field clipMask         Clipping mask for draw region (may be NULL).
+ */
 typedef struct TQ3XDrawRegionDescriptor {
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -338,20 +519,78 @@ typedef struct TQ3XDrawRegionDescriptor {
 } TQ3XDrawRegionDescriptor;
 
 
-// Deprecated methods (ignore)
+/*!
+ *  @typedef
+ *      TQ3RaveDestroyCallback
+ *  @discussion
+ *      RAVE destroy callback.
+ *
+ *      Not supported in Quesa.
+ *
+ *  @param theRenderer      The renderer being destroyed.
+ */
 typedef Q3_CALLBACK_API_C(void,                TQ3RaveDestroyCallback)(
                             TQ3RendererObject   theRenderer);
 
+
+/*!
+ *  @typedef
+ *      TQ3XDrawRegionRendererPrivateDeleteMethod
+ *  @discussion
+ *      Draw region private delete callback.
+ *
+ *      Not supported in Quesa.
+ *
+ *  @param rendererPrivate  The private data to delete.
+ */
 typedef Q3_CALLBACK_API_C(void,                TQ3XDrawRegionRendererPrivateDeleteMethod)(
                             void                *rendererPrivate);
 
 
-// Renderer methods
+/*!
+ *  @typedef
+ *      TQ3XRendererGetNickNameStringMethod
+ *  @discussion
+ *      Get the renderer "nick name".
+ *
+ *      The "nick name" is the user-visible name for the renderer, and should be
+ *      suitable for display in a menu or window (e.g., it may need to be localised
+ *      for the current language).
+ *
+ *      If dataBuffer is NULL, actualDataSize returns the size in bytes of a buffer
+ *      which could receive the entire renderer nick name.
+ *
+ *      This method is optional.
+ *
+ *  @param dataBuffer       Buffer to receive the renderer nick name.
+ *  @param bufferSize       The number of bytes pointed to by dataBuffer.
+ *  @param actualDataSize   Receives the number of bytes written to dataBuffer.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererGetNickNameStringMethod)(
                             unsigned char       *dataBuffer,
                             TQ3Uns32            bufferSize,
                             TQ3Uns32            *actualDataSize);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererGetConfigurationDataMethod
+ *  @discussion
+ *      Get the renderer configuration data.
+ *
+ *      If dataBuffer is NULL, actualDataSize returns the size in bytes of a buffer
+ *      which could receive the renderer data.
+ *
+ *      This method is optional.
+ *
+ *  @param theRenderer      The renderer object.
+ *  @param dataBuffer       Buffer to receive the renderer configuration data.
+ *  @param bufferSize       The number of bytes pointed to by dataBuffer.
+ *  @param actualDataSize   Receives the number of bytes written to dataBuffer.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererGetConfigurationDataMethod)(
                             TQ3RendererObject   theRenderer,
                             unsigned char       *dataBuffer,
@@ -359,107 +598,519 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererGetConfigurationDataM
                             TQ3Uns32            *actualDataSize,
                             void                *rendererPrivate);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererSetConfigurationDataMethod
+ *  @discussion
+ *      Set the renderer configuration data.
+ *
+ *      This method is optional.
+ *
+ *  @param theRenderer      The renderer object.
+ *  @param dataBuffer       Buffer containing the renderer configuration data.
+ *  @param bufferSize       The number of bytes pointed to by dataBuffer.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSetConfigurationDataMethod)(
                             TQ3RendererObject   theRenderer,
                             unsigned char       *dataBuffer,
                             TQ3Uns32            bufferSize,
                             void                *rendererPrivate);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererStartFrameMethod
+ *  @discussion
+ *      Invoked by Q3View_StartRendering to start a new frame.
+ *
+ *      The renderer should prepare to render another frame. This may require
+ *      the initialisation of per-frame state, and the clearing of the draw
+ *      context (depending on the draw context's clear method).
+ *
+ *      This method is required.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param theDrawContext   The draw context associated with the view.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererStartFrameMethod)(
                             TQ3ViewObject           theView,
                             void                    *rendererPrivate,
                             TQ3DrawContextObject    theDrawContext);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererStartPassMethod
+ *  @discussion
+ *      Invoked by Q3View_StartRendering to start a new pass.
+ *
+ *      The renderer should prepare to render another pass of the current frame.
+ *      This may require the initialisation of per-pass state, and setting up
+ *      the renderer's camera and light representations for rendering.
+ *
+ *      This method is required.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param theCamera        The camera associated with the view.
+ *  @param theLights        The light group associated with the view.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererStartPassMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate,
                             TQ3CameraObject     theCamera,
                             TQ3GroupObject      theLights);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererFlushFrameMethod
+ *  @discussion
+ *      Invoked by Q3View_Flush to flush rendering.
+ *
+ *      The renderer should flush the rendering of objects which have been submitted
+ *      so far, and produce an image from the currently accumulated drawing state.
+ *
+ *      This method is optional and should only be implemented by asynchronous renderers.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param theDrawContext   The draw context associated with the view.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererFlushFrameMethod)(
                             TQ3ViewObject           theView,
                             void                    *rendererPrivate,
                             TQ3DrawContextObject    theDrawContext);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererEndPassMethod
+ *  @discussion
+ *      Invoked by Q3View_EndRendering to end the current pass.
+ *
+ *      The renderer should return kQ3ViewStatusRetraverse if the view should
+ *      loop and submit another pass for the current frame, or kQ3ViewStatusDone
+ *      if the scene has been rendered successfully.
+ *
+ *      If rendering was cancelled, this method will not be called and the view
+ *      will return kQ3ViewStatusCancelled to the application.
+ *
+ *      This method is required.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @result                 The result for the view submit loop.
+ */
 typedef Q3_CALLBACK_API_C(TQ3ViewStatus,       TQ3XRendererEndPassMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererEndFrameMethod
+ *  @discussion
+ *      Invoked by Q3View_Sync via Q3View_EndRendering to end the current frame.
+ *
+ *      This method is optional and should only be implemented by asynchronous renderers.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param theDrawContext   The draw context associated with the view.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererEndFrameMethod)(
                             TQ3ViewObject           theView,
                             void                    *rendererPrivate,
                             TQ3DrawContextObject    theDrawContext);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererCancelMethod
+ *  @discussion
+ *      Cancel the current rendering frame.
+ *
+ *      This method is invoked if a frame is cancelled within a rendering loop,
+ *      and allows renderers to clean up as the current render is terminated.
+ *
+ *      This method is required.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ */
 typedef Q3_CALLBACK_API_C(void,                TQ3XRendererCancelMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererPushMethod
+ *  @discussion
+ *      Push the current renderer state.
+ *
+ *      Renderers which implement the RendererPush/RendererPop methods must
+ *      maintain their own view state stack while rendering. If a renderer
+ *      does not supply these methods, Quesa will automatically send the
+ *      required state changes to implement a push/pop operation.
+ *
+ *      This method is optional.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererPushMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererPopMethod
+ *  @discussion
+ *      Pop the current renderer state.
+ *
+ *      Renderers which implement the RendererPush/RendererPop methods must
+ *      maintain their own view state stack while rendering. If a renderer
+ *      does not supply these methods, Quesa will automatically send the
+ *      required state changes to implement a push/pop operation.
+ *
+ *      This method is optional.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererPopMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererIsBoundingBoxVisibleMethod
+ *  @discussion
+ *      Test a local-coordinate bounding box for visibility.
+ *
+ *      Renderers should return a TQ3Boolean indicating if the bounding box
+ *      would be partially or wholly contained within the viewing frustum
+ *      for this frame.
+ *
+ *      This may simply require testing against the viewing frustum volume,
+ *      or more complex tests may be required if objects outside the frustum
+ *      are able to contribute to the scene (e.g., via reflections).
+ *
+ *      This method is optional.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param theBounds        The bounding box to test.
+ *  @result                 The visibility of the bounding box.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3XRendererIsBoundingBoxVisibleMethod)(
                             TQ3ViewObject           theView,
                             void                    *rendererPrivate,
                             const TQ3BoundingBox    *theBounds);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererSubmitGeometryMetaHandlerMethod
+ *  @discussion
+ *      Return the submit method for a geometry type.
+ *
+ *      Renderers should return a TQ3XRendererSubmitGeometryMetaHandlerMethod to
+ *      be invoked when a geometry of the supplied type is submitted for rendering.
+ *      If a particular geometry type is not supported, return NULL.
+ *
+ *      Geometries which do not have their own submit method will be decomposed to
+ *      more primitive geometry types, which will then be submitted as one of the
+ *      following types (which all renderers must support):
+ *
+ *          kQ3GeometryTypeTriangle
+ *          kQ3GeometryTypeLine
+ *          kQ3GeometryTypePoint
+ *          kQ3GeometryTypeMarker
+ *          kQ3GeometryTypePixmapMarker
+ *
+ *      This method is required.
+ *
+ *  @param geometryType     The geometry type whose submit method is requested.
+ *  @result                 The submit method for geometries of type geometryType.
+ */
 typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitGeometryMetaHandlerMethod)(
                             TQ3ObjectType       geometryType);
-                            
+
+
+/*!
+ *  @typedef
+ *      TQ3XRendererSubmitGeometryMethod
+ *  @discussion
+ *      Submits a geometry object for rendering.
+ *
+ *      If a geometry object is submitted in retained mode, theGeometry will be
+ *      a valid geometry object and publicData will point to the public data
+ *      structure describing that object.
+ *
+ *      If a geometry is submitted in immediate mode, theGeometry will be NULL
+ *      and publicData will point to the data structure submitted for rendering.
+ *
+ *      Renderers should therefore try and render from the data contained in the
+ *      publicData structure, however a reference to the geometry object may be
+ *      useful (and can be retained if necessary, provided it is later released)
+ *      in some circumstances.
+ *
+ *      This method is required.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param theGeometry      The geometry object being submitted, or NULL.
+ *  @param publicData       The public data for the geometry being submitted.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitGeometryMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate,
                             TQ3GeometryObject   theGeometry,
                             const void          *publicData);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererSubmitCameraMetaHandlerMethod
+ *  @discussion
+ *      Return the submit method for a camera type.
+ *
+ *      Renderers should return a TQ3XRendererSubmitCameraMethod to be invoked when
+ *      a camera of the supplied type is used for rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param cameraType       The camera type whose submit method is requested.
+ *  @result                 The submit method for cameras of type cameraType.
+ */
 typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitCameraMetaHandlerMethod)(
                             TQ3ObjectType       cameraType);
-                            
+
+
+/*!
+ *  @typedef
+ *      TQ3XRendererSubmitCameraMethod
+ *  @discussion
+ *      Submits a camera object for rendering.
+ *
+ *      Note that the camera used for rendering is also passed to the
+ *      StartPass method.
+ *
+ *      This method is required.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param theCamera        The camera object being submitted, or NULL.
+ *  @param publicData       The public data for the camera being submitted.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitCameraMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate,
                             TQ3CameraObject     theCamera,
                             const void          *publicData);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererSubmitLightMetaHandlerMethod
+ *  @discussion
+ *      Return the submit method for a light type.
+ *
+ *      Renderers should return a TQ3XRendererSubmitLightMethod to be invoked when
+ *      a light of the supplied type is used for rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param cameraType       The camera type whose submit method is requested.
+ *  @result                 The submit method for cameras of type cameraType.
+ */
 typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitLightMetaHandlerMethod)(
                             TQ3ObjectType       lightType);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererSubmitLightMethod
+ *  @discussion
+ *      Submits a light object for rendering.
+ *
+ *      Note that the light group used for rendering is also passed to the
+ *      StartPass method.
+ *
+ *      This method is required.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param theLight         The light object being submitted, or NULL.
+ *  @param publicData       The public data for the light being submitted.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitLightMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate,
                             TQ3LightObject      theLight,
                             const void          *publicData);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererUpdateStyleMetaHandlerMethod
+ *  @discussion
+ *      Return the update method for a style type.
+ *
+ *      Renderers should return a TQ3XRendererUpdateStyleMethod to be invoked when
+ *      the state of the supplied style type is changed while rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param styleType        The style type whose update method is requested.
+ *  @result                 The update method for styles of type styleType.
+ */
 typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateStyleMetaHandlerMethod)(
                             TQ3ObjectType       styleType);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererUpdateStyleMethod
+ *  @discussion
+ *      Update the the state of a style while rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param publicData       The public data for the style being submitted.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateStyleMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate,
                             const void          *publicData);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererUpdateAttributeMetaHandlerMethod
+ *  @discussion
+ *      Return the update method for an attribute type.
+ *
+ *      Renderers should return a TQ3XRendererUpdateAttributeMethod to be invoked when
+ *      the state of the supplied attribute type is changed while rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param attributeType    The attribute type whose update method is requested.
+ *  @result                 The update method for attributes of type attributeType.
+ */
 typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateAttributeMetaHandlerMethod)(
                             TQ3AttributeType    attributeType);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererUpdateAttributeMethod
+ *  @discussion
+ *      Update the the state of an attribute while rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param publicData       The public data for the attribute being submitted.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateAttributeMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate,
                             const void          *publicData);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererUpdateShaderMetaHandlerMethod
+ *  @discussion
+ *      Return the update method for a shader type.
+ *
+ *      Renderers should return a TQ3XRendererUpdateShaderMethod to be invoked when
+ *      the state of the supplied shader type is changed while rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param shaderType       The shader type whose update method is requested.
+ *  @result                 The update method for shaders of type shaderType.
+ */
 typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateShaderMetaHandlerMethod)(
                             TQ3ObjectType       shaderType);
 
+
+/*!
+ *  @typedef
+ *      TQ3XRendererUpdateShaderMethod
+ *  @discussion
+ *      Update the the state of a shader while rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param publicData       The public data for the shader being submitted.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateShaderMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate,
                             TQ3Object           *theShader);
 
-typedef TQ3XMetaHandler                     TQ3XRendererUpdateMatrixMetaHandlerMethod;
 
+/*!
+ *  @typedef
+ *      TQ3XRendererUpdateMatrixMetaHandlerMethod
+ *  @discussion
+ *      Return the update method for a matrix type.
+ *
+ *      Renderers should return a TQ3XRendererUpdateMatrixMethod to be invoked when
+ *      the state of the supplied matrix type is changed while rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param matrixType       The matrix type whose update method is requested.
+ *  @result                 The update method for matrices of type matrixType.
+ */
+typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateMatrixMetaHandlerMethod)(
+                            TQ3ObjectType       matrixType);
+
+
+/*!
+ *  @typedef
+ *      TQ3XRendererUpdateMatrixMethod
+ *  @discussion
+ *      Update the the state of a matrix while rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param theView          The view being rendered to.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @param publicData       The public data for the matrix being submitted.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateMatrixMethod)(
                             TQ3ViewObject       theView,
                             void                *rendererPrivate,
@@ -474,12 +1125,35 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateMatrixMethod)(
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
 
-// Renderer callbacks
+/*!
+ *  @typedef
+ *      TQ3MacOSDialogEventHandler
+ *  @discussion
+ *      Mac OS application event callback.
+ *
+ *      Modal renderer configure dialogs invoke this callback with events
+ *      which are not handled by the dialog. If the application handles
+ *      the event it should return kQ3True, or kQ3False to have the dialog
+ *      pass the event to the system unhandled.
+ *
+ *  @param theEvent         The event to process.
+ *  @result                 Did the application handle the event.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3MacOSDialogEventHandler)(
                             const EventRecord   *theEvent);
 
 
-// Mac OS dialog anchor
+/*!
+ *  @struct
+ *      TQ3DialogAnchor
+ *  @discussion
+ *      Mac OS dialog anchor.
+ *
+ *      Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+ *      dialog state to the renderer.
+ *
+ *  @field clientEventHandler    The application event handler.
+ */
 typedef struct TQ3DialogAnchor {
     TQ3MacOSDialogEventHandler                  clientEventHandler;
 } TQ3DialogAnchor;
@@ -495,7 +1169,17 @@ typedef struct TQ3DialogAnchor {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_WIN32
 
-// Windows dialog anchor
+/*!
+ *  @struct
+ *      TQ3DialogAnchor
+ *  @discussion
+ *      Windows dialog anchor.
+ *
+ *      Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+ *      dialog state to the renderer.
+ *
+ *  @field ownerWindow      The parent window of the configure dialog.
+ */
 typedef struct TQ3DialogAnchor {
     HWND                                        ownerWindow;
 } TQ3DialogAnchor;
@@ -511,7 +1195,17 @@ typedef struct TQ3DialogAnchor {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_UNIX
 
-// Unix dialog anchor
+/*!
+ *  @struct
+ *      TQ3DialogAnchor
+ *  @discussion
+ *      Unix dialog anchor.
+ *
+ *      Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+ *      dialog state to the renderer.
+ *
+ *  @field notUsed          Not used.
+ */
 typedef struct TQ3DialogAnchor {
     void                                        *notUsed;
 } TQ3DialogAnchor;
@@ -527,7 +1221,17 @@ typedef struct TQ3DialogAnchor {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_BE
 
-// Be dialog anchor
+/*!
+ *  @struct
+ *      TQ3DialogAnchor
+ *  @discussion
+ *      Be dialog anchor.
+ *
+ *      Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+ *      dialog state to the renderer.
+ *
+ *  @field ownerWindow      The parent window of the configure dialog.
+ */
 typedef struct TQ3DialogAnchor {
     BWindow                                     *ownerWindow;
 } TQ3DialogAnchor;
@@ -543,7 +1247,17 @@ typedef struct TQ3DialogAnchor {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_COCOA
 
-// Cocoa dialog anchor
+/*!
+ *  @struct
+ *      TQ3DialogAnchor
+ *  @discussion
+ *      Cocoa dialog anchor.
+ *
+ *      Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+ *      dialog state to the renderer.
+ *
+ *  @field notUsed          Not used.
+ */
 typedef struct TQ3DialogAnchor {
     void                                        *notUsed;
 } TQ3DialogAnchor;
@@ -557,8 +1271,26 @@ typedef struct TQ3DialogAnchor {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Must be declared after TQ3DialogAnchor, since was mistakenly declared in
-// QD3D as a pass by value parameter rather than pass by reference.
+/*!
+ *  @typedef
+ *      TQ3XRendererModalConfigureMethod
+ *  @discussion
+ *      Display a modal configure dialog for the renderer.
+ *
+ *      If the renderer provides a user interface for adjusting its preferences,
+ *      a modal configure dialog can be displayed by this method.
+ *
+ *      The dialog should contain OK and Cancel buttons, and return the selected
+ *      button through the wasCancelled parameter.
+ *
+ *      This method is optional.
+ *
+ *  @param theRenderer      The renderer whose configure dialog is to be displayed.
+ *  @param dialogAnchor     Platform-specific dialog data.
+ *  @param wasCancelled     Receives the OK/Cancel state of the dialog.
+ *  @param rendererPrivate  Renderer-specific instance data.
+ *  @result                 Success or failure of the callback.
+ */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererModalConfigureMethod)(
                             TQ3RendererObject   theRenderer,
                             TQ3DialogAnchor     dialogAnchor,
@@ -576,13 +1308,13 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererModalConfigureMethod)
  *  @function
  *      Q3Renderer_NewFromType
  *  @discussion
- *      One-line description of this function.
+ *      Instantiate a new renderer by type.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Built-in renderer types include kQ3RendererTypeInteractive for a shaded
+ *      renderer, and kQ3RendererTypeWireFrame for a wire-frame renderer.
  *
- *  @param rendererObjectType Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param rendererObjectType    The class type of the renderer to create.
+ *  @result                      The new renderer object.
  */
 Q3_EXTERN_API_C ( TQ3RendererObject  )
 Q3Renderer_NewFromType (
@@ -595,13 +1327,10 @@ Q3Renderer_NewFromType (
  *  @function
  *      Q3Renderer_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the class type of a renderer object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param renderer         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to query.
+ *  @result                 The type of the renderer.
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Renderer_GetType (
@@ -614,13 +1343,16 @@ Q3Renderer_GetType (
  *  @function
  *      Q3Renderer_IsInteractive
  *  @discussion
- *      One-line description of this function.
+ *      Is a renderer "interactive"?
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      An interactive renderer should be able to render frames at a more or less
+ *      interactive rate, allowing the user to manipulate the renderer in real-time.
  *
- *  @param renderer         Description of the parameter.
- *  @result                 Description of the function result.
+ *      Typically, renderers using hardware-acceleration would report as interactive
+ *      while software-based renderers (e.g., ray-tracers) would not.
+ *
+ *  @param renderer         The renderer to query.
+ *  @result                 Is the renderer interactive?
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Renderer_IsInteractive (
@@ -633,13 +1365,10 @@ Q3Renderer_IsInteractive (
  *  @function
  *      Q3Renderer_HasModalConfigure
  *  @discussion
- *      One-line description of this function.
+ *      Does a renderer have a modal configure dialog?
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param renderer         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to query.
+ *  @result                 Does the renderer have a modal configure dialog?
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Renderer_HasModalConfigure (
@@ -652,15 +1381,22 @@ Q3Renderer_HasModalConfigure (
  *  @function
  *      Q3Renderer_ModalConfigure
  *  @discussion
- *      One-line description of this function.
+ *      Invoke a renderer's modal configure dialog.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the renderer provides a user interface for adjusting its preferences,
+ *      a modal configure dialog can be displayed by this function.
  *
- *  @param renderer         Description of the parameter.
- *  @param dialogAnchor     Description of the parameter.
- *  @param cancelled        Description of the parameter.
- *  @result                 Description of the function result.
+ *      The cancel/accept state of the dialog is returned through the cancelled
+ *      parameter.
+ *
+ *      After a configure dialog has been accepted, the current preferences
+ *      should be retrieved with Q3Renderer_GetConfigurationData and stored by
+ *      the application for later recall.
+
+ *  @param theRenderer      The renderer whose configure dialog is to be displayed.
+ *  @param dialogAnchor     Platform-specific dialog data.
+ *  @param cancelled        Receives the OK/Cancel state of the dialog.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Renderer_ModalConfigure (
@@ -675,14 +1411,14 @@ Q3Renderer_ModalConfigure (
  *  @function
  *      Q3RendererClass_GetNickNameString
  *  @discussion
- *      One-line description of this function.
+ *      Get the "nick name" of a renderer class.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The "nick name" is the user-visible name for the renderer, and is
+ *      suitable for display in a menu or window.
  *
- *  @param rendererClassType Description of the parameter.
- *  @param rendererClassString Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param rendererClassType      The class type of the renderer to query.
+ *  @param rendererClassString    Receives the nick name of the renderer.
+ *  @result                       Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RendererClass_GetNickNameString (
@@ -696,16 +1432,24 @@ Q3RendererClass_GetNickNameString (
  *  @function
  *      Q3Renderer_GetConfigurationData
  *  @discussion
- *      One-line description of this function.
+ *      Get the configuration data for a renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Configuration data should be saved by the application in a manner appropriate
+ *      for the current platform (e.g., the Registry on Windows or a .plist file on
+ *      the Mac), tagging it with the renderer's type for later identification.
  *
- *  @param renderer         Description of the parameter.
- *  @param dataBuffer       Description of the parameter.
- *  @param bufferSize       Description of the parameter.
- *  @param actualDataSize   Description of the parameter.
- *  @result                 Description of the function result.
+ *      If dataBuffer is NULL, the size of data required to store the configuration
+ *      data will be returned in actualDataSize.
+ *
+ *      Otherwise bufferSize should be set to the number of bytes pointed to by
+ *      dataBuffer, and actualDataSize will receive the number of bytes written to
+ *      dataBuffer.
+ *
+ *  @param renderer         The renderer to query.
+ *  @param dataBuffer       Receives the renderer configuration data. May be NULL.
+ *  @param bufferSize       The number of bytes pointed to by dataBuffer. May be 0.
+ *  @param actualDataSize   Receives the number of bytes required for, or written to, dataBuffer.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Renderer_GetConfigurationData (
@@ -721,15 +1465,15 @@ Q3Renderer_GetConfigurationData (
  *  @function
  *      Q3Renderer_SetConfigurationData
  *  @discussion
- *      One-line description of this function.
+ *      Set the configuration data for a renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The configuration must have been obtained with a previous call to
+ *      Q3Renderer_GetConfigurationData.
  *
- *  @param renderer         Description of the parameter.
- *  @param dataBuffer       Description of the parameter.
- *  @param bufferSize       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to update.
+ *  @param dataBuffer       The configuration data for the renderer.
+ *  @param bufferSize       The number of bytes pointed to by dataBuffer.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Renderer_SetConfigurationData (
@@ -744,14 +1488,13 @@ Q3Renderer_SetConfigurationData (
  *  @function
  *      Q3InteractiveRenderer_SetCSGEquation
  *  @discussion
- *      One-line description of this function.
+ *      Set the CSG equation for the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param equation         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to update.
+ *  @param equation         The new CSG equation.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetCSGEquation (
@@ -765,14 +1508,13 @@ Q3InteractiveRenderer_SetCSGEquation (
  *  @function
  *      Q3InteractiveRenderer_GetCSGEquation
  *  @discussion
- *      One-line description of this function.
+ *      Get the CSG equation from the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param equation         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to query.
+ *  @param equation         Receives the CSG equation.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetCSGEquation (
@@ -786,15 +1528,14 @@ Q3InteractiveRenderer_GetCSGEquation (
  *  @function
  *      Q3InteractiveRenderer_SetPreferences
  *  @discussion
- *      One-line description of this function.
+ *      Set the RAVE preferences for the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param vendorID         Description of the parameter.
- *  @param engineID         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to update.
+ *  @param vendorID         The new RAVE vendor ID.
+ *  @param engineID         The new RAVE engine ID.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetPreferences (
@@ -809,15 +1550,14 @@ Q3InteractiveRenderer_SetPreferences (
  *  @function
  *      Q3InteractiveRenderer_GetPreferences
  *  @discussion
- *      One-line description of this function.
+ *      Get the RAVE preferences from the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param vendorID         Description of the parameter.
- *  @param engineID         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to query.
+ *  @param vendorID         Receives the RAVE vendor ID.
+ *  @param engineID         Receives the RAVE engine ID.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetPreferences (
@@ -832,14 +1572,13 @@ Q3InteractiveRenderer_GetPreferences (
  *  @function
  *      Q3InteractiveRenderer_SetDoubleBufferBypass
  *  @discussion
- *      One-line description of this function.
+ *      Set the double-buffer bypass hint for the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param bypass           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to update.
+ *  @param bypass           The double-buffer bypass hint.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetDoubleBufferBypass (
@@ -853,14 +1592,13 @@ Q3InteractiveRenderer_SetDoubleBufferBypass (
  *  @function
  *      Q3InteractiveRenderer_GetDoubleBufferBypass
  *  @discussion
- *      One-line description of this function.
+ *      Get the double-buffer bypass hint from the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param bypass           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to query.
+ *  @param bypass           Receives the double-buffer bypass hint.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetDoubleBufferBypass (
@@ -874,14 +1612,13 @@ Q3InteractiveRenderer_GetDoubleBufferBypass (
  *  @function
  *      Q3InteractiveRenderer_SetRAVEContextHints
  *  @discussion
- *      One-line description of this function.
+ *      Set the RAVE context hints for the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param RAVEContextHints Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to update.
+ *  @param RAVEContextHints The RAVE context hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetRAVEContextHints (
@@ -895,14 +1632,13 @@ Q3InteractiveRenderer_SetRAVEContextHints (
  *  @function
  *      Q3InteractiveRenderer_GetRAVEContextHints
  *  @discussion
- *      One-line description of this function.
+ *      Get the RAVE context hints from the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param RAVEContextHints Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to query.
+ *  @param RAVEContextHints Receives the RAVE context hints.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetRAVEContextHints (
@@ -916,14 +1652,13 @@ Q3InteractiveRenderer_GetRAVEContextHints (
  *  @function
  *      Q3InteractiveRenderer_SetRAVETextureFilter
  *  @discussion
- *      One-line description of this function.
+ *      Set the RAVE texture filter for the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param raveTextureFilterValue Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer                  The renderer to update.
+ *  @param raveTextureFilterValue    The RAVE texture filter.
+ *  @result                          Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetRAVETextureFilter (
@@ -937,14 +1672,13 @@ Q3InteractiveRenderer_SetRAVETextureFilter (
  *  @function
  *      Q3InteractiveRenderer_GetRAVETextureFilter
  *  @discussion
- *      One-line description of this function.
+ *      Get the RAVE texture filter from the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param raveTextureFilterValue Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer                  The renderer to query.
+ *  @param raveTextureFilterValue    Receives the RAVE texture filter.
+ *  @result                          Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetRAVETextureFilter (
@@ -958,14 +1692,13 @@ Q3InteractiveRenderer_GetRAVETextureFilter (
  *  @function
  *      Q3InteractiveRenderer_CountRAVEDrawContexts
  *  @discussion
- *      One-line description of this function.
+ *      Count the RAVE contexts for the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param numRAVEContexts  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer         The renderer to query.
+ *  @param numRAVEContexts  Receives the number of RAVE contexts.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_CountRAVEDrawContexts (
@@ -979,17 +1712,16 @@ Q3InteractiveRenderer_CountRAVEDrawContexts (
  *  @function
  *      Q3InteractiveRenderer_GetRAVEDrawContexts
  *  @discussion
- *      One-line description of this function.
+ *      Get the RAVE contexts for the interactive renderer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param renderer         Description of the parameter.
- *  @param raveDrawContextList Description of the parameter.
- *  @param raveDrawingEnginesList Description of the parameter.
- *  @param numRAVEContexts  Description of the parameter.
- *  @param raveDestroyCallback Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param renderer                  The renderer to query.
+ *  @param raveDrawContextList       Receives the RAVE context list.
+ *  @param raveDrawingEnginesList    Receives the RAVE engine list.
+ *  @param numRAVEContexts           Receives the number of RAVE contexts.
+ *  @param raveDestroyCallback       The RAVE destroy callback.
+ *  @result                          Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetRAVEDrawContexts (
@@ -1006,15 +1738,24 @@ Q3InteractiveRenderer_GetRAVEDrawContexts (
  *  @function
  *      Q3XView_IdleProgress
  *  @discussion
- *      One-line description of this function.
+ *      Update the view's idle state while rendering.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Allows non-interactive renderers to update the view with their progress.
+ *      Progress should be passed as:
  *
- *  @param view             Description of the parameter.
- *  @param current          Description of the parameter.
- *  @param completed        Description of the parameter.
- *  @result                 Description of the function result.
+ *          0%   (theView,               0, maxValue);
+ *         ..%   (theView, 1 to maxValue-1, maxValue);
+ *        100%   (theView,        maxValue, maxValue);
+ *
+ *      Progress will be passed to the application callbacks registered with
+ *      Q3View_SetIdleMethod or Q3View_SetIdleProgressMethod.
+ *
+ *      This function should only be called from renderer plug-ins.
+ *
+ *  @param view             The view to notify.
+ *  @param current          The amount of work performed so far.
+ *  @param completed        The total amount of work which will be performed.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_IdleProgress (
@@ -1029,13 +1770,12 @@ Q3XView_IdleProgress (
  *  @function
  *      Q3XView_EndFrame
  *  @discussion
- *      One-line description of this function.
+ *      Indicate to a view that a frame has completed.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function should only be called from asynchronou renderer plug-ins.
  *
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param view             The view to notify.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_EndFrame (
@@ -1048,14 +1788,16 @@ Q3XView_EndFrame (
  *  @function
  *      Q3XAttributeSet_GetPointer
  *  @discussion
- *      One-line description of this function.
+ *      Get a pointer to the internal data structure for an attribute.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      For attributes of type kQ3AttributeTypeXXX, the internal attribute data
+ *      is currently identical to the data structured passed to Q3AttributeSet_Add.
  *
- *  @param attributeSet     Description of the parameter.
- *  @param attributeType    Description of the parameter.
- *  @result                 Description of the function result.
+ *      This function should only be called from renderer plug-ins.
+ *
+ *  @param attributeSet     The attribute set to query.
+ *  @param attributeType    The attribute type to locate.
+ *  @result                 A pointer to the internal attribute data if present, or NULL.
  */
 Q3_EXTERN_API_C ( void * )
 Q3XAttributeSet_GetPointer (
@@ -1069,13 +1811,12 @@ Q3XAttributeSet_GetPointer (
  *  @function
  *      Q3XAttributeSet_GetMask
  *  @discussion
- *      One-line description of this function.
+ *      Get a mask of the attributes contained in an attribute set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function should only be called from renderer plug-ins.
  *
- *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param attributeSet     The attribute set to query.
+ *  @result                 A mask indicating the attributes present in attributeSet.
  */
 Q3_EXTERN_API_C ( TQ3XAttributeMask  )
 Q3XAttributeSet_GetMask (
@@ -1088,14 +1829,13 @@ Q3XAttributeSet_GetMask (
  *  @function
  *      Q3XDrawContext_GetDrawRegion
  *  @discussion
- *      One-line description of this function.
+ *      Get the draw region for a draw context object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawContext      Description of the parameter.
- *  @param drawRegion       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param drawRegion       Receives the draw region for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetDrawRegion (
@@ -1109,13 +1849,12 @@ Q3XDrawContext_GetDrawRegion (
  *  @function
  *      Q3XDrawContext_ClearValidationFlags
  *  @discussion
- *      One-line description of this function.
+ *      Clear the validation flags for a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function should only be called from renderer plug-ins.
  *
- *  @param drawContext      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_ClearValidationFlags (
@@ -1128,14 +1867,13 @@ Q3XDrawContext_ClearValidationFlags (
  *  @function
  *      Q3XDrawContext_GetValidationFlags
  *  @discussion
- *      One-line description of this function.
+ *      Get the validation flags for a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function should only be called from renderer plug-ins.
  *
- *  @param drawContext      Description of the parameter.
- *  @param validationFlags  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param validationFlags  Receives the validation flags for a draw context.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetValidationFlags (
@@ -1149,14 +1887,13 @@ Q3XDrawContext_GetValidationFlags (
  *  @function
  *      Q3XDrawRegion_GetDeviceScaleX
  *  @discussion
- *      One-line description of this function.
+ *      Get the horizontal device size of a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param deviceScaleX     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param deviceScaleX     Receives the horizontal device size.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetDeviceScaleX (
@@ -1170,14 +1907,13 @@ Q3XDrawRegion_GetDeviceScaleX (
  *  @function
  *      Q3XDrawRegion_GetDeviceScaleY
  *  @discussion
- *      One-line description of this function.
+ *      Get the vertical device size of a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param deviceScaleY     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param deviceScaleY     Receives the vertical device size.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetDeviceScaleY (
@@ -1191,14 +1927,13 @@ Q3XDrawRegion_GetDeviceScaleY (
  *  @function
  *      Q3XDrawRegion_GetDeviceOffsetX
  *  @discussion
- *      One-line description of this function.
+ *      Get the horizontal device offset of a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param deviceOffsetX    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param deviceOffsetX    Receives the horizontal device offset.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetDeviceOffsetX (
@@ -1212,14 +1947,13 @@ Q3XDrawRegion_GetDeviceOffsetX (
  *  @function
  *      Q3XDrawRegion_GetDeviceOffsetY
  *  @discussion
- *      One-line description of this function.
+ *      Get the vertical device offset of a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param deviceOffsetX    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param deviceOffsetX    Receives the vertical device offset.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetDeviceOffsetY (
@@ -1233,14 +1967,13 @@ Q3XDrawRegion_GetDeviceOffsetY (
  *  @function
  *      Q3XDrawRegion_GetWindowScaleX
  *  @discussion
- *      One-line description of this function.
+ *      Get the horizontal window size of a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param windowScaleX     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param windowScaleX     Receives the horizontal window size.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetWindowScaleX (
@@ -1254,14 +1987,13 @@ Q3XDrawRegion_GetWindowScaleX (
  *  @function
  *      Q3XDrawRegion_GetWindowScaleY
  *  @discussion
- *      One-line description of this function.
+ *      Get the vertical window size of a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param windowScaleY     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param windowScaleY     Receives the vertical window size.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetWindowScaleY (
@@ -1275,14 +2007,13 @@ Q3XDrawRegion_GetWindowScaleY (
  *  @function
  *      Q3XDrawRegion_GetWindowOffsetX
  *  @discussion
- *      One-line description of this function.
+ *      Get the horizontal window offset of a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param windowOffsetX    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param windowOffsetX    Receives the horizontal window offset.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetWindowOffsetX (
@@ -1296,14 +2027,13 @@ Q3XDrawRegion_GetWindowOffsetX (
  *  @function
  *      Q3XDrawRegion_GetWindowOffsetY
  *  @discussion
- *      One-line description of this function.
+ *      Get the vertical window offset of a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param windowOffsetY    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param windowOffsetY    Receives the vertical window offset.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetWindowOffsetY (
@@ -1317,14 +2047,13 @@ Q3XDrawRegion_GetWindowOffsetY (
  *  @function
  *      Q3XDrawRegion_IsActive
  *  @discussion
- *      One-line description of this function.
+ *      Is a draw region active?
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param isActive         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param isActive         Receives the active status.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_IsActive (
@@ -1338,14 +2067,13 @@ Q3XDrawRegion_IsActive (
  *  @function
  *      Q3XDrawRegion_GetNextRegion
  *  @discussion
- *      One-line description of this function.
+ *      Get the next draw region from a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param nextDrawRegion   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param nextDrawRegion   Receives the next draw region.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetNextRegion (
@@ -1359,15 +2087,14 @@ Q3XDrawRegion_GetNextRegion (
  *  @function
  *      Q3XDrawRegion_Start
  *  @discussion
- *      One-line description of this function.
+ *      Start access to a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param services         Description of the parameter.
- *  @param descriptor       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to lock for access.
+ *  @param services         The draw region services.
+ *  @param descriptor       Receives the draw region descriptor.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_Start (
@@ -1382,16 +2109,15 @@ Q3XDrawRegion_Start (
  *  @function
  *      Q3XDrawRegion_StartAccessToImageBuffer
  *  @discussion
- *      One-line description of this function.
+ *      Start access to a draw region image buffer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param services         Description of the parameter.
- *  @param descriptor       Description of the parameter.
- *  @param image            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to lock for access.
+ *  @param services         The draw region services.
+ *  @param descriptor       Receives the draw region descriptor.
+ *  @param image            Receives the draw region image buffer.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_StartAccessToImageBuffer (
@@ -1407,13 +2133,12 @@ Q3XDrawRegion_StartAccessToImageBuffer (
  *  @function
  *      Q3XDrawRegion_End
  *  @discussion
- *      One-line description of this function.
+ *      End access to a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to unlock.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_End (
@@ -1426,14 +2151,13 @@ Q3XDrawRegion_End (
  *  @function
  *      Q3XDrawRegion_GetDeviceTransform
  *  @discussion
- *      One-line description of this function.
+ *      Get the device transform for a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param deviceTransform  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param deviceTransform  Receives the device transform for the draw region.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetDeviceTransform (
@@ -1447,14 +2171,13 @@ Q3XDrawRegion_GetDeviceTransform (
  *  @function
  *      Q3XDrawRegion_GetClipFlags
  *  @discussion
- *      One-line description of this function.
+ *      Get the clip flags for a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param clipMaskState    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param clipMaskState    Receives the clip flags for the draw region.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetClipFlags (
@@ -1468,14 +2191,13 @@ Q3XDrawRegion_GetClipFlags (
  *  @function
  *      Q3XDrawRegion_GetClipMask
  *  @discussion
- *      One-line description of this function.
+ *      Get the clip mask for a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param clipMask         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param clipMask         Receives the clip mask for the draw region.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetClipMask (
@@ -1489,14 +2211,13 @@ Q3XDrawRegion_GetClipMask (
  *  @function
  *      Q3XDrawRegion_GetRendererPrivate
  *  @discussion
- *      One-line description of this function.
+ *      Get the private renderer data for a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param rendererPrivate  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param rendererPrivate  Receives the renderer private data.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetRendererPrivate (
@@ -1510,15 +2231,14 @@ Q3XDrawRegion_GetRendererPrivate (
  *  @function
  *      Q3XDrawRegion_SetRendererPrivate
  *  @discussion
- *      One-line description of this function.
+ *      Set the private renderer data for a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param rendererPrivate  Description of the parameter.
- *  @param deleteMethod     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to update.
+ *  @param rendererPrivate  The private renderer data for the draw region.
+ *  @param deleteMethod     The delete method to dispose of the renderer data.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_SetRendererPrivate (
@@ -1533,14 +2253,13 @@ Q3XDrawRegion_SetRendererPrivate (
  *  @function
  *      Q3XDrawRegion_SetUseDefaultRendererFlag
  *  @discussion
- *      One-line description of this function.
+ *      Set the use-default-renderer flag for a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param flag             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to update.
+ *  @param flag             The use-default-renderer state.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_SetUseDefaultRendererFlag (
@@ -1554,14 +2273,13 @@ Q3XDrawRegion_SetUseDefaultRendererFlag (
  *  @function
  *      Q3XDrawRegion_GetUseDefaultRendererFlag
  *  @discussion
- *      One-line description of this function.
+ *      Get the use-default-renderer flag for a draw region.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param useDefaultRenderingFlag Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion                 The draw region to query.
+ *  @param useDefaultRenderingFlag    Receives the use-default-renderer state.
+ *  @result                           Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetUseDefaultRendererFlag (
@@ -1582,14 +2300,13 @@ Q3XDrawRegion_GetUseDefaultRendererFlag (
  *  @function
  *      Q3XDrawRegion_GetClipRegion
  *  @discussion
- *      One-line description of this function.
+ *      Get the clip region for a draw region on Mac OS.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param rgnHandle        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param rgnHandle        Receives the clip region for the draw region.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetClipRegion (
@@ -1603,14 +2320,13 @@ Q3XDrawRegion_GetClipRegion (
  *  @function
  *      Q3XDrawRegion_GetGDHandle
  *  @discussion
- *      One-line description of this function.
+ *      Get the GDHandle for a draw region on Mac OS.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note - this function is deprecated, and is not fully supported in Quesa.
  *
- *  @param drawRegion       Description of the parameter.
- *  @param gdHandle         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawRegion       The draw region to query.
+ *  @param gdHandle         Receives the GDHandle for the draw region.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawRegion_GetGDHandle (

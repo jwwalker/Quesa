@@ -80,7 +80,7 @@ extern "C" {
  *  @constant kQ3SubdivisionMethodScreenSpace   Surfaces are divided into segments smaller
  *                                              than the specified size in pixels.
  */
-typedef enum {
+typedef enum TQ3SubdivisionMethod {
     kQ3SubdivisionMethodConstant                = 0,
     kQ3SubdivisionMethodWorldSpace              = 1,
     kQ3SubdivisionMethodScreenSpace             = 2
@@ -98,7 +98,7 @@ typedef enum {
  *  @constant kQ3PickPartsMaskEdge              The hit list contains edges.
  *  @constant kQ3PickPartsMaskVertex            The hit list contains vertices.
  */
-typedef enum {
+typedef enum TQ3PickPartsMasks {
     kQ3PickPartsObject                          = 0,
     kQ3PickPartsMaskFace                        = (1 << 0),
     kQ3PickPartsMaskEdge                        = (1 << 1),
@@ -116,7 +116,7 @@ typedef enum {
  *  @constant kQ3FillStyleEdges                 Shapes are rendered as sets of lines.
  *  @constant kQ3FillStylePoints                Shapes are rendered as sets of points.
  */
-typedef enum {
+typedef enum TQ3FillStyle {
     kQ3FillStyleFilled                          = 0,
     kQ3FillStyleEdges                           = 1,
     kQ3FillStylePoints                          = 2
@@ -136,7 +136,7 @@ typedef enum {
  *                                              rendered, and the surface normals of backfacing
  *                                              surfaces are inverted before rendering.
  */
-typedef enum {
+typedef enum TQ3BackfacingStyle {
     kQ3BackfacingStyleBoth                      = 0,
     kQ3BackfacingStyleRemove                    = 1,
     kQ3BackfacingStyleFlip                      = 2
@@ -155,7 +155,7 @@ typedef enum {
  *  @constant kQ3InterpolationStylePixel        Individual pixels are shaded. Is not typically
  *                                              supported by interactive renderers.
  */
-typedef enum {
+typedef enum TQ3InterpolationStyle {
     kQ3InterpolationStyleNone                   = 0,
     kQ3InterpolationStyleVertex                 = 1,
     kQ3InterpolationStylePixel                  = 2
@@ -171,7 +171,7 @@ typedef enum {
  *  @constant kQ3OrientationStyleCounterClockwise   The front face is defined as CCW order.
  *  @constant kQ3OrientationStyleClockwise          The front face is defined as CW order.
  */
-typedef enum {
+typedef enum TQ3OrientationStyle {
     kQ3OrientationStyleCounterClockwise         = 0,
     kQ3OrientationStyleClockwise                = 1
 } TQ3OrientationStyle;
@@ -188,7 +188,7 @@ typedef enum {
  *  @constant kQ3AntiAliasModeMaskFullScreen    Apply global anti-aliasing (e.g., FSAA).
  *                                              <em>This feature is not available in QD3D.</em>
  */
-typedef enum {
+typedef enum TQ3AntiAliasModeMasks {
     kQ3AntiAliasModeMaskEdges                   = (1 << 0),
     kQ3AntiAliasModeMaskFilled                  = (1 << 1)
 #if QUESA_ALLOW_QD3D_EXTENSIONS    
@@ -209,7 +209,7 @@ typedef enum {
  *  @constant kQ3FogModeExponentialSquared      Fog == exp(-Density * z * Density * Z).
  *  @constant kQ3FogModeAlpha                   Fog == Vertex Alpha
  */
-typedef enum {
+typedef enum TQ3FogMode {
     kQ3FogModeLinear                            = 0,
     kQ3FogModeExponential                       = 1,
     kQ3FogModeExponentialSquared                = 2,
@@ -223,7 +223,23 @@ typedef enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Subdivision style
+/*!
+ *  @struct
+ *      TQ3SubdivisionStyleData
+ *  @discussion
+ *      Subdivision style data.
+ *
+ *      The c1 parameter is used as the "size" for all subdivision methods. Its
+ *      meaning and units depends on the subdivision method.
+ *
+ *      The c2 parameter is used as an additional parameter for surfaces by the
+ *      kQ3SubdivisionMethodConstant method, to allow control over subdivision
+ *      in both horizontal and vertical dimensions.
+ *
+ *  @field method           The subdivision method.
+ *  @field c1               The first parameter for the subdivision method.
+ *  @field c2               The second parameter for the subdivision method.
+ */
 typedef struct TQ3SubdivisionStyleData {
     TQ3SubdivisionMethod                        method;
     float                                       c1;
@@ -231,13 +247,44 @@ typedef struct TQ3SubdivisionStyleData {
 } TQ3SubdivisionStyleData;
 
 
-// Pick parts
+/*!
+ *  @typedef
+ *      TQ3PickParts
+ *  @discussion
+ *      Holds TQ3PickPartsMasks values.
+ */
 typedef TQ3Uns32                                TQ3PickParts;
 
 
-// Anti-alias style
+/*!
+ *  @typedef
+ *      TQ3AntiAliasMode
+ *  @discussion
+ *      Holds one or more TQ3AntiAliasModeMasks values.
+ */
 typedef TQ3Uns32                                TQ3AntiAliasMode;
 
+
+/*!
+ *  @struct
+ *      TQ3AntiAliasStyleData
+ *  @discussion
+ *      Anti-alias style data.
+ *
+ *      Anti-aliasing may be toggled on and off using the state switch. To
+ *      guarantee that no anti-aliasing is performed, the state must be set
+ *      to kQ3Off.
+ *
+ *      The type of anti-aliasing performed is controlled by the mode switch.
+ *
+ *      The quality of anti-aliasing performed is controlled by the quality
+ *      field, which can range from 0.0 (minimum) to 1.0 (maximum). Values
+ *      outside this range are undefined.
+ *
+ *  @field state            Is anti-aliasing active?
+ *  @field mode             The anti-aliasing mode.
+ *  @field quality          The anti-aliasing quality.
+ */
 typedef struct TQ3AntiAliasStyleData {
     TQ3Switch                                   state;
     TQ3AntiAliasMode                            mode;
@@ -245,7 +292,24 @@ typedef struct TQ3AntiAliasStyleData {
 } TQ3AntiAliasStyleData;
 
 
-// Fog style
+/*!
+ *  @struct
+ *      TQ3FogStyleData
+ *  @discussion
+ *      Fog style data.
+ *
+ *      Fog may be toggled on and off using the state switch. To guarantee that
+ *      no fogging is performed, the state must be set to kQ3Off.
+ *
+ *      The type of fogging performed is controlled by the mode switch.
+ *
+ *  @field state            Is fog active?
+ *  @field mode             The fog mode.
+ *  @field fogStart         The start point for fog.
+ *  @field fogEnd           The end point for fog.
+ *  @field density          The maximum density for fog.
+ *  @field color            The fog color.
+ */
 typedef struct TQ3FogStyleData {
     TQ3Switch                                   state;
     TQ3FogMode                                  mode;
@@ -266,13 +330,10 @@ typedef struct TQ3FogStyleData {
  *  @function
  *      Q3Style_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a style object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param style            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param style            The style to query.
+ *  @result                 The type of the style.
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Style_GetType (
@@ -285,14 +346,11 @@ Q3Style_GetType (
  *  @function
  *      Q3Style_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param style            Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param style            The style to submit.
+ *  @param view             The view to submit the style to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Style_Submit (
@@ -306,13 +364,10 @@ Q3Style_Submit (
  *  @function
  *      Q3SubdivisionStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a subdivision style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The subdivision style data.
+ *  @result                 The new subdivision style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3SubdivisionStyle_New (
@@ -325,14 +380,11 @@ Q3SubdivisionStyle_New (
  *  @function
  *      Q3SubdivisionStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a subdivision style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The subdivision style data.
+ *  @param view             The view to submit the style to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SubdivisionStyle_Submit (
@@ -346,14 +398,11 @@ Q3SubdivisionStyle_Submit (
  *  @function
  *      Q3SubdivisionStyle_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a subdivision style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param subdiv           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param subdiv           The style to update.
+ *  @param data             The new data for the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SubdivisionStyle_SetData (
@@ -367,14 +416,11 @@ Q3SubdivisionStyle_SetData (
  *  @function
  *      Q3SubdivisionStyle_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from a subdivision style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param subdiv           Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param subdiv           The style to query.
+ *  @param data             Receives the data from the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SubdivisionStyle_GetData (
@@ -388,13 +434,10 @@ Q3SubdivisionStyle_GetData (
  *  @function
  *      Q3PickIDStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a pick ID style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param id               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param id               The pick ID.
+ *  @result                 The new pick ID style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3PickIDStyle_New (
@@ -407,14 +450,11 @@ Q3PickIDStyle_New (
  *  @function
  *      Q3PickIDStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a pick ID style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param id               Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param id               The pick ID.
+ *  @param view             The view to submit the style to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickIDStyle_Submit (
@@ -428,14 +468,11 @@ Q3PickIDStyle_Submit (
  *  @function
  *      Q3PickIDStyle_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from a pick ID style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pickIDObject     Description of the parameter.
- *  @param id               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param styleObject      The style to query.
+ *  @param id               Receives the data from the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickIDStyle_Get (
@@ -449,14 +486,11 @@ Q3PickIDStyle_Get (
  *  @function
  *      Q3PickIDStyle_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a pick ID style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pickIDObject     Description of the parameter.
- *  @param id               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pickIDObject     The style to update.
+ *  @param id               The new data for the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickIDStyle_Set (
@@ -470,13 +504,10 @@ Q3PickIDStyle_Set (
  *  @function
  *      Q3PickPartsStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a pick parts style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param parts            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param parts            The pick parts.
+ *  @result                 The new pick parts style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3PickPartsStyle_New (
@@ -489,14 +520,11 @@ Q3PickPartsStyle_New (
  *  @function
  *      Q3PickPartsStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a pick parts style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param parts            Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param parts            The pick parts style data.
+ *  @param view             The view to submit the style to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickPartsStyle_Submit (
@@ -510,14 +538,11 @@ Q3PickPartsStyle_Submit (
  *  @function
  *      Q3PickPartsStyle_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from a pick parts style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pickPartsObject  Description of the parameter.
- *  @param parts            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pickPartsObject  The style to query.
+ *  @param parts            Receives the data from the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickPartsStyle_Get (
@@ -531,14 +556,11 @@ Q3PickPartsStyle_Get (
  *  @function
  *      Q3PickPartsStyle_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a pick parts style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pickPartsObject  Description of the parameter.
- *  @param parts            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pickPartsObject  The style to update.
+ *  @param parts            The new data for the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickPartsStyle_Set (
@@ -552,13 +574,10 @@ Q3PickPartsStyle_Set (
  *  @function
  *      Q3ReceiveShadowsStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a receive shadows style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param receives         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param receives         The receive shadows style data.
+ *  @result                 The new receive shadows style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3ReceiveShadowsStyle_New (
@@ -571,14 +590,11 @@ Q3ReceiveShadowsStyle_New (
  *  @function
  *      Q3ReceiveShadowsStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a receive shadows style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param receives         Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param receives         The receive shadows style data.
+ *  @param view             The view to submit the style to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Submit (
@@ -592,14 +608,11 @@ Q3ReceiveShadowsStyle_Submit (
  *  @function
  *      Q3ReceiveShadowsStyle_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from a receive shadows style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param styleObject      Description of the parameter.
- *  @param receives         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param styleObject      The style to query.
+ *  @param receives         Receives the data from the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Get (
@@ -613,14 +626,11 @@ Q3ReceiveShadowsStyle_Get (
  *  @function
  *      Q3ReceiveShadowsStyle_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a receive shadows style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param styleObject      Description of the parameter.
- *  @param receives         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param styleObject      The style to update.
+ *  @param receives         The new data for the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Set (
@@ -634,13 +644,10 @@ Q3ReceiveShadowsStyle_Set (
  *  @function
  *      Q3FillStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a fill style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param fillStyle        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param fillStyle        The fill style data.
+ *  @result                 The new fill style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3FillStyle_New (
@@ -653,14 +660,11 @@ Q3FillStyle_New (
  *  @function
  *      Q3FillStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a fill style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param fillStyle        Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param fillStyle        The fill style data.
+ *  @param view             The view to submit the style to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FillStyle_Submit (
@@ -674,14 +678,11 @@ Q3FillStyle_Submit (
  *  @function
  *      Q3FillStyle_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from a fill style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param styleObject      Description of the parameter.
- *  @param fillStyle        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param styleObject      The style to query.
+ *  @param filLStyle        Receives the data from the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FillStyle_Get (
@@ -695,14 +696,11 @@ Q3FillStyle_Get (
  *  @function
  *      Q3FillStyle_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a fill style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param styleObject      Description of the parameter.
- *  @param fillStyle        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param styleObject      The style to update.
+ *  @param fillStyle        The new data for the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FillStyle_Set (
@@ -716,13 +714,10 @@ Q3FillStyle_Set (
  *  @function
  *      Q3BackfacingStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a backfacing style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param backfacingStyle  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param backfacingStyle  The backfacing style data.
+ *  @result                 The new backfacing style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3BackfacingStyle_New (
@@ -735,14 +730,11 @@ Q3BackfacingStyle_New (
  *  @function
  *      Q3BackfacingStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a backfacing style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param backfacingStyle  Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param backfacingStyle    The backfacing style data.
+ *  @param view               The view to submit the style to.
+ *  @result                   Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3BackfacingStyle_Submit (
@@ -756,14 +748,11 @@ Q3BackfacingStyle_Submit (
  *  @function
  *      Q3BackfacingStyle_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from a backfacing style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param backfacingObject Description of the parameter.
- *  @param backfacingStyle  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param backfacingObject    The style to query.
+ *  @param backfacingStyle     Receives the data from the style.
+ *  @result                    Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3BackfacingStyle_Get (
@@ -777,14 +766,11 @@ Q3BackfacingStyle_Get (
  *  @function
  *      Q3BackfacingStyle_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a backfacing style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param backfacingObject Description of the parameter.
- *  @param backfacingStyle  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param backfacingObject    The style to update.
+ *  @param backfacingStyle     The new data for the style.
+ *  @result                    Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3BackfacingStyle_Set (
@@ -798,13 +784,10 @@ Q3BackfacingStyle_Set (
  *  @function
  *      Q3InterpolationStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create an interpolation style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param interpolationStyle Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param interpolationStyle    The interpolation style data.
+ *  @result                      The new interpolation style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3InterpolationStyle_New (
@@ -817,14 +800,11 @@ Q3InterpolationStyle_New (
  *  @function
  *      Q3InterpolationStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit an interpolation style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param interpolationStyle Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param interpolationStyle    The interpolation style data.
+ *  @param view                  The view to submit the style to.
+ *  @result                      Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InterpolationStyle_Submit (
@@ -838,14 +818,11 @@ Q3InterpolationStyle_Submit (
  *  @function
  *      Q3InterpolationStyle_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from an interpolation style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param interpolationObject Description of the parameter.
- *  @param interpolationStyle Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param interpolationObject    The style to query.
+ *  @param interpolationStyle     Receives the data from the style.
+ *  @result                       Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InterpolationStyle_Get (
@@ -859,14 +836,11 @@ Q3InterpolationStyle_Get (
  *  @function
  *      Q3InterpolationStyle_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for an interpolation style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param interpolationObject Description of the parameter.
- *  @param interpolationStyle Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param interpolationObject    The style to update.
+ *  @param interpolationStyle     The new data for the style.
+ *  @result                       Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InterpolationStyle_Set (
@@ -880,13 +854,10 @@ Q3InterpolationStyle_Set (
  *  @function
  *      Q3HighlightStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a highlight style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param highlightAttribute Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param highlightAttribute    The highlight style set.
+ *  @result                      The new highlight style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3HighlightStyle_New (
@@ -899,14 +870,11 @@ Q3HighlightStyle_New (
  *  @function
  *      Q3HighlightStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a highlight style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param highlightAttribute Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param highlightAttribute    The highlight style data.
+ *  @param view                  The view to submit the style to.
+ *  @result                      Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3HighlightStyle_Submit (
@@ -920,14 +888,11 @@ Q3HighlightStyle_Submit (
  *  @function
  *      Q3HighlightStyle_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from a highlight style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param highlight        Description of the parameter.
- *  @param highlightAttribute Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param highlight             The style to query.
+ *  @param highlightAttribute    Receives the data from the style.
+ *  @result                      Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3HighlightStyle_Get (
@@ -941,14 +906,11 @@ Q3HighlightStyle_Get (
  *  @function
  *      Q3HighlightStyle_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a highlight style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param highlight        Description of the parameter.
- *  @param highlightAttribute Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param highlight             The style to update.
+ *  @param highlightAttribute    The new data for the style.
+ *  @result                      Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3HighlightStyle_Set (
@@ -962,13 +924,10 @@ Q3HighlightStyle_Set (
  *  @function
  *      Q3OrientationStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create an orientation style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param frontFacingDirection Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param frontFacingDirection    The orientation style data.
+ *  @result                        The new orientation style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3OrientationStyle_New (
@@ -981,14 +940,11 @@ Q3OrientationStyle_New (
  *  @function
  *      Q3OrientationStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit an orientation style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param frontFacingDirection Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param frontFacingDirection    The orientation style data.
+ *  @param view                    The view to submit the style to.
+ *  @result                        Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrientationStyle_Submit (
@@ -1002,14 +958,11 @@ Q3OrientationStyle_Submit (
  *  @function
  *      Q3OrientationStyle_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from an orientation style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param frontFacingDirectionObject Description of the parameter.
- *  @param frontFacingDirection Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param frontFacingDirectionObject    The style to query.
+ *  @param frontFacingDirection          Receives the data from the style.
+ *  @result                              Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrientationStyle_Get (
@@ -1023,14 +976,11 @@ Q3OrientationStyle_Get (
  *  @function
  *      Q3OrientationStyle_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for an orientation style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param frontFacingDirectionObject Description of the parameter.
- *  @param frontFacingDirection Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param frontFacingDirectionObject    The style to update.
+ *  @param frontFacingDirection          The new data for the style.
+ *  @result                              Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrientationStyle_Set (
@@ -1044,13 +994,10 @@ Q3OrientationStyle_Set (
  *  @function
  *      Q3AntiAliasStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create an anti-alias style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The anti-alias style data.
+ *  @result                 The new anti-alias style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3AntiAliasStyle_New (
@@ -1063,14 +1010,11 @@ Q3AntiAliasStyle_New (
  *  @function
  *      Q3AntiAliasStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit an anti-alias style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The anti-alias style data.
+ *  @param view             The view to submit the style to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3AntiAliasStyle_Submit (
@@ -1084,14 +1028,11 @@ Q3AntiAliasStyle_Submit (
  *  @function
  *      Q3AntiAliasStyle_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from an anti-alias style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param styleObject      Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param styleObject      The style to query.
+ *  @param data             Receives the data from the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3AntiAliasStyle_GetData (
@@ -1105,14 +1046,11 @@ Q3AntiAliasStyle_GetData (
  *  @function
  *      Q3AntiAliasStyle_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for an anti-alias style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param styleObject      Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param styleObject      The style to update.
+ *  @param data             The new data for the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3AntiAliasStyle_SetData (
@@ -1126,13 +1064,10 @@ Q3AntiAliasStyle_SetData (
  *  @function
  *      Q3FogStyle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a fog style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The fog style data.
+ *  @result                 The new fog style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3FogStyle_New (
@@ -1145,14 +1080,11 @@ Q3FogStyle_New (
  *  @function
  *      Q3FogStyle_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a fog style to a view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param data             Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param data             The fog style data.
+ *  @param view             The view to submit the style to.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FogStyle_Submit (
@@ -1166,14 +1098,11 @@ Q3FogStyle_Submit (
  *  @function
  *      Q3FogStyle_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data from a fog style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param styleObject      Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param styleObject      The style to query.
+ *  @param data             Receives the data from the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FogStyle_GetData (
@@ -1187,14 +1116,11 @@ Q3FogStyle_GetData (
  *  @function
  *      Q3FogStyle_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the data for a fog style.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param styleObject      Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param styleObject      The style to update.
+ *  @param data             The new data for the style.
+ *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FogStyle_SetData (
