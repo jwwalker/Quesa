@@ -464,6 +464,8 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		for (i=0; i<=sides; i++) {
 			Q3Point3D_Vector3D_Add( &points[i], &geomData->orientation, &points[i] );
 		}
+		Q3Vector3D_Negate(&normals[sides], &normals[sides]);
+
 
 		// Adjust the everything so that it faces upwards
 		ang = 0.0f;
@@ -473,7 +475,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 			sinAngle = (float) sin(ang);
 
 			// Set up the normal
-			Q3Vector3D_Negate(&normals[i], &normals[i]);
+			normals[i] = normals[sides];
 
 			// Set up the UV
 			uvs[i].u = uMin + (uDiff * (        (cosAngle + 1.0f) / 2.0f));
