@@ -222,6 +222,7 @@ extern "C" {
 #define kQ3ClassNameStoragePath						"Quesa:Storage:Path"
 #define kQ3ClassNameStorageBe						"Quesa:Storage:Be"
 #define kQ3ClassNameDrawContextBe					"Quesa:DrawContext:Be"
+#define kQ3ClassName3DMF					"Metafile"
 
 
 // Class types
@@ -245,6 +246,7 @@ extern "C" {
 #define kQ3StorageTypePath							Q3_OBJECT_TYPE('Q', 's', 't', 'p')
 #define kQ3StorageTypeBe							Q3_OBJECT_TYPE('Q', 's', 'b', 'e')
 #define kQ3DrawContextTypeBe						Q3_OBJECT_TYPE('Q', 'd', 'b', 'e')
+#define kQ3ObjectType3DMF						Q3_OBJECT_TYPE('3', 'D', 'M', 'F')
 
 
 // Class methods

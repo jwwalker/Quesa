@@ -130,7 +130,7 @@ enum {
     kQ3XMethodTypeFFormatRawRead                = Q3_METHOD_TYPE('F', 'r', 'w', 'r'),
 
     // Write
-    kQ3XMethodTypeFFormatWriteHeader            = Q3_METHOD_TYPE('F', 'w', 'h', 'd'),
+    kQ3XMethodTypeFFormatSubmitGroup            = Q3_METHOD_TYPE('F', 'w', 'g', 'r'),
 
     // Used for Q3XXX_WriteMethods, no strict need to override to implement a new format
     kQ3XMethodTypeFFormatFloat32Write           = Q3_METHOD_TYPE('F', 'f', '3', 'w'),
@@ -201,8 +201,10 @@ typedef CALLBACK_API_C(TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod)   
 
 
 // Method types - file format write
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatWriteHeaderMethod)   (TQ3FileObject theFile, TQ3FileMode mode);
-
+typedef CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitGroupMethod)(
+                            TQ3ViewObject       theView,
+                            void                *fileFormatPrivate,
+                            TQ3GroupObject   theGroup);
 
 // Method types - used for Q3XXX_ReadMethods (not required when implementing a new format)
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadMethod)   (TQ3FileFormatObject format, TQ3Float32* data);
@@ -216,12 +218,12 @@ typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatRawReadMethod)       
 
 
 // Method types - used for Q3XXX_WriteMethods
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32WriteMethod)  (TQ3FileFormatObject format, TQ3Float32 data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat64WriteMethod)  (TQ3FileFormatObject format, TQ3Float64 data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8WriteMethod)     (TQ3FileFormatObject format, TQ3Int8 data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16WriteMethod)    (TQ3FileFormatObject format, TQ3Int16 data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32WriteMethod)    (TQ3FileFormatObject format, TQ3Int32 data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt64WriteMethod)    (TQ3FileFormatObject format, TQ3Int64 data);
+typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32WriteMethod)  (TQ3FileFormatObject format, const TQ3Float32 *data);
+typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat64WriteMethod)  (TQ3FileFormatObject format, const TQ3Float64 *data);
+typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8WriteMethod)     (TQ3FileFormatObject format, const TQ3Int8 *data);
+typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16WriteMethod)    (TQ3FileFormatObject format, const TQ3Int16 *data);
+typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32WriteMethod)    (TQ3FileFormatObject format, const TQ3Int32 *data);
+typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt64WriteMethod)    (TQ3FileFormatObject format, const TQ3Int64 *data);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatStringWriteMethod)   (TQ3FileFormatObject format, const char* data);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatRawWriteMethod)      (TQ3FileFormatObject format, const unsigned char* data, TQ3Uns32 length);
 
@@ -2899,7 +2901,7 @@ Q3FileFormat_GenericReadText_ReadUntilChars (
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_8 (
     TQ3FileFormatObject           format,
-    TQ3Int8                       data
+    const TQ3Int8                 *data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2921,7 +2923,7 @@ Q3FileFormat_GenericWriteBinary_8 (
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_16 (
     TQ3FileFormatObject           format,
-    TQ3Int16                      data
+    const TQ3Int16                *data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2943,7 +2945,7 @@ Q3FileFormat_GenericWriteBinary_16 (
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_32 (
     TQ3FileFormatObject           format,
-    TQ3Int32                      data
+    const TQ3Int32                *data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2965,7 +2967,7 @@ Q3FileFormat_GenericWriteBinary_32 (
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_64 (
     TQ3FileFormatObject           format,
-    TQ3Int64                      data
+    const TQ3Int64                *data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3040,7 +3042,7 @@ Q3FileFormat_GenericWriteBinary_Raw (
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_16 (
     TQ3FileFormatObject           format,
-    TQ3Int16                      data
+    const TQ3Int16                *data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3062,7 +3064,7 @@ Q3FileFormat_GenericWriteBinSwap_16 (
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_32 (
     TQ3FileFormatObject           format,
-    TQ3Int32                      data
+    const TQ3Int32                *data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3084,7 +3086,7 @@ Q3FileFormat_GenericWriteBinSwap_32 (
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_64 (
     TQ3FileFormatObject           format,
-    TQ3Int64                      data
+    const TQ3Int64                *data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS

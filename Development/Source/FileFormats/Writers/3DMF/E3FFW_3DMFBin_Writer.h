@@ -37,6 +37,7 @@
 //-----------------------------------------------------------------------------
 // Include files go here
 
+#include "E3FFR_3DMF.h"
 
 
 
@@ -55,33 +56,32 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-TQ3Status			E3FFW_3DMFBin_StartFrame(
-								TQ3ViewObject			theView,
-								void					*instanceData,
-								TQ3DrawContextObject	theDrawContext);
+TQ3Status			E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDeleteMethod deleteData);
+TQ3Status			E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3Uns32 size, void *data, TQ3XDataDeleteMethod deleteData);
+
+TQ3Status			E3FFW_3DMF_StartFile(
+						TQ3ViewObject				theView,
+						TE3FFormatW3DMF_Data		*instanceData,
+						TQ3DrawContextObject	theDrawContext);
 								
-TQ3Status			E3FFW_3DMFBin_EndFrame(
+void				E3FFW_3DMF_Cancel(
 								TQ3ViewObject			theView,
-								void					*instanceData,
-								TQ3DrawContextObject	theDrawContext);
-								
-TQ3Status			E3FFW_3DMFBin_StartPass(
-								TQ3ViewObject			theView,
-								void					*instanceData,
-								TQ3CameraObject			theCamera,
-								TQ3GroupObject			theLights);
-								
-TQ3ViewStatus		E3FFW_3DMFBin_EndPass(
-								TQ3ViewObject			theView,
-								void					*instanceData);
-								
-void				E3FFW_3DMFBin_Cancel(
-								TQ3ViewObject			theView,
-								void					*instanceData);
+								TE3FFormatW3DMF_Data		*instanceData);
+
+
+TQ3Status
+E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data		*instanceData,
+					TQ3Object		theObject,
+					TQ3ObjectType		objectType,
+					void			*objectData);
 
 
 
+// Write methods for the 3DMF root object
 
+TQ3Status			E3FFW_3DMF_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
+TQ3Status			E3FFW_3DMF_Write(const void *object,  TQ3FileObject theFile);
 
 //=============================================================================
 //		C++ postamble

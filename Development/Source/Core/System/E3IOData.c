@@ -526,7 +526,7 @@ E3Int8_Write(TQ3Int8 data, TQ3FileObject theFile)
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatInt8Write);
 
 	if (int8Write != NULL)
-		return int8Write(instanceData->format,data);
+		return int8Write(instanceData->format,&data);
 
 	return(kQ3Failure);
 }
@@ -576,7 +576,7 @@ E3Int16_Write(TQ3Int16 data, TQ3FileObject theFile)
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatInt16Write);
 
 	if(int16Write != NULL)
-		return int16Write(instanceData->format,data);
+		return int16Write(instanceData->format,&data);
 
 	return(kQ3Failure);
 }
@@ -626,7 +626,7 @@ E3Int32_Write(TQ3Int32 data, TQ3FileObject theFile)
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatInt32Write);
 
 	if(int32Write != NULL)
-		return int32Write(instanceData->format,data);
+		return int32Write(instanceData->format,&data);
 
 	return(kQ3Failure);
 }
@@ -702,7 +702,7 @@ E3Int64_Write(TQ3Int64 data, TQ3FileObject theFile)
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatInt64Write);
 
 	if(int64Write != NULL)
-		return int64Write(instanceData->format,data);
+		return int64Write(instanceData->format,&data);
 
 	return(kQ3Failure);
 }
@@ -752,7 +752,7 @@ E3Float32_Write(TQ3Float32 data, TQ3FileObject theFile)
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL)
-		return float32Write(instanceData->format,data);
+		return float32Write(instanceData->format,&data);
 
 	return(kQ3Failure);
 }
@@ -802,7 +802,7 @@ E3Float64_Write(TQ3Float64 data, TQ3FileObject theFile)
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat64Write);
 
 	if(float64Write != NULL)
-		return float64Write(instanceData->format,data);
+		return float64Write(instanceData->format,&data);
 
 	return(kQ3Failure);
 }
@@ -974,9 +974,9 @@ E3Point2D_Write(const TQ3Point2D *point2D, TQ3FileObject theFile)
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL){
-		result = float32Write(instanceData->format,point2D->x);
+		result = float32Write(instanceData->format,&point2D->x);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,point2D->y);
+			result = float32Write(instanceData->format,&point2D->y);
 		}
 
 	return(result);
@@ -1034,11 +1034,11 @@ E3Point3D_Write(const TQ3Point3D *point3D, TQ3FileObject theFile)
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL){
-		result = float32Write(instanceData->format,point3D->x);
+		result = float32Write(instanceData->format,&point3D->x);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,point3D->y);
+			result = float32Write(instanceData->format,&point3D->y);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,point3D->z);
+			result = float32Write(instanceData->format,&point3D->z);
 		}
 
 	return(result);
@@ -1096,11 +1096,11 @@ E3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, TQ3FileObject theFile
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL){
-		result = float32Write(instanceData->format,point3D->x);
+		result = float32Write(instanceData->format,&point3D->x);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,point3D->y);
+			result = float32Write(instanceData->format,&point3D->y);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,point3D->w);
+			result = float32Write(instanceData->format,&point3D->w);
 		}
 
 	return(result);
@@ -1160,13 +1160,13 @@ E3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, TQ3FileObject theFile
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL){
-		result = float32Write(instanceData->format,point4D->x);
+		result = float32Write(instanceData->format,&point4D->x);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,point4D->y);
+			result = float32Write(instanceData->format,&point4D->y);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,point4D->z);
+			result = float32Write(instanceData->format,&point4D->z);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,point4D->w);
+			result = float32Write(instanceData->format,&point4D->w);
 		}
 
 	return(result);
@@ -1282,7 +1282,7 @@ E3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 		
 		for( i = 0; ((i< 4) && (result == kQ3Success)); i++)
 			for( j = 0; ((j< 4) && (result == kQ3Success)); j++)
-				result = float32Write(instanceData->format,matrix4x4->value[i][j]);
+				result = float32Write(instanceData->format,&matrix4x4->value[i][j]);
 		}
 
 	return(result);

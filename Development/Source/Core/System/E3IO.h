@@ -101,9 +101,6 @@ TQ3Status			E3File_RegisterClass(void);
 TQ3Status			E3File_UnregisterClass(void);
 void				E3File_CallIdle(TQ3FileObject theFile);
 
-TQ3Status			E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDeleteMethod deleteData);
-TQ3Status			E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3Uns32 size, void *data, TQ3XDataDeleteMethod deleteData);
-
 TQ3FileObject		E3File_New(void);
 TQ3Status			E3File_GetStorage(TQ3FileObject theFile, TQ3StorageObject *storage);
 TQ3Status			E3File_SetStorage(TQ3FileObject theFile, TQ3StorageObject storage);

@@ -38,6 +38,7 @@
 #include "E3IO.h"
 #include "E3IOData.h"
 #include "E3IOFileFormat.h"
+#include "E3FFW_3DMFBin_Writer.h"
 #include "E3View.h"
 
 
@@ -85,24 +86,6 @@ Q3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-
-
-
-	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on size
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on deleteData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4779,7 +4762,7 @@ Q3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject		format,
 //      Q3FileFormat_GenericWriteBinary_8 : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, TQ3Int8 data)
+Q3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, const TQ3Int8* data)
 {
 
 
@@ -4817,7 +4800,7 @@ Q3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, TQ3Int8 data)
 //      Q3FileFormat_GenericWriteBinary_16 : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, TQ3Int16 data)
+Q3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, const TQ3Int16* data)
 {
 
 
@@ -4855,7 +4838,7 @@ Q3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, TQ3Int16 data)
 //      Q3FileFormat_GenericWriteBinary_32 : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, TQ3Int32 data)
+Q3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, const TQ3Int32* data)
 {
 
 
@@ -4893,7 +4876,7 @@ Q3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, TQ3Int32 data)
 //      Q3FileFormat_GenericWriteBinary_64 : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, TQ3Int64 data)
+Q3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, const TQ3Int64* data)
 {
 
 
@@ -5017,7 +5000,7 @@ Q3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format, const unsigned c
 //      Q3FileFormat_GenericWriteBinSwap_16 : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, TQ3Int16 data)
+Q3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, const TQ3Int16* data)
 {
 
 
@@ -5055,7 +5038,7 @@ Q3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, TQ3Int16 data)
 //      Q3FileFormat_GenericWriteBinSwap_32 : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, TQ3Int32 data)
+Q3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, const TQ3Int32* data)
 {
 
 
@@ -5093,7 +5076,7 @@ Q3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, TQ3Int32 data)
 //      Q3FileFormat_GenericWriteBinSwap_64 : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, TQ3Int64 data)
+Q3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, const TQ3Int64* data)
 {
 
 

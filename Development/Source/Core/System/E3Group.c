@@ -35,6 +35,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Group.h"
+#include "E3IOFileFormat.h"
 #include "E3View.h"
 
 
@@ -836,6 +837,20 @@ e3group_enditerate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object *
 
 
 //=============================================================================
+//      e3group_write : Group write method.
+//-----------------------------------------------------------------------------
+//		Note : Does not need to do anything at this time
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3group_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object group, const void *objectData)
+{
+#pragma unused (objectType)
+#pragma unused (objectData)
+
+	 return E3FileFormat_Method_SubmitGroup (theView, group);
+
+}
+//=============================================================================
 //      e3group_endread : Group end read method.
 //-----------------------------------------------------------------------------
 //		Note : Does not need to do anything at this time
@@ -958,6 +973,11 @@ e3group_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodType_GroupEndRead:
 			theMethod = (TQ3XFunctionPointer) e3group_endread;
 			break;
+
+		case kQ3XMethodTypeObjectSubmitWrite:
+			theMethod = (TQ3XFunctionPointer) e3group_write;
+			break;
+
 		}
 	
 	return(theMethod);

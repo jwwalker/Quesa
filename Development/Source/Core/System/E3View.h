@@ -97,6 +97,7 @@ TQ3Status				E3View_CallIdleMethod(TQ3ViewObject theView, TQ3Uns32 current, TQ3U
 TQ3PickObject			E3View_AccessPick(TQ3ViewObject theView);
 TQ3RendererObject		E3View_AccessRenderer(TQ3ViewObject theView);
 TQ3CameraObject			E3View_AccessCamera(TQ3ViewObject theView);
+TQ3FileObject			E3View_AccessFile(TQ3ViewObject theView);
 TQ3FileFormatObject		E3View_AccessFileFormat(TQ3ViewObject theView);
 void					E3View_EndFrame(TQ3ViewObject theView);
 TQ3ViewMode				E3View_GetViewMode(TQ3ViewObject theView);

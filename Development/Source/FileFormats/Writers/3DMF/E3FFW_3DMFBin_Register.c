@@ -34,6 +34,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3FFR_3DMF.h"
 #include "E3FFW_3DMFBin_Register.h"
 #include "E3FFW_3DMFBin_Writer.h"
 #include "E3FFW_3DMFBin_Geometry.h"
@@ -60,7 +61,7 @@
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
-e3ffw_3dmfbin_geom(TQ3XMethodType methodType)
+e3ffw_3dmf_geom(TQ3XMethodType methodType)
 {	TQ3XFunctionPointer		theMethod = NULL;
 
 
@@ -69,91 +70,91 @@ e3ffw_3dmfbin_geom(TQ3XMethodType methodType)
 	switch (methodType) {
 		// Required
 		case kQ3GeometryTypeTriangle:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Triangle;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Triangle;
 			break;
 
 		case kQ3GeometryTypeLine:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Line;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Line;
 			break;
 
 		case kQ3GeometryTypePoint:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Point;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Point;
 			break;
 /*
 		case kQ3GeometryTypeMarker:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Marker;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Marker;
 			break;
 
 		case kQ3GeometryTypePixmapMarker:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_PixmapMarker;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_PixmapMarker;
 			break;
 */
 
 /* 
-	by now let's convert everithing to trimeshes
+	by now let's convert everithing to triangles
 		case kQ3GeometryTypeBox:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Box;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Box;
 			break;
 
 		case kQ3GeometryTypeGeneralPolygon:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_GeneralPolygon;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_GeneralPolygon;
 			break;
 
 		case kQ3GeometryTypeMesh:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Mesh;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Mesh;
 			break;
 
 		case kQ3GeometryTypeNURBCurve:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_NURBCurve;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_NURBCurve;
 			break;
 
 		case kQ3GeometryTypeNURBPatch:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_NURBPatch;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_NURBPatch;
 			break;
 
 		case kQ3GeometryTypePolygon:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Polygon;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Polygon;
 			break;
 
 		case kQ3GeometryTypePolyLine:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_PolyLine;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_PolyLine;
 			break;
 
 		case kQ3GeometryTypeTriGrid:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_TriGrid;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TriGrid;
 			break;
 
 		case kQ3GeometryTypeCone:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Cone;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Cone;
 			break;
 
 		case kQ3GeometryTypeCylinder:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Cylinder;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Cylinder;
 			break;
 
 		case kQ3GeometryTypeDisk:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Disk;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Disk;
 			break;
 
 		case kQ3GeometryTypeEllipse:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Ellipse;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Ellipse;
 			break;
 
 		case kQ3GeometryTypeEllipsoid:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Ellipsoid;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Ellipsoid;
 			break;
 
 		case kQ3GeometryTypePolyhedron:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Polyhedron;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Polyhedron;
 			break;
 
 		case kQ3GeometryTypeTorus:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Torus;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Torus;
+			break;
+		case kQ3GeometryTypeTriMesh:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TriMesh;
 			break;
 */
-		case kQ3GeometryTypeTriMesh:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_TriMesh;
-			break;
 		}
 	
 	return(theMethod);
@@ -209,32 +210,53 @@ e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeRendererStartFrame:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_StartFrame;
-			break;
-
-		case kQ3XMethodTypeRendererEndFrame:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_EndFrame;
-			break;
-
-		case kQ3XMethodTypeRendererStartPass:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_StartPass;
-			break;
-
-		case kQ3XMethodTypeRendererEndPass:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_EndPass;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_StartFile;
 			break;
 
 		case kQ3XMethodTypeRendererCancel:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMFBin_Cancel;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Cancel;
 			break;
 
-		case kQ3XMethodTypeRendererSubmitGeometryMetaHandler:
-			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_geom;
-			break;
-		
 		case kQ3XMethodTypeRendererGetNickNameString:
 			theMethod = (TQ3XFunctionPointer) e3ffw_3dmfbin_formatname;
 			break;
+
+		case kQ3XMethodTypeFFormatFloat32Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_32;
+			break;
+
+		case kQ3XMethodTypeFFormatFloat64Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_64;
+			break;
+
+		case kQ3XMethodTypeFFormatInt8Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_8;
+			break;
+
+		case kQ3XMethodTypeFFormatInt16Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_16;
+			break;
+
+		case kQ3XMethodTypeFFormatInt32Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_32;
+			break;
+
+		case kQ3XMethodTypeFFormatInt64Write:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_64;
+			break;
+
+		case kQ3XMethodTypeFFormatStringWrite:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_String;
+			break;
+
+		case kQ3XMethodTypeFFormatRawWrite:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericWriteBinary_Raw;
+			break;
+
+		default: // get the geometry
+			theMethod = e3ffw_3dmf_geom (methodType);
+			break;
+		
 		}
 
 	return(theMethod);
@@ -260,7 +282,7 @@ E3FFW_3DMFBin_Register(void)
 											kQ3FFormatWriterType3DMFStreamBin,
 											kQ3ClassNameFileFormatW_3DMF_Bin,
 											e3ffw_3dmfbin_metahandler,
-											sizeof(int));
+											sizeof(TE3FFormatW3DMF_Data));
 
 	return(qd3dStatus);
 }

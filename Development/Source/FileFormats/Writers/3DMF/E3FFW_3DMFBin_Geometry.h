@@ -37,6 +37,7 @@
 //-----------------------------------------------------------------------------
 // Include files go here
 
+#include "E3FFR_3DMF.h"
 
 
 
@@ -50,139 +51,141 @@ extern "C" {
 
 
 
-
-
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Required geometries
-TQ3Status			E3FFW_3DMFBin_Triangle(
+TQ3Status			E3FFW_3DMF_Triangle(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3TriangleData			*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Line(
+TQ3Status			E3FFW_3DMF_Line(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3LineData				*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Point(
+TQ3Status			E3FFW_3DMF_Point(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3PointData			*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Marker(
+TQ3Status			E3FFW_3DMF_Marker(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3MarkerData			*geomData);
 
-TQ3Status			E3FFW_3DMFBin_PixmapMarker(
+TQ3Status			E3FFW_3DMF_PixmapMarker(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3PixmapMarkerData		*geomData);
 
 
 // Optional geometries
-TQ3Status			E3FFW_3DMFBin_Box(
+TQ3Status			E3FFW_3DMF_Box(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3BoxData				*geomData);
 
-TQ3Status			E3FFW_3DMFBin_GeneralPolygon(
+TQ3Status			E3FFW_3DMF_GeneralPolygon(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3GeneralPolygonData	*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Mesh(
+TQ3Status			E3FFW_3DMF_Mesh(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								void					*geomData);
 
-TQ3Status			E3FFW_3DMFBin_NURBCurve(
+TQ3Status			E3FFW_3DMF_NURBCurve(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3NURBCurveData		*geomData);
 
-TQ3Status			E3FFW_3DMFBin_NURBPatch(
+TQ3Status			E3FFW_3DMF_NURBPatch(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3NURBPatchData		*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Polygon(
+TQ3Status			E3FFW_3DMF_Polygon(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3PolygonData			*geomData);
 
-TQ3Status			E3FFW_3DMFBin_PolyLine(
+TQ3Status			E3FFW_3DMF_PolyLine(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3PolyLineData			*geomData);
 
-TQ3Status			E3FFW_3DMFBin_TriGrid(
+TQ3Status			E3FFW_3DMF_TriGrid(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3TriGridData			*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Cone(
+TQ3Status			E3FFW_3DMF_Cone(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3ConeData				*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Cylinder(
+TQ3Status			E3FFW_3DMF_Cylinder(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3CylinderData			*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Disk(
+TQ3Status			E3FFW_3DMF_Disk(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3DiskData				*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Ellipse(
+TQ3Status			E3FFW_3DMF_Ellipse(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3EllipseData			*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Ellipsoid(
+TQ3Status			E3FFW_3DMF_Ellipsoid(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3EllipsoidData		*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Polyhedron(
+TQ3Status			E3FFW_3DMF_Polyhedron(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3PolyhedronData		*geomData);
 
-TQ3Status			E3FFW_3DMFBin_Torus(
+TQ3Status			E3FFW_3DMF_Torus(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3TorusData			*geomData);
 
-TQ3Status			E3FFW_3DMFBin_TriMesh(
+TQ3Status			E3FFW_3DMF_TriMesh(
 								TQ3ViewObject			theView,
-								void					*instanceData,
+								TE3FFormatW3DMF_Data	*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3TriMeshData			*geomData);
+
+
+TQ3Status			E3FFW_3DMF_RegisterGeom();
+TQ3Status			E3FFW_3DMF_UnregisterGeom();
 
 
 

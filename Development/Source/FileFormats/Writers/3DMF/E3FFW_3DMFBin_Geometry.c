@@ -35,31 +35,301 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3FFW_3DMFBin_Geometry.h"
+#include "E3FFW_3DMFBin_Writer.h"
+
+//=============================================================================
+//      Private functions
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_triangle_traverse : Triangle traverse method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_triangle_traverse(TQ3Object object,
+					 TQ3TriangleData *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 36, (void*)data, NULL);
+	
+	return qd3dstatus;
+}
+
+//=============================================================================
+//      e3ffw_3DMF_triangle_write : Triangle write method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_triangle_write(const TQ3TriangleData *object,
+				TQ3FileObject theFile)
+{
+
+	TQ3Status writeStatus;
+	
+	writeStatus = Q3Point3D_Write(&object->vertices[0].point,theFile);
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write(&object->vertices[1].point,theFile);
+	
+	if(writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write(&object->vertices[2].point,theFile);
+	
+	
+	return(writeStatus);
+}
+
+//=============================================================================
+//      e3ffw_3DMF_line_traverse : Line traverse method.
+//-----------------------------------------------------------------------------
 
 
+
+//=============================================================================
+//      e3ffw_3DMF_line_write : Line write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_point_traverse : Point traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_point_write : Point write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_marker_traverse : Marker traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_marker_write : Marker write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_pixmapmarker_traverse : Pixmap Marker traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_pixmapmarker_write : Pixmap Marker write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_box_traverse : Box traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_box_write : Box write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_generalpolygon_traverse : General Polygon traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_generalpolygon_write : General Polygon write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_mesh_traverse : Mesh traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_mesh_write : Mesh write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_NURBcurve_traverse : NURB Curve traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_NURBcurve_write : NURB Curve write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_NURBpatch_traverse : NURB Patch traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_NURBpatch_write : NURB Patch write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_polygon_traverse : Polygon traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_polygon_write : Polygon write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_polyline_traverse : Polyline traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_polyline_write : Polyline write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_trigrid_traverse : TriGrid traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_trigrid_write : TriGrid write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_cone_traverse : Cone traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_cone_write : Cone write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_cylinder_traverse : Cylinder traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_cylinder_write : Cylinder write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_disk_traverse : Disk traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_disk_write : Disk write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_ellipse_traverse : Ellipse traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_ellipse_write : Ellipse write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_ellipsoid_traverse : Ellipsoid traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_ellipsoid_write : Ellipsoid write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_polyedron_traverse : Polyedron traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_polyedron_write : Polyedron write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_torus_traverse : Torus traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_torus_write : Torus write method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_trimesh_traverse : TriMesh traverse method.
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_trimesh_write : TriMesh write method.
+//-----------------------------------------------------------------------------
 
 
 
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
-//      E3FFW_3DMFBin_Triangle : Triangle handler.
+//      E3FFW_3DMF_Triangle : Triangle handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Triangle(TQ3ViewObject			theView,
-					void					*instanceData,
+E3FFW_3DMF_Triangle(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3TriangleData			*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// We're done
-	return(kQ3Success);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeTriangle, (void*)geomData);
 }
 
 
@@ -67,23 +337,15 @@ E3FFW_3DMFBin_Triangle(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Line : Line handler.
+//      E3FFW_3DMF_Line : Line handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Line(TQ3ViewObject			theView,
-				void					*instanceData,
+E3FFW_3DMF_Line(TQ3ViewObject			theView,
+				TE3FFormatW3DMF_Data	*instanceData,
 				TQ3GeometryObject		theGeom,
 				TQ3LineData				*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeLine, (void*)geomData);
 }
 
 
@@ -91,23 +353,15 @@ E3FFW_3DMFBin_Line(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Point : Point handler.
+//      E3FFW_3DMF_Point : Point handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Point(TQ3ViewObject				theView,
-					void					*instanceData,
+E3FFW_3DMF_Point(TQ3ViewObject				theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3PointData			*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypePoint, (void*)geomData);
 }
 
 
@@ -115,23 +369,15 @@ E3FFW_3DMFBin_Point(TQ3ViewObject				theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Marker : Marker handler.
+//      E3FFW_3DMF_Marker : Marker handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Marker(TQ3ViewObject				theView,
-					void					*instanceData,
+E3FFW_3DMF_Marker(TQ3ViewObject				theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3MarkerData			*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeMarker, (void*)geomData);
 }
 
 
@@ -139,23 +385,15 @@ E3FFW_3DMFBin_Marker(TQ3ViewObject				theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_PixmapMarker : Pixmap Marker handler.
+//      E3FFW_3DMF_PixmapMarker : Pixmap Marker handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_PixmapMarker(TQ3ViewObject			theView,
-						void					*instanceData,
+E3FFW_3DMF_PixmapMarker(TQ3ViewObject			theView,
+						TE3FFormatW3DMF_Data	*instanceData,
 						TQ3GeometryObject		theGeom,
 						TQ3PixmapMarkerData		*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypePixmapMarker, (void*)geomData);
 }
 
 
@@ -163,23 +401,15 @@ E3FFW_3DMFBin_PixmapMarker(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Box : Box handler.
+//      E3FFW_3DMF_Box : Box handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Box(TQ3ViewObject				theView,
-					void					*instanceData,
+E3FFW_3DMF_Box(TQ3ViewObject				theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3BoxData				*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeBox, (void*)geomData);
 }
 
 
@@ -187,23 +417,15 @@ E3FFW_3DMFBin_Box(TQ3ViewObject				theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_GeneralPolygon : General Polygon handler.
+//      E3FFW_3DMF_GeneralPolygon : General Polygon handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_GeneralPolygon(TQ3ViewObject				theView,
-							void					*instanceData,
+E3FFW_3DMF_GeneralPolygon(TQ3ViewObject				theView,
+							TE3FFormatW3DMF_Data	*instanceData,
 							TQ3GeometryObject		theGeom,
 							TQ3GeneralPolygonData	*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeGeneralPolygon, (void*)geomData);
 }
 
 
@@ -211,23 +433,15 @@ E3FFW_3DMFBin_GeneralPolygon(TQ3ViewObject				theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Mesh : Mesh handler.
+//      E3FFW_3DMF_Mesh : Mesh handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Mesh(TQ3ViewObject				theView,
-					void					*instanceData,
+E3FFW_3DMF_Mesh(TQ3ViewObject				theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					void					*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeMesh, (void*)geomData);
 }
 
 
@@ -235,23 +449,15 @@ E3FFW_3DMFBin_Mesh(TQ3ViewObject				theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_NURBCurve : NURB Curve handler.
+//      E3FFW_3DMF_NURBCurve : NURB Curve handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_NURBCurve(TQ3ViewObject			theView,
-					void					*instanceData,
+E3FFW_3DMF_NURBCurve(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3NURBCurveData		*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeNURBCurve, (void*)geomData);
 }
 
 
@@ -259,23 +465,15 @@ E3FFW_3DMFBin_NURBCurve(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_NURBPatch : NURB Patch handler.
+//      E3FFW_3DMF_NURBPatch : NURB Patch handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_NURBPatch(TQ3ViewObject			theView,
-					void					*instanceData,
+E3FFW_3DMF_NURBPatch(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3NURBPatchData		*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeNURBPatch, (void*)geomData);
 }
 
 
@@ -283,23 +481,15 @@ E3FFW_3DMFBin_NURBPatch(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Polygon : Polygon handler.
+//      E3FFW_3DMF_Polygon : Polygon handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Polygon(TQ3ViewObject			theView,
-					void					*instanceData,
+E3FFW_3DMF_Polygon(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3PolygonData			*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypePolygon, (void*)geomData);
 }
 
 
@@ -307,23 +497,15 @@ E3FFW_3DMFBin_Polygon(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_PolyLine : PolyLine handler.
+//      E3FFW_3DMF_PolyLine : PolyLine handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_PolyLine(TQ3ViewObject			theView,
-					void					*instanceData,
+E3FFW_3DMF_PolyLine(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3PolyLineData			*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypePolyLine, (void*)geomData);
 }
 
 
@@ -331,23 +513,15 @@ E3FFW_3DMFBin_PolyLine(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_TriGrid : TridGrid handler.
+//      E3FFW_3DMF_TriGrid : TridGrid handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_TriGrid(TQ3ViewObject			theView,
-					void					*instanceData,
+E3FFW_3DMF_TriGrid(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3TriGridData			*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeTriGrid, (void*)geomData);
 }
 
 
@@ -355,23 +529,15 @@ E3FFW_3DMFBin_TriGrid(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Cone : Cone handler.
+//      E3FFW_3DMF_Cone : Cone handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Cone(TQ3ViewObject				theView,
-					void					*instanceData,
+E3FFW_3DMF_Cone(TQ3ViewObject				theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3ConeData				*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeCone, (void*)geomData);
 }
 
 
@@ -379,23 +545,15 @@ E3FFW_3DMFBin_Cone(TQ3ViewObject				theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Cylinder : Cylinder handler.
+//      E3FFW_3DMF_Cylinder : Cylinder handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Cylinder(TQ3ViewObject			theView,
-					void					*instanceData,
+E3FFW_3DMF_Cylinder(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3CylinderData			*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeCylinder, (void*)geomData);
 }
 
 
@@ -403,23 +561,15 @@ E3FFW_3DMFBin_Cylinder(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Disk : Disk handler.
+//      E3FFW_3DMF_Disk : Disk handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Disk(TQ3ViewObject				theView,
-					void					*instanceData,
+E3FFW_3DMF_Disk(TQ3ViewObject				theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3DiskData				*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeDisk, (void*)geomData);
 }
 
 
@@ -427,23 +577,15 @@ E3FFW_3DMFBin_Disk(TQ3ViewObject				theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Ellipse : Ellipse handler.
+//      E3FFW_3DMF_Ellipse : Ellipse handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Ellipse(TQ3ViewObject			theView,
-					void					*instanceData,
+E3FFW_3DMF_Ellipse(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3EllipseData			*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeEllipse, (void*)geomData);
 }
 
 
@@ -451,23 +593,15 @@ E3FFW_3DMFBin_Ellipse(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Ellipsoid : Ellipsoid handler.
+//      E3FFW_3DMF_Ellipsoid : Ellipsoid handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Ellipsoid(TQ3ViewObject			theView,
-					void					*instanceData,
+E3FFW_3DMF_Ellipsoid(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3EllipsoidData		*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeEllipsoid, (void*)geomData);
 }
 
 
@@ -475,23 +609,15 @@ E3FFW_3DMFBin_Ellipsoid(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Polyhedron : Polyhedron handler.
+//      E3FFW_3DMF_Polyhedron : Polyhedron handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Polyhedron(TQ3ViewObject			theView,
-					void					*instanceData,
+E3FFW_3DMF_Polyhedron(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3PolyhedronData		*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
-
-
-
-	// To Be implemented
-	return(kQ3Failure);
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypePolyhedron, (void*)geomData);
 }
 
 
@@ -499,23 +625,28 @@ E3FFW_3DMFBin_Polyhedron(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_Torus : Torus handler.
+//      E3FFW_3DMF_Torus : Torus handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_Torus(TQ3ViewObject				theView,
-					void					*instanceData,
+E3FFW_3DMF_Torus(TQ3ViewObject				theView,
+					TE3FFormatW3DMF_Data	*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3TorusData			*geomData)
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeTorus, (void*)geomData);
+}
 
 
-
-	// To Be implemented
-	return(kQ3Failure);
+//=============================================================================
+//      E3FFW_3DMF_TriMesh : TriMesh handler.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_TriMesh(TQ3ViewObject				theView,
+					TE3FFormatW3DMF_Data	*instanceData,
+					TQ3GeometryObject		theGeom,
+					TQ3TriMeshData			*geomData)
+{
+	return E3FFW_3DMF_TraverseObject (theView, instanceData, theGeom, kQ3GeometryTypeTriMesh, (void*)geomData);
 }
 
 
@@ -523,23 +654,33 @@ E3FFW_3DMFBin_Torus(TQ3ViewObject				theView,
 
 
 //=============================================================================
-//      E3FFW_3DMFBin_TriMesh : TriMesh handler.
+//      E3FFW_3DMF_RegisterGeom : Register the geometry traverse & write methods.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMFBin_TriMesh(TQ3ViewObject			theView,
-					void					*instanceData,
-					TQ3GeometryObject		theGeom,
-					TQ3TriMeshData			*geomData)
+E3FFW_3DMF_RegisterGeom()
 {
-#pragma unused(theView)
-#pragma unused(instanceData)
-#pragma unused(theGeom)
-#pragma unused(geomData)
+	// Triangle
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_triangle_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_triangle_write);
+	
+	return kQ3Success;
+}
 
 
 
-	// To Be implemented
-	return(kQ3Failure);
+//=============================================================================
+//      E3FFW_3DMF_UnregisterGeom : Unegister the geometry traverse & write methods
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_UnregisterGeom()
+{
+#if 0
+	// Triangle
+	E3ClassTree_RemoveMethodByType(kQ3GeometryTypeTriangle,     kQ3XMethodTypeObjectTraverse);
+	E3ClassTree_RemoveMethodByType(kQ3GeometryTypeTriangle,      kQ3XMethodTypeObjectWrite);
+
+#endif
+	return kQ3Success;
 }
 
 

@@ -496,9 +496,9 @@ E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject format,char* buf
 //      E3FileFormat_GenericWriteBinary_8 : Writes 8 bits to a stream.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, TQ3Int8 data)
+E3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, const TQ3Int8 *data)
 {
-	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)&data, 1);
+	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 1);
 }
 
 
@@ -509,9 +509,9 @@ E3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, TQ3Int8 data)
 //      E3FileFormat_GenericWriteBinary_16 : Writes 16 bits to a stream.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, TQ3Int16 data)
+E3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, const TQ3Int16 *data)
 {
-	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)&data, 2);
+	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 2);
 }
 
 
@@ -522,9 +522,9 @@ E3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, TQ3Int16 data)
 //      E3FileFormat_GenericWriteBinary_32 : Writes 32 bits to a stream.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, TQ3Int32 data)
+E3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, const TQ3Int32* data)
 {
-	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)&data, 4);
+	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 4);
 }
 
 
@@ -535,9 +535,9 @@ E3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, TQ3Int32 data)
 //      E3FileFormat_GenericWriteBinary_64 : Writes 64 bits to a stream.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, TQ3Int64 data)
+E3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, const TQ3Int64 *data)
 {
-	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)&data, 8);
+	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 8);
 }
 
 
@@ -595,11 +595,11 @@ E3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format,const unsigned ch
 //											 swapping the byte order.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, TQ3Int16 data)
+E3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, const TQ3Int16 *data)
 {
 	TQ3Status result;
-	data = E3EndianSwap16(data);
-	result = Q3FileFormat_GenericWriteBinary_16 (format, data);
+	TQ3Int16 swappedData = E3EndianSwap16(*data);
+	result = Q3FileFormat_GenericWriteBinary_16 (format, &swappedData);
 	
 	return result;
 }
@@ -613,11 +613,11 @@ E3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, TQ3Int16 data)
 //											 swapping the byte order.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, TQ3Int32 data)
+E3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, const TQ3Int32 *data)
 {
 	TQ3Status result;
-	data = E3EndianSwap32(data);
-	result = Q3FileFormat_GenericWriteBinary_32 (format, data);
+	TQ3Int32 swappedData = E3EndianSwap32(*data);
+	result = Q3FileFormat_GenericWriteBinary_32 (format, &swappedData);
 	
 	return result;
 }
@@ -631,14 +631,14 @@ E3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, TQ3Int32 data)
 //											 swapping the byte order.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, TQ3Int64 data)
+E3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, const TQ3Int64 *data)
 {
 	TQ3Status result;
 	TQ3Int64 temp;
-	temp.lo = E3EndianSwap32(data.hi);
-	temp.hi = E3EndianSwap32(data.lo);
+	temp.lo = E3EndianSwap32(data->hi);
+	temp.hi = E3EndianSwap32(data->lo);
 	
-	result = Q3FileFormat_GenericWriteBinary_64 (format, temp);
+	result = Q3FileFormat_GenericWriteBinary_64 (format, &temp);
 	
 	return result;
 }
@@ -825,7 +825,7 @@ E3FileFormat_SetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *
 TQ3Status
 E3FileFormat_Method_StartFile(TQ3ViewObject theView)
 {	TQ3FileFormatObject				theFormat = E3View_AccessFileFormat(theView);
-	TQ3XRendererStartFrameMethod	startFrame;
+	TQ3XRendererStartFrameMethod	startFile;
 	TQ3Status						qd3dStatus;
 
 
@@ -837,16 +837,50 @@ E3FileFormat_Method_StartFile(TQ3ViewObject theView)
 
 
 	// Find the method
-	startFrame = (TQ3XRendererStartFrameMethod)
+	startFile = (TQ3XRendererStartFrameMethod)
 					E3ClassTree_GetMethod(theFormat->theClass,
 										  kQ3XMethodTypeRendererStartFrame);
-	if (startFrame == NULL)
+	if (startFile == NULL)
 		return(kQ3Success);
 
 
 
 	// Call the method
-	qd3dStatus = startFrame(theView, theFormat->instanceData, NULL);
+	qd3dStatus = startFile(theView, theFormat->instanceData, NULL);
+
+	return(qd3dStatus);
+}
+
+
+//=============================================================================
+//      E3FileFormat_Method_EndFile : Call the start frame method.
+//-----------------------------------------------------------------------------
+#pragma mark -
+TQ3Status
+E3FileFormat_Method_EndFile(TQ3ViewObject theView)
+{	TQ3FileFormatObject				theFormat = E3View_AccessFileFormat(theView);
+	TQ3XRendererStartFrameMethod	endFrame;
+	TQ3Status						qd3dStatus;
+
+
+
+	// No-op if no format set
+	if (theFormat == NULL)
+		return(kQ3Success);
+
+
+
+	// Find the method
+	endFrame = (TQ3XRendererEndFrameMethod)
+					E3ClassTree_GetMethod(theFormat->theClass,
+										  kQ3XMethodTypeRendererEndFrame);
+	if (endFrame == NULL)
+		return(kQ3Success);
+
+
+
+	// Call the method
+	qd3dStatus = endFrame(theView, theFormat->instanceData, NULL);
 
 	return(qd3dStatus);
 }
@@ -923,4 +957,99 @@ E3FileFormat_Method_EndPass(TQ3ViewObject theView)
 	return(viewStatus);
 }
 
+
+
+//=============================================================================
+//      E3FileFormatr_Method_SubmitGeometry : Submit a geometry to a writer.
+//-----------------------------------------------------------------------------
+//		Note :	We update geomSupported to indicate if the writer could accept
+//				the geometry or not.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FileFormat_Method_SubmitGeometry(TQ3ViewObject		theView,
+								 TQ3ObjectType		geomType,
+								 TQ3Boolean			*geomSupported,
+								 TQ3GeometryObject	theGeom,
+								 const void			*geomData)
+{	TQ3FileFormatObject				theFormat = E3View_AccessFileFormat(theView);
+	TQ3Status								qd3dStatus  = kQ3Failure;
+	TQ3XRendererSubmitGeometryMethod		submitGeom;
+
+
+
+	// No-op if no renderer set
+	if (theFormat == NULL)
+		return(kQ3Success);
+
+
+
+	// Find the method
+	submitGeom = (TQ3XRendererSubmitGeometryMethod)
+					E3ClassTree_GetMethod(theFormat->theClass, geomType);
+
+
+
+	// Indicate if the geometry is supported or not
+	*geomSupported = (TQ3Boolean) (submitGeom != NULL);
+
+
+
+	// Call the method
+	if (submitGeom != NULL)
+		qd3dStatus = submitGeom(theView, theFormat->instanceData, theGeom, geomData);
+
+	return(qd3dStatus);
+}
+
+//=============================================================================
+//      E3FileFormatr_Method_SubmitGroup : Submit a group to a writer.
+//-----------------------------------------------------------------------------
+//		Note :	if there's no TQ3XFileFormatSubmitGroupMethod for the format,
+//              defaults to submit the contents.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FileFormat_Method_SubmitGroup(TQ3ViewObject theView, TQ3GroupObject group)
+{	TQ3FileFormatObject				theFormat = E3View_AccessFileFormat(theView);
+	TQ3Status								qd3dStatus  = kQ3Failure;
+	TQ3XFileFormatSubmitGroupMethod		submitGroup;
+	TQ3GroupPosition					position;
+	TQ3Object							subObject;
+
+
+	// No-op if no renderer set
+	if (theFormat == NULL)
+		return(kQ3Success);
+
+
+
+	// Find the method
+	submitGroup = (TQ3XFileFormatSubmitGroupMethod)
+					E3ClassTree_GetMethod(theFormat->theClass, kQ3XMethodTypeFFormatSubmitGroup);
+
+
+
+
+
+	// Call the method
+	if (submitGroup != NULL)
+		qd3dStatus = submitGroup(theView, theFormat->instanceData, group);
+	else
+		{ // submit the group contents
+			for(Q3Group_GetFirstPosition (group, &position);
+				(position != NULL);
+				Q3Group_GetNextPosition (group, &position)){
+				qd3dStatus = Q3Group_GetPositionObject (group, position, &subObject);
+				if(qd3dStatus != kQ3Success)
+					break;
+				qd3dStatus = Q3Object_Submit (subObject, theView);
+				
+				Q3Object_Dispose (subObject);
+				
+				if(qd3dStatus != kQ3Success)
+					break;
+				}
+		}
+
+	return(qd3dStatus);
+}
 

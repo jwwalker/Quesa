@@ -83,17 +83,17 @@ TQ3Status				E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject for
 																	TQ3Int32* foundChar,TQ3Uns32 maxLen,
 																	TQ3Uns32* charsRead);
 
-TQ3Status				E3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, TQ3Int8 data);
-TQ3Status				E3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, TQ3Int16 data);
-TQ3Status				E3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, TQ3Int32 data);
-TQ3Status				E3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, TQ3Int64 data);
+TQ3Status				E3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, const TQ3Int8 *data);
+TQ3Status				E3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, const TQ3Int16 *data);
+TQ3Status				E3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, const TQ3Int32 *data);
+TQ3Status				E3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, const TQ3Int64 *data);
 TQ3Status				E3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, 
 															const char* data, TQ3Uns32 *length);
 TQ3Status				E3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format, 
 															const unsigned char* data, TQ3Uns32 length);
-TQ3Status				E3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, TQ3Int16 data);
-TQ3Status				E3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, TQ3Int32 data);
-TQ3Status				E3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, TQ3Int64 data);
+TQ3Status				E3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, const TQ3Int16 *data);
+TQ3Status				E3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, const TQ3Int32 *data);
+TQ3Status				E3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, const TQ3Int64 *data);
 
 //-----------------------------------------------------------------------------
 
@@ -113,9 +113,12 @@ TQ3Status				E3FileFormat_SetConfigurationData(TQ3FileFormatObject 	format,
 
 //-----------------------------------------------------------------------------
 
-TQ3Status			E3FileFormat_Method_StartFile(TQ3ViewObject theView);
-TQ3Status			E3FileFormat_Method_StartPass(TQ3ViewObject theView);
-TQ3ViewStatus		E3FileFormat_Method_EndPass(TQ3ViewObject theView);
+TQ3Status				E3FileFormat_Method_StartFile(TQ3ViewObject theView);
+TQ3Status				E3FileFormat_Method_EndFile(TQ3ViewObject theView);
+TQ3Status				E3FileFormat_Method_StartPass(TQ3ViewObject theView);
+TQ3ViewStatus			E3FileFormat_Method_EndPass(TQ3ViewObject theView);
+TQ3Status				E3FileFormat_Method_SubmitGeometry(TQ3ViewObject theView, TQ3ObjectType geomType, TQ3Boolean *geomSupported, TQ3GeometryObject theGeom, const void *geomData);
+TQ3Status				E3FileFormat_Method_SubmitGroup(TQ3ViewObject theView, TQ3GroupObject group);
 
 
 //=============================================================================

@@ -261,45 +261,6 @@ E3File_CallIdle(TQ3FileObject theFile)
 
 
 
-
-
-//=============================================================================
-//      E3XView_SubmitWriteData : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDeleteMethod deleteData)
-{
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
-
-
-
-
-
-//=============================================================================
-//      E3XView_SubmitSubObjectData : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3Uns32 size, void *data, TQ3XDataDeleteMethod deleteData)
-{
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
-
-
-
-
-
-
 //=============================================================================
 //      E3File_New : Create a new file object.
 //-----------------------------------------------------------------------------
@@ -469,9 +430,6 @@ E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 		case kQ3FileModeNormal:
 			mode = kQ3FFormatWriterType3DMFNormalBin;
 			break;
-			
-		//still not supported
-		/*
 		case kQ3FileModeStream:
 			mode = kQ3FFormatWriterType3DMFStreamBin;
 			break;
@@ -493,8 +451,8 @@ E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 		case (kQ3FileModeDatabase + kQ3FileModeDatabase + kQ3FileModeText):
 			mode = kQ3FFormatWriterType3DMFDatabaseStreamText;
 			break;
-		*/
 		}
+			mode = kQ3FFormatWriterType3DMFStreamBin;
 	
 	// Instantiate the fileFormat 
 	format = Q3FileFormat_NewFromType(mode);

@@ -39,7 +39,9 @@
 #include "E3FFR_3DMF_Text.h"
 #include "E3FFR_3DMF_Geometry.h"
 
+#include "E3FFW_3DMFBin_Geometry.h"
 #include "E3FFW_3DMFBin_Register.h"
+#include "E3FFW_3DMFBin_Writer.h"
 
 
 
@@ -930,7 +932,16 @@ E3FFW_3DMF_Register(void)
 
 
 	// the Support objects
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+												kQ3ObjectType3DMF,
+												kQ3ClassName3DMF,
+												NULL,
+												0);
 
+	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
+	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
+	
 	// Register the end group class
 
 	// Misc methods
@@ -945,6 +956,7 @@ E3FFW_3DMF_Register(void)
 	// the Transform write Methods
 
 	// the Geometry write Methods
+	E3FFW_3DMF_RegisterGeom ();
 
 	return(qd3dStatus);
 }

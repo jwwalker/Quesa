@@ -46,6 +46,7 @@
 #include "E3Prefix.h"
 #include "E3View.h"
 #include "E3Renderer.h"
+#include "E3IOFileFormat.h"
 #include "E3Geometry.h"
 #include "E3GeometryBox.h"
 #include "E3GeometryCone.h"
@@ -154,34 +155,23 @@ e3geometry_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
-//      e3geometry_render : Geometry render method.
+//      e3geometry_decomposeAndSubmit : Geometry decomposition.
+//-----------------------------------------------------------------------------
+//	Decompose an object in simpler form if it is not 
+//  natively supported by the renderer - writer - picker
+//
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3geometry_decompose(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3GeometryData					*instanceData;
-	TQ3Boolean						geomSupported;
 	TQ3XGeomCacheIsValidMethod		cacheIsValid;
 	TQ3XGeomCacheUpdateMethod		cacheUpdate;
-	TQ3Status						qd3dStatus;
+	TQ3Status						qd3dStatus  = kQ3Failure;
 	TQ3Object						tmpObject;
 	TQ3XGeomCacheNewMethod			cacheNew;
 	E3ClassInfoPtr					theClass;
 
 
-
-	// Submit the geometry
-	qd3dStatus = E3Renderer_Method_SubmitGeometry(theView,
-													objectType,
-													&geomSupported,
-													theObject,
-													objectData);
-	if (geomSupported)
-		return(qd3dStatus);
-
-
-
-	// If we're still here, the geometry isn't supported.
-	//
 	// First thing to do, find the class for the object
 	theClass = E3ClassTree_GetClassByType(objectType);
 	if (theClass == NULL)
@@ -248,6 +238,55 @@ e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 		}
 
 	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geometry_render : Geometry render method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{TQ3Boolean						geomSupported;
+	TQ3Status						qd3dStatus;
+
+
+	// Submit the geometry
+	qd3dStatus = E3Renderer_Method_SubmitGeometry(theView,
+													objectType,
+													&geomSupported,
+													theObject,
+													objectData);
+	if (geomSupported)
+		return(qd3dStatus);
+	else
+		return e3geometry_decompose (theView, objectType, theObject, objectData);
+
+}
+
+
+//=============================================================================
+//      e3geometry_write : Geometry write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{TQ3Boolean						geomSupported;
+	TQ3Status						qd3dStatus;
+
+
+	// Submit the geometry
+	qd3dStatus = E3FileFormat_Method_SubmitGeometry(theView,
+													objectType,
+													&geomSupported,
+													theObject,
+													objectData);
+	if (geomSupported)
+		return(qd3dStatus);
+	else
+		return e3geometry_decompose (theView, objectType, theObject, objectData);
+
 }
 
 
@@ -443,6 +482,10 @@ e3geometry_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectSubmitRender:
 			theMethod = (TQ3XFunctionPointer) e3geometry_render;
+			break;
+
+		case kQ3XMethodTypeObjectSubmitWrite:
+			theMethod = (TQ3XFunctionPointer) e3geometry_write;
 			break;
 
 		case kQ3XMethodTypeGeomCacheDelete:
