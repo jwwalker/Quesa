@@ -1790,7 +1790,6 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 		return (status);
 	
 	
-failure_2:
 	Q3Mesh_EmptyData(meshData);
 failure_1:
 	Q3Memory_Free(&meshData);
@@ -1843,7 +1842,7 @@ e3ffw_3DMF_mesh_write( const TQ3MeshData *meshData,
 				if(j == 0)
 					writeStatus = Q3Uns32_Write(meshData->faces[i].contours[j].numVertices, theFile );
 				else
-					writeStatus = Q3Uns32_Write(-(meshData->faces[i].contours[j].numVertices), theFile );
+					writeStatus = Q3Int32_Write(-((TQ3Int32)meshData->faces[i].contours[j].numVertices), theFile );
 					
 				for(k = 0; k < meshData->faces[i].contours[j].numVertices && writeStatus == kQ3Success; k++)
 					{
