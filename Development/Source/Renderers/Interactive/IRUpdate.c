@@ -122,6 +122,20 @@ IRRenderer_State_StartPass(TQ3InteractiveData *instanceData, TQ3ViewObject theVi
 
 	// Reset the state
 	ir_state_reset(instanceData);
+	
+	
+	// Our calls to glDrawElements always use a vertex array
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	
+	// Other arrays are initially off.
+	instanceData->glClientStateNormal = kQ3False;
+	instanceData->glClientStateColor = kQ3False;
+	instanceData->glClientStateUV = kQ3False;
+	
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
 }
 
 
