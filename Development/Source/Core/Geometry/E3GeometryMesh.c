@@ -2756,11 +2756,44 @@ e3meshFace_GetExtData(
 	TQ3MeshFaceData* faceExtDataPtr,
 	const TE3MeshVertexDataArray* meshVertexArrayPtr)
 {
+	TQ3Uns32 					iSave;
+	TE3MeshContourData*	contours;
+
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(facePtr);
 	Q3_ASSERT_VALID_PTR(faceExtDataPtr);
 	Q3_ASSERT_VALID_PTR(meshVertexArrayPtr);
+	
+	faceExtDataPtr->numContours = e3meshFace_NumContours(facePtr);
 
+	if (faceExtDataPtr->numContours == 0)
+		faceExtDataPtr->contours = NULL;
+	else
+		if ((faceExtDataPtr->contours = Q3Memory_Allocate(faceExtDataPtr->numContours * sizeof(TQ3MeshContourData))) == NULL)
+			goto failure_2;
+	
+	// Use list of contours in face (*** MAY RELOCATE CONTOURS ***)
+	if (e3meshFace_UseContourArray((TE3MeshFaceData*)facePtr) == kQ3Failure)
+		goto failure;
+
+	contours = e3meshContourArray_FirstItem((TE3MeshContourDataArray*)&facePtr->contourArrayOrList.array);
+
+	for (iSave = 0; iSave < faceExtDataPtr->numContours; ++iSave)
+		if (e3meshContour_GetExtData(&contours[iSave], &faceExtDataPtr->contours[iSave], meshVertexArrayPtr) == kQ3Failure)
+			goto failure;
+
+	// Get attribute set
+	E3Shared_Acquire(&faceExtDataPtr->faceAttributeSet, facePtr->attributeSet);
+
+	return(kQ3Success);
+
+failure:
+	while (iSave > 0)
+		e3meshContourExtData_Empty(&faceExtDataPtr->contours[--iSave]);
+
+	Q3Memory_Free(&faceExtDataPtr->contours);
+
+failure_2:
 	return(kQ3Failure);
 }
 
@@ -3517,13 +3550,9 @@ e3mesh_GetExtData(
 	const TE3MeshData* meshPtr,
 	TQ3MeshData* meshExtDataPtr)
 {
-	TQ3Uns32 numVertices;
-	TQ3MeshVertexData* vertexExtDatas;
 	const TE3MeshVertexData* vertices;
 	TQ3Uns32 iSave;
 
-	TQ3Uns32 numFaces;
-	TQ3MeshFaceData* faceExtDatas;
 	const TE3MeshFaceData* faces;
 	TQ3Uns32 jSave;
 
@@ -3536,18 +3565,18 @@ e3mesh_GetExtData(
 		goto failure_1;
 
 	// Allocate array of uninitialized vertices
-	numVertices = e3mesh_NumVertices(meshPtr);
-	if (numVertices == 0)
-		vertexExtDatas = NULL;
-	else if ((vertexExtDatas = Q3Memory_Allocate(numVertices * sizeof(TQ3MeshVertexData))) == NULL)
+	meshExtDataPtr->numVertices = e3mesh_NumVertices(meshPtr);
+	if (meshExtDataPtr->numVertices == 0)
+		meshExtDataPtr->vertices = NULL;
+	else if ((meshExtDataPtr->vertices = Q3Memory_Allocate(meshExtDataPtr->numVertices * sizeof(TQ3MeshVertexData))) == NULL)
 		goto failure_2;
 
 	// Get vertices
 	for (iSave = 0, vertices = e3meshVertexArray_FirstItemConst(&meshPtr->vertexArrayOrList.array);
-		iSave < numVertices;
+		iSave < meshExtDataPtr->numVertices;
 		++iSave, ++vertices)
 	{
-		if (e3meshVertex_GetExtData(vertices, &vertexExtDatas[iSave], &meshPtr->faceArrayOrList.array) == kQ3Failure)
+		if (e3meshVertex_GetExtData(vertices, &meshExtDataPtr->vertices[iSave], &meshPtr->faceArrayOrList.array) == kQ3Failure)
 			goto failure_3;
 	}
 
@@ -3556,18 +3585,18 @@ e3mesh_GetExtData(
 		goto failure_4;
 
 	// Allocate array of uninitialized faces
-	numFaces = e3mesh_NumFaces(meshPtr);
-	if (numFaces == 0)
-		faceExtDatas = NULL;
-	else if ((faceExtDatas = Q3Memory_Allocate(numFaces * sizeof(TQ3MeshFaceData))) == NULL)
+	meshExtDataPtr->numFaces = e3mesh_NumFaces(meshPtr);
+	if (meshExtDataPtr->numFaces == 0)
+		meshExtDataPtr->faces = NULL;
+	else if ((meshExtDataPtr->faces = Q3Memory_Allocate(meshExtDataPtr->numFaces * sizeof(TQ3MeshFaceData))) == NULL)
 		goto failure_5;
 
 	// Get faces
 	for (jSave = 0, faces = e3meshFaceArray_FirstItemConst(&meshPtr->faceArrayOrList.array);
-		jSave < numFaces;
+		jSave < meshExtDataPtr->numFaces;
 		++jSave, ++faces)
 	{
-		if (e3meshFace_GetExtData(faces, &faceExtDatas[jSave], &meshPtr->vertexArrayOrList.array) == kQ3Failure)
+		if (e3meshFace_GetExtData(faces, &meshExtDataPtr->faces[jSave], &meshPtr->vertexArrayOrList.array) == kQ3Failure)
 			goto failure_6;
 	}
 
@@ -3578,18 +3607,18 @@ e3mesh_GetExtData(
 
 failure_6:
 	while (jSave > 0)
-		e3meshFaceExtData_Empty(&faceExtDatas[--jSave]);
+		e3meshFaceExtData_Empty(&meshExtDataPtr->faces[--jSave]);
 
-	Q3Memory_Free(&faceExtDatas);
+	Q3Memory_Free(&meshExtDataPtr->faces);
 failure_5:
 
 failure_4:
 
 failure_3:
 	while (iSave > 0)
-		e3meshVertexExtData_Empty(&vertexExtDatas[--iSave]);
+		e3meshVertexExtData_Empty(&meshExtDataPtr->vertices[--iSave]);
 
-	Q3Memory_Free(&vertexExtDatas);
+	Q3Memory_Free(&meshExtDataPtr->vertices);
 failure_2:
 
 failure_1:
