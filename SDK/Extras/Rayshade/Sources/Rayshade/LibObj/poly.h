@@ -13,9 +13,12 @@
  * There is no warranty or other guarantee of fitness of this software
  * for any purpose.  It is provided solely "as is".
  *
- * $Id: poly.h,v 1.1 2002-12-18 18:36:42 pepe Exp $
+ * $Id: poly.h,v 1.2 2004-11-30 01:10:50 jwwalker Exp $
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.1  2002/12/18 18:36:42  pepe
+ * First upload
+ *
  * Revision 4.0  91/07/17  14:39:04  kolb
  * Initial version.
  * 
@@ -26,6 +29,8 @@
 #define GeomPolygonCreate(r,p,f) GeomCreate((GeomRef)PolygonCreate(r,p,f), \
 					PolygonMethods())
 
+namespace RayShade	// avoid name conflict in Windows
+{
 /*
  * Polygon
  */
@@ -37,7 +42,9 @@ typedef struct {
 	int npoints;		/* Number of vertices */
 } Polygon;
 
-extern Polygon *PolygonCreate(PointList *plist,int npoints,int flipflag);
+}
+
+extern RayShade::Polygon *PolygonCreate(PointList *plist,int npoints,int flipflag);
 extern Methods *PolygonMethods();
 
 #endif /* POLY_H */
