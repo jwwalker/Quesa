@@ -70,37 +70,74 @@ static inline OSErr e3viewer_q3status_oserr(TQ3Status status)
 }
 
 
-
-
-
-//=============================================================================
-//      Public functions
 //-----------------------------------------------------------------------------
-OSErr		
-E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
+//      e3viewer_oldButtonToNew : Convert an old Mac QD3DViewer button
+//			identifier into the ones used with the new unified API.
+//-----------------------------------------------------------------------------
+static TQ3Uns32 e3viewer_oldButtonToNew(TQ3Uns32 button)
 {
-	return e3viewer_q3status_oserr( Q3Viewer_GetVersion(majorRevision, minorRevision) );
+	switch (button)
+		{
+		case kQ3ViewerButtonCamera:		return kQ3ViewerFlagButtonCamera;
+		case kQ3ViewerButtonTruck:		return kQ3ViewerFlagButtonTruck;
+		case kQ3ViewerButtonOrbit:		return kQ3ViewerFlagButtonOrbit;
+		case kQ3ViewerButtonZoom:		return kQ3ViewerFlagButtonZoom;
+		case kQ3ViewerButtonDolly:		return kQ3ViewerFlagButtonDolly;
+		case kQ3ViewerButtonReset:		return kQ3ViewerFlagButtonReset;
+		case kQ3ViewerButtonOptions:	return kQ3ViewerFlagButtonOptions;
+		}
+	return 0;
 }
 
-
-OSErr		
-E3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
+//-----------------------------------------------------------------------------
+//      e3viewer_newButtonToOld : Convert a button identifier used with the
+//			new unified API into one used with the old Mac QD3DViewer.
+//-----------------------------------------------------------------------------
+static TQ3Uns32 e3viewer_newButtonToOld(TQ3Uns32 button)
 {
-	return e3viewer_q3status_oserr( Q3Viewer_GetReleaseVersion(releaseRevision) );
+	switch (button)
+		{
+		case kQ3ViewerFlagButtonCamera:		return kQ3ViewerButtonCamera;
+		case kQ3ViewerFlagButtonTruck:		return kQ3ViewerButtonTruck;
+		case kQ3ViewerFlagButtonOrbit:		return kQ3ViewerButtonOrbit;
+		case kQ3ViewerFlagButtonZoom:		return kQ3ViewerButtonZoom;
+		case kQ3ViewerFlagButtonDolly:		return kQ3ViewerButtonDolly;
+		case kQ3ViewerFlagButtonReset:		return kQ3ViewerButtonReset;
+		case kQ3ViewerFlagButtonOptions:	return kQ3ViewerButtonOptions;
+		}
+	return 0;
 }
 
-
-TQ3ViewerObject
-E3ViewerNew(CGrafPtr port, Rect *rect, TQ3Uns32 oldFlags)
+//-----------------------------------------------------------------------------
+//      e3viewer_rect_area : Convert a MacOS Rect into a TQ3Area.
+//-----------------------------------------------------------------------------
+static void e3viewer_rect_area(Rect *inRect, TQ3Area *outArea)
 {
-	TQ3Area area;
+	outArea->min.x = inRect->left;
+	outArea->min.y = inRect->top;
+	outArea->max.x = inRect->right;
+	outArea->max.y = inRect->bottom;
+}
+
+//-----------------------------------------------------------------------------
+//      e3viewer_area_rect : Convert a TQ3Area into a MacOS Rect.
+//-----------------------------------------------------------------------------
+static void e3viewer_area_rect(TQ3Area *inArea, Rect *outRect)
+{
+	outRect->left = inArea->min.x;
+	outRect->top = inArea->min.y;
+	outRect->right = inArea->max.x;
+	outRect->bottom = inArea->max.y;
+}
+
+//-----------------------------------------------------------------------------
+//      e3viewer_oldFlagsToNew : Convert old viewer flags into the new
+//			flags used with the unified viewer API.
+//-----------------------------------------------------------------------------
+static TQ3Uns32 e3viewer_oldFlagsToNew(TQ3Uns32 oldFlags)
+{
 	TQ3Uns32 newFlags = 0L;
 
-	area.min.x = rect->left;
-	area.min.y = rect->top;
-	area.max.x = rect->right;
-	area.max.y = rect->bottom;
-	
 	if (kQ3ViewerDefault == oldFlags)
 		newFlags = kQ3ViewerFlagDefault;
 	else
@@ -125,6 +162,70 @@ E3ViewerNew(CGrafPtr port, Rect *rect, TQ3Uns32 oldFlags)
 		if (oldFlags & kQ3ViewerButtonOptions)		newFlags |= kQ3ViewerFlagButtonOptions;
 		if (oldFlags & kQ3ViewerPaneGrowBox)		newFlags |= kQ3ViewerFlagPaneGrowBox;
 		}
+	
+	return newFlags;
+}
+
+//-----------------------------------------------------------------------------
+//      e3viewer_newFlagsToOld : Convert new viewer flags into the old
+//			flags used with the QD3D Mac/Win viewer API.
+//-----------------------------------------------------------------------------
+static TQ3Uns32 e3viewer_newFlagsToOld(TQ3Uns32 newFlags)
+{
+	TQ3Uns32 oldFlags = 0L;
+
+	if (kQ3ViewerFlagDefault == newFlags)
+		oldFlags = kQ3ViewerDefault;
+	else
+		{
+		if (newFlags & kQ3ViewerFlagShowBadge)			oldFlags |= kQ3ViewerShowBadge;
+		if (newFlags & kQ3ViewerFlagActive)				oldFlags |= kQ3ViewerActive;
+		if (newFlags & kQ3ViewerFlagVisible)			oldFlags |= kQ3ViewerControllerVisible;
+		if (newFlags & kQ3ViewerFlagDrawFrame)			oldFlags |= kQ3ViewerDrawFrame;
+		if (newFlags & kQ3ViewerFlagDraggingOff)		oldFlags |= kQ3ViewerDraggingOff;
+		if (newFlags & kQ3ViewerFlagButtonCamera)		oldFlags |= kQ3ViewerButtonCamera;
+		if (newFlags & kQ3ViewerFlagButtonTruck)		oldFlags |= kQ3ViewerButtonTruck;
+		if (newFlags & kQ3ViewerFlagButtonOrbit)		oldFlags |= kQ3ViewerButtonOrbit;
+		if (newFlags & kQ3ViewerFlagButtonZoom)			oldFlags |= kQ3ViewerButtonZoom;
+		if (newFlags & kQ3ViewerFlagButtonDolly)		oldFlags |= kQ3ViewerButtonDolly;
+		if (newFlags & kQ3ViewerFlagButtonReset)		oldFlags |= kQ3ViewerButtonReset;
+		if (newFlags & kQ3ViewerFlagOutputTextMode)		oldFlags |= kQ3ViewerOutputTextMode;
+		if (newFlags & kQ3ViewerFlagDragMode)			oldFlags |= kQ3ViewerDragMode;
+		if (newFlags & kQ3ViewerFlagDrawGrowBox)		oldFlags |= kQ3ViewerDrawGrowBox;
+		if (newFlags & kQ3ViewerFlagDrawDragBorder)		oldFlags |= kQ3ViewerDrawDragBorder;
+		if (newFlags & kQ3ViewerFlagDraggingInOff)		oldFlags |= kQ3ViewerDraggingInOff;
+		if (newFlags & kQ3ViewerFlagDraggingOutOff)		oldFlags |= kQ3ViewerDraggingOutOff;
+		if (newFlags & kQ3ViewerFlagButtonOptions)		oldFlags |= kQ3ViewerButtonOptions;
+		if (newFlags & kQ3ViewerFlagPaneGrowBox)		oldFlags |= kQ3ViewerPaneGrowBox;
+		}
+	
+	return oldFlags;
+}
+
+//=============================================================================
+//      Public functions
+//-----------------------------------------------------------------------------
+OSErr		
+E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
+{
+	return e3viewer_q3status_oserr( Q3Viewer_GetVersion(majorRevision, minorRevision) );
+}
+
+
+OSErr		
+E3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
+{
+	return e3viewer_q3status_oserr( Q3Viewer_GetReleaseVersion(releaseRevision) );
+}
+
+
+TQ3ViewerObject
+E3ViewerNew(CGrafPtr port, Rect *rect, TQ3Uns32 oldFlags)
+{
+	TQ3Area area;
+	TQ3Uns32 newFlags = e3viewer_oldFlagsToNew(oldFlags);
+
+	e3viewer_rect_area(rect, &area);
 	
 	return Q3Viewer_New(port, &area, newFlags);
 }
@@ -220,8 +321,6 @@ E3ViewerEvent(TQ3ViewerObject theViewer, EventRecord *evt)
 	else return false;
 }
 
-// --- left off here ---
-
 PicHandle	
 E3ViewerGetPict(TQ3ViewerObject theViewer)
 {
@@ -233,240 +332,223 @@ E3ViewerGetPict(TQ3ViewerObject theViewer)
 OSErr		
 E3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, Rect *rect)
 {
-
-	return(-4);  // unimplemented
+	TQ3Area area;
+	TQ3Status status = e3viewer_q3status_oserr( Q3Viewer_GetButtonRect(theViewer, 
+				e3viewer_oldButtonToNew(button), &area) );
+	if (kQ3Success == status)
+		e3viewer_area_rect(&area, rect);
+	return e3viewer_q3status_oserr(status);
 }
 
 
 TQ3Uns32	
 E3ViewerGetCurrentButton(TQ3ViewerObject theViewer)
 {
-
-	return(0); // unimplemented
+	return e3viewer_newButtonToOld( Q3Viewer_GetCurrentButton(theViewer) );
 }
 
 
 OSErr		
 E3ViewerSetCurrentButton(TQ3ViewerObject theViewer, TQ3Uns32 button)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetCurrentButton(theViewer,
+				e3viewer_oldButtonToNew(button)) );
 }
 
 
 OSErr		
 E3ViewerUseGroup(TQ3ViewerObject theViewer, TQ3GroupObject group)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_UseGroup(theViewer, group) );
 }
 
 
 TQ3GroupObject
 E3ViewerGetGroup(TQ3ViewerObject theViewer)
 {
-
-	return(NULL);  // unimplemented
+	return Q3Viewer_GetGroup(theViewer);
 }
 
 
 OSErr		
 E3ViewerSetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *color)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetBackgroundColor(theViewer, color) );
 }
 
 
 OSErr		
 E3ViewerGetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *color)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_GetBackgroundColor(theViewer, color) );
 }
 
 
 TQ3ViewObject
 E3ViewerGetView(TQ3ViewerObject theViewer)
 {
-
-	return(NULL);  // unimplemented
+	return Q3Viewer_GetView(theViewer);
 }
 
 
 OSErr		
 E3ViewerRestoreView(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_RestoreView(theViewer) );
 }
 
 
 OSErr		
 E3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetFlags(theViewer,
+				e3viewer_oldFlagsToNew(flags)) );
 }
 
 
 TQ3Uns32	
 E3ViewerGetFlags(TQ3ViewerObject theViewer)
 {
-
-	return(0); // unimplemented
+	return e3viewer_newFlagsToOld( Q3Viewer_GetFlags(theViewer) );
 }
 
 
 OSErr		
 E3ViewerSetBounds(TQ3ViewerObject theViewer, Rect *bounds)
 {
-
-	return(-4);  // unimplemented
+	TQ3Area area;
+	e3viewer_rect_area(bounds, &area);
+	return e3viewer_q3status_oserr( Q3Viewer_SetBounds(theViewer, &area) );
 }
 
 
 OSErr		
 E3ViewerGetBounds(TQ3ViewerObject theViewer, Rect *bounds)
 {
-
-	return(-4);  // unimplemented
+	TQ3Area area;
+	TQ3Status status = Q3Viewer_GetBounds(theViewer, &area);
+	if (kQ3Success == status)
+		e3viewer_area_rect(&area, bounds);
+	return e3viewer_q3status_oserr(status);
 }
 
 
 OSErr		
 E3ViewerSetDimension(TQ3ViewerObject theViewer, TQ3Uns32 width, TQ3Uns32 height)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetDimension(theViewer, width, height) );
 }
 
 
 OSErr		
 E3ViewerGetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_GetDimension(theViewer, width, height) );
 }
 
 
 OSErr		
 E3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_GetMinimumDimension(theViewer, width, height) );
 }
 
 
 OSErr		
 E3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetWindow(theViewer, port) );
 }
 
 
 CGrafPtr	
 E3ViewerGetPort(TQ3ViewerObject theViewer)
 {
-
-	return(NULL);  // unimplemented
+	return Q3Viewer_GetWindow(theViewer);
 }
 
 
 Boolean		
 E3ViewerAdjustCursor(TQ3ViewerObject theViewer, Point *pt)
 {
-
-	return(false);  // unimplemented
+	return kQ3True == Q3Viewer_AdjustCursor(theViewer, pt->h, pt->v);
 }
 
 
 OSErr		
 E3ViewerCursorChanged(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_CursorChanged(theViewer) );
 }
 
 
 TQ3Uns32	
 E3ViewerGetState(TQ3ViewerObject theViewer)
 {
-
-	return(0); // unimplemented
+	return Q3Viewer_GetState(theViewer);
 }
 
 
 OSErr		
 E3ViewerClear(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_EditClear(theViewer) );
 }
 
 
 OSErr		
 E3ViewerCut(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_EditCut(theViewer) );
 }
 
 
 OSErr		
 E3ViewerCopy(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_EditCopy(theViewer) );
 }
 
 
 OSErr		
 E3ViewerPaste(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_EditPaste(theViewer) );
 }
 
 
 Boolean		
 E3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 {
-
-	return(false);  // unimplemented
+	return kQ3True == Q3Viewer_EventMouseDown(theViewer, x, y);
 }
 
 
 Boolean		
 E3ViewerContinueTracking(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 {
-
-	return(false);  // unimplemented
+	return kQ3True == Q3Viewer_EventMouseTrack(theViewer, x, y);
 }
 
 
 Boolean		
 E3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 {
-
-	return(false);  // unimplemented
+	return kQ3True == Q3Viewer_EventMouseUp(theViewer, x, y);
 }
 
 
 Boolean		
 E3ViewerHandleKeyEvent(TQ3ViewerObject theViewer, EventRecord *evt)
 {
-
-	return(false);  // unimplemented
+	return kQ3True == Q3Viewer_EventKeyboard(theViewer, evt);
 }
 
 
 OSErr		
 E3ViewerSetDrawingCallbackMethod(TQ3ViewerObject theViewer, TQ3ViewerDrawingCallbackMethod callbackMethod, const void *data)
 {
-
-	return(-4);  // unimplemented
+	return(-4);  // unimplemented	
 }
 
 
@@ -489,96 +571,84 @@ E3ViewerSetPaneResizeNotifyCallback(TQ3ViewerObject theViewer, TQ3ViewerPaneResi
 OSErr		
 E3ViewerUndo(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_EditUndo(theViewer) );
 }
 
 
 Boolean		
 E3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, TQ3Uns32 *cnt)
 {
-
-	return(false);  // unimplemented
+	return kQ3True == Q3Viewer_GetUndoString(theViewer, str, cnt);
 }
 
 
 OSErr		
 E3ViewerGetCameraCount(TQ3ViewerObject theViewer, TQ3Uns32 *cnt)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_GetCameraCount(theViewer, cnt) );
 }
 
 
 OSErr		
 E3ViewerSetCameraByNumber(TQ3ViewerObject theViewer, TQ3Uns32 cameraNo)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetCameraByNumber(theViewer, cameraNo) );
 }
 
 
 OSErr		
 E3ViewerSetCameraByView(TQ3ViewerObject theViewer, TQ3ViewerCameraView viewType)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetCameraByView(theViewer, viewType) );
 }
 
 
 OSErr		
 E3ViewerSetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType rendererType)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetRendererType(theViewer, rendererType) );
 }
 
 
 OSErr		
 E3ViewerGetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType *rendererType)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_GetRendererType(theViewer, rendererType) );
 }
 
 
 OSErr		
 E3ViewerChangeBrightness(TQ3ViewerObject theViewer, float brightness)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetBrightness(theViewer, brightness) );
 }
 
 
 OSErr		
 E3ViewerSetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean remove)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetRemoveBackfaces(theViewer, remove) );
 }
 
 
 OSErr		
 E3ViewerGetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean *remove)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_GetRemoveBackfaces(theViewer, remove) );
 }
 
 
 OSErr		
 E3ViewerSetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean phong)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_SetPhongShading(theViewer, phong) );
 }
 
 
 OSErr		
 E3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_q3status_oserr( Q3Viewer_GetPhongShading(theViewer, phong) );
 }
 
 
