@@ -181,8 +181,8 @@ Q3Notice_Register(TQ3NoticeMethod noticePost, TQ3Int32 reference)
 //=============================================================================
 //      Q3Error_Get : Quesa API entry point.
 //-----------------------------------------------------------------------------
-//		Note :	Preserves the Error Manager state around the bottleneck, since
-//				calling this routine should not clear the existing state.
+//		Note :	Must preserve the Error Manager state around the bottleneck,
+//				since calling this routine should not clear existing state.
 //-----------------------------------------------------------------------------
 TQ3Error
 Q3Error_Get(TQ3Error *firstError)
@@ -247,6 +247,9 @@ Q3Error_IsFatalError(TQ3Error error)
 //=============================================================================
 //      Q3Warning_Get : Quesa API entry point.
 //-----------------------------------------------------------------------------
+//		Note :	Must preserve the Error Manager state around the bottleneck,
+//				since calling this routine should not clear existing state.
+//-----------------------------------------------------------------------------
 TQ3Warning
 Q3Warning_Get(TQ3Warning *firstWarning)
 {	E3GlobalsPtr	theGlobals = E3Globals_Get();
@@ -290,6 +293,9 @@ Q3Warning_Get(TQ3Warning *firstWarning)
 //=============================================================================
 //      Q3Notice_Get : Quesa API entry point.
 //-----------------------------------------------------------------------------
+//		Note :	Must preserve the Error Manager state around the bottleneck,
+//				since calling this routine should not clear existing state.
+//-----------------------------------------------------------------------------
 TQ3Notice
 Q3Notice_Get(TQ3Notice *firstNotice)
 {	E3GlobalsPtr	theGlobals = E3Globals_Get();
@@ -328,12 +334,15 @@ Q3Notice_Get(TQ3Notice *firstNotice)
 
 
 
-#if QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 //=============================================================================
 //      Q3Error_PlatformGet : Quesa API entry point.
 //-----------------------------------------------------------------------------
+//		Note :	Must preserve the Error Manager state around the bottleneck,
+//				since calling this routine should not clear existing state.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
 TQ3Uns32
 Q3Error_PlatformGet(TQ3Uns32 *firstErr)
 {	E3GlobalsPtr	theGlobals = E3Globals_Get();
@@ -369,6 +378,7 @@ Q3Error_PlatformGet(TQ3Uns32 *firstErr)
 	// Call our implementation
 	return(E3Error_PlatformGet(firstErr));
 }
+#endif
 
 
 
@@ -377,6 +387,7 @@ Q3Error_PlatformGet(TQ3Uns32 *firstErr)
 //=============================================================================
 //      Q3Error_PlatformPost : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
 void
 Q3Error_PlatformPost(TQ3Uns32 theErr)
 {
@@ -390,6 +401,7 @@ Q3Error_PlatformPost(TQ3Uns32 theErr)
 	// Call our implementation
 	E3Error_PlatformPost(theErr);
 }
+#endif
 
 
 
@@ -398,6 +410,7 @@ Q3Error_PlatformPost(TQ3Uns32 theErr)
 //=============================================================================
 //      Q3Error_ToString : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
 const char *
 Q3Error_ToString(TQ3Language theLanguage, TQ3Error theError)
 {
@@ -411,6 +424,7 @@ Q3Error_ToString(TQ3Language theLanguage, TQ3Error theError)
 	// Call our implementation
 	return(E3Error_ToString(theLanguage, theError));
 }
+#endif
 
 
 
@@ -419,6 +433,7 @@ Q3Error_ToString(TQ3Language theLanguage, TQ3Error theError)
 //=============================================================================
 //      Q3Warning_ToString : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
 const char *
 Q3Warning_ToString(TQ3Language theLanguage, TQ3Warning theWarning)
 {
@@ -432,6 +447,7 @@ Q3Warning_ToString(TQ3Language theLanguage, TQ3Warning theWarning)
 	// Call our implementation
 	return(E3Warning_ToString(theLanguage, theWarning));
 }
+#endif
 
 
 
@@ -440,6 +456,7 @@ Q3Warning_ToString(TQ3Language theLanguage, TQ3Warning theWarning)
 //=============================================================================
 //      Q3Notice_ToString : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
 const char *
 Q3Notice_ToString(TQ3Language theLanguage, TQ3Notice theNotice)
 {
@@ -453,9 +470,9 @@ Q3Notice_ToString(TQ3Language theLanguage, TQ3Notice theNotice)
 	// Call our implementation
 	return(E3Notice_ToString(theLanguage, theNotice));
 }
+#endif
 
 
-#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
