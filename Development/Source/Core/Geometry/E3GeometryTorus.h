@@ -30,8 +30,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __E3GEOMETRY_TORUS__
-#define __E3GEOMETRY_TORUS__
+#ifndef E3GEOMETRY_TORUS_HDR
+#define E3GEOMETRY_TORUS_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------

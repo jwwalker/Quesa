@@ -32,8 +32,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __E3CARBONCOATING__
-#define __E3CARBONCOATING__
+#ifndef E3CARBONCOATING_HDR
+#define E3CARBONCOATING_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------

@@ -30,7 +30,31 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
+#ifndef E3VIEWER_HDR
+#define E3VIEWER_HDR
+//=============================================================================
+//      Include files
+//-----------------------------------------------------------------------------
+#include "Quesa.h"
 
+
+
+
+
+//=============================================================================
+//		C++ preamble
+//-----------------------------------------------------------------------------
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
+
+
+//=============================================================================
+//      Function prototypes
+//-----------------------------------------------------------------------------
 TQ3XFunctionPointer BaseToolMetaHandler		(TQ3XMethodType methodType);
 TQ3XFunctionPointer CameraToolMetaHandler	(TQ3XMethodType methodType);
 TQ3XFunctionPointer TruckToolMetaHandler	(TQ3XMethodType methodType);
@@ -40,3 +64,17 @@ TQ3XFunctionPointer DollyToolMetaHandler	(TQ3XMethodType methodType);
 TQ3XFunctionPointer ResetToolMetaHandler	(TQ3XMethodType methodType);
 TQ3XFunctionPointer OptionsToolMetaHandler	(TQ3XMethodType methodType);
 TQ3XFunctionPointer AboutToolMetaHandler	(TQ3XMethodType methodType);
+
+
+
+
+
+//=============================================================================
+//		C++ postamble
+//-----------------------------------------------------------------------------
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+

@@ -30,8 +30,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __QUT_INTERNAL__
-#define __QUT_INTERNAL__
+#ifndef QUT_INTERNAL_HDR
+#define QUT_INTERNAL_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------

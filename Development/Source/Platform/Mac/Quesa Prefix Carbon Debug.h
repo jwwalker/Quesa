@@ -30,8 +30,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef QUESA_PREFIX_CARBON_DEBUG__
-#define QUESA_PREFIX_CARBON_DEBUG__
+#ifndef QUESA_PREFIX_CARBON_DEBUG_HDR
+#define QUESA_PREFIX_CARBON_DEBUG_HDR
 //=============================================================================
 //      Set our build constants
 //-----------------------------------------------------------------------------

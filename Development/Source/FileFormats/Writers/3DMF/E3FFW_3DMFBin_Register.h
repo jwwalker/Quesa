@@ -30,8 +30,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __E3FFW_3DMFBIN_REGISTER__
-#define __E3FFW_3DMFBIN_REGISTER__
+#ifndef E3FFW_3DMFBIN_REGISTER_HDR
+#define E3FFW_3DMFBIN_REGISTER_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------

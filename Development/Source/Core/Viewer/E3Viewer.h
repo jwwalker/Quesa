@@ -30,8 +30,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __E3VIEWER__
-#define __E3VIEWER__
+#ifndef E3VIEWER_HDR
+#define E3VIEWER_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
@@ -107,12 +107,12 @@ extern "C" {
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-#ifndef __QUESA__
-	#define __QUESA_ 0
+#ifndef QUESA_HDR
+	#define QUESA_HDR 0
 	#define __REALQD3D__ 1
 #endif
 #ifndef __REALQD3D__
-	#define __REALQD3D__ !__QUESA_
+	#define __REALQD3D__ !QUESA_HDR
 #endif
 
 #define kHelpStrings  -128

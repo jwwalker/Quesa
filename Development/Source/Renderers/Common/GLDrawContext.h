@@ -30,8 +30,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __GLDRAWCONTEXT__
-#define __GLDRAWCONTEXT__
+#ifndef GLDRAWCONTEXT_HDR
+#define GLDRAWCONTEXT_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------

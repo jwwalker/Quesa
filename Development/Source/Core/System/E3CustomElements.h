@@ -30,8 +30,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __E3CUSTOMELEMENTS__
-#define __E3CUSTOMELEMENTS__
+#ifndef E3CUSTOMELEMENTS_HDR
+#define E3CUSTOMELEMENTS_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------

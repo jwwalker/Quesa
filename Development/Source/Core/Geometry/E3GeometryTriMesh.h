@@ -30,8 +30,8 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __E3GEOMETRY_TRIMESH__
-#define __E3GEOMETRY_TRIMESH__
+#ifndef E3GEOMETRY_TRIMESH_HDR
+#define E3GEOMETRY_TRIMESH_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
