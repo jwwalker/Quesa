@@ -1,5 +1,5 @@
 /*! @header QuesaSet.h
-        Declares the Quesa set objects.
+        Declarations for Quesa sets, elements, and attributes.
  */
 /*  NAME:
         QuesaSet.h
@@ -67,8 +67,28 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
+/*!
+ *	@enum
+ *		TQ3AttributeTypes
+ *	@discussion
+ *		Type numbers for standard attributes.
+ *
+ *	@constant	kQ3AttributeTypeNone				No type.  See Q3AttributeSet_GetNextAttributeType.
+ *	@constant	kQ3AttributeTypeSurfaceUV			Surface UV coordinates (TQ3Param2D)
+ *	@constant	kQ3AttributeTypeShadingUV			Shading UV coordinates (TQ3Param2D)
+ *	@constant	kQ3AttributeTypeNormal				Normal vector (TQ3Vector3D)
+ *	@constant	kQ3AttributeTypeAmbientCoefficient	Ambient coefficient (float)
+ *	@constant	kQ3AttributeTypeDiffuseColor		Diffuse color (TQ3ColorRGB)
+ *	@constant	kQ3AttributeTypeSpecularColor		Specular color (TQ3ColorRGB)
+ *	@constant	kQ3AttributeTypeSpecularControl		Specular control (float)
+ *	@constant	kQ3AttributeTypeTransparencyColor	Transparency color (TQ3ColorRGB)
+ *	@constant	kQ3AttributeTypeSurfaceTangent		Surface tangent (TQ3Tangent2D)
+ *	@constant	kQ3AttributeTypeHighlightState		Highlight state (TQ3Switch)
+ *	@constant	kQ3AttributeTypeSurfaceShader		Surface shader (TQ3SurfaceShaderObject)
+ *	@constant	kQ3AttributeTypeNumTypes			Number of standard attribute types.
+*/
 // Attribute types
-typedef enum {
+typedef enum TQ3AttributeTypes {
     kQ3AttributeTypeNone                        = 0,            // n/a
     kQ3AttributeTypeSurfaceUV                   = 1,            // TQ3Param2D
     kQ3AttributeTypeShadingUV                   = 2,            // TQ3Param2D
@@ -85,6 +105,20 @@ typedef enum {
 } TQ3AttributeTypes;
 
 
+/*!
+ *	@enum
+ *		Element&nbsp;method&nbsp;types
+ *	@discussion
+ *		These are method types that apply particularly to custom elements. Note that
+ *		a custom element may also need to provide more general custom class methods,
+ *		such as kQ3XMethodTypeObjectTraverse.
+ *
+ *	@constant	kQ3XMethodTypeElementCopyAdd		See TQ3XElementCopyAddMethod.
+ *	@constant	kQ3XMethodTypeElementCopyReplace	See TQ3XElementCopyReplaceMethod.
+ *	@constant	kQ3XMethodTypeElementCopyGet		See TQ3XElementCopyGetMethod.
+ *	@constant	kQ3XMethodTypeElementCopyDuplicate	See TQ3XElementCopyDuplicateMethod.
+ *	@constant	kQ3XMethodTypeElementDelete			See TQ3XElementDeleteMethod.
+*/
 // Element method types
 enum {
     kQ3XMethodTypeElementCopyAdd                = Q3_METHOD_TYPE('e', 'c', 'p', 'a'),
@@ -95,6 +129,19 @@ enum {
 };
 
 
+/*!
+ *	@enum
+ *		Attribute&nbsp;method&nbsp;types
+ *	@discussion
+ *		These are method types that apply particularly to custom attributes. Note that
+ *		a custom element may also need to provide more general custom element or custom class methods,
+ *		such as kQ3XMethodTypeObjectTraverse.
+ *
+ *	@constant	kQ3XMethodTypeAttributeInherit		See TQ3XAttributeInheritMethod.
+ *	@constant	kQ3XMethodTypeAttributeCopyInherit	See TQ3XAttributeCopyInheritMethod.
+ *	@constant	kQ3XMethodTypeAttributeDefault		See TQ3XAttributeDefaultMethod.
+ *	@constant	kQ3XMethodTypeAttributeIsDefault	See TQ3XAttributeIsDefaultMethod.
+*/
 // Attribute method types
 enum {
     kQ3XMethodTypeAttributeInherit              = Q3_METHOD_TYPE('i', 'n', 'h', 't'),
@@ -115,36 +162,113 @@ typedef TQ3ElementType                          TQ3AttributeType;
 
 
 // Element methods
+
+/*!
+ *	@typedef	TQ3XElementCopyAddMethod
+ *	@discussion
+ *		This method is called to add a new element to a set, as by <code>Q3Set_Add</code> or
+ *		<code>Q3Shape_AddElement</code>.  On entry, <code>toInternalElement</code> points to an uninitialized
+ *		block of <code>sizeOfElement</code> bytes, where <code>sizeOfElement</code>
+ *		is the size you provided when registering the class.
+ *
+ *	@param	fromAPIElement		Data to be copied, in its external form.
+ *	@param	toInternalElement	Destination of the copy, in internal form.
+ *	@result						Error status of the method.
+*/
 typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyAddMethod)(
                             const void          *fromAPIElement,
                             void                *toInternalElement);
                             
+/*!
+ *	@typedef	TQ3XElementCopyReplaceMethod
+ *	@discussion
+ *		This method is called to replace an existing element in a set, as by <code>Q3Set_Add</code> or
+ *		<code>Q3Shape_AddElement</code>.  On entry, <code>toInternalElement</code> points to existing element data,
+ *		which you may need to dispose before replacing by new data.
+ *
+ *	@param	fromAPIElement		Data to be copied, in its external form.
+ *	@param	toInternalElement	Destination of the copy, in internal form.
+ *	@result						Error status of the method.
+*/
 typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyReplaceMethod)(
                             const void          *fromAPIElement,
                             void                *toInternalElement);
                             
+/*!
+ *	@typedef	TQ3XElementCopyGetMethod
+ *	@discussion
+ *		This method is called to copy element data out of a set, as by <code>Q3Set_Get</code> or
+ *		<code>Q3Shape_GetElement</code>.  If you do not provide this method, the default action is
+ *		a memory copy of <code>sizeOfElement</code> bytes.
+ *
+ *	@param	fromInternalElement	Data to be copied, in its internal form.
+ *	@param	toAPIElement		Destination of the copy, in external form.
+ *	@result						Error status of the method.
+*/
 typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyGetMethod)(
-                            const void          *fromAPIElement,
-                            void                *toInternalElement);
+                            const void          *fromInternalElement,
+                            void                *toAPIElement);
                             
+/*!
+ *	@typedef	TQ3XElementCopyDuplicateMethod
+ *	@discussion
+ *		This method is called when <code>Q3Object_Duplicate</code> is used on a set or attribute set. 
+ *
+ *	@param	fromInternalElement	Data to be copied, in its internal form.
+ *	@param	toInternalElement	Destination of the copy, in internal form.
+ *	@result						Error status of the method.
+*/
 typedef CALLBACK_API_C(TQ3Status,           TQ3XElementCopyDuplicateMethod)(
-                            const void          *fromAPIElement,
+                            const void          *fromInternalElement,
                             void                *toInternalElement);
                             
+/*!
+ *	@typedef	TQ3XElementDeleteMethod
+ *	@discussion
+ *		This method is called to delete element data from a set or attribute set. 
+ *
+ *	@param	internalElement		Data to be deleted, in its internal form.
+ *	@result						Error status of the method.
+*/
 typedef CALLBACK_API_C(TQ3Status,           TQ3XElementDeleteMethod)(
                             void                *internalElement);
 
 
 // Attribute methods
+/*!
+ *	@typedef	TQ3XAttributeInheritMethod
+ *	@discussion
+ *		This is not literally a method.  Your metahandler returns kQ3True or kQ3False to
+ *		report whether a custom attribute supports inheritance.
+*/
 typedef TQ3Boolean                          TQ3XAttributeInheritMethod;
 
+/*!
+ *	@typedef	TQ3XAttributeCopyInheritMethod
+ *	@discussion	If your custom attribute supports inheritance, this method is called to
+ *				copy attribute data from a parent set to a child set.
+ *
+ *	@param	fromInternalAttribute	Attribute data to copy, in internal form.
+ *	@param	toInternalAttribute		Destination of the copy, in internal form.
+ *	@result							Error status of the method.
+*/
 typedef CALLBACK_API_C(TQ3Status,           TQ3XAttributeCopyInheritMethod)(
                             const void          *fromInternalAttribute,
                             void                *toInternalAttribute);
 
+/*!
+ *	@typedef	TQ3XAttributeDefaultMethod
+ *	@discussion	This method does not appear to be mentioned in the QuickDraw 3D documentation,
+ *				and is not currently used in Quesa.
+*/
 typedef CALLBACK_API_C(TQ3Status,           TQ3XAttributeDefaultMethod)(
                             void                *internalAttribute);
 
+/*!
+ *	@typedef	TQ3XAttributeIsDefaultMethod
+ *	@discussion	This method does not appear to be mentioned in the QuickDraw 3D documentation,
+ *				and is not currently used in Quesa.
+*/
 typedef CALLBACK_API_C(TQ3Boolean,          TQ3XAttributeIsDefaultMethod)(
                             void                *internalAttribute);
 
@@ -159,12 +283,11 @@ typedef CALLBACK_API_C(TQ3Boolean,          TQ3XAttributeIsDefaultMethod)(
  *  @function
  *      Q3Set_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new set, initially empty.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Plain sets are less commonly used than attribute sets.
  *
- *  @result                 Description of the function result.
+ *  @result                 The new set object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3SetObject  )
 Q3Set_New (
@@ -177,13 +300,12 @@ Q3Set_New (
  *  @function
  *      Q3Set_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a set object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns kQ3SetTypeAttribute or kQ3ObjectTypeInvalid.
  *
- *  @param theSet           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theSet           The set object.
+ *  @result                 The subtype of the set.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Set_GetType (
@@ -196,15 +318,17 @@ Q3Set_GetType (
  *  @function
  *      Q3Set_Add
  *  @discussion
- *      One-line description of this function.
+ *      Add an element to a set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function copies an element into an existing set.  If the set
+ *      already contains an element of the given type, it is replaced.
+ *		In the case of a custom element, the type is the type that was
+ *		returned by <code>Q3XElementClass_Register</code>.
  *
- *  @param theSet           Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theSet           The set object.
+ *  @param theType          Type of the element.
+ *  @param data             Pointer to the element data.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Set_Add (
@@ -219,15 +343,12 @@ Q3Set_Add (
  *  @function
  *      Q3Set_Get
  *  @discussion
- *      One-line description of this function.
+ *      Copy the data of an element into a buffer you provide.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theSet           Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theSet           The set object.
+ *  @param theType          The element type.
+ *  @param data             Pointer to a buffer large enough to receive the element data.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Set_Get (
@@ -242,14 +363,11 @@ Q3Set_Get (
  *  @function
  *      Q3Set_Contains
  *  @discussion
- *      One-line description of this function.
+ *      Determine whether a set contains an element of a given type.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theSet           Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theSet           The set object.
+ *  @param theType          The element type.
+ *  @result                 kQ3True if the element exists in the set.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3Set_Contains (
@@ -263,14 +381,14 @@ Q3Set_Contains (
  *  @function
  *      Q3Set_Clear
  *  @discussion
- *      One-line description of this function.
+ *      Remove an element of a given type from a set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the set did not contain an element of the specified type,
+ *      the function returns kQ3Failure.
  *
- *  @param theSet           Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theSet           The set object.
+ *  @param theType          The element type.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Set_Clear (
@@ -284,13 +402,10 @@ Q3Set_Clear (
  *  @function
  *      Q3Set_Empty
  *  @discussion
- *      One-line description of this function.
+ *      Remove all elements from a set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param target           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param target          The set object.
+ *  @result                Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Set_Empty (
@@ -303,14 +418,24 @@ Q3Set_Empty (
  *  @function
  *      Q3Set_GetNextElementType
  *  @discussion
- *      One-line description of this function.
+ *      Find the next element type in a set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If you pass <code>kQ3ElementTypeNone</code>, it will return the first element type.
+ *		After reaching the last element type, it returns <code>kQ3ElementTypeNone</code>.
+ *      Hence, you could iterate through all the element types as follows:
  *
- *  @param theSet           Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *		<blockquote><code><pre>
+ *		TQ3ElementType	theType = kQ3ElementTypeNone;
+ *		while ( Q3Set_GetNextElementType( set, &theType ) &&
+ *		&nbsp;	(theType != kQ3ElementTypeNone) )
+ *		{
+ *		&nbsp;	DoSomething( theType );
+ *		}
+ *		</pre></code></blockquote>
+ *
+ *  @param theSet           The set object.
+ *  @param theType          (input-output parameter) An element type.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Set_GetNextElementType (
@@ -351,15 +476,14 @@ Q3Set_CopyElement(
  *  @function
  *      Q3Attribute_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit an attribute in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This should only be used within a submitting loop.
  *
- *  @param attributeType    Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param attributeType    The attribute type.
+ *  @param data             Pointer to attribute data.
+ *  @param view             The view object.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Attribute_Submit (
@@ -374,12 +498,10 @@ Q3Attribute_Submit (
  *  @function
  *      Q3AttributeSet_New
  *  @discussion
- *      One-line description of this function.
+ *      Create an attribute set object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
  *
- *  @result                 Description of the function result.
+ *  @result                 A new empty attribute set, or NULL on failure.
  */
 EXTERN_API_C ( TQ3AttributeSet  )
 Q3AttributeSet_New (
@@ -392,15 +514,15 @@ Q3AttributeSet_New (
  *  @function
  *      Q3AttributeSet_Add
  *  @discussion
- *      One-line description of this function.
+ *      Add an attribute to an attribute set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Copy attribute data into an attribute set.  If the set already contains
+ *      the specified type of attribute, it is replaced.
  *
- *  @param attributeSet     Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param attributeSet     The attribute set.
+ *  @param theType          The attribute type.
+ *  @param data             Pointer to the attribute data.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Add (
@@ -415,14 +537,12 @@ Q3AttributeSet_Add (
  *  @function
  *      Q3AttributeSet_Contains
  *  @discussion
- *      One-line description of this function.
+ *      Determine whether an attribute set contains a specified attribute.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
  *
- *  @param attributeSet     Description of the parameter.
- *  @param attributeType    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param attributeSet     The attribute set.
+ *  @param attributeType    The attribute type.
+ *  @result                 kQ3True if the attribute type exists in the set.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3AttributeSet_Contains (
@@ -436,15 +556,15 @@ Q3AttributeSet_Contains (
  *  @function
  *      Q3AttributeSet_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get attribute data from an attribute set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Copies attribute data into a user-provided buffer which should be
+ *      large enough for the given kind of attribute.
  *
- *  @param attributeSet     Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param attributeSet     The attribute set.
+ *  @param theType          The attribute type.
+ *  @param data             Pointer to a buffer to receive the attribute data.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Get (
@@ -459,14 +579,12 @@ Q3AttributeSet_Get (
  *  @function
  *      Q3AttributeSet_Clear
  *  @discussion
- *      One-line description of this function.
+ *      Remove an attribute from an attribute set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
  *
- *  @param attributeSet     Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param attributeSet     The attribute set.
+ *  @param theType          The attribute type.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Clear (
@@ -480,13 +598,11 @@ Q3AttributeSet_Clear (
  *  @function
  *      Q3AttributeSet_Empty
  *  @discussion
- *      One-line description of this function.
+ *      Remove all attributes from an attribute set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
  *
- *  @param target           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param target           The attribute set.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Empty (
@@ -499,14 +615,24 @@ Q3AttributeSet_Empty (
  *  @function
  *      Q3AttributeSet_GetNextAttributeType
  *  @discussion
- *      One-line description of this function.
+ *      Find the next attribute type in an attribute set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If you pass <code>kQ3AttributeTypeNone</code>, it will return the first attribute type.
+ *      After reaching the last element type, it returns <code>kQ3AttributeTypeNone</code>.
+ *		Hence, you could iterate through all the attribute types as follows:
  *
- *  @param source           Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *		<blockquote><code><pre>
+ *		TQ3AttributeType	theType = kQ3AttributeTypeNone;
+ *		while ( Q3AttributeSet_GetNextAttributeType( set, &theType ) &&
+ *		&nbsp;	(theType != kQ3AttributeTypeNone) )
+ *		{
+ *		&nbsp;	DoSomething( theType );
+ *		}
+ *		</pre></code></blockquote>
+ *
+ *  @param source           The attribute set object.
+ *  @param theType          (input-output parameter) An element type.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_GetNextAttributeType (
@@ -520,14 +646,13 @@ Q3AttributeSet_GetNextAttributeType (
  *  @function
  *      Q3AttributeSet_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit an attribute set.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This should only be used within a submitting loop.
  *
- *  @param attributeSet     Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param attributeSet     The attribute set object.
+ *  @param view             A view object.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Submit (
@@ -541,15 +666,17 @@ Q3AttributeSet_Submit (
  *  @function
  *      Q3AttributeSet_Inherit
  *  @discussion
- *      One-line description of this function.
+ *      Configures an attribute set by copying all attributes from one set
+ *		(the child) and then copying any attributes that were not in the
+ *		child from another attribute set (the parent).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The set you pass to receive the result must be an existing attribute set,
+ *      but any existing attributes in it will be removed.
  *
- *  @param parent           Description of the parameter.
- *  @param child            Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param parent           An attribute set.
+ *  @param child            An attribute set.
+ *  @param result           An attribute set to be redefined.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3AttributeSet_Inherit (
@@ -564,16 +691,29 @@ Q3AttributeSet_Inherit (
  *  @function
  *      Q3XElementClass_Register
  *  @discussion
- *      One-line description of this function.
+ *      Register a custom element class.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The custom class naming convention is to begin with your company name,
+ *		then a colon, then a specific class name.
  *
- *  @param elementType      Description of the parameter.
- *  @param name             Description of the parameter.
- *  @param sizeOfElement    Description of the parameter.
- *  @param metaHandler      Description of the parameter.
- *  @result                 Description of the function result.
+ *		If your element's data contains indirect data, such as pointers to other
+ *		data or references to Quesa objects, your metahandler should provide methods
+ *		of the types <code>kQ3XMethodTypeElementCopyAdd</code>, <code>kQ3XMethodTypeElementCopyGet</code>,
+ *		<code>kQ3XMethodTypeElementCopyDuplicate</code>, <code>kQ3XMethodTypeElementCopyReplace</code>, and
+ *		<code>kQ3XMethodTypeElementDelete</code>.  If you want to be able to write your element
+ *		to a file and read it back, your metahandler should define methods of the
+ *		types <code>kQ3XMethodTypeObjectTraverse</code>, <code>kQ3XMethodTypeObjectWrite</code>, and
+ *		<code>kQ3XMethodTypeObjectReadData</code>.
+ *
+ *      See QuesaExtension.h for other operations on a custom class, such
+ *		as <code>Q3XObjectHierarchy_UnregisterClass</code>.
+ *
+ *  @param elementType      (output) An element type assigned by Quesa.
+ *  @param name             The unique name of the new class.
+ *  @param sizeOfElement    Size of the data for the element.
+ *  @param metaHandler      Your metahandler function that returns element methods.
+ *							You may return NULL for some methods.
+ *  @result                 Opaque pointer to the new object class.
  */
 EXTERN_API_C ( TQ3XObjectClass  )
 Q3XElementClass_Register (
@@ -589,14 +729,15 @@ Q3XElementClass_Register (
  *  @function
  *      Q3XElementType_GetElementSize
  *  @discussion
- *      One-line description of this function.
+ *      Return the size in bytes of an element type.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      In the case of a custom element, this would be the same as the size
+ *		you provided when you called Q3XElementClass_Register.
  *
- *  @param elementType      Description of the parameter.
- *  @param sizeOfElement    Description of the parameter.
- *  @result                 Description of the function result.
+ *
+ *  @param elementType      An element type.
+ *  @param sizeOfElement    (output) Size in bytes of the element.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XElementType_GetElementSize (
@@ -610,21 +751,20 @@ Q3XElementType_GetElementSize (
  *  @function
  *      Q3XAttributeClass_Register
  *  @discussion
- *      One-line description of this function.
+ *      Register a custom attribute class.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
  *
- *  @param attributeType    Description of the parameter.
- *  @param creatorName      Description of the parameter.
- *  @param sizeOfElement    Description of the parameter.
- *  @param metaHandler      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param attributeType    (output) A new attribute type.
+ *  @param className      	Unique name for the new attribute.
+ *  @param sizeOfElement    Size in bytes of the attribute data.
+ *  @param metaHandler      Your metahandler, providing appropriate methods.
+ *							It may return NULL in some cases.
+ *  @result                 Pointer to the new class.
  */
 EXTERN_API_C ( TQ3XObjectClass  )
 Q3XAttributeClass_Register (
     TQ3AttributeType              *attributeType,
-    const char                    *creatorName,
+    const char                    *className,
     TQ3Uns32                      sizeOfElement,
     TQ3XMetaHandler               metaHandler
 );
