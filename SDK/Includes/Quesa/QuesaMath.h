@@ -3359,6 +3359,26 @@ Q3Point3D_TransformQuaternion (
 //-----------------------------------------------------------------------------
 /*!
  *  @function
+ *      Q3BoundingBox_Reset
+ *  @discussion
+ *      Reset (set to empty) a bounding box.
+ *
+ *      Available in inline form as Q3FastBoundingBox_Reset.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param bBox             Address of bounding box to reset.
+ *  @result                 Convenience copy of bBox parameter.
+ */
+EXTERN_API_C ( TQ3BoundingBox * )
+Q3BoundingBox_Reset (
+    TQ3BoundingBox                *bBox
+);
+
+
+
+/*!
+ *  @function
  *      Q3BoundingBox_Set
  *  @discussion
  *      Set a bounding box.
@@ -3368,7 +3388,7 @@ Q3Point3D_TransformQuaternion (
  *  @param bBox             Address of bounding box to set.
  *  @param min              Address of point indicating minimum X, Y, and Z.
  *  @param max              Address of point indicating maximum X, Y, and Z.
- *  @param isEmpty          True of the bounding box is empty, false otherwise.
+ *  @param isEmpty          True if the bounding box is empty, false otherwise.
  *  @result                 Convenience copy of bBox parameter.
  */
 EXTERN_API_C ( TQ3BoundingBox * )
@@ -3512,6 +3532,26 @@ Q3BoundingBox_UnionRationalPoint4D (
 //-----------------------------------------------------------------------------
 /*!
  *  @function
+ *      Q3BoundingSphere_Reset
+ *  @discussion
+ *      Reset (set to empty) a bounding sphere.
+ *
+ *      Available in inline form as Q3FastBoundingSphere_Reset.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param bSphere          Address of bounding sphere to reset.
+ *  @result                 Convenience copy of bSphere parameter.
+ */
+EXTERN_API_C ( TQ3BoundingSphere * )
+Q3BoundingSphere_Reset (
+    TQ3BoundingSphere             *bSphere
+);
+
+
+
+/*!
+ *  @function
  *      Q3BoundingSphere_Set
  *  @discussion
  *      Set a bounding sphere.
@@ -3521,7 +3561,7 @@ Q3BoundingBox_UnionRationalPoint4D (
  *  @param bSphere          Address of bounding sphere to set.
  *  @param origin           Address of point indicating sphere origin.
  *  @param radius           Sphere radius.
- *  @param isEmpty          True of the bounding sphere is empty, false otherwise.
+ *  @param isEmpty          True if the bounding sphere is empty, false otherwise.
  *  @result                 Convenience copy of bSphere parameter.
  */
 EXTERN_API_C ( TQ3BoundingSphere * )
@@ -4413,6 +4453,19 @@ Q3Math_InvSquareRoot (
 		}																	\
 	while (0)
 
+#define __Q3FastBoundingBox_Reset(_b)										\
+	do																		\
+		{																	\
+		(_b)->min.x =														\
+		(_b)->min.y =														\
+		(_b)->min.z =														\
+		(_b)->max.x =														\
+		(_b)->max.y =														\
+		(_b)->max.z = 0.0f;													\
+		(_b)->isEmpty = kQ3True;											\
+		}																	\
+	while (0)
+
 #define __Q3FastBoundingBox_Set(_b, _min, _max, _isEmpty)					\
 	do																		\
 		{																	\
@@ -4426,6 +4479,17 @@ Q3Math_InvSquareRoot (
 	do																		\
 		{																	\
 		*(_b2) = *(_b1);													\
+		}																	\
+	while (0)
+
+#define __Q3FastBoundingSphere_Reset(_s)									\
+	do																		\
+		{																	\
+		(_s)->origin.x =													\
+		(_s)->origin.y =													\
+		(_s)->origin.z =													\
+		(_s)->radius   = 0.0f;												\
+		(_s)->isEmpty = kQ3True;											\
 		}																	\
 	while (0)
 
@@ -4845,6 +4909,12 @@ Q3Math_InvSquareRoot (
 		return(result);
 	}
 	
+	inline TQ3BoundingBox *Q3FastBoundingBox_Reset(TQ3BoundingBox *bBox)
+	{
+		__Q3FastBoundingBox_Reset(bBox);
+		return(bBox);
+	}
+	
 	inline TQ3BoundingBox *Q3FastBoundingBox_Set(TQ3BoundingBox *bBox, const TQ3Point3D *min, const TQ3Point3D *max, TQ3Boolean isEmpty)
 	{
 		__Q3FastBoundingBox_Set(bBox, min, max, isEmpty);
@@ -4855,6 +4925,12 @@ Q3Math_InvSquareRoot (
 	{
 		__Q3FastBoundingBox_Copy(bBox, result);
 		return(result);
+	}
+	
+	inline TQ3BoundingSphere *Q3FastBoundingSphere_Reset(TQ3BoundingSphere *bSphere)
+	{
+		__Q3FastBoundingSphere_Reset(bSphere);
+		return(bSphere);
 	}
 	
 	inline TQ3BoundingSphere *Q3FastBoundingSphere_Set(TQ3BoundingSphere *bSphere, const TQ3Point3D *origin, float radius, TQ3Boolean isEmpty)
@@ -4939,8 +5015,10 @@ Q3Math_InvSquareRoot (
 	#define Q3FastQuaternion_Dot						__Q3FastQuaternion_Dot
 	#define Q3FastQuaternion_Normalize					__Q3FastQuaternion_Normalize
 	#define Q3FastQuaternion_Invert						__Q3FastQuaternion_Invert
+	#define Q3FastBoundingBox_Reset						__Q3FastBoundingBox_Reset
 	#define Q3FastBoundingBox_Set						__Q3FastBoundingBox_Set
 	#define Q3FastBoundingBox_Copy						__Q3FastBoundingBox_Copy
+	#define Q3FastBoundingSphere_Reset					__Q3FastBoundingSphere_Reset
 	#define Q3FastBoundingSphere_Set					__Q3FastBoundingSphere_Set
 	#define Q3FastBoundingSphere_Copy					__Q3FastBoundingSphere_Copy
 #endif
@@ -5018,8 +5096,10 @@ Q3Math_InvSquareRoot (
 	#define Q3Quaternion_Dot							Q3FastQuaternion_Dot
 	#define Q3Quaternion_Normalize						Q3FastQuaternion_Normalize
 	#define Q3Quaternion_Invert							Q3FastQuaternion_Invert
+	#define Q3BoundingBox_Reset							Q3FastBoundingBox_Reset
 	#define Q3BoundingBox_Set							Q3FastBoundingBox_Set
 	#define Q3BoundingBox_Copy							Q3FastBoundingBox_Copy
+	#define Q3BoundingSphere_Reset						Q3FastBoundingSphere_Reset
 	#define Q3BoundingSphere_Set						Q3FastBoundingSphere_Set
 	#define Q3BoundingSphere_Copy						Q3FastBoundingSphere_Copy
 #endif

@@ -605,7 +605,7 @@ e3view_bounds_box_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 poin
 	const TQ3Matrix4x4	*localToWorld;
 	TQ3Point3D			worldPoint;
 	const TQ3Uns8		*rawPoint;
-	TQ3Uns32			n;
+	TQ3Uns32			i;
 
 
 
@@ -623,42 +623,13 @@ e3view_bounds_box_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 poin
 
 	// Transform the points, and accumulate them into the bounding box
 	rawPoint = (const TQ3Uns8 *) thePoints;
-	for (n = 0; n < numPoints; n++)
+	for (i = 0; i < numPoints; ++i, rawPoint += pointStride)
 		{
 		// Transform the point
 		Q3Point3D_Transform((const TQ3Point3D *) rawPoint, localToWorld, &worldPoint);
 		
-		
-		
-		// Accumulate it into the bounding box
-		if (instanceData->boundingBox.isEmpty)
-			{
-			instanceData->boundingBox.min     = worldPoint;
-			instanceData->boundingBox.max     = worldPoint;
-			instanceData->boundingBox.isEmpty = kQ3False;
-			}
-		else
-			{
-			if (worldPoint.x < instanceData->boundingBox.min.x)
-				instanceData->boundingBox.min.x = worldPoint.x;
-			else if (worldPoint.x > instanceData->boundingBox.max.x)
-				instanceData->boundingBox.max.x = worldPoint.x;
-
-			if (worldPoint.y < instanceData->boundingBox.min.y)
-				instanceData->boundingBox.min.y = worldPoint.y;
-			else if (worldPoint.y > instanceData->boundingBox.max.y)
-				instanceData->boundingBox.max.y = worldPoint.y;
-
-			if (worldPoint.z < instanceData->boundingBox.min.z)
-				instanceData->boundingBox.min.z = worldPoint.z;
-			else if (worldPoint.z > instanceData->boundingBox.max.z)
-				instanceData->boundingBox.max.z = worldPoint.z;
-			}
-
-
-
-		// Move on to the next point
-		rawPoint += pointStride;
+		// Union it into the bounding box
+		Q3BoundingBox_UnionPoint3D(&instanceData->boundingBox, &worldPoint, &instanceData->boundingBox);
 		}
 }
 
@@ -754,7 +725,7 @@ e3view_bounds_sphere_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 p
 	const TQ3Matrix4x4	*localToWorld;
 	TQ3Point3D			worldPoint;
 	const TQ3Uns8		*rawPoint;
-	TQ3Uns32			n;
+	TQ3Uns32			i;
 
 
 
@@ -772,29 +743,15 @@ e3view_bounds_sphere_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 p
 
 	// Transform the points, and accumulate them into the bounding sphere
 	rawPoint = (const TQ3Uns8 *) thePoints;
-	for (n = 0; n < numPoints; n++)
+	for (i = 0; i < numPoints; ++i, rawPoint += pointStride)
 		{
 		// Transform the point
 		Q3Point3D_Transform((const TQ3Point3D *) rawPoint, localToWorld, &worldPoint);
 		
-		
-		
-		// Accumulate it into the bounding sphere
-		if (instanceData->boundingSphere.isEmpty)
-			{
-			instanceData->boundingSphere.origin  = worldPoint;
-			instanceData->boundingSphere.radius  = 0.0f;
-			instanceData->boundingSphere.isEmpty = kQ3False;
-			}
-		else
-			Q3BoundingSphere_UnionPoint3D(&instanceData->boundingSphere,
-										  &worldPoint,
-										  &instanceData->boundingSphere);
-
-
-
-		// Move on to the next point
-		rawPoint += pointStride;
+		// Union it into the bounding sphere
+		Q3BoundingSphere_UnionPoint3D(&instanceData->boundingSphere,
+									  &worldPoint,
+									  &instanceData->boundingSphere);
 		}
 }
 

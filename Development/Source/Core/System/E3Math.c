@@ -121,7 +121,7 @@
 
 
 //=============================================================================
-//          e3matrix3_determinant : Returns the determinant of the given 3x3 matrix.
+//		e3matrix3x3_determinant : Returns the determinant of the given 3x3 matrix.
 //-----------------------------------------------------------------------------
 //      Note :  The algorithm modifies the input matrix a.
 //
@@ -136,7 +136,7 @@
 //              See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
 //-----------------------------------------------------------------------------
 static float
-e3matrix3_determinant(TQ3Matrix3x3* a)
+e3matrix3x3_determinant(TQ3Matrix3x3* a)
 {
     #define A(x,y) a->value[x][y]
     
@@ -229,7 +229,7 @@ e3matrix3_determinant(TQ3Matrix3x3* a)
 
 
 //=============================================================================
-//          e3matrix3_invert : Transforms the given 3x3 matrix into its inverse.
+//		e3matrix3x3_invert : Transforms the given 3x3 matrix into its inverse.
 //-----------------------------------------------------------------------------
 //      Note :  This function uses Gauss-Jordon elimination with full pivoting
 //              to transform the given matrix to the identity matrix while
@@ -240,7 +240,7 @@ e3matrix3_determinant(TQ3Matrix3x3* a)
 //              See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
 //-----------------------------------------------------------------------------
 static void
-e3matrix3_invert(TQ3Matrix3x3* a)
+e3matrix3x3_invert(TQ3Matrix3x3* a)
 {
     #define A(x,y) a->value[x][y]
     
@@ -345,7 +345,7 @@ e3matrix3_invert(TQ3Matrix3x3* a)
 
 
 //=============================================================================
-//          e3matrix4_determinant : Returns the determinant of the given 4x4 matrix.
+//		e3matrix4x4_determinant : Returns the determinant of the given 4x4 matrix.
 //-----------------------------------------------------------------------------
 //      Note :  This function uses Gaussian elimination with full pivoting to
 //              reduce the matrix to upper triangular form. Then the determinant
@@ -358,7 +358,7 @@ e3matrix3_invert(TQ3Matrix3x3* a)
 //              See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
 //-----------------------------------------------------------------------------
 static float
-e3matrix4_determinant(TQ3Matrix4x4* a)
+e3matrix4x4_determinant(TQ3Matrix4x4* a)
 {
     #define A(x,y) a->value[x][y]
     
@@ -451,7 +451,7 @@ e3matrix4_determinant(TQ3Matrix4x4* a)
 
 
 //=============================================================================
-//          e3matrix4_invert : Transforms the given 4x4 matrix into its inverse.
+//		e3matrix4x4_invert : Transforms the given 4x4 matrix into its inverse.
 //-----------------------------------------------------------------------------
 //      Note :  This function uses Gauss-Jordon elimination with full pivoting
 //              to transform the given matrix to the identity matrix while
@@ -462,7 +462,7 @@ e3matrix4_determinant(TQ3Matrix4x4* a)
 //              See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
 //-----------------------------------------------------------------------------
 static void
-e3matrix4_invert(TQ3Matrix4x4* a)
+e3matrix4x4_invert(TQ3Matrix4x4* a)
 {
     #define A(x,y) a->value[x][y]
     
@@ -567,7 +567,7 @@ e3matrix4_invert(TQ3Matrix4x4* a)
 
 
 //=============================================================================
-//      e3matrix_determinant : Returns the determinant of the given matrix.
+//		e3matrix_determinant : Returns the determinant of the given matrix.
 //-----------------------------------------------------------------------------
 //		Note :	The algorithm modifies the input matrix a.
 //
@@ -687,7 +687,7 @@ e3matrix_determinant(float **a, TQ3Int32 n)
 
 
 //=============================================================================
-//      e3matrix_invert : Transforms the given matrix into its inverse.
+//		e3matrix_invert : Transforms the given matrix into its inverse.
 //-----------------------------------------------------------------------------
 //		Note :	The input matrix is an array of pointers to arrays of floats.
 //				This data structure allows the same function to handle matrices
@@ -807,6 +807,38 @@ e3matrix_invert(float **a, TQ3Int32 n, TQ3Int32 *ipiv, TQ3Int32 *indxr, TQ3Int32
 }
 
 #endif // Not used
+
+
+
+
+
+//=============================================================================
+//		e3bounding_box_accumulate_point3D :	Accumulate (union) a point into a
+//											nonempty bounding box.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static void
+e3bounding_box_accumulate_point3D(TQ3BoundingBox *bBox, const TQ3Point3D *point3D)
+{
+	float x = point3D->x;
+	float y = point3D->y;
+	float z = point3D->z;
+	
+	if (x < bBox->min.x)
+		bBox->min.x = x;
+	else if (x > bBox->max.x)
+		bBox->max.x = x;
+
+	if (y < bBox->min.y)
+		bBox->min.y = y;
+	else if (y > bBox->max.y)
+		bBox->max.y = y;
+
+	if (z < bBox->min.z)
+		bBox->min.z = z;
+	else if (z > bBox->max.z)
+		bBox->max.z = z;
+}
 
 
 
@@ -3403,7 +3435,7 @@ E3Matrix3x3_Determinant(const TQ3Matrix3x3 *matrix3x3)
 {
     TQ3Matrix3x3        temp = *matrix3x3;
     
-    return(e3matrix3_determinant(&temp));
+    return(e3matrix3x3_determinant(&temp));
 }
 
 
@@ -3418,7 +3450,7 @@ E3Matrix4x4_Determinant(const TQ3Matrix4x4 *matrix4x4)
 {
     TQ3Matrix4x4        temp = *matrix4x4;
     
-    return(e3matrix4_determinant(&temp));
+    return(e3matrix4x4_determinant(&temp));
 }
 
 
@@ -3484,7 +3516,7 @@ E3Matrix3x3_Invert(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
     if (result != matrix3x3)
         *result = *matrix3x3;
         
-    e3matrix3_invert(result);
+    e3matrix3x3_invert(result);
         
     return(result);
 }
@@ -3504,7 +3536,7 @@ E3Matrix4x4_Invert(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
     if (result != matrix4x4)
         *result = *matrix4x4;
         
-    e3matrix4_invert(result);
+    e3matrix4x4_invert(result);
         
     return(result);
 }
@@ -4291,9 +4323,23 @@ E3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ3Quaternion *qu
 
 
 //=============================================================================
-//      E3BoundingBox_Set : Set bounding box.
+//      E3BoundingBox_Reset : Reset (set to empty) bounding box.
 //-----------------------------------------------------------------------------
 #pragma mark -
+TQ3BoundingBox *
+E3BoundingBox_Reset(TQ3BoundingBox *bBox)
+{
+	Q3FastBoundingBox_Reset(bBox);
+	return(bBox);
+}
+
+
+
+
+
+//=============================================================================
+//      E3BoundingBox_Set : Set bounding box.
+//-----------------------------------------------------------------------------
 TQ3BoundingBox *
 E3BoundingBox_Set(TQ3BoundingBox *bBox, const TQ3Point3D *min, const TQ3Point3D *max, TQ3Boolean isEmpty)
 {
@@ -4314,42 +4360,17 @@ E3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox,
 	const TQ3Point3D *points3D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 	if (numPoints == 0)
-	{
-		Q3Point3D_Set(&bBox->min, 0.0f, 0.0f, 0.0f);
-		Q3Point3D_Set(&bBox->max, 0.0f, 0.0f, 0.0f);
-		bBox->isEmpty = kQ3True;
-	}
+		Q3FastBoundingBox_Reset(bBox);
 	else
 	{
 		const char* in = (const char*) points3D;
 		TQ3Uns32 i;
 		
-		bBox->min = bBox->max = *points3D;
-		bBox->isEmpty = kQ3False;
+		Q3FastBoundingBox_Set(bBox, points3D, points3D, kQ3False);
+		in += structSize;
 		
-		for (i = 1; i < numPoints; ++i)
-		{
-			float x, y, z;
-				
-			in += structSize;
-			
-			x = ((const TQ3Point3D*) in)->x;
-			y = ((const TQ3Point3D*) in)->y;
-			z = ((const TQ3Point3D*) in)->z;
-			
-			if (x < bBox->min.x)
-				bBox->min.x = x;
-			else if (x > bBox->max.x)
-				bBox->max.x = x;
-			if (y < bBox->min.y)
-				bBox->min.y = y;
-			else if (y > bBox->max.y)
-				bBox->max.y = y;
-			if (z < bBox->min.z)
-				bBox->min.z = z;
-			else if (z > bBox->max.z)
-				bBox->max.z = z;
-		}
+		for (i = 1; i < numPoints; ++i, in += structSize)
+			e3bounding_box_accumulate_point3D(bBox, (const TQ3Point3D*) in);
 	}
 
 	return(bBox);
@@ -4368,39 +4389,21 @@ E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox,
 	const TQ3RationalPoint4D *rationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 	if (numPoints == 0)
-	{
-		Q3Point3D_Set(&bBox->min, 0.0f, 0.0f, 0.0f);
-		Q3Point3D_Set(&bBox->max, 0.0f, 0.0f, 0.0f);
-		bBox->isEmpty = kQ3True;
-	}
+		Q3FastBoundingBox_Reset(bBox);
 	else
 	{
 		TQ3Point3D point3D;
 		const char* in = (const char*) rationalPoints4D;
 		TQ3Uns32 i;
 		
-		Q3RationalPoint4D_To3D(rationalPoints4D, &point3D);
-		bBox->min = bBox->max = point3D;
-		bBox->isEmpty = kQ3False;
+		Q3FastRationalPoint4D_To3D(rationalPoints4D, &point3D);
+		Q3FastBoundingBox_Set(bBox, &point3D, &point3D, kQ3False);
+		in += structSize;
 		
-		for (i = 1; i < numPoints; ++i)
+		for (i = 1; i < numPoints; ++i, in += structSize)
 		{
-			in += structSize;
-			
-			Q3RationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
-			
-			if (point3D.x < bBox->min.x)
-				bBox->min.x = point3D.x;
-			else if (point3D.x > bBox->max.x)
-				bBox->max.x = point3D.x;
-			if (point3D.y < bBox->min.y)
-				bBox->min.y = point3D.y;
-			else if (point3D.y > bBox->max.y)
-				bBox->max.y = point3D.y;
-			if (point3D.z < bBox->min.z)
-				bBox->min.z = point3D.z;
-			else if (point3D.z > bBox->max.z)
-				bBox->max.z = point3D.z;
+			Q3FastRationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
+			e3bounding_box_accumulate_point3D(bBox, &point3D);
 		}
 	}
 
@@ -4440,18 +4443,14 @@ E3BoundingBox_Union(const TQ3BoundingBox *b1, const TQ3BoundingBox *b2,
 	if (b1->isEmpty)
 	{
 		if (b2->isEmpty)
-		{
-			Q3Point3D_Set(&result->min, 0.0f, 0.0f, 0.0f);
-			Q3Point3D_Set(&result->max, 0.0f, 0.0f, 0.0f);
-			result->isEmpty = kQ3True;
-		}
+			Q3FastBoundingBox_Reset(result);
 		else
-			Q3BoundingBox_Copy(b2, result);
+			Q3FastBoundingBox_Copy(b2, result);
 	}
 	else
 	{
 		if (b2->isEmpty)
-			Q3BoundingBox_Copy(b1, result);
+			Q3FastBoundingBox_Copy(b1, result);
 		else
 		{
 			result->min.x = E3Num_Min(b1->min.x, b2->min.x);
@@ -4482,19 +4481,14 @@ E3BoundingBox_UnionPoint3D(const TQ3BoundingBox *bBox, const TQ3Point3D *point3D
 	TQ3BoundingBox *result)
 {
 	if (bBox->isEmpty)
-	{
-		result->min = result->max = *point3D;
-	}
+		Q3FastBoundingBox_Set(result, point3D, point3D, kQ3False);
 	else
 	{
-		result->min.x = E3Num_Min(point3D->x, bBox->min.x);
-		result->min.y = E3Num_Min(point3D->y, bBox->min.y);
-		result->min.z = E3Num_Min(point3D->z, bBox->min.z);
-		result->max.x = E3Num_Max(point3D->x, bBox->max.x);
-		result->max.y = E3Num_Max(point3D->y, bBox->max.y);
-		result->max.z = E3Num_Max(point3D->z, bBox->max.z);
+		if (result != bBox)
+			Q3FastBoundingBox_Copy(bBox, result);
+		
+		e3bounding_box_accumulate_point3D(result, point3D);
 	}
-	result->isEmpty = kQ3False;
 
 	return(result);
 }
@@ -4514,7 +4508,7 @@ E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox,
 {
 	TQ3Point3D point3D;
 	
-	Q3RationalPoint4D_To3D(rationalPoint4D, &point3D);
+	Q3FastRationalPoint4D_To3D(rationalPoint4D, &point3D);
 
 	return(E3BoundingBox_UnionPoint3D(bBox, &point3D, result));
 }
@@ -4524,9 +4518,23 @@ E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox,
 
 
 //=============================================================================
-//      E3BoundingSphere_Set : Set bounding sphere.
+//      E3BoundingSphere_Reset : Reset (set to empty) bounding sphere.
 //-----------------------------------------------------------------------------
 #pragma mark -
+TQ3BoundingSphere *
+E3BoundingSphere_Reset(TQ3BoundingSphere *bSphere)
+{
+	Q3FastBoundingSphere_Reset(bSphere);
+	return(bSphere);
+}
+
+
+
+
+
+//=============================================================================
+//      E3BoundingSphere_Set : Set bounding sphere.
+//-----------------------------------------------------------------------------
 TQ3BoundingSphere *
 E3BoundingSphere_Set(TQ3BoundingSphere *bSphere, const TQ3Point3D *origin, float radius, TQ3Boolean isEmpty)
 {
@@ -4550,15 +4558,20 @@ TQ3BoundingSphere *
 E3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *points3D,
 									TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
-	const char *inp=((const char*)points3D) + structSize;
-	TQ3Uns32 i;
-	bSphere->origin = *points3D;
-	bSphere->radius = 0.0f;
-	for (i=1; i<numPoints; ++i) {
-		E3BoundingSphere_UnionPoint3D( bSphere, (const TQ3Point3D*)inp, bSphere );
-		inp += structSize;
+	if (numPoints == 0)
+		Q3FastBoundingSphere_Reset(bSphere);
+	else
+	{
+		const char* in = (const char*) points3D;
+		TQ3Uns32 i;
+		
+		Q3FastBoundingSphere_Set(bSphere, points3D, 0.0f, kQ3False);
+		in += structSize;
+		
+		for (i = 1; i < numPoints; ++i, in += structSize)
+			E3BoundingSphere_UnionPoint3D(bSphere, (const TQ3Point3D*) in, bSphere);
 	}
-	bSphere->isEmpty = kQ3False;
+
 	return(bSphere);
 }
 
@@ -4583,21 +4596,25 @@ E3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *p
 TQ3BoundingSphere *
 E3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3RationalPoint4D *rationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
-	const char *inp=((const char*)rationalPoints4D) + structSize;
-	TQ3Uns32 i;
-	bSphere->origin = *((const TQ3Point3D*)rationalPoints4D);
-	if (rationalPoints4D->w != 1.0f) {
-		float w = 1.0f / rationalPoints4D->w;
-		bSphere->origin.x *= w;
-		bSphere->origin.y *= w;
-		bSphere->origin.z *= w;
+	if (numPoints == 0)
+		Q3FastBoundingSphere_Reset(bSphere);
+	else
+	{
+		TQ3Point3D point3D;
+		const char* in = (const char*) rationalPoints4D;
+		TQ3Uns32 i;
+		
+		Q3FastRationalPoint4D_To3D(rationalPoints4D, &point3D);
+		Q3FastBoundingSphere_Set(bSphere, &point3D, 0.0f, kQ3False);
+		in += structSize;
+		
+		for (i = 1; i < numPoints; ++i, in += structSize)
+		{
+			Q3FastRationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
+			E3BoundingSphere_UnionPoint3D(bSphere, &point3D, bSphere);
+		}
 	}
-	bSphere->radius = 0.0f;
-	for (i=1; i<numPoints; ++i) {
-		E3BoundingSphere_UnionRationalPoint4D( bSphere, (const TQ3RationalPoint4D*)inp, bSphere );
-		inp += structSize;
-	}
-	bSphere->isEmpty = kQ3False;
+
 	return(bSphere);
 }
 
@@ -4634,26 +4651,22 @@ E3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2,
 	TQ3BoundingSphere *result)
 {
 
-	// Approach: find the points on each sphere farthest from the other sphere
+	//	Approach: find the points on each sphere farthest from the other sphere
 	//	by using similar triangles.  The union sphere has center halfway
 	//	between these points, with radius of half their distance.
 
 	if (s1->isEmpty)
 	{
 		if (s2->isEmpty)
-		{
-			Q3Point3D_Set(&result->origin, 0.0f, 0.0f, 0.0f);
-			result->radius = 0.0f;
-			result->isEmpty = kQ3True;
-		}
+			Q3FastBoundingSphere_Reset(result);
 		else
-			Q3BoundingSphere_Copy(s2, result);
+			Q3FastBoundingSphere_Copy(s2, result);
 	}
 	else
 	{
 		if (s2->isEmpty)
 		{
-			Q3BoundingSphere_Copy(s1, result);
+			Q3FastBoundingSphere_Copy(s1, result);
 		}
 		else
 		{
@@ -4744,7 +4757,7 @@ E3BoundingSphere_UnionPoint3D(const TQ3BoundingSphere *bSphere, const TQ3Point3D
 		else
 		{
 			// if the point is within the sphere, then no change is necessary.
-			Q3BoundingSphere_Copy(bSphere, result);
+			Q3FastBoundingSphere_Copy(bSphere, result);
 			return(result);
 		}
 	}
@@ -4771,7 +4784,7 @@ E3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphere *bSphere,
 {
 	TQ3Point3D point3D;
 	
-	E3RationalPoint4D_To3D(rationalPoint4D, &point3D);
+	Q3FastRationalPoint4D_To3D(rationalPoint4D, &point3D);
 
 	return(E3BoundingSphere_UnionPoint3D(bSphere, &point3D, result));
 }

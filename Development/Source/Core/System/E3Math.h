@@ -344,6 +344,7 @@ TQ3Point3D *			E3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ
 //=============================================================================
 //      Bounding box functions
 //-----------------------------------------------------------------------------
+TQ3BoundingBox *		E3BoundingBox_Reset(TQ3BoundingBox *bBox);
 TQ3BoundingBox *		E3BoundingBox_Set(TQ3BoundingBox *bBox, const TQ3Point3D *min, const TQ3Point3D *max, TQ3Boolean isEmpty);
 TQ3BoundingBox *		E3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox, const TQ3Point3D *points3D, TQ3Uns32 numPoints, TQ3Uns32 structSize);
 TQ3BoundingBox *		E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox, const TQ3RationalPoint4D *rationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 structSize);
@@ -359,6 +360,7 @@ TQ3BoundingBox *		E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox,
 //=============================================================================
 //      Bounding sphere functions
 //-----------------------------------------------------------------------------
+TQ3BoundingSphere *		E3BoundingSphere_Reset(TQ3BoundingSphere *bSphere);
 TQ3BoundingSphere *		E3BoundingSphere_Set(TQ3BoundingSphere *bSphere, const TQ3Point3D *origin, float radius, TQ3Boolean isEmpty);
 TQ3BoundingSphere *		E3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *points3D, TQ3Uns32 numPoints, TQ3Uns32 structSize);
 TQ3BoundingSphere *		E3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3RationalPoint4D *rationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 structSize);
