@@ -131,18 +131,6 @@ TQ3Status			IRGeometry_Submit_Point(
 								TQ3GeometryObject		theGeom,
 								TQ3PointData			*geomData);
 
-TQ3Status			IRGeometry_Submit_Marker(
-								TQ3ViewObject			theView,
-								TQ3InteractiveData		*instanceData,
-								TQ3GeometryObject		theGeom,
-								TQ3MarkerData			*geomData);
-
-TQ3Status			IRGeometry_Submit_PixmapMarker(
-								TQ3ViewObject			theView,
-								TQ3InteractiveData		*instanceData,
-								TQ3GeometryObject		theGeom,
-								TQ3PixmapMarkerData		*geomData);
-
 TQ3Status			IRGeometry_Submit_PolyLine(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,

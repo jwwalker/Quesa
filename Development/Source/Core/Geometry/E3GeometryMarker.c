@@ -181,6 +181,107 @@ e3geom_marker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 //=============================================================================
+//      e3geom_marker_cache_new : Marker cache new method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3MarkerData *geomData)
+{	TQ3Uns32					x, y,rowBytes, theSize;
+	TQ3Uns16					*pixelPtr, thePixel;
+	TQ3PixmapMarkerData			pixmapMarkerData;
+	TQ3GeometryObject			pixmapMarker;
+	TQ3StorageObject			theStorage;
+	TQ3Uns8						*theBuffer;
+	TQ3ColorRGB					theColour;
+
+
+
+	// Get the marker colour
+	//
+	// Not clear if bitmap markers can be tinted by a colour inherited from
+	// the currently active attribute set, or if they are either white or
+	// the colour in the marker attribute set.
+	//
+	// If the former (i.e., this code is incorrect), remove this section and
+	// the marker attribute set should be inherited with whatever is current
+	// when the underlying TriMesh is submitted (however this would then.
+	//
+	// At present colours do not tint either bitmap or pixmap markers: if this
+	// it to be changed for bitmaps, re-test the pixmap case to see if QD3D's
+	// behaviour was the same for both geometries (or only for bitmaps).
+	Q3ColorRGB_Set(&theColour, 1.0f, 1.0f, 1.0f);
+	
+	if (geomData->markerAttributeSet != NULL)
+		Q3AttributeSet_Get(geomData->markerAttributeSet, kQ3AttributeTypeDiffuseColor, &theColour);
+	
+	thePixel = (                         0x0001 << 15) |
+			   (((TQ3Uns16) (theColour.r * 31)) << 10) |
+			   (((TQ3Uns16) (theColour.g * 31)) <<  5) |
+			   (((TQ3Uns16) (theColour.b * 31)) <<  0);
+
+
+
+	// Convert the bitmap to an image
+	rowBytes  = geomData->bitmap.width * sizeof(TQ3Uns16);
+	theSize   = rowBytes * geomData->bitmap.height;
+
+	theBuffer = Q3Memory_AllocateClear(theSize);
+	if (theBuffer == NULL)
+		return(NULL);
+
+	for (y = 0; y < geomData->bitmap.height; y++)
+		{
+		for (x = 0; x < geomData->bitmap.width; x++)
+			{
+			if (Q3Bitmap_GetBit(&geomData->bitmap, x, y))
+				{
+				pixelPtr  = (TQ3Uns16 *) &theBuffer[(y * rowBytes) + (x * sizeof(TQ3Uns16))];
+				*pixelPtr = thePixel;
+				}
+			}
+		}
+
+
+
+	// Create the storage object for the image
+	theStorage = Q3MemoryStorage_New(theBuffer, theSize);
+	if (theStorage == NULL)
+		{
+		Q3Memory_Free(&theBuffer);
+		return(NULL);
+		}
+
+
+
+	// Create the Pixmap Marker
+	pixmapMarkerData.position                 = geomData->location;
+	pixmapMarkerData.xOffset                  = geomData->xOffset;
+	pixmapMarkerData.yOffset                  = geomData->yOffset;
+	pixmapMarkerData.pixmap.image             = theStorage;
+	pixmapMarkerData.pixmap.width             = geomData->bitmap.width;
+	pixmapMarkerData.pixmap.height            = geomData->bitmap.height;
+    pixmapMarkerData.pixmap.rowBytes          = rowBytes;
+    pixmapMarkerData.pixmap.pixelSize         = 16;
+    pixmapMarkerData.pixmap.pixelType         = kQ3PixelTypeARGB16;
+    pixmapMarkerData.pixmap.bitOrder          = kQ3EndianBig;
+    pixmapMarkerData.pixmap.byteOrder         = kQ3EndianBig;
+	pixmapMarkerData.pixmapMarkerAttributeSet = geomData->markerAttributeSet;
+
+	pixmapMarker = Q3PixmapMarker_New(&pixmapMarkerData);
+
+
+
+	// Clean up
+	Q3Memory_Free(&theBuffer);
+	Q3Object_Dispose(theStorage);
+	
+	return(pixmapMarker);
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_marker_pick_window_point : Marker window-point picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -374,6 +475,10 @@ e3geom_marker_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectDuplicate:
 			theMethod = (TQ3XFunctionPointer) e3geom_marker_duplicate;
+			break;
+
+		case kQ3XMethodTypeGeomCacheNew:
+			theMethod = (TQ3XFunctionPointer) e3geom_marker_cache_new;
 			break;
 
 		case kQ3XMethodTypeObjectSubmitPick:
