@@ -94,6 +94,7 @@ extern "C" {
 #define kQ3ClassNameDrawContextWin32DC				"Win32DCDrawContext"
 #define kQ3ClassNameDrawContextX11					"X11DrawContext"
 #define kQ3ClassNameElement							"Element"
+#define kQ3ClassNameSetElement						"SetElement"
 #define kQ3ClassNameStorageFSSpec					"MacintoshFSSpec"
 #define kQ3ClassNameFile							"File"
 #define kQ3ClassNameFileFormat						"Quesa:FileFormat"
@@ -257,6 +258,7 @@ extern "C" {
 #define kQ3ObjectTypeCustomElementName				Q3_OBJECT_TYPE(0xF0, 'e', 'n', 'a')
 #define kQ3ObjectTypeCustomElementUrl				Q3_OBJECT_TYPE(0xF0, 'e', 'u', 'r')
 #define kQ3ObjectTypeCustomElementWire				Q3_OBJECT_TYPE(0xF0, 'e', 'w', 'i')
+#define kQ3ObjectTypeSetElement						Q3_OBJECT_TYPE('s', 'e', 't', 'e')
 #define kQ3StorageTypePath							Q3_OBJECT_TYPE('Q', 's', 't', 'p')
 #define kQ3ObjectType3DMF							Q3_OBJECT_TYPE('3', 'D', 'M', 'F')
 
