@@ -58,7 +58,6 @@ extern "C" {
 TQ3Status			E3Set_RegisterClass(void);
 TQ3Status			E3Set_UnregisterClass(void);
 
-TQ3ElementObject	E3Set_AccessElementData(TQ3SetObject theSet, TQ3ElementType theType, TQ3Uns32 *dataSize, void **data);
 TQ3SetObject		E3Set_New(void);
 TQ3ObjectType		E3Set_GetType(TQ3SetObject theSet);
 TQ3Status			E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data);
