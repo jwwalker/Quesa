@@ -84,13 +84,16 @@ extern "C" {
 
 // File format methods
 enum {
+	// Common
+	kQ3XMethodTypeFFormatClose									= FOUR_CHAR_CODE('Fcls'),
+	kQ3XMethodTypeFFormatGetFormatType							= FOUR_CHAR_CODE('Fgft'),
+
+	// Read
 	kQ3XMethodTypeFFormatCanRead								= FOUR_CHAR_CODE('FilF'),
 	kQ3XMethodTypeFFormatReadHeader								= FOUR_CHAR_CODE('Frhd'),
-	kQ3XMethodTypeFFormatGetFormatType							= FOUR_CHAR_CODE('Fgft'),
 	kQ3XMethodTypeFFormatReadObject								= FOUR_CHAR_CODE('Frob'),
 	kQ3XMethodTypeFFormatSkipObject								= FOUR_CHAR_CODE('Fsob'),
 	kQ3XMethodTypeFFormatGetNextType							= FOUR_CHAR_CODE('Fgnt'),
-	kQ3XMethodTypeFFormatClose									= FOUR_CHAR_CODE('Fcls'),
 
 	// Used for Q3XXX_ReadMethods, no strict need to override to implement a new format
 	kQ3XMethodTypeFFormatFloat32Read							= FOUR_CHAR_CODE('Ff3r'),
@@ -100,7 +103,20 @@ enum {
 	kQ3XMethodTypeFFormatInt32Read								= FOUR_CHAR_CODE('Fi3r'),
 	kQ3XMethodTypeFFormatInt64Read								= FOUR_CHAR_CODE('Fi6r'),
 	kQ3XMethodTypeFFormatStringRead								= FOUR_CHAR_CODE('Fstr'),
-	kQ3XMethodTypeFFormatRawRead								= FOUR_CHAR_CODE('Frwr')
+	kQ3XMethodTypeFFormatRawRead								= FOUR_CHAR_CODE('Frwr'),
+
+	// Write
+	kQ3XMethodTypeFFormatWriteHeader							= FOUR_CHAR_CODE('Fwhd'),
+
+	// Used for Q3XXX_WriteMethods, no strict need to override to implement a new format
+	kQ3XMethodTypeFFormatFloat32Write							= FOUR_CHAR_CODE('Ff3w'),
+	kQ3XMethodTypeFFormatFloat64Write							= FOUR_CHAR_CODE('Ff6w'),
+	kQ3XMethodTypeFFormatInt8Write								= FOUR_CHAR_CODE('Fi8w'),
+	kQ3XMethodTypeFFormatInt16Write								= FOUR_CHAR_CODE('Fi1w'),
+	kQ3XMethodTypeFFormatInt32Write								= FOUR_CHAR_CODE('Fi3w'),
+	kQ3XMethodTypeFFormatInt64Write								= FOUR_CHAR_CODE('Fi6w'),
+	kQ3XMethodTypeFFormatStringWrite							= FOUR_CHAR_CODE('Fstw'),
+	kQ3XMethodTypeFFormatRawWrite								= FOUR_CHAR_CODE('Frww')
 };
 
 
@@ -115,13 +131,17 @@ typedef TQ3Object TQ3FileFormatObject;
 
 
 // Method types
+
+//Common
+typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatCloseMethod)			(TQ3FileFormatObject format, TQ3Boolean abort);
+typedef CALLBACK_API_C(TQ3FileMode,		TQ3XFFormatGetFormatTypeMethod)	(TQ3FileObject theFile);
+
+// Read
 typedef CALLBACK_API_C(TQ3Boolean,		TQ3XFFormatCanReadMethod)		(TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound);
 typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatReadHeaderMethod)	(TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3FileMode,		TQ3XFFormatGetFormatTypeMethod)	(TQ3FileObject theFile);
 typedef CALLBACK_API_C(TQ3Object,		TQ3XFFormatReadObjectMethod)	(TQ3FileObject theFile);
 typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatSkipObjectMethod)	(TQ3FileObject theFile);
 typedef CALLBACK_API_C(TQ3ObjectType,	TQ3XFFormatGetNextTypeMethod)	(TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatCloseMethod)			(TQ3FileFormatObject format, TQ3Boolean abort);
 
 // Used for Q3XXX_ReadMethods, no strict need to override to implement a new Format
 typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatFloat32ReadMethod)	(TQ3FileFormatObject format, TQ3Float32* data);
@@ -132,6 +152,19 @@ typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt32ReadMethod)		(TQ3FileFormatOb
 typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt64ReadMethod)		(TQ3FileFormatObject format, TQ3Int64* data);
 typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatStringReadMethod)	(TQ3FileFormatObject format, char* data, unsigned long *length);
 typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatRawReadMethod)		(TQ3FileFormatObject format, unsigned char* data, unsigned long length);
+
+// Write
+typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatWriteHeaderMethod)	(TQ3FileObject theFile, TQ3FileMode mode);
+
+// Used for Q3XXX_WriteMethods
+typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatFloat32WriteMethod)	(TQ3FileFormatObject format, TQ3Float32 data);
+typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatFloat64WriteMethod)	(TQ3FileFormatObject format, TQ3Float64 data);
+typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt8WriteMethod)		(TQ3FileFormatObject format, TQ3Int8 data);
+typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt16WriteMethod)	(TQ3FileFormatObject format, TQ3Int16 data);
+typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt32WriteMethod)	(TQ3FileFormatObject format, TQ3Int32 data);
+typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatInt64WriteMethod)	(TQ3FileFormatObject format, TQ3Int64 data);
+typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatStringWriteMethod)	(TQ3FileFormatObject format, const char* data);
+typedef CALLBACK_API_C(TQ3Status,		TQ3XFFormatRawWriteMethod)		(TQ3FileFormatObject format, const unsigned char* data, unsigned long length);
 
 
 // FileFormat common data (must be first field in struct)			
@@ -166,6 +199,9 @@ Q3File_GetFileFormat			(TQ3FileObject theFile);
 
 EXTERN_API_C( TQ3FileFormatObject )
 Q3FileFormat_NewFromType		(TQ3ObjectType fformatObjectType);
+
+EXTERN_API_C( TQ3ObjectType )
+Q3FileFormat_GetType			(TQ3FileFormatObject 	format);
 
 
 // Binary reading utilities
@@ -225,6 +261,77 @@ Q3FileFormat_GenericReadText_ReadUntilChars	(TQ3FileFormatObject	format,
 											 TQ3Uns32				*charsRead);
 
 
+// Binary writing utilities
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_GenericWriteBinary_8		(TQ3FileFormatObject	format,
+										 TQ3Int8				data);
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_GenericWriteBinary_16		(TQ3FileFormatObject	format,
+										 TQ3Int16				data);
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_GenericWriteBinary_32		(TQ3FileFormatObject	format,
+										 TQ3Int32				data);
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_GenericWriteBinary_64		(TQ3FileFormatObject	format,
+										 TQ3Int64				data);
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_GenericWriteBinary_String	(TQ3FileFormatObject	format,
+										 const char				*data,
+										 unsigned long			*length);
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_GenericWriteBinary_Raw		(TQ3FileFormatObject	format,
+										 const unsigned char	*data,
+										 unsigned long			length);
+
+
+// Swapping binary writing utilities
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_GenericWriteBinSwap_16		(TQ3FileFormatObject	format,
+										 TQ3Int16				data);
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_GenericWriteBinSwap_32		(TQ3FileFormatObject	format,
+										 TQ3Int32				data);
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_GenericWriteBinSwap_64		(TQ3FileFormatObject	format,
+										 TQ3Int64				data);
+
+
+
+/*
+	Writers API
+	For Documentation about use refer to the Renderer counterparts in QD3DRenderer.h
+*/
+
+EXTERN_API_C( TQ3Boolean )
+Q3FileFormat_HasModalConfigure	(TQ3FileFormatObject 	format);
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_ModalConfigure		(TQ3FileFormatObject 	format,
+								 TQ3DialogAnchor 		dialogAnchor,
+								 TQ3Boolean *			canceled);
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormatClass_GetFormatNameString (TQ3ObjectType 		formatClassType,
+								 TQ3ObjectClassNameString  formatClassString);
+
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_GetConfigurationData	(TQ3FileFormatObject 	format,
+								 unsigned char *		dataBuffer,
+								 unsigned long 			bufferSize,
+								 unsigned long *		actualDataSize);
+
+EXTERN_API_C( TQ3Status )
+Q3FileFormat_SetConfigurationData	(TQ3FileFormatObject 	format,
+								 unsigned char *		dataBuffer,
+								 unsigned long 			bufferSize);
 
 
 
