@@ -80,12 +80,29 @@
 	#undef CALL_NOT_IN_CARBON
 #endif
 
-// Quesa (public, extensions to QD3D)
-#include "QuesaIO.h"
+
+// Quesa (public)
+#include "Quesa.h"
+#include "QuesaCamera.h"
+#include "QuesaController.h"
+#include "QuesaCustomElements.h"
 #include "QuesaDrawContext.h"
 #include "QuesaErrors.h"
-#include "QuesaStorage.h"
+#include "QuesaExtension.h"
+#include "QuesaGeometry.h"
+#include "QuesaGroup.h"
+#include "QuesaIO.h"
+#include "QuesaLight.h"
+#include "QuesaMath.h"
+#include "QuesaPick.h"
 #include "QuesaRenderer.h"
+#include "QuesaSet.h"
+#include "QuesaShader.h"
+#include "QuesaStorage.h"
+#include "QuesaString.h"
+#include "QuesaStyle.h"
+#include "QuesaTransform.h"
+#include "QuesaView.h"
 
 
 // Quesa (private, platform specific for platforms without makefiles)
