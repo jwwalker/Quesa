@@ -71,10 +71,24 @@ pascal OSErr E3MacCFM_Terminate(void);
 
 
 //=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+typedef struct E3MacSystem_CFMSlot *E3MacSystem_CFMSlotPtr;
+
+typedef struct E3MacSystem_CFMSlot {
+	CFragConnectionID			CFM_ID;
+	E3MacSystem_CFMSlotPtr		nextSlot;
+} E3MacSystem_CFMSlot;
+
+
+
+
+//=============================================================================
 //      Internal globals
 //-----------------------------------------------------------------------------
 static AliasHandle gQuesaLib = NULL;
 short gShlbResFile = 0;
+static E3MacSystem_CFMSlotPtr e3macsystem_cfmSlotHead = NULL;
 
 
 
@@ -86,30 +100,42 @@ short gShlbResFile = 0;
 //-----------------------------------------------------------------------------
 static void
 e3mac_load_plugin(const FSSpec *theFSSpec)
-{	CFragConnectionID	theConnection;
-	Ptr					mainAddr;
+{	Ptr					mainAddr;
 	Str255				theStr;
 	OSErr				theErr;
 	short				oldResFile;
+	E3MacSystem_CFMSlotPtr newSlot = NULL;
 
 
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(theFSSpec));
 
 
-	oldResFile = CurResFile();
 
 
-	// Load the plug-in. Note that we just need to open a connection
-	// to the fragment, and the plug-ins CFM initialisation routine
-	// will register any Quesa objects with the system.
-	theErr = GetDiskFragment(theFSSpec, 0, kCFragGoesToEOF, "\p",
-							 kPrivateCFragCopy, &theConnection,
-							 &mainAddr, theStr);
-	
-	
-	// In case the plug-in's initialization routine changed the resource file
-	UseResFile( oldResFile );
+
+	newSlot = (E3MacSystem_CFMSlotPtr)Q3Memory_Allocate(sizeof(E3MacSystem_CFMSlot));
+	if(newSlot != NULL){
+		oldResFile = CurResFile();
+
+
+		// Load the plug-in. Note that we just need to open a connection
+		// to the fragment, and the plug-ins CFM initialisation routine
+		// will register any Quesa objects with the system.
+		theErr = GetDiskFragment(theFSSpec, 0, kCFragGoesToEOF, "\p",
+								 kPrivateCFragCopy, &newSlot->CFM_ID,
+								 &mainAddr, theStr);
+		if((theErr == noErr) && (newSlot->CFM_ID != NULL)){
+			newSlot->nextSlot = e3macsystem_cfmSlotHead;
+			e3macsystem_cfmSlotHead = newSlot;
+		}
+		else{//GetDiskFragment failed
+			Q3Memory_Free(&newSlot);
+		}
+		
+		// In case the plug-in's initialization routine changed the resource file
+		UseResFile( oldResFile );
+	}
 }
 
 
@@ -389,4 +415,28 @@ E3MacSystem_LoadPlugins(void)
 
 	if (extensionsFSSpec.name[0] != 0x00)
 		e3mac_load_plugins(&extensionsFSSpec);
+}
+
+
+
+
+
+//=============================================================================
+//      E3MacSystem_UnloadPlugins : unload plug-ins.
+//-----------------------------------------------------------------------------
+void
+E3MacSystem_UnloadPlugins(void)
+{
+		E3MacSystem_CFMSlotPtr nextSlot;
+		E3MacSystem_CFMSlotPtr currentSlot;
+
+		nextSlot = e3macsystem_cfmSlotHead;
+
+		while( nextSlot != NULL){
+			currentSlot = nextSlot;
+			nextSlot = currentSlot->nextSlot;
+			CloseConnection(&currentSlot->CFM_ID);
+			Q3Memory_Free(&currentSlot);
+		}
+
 }

@@ -87,6 +87,7 @@ void		E3System_ClearBottleneck(void);
 TQ3Status	E3MacSystem_Initialise(void);
 void		E3MacSystem_Terminate();
 void		E3MacSystem_LoadPlugins(void);
+void		E3MacSystem_UnloadPlugins(void);
 #endif
 
 
@@ -95,6 +96,7 @@ void		E3MacSystem_LoadPlugins(void);
 TQ3Status	E3UnixSystem_Initialise(void);
 void		E3UnixSystem_Terminate(void);
 void		E3UnixSystem_LoadPlugins(void);
+void		E3UnixSystem_UnloadPlugins(void);
 #endif
 
 
@@ -103,6 +105,7 @@ void		E3UnixSystem_LoadPlugins(void);
 TQ3Status	E3WindowsSystem_Initialise(void);
 void		E3WindowsSystem_Terminate(void);
 void		E3WindowsSystem_LoadPlugins(void);
+void		E3WindowsSystem_UnloadPlugins(void);
 #endif
 
 
@@ -111,6 +114,7 @@ void		E3WindowsSystem_LoadPlugins(void);
 TQ3Status	E3BeSystem_Initialise(void);
 void		E3BeSystem_Terminate(void);
 void		E3BeSystem_LoadPlugins(void);
+void		E3BeSystem_UnloadPlugins(void);
 #endif
 
 
@@ -119,6 +123,7 @@ void		E3BeSystem_LoadPlugins(void);
 TQ3Status	E3CocoaSystem_Initialise(void);
 void		E3CocoaSystem_Terminate(void);
 void		E3CocoaSystem_LoadPlugins(void);
+void		E3CocoaSystem_UnloadPlugins(void);
 #endif
 
 

@@ -80,3 +80,14 @@ E3CocoaSystem_LoadPlugins(void)
 {
 }
 
+
+
+
+//=============================================================================
+//      E3CocoaSystem_UnloadPlugins : unload plug-ins.
+//-----------------------------------------------------------------------------
+void
+E3CocoaSystem_UnloadPlugins(void)
+{
+}
+
