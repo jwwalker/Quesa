@@ -118,6 +118,17 @@ ir_geom_transparent_sort(const void *item1, const void *item2)
 
 
 
+	// Primitives don't overlap in x and y
+	//
+	// If we don't have an overlap on screen, the order is arbitrary. Since we work
+	// in frustum coordinates, we know we have a parallel projection and can just
+	// compare the extents directly.
+	else if ((prim1->xMax < prim2->xMin || prim1->xMin > prim2->xMax) &&
+			 (prim1->yMax < prim2->yMin || prim1->yMin > prim2->yMax))
+		sortResult = -1;
+
+
+
 	// Primitives overlap - triangles
 	//
 	// Comparing extents in z is not sufficient for triangles, as they may overlap in depth
@@ -171,6 +182,8 @@ ir_geom_transparent_sort(const void *item1, const void *item2)
 
 
 
+
+
 //=============================================================================
 //      ir_geom_transparent_needs_specular : Test whether there may be specular highlights.
 //-----------------------------------------------------------------------------
@@ -183,6 +196,8 @@ ir_geom_transparent_needs_specular( const TQ3TransparentPrim *thePrim )
 				(thePrim->fillStyle == kQ3FillStyleFilled)
 				);
 }
+
+
 
 
 
@@ -378,10 +393,11 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 							TQ3Uns32				numVerts,
 							const TQ3FVertex3D		*theVertices)
 {	TQ3Matrix4x4			localToFrustum;
-	float					z1, z2, z3;
+	TQ3Point3D				*thePoints[3];
 	TQ3FVertex3D			*theVertex;
 	TQ3FVertexFlags			vertFlags;
 	TQ3TransparentPrim		*thePrim;
+	float					x, y, z;
 	TQ3Uns32				n;
 
 
@@ -419,7 +435,8 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	
 	for (n = 0; n < numVerts; n++)
 		{
-		Q3Point3D_Transform(&theVertex->thePoint, &localToFrustum, &theVertex->thePoint);
+		thePoints[n] = &theVertex->thePoint;
+		Q3Point3D_Transform(thePoints[n], &localToFrustum, thePoints[n]);
 
 		if (E3Bit_IsSet(vertFlags, kQ3FVertexHaveNormal))
 			{
@@ -434,15 +451,46 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 
 	// Set up the primitive sorting
 	//
-	// Triangles may require the plane equation for sorting if they overlap
-	// in z, however we can defer calculating this until we know we need it.
-	z1 =                   (-thePrim->theVertices[0].thePoint.z);
-	z2 = (numVerts >= 2) ? (-thePrim->theVertices[1].thePoint.z) : z1;
-	z3 = (numVerts >= 3) ? (-thePrim->theVertices[2].thePoint.z) : z1;
-
-	thePrim->zMin         = E3Num_Min(z1, E3Num_Min(z2, z3));
-	thePrim->zMax         = E3Num_Max(z1, E3Num_Max(z2, z3));
+	// Triangles may require the plane equation for sorting if they overlap in z,
+	// however we can defer calculating this until we know we need it.
+	//
+	// We negate the z coordinate for sorting, since it's easier to visualise if 0
+	// is the near plane and +1 the far plane (the Quesa frustum coordinate space
+	// runs from 0 at the near plane in z and -1 at the far plane in z).
+	thePrim->xMin = thePrim->xMax = -thePoints[0]->x;
+	thePrim->yMin = thePrim->yMax = -thePoints[0]->y;
+	thePrim->zMin = thePrim->zMax = -thePoints[0]->z;
 	thePrim->planeIsValid = kQ3False;
+
+	if (numVerts >= 2)
+		{
+		x = -thePoints[1]->x;
+		y = -thePoints[1]->y;
+		z = -thePoints[1]->z;
+		
+		if (x < thePrim->xMin) thePrim->xMin = x;
+		if (y < thePrim->yMin) thePrim->yMin = y;
+		if (z < thePrim->zMin) thePrim->zMin = z;
+
+		if (x > thePrim->xMax) thePrim->xMax = x;
+		if (y > thePrim->yMax) thePrim->yMax = y;
+		if (z > thePrim->zMax) thePrim->zMax = z;
+		}
+	
+	if (numVerts == 3)
+		{
+		x = -thePoints[2]->x;
+		y = -thePoints[2]->y;
+		z = -thePoints[2]->z;
+
+		if (x < thePrim->xMin) thePrim->xMin = x;
+		if (y < thePrim->yMin) thePrim->yMin = y;
+		if (z < thePrim->zMin) thePrim->zMin = z;
+
+		if (x > thePrim->xMax) thePrim->xMax = x;
+		if (y > thePrim->yMax) thePrim->yMax = y;
+		if (z > thePrim->zMax) thePrim->zMax = z;
+		}
 
 
 
@@ -452,10 +500,16 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	thePrim->orientationStyle	  = instanceData->stateOrientation;
 	thePrim->fillStyle			  = instanceData->stateFill;
 	thePrim->backfacingStyle	  = instanceData->stateBackfacing;
-	
-	thePrim->specularColor = *instanceData->stateGeomSpecularColour;
-	thePrim->specularControl = instanceData->stateGeomSpecularControl;
-	thePrim->illumination = instanceData->stateViewIllumination;
+	thePrim->specularColor        = *instanceData->stateGeomSpecularColour;
+	thePrim->specularControl      = instanceData->stateGeomSpecularControl;
+	thePrim->illumination         = instanceData->stateViewIllumination;
+	thePrim->needsSpecular        = ir_geom_transparent_needs_specular(thePrim);
+
+
+
+	// Update our state
+	if (thePrim->needsSpecular)
+		instanceData->transNeedSpecular = kQ3True;
 	
 	return(kQ3Success);
 }
@@ -509,16 +563,16 @@ IRTransBuffer_Initialize(TQ3InteractiveData *instanceData)
 
 
 	// Initialise our state
-	instanceData->transBufferSlab = Q3SlabMemory_New(sizeof(TQ3TransparentPrim), 0, NULL);
-	if (instanceData->transBufferSlab == NULL)
-		return(kQ3Failure);
+	instanceData->transNeedSpecular = kQ3False;
+	instanceData->transBufferSlab   = Q3SlabMemory_New(sizeof(TQ3TransparentPrim ), 0, NULL);
+	instanceData->transPtrSlab      = Q3SlabMemory_New(sizeof(TQ3TransparentPrim*), 0, NULL);
 
-	instanceData->transPtrSlab = Q3SlabMemory_New(sizeof(TQ3TransparentPrim*), 0, NULL);
-	if (instanceData->transPtrSlab == NULL)
-	{
+	if (instanceData->transBufferSlab == NULL || instanceData->transPtrSlab == NULL)
+		{
 		Q3Object_CleanDispose(&instanceData->transBufferSlab);
+		Q3Object_CleanDispose(&instanceData->transPtrSlab);
 		return(kQ3Failure);
-	}
+		}
 	
 	return(kQ3Success);
 }
@@ -571,14 +625,11 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 		thePrims = (TQ3TransparentPrim *) Q3SlabMemory_GetData( instanceData->transBufferSlab, 0);
 		
 		if (kQ3Success != Q3SlabMemory_SetCount( instanceData->transPtrSlab, numPrims ))
-		{
 			return;
-		}
+
 		ptrs = (TQ3TransparentPrim **) Q3SlabMemory_GetData( instanceData->transPtrSlab, 0);
 		for (n = 0; n < numPrims; ++n)
-		{
 			ptrs[n] = &thePrims[n];
-		}
 		
 		qsort( ptrs, numPrims, sizeof(TQ3TransparentPrim*), ir_geom_transparent_sort );
 
@@ -611,41 +662,46 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 			//
 			// Primitives can be transparent due to a texture or their vertex alpha.
 			if (ptrs[n]->textureIsTransparent)
-				glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+				glBlendFunc(GL_ONE,       GL_ONE_MINUS_SRC_ALPHA);
 			else
 			    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			
+
+
 			// Render the primitive
 			ir_geom_transparent_render(ptrs[n]);
 			}
 
 
-		
+
 		// Second pass to add specular highlights
-		glBlendFunc( GL_ONE, GL_ONE );
-		glDisable( GL_COLOR_MATERIAL );
-		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
-		
-		for (n = 0; n < numPrims; ++n)
+		if (instanceData->transNeedSpecular)
 			{
-			if ( ir_geom_transparent_needs_specular( ptrs[n] ) )
+			glBlendFunc( GL_ONE, GL_ONE );
+			glDisable( GL_COLOR_MATERIAL );
+			glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
+		
+			for (n = 0; n < numPrims; ++n)
 				{
-				ir_geom_transparent_update_specular( ptrs[n], specularColor, &specularControl );
-				
-				ir_geom_transparent_specular_render( ptrs[n] );
+				if (ptrs[n]->needsSpecular)
+					{
+					ir_geom_transparent_update_specular( ptrs[n], specularColor, &specularControl );
+					ir_geom_transparent_specular_render( ptrs[n] );
+					}
 				}
 			}
 
-		
+
+
 		// Reset the OpenGL state
 		glEnable(GL_COLOR_MATERIAL);
 		glDepthMask(GL_TRUE);
 	    glDisable(GL_BLEND);
 	    
+
 	    
 	    // Empty the cache
 	    Q3SlabMemory_SetCount(instanceData->transBufferSlab, 0);
-	    Q3SlabMemory_SetCount(instanceData->transPtrSlab, 0);
+	    Q3SlabMemory_SetCount(instanceData->transPtrSlab,    0);
 		}
 }
 
