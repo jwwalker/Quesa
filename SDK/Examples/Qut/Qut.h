@@ -122,7 +122,7 @@
 //=============================================================================
 //      Textures (Mac only for now)
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 	#include "QutTexture.h"
 
 	#define QUT_CAN_USE_TEXTURES					1
