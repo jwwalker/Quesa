@@ -150,7 +150,7 @@ void
 E3Memory_Free_(void **thePtr)
 {	void		*realPtr;
 #if Q3_MEMORY_DEBUG
-	UInt32		theSize;
+	TQ3Uns32	theSize;
 #endif
 
 
