@@ -230,7 +230,6 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	TQ3TriMeshTriangleData		*triangles;
 	TQ3Uns32					numpoints;
 	TQ3Vector3D					*normals;
-	float						dotCross;
 	TQ3StyleObject				theStyle;
 	TQ3GroupObject				theGroup;
 	TQ3Point3D					*points;
@@ -387,8 +386,8 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	
 	
 	// Test whether the geometry is degenerate.
-	dotCross = Q3Vector3D_Dot( &geomData->minorRadius, &orientCrossMaj );
-	if (E3Float_Abs( dotCross ) < kQ3RealZero)
+	if (E3Geometry_IsDegenerateTriple( &geomData->orientation, &geomData->majorRadius,
+		&geomData->minorRadius ))
 	{
 		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
 		return theGroup;
