@@ -464,6 +464,12 @@ Q3MatrixTransform_Get
 Q3MatrixTransform_New
 Q3MatrixTransform_Set
 Q3MatrixTransform_Submit
+Q3Memory_Allocate
+Q3Memory_AllocateClear
+Q3Memory_Clear
+Q3Memory_Initialize
+Q3Memory_Free_
+Q3Memory_Reallocate_
 Q3MemoryStorage_GetBuffer
 Q3MemoryStorage_GetType
 Q3MemoryStorage_New

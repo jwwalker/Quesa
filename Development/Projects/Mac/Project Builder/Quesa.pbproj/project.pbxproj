@@ -441,6 +441,11 @@
 			path = QD3DMath.c;
 			refType = 4;
 		};
+		00D40F03FEDA393FC0A80006 = {
+			isa = PBXFileReference;
+			path = QD3DMemory.c;
+			refType = 4;
+		};
 		00D40F04FEDA393FC0A80006 = {
 			isa = PBXFileReference;
 			path = QD3DPick.c;
@@ -569,16 +574,6 @@
 		00D40F18FEDA393FC0A80006 = {
 			isa = PBXFileReference;
 			path = E3HashTable.h;
-			refType = 4;
-		};
-		00D40F19FEDA393FC0A80006 = {
-			isa = PBXFileReference;
-			path = E3Memory.c;
-			refType = 4;
-		};
-		00D40F1AFEDA393FC0A80006 = {
-			isa = PBXFileReference;
-			path = E3Memory.h;
 			refType = 4;
 		};
 		00D40F1BFEDA393FC0A80006 = {
@@ -780,6 +775,16 @@
 		00D40F39FEDA393FC0A80006 = {
 			isa = PBXFileReference;
 			path = E3Math.h;
+			refType = 4;
+		};
+		00D40F19FEDA393FC0A80006 = {
+			isa = PBXFileReference;
+			path = E3Memory.c;
+			refType = 4;
+		};
+		00D40F1AFEDA393FC0A80006 = {
+			isa = PBXFileReference;
+			path = E3Memory.h;
 			refType = 4;
 		};
 		00D40F3AFEDA393FC0A80006 = {
@@ -2832,6 +2837,11 @@
 		018E21AAFEDA4D71C0A80006 = {
 			isa = PBXFileReference;
 			path = QuesaMath.h;
+			refType = 4;
+		};
+		018E21AAFEDA4D71C0A80006 = {
+			isa = PBXFileReference;
+			path = QuesaMemory.h;
 			refType = 4;
 		};
 		018E21ABFEDA4D71C0A80006 = {
