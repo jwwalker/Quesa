@@ -357,6 +357,15 @@ qut_carbon_window_event(EventHandlerCallRef inHandlerCallRef,
                 lastMouse = mousePoint;
                 err = TrackMouseLocation(GetWindowPort(gWindow),&mousePoint,&result);
 			}
+		
+		// If we have a mouse up handler, call it
+		if (gFuncAppMouseUp != NULL)
+			{
+			q3MousePoint.x = (float) lastMouse.h;
+			q3MousePoint.y = (float) lastMouse.v;
+
+			gFuncAppMouseUp(gView, q3MousePoint);
+			}
 		}
       
       }
