@@ -33,12 +33,21 @@
 #ifndef QUESA_PREFIX_CARBON_DEBUG_HDR
 #define QUESA_PREFIX_CARBON_DEBUG_HDR
 //=============================================================================
-//      Set our build constants
+//      Quesa build constants
 //-----------------------------------------------------------------------------
 #define QUESA_OS_MACINTOSH				1
 #define Q3_DEBUG						1
 #define Q3_PROFILE						0
 
+
+
+
+
+//=============================================================================
+//      Mac OS build constants
+//-----------------------------------------------------------------------------
 #define TARGET_API_MAC_CARBON			1
+
+
 
 #endif
