@@ -845,6 +845,24 @@ e3ffw_3DMF_shader_traverse(TQ3Object object,
 
 
 
+//=============================================================================
+//      e3ffw_3DMF_illumination_traverse : Illumination Shader traverse method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_illumination_traverse(TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object, data)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
+	
+	return qd3dstatus;
+}
+
+
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_shader_texture_traverse : Texture Shader traverse method.
@@ -2333,6 +2351,9 @@ E3FFW_3DMF_RegisterGeom(void)
 	E3ClassTree_AddMethodByType(kQ3TextureTypeMipmap,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_mipmap_write);
 	//E3ClassTree_AddMethodByType(kQ3TextureTypeCompressedPixmap,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)void);
 	E3ClassTree_AddMethodByType(kQ3ShapeTypeShader,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_shader_write);
+	E3ClassTree_AddMethodByType(kQ3IlluminationTypeNULL,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_illumination_traverse);
+	E3ClassTree_AddMethodByType(kQ3IlluminationTypePhong,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_illumination_traverse);
+	E3ClassTree_AddMethodByType(kQ3IlluminationTypeLambert,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_illumination_traverse);
 	E3ClassTree_AddMethodByType(kQ3SurfaceShaderTypeTexture,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_shader_texture_traverse);
 
 	// Style
