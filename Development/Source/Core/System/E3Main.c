@@ -1338,7 +1338,7 @@ E3Shape_AddElement(TQ3ShapeObject theShape, TQ3ElementType theType, const void *
 			if (theSet == NULL || qd3dStatus == kQ3Failure)
 				return kQ3Failure;
 			else
-				instanceData->theSet = theSet;
+				Q3Object_Dispose( theSet );
 		}
 		
 		qd3dStatus = Q3Set_Add(instanceData->theSet, theType, theData);
