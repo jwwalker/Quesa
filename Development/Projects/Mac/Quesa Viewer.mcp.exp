@@ -1,3 +1,4 @@
+# old (QD3D Mac) APIs
 Q3ViewerAdjustCursor
 Q3ViewerChangeBrightness
 Q3ViewerClear
@@ -10,6 +11,10 @@ Q3ViewerDraw
 Q3ViewerDrawContent
 Q3ViewerDrawControlStrip
 Q3ViewerEvent
+Q3Viewer_EventMouseDown
+Q3Viewer_EventMouseTrack
+Q3Viewer_EventMouseUp
+Q3Viewer_EventKeyboard
 Q3ViewerGetBackgroundColor
 Q3ViewerGetBounds
 Q3ViewerGetButtonRect
@@ -18,7 +23,6 @@ Q3ViewerGetCurrentButton
 Q3ViewerGetDimension
 Q3ViewerGetFlags
 Q3ViewerGetGroup
-Q3ViewerGetGroupBounds
 Q3ViewerGetMinimumDimension
 Q3ViewerGetPhongShading
 Q3ViewerGetPict
@@ -56,5 +60,51 @@ Q3ViewerUseFile
 Q3ViewerUseGroup
 Q3ViewerWriteData
 Q3ViewerWriteFile
-__ViewerInitialize
-__ViewerTerminate
+
+# new (Quesa integrated) APIs
+Q3Viewer_AdjustCursor
+Q3Viewer_CursorChanged
+Q3Viewer_Dispose
+Q3Viewer_Draw
+Q3Viewer_DrawContent
+Q3Viewer_DrawControlStrip
+Q3Viewer_GetBackgroundColor
+Q3Viewer_GetBounds
+Q3Viewer_GetButtonRect
+Q3Viewer_GetCameraCount
+Q3Viewer_GetCurrentButton
+Q3Viewer_GetDimension
+Q3Viewer_GetFlags
+Q3Viewer_GetGroup
+Q3Viewer_GetMinimumDimension
+Q3Viewer_GetPhongShading
+Q3Viewer_GetReleaseVersion
+Q3Viewer_GetRemoveBackfaces
+Q3Viewer_GetRendererType
+Q3Viewer_GetState
+Q3Viewer_GetUndoString
+Q3Viewer_GetVersion
+Q3Viewer_GetView
+Q3Viewer_EventMouseDown
+Q3Viewer_EventMouseUp
+Q3Viewer_New
+Q3Viewer_RestoreView
+Q3Viewer_SetBackgroundColor
+Q3Viewer_SetBounds
+Q3Viewer_SetCameraByNumber
+Q3Viewer_SetCameraByView
+Q3Viewer_SetCurrentButton
+Q3Viewer_SetDimension
+Q3Viewer_SetFlags
+Q3Viewer_SetPhongShading
+Q3Viewer_SetRemoveBackfaces
+Q3Viewer_SetRendererType
+Q3Viewer_UseData
+Q3Viewer_UseFile
+Q3Viewer_UseGroup
+Q3Viewer_WriteData
+Q3Viewer_WriteFile
+
+# support for use as a statically-linked library
+#__ViewerInitialize
+#__ViewerTerminate
