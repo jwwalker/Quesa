@@ -83,6 +83,8 @@ TQ3Boolean			E3Object_ContainsElement(TQ3Object theObject, TQ3ElementType theTyp
 TQ3Status			E3Object_GetNextElementType(TQ3Object theObject, TQ3ElementType *theType);
 TQ3Status			E3Object_EmptyElements(TQ3Object theObject);
 TQ3Status			E3Object_ClearElement(TQ3Object theObject, TQ3ElementType theType);
+TQ3Status			E3Object_GetSet(TQ3Object theObject, TQ3SetObject *theSet);
+TQ3Status			E3Object_SetSet(TQ3Object theObject, TQ3SetObject theSet);
 
 TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);
 TQ3SharedObject		E3Shared_GetReference(TQ3SharedObject sharedObject);
