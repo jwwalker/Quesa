@@ -156,7 +156,7 @@ e3camera_viewplane_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMa
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3camera_viewplane_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3ViewPlaneCameraData			*instanceData = (TQ3ViewPlaneCameraData *)        privateData;
+{	TQ3ViewPlaneCameraData			*instanceData = (TQ3ViewPlaneCameraData *)       privateData;
 	const TQ3ViewPlaneCameraData	*cameraData   = (const TQ3ViewPlaneCameraData *) paramData;
 #pragma unused(theObject)
 
