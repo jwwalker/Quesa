@@ -192,103 +192,44 @@ e3geom_cone_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 //=============================================================================
-//      e3geom_cone_cache_new : Cone cache new method.
+//      e3geom_cone_create_face : Helper for e3geom_cone_cache_new.
 //-----------------------------------------------------------------------------
-static TQ3Object
-e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3ConeData *geomData)
-{	float				ang=0.0f, dang, cosAngle, sinAngle;
-	float				uMin, uMax, vMin, vMax, uDiff, vDiff;
+static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* inData,
+	TQ3Uns32 inNumSides, TQ3Uns32 inNumBands, TQ3Boolean inTipPresent )
+{
+	float				ang=0.0f, dang, cosAngle, sinAngle;
+	float				startAngle, endAngle;
+	float				v, vStep;
+	TQ3Vector3D			workVec, otherVec, sideVec, radialVec, prevSideVec;
+	TQ3Vector3D			vertNormVec, faceNormVec;
+	TQ3Point3D			bottomPt;
+	TQ3Vector3D			majXMinor, majXOrient, minXOrient;
 	TQ3Param2D			*uvs;
-	TQ3GroupObject		theGroup;
-	TQ3TriMeshData				triMeshData;
-	TQ3GeometryObject			theTriMesh;
-	TQ3Uns32 sides = 10;
-	TQ3Uns32 numpoints;
-	TQ3Uns32 i;
-	TQ3Point3D *points;
-	TQ3Vector3D *normals;
+	TQ3TriMeshData		triMeshData;
+	TQ3GeometryObject	theTriMesh;
+	TQ3Point3D 			*points;
+	TQ3Vector3D 		*normals;
+	TQ3Vector3D			*faceNorms;
 	TQ3TriMeshTriangleData *triangles;
-	TQ3Vector3D v;	// (temporaries)
 	TQ3TriMeshAttributeData vertexAttributes[2];
-	TQ3Vector3D		majXOrient, minXOrient, majXMinor;
-	TQ3Boolean		isRightHanded;
-
-
-	// Get the subdivision style, to figure out how many sides we should have.
-	TQ3SubdivisionStyleData subdivisionData;
-	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
-		switch (subdivisionData.method) {
-			case kQ3SubdivisionMethodConstant:
-				// for a cone, parameter c1 is the number of sides and c2 is unused
-				sides = (TQ3Uns32) subdivisionData.c1;
-				break;
-			
-			case kQ3SubdivisionMethodWorldSpace:
-				// keep the length of any side less than or equal to c1;
-				// so divide the diameter by c1
-				sides = (TQ3Uns32) ((kQ32Pi * Q3Vector3D_Length(&geomData->majorRadius))
-						/ subdivisionData.c1);
-				break;
-			
-			case kQ3SubdivisionMethodScreenSpace:
-				// Not implemented
-				break;
-		}
-	}
-	if (sides < 3) sides = 3;			// sanity checking
-	else if (sides > 256) sides = 256;
-
-
-	// in order to get smooth shading, we need not a single top point,
-	// but rather one for each side (so they can have separate normals);
-	// ergo, the number of points is 2*sides
-	numpoints = sides * 2;
-
-
-	// In order to have proper uv parameterization we need an extra set of vertices
-	// for the closing triangle (since it is not easy to convince any renderer to
-	// have multiple uvs for a vertex)
-	//
-	// So, we add on 2 more points to hold these two duplicate vertices
-	numpoints += 2;
-
-
-	// Get the UV limits
-	uMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	uMax  = E3Num_Max(E3Num_Min(geomData->uMax, 1.0f), 0.0f);
-	vMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	vMax  = E3Num_Max(E3Num_Min(geomData->vMax, 1.0f), 0.0f);
-	uDiff = uMax - uMin;
-	vDiff = vMax - vMin;
+	TQ3TriMeshAttributeData	faceAttributes;
+	TQ3Uns32			numpoints, numFaces;
+	TQ3Uns32			i, j;
 
 
 
-	// Create a group to hold the cached geometry
-	theGroup = Q3DisplayGroup_New();
-	if (theGroup == NULL)
-		return(NULL);
+	// Turn the u limits into a counterclockwise angle range in radians, and
+	// figure the angle step size.
+	startAngle = inData->uMin * kQ32Pi;
+	endAngle = inData->uMax * kQ32Pi;
+	dang = (endAngle - startAngle) / inNumSides;
 
 
 
-	// Allocate some memory for the TriMesh
-	points    = (TQ3Point3D *)             Q3Memory_Allocate( numpoints*sizeof(TQ3Point3D) );
-	normals   = (TQ3Vector3D *)            Q3Memory_Allocate( numpoints*sizeof(TQ3Vector3D) );
-	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate(numpoints * sizeof(TQ3Param2D));
-	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( sides*sizeof(TQ3TriMeshTriangleData) );
-
-	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL)
-		{
-		Q3Memory_Free(&points);
-		Q3Memory_Free(&normals);
-		Q3Memory_Free(&uvs);
-		Q3Memory_Free(&triangles);
-		
-		return(theGroup);
-		}
+	// Band step size
+	vStep = (inData->vMax - inData->vMin) / inNumBands;
 
 
-	// we'll make the last point be the top of the cone
-	Q3Point3D_Vector3D_Add( &geomData->origin, &geomData->orientation, &points[sides] );
 
 	// Normal computation:
 	// The cone has a parametric equation
@@ -306,99 +247,151 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	// this will be an outward normal.  We can omit the nonnegative scalar 1-v.
 
 	// Best to compute those 3 cross products outside of any loops.
-	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->orientation, &majXOrient );
-	Q3Vector3D_Cross( &geomData->minorRadius, &geomData->orientation, &minXOrient );
-	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->minorRadius, &majXMinor );
-	
-	// Right or left handed?
-	if (Q3Vector3D_Dot( &majXMinor, &geomData->orientation ) > 0.0)
+	Q3Vector3D_Cross( &inData->majorRadius, &inData->minorRadius, &majXMinor );
+	Q3Vector3D_Cross( &inData->majorRadius, &inData->orientation, &majXOrient );
+	Q3Vector3D_Cross( &inData->minorRadius, &inData->orientation, &minXOrient );
+
+
+
+	// We will use (inNumSides + 1) discrete values of the u parameter, and inNumBands + 1
+	// discrete values of the v parameter, hence the number of points is...
+	numpoints = (inNumBands + 1) * (inNumSides + 1);
+
+
+
+	// In most bands, there are two triangles for each side.  But if there is a tip, then
+	// the last band has one triangle per side.
+	if (inTipPresent)
 	{
-		isRightHanded = kQ3True;
+		numFaces = inNumSides * (2 * inNumBands - 1);
 	}
 	else
 	{
-		isRightHanded = kQ3False;
+		numFaces = 2 * inNumSides * inNumBands;
 	}
 
-	// now, define each side, as a cosine/sine combination of major and minor radius vectors
-	dang = kQ32Pi / sides;
-	for (i=0; i<sides; i++) {
-		// Figure out where we are
+
+
+	// Allocate some memory for the TriMesh
+	points    = (TQ3Point3D *)             Q3Memory_Allocate( numpoints*sizeof(TQ3Point3D) );
+	normals   = (TQ3Vector3D *)            Q3Memory_Allocate( numpoints*sizeof(TQ3Vector3D) );
+	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate( numpoints * sizeof(TQ3Param2D) );
+	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( numFaces*sizeof(TQ3TriMeshTriangleData) );
+	faceNorms = (TQ3Vector3D *)            Q3Memory_Allocate( numFaces*sizeof(TQ3Vector3D) );
+	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL || faceNorms == NULL)
+	{
+		Q3Memory_Free(&points);
+		Q3Memory_Free(&normals);
+		Q3Memory_Free(&uvs);
+		Q3Memory_Free(&triangles);
+		Q3Memory_Free(&faceNorms);
+		
+		return;
+	}
+
+
+
+	// Compute points etc.
+	// Points (and normals and uvs) will be indexed with point i on band j being
+	//	points[(inNumSides+1)*j + i].
+	// Triangles (and face normals) will be indexed such that between points i and i+1,
+	// and between bands j and j+1, there are two triangles, numbered 2*(inNumSides*j+i) and
+	// 2*(inNumSides*j+i)+1.  The exception is that if the tip is present, then the last
+	// band (j = inNumBands - 1) has only one triangle per side, number 2*(inNumSides*j)+i.
+	for (i=0, ang = startAngle; i <= inNumSides; ++i, ang += dang)
+	{
 		cosAngle = (float) cos(ang);
 		sinAngle = (float) sin(ang);
 
-		// compute bottom point as a sin/cos combination of major and minor radii
-		Q3Vector3D_Scale( &geomData->majorRadius, cosAngle, &v );
-		Q3Point3D_Vector3D_Add( &geomData->origin, &v, &points[i] );
-		Q3Vector3D_Scale( &geomData->minorRadius, sinAngle, &v );
-		Q3Point3D_Vector3D_Add( &points[i], &v, &points[i] );
-		// top point is always the same:
-		// just the origin plus the orientation
-		points[i+sides] = points[sides];
+		// Compute part of what we need for points.
+		// In the parametric equation for the cone, for a fixed u let
+		//	radialVec = cos(u)majorRadius + sin(u)minorRadius
+		// and then the equation becomes
+		// f(u,v) = origin + v*orientation + (1-v)radialVec
+		//		  = origin + radialVec + v*(orientation - radialVec).
+		// We will let bottomPt stand for origin + radialVec, and let
+		// sideVec stand for orientation - radialVec, so the points at this
+		// value of u will be given by bottomPt + v * sideVec.
+		Q3Vector3D_Scale( &inData->majorRadius, cosAngle, &workVec );
+		Q3Vector3D_Scale( &inData->minorRadius, sinAngle, &radialVec );
+		Q3Vector3D_Add( &workVec, &radialVec, &radialVec );
+		Q3Vector3D_Subtract( &inData->orientation, &radialVec, &sideVec );
+		Q3Point3D_Vector3D_Add( &inData->origin, &radialVec, &bottomPt );
+		
 
-		// Find the normal
-		Q3Vector3D_Scale( &majXOrient, -sinAngle, &normals[i] );
-		Q3Vector3D_Scale( &minXOrient, cosAngle, &v );
-		Q3Vector3D_Add( &normals[i], &v, &normals[i] );
-		Q3Vector3D_Add( &normals[i], &majXMinor, &normals[i] );
-		Q3Vector3D_Normalize( &normals[i], &normals[i] );
-		if (isRightHanded == kQ3False)
+		// The vertex normal is the same for all points at this angle.
+		Q3Vector3D_Scale( &majXOrient, - sinAngle, &workVec );
+		Q3Vector3D_Scale( &minXOrient, cosAngle, &otherVec );
+		Q3Vector3D_Add( &workVec, &otherVec, &workVec );
+		Q3Vector3D_Add( &workVec, &majXMinor, &workVec );
+		Q3Vector3D_Normalize( &workVec, &vertNormVec );
+		
+		
+		// The triangle normal will be the same for every triangle between i-1 and i.
+		if (i > 0)
 		{
-			Q3Vector3D_Negate( &normals[i], &normals[i] );
+			Q3Vector3D_Cross( &prevSideVec, &sideVec, &faceNormVec );
+			Q3Vector3D_Normalize( &faceNormVec, &faceNormVec );
 		}
+		prevSideVec = sideVec;
 
-		// uvs come from the surface parameterisation
-		uvs[i].u         = uMin + ((uDiff / (float) sides) * i);
-		uvs[i].v         = vMin;
-		uvs[i + sides].u = uvs[i].u;
-		uvs[i + sides].v = vMax;
+		
+		for (j = 0, v = inData->vMin; j <= inNumBands; ++j, v += vStep)
+		{
+			// Compute a point
+			Q3Vector3D_Scale( &sideVec, v, &workVec );
+			Q3Point3D_Vector3D_Add( &bottomPt, &workVec, &points[(inNumSides+1)*j + i] );
+			
+			// Vertex normal
+			normals[(inNumSides+1)*j + i] = vertNormVec;
+			
+			// Surface parameters
+			uvs[(inNumSides+1)*j + i].u = i / ((float) inNumSides);
+			uvs[(inNumSides+1)*j + i].v = v;
+			
+			// Triangles and face normals
+			if ( (i > 0) && (j > 0) )
+			{
+				if ( inTipPresent && (j == inNumBands) )
+				{
+					Q3_ASSERT( 2*(inNumSides*(j-1))+i-1 < numFaces );
+					triangles[2*(inNumSides*(j-1))+i-1].pointIndices[0] =
+						(inNumSides+1)*(j-1) + i-1;
+					triangles[2*(inNumSides*(j-1))+i-1].pointIndices[1] =
+						(inNumSides+1)*(j-1) + i;
+					triangles[2*(inNumSides*(j-1))+i-1].pointIndices[2] =
+						(inNumSides+1)*(j) + i;
+					
+					faceNorms[2*(inNumSides*(j-1))+i-1] = faceNormVec;
+				}
+				else
+				{
+					Q3_ASSERT( 2*(inNumSides*(j-1)+i-1)+1 < numFaces );
+					
+					triangles[2*(inNumSides*(j-1)+i-1)].pointIndices[0] =
+						(inNumSides+1)*(j-1) + i-1;
+					triangles[2*(inNumSides*(j-1)+i-1)].pointIndices[1] =
+						(inNumSides+1)*(j) + i;
+					triangles[2*(inNumSides*(j-1)+i-1)].pointIndices[2] =
+						(inNumSides+1)*(j) + i-1;
 
-
-		// build triangles
-		triangles[i].pointIndices[0] = i+sides;
-		triangles[i].pointIndices[1] = i;
-		triangles[i].pointIndices[2] = (i+1)%sides;
-		ang += dang;
+					triangles[2*(inNumSides*(j-1)+i-1)+1].pointIndices[0] =
+						(inNumSides+1)*(j-1) + i-1;
+					triangles[2*(inNumSides*(j-1)+i-1)+1].pointIndices[1] =
+						(inNumSides+1)*(j-1) + i;
+					triangles[2*(inNumSides*(j-1)+i-1)+1].pointIndices[2] =
+						(inNumSides+1)*(j) + i;
+						
+					faceNorms[2*(inNumSides*(j-1)+i-1)] = faceNormVec;
+					faceNorms[2*(inNumSides*(j-1)+i-1)+1] = faceNormVec;
+				}
+			}
+		}
 	}
 
 
-	// normal of the point at the top of each triangle
-	// is the average of the normals of its two bottom points
-	for (i=0; i<sides; i++) {
-		Q3Vector3D_Add( &normals[i], &normals[(i+1)%sides], &normals[i+sides] );
-		Q3Vector3D_Normalize( &normals[i+sides], &normals[i+sides] );
-	}
 
-
-
-	// Fix up the extra two vertices we added for texture mapping: these have the
-	// same coordinate and normal as the first two vertices, but have the UVs of
-	// the last two vertices.
-	//
-	// We also need to adjust the final triangle to point to these new vertices.
-	i = numpoints - 2;
-	points [i]   = points [0];
-	normals[i]   = normals[0];
-	uvs    [i].u = uMax;
-	uvs    [i].v = vMin;
-
-	points [i + 1]   = points [sides];
-	normals[i + 1]   = normals[sides];
-	uvs    [i + 1].u = uMax;
-	uvs    [i + 1].v = vMax;
-
-	triangles[sides-1].pointIndices[0] = i + 1;
-	triangles[sides-1].pointIndices[2] = i;
-
-
-
-	// set up the attributes (may be a combination of cone & face attributes)	
-	E3AttributeSet_Combine( geomData->coneAttributeSet, geomData->faceAttributeSet,
-					&triMeshData.triMeshAttributeSet );
-
-
-
-	// set up remaining trimesh data
+	// Set up TriMesh data
 	vertexAttributes[0].attributeType     = kQ3AttributeTypeNormal;
 	vertexAttributes[0].data              = normals;
 	vertexAttributes[0].attributeUseArray = NULL;
@@ -406,83 +399,35 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	vertexAttributes[1].attributeType     = kQ3AttributeTypeSurfaceUV;
 	vertexAttributes[1].data              = uvs;
 	vertexAttributes[1].attributeUseArray = NULL;
-
+	
+	faceAttributes.attributeType     = kQ3AttributeTypeNormal;
+	faceAttributes.data = faceNorms;
+	faceAttributes.attributeUseArray = NULL;
+	
 	triMeshData.numPoints                 = numpoints;
 	triMeshData.points                    = points;
-	triMeshData.numTriangles              = sides;
+	triMeshData.numTriangles              = numFaces;
 	triMeshData.triangles                 = triangles;
-	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.numTriangleAttributeTypes = 1;
+	triMeshData.triangleAttributeTypes    = &faceAttributes;
 	triMeshData.numEdges                  = 0;
 	triMeshData.edges                     = NULL;
 	triMeshData.numEdgeAttributeTypes     = 0;
 	triMeshData.edgeAttributeTypes        = NULL;
 	triMeshData.numVertexAttributeTypes   = 2;
 	triMeshData.vertexAttributeTypes      = vertexAttributes;
-
-	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox,
-									triMeshData.points,
+	triMeshData.triMeshAttributeSet = inData->faceAttributeSet;
+	Q3BoundingBox_SetFromPoints3D( &triMeshData.bBox,
+									points,
 									numpoints,
 									sizeof(TQ3Point3D));
 
 
 
-	// finally, create the TriMesh and add to the group
+	// Create the TriMesh and add to the group
 	theTriMesh = Q3TriMesh_New(&triMeshData);
 	if (theTriMesh != NULL)
-		Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
-
-	Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
-
-
-
-	// Now, add the cone bottom; this is almost exactly like the top,
-	// except that the single "top" point is now at the origin,
-	// and we use the bottom attribute set.
-	if (geomData->caps & kQ3EndCapMaskBottom) {
-		points[sides] = geomData->origin;
-		uvs[sides].u  = uMin + (uDiff / 2.0f);
-		uvs[sides].v  = vMin + (vDiff / 2.0f);
-		Q3Vector3D_Negate(&geomData->orientation, &normals[sides]);
-		Q3Vector3D_Normalize(&normals[sides],     &normals[sides]);
-
-		ang = 0.0f;
-		for (i=0; i<sides; i++) {
-			// Figure out where we are
-			cosAngle = (float) cos(ang);
-			sinAngle = (float) sin(ang);
-			
-			// Set up the normal
-			normals[i] = normals[sides];
-
-			// Set up the UV
-			uvs[i].u = uMin + (uDiff * (1.0f - ((cosAngle + 1.0f) / 2.0f)));
-			uvs[i].v = vMin + (vDiff * (1.0f - ((sinAngle + 1.0f) / 2.0f)));
-
-			// Set up the triangle
-			triangles[i].pointIndices[0] = (i+1)%sides;
-			triangles[i].pointIndices[1] = i;
-			triangles[i].pointIndices[2] = sides;
-
-			ang += dang;
-		}
-		triMeshData.numPoints = sides+1;
-
-		// set up the attributes (may be a combination of cone & bottom attributes)	
-		E3AttributeSet_Combine( geomData->coneAttributeSet, geomData->bottomAttributeSet,
-					&triMeshData.triMeshAttributeSet );
-		
-		Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox,
-										triMeshData.points,
-										triMeshData.numPoints,
-										sizeof(TQ3Point3D));
-
-		theTriMesh = Q3TriMesh_New(&triMeshData);
-		if (theTriMesh != NULL)
-			Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
-
-		Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
-	}
+		Q3Group_AddObjectAndDispose( ioGroup, &theTriMesh );
 
 
 
@@ -491,11 +436,404 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	Q3Memory_Free(&normals);
 	Q3Memory_Free(&uvs);
 	Q3Memory_Free(&triangles);
+	Q3Memory_Free(&faceNorms);
+}
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+//      e3geom_cone_create_interior : Helper for e3geom_cone_cache_new.
+//-----------------------------------------------------------------------------
+static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeData* inData,
+	TQ3Boolean inHasTip )
+{
+	
+	if (inHasTip == kQ3False)	// Disk at top?
+	{
+		TQ3DiskData			topDisk;
+		TQ3GeometryObject	topGeom;
+		TQ3Vector3D			workVec;
+		
+		Q3Vector3D_Scale( &inData->orientation, inData->vMax, &workVec );
+		Q3Point3D_Vector3D_Add( &inData->origin, &workVec, &topDisk.origin );
+		Q3Vector3D_Scale( &inData->majorRadius, 1.0f - inData->vMax, &topDisk.majorRadius );
+		Q3Vector3D_Scale( &inData->minorRadius, 1.0f - inData->vMax, &topDisk.minorRadius );
+		topDisk.uMin = inData->uMin;
+		topDisk.uMax = inData->uMax;
+		if (topDisk.uMax > 1.0f)
+		{
+			topDisk.uMax -= 1.0f;
+		}
+		topDisk.vMin = 0.0f;
+		topDisk.vMax = 1.0f;
+		topDisk.diskAttributeSet = inData->interiorAttributeSet;
+		
+		topGeom = Q3Disk_New( &topDisk );
+		if (topGeom != NULL)
+		{
+			Q3Group_AddObjectAndDispose( ioGroup, &topGeom );
+		}
+	}
+	
+	// If the u values don't go all the way around, there's more interior.
+	if (inData->uMax - inData->uMin < 1.0f - kQ3RealZero)
+	{
+		float			cosAngle, sinAngle;
+		float			startAngle, endAngle;
+		TQ3Point3D		bottomCenter, topCenter;
+		TQ3Vector3D		workVec, radialVec;
+		TQ3Point3D		interiorPts[4];
+		TQ3Vector3D		interiorPtNorms[4];
+		TQ3Param2D		interiorUVs[4];
+		TQ3Vector3D		interiorFaceNorms[2];
+		TQ3TriMeshTriangleData	interiorTris[2] = {
+			{ { 0, 1, 2 } }, { { 1, 3, 2 } }
+		};
+		TQ3TriMeshAttributeData	intPtAtts[2] = {
+			{ kQ3AttributeTypeNormal, NULL, NULL },
+			{ kQ3AttributeTypeSurfaceUV, NULL, NULL }
+		};
+		TQ3TriMeshAttributeData	intFaceAtts = {
+			kQ3AttributeTypeNormal, NULL, NULL
+		};
+		TQ3TriMeshData	intTriMeshData;
+		TQ3GeometryObject	intGeom = NULL;
+		
+		intPtAtts[0].data = interiorPtNorms;
+		intPtAtts[1].data = interiorUVs;
+		intFaceAtts.data = interiorFaceNorms;
+		
+		// Set TriMesh fields that are the same in all cases
+		intTriMeshData.triMeshAttributeSet = inData->interiorAttributeSet;
+		intTriMeshData.triangles = interiorTris;
+		intTriMeshData.numTriangleAttributeTypes = 1;
+		intTriMeshData.triangleAttributeTypes = &intFaceAtts;
+		intTriMeshData.numEdges = 0;
+		intTriMeshData.edges = NULL;
+		intTriMeshData.numEdgeAttributeTypes = 0;
+		intTriMeshData.edgeAttributeTypes = NULL;
+		intTriMeshData.points = interiorPts;
+		intTriMeshData.numVertexAttributeTypes = 2;
+		intTriMeshData.vertexAttributeTypes = intPtAtts;
+
+		// Find the bottom and top centers.
+		Q3Vector3D_Scale( &inData->orientation, inData->vMin, &workVec );
+		Q3Point3D_Vector3D_Add( &inData->origin, &workVec, &bottomCenter );
+		Q3Vector3D_Scale( &inData->orientation, inData->vMax - inData->vMin, &workVec );
+		Q3Point3D_Vector3D_Add( &bottomCenter, &workVec, &topCenter );
+
+		startAngle = inData->uMin * kQ32Pi;
+		endAngle = inData->uMax * kQ32Pi;
+
+		if (inHasTip)	// interior is two one-triangle TriMeshes
+		{
+			intTriMeshData.numPoints = 3;
+			intTriMeshData.numTriangles  = 1;
+			
+			// Left triangle
+			cosAngle = (float) cos(endAngle);
+			sinAngle = (float) sin(endAngle);
+			Q3Vector3D_Scale( &inData->majorRadius, (1.0f - inData->vMin) * cosAngle, &workVec );
+			Q3Vector3D_Scale( &inData->minorRadius, (1.0f - inData->vMin) * sinAngle, &radialVec );
+			Q3Vector3D_Add( &workVec, &radialVec, &radialVec );
+			Q3Point3D_Vector3D_Add( &bottomCenter, &radialVec, &interiorPts[0] );	// bottom left
+			interiorPts[1] = bottomCenter;
+			interiorPts[2] = topCenter;
+			Q3Vector3D_Cross( &inData->orientation, &radialVec, &workVec );
+			Q3Vector3D_Normalize( &workVec, &workVec );
+			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = workVec;
+			interiorFaceNorms[0] = workVec;
+			interiorUVs[0].u = 0.0f;
+			interiorUVs[0].v = 0.0f;
+			interiorUVs[1].u = 0.5f;
+			interiorUVs[1].v = 0.0f;
+			interiorUVs[2].u = 0.5f;
+			interiorUVs[2].v = 1.0f;
+			Q3BoundingBox_SetFromPoints3D( &intTriMeshData.bBox, intTriMeshData.points,
+				intTriMeshData.numPoints, sizeof(TQ3Point3D) );
+			intGeom = Q3TriMesh_New( &intTriMeshData );
+			if (intGeom != NULL)
+			{
+				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
+			}
+			
+			// Right triangle
+			cosAngle = (float) cos(startAngle);
+			sinAngle = (float) sin(startAngle);
+			Q3Vector3D_Scale( &inData->majorRadius, (1.0f - inData->vMin) * cosAngle, &workVec );
+			Q3Vector3D_Scale( &inData->minorRadius, (1.0f - inData->vMin) * sinAngle, &radialVec );
+			Q3Vector3D_Add( &workVec, &radialVec, &radialVec );
+			Q3Point3D_Vector3D_Add( &bottomCenter, &radialVec, &interiorPts[1] );	// bottom right
+			interiorPts[0] = bottomCenter;
+			interiorPts[2] = topCenter;
+			Q3Vector3D_Cross( &radialVec, &inData->orientation, &workVec );
+			Q3Vector3D_Normalize( &workVec, &workVec );
+			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = workVec;
+			interiorFaceNorms[0] = workVec;
+			interiorUVs[0].u = 0.5f;
+			interiorUVs[1].u = 1.0f;
+			Q3BoundingBox_SetFromPoints3D( &intTriMeshData.bBox, intTriMeshData.points,
+				intTriMeshData.numPoints, sizeof(TQ3Point3D) );
+			intGeom = Q3TriMesh_New( &intTriMeshData );
+			if (intGeom != NULL)
+			{
+				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
+			}
+		}
+		else	// interior is two two-triangle TriMeshes
+		{
+			intTriMeshData.numPoints = 4;
+			intTriMeshData.numTriangles  = 2;
+			
+			// Left side
+			cosAngle = (float) cos(endAngle);
+			sinAngle = (float) sin(endAngle);
+			Q3Vector3D_Scale( &inData->majorRadius, cosAngle, &workVec );
+			Q3Vector3D_Scale( &inData->minorRadius, sinAngle, &radialVec );
+			Q3Vector3D_Add( &workVec, &radialVec, &radialVec );
+			Q3Vector3D_Scale( &radialVec, 1.0f - inData->vMin, &workVec );
+			Q3Point3D_Vector3D_Add( &bottomCenter, &workVec, &interiorPts[0] );
+			interiorPts[1] = bottomCenter;
+			interiorPts[3] = topCenter;
+			Q3Vector3D_Scale( &radialVec, 1.0f - inData->vMax, &workVec );
+			Q3Point3D_Vector3D_Add( &topCenter, &workVec, &interiorPts[2] );
+			
+			Q3Vector3D_Cross( &inData->orientation, &radialVec, &workVec );
+			Q3Vector3D_Normalize( &workVec, &workVec );
+			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = interiorPtNorms[3] =
+				workVec;
+			interiorFaceNorms[0] = interiorFaceNorms[1] = workVec;
+
+			interiorUVs[0].u = 0.0f;
+			interiorUVs[0].v = 0.0f;
+			interiorUVs[1].u = 0.5f;
+			interiorUVs[1].v = 0.0f;
+			interiorUVs[2].u = 0.5f * (1.0f - (1.0f - inData->vMax) / (1.0f - inData->vMin));
+			interiorUVs[2].v = 1.0f;
+			interiorUVs[3].u = 0.5f;
+			interiorUVs[3].v = 1.0f;
+			Q3BoundingBox_SetFromPoints3D( &intTriMeshData.bBox, intTriMeshData.points,
+				intTriMeshData.numPoints, sizeof(TQ3Point3D) );
+			intGeom = Q3TriMesh_New( &intTriMeshData );
+			if (intGeom != NULL)
+			{
+				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
+			}
+			
+			// Right side
+			cosAngle = (float) cos(startAngle);
+			sinAngle = (float) sin(startAngle);
+			Q3Vector3D_Scale( &inData->majorRadius, cosAngle, &workVec );
+			Q3Vector3D_Scale( &inData->minorRadius, sinAngle, &radialVec );
+			Q3Vector3D_Add( &workVec, &radialVec, &radialVec );
+			Q3Vector3D_Scale( &radialVec, 1.0f - inData->vMin, &workVec );
+			Q3Point3D_Vector3D_Add( &bottomCenter, &workVec, &interiorPts[1] );
+			interiorPts[0] = bottomCenter;
+			interiorPts[2] = topCenter;
+			Q3Vector3D_Scale( &radialVec, 1.0f - inData->vMax, &workVec );
+			Q3Point3D_Vector3D_Add( &topCenter, &workVec, &interiorPts[3] );
+
+			Q3Vector3D_Cross( &radialVec, &inData->orientation, &workVec );
+			Q3Vector3D_Normalize( &workVec, &workVec );
+			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = interiorPtNorms[3] =
+				workVec;
+			interiorFaceNorms[0] = interiorFaceNorms[1] = workVec;
+
+			interiorUVs[0].u = 0.5f;
+			interiorUVs[0].v = 0.0f;
+			interiorUVs[1].u = 1.0f;
+			interiorUVs[1].v = 0.0f;
+			interiorUVs[2].u = 0.5f;
+			interiorUVs[2].v = 1.0f;
+			interiorUVs[3].u = 0.5f * (1.0f + (1.0f - inData->vMax) / (1.0f - inData->vMin));
+			interiorUVs[3].v = 1.0f;
+			Q3BoundingBox_SetFromPoints3D( &intTriMeshData.bBox, intTriMeshData.points,
+				intTriMeshData.numPoints, sizeof(TQ3Point3D) );
+			intGeom = Q3TriMesh_New( &intTriMeshData );
+			if (intGeom != NULL)
+			{
+				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
+			}
+		}
+	}
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_cone_cache_new : Cone cache new method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3ConeData *geomData)
+{
+#pragma unused( theGeom )
+	float				uMin, uMax, vMin, vMax;
+	float				dotCross;
+	TQ3GroupObject		theGroup;
+	TQ3Uns32			sides = 10;
+	TQ3Uns32			bands = 10;
+	TQ3Vector3D			majXMinor, workVec;
+	TQ3SubdivisionStyleData subdivisionData;
+	TQ3ConeData			faceData;
+	TQ3Boolean			isTipPresent;
+
+
+
+	// Get the subdivision style, to figure out how many sides we should have.
+	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success)
+	{
+		switch (subdivisionData.method)
+		{
+			case kQ3SubdivisionMethodConstant:
+				sides = (TQ3Uns32) subdivisionData.c1;
+				bands = (TQ3Uns32) subdivisionData.c2;
+				break;
+			
+			case kQ3SubdivisionMethodWorldSpace:
+				// keep the length of any side less than or equal to c1;
+				// so divide the diameter by c1
+				sides = (TQ3Uns32) ((kQ32Pi * Q3Vector3D_Length(&geomData->majorRadius))
+						/ subdivisionData.c1);
+				// slant height vector is orientation - majorRadius
+				Q3Vector3D_Subtract( &geomData->orientation, &geomData->majorRadius, &workVec );
+				bands = (TQ3Uns32) (Q3Vector3D_Length( &workVec ) / subdivisionData.c1);
+				break;
+			
+			case kQ3SubdivisionMethodScreenSpace:
+				// Not implemented
+				break;
+		}
+	}
+	sides = E3Num_Clamp( sides, 3, 256 );
+	bands = E3Num_Clamp( bands, 1, 256 );
+
+
+
+	// Create a group to hold the cached geometry, and add overall attributes
+	theGroup = Q3DisplayGroup_New();
+	if (theGroup == NULL)
+	{
+		E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
+		return NULL;
+	}
+	
+	if (geomData->coneAttributeSet != NULL)
+	{
+		Q3Group_AddObject( theGroup, geomData->coneAttributeSet );
+	}
+
+
+
+	// Test whether the geometry is degenerate.
+	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->minorRadius, &majXMinor );
+	dotCross = Q3Vector3D_Dot( &geomData->orientation, &majXMinor );
+	if (E3Float_Abs( dotCross ) < kQ3RealZero)
+	{
+		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
+		return theGroup;
+	}
+
+
+
+	// Get the UV limits and make sure they are valid
+	uMin  = E3Num_Clamp( geomData->uMin, 0.0f, 1.0f );
+	uMax  = E3Num_Clamp( geomData->uMax, 0.0f, 1.0f );
+	vMin  = E3Num_Clamp( geomData->vMin, 0.0f, 1.0f );
+	vMax  = E3Num_Clamp( geomData->vMax, 0.0f, 1.0f );
+	// It is possible for uMin to be greater than uMax, so that
+	// we can specify which way to wrap around the circle.
+	// But it doesn't make sense for vMin to be greater than vMax.
+	if (vMin > vMax)
+		E3Float_Swap( vMin, vMax );
+
+
+
+	// Another sort of degeneracy...
+	if ( (E3Float_Abs( uMin - uMax ) <= kQ3RealZero) || (E3Float_Abs( vMin - vMax ) <= kQ3RealZero) )
+	{
+		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
+		return theGroup;
+	}
+
+
+
+	// Turn a wraparound u interval into an increasing interval.
+	if (uMin > uMax)
+	{
+		uMax += 1.0f;
+	}
+
+
+
+	// If the tip is included, the last band has only one triangle per side.
+	isTipPresent = (1.0f - vMax <= kQ3RealZero)? kQ3True : kQ3False;
+
+	
+	
+	// Create the face part(s)
+	faceData = *geomData;
+	faceData.uMin = uMin;
+	faceData.uMax = uMax;
+	faceData.vMin = vMin;
+	faceData.vMax = vMax;
+	e3geom_cone_create_face( theGroup, &faceData, sides, bands, isTipPresent );
+
+
+
+	// Add the bottom cap, if any.
+	if (geomData->caps & kQ3EndCapMaskBottom)
+	{
+		TQ3DiskData			botDisk;
+		TQ3GeometryObject	botGeom;
+		TQ3Vector3D			workVec;
+		
+		Q3Vector3D_Scale( &geomData->orientation, vMin, &workVec );
+		Q3Point3D_Vector3D_Add( &geomData->origin, &workVec, &botDisk.origin );
+		// In order to make the bottom be the front face, we flip the orientation.
+		Q3Vector3D_Scale( &geomData->majorRadius, 1.0f - vMin, &botDisk.majorRadius );
+		Q3Vector3D_Scale( &geomData->minorRadius, vMin - 1.0f, &botDisk.minorRadius );
+		botDisk.uMin = 1.0f - geomData->uMax;
+		botDisk.uMax = 1.0f - geomData->uMin;
+		botDisk.vMin = 0.0f;
+		botDisk.vMax = 1.0f;
+		botDisk.diskAttributeSet = geomData->bottomAttributeSet;
+		
+		botGeom = Q3Disk_New( &botDisk );
+		if (botGeom != NULL)
+		{
+			Q3Group_AddObjectAndDispose(theGroup, &botGeom);
+		}
+	}
+
+
+
+	// If the interior cap flag is set, we might have one or two more pieces.
+	if (geomData->caps & kQ3EndCapMaskInterior)
+	{
+		TQ3ConeData		intData;
+		
+		intData = *geomData;
+		intData.uMin = uMin;
+		intData.uMax = uMax;
+		intData.vMin = vMin;
+		intData.vMax = vMax;
+		
+		e3geom_cone_create_interior( theGroup, &intData, isTipPresent );
+	}
 
 
 
 	// Return the cached geometry
-	return(theGroup);
+	return (theGroup);
 }
 
 
@@ -948,6 +1286,42 @@ E3Cone_GetFaceAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet *faceAttri
 	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
 
 	E3Shared_Acquire(faceAttributeSet, instanceData->faceAttributeSet);
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Cone_SetInteriorAttributeSet : Set the attribute set used for
+//									 the interior of the cone.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Cone_SetInteriorAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet intAttributeSet)
+{
+	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+
+	E3Shared_Replace(&instanceData->interiorAttributeSet, intAttributeSet);
+
+	Q3Shared_Edited(theCone);
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Cone_GetInteriorAttributeSet : Get the attribute set used for
+//									 the interior of the cone.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Cone_GetInteriorAttributeSet(TQ3GeometryObject theCone, TQ3AttributeSet *intAttributeSet)
+{
+	TQ3ConeData		*instanceData = (TQ3ConeData *) theCone->instanceData;
+
+	E3Shared_Acquire(intAttributeSet, instanceData->interiorAttributeSet);
 	return(kQ3Success);
 }
 
