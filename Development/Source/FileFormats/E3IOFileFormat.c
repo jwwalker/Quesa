@@ -548,10 +548,28 @@ E3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, const TQ3Int64 *d
 TQ3Status
 E3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char* data, TQ3Uns32 *length)
 {
+	TQ3Status	result;
+	TQ3Size		theLength, paddedLength;
+	
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	theLength = strlen( data ) + 1;	// 1 for the trailing NUL byte
+	paddedLength = Q3Size_Pad( theLength );
+	
+	
+	result = Q3FileFormat_GenericWriteBinary_Raw( format, (const unsigned char *)data,
+		theLength );
+	
+	
+	if ( (result == kQ3Success) && (paddedLength > theLength) )
+	{
+		// There are at most 3 pad bytes added, since Q3Size_Pad aligns to
+		// longword sizes.
+		TQ3Uns32	pad = 0;
+		result = Q3FileFormat_GenericWriteBinary_Raw( format, (const unsigned char *)&pad,
+			paddedLength - theLength );
+	}
+	
+	return (result);
 }
 
 
