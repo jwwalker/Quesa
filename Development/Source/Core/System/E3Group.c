@@ -54,94 +54,17 @@
 
 
 //=============================================================================
-//      Internal constants
-//-----------------------------------------------------------------------------
-#pragma mark constants and typedefs
-//-----------------------------------------------------------------------------
-/*
-	Types for ordered display groups
-	
-	Ordered display groups keep objects in order by the type of object, in the
-	order listed below.
-	
-	A small mystery:
-	The blue book says that display groups can only hold drawable objects, and
-	in QD3D, Q3Object_IsDrawable returns false for lights and cameras.  However,
-	QD3DGroup.h lists cameras and lights in the order for ordered display
-	groups.  It also says that cameras and lights in groups do nothing when
-	drawn and will post an error with debug libraries.  So why would you want
-	to put cameras and lights in a display group, even if you could?
-*/
-//-----------------------------------------------------------------------------
-typedef enum
-{
-	kQ3XOrderIndex_First = 0,
-	
-	kQ3XOrderIndex_Transform = 0,		// kQ3ShapeTypeTransform
-	kQ3XOrderIndex_Style,				// kQ3ShapeTypeStyle
-	kQ3XOrderIndex_AttributeSet,		// kQ3SetTypeAttribute
-	kQ3XOrderIndex_Shader,				// kQ3ShapeTypeShader
-	//kQ3XOrderIndex_Camera,			// kQ3ShapeTypeCamera
-	//kQ3XOrderIndex_Light,				// kQ3ShapeTypeLight
-	kQ3XOrderIndex_Geometry,			// kQ3ShapeTypeGeometry
-	kQ3XOrderIndex_Group,				// kQ3ShapeTypeGroup
-	kQ3XOrderIndex_Unknown,				// kQ3ShapeTypeUnknown
-	
-	kQ3XOrderIndex_Count,
-	kQ3XOrderIndex_Last = kQ3XOrderIndex_Count - 1,
-	kQ3XOrderIndex_All = -1
-} TQ3XOrderIndex;
-
-
-
-
-
-//=============================================================================
-//      Internal types
-//-----------------------------------------------------------------------------
-typedef struct TQ3XGroupPosition *TQ3XGroupPositionPtr;
-
-typedef struct TQ3XGroupPosition { // 12 bytes overhead per object in a group
-// initialised in e3group_positionnew
-	TQ3XGroupPositionPtr	next;
-	TQ3XGroupPositionPtr	prev;
-	TQ3Object				object;
-} TQ3XGroupPosition;
-
-
-typedef struct TQ3GroupData { // 16 bytes overhead per group
-// initialised in e3group_new
-	TQ3XGroupPosition						listHead;
-	TQ3Uns32								groupPositionSize;
-} TQ3GroupData;
-
-
-typedef struct TQ3DisplayGroupData { // 32 bytes + 16 bytes = 48 bytes overhead per display group
-// initialised in e3group_display_new
-	TQ3DisplayGroupState	state;
-	TQ3BoundingBox			bBox;
-} TQ3DisplayGroupData;
-
-
-typedef struct TQ3OrderedDisplayGroupData {
-	TQ3XGroupPosition		listHeads[ kQ3XOrderIndex_Count ];
-} TQ3OrderedDisplayGroupData;
-
-
-
-
-
-//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3group_new : Group new method.
 //-----------------------------------------------------------------------------
 #pragma mark -
-static TQ3Status
+TQ3Status
 e3group_new(TQ3Object theObject, void *privateData, const void *paramData)
-{
+	{
 #pragma unused(paramData)
-	TQ3GroupData				*instanceData = (TQ3GroupData *) privateData;
+#pragma unused(privateData)
+	E3Group				*instanceData = (E3Group*) theObject ;
 
 	// Initialise our instance data
 	instanceData->listHead.next        = &instanceData->listHead;
@@ -149,8 +72,8 @@ e3group_new(TQ3Object theObject, void *privateData, const void *paramData)
 	instanceData->listHead.object      = theObject; // points to itself but never used
 	instanceData->groupPositionSize    = sizeof( TQ3GroupPosition );
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -197,47 +120,36 @@ e3group_acceptobject(TQ3GroupObject group, TQ3Object object)
 //-----------------------------------------------------------------------------
 //		Note : Creates a TQ3XGroupPosition* for a new object
 //-----------------------------------------------------------------------------
-static TQ3XGroupPosition*
-e3group_createPosition (TQ3GroupObject group, TQ3Object object, TQ3GroupData *instanceData)
-{	TQ3XGroupAcceptObjectMethod				acceptObjectMethod;
-	TQ3XGroupPositionNewMethod				positionNewMethod;
-
-
-
-	if (instanceData == NULL)
-		return(NULL);
-
-
-
+TQ3XGroupPosition*
+E3Group::createPosition ( TQ3Object object )
+	{
 	// Find our methods
-	acceptObjectMethod = (TQ3XGroupAcceptObjectMethod)
-								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupAcceptObject);
+	TQ3XGroupAcceptObjectMethod acceptObjectMethod = (TQ3XGroupAcceptObjectMethod)
+								GetMethod ( kQ3XMethodType_GroupAcceptObject ) ;
 
-	positionNewMethod = (TQ3XGroupPositionNewMethod)
-								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupPositionNew);
+	TQ3XGroupPositionNewMethod positionNewMethod = (TQ3XGroupPositionNewMethod)
+								GetMethod ( kQ3XMethodType_GroupPositionNew ) ;
 
 
 
-	if (acceptObjectMethod == NULL)
-		return(NULL);
+	if ( acceptObjectMethod == NULL )
+		return NULL ;
 		
-	if (acceptObjectMethod(group, object) == kQ3True)
-		{
-		TQ3Status					newResult;
-		TQ3XGroupPosition*			newGroupPosition;
+	if ( acceptObjectMethod ( (TQ3GroupObject) this, object ) != kQ3False )
+		{		
+		if ( positionNewMethod == NULL )
+			return NULL ;
 		
-		if (positionNewMethod == NULL)
-			return(NULL);
-		
-		newResult = positionNewMethod(&newGroupPosition, object, instanceData);
-		if (newResult == kQ3Success)
-			return newGroupPosition;
+		TQ3XGroupPosition* newGroupPosition ;
+		TQ3Status newResult = positionNewMethod ( &newGroupPosition, object, this ) ;
+		if ( newResult != kQ3Failure )
+			return newGroupPosition ;
 		}
 	else
 		E3ErrorManager_PostError(kQ3ErrorInvalidObjectForGroup, kQ3False);
 
-	return NULL;
-}
+	return NULL ;
+	}
 
 
 
@@ -250,20 +162,27 @@ e3group_createPosition (TQ3GroupObject group, TQ3Object object, TQ3GroupData *in
 //-----------------------------------------------------------------------------
 static TQ3GroupPosition
 e3group_addobject(TQ3GroupObject group, TQ3Object object)
-{	TQ3GroupData		*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPosition	*newGroupPosition = e3group_createPosition(group, object, instanceData);
+	{
+	return ( (E3Group*) group )->addobject ( object ) ;
+	}
+
+
+TQ3GroupPosition
+E3Group::addobject ( TQ3Object object )	
+	{
+	TQ3XGroupPosition* newGroupPosition = createPosition ( object ) ;
 	
 	if (newGroupPosition)
 		{
 		// add to end of group list
-		newGroupPosition->next = &instanceData->listHead;
-		newGroupPosition->prev = instanceData->listHead.prev;
-		instanceData->listHead.prev->next = newGroupPosition ;
-		instanceData->listHead.prev = newGroupPosition;
-		return((TQ3GroupPosition) newGroupPosition);
+		newGroupPosition->next = &listHead ;
+		newGroupPosition->prev = listHead.prev ;
+		listHead.prev->next = newGroupPosition ;
+		listHead.prev = newGroupPosition ;
+		return (TQ3GroupPosition) newGroupPosition ;
 		}
-	return(NULL);
-}
+	return NULL ;
+	}
 
 
 
@@ -274,25 +193,31 @@ e3group_addobject(TQ3GroupObject group, TQ3Object object)
 //-----------------------------------------------------------------------------
 static TQ3GroupPosition
 e3group_addbefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object object)
-{	
-	if (position)
+	{
+	return ( (E3Group*) group )->addbefore ( position, object ) ;
+	}
+
+
+TQ3GroupPosition
+E3Group::addbefore ( TQ3GroupPosition position, TQ3Object object )
+	{	
+	if ( position )
 		{
-		TQ3GroupData		*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-		TQ3XGroupPosition	*newGroupPosition = e3group_createPosition(group, object, instanceData);
+		TQ3XGroupPosition* newGroupPosition = createPosition ( object ) ;
 		
-		if (newGroupPosition)
+		if ( newGroupPosition )
 			{
-			TQ3XGroupPosition* pos = (TQ3XGroupPosition*)position;
+			TQ3XGroupPosition* pos = (TQ3XGroupPosition*) position ;
 			// add before position
-			newGroupPosition->next = pos;
-			newGroupPosition->prev = pos->prev;
+			newGroupPosition->next = pos ;
+			newGroupPosition->prev = pos->prev ;
 			pos->prev->next = newGroupPosition ;
-			pos->prev = newGroupPosition;
-			return((TQ3GroupPosition) newGroupPosition);
+			pos->prev = newGroupPosition ;
+			return (TQ3GroupPosition) newGroupPosition ;
 			}
 		}
-	return(NULL);
-}
+	return NULL ;
+	}
 
 
 
@@ -303,25 +228,31 @@ e3group_addbefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object obj
 //-----------------------------------------------------------------------------
 static TQ3GroupPosition
 e3group_addafter(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object object)
-{	
-	if (position)
+	{
+	return ( (E3Group*) group )->addafter ( position, object ) ;
+	}
+
+
+TQ3GroupPosition
+E3Group::addafter ( TQ3GroupPosition position, TQ3Object object )
+	{	
+	if ( position )
 		{
-		TQ3GroupData		*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-		TQ3XGroupPosition	*newGroupPosition = e3group_createPosition(group, object, instanceData);
+		TQ3XGroupPosition* newGroupPosition = createPosition ( object ) ;
 		
-		if (newGroupPosition)
+		if ( newGroupPosition )
 			{
-			TQ3XGroupPosition* pos = (TQ3XGroupPosition*)position;
+			TQ3XGroupPosition* pos = (TQ3XGroupPosition*) position ;
 			// add after position
-			newGroupPosition->next = pos->next;
-			newGroupPosition->prev = pos;
+			newGroupPosition->next = pos->next ;
+			newGroupPosition->prev = pos ;
 			pos->next->prev = newGroupPosition ;
-			pos->next = newGroupPosition;
-			return((TQ3GroupPosition) newGroupPosition);
+			pos->next = newGroupPosition ;
+			return (TQ3GroupPosition) newGroupPosition ;
 			}
 		}
-	return(NULL);
-}
+	return NULL ;
+	}
 
 
 
@@ -339,9 +270,9 @@ e3group_setposition(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object o
 
 	// Find our method
 	acceptObjectMethod = (TQ3XGroupAcceptObjectMethod)
-								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupAcceptObject);
+								group->GetMethod ( kQ3XMethodType_GroupAcceptObject);
 	if (acceptObjectMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -352,12 +283,12 @@ e3group_setposition(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object o
 			Q3Object_Dispose (pos->object);
 
 		pos->object      = Q3Shared_GetReference (object);
-		return(kQ3Success);
+		return kQ3Success ;
 		}
 	else
 		E3ErrorManager_PostError(kQ3ErrorInvalidObjectForGroup, kQ3False);
 
-	return(kQ3Failure);
+	return kQ3Failure ;
 }
 
 
@@ -377,7 +308,7 @@ e3group_removeposition(TQ3GroupObject group, TQ3GroupPosition position)
 
 	// Find our method
 	positionDeleteMethod = (TQ3XGroupPositionDeleteMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupPositionDelete);
+									group->GetMethod ( kQ3XMethodType_GroupPositionDelete);
 
 
 
@@ -403,38 +334,40 @@ e3group_removeposition(TQ3GroupObject group, TQ3GroupPosition position)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_getfirstpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position)
-{	TQ3GroupData			*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPosition		*finish;
-	TQ3XGroupPosition		*pos;
+	{
+	return ( (E3Group*) group )->getfirstposition ( isType, position ) ;
+	}
 
-	*position = NULL;
 
-	if (instanceData == NULL)
-		return(kQ3Failure);
-	
-	finish = &instanceData->listHead;
-	pos = instanceData->listHead.next;
 
-	if (isType == kQ3ObjectTypeShared)
+TQ3Status
+E3Group::getfirstposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
+	{
+	*position = NULL ;
+
+	TQ3XGroupPosition* finish = &listHead ;
+	TQ3XGroupPosition* pos = listHead.next ;
+
+	if ( isType == kQ3ObjectTypeShared )
 		{
-		if (pos != finish)
-			*position = (TQ3GroupPosition)pos;
+		if ( pos != finish )
+			*position = (TQ3GroupPosition) pos ;
 		}
 	else
 		{
-		while (pos != finish)
+		while ( pos != finish )
 			{
-			if (Q3Object_IsType (pos->object, isType))
+			if ( Q3Object_IsType ( pos->object, isType ) )
 				{
-				*position = (TQ3GroupPosition)pos;
-				break;
+				*position = (TQ3GroupPosition) pos ;
+				break ;
 				}
-			pos = pos->next;
+			pos = pos->next ;
 			}
 		}
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -445,39 +378,39 @@ e3group_getfirstpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gr
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_getlastpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position)
-{	TQ3GroupData			*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPosition		*finish;
-	TQ3XGroupPosition		*pos;
+	{
+	return ( (E3Group*) group )->getlastposition ( isType, position ) ;
+	}
 
-	*position = NULL;
 
-	if (instanceData == NULL)
-		return(kQ3Failure);
+TQ3Status
+E3Group::getlastposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
+	{
+	*position = NULL ;
 	
-	finish = &instanceData->listHead;
-	pos = instanceData->listHead.prev;
+	TQ3XGroupPosition* finish = &listHead ;
+	TQ3XGroupPosition* pos = listHead.prev ;
 
-	if (isType == kQ3ObjectTypeShared)
+	if ( isType == kQ3ObjectTypeShared )
 		{
-		if (pos != finish)
-			*position = (TQ3GroupPosition)pos;
+		if ( pos != finish )
+			*position = (TQ3GroupPosition) pos ;
 		}
 	else
 		{
-		while (pos != finish)
+		while ( pos != finish )
 			{
-			if (Q3Object_IsType (pos->object, isType))
+			if ( Q3Object_IsType ( pos->object, isType ) )
 				{
-				*position = (TQ3GroupPosition)pos;
-				break;
+				*position = (TQ3GroupPosition) pos ;
+				break ;
 				}
-			pos = pos->prev;
+			pos = pos->prev ;
 			}
 		}
 
-
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -488,41 +421,44 @@ e3group_getlastpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_getnextpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position)
-{	TQ3GroupData			*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPosition		*finish;
-	TQ3XGroupPosition		*pos;
+	{
+	return ( (E3Group*) group )->getnextposition ( isType, position ) ;
+	}
 
 
-	if ( (instanceData == NULL) || (*position == NULL) )
-		return(kQ3Failure);
+TQ3Status
+E3Group::getnextposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
+	{
+	if ( *position == NULL )
+		return kQ3Failure ;
 		// This function implements Q3Group_GetNextPositionOfType, whose
 		// documentation says that on entry, *position must be a valid group position.
 	
-	finish = &instanceData->listHead;
-	pos = (TQ3XGroupPosition*)*position;
-	pos = pos->next;
-	*position = NULL;
+	TQ3XGroupPosition* finish = &listHead ;
+	TQ3XGroupPosition* pos = (TQ3XGroupPosition*) *position ;
+	pos = pos->next ;
+	*position = NULL ;
 	
-	if (isType == kQ3ObjectTypeShared)
+	if ( isType == kQ3ObjectTypeShared )
 		{
-		if (pos != finish)
-			*position = (TQ3GroupPosition)pos;
+		if ( pos != finish )
+			*position = (TQ3GroupPosition) pos ;
 		}
 	else
 		{
-		while (pos != finish)
+		while ( pos != finish )
 			{
-			if (Q3Object_IsType (pos->object, isType))
+			if ( Q3Object_IsType ( pos->object, isType ) )
 				{
-				*position = (TQ3GroupPosition)pos;
-				break;
+				*position = (TQ3GroupPosition) pos ;
+				break ;
 				}
-			pos = pos->next;
+			pos = pos->next ;
 			}
 		}
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -533,39 +469,42 @@ e3group_getnextpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_getprevpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3GroupPosition *position)
-{	TQ3GroupData			*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPosition		*finish;
-	TQ3XGroupPosition		*pos;
+	{
+	return ( (E3Group*) group )->getprevposition ( isType, position ) ;
+	}
 
 
-	if ( (instanceData == NULL) || (*position == NULL) )
-		return(kQ3Failure);
+TQ3Status
+E3Group::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
+	{
+	if ( *position == NULL )
+		return kQ3Failure ;
 	
-	finish = &instanceData->listHead;
-	pos = (TQ3XGroupPosition*)*position;
-	pos = pos->prev;
-	*position = NULL;
+	TQ3XGroupPosition* finish = &listHead ;
+	TQ3XGroupPosition* pos = (TQ3XGroupPosition*) *position ;
+	pos = pos->prev ;
+	*position = NULL ;
 
-	if (isType == kQ3ObjectTypeShared)
+	if ( isType == kQ3ObjectTypeShared )
 		{
-		if (pos != finish)
-			*position = (TQ3GroupPosition)pos;
+		if ( pos != finish )
+			*position = (TQ3GroupPosition) pos ;
 		}
 	else
 		{
-		while (pos != finish)
+		while ( pos != finish )
 			{
-			if (Q3Object_IsType (pos->object, isType))
+			if ( Q3Object_IsType ( pos->object, isType ) )
 				{
-				*position = (TQ3GroupPosition)pos;
-				break;
+				*position = (TQ3GroupPosition) pos ;
+				break ;
 				}
-			pos = pos->prev;
+			pos = pos->prev ;
 			}
 		}
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -576,26 +515,23 @@ e3group_getprevpositionoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_countobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 *number)
-{	TQ3GroupData			*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPosition		*finish;
-	TQ3XGroupPosition		*pos;
+	{
+	return ( (E3Group*) group )->countobjects ( isType, number ) ;
+	}
 
-	*number = 0L;
 
-	if (instanceData == NULL)
-		return(kQ3Failure);
-	
-	finish = &instanceData->listHead;
-	pos = instanceData->listHead.next;
-	while (pos != finish)
-		{
-		if (Q3Object_IsType (pos->object, isType))
-			*number += 1;
-		pos = pos->next;
-		}
 
-	return(kQ3Success);
-}
+TQ3Status
+E3Group::countobjects ( TQ3ObjectType isType, TQ3Uns32 *number )
+	{
+	*number = 0L ;
+
+	for ( TQ3XGroupPosition* pos = listHead.next ; pos != &listHead ; pos = pos->next )
+		if ( Q3Object_IsType ( pos->object, isType ) )
+			*number += 1 ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -606,43 +542,42 @@ e3group_countobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType)
-{	TQ3GroupData						*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPositionDeleteMethod		positionDeleteMethod;
-	TQ3XGroupPosition					*finish;
-	TQ3XGroupPosition					*pos;
+	{
+	return ( (E3Group*) group )->emptyobjects ( isType ) ;
+	}
 
 
 
+TQ3Status
+E3Group::emptyobjects ( TQ3ObjectType isType )
+	{
 	// Find our method
-	positionDeleteMethod = (TQ3XGroupPositionDeleteMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupPositionDelete);
+	TQ3XGroupPositionDeleteMethod positionDeleteMethod = (TQ3XGroupPositionDeleteMethod)
+									GetMethod ( kQ3XMethodType_GroupPositionDelete ) ;
 
 
-	if (instanceData == NULL)
-		return(kQ3Failure);
-	
-	finish = &instanceData->listHead;
-	pos = instanceData->listHead.next;
-	while (pos != finish)
+	TQ3XGroupPosition* finish = &listHead ;
+	TQ3XGroupPosition* pos = listHead.next ;
+	while ( pos != finish )
 		{
-		if (Q3Object_IsType (pos->object, isType))
+		if ( Q3Object_IsType ( pos->object, isType ) )
 			{
-			TQ3XGroupPosition *next = pos->next;
+			TQ3XGroupPosition* next = pos->next ;
 			
 			// disconnect the position from the group
-			next->prev = pos->prev;
-			pos->prev->next = pos->next;
+			next->prev = pos->prev ;
+			pos->prev->next = pos->next ;
 
-			if (positionDeleteMethod != NULL)
-				positionDeleteMethod(pos);
-			pos = next;
+			if ( positionDeleteMethod != NULL )
+				positionDeleteMethod ( pos ) ;
+			pos = next ;
 			}
 		else
-			pos = pos->next;
+			pos = pos->next ;
 		}
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -651,15 +586,13 @@ e3group_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType)
 //=============================================================================
 //      e3group_duplicate : Group duplicate method.
 //-----------------------------------------------------------------------------
-static TQ3Status
+TQ3Status
 e3group_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 					TQ3Object toObject,   void  * toPrivateData)
-{
-	TQ3GroupData*	toInstanceData = (TQ3GroupData*) toPrivateData;
-	const TQ3GroupData*	fromInstanceData = (const TQ3GroupData*) fromPrivateData;
-	TQ3Status	status = kQ3Success;
-	const TQ3XGroupPosition*	pos;
-	TQ3Object	dupObject;
+	{
+	E3Group* toInstanceData = (E3Group*) toObject ;
+	const E3Group* fromInstanceData = (const E3Group*) fromObject ;
+	TQ3Status status = kQ3Success ;
 	
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromObject),      kQ3Failure);
@@ -671,30 +604,28 @@ e3group_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 	e3group_new( toObject, toInstanceData, NULL );
 	
 	// Loop through the members of the "from" group, duplicating and adding to "to"
-	for (pos = fromInstanceData->listHead.next; pos != &fromInstanceData->listHead;
-		pos = pos->next)
-	{
-		dupObject = Q3Object_Duplicate( pos->object );
-		if (dupObject == NULL)
+	for ( const TQ3XGroupPosition* pos = fromInstanceData->listHead.next ; pos != &fromInstanceData->listHead ;
+		pos = pos->next )
 		{
-			status = kQ3Failure;
+		TQ3Object dupObject = Q3Object_Duplicate ( pos->object ) ;
+		if ( dupObject == NULL )
+			{
+			status = kQ3Failure ;
 			break;
-		}
-		e3group_addobject( toObject, dupObject );
+			}
+		toInstanceData->addobject ( dupObject ) ;
 		
 		// Now the group owns a reference to the dup, so we can dispose one
-		Q3Object_Dispose( dupObject );
+		Q3Object_Dispose ( dupObject ) ;
 		Q3_ASSERT( Q3Shared_GetReferenceCount( dupObject ) == 1 );
-	}
+		}
 	
 	// If the operation failed, we need to clean up.
-	if (status == kQ3Failure)
-	{
-		e3group_emptyobjectsoftype( toObject, kQ3ObjectTypeShared );
-	}
+	if ( status == kQ3Failure )
+		toInstanceData->emptyobjects ( kQ3ObjectTypeShared ) ;
 	
-	return status;
-}
+	return status ;
+	}
 
 
 
@@ -707,31 +638,33 @@ e3group_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_getfirstobjectposition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position)
-{	TQ3GroupData			*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPosition		*finish;
-	TQ3XGroupPosition		*pos;
+	{
+	return ( (E3Group*) group )->getfirstobjectposition ( object, position ) ;
+	}
 
-	*position = NULL;
 
-	if (instanceData == NULL)
-		return(kQ3Failure);
-	
-	finish = &instanceData->listHead;
-	pos = instanceData->listHead.next;
-	while (pos != finish)
+
+TQ3Status
+E3Group::getfirstobjectposition ( TQ3Object object, TQ3GroupPosition *position )
+	{
+	*position = NULL ;
+
+	TQ3XGroupPosition* finish = &listHead ;
+	TQ3XGroupPosition* pos = listHead.next ;
+	while ( pos != finish )
 		{
-		if (pos->object == object)
+		if ( pos->object == object )
 			{
-			*position = (TQ3GroupPosition)pos;
-			break;
+			*position = (TQ3GroupPosition) pos ;
+			break ;
 			}
-		pos = pos->next;
+		pos = pos->next ;
 		}
 
 	// The documentation isn't clear, but QD3D returns kQ3Success even if it also
 	// leaves *position == NULL.
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -744,29 +677,31 @@ e3group_getfirstobjectposition(TQ3GroupObject group, TQ3Object object, TQ3GroupP
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_getlastobjectposition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position)
-{	TQ3GroupData			*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPosition		*finish;
-	TQ3XGroupPosition		*pos;
+	{
+	return ( (E3Group*) group )->getlastobjectposition ( object, position ) ;
+	}
 
-	*position = NULL;
 
-	if (instanceData == NULL)
-		return(kQ3Failure);
-	
-	finish = &instanceData->listHead;
-	pos = instanceData->listHead.prev;
-	while (pos != finish)
+
+TQ3Status
+E3Group::getlastobjectposition ( TQ3Object object, TQ3GroupPosition *position )
+	{
+	*position = NULL ;
+
+	TQ3XGroupPosition* finish = &listHead ;
+	TQ3XGroupPosition* pos = listHead.prev ;
+	while ( pos != finish )
 		{
-		if (pos->object == object)
+		if ( pos->object == object )
 			{
-			*position = (TQ3GroupPosition)pos;
-			break;
+			*position = (TQ3GroupPosition) pos ;
+			break ;
 			}
-		pos = pos->prev;
+		pos = pos->prev ;
 		}
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -780,34 +715,33 @@ e3group_getlastobjectposition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_getnextobjectposition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position)
-{	TQ3GroupData			*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPosition		*finish;
-	TQ3XGroupPosition		*pos = (TQ3XGroupPosition*)*position;
+	{
+	return ( (E3Group*) group )->getnextobjectposition ( object, position ) ;
+	}
+
+
+
+TQ3Status
+E3Group::getnextobjectposition ( TQ3Object object, TQ3GroupPosition *position )
+	{
+	TQ3XGroupPosition* pos = (TQ3XGroupPosition*) *position ;
 
 	*position = NULL;
 
-	if (instanceData == NULL)
-		return(kQ3Failure);
-	
-	finish = &instanceData->listHead;
-	pos = pos->next;
-	while (pos != finish)
-		{
-		if (pos->object == object)
+	for ( pos = pos->next ; pos != &listHead ; pos = pos->next )
+		if ( pos->object == object )
 			{
-			*position = (TQ3GroupPosition)pos;
+			*position = (TQ3GroupPosition) pos ;
 			break;
 			}
-		pos = pos->next;
-		}
 
 	// The blue book does not make it clear whether the only indication of a failed
 	// search should be *position == NULL, or also a result of kQ3Failure.  QD3D 1.6
 	// seems to have a bug in this case, giving neither indication of failure.
 	// By analogy with other calls such as Q3Group_GetNextObjectPosition, I think we
 	// should return kQ3Success here.
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -821,29 +755,28 @@ e3group_getnextobjectposition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_getprevobjectposition(TQ3GroupObject group, TQ3Object object, TQ3GroupPosition *position)
-{	TQ3GroupData			*instanceData = (TQ3GroupData *) E3ClassTree_FindInstanceData(group, kQ3ShapeTypeGroup);
-	TQ3XGroupPosition		*finish;
-	TQ3XGroupPosition		*pos = (TQ3XGroupPosition*)*position;
+	{
+	return ( (E3Group*) group )->getprevobjectposition ( object, position ) ;
+	}
 
-	*position = NULL;
 
-	if (instanceData == NULL)
-		return(kQ3Failure);
-	
-	finish = &instanceData->listHead;
-	pos = pos->prev;
-	while (pos != finish)
-		{
-		if (pos->object == object)
+
+TQ3Status
+E3Group::getprevobjectposition ( TQ3Object object, TQ3GroupPosition *position )
+	{
+	TQ3XGroupPosition* pos = (TQ3XGroupPosition*) *position ;
+
+	*position = NULL ;
+
+	for ( pos = pos->prev ; pos != &listHead ; pos = pos->prev )
+		if ( pos->object == object )
 			{
-			*position = (TQ3GroupPosition)pos;
-			break;
+			*position = (TQ3GroupPosition) pos ;
+			break ;
 			}
-		pos = pos->prev;
-		}
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -866,11 +799,11 @@ e3group_positionnew(TQ3XGroupPosition** position, TQ3Object object, const void *
 			newGroupPosition->prev        = NULL;
 			newGroupPosition->object      = Q3Shared_GetReference (object);
 			*position = newGroupPosition ;
-			return(kQ3Success);
+			return kQ3Success ;
 			}
 		*position = NULL;
 		}
-	return(kQ3Failure);
+	return kQ3Failure ;
 }
 
 
@@ -893,10 +826,10 @@ e3group_positioncopy(TQ3XGroupPosition *fromPosition, TQ3XGroupPosition *toPosit
 			toPosition->object      = Q3Shared_GetReference (fromPosition->object);
 
 			if (toPosition->object)
-				return(kQ3Success);
+				return kQ3Success ;
 			}
 		}
-	return(kQ3Failure);
+	return kQ3Failure ;
 }
 
 
@@ -996,7 +929,7 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 	if (startIterateMethod == NULL || endIterateMethod == NULL)
 		{
 		E3ErrorManager_PostError(kQ3ErrorNeedRequiredMethods, kQ3False);
-		return(kQ3Failure);
+		return kQ3Failure ;
 		}
 
 
@@ -1038,7 +971,7 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 			// Get the next object	
 			qd3dStatus = endIterateMethod(theObject, &thePosition, &subObject, theView);
 			if (qd3dStatus == kQ3Failure)
-				return(kQ3Failure);
+				return kQ3Failure ;
 
 			}
 		while(1);
@@ -1082,7 +1015,7 @@ static TQ3Status
 e3group_endread(TQ3GroupObject group)
 {
 
-	return(kQ3Success);
+	return kQ3Success ;
 }
 
 
@@ -1222,10 +1155,12 @@ e3group_metahandler(TQ3XMethodType methodType)
 //      e3group_display_new : Display group new method.
 //-----------------------------------------------------------------------------
 #pragma mark -
-static TQ3Status
+TQ3Status
 e3group_display_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3DisplayGroupData			*instanceData = (TQ3DisplayGroupData *) privateData;
+	{
+	E3DisplayGroup* instanceData = (E3DisplayGroup*) theObject ;
 #pragma unused (paramData)
+#pragma unused (privateData)
 
 
 
@@ -1242,8 +1177,8 @@ e3group_display_new(TQ3Object theObject, void *privateData, const void *paramDat
 	instanceData->bBox.max.z   = 0.0f;
 	instanceData->bBox.isEmpty = kQ3True;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1470,26 +1405,24 @@ static TQ3XOrderIndex	e3group_display_ordered_typetoindex( TQ3ObjectType objectT
 //=============================================================================
 //      e3group_display_new : Display group new method.
 //-----------------------------------------------------------------------------
-static TQ3Status
+TQ3Status
 e3group_display_ordered_new(TQ3Object theObject, void *privateData, const void *paramData)
-{
+	{
 #pragma unused (paramData)
-	TQ3OrderedDisplayGroupData	*instanceData =
-		(TQ3OrderedDisplayGroupData *) privateData;
-	TQ3Int32	i;
-	TQ3XGroupPosition*	aListHead;
+#pragma unused (privateData)
+	E3OrderedDisplayGroup* instanceData = (E3OrderedDisplayGroup*) theObject ;
 
 	// Initialise our instance data
-	for (i = 0; i < kQ3XOrderIndex_Count; ++i)
-	{
-		aListHead = &instanceData->listHeads[i];
+	for ( TQ3Int32 i = 0 ; i < kQ3XOrderIndex_Count ; ++i )
+		{
+		TQ3XGroupPosition* aListHead = &instanceData->listHeads [ i ] ;
 		
 		aListHead->next = aListHead->prev = aListHead;
 		aListHead->object = NULL;	// not used
-	}
+		}
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1546,26 +1479,28 @@ e3group_display_ordered_getlistindex( TQ3Object inObject )
 //-----------------------------------------------------------------------------
 static TQ3GroupPosition
 e3group_display_ordered_addobject(TQ3GroupObject group, TQ3Object object)
-{
-	TQ3GroupData		*gpInstanceData =
-		(TQ3GroupData *) E3ClassTree_FindInstanceData( group, kQ3ShapeTypeGroup );
-	TQ3XGroupPosition	*newGroupPosition = e3group_createPosition( group, object,
-		gpInstanceData );
+	{
+	return ( (E3OrderedDisplayGroup*) group )->addobject ( object ) ;
+	}
+	
+	
+TQ3GroupPosition
+E3OrderedDisplayGroup::addobject ( TQ3Object object )
+	{
+	TQ3XGroupPosition	*newGroupPosition = createPosition ( object ) ;
 
 	if (newGroupPosition)
-	{
-		TQ3XOrderIndex	theIndex = e3group_display_ordered_getlistindex( object );
-		TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
-			E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
-		TQ3XGroupPosition*	listHead = &instanceData->listHeads[ theIndex ];
-		newGroupPosition->prev = listHead->prev;
-		newGroupPosition->next = listHead;
-		listHead->prev->next = newGroupPosition;
-		listHead->prev = newGroupPosition;
-	}
+		{
+		TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
+		TQ3XGroupPosition* listHead = &listHeads [ theIndex ] ;
+		newGroupPosition->prev = listHead->prev ;
+		newGroupPosition->next = listHead ;
+		listHead->prev->next = newGroupPosition ;
+		listHead->prev = newGroupPosition ;
+		}
 
-	return ((TQ3GroupPosition) newGroupPosition);
-}
+	return ((TQ3GroupPosition) newGroupPosition ) ;
+	}
 
 
 
@@ -1585,7 +1520,7 @@ e3group_display_ordered_addbefore(TQ3GroupObject group, TQ3GroupPosition positio
 
 	if (newObIndex == oldObIndex)
 	{
-		thePosition = e3group_addbefore( group, position, object );
+		thePosition = ( (E3Group*) group )->addbefore ( position, object ) ;
 	}
 	else if (newObIndex < oldObIndex)
 	{
@@ -1637,7 +1572,7 @@ e3group_display_ordered_setposition(TQ3GroupObject group, TQ3GroupPosition posit
 		e3group_display_ordered_getlistindex( pos->object ) )
 		return e3group_setposition(group, position, object);
 	
-	return(kQ3Failure);
+	return kQ3Failure ;
 }
 
 
@@ -1649,25 +1584,22 @@ e3group_display_ordered_setposition(TQ3GroupObject group, TQ3GroupPosition posit
 //			Find the first position with the given type in one of our
 //			internal linked lists.
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3group_display_ordered_findfirsttypeonlist( TQ3OrderedDisplayGroupData* inInstanceData,
+TQ3Status
+E3OrderedDisplayGroup::findfirsttypeonlist (
 	TQ3XOrderIndex inIndex, TQ3ObjectType inType, TQ3GroupPosition* outPosition )
-{
-	TQ3Status	theStatus = kQ3Failure;
-	TQ3XGroupPosition*	pos;
-	TQ3XGroupPosition*	listHead = &inInstanceData->listHeads[ inIndex ];
-	
-	for (pos = listHead->next; pos != listHead; pos = pos->next)
 	{
-		if (Q3Object_IsType( pos->object, inType ))
+	TQ3XGroupPosition* listHead = &listHeads [ inIndex ] ;
+	
+	for ( TQ3XGroupPosition* pos = listHead->next ; pos != listHead ; pos = pos->next )
 		{
-			*outPosition = (TQ3GroupPosition)pos;
-			theStatus = kQ3Success;
-			break;
+		if ( Q3Object_IsType ( pos->object, inType ) )
+			{
+			*outPosition = (TQ3GroupPosition) pos ;
+			return kQ3Success ;
+			}
 		}
+	return kQ3Failure ;
 	}
-	return theStatus;
-}
 
 
 
@@ -1678,25 +1610,21 @@ e3group_display_ordered_findfirsttypeonlist( TQ3OrderedDisplayGroupData* inInsta
 //			Find the last position with the given type in one of our
 //			internal linked lists.
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3group_display_ordered_findlasttypeonlist( TQ3OrderedDisplayGroupData* inInstanceData,
+TQ3Status
+E3OrderedDisplayGroup::findlasttypeonlist (
 	TQ3XOrderIndex inIndex, TQ3ObjectType inType, TQ3GroupPosition* outPosition )
-{
-	TQ3Status	theStatus = kQ3Failure;
-	TQ3XGroupPosition*	pos;
-	TQ3XGroupPosition*	listHead = &inInstanceData->listHeads[ inIndex ];
-	
-	for (pos = listHead->prev; pos != listHead; pos = pos->prev)
 	{
-		if (Q3Object_IsType( pos->object, inType ))
-		{
-			*outPosition = (TQ3GroupPosition)pos;
-			theStatus = kQ3Success;
-			break;
-		}
+	TQ3XGroupPosition* listHead = &listHeads [ inIndex ] ;
+	
+	for ( TQ3XGroupPosition* pos = listHead->prev ; pos != listHead ; pos = pos->prev )
+		if ( Q3Object_IsType ( pos->object, inType ) )
+			{
+			*outPosition = (TQ3GroupPosition) pos ;
+			return kQ3Success ;
+			}
+
+	return kQ3Failure  ;
 	}
-	return theStatus;
-}
 
 
 
@@ -1709,39 +1637,35 @@ e3group_display_ordered_findlasttypeonlist( TQ3OrderedDisplayGroupData* inInstan
 static TQ3Status
 e3group_display_ordered_getfirstpositionoftype(TQ3GroupObject group, TQ3ObjectType isType,
 	TQ3GroupPosition *position)
-{
+	{
+	return ( (E3OrderedDisplayGroup*) group )->getfirstposition ( isType, position ) ;
+	}	
+	
+	
+TQ3Status
+E3OrderedDisplayGroup::getfirstposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
+	{
 	TQ3Status	theStatus = kQ3Failure;
-	TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
-		E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
 	TQ3Int32	theIndex = e3group_display_ordered_typetoindex( isType );
 	*position = NULL;
-	if (instanceData != NULL)
-	{
-		if (theIndex == kQ3XOrderIndex_All)
+
+	if (theIndex == kQ3XOrderIndex_All)
+		theStatus = findfirsttypeonlist ( kQ3XOrderIndex_First, isType, position ) ;
+	else
+		theStatus = findfirsttypeonlist ( (TQ3XOrderIndex)theIndex, isType, position ) ;
+	
+	// Search later lists if appropriate
+	if ( (theIndex == kQ3XOrderIndex_All) && (theStatus == kQ3Failure) )
 		{
-			theStatus = e3group_display_ordered_findfirsttypeonlist( instanceData,
-				kQ3XOrderIndex_First, isType, position );
-		}
-		else
-		{
-			theStatus = e3group_display_ordered_findfirsttypeonlist( instanceData,
-				(TQ3XOrderIndex)theIndex, isType, position );
-		}
-		
-		// Search later lists if appropriate
-		if ( (theIndex == kQ3XOrderIndex_All) && (theStatus == kQ3Failure) )
-		{
-			for (theIndex = kQ3XOrderIndex_First + 1; (theIndex <= kQ3XOrderIndex_Last) &&
-				(theStatus == kQ3Failure); ++theIndex)
+		for (theIndex = kQ3XOrderIndex_First + 1; (theIndex <= kQ3XOrderIndex_Last) &&
+			(theStatus == kQ3Failure); ++theIndex)
 			{
-				theStatus = e3group_display_ordered_findfirsttypeonlist( instanceData,
-					(TQ3XOrderIndex)theIndex, isType, position );
+			theStatus = findfirsttypeonlist ( (TQ3XOrderIndex) theIndex, isType, position ) ;
 			}
 		}
-		theStatus = kQ3Success;
+	
+	return kQ3Success;
 	}
-	return theStatus;
-}
 
 
 
@@ -1754,39 +1678,34 @@ e3group_display_ordered_getfirstpositionoftype(TQ3GroupObject group, TQ3ObjectTy
 static TQ3Status
 e3group_display_ordered_getlastpositionoftype(TQ3GroupObject group, TQ3ObjectType isType,
 	TQ3GroupPosition *position)
-{
+	{
+	return ( (E3OrderedDisplayGroup*) group )->getlastposition ( isType, position ) ;
+	}	
+	
+	
+TQ3Status
+E3OrderedDisplayGroup::getlastposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
+	{
 	TQ3Status	theStatus = kQ3Failure;
-	TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
-		E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
 	TQ3Int32	theIndex = e3group_display_ordered_typetoindex( isType );
 	*position = NULL;
-	if (instanceData != NULL)
-	{
-		if (theIndex == kQ3XOrderIndex_All)
+	if (theIndex == kQ3XOrderIndex_All)
+		theStatus = findlasttypeonlist ( kQ3XOrderIndex_Last, isType, position ) ;
+	else
+		theStatus = findlasttypeonlist ( (TQ3XOrderIndex)theIndex, isType, position ) ;
+	
+	// Search earlier lists if appropriate
+	if ( (theIndex == kQ3XOrderIndex_All) && (theStatus == kQ3Failure) )
 		{
-			theStatus = e3group_display_ordered_findlasttypeonlist( instanceData,
-				kQ3XOrderIndex_Last, isType, position );
-		}
-		else
-		{
-			theStatus = e3group_display_ordered_findlasttypeonlist( instanceData,
-				(TQ3XOrderIndex)theIndex, isType, position );
-		}
-		
-		// Search earlier lists if appropriate
-		if ( (theIndex == kQ3XOrderIndex_All) && (theStatus == kQ3Failure) )
-		{
-			for (theIndex = kQ3XOrderIndex_Last - 1; (theIndex >= kQ3XOrderIndex_First) &&
-				(theStatus == kQ3Failure); --theIndex)
+		for (theIndex = kQ3XOrderIndex_Last - 1; (theIndex >= kQ3XOrderIndex_First) &&
+			(theStatus == kQ3Failure); --theIndex)
 			{
-				theStatus = e3group_display_ordered_findlasttypeonlist( instanceData,
-					(TQ3XOrderIndex)theIndex, isType, position );
+			theStatus = findlasttypeonlist ( (TQ3XOrderIndex)theIndex, isType, position ) ;
 			}
 		}
-		theStatus = kQ3Success;
+
+	return kQ3Success ;
 	}
-	return theStatus;
-}
 
 
 
@@ -1799,14 +1718,19 @@ e3group_display_ordered_getlastpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 static TQ3Status
 e3group_display_ordered_getnextpositionoftype(TQ3GroupObject group, TQ3ObjectType isType,
 	TQ3GroupPosition *position)
+	{
+	return ( (E3OrderedDisplayGroup*) group )->getnextposition ( isType, position ) ;
+	}	
+	
+	
+TQ3Status
+E3OrderedDisplayGroup::getnextposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
 {
 	TQ3Status	theStatus = kQ3Failure;
-	TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
-		E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
 	TQ3XOrderIndex	requestIndex = e3group_display_ordered_typetoindex( isType );
 	TQ3XGroupPosition*	pos = (TQ3XGroupPosition*)*position;
 	*position = NULL;
-	if ( (instanceData != NULL) && (pos != NULL) )
+	if ( pos != NULL )
 	{
 		// Is the position in the right linked list?
 		TQ3Int32	startIndex = e3group_display_ordered_getlistindex( pos->object );
@@ -1814,13 +1738,13 @@ e3group_display_ordered_getnextpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 		if ( (startIndex == requestIndex) || (requestIndex == kQ3XOrderIndex_All) )
 		{
 			pos = pos->next;
-			listHead = &instanceData->listHeads[ startIndex ];
+			listHead = &listHeads[ startIndex ];
 		}
 		else if (startIndex < requestIndex)
 		{
 			// start at the beginning of the list for the requested type
 			startIndex = requestIndex;
-			listHead = &instanceData->listHeads[ startIndex ];
+			listHead = &listHeads[ startIndex ];
 			pos = listHead->next;
 		}
 		else if (startIndex > requestIndex)
@@ -1844,8 +1768,7 @@ e3group_display_ordered_getnextpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 			for (startIndex += 1; (startIndex < kQ3XOrderIndex_Count) &&
 				(theStatus == kQ3Failure); ++startIndex)
 			{
-				theStatus = e3group_display_ordered_findfirsttypeonlist( instanceData,
-					(TQ3XOrderIndex)startIndex, isType, position );
+				theStatus = findfirsttypeonlist ( (TQ3XOrderIndex) startIndex, isType, position ) ;
 			}
 		}
 		
@@ -1867,67 +1790,69 @@ e3group_display_ordered_getnextpositionoftype(TQ3GroupObject group, TQ3ObjectTyp
 static TQ3Status
 e3group_display_ordered_getprevpositionoftype(TQ3GroupObject group, TQ3ObjectType isType,
 	TQ3GroupPosition *position)
-{
-	TQ3Status	theStatus = kQ3Failure;
-	TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
-		E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
-	TQ3XOrderIndex	requestIndex = e3group_display_ordered_typetoindex( isType );
-	TQ3XGroupPosition*	pos = (TQ3XGroupPosition*)*position;
-	*position = NULL;
-	if ( (instanceData != NULL) && (pos != NULL) )
 	{
-		// Is the position in the right linked list?
-		TQ3Int32	startIndex = e3group_display_ordered_getlistindex( pos->object );
-		TQ3XGroupPosition*	listHead;
-		if ( (startIndex == requestIndex) || (requestIndex == kQ3XOrderIndex_All) )
-		{
-			pos = pos->prev;
-			listHead = &instanceData->listHeads[ startIndex ];
-		}
-		else if (startIndex > requestIndex)
-		{
-			// start at the end of the list for the requested type
-			startIndex = requestIndex;
-			listHead = &instanceData->listHeads[ startIndex ];
-			pos = listHead->prev;
-		}
-		else if (startIndex < requestIndex)
-		{
-			return kQ3Success;
-		}
-		
-		// Search the current list
-		for (; pos != listHead; pos = pos->prev)
-		{
-			if (Q3Object_IsType( pos->object, isType ))
-			{
-				*position = (TQ3GroupPosition)pos;
-				theStatus = kQ3Success;
-				break;
-			}
-		}
-		
-		if ( (requestIndex == kQ3XOrderIndex_All) && (theStatus == kQ3Failure) )
-		{
-			for (startIndex -= 1; (startIndex >= 0) && (theStatus == kQ3Failure);
-				--startIndex)
-			{
-				listHead = &instanceData->listHeads[ startIndex ];
-				for (pos = listHead->prev; pos != listHead; pos = pos->prev)
-				{
-					if (Q3Object_IsType( pos->object, isType ))
-					{
-						*position = (TQ3GroupPosition)pos;
-						theStatus = kQ3Success;
-						break;
-					}
-				}
-			}
-		}
-		theStatus = kQ3Success;
+	return ( (E3OrderedDisplayGroup*) group )->getprevposition ( isType, position ) ;
 	}
-	return theStatus;
-}
+	
+	
+TQ3Status
+E3OrderedDisplayGroup::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
+	{
+	TQ3Status theStatus = kQ3Failure ;
+	TQ3XOrderIndex requestIndex = e3group_display_ordered_typetoindex ( isType ) ;
+	TQ3XGroupPosition* pos = (TQ3XGroupPosition*) *position ;
+	*position = NULL;
+	if ( pos == NULL )
+		return kQ3Failure ;
+		
+	// Is the position in the right linked list?
+	TQ3Int32 startIndex = e3group_display_ordered_getlistindex ( pos->object ) ;
+	TQ3XGroupPosition* listHead ;
+	if ( ( startIndex == requestIndex ) || ( requestIndex == kQ3XOrderIndex_All ) )
+		{
+		pos = pos->prev ;
+		listHead = &listHeads [ startIndex ] ;
+		}
+	else
+	if ( startIndex > requestIndex )
+		{
+		// start at the end of the list for the requested type
+		startIndex = requestIndex ;
+		listHead = &listHeads [ startIndex ] ;
+		pos = listHead->prev ;
+		}
+	else
+	if ( startIndex < requestIndex )
+		return kQ3Success ;
+	
+	
+	// Search the current list
+	for ( ; pos != listHead ; pos = pos->prev )
+		if ( Q3Object_IsType ( pos->object, isType ) )
+			{
+			*position = (TQ3GroupPosition) pos ;
+			theStatus = kQ3Success ;
+			break ;
+			}
+	
+	if ( ( requestIndex == kQ3XOrderIndex_All ) && ( theStatus == kQ3Failure ) )
+		{
+		for ( startIndex -= 1 ; ( startIndex >= 0 ) && ( theStatus == kQ3Failure ) ;
+			--startIndex )
+			{
+			listHead = &listHeads [ startIndex ] ;
+			for ( pos = listHead->prev ; pos != listHead ; pos = pos->prev )
+				if ( Q3Object_IsType ( pos->object, isType ) )
+					{
+					*position = (TQ3GroupPosition) pos ;
+					theStatus = kQ3Success ;
+					break ;
+					}
+			}
+		}
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -1970,7 +1895,7 @@ static TQ3Status
 e3group_display_ordered_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType)
 {
 	TQ3XGroupPositionDeleteMethod		positionDeleteMethod = (TQ3XGroupPositionDeleteMethod)
-			E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupPositionDelete);
+			group->GetMethod ( kQ3XMethodType_GroupPositionDelete);
 	TQ3GroupPosition	pos;
 	
 	while ( (kQ3Success == e3group_display_ordered_getfirstpositionoftype( group, isType,
@@ -1994,13 +1919,13 @@ e3group_display_ordered_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType i
 //=============================================================================
 //      e3group_display_ordered_duplicate : Ordered display group duplicate method.
 //-----------------------------------------------------------------------------
-static TQ3Status
+TQ3Status
 e3group_display_ordered_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 									TQ3Object toObject,   void  * toPrivateData)
 {
-	TQ3OrderedDisplayGroupData*	toInstanceData = (TQ3OrderedDisplayGroupData*) toPrivateData;
-	const TQ3OrderedDisplayGroupData*	fromInstanceData =
-		(const TQ3OrderedDisplayGroupData*) fromPrivateData;
+	E3OrderedDisplayGroup*	toInstanceData = (E3OrderedDisplayGroup*) toPrivateData ;
+	const E3OrderedDisplayGroup*	fromInstanceData =
+		(const E3OrderedDisplayGroup*) fromPrivateData ;
 	TQ3Status	status = kQ3Success;
 	const TQ3XGroupPosition*	pos;
 	TQ3Object	dupObject;
@@ -2062,29 +1987,28 @@ e3group_display_ordered_duplicate(	TQ3Object fromObject, const void *fromPrivate
 static TQ3Status
 e3group_display_ordered_getfirstobjectposition(TQ3GroupObject group, TQ3Object object,
 	TQ3GroupPosition *position)
-{
-	TQ3Status	theStatus = kQ3Failure;
-	TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
-		E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
-	*position = NULL;
-	if (instanceData != NULL)
 	{
-		TQ3XOrderIndex	theIndex = e3group_display_ordered_getlistindex( object );
-		TQ3XGroupPosition*	listHead = &instanceData->listHeads[ theIndex ];
-		TQ3XGroupPosition		*pos;
-		
-		for (pos = listHead->next; pos != listHead; pos = pos->next)
-		{
-			if (pos->object == object)
-			{
-				*position = (TQ3GroupPosition)pos;
-				break;
-			}
-		}
-		theStatus = kQ3Success;
+	return ( (E3OrderedDisplayGroup*) group )->getfirstobjectposition ( object, position ) ;
 	}
-	return theStatus;
-}
+	
+	
+	
+TQ3Status
+E3OrderedDisplayGroup::getfirstobjectposition ( TQ3Object object, TQ3GroupPosition *position )
+	{
+	*position = NULL ;
+	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
+	TQ3XGroupPosition* listHead = &listHeads [ theIndex ] ;
+	
+	for ( TQ3XGroupPosition* pos = listHead->next ; pos != listHead ; pos = pos->next )
+		if (pos->object == object)
+			{
+			*position = (TQ3GroupPosition)pos;
+			break;
+			}
+
+	return kQ3Success ;
+	}
 
 
 
@@ -2097,29 +2021,28 @@ e3group_display_ordered_getfirstobjectposition(TQ3GroupObject group, TQ3Object o
 static TQ3Status
 e3group_display_ordered_getlastobjectposition(TQ3GroupObject group, TQ3Object object,
 	TQ3GroupPosition *position)
-{
-	TQ3Status	theStatus = kQ3Failure;
-	TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
-		E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
-	*position = NULL;
-	if (instanceData != NULL)
 	{
-		TQ3XOrderIndex	theIndex = e3group_display_ordered_getlistindex( object );
-		TQ3XGroupPosition*	listHead = &instanceData->listHeads[ theIndex ];
-		TQ3XGroupPosition		*pos;
-		
-		for (pos = listHead->prev; pos != listHead; pos = pos->prev)
-		{
-			if (pos->object == object)
-			{
-				*position = (TQ3GroupPosition)pos;
-				break;
-			}
-		}
-		theStatus = kQ3Success;
+	return ( (E3OrderedDisplayGroup*) group )->getlastobjectposition ( object, position ) ;
 	}
-	return theStatus;
-}
+	
+	
+	
+TQ3Status
+E3OrderedDisplayGroup::getlastobjectposition ( TQ3Object object, TQ3GroupPosition *position )
+	{
+	*position = NULL ;
+	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
+	TQ3XGroupPosition* listHead = &listHeads [ theIndex ] ;
+	
+	for ( TQ3XGroupPosition* pos = listHead->prev ; pos != listHead ; pos = pos->prev )
+		if ( pos->object == object )
+			{
+			*position = (TQ3GroupPosition)pos;
+			break;
+			}
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -2135,40 +2058,37 @@ e3group_display_ordered_getlastobjectposition(TQ3GroupObject group, TQ3Object ob
 static TQ3Status
 e3group_display_ordered_getnextobjectposition(TQ3GroupObject group, TQ3Object object,
 	TQ3GroupPosition *position)
-{
-	TQ3Status	theStatus = kQ3Failure;
-	TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
-		E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
-	TQ3XGroupPosition*	pos = (TQ3XGroupPosition*)*position;
-	*position = NULL;
-	if (instanceData != NULL)
 	{
-		TQ3XOrderIndex	theIndex = e3group_display_ordered_getlistindex( object );
-		TQ3XGroupPosition*	listHead = &instanceData->listHeads[ theIndex ];
-		TQ3XOrderIndex	startIndex = e3group_display_ordered_getlistindex( pos->object );
-		if (startIndex < theIndex)
-		{
-			pos = listHead->next;	// start at the beginning of this list
-		}
-		else if (startIndex == theIndex)
-		{
-			pos = pos->next;
-		}
-		if (startIndex <= theIndex)
-		{
-			for (; pos != listHead; pos = pos->next)
-			{
-				if (pos->object == object)
-				{
-					*position = (TQ3GroupPosition)pos;
-					break;
-				}
-			}
-		}
-		theStatus = kQ3Success;
+	return ( (E3OrderedDisplayGroup*) group )->getnextobjectposition ( object, position ) ;
 	}
-	return theStatus;
-}
+	
+	
+	
+TQ3Status
+E3OrderedDisplayGroup::getnextobjectposition ( TQ3Object object, TQ3GroupPosition *position )
+	{
+	TQ3XGroupPosition*	pos = (TQ3XGroupPosition*) *position ;
+	*position = NULL ;
+
+	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
+	TQ3XGroupPosition* listHead = &listHeads [ theIndex ] ;
+	TQ3XOrderIndex startIndex = e3group_display_ordered_getlistindex ( pos->object ) ;
+	if ( startIndex < theIndex )
+		pos = listHead->next ;	// start at the beginning of this list
+	else
+	if ( startIndex == theIndex )
+		pos = pos->next ;
+		
+	if ( startIndex <= theIndex )
+		for ( ; pos != listHead ; pos = pos->next )
+			if ( pos->object == object )
+				{
+				*position = (TQ3GroupPosition) pos ;
+				break;
+				}
+		
+	return kQ3Success ;
+	}
 
 
 
@@ -2183,40 +2103,38 @@ e3group_display_ordered_getnextobjectposition(TQ3GroupObject group, TQ3Object ob
 static TQ3Status
 e3group_display_ordered_getprevobjectposition(TQ3GroupObject group, TQ3Object object,
 	TQ3GroupPosition *position)
-{
-	TQ3Status	theStatus = kQ3Failure;
-	TQ3OrderedDisplayGroupData*		instanceData = (TQ3OrderedDisplayGroupData*)
-		E3ClassTree_FindInstanceData( group, kQ3DisplayGroupTypeOrdered );
-	TQ3XGroupPosition*	pos = (TQ3XGroupPosition*)*position;
-	*position = NULL;
-	if (instanceData != NULL)
 	{
-		TQ3XOrderIndex	theIndex = e3group_display_ordered_getlistindex( object );
-		TQ3XGroupPosition*	listHead = &instanceData->listHeads[ theIndex ];
-		TQ3XOrderIndex	startIndex = e3group_display_ordered_getlistindex( pos->object );
-		if (startIndex > theIndex)
-		{
-			pos = listHead->prev;	// start at the end of this list
-		}
-		else if (startIndex == theIndex)
-		{
-			pos = pos->prev;
-		}
-		if (startIndex >= theIndex)
-		{
-			for (; pos != listHead; pos = pos->prev)
-			{
-				if (pos->object == object)
-				{
-					*position = (TQ3GroupPosition)pos;
-					break;
-				}
-			}
-		}
-		theStatus = kQ3Success;
+	return ( (E3OrderedDisplayGroup*) group )->getprevobjectposition ( object, position ) ;
 	}
-	return theStatus;
-}
+	
+	
+	
+TQ3Status
+E3OrderedDisplayGroup::getprevobjectposition ( TQ3Object object, TQ3GroupPosition* position )
+	{
+	TQ3XGroupPosition*	pos = (TQ3XGroupPosition*) *position ;
+	*position = NULL  ;
+
+	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
+	TQ3XGroupPosition* listHead = & listHeads [ theIndex ] ;
+	TQ3XOrderIndex startIndex = e3group_display_ordered_getlistindex ( pos->object ) ;
+	
+	if ( startIndex > theIndex )
+		pos = listHead->prev ;	// start at the end of this list
+	else
+	if ( startIndex == theIndex )
+		pos = pos->prev ;
+	
+	if ( startIndex >= theIndex )
+		for ( ; pos != listHead ; pos = pos->prev )
+			if ( pos->object == object )
+				{
+				*position = (TQ3GroupPosition) pos ;
+				break ;
+				}
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -2389,7 +2307,7 @@ e3group_display_ioproxy_enditerate(TQ3GroupObject group, TQ3GroupPosition *itera
 
 	if (iterator)
 		*iterator = NULL;
-	return(kQ3Success);
+	return kQ3Success ;
 }
 
 
@@ -2529,46 +2447,46 @@ E3Group_RegisterClass(void)
 
 
 	// Register the group classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShape,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
 											kQ3ShapeTypeGroup,
 											kQ3ClassNameGroup,
 											e3group_metahandler,
-											sizeof(TQ3GroupData));
+											~sizeof(E3Group));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGroup,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
 												kQ3GroupTypeDisplay,
 												kQ3ClassNameGroupDisplay,
 												e3group_display_metahandler,
-												sizeof(TQ3DisplayGroupData));
+												~sizeof(E3DisplayGroup));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3GroupTypeDisplay,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3GroupTypeDisplay,
 												kQ3DisplayGroupTypeOrdered,
 												kQ3ClassNameGroupDisplayOrdered,
 												e3group_display_ordered_metahandler,
-												sizeof(TQ3OrderedDisplayGroupData));
+												~sizeof(E3OrderedDisplayGroup));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3GroupTypeDisplay,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3GroupTypeDisplay,
 												kQ3DisplayGroupTypeIOProxy,
 												kQ3ClassNameGroupDisplayIOProxy,
 												e3group_display_ioproxy_metahandler,
-												0);
+												~sizeof(E3DisplayGroup));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGroup,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
 												kQ3GroupTypeLight,
 												kQ3ClassNameGroupLight,
 												e3group_light_metahandler,
-												0);
+												~sizeof(E3Group));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGroup,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
 												kQ3GroupTypeInfo,
 												kQ3ClassNameGroupInfo,
 												e3group_info_metahandler,
-												0);
+												~sizeof(E3Group));
 
 	return(qd3dStatus);
 }
@@ -2648,10 +2566,10 @@ E3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 
 	// Find our method
 	addObjectMethod = (TQ3XGroupAddObjectMethod)
-								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupAddObject);
+								group->GetMethod ( kQ3XMethodType_GroupAddObject);
 
 	if (addObjectMethod == NULL)
-		return(NULL);
+		return NULL ;
 
 
 
@@ -2702,9 +2620,9 @@ E3Group_AddObjectBefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Obje
 
 	// Find our method
 	addObjectBeforeMethod = (TQ3XGroupAddObjectBeforeMethod)
-								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupAddObjectBefore);
+								group->GetMethod ( kQ3XMethodType_GroupAddObjectBefore);
 	if (addObjectBeforeMethod == NULL)
-		return(NULL);
+		return NULL ;
 
 
 
@@ -2730,9 +2648,9 @@ E3Group_AddObjectAfter(TQ3GroupObject group, TQ3GroupPosition position, TQ3Objec
 
 	// Find our method
 	addObjectAfterMethod = (TQ3XGroupAddObjectAfterMethod)
-								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupAddObjectAfter);
+								group->GetMethod ( kQ3XMethodType_GroupAddObjectAfter);
 	if (addObjectAfterMethod == NULL)
-		return(NULL);
+		return NULL ;
 
 
 
@@ -2764,11 +2682,11 @@ E3Group_GetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Ob
 		if (pos->object)
 			{
 			*object = Q3Shared_GetReference (pos->object);
-			return(kQ3Success);
+			return kQ3Success ;
 			}
 		}
 	*object = NULL;
-	return(kQ3Failure);
+	return kQ3Failure ;
 }
 
 
@@ -2787,9 +2705,9 @@ E3Group_SetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Ob
 
 	// Find our method
 	setPositionObjectMethod = (TQ3XGroupSetPositionObjectMethod)
-								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupSetPositionObject);
+								group->GetMethod ( kQ3XMethodType_GroupSetPositionObject);
 	if (setPositionObjectMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -2817,9 +2735,9 @@ E3Group_RemovePosition(TQ3GroupObject group, TQ3GroupPosition position)
 
 	// Find our method
 	removePositionMethod = (TQ3XGroupRemovePositionMethod)
-								E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupRemovePosition);
+								group->GetMethod ( kQ3XMethodType_GroupRemovePosition);
 	if (removePositionMethod == NULL)
-		return(NULL);
+		return NULL ;
 
 
 
@@ -2845,14 +2763,14 @@ E3Group_GetFirstPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 	// Find our method
 	getFirstPositionOfTypeMethod = (TQ3XGroupGetFirstPositionOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetFirstPositionOfType);
+									group->GetMethod ( kQ3XMethodType_GroupGetFirstPositionOfType);
 	if (getFirstPositionOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
 	// Call the method
-	result = getFirstPositionOfTypeMethod(group, kQ3ObjectTypeShared, position);
+	result = getFirstPositionOfTypeMethod ( group, kQ3ObjectTypeShared, position);
 
 	return(result);
 }
@@ -2873,9 +2791,9 @@ E3Group_GetLastPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 	// Find our method
 	getLastPositionOfTypeMethod = (TQ3XGroupGetLastPositionOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetLastPositionOfType);
+									group->GetMethod ( kQ3XMethodType_GroupGetLastPositionOfType);
 	if (getLastPositionOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -2901,9 +2819,9 @@ E3Group_GetNextPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 	// Find our method
 	getNextPositionOfTypeMethod = (TQ3XGroupGetNextPositionOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetNextPositionOfType);
+									group->GetMethod ( kQ3XMethodType_GroupGetNextPositionOfType);
 	if (getNextPositionOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -2929,9 +2847,9 @@ E3Group_GetPreviousPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 	// Find our method
 	getPrevPositionOfTypeMethod = (TQ3XGroupGetPrevPositionOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetPrevPositionOfType);
+									group->GetMethod ( kQ3XMethodType_GroupGetPrevPositionOfType);
 	if (getPrevPositionOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -2957,9 +2875,9 @@ E3Group_CountObjects(TQ3GroupObject group, TQ3Uns32 *nObjects)
 
 	// Find our method
 	countObjectsOfTypeMethod = (TQ3XGroupCountObjectsOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupCountObjectsOfType);
+									group->GetMethod ( kQ3XMethodType_GroupCountObjectsOfType);
 	if (countObjectsOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -2985,9 +2903,9 @@ E3Group_EmptyObjects(TQ3GroupObject group)
 
 	// Find our method
 	emptyObjectsOfTypeMethod = (TQ3XGroupEmptyObjectsOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupEmptyObjectsOfType);
+									group->GetMethod ( kQ3XMethodType_GroupEmptyObjectsOfType);
 	if (emptyObjectsOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3013,9 +2931,9 @@ E3Group_GetFirstPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gr
 
 	// Find our method
 	getFirstPositionOfTypeMethod = (TQ3XGroupGetFirstPositionOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetFirstPositionOfType);
+									group->GetMethod ( kQ3XMethodType_GroupGetFirstPositionOfType);
 	if (getFirstPositionOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3041,9 +2959,9 @@ E3Group_GetLastPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 
 	// Find our method
 	getLastPositionOfTypeMethod = (TQ3XGroupGetLastPositionOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetLastPositionOfType);
+									group->GetMethod ( kQ3XMethodType_GroupGetLastPositionOfType);
 	if (getLastPositionOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3069,9 +2987,9 @@ E3Group_GetNextPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 
 	// Find our method
 	getNextPositionOfTypeMethod = (TQ3XGroupGetNextPositionOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetNextPositionOfType);
+									group->GetMethod ( kQ3XMethodType_GroupGetNextPositionOfType);
 	if (getNextPositionOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3097,9 +3015,9 @@ E3Group_GetPreviousPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ
 
 	// Find our method
 	getPrevPositionOfTypeMethod = (TQ3XGroupGetPrevPositionOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetPrevPositionOfType);
+									group->GetMethod ( kQ3XMethodType_GroupGetPrevPositionOfType);
 	if (getPrevPositionOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3125,9 +3043,9 @@ E3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 
 
 	// Find our method
 	countObjectsOfTypeMethod = (TQ3XGroupCountObjectsOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupCountObjectsOfType);
+									group->GetMethod ( kQ3XMethodType_GroupCountObjectsOfType);
 	if (countObjectsOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3153,9 +3071,9 @@ E3Group_EmptyObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType)
 
 	// Find our method
 	emptyObjectsOfTypeMethod = (TQ3XGroupEmptyObjectsOfTypeMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupEmptyObjectsOfType);
+									group->GetMethod ( kQ3XMethodType_GroupEmptyObjectsOfType);
 	if (emptyObjectsOfTypeMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3181,9 +3099,9 @@ E3Group_GetFirstObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupP
 
 	// Find our method
 	getFirstObjectPositionMethod = (TQ3XGroupGetFirstObjectPositionMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetFirstObjectPosition);
+									group->GetMethod ( kQ3XMethodType_GroupGetFirstObjectPosition);
 	if (getFirstObjectPositionMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3209,9 +3127,9 @@ E3Group_GetLastObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 	// Find our method
 	getLastObjectPositionMethod = (TQ3XGroupGetLastObjectPositionMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetLastObjectPosition);
+									group->GetMethod ( kQ3XMethodType_GroupGetLastObjectPosition);
 	if (getLastObjectPositionMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3237,9 +3155,9 @@ E3Group_GetNextObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 	// Find our method
 	getNextObjectPositionMethod = (TQ3XGroupGetNextObjectPositionMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetNextObjectPosition);
+									group->GetMethod ( kQ3XMethodType_GroupGetNextObjectPosition);
 	if (getNextObjectPositionMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3265,9 +3183,9 @@ E3Group_GetPreviousObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3Gro
 
 	// Find our method
 	getPrevObjectPositionMethod = (TQ3XGroupGetPrevObjectPositionMethod)
-									E3ClassTree_GetMethodByObject(group, kQ3XMethodType_GroupGetPrevObjectPosition);
+									group->GetMethod ( kQ3XMethodType_GroupGetPrevObjectPosition);
 	if (getPrevObjectPositionMethod == NULL)
-		return(kQ3Failure);
+		return kQ3Failure ;
 
 
 
@@ -3321,15 +3239,12 @@ E3DisplayGroup_GetType(TQ3GroupObject theGroup)
 //      E3DisplayGroup_GetState : Gets a display group's state.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3DisplayGroup_GetState(TQ3GroupObject theGroup, TQ3DisplayGroupState *state)
-{	TQ3DisplayGroupData *instanceData = (TQ3DisplayGroupData *) E3ClassTree_FindInstanceData(theGroup, kQ3GroupTypeDisplay);
-
-
-
+E3DisplayGroup::GetState ( TQ3DisplayGroupState* pState )
+	{
 	// Get the field
-	*state = instanceData->state;
-	return(kQ3Success);
-}
+	*pState = state ;
+	return kQ3Success ;
+	}
 
 
 
@@ -3339,17 +3254,15 @@ E3DisplayGroup_GetState(TQ3GroupObject theGroup, TQ3DisplayGroupState *state)
 //      E3DisplayGroup_SetState : Sets a display group's state.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3DisplayGroup_SetState(TQ3GroupObject theGroup, TQ3DisplayGroupState state)
-{	TQ3DisplayGroupData *instanceData = (TQ3DisplayGroupData *) E3ClassTree_FindInstanceData(theGroup, kQ3GroupTypeDisplay);
-
-
-
+E3DisplayGroup::SetState ( TQ3DisplayGroupState pState )
+	{
 	// Set the field
-	instanceData->state = state;
-	Q3Shared_Edited(theGroup);
+	state = pState ;
+	
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -3378,18 +3291,16 @@ E3DisplayGroup_Submit(TQ3GroupObject theGroup, TQ3ViewObject theView)
 //      E3DisplayGroup_SetAndUseBoundingBox : Set and activate a bounding box.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3DisplayGroup_SetAndUseBoundingBox(TQ3GroupObject theGroup, TQ3BoundingBox *bBox)
-{	TQ3DisplayGroupData *instanceData = (TQ3DisplayGroupData *) E3ClassTree_FindInstanceData(theGroup, kQ3GroupTypeDisplay);
-
-
-
+E3DisplayGroup::SetAndUseBoundingBox ( TQ3BoundingBox *pBBox )
+	{
 	// Set the field
-	instanceData->bBox   = *bBox;
-	instanceData->state |= kQ3DisplayGroupStateMaskUseBoundingBox;
-	Q3Shared_Edited(theGroup);
+	bBox   = *pBBox ;
+	state |= kQ3DisplayGroupStateMaskUseBoundingBox ;
+	
+	Q3Shared_Edited ( this ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -3399,15 +3310,12 @@ E3DisplayGroup_SetAndUseBoundingBox(TQ3GroupObject theGroup, TQ3BoundingBox *bBo
 //      E3DisplayGroup_GetBoundingBox : Get the bounding box.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3DisplayGroup_GetBoundingBox(TQ3GroupObject theGroup, TQ3BoundingBox *bBox)
-{	TQ3DisplayGroupData *instanceData = (TQ3DisplayGroupData *) E3ClassTree_FindInstanceData(theGroup, kQ3GroupTypeDisplay);
-
-
-
+E3DisplayGroup::GetBoundingBox ( TQ3BoundingBox *pBBox )
+	{
 	// Get the field
-	*bBox = instanceData->bBox;
-	return(kQ3Success);
-}
+	*pBBox = bBox ;
+	return kQ3Success ;
+	}
 
 
 
@@ -3417,15 +3325,12 @@ E3DisplayGroup_GetBoundingBox(TQ3GroupObject theGroup, TQ3BoundingBox *bBox)
 //      E3DisplayGroup_RemoveBoundingBox : Remove the bounding box.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3DisplayGroup_RemoveBoundingBox(TQ3GroupObject theGroup)
-{	TQ3DisplayGroupData *instanceData = (TQ3DisplayGroupData *) E3ClassTree_FindInstanceData(theGroup, kQ3GroupTypeDisplay);
-
-
-
+E3DisplayGroup::RemoveBoundingBox ( void )
+	{
 	// Set the field
-	instanceData->state &= ~kQ3DisplayGroupStateMaskUseBoundingBox;
-	return(kQ3Success);
-}
+	state &= ~kQ3DisplayGroupStateMaskUseBoundingBox ;
+	return kQ3Success ;
+	}
 
 
 
@@ -3435,36 +3340,35 @@ E3DisplayGroup_RemoveBoundingBox(TQ3GroupObject theGroup)
 //      E3DisplayGroup_CalcAndUseBoundingBox : Calculate the bounding box.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3DisplayGroup_CalcAndUseBoundingBox(TQ3GroupObject group, TQ3ComputeBounds computeBounds, TQ3ViewObject view)
-{	TQ3DisplayGroupData *instanceData = (TQ3DisplayGroupData *) E3ClassTree_FindInstanceData(group, kQ3GroupTypeDisplay);
-	TQ3Status err;
-	TQ3ViewStatus viewErr;
-	TQ3BoundingBox bBox;
+E3DisplayGroup::CalcAndUseBoundingBox ( TQ3ComputeBounds computeBounds, TQ3ViewObject view )
+	{	
+	TQ3ViewStatus viewErr ;
+	TQ3BoundingBox theBBox ;
 
 
 
-	err = Q3View_StartBoundingBox (view, computeBounds);
-	if (err == kQ3Failure)
-		return(kQ3Failure);
+	TQ3Status err = Q3View_StartBoundingBox ( view, computeBounds ) ;
+	if ( err == kQ3Failure )
+		return kQ3Failure ;
 	
 	do
 		{
-		err = Q3DisplayGroup_Submit (group, view);
-		viewErr = Q3View_EndBoundingBox (view, &bBox);
+		err = Q3DisplayGroup_Submit ( this, view ) ;
+		viewErr = Q3View_EndBoundingBox ( view, &theBBox ) ;
 		}
-	while (viewErr == kQ3ViewStatusRetraverse);
+	while ( viewErr == kQ3ViewStatusRetraverse ) ;
 	
-	if (viewErr != kQ3ViewStatusDone)
-		return(kQ3Failure);
+	if  (viewErr != kQ3ViewStatusDone )
+		return kQ3Failure ;
 	
-	if (err == kQ3Failure)
-		return(kQ3Failure);
+	if ( err == kQ3Failure )
+		return kQ3Failure ;
 	
-	instanceData->state |= kQ3DisplayGroupStateMaskUseBoundingBox;
-	instanceData->bBox = bBox;
+	state |= kQ3DisplayGroupStateMaskUseBoundingBox ;
+	bBox = theBBox ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
