@@ -62,11 +62,12 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 
 	// Report the assertion failure
 	sprintf(theString,
-				"Quesa Assertion: '%s' failed on line %d of %s",
+				"Quesa Assertion: '%s' failed on line %d of %s\n",
 				theAssertion, lineNum, srcFile);
 
-	MessageBox(NULL, theString, srcFile, MB_OK | MB_ICONERROR);
+	//MessageBox(NULL, theString, srcFile, MB_OK | MB_ICONERROR);
 	OutputDebugString(theString);
+	DebugBreak();
 }
 
 
