@@ -2174,10 +2174,11 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 		glEnable(GL_POINT_SMOOTH);
 
 
-		// Do lines or edges as required
-		if (styleData->mode == kQ3AntiAliasModeMaskEdges)
+		// Do edges or polygons as required
+		if (styleData->mode & kQ3AntiAliasModeMaskEdges)
 			glEnable(GL_LINE_SMOOTH);
-		else
+		
+		if (styleData->mode & kQ3AntiAliasModeMaskFilled)
 			glEnable(GL_POLYGON_SMOOTH);
 		}
 
