@@ -2503,7 +2503,7 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace)){
-					geomData.facetAttributeSet = (OpaqueTQ3Object **)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*6);
+					geomData.facetAttributeSet = (OpaqueTQ3Object **)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*numFacets);
 					for(i = 0; i< numFacets; i++){
 						geomData.facetAttributeSet[i] = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
 						}
