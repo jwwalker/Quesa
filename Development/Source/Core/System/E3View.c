@@ -64,7 +64,7 @@
 
 
 // View stack
-enum TQ3ViewStackState {
+enum {
 	kQ3ViewStateMatrixLocalToWorld			= 1 <<  0,		// Local-to-world changed
 	kQ3ViewStateMatrixWorldToCamera			= 1 <<  1,		// World-to-camera changed
 	kQ3ViewStateMatrixCameraToFrustum		= 1 <<  2,		// Camera-to-frustum changed
@@ -99,7 +99,8 @@ enum TQ3ViewStackState {
 											  kQ3ViewStateMatrixWorldToCamera |
 											  kQ3ViewStateMatrixCameraToFrustum
 };
-typedef enum TQ3ViewStackState TQ3ViewStackState;
+
+typedef TQ3Uns32 TQ3ViewStackState;
 
 
 
@@ -495,7 +496,7 @@ e3view_stack_push(TQ3ViewObject theView)
 
 
 	// Grow the view stack to the hold the new item
-	newTop = Q3Memory_Allocate( sizeof(TQ3ViewStackItem) );
+	newTop = (TQ3ViewStackItem*) Q3Memory_Allocate( sizeof(TQ3ViewStackItem) );
 	if (newTop == NULL)
 		{
 		return kQ3Failure;
@@ -4066,7 +4067,7 @@ E3View_EndBoundingSphere(TQ3ViewObject theView, TQ3BoundingSphere *result)
 		{
 		if(instanceData->boundingPointsSlab != NULL && Q3SlabMemory_GetCount(instanceData->boundingPointsSlab) > 0)
 			{
-			points = Q3SlabMemory_GetData(instanceData->boundingPointsSlab,0);
+			points = (TQ3Point3D*) Q3SlabMemory_GetData(instanceData->boundingPointsSlab,0);
 			if(points != NULL)
 				Q3BoundingSphere_SetFromPoints3D(&instanceData->boundingSphere,
 								 points, Q3SlabMemory_GetCount(instanceData->boundingPointsSlab), sizeof(TQ3Point3D));
