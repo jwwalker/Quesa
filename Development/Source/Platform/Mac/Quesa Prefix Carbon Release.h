@@ -1,8 +1,8 @@
 /*  NAME:
-        Quesa Prefix Release.h
+        Quesa Prefix Carbon Release.h
 
     DESCRIPTION:
-        Prefix file for Mac release builds.
+        Prefix file for Mac carbon release builds.
 
     COPYRIGHT:
         Quesa Copyright © 1999-2000, Quesa Developers.
@@ -35,6 +35,7 @@
 //=============================================================================
 //      Set our build constants
 //-----------------------------------------------------------------------------
+#define QUESA_OS_MACINTOSH				1
 #define Q3_DEBUG						0
 #define Q3_PROFILE						0
 
