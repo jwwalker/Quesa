@@ -1821,7 +1821,7 @@ E3Bitmap_GetBit(const TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y)
 
 
 	// Locate the bit we need
-	bitShift = x % 8;
+	bitShift = (TQ3Uns8) (x % 8);
 	if (theBitmap->bitOrder == kQ3EndianBig)
 		theState = ((theByte >> (7 - bitShift)) & 0x01) != 0 ? kQ3True : kQ3False;
 	else
@@ -1850,7 +1850,7 @@ E3Bitmap_SetBit(TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y, TQ3Boolean theStat
 
 
 	// Prepare the mask
-	bitShift = x % 8;
+	bitShift = (TQ3Uns8) (x % 8);
 
 	if (theBitmap->bitOrder == kQ3EndianBig)
 		byteMask = (1 << (7 - bitShift));

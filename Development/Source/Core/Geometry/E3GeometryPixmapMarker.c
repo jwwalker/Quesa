@@ -539,10 +539,10 @@ e3geom_pixmapmarker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, 
 	// Initialise the points, edges, and triangles
 	//
 	// The marker is drawn from within a rasterise transform, so x and y are in pixels.
-	Q3Point3D_Set(&thePoints[0],                   0.0f,                    0.0f, 0.0f);
-	Q3Point3D_Set(&thePoints[1], geomData->pixmap.width,                    0.0f, 0.0f);
-	Q3Point3D_Set(&thePoints[2], geomData->pixmap.width, geomData->pixmap.height, 0.0f);
-	Q3Point3D_Set(&thePoints[3],                   0.0f, geomData->pixmap.height, 0.0f);
+	Q3Point3D_Set(&thePoints[0],                           0.0f,                            0.0f, 0.0f);
+	Q3Point3D_Set(&thePoints[1], (float) geomData->pixmap.width,                            0.0f, 0.0f);
+	Q3Point3D_Set(&thePoints[2], (float) geomData->pixmap.width, (float) geomData->pixmap.height, 0.0f);
+	Q3Point3D_Set(&thePoints[3],                           0.0f, (float) geomData->pixmap.height, 0.0f);
 
 	theTriangles[0].pointIndices[0] = 0;
 	theTriangles[0].pointIndices[1] = 2;
