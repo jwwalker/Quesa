@@ -365,13 +365,14 @@ e3drawcontext_mac_buildregions(TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 static TQ3XDrawContextValidation
 e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
-	E3GlobalsPtr				theGlobals = E3Globals_Get();
-	Rect						windowRect, paneRect;
-	TQ3XDrawContextValidation	stateChanges;
-	TQ3MacDrawContext2DLibrary	theLibrary;
-	WindowRef					theWindow;
-	RgnHandle					visRgn;
+{	TQ3DrawContextUnionData			*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+	E3GlobalsPtr					theGlobals    = E3Globals_Get();
+	TQ3XDrawContextValidation		stateChanges;
+	TQ3MacDrawContext2DLibrary		theLibrary;
+	Rect							windowRect;
+	WindowRef						theWindow;
+	TQ3MacDrawContextState			*macState;
+	RgnHandle						visRgn;
 	
 
 
@@ -384,17 +385,19 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 
 
 
-	// Otherwise, start off with nothing
+	// Initialise ourselves
 	stateChanges = kQ3XDrawContextValidationClearFlags;
+	macState     = &instanceData->data.macData;
+	theWindow    = (WindowRef) macState->theData.window;
 
 
 
 	// Work out what type of draw context we're dealing with, watching out
 	// for people who specified QuickDraw when they really wanted a window.
-	theLibrary = instanceData->data.macData.theData.library;
-	if (theLibrary == kQ3Mac2DLibraryQuickDraw            &&
-		instanceData->data.macData.theData.window != NULL &&
-		instanceData->data.macData.theData.window == (CWindowPtr)instanceData->data.macData.theData.grafPort)
+	theLibrary = macState->theData.library;
+	if (theLibrary == kQ3Mac2DLibraryQuickDraw &&
+		theWindow  != NULL                     &&
+		theWindow  == (WindowRef) macState->theData.grafPort)
 		theLibrary = kQ3Mac2DLibraryNone;
 
 
@@ -402,18 +405,22 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 	// Handle each draw context type in turn
 	switch (theLibrary) {
 		case kQ3Mac2DLibraryNone:
-			// Get the window, and work out its rectangles.
-			//
-			// If a pane has been specified, we adjust the window rect
-			// accordingly (i.e., as if the window was the size of the pane).
-			theWindow  = (WindowRef) instanceData->data.macData.theData.window;
+			// Get the window bounds
 			GetWindowBounds(theWindow, kWindowContentRgn, &windowRect);
 
-			if (instanceData->data.common.paneState)
+
+
+			// Check to see if the pane state has changed
+			if (macState->theData.drawContextData.paneState != macState->paneState)
+				stateChanges |= kQ3XDrawContextValidationPane;
+
+			if (macState->paneState)
 				{
-				E3Area_ToRect(&instanceData->data.common.pane, &paneRect);
-				OffsetRect(&paneRect, windowRect.left, windowRect.top);
-				windowRect = paneRect;
+				if (macState->theData.drawContextData.pane.min.x != macState->thePane.min.x ||
+					macState->theData.drawContextData.pane.min.y != macState->thePane.min.y ||
+					macState->theData.drawContextData.pane.max.x != macState->thePane.max.x ||
+					macState->theData.drawContextData.pane.max.y != macState->thePane.max.y)
+					stateChanges |= kQ3XDrawContextValidationPane;
 				}
 
 
@@ -421,8 +428,8 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 			// Check to see if the window has changed position. If it has, we set the
 			// kQ3XDrawContextValidationDevice bit as well in case it's been moved to
 			// a different device.
-			if (windowRect.top  != instanceData->data.macData.windowRect.top ||
-				windowRect.left != instanceData->data.macData.windowRect.left)
+			if (windowRect.top  != macState->windowRect.top ||
+				windowRect.left != macState->windowRect.left)
 				{
 				stateChanges |= kQ3XDrawContextValidationWindowPosition;
 				stateChanges |= kQ3XDrawContextValidationDevice;
@@ -433,8 +440,8 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 			// Check to see if the window has changed size. If it has, we set the
 			// kQ3XDrawContextValidationDevice bit as well in case it's been grown
 			// to a different device.
-			if (E3Rect_GetWidth(&windowRect)  != E3Rect_GetWidth(&instanceData->data.macData.windowRect) ||
-				E3Rect_GetHeight(&windowRect) != E3Rect_GetHeight(&instanceData->data.macData.windowRect))
+			if (E3Rect_GetWidth(&windowRect)  != E3Rect_GetWidth(&macState->windowRect) ||
+				E3Rect_GetHeight(&windowRect) != E3Rect_GetHeight(&macState->windowRect))
 				{
 				stateChanges |= kQ3XDrawContextValidationWindowSize;
 				stateChanges |= kQ3XDrawContextValidationDevice;
@@ -446,17 +453,23 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 			visRgn = NewRgn();
 			if (visRgn != NULL)
 				{
-				GetPortVisibleRegion( GetWindowPort(theWindow), visRgn );
-				if (!EqualRgn(visRgn, instanceData->data.macData.visRgn))
+				GetPortVisibleRegion(GetWindowPort(theWindow), visRgn);
+				if (!EqualRgn(visRgn, macState->visRgn))
 					stateChanges |= kQ3XDrawContextValidationWindowClip;
 				}
 
 
 
-			// Save the winow details for next time
-			instanceData->data.macData.windowRect = windowRect;
+			// Save the details for next time
+			macState->paneState  = macState->theData.drawContextData.paneState;
+			macState->thePane    = macState->theData.drawContextData.pane;
+			macState->windowRect = windowRect;
+
 			if (visRgn != NULL)
-				CopyRgn(visRgn, instanceData->data.macData.visRgn);
+				{
+				CopyRgn(visRgn, macState->visRgn);
+				DisposeRgn(visRgn);
+				}
 			break;
 
 		
@@ -575,13 +588,69 @@ e3drawcontext_mac_updateregions(TQ3DrawContextObject theDrawContext, TQ3XDrawCon
 
 
 //=============================================================================
+//      e3drawcontext_mac_normalizeport : Normalize the port state.
+//-----------------------------------------------------------------------------
+//		Note :	Renderers which are rendering to a Mac window are allowed to
+//				assume that the port origin has been set to (0,0) before they
+//				start rendering.
+//
+//				This behaviour is required by Apple's QD3D IR, and so we need
+//				to preserve it in Quesa.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_mac_normalizeport(TQ3DrawContextObject theDrawContext)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+	WindowRef					theWindow;
+	CGrafPtr					thePort;
+	Rect						theRect;
+	RgnHandle					theRgn;
+
+
+
+	// Get the window - if we don't have a window, we're done
+	theWindow = (WindowRef) instanceData->data.macData.theData.window;
+	if (theWindow == NULL)
+		return;
+
+
+
+	// Get the window port and its bounds (to record the current port origin)
+	thePort = GetWindowPort(theWindow);
+	GetPortBounds(thePort, &theRect);
+
+
+
+	// If a non-zero port origin is in effect, reset the origin
+	if (theRect.left != 0 || theRect.top != 0)
+		{
+		// Reset the origin
+		SetOrigin(0, 0);
+
+
+		// The clip region is unaffected by SetOrigin, so we have to
+		// apply the same translation to it by hand.
+		theRgn = NewRgn();
+		if (theRgn != NULL)
+			{
+			GetClip(theRgn);
+			OffsetRgn(theRgn, -theRect.left, -theRect.top);
+			SetClip(theRgn);
+			DisposeRgn(theRgn);
+			}
+		}
+}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_mac_new : Mac draw context new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3DrawContextUnionData			*instanceData = (TQ3DrawContextUnionData *) privateData;
 	const TQ3MacDrawContextData		*macData      = (const TQ3MacDrawContextData *) paramData;
-	Rect							windowRect, paneRect;
 	TQ3MacDrawContext2DLibrary		theLibrary;
 	WindowRef						theWindow;
 #pragma unused(theObject)
@@ -589,8 +658,10 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 
 
 	// Initialise our instance data
-	instanceData->data.macData.theData = *macData;
-	instanceData->data.macData.visRgn  = NewRgn();
+	instanceData->data.macData.theData   = *macData;
+	instanceData->data.macData.visRgn    = NewRgn();
+	instanceData->data.macData.paneState = macData->drawContextData.paneState;
+	instanceData->data.macData.thePane   = macData->drawContextData.pane;
 
 
 
@@ -604,22 +675,12 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 
 	if (theLibrary == kQ3Mac2DLibraryNone)
 		{
-		// Grab the window
-		theWindow  = (WindowRef) instanceData->data.macData.theData.window;
+		// Get the window
+		theWindow = (WindowRef) instanceData->data.macData.theData.window;
 
 
-		// Save the window bounds
-		GetWindowBounds(theWindow, kWindowContentRgn, &windowRect);
-		if (instanceData->data.common.paneState)
-			{
-			E3Area_ToRect(&instanceData->data.common.pane, &paneRect);
-			OffsetRect(&paneRect, windowRect.left, windowRect.top);
-			windowRect = paneRect;
-			}
-		instanceData->data.macData.windowRect = windowRect;
-
-
-		// Save the window visible region
+		// Grab its bounds and visible region
+		GetWindowBounds(theWindow, kWindowContentRgn, &instanceData->data.macData.windowRect);
 		GetPortVisibleRegion(GetWindowPort(theWindow), instanceData->data.macData.visRgn);
 		}
 
@@ -675,6 +736,11 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 
 
 
+	// Normalize the port state
+	e3drawcontext_mac_normalizeport(theDrawContext);
+
+
+
 	// If we don't have any draw regions, or everything has changed, rebuild them
 	if (instanceData->numDrawRegions == 0 || instanceData->theState == kQ3XDrawContextValidationAll)
 		{
@@ -704,11 +770,6 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 			e3drawcontext_mac_updateregions(theDrawContext, instanceData->theState);
 			}
 		}
-
-	// clear the DrawContext
-	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor)
-		;
-		
 	
 	return(qd3dStatus);		
 }
