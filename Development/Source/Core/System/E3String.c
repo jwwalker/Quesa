@@ -59,7 +59,7 @@ typedef char *TQ3StringPtr;
 
 
 
-class E3String : public TQ3SharedData // This is not a leaf class, but only classes in this,
+class E3String : public E3Shared // This is not a leaf class, but only classes in this,
 								// file inherit from it, so it can be declared here in
 								// the .c file rather than in the .h file, hence all
 								// the fields can be public as nobody should be
@@ -262,7 +262,7 @@ E3String_GetType(TQ3StringObject stringObj)
 
 
 	// Get the type
-	return(E3ClassTree_GetObjectType(stringObj, kQ3SharedTypeString));
+	return stringObj->GetObjectType ( kQ3SharedTypeString ) ;
 }
 
 
@@ -274,15 +274,10 @@ E3String_GetType(TQ3StringObject stringObj)
 //-----------------------------------------------------------------------------
 TQ3StringObject
 E3CString_New(const char *str)
-{	TQ3Object		theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StringTypeCString, kQ3False, str);
-
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance ( kQ3StringTypeCString, kQ3False, str ) ;
+	}
 
 
 

@@ -144,7 +144,7 @@ typedef struct TQ3AttributeSetInheritParamInfo {
 
 
 
-class E3Set : public TQ3SharedData // This is not a leaf class, but only classes in this,
+class E3Set : public E3Shared // This is not a leaf class, but only classes in this,
 								// file inherit from it, so it can be declared here in
 								// the .c file rather than in the .h file, hence all
 								// the fields can be public as nobody should be
@@ -543,7 +543,7 @@ e3set_iterator_submit(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3Elemen
 
 
 	// Submit the element
-	qd3dStatus = E3View_SubmitImmediate(*theView, theType, E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf));
+	qd3dStatus = E3View_SubmitImmediate(*theView, theType, theElement->FindLeafInstanceData () ) ;
 
 	return(qd3dStatus);
 }
@@ -691,7 +691,6 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 {	TQ3Boolean							addElement, isChild;
 	TQ3XAttributeCopyInheritMethod 		copyInheritMethod;
 	void 								*attributeData;
-	TQ3XAttributeInheritMethod 			inheritMethod;
 	TQ3Status							qd3dStatus;
 	TQ3AttributeSetInheritParamInfo		*paramInfo;
 	TQ3AttributeSet						theResult;
@@ -718,25 +717,26 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 		{
 		// Handle built in attributes
 		if ((theType > kQ3AttributeTypeNone) && (theType < kQ3AttributeTypeNumTypes))
-			qd3dStatus = E3Set_Add(theResult, theType, E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf));
+			qd3dStatus = E3Set_Add(theResult, theType, theElement->FindLeafInstanceData () ) ;
 
 
 		// Handle custom attributes
 		else
 			{
 			// See if we need to inherit
-			inheritMethod = (TQ3XAttributeInheritMethod) (NULL != E3ClassTree_GetMethodByObject(theElement, kQ3XMethodTypeAttributeInherit));
+			TQ3XAttributeInheritMethod inheritMethod = (TQ3XAttributeInheritMethod)
+							( NULL != theElement->GetMethod ( kQ3XMethodTypeAttributeInherit ) ) ;
 			if (inheritMethod == kQ3True)
 				{
 				// Use the copy inherit method to copy the attribute
-				copyInheritMethod = (TQ3XAttributeCopyInheritMethod) E3ClassTree_GetMethodByObject(theElement, kQ3XMethodTypeAttributeCopyInherit);
+				copyInheritMethod = (TQ3XAttributeCopyInheritMethod) theElement->GetMethod ( kQ3XMethodTypeAttributeCopyInherit ) ;
 				if (copyInheritMethod != NULL)
 					{
 					qd3dStatus    = kQ3Failure;
-					attributeData = Q3Memory_AllocateClear(E3ClassTree_GetInstanceSize(E3ClassTree_GetClassByObject(theElement)));
+					attributeData = Q3Memory_AllocateClear ( theElement->GetClass ()->GetInstanceSize () ) ;
 	
 					if (attributeData != NULL)
-						qd3dStatus = copyInheritMethod(E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf), attributeData); 
+						qd3dStatus = copyInheritMethod( theElement->FindLeafInstanceData (), attributeData); 
 	
 					if (qd3dStatus == kQ3Success)
 						qd3dStatus = E3Set_Add(theResult, theType, attributeData);
@@ -747,7 +747,7 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 	
 				// Or just copy it directly		
 				else
-					qd3dStatus = E3Set_Add(theResult, theType, E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf));
+					qd3dStatus = E3Set_Add(theResult, theType, theElement->FindLeafInstanceData () );
 				}
 			}
 
@@ -1813,14 +1813,10 @@ E3Set_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3SetObject
 E3Set_New(void)
-{	TQ3SetObject	theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3SharedTypeSet, kQ3False, NULL);
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance ( kQ3SharedTypeSet, kQ3False, NULL ) ;
+	}
 
 
 
@@ -1831,12 +1827,10 @@ E3Set_New(void)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3Set_GetType(TQ3SetObject theSet)
-{
-
-
+	{
 	// Return the type
-	return(E3ClassTree_GetObjectType(theSet, kQ3SharedTypeSet));
-}
+	return theSet->GetObjectType ( kQ3SharedTypeSet ) ;
+	}
 
 
 
@@ -1905,14 +1899,15 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 			TQ3ElementObject theElement = e3set_find_element ( & set->setData , theType ) ;
 			if ( theElement != NULL )
 				{
-				TQ3XElementCopyReplaceMethod copyReplaceMethod = (TQ3XElementCopyReplaceMethod) E3ClassTree_GetMethodByObject ( theElement, kQ3XMethodTypeElementCopyReplace ) ;
+				TQ3XElementCopyReplaceMethod copyReplaceMethod = (TQ3XElementCopyReplaceMethod)
+										theElement->GetMethod ( kQ3XMethodTypeElementCopyReplace ) ;
 				if (copyReplaceMethod != NULL)
-					qd3dStatus = copyReplaceMethod ( data, E3ClassTree_FindInstanceData ( theElement, kQ3ObjectTypeLeaf ) ) ;
+					qd3dStatus = copyReplaceMethod ( data, theElement->FindLeafInstanceData () ) ;
 				else
 					{
-					TQ3Uns32 dataSize = E3ClassTree_GetInstanceSize ( E3ClassTree_GetClassByObject ( theElement ) ) ;
+					TQ3Uns32 dataSize = theElement->GetClass ()->GetInstanceSize () ;
 					if ( dataSize > 0 )
-						Q3Memory_Copy ( data, E3ClassTree_FindInstanceData ( theElement, kQ3ObjectTypeLeaf ) , dataSize ) ;
+						Q3Memory_Copy ( data, theElement->FindLeafInstanceData () , dataSize ) ;
 					qd3dStatus = kQ3Success ;
 					}
 
@@ -1920,7 +1915,7 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 			else
 				{
 				// We don't have an existing element, so instantiate a new one
-				theElement = E3ClassTree_CreateInstance ( theType, kQ3False, data ) ;
+				theElement = E3ClassTree::CreateInstance ( theType, kQ3False, data ) ;
 				if ( theElement == NULL )
 					return kQ3Failure ;
 
@@ -2004,10 +1999,10 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 			if ( theElement == NULL )
 				return kQ3Failure ;
 
-			if ( E3ClassTree_GetClassByObject ( theElement ) == NULL )
+			if ( theElement->GetClass () == NULL )
 				return kQ3Failure ;
 				
-			TQ3Uns32 dataSize = E3ClassTree_GetInstanceSize ( E3ClassTree_GetClassByObject ( theElement) ) ;
+			TQ3Uns32 dataSize = theElement->GetClass ()->GetInstanceSize () ;
 
 
 			// If there's nothing to copy, bail. It is OK for dataSize to be 0, as the
@@ -2018,12 +2013,12 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 
 
 			// Copy the element data
-			TQ3XElementCopyGetMethod copyGetMethod = (TQ3XElementCopyGetMethod) E3ClassTree_GetMethodByObject ( theElement, kQ3XMethodTypeElementCopyGet ) ;
+			TQ3XElementCopyGetMethod copyGetMethod = (TQ3XElementCopyGetMethod) theElement->GetMethod ( kQ3XMethodTypeElementCopyGet ) ;
 			if ( copyGetMethod != NULL )
-				qd3dStatus = copyGetMethod ( E3ClassTree_FindInstanceData ( theElement, kQ3ObjectTypeLeaf ), (void*) data ) ;
+				qd3dStatus = copyGetMethod ( theElement->FindLeafInstanceData () , (void*) data ) ;
 			else
 				{
-				Q3Memory_Copy ( E3ClassTree_FindInstanceData ( theElement, kQ3ObjectTypeLeaf ) , data, dataSize ) ;
+				Q3Memory_Copy ( theElement->FindLeafInstanceData () , data, dataSize ) ;
 				qd3dStatus = kQ3Success ;
 				}
 		}
@@ -2584,13 +2579,10 @@ E3AttributeSet_Submit(TQ3AttributeSet theSet, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3AttributeSet
 E3AttributeSet_New(void)
-{	TQ3SetObject	theObject;
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3SetTypeAttribute, kQ3False, NULL);
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance ( kQ3SetTypeAttribute, kQ3False, NULL ) ;
+	}
 
 
 
@@ -2720,7 +2712,7 @@ TQ3XObjectClass
 E3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32 sizeOfElement, TQ3XMetaHandler metaHandler)
 	{
 	// Allocate a unique type for this class
-	*elementType = E3ClassTree_GetNextClassType () ;
+	*elementType = E3ClassTree::GetNextClassType () ;
 
 
 
@@ -2736,7 +2728,7 @@ E3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32
 
 
 	// Find the class
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( *elementType ) ;
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( *elementType ) ;
 
 	return (TQ3XObjectClass) theClass ;
 	}
@@ -2767,14 +2759,14 @@ E3XElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElemen
 
 
 	// Find the class
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( elementType ) ;
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( elementType ) ;
 	if ( theClass == NULL )
 		return kQ3Failure ;
 
 
 
 	// Get the size of the element	
-	*sizeOfElement = E3ClassTree_GetInstanceSize ( theClass ) ;
+	*sizeOfElement = theClass->GetInstanceSize () ;
 
 	return kQ3Success ;
 	}
@@ -2791,7 +2783,7 @@ TQ3XObjectClass
 E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorName, TQ3Uns32 sizeOfElement, TQ3XMetaHandler metaHandler)
 	{
 	// Allocate a unique type for this class
-	*attributeType = E3ClassTree_GetNextClassType () ;
+	*attributeType = E3ClassTree::GetNextClassType () ;
 
 
 
@@ -2807,7 +2799,7 @@ E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 
 
 	// Find the class
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( *attributeType ) ;
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( *attributeType ) ;
 
 	return (TQ3XObjectClass) theClass ;
 	}

@@ -1204,7 +1204,7 @@ E3Transform_GetMatrix(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix)
 
 	// Call the method, or revert to the identity matrix on error
 	if (matrixMethod != NULL)
-		matrixMethod(E3ClassTree_FindInstanceData(theTransform, kQ3ObjectTypeLeaf), theMatrix);
+		matrixMethod( theTransform->FindLeafInstanceData (), theMatrix);
 	else
 		Q3Matrix4x4_SetIdentity(theMatrix);
 	

@@ -64,9 +64,6 @@ extern "C" {
 //-----------------------------------------------------------------------------
 
 
-#define TQ3SharedData E3Shared
-//Whenever possible, change references to TQ3SharedData to E3Shared so this macro eventually becomes obsolete
-
 // Shared object data
 class E3Shared : public OpaqueTQ3Object
 	{

@@ -954,7 +954,7 @@ e3view_submit_retained_pick ( E3View* view, TQ3Object theObject )
 			
 		// Call the method
 		if ( submitMethod != NULL )
-			qd3dStatus = submitMethod ( view, E3ClassTree_GetType ( theClass ), theObject, E3ClassTree_FindInstanceData ( theObject, kQ3ObjectTypeLeaf ) ) ;
+			qd3dStatus = submitMethod ( view, E3ClassTree_GetType ( theClass ), theObject, theObject->FindLeafInstanceData () ) ;
 
 
 		// Reset the current hit target. Not strictly necessary (since we
@@ -996,7 +996,7 @@ e3view_submit_retained_write ( E3View* theView, TQ3Object theObject)
 	if ( submitMethod == NULL )
 		return kQ3Success ;
 		
-	return submitMethod ( theView, E3ClassTree_GetType ( theClass ), theObject, E3ClassTree_FindInstanceData ( theObject, kQ3ObjectTypeLeaf ) ) ;
+	return submitMethod ( theView, E3ClassTree_GetType ( theClass ), theObject, theObject->FindLeafInstanceData () ) ;
 	}
 
 
@@ -1019,7 +1019,7 @@ e3view_submit_retained_bounds ( E3View* theView, TQ3Object theObject )
 	if ( submitMethod == NULL )
 		return kQ3Success ;
 	
-	return submitMethod ( theView, E3ClassTree_GetType(theClass), theObject, E3ClassTree_FindInstanceData ( theObject, kQ3ObjectTypeLeaf ) ) ;
+	return submitMethod ( theView, E3ClassTree_GetType(theClass), theObject, theObject->FindLeafInstanceData () ) ;
 	}
 
 
@@ -1066,7 +1066,7 @@ e3view_submit_retained_render ( E3View* theView, TQ3Object theObject)
 
 	// Submit the object
 	if (qd3dStatus != kQ3Failure && submitMethod != NULL)
-		qd3dStatus = submitMethod ( theView, E3ClassTree_GetType ( theClass ), theObject, E3ClassTree_FindInstanceData ( theObject, kQ3ObjectTypeLeaf ) ) ;
+		qd3dStatus = submitMethod ( theView, E3ClassTree_GetType ( theClass ), theObject, theObject->FindLeafInstanceData () ) ;
 
 
 
