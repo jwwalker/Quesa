@@ -145,6 +145,8 @@ TQ3Status			IRRenderer_Update_Shader_Surface(
 								TQ3InteractiveData		*instanceData,
 								TQ3ShaderObject			*attributeData);
 
+GLfloat				IRRenderer_SpecularControl_to_GLshininess(
+								float					specularControl );
 
 
 
