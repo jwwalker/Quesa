@@ -4,7 +4,7 @@
   <object name="rootObject" class="NSCustomObject" id="1">
     <string name="customClass">NSApplication</string>
   </object>
-  <array count="69" name="allObjects">
+  <array count="71" name="allObjects">
     <object class="IBCarbonMenu" id="29">
       <string name="title">main</string>
       <array count="7" name="items">
@@ -87,13 +87,19 @@
           <object name="submenu" class="IBCarbonMenu" id="213">
             <string name="title">Renderers</string>
             <int name="menuID">131</int>
-            <array count="2" name="items">
+            <array count="4" name="items">
               <object class="IBCarbonMenuItem" id="215">
                 <string name="title">Show FPS</string>
                 <ostype name="command">Sfps</ostype>
               </object>
-              <object class="IBCarbonMenuItem" id="216">
-                <boolean name="separator">TRUE</boolean>
+              <object class="IBCarbonMenuItem" id="272">
+                <string name="title">16-bit Depth Buffer</string>
+              </object>
+              <object class="IBCarbonMenuItem" id="275">
+                <string name="title">32-bit Depth Buffer</string>
+              </object>
+              <object class="IBCarbonMenuItem" id="276">
+                <string name="title"> </string>
               </object>
             </array>
           </object>
@@ -422,7 +428,6 @@
     <reference idRef="213"/>
     <reference idRef="214"/>
     <reference idRef="215"/>
-    <reference idRef="216"/>
     <reference idRef="222"/>
     <reference idRef="223"/>
     <reference idRef="224"/>
@@ -476,8 +481,11 @@
         <string name="name">_NSAppleMenu</string>
       </object>
     </object>
+    <reference idRef="272"/>
+    <reference idRef="275"/>
+    <reference idRef="276"/>
   </array>
-  <array count="69" name="allParents">
+  <array count="71" name="allParents">
     <reference idRef="1"/>
     <reference idRef="29"/>
     <reference idRef="124"/>
@@ -507,7 +515,6 @@
     <reference idRef="125"/>
     <reference idRef="214"/>
     <reference idRef="29"/>
-    <reference idRef="213"/>
     <reference idRef="213"/>
     <reference idRef="224"/>
     <reference idRef="29"/>
@@ -547,6 +554,9 @@
     <reference idRef="233"/>
     <reference idRef="233"/>
     <reference idRef="29"/>
+    <reference idRef="213"/>
+    <reference idRef="213"/>
+    <reference idRef="213"/>
   </array>
   <dictionary count="4" name="nameTable">
     <string></string>
@@ -558,5 +568,5 @@
     <string>MainMenu</string>
     <reference idRef="29"/>
   </dictionary>
-  <unsigned_int name="nextObjectID">272</unsigned_int>
+  <unsigned_int name="nextObjectID">277</unsigned_int>
 </object>
