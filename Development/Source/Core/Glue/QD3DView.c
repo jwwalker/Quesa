@@ -796,9 +796,6 @@ Q3View_SetIdleMethod(TQ3ViewObject view, TQ3ViewIdleMethod idleMethod, const voi
 
 	if (0) // Further checks on idleMethod
 		return(kQ3Failure);
-
-	if (0) // Further checks on idleData
-		return(kQ3Failure);
 #endif
 
 
@@ -865,7 +862,6 @@ Q3View_SetEndFrameMethod(TQ3ViewObject view, TQ3ViewEndFrameMethod endFrame, voi
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(endFrameData), kQ3Failure);
 
 
 
@@ -875,9 +871,6 @@ Q3View_SetEndFrameMethod(TQ3ViewObject view, TQ3ViewEndFrameMethod endFrame, voi
 		return(kQ3Failure);
 
 	if (0) // Further checks on endFrame
-		return(kQ3Failure);
-
-	if (0) // Further checks on endFrameData
 		return(kQ3Failure);
 #endif
 
