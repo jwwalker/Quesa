@@ -1736,13 +1736,11 @@ E3Unknown_GetType(TQ3UnknownObject unknownObject)
 TQ3Status
 E3Unknown_GetDirtyState(TQ3UnknownObject unknownObject, TQ3Boolean *isDirty)
 {
-	TQ3Boolean	*parentData;
-	TQ3Object	parent = E3ClassTree_FindParentInstance (unknownObject, kQ3ShapeTypeUnknown);
+	TQ3Boolean	*parentData =(TQ3Boolean*)E3ClassTree_FindInstanceData (unknownObject, kQ3ShapeTypeUnknown);
 	
-	if(parent == NULL)
+	if(parentData == NULL)
 		return(kQ3Failure);
 	
-	parentData = (TQ3Boolean*)parent->instanceData;
 	
 	*isDirty = *parentData;
 
@@ -1759,13 +1757,10 @@ E3Unknown_GetDirtyState(TQ3UnknownObject unknownObject, TQ3Boolean *isDirty)
 TQ3Status
 E3Unknown_SetDirtyState(TQ3UnknownObject unknownObject, TQ3Boolean isDirty)
 {
-	TQ3Boolean	*parentData;
-	TQ3Object	parent = E3ClassTree_FindParentInstance (unknownObject, kQ3ShapeTypeUnknown);
+	TQ3Boolean	*parentData =(TQ3Boolean*)E3ClassTree_FindInstanceData (unknownObject, kQ3ShapeTypeUnknown);
 	
-	if(parent == NULL)
+	if(parentData == NULL)
 		return(kQ3Failure);
-	
-	parentData = (TQ3Boolean*)parent->instanceData;
 	
 	*parentData = isDirty;
 
