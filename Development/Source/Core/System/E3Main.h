@@ -60,13 +60,106 @@ extern "C" {
 
 
 //=============================================================================
+//      Macros
+//-----------------------------------------------------------------------------
+
+// N.B although we don't actually use _class yet we might one day
+#define Q3_CLASS_ENUMS(_type, _class, _parentClass) 			\
+public :														\
+	enum														\
+		{														\
+		classDepth = _parentClass::classDepth + 1 ,				\
+		classType = _type ,										\
+		parentType = _parentClass::classType					\
+		} ;														\
+private :		
+
+
+//=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
+
+
+
+// root object data
+class OpaqueTQ3Object
+	{
+public :
+	enum
+		{
+		classDepth = 0 ,
+		classType = kQ3ObjectTypeRoot
+		} ;
+private :
+
+	TQ3ObjectType				quesaTag ;
+	E3ClassInfoPtr				theClass ;
+	TQ3SetObject				theSet ;
+	
+#if Q3_DEBUG
+	TQ3Object					prev ;
+	TQ3Object					next ;
+	struct TQ3StackCrawlRec*	stackCrawl ;
+friend TQ3Status E3Memory_ForgetRecording ( void ) ;
+friend TQ3Uns32 E3Memory_CountRecords ( void ) ;
+friend TQ3Object E3Memory_NextRecordedObject ( TQ3Object inObject ) ;
+friend TQ3Status E3Memory_DumpRecording ( const char* fileName, const char* memo ) ;
+#endif
+
+
+// Private methods :
+
+	void						Verify () ;
+	TQ3Status					InitialiseInstanceData (	E3ClassInfoPtr	theClass ,
+															TQ3Boolean		sharedParams ,
+												   			const void		*paramData ) ;
+	void						DeleteInstanceData ( E3ClassInfoPtr	theClass ) ;
+	TQ3Status					DuplicateInstanceData ( TQ3Object		newObject ,
+														E3ClassInfoPtr	theClass ) ;
+
+
+
+public :
+
+
+	void						DestroyInstance ( void ) ;
+	TQ3Object					DuplicateInstance ( void ) ;
+	void*						FindLeafInstanceData ( void ) ;
+	TQ3ObjectType				GetObjectType ( TQ3ObjectType baseType ) ;
+	TQ3Object					GetLeafObject ( void ) ;
+	TQ3Boolean					IsObjectValid ( void ) { return (TQ3Boolean) ( quesaTag == kQ3ObjectTypeQuesa ) ; }
+
+
+	// Locate a class
+	E3ClassInfoPtr				GetClass ( void ) ;
+	TQ3XFunctionPointer 		GetMethod ( TQ3XMethodType methodType ) ;
+
+
+
+	TQ3Status  					AddElement ( TQ3ElementType theType, const void *theData ) ;
+	TQ3Status					GetElement ( TQ3ElementType theType, void *theData ) ;
+	TQ3Boolean					ContainsElement ( TQ3ElementType theType ) ;
+	TQ3Status					GetNextElementType ( TQ3ElementType *theType ) ;
+	TQ3Status					EmptyElements ( void ) ;
+	TQ3Status					ClearElement ( TQ3ElementType theType )	;
+	TQ3Status					GetSet ( TQ3SetObject *set ) ;
+	TQ3Status					SetSet ( TQ3SetObject set ) ;
+	TQ3Status					SubmitElements ( TQ3ViewObject inView ) ;
+	
+	
+	friend class E3ClassTree ;
+	friend class E3ClassInfo ;
+	friend TQ3Status			e3root_new ( TQ3Object theObject, void *privateData, void *paramData ) ;
+	friend TQ3Status			e3root_duplicate ( TQ3Object fromObject, const void *fromPrivateData, TQ3Object toObject, void *toPrivateData) ;
+	friend void					e3root_delete ( TQ3Object theObject, void *privateData ) ;
+	} ;
+
 
 
 // Shared object data
 class E3Shared : public OpaqueTQ3Object
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeShared, E3Shared, OpaqueTQ3Object )
 	TQ3Uns32		refCount;
 	TQ3Uns32		editIndex;
 	
@@ -79,6 +172,7 @@ class E3Shared : public OpaqueTQ3Object
 						 						
 public :
 
+
 	E3Shared*			GetReference ( void ) ;
 	TQ3Boolean			IsReferenced ( void ) ;
 	TQ3Uns32			GetReferenceCount ( void ) ;	
@@ -90,6 +184,7 @@ public :
 
 class E3ShapeData : public E3Shared
 	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeShape, E3ShapeData, E3Shared )
 	// Currently empty
 	} ;
 
