@@ -198,6 +198,32 @@ static void	qut_toggle_fps()
 
 
 
+//-----------------------------------------------------------------------------
+//		qut_set_depth_buffer: Change preferred depth buffer bit depth.
+//-----------------------------------------------------------------------------
+static void qut_set_depth_buffer( TQ3Uns32 inDepthBits )
+{
+	TQ3DrawContextObject	drawContext = NULL;
+	
+	Q3View_GetDrawContext( gView, &drawContext );
+	
+	if (drawContext != NULL)
+	{
+	#if TARGET_API_MAC_CARBON
+		TQ3Object	theRenderer;
+		Q3View_GetRenderer( gView, &theRenderer );
+		Q3Object_AddElement( theRenderer, kQ3ElementTypeDepthBits, &inDepthBits );
+		Q3Object_Dispose( theRenderer );
+	#endif
+		
+		Q3Object_Dispose( drawContext );
+	}
+}
+
+
+
+
+
 //=============================================================================
 //		qut_update_fps_display : Draw the frames per second in the
 //								title bar of the window.
@@ -349,13 +375,26 @@ qut_carbon_command_event(EventHandlerCallRef inHandlerCallRef,
     switch(GetMenuID(command.menu.menuRef))
     {
       case kMenuRenderer:
-			if (command.menu.menuItemIndex == 1)
-				{
-				qut_toggle_fps();
-				}
-			else
-				Q3View_SetRendererByType(gView, gRenderers[command.menu.menuItemIndex - 1]);
+      		switch (command.menu.menuItemIndex)
+      		{
+      			case 1:
+      				qut_toggle_fps();
+      				break;
+      			
+      			case 2:
+      				qut_set_depth_buffer( 16 );
+      				break;
+      			
+      			case 3:
+      				qut_set_depth_buffer( 32 );
+      				break;
+      			
+      			default:
+      				Q3View_SetRendererByType(gView, gRenderers[command.menu.menuItemIndex - 1]);
+      				break;
+      		}
 			break;
+
       case kMenuStyle:
 			Qut_InvokeStyleCommand(command.menu.menuItemIndex);
         break;
@@ -654,12 +693,24 @@ qut_classic_handle_menu(TQ3Uns32 menuInfo)
 
 		// Handle renderer menu
 		case kMenuRenderer:
-			if (menuItem == 1)
-				{
-				qut_toggle_fps();
-				}
-			else
-				Q3View_SetRendererByType(gView, gRenderers[menuItem - 1]);
+      		switch (menuItem)
+      		{
+      			case 1:
+      				qut_toggle_fps();
+      				break;
+      			
+      			case 2:
+      				qut_set_depth_buffer( 16 );
+      				break;
+      			
+      			case 3:
+      				qut_set_depth_buffer( 32 );
+      				break;
+      			
+      			default:
+      				Q3View_SetRendererByType(gView, gRenderers[menuItem - 1]);
+      				break;
+      		}
 			break;
 
 
@@ -763,10 +814,12 @@ qut_build_renderer_menu(void)
 	// If we can find any renderers, add them to the menu
 	if (rendererData.numClasses != 0)
 		{
-		// First two slots are already used
+		// First 4 slots are already used
 		gRenderers[0] = kQ3ObjectTypeInvalid;
 		gRenderers[1] = kQ3ObjectTypeInvalid;
-		m = 2;
+		gRenderers[2] = kQ3ObjectTypeInvalid;
+		gRenderers[3] = kQ3ObjectTypeInvalid;
+		m = 4;
 		
 		
 		// Fill the remaining slots
@@ -788,9 +841,9 @@ qut_build_renderer_menu(void)
 					if (theStr[0] != 0x00)
 						{
 						AppendMenu(theMenu, theStr);				
-						SetMenuItemText(theMenu, n + 3, theStr);
+						SetMenuItemText(theMenu, m + 1, theStr);
 #if QUT_MAC_CARBON_EVENTS                        
-                        SetMenuItemCommandID(theMenu, n + 3, kQutCommandUseRenderer);
+                        SetMenuItemCommandID(theMenu, m + 1, kQutCommandUseRenderer);
 #endif                       
 						gRenderers[m++] = rendererData.classTypes[n];
 						}
