@@ -710,18 +710,6 @@ e3fformat_3dmf_geometry_caps_read(TQ3FileObject theFile)
 
 
 
-//=============================================================================
-//      e3fformat_3dmf_geometry_caps_write : Cylinder and Cone Caps write method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3fformat_3dmf_geometry_caps_write( const TQ3Uns32* inCapsFlag, TQ3FileObject theFile )
-{
-	TQ3Status	status = Q3Uns32_Write( *inCapsFlag, theFile );
-	
-	return status;
-}
-
-
 
 
 
@@ -741,7 +729,7 @@ e3fformat_3dmf_geometry_caps_metahandler(TQ3XMethodType methodType)
 			break;
 			
 		case kQ3XMethodTypeObjectWrite:
-			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_geometry_caps_write;
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_32_Write;
 			break;
 			
 		}
@@ -1912,6 +1900,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeTransparencyColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_TransparencyColor);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSurfaceTangent,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SurfaceTangent);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeHighlightState,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_HighlightState);
+	E3ClassTree_AddMethodByType(kQ3AttributeTypeConstructiveSolidGeometryID,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_CSGID);
 
 	E3ClassTree_AddMethodByType(kQ3TextureTypePixmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Texture_Pixmap);
 	E3ClassTree_AddMethodByType(kQ3TextureTypeMipmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Texture_Mipmap);

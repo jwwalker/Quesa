@@ -815,6 +815,24 @@ E3FFW_3DMF_Void_Traverse(TQ3Object object,
 
 
 //=============================================================================
+//      E3FFW_3DMF_32_Traverse: The Generic traverse method for 32 bits Data.
+//-----------------------------------------------------------------------------
+
+TQ3Status
+E3FFW_3DMF_32_Traverse(TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 16, data, NULL);
+	
+	return qd3dstatus;
+}
+
+
+
+//=============================================================================
 //      E3FFW_3DMF_32_Write: The Generic write method for 32 bits Data.
 //-----------------------------------------------------------------------------
 
@@ -853,7 +871,6 @@ E3FFW_3DMF_Traverse(TQ3Object object,
 					 TQ3ViewObject view)
 {
 	#pragma unused(object)
-	#pragma unused(data)
 	
 	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 16, data, NULL);
 	

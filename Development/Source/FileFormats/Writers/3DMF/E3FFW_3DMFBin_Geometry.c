@@ -722,27 +722,6 @@ e3ffw_3DMF_attribute_surfacetangent_write(const TQ3Tangent2D *object,
 
 
 //=============================================================================
-//      e3ffw_3DMF_attribute_highlightstate_write : Highlight state attribute write method.
-//-----------------------------------------------------------------------------
-
-static TQ3Status
-e3ffw_3DMF_attribute_highlightstate_write(const TQ3Uns32 *object,
-				TQ3FileObject theFile)
-{
-
-	TQ3Status writeStatus;
-	
-	writeStatus = Q3Uns32_Write(*object,theFile);
-	
-	
-	return(writeStatus);
-}
-
-
-
-
-
-//=============================================================================
 //      Shaders
 //-----------------------------------------------------------------------------
 //      e3ffw_3DMF_shader_traverse : Shader traverse method.
@@ -3346,7 +3325,10 @@ E3FFW_3DMF_RegisterGeom(void)
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSpecularControl,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_specularcontrol_write);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeTransparencyColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_transparencycolor_write);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSurfaceTangent,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_surfacetangent_write);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeHighlightState,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_highlightstate_write);
+	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeHighlightState,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
+	
+	E3ClassTree_AddMethodByType(kQ3AttributeTypeConstructiveSolidGeometryID,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_32_Traverse);
+	E3ClassTree_AddMethodByType(kQ3AttributeTypeConstructiveSolidGeometryID,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
 
 	E3ClassTree_AddMethodByType(kQ3TextureTypePixmap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_pixmap_traverse);
 	E3ClassTree_AddMethodByType(kQ3TextureTypePixmap,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_pixmap_write);

@@ -95,6 +95,7 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 TQ3Status			E3FFW_3DMF_Void_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
 void					E3FFW_3DMF_Default_Delete(void *data);
 TQ3Status			E3FFW_3DMF_32_Write(const void *object,  TQ3FileObject theFile);
+TQ3Status			E3FFW_3DMF_32_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
 
 TQ3Status			E3FFW_3DMF_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
 TQ3Status			E3FFW_3DMF_Write(const void *object,  TQ3FileObject theFile);
