@@ -1004,7 +1004,9 @@ e3group_display_new(TQ3Object theObject, void *privateData, const void *paramDat
 		return(kQ3Failure);
 	
 	// initialise the group data
-	instanceData->state = kQ3DisplayGroupStateMaskIsDrawn | kQ3DisplayGroupStateMaskIsPicked;
+	instanceData->state =  kQ3DisplayGroupStateMaskIsDrawn | kQ3DisplayGroupStateMaskIsPicked
+													| kQ3DisplayGroupStateMaskIsWritten;
+
 	instanceData->bBox.min.x = 0.0f;
 	instanceData->bBox.min.y = 0.0f;
 	instanceData->bBox.min.z = 0.0f;
@@ -1121,7 +1123,6 @@ e3group_display_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 			((viewMode  == kQ3ViewModeDrawing	 ) && (state & kQ3DisplayGroupStateMaskIsDrawn))
 		||  ((viewMode  == kQ3ViewModePicking	 ) && (state & kQ3DisplayGroupStateMaskIsPicked))
 		||   (viewMode  == kQ3ViewModeCalcBounds )
-		||   (viewMode  == kQ3ViewModeWriting	 )
 		)
 			{
 			qd3dStatus = e3group_display_submit_contents(me, theView,state);

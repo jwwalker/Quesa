@@ -1240,7 +1240,7 @@ e3geom_mesh_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_mesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TE3MeshData *geomData)
-{	TQ3GroupObject		theGroup;
+{	TQ3GroupObject					theGroup;
 #pragma unused(theView)
 
 
@@ -1259,6 +1259,7 @@ e3geom_mesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TE
 	// Finish off the group state (in-line, since we don't make any view state changes)
 	Q3DisplayGroup_SetState(theGroup, kQ3DisplayGroupStateMaskIsInline |
 									  kQ3DisplayGroupStateMaskIsDrawn  |
+									  kQ3DisplayGroupStateMaskIsWritten |
 									  kQ3DisplayGroupStateMaskIsPicked);
 
 	return(theGroup);

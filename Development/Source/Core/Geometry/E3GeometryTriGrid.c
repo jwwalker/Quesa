@@ -323,6 +323,7 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		// Finish off the group state (in-line, since we don't make any view state changes)
 		Q3DisplayGroup_SetState(theGroup, kQ3DisplayGroupStateMaskIsInline |
 										  kQ3DisplayGroupStateMaskIsDrawn  |
+									  	kQ3DisplayGroupStateMaskIsWritten |
 										  kQ3DisplayGroupStateMaskIsPicked);
 
 		return theGroup;
