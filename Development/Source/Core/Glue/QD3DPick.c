@@ -80,7 +80,6 @@ Q3Pick_GetType(TQ3PickObject pick)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3ObjectTypeInvalid);
 
 
@@ -115,8 +114,7 @@ Q3Pick_GetData(TQ3PickObject pick, TQ3PickData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -154,8 +152,7 @@ Q3Pick_SetData(TQ3PickObject pick, const TQ3PickData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -193,8 +190,7 @@ Q3Pick_GetVertexTolerance(TQ3PickObject pick, float *vertexTolerance)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vertexTolerance), kQ3Failure);
 
 
@@ -232,8 +228,7 @@ Q3Pick_GetEdgeTolerance(TQ3PickObject pick, float *edgeTolerance)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(edgeTolerance), kQ3Failure);
 
 
@@ -271,8 +266,7 @@ Q3Pick_SetVertexTolerance(TQ3PickObject pick, float vertexTolerance)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 
 
 
@@ -309,8 +303,7 @@ Q3Pick_SetEdgeTolerance(TQ3PickObject pick, float edgeTolerance)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 
 
 
@@ -347,8 +340,7 @@ Q3Pick_GetNumHits(TQ3PickObject pick, TQ3Uns32 *numHits)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numHits), kQ3Failure);
 
 
@@ -386,8 +378,7 @@ Q3Pick_EmptyHitList(TQ3PickObject pick)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 
 
 
@@ -421,8 +412,7 @@ Q3Pick_GetPickDetailValidMask(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pickDetailValidMask), kQ3Failure);
 
 
@@ -463,8 +453,7 @@ Q3Pick_GetPickDetailData(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail pickD
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(detailData), kQ3Failure);
 
 
@@ -576,8 +565,7 @@ Q3WindowPointPick_GetPoint(TQ3PickObject pick, TQ3Point2D *point)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point), kQ3Failure);
 
 
@@ -615,8 +603,7 @@ Q3WindowPointPick_SetPoint(TQ3PickObject pick, const TQ3Point2D *point)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point), kQ3Failure);
 
 
@@ -654,8 +641,7 @@ Q3WindowPointPick_GetData(TQ3PickObject pick, TQ3WindowPointPickData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -693,8 +679,7 @@ Q3WindowPointPick_SetData(TQ3PickObject pick, const TQ3WindowPointPickData *data
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -766,8 +751,7 @@ Q3WindowRectPick_GetRect(TQ3PickObject pick, TQ3Area *rect)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rect), kQ3Failure);
 
 
@@ -805,8 +789,7 @@ Q3WindowRectPick_SetRect(TQ3PickObject pick, const TQ3Area *rect)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rect), kQ3Failure);
 
 
@@ -844,8 +827,7 @@ Q3WindowRectPick_GetData(TQ3PickObject pick, TQ3WindowRectPickData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -883,8 +865,7 @@ Q3WindowRectPick_SetData(TQ3PickObject pick, const TQ3WindowRectPickData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -956,8 +937,7 @@ Q3WorldRayPick_GetRay(TQ3PickObject pick, TQ3Ray3D *ray)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ray), kQ3Failure);
 
 
@@ -995,8 +975,7 @@ Q3WorldRayPick_SetRay(TQ3PickObject pick, const TQ3Ray3D *ray)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ray), kQ3Failure);
 
 
@@ -1034,8 +1013,7 @@ Q3WorldRayPick_GetData(TQ3PickObject pick, TQ3WorldRayPickData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1073,8 +1051,7 @@ Q3WorldRayPick_SetData(TQ3PickObject pick, const TQ3WorldRayPickData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pick->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, kQ3ObjectTypePick), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1112,7 +1089,6 @@ Q3ShapePart_GetType(TQ3ShapePartObject shapePartObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shapePartObject->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shapePartObject, kQ3SharedTypeShapePart), kQ3ObjectTypeInvalid);
 
 
@@ -1147,7 +1123,6 @@ Q3MeshPart_GetType(TQ3MeshPartObject meshPartObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(meshPartObject->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(meshPartObject, kQ3ShapePartTypeMeshPart), kQ3ObjectTypeInvalid);
 
 
@@ -1182,8 +1157,7 @@ Q3ShapePart_GetShape(TQ3ShapePartObject shapePartObject, TQ3ShapeObject *shapeOb
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shapePartObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shapePartObject, kQ3SharedTypeShapePart), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shapePartObject, (kQ3SharedTypeShapePart)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(shapeObject), kQ3Failure);
 
 
@@ -1221,8 +1195,7 @@ Q3MeshPart_GetComponent(TQ3MeshPartObject meshPartObject, TQ3MeshComponent *comp
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(meshPartObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(meshPartObject, kQ3ShapePartTypeMeshPart), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(meshPartObject, (kQ3ShapePartTypeMeshPart)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(component), kQ3Failure);
 
 
@@ -1260,8 +1233,7 @@ Q3MeshFacePart_GetFace(TQ3MeshFacePartObject meshFacePartObject, TQ3MeshFace *fa
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(meshFacePartObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(meshFacePartObject, kQ3MeshPartTypeMeshFacePart), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(meshFacePartObject, (kQ3MeshPartTypeMeshFacePart)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(face), kQ3Failure);
 
 
@@ -1299,8 +1271,7 @@ Q3MeshEdgePart_GetEdge(TQ3MeshEdgePartObject meshEdgePartObject, TQ3MeshEdge *ed
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(meshEdgePartObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(meshEdgePartObject, kQ3MeshPartTypeMeshEdgePart), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(meshEdgePartObject, (kQ3MeshPartTypeMeshEdgePart)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(edge), kQ3Failure);
 
 
@@ -1338,8 +1309,7 @@ Q3MeshVertexPart_GetVertex(TQ3MeshVertexPartObject meshVertexPartObject, TQ3Mesh
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(meshVertexPartObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(meshVertexPartObject, kQ3MeshPartTypeMeshVertexPart), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(meshVertexPartObject, (kQ3MeshPartTypeMeshVertexPart)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vertex), kQ3Failure);
 
 

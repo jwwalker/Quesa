@@ -459,8 +459,7 @@ Q3Controller_SetTracker(TQ3ControllerRef controllerRef, TQ3TrackerObject tracker
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(tracker->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(tracker, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(tracker, (kQ3SharedTypeTracker)), kQ3Failure);
 
 
 
@@ -1024,8 +1023,7 @@ Q3ControllerState_SaveAndReset(TQ3ControllerStateObject controllerStateObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(controllerStateObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(controllerStateObject, kQ3SharedTypeControllerState), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(controllerStateObject, (kQ3SharedTypeControllerState)), kQ3Failure);
 
 
 
@@ -1059,8 +1057,7 @@ Q3ControllerState_Restore(TQ3ControllerStateObject controllerStateObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(controllerStateObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(controllerStateObject, kQ3SharedTypeControllerState), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(controllerStateObject, (kQ3SharedTypeControllerState)), kQ3Failure);
 
 
 
@@ -1127,8 +1124,7 @@ Q3Tracker_SetNotifyThresholds(TQ3TrackerObject trackerObject, float positionThre
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 
 
 
@@ -1168,8 +1164,7 @@ Q3Tracker_GetNotifyThresholds(TQ3TrackerObject trackerObject, float *positionThr
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(positionThresh), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientationThresh), kQ3Failure);
 
@@ -1211,8 +1206,7 @@ Q3Tracker_SetActivation(TQ3TrackerObject trackerObject, TQ3Boolean active)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 
 
 
@@ -1249,8 +1243,7 @@ Q3Tracker_GetActivation(TQ3TrackerObject trackerObject, TQ3Boolean *active)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(active), kQ3Failure);
 
 
@@ -1288,8 +1281,7 @@ Q3Tracker_GetButtons(TQ3TrackerObject trackerObject, TQ3Uns32 *buttons)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(buttons), kQ3Failure);
 
 
@@ -1327,8 +1319,7 @@ Q3Tracker_ChangeButtons(TQ3TrackerObject trackerObject, TQ3ControllerRef control
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 
 
 
@@ -1371,8 +1362,7 @@ Q3Tracker_GetPosition(TQ3TrackerObject trackerObject, TQ3Point3D *position, TQ3V
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(delta), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(changed), kQ3Failure);
@@ -1422,8 +1412,7 @@ Q3Tracker_SetPosition(TQ3TrackerObject trackerObject, TQ3ControllerRef controlle
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -1464,8 +1453,7 @@ Q3Tracker_MovePosition(TQ3TrackerObject trackerObject, TQ3ControllerRef controll
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(delta), kQ3Failure);
 
 
@@ -1506,8 +1494,7 @@ Q3Tracker_GetOrientation(TQ3TrackerObject trackerObject, TQ3Quaternion *orientat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(delta), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(changed), kQ3Failure);
@@ -1557,8 +1544,7 @@ Q3Tracker_SetOrientation(TQ3TrackerObject trackerObject, TQ3ControllerRef contro
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -1599,8 +1585,7 @@ Q3Tracker_MoveOrientation(TQ3TrackerObject trackerObject, TQ3ControllerRef contr
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(delta), kQ3Failure);
 
 
@@ -1641,8 +1626,7 @@ Q3Tracker_SetEventCoordinates(TQ3TrackerObject trackerObject, TQ3Uns32 timeStamp
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
@@ -1690,8 +1674,7 @@ Q3Tracker_GetEventCoordinates(TQ3TrackerObject trackerObject, TQ3Uns32 timeStamp
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(trackerObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, kQ3SharedTypeTracker), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(trackerObject, (kQ3SharedTypeTracker)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(buttons), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);

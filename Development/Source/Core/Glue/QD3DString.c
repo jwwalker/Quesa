@@ -80,7 +80,6 @@ Q3String_GetType(TQ3StringObject stringObj)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(stringObj->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(stringObj, kQ3SharedTypeString), kQ3ObjectTypeInvalid);
 
 
@@ -149,8 +148,7 @@ Q3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(stringObj->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(stringObj, kQ3SharedTypeString), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(stringObj, (kQ3SharedTypeString)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(length), kQ3Failure);
 
 
@@ -188,8 +186,7 @@ Q3CString_SetString(TQ3StringObject stringObj, const char *str)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(stringObj->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(stringObj, kQ3SharedTypeString), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(stringObj, (kQ3SharedTypeString)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(str), kQ3Failure);
 
 
@@ -227,8 +224,7 @@ Q3CString_GetString(TQ3StringObject stringObj, char **str)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(stringObj->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(stringObj, kQ3SharedTypeString), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(stringObj, (kQ3SharedTypeString)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(str), kQ3Failure);
 
 

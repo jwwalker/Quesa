@@ -112,7 +112,6 @@ Q3Renderer_GetType(TQ3RendererObject renderer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3ObjectTypeInvalid);
 
 
@@ -147,7 +146,6 @@ Q3Renderer_IsInteractive(TQ3RendererObject renderer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3False);
 
 
@@ -182,7 +180,6 @@ Q3Renderer_HasModalConfigure(TQ3RendererObject renderer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3False);
 
 
@@ -217,8 +214,7 @@ Q3Renderer_ModalConfigure(TQ3RendererObject renderer, TQ3DialogAnchor dialogAnch
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cancelled), kQ3Failure);
 
 
@@ -295,8 +291,7 @@ Q3Renderer_GetConfigurationData(TQ3RendererObject renderer, unsigned char *dataB
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dataBuffer), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(actualDataSize), kQ3Failure);
 
@@ -341,8 +336,7 @@ Q3Renderer_SetConfigurationData(TQ3RendererObject renderer, unsigned char *dataB
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dataBuffer), kQ3Failure);
 
 
@@ -383,8 +377,7 @@ Q3InteractiveRenderer_SetCSGEquation(TQ3RendererObject renderer, TQ3CSGEquation 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 
 
 
@@ -421,8 +414,7 @@ Q3InteractiveRenderer_GetCSGEquation(TQ3RendererObject renderer, TQ3CSGEquation 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(equation), kQ3Failure);
 
 
@@ -460,8 +452,7 @@ Q3InteractiveRenderer_SetPreferences(TQ3RendererObject renderer, TQ3RaveVendorID
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 
 
 
@@ -501,8 +492,7 @@ Q3InteractiveRenderer_GetPreferences(TQ3RendererObject renderer, TQ3RaveVendorID
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vendorID), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(engineID), kQ3Failure);
 
@@ -544,8 +534,7 @@ Q3InteractiveRenderer_SetDoubleBufferBypass(TQ3RendererObject renderer, TQ3Boole
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 
 
 
@@ -582,8 +571,7 @@ Q3InteractiveRenderer_GetDoubleBufferBypass(TQ3RendererObject renderer, TQ3Boole
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bypass), kQ3Failure);
 
 
@@ -621,8 +609,7 @@ Q3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject renderer, TQ3Uns32 R
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 
 
 
@@ -659,8 +646,7 @@ Q3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject renderer, TQ3Uns32 *
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(RAVEContextHints), kQ3Failure);
 
 
@@ -698,8 +684,7 @@ Q3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject renderer, TQ3Textur
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 
 
 
@@ -736,8 +721,7 @@ Q3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject renderer, TQ3Textur
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(raveTextureFilterValue), kQ3Failure);
 
 
@@ -775,8 +759,7 @@ Q3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject renderer, TQ3Uns32
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numRAVEContexts), kQ3Failure);
 
 
@@ -814,8 +797,7 @@ Q3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject renderer, TQADrawCon
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(raveDrawContextList), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(raveDrawingEnginesList), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numRAVEContexts), kQ3Failure);
@@ -864,8 +846,7 @@ Q3XView_IdleProgress(TQ3ViewObject view, TQ3Uns32 current, TQ3Uns32 completed)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -905,8 +886,7 @@ Q3XView_EndFrame(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -940,8 +920,7 @@ Q3XDrawContext_GetDrawRegion(TQ3DrawContextObject drawContext, TQ3XDrawRegion *d
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(drawContext->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, kQ3SharedTypeDrawContext), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawRegion), kQ3Failure);
 
 
@@ -979,8 +958,7 @@ Q3XDrawContext_ClearValidationFlags(TQ3DrawContextObject drawContext)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(drawContext->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, kQ3SharedTypeDrawContext), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
 
 
 
@@ -1014,8 +992,7 @@ Q3XDrawContext_GetValidationFlags(TQ3DrawContextObject drawContext, TQ3XDrawCont
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(drawContext->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, kQ3SharedTypeDrawContext), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(validationFlags), kQ3Failure);
 
 

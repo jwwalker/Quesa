@@ -84,8 +84,7 @@ Q3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -111,8 +110,7 @@ Q3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -180,8 +178,7 @@ Q3File_GetStorage(TQ3FileObject theFile, TQ3StorageObject *storage)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(storage), kQ3Failure);
 
 
@@ -219,8 +216,7 @@ Q3File_SetStorage(TQ3FileObject theFile, TQ3StorageObject storage)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 	// storage can be NULL
 
 
@@ -257,8 +253,7 @@ Q3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -295,8 +290,7 @@ Q3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -333,8 +327,7 @@ Q3File_IsOpen(TQ3FileObject theFile, TQ3Boolean *isOpen)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(isOpen), kQ3Failure);
 
 
@@ -372,8 +365,7 @@ Q3File_GetMode(TQ3FileObject theFile, TQ3FileMode *mode)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(mode), kQ3Failure);
 
 
@@ -411,8 +403,7 @@ Q3File_GetVersion(TQ3FileObject theFile, TQ3FileVersion *version)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(version), kQ3Failure);
 
 
@@ -450,8 +441,7 @@ Q3File_Close(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -485,8 +475,7 @@ Q3File_Cancel(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -520,10 +509,8 @@ Q3View_StartWriting(TQ3ViewObject view, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -560,7 +547,6 @@ Q3View_EndWriting(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3ViewStatusError);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3ViewStatusError);
 
 
@@ -595,7 +581,6 @@ Q3File_GetNextObjectType(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3ObjectTypeInvalid);
 
 
@@ -630,7 +615,6 @@ Q3File_IsNextObjectOfType(TQ3FileObject theFile, TQ3ObjectType ofType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3False);
 
 
@@ -668,7 +652,6 @@ Q3File_ReadObject(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), NULL);
 
 
@@ -703,8 +686,7 @@ Q3File_SkipObject(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -738,7 +720,6 @@ Q3File_IsEndOfData(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3False);
 
 
@@ -773,7 +754,6 @@ Q3File_IsEndOfContainer(TQ3FileObject theFile, TQ3Object rootObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3False);
 	// rootObject can be NULL
 
@@ -811,7 +791,6 @@ Q3File_IsEndOfFile(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3False);
 
 
@@ -846,10 +825,8 @@ Q3File_MarkAsExternalReference(TQ3FileObject theFile, TQ3SharedObject sharedObje
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(sharedObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, kQ3ObjectTypeShared), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, (kQ3ObjectTypeShared)), kQ3Failure);
 
 
 
@@ -886,7 +863,6 @@ Q3File_GetExternalReferences(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), NULL);
 
 
@@ -921,8 +897,7 @@ Q3Shared_ClearEditTracking(TQ3SharedObject sharedObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(sharedObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, kQ3ObjectTypeShared), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, (kQ3ObjectTypeShared)), kQ3Failure);
 
 
 
@@ -956,7 +931,6 @@ Q3Shared_GetEditTrackingState(TQ3SharedObject sharedObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(sharedObject->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, kQ3ObjectTypeShared), kQ3False);
 
 
@@ -991,8 +965,7 @@ Q3File_SetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState readGroupStat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1029,8 +1002,7 @@ Q3File_GetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState *readGroupSta
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(readGroupState), kQ3Failure);
 
 
@@ -1068,8 +1040,7 @@ Q3File_SetIdleMethod(TQ3FileObject theFile, TQ3FileIdleMethod idle, const void *
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1109,8 +1080,7 @@ Q3NewLine_Write(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1145,8 +1115,7 @@ Q3Uns8_Read(TQ3Uns8 *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1186,8 +1155,7 @@ Q3Uns8_ReadArray (
 {
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(intArray), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 	
 
@@ -1213,8 +1181,7 @@ Q3Uns8_Write(TQ3Uns8 data, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1252,8 +1219,7 @@ Q3Uns16_Read(TQ3Uns16 *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1293,8 +1259,7 @@ Q3Uns16_ReadArray (
 {
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(intArray), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 	
 
@@ -1320,8 +1285,7 @@ Q3Uns16_Write(TQ3Uns16 data, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1359,8 +1323,7 @@ Q3Uns32_Read(TQ3Uns32 *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1400,8 +1363,7 @@ Q3Uns32_ReadArray (
 {
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(intArray), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 	
 
@@ -1427,8 +1389,7 @@ Q3Uns32_Write(TQ3Uns32 data, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1466,8 +1427,7 @@ Q3Int8_Read(TQ3Int8 *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1504,8 +1464,7 @@ Q3Int8_Write(TQ3Int8 data, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1543,8 +1502,7 @@ Q3Int16_Read(TQ3Int16 *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1581,8 +1539,7 @@ Q3Int16_Write(TQ3Int16 data, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1620,8 +1577,7 @@ Q3Int32_Read(TQ3Int32 *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1658,8 +1614,7 @@ Q3Int32_Write(TQ3Int32 data, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1697,8 +1652,7 @@ Q3Uns64_Read(TQ3Uns64 *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1735,8 +1689,7 @@ Q3Uns64_Write(TQ3Uns64 data, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1774,8 +1727,7 @@ Q3Int64_Read(TQ3Int64 *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1812,8 +1764,7 @@ Q3Int64_Write(TQ3Int64 data, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1851,8 +1802,7 @@ Q3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1892,8 +1842,7 @@ Q3Float32_ReadArray (
 {
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(floatArray), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 	
 
@@ -1919,8 +1868,7 @@ Q3Float32_Write(TQ3Float32 data, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1958,8 +1906,7 @@ Q3Float64_Read(TQ3Float64 *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -1996,8 +1943,7 @@ Q3Float64_Write(TQ3Float64 data, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2068,8 +2014,7 @@ Q3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(length), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2111,8 +2056,7 @@ Q3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ioLength), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2154,8 +2098,7 @@ Q3String_Write(const char *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2193,8 +2136,7 @@ Q3String_WriteUnlimited(const char *data, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2232,8 +2174,7 @@ Q3RawData_Read(unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2274,8 +2215,7 @@ Q3RawData_Write(const unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2316,8 +2256,7 @@ Q3Point2D_Read(TQ3Point2D *point2D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2355,8 +2294,7 @@ Q3Point2D_Write(const TQ3Point2D *point2D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2394,8 +2332,7 @@ Q3Point3D_Read(TQ3Point3D *point3D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2433,8 +2370,7 @@ Q3Point3D_Write(const TQ3Point3D *point3D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2472,8 +2408,7 @@ Q3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2511,8 +2446,7 @@ Q3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, TQ3FileObject theFile
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2550,8 +2484,7 @@ Q3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2589,8 +2522,7 @@ Q3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, TQ3FileObject theFile
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2628,8 +2560,7 @@ Q3Vector2D_Read(TQ3Vector2D *vector2D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2667,8 +2598,7 @@ Q3Vector2D_Write(const TQ3Vector2D *vector2D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2706,8 +2636,7 @@ Q3Vector3D_Read(TQ3Vector3D *vector3D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2745,8 +2674,7 @@ Q3Vector3D_Write(const TQ3Vector3D *vector3D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2784,8 +2712,7 @@ Q3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2823,8 +2750,7 @@ Q3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2862,8 +2788,7 @@ Q3Tangent2D_Read(TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(tangent2D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2901,8 +2826,7 @@ Q3Tangent2D_Write(const TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(tangent2D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2940,8 +2864,7 @@ Q3Tangent3D_Read(TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(tangent3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -2979,8 +2902,7 @@ Q3Tangent3D_Write(const TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(tangent3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -3018,8 +2940,7 @@ Q3Comment_Write(char *comment, TQ3FileObject theFile)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(comment), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
 
@@ -3056,7 +2977,6 @@ Q3Unknown_GetType(TQ3UnknownObject unknownObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(unknownObject->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, kQ3ShapeTypeUnknown), kQ3ObjectTypeInvalid);
 
 
@@ -3091,8 +3011,7 @@ Q3Unknown_GetDirtyState(TQ3UnknownObject unknownObject, TQ3Boolean *isDirty)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(unknownObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, kQ3ShapeTypeUnknown), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, (kQ3ShapeTypeUnknown)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(isDirty), kQ3Failure);
 
 
@@ -3130,8 +3049,7 @@ Q3Unknown_SetDirtyState(TQ3UnknownObject unknownObject, TQ3Boolean isDirty)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(unknownObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, kQ3ShapeTypeUnknown), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, (kQ3ShapeTypeUnknown)), kQ3Failure);
 
 
 
@@ -3168,8 +3086,7 @@ Q3UnknownText_GetData(TQ3UnknownObject unknownObject, TQ3UnknownTextData *unknow
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(unknownObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, kQ3ShapeTypeUnknown), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, (kQ3ShapeTypeUnknown)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(unknownTextData), kQ3Failure);
 
 
@@ -3241,8 +3158,7 @@ Q3UnknownBinary_GetData(TQ3UnknownObject unknownObject, TQ3UnknownBinaryData *un
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(unknownObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, kQ3ShapeTypeUnknown), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, (kQ3ShapeTypeUnknown)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(unknownBinaryData), kQ3Failure);
 
 
@@ -3314,8 +3230,7 @@ Q3UnknownBinary_GetTypeString(TQ3UnknownObject unknownObject, char **typeString)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(unknownObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, kQ3ShapeTypeUnknown), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(unknownObject, (kQ3ShapeTypeUnknown)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(typeString), kQ3Failure);
 
 
@@ -3387,7 +3302,6 @@ Q3ViewHints_New(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), NULL);
 
 
@@ -3422,10 +3336,8 @@ Q3ViewHints_SetRenderer(TQ3ViewHintsObject viewHints, TQ3RendererObject renderer
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
 
 
 
@@ -3462,8 +3374,7 @@ Q3ViewHints_GetRenderer(TQ3ViewHintsObject viewHints, TQ3RendererObject *rendere
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(renderer), kQ3Failure);
 
 
@@ -3501,10 +3412,8 @@ Q3ViewHints_SetCamera(TQ3ViewHintsObject viewHints, TQ3CameraObject camera)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(camera->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(camera, kQ3ShapeTypeCamera), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(camera, (kQ3ShapeTypeCamera)), kQ3Failure);
 
 
 
@@ -3541,8 +3450,7 @@ Q3ViewHints_GetCamera(TQ3ViewHintsObject viewHints, TQ3CameraObject *camera)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(camera), kQ3Failure);
 
 
@@ -3580,10 +3488,8 @@ Q3ViewHints_SetLightGroup(TQ3ViewHintsObject viewHints, TQ3GroupObject lightGrou
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(lightGroup->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(lightGroup, kQ3ShapeTypeGroup), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(lightGroup, (kQ3ShapeTypeGroup)), kQ3Failure);
 
 
 
@@ -3620,8 +3526,7 @@ Q3ViewHints_GetLightGroup(TQ3ViewHintsObject viewHints, TQ3GroupObject *lightGro
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lightGroup), kQ3Failure);
 
 
@@ -3659,8 +3564,7 @@ Q3ViewHints_SetAttributeSet(TQ3ViewHintsObject viewHints, TQ3AttributeSet attrib
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 
 
 
@@ -3697,8 +3601,7 @@ Q3ViewHints_GetAttributeSet(TQ3ViewHintsObject viewHints, TQ3AttributeSet *attri
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -3736,8 +3639,7 @@ Q3ViewHints_SetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean isValid)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 
 
 
@@ -3774,8 +3676,7 @@ Q3ViewHints_GetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(isValid), kQ3Failure);
 
 
@@ -3813,8 +3714,7 @@ Q3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 width, TQ3Uns32
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 
 
 
@@ -3854,8 +3754,7 @@ Q3ViewHints_GetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 *width, TQ3Uns3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(width), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(height), kQ3Failure);
 
@@ -3897,8 +3796,7 @@ Q3ViewHints_SetMaskState(TQ3ViewHintsObject viewHints, TQ3Boolean isValid)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 
 
 
@@ -3935,8 +3833,7 @@ Q3ViewHints_GetMaskState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(isValid), kQ3Failure);
 
 
@@ -3974,8 +3871,7 @@ Q3ViewHints_SetMask(TQ3ViewHintsObject viewHints, const TQ3Bitmap *mask)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(mask), kQ3Failure);
 
 
@@ -4013,8 +3909,7 @@ Q3ViewHints_GetMask(TQ3ViewHintsObject viewHints, TQ3Bitmap *mask)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(mask), kQ3Failure);
 
 
@@ -4052,8 +3947,7 @@ Q3ViewHints_SetClearImageMethod(TQ3ViewHintsObject viewHints, TQ3DrawContextClea
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 
 
 
@@ -4090,8 +3984,7 @@ Q3ViewHints_GetClearImageMethod(TQ3ViewHintsObject viewHints, TQ3DrawContextClea
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(clearMethod), kQ3Failure);
 
 
@@ -4129,8 +4022,7 @@ Q3ViewHints_SetClearImageColor(TQ3ViewHintsObject viewHints, const TQ3ColorARGB 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), kQ3Failure);
 
 
@@ -4168,8 +4060,7 @@ Q3ViewHints_GetClearImageColor(TQ3ViewHintsObject viewHints, TQ3ColorARGB *color
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(viewHints->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, kQ3SharedTypeViewHints), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(viewHints, (kQ3SharedTypeViewHints)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), kQ3Failure);
 
 
@@ -4208,7 +4099,6 @@ Q3File_GetFileFormat(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), NULL);
 
 
@@ -4274,7 +4164,6 @@ Q3FileFormat_GetType(TQ3FileFormatObject format)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3ObjectTypeInvalid);
 
 
@@ -4309,7 +4198,6 @@ Q3FileFormat_HasModalConfigure(TQ3FileFormatObject format)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3False);
 
 
@@ -4344,8 +4232,7 @@ Q3FileFormat_ModalConfigure(TQ3FileFormatObject format, TQ3DialogAnchor dialogAn
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(canceled), kQ3Failure);
 
 
@@ -4422,8 +4309,7 @@ Q3FileFormat_GetConfigurationData(TQ3FileFormatObject format, unsigned char *dat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dataBuffer), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(actualDataSize), kQ3Failure);
 
@@ -4468,8 +4354,7 @@ Q3FileFormat_SetConfigurationData(TQ3RendererObject format, unsigned char *dataB
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dataBuffer), kQ3Failure);
 
 
@@ -4510,8 +4395,7 @@ Q3FileFormat_GenericReadBinary_8(TQ3FileFormatObject format, TQ3Int8 *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -4549,8 +4433,7 @@ Q3FileFormat_GenericReadBinary_16(TQ3FileFormatObject format, TQ3Int16 *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -4588,8 +4471,7 @@ Q3FileFormat_GenericReadBinary_32(TQ3FileFormatObject format, TQ3Int32 *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -4627,8 +4509,7 @@ Q3FileFormat_GenericReadBinary_64(TQ3FileFormatObject format, TQ3Int64 *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -4666,8 +4547,7 @@ Q3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char *data, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(length), kQ3Failure);
 
@@ -4709,8 +4589,7 @@ Q3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char *da
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(length != 0, kQ3Failure);
 
@@ -4752,8 +4631,7 @@ Q3FileFormat_GenericReadBinSwap_16(TQ3FileFormatObject format, TQ3Int16 *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -4791,8 +4669,7 @@ Q3FileFormat_GenericReadBinSwap_32(TQ3FileFormatObject format, TQ3Int32 *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -4830,8 +4707,7 @@ Q3FileFormat_GenericReadBinSwap_64(TQ3FileFormatObject format, TQ3Int64 *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -4869,8 +4745,7 @@ Q3FileFormat_GenericReadText_SkipBlanks(TQ3FileFormatObject format)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 
 
 
@@ -4911,8 +4786,7 @@ Q3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject		format,
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(buffer), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(chars), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(foundChar), kQ3Failure);
@@ -4969,8 +4843,7 @@ Q3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, const TQ3Int8* dat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 
 
 
@@ -5007,8 +4880,7 @@ Q3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, const TQ3Int16* d
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 
 
 
@@ -5045,8 +4917,7 @@ Q3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, const TQ3Int32* d
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 
 
 
@@ -5083,8 +4954,7 @@ Q3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, const TQ3Int64* d
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 
 
 
@@ -5121,8 +4991,7 @@ Q3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char *d
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(length), kQ3Failure);
 
@@ -5164,8 +5033,7 @@ Q3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format, const unsigned c
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(length != 0, kQ3Failure);
 
@@ -5207,8 +5075,7 @@ Q3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, const TQ3Int16* 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 
 
 
@@ -5245,8 +5112,7 @@ Q3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, const TQ3Int32* 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 
 
 
@@ -5283,8 +5149,7 @@ Q3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, const TQ3Int64* 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(format->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, kQ3ObjectTypeFileFormat), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(format, (kQ3ObjectTypeFileFormat)), kQ3Failure);
 
 
 

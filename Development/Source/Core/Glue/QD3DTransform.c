@@ -80,7 +80,6 @@ Q3Transform_GetType(TQ3TransformObject transform)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3ShapeTypeTransform), kQ3ObjectTypeInvalid);
 
 
@@ -115,7 +114,6 @@ Q3Transform_GetMatrix(TQ3TransformObject transform, TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3ShapeTypeTransform), NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), NULL);
 
@@ -154,10 +152,8 @@ Q3Transform_Submit(TQ3TransformObject transform, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3ShapeTypeTransform), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3ShapeTypeTransform)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -229,8 +225,7 @@ Q3MatrixTransform_Submit(const TQ3Matrix4x4 *matrix, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -267,8 +262,7 @@ Q3MatrixTransform_Set(TQ3TransformObject transform, const TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeMatrix), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeMatrix)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), kQ3Failure);
 
 
@@ -306,8 +300,7 @@ Q3MatrixTransform_Get(TQ3TransformObject transform, TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeMatrix), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeMatrix)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), kQ3Failure);
 
 
@@ -380,8 +373,7 @@ Q3RotateTransform_Submit(const TQ3RotateTransformData *data, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -418,8 +410,7 @@ Q3RotateTransform_SetData(TQ3TransformObject transform, const TQ3RotateTransform
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotate), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotate)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -457,8 +448,7 @@ Q3RotateTransform_GetData(TQ3TransformObject transform, TQ3RotateTransformData *
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotate), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotate)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -496,8 +486,7 @@ Q3RotateTransform_SetAxis(TQ3TransformObject transform, TQ3Axis axis)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotate), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotate)), kQ3Failure);
 
 
 
@@ -534,8 +523,7 @@ Q3RotateTransform_SetAngle(TQ3TransformObject transform, float radians)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotate), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotate)), kQ3Failure);
 
 
 
@@ -572,8 +560,7 @@ Q3RotateTransform_GetAxis(TQ3TransformObject renderable, TQ3Axis *axis)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(renderable->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderable, kQ3TransformTypeRotate), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderable, (kQ3TransformTypeRotate)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(axis), kQ3Failure);
 
 
@@ -611,8 +598,7 @@ Q3RotateTransform_GetAngle(TQ3TransformObject transform, float *radians)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotate), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotate)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(radians), kQ3Failure);
 
 
@@ -685,8 +671,7 @@ Q3RotateAboutPointTransform_Submit(const TQ3RotateAboutPointTransformData *data,
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -723,8 +708,7 @@ Q3RotateAboutPointTransform_SetData(TQ3TransformObject transform, const TQ3Rotat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutPoint)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -762,8 +746,7 @@ Q3RotateAboutPointTransform_GetData(TQ3TransformObject transform, TQ3RotateAbout
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutPoint)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -801,8 +784,7 @@ Q3RotateAboutPointTransform_SetAxis(TQ3TransformObject transform, TQ3Axis axis)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutPoint)), kQ3Failure);
 
 
 
@@ -839,8 +821,7 @@ Q3RotateAboutPointTransform_GetAxis(TQ3TransformObject transform, TQ3Axis *axis)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutPoint)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(axis), kQ3Failure);
 
 
@@ -878,8 +859,7 @@ Q3RotateAboutPointTransform_SetAngle(TQ3TransformObject transform, float radians
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutPoint)), kQ3Failure);
 
 
 
@@ -916,8 +896,7 @@ Q3RotateAboutPointTransform_GetAngle(TQ3TransformObject transform, float *radian
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutPoint)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(radians), kQ3Failure);
 
 
@@ -955,8 +934,7 @@ Q3RotateAboutPointTransform_SetAboutPoint(TQ3TransformObject transform, const TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutPoint)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(about), kQ3Failure);
 
 
@@ -994,8 +972,7 @@ Q3RotateAboutPointTransform_GetAboutPoint(TQ3TransformObject transform, TQ3Point
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutPoint), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutPoint)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(about), kQ3Failure);
 
 
@@ -1068,8 +1045,7 @@ Q3RotateAboutAxisTransform_Submit(const TQ3RotateAboutAxisTransformData *data, T
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -1106,8 +1082,7 @@ Q3RotateAboutAxisTransform_SetData(TQ3TransformObject transform, const TQ3Rotate
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutAxis), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutAxis)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1145,8 +1120,7 @@ Q3RotateAboutAxisTransform_GetData(TQ3TransformObject transform, TQ3RotateAboutA
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutAxis), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutAxis)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1184,8 +1158,7 @@ Q3RotateAboutAxisTransform_SetOrientation(TQ3TransformObject transform, const TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutAxis), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutAxis)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(axis), kQ3Failure);
 
 
@@ -1223,8 +1196,7 @@ Q3RotateAboutAxisTransform_GetOrientation(TQ3TransformObject transform, TQ3Vecto
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutAxis), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutAxis)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(axis), kQ3Failure);
 
 
@@ -1262,8 +1234,7 @@ Q3RotateAboutAxisTransform_SetAngle(TQ3TransformObject transform, float radians)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutAxis), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutAxis)), kQ3Failure);
 
 
 
@@ -1300,8 +1271,7 @@ Q3RotateAboutAxisTransform_GetAngle(TQ3TransformObject transform, float *radians
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutAxis), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutAxis)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(radians), kQ3Failure);
 
 
@@ -1339,8 +1309,7 @@ Q3RotateAboutAxisTransform_SetOrigin(TQ3TransformObject transform, const TQ3Poin
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutAxis), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutAxis)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -1378,8 +1347,7 @@ Q3RotateAboutAxisTransform_GetOrigin(TQ3TransformObject transform, TQ3Point3D *o
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeRotateAboutAxis), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeRotateAboutAxis)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -1452,8 +1420,7 @@ Q3ScaleTransform_Submit(const TQ3Vector3D *scale, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(scale), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -1490,8 +1457,7 @@ Q3ScaleTransform_Set(TQ3TransformObject transform, const TQ3Vector3D *scale)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeScale), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeScale)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(scale), kQ3Failure);
 
 
@@ -1529,8 +1495,7 @@ Q3ScaleTransform_Get(TQ3TransformObject transform, TQ3Vector3D *scale)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeScale), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeScale)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(scale), kQ3Failure);
 
 
@@ -1603,8 +1568,7 @@ Q3TranslateTransform_Submit(const TQ3Vector3D *translate, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(translate), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -1641,8 +1605,7 @@ Q3TranslateTransform_Set(TQ3TransformObject transform, const TQ3Vector3D *transl
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeTranslate), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeTranslate)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(translate), kQ3Failure);
 
 
@@ -1680,8 +1643,7 @@ Q3TranslateTransform_Get(TQ3TransformObject transform, TQ3Vector3D *translate)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeTranslate), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeTranslate)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(translate), kQ3Failure);
 
 
@@ -1754,8 +1716,7 @@ Q3QuaternionTransform_Submit(const TQ3Quaternion *quaternion, TQ3ViewObject view
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -1792,8 +1753,7 @@ Q3QuaternionTransform_Set(TQ3TransformObject transform, const TQ3Quaternion *qua
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeQuaternion), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeQuaternion)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), kQ3Failure);
 
 
@@ -1831,8 +1791,7 @@ Q3QuaternionTransform_Get(TQ3TransformObject transform, TQ3Quaternion *quaternio
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(transform->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, kQ3TransformTypeQuaternion), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(transform, (kQ3TransformTypeQuaternion)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), kQ3Failure);
 
 
@@ -1891,8 +1850,7 @@ Q3ResetTransform_Submit(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 

@@ -193,8 +193,7 @@ Q3Viewer_Dispose(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -228,8 +227,7 @@ Q3Viewer_UseFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -266,8 +264,7 @@ Q3Viewer_UseData(TQ3ViewerObject theViewer, const void *theData, TQ3Uns32 dataSi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theData), kQ3Failure);
 
 
@@ -308,10 +305,8 @@ Q3Viewer_UseGroup(TQ3ViewerObject theViewer, TQ3GroupObject theGroup)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theGroup->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theGroup, kQ3ShapeTypeGroup), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theGroup, (kQ3ShapeTypeGroup)), kQ3Failure);
 
 
 
@@ -348,7 +343,6 @@ Q3Viewer_GetGroup(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
 
 
@@ -383,8 +377,7 @@ Q3Viewer_WriteFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -421,8 +414,7 @@ Q3Viewer_WriteData(TQ3ViewerObject theViewer, void **theData, TQ3Uns32 *dataSize
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theData), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dataSize), kQ3Failure);
 
@@ -464,8 +456,7 @@ Q3Viewer_Draw(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -499,8 +490,7 @@ Q3Viewer_DrawContent(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -534,8 +524,7 @@ Q3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -569,8 +558,7 @@ Q3Viewer_GetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 theButton, TQ3Area *t
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRect), kQ3Failure);
 
 
@@ -611,7 +599,6 @@ Q3Viewer_GetCurrentButton(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, 0);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), 0);
 
 
@@ -646,8 +633,7 @@ Q3Viewer_SetCurrentButton(TQ3ViewerObject theViewer, TQ3Uns32 button)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -684,8 +670,7 @@ Q3Viewer_GetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *theColor)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theColor), kQ3Failure);
 
 
@@ -723,8 +708,7 @@ Q3Viewer_SetBackgroundColor(TQ3ViewerObject theViewer, const TQ3ColorARGB *theCo
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theColor), kQ3Failure);
 
 
@@ -762,7 +746,6 @@ Q3Viewer_GetView(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
 
 
@@ -797,8 +780,7 @@ Q3Viewer_RestoreView(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -832,7 +814,6 @@ Q3Viewer_GetFlags(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, 0);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), 0);
 
 
@@ -867,8 +848,7 @@ Q3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -905,8 +885,7 @@ Q3Viewer_GetBounds(TQ3ViewerObject theViewer, TQ3Area *theRect)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRect), kQ3Failure);
 
 
@@ -944,8 +923,7 @@ Q3Viewer_SetBounds(TQ3ViewerObject theViewer, const TQ3Area *theRect)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRect), kQ3Failure);
 
 
@@ -983,8 +961,7 @@ Q3Viewer_GetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *theWidth, TQ3Uns32 *t
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theWidth), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theHeight), kQ3Failure);
 
@@ -1026,8 +1003,7 @@ Q3Viewer_SetDimension(TQ3ViewerObject theViewer, TQ3Uns32 theWidth, TQ3Uns32 the
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -1067,8 +1043,7 @@ Q3Viewer_GetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *theWidth, TQ3U
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theWidth), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theHeight), kQ3Failure);
 
@@ -1110,7 +1085,6 @@ Q3Viewer_GetWindow(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
 
 
@@ -1145,8 +1119,7 @@ Q3Viewer_SetWindow(TQ3ViewerObject theViewer, const void *theWindow)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theWindow), kQ3Failure);
 
 
@@ -1218,7 +1191,6 @@ Q3Viewer_GetControlStripWindow(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
 
 
@@ -1253,7 +1225,6 @@ Q3Viewer_AdjustCursor(TQ3ViewerObject theViewer, TQ3Uns32 hPos, TQ3Uns32 vPos)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3False);
 
 
@@ -1294,8 +1265,7 @@ Q3Viewer_CursorChanged(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -1329,7 +1299,6 @@ Q3Viewer_GetState(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, 0);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), 0);
 
 
@@ -1364,8 +1333,7 @@ Q3Viewer_EditCut(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -1399,8 +1367,7 @@ Q3Viewer_EditCopy(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -1434,8 +1401,7 @@ Q3Viewer_EditPaste(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -1469,8 +1435,7 @@ Q3Viewer_EditClear(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -1504,8 +1469,7 @@ Q3Viewer_EditUndo(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -1539,7 +1503,6 @@ Q3Viewer_GetUndoString(TQ3ViewerObject theViewer, char *theBuffer, TQ3Uns32 *buf
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theBuffer), kQ3False);
 
@@ -1581,8 +1544,7 @@ Q3Viewer_GetCameraCount(TQ3ViewerObject theViewer, TQ3Uns32 *cameraCount)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraCount), kQ3Failure);
 
 
@@ -1620,8 +1582,7 @@ Q3Viewer_SetCameraByNumber(TQ3ViewerObject theViewer, TQ3Uns32 cameraIndex)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -1658,8 +1619,7 @@ Q3Viewer_SetCameraByView(TQ3ViewerObject theViewer, TQ3ViewerCameraView viewType
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -1696,7 +1656,6 @@ Q3Viewer_EventMouseDown(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3False);
 
 
@@ -1737,7 +1696,6 @@ Q3Viewer_EventMouseTrack(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3False);
 
 
@@ -1778,7 +1736,6 @@ Q3Viewer_EventMouseUp(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3False);
 
 
@@ -1819,7 +1776,6 @@ Q3Viewer_EventKeyboard(TQ3ViewerObject theViewer, const void *theEvent)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theEvent), kQ3False);
 
@@ -1858,8 +1814,7 @@ Q3Viewer_GetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType *rendererType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rendererType), kQ3Failure);
 
 
@@ -1897,8 +1852,7 @@ Q3Viewer_SetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType rendererType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -1935,8 +1889,7 @@ Q3Viewer_GetBrightness(TQ3ViewerObject theViewer, float *theBrightness)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theBrightness), kQ3Failure);
 
 
@@ -1974,8 +1927,7 @@ Q3Viewer_SetBrightness(TQ3ViewerObject theViewer, float theBrightness)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -2012,8 +1964,7 @@ Q3Viewer_GetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean *removeBackfac
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(removeBackfaces), kQ3Failure);
 
 
@@ -2051,8 +2002,7 @@ Q3Viewer_SetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean removeBackface
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -2089,8 +2039,7 @@ Q3Viewer_GetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phongShading)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(phongShading), kQ3Failure);
 
 
@@ -2128,8 +2077,7 @@ Q3Viewer_SetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean phongShading)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 
 
 
@@ -2166,7 +2114,6 @@ Q3Viewer_GetImage(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
 
 
@@ -2201,7 +2148,6 @@ Q3Viewer_GetCallbackDraw(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
 
 
@@ -2236,8 +2182,7 @@ Q3Viewer_SetCallbackDraw(TQ3ViewerObject theViewer, TQ3ViewerDrawCallbackMethod 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(userData), kQ3Failure);
 
 
@@ -2278,7 +2223,6 @@ Q3Viewer_GetCallbackResize(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
 
 
@@ -2313,8 +2257,7 @@ Q3Viewer_SetCallbackResize(TQ3ViewerObject theViewer, TQ3ViewerWindowResizeCallb
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(userData), kQ3Failure);
 
 
@@ -2355,7 +2298,6 @@ Q3Viewer_GetCallbackResizeNotify(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
 
 
@@ -2390,8 +2332,7 @@ Q3Viewer_SetCallbackResizeNotify(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeN
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, (kQ3ObjectTypeViewer)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(userData), kQ3Failure);
 
 
@@ -3010,7 +2951,6 @@ Q3ViewerUseGroup(TQ3ViewerObject theViewer, TQ3GroupObject group)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(group->quesaTag == kQ3ObjectTypeQuesa, paramErr);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), paramErr);
 
 
@@ -5168,8 +5108,7 @@ Q3WinViewerUseGroup(TQ3ViewerObject viewer, TQ3GroupObject group)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(group->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
 
 
 
