@@ -3585,13 +3585,15 @@ cleanup:
 TQ3Object
 E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 {	TQ3Object				childObject;
-	TQ3Object	 			theObject;
+	TQ3Object	 			theObject = NULL;
 	TQ3TriMeshData			geomData;
 	TQ3FileFormatObject		format;
 	TQ3Uns16				temp16;
 	TQ3Uns8					temp8;
 	TQ3Uns32				i;
 	TQ3Object				elementSet = NULL;
+	TQ3StorageObject		theStorage = NULL;
+	TQ3Uns32				storageSize;
 
 
 	// Initialise the geometry data
@@ -3602,6 +3604,13 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	// let know the system we're reading a trimesh
 	format = E3File_GetFileFormat(theFile);
 	((TE3FFormat3DMF_Data*)format->instanceData)->currentTriMesh = &geomData;
+	
+	
+	
+	// Find the size of the storage, so we can do a sanity check before allocating memory.
+	Q3File_GetStorage( theFile, &theStorage );
+	Q3Storage_GetSize( theStorage, &storageSize );
+	Q3Object_CleanDispose( &theStorage );
 
 
 
@@ -3617,6 +3626,11 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	Q3_REQUIRE_OR_RESULT(geomData.numTriangles > 0,NULL);
 	
 	//================ read the triangles
+	if (geomData.numTriangles > storageSize / 3)	// a triangle takes at least 3 bytes
+		{
+		E3ErrorManager_PostError(kQ3ErrorInvalidMetafile, kQ3False);
+		goto cleanUp;
+		}
 	geomData.triangles = (TQ3TriMeshTriangleData *)Q3Memory_Allocate(sizeof(TQ3TriMeshTriangleData)*geomData.numTriangles);
 	if(geomData.triangles == NULL)
 		goto cleanUp;
@@ -3640,6 +3654,11 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 		
 	//================ read the edges
 	if(geomData.numEdges > 0){
+		if (geomData.numEdges > storageSize / 4)	// an edge takes at least 4 bytes
+			{
+			E3ErrorManager_PostError(kQ3ErrorInvalidMetafile, kQ3False);
+			goto cleanUp;
+			}
 		geomData.edges = (TQ3TriMeshEdgeData *)Q3Memory_Allocate(sizeof(TQ3TriMeshEdgeData)*geomData.numEdges);
 		if(geomData.edges == NULL)
 			goto cleanUp;
@@ -3786,6 +3805,11 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 		}
 		
 	// ================ read the points
+	if (geomData.numPoints > storageSize / sizeof(TQ3Point3D))
+		{
+		E3ErrorManager_PostError(kQ3ErrorInvalidMetafile, kQ3False);
+		goto cleanUp;
+		}
 	geomData.points = (TQ3Point3D *)Q3Memory_Allocate(sizeof(TQ3Point3D)*geomData.numPoints);
 	if(geomData.points == NULL)
 		goto cleanUp;
