@@ -69,7 +69,7 @@ extern "C" {
 #define kQ3ClassNameAttribute						"Attribute"
 #define kQ3ClassNameAttributeAmbientCoefficient		"AmbientCoefficient"
 #define kQ3ClassNameAttributeDiffuseColor			"DiffuseColor"
-#define kQ3ClassNameAttributeHighlightState			"HilightState"
+#define kQ3ClassNameAttributeHighlightState			"HighlightState"
 #define kQ3ClassNameAttributeNormal					"Normal"
 #define kQ3ClassNameAttributeShadingUV				"ShadingUV"
 #define kQ3ClassNameAttributeSpecularColor			"SpecularColor"
@@ -94,7 +94,7 @@ extern "C" {
 #define kQ3ClassNameDrawContextX11					"X11DrawContext"
 #define kQ3ClassNameElement							"Element"
 #define kQ3ClassNameStorageFSSpec					"MacintoshFSSpec"
-#define kQ3ClassNameFile							"Quesa:File"
+#define kQ3ClassNameFile							"File"
 #define kQ3ClassNameFileFormat						"Quesa:FileFormat"
 #define kQ3ClassNameFileFormatReader				"Quesa:FileFormat:Reader"
 #define kQ3ClassNameFileFormatR_3DMF_Bin			"Quesa:FileFormat:Reader:3DMF Binary"
@@ -110,7 +110,6 @@ extern "C" {
 #define kQ3ClassNameGeometryDisk					"Disk"
 #define kQ3ClassNameGeometryEllipse					"Ellipse"
 #define kQ3ClassNameGeometryEllipsoid				"Ellipsoid"
-#define kQ3ClassNameGeometryFullDecomp				"fullDecomp"
 #define kQ3ClassNameGeometryGeneralPolygon			"GeneralPolygon"
 #define kQ3ClassNameGeometryLine					"Line"
 #define kQ3ClassNameGeometryMarker					"Marker"
@@ -146,12 +145,8 @@ extern "C" {
 #define kQ3ClassNameStorageMemory					"Memory"
 #define kQ3ClassNameMeshEdgePart					"MeshEdgePart"
 #define kQ3ClassNameMeshFacePart					"MeshFacePart"
-#define kQ3ClassNameMeshPart						"Quesa:Part:Mesh"
-#define kQ3ClassNameMeshPartEdge					"Quesa:Part:Mesh:Edge"
-#define kQ3ClassNameMeshPartFace					"Quesa:Part:Mesh:Face"
-#define kQ3ClassNameMeshPartVertex					"Quesa:Part:Mesh:Vertex"
+#define kQ3ClassNameMeshVertexPart					"MeshVertexPart"
 #define kQ3ClassNameMeshShapePart					"MeshShapePart"
-#define kQ3ClassNameMeshVetexPart					"MeshVertexPart"
 #define kQ3ClassNamePick							"Pick"
 #define kQ3ClassNamePickWindowPoint					"WindowPointPick"
 #define kQ3ClassNamePickWindowRect					"WindowRectPick"
@@ -159,7 +154,7 @@ extern "C" {
 #define kQ3ClassNameRenderer						"Renderer"
 #define kQ3ClassNameRendererGeneric					"GenericRenderer"
 #define kQ3ClassNameRendererInteractive				"InteractiveRenderer"
-#define kQ3ClassNameRendererWireframe				"Wireframe"
+#define kQ3ClassNameRendererWireframe				"WireFrame"
 #define kQ3ClassNameRoot							"Quesa:Root"
 #define kQ3ClassNameSet								"Set"
 #define kQ3ClassNameSetAttribute					"AttributeSet"
@@ -226,7 +221,10 @@ extern "C" {
 #define kQ3ClassNameStorageBe						"Quesa:Storage:Be"
 #define kQ3ClassNameDrawContextBe					"Quesa:DrawContext:Be"
 #define kQ3ClassName3DMF							"Metafile"
+#define kQ3ClassNameTOC								"TableOfContents"
+#define kQ3ClassNameReference						"Reference"
 #define kQ3ClassNameType							"Type"
+#define kQ3ClassNameViewHint						"ViewHint"
 
 
 // Class types
@@ -292,6 +290,7 @@ extern "C" {
 #define kQ3ObjectTypeShaderTransform				Q3_OBJECT_TYPE('s', 'd', 'x', 'f')
 #define kQ3ObjectTypeGeometryCaps					Q3_OBJECT_TYPE('c', 'a', 'p', 's')
 #define kQ3ObjectTypeType							Q3_OBJECT_TYPE('t', 'y', 'p', 'e')
+#define kQ3ObjectTypeTOC							Q3_OBJECT_TYPE('t', 'o', 'c', ' ')
 
 
 
