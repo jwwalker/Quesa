@@ -1881,7 +1881,6 @@ E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attrib
 
 
 	// Get the size and pointer for the data for the attribute
-	attributeType = E3Attribute_AttributeToClassType(attributeType);
 	theElement    = E3Set_AccessElementData(attributeSet, attributeType, &dataSize, &theData);
 
 
@@ -1892,24 +1891,5 @@ E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attrib
 
 
 
-
-
-//=============================================================================
-//      E3XAttributeSet_GetMask : Return the mask of attributes in a set.
-//-----------------------------------------------------------------------------
-TQ3XAttributeMask
-E3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
-{	TQ3XAttributeMask	theMask;
-
-
-
-	// Return the mask for the attribute set
-	if (attributeSet != NULL)
-		theMask = E3AttributeSet_AccessMask(attributeSet);
-	else
-		theMask = kQ3AttributeTypeNone;
-
-	return(theMask);
-}
 
 

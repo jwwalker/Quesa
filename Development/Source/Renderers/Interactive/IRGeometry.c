@@ -177,39 +177,139 @@ IRGeometry_Terminate(TQ3InteractiveData *instanceData)
 
 
 //=============================================================================
-//      IRGeometry_Attribute_Combine : Combine view and geometry attributes.
+//      ir_state_adjust_geom : Adjust our state for a geometry.
 //-----------------------------------------------------------------------------
-//		Note : Caller must dispose of the new attribute set.
+static void
+ir_state_adjust_geom(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttributes, TQ3XAttributeMask theMask)
+{
+
+
+	// Update our state to reflect the attribute set
+	if (theMask & kQ3XAttributeMaskDiffuseColor)
+		instanceData->stateGeomDiffuseColour = (TQ3ColorRGB *) 
+                                          			Q3XAttributeSet_GetPointer(theAttributes,
+                                        			kQ3AttributeTypeDiffuseColor);
+        
+    if (theMask & kQ3XAttributeMaskSpecularColor)
+        instanceData->stateGeomSpecularColour = (TQ3ColorRGB *) 
+													Q3XAttributeSet_GetPointer(theAttributes,
+													kQ3AttributeTypeSpecularColor);
+
+    if (theMask & kQ3XAttributeMaskTransparencyColor)
+        instanceData->stateGeomTransparencyColour = (TQ3ColorRGB *) 
+													Q3XAttributeSet_GetPointer(theAttributes,
+													kQ3AttributeTypeTransparencyColor);
+
+    if (theMask & kQ3XAttributeMaskSpecularControl)
+        instanceData->stateGeomSpecularControl = * ((float *) 
+													Q3XAttributeSet_GetPointer(theAttributes,
+													kQ3AttributeTypeSpecularControl));
+
+    if (theMask & kQ3XAttributeMaskHighlightState)
+        instanceData->stateGeomHilightState = * ((TQ3Switch *) 
+													Q3XAttributeSet_GetPointer(theAttributes,
+													kQ3AttributeTypeHighlightState));
+
+	Q3_ASSERT(instanceData->stateGeomDiffuseColour      != NULL);
+	Q3_ASSERT(instanceData->stateGeomSpecularColour     != NULL);
+	Q3_ASSERT(instanceData->stateGeomTransparencyColour != NULL);
+}
+
+
+
+//=============================================================================
+//      IRGeometry_Attribute_Handler : Combine view and geometry attributes.
 //-----------------------------------------------------------------------------
-TQ3AttributeSet
-IRGeometry_Attribute_Combine(TQ3ViewObject theView, TQ3AttributeSet geomAttributes)
-{   TQ3AttributeSet     newAttributes, viewAttributes;
-	TQ3Status			qd3dStatus;
+//		Note :	Called by every geometry before they submit themselves in order
+//				to update the current QD3D state with the state of the geom.
+//		Note :	Called by geometries which can be textured mapped, to allow us
+//				to update the OpenGL texture state to produce the correct
+//				effect.
+//
+//				If the attribute set contains a texture map shader, we need to
+//				submit it by hand, to apply the texture map to this geometry in
+//				the same way that Apple's Interactive Renderer does.
+//
+//				We return true/false as the attribute set contained a texture.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttributes,
+							 TQ3InteractiveData *instanceData, TQ3XAttributeMask needAttributesMask)
+{   TQ3AttributeSet     viewAttributes;
+	TQ3ShaderObject 	*theShader;
+	TQ3XAttributeMask	theMask, hiliteMask;
+	TQ3Boolean			hadAttributeTexture;
+	
+	// Reset the geometry state to the current view state
+	instanceData->stateGeomDiffuseColour      = instanceData->stateViewDiffuseColour;
+    instanceData->stateGeomSpecularColour     = instanceData->stateViewSpecularColour;
+    instanceData->stateGeomTransparencyColour = instanceData->stateViewTransparencyColour;
+    instanceData->stateGeomSpecularControl    = instanceData->stateViewSpecularControl;
+    instanceData->stateGeomHilightState       = instanceData->stateViewHilightState;
+
+	// Assume we don't have a texture
+	hadAttributeTexture = kQ3False;
+
+
+	if(geomAttributes != NULL)
+		{
+        theMask = Q3XAttributeSet_GetMask(geomAttributes);
+		ir_state_adjust_geom(instanceData, geomAttributes, (needAttributesMask & theMask));
+		
+	    if (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL)
+	    	{
+	    	hiliteMask = Q3XAttributeSet_GetMask(instanceData->stateHilight);
+	    	
+	    	theMask |= hiliteMask; // add the hilite attributes
+	    	
+        	ir_state_adjust_geom(instanceData, instanceData->stateHilight,needAttributesMask & hiliteMask);
+        	
+        	}
+        
+		if ((needAttributesMask & theMask & kQ3XAttributeMaskSurfaceShader) != 0)
+			{
+			// Get the texture
+			theShader = (TQ3ShaderObject *) Q3XAttributeSet_GetPointer(geomAttributes, kQ3AttributeTypeSurfaceShader);
+			if (theShader != NULL && *theShader != NULL)
+				{
+				// Set our flag, apply it, and update the GL state
+				hadAttributeTexture = kQ3True;
+				IRRenderer_Update_Shader_Surface(theView, instanceData, theShader);
+				}
+			}
+		}
+
+	// Get the view attributes 
+	
+	
+//	is this really neccessary? the view attributes are already updated in instanceData->stateView
+//	
+/*	qd3dStatus = Q3View_GetAttributeSetState(theView, &viewAttributes);
+	if ((qd3dStatus == kQ3Success) && (viewAttributes != NULL))
+	{
+		theMask = (Q3XAttributeSet_GetMask(viewAttributes) & ~theMask) & needAttributesMask;
+		ir_state_adjust_geom(instanceData, viewAttributes, theMask);
+
+		if ((theMask & kQ3XAttributeMaskSurfaceShader) != 0)
+			{
+			// Get the texture
+			theShader = (TQ3ShaderObject *) Q3XAttributeSet_GetPointer(viewAttributes, kQ3AttributeTypeSurfaceShader);
+			if (theShader != NULL && *theShader != NULL)
+				{
+				// Set our flag, apply it, and update the GL state
+				hadAttributeTexture = kQ3True;
+				IRRenderer_Update_Shader_Surface(theView, instanceData, theShader);
+				}
+			}
+	}
+*/
 	
 
 
-	// Get the view attributes
-	qd3dStatus = Q3View_GetAttributeSetState(theView, &viewAttributes);
-	if (qd3dStatus != kQ3Success)
-		return(geomAttributes);
+	// Update the GL state for this geometry
+	IRRenderer_State_AdjustGL(instanceData);
 
-
-
-	// If there aren't any geometry attributes, return the view attributes
-	if (geomAttributes == NULL)
-		return(viewAttributes);
-
-
-
-	// Otherwise, create a new attribute set and combine them
-	newAttributes = Q3AttributeSet_New();
-	if (newAttributes == NULL)
-		return(viewAttributes);
-
-	Q3AttributeSet_Inherit(viewAttributes, geomAttributes, newAttributes);
-	Q3Object_Dispose(viewAttributes);
-
-	return(newAttributes);
+	return hadAttributeTexture;
 }
 
 
@@ -772,10 +872,8 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 {	const TQ3ColorRGB		*colourDiffuse[3], *colourTransparent[3];
 	TQ3Boolean				hadAttributeTexture, canTexture;
 	const TQ3Vector3D		*theNormals[3], *triNormal;
-	TQ3AttributeSet			geomAttributes;
 	const TQ3Point3D		*thePoints[3];
 	const TQ3Param2D		*theUVs[3];
-	TQ3Status				qd3dStatus;
 	TQ3Uns32				n;
 #pragma unused(theGeom)
 
@@ -786,16 +884,9 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 
 
 
-	// Update our state for this object
-	geomAttributes = IRGeometry_Attribute_Combine(theView, geomData->triangleAttributeSet);
-	qd3dStatus     = IRRenderer_State_Update(instanceData, geomAttributes);
-    if (qd3dStatus != kQ3Success)
-    	goto cleanup;
-
-
-
-	// Update the texture mapping state
-	hadAttributeTexture = IRRenderer_Texture_Preamble(theView, instanceData, geomAttributes);
+	// Update our state for this object and the texture mapping
+	hadAttributeTexture = IRGeometry_Attribute_Handler(theView, geomData->triangleAttributeSet,
+											instanceData, kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader);
 
 
 
@@ -808,7 +899,7 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 
 
 	// Collect the values we need
-	triNormal = IRGeometry_Attribute_GetNormal(instanceData, geomAttributes);
+	triNormal = IRGeometry_Attribute_GetNormal(instanceData, geomData->triangleAttributeSet);
 	for (n = 0; n < 3; n++)
 		{
 		thePoints[n]         = &geomData->vertices[n].point;
@@ -841,11 +932,6 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 	// Update the texture mapping state
 	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, canTexture);
 
-
-
-	// Clean up
-cleanup:
-	Q3Object_CleanDispose(&geomAttributes);
 	
 	return(kQ3Success);
 }
@@ -863,11 +949,9 @@ IRGeometry_Line(TQ3ViewObject			theView,
 				TQ3GeometryObject		theGeom,
 				TQ3LineData				*geomData)
 {	const TQ3ColorRGB		*colourDiffuse[2], *colourTransparent[2];
-	TQ3AttributeSet			geomAttributes;
 	const TQ3Vector3D		*theNormals[2];
 	const TQ3Point3D		*thePoints[2];
 	const TQ3Param2D		*theUVs[2];
-	TQ3Status				qd3dStatus;
 	TQ3Uns32				n;
 #pragma unused(theGeom)
 
@@ -877,12 +961,9 @@ IRGeometry_Line(TQ3ViewObject			theView,
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
-
-	// Update our state for this object
-	geomAttributes = IRGeometry_Attribute_Combine(theView, geomData->lineAttributeSet);
-	qd3dStatus     = IRRenderer_State_Update(instanceData, geomAttributes);
-    if (qd3dStatus != kQ3Success)
-    	goto cleanup;
+	// Update our state for this object and the texture mapping
+	IRGeometry_Attribute_Handler(theView, geomData->lineAttributeSet,
+											instanceData, kQ3XAttributeMaskGeometry);
 
 
 
@@ -911,9 +992,6 @@ IRGeometry_Line(TQ3ViewObject			theView,
 
 
 
-	// Clean up
-cleanup:
-	Q3Object_CleanDispose(&geomAttributes);
 	
 	return(kQ3Success);
 }
@@ -931,11 +1009,9 @@ IRGeometry_Point(TQ3ViewObject				theView,
 					TQ3GeometryObject		theGeom,
 					TQ3PointData			*geomData)
 {	const TQ3ColorRGB		*colourDiffuse[1], *colourTransparent[1];
-	TQ3AttributeSet			geomAttributes;
 	const TQ3Vector3D		*theNormals[1];
 	const TQ3Point3D		*thePoints[1];
 	const TQ3Param2D		*theUVs[1];
-	TQ3Status				qd3dStatus;
 #pragma unused(theGeom)
 
 
@@ -945,11 +1021,9 @@ IRGeometry_Point(TQ3ViewObject				theView,
 
 
 
-	// Update our state for this object
-	geomAttributes = IRGeometry_Attribute_Combine(theView, geomData->pointAttributeSet);
-	qd3dStatus     = IRRenderer_State_Update(instanceData, geomAttributes);
-    if (qd3dStatus != kQ3Success)
-    	goto cleanup;
+	// Update our state for this object and the texture mapping
+	IRGeometry_Attribute_Handler(theView, geomData->pointAttributeSet,
+											instanceData, kQ3XAttributeMaskGeometry);
 
 
 
@@ -957,7 +1031,7 @@ IRGeometry_Point(TQ3ViewObject				theView,
 	thePoints[0]         = &geomData->point;
 	colourDiffuse[0]     = instanceData->stateGeomDiffuseColour;
 	colourTransparent[0] = instanceData->stateGeomTransparencyColour;
-	theNormals[0]        = IRGeometry_Attribute_GetNormal(instanceData, geomAttributes);
+	theNormals[0]        = IRGeometry_Attribute_GetNormal(instanceData, geomData->pointAttributeSet);
 	theUVs[0]            = NULL;
 
 
@@ -973,10 +1047,6 @@ IRGeometry_Point(TQ3ViewObject				theView,
 								colourTransparent);
 
 
-
-	// Clean up
-cleanup:
-	Q3Object_CleanDispose(&geomAttributes);
 	
 	return(kQ3Success);
 }
@@ -998,8 +1068,6 @@ IRGeometry_Marker(TQ3ViewObject			theView,
 	TQ3Uns32			testRowBytes4, testRowBytes8;
 	TQ3Uns32			rowBytes, h, row, buffSize;
 	GLboolean			glValid, glLighting;
-	TQ3AttributeSet		geomAttributes;
-	TQ3Status			qd3dStatus;
 #pragma unused(theGeom)
 
 
@@ -1015,11 +1083,10 @@ IRGeometry_Marker(TQ3ViewObject			theView,
 
 
 
-	// Update our state for this object
-	geomAttributes = IRGeometry_Attribute_Combine(theView, geomData->markerAttributeSet);
-	qd3dStatus     = IRRenderer_State_Update(instanceData, geomAttributes);
-    if (qd3dStatus != kQ3Success)
-    	goto cleanup;
+	// Update our state for this object and the texture mapping
+	IRGeometry_Attribute_Handler(theView, geomData->markerAttributeSet,
+											instanceData, kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader);
+
 
 
 
@@ -1100,7 +1167,6 @@ cleanup:
 
 
 	// Release our memory
-	Q3Object_CleanDispose(&geomAttributes);
 	Q3Memory_Free(&flipBuffer);
 
 	return(kQ3Success);
@@ -1120,9 +1186,7 @@ IRGeometry_PixmapMarker(TQ3ViewObject			theView,
 						TQ3PixmapMarkerData		*geomData)
 {	TQ3Uns8				*origBasePtr, *newBasePtr;
 	GLboolean			glValid, glLighting;
-	TQ3AttributeSet		geomAttributes;
 	GLint				glPixelType;
-	TQ3Status			qd3dStatus;
 	TQ3Boolean			wasCopied;
 #pragma unused(theGeom)
 
@@ -1138,12 +1202,9 @@ IRGeometry_PixmapMarker(TQ3ViewObject			theView,
 	glLighting = GL_FALSE;
 
 
-
-	// Update our state for this object
-	geomAttributes = IRGeometry_Attribute_Combine(theView, geomData->pixmapMarkerAttributeSet);
-	qd3dStatus     = IRRenderer_State_Update(instanceData, geomAttributes);
-    if (qd3dStatus != kQ3Success)
-    	goto cleanup;
+	// Update our state for this object and the texture mapping
+	IRGeometry_Attribute_Handler(theView, geomData->pixmapMarkerAttributeSet,
+											instanceData, kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader);
 
 
 
@@ -1232,7 +1293,6 @@ cleanup:
 
 
 	// Release our memory
-	Q3Object_CleanDispose(&geomAttributes);
 	Q3Memory_Free(&newBasePtr);
 
 	return(kQ3Success);
@@ -1250,9 +1310,7 @@ IRGeometry_PolyLine(TQ3ViewObject			theView,
 					TQ3InteractiveData		*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3PolyLineData			*geomData)
-{	TQ3AttributeSet		geomAttributes;
-	TQ3Status			qd3dStatus;
-	TQ3ColorRGB			*theColour;
+{	TQ3ColorRGB			*theColour;
 	TQ3Vector3D			*theNormal;
 	TQ3Point3D			*thePoint;
 	TQ3Uns32			n;
@@ -1264,12 +1322,10 @@ IRGeometry_PolyLine(TQ3ViewObject			theView,
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
+	// Update our state for this object and the texture mapping
+	IRGeometry_Attribute_Handler(theView, geomData->polyLineAttributeSet,
+											instanceData, kQ3XAttributeMaskGeometry);
 
-	// Update our state for this object
-	geomAttributes = IRGeometry_Attribute_Combine(theView, geomData->polyLineAttributeSet);
-	qd3dStatus     = IRRenderer_State_Update(instanceData, geomAttributes);
-    if (qd3dStatus != kQ3Success)
-    	goto cleanup;
 
 
 
@@ -1308,10 +1364,6 @@ IRGeometry_PolyLine(TQ3ViewObject			theView,
 		}
 
 
-
-	// Clean up
-cleanup:
-	Q3Object_CleanDispose(&geomAttributes);
 	
 	return(kQ3Success);
 }

@@ -1410,7 +1410,6 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 					TQ3GeometryObject		theGeom,
 					TQ3TriMeshData			*geomData)
 {	TQ3Boolean			hadAttributeTexture;
-	TQ3AttributeSet		geomAttributes;
 	TQ3VertexArray		vertexArray;
 	TQ3Status			qd3dStatus;
 
@@ -1421,18 +1420,15 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 
 
 
-	// Update our state for this object
-	geomAttributes = IRGeometry_Attribute_Combine(theView, geomData->triMeshAttributeSet);
-	qd3dStatus     = IRRenderer_State_Update(instanceData, geomAttributes);
-    if (qd3dStatus != kQ3Success)
-    	return(kQ3Success);
+	// Update our state for this object and the texture mapping
+	hadAttributeTexture = IRGeometry_Attribute_Handler(theView, geomData->triMeshAttributeSet,
+											instanceData, kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader);
 
-	hadAttributeTexture = IRRenderer_Texture_Preamble(theView, instanceData, geomAttributes);
 
 
 
 	// Construct the vertex array
-	qd3dStatus = ir_geom_trimesh_initialise(theView, instanceData, geomData, geomAttributes, &vertexArray);
+	qd3dStatus = ir_geom_trimesh_initialise(theView, instanceData, geomData, geomData->triMeshAttributeSet, &vertexArray);
 	if (qd3dStatus != kQ3Success)
 		return(kQ3Success);
 
@@ -1456,7 +1452,6 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 	
 	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, vertexArray.vertexUVs != NULL);
 
-	Q3Object_CleanDispose(&geomAttributes);
 
 	return(kQ3Success);
 }
