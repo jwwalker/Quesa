@@ -40,7 +40,6 @@
 
 
 
-
 //=============================================================================
 //		C++ preamble
 //-----------------------------------------------------------------------------
@@ -104,8 +103,6 @@ void				E3File_CallIdle(TQ3FileObject theFile);
 
 TQ3Status			E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDeleteMethod deleteData);
 TQ3Status			E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, unsigned long size, void *data, TQ3XDataDeleteMethod deleteData);
-TQ3Status			E3View_StartWriting(TQ3ViewObject view, TQ3FileObject theFile);
-TQ3ViewStatus		E3View_EndWriting(TQ3ViewObject view);
 
 TQ3FileObject		E3File_New(void);
 TQ3Status			E3File_GetStorage(TQ3FileObject theFile, TQ3StorageObject *storage);

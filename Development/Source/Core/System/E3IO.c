@@ -36,7 +36,7 @@
 #include "E3Prefix.h"
 #include "E3IO.h"
 #include "E3IOData.h"
-#include "E3FFormat_3DMF.h"
+#include "E3FFR_3DMF.h"
 
 
 
@@ -299,41 +299,6 @@ E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, uns
 
 
 
-//=============================================================================
-//      E3View_StartWriting : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3View_StartWriting(TQ3ViewObject view, TQ3FileObject theFile)
-{
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
-
-
-
-
-
-//=============================================================================
-//      E3View_EndWriting : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
-//-----------------------------------------------------------------------------
-TQ3ViewStatus
-E3View_EndWriting(TQ3ViewObject view)
-{
-
-
-	// To be implemented...
-	return(kQ3ViewStatusError);
-}
-
-
-
-
 
 //=============================================================================
 //      E3File_New : Create a new file object.
@@ -418,7 +383,7 @@ E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 	TQ3XStorageOpenMethod open;
 	TQ3XStorageCloseMethod close;
 	
-	TQ3Status openStatus = kQ3Success;
+	TQ3Status openStatus = kQ3Failure;
 	TQ3Status readHeaderStatus = kQ3Success;
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Closed),kQ3Failure);
@@ -490,10 +455,86 @@ TQ3Status
 E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 {
 	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Closed),kQ3Failure);
+	TQ3FileFormatObject format;
 
-	// To be implemented...
-	return(kQ3Failure);
+	TQ3XStorageOpenMethod open;
+	TQ3XStorageCloseMethod close;
+	
+	TQ3Status openStatus = kQ3Failure;
+	
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Closed),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->storage != NULL),kQ3Failure);
+	
+	
+	//Convert QD3D modes to Quesa format codes
+	switch(mode){
+		case kQ3FileModeNormal:
+			mode = kQ3FFormatWriterType3DMFNormalBin;
+			break;
+			
+		//still not supported
+		/*
+		case kQ3FileModeStream:
+			mode = kQ3FFormatWriterType3DMFStreamBin;
+			break;
+		case kQ3FileModeDatabase:
+			mode = kQ3FFormatWriterType3DMFDatabaseBin;
+			break;
+		case (kQ3FileModeNormal + kQ3FileModeText):
+			mode = kQ3FFormatWriterType3DMFNormalText;
+			break;
+		case (kQ3FileModeStream + kQ3FileModeText):
+			mode = kQ3FFormatWriterType3DMFStreamText;
+			break;
+		case (kQ3FileModeDatabase + kQ3FileModeText):
+			mode = kQ3FFormatWriterType3DMFDatabaseText;
+			break;
+		case (kQ3FileModeStream + kQ3FileModeDatabase):
+			mode = kQ3FFormatWriterType3DMFDatabaseStreamBin;
+			break;
+		case (kQ3FileModeDatabase + kQ3FileModeDatabase + kQ3FileModeText):
+			mode = kQ3FFormatWriterType3DMFDatabaseStreamText;
+			break;
+		*/
+		}
+	
+	// Instantiate the fileFormat 
+	format = Q3FileFormat_NewFromType(mode);
+		
+	if(format != NULL){
+		if(Q3Object_IsType(format,kQ3FileFormatTypeWriter) == kQ3True){
+			// Open the storage for writing
+			open = (TQ3XStorageOpenMethod)E3ClassTree_GetMethod (instanceData->storage->theClass, kQ3XMethodTypeStorageOpen);
+			if(open != NULL)
+				openStatus = open(instanceData->storage,kQ3True);
+			if(openStatus == kQ3Success){
+			
+				if(e3file_format_attach(theFile,format) == kQ3Success){
+				
+					instanceData->status = kE3_File_Status_Writing;
+					instanceData->reason = kE3_File_Reason_OK;
+					
+					
+					Q3Object_Dispose(format);
+					
+					return kQ3Success;
+					}
+				else{
+					// close the storage
+					close = (TQ3XStorageCloseMethod)E3ClassTree_GetMethod (instanceData->storage->theClass, kQ3XMethodTypeStorageClose);
+					if(close != NULL)
+						(void)close(instanceData->storage);
+					}
+				}
+			}
+		
+		/* catch */
+		Q3Object_Dispose(format);
+		return kQ3Failure;
+		}
+	else // format == NULL
+		return kQ3Failure;
+		
 }
 
 
@@ -668,7 +709,7 @@ E3File_GetNextObjectType(TQ3FileObject theFile)
 	TQ3XFFormatGetNextTypeMethod	getNextObjectType;
 
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status != kE3_File_Status_Closed),kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
 
@@ -720,7 +761,7 @@ E3File_ReadObject(TQ3FileObject theFile)
 	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
 	TQ3XFFormatReadObjectMethod		readObject;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status != kE3_File_Status_Closed),NULL);
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),NULL);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),NULL);
 
 	readObject = (TQ3XFFormatReadObjectMethod)
@@ -747,7 +788,7 @@ E3File_SkipObject(TQ3FileObject theFile)
 	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
 	TQ3XFFormatSkipObjectMethod		skipObject;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status != kE3_File_Status_Closed),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
 	skipObject = (TQ3XFFormatSkipObjectMethod)
