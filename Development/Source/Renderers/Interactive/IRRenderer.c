@@ -45,6 +45,7 @@
 #include "GLPrefix.h"
 #include "GLCamera.h"
 #include "GLDrawContext.h"
+#include "GLUtils.h"
 
 
 
@@ -133,6 +134,9 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 				&instanceData->glClearFlags);
 			if (instanceData->glContext == NULL)
 				return(kQ3Failure);
+
+
+			GLUtils_CheckExtensions( &instanceData->glExtensions );
 
 
 			// Rebuild the OpenGL texture objects, since they will
