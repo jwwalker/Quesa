@@ -774,6 +774,8 @@ E3Renderer_Method_SubmitGeometry(TQ3ViewObject		theView,
 {	TQ3RendererObject						theRenderer = E3View_AccessRenderer(theView);
 	TQ3Status								qd3dStatus  = kQ3Failure;
 	TQ3XRendererSubmitGeometryMethod		submitGeom;
+	TQ3AttributeSet							attSet = NULL;
+	TQ3Boolean								hasSurfaceShader = kQ3False;
 
 
 
@@ -789,9 +791,31 @@ E3Renderer_Method_SubmitGeometry(TQ3ViewObject		theView,
 
 
 
+	// Test whether the geometry's attribute set contains a surface shader.
+	if ( (kQ3Success == Q3Geometry_GetAttributeSet( theGeom, &attSet )) &&
+		(attSet != NULL) )
+	{
+		hasSurfaceShader = Q3AttributeSet_Contains( attSet, kQ3AttributeTypeSurfaceShader );
+		Q3Object_Dispose( attSet );
+	}
+	
+	
+	// If there is a shader, we must push the view state
+	if (hasSurfaceShader)
+	{
+		Q3Push_Submit( theView );
+	}
+
+
 	// Call the method
 	if (submitGeom != NULL)
 		qd3dStatus = submitGeom(theView, theRenderer->instanceData, theGeom, geomData);
+
+
+	if (hasSurfaceShader)
+	{
+		Q3Pop_Submit( theView );
+	}
 
 	return(qd3dStatus);
 }
