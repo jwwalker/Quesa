@@ -515,10 +515,13 @@ e3geom_trimesh_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object t
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
+{	TQ3TriMeshData		*instanceData = (TQ3TriMeshData *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
 
+	//calculate bBox if not set
+	if(instanceData->bBox.isEmpty == kQ3True)
+		Q3BoundingBox_SetFromPoints3D (&instanceData->bBox, instanceData->points, instanceData->numPoints, sizeof(TQ3Point3D));
 
 
 	// Update the bounds
