@@ -67,6 +67,7 @@
 #include "E3GeometryTriangle.h"
 #include "E3GeometryTriGrid.h"
 #include "E3GeometryTriMesh.h"
+#include "E3View.h"
 
 
 
@@ -110,7 +111,7 @@ Q3Geometry_GetType(TQ3GeometryObject geometry)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, kQ3ShapeTypeGeometry), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), kQ3ObjectTypeInvalid);
 
 
 
@@ -144,7 +145,7 @@ Q3Geometry_GetAttributeSet(TQ3GeometryObject geometry, TQ3AttributeSet *attribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -182,7 +183,7 @@ Q3Geometry_SetAttributeSet(TQ3GeometryObject geometry, TQ3AttributeSet attribute
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), kQ3Failure);
 
 
 
@@ -218,10 +219,10 @@ Q3Geometry_Submit(TQ3GeometryObject geometry, TQ3ViewObject view)
 	{
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( geometry->IsObjectValid () , kQ3Failure ) ;
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 #if !QUESA_BUILD_AS_BINARY_COMPATIBLE
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, kQ3ShapeTypeGeometry), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), kQ3Failure);
 #endif
 
 
@@ -249,7 +250,7 @@ Q3Geometry_Submit(TQ3GeometryObject geometry, TQ3ViewObject view)
 
 	// If we're binary compatible, post an error if we're mis-used
 #if QUESA_BUILD_AS_BINARY_COMPATIBLE
-   if (!Q3Object_IsType(geometry, kQ3ShapeTypeGeometry))
+   if (! E3Geometry_IsOfMyClass ( geometry ))
         E3ErrorManager_PostError(kQ3ErrorInvalidObjectType, kQ3False);
 #endif	
 
@@ -269,8 +270,8 @@ Q3Geometry_GetDecomposed(TQ3GeometryObject geometry, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, kQ3ShapeTypeGeometry), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), NULL);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), NULL);
 
 
 
@@ -342,7 +343,7 @@ Q3Box_Submit(const TQ3BoxData *boxData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(boxData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -379,7 +380,7 @@ Q3Box_SetData(TQ3GeometryObject box, const TQ3BoxData *boxData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(boxData), kQ3Failure);
 
 
@@ -417,7 +418,7 @@ Q3Box_GetData(TQ3GeometryObject box, TQ3BoxData *boxData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(boxData), kQ3Failure);
 
 
@@ -489,7 +490,7 @@ Q3Box_SetOrigin(TQ3GeometryObject box, const TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -527,7 +528,7 @@ Q3Box_SetOrientation(TQ3GeometryObject box, const TQ3Vector3D *orientation)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -565,7 +566,7 @@ Q3Box_SetMajorAxis(TQ3GeometryObject box, const TQ3Vector3D *majorAxis)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorAxis), kQ3Failure);
 
 
@@ -603,7 +604,7 @@ Q3Box_SetMinorAxis(TQ3GeometryObject box, const TQ3Vector3D *minorAxis)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorAxis), kQ3Failure);
 
 
@@ -641,7 +642,7 @@ Q3Box_GetOrigin(TQ3GeometryObject box, TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -679,7 +680,7 @@ Q3Box_GetOrientation(TQ3GeometryObject box, TQ3Vector3D *orientation)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -717,7 +718,7 @@ Q3Box_GetMajorAxis(TQ3GeometryObject box, TQ3Vector3D *majorAxis)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorAxis), kQ3Failure);
 
 
@@ -755,7 +756,7 @@ Q3Box_GetMinorAxis(TQ3GeometryObject box, TQ3Vector3D *minorAxis)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorAxis), kQ3Failure);
 
 
@@ -793,7 +794,7 @@ Q3Box_GetFaceAttributeSet(TQ3GeometryObject box, TQ3Uns32 faceIndex, TQ3Attribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(faceAttributeSet), kQ3Failure);
 
 
@@ -834,7 +835,7 @@ Q3Box_SetFaceAttributeSet(TQ3GeometryObject box, TQ3Uns32 faceIndex, TQ3Attribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(box, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( box ), kQ3Failure);
 
 
 
@@ -909,7 +910,7 @@ Q3Cone_Submit(const TQ3ConeData *coneData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(coneData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -946,7 +947,7 @@ Q3Cone_SetData(TQ3GeometryObject cone, const TQ3ConeData *coneData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(coneData), kQ3Failure);
 
 
@@ -984,7 +985,7 @@ Q3Cone_GetData(TQ3GeometryObject cone, TQ3ConeData *coneData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(coneData), kQ3Failure);
 
 
@@ -1022,7 +1023,7 @@ Q3Cone_SetOrigin(TQ3GeometryObject cone, const TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -1060,7 +1061,7 @@ Q3Cone_SetOrientation(TQ3GeometryObject cone, const TQ3Vector3D *orientation)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -1098,7 +1099,7 @@ Q3Cone_SetMajorRadius(TQ3GeometryObject cone, const TQ3Vector3D *majorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -1136,7 +1137,7 @@ Q3Cone_SetMinorRadius(TQ3GeometryObject cone, const TQ3Vector3D *minorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -1174,7 +1175,7 @@ Q3Cone_GetOrigin(TQ3GeometryObject cone, TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -1212,7 +1213,7 @@ Q3Cone_GetOrientation(TQ3GeometryObject cone, TQ3Vector3D *orientation)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -1250,7 +1251,7 @@ Q3Cone_GetMajorRadius(TQ3GeometryObject cone, TQ3Vector3D *majorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -1288,7 +1289,7 @@ Q3Cone_GetMinorRadius(TQ3GeometryObject cone, TQ3Vector3D *minorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -1326,7 +1327,7 @@ Q3Cone_SetCaps(TQ3GeometryObject cone, TQ3EndCap caps)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 
 
 
@@ -1363,7 +1364,7 @@ Q3Cone_GetCaps(TQ3GeometryObject cone, TQ3EndCap *caps)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(caps), kQ3Failure);
 
 
@@ -1401,7 +1402,7 @@ Q3Cone_SetBottomAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet bottomAttri
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 
 
 
@@ -1438,7 +1439,7 @@ Q3Cone_GetBottomAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet *bottomAttr
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bottomAttributeSet), kQ3Failure);
 
 
@@ -1476,7 +1477,7 @@ Q3Cone_SetFaceAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet faceAttribute
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 
 
 
@@ -1513,7 +1514,7 @@ Q3Cone_GetFaceAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet *faceAttribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cone ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(faceAttributeSet), kQ3Failure);
 
 
@@ -1695,7 +1696,7 @@ Q3Cylinder_Submit(const TQ3CylinderData *cylinderData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cylinderData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -1732,7 +1733,7 @@ Q3Cylinder_SetData(TQ3GeometryObject cylinder, const TQ3CylinderData *cylinderDa
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cylinderData), kQ3Failure);
 
 
@@ -1770,7 +1771,7 @@ Q3Cylinder_GetData(TQ3GeometryObject cylinder, TQ3CylinderData *cylinderData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cylinderData), kQ3Failure);
 
 
@@ -1808,7 +1809,7 @@ Q3Cylinder_SetOrigin(TQ3GeometryObject cylinder, const TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -1846,7 +1847,7 @@ Q3Cylinder_SetOrientation(TQ3GeometryObject cylinder, const TQ3Vector3D *orienta
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -1884,7 +1885,7 @@ Q3Cylinder_SetMajorRadius(TQ3GeometryObject cylinder, const TQ3Vector3D *majorRa
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -1922,7 +1923,7 @@ Q3Cylinder_SetMinorRadius(TQ3GeometryObject cylinder, const TQ3Vector3D *minorRa
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -1960,7 +1961,7 @@ Q3Cylinder_GetOrigin(TQ3GeometryObject cylinder, TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -1998,7 +1999,7 @@ Q3Cylinder_GetOrientation(TQ3GeometryObject cylinder, TQ3Vector3D *orientation)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -2036,7 +2037,7 @@ Q3Cylinder_GetMajorRadius(TQ3GeometryObject cylinder, TQ3Vector3D *majorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -2074,7 +2075,7 @@ Q3Cylinder_GetMinorRadius(TQ3GeometryObject cylinder, TQ3Vector3D *minorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -2112,7 +2113,7 @@ Q3Cylinder_SetCaps(TQ3GeometryObject cylinder, TQ3EndCap caps)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 
 
 
@@ -2149,7 +2150,7 @@ Q3Cylinder_GetCaps(TQ3GeometryObject cylinder, TQ3EndCap *caps)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(caps), kQ3Failure);
 
 
@@ -2187,7 +2188,7 @@ Q3Cylinder_SetTopAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet topAtt
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 
 
 
@@ -2224,7 +2225,7 @@ Q3Cylinder_GetTopAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet *topAt
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(topAttributeSet), kQ3Failure);
 
 
@@ -2262,7 +2263,7 @@ Q3Cylinder_SetBottomAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet bot
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 
 
 
@@ -2299,7 +2300,7 @@ Q3Cylinder_GetBottomAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet *bo
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bottomAttributeSet), kQ3Failure);
 
 
@@ -2337,7 +2338,7 @@ Q3Cylinder_SetFaceAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet faceA
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 
 
 
@@ -2374,7 +2375,7 @@ Q3Cylinder_GetFaceAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet *face
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(faceAttributeSet), kQ3Failure);
 
 
@@ -2412,7 +2413,7 @@ Q3Cylinder_SetInteriorAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet i
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 
 
 
@@ -2449,7 +2450,7 @@ Q3Cylinder_GetInteriorAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet *
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cylinder, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( cylinder ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(intAttributeSet), kQ3Failure);
 
 
@@ -2556,7 +2557,7 @@ Q3Disk_Submit(const TQ3DiskData *diskData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(diskData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -2593,7 +2594,7 @@ Q3Disk_SetData(TQ3GeometryObject disk, const TQ3DiskData *diskData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(disk, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( disk ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(diskData), kQ3Failure);
 
 
@@ -2631,7 +2632,7 @@ Q3Disk_GetData(TQ3GeometryObject disk, TQ3DiskData *diskData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(disk, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( disk ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(diskData), kQ3Failure);
 
 
@@ -2669,7 +2670,7 @@ Q3Disk_SetOrigin(TQ3GeometryObject disk, const TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(disk, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( disk ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -2707,7 +2708,7 @@ Q3Disk_SetMajorRadius(TQ3GeometryObject disk, const TQ3Vector3D *majorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(disk, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( disk ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -2745,7 +2746,7 @@ Q3Disk_SetMinorRadius(TQ3GeometryObject disk, const TQ3Vector3D *minorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(disk, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( disk ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -2783,7 +2784,7 @@ Q3Disk_GetOrigin(TQ3GeometryObject disk, TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(disk, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( disk ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -2821,7 +2822,7 @@ Q3Disk_GetMajorRadius(TQ3GeometryObject disk, TQ3Vector3D *majorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(disk, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( disk ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -2859,7 +2860,7 @@ Q3Disk_GetMinorRadius(TQ3GeometryObject disk, TQ3Vector3D *minorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(disk, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( disk ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -2966,7 +2967,7 @@ Q3Ellipse_Submit(const TQ3EllipseData *ellipseData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipseData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -3003,7 +3004,7 @@ Q3Ellipse_SetData(TQ3GeometryObject ellipse, const TQ3EllipseData *ellipseData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipse, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipse ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipseData), kQ3Failure);
 
 
@@ -3041,7 +3042,7 @@ Q3Ellipse_GetData(TQ3GeometryObject ellipse, TQ3EllipseData *ellipseData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipse, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipse ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipseData), kQ3Failure);
 
 
@@ -3079,7 +3080,7 @@ Q3Ellipse_SetOrigin(TQ3GeometryObject ellipse, const TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipse, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipse ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -3117,7 +3118,7 @@ Q3Ellipse_SetMajorRadius(TQ3GeometryObject ellipse, const TQ3Vector3D *majorRadi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipse, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipse ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -3155,7 +3156,7 @@ Q3Ellipse_SetMinorRadius(TQ3GeometryObject ellipse, const TQ3Vector3D *minorRadi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipse, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipse ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -3193,7 +3194,7 @@ Q3Ellipse_GetOrigin(TQ3GeometryObject ellipse, TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipse, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipse ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -3231,7 +3232,7 @@ Q3Ellipse_GetMajorRadius(TQ3GeometryObject ellipse, TQ3Vector3D *majorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipse, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipse ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -3269,7 +3270,7 @@ Q3Ellipse_GetMinorRadius(TQ3GeometryObject ellipse, TQ3Vector3D *minorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipse, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipse ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -3376,7 +3377,7 @@ Q3Ellipsoid_Submit(const TQ3EllipsoidData *ellipsoidData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipsoidData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -3413,7 +3414,7 @@ Q3Ellipsoid_SetData(TQ3GeometryObject ellipsoid, const TQ3EllipsoidData *ellipso
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipsoid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipsoid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipsoidData), kQ3Failure);
 
 
@@ -3451,7 +3452,7 @@ Q3Ellipsoid_GetData(TQ3GeometryObject ellipsoid, TQ3EllipsoidData *ellipsoidData
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipsoid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipsoid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipsoidData), kQ3Failure);
 
 
@@ -3489,7 +3490,7 @@ Q3Ellipsoid_SetOrigin(TQ3GeometryObject ellipsoid, const TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipsoid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipsoid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -3527,7 +3528,7 @@ Q3Ellipsoid_SetOrientation(TQ3GeometryObject ellipsoid, const TQ3Vector3D *orien
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipsoid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipsoid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -3565,7 +3566,7 @@ Q3Ellipsoid_SetMajorRadius(TQ3GeometryObject ellipsoid, const TQ3Vector3D *major
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipsoid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipsoid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -3603,7 +3604,7 @@ Q3Ellipsoid_SetMinorRadius(TQ3GeometryObject ellipsoid, const TQ3Vector3D *minor
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipsoid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipsoid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -3641,7 +3642,7 @@ Q3Ellipsoid_GetOrigin(TQ3GeometryObject ellipsoid, TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipsoid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipsoid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -3679,7 +3680,7 @@ Q3Ellipsoid_GetOrientation(TQ3GeometryObject ellipsoid, TQ3Vector3D *orientation
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipsoid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipsoid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -3717,7 +3718,7 @@ Q3Ellipsoid_GetMajorRadius(TQ3GeometryObject ellipsoid, TQ3Vector3D *majorRadius
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipsoid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipsoid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -3755,7 +3756,7 @@ Q3Ellipsoid_GetMinorRadius(TQ3GeometryObject ellipsoid, TQ3Vector3D *minorRadius
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(ellipsoid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( ellipsoid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -3862,7 +3863,7 @@ Q3GeneralPolygon_Submit(const TQ3GeneralPolygonData *generalPolygonData, TQ3View
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(generalPolygonData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -3899,7 +3900,7 @@ Q3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolyg
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(generalPolygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( generalPolygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(generalPolygonData), kQ3Failure);
 
 
@@ -3937,7 +3938,7 @@ Q3GeneralPolygon_GetData(TQ3GeometryObject polygon, TQ3GeneralPolygonData *gener
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(generalPolygonData), kQ3Failure);
 
 
@@ -4009,7 +4010,7 @@ Q3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 co
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(generalPolygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( generalPolygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -4053,7 +4054,7 @@ Q3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 co
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(generalPolygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( generalPolygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -4097,7 +4098,7 @@ Q3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(generalPolygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( generalPolygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -4141,7 +4142,7 @@ Q3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(generalPolygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( generalPolygon ), kQ3Failure);
 
 
 
@@ -4184,7 +4185,7 @@ Q3GeneralPolygon_SetShapeHint(TQ3GeometryObject generalPolygon, TQ3GeneralPolygo
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(generalPolygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( generalPolygon ), kQ3Failure);
 
 
 
@@ -4221,7 +4222,7 @@ Q3GeneralPolygon_GetShapeHint(TQ3GeometryObject generalPolygon, TQ3GeneralPolygo
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(generalPolygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( generalPolygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(shapeHint), kQ3Failure);
 
 
@@ -4294,7 +4295,7 @@ Q3Line_Submit(const TQ3LineData *lineData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lineData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -4331,7 +4332,7 @@ Q3Line_GetData(TQ3GeometryObject line, TQ3LineData *lineData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(line, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( line ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lineData), kQ3Failure);
 
 
@@ -4369,7 +4370,7 @@ Q3Line_SetData(TQ3GeometryObject line, const TQ3LineData *lineData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(line, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( line ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lineData), kQ3Failure);
 
 
@@ -4407,7 +4408,7 @@ Q3Line_GetVertexPosition(TQ3GeometryObject line, TQ3Uns32 index, TQ3Point3D *pos
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(line, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( line ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -4448,7 +4449,7 @@ Q3Line_SetVertexPosition(TQ3GeometryObject line, TQ3Uns32 index, const TQ3Point3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(line, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( line ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -4489,7 +4490,7 @@ Q3Line_GetVertexAttributeSet(TQ3GeometryObject line, TQ3Uns32 index, TQ3Attribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(line, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( line ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -4530,7 +4531,7 @@ Q3Line_SetVertexAttributeSet(TQ3GeometryObject line, TQ3Uns32 index, TQ3Attribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(line, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( line ), kQ3Failure);
 
 
 
@@ -4639,7 +4640,7 @@ Q3Marker_Submit(const TQ3MarkerData *markerData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(markerData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -4676,7 +4677,7 @@ Q3Marker_SetData(TQ3GeometryObject geometry, const TQ3MarkerData *markerData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(markerData), kQ3Failure);
 
 
@@ -4714,7 +4715,7 @@ Q3Marker_GetData(TQ3GeometryObject geometry, TQ3MarkerData *markerData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(markerData), kQ3Failure);
 
 
@@ -4786,7 +4787,7 @@ Q3Marker_GetPosition(TQ3GeometryObject marker, TQ3Point3D *location)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(marker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( marker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(location), kQ3Failure);
 
 
@@ -4824,7 +4825,7 @@ Q3Marker_SetPosition(TQ3GeometryObject marker, const TQ3Point3D *location)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(marker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( marker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(location), kQ3Failure);
 
 
@@ -4862,7 +4863,7 @@ Q3Marker_GetXOffset(TQ3GeometryObject marker, TQ3Int32 *xOffset)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(marker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( marker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(xOffset), kQ3Failure);
 
 
@@ -4900,7 +4901,7 @@ Q3Marker_SetXOffset(TQ3GeometryObject marker, TQ3Int32 xOffset)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(marker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( marker ), kQ3Failure);
 
 
 
@@ -4937,7 +4938,7 @@ Q3Marker_GetYOffset(TQ3GeometryObject marker, TQ3Int32 *yOffset)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(marker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( marker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(yOffset), kQ3Failure);
 
 
@@ -4975,7 +4976,7 @@ Q3Marker_SetYOffset(TQ3GeometryObject marker, TQ3Int32 yOffset)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(marker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( marker ), kQ3Failure);
 
 
 
@@ -5012,7 +5013,7 @@ Q3Marker_GetBitmap(TQ3GeometryObject marker, TQ3Bitmap *bitmap)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(marker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( marker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bitmap), kQ3Failure);
 
 
@@ -5050,7 +5051,7 @@ Q3Marker_SetBitmap(TQ3GeometryObject marker, const TQ3Bitmap *bitmap)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(marker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( marker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bitmap), kQ3Failure);
 
 
@@ -5109,7 +5110,7 @@ Q3Mesh_SetData(TQ3GeometryObject mesh, const TQ3MeshData *meshData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(meshData), kQ3Failure);
 
 
@@ -5147,7 +5148,7 @@ Q3Mesh_GetData(TQ3GeometryObject mesh, TQ3MeshData *meshData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(meshData), kQ3Failure);
 
 
@@ -5301,7 +5302,7 @@ Q3Mesh_VertexDelete(TQ3GeometryObject mesh, TQ3MeshVertex vertex)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 
 
 
@@ -5338,7 +5339,7 @@ Q3Mesh_FaceDelete(TQ3GeometryObject mesh, TQ3MeshFace face)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 
 
 
@@ -5375,7 +5376,7 @@ Q3Mesh_DelayUpdates(TQ3GeometryObject mesh)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 
 
 
@@ -5409,7 +5410,7 @@ Q3Mesh_ResumeUpdates(TQ3GeometryObject mesh)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 
 
 
@@ -5443,7 +5444,7 @@ Q3Mesh_FaceToContour(TQ3GeometryObject mesh, TQ3MeshFace containerFace, TQ3MeshF
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, kQ3ShapeTypeGeometry), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
 
 
 
@@ -5483,7 +5484,7 @@ Q3Mesh_ContourToFace(TQ3GeometryObject mesh, TQ3MeshContour contour)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, kQ3ShapeTypeGeometry), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
 
 
 
@@ -5520,7 +5521,7 @@ Q3Mesh_GetNumComponents(TQ3GeometryObject mesh, TQ3Uns32 *numComponents)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numComponents), kQ3Failure);
 
 
@@ -5558,7 +5559,7 @@ Q3Mesh_GetNumEdges(TQ3GeometryObject mesh, TQ3Uns32 *numEdges)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numEdges), kQ3Failure);
 
 
@@ -5596,7 +5597,7 @@ Q3Mesh_GetNumVertices(TQ3GeometryObject mesh, TQ3Uns32 *numVertices)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numVertices), kQ3Failure);
 
 
@@ -5634,7 +5635,7 @@ Q3Mesh_GetNumFaces(TQ3GeometryObject mesh, TQ3Uns32 *numFaces)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numFaces), kQ3Failure);
 
 
@@ -5672,7 +5673,7 @@ Q3Mesh_GetNumCorners(TQ3GeometryObject mesh, TQ3Uns32 *numCorners)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numCorners), kQ3Failure);
 
 
@@ -5710,7 +5711,7 @@ Q3Mesh_GetOrientable(TQ3GeometryObject mesh, TQ3Boolean *orientable)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientable), kQ3Failure);
 
 
@@ -5748,7 +5749,7 @@ Q3Mesh_GetComponentNumVertices(TQ3GeometryObject mesh, TQ3MeshComponent componen
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numVertices), kQ3Failure);
 
 
@@ -5789,7 +5790,7 @@ Q3Mesh_GetComponentNumEdges(TQ3GeometryObject mesh, TQ3MeshComponent component, 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numEdges), kQ3Failure);
 
 
@@ -5830,7 +5831,7 @@ Q3Mesh_GetComponentBoundingBox(TQ3GeometryObject mesh, TQ3MeshComponent componen
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(boundingBox), kQ3Failure);
 
 
@@ -5871,7 +5872,7 @@ Q3Mesh_GetComponentOrientable(TQ3GeometryObject mesh, TQ3MeshComponent component
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientable), kQ3Failure);
 
 
@@ -5912,7 +5913,7 @@ Q3Mesh_GetVertexCoordinates(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Poi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(coordinates), kQ3Failure);
 
 
@@ -5953,7 +5954,7 @@ Q3Mesh_GetVertexIndex(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Uns32 *in
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(index), kQ3Failure);
 
 
@@ -5994,7 +5995,7 @@ Q3Mesh_GetVertexOnBoundary(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Bool
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(onBoundary), kQ3Failure);
 
 
@@ -6035,7 +6036,7 @@ Q3Mesh_GetVertexComponent(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3MeshC
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(component), kQ3Failure);
 
 
@@ -6076,7 +6077,7 @@ Q3Mesh_GetVertexAttributeSet(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3At
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -6117,7 +6118,7 @@ Q3Mesh_SetVertexCoordinates(TQ3GeometryObject mesh, TQ3MeshVertex vertex, const 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(coordinates), kQ3Failure);
 
 
@@ -6158,7 +6159,7 @@ Q3Mesh_SetVertexAttributeSet(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3At
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 
 
 
@@ -6198,7 +6199,7 @@ Q3Mesh_GetFaceNumVertices(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Uns32 *nu
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numVertices), kQ3Failure);
 
 
@@ -6239,7 +6240,7 @@ Q3Mesh_GetFacePlaneEquation(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3PlaneEq
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(planeEquation), kQ3Failure);
 
 
@@ -6280,7 +6281,7 @@ Q3Mesh_GetFaceNumContours(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Uns32 *nu
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numContours), kQ3Failure);
 
 
@@ -6321,7 +6322,7 @@ Q3Mesh_GetFaceIndex(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Uns32 *index)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(index), kQ3Failure);
 
 
@@ -6362,7 +6363,7 @@ Q3Mesh_GetFaceComponent(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3MeshCompone
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(component), kQ3Failure);
 
 
@@ -6403,7 +6404,7 @@ Q3Mesh_GetFaceAttributeSet(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Attribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -6444,7 +6445,7 @@ Q3Mesh_SetFaceAttributeSet(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Attribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 
 
 
@@ -6484,7 +6485,7 @@ Q3Mesh_GetEdgeVertices(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3MeshVertex *
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vertex1), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vertex2), kQ3Failure);
 
@@ -6529,7 +6530,7 @@ Q3Mesh_GetEdgeFaces(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3MeshFace *face1
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(face1), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(face2), kQ3Failure);
 
@@ -6574,7 +6575,7 @@ Q3Mesh_GetEdgeOnBoundary(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3Boolean *o
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(onBoundary), kQ3Failure);
 
 
@@ -6615,7 +6616,7 @@ Q3Mesh_GetEdgeComponent(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3MeshCompone
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(component), kQ3Failure);
 
 
@@ -6656,7 +6657,7 @@ Q3Mesh_GetEdgeAttributeSet(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3Attribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -6697,7 +6698,7 @@ Q3Mesh_SetEdgeAttributeSet(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3Attribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 
 
 
@@ -6737,7 +6738,7 @@ Q3Mesh_GetContourFace(TQ3GeometryObject mesh, TQ3MeshContour contour, TQ3MeshFac
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(face), kQ3Failure);
 
 
@@ -6778,7 +6779,7 @@ Q3Mesh_GetContourNumVertices(TQ3GeometryObject mesh, TQ3MeshContour contour, TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(numVertices), kQ3Failure);
 
 
@@ -6819,7 +6820,7 @@ Q3Mesh_GetCornerAttributeSet(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Me
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -6863,7 +6864,7 @@ Q3Mesh_SetCornerAttributeSet(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Me
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), kQ3Failure);
 
 
 
@@ -6906,7 +6907,7 @@ Q3Mesh_FirstMeshComponent(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, kQ3ShapeTypeGeometry), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
 
 
@@ -7120,7 +7121,7 @@ Q3Mesh_FirstMeshVertex(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, kQ3ShapeTypeGeometry), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
 
 
@@ -7192,7 +7193,7 @@ Q3Mesh_FirstMeshFace(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, kQ3ShapeTypeGeometry), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
 
 
@@ -7264,7 +7265,7 @@ Q3Mesh_FirstMeshEdge(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, kQ3ShapeTypeGeometry), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
 
 
@@ -8082,7 +8083,7 @@ Q3NURBCurve_Submit(const TQ3NURBCurveData *curveData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(curveData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -8451,7 +8452,7 @@ Q3NURBPatch_Submit(const TQ3NURBPatchData *nurbPatchData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nurbPatchData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -8489,7 +8490,7 @@ Q3NURBPatch_SetData(TQ3GeometryObject nurbPatch, const TQ3NURBPatchData *nurbPat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(nurbPatch, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( nurbPatch ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nurbPatchData), kQ3Failure);
 
 
@@ -8528,7 +8529,7 @@ Q3NURBPatch_GetData(TQ3GeometryObject nurbPatch, TQ3NURBPatchData *nurbPatchData
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(nurbPatch, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( nurbPatch ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nurbPatchData), kQ3Failure);
 
 
@@ -8564,7 +8565,7 @@ TQ3Status
 Q3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, const TQ3RationalPoint4D *point4D)
 	{
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(nurbPatch, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( nurbPatch ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), kQ3Failure);
 
 
@@ -8610,7 +8611,7 @@ TQ3Status
 Q3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3RationalPoint4D *point4D)
 	{
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(nurbPatch, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( nurbPatch ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), kQ3Failure);
 
 
@@ -8656,7 +8657,7 @@ TQ3Status
 Q3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knotValue)
 	{
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(nurbPatch, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( nurbPatch ), kQ3Failure);
 
 
 
@@ -8707,7 +8708,7 @@ TQ3Status
 Q3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knotValue)
 	{
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(nurbPatch, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( nurbPatch ), kQ3Failure);
 
 
 
@@ -8755,7 +8756,7 @@ TQ3Status
 Q3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *knotValue)
 	{
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(nurbPatch, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( nurbPatch ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(knotValue), kQ3Failure);
 
 
@@ -8797,7 +8798,7 @@ TQ3Status
 Q3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *knotValue)
 	{
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(nurbPatch, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( nurbPatch ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(knotValue), kQ3Failure);
 
 
@@ -8910,7 +8911,7 @@ Q3PixmapMarker_Submit(const TQ3PixmapMarkerData *pixmapMarkerData, TQ3ViewObject
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmapMarkerData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -8947,7 +8948,7 @@ Q3PixmapMarker_SetData(TQ3GeometryObject geometry, const TQ3PixmapMarkerData *pi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmapMarkerData), kQ3Failure);
 
 
@@ -8985,7 +8986,7 @@ Q3PixmapMarker_GetData(TQ3GeometryObject geometry, TQ3PixmapMarkerData *pixmapMa
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(geometry, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmapMarkerData), kQ3Failure);
 
 
@@ -9057,7 +9058,7 @@ Q3PixmapMarker_GetPosition(TQ3GeometryObject pixmapMarker, TQ3Point3D *position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pixmapMarker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( pixmapMarker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -9095,7 +9096,7 @@ Q3PixmapMarker_SetPosition(TQ3GeometryObject pixmapMarker, const TQ3Point3D *pos
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pixmapMarker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( pixmapMarker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -9133,7 +9134,7 @@ Q3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *xOffset)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pixmapMarker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( pixmapMarker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(xOffset), kQ3Failure);
 
 
@@ -9171,7 +9172,7 @@ Q3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 xOffset)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pixmapMarker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( pixmapMarker ), kQ3Failure);
 
 
 
@@ -9208,7 +9209,7 @@ Q3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *yOffset)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pixmapMarker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( pixmapMarker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(yOffset), kQ3Failure);
 
 
@@ -9246,7 +9247,7 @@ Q3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 yOffset)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pixmapMarker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( pixmapMarker ), kQ3Failure);
 
 
 
@@ -9283,7 +9284,7 @@ Q3PixmapMarker_GetPixmap(TQ3GeometryObject pixmapMarker, TQ3StoragePixmap *pixma
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pixmapMarker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( pixmapMarker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmap), kQ3Failure);
 
 
@@ -9321,7 +9322,7 @@ Q3PixmapMarker_SetPixmap(TQ3GeometryObject pixmapMarker, const TQ3StoragePixmap 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pixmapMarker, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( pixmapMarker ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmap), kQ3Failure);
 
 
@@ -9394,7 +9395,7 @@ Q3Point_Submit(const TQ3PointData *pointData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -9431,7 +9432,7 @@ Q3Point_GetData(TQ3GeometryObject point, TQ3PointData *pointData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(point, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( point ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointData), kQ3Failure);
 
 
@@ -9469,7 +9470,7 @@ Q3Point_SetData(TQ3GeometryObject point, const TQ3PointData *pointData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(point, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( point ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointData), kQ3Failure);
 
 
@@ -9541,7 +9542,7 @@ Q3Point_SetPosition(TQ3GeometryObject point, const TQ3Point3D *position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(point, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( point ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -9579,7 +9580,7 @@ Q3Point_GetPosition(TQ3GeometryObject point, TQ3Point3D *position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(point, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( point ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -9653,7 +9654,7 @@ Q3Polygon_Submit(const TQ3PolygonData *polygonData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polygonData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -9690,7 +9691,7 @@ Q3Polygon_SetData(TQ3GeometryObject polygon, const TQ3PolygonData *polygonData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polygonData), kQ3Failure);
 
 
@@ -9728,7 +9729,7 @@ Q3Polygon_GetData(TQ3GeometryObject polygon, TQ3PolygonData *polygonData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polygonData), kQ3Failure);
 
 
@@ -9800,7 +9801,7 @@ Q3Polygon_GetVertexPosition(TQ3GeometryObject polygon, TQ3Uns32 index, TQ3Point3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point), kQ3Failure);
 
 
@@ -9841,7 +9842,7 @@ Q3Polygon_SetVertexPosition(TQ3GeometryObject polygon, TQ3Uns32 index, const TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point), kQ3Failure);
 
 
@@ -9882,7 +9883,7 @@ Q3Polygon_GetVertexAttributeSet(TQ3GeometryObject polygon, TQ3Uns32 index, TQ3At
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polygon ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -9923,7 +9924,7 @@ Q3Polygon_SetVertexAttributeSet(TQ3GeometryObject polygon, TQ3Uns32 index, TQ3At
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polygon, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polygon ), kQ3Failure);
 
 
 
@@ -9998,7 +9999,7 @@ Q3Polyhedron_Submit(const TQ3PolyhedronData *polyhedronData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polyhedronData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -10035,7 +10036,7 @@ Q3Polyhedron_SetData(TQ3GeometryObject polyhedron, const TQ3PolyhedronData *poly
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyhedron, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyhedron ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polyhedronData), kQ3Failure);
 
 
@@ -10073,7 +10074,7 @@ Q3Polyhedron_GetData(TQ3GeometryObject polyhedron, TQ3PolyhedronData *polyhedron
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyhedron, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyhedron ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polyhedronData), kQ3Failure);
 
 
@@ -10145,7 +10146,7 @@ Q3Polyhedron_SetVertexPosition(TQ3GeometryObject polyhedron, TQ3Uns32 index, con
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyhedron, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyhedron ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point), kQ3Failure);
 
 
@@ -10186,7 +10187,7 @@ Q3Polyhedron_GetVertexPosition(TQ3GeometryObject polyhedron, TQ3Uns32 index, TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyhedron, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyhedron ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point), kQ3Failure);
 
 
@@ -10227,7 +10228,7 @@ Q3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject polyhedron, TQ3Uns32 index,
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyhedron, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyhedron ), kQ3Failure);
 
 
 
@@ -10267,7 +10268,7 @@ Q3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject polyhedron, TQ3Uns32 index,
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyhedron, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyhedron ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -10308,7 +10309,7 @@ Q3Polyhedron_GetTriangleData(TQ3GeometryObject polyhedron, TQ3Uns32 triangleInde
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyhedron, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyhedron ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triangleData), kQ3Failure);
 
 
@@ -10349,7 +10350,7 @@ Q3Polyhedron_SetTriangleData(TQ3GeometryObject polyhedron, TQ3Uns32 triangleInde
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyhedron, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyhedron ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triangleData), kQ3Failure);
 
 
@@ -10390,7 +10391,7 @@ Q3Polyhedron_GetEdgeData(TQ3GeometryObject polyhedron, TQ3Uns32 edgeIndex, TQ3Po
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyhedron, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyhedron ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(edgeData), kQ3Failure);
 
 
@@ -10431,7 +10432,7 @@ Q3Polyhedron_SetEdgeData(TQ3GeometryObject polyhedron, TQ3Uns32 edgeIndex, const
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyhedron, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyhedron ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(edgeData), kQ3Failure);
 
 
@@ -10511,7 +10512,7 @@ Q3PolyLine_Submit(const TQ3PolyLineData *polyLineData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polyLineData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -10548,7 +10549,7 @@ Q3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineDa
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyLine, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyLine ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polyLineData), kQ3Failure);
 
 
@@ -10590,7 +10591,7 @@ Q3PolyLine_GetData(TQ3GeometryObject polyLine, TQ3PolyLineData *polyLineData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyLine, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyLine ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polyLineData), kQ3Failure);
 
 
@@ -10662,7 +10663,7 @@ Q3PolyLine_GetVertexPosition(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3Poin
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyLine, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyLine ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -10703,7 +10704,7 @@ Q3PolyLine_SetVertexPosition(TQ3GeometryObject polyLine, TQ3Uns32 index, const T
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyLine, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyLine ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -10744,7 +10745,7 @@ Q3PolyLine_GetVertexAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyLine, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyLine ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -10785,7 +10786,7 @@ Q3PolyLine_SetVertexAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyLine, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyLine ), kQ3Failure);
 
 
 
@@ -10825,7 +10826,7 @@ Q3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyLine, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyLine ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -10866,7 +10867,7 @@ Q3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(polyLine, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( polyLine ), kQ3Failure);
 
 
 
@@ -10941,7 +10942,7 @@ Q3Torus_Submit(const TQ3TorusData *torusData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(torusData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -10978,7 +10979,7 @@ Q3Torus_SetData(TQ3GeometryObject torus, const TQ3TorusData *torusData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(torusData), kQ3Failure);
 
 
@@ -11016,7 +11017,7 @@ Q3Torus_GetData(TQ3GeometryObject torus, TQ3TorusData *torusData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(torusData), kQ3Failure);
 
 
@@ -11054,7 +11055,7 @@ Q3Torus_SetOrigin(TQ3GeometryObject torus, const TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -11092,7 +11093,7 @@ Q3Torus_SetOrientation(TQ3GeometryObject torus, const TQ3Vector3D *orientation)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -11130,7 +11131,7 @@ Q3Torus_SetMajorRadius(TQ3GeometryObject torus, const TQ3Vector3D *majorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -11168,7 +11169,7 @@ Q3Torus_SetMinorRadius(TQ3GeometryObject torus, const TQ3Vector3D *minorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -11206,7 +11207,7 @@ Q3Torus_SetRatio(TQ3GeometryObject torus, float ratio)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 
 
 
@@ -11243,7 +11244,7 @@ Q3Torus_GetOrigin(TQ3GeometryObject torus, TQ3Point3D *origin)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), kQ3Failure);
 
 
@@ -11281,7 +11282,7 @@ Q3Torus_GetOrientation(TQ3GeometryObject torus, TQ3Vector3D *orientation)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), kQ3Failure);
 
 
@@ -11319,7 +11320,7 @@ Q3Torus_GetMajorRadius(TQ3GeometryObject torus, TQ3Vector3D *majorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(majorRadius), kQ3Failure);
 
 
@@ -11357,7 +11358,7 @@ Q3Torus_GetMinorRadius(TQ3GeometryObject torus, TQ3Vector3D *minorRadius)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(minorRadius), kQ3Failure);
 
 
@@ -11395,7 +11396,7 @@ Q3Torus_GetRatio(TQ3GeometryObject torus, float *ratio)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(torus, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( torus ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ratio), kQ3Failure);
 
 
@@ -11502,7 +11503,7 @@ Q3Triangle_Submit(const TQ3TriangleData *triangleData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triangleData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -11539,7 +11540,7 @@ Q3Triangle_SetData(TQ3GeometryObject triangle, const TQ3TriangleData *triangleDa
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triangle, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triangle ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triangleData), kQ3Failure);
 
 
@@ -11577,7 +11578,7 @@ Q3Triangle_GetData(TQ3GeometryObject triangle, TQ3TriangleData *triangleData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triangle, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triangle ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triangleData), kQ3Failure);
 
 
@@ -11649,7 +11650,7 @@ Q3Triangle_GetVertexPosition(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3Poin
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triangle, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triangle ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point), kQ3Failure);
 
 
@@ -11694,7 +11695,7 @@ Q3Triangle_SetVertexPosition(TQ3GeometryObject triangle, TQ3Uns32 index, const T
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triangle, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triangle ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point), kQ3Failure);
 
 
@@ -11739,7 +11740,7 @@ Q3Triangle_GetVertexAttributeSet(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triangle, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triangle ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -11784,7 +11785,7 @@ Q3Triangle_SetVertexAttributeSet(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triangle, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triangle ), kQ3Failure);
 
 
 
@@ -11863,7 +11864,7 @@ Q3TriGrid_Submit(const TQ3TriGridData *triGridData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triGridData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -11900,7 +11901,7 @@ Q3TriGrid_SetData(TQ3GeometryObject triGrid, const TQ3TriGridData *triGridData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triGrid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triGrid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triGridData), kQ3Failure);
 
 
@@ -11938,7 +11939,7 @@ Q3TriGrid_GetData(TQ3GeometryObject triGrid, TQ3TriGridData *triGridData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triGrid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triGrid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triGridData), kQ3Failure);
 
 
@@ -12010,7 +12011,7 @@ Q3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triGrid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triGrid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -12054,7 +12055,7 @@ Q3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triGrid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triGrid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -12098,7 +12099,7 @@ Q3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triGrid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triGrid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet), kQ3Failure);
 
 
@@ -12142,7 +12143,7 @@ Q3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triGrid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triGrid ), kQ3Failure);
 
 
 
@@ -12185,7 +12186,7 @@ Q3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triGrid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triGrid ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(facetAttributeSet), kQ3Failure);
 
 
@@ -12226,7 +12227,7 @@ Q3TriGrid_SetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triGrid, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triGrid ), kQ3Failure);
 
 
 
@@ -12301,7 +12302,7 @@ Q3TriMesh_Submit(const TQ3TriMeshData *triMeshData, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshData), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -12338,7 +12339,7 @@ Q3TriMesh_SetData(TQ3GeometryObject triMesh, const TQ3TriMeshData *triMeshData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triMesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triMesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshData), kQ3Failure);
 
 
@@ -12376,7 +12377,7 @@ Q3TriMesh_GetData(TQ3GeometryObject triMesh, TQ3TriMeshData *triMeshData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triMesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triMesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshData), kQ3Failure);
 
 
@@ -12448,7 +12449,7 @@ Q3TriMesh_LockData(TQ3GeometryObject triMesh, TQ3Boolean readOnly, TQ3TriMeshDat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triMesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triMesh ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshData), kQ3Failure);
 
 
@@ -12489,7 +12490,7 @@ Q3TriMesh_UnlockData(TQ3GeometryObject triMesh)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(triMesh, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( triMesh ), kQ3Failure);
 
 
 

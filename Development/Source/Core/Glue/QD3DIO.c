@@ -94,7 +94,7 @@ Q3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 
@@ -120,7 +120,7 @@ Q3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -519,7 +519,7 @@ Q3View_StartWriting(TQ3ViewObject view, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
 
 
@@ -557,7 +557,7 @@ Q3View_EndWriting(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3ViewStatusError);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3ViewStatusError);
 
 
 
@@ -3312,7 +3312,7 @@ Q3ViewHints_New(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), NULL);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), NULL);
 
 
 

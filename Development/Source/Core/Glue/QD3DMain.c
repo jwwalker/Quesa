@@ -47,6 +47,7 @@
 #include "E3Prefix.h"
 #include "E3Main.h"
 #include "E3CustomElements.h"
+#include "E3View.h"
 
 
 
@@ -544,7 +545,7 @@ Q3Object_Submit(TQ3Object object, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( object->IsObjectValid (), kQ3Failure ) ;
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
 

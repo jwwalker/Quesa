@@ -4868,6 +4868,29 @@ E3View_GetAttributeState(TQ3ViewObject theView, TQ3AttributeType attributeType, 
 
 
 //=============================================================================
+//      E3View_IsMyClass : Check if object pointer is valid and of type view
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3ObjectTypeView )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3View_IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3View ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3Push_Submit : Push the view state.
 //-----------------------------------------------------------------------------
 #pragma mark -

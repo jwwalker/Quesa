@@ -131,6 +131,7 @@ TQ3Object			E3Geometry_GetDecomposed( TQ3GeometryObject theGeom, TQ3ViewObject v
 TQ3Boolean			E3Geometry_IsDegenerateTriple( const TQ3Vector3D* orientation,
 												const TQ3Vector3D* majorAxis,
 												const TQ3Vector3D* minorAxis );
+TQ3Boolean			E3Geometry_IsOfMyClass ( TQ3Object object ) ;
 
 
 //=============================================================================
