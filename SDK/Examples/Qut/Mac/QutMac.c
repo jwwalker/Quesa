@@ -1224,7 +1224,7 @@ QutMac_SelectMetafileToOpen(FSSpec* theFSSpec)
 		if (!sfReply.sfGood)
 			return(FALSE);
 		
-		theFSSpec = sfReply.sfFile;
+		*theFSSpec = sfReply.sfFile;
 #endif
 		}
 
