@@ -35,10 +35,11 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Memory.h"
+#include "E3StackCrawl.h"
 
 #include <stdlib.h>
-
-
+#include <stdio.h>
+#include <time.h>
 
 
 
@@ -294,3 +295,287 @@ E3Memory_Clear(void *thePtr, TQ3Uns32 theSize)
 	// Clear the memory
 	memset(thePtr, 0x00, theSize);
 }
+
+
+
+
+
+#pragma mark -
+//=============================================================================
+//      E3Memory_StartRecording : Start recording a list of live objects.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+TQ3Status
+E3Memory_StartRecording()
+{
+	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
+
+	theGlobals->isLeakChecking = kQ3True;
+	
+	return kQ3Success;
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      E3Memory_StopRecording : Stop recording any more objects.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+TQ3Status
+E3Memory_StopRecording()
+{
+	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
+
+	theGlobals->isLeakChecking = kQ3False;
+	
+	return kQ3Success;
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      E3Memory_IsRecording : Tell whether recording of objects is on.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+TQ3Boolean
+E3Memory_IsRecording()
+{
+	E3GlobalsPtr	theGlobals = E3Globals_Get();
+
+	return (TQ3Boolean)((theGlobals != NULL) && (theGlobals->isLeakChecking));
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      E3Memory_ForgetRecording : Forget any recorded objects.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+TQ3Status
+E3Memory_ForgetRecording()
+{
+	TQ3Object		anObject, nextObject;
+	TQ3ObjectData*	leakRec;
+	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
+	
+	if (theGlobals->listHead)	// true if anything was ever recorded
+	{
+		anObject = NEXTLINK( theGlobals->listHead );
+		
+		while (anObject != theGlobals->listHead)
+		{
+			nextObject = NEXTLINK( anObject );
+			NEXTLINK( anObject ) = NULL;
+			PREVLINK( anObject ) = NULL;
+			
+			leakRec = (TQ3ObjectData*) (anObject->instanceData);
+			
+			if ( leakRec->stackCrawl != NULL )
+			{
+				E3StackCrawl_Dispose( leakRec->stackCrawl );
+				leakRec->stackCrawl = NULL;
+			}
+			
+			anObject = nextObject;
+		}
+		
+		NEXTLINK( theGlobals->listHead ) = theGlobals->listHead;
+		PREVLINK( theGlobals->listHead ) = theGlobals->listHead;
+	}
+	return kQ3Success;
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      E3Memory_CountRecords : Count recorded objects.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+TQ3Uns32
+E3Memory_CountRecords()
+{
+	TQ3Uns32	numRecords = 0;
+	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	TQ3Object		anObject;
+	
+	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, 0 );
+	
+	if (theGlobals->listHead != NULL)	// true if anything was ever recorded
+	{
+		anObject = NEXTLINK( theGlobals->listHead );
+		
+		while (anObject != theGlobals->listHead)
+		{
+			Q3_ASSERT( anObject->quesaTag == kQ3ObjectTypeQuesa );
+			numRecords += 1;
+			anObject = NEXTLINK( anObject );
+		}
+	}
+	
+	return numRecords;
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      E3Memory_NextRecordedObject : Iterate through recorded objects.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+TQ3Object
+E3Memory_NextRecordedObject( TQ3Object inObject )
+{
+	TQ3Object	theNext = NULL;
+	TQ3ObjectData*	instanceData;
+	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	
+	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, NULL );
+	Q3_REQUIRE_OR_RESULT( theGlobals->listHead != NULL, NULL );
+	
+	if (inObject == NULL)
+	{
+		// Return the first thing in the list, if any.
+		theNext = NEXTLINK( theGlobals->listHead );
+	}
+	else
+	{
+		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData( inObject,
+			kQ3ObjectTypeRoot );
+		if (instanceData != NULL)
+		{
+			theNext = instanceData->next;
+		}
+	}
+
+	if (theNext == theGlobals->listHead)
+	{
+		theNext = NULL;
+	}
+	
+	return theNext;
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      E3Memory_DumpRecording : Write a listing of recorded objects.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+TQ3Status
+E3Memory_DumpRecording( const char* fileName, const char* memo )
+{
+	TQ3Object		anObject, nextObject;
+	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	FILE*			dumpFile;
+	TQ3ObjectType	theType;
+	TQ3ObjectClassNameString	className;
+	TQ3ObjectData*	leakRec;
+	time_t			theTime;
+	const char*		timeStr;
+	char			timeStrCopy[100];
+	long			timeStrLen;
+	
+	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR( fileName ), kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
+	
+	if (theGlobals->listHead)	// true if anything was ever recorded
+	{
+		dumpFile = fopen( fileName, "a" );
+		if (dumpFile == NULL)
+		{
+			E3ErrorManager_PostError( kQ3ErrorFileNotOpen, kQ3False );
+			return kQ3Failure;
+		}
+		
+		// Get a time stamp, and get rid of the line feed at the end.
+		theTime = time( NULL );
+		timeStr = ctime( &theTime );
+		timeStrLen = strlen( timeStr );
+		if ( (timeStr[timeStrLen - 1] == '\n') && (timeStrLen < sizeof(timeStrCopy)) )
+		{
+			memcpy( timeStrCopy, timeStr, timeStrLen-1 );
+			timeStrCopy[ timeStrLen-1 ] = '\0';
+			timeStr = timeStrCopy;
+		}
+		
+		if (memo == NULL)
+			fprintf( dumpFile, "\n\n========== START DUMP %s ==========\n", timeStr );
+		else
+			fprintf( dumpFile, "\n\n========== START DUMP %s %s ==========\n",
+				timeStr, memo );
+		
+		anObject = NEXTLINK( theGlobals->listHead );
+		
+		while (anObject != theGlobals->listHead)
+		{
+			Q3_ASSERT( anObject->quesaTag == kQ3ObjectTypeQuesa );
+			nextObject = NEXTLINK( anObject );
+			leakRec = (TQ3ObjectData*) (anObject->instanceData);
+			
+			// anObject currently points to a root object, find the leaf
+			while (anObject->childObject != NULL)
+			{
+				anObject = anObject->childObject;
+			}
+			
+			// Find the class name and print it
+			theType = Q3Object_GetLeafType( anObject );
+			if (kQ3Failure == Q3ObjectHierarchy_GetStringFromType( theType, className ))
+			{
+				strcpy( className, "UNKNOWN" );
+			}
+			if (Q3Object_IsType( anObject, kQ3ObjectTypeShared ))
+			{
+				fprintf( dumpFile, "%s   %ld\n", className, Q3Shared_GetReferenceCount(anObject) );
+			}
+			else
+			{
+				fprintf( dumpFile, "%s\n", className );
+			}
+			
+			// If possible, show a stack crawl
+			if (leakRec->stackCrawl != NULL)
+			{
+				TQ3Uns32	numNames = E3StackCrawl_Count( leakRec->stackCrawl );
+				TQ3Uns32	i;
+				
+				for (i = 0; i < numNames; ++i)
+				{
+					const char*	name = E3StackCrawl_Get( leakRec->stackCrawl, i );
+					if (name != NULL)
+					{
+						fprintf( dumpFile, "    %s\n", name );
+					}
+				}
+			}
+			
+			anObject = nextObject;
+		}
+
+		fprintf( dumpFile, "\n\n========== END DUMP ==========\n" );
+		fclose( dumpFile );
+	}
+	
+	return kQ3Success;
+}
+#endif
