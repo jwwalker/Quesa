@@ -5,7 +5,7 @@
         Implementation of Quesa Point geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Point : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3PointData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -315,14 +332,11 @@ e3geom_point_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object t
 //      e3geom_point_get_attribute : Point get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_point_get_attribute(TQ3GeometryObject theObject)
-{	TQ3PointData		*instanceData = (TQ3PointData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypePoint);
-
-
-
+e3geom_point_get_attribute ( E3Point* point )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->pointAttributeSet);
-}
+	return & point->instanceData.pointAttributeSet ;
+	}
 
 
 
@@ -382,11 +396,11 @@ E3GeometryPoint_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 												kQ3GeometryTypePoint,
 												kQ3ClassNameGeometryPoint,
 												e3geom_point_metahandler,
-												sizeof(TQ3PointData));
+												~sizeof(E3Point));
 
 	return(qd3dStatus);
 }
@@ -405,7 +419,7 @@ E3GeometryPoint_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypePoint, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypePoint, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -465,16 +479,16 @@ E3Point_Submit(const TQ3PointData *pointData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Point_GetData(TQ3GeometryObject thePoint, TQ3PointData *pointData)
-{
-	TQ3PointData *		instanceData = (TQ3PointData *) E3ClassTree_FindInstanceData(thePoint, kQ3GeometryTypePoint);
+	{
+	E3Point* point = (E3Point*) thePoint ;
 
 	//return the data
-	pointData->point = instanceData->point ;
+	pointData->point = point->instanceData.point ;
 	
-	E3Shared_Acquire(&pointData->pointAttributeSet, instanceData->pointAttributeSet);
+	E3Shared_Acquire ( & pointData->pointAttributeSet, point->instanceData.pointAttributeSet ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -485,18 +499,18 @@ E3Point_GetData(TQ3GeometryObject thePoint, TQ3PointData *pointData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Point_SetData(TQ3GeometryObject thePoint, const TQ3PointData *pointData)
-{
-	TQ3PointData *			instanceData = (TQ3PointData *) E3ClassTree_FindInstanceData(thePoint, kQ3GeometryTypePoint);
+	{
+	E3Point* point = (E3Point*) thePoint ;
 	
 	//set the point
-	instanceData->point	= pointData->point ;
+	point->instanceData.point = pointData->point ;
 	
-	E3Shared_Replace(&instanceData->pointAttributeSet, pointData->pointAttributeSet);
+	E3Shared_Replace ( & point->instanceData.pointAttributeSet, pointData->pointAttributeSet ) ;
 
-	Q3Shared_Edited(thePoint);
+	Q3Shared_Edited ( point ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -524,16 +538,16 @@ E3Point_EmptyData(TQ3PointData *pointData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Point_SetPosition(TQ3GeometryObject thePoint, const TQ3Point3D *position)
-{
-	TQ3PointData *			instanceData = (TQ3PointData *) E3ClassTree_FindInstanceData(thePoint, kQ3GeometryTypePoint);
+	{
+	E3Point* point = (E3Point*) thePoint ;
 	
 	//set the position
-	instanceData->point = *position ;
+	point->instanceData.point = *position ;
 
-	Q3Shared_Edited(thePoint);
+	Q3Shared_Edited ( point ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -544,12 +558,12 @@ E3Point_SetPosition(TQ3GeometryObject thePoint, const TQ3Point3D *position)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Point_GetPosition(TQ3GeometryObject thePoint, TQ3Point3D *position)
-{
-	TQ3PointData *			instanceData = (TQ3PointData *) E3ClassTree_FindInstanceData(thePoint, kQ3GeometryTypePoint);
+	{
+	E3Point* point = (E3Point*) thePoint ;
 
-	*position = instanceData->point ;
+	*position = point->instanceData.point ;
 	
-	return(kQ3Success) ;
-}
+	return kQ3Success ;
+	}
 
 

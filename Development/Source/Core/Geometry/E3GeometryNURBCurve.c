@@ -5,7 +5,7 @@
         Implementation of Quesa NURB Curve geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,6 +50,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3NURBCurve : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3NURBCurveData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -823,14 +840,11 @@ e3geom_nurbcurve_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 //      e3geom_nurbcurve_get_attribute : gets the NURBCurve attribute set.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_nurbcurve_get_attribute(TQ3GeometryObject theObject)
-{	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeNURBCurve);
-
-
-
+e3geom_nurbcurve_get_attribute ( E3NURBCurve* nurbCurve )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->curveAttributeSet);
-}
+	return & nurbCurve->instanceData.curveAttributeSet ;
+	}
 
 
 
@@ -896,11 +910,11 @@ E3GeometryNURBCurve_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeNURBCurve,
 											kQ3ClassNameGeometryNURBCurve,
 											e3geom_nurbcurve_metahandler,
-											sizeof(TQ3NURBCurveData));
+											~sizeof(E3NURBCurve));
 
 	return(qd3dStatus);
 }
@@ -919,7 +933,7 @@ E3GeometryNURBCurve_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeNURBCurve, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeNURBCurve, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -971,19 +985,20 @@ E3NURBCurve_Submit(const TQ3NURBCurveData *curveData, TQ3ViewObject theView)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBCurve_SetData(TQ3GeometryObject nurbCurve, const TQ3NURBCurveData *curveData)
-{	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) E3ClassTree_FindInstanceData(nurbCurve, kQ3GeometryTypeNURBCurve);
-	TQ3Status				qd3dStatus;
+E3NURBCurve_SetData(TQ3GeometryObject theNurbCurve, const TQ3NURBCurveData *curveData)
+	{
+	E3NURBCurve* nurbCurve = (E3NURBCurve*) theNurbCurve ;
 
 	// first, free the old data
-	e3geom_curve_disposedata(instanceData);
+	e3geom_curve_disposedata ( & nurbCurve->instanceData ) ;
 
 	// then copy in the new data
-	qd3dStatus = e3geom_curve_copydata(curveData, instanceData, kQ3False);
-	Q3Shared_Edited(nurbCurve);
+	TQ3Status qd3dStatus = e3geom_curve_copydata ( curveData, & nurbCurve->instanceData, kQ3False ) ;
+	
+	Q3Shared_Edited ( nurbCurve ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -995,16 +1010,14 @@ E3NURBCurve_SetData(TQ3GeometryObject nurbCurve, const TQ3NURBCurveData *curveDa
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBCurve_GetData(TQ3GeometryObject nurbCurve, TQ3NURBCurveData *curveData)
-{	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) E3ClassTree_FindInstanceData(nurbCurve, kQ3GeometryTypeNURBCurve);
-	TQ3Status				qd3dStatus;
+E3NURBCurve_GetData(TQ3GeometryObject theNurbCurve, TQ3NURBCurveData *curveData)
+	{
+	E3NURBCurve* nurbCurve = (E3NURBCurve*) theNurbCurve ;
 
 	// Copy the data out of the NURBCurve
-	curveData->curveAttributeSet = NULL;
-	qd3dStatus = e3geom_curve_copydata(instanceData, curveData, kQ3False);
-
-	return(qd3dStatus);
-}
+	curveData->curveAttributeSet = NULL ;
+	return e3geom_curve_copydata ( & nurbCurve->instanceData, curveData, kQ3False ) ;
+	}	
 
 
 
@@ -1035,15 +1048,17 @@ E3NURBCurve_EmptyData(TQ3NURBCurveData *curveData)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBCurve_SetControlPoint(TQ3GeometryObject nurbCurve, TQ3Uns32 pointIndex, const TQ3RationalPoint4D *point4D)
-{	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) E3ClassTree_FindInstanceData(nurbCurve, kQ3GeometryTypeNURBCurve);
+E3NURBCurve_SetControlPoint(TQ3GeometryObject theNurbCurve, TQ3Uns32 pointIndex, const TQ3RationalPoint4D *point4D)
+	{
+	E3NURBCurve* nurbCurve = (E3NURBCurve*) theNurbCurve ;
 
 	// Copy the point from point4D to controlPoints
-	Q3Memory_Copy( point4D, &instanceData->controlPoints[ pointIndex ], sizeof(TQ3RationalPoint4D) );
+	Q3Memory_Copy ( point4D, & nurbCurve->instanceData.controlPoints [ pointIndex ], sizeof ( TQ3RationalPoint4D ) ) ;
 
-	Q3Shared_Edited(nurbCurve);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( nurbCurve ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -1055,14 +1070,15 @@ E3NURBCurve_SetControlPoint(TQ3GeometryObject nurbCurve, TQ3Uns32 pointIndex, co
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBCurve_GetControlPoint(TQ3GeometryObject nurbCurve, TQ3Uns32 pointIndex, TQ3RationalPoint4D *point4D)
-{	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) E3ClassTree_FindInstanceData(nurbCurve, kQ3GeometryTypeNURBCurve);
+E3NURBCurve_GetControlPoint(TQ3GeometryObject theNurbCurve, TQ3Uns32 pointIndex, TQ3RationalPoint4D *point4D)
+	{
+	E3NURBCurve* nurbCurve = (E3NURBCurve*) theNurbCurve ;
 
 	// Copy the point from controlPoints to point4D
-	Q3Memory_Copy( &instanceData->controlPoints[ pointIndex ], point4D, sizeof(TQ3RationalPoint4D) );
+	Q3Memory_Copy ( & nurbCurve->instanceData.controlPoints [ pointIndex ], point4D, sizeof ( TQ3RationalPoint4D ) ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1074,15 +1090,17 @@ E3NURBCurve_GetControlPoint(TQ3GeometryObject nurbCurve, TQ3Uns32 pointIndex, TQ
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBCurve_SetKnot(TQ3GeometryObject nurbCurve, TQ3Uns32 knotIndex, float knotValue)
-{	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) E3ClassTree_FindInstanceData(nurbCurve, kQ3GeometryTypeNURBCurve);
+E3NURBCurve_SetKnot(TQ3GeometryObject theNurbCurve, TQ3Uns32 knotIndex, float knotValue)
+	{
+	E3NURBCurve* nurbCurve = (E3NURBCurve*) theNurbCurve ;
 
 	// Copy the knot from knotValue to knots
-	Q3Memory_Copy( &knotValue, &instanceData->knots[ knotIndex ], sizeof(float) );
+	Q3Memory_Copy ( &knotValue, & nurbCurve->instanceData.knots [ knotIndex ], sizeof ( float ) ) ;
 
-	Q3Shared_Edited(nurbCurve);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( nurbCurve ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -1094,13 +1112,14 @@ E3NURBCurve_SetKnot(TQ3GeometryObject nurbCurve, TQ3Uns32 knotIndex, float knotV
 //		Note : Untested
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NURBCurve_GetKnot(TQ3GeometryObject nurbCurve, TQ3Uns32 knotIndex, float *knotValue)
-{	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) E3ClassTree_FindInstanceData(nurbCurve, kQ3GeometryTypeNURBCurve);
+E3NURBCurve_GetKnot(TQ3GeometryObject theNurbCurve, TQ3Uns32 knotIndex, float *knotValue)
+	{
+	E3NURBCurve* nurbCurve = (E3NURBCurve*) theNurbCurve ;
 
 	// Copy the knot from knots to knotValue
-	Q3Memory_Copy( &instanceData->knots[ knotIndex ], knotValue, sizeof(float) );
+	Q3Memory_Copy ( & nurbCurve->instanceData.knots[ knotIndex ], knotValue, sizeof ( float ) ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 

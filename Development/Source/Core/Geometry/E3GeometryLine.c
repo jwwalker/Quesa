@@ -5,7 +5,7 @@
         Implementation of Quesa Line geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Line : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3LineData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -562,14 +579,11 @@ e3geom_line_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object th
 //      e3geom_line_get_attribute : Line get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_line_get_attribute(TQ3GeometryObject theObject)
-{	TQ3LineData			*instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeLine);
-
-
-
+e3geom_line_get_attribute ( E3Line* line )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->lineAttributeSet);
-}
+	return & line->instanceData.lineAttributeSet ;
+	}
 
 
 
@@ -629,11 +643,11 @@ E3GeometryLine_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass (	kQ3ShapeTypeGeometry,
 												kQ3GeometryTypeLine,
 												kQ3ClassNameGeometryLine,
 												e3geom_line_metahandler,
-												sizeof(TQ3LineData));
+												~sizeof(E3Line));
 
 	return(qd3dStatus);
 }
@@ -652,7 +666,7 @@ E3GeometryLine_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeLine, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeLine, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -706,13 +720,13 @@ E3Line_Submit(const TQ3LineData *lineData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Line_GetData(TQ3GeometryObject theLine, TQ3LineData *lineData)
-{
-	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
+	{
+	E3Line* line = (E3Line*) theLine ;
 
-	e3geom_line_copydata( instanceData, lineData, kQ3False );
+	e3geom_line_copydata ( & line->instanceData, lineData, kQ3False ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -723,19 +737,17 @@ E3Line_GetData(TQ3GeometryObject theLine, TQ3LineData *lineData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Line_SetData(TQ3GeometryObject theLine, const TQ3LineData *lineData)
-{
-	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
-	TQ3Status			q3status;
-
+	{
+	E3Line* line = (E3Line*) theLine ;
 	
-	E3Line_EmptyData( instanceData );
+	E3Line_EmptyData ( & line->instanceData ) ;
 	
-	q3status = e3geom_line_copydata( lineData, instanceData, kQ3False );
+	TQ3Status q3status = e3geom_line_copydata ( lineData, & line->instanceData, kQ3False ) ;
 
-	Q3Shared_Edited(theLine);
+	Q3Shared_Edited ( line ) ;
 
-	return (q3status);
-}
+	return q3status ;
+	}
 
 
 
@@ -746,14 +758,14 @@ E3Line_SetData(TQ3GeometryObject theLine, const TQ3LineData *lineData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Line_GetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3Point3D *position)
-{
-	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
+	{
+	E3Line* line = (E3Line*) theLine ;
 
 	//get the position	
-	*position = instanceData->vertices[index].point ;
+	*position = line->instanceData.vertices [ index ].point ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -764,16 +776,16 @@ E3Line_GetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3Point3D *
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Line_SetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, const TQ3Point3D *position)
-{
-	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
-	
+	{
+	E3Line* line = (E3Line*) theLine ;
 	
 	//set the position
-	instanceData->vertices[index].point = *position ;
-	Q3Shared_Edited(theLine);
+	line->instanceData.vertices [ index ].point = *position ;
+	
+	Q3Shared_Edited ( line ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -784,15 +796,14 @@ E3Line_SetVertexPosition(TQ3GeometryObject theLine, TQ3Uns32 index, const TQ3Poi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Line_GetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
-{
-	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
-
+	{
+	E3Line* line = (E3Line*) theLine ;
 
 	// Return the attribute set
-	E3Shared_Acquire(attributeSet, instanceData->vertices[index].attributeSet);
+	E3Shared_Acquire ( attributeSet, line->instanceData.vertices [ index ].attributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -803,16 +814,16 @@ E3Line_GetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3Attri
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Line_SetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3AttributeSet attributeSet)
-{
-	TQ3LineData	*		instanceData = (TQ3LineData *) E3ClassTree_FindInstanceData(theLine, kQ3GeometryTypeLine);
-
+	{
+	E3Line* line = (E3Line*) theLine ;
 
 	// Set the attribute set
-	E3Shared_Replace(&instanceData->vertices[index].attributeSet, attributeSet);
-	Q3Shared_Edited(theLine);
+	E3Shared_Replace ( & line->instanceData.vertices [ index ].attributeSet, attributeSet ) ;
+	
+	Q3Shared_Edited ( line ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -825,18 +836,14 @@ E3Line_SetVertexAttributeSet(TQ3GeometryObject theLine, TQ3Uns32 index, TQ3Attri
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Line_EmptyData(TQ3LineData *lineData)
-{
-	TQ3Uns32		n;
-
-
-
+	{
 	// Release the data
-	for (n = 0; n < 2; n++)
-		Q3Object_CleanDispose(&lineData->vertices[n].attributeSet);
+	for ( TQ3Uns32 n = 0 ; n < 2 ; ++n )
+		Q3Object_CleanDispose ( & lineData->vertices [ n ].attributeSet ) ;
 
-	Q3Object_CleanDispose(&lineData->lineAttributeSet);
+	Q3Object_CleanDispose ( & lineData->lineAttributeSet ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 

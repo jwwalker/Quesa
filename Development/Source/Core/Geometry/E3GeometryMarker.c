@@ -5,7 +5,7 @@
         Implementation of Quesa Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -52,6 +52,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Marker : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3MarkerData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -451,14 +468,11 @@ e3geom_marker_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 //      e3geom_marker_get_attribute : Marker get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_marker_get_attribute(TQ3GeometryObject theObject)
-{	TQ3MarkerData		*instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeMarker);
-
-
-
+e3geom_marker_get_attribute ( E3Marker* marker )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->markerAttributeSet);
-}
+	return & marker->instanceData.markerAttributeSet ;
+	}
 
 
 
@@ -523,11 +537,11 @@ E3GeometryMarker_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeMarker,
 											kQ3ClassNameGeometryMarker,
 											e3geom_marker_metahandler,
-											sizeof(TQ3MarkerData));
+											~sizeof(E3Marker));
 
 	return(qd3dStatus);
 }
@@ -546,7 +560,7 @@ E3GeometryMarker_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeMarker, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeMarker, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -597,24 +611,24 @@ E3Marker_Submit(const TQ3MarkerData *markerData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Marker_SetData(TQ3GeometryObject theMarker, const TQ3MarkerData *markerData)
-{
-	TQ3MarkerData *		instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
+	{
+	E3Marker* marker = (E3Marker*) theMarker ;
 
 	//set the data
-	instanceData->location	= markerData->location ;
-	instanceData->xOffset	= markerData->xOffset ;
-	instanceData->yOffset	= markerData->yOffset ;
+	marker->instanceData.location	= markerData->location ;
+	marker->instanceData.xOffset	= markerData->xOffset ;
+	marker->instanceData.yOffset	= markerData->yOffset ;
 	
 	// copy the bitmap
-	E3Bitmap_Replace( &markerData->bitmap, &instanceData->bitmap, kQ3True ) ;
+	E3Bitmap_Replace ( & markerData->bitmap, & marker->instanceData.bitmap, kQ3True ) ;
 	
 	//copy the attribute set
-	E3Shared_Replace(&instanceData->markerAttributeSet, markerData->markerAttributeSet);
+	E3Shared_Replace ( & marker->instanceData.markerAttributeSet, markerData->markerAttributeSet ) ;
 
-	Q3Shared_Edited(theMarker);
+	Q3Shared_Edited ( marker ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -625,23 +639,23 @@ E3Marker_SetData(TQ3GeometryObject theMarker, const TQ3MarkerData *markerData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Marker_GetData(TQ3GeometryObject theMarker, TQ3MarkerData *markerData)
-{
-	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
+	{
+	const E3Marker* marker = (const E3Marker*) theMarker ;
 	
-	markerData->location	= instanceData->location ;
-	markerData->xOffset		= instanceData->xOffset ;
-	markerData->yOffset		= instanceData->yOffset ;
+	markerData->location	= marker->instanceData.location ;
+	markerData->xOffset		= marker->instanceData.xOffset ;
+	markerData->yOffset		= marker->instanceData.yOffset ;
 	
 	//copy the attributes
 	markerData->markerAttributeSet = NULL ;
 	
-	E3Geometry_GetAttributeSet( theMarker, &markerData->markerAttributeSet ) ;
+	E3Geometry_GetAttributeSet ( theMarker, &markerData->markerAttributeSet ) ;
 	
 	//copy the bitmap
-	E3Bitmap_Replace( &instanceData->bitmap, &markerData->bitmap, kQ3False ) ;
+	E3Bitmap_Replace ( &marker->instanceData.bitmap, &markerData->bitmap, kQ3False ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -673,15 +687,14 @@ E3Marker_EmptyData(TQ3MarkerData *markerData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Marker_GetPosition(TQ3GeometryObject theMarker, TQ3Point3D *location)
-{
-	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
-	
-	
+	{
+	const E3Marker* marker = (const E3Marker*) theMarker ;
+		
 	//get the location
-	*location = instanceData->location ;
+	*location = marker->instanceData.location ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -692,17 +705,17 @@ E3Marker_GetPosition(TQ3GeometryObject theMarker, TQ3Point3D *location)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Marker_SetPosition(TQ3GeometryObject theMarker, const TQ3Point3D *location)
-{
-	TQ3MarkerData *		instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
+	{
+	E3Marker* marker = (E3Marker*) theMarker ;
 	
 	
 	//set the location
-	instanceData->location = *location ;
+	marker->instanceData.location = *location ;
 
-	Q3Shared_Edited(theMarker);
+	Q3Shared_Edited ( marker ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -713,15 +726,15 @@ E3Marker_SetPosition(TQ3GeometryObject theMarker, const TQ3Point3D *location)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Marker_GetXOffset(TQ3GeometryObject theMarker, TQ3Int32 *xOffset)
-{
-	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
+	{
+	const E3Marker* marker = (const E3Marker*) theMarker ;
 
 
 	//get the horizontal offset
-	*xOffset = instanceData->xOffset ;
+	*xOffset = marker->instanceData.xOffset ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -732,17 +745,17 @@ E3Marker_GetXOffset(TQ3GeometryObject theMarker, TQ3Int32 *xOffset)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Marker_SetXOffset(TQ3GeometryObject theMarker, TQ3Int32 xOffset)
-{
-	TQ3MarkerData *		instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
+	{
+	E3Marker* marker = (E3Marker*) theMarker ;
 
 
 	//set the horizontal offset
-	instanceData->xOffset = xOffset ;
+	marker->instanceData.xOffset = xOffset ;
 
-	Q3Shared_Edited(theMarker);
+	Q3Shared_Edited ( marker ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -753,15 +766,15 @@ E3Marker_SetXOffset(TQ3GeometryObject theMarker, TQ3Int32 xOffset)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Marker_GetYOffset(TQ3GeometryObject theMarker, TQ3Int32 *yOffset)
-{
-	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
+	{
+	const E3Marker* marker = (const E3Marker*) theMarker ;
 	
 	
 	//get the vertical offset
-	*yOffset = instanceData->yOffset ;
+	*yOffset = marker->instanceData.yOffset ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -772,17 +785,17 @@ E3Marker_GetYOffset(TQ3GeometryObject theMarker, TQ3Int32 *yOffset)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Marker_SetYOffset(TQ3GeometryObject theMarker, TQ3Int32 yOffset)
-{
-	TQ3MarkerData *		instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
+	{
+	E3Marker* marker = (E3Marker*) theMarker ;
 
 
 	//set the vertical offset of a marker
-	instanceData->yOffset = yOffset ;
+	marker->instanceData.yOffset = yOffset ;
 
-	Q3Shared_Edited(theMarker);
+	Q3Shared_Edited ( marker ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -793,12 +806,12 @@ E3Marker_SetYOffset(TQ3GeometryObject theMarker, TQ3Int32 yOffset)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Marker_GetBitmap(TQ3GeometryObject theMarker, TQ3Bitmap *bitmap)
-{
-	const TQ3MarkerData *	instanceData = (const TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
+	{
+	const E3Marker* marker = (const E3Marker*) theMarker ;
 	
 	//get the bitmap
-	return(E3Bitmap_Replace( &instanceData->bitmap, bitmap, kQ3False ));
-}
+	return E3Bitmap_Replace ( & marker->instanceData.bitmap, bitmap, kQ3False ) ;
+	}
 
 
 
@@ -809,17 +822,15 @@ E3Marker_GetBitmap(TQ3GeometryObject theMarker, TQ3Bitmap *bitmap)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Marker_SetBitmap(TQ3GeometryObject theMarker, const TQ3Bitmap *bitmap)
-{
-	TQ3MarkerData *		instanceData = (TQ3MarkerData *) E3ClassTree_FindInstanceData(theMarker, kQ3GeometryTypeMarker);
-	TQ3Status			qd3dStatus;
-
-
+	{
+	E3Marker* marker = (E3Marker*) theMarker ;
 
 	//set the bitmap
-	qd3dStatus = E3Bitmap_Replace( bitmap, &instanceData->bitmap, kQ3True );
-	Q3Shared_Edited(theMarker);
+	TQ3Status qd3dStatus = E3Bitmap_Replace ( bitmap, & marker->instanceData.bitmap, kQ3True ) ;
 	
-	return(qd3dStatus);
-}
+	Q3Shared_Edited ( marker ) ;
+	
+	return qd3dStatus ;
+	}
 
 

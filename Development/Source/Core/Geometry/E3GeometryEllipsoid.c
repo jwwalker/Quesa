@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Ellipsoid : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3EllipsoidData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -526,14 +543,11 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 //      e3geom_ellipsoid_get_attribute : Ellipsoid get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_ellipsoid_get_attribute(TQ3GeometryObject theObject)
-{	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeEllipsoid);
-
-
-
+e3geom_ellipsoid_get_attribute ( E3Ellipsoid* ellipsoid )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->ellipsoidAttributeSet);
-}
+	return & ellipsoid->instanceData.ellipsoidAttributeSet ;
+	}
 
 
 
@@ -595,11 +609,11 @@ E3GeometryEllipsoid_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeEllipsoid,
 											kQ3ClassNameGeometryEllipsoid,
 											e3geom_ellipsoid_metahandler,
-											sizeof(TQ3EllipsoidData));
+											~sizeof(E3Ellipsoid));
 
 	return(qd3dStatus);
 }
@@ -618,7 +632,7 @@ E3GeometryEllipsoid_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeEllipsoid, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeEllipsoid, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -686,20 +700,20 @@ E3Ellipsoid_Submit(const TQ3EllipsoidData *ellipsoidData, TQ3ViewObject theView)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Ellipsoid_SetData(TQ3GeometryObject ellipsoid, const TQ3EllipsoidData *ellipsoidData)
-{
-	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(ellipsoid, kQ3GeometryTypeEllipsoid);
-	TQ3Status		qd3dStatus;
+E3Ellipsoid_SetData(TQ3GeometryObject theEllipsoid, const TQ3EllipsoidData *ellipsoidData)
+	{
+	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
 	// first, free the old data
-	e3geom_ellipsoid_disposedata(instanceData);
+	e3geom_ellipsoid_disposedata ( & ellipsoid->instanceData ) ;
 
 	// then copy in the new data
-	qd3dStatus = e3geom_ellipsoid_copydata(ellipsoidData, instanceData, kQ3False);
-	Q3Shared_Edited(ellipsoid);
+	TQ3Status qd3dStatus = e3geom_ellipsoid_copydata ( ellipsoidData, & ellipsoid->instanceData, kQ3False ) ;
+	
+	Q3Shared_Edited ( ellipsoid ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -711,18 +725,15 @@ E3Ellipsoid_SetData(TQ3GeometryObject ellipsoid, const TQ3EllipsoidData *ellipso
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Ellipsoid_GetData(TQ3GeometryObject ellipsoid, TQ3EllipsoidData *ellipsoidData)
-{
-	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(ellipsoid, kQ3GeometryTypeEllipsoid);
-	TQ3Status		qd3dStatus;
+E3Ellipsoid_GetData(TQ3GeometryObject theEllipsoid, TQ3EllipsoidData *ellipsoidData)
+	{
+	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
 	// Copy the data out of the Ellipsoid
-	ellipsoidData->interiorAttributeSet = NULL;
-	ellipsoidData->ellipsoidAttributeSet = NULL;
-	qd3dStatus = e3geom_ellipsoid_copydata(instanceData, ellipsoidData, kQ3False);
-
-	return(qd3dStatus);
-}
+	ellipsoidData->interiorAttributeSet = NULL ;
+	ellipsoidData->ellipsoidAttributeSet = NULL ;
+	return e3geom_ellipsoid_copydata ( & ellipsoid->instanceData, ellipsoidData, kQ3False ) ;
+	}
 
 
 
@@ -734,15 +745,16 @@ E3Ellipsoid_GetData(TQ3GeometryObject ellipsoid, TQ3EllipsoidData *ellipsoidData
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Ellipsoid_SetOrigin(TQ3GeometryObject ellipsoid, const TQ3Point3D *origin)
-{
-	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(ellipsoid, kQ3GeometryTypeEllipsoid);
+E3Ellipsoid_SetOrigin(TQ3GeometryObject theEllipsoid, const TQ3Point3D *origin)
+	{
+	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
-	Q3Memory_Copy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
+	Q3Memory_Copy ( origin, & ellipsoid->instanceData.origin, sizeof(TQ3Point3D) ) ;
 
-	Q3Shared_Edited(ellipsoid);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( ellipsoid ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -754,15 +766,16 @@ E3Ellipsoid_SetOrigin(TQ3GeometryObject ellipsoid, const TQ3Point3D *origin)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Ellipsoid_SetOrientation(TQ3GeometryObject ellipsoid, const TQ3Vector3D *orientation)
-{
-	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(ellipsoid, kQ3GeometryTypeEllipsoid);
+E3Ellipsoid_SetOrientation(TQ3GeometryObject theEllipsoid, const TQ3Vector3D *orientation)
+	{
+	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
-	Q3Memory_Copy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy ( orientation, & ellipsoid->instanceData.orientation, sizeof(TQ3Vector3D) ) ;
 
-	Q3Shared_Edited(ellipsoid);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( ellipsoid ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -774,15 +787,16 @@ E3Ellipsoid_SetOrientation(TQ3GeometryObject ellipsoid, const TQ3Vector3D *orien
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Ellipsoid_SetMajorRadius(TQ3GeometryObject ellipsoid, const TQ3Vector3D *majorRadius)
-{
-	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(ellipsoid, kQ3GeometryTypeEllipsoid);
+E3Ellipsoid_SetMajorRadius(TQ3GeometryObject theEllipsoid, const TQ3Vector3D *majorRadius)
+	{
+	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
-	Q3Memory_Copy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy ( majorRadius, & ellipsoid->instanceData.majorRadius, sizeof(TQ3Vector3D) ) ;
 
-	Q3Shared_Edited(ellipsoid);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( ellipsoid ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -794,15 +808,16 @@ E3Ellipsoid_SetMajorRadius(TQ3GeometryObject ellipsoid, const TQ3Vector3D *major
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Ellipsoid_SetMinorRadius(TQ3GeometryObject ellipsoid, const TQ3Vector3D *minorRadius)
-{
-	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(ellipsoid, kQ3GeometryTypeEllipsoid);
+E3Ellipsoid_SetMinorRadius(TQ3GeometryObject theEllipsoid, const TQ3Vector3D *minorRadius)
+	{
+	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
-	Q3Memory_Copy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy ( minorRadius, & ellipsoid->instanceData.minorRadius, sizeof(TQ3Vector3D) ) ;
 
-	Q3Shared_Edited(ellipsoid);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( ellipsoid ) ;
+
+	return kQ3Success ;
+	}
 
 
 
@@ -814,13 +829,14 @@ E3Ellipsoid_SetMinorRadius(TQ3GeometryObject ellipsoid, const TQ3Vector3D *minor
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Ellipsoid_GetOrigin(TQ3GeometryObject ellipsoid, TQ3Point3D *origin)
-{
-	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(ellipsoid, kQ3GeometryTypeEllipsoid);
+E3Ellipsoid_GetOrigin(TQ3GeometryObject theEllipsoid, TQ3Point3D *origin)
+	{
+	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
-	Q3Memory_Copy( &instanceData->origin, origin, sizeof(TQ3Point3D) );
-	return(kQ3Success);
-}
+	Q3Memory_Copy ( & ellipsoid->instanceData.origin, origin, sizeof(TQ3Point3D) ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -832,13 +848,14 @@ E3Ellipsoid_GetOrigin(TQ3GeometryObject ellipsoid, TQ3Point3D *origin)
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Ellipsoid_GetOrientation(TQ3GeometryObject ellipsoid, TQ3Vector3D *orientation)
-{
-	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(ellipsoid, kQ3GeometryTypeEllipsoid);
+E3Ellipsoid_GetOrientation(TQ3GeometryObject theEllipsoid, TQ3Vector3D *orientation)
+	{
+	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
-	Q3Memory_Copy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
-	return(kQ3Success);
-}
+	Q3Memory_Copy ( & ellipsoid->instanceData.orientation, orientation, sizeof(TQ3Vector3D) ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -850,13 +867,14 @@ E3Ellipsoid_GetOrientation(TQ3GeometryObject ellipsoid, TQ3Vector3D *orientation
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Ellipsoid_GetMajorRadius(TQ3GeometryObject ellipsoid, TQ3Vector3D *majorRadius)
-{
-	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(ellipsoid, kQ3GeometryTypeEllipsoid);
+E3Ellipsoid_GetMajorRadius(TQ3GeometryObject theEllipsoid, TQ3Vector3D *majorRadius)
+	{
+	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
-	Q3Memory_Copy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
-	return(kQ3Success);
-}
+	Q3Memory_Copy ( & ellipsoid->instanceData.majorRadius, majorRadius, sizeof(TQ3Vector3D) ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
@@ -868,13 +886,14 @@ E3Ellipsoid_GetMajorRadius(TQ3GeometryObject ellipsoid, TQ3Vector3D *majorRadius
 //		Note : Untested.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Ellipsoid_GetMinorRadius(TQ3GeometryObject ellipsoid, TQ3Vector3D *minorRadius)
-{
-	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) E3ClassTree_FindInstanceData(ellipsoid, kQ3GeometryTypeEllipsoid);
+E3Ellipsoid_GetMinorRadius(TQ3GeometryObject theEllipsoid, TQ3Vector3D *minorRadius)
+	{
+	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
-	Q3Memory_Copy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
-	return(kQ3Success);
-}
+	Q3Memory_Copy ( & ellipsoid->instanceData.minorRadius, minorRadius, sizeof(TQ3Vector3D) ) ;
+	
+	return kQ3Success ;
+	}
 
 
 
