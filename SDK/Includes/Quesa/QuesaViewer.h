@@ -138,6 +138,7 @@ typedef enum {
  *  @constant kQ3ViewerFlagDrawGrowBox         Displays a grow box on the viewer window (Mac OS only).
  *  @constant kQ3ViewerFlagDrawDragBorder      Displays a drag border within the viewer.
  *  @constant kQ3ViewerFlagActive              Indicates the viewer is active.
+ *  @constant kQ3ViewerFlagControllerVisible   Indicates the viewer controller is visible.
  *  @constant kQ3ViewerFlagShowBadge           Displays a badge when the control strip is hidden.
  *  @constant kQ3ViewerFlagShowControlStrip    Displays the control strip.
  *  @constant kQ3ViewerFlagOutputTextMode      If set, 3D data will be written/returned in text mode.
@@ -161,7 +162,7 @@ enum {
     kQ3ViewerFlagDrawGrowBox                    = (1 << 15),
     kQ3ViewerFlagDrawDragBorder                 = (1 << 16),
     // 17 to 18, reserved for future expansion
-    kQ3ViewerFlagVisible                        = (1 << 19),
+    kQ3ViewerFlagControllerVisible              = (1 << 19),
     kQ3ViewerFlagActive                         = (1 << 20),
     kQ3ViewerFlagShowBadge                      = (1 << 21),
     kQ3ViewerFlagShowControlStrip               = (1 << 22),
