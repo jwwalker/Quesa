@@ -1724,11 +1724,14 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 				geomData.faceAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
 				Q3Object_Dispose(childObject);
 				}
+			else if(Q3Object_IsType (childObject, kQ3AttributeSetTypeInteriorCap)){
+				geomData.interiorAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Object_Dispose(childObject);
+				}
 			else if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.coneAttributeSet = childObject;
 			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
 				e3read_3dmf_merge_element_set( &elementSet, childObject );
-			// the interior attribute set are not defined in the 3DMF Spec
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeGeometryCaps))
 					geomData.caps = E3FFormat_3DMF_GeometryCapsMask_Get(childObject);
