@@ -236,7 +236,7 @@ typedef struct {
 
 // X11 draw context data
 typedef struct {
-	TQ3DrawContextData							drawContextData;
+	TQ3DrawContextData							contextData;
 	Display										*display;
 	Drawable									drawable;
 	Visual										*visual;
