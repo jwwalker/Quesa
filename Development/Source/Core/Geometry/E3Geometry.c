@@ -732,6 +732,13 @@ E3Geometry_SetAttributeSet(TQ3GeometryObject theGeom, TQ3AttributeSet attributeS
 //=============================================================================
 //      E3Geometry_Submit : Submit a geometry to a view.
 //-----------------------------------------------------------------------------
+//		Note :	Our entry point will allow non-TQ3GeometryObjects to be passed
+//				through, to retain binary compatibility with QD3D.
+//
+//				As we simply pass theGeom on as a TQ3Object, this is fine. But
+//				do not make changes to this routine which will invalidate that
+//				assumption.
+//-----------------------------------------------------------------------------
 TQ3Status
 E3Geometry_Submit(TQ3GeometryObject theGeom, TQ3ViewObject theView)
 {	TQ3Status		qd3dStatus;
