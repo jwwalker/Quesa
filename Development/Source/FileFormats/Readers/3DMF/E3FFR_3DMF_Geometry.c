@@ -207,8 +207,9 @@ TQ3Object
 E3Read_3DMF_String_C(TQ3FileObject theFile)
 {
 	TQ3StringObject theNewString = NULL;
-	char *buffer = NULL;
 	TQ3Uns32 bytesRead;
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+	char *buffer = NULL;
 	
 	// Find the length of the string
 	if (kQ3Success == Q3String_ReadUnlimited( NULL, &bytesRead, theFile ))
@@ -227,6 +228,14 @@ E3Read_3DMF_String_C(TQ3FileObject theFile)
 			Q3Memory_Free(&buffer);
 		}
 	}
+#else
+	char	buffer[ kQ3StringMaximumLength ];
+	
+	if (kQ3Success == Q3String_Read( buffer, &bytesRead, theFile ))
+	{
+		theNewString = Q3CString_New( buffer );
+	}
+#endif
 	
 	return theNewString;
 }
