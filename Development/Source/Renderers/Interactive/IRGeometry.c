@@ -454,6 +454,19 @@ ir_geom_cache_prim_render(const TQ3CachedPrim *thePrim)
 
 
 
+	// Set up the texture, if any.
+	//
+	// The OpenGL texture object will still exist in our texture cache, and so
+	// we can bind to it immediately without having to make sure it matches the
+	// appropriate QD3D texture object.
+	if (thePrim->theTexture != 0)
+		{
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, thePrim->theTexture);
+		}
+
+
+
 	// Select the primitive type
 	switch (thePrim->theType) {
 		case kQ3PrimTriangle:
@@ -475,19 +488,6 @@ ir_geom_cache_prim_render(const TQ3CachedPrim *thePrim)
         default:
             Q3_ASSERT(!"Should never happen");
             break;
-		}
-
-
-
-	// Set up the texture, if any.
-	//
-	// The OpenGL texture object will still exist in our texture cache, and so
-	// we can bind to it immediately without having to make sure it matches the
-	// appropriate QD3D texture object.
-	if (thePrim->theTexture != 0)
-		{
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, thePrim->theTexture);
 		}
 
 
@@ -516,14 +516,14 @@ ir_geom_cache_prim_render(const TQ3CachedPrim *thePrim)
 
 
 
-	// Turn off the texture, and end the primitive
+	// End the primitive, and turn off any texture
+	glEnd();
+
 	if (thePrim->theTexture != 0)
 		{
 		glBindTexture(GL_TEXTURE_2D, 0);
-		glEnable(GL_TEXTURE_2D);
+		glDisable(GL_TEXTURE_2D);
 		}
-	
-	glEnd();
 }
 
 
