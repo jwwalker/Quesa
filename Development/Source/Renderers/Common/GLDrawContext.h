@@ -65,7 +65,7 @@ void		GLDrawContext_SwapBuffers(void *glContext);
 
 
 // Make a context active
-void		GLDrawContext_SetCurrent(void *glContext);
+void		GLDrawContext_SetCurrent(void *glContext, TQ3Boolean forceSet);
 
 
 // Update the state

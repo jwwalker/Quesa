@@ -282,12 +282,19 @@ gldrawcontext_mac_swapbuffers(void *glContext)
 //		gldrawcontext_mac_setcurrent : Make an OpenGL context current.
 //-----------------------------------------------------------------------------
 static void
-gldrawcontext_mac_setcurrent(void *glContext)
+gldrawcontext_mac_setcurrent(void *glContext, TQ3Boolean forceSet)
 {
 
 
 	// Activate the context
-	if (aglGetCurrentContext() != (AGLContext) glContext)
+	//
+	// Note that calling aglGetCurrentContext if no context has been
+	// set for the current thread will crash Mac OS X 10.2.1 or earlier.
+	//
+	// Calling aglGetCurrentContext before any context has been created
+	// will also crash Mac OS X 10.0/10.1 - forceSet allows us to bypass
+	// this potential problem, and force our context to be active.
+	if (forceSet || aglGetCurrentContext() != (AGLContext) glContext)
 		aglSetCurrentContext((AGLContext) glContext);
 }
 
@@ -482,13 +489,14 @@ gldrawcontext_x11_swapbuffers(void *glContext)
 //		gldrawcontext_x11_setcurrent : Make an OpenGL context current.
 //-----------------------------------------------------------------------------
 static void
-gldrawcontext_x11_setcurrent(void *glContext)
+gldrawcontext_x11_setcurrent(void *glContext, TQ3Boolean forceSet)
 {	X11GLContext		*theContext = (X11GLContext *) glContext;
 
 
 
 	// Activate the context
-	if (glXGetCurrentContext()  != theContext->glContext ||
+	if (forceSet                                         ||
+		glXGetCurrentContext()  != theContext->glContext ||
 		glXGetCurrentDrawable() != theContext->glDrawable)
 		glXMakeCurrent(theContext->theDisplay, theContext->glDrawable, theContext->glContext);
 }
@@ -765,13 +773,14 @@ gldrawcontext_win_swapbuffers(void *glContext)
 //		gldrawcontext_win_setcurrent : Make an OpenGL context current.
 //-----------------------------------------------------------------------------
 static void
-gldrawcontext_win_setcurrent(void *glContext)
+gldrawcontext_win_setcurrent(void *glContext, TQ3Boolean forceSet)
 {	WinGLContext		*theContext = (WinGLContext *) glContext;
 
 
 
 	// Activate the context
-	if (wglGetCurrentDC()      != theContext->theDC ||
+	if (forceSet                                    ||
+		wglGetCurrentDC()      != theContext->theDC ||
 		wglGetCurrentContext() != theContext->glContext)
 		wglMakeCurrent(theContext->theDC, theContext->glContext);
 }
@@ -861,7 +870,7 @@ gldrawcontext_be_swapbuffers(void *glContext)
 //		gldrawcontext_be_setcurrent : Make an OpenGL context current.
 //-----------------------------------------------------------------------------
 static void
-gldrawcontext_be_setcurrent(void *glContext)
+gldrawcontext_be_setcurrent(void *glContext, TQ3Boolean forceSet)
 {
 	// To be implemented
 }
@@ -1036,7 +1045,7 @@ GLDrawContext_SwapBuffers(void *glContext)
 //		GLDrawContext_SetCurrent : Make an OpenGL context current.
 //-----------------------------------------------------------------------------
 void
-GLDrawContext_SetCurrent(void *glContext)
+GLDrawContext_SetCurrent(void *glContext, TQ3Boolean forceSet)
 {
 
 
@@ -1047,19 +1056,19 @@ GLDrawContext_SetCurrent(void *glContext)
 
 	// Activate the context
 #if QUESA_OS_MACINTOSH
-	gldrawcontext_mac_setcurrent(glContext);
+	gldrawcontext_mac_setcurrent(glContext, forceSet);
 
 #elif QUESA_OS_UNIX
-	gldrawcontext_x11_setcurrent(glContext);
+	gldrawcontext_x11_setcurrent(glContext, forceSet);
 
 #elif QUESA_OS_WIN32
-	gldrawcontext_win_setcurrent(glContext);
+	gldrawcontext_win_setcurrent(glContext, forceSet);
 
 #elif QUESA_OS_BE
-	gldrawcontext_be_setcurrent(glContext);
+	gldrawcontext_be_setcurrent(glContext, forceSet);
 
 #elif QUESA_OS_COCOA
-	gldrawcontext_cocoa_setcurrent(glContext);
+	gldrawcontext_cocoa_setcurrent(glContext, forceSet);
 #endif
 }
 
