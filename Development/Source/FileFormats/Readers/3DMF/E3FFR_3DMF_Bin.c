@@ -724,7 +724,11 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 					childObject = Q3File_ReadObject(theFile);
 					if(childObject != NULL) {
 						if(Q3Object_IsType(childObject, kQ3SharedTypeEndGroup) == kQ3True)
+							{
+							Q3Object_Dispose(childObject);
+							childObject = NULL;
 							break;
+							}
 						if ((Q3Object_IsType( childObject, kQ3SharedTypeSet) == kQ3True) &&
 							(Q3Object_IsType( childObject, kQ3SetTypeAttribute) == kQ3False) )
 							{
