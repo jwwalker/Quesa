@@ -768,6 +768,47 @@ e3storage_mac_handle_delete(TQ3Object storage, void *privateData)
 
 
 //=============================================================================
+//      e3storage_mac_handle_duplicate : Handle storage duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3storage_mac_handle_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
+							TQ3Object toObject,   void       *toPrivateData)
+{
+	TQ3Status	theStatus = kQ3Success;
+	const TQ3HandleStorageData*	fromInstanceData = (const TQ3HandleStorageData *) fromPrivateData;
+	TQ3HandleStorageData *		toInstanceData   = (TQ3HandleStorageData *)       toPrivateData;
+#pragma unused(fromObject)
+#pragma unused(toObject)
+	
+	toInstanceData->ownHandle = fromInstanceData->ownHandle;
+	toInstanceData->theSize = fromInstanceData->theSize;
+	
+	if (toInstanceData->ownHandle)
+	{
+		OSErr						theErr;
+		toInstanceData->theHnd = TempNewHandle( toInstanceData->theSize, &theErr );
+		if (toInstanceData->theHnd == NULL)
+		{
+			theStatus = kQ3Failure;
+		}
+		else
+		{
+			Q3Memory_Copy( *fromInstanceData->theHnd, *toInstanceData->theHnd,
+				toInstanceData->theSize );
+		}
+	}
+	else
+	{
+		toInstanceData->theHnd = fromInstanceData->theHnd;
+	}
+	return theStatus;
+}
+
+
+
+
+
+//=============================================================================
 //      e3storage_mac_handle_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -886,6 +927,10 @@ e3storage_mac_handle_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectDelete:
 			theMethod = (TQ3XFunctionPointer) e3storage_mac_handle_delete;
+			break;
+
+		case kQ3XMethodTypeObjectDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3storage_mac_handle_duplicate;
 			break;
 
 		case kQ3XMethodTypeStorageGetSize:
