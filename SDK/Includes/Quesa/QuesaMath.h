@@ -4232,9 +4232,8 @@ Q3Math_InvSquareRoot (
 
 #define __Q3FastRationalPoint3D_DistanceSquared(_p1, _p2)					\
 	(																		\
-		(((_p1)->x - (_p2)->x) * ((_p1)->x - (_p2)->x))	+					\
-		(((_p1)->y - (_p2)->y) * ((_p1)->y - (_p2)->y))	+					\
-		(((_p1)->w - (_p2)->w) * ((_p1)->w - (_p2)->w))						\
+		(((_p1)->x/(_p1)->w - (_p2)->x/(_p2)->w) * ((_p1)->x/(_p1)->w - (_p2)->x/(_p2)->w))	+	\
+		(((_p1)->y/(_p1)->w - (_p2)->y/(_p2)->w) * ((_p1)->y/(_p1)->w - (_p2)->y/(_p2)->w))		\
 	)																		\
 
 #define __Q3FastPoint3D_Distance(_p1, _p2)									\
@@ -4256,10 +4255,9 @@ Q3Math_InvSquareRoot (
 
 #define __Q3FastRationalPoint4D_DistanceSquared(_p1, _p2)					\
 	(																		\
-		(((_p1)->x - (_p2)->x) * ((_p1)->x - (_p2)->x))	+					\
-		(((_p1)->y - (_p2)->y) * ((_p1)->y - (_p2)->y))	+					\
-		(((_p1)->z - (_p2)->z) * ((_p1)->z - (_p2)->z))	+					\
-		(((_p1)->w - (_p2)->w) * ((_p1)->w - (_p2)->w))						\
+		(((_p1)->x/(_p1)->w - (_p2)->x/(_p2)->w) * ((_p1)->x/(_p1)->w - (_p2)->x/(_p2)->w))	+	\
+		(((_p1)->y/(_p1)->w - (_p2)->y/(_p2)->w) * ((_p1)->y/(_p1)->w - (_p2)->y/(_p2)->w))	+	\
+		(((_p1)->z/(_p1)->w - (_p2)->z/(_p2)->w) * ((_p1)->z/(_p1)->w - (_p2)->z/(_p2)->w))		\
 	)																		\
 
 #define __Q3FastVector2D_Negate(_v1, _v2)									\
@@ -4453,11 +4451,11 @@ Q3Math_InvSquareRoot (
 #define __Q3FastRationalPoint4D_RRatio(_p1, _p2, _r1, _r2, _result)			\
 	do																		\
 		{																	\
-		float frac   = (_r2) / ((_r1) + (_r2));								\
-		(_result)->x = (_p1)->x + (frac * ((_p2)->x - (_p1)->x));			\
-		(_result)->y = (_p1)->y + (frac * ((_p2)->y - (_p1)->y));			\
-		(_result)->z = (_p1)->z + (frac * ((_p2)->z - (_p1)->z));			\
-		(_result)->w = (_p1)->w + (frac * ((_p2)->w - (_p1)->w));			\
+		TQ3Point3D	_pt1, _pt2;												\
+		__Q3FastRationalPoint4D_To3D( _p1, &_pt1 );							\
+		__Q3FastRationalPoint4D_To3D( _p2, &_pt2 );							\
+		__Q3FastPoint3D_RRatio( &_pt1, &_pt2, _r1, _r2, _result );			\
+		(_result)->w = 1;													\
 		}																	\
 	while (0)
 
