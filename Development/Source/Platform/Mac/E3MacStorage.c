@@ -730,7 +730,7 @@ e3storage_mac_handle_new(TQ3Object theObject, void *privateData, const void *par
 
 
 	// If we're expected to create our own handle, do so	
-	if (instanceData->theHnd == NULL && instanceData->theSize != 0)
+	if (instanceData->theHnd == NULL)
 		{
 		instanceData->theHnd = TempNewHandle((SInt32) instanceData->theSize, &theErr);
 		if (instanceData->theHnd == NULL || theErr != noErr)
@@ -842,32 +842,16 @@ e3storage_mac_handle_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 d
 
 
 	// Make sure we have enough space
-	if (instanceData->ownHandle)
+	// Grow the handle if we need to
+	newSize = offset + bytesToWrite;
+	if (newSize > instanceData->theSize)
 		{
-		// Grow the handle if we need to
-		newSize = offset + bytesToWrite;
-		if (newSize > instanceData->theSize)
-			{
-			SetHandleSize(instanceData->theHnd, (SInt32) newSize);
-			if (MemError() != noErr)
-				return(kQ3Failure);
-
-			instanceData->theSize = newSize;
-			}
-		}
-	else
-		{
-		// If we don't own the handle, fail if we overrun
-		if (offset >= instanceData->theSize)
+		SetHandleSize(instanceData->theHnd, (SInt32) newSize);
+		if (MemError() != noErr)
 			return(kQ3Failure);
+
+		instanceData->theSize = newSize;
 		}
-
-
-
-	// Work out how much we should copy
-	if (offset + bytesToWrite > instanceData->theSize)
-		bytesToWrite = instanceData->theSize - offset;
-
 
 
 	// Copy the block (using BlockMoveData since this is Mac specific,
