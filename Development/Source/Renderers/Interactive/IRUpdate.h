@@ -62,68 +62,12 @@ void				IRRenderer_State_StartPass(
 void				IRRenderer_State_EndPass(
 								TQ3InteractiveData		*instanceData);
 
-void				IRRenderer_State_ReloadTextureCache(
-								TQ3ViewObject			theView,
+void				IRRenderer_State_AdjustGL(
 								TQ3InteractiveData		*instanceData);
-
-void				IRRenderer_State_FlushTextureCache(
-								TQ3InteractiveData		*instanceData,
-								TQ3Boolean				forceFlush);
 
 TQ3Status			IRRenderer_State_Update(
 								TQ3InteractiveData		*instanceData,
 								TQ3AttributeSet			theAttributes);
-
-TQ3Boolean			IRRenderer_Texture_Preamble(
-								TQ3ViewObject			theView,
-								TQ3InteractiveData		*instanceData,
-								TQ3AttributeSet			theAttributes);
-
-void				IRRenderer_Texture_Postamble(
-								TQ3ViewObject			theView,
-								TQ3InteractiveData		*instanceData,
-								TQ3Boolean				hadAttributeTexture,
-								TQ3Boolean				couldTexture);
-
-TQ3Uns8				*IRRenderer_Texture_GetData(
-								TQ3StorageObject		theStorage,
-								TQ3Boolean				*wasCopied);
-
-void				IRRenderer_Texture_ReleaseData(
-								TQ3StorageObject		theStorage,
-								TQ3Uns8					*basePtr,
-								TQ3Boolean				wasCopied);
-
-TQ3Uns8				*IRRenderer_Texture_ConvertDepthAndFlip(
-								TQ3Uns32				theWidth,
-								TQ3Uns32				theHeight,
-								TQ3Uns32				srcRowBytes,
-								TQ3Uns8					*srcBasePtr,
-								TQ3PixelType			srcPixelType,
-								TQ3Endian 				srcByteOrder,
-								TQ3Boolean				doVerticalFlip,
-								GLint					*glPixelType);
-
-TQ3Uns8				*IRRenderer_Texture_ConvertSize(
-								TQ3Uns32				srcWidth,
-								TQ3Uns32				srcHeight,
-								TQ3Uns32				srcRowBytes,
-								TQ3Uns8					*srcBasePtr,
-								TQ3Uns32				*dstWidth,
-								TQ3Uns32				*dstHeight,
-								TQ3Uns32				*dstRowBytes);
-
-TQ3Uns8				*IRRenderer_Texture_ConvertImage(
-								TQ3StorageObject		theStorage,
-								TQ3PixelType			srcPixelType,
-								TQ3Uns32				srcWidth,
-								TQ3Uns32				srcHeight,
-								TQ3Uns32				srcRowBytes,
-								TQ3Endian 				srcByteOrder,
-								TQ3Uns32				*dstWidth,
-								TQ3Uns32				*dstHeight,
-								TQ3Uns32				*dstRowBytes,
-								GLint					*glPixelType);
 
 TQ3Status			IRRenderer_Update_Matrix_LocalToCamera(
 								TQ3ViewObject			theView,

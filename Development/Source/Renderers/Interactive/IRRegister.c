@@ -38,6 +38,7 @@
 #include "IRRenderer.h"
 #include "IRGeometry.h"
 #include "IRGeometryTriMesh.h"
+#include "IRTexture.h"
 #include "IRTransparent.h"
 #include "IRUpdate.h"
 
@@ -95,7 +96,7 @@ ir_interactive_delete(TQ3Object theObject, void *privateData)
 
 
 	// Flush our caches completely
-	IRRenderer_State_FlushTextureCache(instanceData, kQ3True);
+	IRRenderer_Texture_Terminate(instanceData);
 	IRGeometry_Terminate(instanceData);
 	IRGeometry_Transparent_Terminate(instanceData);
 	IRGeometry_TriMesh_Terminate(instanceData);
