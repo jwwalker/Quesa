@@ -829,24 +829,36 @@ E3Size_Pad(TQ3Size size)
 
 
 //=============================================================================
-//      E3String_Read : Read a string.
+//      E3String_ReadUnlimited : Read a NUL-termined string.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
+E3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, TQ3FileObject theFile)
 {
+	TQ3Status		status;
 	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
 	TQ3XFFormatStringReadMethod 	stringRead;
+	TQ3Uns32		bufferSize;
 
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
-
+	
 	stringRead = (TQ3XFFormatStringReadMethod)
 					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatStringRead);
 
-	if(stringRead != NULL)
-		return stringRead(instanceData->format,data,length);
+	if (stringRead != NULL)
+	{
+		bufferSize = *ioLength;
+		
+		status = stringRead( instanceData->format, data, ioLength );
+		
+		if ( (status == kQ3Success) && (data != NULL) &&
+			(*ioLength >= bufferSize) )
+		{
+			E3ErrorManager_PostWarning( kQ3WarningStringExceedsMaximumLength );
+		}
+	}
 
-	return(kQ3Failure);
+	return (status);
 }
 
 
@@ -854,10 +866,33 @@ E3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3String_Write : Write a string.
+//      E3String_Read : Read a string.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3String_Write(const char *data, TQ3FileObject theFile)
+E3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
+{
+	TQ3Status	status;
+	
+	// The length parameter of Q3String_Read is output only.  The buffer is assumed
+	// to have size kQ3StringMaximumLength.
+	*length = kQ3StringMaximumLength;
+
+
+	status = E3String_ReadUnlimited( data, length, theFile );
+	
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      E3String_WriteUnlimited : Write a NUL-terminated string.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3String_WriteUnlimited(const char *data, TQ3FileObject theFile)
 {
 	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
 	TQ3XFFormatStringWriteMethod 	stringWrite;
@@ -866,12 +901,47 @@ E3String_Write(const char *data, TQ3FileObject theFile)
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
 	stringWrite = (TQ3XFFormatStringWriteMethod)
-					E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatStringWrite);
+					E3ClassTree_GetMethod(instanceData->format->theClass,
+										kQ3XMethodTypeFFormatStringWrite);
+	Q3_REQUIRE_OR_RESULT( stringWrite != NULL, kQ3Failure );
+	
+	return stringWrite( instanceData->format, data );
+}
 
-	if(stringWrite != NULL)
-		return stringWrite(instanceData->format,data);
 
-	return(kQ3Failure);
+
+
+
+//=============================================================================
+//      E3String_Write : Write a NUL-terminated string, limited length.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3String_Write(const char *data, TQ3FileObject theFile)
+{
+	TQ3Uns32		theLength;
+	TQ3Status		status;
+	char			strCopy[ kQ3StringMaximumLength ];
+
+	
+	theLength = strlen( data );
+	
+	if (theLength >= kQ3StringMaximumLength)
+	{
+		E3ErrorManager_PostError( kQ3ErrorStringExceedsMaximumLength, kQ3False );
+		
+		// In this situation, QD3D writes kQ3StringMaximumLength bytes.  But since the
+		// data parameter is const, we must make a copy.
+		memcpy( strCopy, data, kQ3StringMaximumLength - 1 );
+		strCopy[ kQ3StringMaximumLength - 1 ] = '\0';
+		
+		status = E3String_WriteUnlimited( strCopy, theFile );
+	}
+	else
+	{
+		status = E3String_WriteUnlimited( data, theFile );
+	}
+	
+	return status;
 }
 
 
