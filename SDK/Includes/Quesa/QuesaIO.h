@@ -271,6 +271,22 @@ typedef CALLBACK_API_C(TQ3FileMode,             TQ3XFFormatGetFormatTypeMethod) 
 
 
 // Method types - file format read
+
+
+
+/*!
+ *	@typedef	TQ3XFFormatCanReadMethod
+ *	@abstract	Returns whether the called FileFormat is able to read the given storage.
+ *	@discussion
+ *				This method is called for every subclass of kQ3FileFormatTypeReader from Q3File_OpenRead.
+ *              Once found a FileFormat that returns something other than kQ3ObjectTypeInvalid in the theFileFormatFound
+ *				parameter the search stops.
+ *
+ *	@param		storage					Storage Object - positioned at zero - that contains the model to read.
+ *	@param		theFileFormatFound		returns the signature of the FileFormat able to read this file 
+ *										or kQ3ObjectTypeInvalid.	
+ *	@result		Success or failure of the operation.
+ */
 typedef CALLBACK_API_C(TQ3Boolean,              TQ3XFFormatCanReadMethod)       (TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatReadHeaderMethod)    (TQ3FileObject theFile);
 typedef CALLBACK_API_C(TQ3Object,               TQ3XFFormatReadObjectMethod)    (TQ3FileObject theFile);
@@ -491,12 +507,15 @@ Q3File_SetStorage (
  *  @discussion
  *      Open a file object for reading.
  *
+ *		Associate a FileFormat object with the File
+ *
  *      The file object must already have a storage object associated
  *      with it, and must not already be open.
  *
  *  @param theFile          The file object.
- *  @param mode             Receives a combination of TQ3FileModeMasks values.
- *							Pass NULL if you don't need this information.
+ *  @param mode             Receives a combination of TQ3FileModeMasks values if the file is a 3DMF file,
+ *							otherway it receives the choosed file format signature.
+ *                          Pass NULL if you don't need this information.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
