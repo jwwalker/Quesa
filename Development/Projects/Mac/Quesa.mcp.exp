@@ -1330,6 +1330,10 @@ Q3Warning_ToString
 Q3Notice_ToString
 Q3String_ReadUnlimited
 Q3String_WriteUnlimited
+Q3Uns8_ReadArray
+Q3Uns16_ReadArray
+Q3Uns32_ReadArray
+Q3Float32_ReadArray
 
 # support for use as a statically-linked library
 #__ViewerInitialize
