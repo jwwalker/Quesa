@@ -105,6 +105,8 @@ typedef TQ3AttributeSet (*E3GetSetForGatherProc)(const void *userData, TQ3Uns32 
 
 #define E3Num_Max(_a, _b)					((_a) > (_b) ? (_a) : (_b))
 
+#define E3Num_Clamp(_n, _min, _max)			E3Num_Max(E3Num_Min((_n), (_max)), (_min))
+
 #define E3Integer_Abs(_a)					((_a) > 0 ? (_a) : -(_a))
 
 #define E3Float_Abs(_a)						((_a) > 0.0f ? (_a) : -(_a))
