@@ -89,8 +89,9 @@ typedef struct TQ3TransparentPrim {
 	TQ3FVertex3D			theVertices[3];
 
 	// Sorting
-	float					zMin;
-	float					zMax;
+	float					xMin, xMax;
+	float					yMin, yMax;
+	float					zMin, zMax;
 	TQ3Vector3D				cameraSide;
 	TQ3Boolean				planeIsValid;
 	float					planeConstant;
@@ -104,6 +105,7 @@ typedef struct TQ3TransparentPrim {
 	TQ3ColorRGB				specularColor;
 	float					specularControl;
 	TQ3ObjectType			illumination;
+	TQ3Boolean				needsSpecular;
 } TQ3TransparentPrim;
 
 
@@ -151,6 +153,7 @@ typedef struct TQ3InteractiveData {
 
 
 	// Transparency buffer state
+	TQ3Boolean				transNeedSpecular;
 	TQ3SlabObject			transBufferSlab;
 	TQ3SlabObject			transPtrSlab;
 
