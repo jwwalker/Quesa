@@ -36,6 +36,9 @@
 #include "E3Prefix.h"
 #include "E3FFW_3DMFBin_Geometry.h"
 #include "E3FFW_3DMFBin_Writer.h"
+#include "E3Set.h"
+
+
 
 //=============================================================================
 //      Private functions
@@ -387,20 +390,36 @@ e3ffw_3DMF_transform_quaternion_write(const TQ3Quaternion *object,
 
 
 //=============================================================================
-//      Attributes
-//-----------------------------------------------------------------------------
 //      e3ffw_3DMF_set_traverse : Set traverse method.
 //-----------------------------------------------------------------------------
-
 static TQ3Status
 e3ffw_3DMF_set_traverse(TQ3Object theSet,
 					 void *data,
 					 TQ3ViewObject view)
 {
 	#pragma unused(data)
+	return E3Set_SubmitElements( theSet, view );
+}
+
+
+
+
+
+//=============================================================================
+//      Attributes
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_attributeset_traverse : AttributeSet traverse method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(data)
 	TQ3Object				subObject;
 	void*					subObjectData;
-	TQ3XObjectClass			displayGroupStateClass;
+	TQ3XObjectClass			attributeClass;
 
 	TQ3ElementType theType = kQ3ElementTypeNone;
 	
@@ -421,10 +440,10 @@ e3ffw_3DMF_set_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Param2D));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						displayGroupStateClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
 					
-						if(displayGroupStateClass != NULL)
-							qd3dstatus = Q3XView_SubmitSubObjectData (view, displayGroupStateClass, sizeof(TQ3Param2D),
+						if(attributeClass != NULL)
+							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Param2D),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
 					break;
@@ -433,10 +452,10 @@ e3ffw_3DMF_set_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Vector3D));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						displayGroupStateClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
 					
-						if(displayGroupStateClass != NULL)
-							qd3dstatus = Q3XView_SubmitSubObjectData (view, displayGroupStateClass, sizeof(TQ3Vector3D),
+						if(attributeClass != NULL)
+							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Vector3D),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
 					break;
@@ -447,10 +466,10 @@ e3ffw_3DMF_set_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3ColorRGB));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						displayGroupStateClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
 					
-						if(displayGroupStateClass != NULL)
-							qd3dstatus = Q3XView_SubmitSubObjectData (view, displayGroupStateClass, sizeof(TQ3ColorRGB),
+						if(attributeClass != NULL)
+							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3ColorRGB),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
 					break;
@@ -460,10 +479,10 @@ e3ffw_3DMF_set_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Float32));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						displayGroupStateClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
 					
-						if(displayGroupStateClass != NULL)
-							qd3dstatus = Q3XView_SubmitSubObjectData (view, displayGroupStateClass, sizeof(TQ3Float32),
+						if(attributeClass != NULL)
+							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Float32),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
 					break;
@@ -472,10 +491,10 @@ e3ffw_3DMF_set_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Tangent2D));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						displayGroupStateClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
 					
-						if(displayGroupStateClass != NULL)
-							qd3dstatus = Q3XView_SubmitSubObjectData (view, displayGroupStateClass, sizeof(TQ3Tangent2D),
+						if(attributeClass != NULL)
+							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Tangent2D),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
 					break;
@@ -484,23 +503,23 @@ e3ffw_3DMF_set_traverse(TQ3Object theSet,
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Switch));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
-						displayGroupStateClass = Q3XObjectHierarchy_FindClassByType (theType);
+						attributeClass = Q3XObjectHierarchy_FindClassByType (theType);
 					
-						if(displayGroupStateClass != NULL)
-							qd3dstatus = Q3XView_SubmitSubObjectData (view, displayGroupStateClass, sizeof(TQ3Switch),
+						if(attributeClass != NULL)
+							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Switch),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
 					break;
 					
 				case kQ3ObjectTypeAttributeSurfaceShader:
-				default:
+				//default:	// this was dangerous
 					qd3dstatus = Q3Set_Get (theSet, theType, &subObject);
 					if(qd3dstatus == kQ3Success)
 						qd3dstatus = Q3Object_Submit (subObject, view);
 					break;
-			}
+			}	// end switch
 		
-			}
+			}	// end if
 		
 	}while((qd3dstatus == kQ3Success) && (theType != kQ3ElementTypeNone));
 	
@@ -1052,8 +1071,35 @@ e3ffw_3DMF_mipmap_write(TQ3Mipmap *object,TQ3FileObject theFile)
 
 }
 
+//=============================================================================
+//      Style
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_backfacing_traverse : Backfacing style traverse method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_backfacing_traverse( TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	TQ3Status	status;
+	
+	status = Q3XView_SubmitWriteData( view, 4, data, NULL );
+	
+	return status;
+}
 
 
+//=============================================================================
+//      e3ffw_3DMF_backfacing_write : Backfacing style traverse method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_backfacing_write(const TQ3Uns32 *objectData,
+				TQ3FileObject theFile)
+{
+	TQ3Status	status = Q3Uns32_Write( *objectData, theFile );
+	
+	return status;
+}
 
 
 //=============================================================================
@@ -1321,13 +1367,59 @@ e3ffw_3DMF_triangle_write(const TQ3TriangleData *object,
 //=============================================================================
 //      e3ffw_3DMF_ellipsoid_traverse : Ellipsoid traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_ellipsoid_traverse( TQ3Object object,
+					 TQ3EllipsoidData *data,
+					 TQ3ViewObject view )
+{
+	TQ3Status	status;
+	
+	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
+	
 
+	// Overall attribute set
+	if ( (data->ellipsoidAttributeSet != NULL) && (status == kQ3Success) )
+		status = Q3Object_Submit( data->ellipsoidAttributeSet, view );
+
+
+	return status;
+}
 
 
 //=============================================================================
 //      e3ffw_3DMF_ellipsoid_write : Ellipsoid write method.
 //-----------------------------------------------------------------------------
-
+static TQ3Status
+e3ffw_3DMF_ellipsoid_write( const TQ3EllipsoidData *data,
+				TQ3FileObject theFile )
+{
+	TQ3Status	writeStatus = kQ3Failure;
+	
+	writeStatus = Q3Vector3D_Write( &data->orientation, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->majorRadius, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->minorRadius, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write( &data->origin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMax, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->vMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->vMax, theFile );
+	
+	return writeStatus;
+}
 
 
 //=============================================================================
@@ -1353,17 +1445,291 @@ e3ffw_3DMF_triangle_write(const TQ3TriangleData *object,
 //-----------------------------------------------------------------------------
 
 
+//=============================================================================
+//      e3ffw_3DMF_num_index_bytes : Helper for TriMesh array compression.
+//-----------------------------------------------------------------------------
+static TQ3Uns32
+e3ffw_3DMF_num_index_bytes( TQ3Uns32 numItems )
+{
+	TQ3Uns32	numBytes = 4;
+	
+	if (numItems <= 0x0FF)	// maximum index <= 0xFE
+	{
+		numBytes = 1;
+	}
+	else if (numItems <= 0x0FFFFUL)	// maximum index <= 0xFFFE
+	{
+		numBytes = 2;
+	}
+	return numBytes;
+}
+
+
+//=============================================================================
+//      e3ffw_3DMF_write_comp_num : Helper for TriMesh array compression.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_write_comp_num( TQ3Uns32 toWrite, TQ3Uns32 numBytes,
+	TQ3FileObject file )
+{
+	TQ3Status	status;
+	switch (numBytes)
+	{
+		case 1:
+			status = Q3Uns8_Write( toWrite, file );
+			break;
+		
+		case 2:
+			status = Q3Uns16_Write( toWrite, file );
+			break;
+		
+		default:
+			status = Q3Uns32_Write( toWrite, file );
+			break;
+	}
+	return status;
+}
+
+//=============================================================================
+//      e3ffw_3DMF_submit_tm_attarray : Helper for e3ffw_3DMF_trimesh_traverse.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_submit_tm_attarray( TQ3ViewObject view,
+								TQ3TriMeshData *data,
+								TQ3Uns32 inWhichArray,
+								TQ3Uns32 inWhichAttr )
+{
+	TQ3Status	status = kQ3Success;
+	TQ3Uns32	size;
+	TQ3TriMeshAttributeData*	theArray;
+	TQ3TriMeshAttributeData*	theAttData;
+	TQ3Uns32	arraySize;
+	TQ3Uns32	attrSize;
+	TQ3XObjectClass		attrArrayClass;
+	TE3FFormat3DMF_AttributeArray_Data*	objectData;
+	TQ3Uns32	i;
+	TQ3ObjectType		attClassType;
+	E3ClassInfoPtr 		theClass = NULL;
+	TQ3Uns8*	attRawData;
+	
+	switch (inWhichArray)
+	{
+		case 0:
+			theArray = data->triangleAttributeTypes;
+			arraySize = data->numTriangles;
+			break;
+			
+		case 1:
+			theArray = data->edgeAttributeTypes;
+			arraySize = data->numEdges;
+			break;
+		
+		case 2:
+			theArray = data->vertexAttributeTypes;
+			arraySize = data->numPoints;
+			break;
+	}
+	theAttData = &theArray[ inWhichAttr ];
+	
+	attClassType = E3Attribute_AttributeToClassType( theAttData->attributeType );
+	Q3XElementType_GetElementSize( attClassType, &attrSize );
+	
+	
+	// Compute the size of the AttributeArray object.
+	size = 5 * sizeof(TQ3Uns32);	// header
+	
+	if ( (theAttData->attributeType > 0) &&
+		(theAttData->attributeType != kQ3AttributeTypeSurfaceShader) )
+	{
+		size += arraySize * attrSize;
+	}
+	else if ( (theAttData->attributeType < 0) &&
+		(theAttData->attributeUseArray != NULL) )
+	{
+		size += arraySize;
+	}
+	
+	attrArrayClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeAttributeArray );
+	Q3_REQUIRE_OR_RESULT( attrArrayClass != NULL, kQ3Failure );
+	
+	objectData = (TE3FFormat3DMF_AttributeArray_Data*)
+		Q3Memory_Allocate( sizeof(TE3FFormat3DMF_AttributeArray_Data) );
+	Q3_REQUIRE_OR_RESULT( objectData != NULL, kQ3Failure );
+
+	objectData->attributeData = theAttData;
+	objectData->whichArray = inWhichArray;
+	objectData->whichAttr = inWhichAttr;
+	objectData->arraySize = arraySize;
+	objectData->attributeSize = attrSize;
+	
+	status = Q3XView_SubmitSubObjectData( view, attrArrayClass, size, objectData,
+		E3FFW_3DMF_Default_Delete );
+	
+	// Custom attributes and surface shaders must be submitted as separate objects
+	// 
+	// This part of the code is untested.
+	if ( (theAttData->attributeType < 0) ||
+		(theAttData->attributeType == kQ3AttributeTypeSurfaceShader) )
+	{
+		theClass = E3ClassTree_GetClassByType(attClassType);
+		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		attRawData = (TQ3Uns8*) theAttData->data;
+		
+		for (i = 0; (status == kQ3Success) && (i < arraySize); ++i)
+		{
+			if ( (theAttData->attributeUseArray == NULL) ||
+				(theAttData->attributeUseArray[i] != 0) )
+			{
+				status = Q3XView_SubmitSubObjectData( view, (TQ3XObjectClass)theClass,
+					attrSize, attRawData, NULL );
+				
+				attRawData += attrSize;
+			}
+		}
+	}
+	
+	return status;
+}
 
 //=============================================================================
 //      e3ffw_3DMF_trimesh_traverse : TriMesh traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_trimesh_traverse(TQ3Object object,
+					 TQ3TriMeshData *data,
+					 TQ3ViewObject view)
+{
+	TQ3Status qd3dstatus;
+	TQ3ElementType	elementType = kQ3ElementTypeNone;
+	TQ3Uns32	size, pointIndexBytes, triIndexBytes, i;
+	
+	// Compute size of data
+	size = 6 * sizeof(TQ3Uns32);
+		// array of triangles
+	pointIndexBytes = e3ffw_3DMF_num_index_bytes( data->numPoints );
+	size += data->numTriangles * pointIndexBytes * 3;
+		// array of edges
+	triIndexBytes = e3ffw_3DMF_num_index_bytes( data->numTriangles );
+	size += data->numEdges * 2 * (pointIndexBytes + triIndexBytes);
+		// array of points
+	size += data->numPoints * sizeof(TQ3Point3D);
+		// bounding box
+	size += Q3Size_Pad( sizeof(TQ3BoundingBox) );
+	
+	qd3dstatus = Q3XView_SubmitWriteData (view, size, (void*)data, NULL);
+	
+	// Attribute array subobjects
+	
+	// Triangle attributes
+	for (i = 0; (qd3dstatus == kQ3Success) &&
+		(i < data->numTriangleAttributeTypes); ++i)
+	{
+		qd3dstatus = e3ffw_3DMF_submit_tm_attarray( view, data, 0, i );
+	}
+	
+	// Edge attributes
+	for (i = 0; (qd3dstatus == kQ3Success) &&
+		(i < data->numEdgeAttributeTypes); ++i)
+	{
+		qd3dstatus = e3ffw_3DMF_submit_tm_attarray( view, data, 1, i );
+	}
+	
+	// Vertex attributes
+	for (i = 0; (qd3dstatus == kQ3Success) &&
+		(i < data->numVertexAttributeTypes); ++i)
+	{
+		qd3dstatus = e3ffw_3DMF_submit_tm_attarray( view, data, 2, i );
+	}
+	
+	// Overall attribute set
+	if ( (data->triMeshAttributeSet != NULL) && (qd3dstatus == kQ3Success) )
+		qd3dstatus = Q3Object_Submit (data->triMeshAttributeSet, view);
 
+	
+	return qd3dstatus;
+}
 
 
 //=============================================================================
 //      e3ffw_3DMF_trimesh_write : TriMesh write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_trimesh_write(const TQ3TriMeshData *object,
+				TQ3FileObject theFile)
+{
+	TQ3Status writeStatus;
+	TQ3Uns32	i, pointIndexBytes, triIndexBytes;
+	
+	writeStatus = Q3Uns32_Write( object->numTriangles, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write( object->numTriangleAttributeTypes, theFile );
 
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write( object->numEdges, theFile );
+
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write( object->numEdgeAttributeTypes, theFile );
+
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write( object->numPoints, theFile );
+
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write( object->numVertexAttributeTypes, theFile );
+	
+	// Array of triangles
+	pointIndexBytes = e3ffw_3DMF_num_index_bytes( object->numPoints );
+	for (i = 0; (i < object->numTriangles) && (writeStatus == kQ3Success); ++i)
+	{
+		writeStatus = e3ffw_3DMF_write_comp_num( object->triangles[i].pointIndices[0],
+			pointIndexBytes, theFile );
+		if (writeStatus == kQ3Failure)
+			break;
+		writeStatus = e3ffw_3DMF_write_comp_num( object->triangles[i].pointIndices[1],
+			pointIndexBytes, theFile );
+		if (writeStatus == kQ3Failure)
+			break;
+		writeStatus = e3ffw_3DMF_write_comp_num( object->triangles[i].pointIndices[2],
+			pointIndexBytes, theFile );
+	}
+	
+	// Array of edges
+	triIndexBytes = e3ffw_3DMF_num_index_bytes( object->numTriangles );
+	for (i = 0; (i < object->numEdges) && (writeStatus == kQ3Success); ++i)
+	{
+		writeStatus = e3ffw_3DMF_write_comp_num( object->edges[i].pointIndices[0],
+			pointIndexBytes, theFile );
+		if (writeStatus == kQ3Failure)
+			break;
+		writeStatus = e3ffw_3DMF_write_comp_num( object->edges[i].pointIndices[1],
+			pointIndexBytes, theFile );
+		if (writeStatus == kQ3Failure)
+			break;
+		
+		writeStatus = e3ffw_3DMF_write_comp_num( object->edges[i].triangleIndices[0],
+			triIndexBytes, theFile );
+		if (writeStatus == kQ3Failure)
+			break;
+		writeStatus = e3ffw_3DMF_write_comp_num( object->edges[i].triangleIndices[1],
+			triIndexBytes, theFile );
+	}
+	
+	// Array of points
+	for (i = 0; (i < object->numPoints) && (writeStatus == kQ3Success); ++i)
+	{
+		writeStatus = Q3Point3D_Write( &object->points[i], theFile );
+	}
+	
+	// Bounding box
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write( &object->bBox.min, theFile );
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write( &object->bBox.max, theFile );
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Uns32_Write( object->bBox.isEmpty, theFile );
+
+	return writeStatus;
+}
 
 
 //=============================================================================
@@ -1728,7 +2094,7 @@ E3FFW_3DMF_RegisterGeom()
 	// the Attribute write Methods
 
 	E3ClassTree_AddMethodByType(kQ3SharedTypeSet,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_set_traverse);
-	E3ClassTree_AddMethodByType(kQ3SetTypeAttribute,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_set_traverse);
+	E3ClassTree_AddMethodByType(kQ3SetTypeAttribute,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_attributeset_traverse);
 
 
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSurfaceUV,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_surfaceuv_write);
@@ -1750,9 +2116,20 @@ E3FFW_3DMF_RegisterGeom()
 	E3ClassTree_AddMethodByType(kQ3ShapeTypeShader,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_shader_write);
 	E3ClassTree_AddMethodByType(kQ3SurfaceShaderTypeTexture,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_shader_texture_traverse);
 
+	// Style
+	E3ClassTree_AddMethodByType(kQ3StyleTypeBackfacing,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_backfacing_traverse);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeBackfacing,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_backfacing_write);
+
+
 	// Triangle
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_triangle_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_triangle_write);
+	
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriMesh,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_trimesh_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriMesh,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_trimesh_write);
+
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_ellipsoid_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_ellipsoid_write);
 	
 	return kQ3Success;
 }
@@ -1761,7 +2138,7 @@ E3FFW_3DMF_RegisterGeom()
 
 
 //=============================================================================
-//      E3FFW_3DMF_UnregisterGeom : Unegister the geometry traverse & write methods
+//      E3FFW_3DMF_UnregisterGeom : Unregister the geometry traverse & write methods
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FFW_3DMF_UnregisterGeom()
