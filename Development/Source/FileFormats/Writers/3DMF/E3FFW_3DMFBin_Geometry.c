@@ -1069,7 +1069,7 @@ e3ffw_3DMF_triangle_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Object attributeList;
+	TQ3Object attributeList = NULL;
 	TQ3Uns32 i;
 	TQ3Status qd3dstatus;
 	
