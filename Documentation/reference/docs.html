@@ -1,15 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
 <!--=========================================================================-->
 <!-- Page Header                                                             -->
 <!--=========================================================================-->
 <html>
 <head>
 	<title>Quesa - Documentation</title>
+	<link rel="stylesheet" type="text/css" href="../site-styles.css">
 </head>
 <body bgcolor=white text=black background="../images/logo_gray.gif">
 
-<p align=center>
-<a href="../index.html"><img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
-</p>
+<div class="sflogo">
+<a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=45158&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo"></a>
+</div>
+
+<div class="qlogo">
+<a href="../index.html">
+<img src="../images/logo_text.jpg" alt="Quesa" width="311" height="105" border="0"></a>
+</div>
 
 
 
@@ -18,37 +26,41 @@
 <!--=========================================================================-->
 <table border=0>
 <tr>
-<td valign=top width=90 bgcolor="#EEEEEE">
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Info</font></td></tr></table><br>
+<td class="navbar">
+	<table class="navtable" cellspacing="0">
+	
+	<tr><td class="navhead">Info</td></tr>
+	<tr><td class="navlinks">
 	<a href="../info/status.html">Status</a><br>
-	<a href="../info/screenshots.html">Screenshots</a><br>
+	<a href="../info/screenshots.html">Screenshots</a>
 	<a href="../info/download.html">Download</a><br>
 	<a href="../info/list.html">Mailing List</a><br>
 	<a href="../info/list_archive.html">List Archive</a><br>
-	<a href="http://www.quesa.org/quesa_forum.html">Quesa Forum</a><br>
+	</td></tr>
 
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Developer</font></td></tr></table><br>
+	<tr><td class="navhead">Developer</td></tr>
+	<tr><td class="navlinks">
 	<a href="../developer/todo.html">Todo</a><br>
 	<a href="../developer/bugs.html">Bug List</a><br>
 	<a href="../developer/cvs.html">CVS Server</a><br>
-	<a href="../developer/apiref/MasterTOC.html">API Reference</a><br>
-
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
+	<a href="../developer/apiref/MasterTOC.html">API Reference</a>
+	</td></tr>
+	
+	<tr><td class="navhead">Reference</td></tr>
+	<tr><td class="navlinks">
 	<a href="../reference/docs.html">Documentation</a><br>
 	<a href="../reference/build.html">Building Quesa</a><br>
-	<a href="../reference/licence.html">License</a><br>
+	<a href="../reference/licence.html">License</a>
+	</td></tr>
 
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Other</font></td></tr></table><br>
+	<tr><td class="navhead">Other</td></tr>
+	<tr><td class="navlinks">
 	<a href="../other/contributors.html">Contributors</a><br>
 	<a href="../other/logo.html">Quesa Logo</a><br>
-	<a href="../other/links.html">Links</a><br>
+	<a href="../other/links.html">Links</a>
+	</td></tr>
+
+	</table>
 </td>
 <!--=========================================================================-->
 <td width=10>&nbsp;</td>
@@ -67,9 +79,9 @@ The Quesa distribution is divided into three main folders:
 </p>
 
 <ul>
-	<li>SDK
-	<li>Development
-	<li>Documentation
+	<li>SDK</li>
+	<li>Development</li>
+	<li>Documentation</li>
 </ul>
 
 <p>
@@ -179,14 +191,14 @@ The Source directory is split into three main categories: Core, Platform, and Re
 
 <ul>
 	<li>The Core directory contains the core source code for Quesa. Everything
-		within this directory is cross platform.
+		within this directory is cross platform.</li>
 
 	<li>The Platform directory contains platform specific code, split into further
-		directories for each platform.
+		directories for each platform.</li>
 
 	<li>The Renderers directory contains the source code for Quesa's plug-in renderers.
 		Everything within this directory is cross platform, and capable of being built
-		as a separate shared library which can be loaded at run-time.
+		as a separate shared library which can be loaded at run-time.</li>
 </ul>
 
 The Platform and Renderers directories are fairly straightforward, however the Core
@@ -203,25 +215,25 @@ System, and Viewer.
 <ul>
 	<li>The Geometry directory contains the individual geometry classes. Each class
 		is contained in a separate .c file, with a matching .h file to export the
-		methods available for that class.
+		methods available for that class.</li>
 	
 	<li>The Glue directory contains the symbols exported by the Quesa library: these
 		are the entry points called by applications, and are responsible for performing
 		parameter checking, system housekeeping, and forwarding the call to the
 		implementation routine.<br>
 		Each .c file in this directory contains the entry points for the matching
-		API .h file (e.g., QD3DMath.c corresponds to QD3DMath.h).
+		API .h file (e.g., QD3DMath.c corresponds to QD3DMath.h).</li>
 	
 	<li>The Support directory contains support code: debug routines, memory management,
-		hash tables, the class tree, etc.
+		hash tables, the class tree, etc.</li>
 	
 	<li>The System directory contains the bulk of Quesa - the files within this directory
 		are the actual implementation routines invoked by the Glue entry points.<br>
 		There is a single .c and .h file for each of the Glue .c files (e.g., E3Math.[ch]
-		corresponds to QD3DMath.c).
+		corresponds to QD3DMath.c).</li>
 	
 	<li>The Viewer directory contains the source for the Viewer library: this is a utility
-		library which sits on top of Quesa, and as such can be self-contained.
+		library which sits on top of Quesa, and as such can be self-contained.</li>
 </ul>
 
 
@@ -236,23 +248,23 @@ However, the main flow of control during a rendering loop can be described throu
 a pyramid structure as seen below.
 </p>
 
-<table align=center width=10% border=1 bordercolor=black bgcolor="#E0E0FF"><tr align=center><td>
+<table align=center width="10%" border=1 bgcolor="#E0E0FF"><tr align=center><td>
 Glue
 </td></tr></table>
 <br>
-<table align=center width=15% border=1 bordercolor=black bgcolor="#E0FFE0"><tr align=center><td>
+<table align=center width="15%" border=1 bgcolor="#E0FFE0"><tr align=center><td>
 System
 </td></tr></table>
 <br>
-<table align=center width=20% border=1 bordercolor=black bgcolor="#FFE0E0"><tr align=center><td>
+<table align=center width="20%" border=1 bgcolor="#FFE0E0"><tr align=center><td>
 Geometry
 </td></tr></table>
 <br>
-<table align=center width=25% border=1 bordercolor=black bgcolor="#FFFFE0"><tr align=center><td>
+<table align=center width="25%" border=1 bgcolor="#FFFFE0"><tr align=center><td>
 Support
 </td></tr></table>
 <br>
-<table align=center width=30% border=1 bordercolor=black bgcolor="#E0FFFF"><tr align=center><td>
+<table align=center width="30%" border=1 bgcolor="#E0FFFF"><tr align=center><td>
 Platform
 </td></tr></table>
 
@@ -276,23 +288,23 @@ In more detail, the steps are:
 	<li>The Application calls an API entry point, which is implemented by a function within
 		the Core/Glue area of the source tree. This function performs parameter validation,
 		updates some internal structures, and forwards the call to the matching implementation
-		routine.
+		routine.</li>
 	
 	<li>This implementation routine typically lives within the Core/System area of the source
 		tree, and will ultimately perform the majority of the work involved in handling the
-		request.
+		request.</li>
 	
 	<li>A more specialised level exists below the System level, which is the geometry objects.
 		These are invoked during the rendering pipeline, and produce efficient (e.g., TriMesh)
-		representations of higher level geometries for a renderer.
+		representations of higher level geometries for a renderer.</li>
 	
 	<li>The lowest level that still remains platform independent is the Core/Support level. This
 		includes fundamental data structures such as the class tree (a tree-like structure which
-		indicates the relationships between the various classes registered with Quesa).
+		indicates the relationships between the various classes registered with Quesa).</li>
 
 	<li>Finally, the lowest level is the platform specific level. This is typically concerned
 		with issues such as shared library loading, working with the platform's native windowing
-		API to arrange output, and implementing platform specific storage classes.
+		API to arrange output, and implementing platform specific storage classes.</li>
 </ol>
 
 
@@ -377,15 +389,10 @@ fundamentally identical in structure to the code for all other Quesa objects.
 <br>
 <br>
 <hr width="90%">
-<table border=0 align=center>
-<tr>
-<td colspan=2 align=center>
-<font size="-1">
-Quesa Web Site hosted by <a href="http://www.DesignCommunity.com/home.html">DesignCommunity.com</a>
-</font>
-</td>
-</tr>
-</table>
+
+<div class="footer">
+Quesa Web Site hosted by <a href="http://sourceforge.net">SourceForge</a>
+</div>
 
 </body>
 </html>
