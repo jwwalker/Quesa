@@ -70,6 +70,8 @@ typedef struct TQ3ViewerData {
 	float					mSqrRadius;			// squared radius of a bounding sphere
 	TQ3Quaternion			mOrientation;		// current orientation, relative to initial
 	TQ3GeometryObject		mGuideGeom;			// guide circle, etc. (or NULL)
+	TQ3AntiAliasStyleData	mStyleAntiAlias;	// anti-aliasing style
+	TQ3BackfacingStyle		mStyleBackfacing;	// backfacing style
 } TQ3ViewerData;
 
 typedef struct TQ3ViewerParams {
@@ -112,6 +114,7 @@ typedef struct TQ3ViewerParams {
 #define kOptionsBackgroundColor	3
 #define kOptionsRemoveBackfaces	4
 #define kOptionsPhongShading	5
+#define kOptionsAntiAlias		6
 
 const TQ3Uns32 kQ3ViewerInternalDefault 	
 	= kQ3ViewerFlagActive
@@ -153,6 +156,7 @@ TQ3GeometryObject sGuideCircle = NULL;
 //      Forward declarations of internal helper methods
 //-----------------------------------------------------------------------------
 static void e3viewer_reset(TQ3ViewerObject theViewer);
+static void e3viewer_groupChanged(TQ3ViewerObject theViewer);
 
 
 
@@ -275,7 +279,7 @@ static TQ3Uns32 e3viewer_buttonWidth(TQ3ViewerData *data, TQ3Uns32 buttonID)
 //      e3viewer_contentArea : Return area used for actual rendering,
 //			i.e., not including controls and frame.
 //-----------------------------------------------------------------------------
-static TQ3Uns32 e3viewer_contentArea(TQ3ViewerData *data, TQ3Area *outArea)
+static void e3viewer_contentArea(TQ3ViewerData *data, TQ3Area *outArea)
 {
 	TQ3Uns32 inset = 0;
 
@@ -303,8 +307,6 @@ static TQ3Uns32 e3viewer_contentArea(TQ3ViewerData *data, TQ3Area *outArea)
 		outArea->max.x -= inset;
 		outArea->max.y -= inset;
 		}
-		
-	return 0;
 }
 
 
@@ -645,6 +647,10 @@ static TQ3Status e3viewer_readFile(TQ3ViewerObject theViewer, TQ3StorageObject s
 //			if (viewerData->otherObjects)
 //				Q3Group_EmptyObjects (viewerData->otherObjects);
 		}
+
+	// Update bounding radius, etc.
+	e3viewer_groupChanged(theViewer);
+	
 	return status;
 }
 
@@ -899,17 +905,32 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 	// prepare the Remove Backfaces option
 	status = E3Viewer_GetRemoveBackfaces(theViewer, &option);
 	if (kQ3Success == status && kQ3True == option)
-		SetItemMark( optionsMenu, kOptionsBackgroundColor, checkMark );
+		SetItemMark( optionsMenu, kOptionsRemoveBackfaces, checkMark );
 	
 	// prepare the Phong Shading option
 	status = E3Viewer_GetPhongShading(theViewer, &option);
 	if (kQ3Success == status && kQ3True == option)
 		SetItemMark( optionsMenu, kOptionsPhongShading, checkMark );
 	
+	// prepare the Anti-Aliasing option
+	if (kQ3On == instanceData->mStyleAntiAlias.state)
+		SetItemMark( optionsMenu, kOptionsAntiAlias, checkMark );
+		
 	// pop up the menu and get the user's selection
+	// (note: we can't use e3viewer_popupMenu here, because that would
+	// clobber all the checkmarks we carefully set above)
 	status = E3Viewer_GetButtonRect(theViewer, kQ3ViewerFlagButtonOptions, &rect);
 	if (kQ3Success == status)
-		selection = e3viewer_popupMenu(&rect, kOptionsMenuID, &selectedMenu);
+		{
+		Point pt;
+		unsigned long menuSelection;
+		pt.h = rect.max.x;
+		pt.v = rect.min.y + 1;
+		LocalToGlobal (&pt);
+		menuSelection = PopUpMenuSelect (optionsMenu, pt.v, pt.h, 0);
+		selection = menuSelection & 0xFFFF;
+		selectedMenu = menuSelection >> 16;
+		}
 
 	// clean up
 	if (lightsMenu)
@@ -921,6 +942,11 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 		{
 		DeleteMenu (GetMenuID(rendererMenu));
 		DisposeMenu (rendererMenu);
+		}
+	if (optionsMenu)
+		{
+		DeleteMenu (GetMenuID(optionsMenu));
+		DisposeMenu (optionsMenu);
 		}
 
 	UseResFile(oldResFile);
@@ -968,7 +994,15 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 			if (kQ3Success == status)
 				E3Viewer_SetPhongShading(theViewer, option);
 			}
-	
+		
+		else if (kOptionsAntiAlias == selection)
+			{
+			if (kQ3On == instanceData->mStyleAntiAlias.state)
+				instanceData->mStyleAntiAlias.state = kQ3Off;
+			else 
+				instanceData->mStyleAntiAlias.state = kQ3On;
+			}
+		
 		E3Viewer_DrawContent(theViewer);
 	
 		}
@@ -1369,6 +1403,12 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 	
 	instanceData->mTrackingMode = kNotTracking;
 	
+	instanceData->mStyleAntiAlias.state = kQ3Off;
+	instanceData->mStyleAntiAlias.mode = kQ3AntiAliasModeMaskEdges;
+	instanceData->mStyleAntiAlias.quality = 1.0f;
+
+	instanceData->mStyleBackfacing = kQ3BackfacingStyleBoth;
+
 	e3viewer_setupView(instanceData);	
 	
 	return(kQ3Success);
@@ -1745,6 +1785,10 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 		
 	for (i=0; i<100; i++)				// try submitting up to 100 times
 		{
+		// submit styles
+	    Q3AntiAliasStyle_Submit(&instanceData->mStyleAntiAlias, view);
+		Q3BackfacingStyle_Submit(instanceData->mStyleBackfacing, view);
+
 		// submit transforms (and guide circle, if any)
 		Q3TranslateTransform_Submit( &instanceData->mTranslation, view );
 		if (NULL != instanceData->mGuideGeom)
@@ -2089,9 +2133,9 @@ E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
 	
 	oldFlags = instanceData->mFlags;
 	
-	if (theFlags & kQ3ViewerFlagDefault)
+	if (theFlags & kQ3ViewerDefault)
 		{
-		theFlags &= ~kQ3ViewerFlagDefault; // knock off default bit
+		theFlags &= ~kQ3ViewerDefault; // knock off default bit
 		theFlags |= kQ3ViewerInternalDefault; // add on my flags, leaving any other bits the app may have set
 		}
 
@@ -2100,7 +2144,7 @@ E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
 	instanceData->mFlags = theFlags;
 	
 	oldFlags &= theFlags; // old flags now holds the bits that were NOT changed
-	if ((oldFlags & kQ3ViewerFlagControllerVisible) == 0) // kQ3ViewerControllerVisible bit WAS changed
+	if ((oldFlags & kQ3ViewerControllerVisible) == 0) // kQ3ViewerControllerVisible bit WAS changed
 		{
 		E3Viewer_SetBounds (theViewer, &instanceData->mArea);
 		}
@@ -2123,10 +2167,11 @@ E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
 TQ3Status
 E3Viewer_GetBounds(TQ3ViewerObject theViewer, TQ3Area *theRect)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	if (theRect) *theRect = instanceData->mArea;
+	
+	return kQ3Success;
 }
 
 
@@ -2134,17 +2179,37 @@ E3Viewer_GetBounds(TQ3ViewerObject theViewer, TQ3Area *theRect)
 
 
 //=============================================================================
-//      E3Viewer_SetBounds : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_SetBounds : Set the bounds of the viewer.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_SetBounds(TQ3ViewerObject theViewer, const TQ3Area *theRect)
 {
+	TQ3ViewerData			*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3DrawContextObject	context;
+	TQ3Status				status;
+	TQ3Area					contentArea;
+	TQ3CameraObject			camera;
 
+	status = Q3View_GetDrawContext(instanceData->mView, &context);
+	if (kQ3Success != status) return status;
 
-	// To be implemented...
-	return(kQ3Failure);
+	instanceData->mArea = *theRect;
+
+	e3viewer_contentArea(instanceData, &contentArea);
+	status = Q3DrawContext_SetPane(context,	&contentArea);	
+	Q3Object_Dispose(context);
+	
+	if (kQ3Success != status) return status;
+	
+	status = Q3View_GetCamera(instanceData->mView, &camera);
+	if (kQ3Success != status) return status;
+	
+	status = Q3ViewAngleAspectCamera_SetAspectRatio(camera,
+				(contentArea.max.x - contentArea.min.x) /
+				(contentArea.max.y - contentArea.min.y));
+	Q3Object_Dispose(camera);
+	
+	return status;
 }
 
 
@@ -2152,17 +2217,17 @@ E3Viewer_SetBounds(TQ3ViewerObject theViewer, const TQ3Area *theRect)
 
 
 //=============================================================================
-//      E3Viewer_GetDimension : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_GetDimension : Get the width and height of the viewer.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_GetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *theWidth, TQ3Uns32 *theHeight)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	if (theWidth) *theWidth = instanceData->mArea.max.x - instanceData->mArea.min.x;
+	if (theHeight) *theHeight = instanceData->mArea.max.y - instanceData->mArea.min.y;
+	
+	return kQ3Success;
 }
 
 
@@ -2170,17 +2235,18 @@ E3Viewer_GetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *theWidth, TQ3Uns32 *t
 
 
 //=============================================================================
-//      E3Viewer_SetDimension : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_SetDimension : Set the height and width of the viewer.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_SetDimension(TQ3ViewerObject theViewer, TQ3Uns32 theWidth, TQ3Uns32 theHeight)
 {
+	TQ3ViewerData			*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3Area					area;
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	area = instanceData->mArea;
+	area.max.x = area.min.x + theWidth;
+	area.max.y = area.min.y + theHeight;
+	return E3Viewer_SetBounds(theViewer, &area);
 }
 
 
@@ -2188,17 +2254,20 @@ E3Viewer_SetDimension(TQ3ViewerObject theViewer, TQ3Uns32 theWidth, TQ3Uns32 the
 
 
 //=============================================================================
-//      E3Viewer_GetMinimumDimension : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_GetMinimumDimension : Get the minimum allowable dimensions
+//			of the viewer.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_GetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *theWidth, TQ3Uns32 *theHeight)
 {
+	// We really should get this by adding up the widths of all the buttons
+	// and so on.  But for the sake of getting this up and running, here
+	// is a quick hack:
+	
+	if (theWidth) *theWidth = 300;
+	if (theHeight) *theHeight = 120;
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	return kQ3Success;
 }
 
 
@@ -2809,17 +2878,22 @@ E3Viewer_SetBrightness(TQ3ViewerObject theViewer, float theBrightness)
 
 
 //=============================================================================
-//      E3Viewer_GetRemoveBackfaces : One-line description of the method.
+//      E3Viewer_GetRemoveBackfaces : Gets whether the Viewer is removing
+//			backfaces.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Returns true only if the backfacing style is kQ3BackfacingStyleRemove.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_GetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean *removeBackfaces)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	if (kQ3BackfacingStyleRemove == instanceData->mStyleBackfacing)
+		*removeBackfaces = kQ3True;
+	else
+		*removeBackfaces = kQ3False;
+	
+	return kQ3Success;
 }
 
 
@@ -2827,17 +2901,24 @@ E3Viewer_GetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean *removeBackfac
 
 
 //=============================================================================
-//      E3Viewer_SetRemoveBackfaces : One-line description of the method.
+//      E3Viewer_SetRemoveBackfaces : Tells the viewer whether or not to
+//			remove backfacing polygons.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Not removing backfaces, in this case, means going to 
+//			kQ3BackfacingStyleFlip, since that gives the most natural
+//			appearance for the back-facing polygons.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_SetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean removeBackfaces)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	if (removeBackfaces)
+		instanceData->mStyleBackfacing = kQ3BackfacingStyleRemove;
+	else
+		instanceData->mStyleBackfacing = kQ3BackfacingStyleFlip;
+	
+	return kQ3Success;
 }
 
 
