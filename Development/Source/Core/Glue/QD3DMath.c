@@ -5355,7 +5355,7 @@ Q3Quaternion_IsIdentity(const TQ3Quaternion *quaternion)
 	// Debug build checks
 #if Q3_DEBUG
 	// Further checks on quaternion
-	if (fabs( sqrt(Q3FastQuaternion_Dot( quaternion, quaternion )) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastQuaternion_Dot( quaternion, quaternion ) - 1.0f ) > 10.0f * kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
 	}
@@ -5469,7 +5469,7 @@ Q3Quaternion_Invert(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 	// Debug build checks
 #if Q3_DEBUG
 	// Further checks on quaternion
-	if (fabs( sqrt(Q3FastQuaternion_Dot( quaternion, quaternion )) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastQuaternion_Dot( quaternion, quaternion ) - 1.0f ) > 10.0f * kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
 	}
@@ -5680,7 +5680,7 @@ Q3Quaternion_GetAxisAndAngle(const TQ3Quaternion *quaternion, TQ3Vector3D *outAx
 	// Debug build checks
 #if Q3_DEBUG
 	// Further checks on quaternion
-	if (fabs( sqrt(Q3FastQuaternion_Dot( quaternion, quaternion )) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastQuaternion_Dot( quaternion, quaternion ) - 1.0f ) > 10.0f * kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
 	}
@@ -5726,7 +5726,7 @@ Q3Vector3D_TransformQuaternion(const TQ3Vector3D *vector3D, const TQ3Quaternion 
 		return(NULL);
 
 	// Further checks on quaternion
-	if (fabs( sqrt(Q3FastQuaternion_Dot( quaternion, quaternion )) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastQuaternion_Dot( quaternion, quaternion ) - 1.0f ) > 10.0f * kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
 	}
@@ -5771,7 +5771,7 @@ Q3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ3Quaternion *qu
 		return(NULL);
 
 	// Further checks on quaternion
-	if (fabs( sqrt(Q3FastQuaternion_Dot( quaternion, quaternion )) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastQuaternion_Dot( quaternion, quaternion ) - 1.0f ) > 10.0f * kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
 	}
