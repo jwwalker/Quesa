@@ -1411,7 +1411,7 @@ Q3GetReleaseVersion (
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_GetTypeFromString (
-    TQ3ObjectClassNameString      objectClassString,
+    const TQ3ObjectClassNameString      objectClassString,
     TQ3ObjectType                 *objectClassType
 );
 
