@@ -34,6 +34,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Set.h"
 #include "E3FFR_3DMF.h"
 #include "E3FFR_3DMF_Bin.h"
 #include "E3FFR_3DMF_Text.h"
@@ -1154,6 +1155,75 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      e3fformat_3dmf_attributearray_write: The write method for AttributeArray.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3fformat_3dmf_attributearray_write(const TE3FFormat3DMF_AttributeArray_Data *data,
+				TQ3FileObject theFile)
+{
+	TQ3Status	status;
+	TQ3AttributeType	attType = data->attributeData->attributeType;
+	TQ3ObjectType		attClassType;
+	E3ClassInfoPtr 		theClass = NULL;
+	TQ3Uns32			i;
+	TQ3Uns8*			attData;
+	TQ3XObjectWriteMethod	writeMethod;
+	
+	status = Q3Uns32_Write( attType, theFile );
+	
+	if (status == kQ3Success)
+		status = Q3Uns32_Write( 0, theFile );
+	
+	if (status == kQ3Success)
+		status = Q3Uns32_Write( data->whichArray, theFile );
+	
+	if (status == kQ3Success)
+		status = Q3Uns32_Write( data->whichAttr, theFile );
+	
+	if (status == kQ3Success)
+		status = Q3Uns32_Write( data->attributeData->attributeUseArray != NULL, theFile );
+
+	if (status == kQ3Success)
+	{
+		if ( (attType > 0) && (attType != kQ3AttributeTypeSurfaceShader) )
+		{
+			attClassType = E3Attribute_AttributeToClassType( attType );
+			// retrieve the write method
+			theClass = E3ClassTree_GetClassByType(attClassType);
+			Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		
+			writeMethod = (TQ3XObjectWriteMethod)
+						E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectWrite);
+			Q3_REQUIRE_OR_RESULT( writeMethod != NULL, kQ3Failure );
+			
+			attData = (TQ3Uns8*) data->attributeData->data;
+			
+			for (i = 0; (status == kQ3Success) && (i < data->arraySize); ++i)
+			{
+				status = writeMethod( attData, theFile );
+				
+				attData += data->attributeSize;
+			}
+		}
+		else if ( (attType < 0) && (data->attributeData->attributeUseArray != NULL) )
+		{
+			for (i = 0; (status == kQ3Success) && (i < data->arraySize); ++i)
+			{
+				status = Q3Uns8_Write( data->attributeData->attributeUseArray[i], theFile );
+			}
+		}
+	}
+	
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_attributearray_metahandler : attributearray metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -1169,6 +1239,9 @@ e3fformat_3dmf_attributearray_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_attributearray_read;
 			break;
 
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_attributearray_write;
+			break;
 		}
 	
 	return(theMethod);
@@ -1478,6 +1551,17 @@ E3FFW_3DMF_Register(void)
 	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
 	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
 	
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+												kQ3ObjectTypeType,
+												kQ3ClassNameType,
+												NULL,
+												0);
+
+	E3ClassTree_AddMethodByType(kQ3ObjectTypeType,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_type_Traverse);
+	E3ClassTree_AddMethodByType(kQ3ObjectTypeType,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_type_Write);
+	
+	
 
 	// Misc methods
 	
@@ -1490,6 +1574,10 @@ E3FFW_3DMF_Register(void)
 	E3ClassTree_AddMethodByType(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
 	E3ClassTree_AddMethodByType(kQ3GroupTypeLight,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
 	E3ClassTree_AddMethodByType(kQ3GroupTypeInfo,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	
+	// String methods
+	E3ClassTree_AddMethodByType(kQ3StringTypeCString,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_CString_Traverse);
+	E3ClassTree_AddMethodByType(kQ3StringTypeCString,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_CString_Write);
 	
 	// the Style write Methods
 
@@ -1809,8 +1897,9 @@ E3FFormat_3DMF_GeometryCapsMask_Get(TQ3Object theObject)
 TQ3DisplayGroupState
 E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject)
 {
-	TQ3DisplayGroupState resultState = kQ3DisplayGroupStateMaskIsDrawn | kQ3DisplayGroupStateMaskIsPicked
-													| kQ3DisplayGroupStateMaskIsWritten;
+	TQ3DisplayGroupState resultState = kQ3DisplayGroupStateMaskIsDrawn |
+		kQ3DisplayGroupStateMaskIsPicked | kQ3DisplayGroupStateMaskIsWritten |
+		kQ3DisplayGroupStateMaskUseBoundingBox | kQ3DisplayGroupStateMaskUseBoundingSphere;
 	TQ3Uns32 state = *(TQ3Uns32*)theObject->instanceData;
 	
 	if((state & 0x01) == 0x01) // inline
@@ -1818,6 +1907,12 @@ E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject)
 	
 	if((state & 0x02) == 0x02) // dont draw
 		resultState &= ~kQ3DisplayGroupStateMaskIsDrawn;
+		
+	if((state & 0x04) == 0x04) // dont use bounding box
+		resultState &= ~kQ3DisplayGroupStateMaskUseBoundingBox;
+		
+	if((state & 0x08) == 0x08) // dont use bounding sphere
+		resultState &= ~kQ3DisplayGroupStateMaskUseBoundingSphere;
 		
 	if((state & 0x10) == 0x10) // dont pick
 		resultState &= ~kQ3DisplayGroupStateMaskIsPicked;
