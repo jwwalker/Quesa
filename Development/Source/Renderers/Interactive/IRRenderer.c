@@ -61,12 +61,22 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 						TQ3DrawContextObject	theDrawContext)
 {	TQ3XDrawContextValidation		drawContextFlags;
 	TQ3Status						qd3dStatus;
-#pragma unused(theView)
+	TQ3RendererObject				theRenderer;
+	TQ3Uns32						rendererEditIndex;
 
 
 
-	// If the draw context has changed, update ourselves
+	// If the draw context has changed, update ourselves,
+	// and if the renderer has been edited, rebuild the context.
 	qd3dStatus = Q3XDrawContext_GetValidationFlags(theDrawContext, &drawContextFlags);
+	Q3View_GetRenderer(theView, &theRenderer);
+	rendererEditIndex = Q3Shared_GetEditIndex( theRenderer );
+	Q3Object_Dispose( theRenderer );
+	if (rendererEditIndex != instanceData->rendererEditIndex)
+	{
+		instanceData->rendererEditIndex = rendererEditIndex;
+		drawContextFlags = kQ3XDrawContextValidationAll;
+	}
 	if (qd3dStatus == kQ3Success && drawContextFlags != kQ3XDrawContextValidationClearFlags)
 		{
 		// If we don't have a draw context, rebuild everything
@@ -119,7 +129,8 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 
 
 			// And try and build a new one
-			instanceData->glContext = GLDrawContext_New(theDrawContext, &instanceData->glClearFlags);
+			instanceData->glContext = GLDrawContext_New(theView, theDrawContext,
+				&instanceData->glClearFlags);
 			if (instanceData->glContext == NULL)
 				return(kQ3Failure);
 
