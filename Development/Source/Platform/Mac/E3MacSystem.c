@@ -208,7 +208,7 @@ E3MacSystem_LoadPlugins(void)
 		if (!targetIsFolder)
 			{
 			// If this is a plug-in, load it
-			if (thePB.hFileInfo.ioFlFndrInfo.fdType  == kQ3XExtensionMacFileType &&
+			if (thePB.hFileInfo.ioFlFndrInfo.fdType    == kQ3XExtensionMacFileType &&
 				thePB.hFileInfo.ioFlFndrInfo.fdCreator == kQ3XExtensionMacCreatorType)
 				e3mac_load_plugin(&theFSSpec);
 			}
