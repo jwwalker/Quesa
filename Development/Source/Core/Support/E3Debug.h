@@ -122,6 +122,8 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 //=============================================================================
 //		Requirement macros
 //-----------------------------------------------------------------------------
+#if Q3_DEBUG
+
 // Check a condition or return
 #define Q3_REQUIRE(_theTest)													\
 			do																	\
@@ -133,7 +135,6 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 				}																\
 			while (0)
 
-
 // Check a condition or return a value
 #define Q3_REQUIRE_OR_RESULT(_theTest, _theResult)								\
 			do																	\
@@ -144,6 +145,28 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 					return(_theResult);											\
 				}																\
 			while (0)
+			
+#else
+
+// Check a condition or return
+#define Q3_REQUIRE(_theTest)													\
+			do																	\
+				{																\
+				if (!((TQ3Boolean)(_theTest)))													\
+					return;														\
+				}																\
+			while (0)
+
+// Check a condition or return a value
+#define Q3_REQUIRE_OR_RESULT(_theTest, _theResult)								\
+			do																	\
+				{																\
+				if (!((TQ3Boolean)(_theTest)))													\
+					return(_theResult);											\
+				}																\
+			while (0)
+			
+#endif
 
 
 
