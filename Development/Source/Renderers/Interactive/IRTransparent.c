@@ -282,11 +282,11 @@ ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
-//      IRGeometry_Transparent_Initialise : Initialise the transparency state.
+//      IRGeometry_Transparent_StartPass : Start a frame.
 //-----------------------------------------------------------------------------
 #pragma mark -
 void
-IRGeometry_Transparent_Initialise(TQ3InteractiveData *instanceData, TQ3CameraObject theCamera)
+IRGeometry_Transparent_StartPass(TQ3InteractiveData *instanceData, TQ3CameraObject theCamera)
 {	TQ3CameraPlacement		thePlacement;
 
 

@@ -55,7 +55,7 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-void				IRGeometry_Transparent_Initialise(
+void				IRGeometry_Transparent_StartPass(
 								TQ3InteractiveData				*instanceData,
 								TQ3CameraObject					theCamera);
 
