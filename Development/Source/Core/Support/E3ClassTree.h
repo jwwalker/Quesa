@@ -167,6 +167,7 @@ public :
 
 class E3InstanceNode // To be merged into OpaqueTQ3Object later
 	{
+	friend class E3InstanceNode;
 	TQ3ObjectType		quesaTag ;
 	E3ClassInfoPtr		theClass ;
 	void				*instanceData ; // To be removed later
