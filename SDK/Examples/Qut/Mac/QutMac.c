@@ -810,11 +810,11 @@ qut_terminate(void)
 
 
 	// Clean up
-	if (gWindow != NULL)
-		DisposeWindow(gWindow);
-
 	if (gView != NULL)
 		Q3Object_Dispose(gView);
+
+	if (gWindow != NULL)
+		DisposeWindow(gWindow);
 
 
 
