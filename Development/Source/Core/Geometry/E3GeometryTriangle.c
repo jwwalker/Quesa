@@ -129,7 +129,7 @@ e3geom_triangle_pick_with_ray(TQ3ViewObject			theView,
 	TQ3Boolean					haveUV, cullBackface;
 	TQ3Param2D					hitUV, *resultUV;
 	TQ3BackfacingStyle			backfacingStyle;
-	TQ3Point3D					worldPoints[2];
+	TQ3Point3D					worldPoints[3];
 	TQ3TriangleData				worldTriangle;
 	TQ3Status					qd3dStatus;
 	TQ3Vector3D					hitNormal;
