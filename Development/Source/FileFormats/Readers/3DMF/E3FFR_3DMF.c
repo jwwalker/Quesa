@@ -121,8 +121,7 @@ e3fformat_3dmf_attribute_set_read(TQ3FileObject theFile)
 			// Throwing away an unexpected object here may not be quite correct, but it is
 			// better than the previous code that stopped reading elements once an
 			// unregistered element was encountered.
-			TQ3Object	childObject = Q3File_ReadObject(theFile);
-			Q3Object_CleanDispose( &childObject );
+			Q3File_SkipObject(theFile);
 		}
 	}
 
