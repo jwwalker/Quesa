@@ -568,12 +568,12 @@ e3fformat_3dmf_bin_skipobject(TQ3FileObject theFile)
 
 
 
-static void CopyElementsToShape( TQ3SetObject inSet, TQ3ShapeObject ioShape )	// JWWalker
+static void CopyElementsToShape( TQ3SetObject inSet, TQ3ShapeObject ioShape )
 {
 	TQ3ElementType	theType = kQ3ElementTypeNone;
 	TQ3SetObject	shapeSet;
 	
-	if (kQ3Success == Q3Shape_GetSet( ioShape, &shapeSet ))
+	if (kQ3Success == Q3Object_GetSet( ioShape, &shapeSet ))
 	{
 		while ( (kQ3Success == Q3Set_GetNextElementType( inSet, &theType )) &&
 			(theType != kQ3ElementTypeNone) )
