@@ -157,6 +157,13 @@ typedef struct TQ3BoxData {
  *		Data describing the state of a cone object.  The orientation, major radius,
  *		and minor radius vectors need not be orthogonal, though they should be
  *		independent.
+ *
+ *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
+ *		were apparently intended to allow partial cones, e.g., a cone with a wedge
+ *		cut out of it.
+ *		But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
+ *		ever did either.
+ *
  *	@field		origin					The center of the base of the cone.
  *	@field		orientation				Vector from the origin to the tip of the cone.
  *	@field		majorRadius				A vector from the origin to a point on the perimeter
@@ -203,6 +210,13 @@ typedef struct TQ3ConeData {
  *		Data describing the state of a cylinder object.  The orientation, major radius,
  *		and minor radius vectors need not be orthogonal, though they should be
  *		independent.
+ *
+ *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
+ *		were apparently intended to allow partial cylinders, e.g., a cylinder with a wedge
+ *		cut out of it.
+ *		But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
+ *		ever did either.
+ *
  *	@field		origin					The center of the base of the cylinder.
  *	@field		orientation				Vector from the origin to the center of the opposite end.
  *	@field		majorRadius				A vector from the origin to a point on the perimeter
@@ -250,6 +264,13 @@ typedef struct TQ3CylinderData {
  *	@discussion
  *		Data describing the state of a disk object (a filled ellipse).  The major radius
  *		and minor radius vectors need not be orthogonal, though they should be independent.
+ *
+ *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
+ *		were apparently intended to allow partial disks, e.g., a disk with a wedge
+ *		cut out of it.
+ *		But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
+ *		ever did either.
+ *
  *	@field		origin					The center of the disk.
  *	@field		majorRadius				A vector from the origin to a point on the perimeter
  *										of the disk.
@@ -301,7 +322,41 @@ typedef struct TQ3EllipseData {
 } TQ3EllipseData;
 
 
-// Ellipsoid data
+/*!
+ *	@struct		TQ3EllipsoidData
+ *	@discussion
+ *		Data describing the state of an ellipsoid.  The major axis, minor axis, and
+ *		orientation vectors need not be orthogonal, but should be independent.
+ *		The ellipsoid can be expressed by a parametric equation
+ *
+ *		f(u,v) = origin + cos(&pi;v)orientation + sin(&pi;v)(cos(2&pi;u)majorRadius + sin(2&pi;u)minorRadius)
+ *
+ *		where u and v range from 0 to 1.
+ *
+ *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
+ *		were apparently intended to allow partial ellipsoids, e.g., an ellipsoid with a wedge
+ *		cut out of it.
+ *		But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
+ *		ever did either.
+ *
+ *	@field		origin					Center of the ellipsoid.
+ *	@field		orientation				A vector from the origin to a point on the ellipsoid.
+ *	@field		majorRadius				A vector from the origin to a point on the ellipsoid.
+ *	@field		minorRadius				A vector from the origin to a point on the ellipsoid.
+ *	@field		uMin					Minimum value of the u parameter, which goes around
+ *										the perimeter (the ellipse determined by the major and
+ *										minor axes).  Typically 0.
+ *	@field		uMax					Maximum value of the u parameter.  Typically 1.
+ *	@field		vMin					Minimum value of the v parameter, which goes from the
+ *										south pole (origin - orientation) to the north pole
+ *										(origin + orientation).  Typically 0.
+ *	@field		vMax					Minimum value of the v parameter.  Typically 1.
+ *	@field		caps					Style of caps to be used on partial ellipsoids.
+ *										Currently ignored by Quesa.
+ *	@field		interiorAttributeSet	Interior attributes.  Currently unused by Quesa
+ *										rendering, so leave it NULL.
+ *	@field		ellipsoidAttributeSet	Attributes for the ellipsoid surface.  May be NULL.
+ */
 typedef struct TQ3EllipsoidData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
@@ -317,7 +372,14 @@ typedef struct TQ3EllipsoidData {
 } TQ3EllipsoidData;
 
 
-// General polygon contour
+/*!
+ *	@struct		TQ3GeneralPolygonContourData
+ *	@discussion
+ *		An ordered list of vertices forming a contour of a general polygon.
+ *		Used within the <code>TQ3GeneralPolygonData</code> structure.
+ *	@field		numVertices				Number of vertices.  Must be at least 3.
+ *	@field		vertices				Array of vertices.
+ */
 typedef struct TQ3GeneralPolygonContourData {
     TQ3Uns32                                    numVertices;
     TQ3Vertex3D                                 *vertices;
@@ -325,6 +387,21 @@ typedef struct TQ3GeneralPolygonContourData {
 
 
 // General polygon data
+/*!
+ *	@struct		TQ3GeneralPolygonData
+ *	@discussion
+ *		Data describing a general polygon.  A general polygon is a closed figure
+ *		defined by one or more coplanar closed curves called contours.  If there are
+ *		holes, the even-odd rule determines which parts are inside.
+ *	@field		numContours				Number of contours in the following array.
+ *										Must be at least 1.
+ *	@field		contours				Array of contours.
+ *	@field		shapeHint				Information about the shape of the general polygon,
+ *										which may be used by the renderer to optimize
+ *										drawing.
+ *	@field		generalPolygonAttributeSet		Set of attributes for the polygon.
+ *										May be NULL.
+ */
 typedef struct TQ3GeneralPolygonData {
     TQ3Uns32                                    numContours;
     TQ3GeneralPolygonContourData                *contours;
@@ -333,14 +410,33 @@ typedef struct TQ3GeneralPolygonData {
 } TQ3GeneralPolygonData;
 
 
-// Line data
+/*!
+ *	@struct		TQ3LineData
+ *	@discussion
+ *		Data describing a line.
+ *	@field		vertices				Array of two vertices, the ends of the line.
+ *	@field		lineAttributeSet		Set of attributes for the line.  May be NULL.
+ */
 typedef struct TQ3LineData {
     TQ3Vertex3D                                 vertices[2];
     TQ3AttributeSet                             lineAttributeSet;
 } TQ3LineData;
 
 
-// Marker data
+/*!
+ *	@struct		TQ3MarkerData
+ *	@discussion
+ *		Data describing a bitmap marker, a 2-dimensional image drawn on top of a scene
+ *		at a specified location.
+ *	@field		location				Location of the marker, in world coordinates.
+ *	@field		xOffset					Horizontal offset from the <code>location</code> to the
+ *										upper left corner of the marker, in pixels.
+ *	@field		yOffset					Vertical offset from the <code>location</code> to the
+ *										upper left corner of the marker, in pixels.
+ *	@field		bitmap					A bitmap.  Each bit corresponds to a pixel in the image.
+ *	@field		markerAttributeSet		Marker attributes, which can for instance modify the color
+ *										or transparency of the 1 bits.  May be NULL.
+ */
 typedef struct TQ3MarkerData {
     TQ3Point3D                                  location;
     TQ3Int32                                    xOffset;
@@ -351,12 +447,41 @@ typedef struct TQ3MarkerData {
 
 
 // Mesh data (all opaque)
+/*!
+ *	@typedef	TQ3MeshComponent
+ *	@discussion	Opaque pointer representing a connected component of a Mesh.
+ */
 typedef struct OpaqueTQ3MeshComponent           *TQ3MeshComponent;
+/*!
+ *	@typedef	TQ3MeshVertex
+ *	@discussion	Opaque pointer representing a vertex of a Mesh.
+ */
 typedef struct OpaqueTQ3MeshVertex              *TQ3MeshVertex;
+/*!
+ *	@typedef	TQ3MeshFace
+ *	@discussion	Opaque pointer representing a face of a Mesh.  This is a polygonal
+ *				figure, normally planar, which may contain holes.
+ */
 typedef struct OpaqueTQ3MeshFace                *TQ3MeshFace;
+/*!
+ *	@typedef	TQ3MeshEdge
+ *	@discussion	Opaque pointer representing an edge of a Mesh, a straight line
+ *				segment that connects two vertices.
+ */
 typedef struct OpaqueTQ3MeshEdge                *TQ3MeshEdge;
+/*!
+ *	@typedef	TQ3MeshContour
+ *	@discussion	Opaque pointer representing a contour of a Mesh, one of the closed
+ *				paths that bounds a face.
+ */
 typedef struct OpaqueTQ3MeshContour             *TQ3MeshContour;
 
+/*!
+ *	@struct		TQ3MeshIterator
+ *	@discussion	This structure is used for iterating through various parts of a
+ *				Mesh.  You should consider it opaque, because the meanings of the
+ *				fields are not documented.
+ */
 typedef struct TQ3MeshIterator {
     void                                        *var1;
     void                                        *var2;
@@ -368,7 +493,22 @@ typedef struct TQ3MeshIterator {
 } TQ3MeshIterator;
 
 
-// NURB curve data
+/*!
+ *	@struct		TQ3NURBCurveData
+ *	@discussion	Data defining a NURBS curve, a 3-dimensional curve represented by
+ *				a nonuniform rational B-spline equation.
+ *	@field		order							The order of the curve, one more than the
+ *												degree of the polynomials defining the curve.
+ *												Must be greater than one.
+ *	@field		numPoints						Number of control points.  Must be greater than
+ *												or equal to the order.
+ *	@field		controlPoints					Array of rational 4-dimensional control points.
+ *	@field		knots							Array of knots that define the curve.  The number
+ *												of knots must equal the sum of <code>order</code>
+ *												and <code>numPoints</code>.  The values must be
+ *												nondecreasing.
+ *	@field		curveAttributeSet				Set of attributes for the curve.  May be NULL.
+ */
 typedef struct TQ3NURBCurveData {
     TQ3Uns32                                    order;
     TQ3Uns32                                    numPoints;
@@ -378,7 +518,22 @@ typedef struct TQ3NURBCurveData {
 } TQ3NURBCurveData;
 
 
-// NURB patch data
+/*!
+ *	@struct		TQ3NURBPatchTrimCurveData
+ *	@discussion
+ *		Curve that trims a NURB patch.  Note that this is similar to TQ3NURBCurveData,
+ *		but lacks an attribute set.
+ *	@field		order							The order of the curve, one more than the
+ *												degree of the polynomials defining the curve.
+ *												Must be greater than one.
+ *	@field		numPoints						Number of control points.  Must be greater than
+ *												or equal to the order.
+ *	@field		controlPoints					Array of rational 4-dimensional control points.
+ *	@field		knots							Array of knots that define the curve.  The number
+ *												of knots must equal the sum of <code>order</code>
+ *												and <code>numPoints</code>.  The values must be
+ *												nondecreasing.
+ */
 typedef struct TQ3NURBPatchTrimCurveData {
     TQ3Uns32                                    order;
     TQ3Uns32                                    numPoints;
@@ -386,11 +541,53 @@ typedef struct TQ3NURBPatchTrimCurveData {
     float                                       *knots;
 } TQ3NURBPatchTrimCurveData;
 
+/*!
+ *	@struct		TQ3NURBPatchTrimLoopData
+ *	@discussion
+ *		Data describing curves that trim a NURB patch.
+ *	@field		numTrimCurves			Number of curves in the following array.
+ *	@field		trimCurves				Pointer to an array of curves.
+ */
 typedef struct TQ3NURBPatchTrimLoopData {
     TQ3Uns32                                    numTrimCurves;
     TQ3NURBPatchTrimCurveData                   *trimCurves;
 } TQ3NURBPatchTrimLoopData;
 
+/*!
+ *	@struct		TQ3NURBPatchData
+ *	@discussion
+ *		Data describing a NURB patch, a surface defined by a ratio of B-spline surfaces.
+ *	@field		uOrder					Order of the NURB patch in the u parametric direction.
+ *										The order is one greater than the degree of the
+ *										polynomial functions involved, and must be
+ *										greater than one.
+ *	@field		vOrder					Order of the NURB patch in the v parametric direction.
+ *										The order is one greater than the degree of the
+ *										polynomial functions involved, and must be
+ *										greater than one.
+ *	@field		numRows					Number of control points in the u parametric equation.
+ *										Must be greater than 1.
+ *	@field		numColumns				Number of control points in the v parametric equation.
+ *										Must be greater than 1.
+ *	@field		controlPoints			Array of rational 4-dimensional control points.
+ *										They are listed first in the direction of increasing u
+ *										and then in the direction of increasing v.
+ *										The number of control points is <code>numRows</code> times
+ *										<code>numColumns</code>.
+ *	@field		uKnots					Array of knots in the u parametric direction.  The
+ *										number of these knots is the sum of <code>uOrder</code>
+ *										and <code>numColumns</code>.  The values must be
+ *										nondecreasing.
+ *	@field		vKnots					Array of knots in the v parametric direction.  The
+ *										number of these knots is the sum of <code>vOrder</code>
+ *										and <code>numRows</code>.  The values must be
+ *										nondecreasing.
+ *	@field		numTrimLoops			Number of trim loops in the following array.
+ *										Currently this should be 0.
+ *	@field		trimLoops				Pointer to an array of trim loop structures.
+ *										Currently this should be NULL.
+ *	@field		patchAttributeSet		Set of attributes for the patch.  May be NULL.
+ */
 typedef struct TQ3NURBPatchData {
     TQ3Uns32                                    uOrder;
     TQ3Uns32                                    vOrder;
@@ -405,7 +602,19 @@ typedef struct TQ3NURBPatchData {
 } TQ3NURBPatchData;
 
 
-// Pixmap marker data
+/*!
+ *	@struct		TQ3PixmapMarkerData
+ *	@discussion
+ *		Data describing a pixmap marker, a 2-dimensional color image drawn on top of a scene
+ *		at a specified location.
+ *	@field		position				Location of the marker, in world coordinates.
+ *	@field		xOffset					Horizontal offset from the <code>position</code> to the
+ *										upper left corner of the marker, in pixels.
+ *	@field		yOffset					Vertical offset from the <code>position</code> to the
+ *										upper left corner of the marker, in pixels.
+ *	@field		pixmap					A pixmap.
+ *	@field		pixmapMarkerAttributeSet		A set of attributes for the marker.  May be NULL.
+ */
 typedef struct TQ3PixmapMarkerData {
     TQ3Point3D                                  position;
     TQ3Int32                                    xOffset;
@@ -415,14 +624,27 @@ typedef struct TQ3PixmapMarkerData {
 } TQ3PixmapMarkerData;
 
 
-// Point data
+/*!
+ *	@struct		TQ3PointData
+ *	@discussion
+ *		Data describing a point object.
+ *	@field		point					Location of the point.
+ *	@field		pointAttributeSet		Set of attributes for the point.  May be NULL.
+ */
 typedef struct TQ3PointData {
     TQ3Point3D                                  point;
     TQ3AttributeSet                             pointAttributeSet;
 } TQ3PointData;
 
 
-// Polygon data
+/*!
+ *	@struct		TQ3PolygonData
+ *	@discussion
+ *		Data describing a simple convex polygon.
+ *	@field		numVertices				Number of vertices.  Must be at least 3.
+ *	@field		vertices				Pointer to an array of vertices.
+ *	@field		polygonAttributeSet		Set of attributes for the polygon.  May be NULL.
+ */
 typedef struct TQ3PolygonData {
     TQ3Uns32                                    numVertices;
     TQ3Vertex3D                                 *vertices;
@@ -431,20 +653,57 @@ typedef struct TQ3PolygonData {
 
 
 // Polyhedron data
+/*!
+ *	@typedef	TQ3PolyhedronEdge
+ *	@discussion
+ *		A combination of masks of type TQ3PolyhedronEdgeMasks indicating which edges of
+ *		a triangle are to be rendered.
+ */
 typedef TQ3Uns32                                TQ3PolyhedronEdge;
 
+/*!
+ *	@struct		TQ3PolyhedronEdgeData
+ *	@discussion
+ *		Data describing an edge within a polyhedron.
+ *	@field		vertexIndices			Indices of the two vertices that are ends of the edge.
+ *	@field		triangleIndices			Indices of the two triangles that contain the edge.
+ *	@field		edgeAttributeSet		Set of attributes for the edge.  May be NULL.
+ */
 typedef struct TQ3PolyhedronEdgeData {
     TQ3Uns32                                    vertexIndices[2];
     TQ3Uns32                                    triangleIndices[2];
     TQ3AttributeSet                             edgeAttributeSet;
 } TQ3PolyhedronEdgeData;
 
+/*!
+ *	@struct		TQ3PolyhedronTriangleData
+ *	@discussion
+ *		Data describing a triangle within a polyhedron.
+ *	@field		vertexIndices			Indices of the 3 vertices of the triangle.
+ *	@field		edgeFlag				Flags indicating which edges of the triangle should
+ *										be rendered.  See <code>TQ3PolyhedronEdgeMasks</code>.
+ *	@field		triangleAttributeSet	Set of attributes for the triangle.  May be NULL.
+ */
 typedef struct TQ3PolyhedronTriangleData {
     TQ3Uns32                                    vertexIndices[3];
     TQ3PolyhedronEdge                           edgeFlag;
     TQ3AttributeSet                             triangleAttributeSet;
 } TQ3PolyhedronTriangleData;
 
+/*!
+ *	@struct		TQ3PolyhedronData
+ *	@discussion
+ *		Data describing a polyhedron.
+ *	@field		numVertices				Number of vertices in the following array.
+ *	@field		vertices				Pointer to array of vertices of the polyhedron.
+ *	@field		numEdges				Number of edges in the following array.  May be 0
+ *										if you do not want to specify any edges.
+ *	@field		edges					Pointer to an array of edges.  May be NULL if you
+ *										also specify 0 for <code>numEdges</code>.
+ *	@field		numTriangles			Number of triangles (faces) in the polygon.
+ *	@field		triangles				Pointer to an array of triangles.
+ *	@field		polyhedronAttributeSet	Set of attributes for the polyhedron.  May be NULL.
+ */
 typedef struct TQ3PolyhedronData {
     TQ3Uns32                                    numVertices;
     TQ3Vertex3D                                 *vertices;
@@ -456,7 +715,19 @@ typedef struct TQ3PolyhedronData {
 } TQ3PolyhedronData;
 
 
-// Polyline data
+/*!
+ *	@struct		TQ3PolyLineData
+ *	@discussion
+ *		Data describing a connected but not closed curve made up of several straight line
+ *		segments.
+ *	@field		numVertices				Number of vertices of the curve (one more than the
+ *										number of line segments).  Must be at least 2.
+ *	@field		vertices				Pointer to an array of vertices.
+ *	@field		segmentAttributeSet		Pointer to an array of attribute sets, one for each
+ *										segment.  If you do not want to assign attributes
+ *										to any segment, this pointer may be NULL.
+ *	@field		polyLineAttributeSet	Set of attributes for the whole curve.  May be NULL.
+ */
 typedef struct TQ3PolyLineData {
     TQ3Uns32                                    numVertices;
     TQ3Vertex3D                                 *vertices;
@@ -465,7 +736,45 @@ typedef struct TQ3PolyLineData {
 } TQ3PolyLineData;
 
 
-// Torus data
+/*!
+ *	@struct		TQ3TorusData
+ *	@discussion
+ *		Data describing a generalized torus.  A torus is a surface formed by rotating an
+ *		ellipse about an axis that is in the same plane as the ellipse but does not pass
+ *		through the ellipse.
+ *
+ *		The kind of torus usually encountered in elementary mathematics, with circular
+ *		cross sections, would be one where the <code>orientation</code>, <code>majorRadius</code>,
+ *		and <code>minorRadius</code> vectors are mutually orthogonal, where
+ *		<code>majorRadius</code> and <code>minorRadius</code> have the same length, and where
+ *		<code>ratio</code> is 1.
+ *
+ *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
+ *		were apparently intended to allow partial tori, e.g., a torus with a wedge
+ *		cut out of it.
+ *		But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
+ *		ever did either.
+ *
+ *	@field		origin					Center of rotation.
+ *	@field		orientation				Vector whose direction is the axis of rotation, and
+ *										whose length is the length of the radius of the ellipse
+ *										in the direction of the axis of rotation.
+ *	@field		majorRadius				Vector from the origin to the center of the ellipse.
+ *	@field		minorRadius				Vector from the origin to the center of a different
+ *										cross-sectional ellipse.
+ *	@field		ratio					The ratio between the radius of the ellipse in the direction
+ *										of <code>majorRadius</code>, and the length of
+ *										<code>orientation</code>.
+ *	@field		uMin					Minimum value in the u parametric direction (the long way
+ *										around.)  Normally 0.
+ *	@field		uMax					Maximum value in the u parametric direction (the long way
+ *										around.)  Normally 1.
+ *	@field		vMin					Minimum value in the v parametric direction (the short way
+ *										around.)  Normally 0.
+ *	@field		vMax					Maximum value in the v parametric direction (the short way
+ *										around.)  Normally 1.
+ *	@field		caps					Cap style.  Should be kQ3EndCapNone.
+ */
 typedef struct TQ3TorusData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
@@ -482,14 +791,40 @@ typedef struct TQ3TorusData {
 } TQ3TorusData;
 
 
-// Triangle data
+/*!
+ *	@struct		TQ3TriangleData
+ *	@discussion
+ *		Data defining a single triangle.
+ *	@field		vertices				The 3 vertices of the triangle.
+ *	@field		triangleAttributeSet	Set of attributes for the triangle.  May be NULL.
+ */
 typedef struct TQ3TriangleData {
     TQ3Vertex3D                                 vertices[3];
     TQ3AttributeSet                             triangleAttributeSet;
 } TQ3TriangleData;
 
 
-// TriGrid data
+/*!
+ *	@struct		TQ3TriGridData
+ *	@discussion
+ *		Data describing a TriGrid object.  A TriGrid is defined by a grid of points in
+ *		3-dimensional space.  Each set of 4 adjacent points (in the mth and (m+1)st row and
+ *		nth and (n+1)st column) defines a quadrilateral that can be subdivided into
+ *		triangles in 2 natural ways.  This subdivision is done in an alternating way,
+ *		such that the vertex in the first row and first column belongs to two triangles.
+ *	@field		numRows					Number of rows of vertices.  Should be at least 2.
+ *	@field		numColumns				Number of columns of vertices.  Should be at least 2.
+ *	@field		vertices				Pointer to an array of vertices, listed in rectangular
+ *										order, first by increasing columns and then by
+ *										increasing rows.  The number of vertices should be
+ *										<code>numRows</code> times <code>numColumns</code>.
+ *	@field		facetAttributeSet		Pointer to an array of triangle attributes.  May be
+ *										NULL, but otherwise should point to an array of
+ *										2&times;(<code>numRows</code>-1)&times;(<code>numColumns</code>-1)
+ *										attribute sets.
+ *	@field		triGridAttributeSet		Set of attributes for the whole TriGrid object.
+ *										May be NULL.	
+ */
 typedef struct TQ3TriGridData {
     TQ3Uns32                                    numRows;
     TQ3Uns32                                    numColumns;
@@ -499,22 +834,81 @@ typedef struct TQ3TriGridData {
 } TQ3TriGridData;
 
 
-// TriMesh data
+/*!
+ *	@struct		TQ3TriMeshTriangleData
+ *	@discussion
+ *		Data defining a triangle within a TriMesh.
+ *	@field		pointIndices			Array of 3 indices into the TriMesh array of points.
+ */
 typedef struct TQ3TriMeshTriangleData {
     TQ3Uns32                                    pointIndices[3];
 } TQ3TriMeshTriangleData;
 
+/*!
+ *	@struct		TQ3TriMeshEdgeData
+ *	@discussion
+ *		Data defining an edge within a TriMesh.
+ *	@field		pointIndices			Array of 2 indices into the TriMesh array of points,
+ *										the ends of the edge.
+ *	@field		triangleIndices			Array of 2 indices into the TriMesh array of triangles,
+ *										the triangles containing the edge.
+ */
 typedef struct TQ3TriMeshEdgeData {
     TQ3Uns32                                    pointIndices[2];
     TQ3Uns32                                    triangleIndices[2];
 } TQ3TriMeshEdgeData;
 
+/*!
+ *	@struct		TQ3TriMeshAttributeData
+ *	@discussion
+ *		A structure holding an array of attribute data of a particular type.
+ *	@field		attributeType			Type of the attribute.
+ *	@field		data					Pointer to an array of attribute data.  The number of
+ *										members in the array is determined by context in the
+ *										enclosing <code>TQ3TriMeshData</code> structure; for
+ *										instance, if these are vertex attributes, the number
+ *										of members is the number of vertices.  The size of each
+ *										member depends on the attribute type.
+ *	@field		attributeUseArray		For non-custom attribute types, this must be NULL.
+ *										For custom attribute types, it can point to an array
+ *										of 1-byte 0s and 1s, with 1s indicating which items
+ *										have the custom attribute.
+ */
 typedef struct TQ3TriMeshAttributeData {
     TQ3AttributeType                            attributeType;
     void                                        *data;
     char                                        *attributeUseArray;
 } TQ3TriMeshAttributeData;
 
+/*!
+ *	@struct		TQ3TriMeshData
+ *	@discussion
+ *		Structure describing a TriMesh object, which is an object composed of vertices, edges,
+ *		and triangular faces.  The main difference between a TriMesh and a Polyhedron is that
+ *		attribute data for vertices, edges, and faces are not stored in attribute sets, but
+ *		in arrays of attribute data.  This is normally more efficient, so long as you are
+ *		going to be assigning an attribute to every vertex, or every edge, or every face.
+ *	@field		triMeshAttributeSet		Set of attributes for the whole object.  May be NULL.
+ *	@field		numTriangles			Number of triangles in the following array.
+ *	@field		triangles				Pointer to an array of triangle data.
+ *	@field		numTriangleAttributeTypes	Number of triangle attribute types listed in the
+ *											following array.
+ *	@field		triangleAttributeTypes		Pointer to an array of attribute data for triangles (faces).
+ *											May be NULL, if <code>numTriangleAttributeTypes</code> is 0.
+ *	@field		numEdges				Number of edges in the following array.
+ *	@field		edges					Pointer to an array of edge data.  If you do not wish to
+ *										specify any edges, you can set this to NULL, and set
+ *										<code>numEdges</code> to 0.
+ *	@field		numEdgeAttributeTypes	Number of edge attribute types in the following array.
+ *	@field		edgeAttributeTypes		Pointer to an array of edge attribute types.  May be NULL,
+ *										provided that <code>numEdgeAttributeTypes</code> is 0.
+ *	@field		numPoints				Number of points (vertices).
+ *	@field		points					Pointer to an array of points.
+ *	@field		numVertexAttributeTypes	Number of vertex attribute types in the following array.
+ *	@field		vertexAttributeTypes	Pointer to an array of vertex attribute data.  May be NULL,
+ *										so long as <code>numVertexAttributeTypes</code> is 0.
+ *	@field		bBox					Bounding box of the TriMesh.
+ */
 typedef struct TQ3TriMeshData {
     TQ3AttributeSet                             triMeshAttributeSet;
 
@@ -547,82 +941,219 @@ typedef struct TQ3TriMeshData {
 //      Macros
 //-----------------------------------------------------------------------------
 // Mesh iterators
+/*!
+ *	@function		Q3ForEachMeshComponent
+ *	@discussion
+ *		Macro to aid in iterating over components of a Mesh object.  Example:
+ *
+ *		<blockquote><pre><code>
+ *		TQ3MeshIterator		iter;
+ *		TQ3MeshComponent	comp;
+ *		Q3ForEachMeshComponent( myMesh, comp, &amp;iter )
+ *		{
+ *		&nbsp;	DoSomething( comp );
+ *		}
+ *		</code></pre></blockquote>
+ *	@param		_m						The mesh object.
+ *	@param		_c						The component.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachMeshComponent(_m, _c, _i)                  \
         for ((_c) = Q3Mesh_FirstMeshComponent((_m), (_i));  \
              (_c) != NULL;                                  \
              (_c) = Q3Mesh_NextMeshComponent((_i)))
 
+/*!
+ *	@function		Q3ForEachComponentVertex
+ *	@discussion
+ *		Macro to aid in iterating over vertices of a component of a Mesh object.
+ *	@param		_c						The component.
+ *	@param		_v						The vertex.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachComponentVertex(_c, _v, _i)                \
         for ((_v) = Q3Mesh_FirstComponentVertex((_c), (_i));\
              (_v) != NULL;                                  \
              (_v) = Q3Mesh_NextComponentVertex((_i)))
 
+/*!
+ *	@function		Q3ForEachComponentEdge
+ *	@discussion
+ *		Macro to aid in iterating over edges of a component of a Mesh object.
+ *	@param		_c						The component.
+ *	@param		_e						The edge.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachComponentEdge(_c, _e, _i)                  \
         for ((_e) = Q3Mesh_FirstComponentEdge((_c), (_i));  \
              (_e) != NULL;                                  \
              (_e) = Q3Mesh_NextComponentEdge((_i)))
 
+/*!
+ *	@function		Q3ForEachMeshVertex
+ *	@discussion
+ *		Macro to aid in iterating over vertices of a Mesh object.
+ *	@param		_m						The mesh.
+ *	@param		_v						The vertex.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachMeshVertex(_m, _v, _i)                     \
         for ((_v) = Q3Mesh_FirstMeshVertex((_m), (_i));     \
              (_v) != NULL;                                  \
              (_v) = Q3Mesh_NextMeshVertex((_i)))
 
+/*!
+ *	@function		Q3ForEachMeshFace
+ *	@discussion
+ *		Macro to aid in iterating over faces of a Mesh object.
+ *	@param		_m						The mesh.
+ *	@param		_f						The face.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachMeshFace(_m, _f, _i)                       \
         for ((_f) = Q3Mesh_FirstMeshFace((_m), (_i));       \
              (_f) != NULL;                                  \
              (_f) = Q3Mesh_NextMeshFace((_i)))
 
+/*!
+ *	@function		Q3ForEachMeshEdge
+ *	@discussion
+ *		Macro to aid in iterating over edges of a Mesh object.
+ *	@param		_m						The mesh.
+ *	@param		_e						The edge.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachMeshEdge(_m, _e, _i)                       \
         for ((_e) = Q3Mesh_FirstMeshEdge((_m), (_i));       \
              (_e) != NULL;                                  \
              (_e) = Q3Mesh_NextMeshEdge((_i)))
 
+/*!
+ *	@function		Q3ForEachVertexEdge
+ *	@discussion
+ *		Macro to aid in iterating over edges incident to a vertex of a Mesh object.
+ *	@param		_v						The vertex.
+ *	@param		_e						The edge.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachVertexEdge(_v, _e, _i)                     \
         for ((_e) = Q3Mesh_FirstVertexEdge((_v), (_i));     \
              (_e) != NULL;                                  \
              (_e) = Q3Mesh_NextVertexEdge((_i)))
 
 
+/*!
+ *	@function		Q3ForEachVertexVertex
+ *	@discussion
+ *		Macro to aid in iterating over vertices adjacent to a vertex of a Mesh object.
+ *	@param		_v						The vertex.
+ *	@param		_n						An adjacent vertex.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachVertexVertex(_v, _n, _i)                   \
         for ((_n) = Q3Mesh_FirstVertexVertex((_v), (_i));   \
              (_n) != NULL;                                  \
              (_n) = Q3Mesh_NextVertexVertex((_i)))
 
+/*!
+ *	@function		Q3ForEachVertexFace
+ *	@discussion
+ *		Macro to aid in iterating over faces incident to a vertex of a Mesh object.
+ *	@param		_v						The vertex.
+ *	@param		_f						An incident face.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachVertexFace(_v, _f, _i)                     \
         for ((_f) = Q3Mesh_FirstVertexFace((_v), (_i));     \
              (_f) != NULL;                                  \
              (_f) = Q3Mesh_NextVertexFace((_i)))
 
+/*!
+ *	@function		Q3ForEachFaceEdge
+ *	@discussion
+ *		Macro to aid in iterating over edges incident to a face of a Mesh object.
+ *	@param		_f						The face.
+ *	@param		_e						An incident edge.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachFaceEdge(_f, _e, _i)                       \
         for ((_e) = Q3Mesh_FirstFaceEdge((_f), (_i));       \
              (_e) != NULL;                                  \
              (_e) = Q3Mesh_NextFaceEdge((_i)))
 
+/*!
+ *	@function		Q3ForEachFaceVertex
+ *	@discussion
+ *		Macro to aid in iterating over vertices incident to a face of a Mesh object.
+ *	@param		_f						The face.
+ *	@param		_v						An incident vertex.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachFaceVertex(_f, _v, _i)                     \
         for ((_v) = Q3Mesh_FirstFaceVertex((_f), (_i));     \
              (_v) != NULL;                                  \
              (_v) = Q3Mesh_NextFaceVertex((_i)))
     
+/*!
+ *	@function		Q3ForEachFaceFace
+ *	@discussion
+ *		Macro to aid in iterating over faces adjacent to a face of a Mesh object.
+ *	@param		_f						The face.
+ *	@param		_n						An incident face.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachFaceFace(_f, _n, _i)                       \
         for ((_n) = Q3Mesh_FirstFaceFace((_f), (_i));       \
              (_n) != NULL;                                  \
              (_n) = Q3Mesh_NextFaceFace((_i)))
           
+/*!
+ *	@function		Q3ForEachFaceContour
+ *	@discussion
+ *		Macro to aid in iterating over contours of a face of a Mesh object.
+ *	@param		_f						The face.
+ *	@param		_h						A contour of the face.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachFaceContour(_f, _h, _i)                    \
         for ((_h) = Q3Mesh_FirstFaceContour((_f), (_i));    \
              (_h) != NULL;                                  \
              (_h) = Q3Mesh_NextFaceContour((_i)))
 
+/*!
+ *	@function		Q3ForEachContourEdge
+ *	@discussion
+ *		Macro to aid in iterating over edges of a contour of a Mesh object.
+ *	@param		_h						The contour.
+ *	@param		_e						An edge of the contour.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachContourEdge(_h, _e, _i)                    \
         for ((_e) = Q3Mesh_FirstContourEdge((_h), (_i));    \
              (_e) != NULL;                                  \
              (_e) = Q3Mesh_NextContourEdge((_i)))
 
+/*!
+ *	@function		Q3ForEachContourVertex
+ *	@discussion
+ *		Macro to aid in iterating over vertices of a contour of a Mesh object.
+ *	@param		_h						The contour.
+ *	@param		_v						A vertex of the contour.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachContourVertex(_h, _v, _i)                  \
         for ((_v) = Q3Mesh_FirstContourVertex((_h), (_i));  \
              (_v) != NULL;                                  \
              (_v) = Q3Mesh_NextContourVertex((_i)))
 
+/*!
+ *	@function		Q3ForEachContourFace
+ *	@discussion
+ *		Macro to aid in iterating over edges of a contour of a Mesh object.
+ *	@param		_h						The contour.
+ *	@param		_v						An edge of the contour.
+ *	@param		_i						Address of a <code>TQ3MeshIterator</code>.
+ */
 #define Q3ForEachContourFace(_h, _f, _i)                    \
         for ((_f) = Q3Mesh_FirstContourFace((_h), (_i));    \
              (_f) != NULL;                                  \
@@ -642,7 +1173,7 @@ typedef struct TQ3TriMeshData {
  *      Returns the type of the GeometryObject passed in.
  *
  *      This function is used to determine the type of geometry object the parameter
- *      is a reference to. If 'geometry' is invalid, kQ3ObjectTypeInvalid will be
+ *      is a reference to. If 'geometry' is invalid, <code>kQ3ObjectTypeInvalid</code> will be
  *		returned.
  *
  *  @param geometry         A reference to a geometry object.
@@ -661,13 +1192,13 @@ Q3Geometry_GetType (
  *  @discussion
  *      Returns the attribute set associated with a geometric object.
  *
- *      This function fills the TQ3AttributeSet* parameter out with the
- *		attribute set of the passed in TQ3GeometryObject reference.
+ *      This function fills the <code>TQ3AttributeSet*</code> parameter out with the
+ *		attribute set of the passed in <code>TQ3GeometryObject</code> reference.
  *
  *		The reference count of the attribute set is incremented.
  *
  *		To decrease the reference count when finished with the attribute set, use
- *		Q3ObjectDispose().
+ *		<code>Q3ObjectDispose()</code>.
  *
  *  @param geometry         A reference to a geometry object.
  *  @param attributeSet     Receives a reference to the attribute set of the geometry.
@@ -687,8 +1218,8 @@ Q3Geometry_GetAttributeSet (
  *  @discussion
  *      Sets the attribute set associated with a geometric object.
  *
- *      Applies the attribute set given by the TQ3AttributeSet parameter onto
- *		the TQ3GeometryObject reference passed in.
+ *      Applies the attribute set given by the <code>TQ3AttributeSet</code> parameter onto
+ *		the <code>TQ3GeometryObject</code> reference passed in.
  *
  *  @param geometry         A reference to a geometry object.
  *  @param attributeSet     The attribute set to apply to the object.
@@ -708,7 +1239,7 @@ Q3Geometry_SetAttributeSet (
  *  @discussion
  *      Submits a geometry object for drawing, picking, bounding, or writing.
  *
- *      Submits the passed in TQ3GeometryObject to the supplied view for
+ *      Submits the passed in <code>TQ3GeometryObject</code> to the supplied view for
  *      drawing, picking, bounding, or writing.
  *
  *		This function should only be called in a submitting loop.
@@ -732,7 +1263,7 @@ Q3Geometry_Submit (
  *      Constructs a new Box geometry object.
  *
  *  @param boxData          Instance data passed in specifying the parameters of the new box object.
- *  @result                 A reference to the new geometry object.
+ *  @result                 A reference to the new geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Box_New (
@@ -745,14 +1276,12 @@ Q3Box_New (
  *  @function
  *      Q3Box_Submit
  *  @discussion
- *		Submits a box for drawing, picking, bounding, or writing.
- *
- *		Submits the box described by the 'boxData' parameter to the
- *		supplied view for drawing, picking, bounding, or writing.
+ *		Submits a box for drawing, picking, bounding, or writing in immediate mode.
  *
  *		This function should only be called in a submitting loop.
  *
- *  @param boxData			A pointer to a TQ3BoxData structure specifying the box to be drawn.
+ *  @param boxData			A pointer to a <code>TQ3BoxData</code> structure specifying the box
+ *							to be drawn.
  *  @param view				The view to submit the box to.
  *  @result					Success or failure of the operation.
  */
@@ -788,7 +1317,7 @@ Q3Box_SetData (
  *  @discussion
  *      Gets the properties of an existing box object.
  *
- *		Memory is allocated for the 'boxData' parameter, and Q3Box_EmptyData
+ *		Memory is allocated for the 'boxData' parameter, and <code>Q3Box_EmptyData</code>
  *		must be called to dispose of this memory.
  *
  *  @param box              A reference to a box geometry object.
@@ -807,9 +1336,9 @@ Q3Box_GetData (
  *  @function
  *      Q3Box_EmptyData
  *  @discussion
- *      Releases the memory allocated by a prior call to Q3Box_GetData.
+ *      Releases the memory allocated by a prior call to <code>Q3Box_GetData</code>.
  *
- *  @param boxData          A pointer to the box data allocated by Q3Box_GetData().
+ *  @param boxData          A pointer to the box data allocated by <code>Q3Box_GetData()</code>.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -969,15 +1498,16 @@ Q3Box_GetMinorAxis (
  *  @discussion
  *      Gets the attribute set associated with a certain face of a box object.
  *
- *      The TQ3AttributeSet* parameter is filled with the attribute set
+ *      The <code>TQ3AttributeSet*</code> parameter is filled with the attribute set
  *      of the face indexed with 'faceIndex' of the box geometry object.
  *		faceIndex must be between 0 and 5 (inclusive).
  *
- *		The reference count of the returned TQ3AttributeSet is incremented.
+ *		The reference count of the returned <code>TQ3AttributeSet</code> is incremented.
  *
  *  @param box              A reference to a box geometry object.
  *  @param faceIndex        The index of the face of the box.
- *  @param faceAttributeSet Receives a reference to the attribute of the box face.
+ *  @param faceAttributeSet Receives a reference to the attribute set of the box face, or
+ *							NULL if the face does not have an attribute set.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -995,13 +1525,13 @@ Q3Box_GetFaceAttributeSet (
  *  @discussion
  *      Sets the attribute set associated with a certain face of a box object.
  *
- *      This function applies the TQ3AttributeSet* parameter to the attribute set
- *      of the face indexed with 'faceIndex' of the box geometry object.
- *		faceIndex must be between 0 and 5 (inclusive).
+ *      This function applies the <code>TQ3AttributeSet*</code> parameter to the attribute set
+ *      of the face indexed with <code>faceIndex</code> of the box geometry object.
+ *		<code>faceIndex</code> must be between 0 and 5 (inclusive).
  *
  *  @param box              A reference to a box geometry object.
  *  @param faceIndex        The index of the face of the box.
- *  @param faceAttributeSet A pointer to an attribute set to be applied.
+ *  @param faceAttributeSet An attribute set to be applied.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -1017,13 +1547,10 @@ Q3Box_SetFaceAttributeSet (
  *  @function
  *      Q3Cone_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a cone geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param coneData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param coneData         Pointer to data describing the cone.
+ *  @result                 The new cone object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Cone_New (
@@ -1036,14 +1563,13 @@ Q3Cone_New (
  *  @function
  *      Q3Cone_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submits a cone in immediate mode for rendering, bounding, picking, or writing.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param coneData         Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param coneData         Pointer to data describing a cone.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_Submit (
@@ -1057,14 +1583,11 @@ Q3Cone_Submit (
  *  @function
  *      Q3Cone_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a cone object by supplying new data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param coneData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param coneData         Pointer to data describing a cone.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetData (
@@ -1078,14 +1601,13 @@ Q3Cone_SetData (
  *  @function
  *      Q3Cone_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get data describing a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This may allocate memory, which should be freed using <code>Q3Cone_EmptyData</code>.
  *
- *  @param cone             Description of the parameter.
- *  @param coneData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param coneData         Receives data describing the cone.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetData (
@@ -1099,14 +1621,11 @@ Q3Cone_GetData (
  *  @function
  *      Q3Cone_SetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Change the origin of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param origin           The new origin.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetOrigin (
@@ -1120,14 +1639,11 @@ Q3Cone_SetOrigin (
  *  @function
  *      Q3Cone_SetOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Change the orientation vector of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param orientation      The new orientation vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetOrientation (
@@ -1141,14 +1657,11 @@ Q3Cone_SetOrientation (
  *  @function
  *      Q3Cone_SetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the major radius vector of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param majorRadius      New major radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetMajorRadius (
@@ -1162,14 +1675,11 @@ Q3Cone_SetMajorRadius (
  *  @function
  *      Q3Cone_SetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the minor radius vector of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param minorRadius      New minor radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetMinorRadius (
@@ -1183,14 +1693,11 @@ Q3Cone_SetMinorRadius (
  *  @function
  *      Q3Cone_GetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Get the origin of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param origin           Receives the origin.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetOrigin (
@@ -1204,14 +1711,11 @@ Q3Cone_GetOrigin (
  *  @function
  *      Q3Cone_GetOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Get the orientation vector of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param orientation      Receives the orientation vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetOrientation (
@@ -1225,14 +1729,11 @@ Q3Cone_GetOrientation (
  *  @function
  *      Q3Cone_GetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the major radius vector of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param majorRadius      Receives the major radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetMajorRadius (
@@ -1246,14 +1747,11 @@ Q3Cone_GetMajorRadius (
  *  @function
  *      Q3Cone_GetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the minor radius vector of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param minorRadius      Receives the minor radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetMinorRadius (
@@ -1267,14 +1765,14 @@ Q3Cone_GetMinorRadius (
  *  @function
  *      Q3Cone_SetCaps
  *  @discussion
- *      One-line description of this function.
+ *      Set the end cap flags of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Currently, this simply determines whether the cone will have a bottom cap.
  *
- *  @param cone             Description of the parameter.
- *  @param caps             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param caps             End cap value (<code>kQ3EndCapMaskBottom</code> or
+ *							<code>kQ3EndCapNone</code>).
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetCaps (
@@ -1288,14 +1786,12 @@ Q3Cone_SetCaps (
  *  @function
  *      Q3Cone_GetCaps
  *  @discussion
- *      One-line description of this function.
+ *      Get the end cap flags of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param caps             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param caps             Receives the end cap flags.  See <code>TQ3EndCapMasks</code>,
+ *							defined in Quesa.h, for values.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetCaps (
@@ -1309,14 +1805,13 @@ Q3Cone_GetCaps (
  *  @function
  *      Q3Cone_SetBottomAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Change the bottom attribute set of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Naturally, this only makes sense if the cone has a bottom end cap.
  *
- *  @param cone             Description of the parameter.
- *  @param bottomAttributeSet Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             	The cone object.
+ *  @param bottomAttributeSet	New bottom attribute set.  May be NULL.
+ *  @result                 	Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetBottomAttributeSet (
@@ -1330,14 +1825,11 @@ Q3Cone_SetBottomAttributeSet (
  *  @function
  *      Q3Cone_GetBottomAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set for the bottom cap of a cone object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param bottomAttributeSet Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             	The cone object.
+ *  @param bottomAttributeSet	Receives a reference to the bottom attribute set, or NULL.
+ *  @result                 	Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetBottomAttributeSet (
@@ -1351,14 +1843,11 @@ Q3Cone_GetBottomAttributeSet (
  *  @function
  *      Q3Cone_SetFaceAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set for the face (as opposed to the bottom cap) of a cone.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param faceAttributeSet Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param faceAttributeSet New face attribute set.  May be NULL.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetFaceAttributeSet (
@@ -1372,14 +1861,11 @@ Q3Cone_SetFaceAttributeSet (
  *  @function
  *      Q3Cone_GetFaceAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set for the face (as opposed to the bottom cap) of a cone.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cone             Description of the parameter.
- *  @param faceAttributeSet Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cone             The cone object.
+ *  @param faceAttributeSet Receives the attribute set for the face, or NULL.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetFaceAttributeSet (
@@ -1393,13 +1879,11 @@ Q3Cone_GetFaceAttributeSet (
  *  @function
  *      Q3Cone_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3Cone_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param coneData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param coneData         Data describing a cone, previously obtained with
+ *							<code>Q3Cone_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cone_EmptyData (
@@ -1412,13 +1896,10 @@ Q3Cone_EmptyData (
  *  @function
  *      Q3Cylinder_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new Cylinder object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinderData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinderData     Data describing a cylinder.
+ *  @result                 Reference to a new Cylinder geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Cylinder_New (
@@ -1431,14 +1912,13 @@ Q3Cylinder_New (
  *  @function
  *      Q3Cylinder_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a cylinder for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param cylinderData     Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinderData     Data describing a cylinder.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_Submit (
@@ -1452,14 +1932,11 @@ Q3Cylinder_Submit (
  *  @function
  *      Q3Cylinder_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a cylinder object by supplying all new data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param cylinderData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param cylinderData     Data describing a cylinder.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetData (
@@ -1473,14 +1950,14 @@ Q3Cylinder_SetData (
  *  @function
  *      Q3Cylinder_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get data describing a cylinder.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This operation may allocate memory, which should be freed using
+ *		<code>Q3Cylinder_EmptyData</code>.
  *
- *  @param cylinder         Description of the parameter.
- *  @param cylinderData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param cylinderData     Receives data describing the cylinder.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetData (
@@ -1494,14 +1971,11 @@ Q3Cylinder_GetData (
  *  @function
  *      Q3Cylinder_SetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Change the origin of a cylinder object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param origin           New point of origin.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetOrigin (
@@ -1515,14 +1989,11 @@ Q3Cylinder_SetOrigin (
  *  @function
  *      Q3Cylinder_SetOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Change the orientation vector of a cylinder object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param orientation      New orientation vector for the cylinder.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetOrientation (
@@ -1536,14 +2007,11 @@ Q3Cylinder_SetOrientation (
  *  @function
  *      Q3Cylinder_SetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the major radius vector of a cylinder object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param majorRadius      New major radius vector for the cylinder.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetMajorRadius (
@@ -1557,14 +2025,11 @@ Q3Cylinder_SetMajorRadius (
  *  @function
  *      Q3Cylinder_SetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the minor radius vector of a cylinder object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param minorRadius      New minor radius vector for the cylinder.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetMinorRadius (
@@ -1578,14 +2043,11 @@ Q3Cylinder_SetMinorRadius (
  *  @function
  *      Q3Cylinder_GetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Get the origin of a cylinder.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param origin           Receives the origin of the cylinder.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetOrigin (
@@ -1599,14 +2061,11 @@ Q3Cylinder_GetOrigin (
  *  @function
  *      Q3Cylinder_GetOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Get the orientation vector of a cylinder.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param orientation      Receives the orientation vector of the cylinder.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetOrientation (
@@ -1620,14 +2079,11 @@ Q3Cylinder_GetOrientation (
  *  @function
  *      Q3Cylinder_GetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the major radius vector of a cylinder.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param majorRadius      Receives the major radius vector of the cylinder.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetMajorRadius (
@@ -1641,14 +2097,11 @@ Q3Cylinder_GetMajorRadius (
  *  @function
  *      Q3Cylinder_GetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the minor radius vector of a cylinder.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param minorRadius      Receives the minor radius vector of the cylinder.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetMinorRadius (
@@ -1662,14 +2115,14 @@ Q3Cylinder_GetMinorRadius (
  *  @function
  *      Q3Cylinder_SetCaps
  *  @discussion
- *      One-line description of this function.
+ *      Set the cap flags of a cylinder object.  This determines whether the
+ *		cylinder is closed off at one end or the other.  The end containing the
+ *		origin is considered the bottom.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param caps             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param caps             The end cap flags.  See <code>TQ3EndCapMasks</code>,
+ *							defined in Quesa.h, for values.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetCaps (
@@ -1683,14 +2136,12 @@ Q3Cylinder_SetCaps (
  *  @function
  *      Q3Cylinder_GetCaps
  *  @discussion
- *      One-line description of this function.
+ *      Get the cap flags of a cylinder object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param caps             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param caps             Receives the end cap flags.  See <code>TQ3EndCapMasks</code>,
+ *							defined in Quesa.h, for values.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetCaps (
@@ -1704,14 +2155,11 @@ Q3Cylinder_GetCaps (
  *  @function
  *      Q3Cylinder_SetTopAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set for the top cap of a cylinder object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param topAttributeSet  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param topAttributeSet  New attribute set for the top cap.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetTopAttributeSet (
@@ -1725,14 +2173,11 @@ Q3Cylinder_SetTopAttributeSet (
  *  @function
  *      Q3Cylinder_GetTopAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set for the top cap of a cylinder object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param topAttributeSet  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param topAttributeSet  Receives the attribute set for the top cap, or NULL.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetTopAttributeSet (
@@ -1746,14 +2191,11 @@ Q3Cylinder_GetTopAttributeSet (
  *  @function
  *      Q3Cylinder_SetBottomAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set for the bottom cap of a cylinder object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param bottomAttributeSet Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         	A cylinder object.
+ *  @param bottomAttributeSet	New attribute set for the bottom cap.
+ *  @result                		Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetBottomAttributeSet (
@@ -1767,14 +2209,11 @@ Q3Cylinder_SetBottomAttributeSet (
  *  @function
  *      Q3Cylinder_GetBottomAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set for the bottom cap of a cylinder object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param bottomAttributeSet Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         	A cylinder object.
+ *  @param bottomAttributeSet	Receives the attribute set for the bottom cap, or NULL.
+ *  @result						Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetBottomAttributeSet (
@@ -1788,14 +2227,11 @@ Q3Cylinder_GetBottomAttributeSet (
  *  @function
  *      Q3Cylinder_SetFaceAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Set the attribute set for the face of a cylinder object (i.e., neither end).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param faceAttributeSet Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param faceAttributeSet New attribute set for the face of the cylinder.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetFaceAttributeSet (
@@ -1809,14 +2245,11 @@ Q3Cylinder_SetFaceAttributeSet (
  *  @function
  *      Q3Cylinder_GetFaceAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set for the face of a cylinder object (i.e., neither end).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinder         Description of the parameter.
- *  @param faceAttributeSet Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinder         A cylinder object.
+ *  @param faceAttributeSet Receives the attribute set for the face, or NULL.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetFaceAttributeSet (
@@ -1830,13 +2263,10 @@ Q3Cylinder_GetFaceAttributeSet (
  *  @function
  *      Q3Cylinder_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Free memory allocated by <code>Q3Cylinder_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param cylinderData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param cylinderData     Cylinder data previously obtained using <code>Q3Cylinder_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_EmptyData (
@@ -1849,13 +2279,10 @@ Q3Cylinder_EmptyData (
  *  @function
  *      Q3Disk_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new disk object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param diskData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param diskData         Data describing a disk object.
+ *  @result                 Reference to a new Disk geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Disk_New (
@@ -1868,14 +2295,13 @@ Q3Disk_New (
  *  @function
  *      Q3Disk_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a disk for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param diskData         Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param diskData         Data describing a disk object.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Disk_Submit (
@@ -1889,14 +2315,11 @@ Q3Disk_Submit (
  *  @function
  *      Q3Disk_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a disk object by supplying a whole new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param disk             Description of the parameter.
- *  @param diskData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param disk             A disk geometry object.
+ *  @param diskData         Data describing a disk object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetData (
@@ -1910,14 +2333,13 @@ Q3Disk_SetData (
  *  @function
  *      Q3Disk_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a Disk object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This may allocate memory, which should be freed using <code>Q3Disk_EmptyData</code>.
  *
- *  @param disk             Description of the parameter.
- *  @param diskData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param disk             A disk geometry object.
+ *  @param diskData         Data describing a disk object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetData (
@@ -1931,14 +2353,11 @@ Q3Disk_GetData (
  *  @function
  *      Q3Disk_SetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Change the origin of a Disk object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param disk             Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param disk             A disk geometry object.
+ *  @param origin           New origin for the disk.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetOrigin (
@@ -1952,14 +2371,11 @@ Q3Disk_SetOrigin (
  *  @function
  *      Q3Disk_SetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the major radius vector of a disk object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param disk             Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param disk             A disk geometry object.
+ *  @param majorRadius      New major radius vector for the disk object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetMajorRadius (
@@ -1973,14 +2389,11 @@ Q3Disk_SetMajorRadius (
  *  @function
  *      Q3Disk_SetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the minor radius vector of a disk object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param disk             Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param disk             A disk geometry object.
+ *  @param minorRadius      New minor radius vector for the disk object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetMinorRadius (
@@ -1994,14 +2407,11 @@ Q3Disk_SetMinorRadius (
  *  @function
  *      Q3Disk_GetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Get the origin of a disk object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param disk             Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param disk             A disk geometry object.
+ *  @param origin           Receives the origin of the disk.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetOrigin (
@@ -2015,14 +2425,11 @@ Q3Disk_GetOrigin (
  *  @function
  *      Q3Disk_GetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the major radius vector of a disk object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param disk             Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param disk             A disk geometry object.
+ *  @param majorRadius      Receives the major radius vector of the disk.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetMajorRadius (
@@ -2036,14 +2443,11 @@ Q3Disk_GetMajorRadius (
  *  @function
  *      Q3Disk_GetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the minor radius vector of a disk object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param disk             Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param disk             A disk geometry object.
+ *  @param minorRadius      Receives the minor radius vector of the disk.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetMinorRadius (
@@ -2057,13 +2461,11 @@ Q3Disk_GetMinorRadius (
  *  @function
  *      Q3Disk_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Free memory allocated by <code>Q3Disk_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param diskData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param diskData         Data describing a disk object, previously obtained by
+ *							<code>Q3Disk_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Disk_EmptyData (
@@ -2076,13 +2478,10 @@ Q3Disk_EmptyData (
  *  @function
  *      Q3Ellipse_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new ellipse geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipseData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipseData      Data describing an ellipse.
+ *  @result                 Reference to a new Ellipse geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Ellipse_New (
@@ -2095,14 +2494,13 @@ Q3Ellipse_New (
  *  @function
  *      Q3Ellipse_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits an ellipse for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param ellipseData      Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipseData      Data describing an ellipse.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_Submit (
@@ -2116,14 +2514,11 @@ Q3Ellipse_Submit (
  *  @function
  *      Q3Ellipse_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify an ellipse object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipse          Description of the parameter.
- *  @param ellipseData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipse          An ellipse object.
+ *  @param ellipseData      Data describing an ellipse.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetData (
@@ -2137,14 +2532,14 @@ Q3Ellipse_SetData (
  *  @function
  *      Q3Ellipse_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of an Ellipse object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3Ellipse_EmptyData</code>.
  *
- *  @param ellipse          Description of the parameter.
- *  @param ellipseData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipse          An ellipse object.
+ *  @param ellipseData      Receives data describing the ellipse object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetData (
@@ -2158,14 +2553,11 @@ Q3Ellipse_GetData (
  *  @function
  *      Q3Ellipse_SetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Change the origin of an ellipse object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipse          Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipse          The ellipse object.
+ *  @param origin           The new origin.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetOrigin (
@@ -2179,14 +2571,11 @@ Q3Ellipse_SetOrigin (
  *  @function
  *      Q3Ellipse_SetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the major radius vector of an Ellipse object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipse          Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipse          The Ellipse object.
+ *  @param majorRadius      New major radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetMajorRadius (
@@ -2200,14 +2589,11 @@ Q3Ellipse_SetMajorRadius (
  *  @function
  *      Q3Ellipse_SetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the minor radius vector of an Ellipse object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipse          Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipse          The Ellipse object.
+ *  @param minorRadius      New minor radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetMinorRadius (
@@ -2221,14 +2607,11 @@ Q3Ellipse_SetMinorRadius (
  *  @function
  *      Q3Ellipse_GetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Get the origin of an Ellipse object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipse          Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipse          The Ellipse object.
+ *  @param origin           Receives the origin.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetOrigin (
@@ -2242,14 +2625,11 @@ Q3Ellipse_GetOrigin (
  *  @function
  *      Q3Ellipse_GetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the major radius vector of an Ellipse object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipse          Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipse          The Ellipse object.
+ *  @param majorRadius      Receives the major radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetMajorRadius (
@@ -2263,14 +2643,11 @@ Q3Ellipse_GetMajorRadius (
  *  @function
  *      Q3Ellipse_GetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the minor radius vector of an Ellipse object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipse          Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipse          The Ellipse object.
+ *  @param minorRadius      Receives the minor radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetMinorRadius (
@@ -2284,13 +2661,11 @@ Q3Ellipse_GetMinorRadius (
  *  @function
  *      Q3Ellipse_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3Ellipse_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipseData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipseData      Data describing an ellipse, previously obtained with
+ *							<code>Q3Ellipse_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_EmptyData (
@@ -2303,13 +2678,10 @@ Q3Ellipse_EmptyData (
  *  @function
  *      Q3Ellipsoid_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new ellipsoid geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoidData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoidData    Data describing an ellipsoid.
+ *  @result                 Reference to a new Ellipsoid geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Ellipsoid_New (
@@ -2322,14 +2694,13 @@ Q3Ellipsoid_New (
  *  @function
  *      Q3Ellipsoid_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits an ellipsoid for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param ellipsoidData    Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoidData    Data describing an ellipsoid.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_Submit (
@@ -2343,14 +2714,11 @@ Q3Ellipsoid_Submit (
  *  @function
  *      Q3Ellipsoid_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify an ellipsoid object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoid        Description of the parameter.
- *  @param ellipsoidData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoid        An ellipsoid object.
+ *  @param ellipsoidData    Data describing an ellipsoid.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetData (
@@ -2364,14 +2732,14 @@ Q3Ellipsoid_SetData (
  *  @function
  *      Q3Ellipsoid_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of an Ellipse object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3Ellipsoid_EmptyData</code>.
  *
- *  @param ellipsoid        Description of the parameter.
- *  @param ellipsoidData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoid        An ellipsoid object.
+ *  @param ellipsoidData    Receives data describing the ellipsoid object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetData (
@@ -2385,14 +2753,11 @@ Q3Ellipsoid_GetData (
  *  @function
  *      Q3Ellipsoid_SetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Change the origin of an ellipsoid object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoid        Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoid        The ellipsoid object.
+ *  @param origin           The new origin.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetOrigin (
@@ -2406,14 +2771,11 @@ Q3Ellipsoid_SetOrigin (
  *  @function
  *      Q3Ellipsoid_SetOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Change the orientation vector of an Ellipsoid object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoid        Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoid        An Ellipsoid object.
+ *  @param orientation      New orientation vector for the Ellipsoid.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetOrientation (
@@ -2427,14 +2789,11 @@ Q3Ellipsoid_SetOrientation (
  *  @function
  *      Q3Ellipsoid_SetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the major radius vector of an Ellipsoid object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoid        Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoid        The Ellipsoid object.
+ *  @param majorRadius      New major radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetMajorRadius (
@@ -2448,14 +2807,11 @@ Q3Ellipsoid_SetMajorRadius (
  *  @function
  *      Q3Ellipsoid_SetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the minor radius vector of an Ellipsoid object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoid        Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoid        The Ellipsoid object.
+ *  @param minorRadius      New minor radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetMinorRadius (
@@ -2469,14 +2825,11 @@ Q3Ellipsoid_SetMinorRadius (
  *  @function
  *      Q3Ellipsoid_GetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Get the origin of an Ellipsoid object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoid        Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoid        The Ellipsoid object.
+ *  @param origin           Receives the origin.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetOrigin (
@@ -2490,14 +2843,11 @@ Q3Ellipsoid_GetOrigin (
  *  @function
  *      Q3Ellipsoid_GetOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Get the orientation vector of an Ellipsoid.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoid        Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoid        An Ellipsoid object.
+ *  @param orientation      Receives the orientation vector of the Ellipsoid.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetOrientation (
@@ -2511,14 +2861,11 @@ Q3Ellipsoid_GetOrientation (
  *  @function
  *      Q3Ellipsoid_GetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the major radius vector of an Ellipsoid object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoid        Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoid        The Ellipsoid object.
+ *  @param majorRadius      Receives the major radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetMajorRadius (
@@ -2532,14 +2879,11 @@ Q3Ellipsoid_GetMajorRadius (
  *  @function
  *      Q3Ellipsoid_GetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the minor radius vector of an Ellipsoid object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoid        Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoid        The Ellipsoid object.
+ *  @param minorRadius      Receives the minor radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetMinorRadius (
@@ -2553,13 +2897,11 @@ Q3Ellipsoid_GetMinorRadius (
  *  @function
  *      Q3Ellipsoid_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3Ellipsoid_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param ellipsoidData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param ellipsoidData    Data describing an Ellipsoid, previously obtained with
+ *							<code>Q3Ellipsoid_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_EmptyData (
@@ -2572,13 +2914,10 @@ Q3Ellipsoid_EmptyData (
  *  @function
  *      Q3GeneralPolygon_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new general polygon geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param generalPolygonData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param generalPolygonData	Data describing a general polygon.
+ *  @result						Reference to a new General Polygon geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3GeneralPolygon_New (
@@ -2591,14 +2930,13 @@ Q3GeneralPolygon_New (
  *  @function
  *      Q3GeneralPolygon_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a general polygon for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param generalPolygonData Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param generalPolygonData	Data describing a general polygon.
+ *  @param view					A view object.
+ *  @result						Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_Submit (
@@ -2612,14 +2950,11 @@ Q3GeneralPolygon_Submit (
  *  @function
  *      Q3GeneralPolygon_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a general polygon object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param generalPolygon   Description of the parameter.
- *  @param generalPolygonData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param generalPolygon   	A general polygon object
+ *  @param generalPolygonData	Data describing a general polygon object.
+ *  @result						Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetData (
@@ -2633,14 +2968,14 @@ Q3GeneralPolygon_SetData (
  *  @function
  *      Q3GeneralPolygon_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a General Polygon object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3GeneralPolygon_EmptyData</code>.
  *
- *  @param polygon          Description of the parameter.
- *  @param generalPolygonData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polygon          	A general polygon object.
+ *  @param generalPolygonData	Receives data describing the general polygon object.
+ *  @result						Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetData (
@@ -2654,13 +2989,11 @@ Q3GeneralPolygon_GetData (
  *  @function
  *      Q3GeneralPolygon_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3GeneralPolygon_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param generalPolygonData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param generalPolygonData	Data describing a General Polygon, previously obtained with
+ *								<code>Q3GeneralPolygon_GetData</code>.
+ *  @result						Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_EmptyData (
@@ -2682,7 +3015,7 @@ Q3GeneralPolygon_EmptyData (
  *  @param contourIndex     Description of the parameter.
  *  @param pointIndex       Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetVertexPosition (
@@ -2707,7 +3040,7 @@ Q3GeneralPolygon_GetVertexPosition (
  *  @param contourIndex     Description of the parameter.
  *  @param pointIndex       Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetVertexPosition (
@@ -2732,7 +3065,7 @@ Q3GeneralPolygon_SetVertexPosition (
  *  @param contourIndex     Description of the parameter.
  *  @param pointIndex       Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetVertexAttributeSet (
@@ -2757,7 +3090,7 @@ Q3GeneralPolygon_GetVertexAttributeSet (
  *  @param contourIndex     Description of the parameter.
  *  @param pointIndex       Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetVertexAttributeSet (
@@ -2780,7 +3113,7 @@ Q3GeneralPolygon_SetVertexAttributeSet (
  *
  *  @param generalPolygon   Description of the parameter.
  *  @param shapeHint        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetShapeHint (
@@ -2801,7 +3134,7 @@ Q3GeneralPolygon_SetShapeHint (
  *
  *  @param generalPolygon   Description of the parameter.
  *  @param shapeHint        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetShapeHint (
@@ -2815,13 +3148,10 @@ Q3GeneralPolygon_GetShapeHint (
  *  @function
  *      Q3Line_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new line geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param lineData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param lineData         Data describing a line.
+ *  @result                 Reference to a new Line geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Line_New (
@@ -2834,14 +3164,13 @@ Q3Line_New (
  *  @function
  *      Q3Line_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a line for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param lineData         Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param lineData         Data describing a line.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Line_Submit (
@@ -2855,14 +3184,14 @@ Q3Line_Submit (
  *  @function
  *      Q3Line_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a Line object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3Line_EmptyData</code>.
  *
- *  @param line             Description of the parameter.
- *  @param lineData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param line             A Line object.
+ *  @param lineData         Receives data describing the Line object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Line_GetData (
@@ -2876,14 +3205,11 @@ Q3Line_GetData (
  *  @function
  *      Q3Line_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a line object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param line             Description of the parameter.
- *  @param lineData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param line             A line object.
+ *  @param lineData         Data describing a line.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Line_SetData (
@@ -2905,7 +3231,7 @@ Q3Line_SetData (
  *  @param line             Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Line_GetVertexPosition (
@@ -2928,7 +3254,7 @@ Q3Line_GetVertexPosition (
  *  @param line             Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Line_SetVertexPosition (
@@ -2951,7 +3277,7 @@ Q3Line_SetVertexPosition (
  *  @param line             Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Line_GetVertexAttributeSet (
@@ -2974,7 +3300,7 @@ Q3Line_GetVertexAttributeSet (
  *  @param line             Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Line_SetVertexAttributeSet (
@@ -2989,13 +3315,11 @@ Q3Line_SetVertexAttributeSet (
  *  @function
  *      Q3Line_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3Line_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param lineData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param lineData         Data describing a Line, previously obtained with
+ *							<code>Q3Line_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Line_EmptyData (
@@ -3008,13 +3332,10 @@ Q3Line_EmptyData (
  *  @function
  *      Q3Marker_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new marker geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param markerData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param markerData       Data describing a marker.
+ *  @result                 Reference to a new Marker geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Marker_New (
@@ -3027,14 +3348,13 @@ Q3Marker_New (
  *  @function
  *      Q3Marker_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a marker for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param markerData       Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param markerData       Data describing a marker.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_Submit (
@@ -3048,14 +3368,11 @@ Q3Marker_Submit (
  *  @function
  *      Q3Marker_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a marker object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param geometry         Description of the parameter.
- *  @param markerData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param geometry         A marker object.
+ *  @param markerData       Data describing a marker.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetData (
@@ -3069,14 +3386,14 @@ Q3Marker_SetData (
  *  @function
  *      Q3Marker_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a Marker object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3Marker_EmptyData</code>.
  *
- *  @param geometry         Description of the parameter.
- *  @param markerData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param geometry         A Marker object.
+ *  @param markerData       Receives data describing the Marker object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetData (
@@ -3090,13 +3407,11 @@ Q3Marker_GetData (
  *  @function
  *      Q3Marker_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3Marker_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param markerData       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param markerData       Data describing a Marker, previously obtained with
+ *							<code>Q3Marker_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_EmptyData (
@@ -3116,7 +3431,7 @@ Q3Marker_EmptyData (
  *
  *  @param marker           Description of the parameter.
  *  @param location         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetPosition (
@@ -3137,7 +3452,7 @@ Q3Marker_GetPosition (
  *
  *  @param marker           Description of the parameter.
  *  @param location         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetPosition (
@@ -3158,7 +3473,7 @@ Q3Marker_SetPosition (
  *
  *  @param marker           Description of the parameter.
  *  @param xOffset          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetXOffset (
@@ -3179,7 +3494,7 @@ Q3Marker_GetXOffset (
  *
  *  @param marker           Description of the parameter.
  *  @param xOffset          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetXOffset (
@@ -3200,7 +3515,7 @@ Q3Marker_SetXOffset (
  *
  *  @param marker           Description of the parameter.
  *  @param yOffset          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetYOffset (
@@ -3221,7 +3536,7 @@ Q3Marker_GetYOffset (
  *
  *  @param marker           Description of the parameter.
  *  @param yOffset          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetYOffset (
@@ -3242,7 +3557,7 @@ Q3Marker_SetYOffset (
  *
  *  @param marker           Description of the parameter.
  *  @param bitmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetBitmap (
@@ -3263,7 +3578,7 @@ Q3Marker_GetBitmap (
  *
  *  @param marker           Description of the parameter.
  *  @param bitmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetBitmap (
@@ -3277,12 +3592,9 @@ Q3Marker_SetBitmap (
  *  @function
  *      Q3Mesh_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new Mesh geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @result                 Description of the function result.
+ *  @result                 Reference to a new Mesh geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Mesh_New (
@@ -3348,7 +3660,7 @@ Q3Mesh_FaceNew (
  *
  *  @param mesh             Description of the parameter.
  *  @param vertex           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_VertexDelete (
@@ -3369,7 +3681,7 @@ Q3Mesh_VertexDelete (
  *
  *  @param mesh             Description of the parameter.
  *  @param face             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_FaceDelete (
@@ -3389,7 +3701,7 @@ Q3Mesh_FaceDelete (
  *      the typical usage of this function and any special requirements.
  *
  *  @param mesh             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_DelayUpdates (
@@ -3408,7 +3720,7 @@ Q3Mesh_DelayUpdates (
  *      the typical usage of this function and any special requirements.
  *
  *  @param mesh             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_ResumeUpdates (
@@ -3472,7 +3784,7 @@ Q3Mesh_ContourToFace (
  *
  *  @param mesh             Description of the parameter.
  *  @param numComponents    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumComponents (
@@ -3493,7 +3805,7 @@ Q3Mesh_GetNumComponents (
  *
  *  @param mesh             Description of the parameter.
  *  @param numEdges         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumEdges (
@@ -3514,7 +3826,7 @@ Q3Mesh_GetNumEdges (
  *
  *  @param mesh             Description of the parameter.
  *  @param numVertices      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumVertices (
@@ -3535,7 +3847,7 @@ Q3Mesh_GetNumVertices (
  *
  *  @param mesh             Description of the parameter.
  *  @param numFaces         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumFaces (
@@ -3556,7 +3868,7 @@ Q3Mesh_GetNumFaces (
  *
  *  @param mesh             Description of the parameter.
  *  @param numCorners       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumCorners (
@@ -3577,7 +3889,7 @@ Q3Mesh_GetNumCorners (
  *
  *  @param mesh             Description of the parameter.
  *  @param orientable       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetOrientable (
@@ -3599,7 +3911,7 @@ Q3Mesh_GetOrientable (
  *  @param mesh             Description of the parameter.
  *  @param component        Description of the parameter.
  *  @param numVertices      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentNumVertices (
@@ -3622,7 +3934,7 @@ Q3Mesh_GetComponentNumVertices (
  *  @param mesh             Description of the parameter.
  *  @param component        Description of the parameter.
  *  @param numEdges         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentNumEdges (
@@ -3645,7 +3957,7 @@ Q3Mesh_GetComponentNumEdges (
  *  @param mesh             Description of the parameter.
  *  @param component        Description of the parameter.
  *  @param boundingBox      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentBoundingBox (
@@ -3668,7 +3980,7 @@ Q3Mesh_GetComponentBoundingBox (
  *  @param mesh             Description of the parameter.
  *  @param component        Description of the parameter.
  *  @param orientable       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentOrientable (
@@ -3691,7 +4003,7 @@ Q3Mesh_GetComponentOrientable (
  *  @param mesh             Description of the parameter.
  *  @param vertex           Description of the parameter.
  *  @param coordinates      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexCoordinates (
@@ -3714,7 +4026,7 @@ Q3Mesh_GetVertexCoordinates (
  *  @param mesh             Description of the parameter.
  *  @param vertex           Description of the parameter.
  *  @param index            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexIndex (
@@ -3737,7 +4049,7 @@ Q3Mesh_GetVertexIndex (
  *  @param mesh             Description of the parameter.
  *  @param vertex           Description of the parameter.
  *  @param onBoundary       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexOnBoundary (
@@ -3760,7 +4072,7 @@ Q3Mesh_GetVertexOnBoundary (
  *  @param mesh             Description of the parameter.
  *  @param vertex           Description of the parameter.
  *  @param component        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexComponent (
@@ -3783,7 +4095,7 @@ Q3Mesh_GetVertexComponent (
  *  @param mesh             Description of the parameter.
  *  @param vertex           Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexAttributeSet (
@@ -3806,7 +4118,7 @@ Q3Mesh_GetVertexAttributeSet (
  *  @param mesh             Description of the parameter.
  *  @param vertex           Description of the parameter.
  *  @param coordinates      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetVertexCoordinates (
@@ -3829,7 +4141,7 @@ Q3Mesh_SetVertexCoordinates (
  *  @param mesh             Description of the parameter.
  *  @param vertex           Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetVertexAttributeSet (
@@ -3852,7 +4164,7 @@ Q3Mesh_SetVertexAttributeSet (
  *  @param mesh             Description of the parameter.
  *  @param face             Description of the parameter.
  *  @param numVertices      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceNumVertices (
@@ -3875,7 +4187,7 @@ Q3Mesh_GetFaceNumVertices (
  *  @param mesh             Description of the parameter.
  *  @param face             Description of the parameter.
  *  @param planeEquation    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFacePlaneEquation (
@@ -3898,7 +4210,7 @@ Q3Mesh_GetFacePlaneEquation (
  *  @param mesh             Description of the parameter.
  *  @param face             Description of the parameter.
  *  @param numContours      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceNumContours (
@@ -3921,7 +4233,7 @@ Q3Mesh_GetFaceNumContours (
  *  @param mesh             Description of the parameter.
  *  @param face             Description of the parameter.
  *  @param index            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceIndex (
@@ -3944,7 +4256,7 @@ Q3Mesh_GetFaceIndex (
  *  @param mesh             Description of the parameter.
  *  @param face             Description of the parameter.
  *  @param component        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceComponent (
@@ -3967,7 +4279,7 @@ Q3Mesh_GetFaceComponent (
  *  @param mesh             Description of the parameter.
  *  @param face             Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceAttributeSet (
@@ -3990,7 +4302,7 @@ Q3Mesh_GetFaceAttributeSet (
  *  @param mesh             Description of the parameter.
  *  @param face             Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetFaceAttributeSet (
@@ -4014,7 +4326,7 @@ Q3Mesh_SetFaceAttributeSet (
  *  @param edge             Description of the parameter.
  *  @param vertex1          Description of the parameter.
  *  @param vertex2          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeVertices (
@@ -4039,7 +4351,7 @@ Q3Mesh_GetEdgeVertices (
  *  @param edge             Description of the parameter.
  *  @param face1            Description of the parameter.
  *  @param face2            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeFaces (
@@ -4063,7 +4375,7 @@ Q3Mesh_GetEdgeFaces (
  *  @param mesh             Description of the parameter.
  *  @param edge             Description of the parameter.
  *  @param onBoundary       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeOnBoundary (
@@ -4086,7 +4398,7 @@ Q3Mesh_GetEdgeOnBoundary (
  *  @param mesh             Description of the parameter.
  *  @param edge             Description of the parameter.
  *  @param component        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeComponent (
@@ -4109,7 +4421,7 @@ Q3Mesh_GetEdgeComponent (
  *  @param mesh             Description of the parameter.
  *  @param edge             Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeAttributeSet (
@@ -4132,7 +4444,7 @@ Q3Mesh_GetEdgeAttributeSet (
  *  @param mesh             Description of the parameter.
  *  @param edge             Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetEdgeAttributeSet (
@@ -4155,7 +4467,7 @@ Q3Mesh_SetEdgeAttributeSet (
  *  @param mesh             Description of the parameter.
  *  @param contour          Description of the parameter.
  *  @param face             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetContourFace (
@@ -4178,7 +4490,7 @@ Q3Mesh_GetContourFace (
  *  @param mesh             Description of the parameter.
  *  @param contour          Description of the parameter.
  *  @param numVertices      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetContourNumVertices (
@@ -4202,7 +4514,7 @@ Q3Mesh_GetContourNumVertices (
  *  @param vertex           Description of the parameter.
  *  @param face             Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetCornerAttributeSet (
@@ -4227,7 +4539,7 @@ Q3Mesh_GetCornerAttributeSet (
  *  @param vertex           Description of the parameter.
  *  @param face             Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetCornerAttributeSet (
@@ -4883,13 +5195,10 @@ Q3Mesh_NextContourFace (
  *  @function
  *      Q3NURBCurve_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new NURB curve geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param curveData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param curveData        Data describing a NURB curve.
+ *  @result                 Reference to a new NURB curve geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3NURBCurve_New (
@@ -4902,14 +5211,13 @@ Q3NURBCurve_New (
  *  @function
  *      Q3NURBCurve_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a NURB curve for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param curveData        Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param curveData        Data describing a NURB curve.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_Submit (
@@ -4923,14 +5231,11 @@ Q3NURBCurve_Submit (
  *  @function
  *      Q3NURBCurve_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a NURB curve object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param curve            Description of the parameter.
- *  @param nurbCurveData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param curve            A NURB curve object.
+ *  @param nurbCurveData    Data describing a NURB curve object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_SetData (
@@ -4944,14 +5249,14 @@ Q3NURBCurve_SetData (
  *  @function
  *      Q3NURBCurve_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a NURB Curve object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3NURBCurve_EmptyData</code>.
  *
- *  @param curve            Description of the parameter.
- *  @param nurbCurveData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param curve            A NURB Curve object.
+ *  @param nurbCurveData    Receives data describing the NURB Curve object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_GetData (
@@ -4965,13 +5270,11 @@ Q3NURBCurve_GetData (
  *  @function
  *      Q3NURBCurve_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3NURBCurve_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param nurbCurveData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param nurbCurveData    Data describing a NURB Curve, previously obtained with
+ *							<code>Q3NURBCurve_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_EmptyData (
@@ -4992,7 +5295,7 @@ Q3NURBCurve_EmptyData (
  *  @param curve            Description of the parameter.
  *  @param pointIndex       Description of the parameter.
  *  @param point4D          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_SetControlPoint (
@@ -5015,7 +5318,7 @@ Q3NURBCurve_SetControlPoint (
  *  @param curve            Description of the parameter.
  *  @param pointIndex       Description of the parameter.
  *  @param point4D          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_GetControlPoint (
@@ -5038,7 +5341,7 @@ Q3NURBCurve_GetControlPoint (
  *  @param curve            Description of the parameter.
  *  @param knotIndex        Description of the parameter.
  *  @param knotValue        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_SetKnot (
@@ -5061,7 +5364,7 @@ Q3NURBCurve_SetKnot (
  *  @param curve            Description of the parameter.
  *  @param knotIndex        Description of the parameter.
  *  @param knotValue        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_GetKnot (
@@ -5076,13 +5379,10 @@ Q3NURBCurve_GetKnot (
  *  @function
  *      Q3NURBPatch_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new NURB patch geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param nurbPatchData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param nurbPatchData    Data describing a NURB patch.
+ *  @result                 Reference to a new NURB patch geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3NURBPatch_New (
@@ -5095,14 +5395,13 @@ Q3NURBPatch_New (
  *  @function
  *      Q3NURBPatch_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a NURB patch for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param nurbPatchData    Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param nurbPatchData    Data describing a NURB patch.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_Submit (
@@ -5116,14 +5415,11 @@ Q3NURBPatch_Submit (
  *  @function
  *      Q3NURBPatch_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a NURB patch object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param nurbPatch        Description of the parameter.
- *  @param nurbPatchData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param nurbPatch        A NURB patch object.
+ *  @param nurbPatchData    Data describing a NURB patch object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetData (
@@ -5137,14 +5433,14 @@ Q3NURBPatch_SetData (
  *  @function
  *      Q3NURBPatch_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a NURB Patch object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3NURBPatch_EmptyData</code>.
  *
- *  @param nurbPatch        Description of the parameter.
- *  @param nurbPatchData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param nurbPatch        A NURB Patch object.
+ *  @param nurbPatchData    Receives data describing the NURB Patch object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetData (
@@ -5167,7 +5463,7 @@ Q3NURBPatch_GetData (
  *  @param rowIndex         Description of the parameter.
  *  @param columnIndex      Description of the parameter.
  *  @param point4D          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetControlPoint (
@@ -5192,7 +5488,7 @@ Q3NURBPatch_SetControlPoint (
  *  @param rowIndex         Description of the parameter.
  *  @param columnIndex      Description of the parameter.
  *  @param point4D          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetControlPoint (
@@ -5216,7 +5512,7 @@ Q3NURBPatch_GetControlPoint (
  *  @param nurbPatch        Description of the parameter.
  *  @param knotIndex        Description of the parameter.
  *  @param knotValue        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetUKnot (
@@ -5239,7 +5535,7 @@ Q3NURBPatch_SetUKnot (
  *  @param nurbPatch        Description of the parameter.
  *  @param knotIndex        Description of the parameter.
  *  @param knotValue        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetVKnot (
@@ -5262,7 +5558,7 @@ Q3NURBPatch_SetVKnot (
  *  @param nurbPatch        Description of the parameter.
  *  @param knotIndex        Description of the parameter.
  *  @param knotValue        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetUKnot (
@@ -5285,7 +5581,7 @@ Q3NURBPatch_GetUKnot (
  *  @param nurbPatch        Description of the parameter.
  *  @param knotIndex        Description of the parameter.
  *  @param knotValue        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetVKnot (
@@ -5300,13 +5596,11 @@ Q3NURBPatch_GetVKnot (
  *  @function
  *      Q3NURBPatch_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3NURBPatch_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param nurbPatchData    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param nurbPatchData    Data describing a NURB Patch, previously obtained with
+ *							<code>Q3NURBPatch_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_EmptyData (
@@ -5319,13 +5613,10 @@ Q3NURBPatch_EmptyData (
  *  @function
  *      Q3PixmapMarker_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new pixmap marker geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmapMarkerData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pixmapMarkerData Data describing a pixmap marker.
+ *  @result                 Reference to a new pixmap marker geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3PixmapMarker_New (
@@ -5338,14 +5629,13 @@ Q3PixmapMarker_New (
  *  @function
  *      Q3PixmapMarker_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a pixmap marker for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param pixmapMarkerData Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pixmapMarkerData Data describing a pixmap marker.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_Submit (
@@ -5359,14 +5649,11 @@ Q3PixmapMarker_Submit (
  *  @function
  *      Q3PixmapMarker_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a pixmap marker object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param geometry         Description of the parameter.
- *  @param pixmapMarkerData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param geometry         A pixmap marker object.
+ *  @param pixmapMarkerData Data describing a pixmap marker object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetData (
@@ -5380,14 +5667,14 @@ Q3PixmapMarker_SetData (
  *  @function
  *      Q3PixmapMarker_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a Pixmap Marker object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3PixmapMarker_EmptyData</code>.
  *
- *  @param geometry         Description of the parameter.
- *  @param pixmapMarkerData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param geometry         A Pixmap Marker object.
+ *  @param pixmapMarkerData Receives data describing the Pixmap Marker object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetData (
@@ -5401,13 +5688,11 @@ Q3PixmapMarker_GetData (
  *  @function
  *      Q3PixmapMarker_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3PixmapMarker_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmapMarkerData Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pixmapMarkerData Data describing a Pixmap Marker, previously obtained with
+ *							<code>Q3PixmapMarker_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_EmptyData (
@@ -5427,7 +5712,7 @@ Q3PixmapMarker_EmptyData (
  *
  *  @param pixmapMarker     Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetPosition (
@@ -5448,7 +5733,7 @@ Q3PixmapMarker_GetPosition (
  *
  *  @param pixmapMarker     Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetPosition (
@@ -5469,7 +5754,7 @@ Q3PixmapMarker_SetPosition (
  *
  *  @param pixmapMarker     Description of the parameter.
  *  @param xOffset          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetXOffset (
@@ -5490,7 +5775,7 @@ Q3PixmapMarker_GetXOffset (
  *
  *  @param pixmapMarker     Description of the parameter.
  *  @param xOffset          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetXOffset (
@@ -5511,7 +5796,7 @@ Q3PixmapMarker_SetXOffset (
  *
  *  @param pixmapMarker     Description of the parameter.
  *  @param yOffset          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetYOffset (
@@ -5532,7 +5817,7 @@ Q3PixmapMarker_GetYOffset (
  *
  *  @param pixmapMarker     Description of the parameter.
  *  @param yOffset          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetYOffset (
@@ -5553,7 +5838,7 @@ Q3PixmapMarker_SetYOffset (
  *
  *  @param pixmapMarker     Description of the parameter.
  *  @param pixmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetPixmap (
@@ -5574,7 +5859,7 @@ Q3PixmapMarker_GetPixmap (
  *
  *  @param pixmapMarker     Description of the parameter.
  *  @param pixmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetPixmap (
@@ -5588,13 +5873,10 @@ Q3PixmapMarker_SetPixmap (
  *  @function
  *      Q3Point_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new point geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pointData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pointData        Data describing a point.
+ *  @result                 Reference to a new Point geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Point_New (
@@ -5607,14 +5889,13 @@ Q3Point_New (
  *  @function
  *      Q3Point_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a point for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param pointData        Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pointData        Data describing a point.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Point_Submit (
@@ -5628,14 +5909,14 @@ Q3Point_Submit (
  *  @function
  *      Q3Point_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a Point object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3Point_EmptyData</code>.
  *
- *  @param point            Description of the parameter.
- *  @param pointData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point            A Point object.
+ *  @param pointData        Receives data describing the Point object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Point_GetData (
@@ -5649,14 +5930,11 @@ Q3Point_GetData (
  *  @function
  *      Q3Point_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a point object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point            Description of the parameter.
- *  @param pointData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point            A point object
+ *  @param pointData        Data describing a point object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Point_SetData (
@@ -5670,13 +5948,11 @@ Q3Point_SetData (
  *  @function
  *      Q3Point_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3Point_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pointData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pointData        Data describing a Point, previously obtained with
+ *							<code>Q3Point_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Point_EmptyData (
@@ -5696,7 +5972,7 @@ Q3Point_EmptyData (
  *
  *  @param point            Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Point_SetPosition (
@@ -5717,7 +5993,7 @@ Q3Point_SetPosition (
  *
  *  @param point            Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Point_GetPosition (
@@ -5731,13 +6007,10 @@ Q3Point_GetPosition (
  *  @function
  *      Q3Polygon_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new polygon geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polygonData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polygonData      Data describing a polygon.
+ *  @result                 Reference to a new Polygon geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Polygon_New (
@@ -5750,14 +6023,13 @@ Q3Polygon_New (
  *  @function
  *      Q3Polygon_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a polygon for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param polygonData      Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polygonData      Data describing a polygon.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polygon_Submit (
@@ -5771,14 +6043,11 @@ Q3Polygon_Submit (
  *  @function
  *      Q3Polygon_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a polygon object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polygon          Description of the parameter.
- *  @param polygonData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polygon          A polygon object.
+ *  @param polygonData      Data describing a polygon.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polygon_SetData (
@@ -5792,14 +6061,14 @@ Q3Polygon_SetData (
  *  @function
  *      Q3Polygon_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a Polygon object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3Polygon_EmptyData</code>.
  *
- *  @param polygon          Description of the parameter.
- *  @param polygonData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polygon          A Polygon object.
+ *  @param polygonData      Receives data describing the Polygon object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polygon_GetData (
@@ -5813,13 +6082,11 @@ Q3Polygon_GetData (
  *  @function
  *      Q3Polygon_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3Polygon_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polygonData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polygonData      Data describing a Polygon, previously obtained with
+ *							<code>Q3Polygon_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polygon_EmptyData (
@@ -5840,7 +6107,7 @@ Q3Polygon_EmptyData (
  *  @param polygon          Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param point            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polygon_GetVertexPosition (
@@ -5863,7 +6130,7 @@ Q3Polygon_GetVertexPosition (
  *  @param polygon          Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param point            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polygon_SetVertexPosition (
@@ -5886,7 +6153,7 @@ Q3Polygon_SetVertexPosition (
  *  @param polygon          Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polygon_GetVertexAttributeSet (
@@ -5909,7 +6176,7 @@ Q3Polygon_GetVertexAttributeSet (
  *  @param polygon          Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polygon_SetVertexAttributeSet (
@@ -5924,13 +6191,10 @@ Q3Polygon_SetVertexAttributeSet (
  *  @function
  *      Q3Polyhedron_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new polyhedron geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedronData   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polyhedronData   Data describing a polyhedron.
+ *  @result                 Reference to a new Polyhedron geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Polyhedron_New (
@@ -5943,14 +6207,13 @@ Q3Polyhedron_New (
  *  @function
  *      Q3Polyhedron_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a polyhedron for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param polyhedronData   Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polyhedronData   Data describing a polyhedron.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_Submit (
@@ -5964,14 +6227,11 @@ Q3Polyhedron_Submit (
  *  @function
  *      Q3Polyhedron_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a polyhedron object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedron       Description of the parameter.
- *  @param polyhedronData   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polyhedron       A polyhedron object.
+ *  @param polyhedronData   Data describing a polyhedron.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetData (
@@ -5985,14 +6245,14 @@ Q3Polyhedron_SetData (
  *  @function
  *      Q3Polyhedron_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a Polyhedron object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3Polyhedron_EmptyData</code>.
  *
- *  @param polyhedron       Description of the parameter.
- *  @param polyhedronData   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polyhedron       A Polyhedron object.
+ *  @param polyhedronData   Receives data describing the Polyhedron object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetData (
@@ -6006,13 +6266,11 @@ Q3Polyhedron_GetData (
  *  @function
  *      Q3Polyhedron_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3Polyhedron_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyhedronData   Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polyhedronData   Data describing a Polyhedron, previously obtained with
+ *							<code>Q3Polyhedron_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_EmptyData (
@@ -6033,7 +6291,7 @@ Q3Polyhedron_EmptyData (
  *  @param polyhedron       Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param point            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetVertexPosition (
@@ -6056,7 +6314,7 @@ Q3Polyhedron_SetVertexPosition (
  *  @param polyhedron       Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param point            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetVertexPosition (
@@ -6079,7 +6337,7 @@ Q3Polyhedron_GetVertexPosition (
  *  @param polyhedron       Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetVertexAttributeSet (
@@ -6102,7 +6360,7 @@ Q3Polyhedron_SetVertexAttributeSet (
  *  @param polyhedron       Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetVertexAttributeSet (
@@ -6125,7 +6383,7 @@ Q3Polyhedron_GetVertexAttributeSet (
  *  @param polyhedron       Description of the parameter.
  *  @param triangleIndex    Description of the parameter.
  *  @param triangleData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetTriangleData (
@@ -6148,7 +6406,7 @@ Q3Polyhedron_GetTriangleData (
  *  @param polyhedron       Description of the parameter.
  *  @param triangleIndex    Description of the parameter.
  *  @param triangleData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetTriangleData (
@@ -6171,7 +6429,7 @@ Q3Polyhedron_SetTriangleData (
  *  @param polyhedron       Description of the parameter.
  *  @param edgeIndex        Description of the parameter.
  *  @param edgeData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetEdgeData (
@@ -6194,7 +6452,7 @@ Q3Polyhedron_GetEdgeData (
  *  @param polyhedron       Description of the parameter.
  *  @param edgeIndex        Description of the parameter.
  *  @param edgeData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetEdgeData (
@@ -6209,13 +6467,10 @@ Q3Polyhedron_SetEdgeData (
  *  @function
  *      Q3PolyLine_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new polyline geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polylineData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polylineData     Data describing a polyline.
+ *  @result                 Reference to a new Polyline geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3PolyLine_New (
@@ -6228,14 +6483,13 @@ Q3PolyLine_New (
  *  @function
  *      Q3PolyLine_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a PolyLine for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param polyLineData     Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polyLineData     Data describing a PolyLine.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_Submit (
@@ -6249,14 +6503,11 @@ Q3PolyLine_Submit (
  *  @function
  *      Q3PolyLine_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a PolyLine object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyLine         Description of the parameter.
- *  @param polyLineData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polyLine         A PolyLine object.
+ *  @param polyLineData     Data describing a PolyLine.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetData (
@@ -6270,14 +6521,14 @@ Q3PolyLine_SetData (
  *  @function
  *      Q3PolyLine_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a PolyLine object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3PolyLine_EmptyData</code>.
  *
- *  @param polyLine         Description of the parameter.
- *  @param polyLineData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polyLine         A PolyLine object.
+ *  @param polyLineData     Receives data describing the PolyLine object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetData (
@@ -6291,13 +6542,11 @@ Q3PolyLine_GetData (
  *  @function
  *      Q3PolyLine_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3PolyLine_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polyLineData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polyLineData     Data describing a PolyLine, previously obtained with
+ *							<code>Q3PolyLine_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_EmptyData (
@@ -6318,7 +6567,7 @@ Q3PolyLine_EmptyData (
  *  @param polyLine         Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetVertexPosition (
@@ -6341,7 +6590,7 @@ Q3PolyLine_GetVertexPosition (
  *  @param polyLine         Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetVertexPosition (
@@ -6364,7 +6613,7 @@ Q3PolyLine_SetVertexPosition (
  *  @param polyLine         Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetVertexAttributeSet (
@@ -6387,7 +6636,7 @@ Q3PolyLine_GetVertexAttributeSet (
  *  @param polyLine         Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetVertexAttributeSet (
@@ -6410,7 +6659,7 @@ Q3PolyLine_SetVertexAttributeSet (
  *  @param polyLine         Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetSegmentAttributeSet (
@@ -6433,7 +6682,7 @@ Q3PolyLine_GetSegmentAttributeSet (
  *  @param polyLine         Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetSegmentAttributeSet (
@@ -6448,13 +6697,10 @@ Q3PolyLine_SetSegmentAttributeSet (
  *  @function
  *      Q3Torus_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new torus geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torusData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torusData        Data describing a torus.
+ *  @result                 Reference to a new Torus geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Torus_New (
@@ -6467,14 +6713,13 @@ Q3Torus_New (
  *  @function
  *      Q3Torus_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a torus for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param torusData        Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torusData        Data describing a torus.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_Submit (
@@ -6488,14 +6733,11 @@ Q3Torus_Submit (
  *  @function
  *      Q3Torus_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a torus object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param torusData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torus            A torus object.
+ *  @param torusData        Data describing a torus.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetData (
@@ -6509,14 +6751,14 @@ Q3Torus_SetData (
  *  @function
  *      Q3Torus_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a Torus object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3Torus_EmptyData</code>.
  *
- *  @param torus            Description of the parameter.
- *  @param torusData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torus            A Torus object.
+ *  @param torusData        Receives data describing the Torus object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetData (
@@ -6530,14 +6772,11 @@ Q3Torus_GetData (
  *  @function
  *      Q3Torus_SetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Change the origin of a torus object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torus            The torus object.
+ *  @param origin           The new origin.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetOrigin (
@@ -6551,14 +6790,11 @@ Q3Torus_SetOrigin (
  *  @function
  *      Q3Torus_SetOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Change the orientation vector of a torus object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torus            A torus object.
+ *  @param orientation      New orientation vector for the torus.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetOrientation (
@@ -6572,14 +6808,11 @@ Q3Torus_SetOrientation (
  *  @function
  *      Q3Torus_SetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the major radius vector of a Torus object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torus            The Torus object.
+ *  @param majorRadius      New major radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetMajorRadius (
@@ -6593,14 +6826,11 @@ Q3Torus_SetMajorRadius (
  *  @function
  *      Q3Torus_SetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Change the minor radius vector of a Torus object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torus            The Torus object.
+ *  @param minorRadius      New minor radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetMinorRadius (
@@ -6621,7 +6851,7 @@ Q3Torus_SetMinorRadius (
  *
  *  @param torus            Description of the parameter.
  *  @param ratio            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetRatio (
@@ -6635,14 +6865,11 @@ Q3Torus_SetRatio (
  *  @function
  *      Q3Torus_GetOrigin
  *  @discussion
- *      One-line description of this function.
+ *      Get the origin of a Torus object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param origin           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torus            The Torus object.
+ *  @param origin           Receives the origin.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetOrigin (
@@ -6656,14 +6883,11 @@ Q3Torus_GetOrigin (
  *  @function
  *      Q3Torus_GetOrientation
  *  @discussion
- *      One-line description of this function.
+ *      Get the orientation vector of a torus.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param orientation      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torus            A torus object.
+ *  @param orientation      Receives the orientation vector of the torus.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetOrientation (
@@ -6677,14 +6901,11 @@ Q3Torus_GetOrientation (
  *  @function
  *      Q3Torus_GetMajorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the major radius vector of a Torus object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param majorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torus            The Torus object.
+ *  @param majorRadius      Receives the major radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetMajorRadius (
@@ -6698,14 +6919,11 @@ Q3Torus_GetMajorRadius (
  *  @function
  *      Q3Torus_GetMinorRadius
  *  @discussion
- *      One-line description of this function.
+ *      Get the minor radius vector of a Torus object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torus            Description of the parameter.
- *  @param minorRadius      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torus            The Torus object.
+ *  @param minorRadius      Receives the minor radius vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetMinorRadius (
@@ -6726,7 +6944,7 @@ Q3Torus_GetMinorRadius (
  *
  *  @param torus            Description of the parameter.
  *  @param ratio            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetRatio (
@@ -6740,13 +6958,11 @@ Q3Torus_GetRatio (
  *  @function
  *      Q3Torus_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3Torus_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param torusData        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param torusData        Data describing a Torus, previously obtained with
+ *							<code>Q3Torus_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Torus_EmptyData (
@@ -6759,13 +6975,10 @@ Q3Torus_EmptyData (
  *  @function
  *      Q3Triangle_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new triangle geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triangleData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triangleData     Data describing a triangle.
+ *  @result                 Reference to a new Triangle geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3Triangle_New (
@@ -6778,14 +6991,13 @@ Q3Triangle_New (
  *  @function
  *      Q3Triangle_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a triangle for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param triangleData     Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triangleData     Data describing a triangle.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Triangle_Submit (
@@ -6799,14 +7011,11 @@ Q3Triangle_Submit (
  *  @function
  *      Q3Triangle_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a triangle object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triangle         Description of the parameter.
- *  @param triangleData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triangle         A triangle object.
+ *  @param triangleData     Data describing a triangle.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Triangle_SetData (
@@ -6820,14 +7029,14 @@ Q3Triangle_SetData (
  *  @function
  *      Q3Triangle_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a Triangle object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3Triangle_EmptyData</code>.
  *
- *  @param triangle         Description of the parameter.
- *  @param triangleData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triangle         A Triangle object.
+ *  @param triangleData     Receives data describing the Triangle object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Triangle_GetData (
@@ -6841,13 +7050,11 @@ Q3Triangle_GetData (
  *  @function
  *      Q3Triangle_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3Triangle_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triangleData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triangleData     Data describing a Triangle, previously obtained with
+ *							<code>Q3Triangle_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Triangle_EmptyData (
@@ -6868,7 +7075,7 @@ Q3Triangle_EmptyData (
  *  @param triangle         Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param point            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Triangle_GetVertexPosition (
@@ -6891,7 +7098,7 @@ Q3Triangle_GetVertexPosition (
  *  @param triangle         Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param point            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Triangle_SetVertexPosition (
@@ -6914,7 +7121,7 @@ Q3Triangle_SetVertexPosition (
  *  @param triangle         Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Triangle_GetVertexAttributeSet (
@@ -6937,7 +7144,7 @@ Q3Triangle_GetVertexAttributeSet (
  *  @param triangle         Description of the parameter.
  *  @param index            Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Triangle_SetVertexAttributeSet (
@@ -6952,13 +7159,10 @@ Q3Triangle_SetVertexAttributeSet (
  *  @function
  *      Q3TriGrid_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new TriGrid geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triGridData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triGridData      Data describing a TriGrid.
+ *  @result                 Reference to a new TriGrid geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3TriGrid_New (
@@ -6971,14 +7175,13 @@ Q3TriGrid_New (
  *  @function
  *      Q3TriGrid_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a TriGrid for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param triGridData      Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triGridData      Data describing a TriGrid.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_Submit (
@@ -6992,14 +7195,11 @@ Q3TriGrid_Submit (
  *  @function
  *      Q3TriGrid_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a TriGrid object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triGrid          Description of the parameter.
- *  @param triGridData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triGrid          A TriGrid object.
+ *  @param triGridData      Data describing a TriGrid.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetData (
@@ -7013,14 +7213,14 @@ Q3TriGrid_SetData (
  *  @function
  *      Q3TriGrid_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a TriGrid object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3TriGrid_EmptyData</code>.
  *
- *  @param triGrid          Description of the parameter.
- *  @param triGridData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triGrid          A TriGrid object.
+ *  @param triGridData      Receives data describing the TriGrid object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetData (
@@ -7034,13 +7234,11 @@ Q3TriGrid_GetData (
  *  @function
  *      Q3TriGrid_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3TriGrid_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triGridData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triGridData      Data describing a TriGrid, previously obtained with
+ *							<code>Q3TriGrid_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_EmptyData (
@@ -7062,7 +7260,7 @@ Q3TriGrid_EmptyData (
  *  @param rowIndex         Description of the parameter.
  *  @param columnIndex      Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetVertexPosition (
@@ -7087,7 +7285,7 @@ Q3TriGrid_GetVertexPosition (
  *  @param rowIndex         Description of the parameter.
  *  @param columnIndex      Description of the parameter.
  *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetVertexPosition (
@@ -7112,7 +7310,7 @@ Q3TriGrid_SetVertexPosition (
  *  @param rowIndex         Description of the parameter.
  *  @param columnIndex      Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetVertexAttributeSet (
@@ -7137,7 +7335,7 @@ Q3TriGrid_GetVertexAttributeSet (
  *  @param rowIndex         Description of the parameter.
  *  @param columnIndex      Description of the parameter.
  *  @param attributeSet     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetVertexAttributeSet (
@@ -7161,7 +7359,7 @@ Q3TriGrid_SetVertexAttributeSet (
  *  @param triGrid          Description of the parameter.
  *  @param faceIndex        Description of the parameter.
  *  @param facetAttributeSet Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetFacetAttributeSet (
@@ -7184,7 +7382,7 @@ Q3TriGrid_GetFacetAttributeSet (
  *  @param triGrid          Description of the parameter.
  *  @param faceIndex        Description of the parameter.
  *  @param facetAttributeSet Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetFacetAttributeSet (
@@ -7199,13 +7397,10 @@ Q3TriGrid_SetFacetAttributeSet (
  *  @function
  *      Q3TriMesh_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new TriMesh geometry object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triMeshData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triMeshData      Data describing a TriMesh.
+ *  @result                 Reference to a new TriMesh geometry object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3GeometryObject  )
 Q3TriMesh_New (
@@ -7218,14 +7413,13 @@ Q3TriMesh_New (
  *  @function
  *      Q3TriMesh_Submit
  *  @discussion
- *      One-line description of this function.
+ *		Submits a TriMesh for drawing, picking, bounding, or writing in immediate mode.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function should only be called in a submitting loop.
  *
- *  @param triMeshData      Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triMeshData      Data describing a TriMesh.
+ *  @param view             A view object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_Submit (
@@ -7239,14 +7433,11 @@ Q3TriMesh_Submit (
  *  @function
  *      Q3TriMesh_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Modify a TriMesh object by supplying a full new set of data.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triMesh          Description of the parameter.
- *  @param triMeshData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triMesh          A TriMesh object.
+ *  @param triMeshData      Data describing a TriMesh.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_SetData (
@@ -7260,14 +7451,14 @@ Q3TriMesh_SetData (
  *  @function
  *      Q3TriMesh_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a TriMesh object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function may allocate memory, which should be freed using
+ *		<code>Q3TriMesh_EmptyData</code>.
  *
- *  @param triMesh          Description of the parameter.
- *  @param triMeshData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triMesh          A TriMesh object.
+ *  @param triMeshData      Receives data describing the TriMesh object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_GetData (
@@ -7281,13 +7472,11 @@ Q3TriMesh_GetData (
  *  @function
  *      Q3TriMesh_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release memory allocated by <code>Q3TriMesh_GetData</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param triMeshData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param triMeshData      Data describing a TriMesh, previously obtained with
+ *							<code>Q3TriMesh_GetData</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_EmptyData (
