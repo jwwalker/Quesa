@@ -589,6 +589,8 @@ e3matrix4_invert(TQ3Matrix4x4* a)
 //
 //				See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
 //-----------------------------------------------------------------------------
+#if 0 // No longer used
+
 static float
 e3matrix_determinant(float **a, TQ3Int32 n)
 {
@@ -678,6 +680,8 @@ e3matrix_determinant(float **a, TQ3Int32 n)
 	#undef A
 }
 
+#endif // Not used
+
 
 
 
@@ -701,6 +705,8 @@ e3matrix_determinant(float **a, TQ3Int32 n)
 //
 //				See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
 //-----------------------------------------------------------------------------
+#if 0 // No longer used
+
 static void
 e3matrix_invert(float **a, TQ3Int32 n, TQ3Int32 *ipiv, TQ3Int32 *indxr, TQ3Int32 *indxc)
 {
@@ -799,6 +805,8 @@ e3matrix_invert(float **a, TQ3Int32 n, TQ3Int32 *ipiv, TQ3Int32 *indxr, TQ3Int32
 	
 	#undef A
 }
+
+#endif // Not used
 
 
 
@@ -2555,8 +2563,8 @@ E3Point3D_To4DTransformArray(const TQ3Point3D		*inPoints3D,
 		out->w = in->x*M(0,3) + in->y*M(1,3) + in->z*M(2,3) + M(3,3);
 		#undef M
 		
-		in = (TQ3Point3D*) (((const char*) in) + inStructSize);
-		out = (TQ3RationalPoint4D*) (((const char*) out) + outStructSize);
+		in  = (const TQ3Point3D   *) (((const char *)  in) + inStructSize);
+		out = (TQ3RationalPoint4D *) (((      char *) out) + outStructSize);
 	}
 
 	return(kQ3Success);
@@ -3149,7 +3157,7 @@ E3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4,
 		{
 			float value;
 			
-			value = (float) fabs(((float*) (v1))[i]);
+			value = (float) fabs(((const float*) (v1))[i]);
 			if (value < valueSmall)
 			{
 				iSmall = i;
@@ -3806,7 +3814,7 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 			{
 				float value;
 				
-				value = (float) fabs(((float*) v1)[i]);
+				value = (float) fabs(((const float*) v1)[i]);
 				if (value < valueSmall)
 				{
 					iSmall = i;

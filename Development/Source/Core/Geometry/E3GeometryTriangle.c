@@ -247,9 +247,8 @@ e3geom_triangle_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, T
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_triangle_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
-{	const TQ3TriangleData		*instanceData = (const TQ3TriangleData *) objectData;
-	TQ3Status					qd3dStatus;
-	TQ3WorldRayPickData			pickData;
+{	TQ3Status				qd3dStatus;
+	TQ3WorldRayPickData		pickData;
 
 
 

@@ -60,15 +60,15 @@
 //-----------------------------------------------------------------------------
 static int
 ir_geom_transparent_sort(const void *item1, const void *item2)
-{	TQ3TransparentPrim		*prim1, *prim2;
-	float					mid1, mid2;
-	int						sortResult;
+{	const TQ3TransparentPrim	*prim1, *prim2;
+	float						mid1, mid2;
+	int							sortResult;
 
 
 
 	// Grab our primitives
-	prim1 = (TQ3TransparentPrim *) item1;
-	prim2 = (TQ3TransparentPrim *) item2;
+	prim1 = (const TQ3TransparentPrim *) item1;
+	prim2 = (const TQ3TransparentPrim *) item2;
 
 
 

@@ -117,6 +117,8 @@ typedef struct E3ClassInfo {
 //		Note :	Used for debug builds, to verify object instance data doesn't
 //				write beyond the space allocated for it.
 //-----------------------------------------------------------------------------
+#if Q3_DEBUG
+
 static void
 e3class_verify(TQ3Object theObject)
 {	TQ3ObjectType		*instanceTrailer;
@@ -141,6 +143,8 @@ e3class_verify(TQ3Object theObject)
 	if (theObject->theClass->classType != kQ3ObjectTypeRoot)
 		Q3_ASSERT_VALID_PTR(theObject->parentObject);
 }
+
+#endif // Q3_DEBUG
 
 
 

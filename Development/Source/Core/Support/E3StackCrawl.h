@@ -1,5 +1,3 @@
-#pragma once
-
 /*  NAME:
         E3StackCrawl.h
 
@@ -39,11 +37,13 @@
 */
 #ifndef E3STACKCRAWL_HDR
 #define E3STACKCRAWL_HDR
-
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
+
+
+
 
 
 //=============================================================================
@@ -52,6 +52,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+
+
 
 //=============================================================================
 //      Types
@@ -66,17 +70,20 @@ extern "C" {
 typedef struct TQ3StackCrawlRec*	TQ3StackCrawl;
 
 
+
+
+
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-
 /*!
 	@function	E3StackCrawl_New
 	@abstract	Create a new stack crawl for the caller of this routine.
 	@result		A stack crawl pointer, or NULL if there is an error or if
 				stack crawls are not implemented on the current platform.
 */
-TQ3StackCrawl	E3StackCrawl_New();
+TQ3StackCrawl	E3StackCrawl_New(void);
+
 
 /*!
 	@function	E3StackCrawl_Count
@@ -86,6 +93,7 @@ TQ3StackCrawl	E3StackCrawl_New();
 				If inCrawl is NULL, the return value should be 0.
 */
 TQ3Uns32		E3StackCrawl_Count( TQ3StackCrawl inCrawl );
+
 
 /*!
 	@function	E3StackCrawl_Get
@@ -100,12 +108,16 @@ TQ3Uns32		E3StackCrawl_Count( TQ3StackCrawl inCrawl );
 */
 const char*		E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex );
 
+
 /*!
 	@function	E3StackCrawl_Dispose
 	@abstract	Dispose a stack crawl.
 	@param		inCrawl		A stack crawl created by <code>E3StackCrawl_New</code>.
 */
 void			E3StackCrawl_Dispose( TQ3StackCrawl inCrawl );
+
+
+
 
 
 //=============================================================================

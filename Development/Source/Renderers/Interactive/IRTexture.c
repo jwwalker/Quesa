@@ -1195,6 +1195,11 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 		case kQ3PixelTypeRGB16_565:
 			needToSwap = (kNativeEndian == kQ3EndianBig ? kQ3True : kQ3False);
 			break;
+		
+		case kQ3PixelTypeUnknown:
+		default:
+			Q3_ASSERT(!"Unknown srcPixelType");
+			break;
 		}
 	
 	if (needToSwap)
@@ -1352,6 +1357,12 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 					srcRow += srcRowBytes;
 					dstRow += dstRowStep;
 					}
+				break;
+	
+		
+			case kQ3PixelTypeUnknown:
+			default:
+				Q3_ASSERT(!"Unknown srcPixelType");
 				break;
 			}
 		}
@@ -1515,6 +1526,12 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 					srcRow += srcRowBytes;
 					dstRow += dstRowStep;
 					}
+				break;
+	
+		
+			case kQ3PixelTypeUnknown:
+			default:
+				Q3_ASSERT(!"Unknown srcPixelType");
 				break;
 			}
 		}

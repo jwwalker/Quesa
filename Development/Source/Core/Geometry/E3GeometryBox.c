@@ -111,67 +111,6 @@ e3geom_box_calc_vertices(const TQ3BoxData *boxData, TQ3Point3D *thePoints)
 
 
 //=============================================================================
-//      e3geom_box_gather_triangle_attribute : Gather triangle attributes.
-//-----------------------------------------------------------------------------
-//		Note :	Each entry in the face attribute list is used by the two
-//				triangles which make up that face. This relies on the triangles
-//				within the TriMesh mapping sequentially to each face.
-//-----------------------------------------------------------------------------
-static TQ3AttributeSet
-e3geom_box_gather_triangle_attribute(void *userData, TQ3Uns32 setIndex)
-{	TQ3BoxData			*geomData = (TQ3BoxData *) userData;
-
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(setIndex < 12, NULL);
-
-
-
-	// Return the appropriate attribute set
-	switch (setIndex) {
-		case 0:
-		case 1:
-			return(geomData->faceAttributeSet[0]);
-			break;
-		
-		case 2:
-		case 3:
-			return(geomData->faceAttributeSet[1]);
-			break;
-		
-		case 4:
-		case 5:
-			return(geomData->faceAttributeSet[2]);
-			break;
-		
-		case 6:
-		case 7:
-			return(geomData->faceAttributeSet[3]);
-			break;
-		
-		case 8:
-		case 9:
-			return(geomData->faceAttributeSet[4]);
-			break;
-		
-		case 10:
-		case 11:
-			return(geomData->faceAttributeSet[5]);
-			break;
-		
-		default:
-			break;
-		}
-	
-	return(NULL);
-}
-
-
-
-
-
-//=============================================================================
 //      e3geom_box_new : Box new method.
 //-----------------------------------------------------------------------------
 static TQ3Status

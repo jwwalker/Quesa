@@ -184,8 +184,8 @@ TQ3Status			E3FFW_3DMF_TriMesh(
 								TQ3TriMeshData			*geomData);
 
 
-TQ3Status			E3FFW_3DMF_RegisterGeom();
-TQ3Status			E3FFW_3DMF_UnregisterGeom();
+TQ3Status			E3FFW_3DMF_RegisterGeom(void);
+TQ3Status			E3FFW_3DMF_UnregisterGeom(void);
 
 
 

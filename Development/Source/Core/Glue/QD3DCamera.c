@@ -73,7 +73,6 @@
 //-----------------------------------------------------------------------------
 //      Q3Camera_GetType : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3ObjectType
 Q3Camera_GetType(TQ3CameraObject camera)
 {
@@ -534,7 +533,7 @@ Q3Camera_GetViewToFrustum(TQ3CameraObject camera, TQ3Matrix4x4 *viewToFrustum)
 
 
 
-#pragma mark -
+
 //=============================================================================
 //      Q3OrthographicCamera_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
@@ -953,7 +952,7 @@ Q3OrthographicCamera_GetBottom(TQ3CameraObject camera, float *bottom)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3ViewPlaneCamera_New : Quesa API entry point.
@@ -1450,7 +1449,7 @@ Q3ViewPlaneCamera_GetCenterY(TQ3CameraObject camera, float *centerYOnViewPlane)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3ViewAngleAspectCamera_New : Quesa API entry point.

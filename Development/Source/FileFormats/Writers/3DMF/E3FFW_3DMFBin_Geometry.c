@@ -2290,7 +2290,7 @@ E3FFW_3DMF_TriMesh(TQ3ViewObject				theView,
 //      E3FFW_3DMF_RegisterGeom : Register the geometry traverse & write methods.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMF_RegisterGeom()
+E3FFW_3DMF_RegisterGeom(void)
 {
 	// the Transform write Methods
 
@@ -2369,7 +2369,7 @@ E3FFW_3DMF_RegisterGeom()
 //      E3FFW_3DMF_UnregisterGeom : Unregister the geometry traverse & write methods
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFW_3DMF_UnregisterGeom()
+E3FFW_3DMF_UnregisterGeom(void)
 {
 #if 0
 	// Triangle

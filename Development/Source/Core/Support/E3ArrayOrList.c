@@ -957,7 +957,7 @@ E3List_Create(
 			goto failure_3;
 
 		if (thoseItemsPtr != NULL)
-			((char*) thoseItemsPtr) += itemSize;
+			((const char*) thoseItemsPtr) += itemSize;
 	}
 
 	return(kQ3Success);

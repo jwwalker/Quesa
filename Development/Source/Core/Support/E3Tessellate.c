@@ -436,8 +436,8 @@ e3tessellate_attribute_blend(E3CombinedAttribute *dstState, const E3CombinedAttr
 //      e3tessellate_gather_vertex_attribute : Gather vertex attributes.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet
-e3tessellate_gather_vertex_attribute(void *userData, TQ3Uns32 setIndex)
-{	E3TessellateState		*theState = (E3TessellateState *) userData;
+e3tessellate_gather_vertex_attribute(const void *userData, TQ3Uns32 setIndex)
+{	const E3TessellateState		*theState = (const E3TessellateState *) userData;
 
 
 
@@ -596,8 +596,9 @@ e3tessellate_callback_combine(const GLdouble		pointIn[3],
 								void				*userData)
 {	E3TessellateState		*theState = (E3TessellateState *) userData;
 	E3CombinedAttribute		combinedState, vertexState[4];
-	TQ3Vertex3D				*theVertex, *newVertex;
 	TQ3Point3D				combinedPoint;
+	const TQ3Vertex3D		*theVertex;
+	TQ3Vertex3D				*newVertex;
 	TQ3Uns32				n, theSize;
 	TQ3Status				qd3dStatus;
 
@@ -616,7 +617,7 @@ e3tessellate_callback_combine(const GLdouble		pointIn[3],
 
 	for (n = 0; n < 4; n++)
 		{
-		theVertex = (TQ3Vertex3D *) dataIn[n];
+		theVertex = (const TQ3Vertex3D *) dataIn[n];
 		if (theVertex != NULL && theVertex->attributeSet != NULL)
 			{
 			e3tessellate_attribute_get(theVertex, &vertexState[n], kQ3AttributeTypeSurfaceUV);

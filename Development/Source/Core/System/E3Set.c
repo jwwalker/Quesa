@@ -259,7 +259,7 @@ e3set_iterator(E3HashTablePtr theTable, TQ3ObjectType theKey, void *theItem, voi
 //      e3set_iterate_elements : Iterate over the elements in a set.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3set_iterate_elements(const TQ3SetData *instanceData, TQ3SetIterator theIterator, void *userData)
+e3set_iterate_elements(TQ3SetData *instanceData, TQ3SetIterator theIterator, void *userData)
 {	TQ3Status					qd3dStatus;
 	TQ3SetIteratorParamInfo		paramInfo;
 
@@ -267,12 +267,12 @@ e3set_iterate_elements(const TQ3SetData *instanceData, TQ3SetIterator theIterato
 
 	// Make sure we have a table
 	if (instanceData->theTable == NULL)
-		return(NULL);
+		return(kQ3Failure);
 
 
 
 	// Iterate over the table	
-	paramInfo.setInstanceData = (TQ3SetData *) instanceData;
+	paramInfo.setInstanceData = instanceData;
 	paramInfo.theIterator     = theIterator;
 	paramInfo.iteratorData    = userData;
 	
@@ -444,7 +444,7 @@ e3set_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	// If there are any elements to copy, duplicate them
 	if (fromInstanceData->theTable != NULL)
 		{
-		qd3dStatus = e3set_iterate_elements(fromInstanceData, e3set_iterator_duplicate, toInstanceData);
+		qd3dStatus = e3set_iterate_elements((TQ3SetData *) fromInstanceData, e3set_iterator_duplicate, toInstanceData);
 		if (qd3dStatus != kQ3Success)
 			{
 			Q3Set_Empty(toObject);
@@ -2403,7 +2403,7 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 		{
 		paramInfo.theResult = result;
 		paramInfo.isChild   = kQ3False;
-		qd3dStatus          = e3set_iterate_elements(childInstanceData, e3attributeset_iterator_inherit, &paramInfo);
+		qd3dStatus          = e3set_iterate_elements(parentInstanceData, e3attributeset_iterator_inherit, &paramInfo);
 		}
 	
 	return(qd3dStatus);

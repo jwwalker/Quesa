@@ -799,8 +799,7 @@ e3geom_trimesh_pick_screen_bounds(TQ3ViewObject theView, TQ3Object theObject, co
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_trimesh_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
-{	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
-	TQ3Status					qd3dStatus    = kQ3Success;
+{	TQ3Status					qd3dStatus = kQ3Success;
 	TQ3Area						windowBounds;
 	TQ3WindowPointPickData		pickData;
 	TQ3Ray3D					theRay;
@@ -842,8 +841,7 @@ e3geom_trimesh_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, T
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_trimesh_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
-{	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
-	TQ3Status					qd3dStatus    = kQ3Success;
+{	TQ3Status					qd3dStatus = kQ3Success;
 	TQ3Area						windowBounds;
 	TQ3WindowRectPickData		pickData;
 
@@ -927,12 +925,15 @@ e3geom_trimesh_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_trimesh_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3Status			qd3dStatus;
-	TQ3PickObject		thePick;
-	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
+{	const TQ3TriMeshData	*instanceData = (const TQ3TriMeshData *) objectData;
+	TQ3Status				qd3dStatus;
+	TQ3PickObject			thePick;
 
 
+
+	// Validate our state
 	Q3_ASSERT( instanceData->bBox.isEmpty == kQ3False );
+
 
 
 	// Handle the pick
