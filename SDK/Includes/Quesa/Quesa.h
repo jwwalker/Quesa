@@ -102,7 +102,18 @@
 	#define QUESA_OS_BE							0
 #endif
 
-#if (!QUESA_OS_MACINTOSH && !QUESA_OS_WIN32 && !QUESA_OS_UNIX && !QUESA_OS_BE)
+#ifdef QUESA_OS_COCOA
+	#undef  QUESA_OS_COCOA
+	#define QUESA_OS_COCOA						1
+#else
+	#define QUESA_OS_COCOA						0
+#endif
+
+#if (!QUESA_OS_MACINTOSH &&
+     !QUESA_OS_WIN32     &&
+     !QUESA_OS_UNIX      &&
+     !QUESA_OS_BE        &&
+     !QUESA_OS_COCOA)
 	#error Target OS not selected!
 #endif
 
@@ -422,6 +433,7 @@ enum {
 		kQ3SharedTypeDrawContext				= Q3_OBJECT_TYPE('d', 'c', 't', 'x'),
 			kQ3DrawContextTypePixmap			= Q3_OBJECT_TYPE('d', 'p', 'x', 'p'),
 			kQ3DrawContextTypeMacintosh			= Q3_OBJECT_TYPE('d', 'm', 'a', 'c'),
+			kQ3DrawContextTypeCocoa				= Q3_OBJECT_TYPE('d', 'c', 'c', 'o'),
 			kQ3DrawContextTypeWin32DC			= Q3_OBJECT_TYPE('d', 'w', '3', '2'),
 			kQ3DrawContextTypeDDSurface			= Q3_OBJECT_TYPE('d', 'd', 'd', 's'),
 			kQ3DrawContextTypeX11				= Q3_OBJECT_TYPE('d', 'x', '1', '1'),

@@ -453,6 +453,22 @@ typedef struct TQ3DialogAnchor {
 
 
 //=============================================================================
+//      Cocoa types
+//-----------------------------------------------------------------------------
+#if QUESA_OS_COCOA
+
+// Cocoa dialog anchor
+typedef struct {
+	void										*notUsed;
+} TQ3DialogAnchor;
+
+#endif // QUESA_OS_COCOA
+
+
+
+
+
+//=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
 // Must be declared after TQ3DialogAnchor, since was mistakenly declared in

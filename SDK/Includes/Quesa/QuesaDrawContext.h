@@ -268,6 +268,23 @@ typedef struct TQ3BeDrawContextData {
 
 
 //=============================================================================
+//		Cocoa types
+//-----------------------------------------------------------------------------
+#if QUESA_OS_COCOA
+
+// Cocoa draw context data
+typedef struct {
+	TQ3DrawContextData 							drawContextData;
+	void 										*nsView;
+} TQ3CocoaDrawContextData;
+
+#endif // QUESA_OS_COCOA
+
+
+
+
+
+//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 /*
@@ -921,6 +938,49 @@ Q3BeDrawContext_GetView (
 );
 
 #endif // QUESA_OS_BE
+
+
+
+
+
+//=============================================================================
+//      Cocoa function prototypes
+//-----------------------------------------------------------------------------
+#if QUESA_OS_COCOA
+/*
+ *	Q3CocoaDrawContext_New
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3DrawContextObject  )
+Q3CocoaDrawContext_New (
+	const TQ3CocoaDrawContextData *drawContextData
+);
+
+
+
+/*
+ *	Q3CocoaDrawContext_SetNSView
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3CocoaDrawContext_SetNSView (
+	TQ3DrawContextObject          drawContext,
+	void                          *nsView
+);
+
+
+
+/*
+ *	Q3CocoaDrawContext_GetNSView
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3CocoaDrawContext_GetNSView (
+	TQ3DrawContextObject          drawContext,
+	void                          **nsView
+);
+
+#endif // QUESA_OS_COCOA
 
 
 
