@@ -42,7 +42,8 @@
 //              we can attempt to determine the correct platform by magic.
 //-----------------------------------------------------------------------------
 // Mac OS
-#if ((defined(__MWERKS__) && __dest_os == __mac_os) || defined(MPW_CPLUS) || defined(MPW_C))
+
+#if ((defined(__MWERKS__) && __dest_os == __mac_os && !(__INTEL__)) || defined(MPW_CPLUS) || defined(MPW_C))
     #ifndef QUESA_OS_MACINTOSH
         #define QUESA_OS_MACINTOSH              		1
     #endif
