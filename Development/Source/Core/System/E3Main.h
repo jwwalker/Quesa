@@ -64,16 +64,17 @@ extern "C" {
 //-----------------------------------------------------------------------------
 
 
-
+#define TQ3SharedData E3Shared
+//Whenever possible, change references to TQ3SharedData to E3Shared so this macro eventually becomes obsolete
 
 // Shared object data
-class TQ3SharedData : public OpaqueTQ3Object
+class E3Shared : public OpaqueTQ3Object
 	{
 	TQ3Uns32		refCount;
 	TQ3Uns32		editIndex;
 	
-	friend TQ3Status	e3shared_new ( TQ3SharedData* theObject, void *privateData, void *paramData ) ;
-	friend void			e3shared_dispose ( TQ3SharedData* theObject ) ;
+	friend TQ3Status	e3shared_new ( E3Shared* theObject, void *privateData, void *paramData ) ;
+	friend void			e3shared_dispose ( E3Shared* theObject ) ;
 	friend TQ3Status	e3shared_duplicate (	TQ3Object fromObject,
 												const void *fromPrivateData,
 						 						TQ3Object toObject,
@@ -81,7 +82,7 @@ class TQ3SharedData : public OpaqueTQ3Object
 						 						
 public :
 
-	TQ3SharedData*		GetReference ( void ) ;
+	E3Shared*			GetReference ( void ) ;
 	TQ3Boolean			IsReferenced ( void ) ;
 	TQ3Uns32			GetReferenceCount ( void ) ;	
 	TQ3Uns32			GetEditIndex ( void ) ;
@@ -90,7 +91,7 @@ public :
 
 
 
-class E3ShapeData : public TQ3SharedData
+class E3ShapeData : public E3Shared
 	{
 	// Currently empty
 	} ;
@@ -127,7 +128,7 @@ TQ3Boolean			E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType);
 
 TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);
 inline TQ3Status	E3Shared_Edited ( TQ3SharedObject sharedObject )
-	{ return ( (TQ3SharedData*) sharedObject )->Edited () ; }
+	{ return ( (E3Shared*) sharedObject )->Edited () ; }
 
 TQ3ObjectType		E3Shape_GetType(TQ3ShapeObject theShape);
 TQ3Status			E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet);
