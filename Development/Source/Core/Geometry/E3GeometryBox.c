@@ -295,29 +295,29 @@ e3geom_box_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3
 	TQ3TriMeshData				triMeshData;
 	TQ3GeometryObject			theTriMesh;
 	TQ3Uns32					n;
-	TQ3TriMeshTriangleData		theTriangles[12] = { { 0,  1,  2}, { 0,  2,  3},	// Left face    0: front/bottom 1: back/top
-													 { 4,  5,  6}, { 4,  6,  7},	// Right face   2: back/bottom  3: front/top
-													 { 8,  9, 10}, { 8, 10, 11},	// Front face   4: right/bottom 5: left/top
-													 {12, 13, 14}, {12, 14, 15},	// Back face    6: left/bottom  7: right/top
-													 {16, 17, 18}, {16, 18, 19},	// Top face     8: right/front  9: left/back
-													 {20, 21, 22}, {20, 22, 23} };	// Bottom face 10: left/front  11: right/back
+	TQ3TriMeshTriangleData		theTriangles[12] = { {{ 0,  1,  2}}, {{ 0,  2,  3}},	// Left face    0: front/bottom 1: back/top
+													 {{ 4,  5,  6}}, {{ 4,  6,  7}},	// Right face   2: back/bottom  3: front/top
+													 {{ 8,  9, 10}}, {{ 8, 10, 11}},	// Front face   4: right/bottom 5: left/top
+													 {{12, 13, 14}}, {{12, 14, 15}},	// Back face    6: left/bottom  7: right/top
+													 {{16, 17, 18}}, {{16, 18, 19}},	// Top face     8: right/front  9: left/back
+													 {{20, 21, 22}}, {{20, 22, 23}}};	// Bottom face 10: left/front  11: right/back
 	
 	TQ3TriMeshEdgeData			theEdges[12] = { // Left face
-												 {0, 1, 0, 10 },	// -> bottom face 
-												 {1, 2, 0, 5 },		// -> front face 
-												 {2, 3, 1, 9 },		// -> top face 
-												 {3, 0, 1, 6 },		// -> back face 
+												 {{0, 1}, {0, 10}},		// -> bottom face 
+												 {{1, 2}, {0,  5}},		// -> front face 
+												 {{2, 3}, {1,  9}},		// -> top face 
+												 {{3, 0}, {1,  6}},		// -> back face 
 
 												 // Right face
-												 {4, 5, 2, 11 },	// -> bottom face
-												 {5, 6, 2, 7 },		// -> back face
-												 {6, 7, 3, 8 },		// -> top face
-												 {7, 4, 3, 4 },		// -> front face
+												 {{4, 5}, {2, 11}},		// -> bottom face
+												 {{5, 6}, {2,  7}},		// -> back face
+												 {{6, 7}, {3,  8}},		// -> top face
+												 {{7, 4}, {3,  4}},		// -> front face
 
-												 {0, 5, 6, 11 },	// back/bottom
-												 {2, 7, 8, 5 },		// top/front
-												 {1, 4, 4, 10 },	// front/bottom
-												 {3, 6, 7, 9 } };	// back/top
+												 {{0, 5}, {6, 11}},		// back/bottom
+												 {{2, 7}, {8,  5}},		// top/front
+												 {{1, 4}, {4, 10}},		// front/bottom
+												 {{3, 6}, {7,  9}}};	// back/top
 
 	TQ3Param2D					pointAttributeSurfaceUV[24] = {
 										{1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f}, {0.0f, 0.0f},		// Left
