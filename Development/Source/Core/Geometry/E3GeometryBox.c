@@ -347,6 +347,7 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	TQ3Object			theGroup;
 	TQ3Point3D			workPt;
 	TQ3Status			status;
+	TQ3Vector3D			majCrossMin, majCrossOrient, minCrossOrient;
 #pragma unused(theView, theGeom)
 
 
@@ -358,6 +359,20 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 		E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
 		return(NULL);
 		}
+
+
+
+	// Test whether the geometry is degenerate.
+	Q3Vector3D_Cross( &inBoxData->majorAxis, &inBoxData->minorAxis, &majCrossMin );
+	Q3Vector3D_Cross( &inBoxData->majorAxis, &inBoxData->orientation, &majCrossOrient );
+	Q3Vector3D_Cross( &inBoxData->minorAxis, &inBoxData->orientation, &minCrossOrient );
+	if ( (Q3Vector3D_LengthSquared(&majCrossMin) < kQ3MinFloat) ||
+		(Q3Vector3D_LengthSquared(&majCrossOrient) < kQ3MinFloat) ||
+		(Q3Vector3D_LengthSquared(&minCrossOrient) < kQ3MinFloat) )
+	{
+		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
+		return theGroup;
+	}
 
 
 
