@@ -55,11 +55,11 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-void				IRRenderer_State_Initialise(
+void				IRRenderer_State_StartPass(
 								TQ3InteractiveData		*instanceData,
 								TQ3ViewObject			theView);
 
-void				IRRenderer_State_Terminate(
+void				IRRenderer_State_EndPass(
 								TQ3InteractiveData		*instanceData);
 
 void				IRRenderer_State_ReloadTextureCache(

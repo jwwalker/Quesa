@@ -344,10 +344,11 @@ ir_light_reset(TQ3InteractiveData *instanceData, TQ3Uns32 numLights)
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
-//      IRRenderer_Lights_Initialise : Pass the light list to OpenGL.
+//      IRRenderer_Lights_StartPass : Start a frame.
 //-----------------------------------------------------------------------------
+#pragma mark -
 void
-IRRenderer_Lights_Initialise(TQ3InteractiveData		*instanceData,
+IRRenderer_Lights_StartPass(TQ3InteractiveData		*instanceData,
 							 TQ3CameraObject		theCamera,
 							 TQ3GroupObject			theLights)
 {	TQ3Uns32				numLightsQD3D, numLightsGL;
@@ -431,10 +432,10 @@ IRRenderer_Lights_Initialise(TQ3InteractiveData		*instanceData,
 
 
 //=============================================================================
-//      IRRenderer_Lights_Terminate : Clean up the OpenGL light list.
+//      IRRenderer_Lights_EndPass : Finish a frame.
 //-----------------------------------------------------------------------------
 void
-IRRenderer_Lights_Terminate(TQ3InteractiveData *instanceData)
+IRRenderer_Lights_EndPass(TQ3InteractiveData *instanceData)
 {	TQ3Uns32		n;
 
 
