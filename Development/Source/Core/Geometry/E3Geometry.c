@@ -954,3 +954,54 @@ E3Geometry_GetDecomposed( TQ3GeometryObject theGeom, TQ3ViewObject view )
 
 	return decomposed;
 }
+
+
+
+
+
+//=============================================================================
+//      E3Geometry_IsDegenerateTriple : Test whether 3 axes are coplanar.
+//-----------------------------------------------------------------------------
+//		Several geometries are determined by 3 axes, and become degenerate when
+//		these axes lie in the same plane.  In that situation, this function
+//		posts an error and returns true.
+TQ3Boolean			E3Geometry_IsDegenerateTriple( const TQ3Vector3D* orientation,
+												const TQ3Vector3D* majorAxis,
+												const TQ3Vector3D* minorAxis )
+{
+	TQ3Boolean	isDegenerate = kQ3False;
+	
+	// One might think that it would suffice to compute the triple product of
+	// the 3 vectors.  But if they are somewhat small, say length 0.003, and
+	// orthogonal, then the triple product will be less than kQ3RealZero.
+
+	if ( (Q3Vector3D_Length(majorAxis) < kQ3RealZero) ||
+		(Q3Vector3D_Length(minorAxis) < kQ3RealZero) ||
+		(Q3Vector3D_Length(orientation) < kQ3RealZero) )
+	{
+		isDegenerate = kQ3True;
+	}
+	else
+	{
+		TQ3Vector3D		majNorm, minNorm, orientNorm, majXMinor;
+		float			dotCross;
+		
+		Q3Vector3D_Normalize( majorAxis, &majNorm );
+		Q3Vector3D_Normalize( minorAxis, &minNorm );
+		Q3Vector3D_Normalize( orientation, &orientNorm );
+		Q3Vector3D_Cross( &majNorm, &minNorm, &majXMinor );
+		dotCross = Q3Vector3D_Dot( &orientNorm, &majXMinor );
+		if (E3Float_Abs( dotCross ) < kQ3RealZero)
+		{
+			isDegenerate = kQ3True;
+		}
+	}
+	
+	
+	if (isDegenerate)
+	{
+		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
+	}
+	
+	return isDegenerate;
+}
