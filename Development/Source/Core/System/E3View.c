@@ -1435,6 +1435,7 @@ E3View_CallIdleMethod(TQ3ViewObject theView, TQ3Uns32 current, TQ3Uns32 complete
 
 
 
+
 //=============================================================================
 //      E3View_AccessPick : Access our pick without ref-counting.
 //-----------------------------------------------------------------------------
@@ -1451,6 +1452,9 @@ E3View_AccessPick(TQ3ViewObject theView)
 }
 
 
+
+
+
 //=============================================================================
 //      E3View_AccessRenderer : Access our renderer without ref-counting.
 //-----------------------------------------------------------------------------
@@ -1465,6 +1469,9 @@ E3View_AccessRenderer(TQ3ViewObject theView)
 	// Return the renderer
 	return(instanceData->theRenderer);
 }
+
+
+
 
 
 //=============================================================================
