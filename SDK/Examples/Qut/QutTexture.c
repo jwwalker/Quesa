@@ -259,8 +259,11 @@ QutTexture_CreateCompressedTextureFromPixmap(	PixMapHandle	thePixMap,
 
 
 	theTexture	= QutTexture_CreateCompressedTextureObjectFromPixmap( thePixMap, pixelType, wantMipMaps ) ;
-	if( theTexture != NULL) 
-		theShader	= Q3TextureShader_New( theTexture ) ;
+	if ( theTexture != NULL)
+		{
+		theShader	= Q3TextureShader_New( theTexture );
+		Q3Object_Dispose( theTexture );
+		}
 	
 	return(theShader) ;
 }
@@ -342,8 +345,11 @@ QutTexture_CreateCompressedTextureFromFile(	const FSSpec *	theFSSpec,
 	
 	theTexture = QutTexture_CreateCompressedTextureObjectFromFile( theFSSpec, pixelType, wantMipMaps ) ;
 	
-	if( theTexture != NULL)
-		theShader = Q3TextureShader_New( theTexture ) ;
+	if ( theTexture != NULL)
+		{
+		theShader = Q3TextureShader_New( theTexture );
+		Q3Object_Dispose( theTexture );
+		}
 	
 	return(theShader);
 }
@@ -362,7 +368,6 @@ QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 									TQ3Boolean		wantMipMaps)
 {	TQ3Uns32				x, y, theWidth, theHeight, rowBytes, pixelBytes;
 	TQ3TextureObject		qd3dTextureObject;
-	TQ3ShaderObject			qd3dTextureShader;
 	TQ3StorageObject		qd3dMemoryStorage;
 	TQ3StoragePixmap		qd3dPixMap;
 	TQ3Mipmap				qd3dMipMap;
@@ -401,7 +406,6 @@ QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 
 
 	// Create a storage object based on the GWorld
-	qd3dTextureShader = NULL;
 	qd3dMemoryStorage = Q3MemoryStorage_New(baseAddr, theHeight * rowBytes);
 	if (qd3dMemoryStorage != NULL)
 		{
@@ -470,7 +474,7 @@ TQ3TextureObject
 QutTexture_CreateTextureObjectFromGWorld(GWorldPtr		theGWorld,
 									TQ3PixelType	pixelType,
 							 		TQ3Boolean		wantMipMaps)
-{	TQ3ShaderObject		theTexture;
+{	TQ3TextureObject	theTexture;
 	PixMapHandle		thePixMap;
 
 
@@ -546,21 +550,21 @@ TQ3TextureObject
 QutTexture_CreateTextureObjectFromFile(const FSSpec		*theFSSpec,
 									TQ3PixelType	pixelType,
 									TQ3Boolean		wantMipMaps)
-{	TQ3ShaderObject		theShader;
+{	TQ3TextureObject	theTexture;
 	GWorldPtr			theGWorld;
 
 
 
 	// Load the image, then create a texture from it
-	theShader = NULL;
+	theTexture = NULL;
 	theGWorld = QutTexture_CreateGWorldFromFile(theFSSpec, pixelType);
 	if (theGWorld != NULL)
 	{
-		theShader = QutTexture_CreateTextureObjectFromGWorld(theGWorld, pixelType, wantMipMaps);
+		theTexture = QutTexture_CreateTextureObjectFromGWorld(theGWorld, pixelType, wantMipMaps);
 		DisposeGWorld(theGWorld);
 	}
 	
-	return(theShader);
+	return(theTexture);
 }
 
 
