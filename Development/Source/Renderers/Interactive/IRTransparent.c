@@ -293,7 +293,9 @@ IRGeometry_Transparent_StartPass(TQ3InteractiveData *instanceData, TQ3CameraObje
 
 	// Grab the z coordinate of the camera in world coordinates
 	Q3Camera_GetPlacement(theCamera, &thePlacement);
-	instanceData->cameraZ = thePlacement.cameraLocation.z;
+
+	instanceData->cameraZ       = thePlacement.cameraLocation.z;
+	instanceData->cameraIsOrtho = (Q3Camera_GetType(theCamera) == kQ3CameraTypeOrthographic);
 }
 
 
