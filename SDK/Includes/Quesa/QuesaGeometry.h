@@ -463,7 +463,7 @@ typedef struct TQ3LineData {
  *	@discussion
  *		Data describing a bitmap marker, a 2-dimensional image drawn on top of a scene
  *		at a specified location.
- *	@field		location				Location of the marker, in world coordinates.
+ *	@field		location				Location of the marker, in local coordinates.
  *	@field		xOffset					Horizontal offset from the <code>location</code> to the
  *										upper left corner of the marker, in pixels.
  *	@field		yOffset					Vertical offset from the <code>location</code> to the
@@ -810,7 +810,7 @@ typedef struct TQ3NURBPatchData {
  *	@discussion
  *		Data describing a pixmap marker, a 2-dimensional color image drawn on top of a scene
  *		at a specified location.
- *	@field		position				Location of the marker, in world coordinates.
+ *	@field		position				Location of the marker, in local coordinates.
  *	@field		xOffset					Horizontal offset from the <code>position</code> to the
  *										upper left corner of the marker, in pixels.
  *	@field		yOffset					Vertical offset from the <code>position</code> to the
