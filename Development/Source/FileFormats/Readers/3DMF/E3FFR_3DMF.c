@@ -62,6 +62,36 @@ typedef struct TE3FFormat3DMF_AttributeSetList_Data {
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      delete_attributeset_list : Delete an AttributeSetList.
+//-----------------------------------------------------------------------------
+static void
+delete_attributeset_list(TE3FFormat3DMF_AttributeSetList_Data *theList)
+{	UInt32		n;
+
+
+
+	// Delete the list
+	if (theList->attributeSetArray != NULL)
+		{
+		// Dispose of the items in the list
+		for (n = 0; n < theList->attributeSetCounter; n++)
+			{
+			if (theList->attributeSetArray[n] != NULL)
+				Q3Object_Dispose(theList->attributeSetArray[n]);
+			}
+
+
+		// Dispose of the list, and mark it as empty
+		E3Memory_Free(&theList->attributeSetArray);
+		theList->attributeSetCounter = 0;
+		}
+}
+
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_generalpolygonhint_read : GeneralPolygonHint read method.
 //-----------------------------------------------------------------------------
 static TQ3Object
@@ -151,23 +181,16 @@ e3fformat_3dmf_displaygroupstate_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3fformat_3dmf_attributesetlist_delete : Common AttributeSetList delete
-//												 method.
+//      e3fformat_3dmf_attributesetlist_delete : Delete method.
 //-----------------------------------------------------------------------------
 static void
 e3fformat_3dmf_attributesetlist_delete(TQ3Object theObject, void *privateData)
-{
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) privateData;
-	TQ3Uns32	i;
-	
-	if(instanceData->attributeSetArray != NULL){
-		for(i = 0; i < instanceData->attributeSetCounter; i++){
-			if(instanceData->attributeSetArray[i] != NULL)
-				E3Shared_Replace(&instanceData->attributeSetArray[i],NULL);
-			}
-		E3Memory_Free(&instanceData->attributeSetArray);
-		}
-	
+{	TE3FFormat3DMF_AttributeSetList_Data	*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) privateData;
+
+
+
+	// Delete our instance data	
+	delete_attributeset_list(instanceData);
 }
 
 
@@ -196,8 +219,8 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 	
 	Q3_REQUIRE_OR_RESULT(theASLD != NULL,kQ3Failure);
 	
-	Q3_ASSERT(theASLD->attributeSetCounter == 0UL);
-	Q3_ASSERT(theASLD->attributeSetCounter == NULL);
+	Q3_ASSERT(theASLD->attributeSetCounter == 0);
+	Q3_ASSERT(theASLD->attributeSetArray   == NULL);
 
 	// read the total number of elements
 	status = Q3Uns32_Read(&theASLD->attributeSetCounter, theFile);
@@ -293,7 +316,7 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 
 
 //=============================================================================
-//      e3fformat_3dmf_attributesetlist_metahandler : common AttributeSetList metahandler.
+//      e3fformat_3dmf_attributesetlist_metahandler : AttributeSetList metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_attributesetlist_metahandler(TQ3XMethodType methodType)
@@ -306,7 +329,6 @@ e3fformat_3dmf_attributesetlist_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectDelete:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_attributesetlist_delete;
 			break;
-
 		}
 	
 	return(theMethod);
@@ -347,6 +369,23 @@ e3fformat_3dmf_geomattributesetlist_read(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      e3fformat_3dmf_geomattributesetlist_delete : Delete method.
+//-----------------------------------------------------------------------------
+static void
+e3fformat_3dmf_geomattributesetlist_delete(TQ3Object theObject, void *privateData)
+{	TE3FFormat3DMF_AttributeSetList_Data	*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) privateData;
+
+
+
+	// Delete our instance data	
+	delete_attributeset_list(instanceData);
+}
+
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_geomattributesetlist_metahandler : geomattributesetlist metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -357,11 +396,13 @@ e3fformat_3dmf_geomattributesetlist_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
-
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_geomattributesetlist_read;
 			break;
 
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_geomattributesetlist_delete;
+			break;
 		}
 	
 	return(theMethod);
@@ -402,6 +443,23 @@ e3fformat_3dmf_faceattributesetlist_read(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      e3fformat_3dmf_faceattributesetlist_delete : Delete method.
+//-----------------------------------------------------------------------------
+static void
+e3fformat_3dmf_faceattributesetlist_delete(TQ3Object theObject, void *privateData)
+{	TE3FFormat3DMF_AttributeSetList_Data	*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) privateData;
+
+
+
+	// Delete our instance data	
+	delete_attributeset_list(instanceData);
+}
+
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_faceattributesetlist_metahandler : faceattributesetlist metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -412,11 +470,13 @@ e3fformat_3dmf_faceattributesetlist_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
-
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_faceattributesetlist_read;
 			break;
 
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_faceattributesetlist_delete;
+			break;
 		}
 	
 	return(theMethod);
@@ -457,6 +517,23 @@ e3fformat_3dmf_vertexattributesetlist_read(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      e3fformat_3dmf_vertexattributesetlist_delete : Delete method.
+//-----------------------------------------------------------------------------
+static void
+e3fformat_3dmf_vertexattributesetlist_delete(TQ3Object theObject, void *privateData)
+{	TE3FFormat3DMF_AttributeSetList_Data	*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) privateData;
+
+
+
+	// Delete our instance data	
+	delete_attributeset_list(instanceData);
+}
+
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_vertexattributesetlist_metahandler : vertexattributesetlist metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -467,11 +544,13 @@ e3fformat_3dmf_vertexattributesetlist_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
-
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_vertexattributesetlist_read;
 			break;
 
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_vertexattributesetlist_delete;
+			break;
 		}
 	
 	return(theMethod);
@@ -748,8 +827,6 @@ e3fformat_3dmf_endgroup_metahandler(TQ3XMethodType methodType)
 
 
 
-
-
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
@@ -917,62 +994,6 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 }
 
 
-//=============================================================================
-//      E3FFW_3DMF_Register : Register the classes.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3FFW_3DMF_Register(void)
-{	TQ3Status		qd3dStatus;
-
-
-
-	// the FileFormats themselves
-	qd3dStatus = E3FFW_3DMFBin_Register();
-
-/*	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3FFW_3DMFText_Register();*/
-
-
-
-	// the Support objects
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
-												kQ3ObjectType3DMF,
-												kQ3ClassName3DMF,
-												NULL,
-												0);
-
-	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
-	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
-	
-
-	// Misc methods
-	
-	// Attribute methods
-	// override the inheritance problem
-
-	// the Group write Methods
-
-	E3ClassTree_AddMethodByType(kQ3ShapeTypeGroup,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
-	//E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeOrdered,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
-	//E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeIOProxy,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeLight,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeInfo,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
-
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeDisplayGroupState,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
-	
-	// the Style write Methods
-
-	// the Transform write Methods
-
-	// the Geometry write Methods
-	E3FFW_3DMF_RegisterGeom ();
-
-	return(qd3dStatus);
-}
-
-
 
 
 
@@ -1059,6 +1080,65 @@ E3FFormat_3DMF_Reader_UnregisterClass(void)
 	E3ClassTree_RemoveMethodByType(kQ3GeometryTypePolyLine,     kQ3XMethodTypeObjectRead);
 	E3ClassTree_RemoveMethodByType(kQ3GeometryTypeTriMesh,      kQ3XMethodTypeObjectRead);
 */
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3FFW_3DMF_Register : Register the classes.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FFW_3DMF_Register(void)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// the FileFormats themselves
+	qd3dStatus = E3FFW_3DMFBin_Register();
+
+/*	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3FFW_3DMFText_Register();*/
+
+
+
+	// the Support objects
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+												kQ3ObjectType3DMF,
+												kQ3ClassName3DMF,
+												NULL,
+												0);
+
+	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
+	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
+	
+
+	// Misc methods
+	
+	// Attribute methods
+	// override the inheritance problem
+
+	// the Group write Methods
+
+	E3ClassTree_AddMethodByType(kQ3ShapeTypeGroup,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	E3ClassTree_AddMethodByType(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	//E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeOrdered,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	//E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeIOProxy,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	E3ClassTree_AddMethodByType(kQ3GroupTypeLight,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	E3ClassTree_AddMethodByType(kQ3GroupTypeInfo,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+
+	E3ClassTree_AddMethodByType(kQ3ObjectTypeDisplayGroupState,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
+	
+	// the Style write Methods
+
+	// the Transform write Methods
+
+	// the Geometry write Methods
+	E3FFW_3DMF_RegisterGeom ();
 
 	return(qd3dStatus);
 }
