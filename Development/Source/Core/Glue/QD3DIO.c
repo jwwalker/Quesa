@@ -1175,6 +1175,36 @@ Q3Uns8_Read(TQ3Uns8 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
+//      Q3Uns8_ReadArray : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Uns8_ReadArray (
+	TQ3Uns32					numNums,
+	TQ3Uns8*					intArray,
+	TQ3FileObject            	theFile
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(intArray), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+
+	
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3Uns8_ReadArray( numNums, intArray, theFile ));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3Uns8_Write : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -1252,6 +1282,36 @@ Q3Uns16_Read(TQ3Uns16 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
+//      Q3Uns16_ReadArray : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Uns16_ReadArray (
+	TQ3Uns32					numNums,
+	TQ3Uns16*					intArray,
+	TQ3FileObject            	theFile
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(intArray), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+
+	
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3Uns16_ReadArray( numNums, intArray, theFile ));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3Uns16_Write : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -1322,6 +1382,36 @@ Q3Uns32_Read(TQ3Uns32 *data, TQ3FileObject theFile)
 
 	// Call our implementation
 	return(E3Uns32_Read(data, theFile));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Uns32_ReadArray : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Uns32_ReadArray (
+	TQ3Uns32					numNums,
+	TQ3Uns32*					intArray,
+	TQ3FileObject            	theFile
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(intArray), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+
+	
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3Uns32_ReadArray( numNums, intArray, theFile ));
 }
 
 
@@ -1784,6 +1874,36 @@ Q3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile)
 
 	// Call our implementation
 	return(E3Float32_Read(data, theFile));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Float32_ReadArray : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Float32_ReadArray (
+	TQ3Uns32					numFloats,
+	TQ3Float32*					floatArray,
+	TQ3FileObject            	theFile
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(floatArray), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+
+	
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3Float32_ReadArray( numFloats, floatArray, theFile ));
 }
 
 

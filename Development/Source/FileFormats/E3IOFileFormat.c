@@ -232,6 +232,45 @@ E3FileFormat_GenericReadBinary_32(TQ3FileFormatObject format, TQ3Int32* data)
 
 
 //=============================================================================
+//      E3FileFormat_GenericReadBinaryArray_8 : Reads array of 8 bit values from stream.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FileFormat_GenericReadBinaryArray_8(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int8* data)
+{
+	return E3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, numNums);
+}
+
+
+
+
+
+//=============================================================================
+//      E3FileFormat_GenericReadBinaryArray_16 : Reads array of 16 bit values from stream.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FileFormat_GenericReadBinaryArray_16(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int16* data)
+{
+	return E3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, numNums * 2);
+}
+
+
+
+
+
+//=============================================================================
+//      E3FileFormat_GenericReadBinaryArray_32 : Reads array of 32 bit values from stream.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FileFormat_GenericReadBinaryArray_32(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int32* data)
+{
+	return E3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, numNums * 4);
+}
+
+
+
+
+
+//=============================================================================
 //      E3FileFormat_GenericReadBinary_64 : Reads 64 bits from stream.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -389,6 +428,54 @@ E3FileFormat_GenericReadBinSwap_32(TQ3FileFormatObject format, TQ3Int32* data)
 	if(result == kQ3Success)
 		*data = E3EndianSwap32(*data);
 	
+	return result;
+}
+
+
+
+
+
+//=============================================================================
+//      E3FileFormat_GenericReadBinSwapArray_16 : Reads array of 16 bit values from stream.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FileFormat_GenericReadBinSwapArray_16(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int16* data)
+{
+	TQ3Status result;
+	TQ3Uns32	n;
+	result = E3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, numNums * 2);
+	
+	if (result == kQ3Success)
+	{
+		for (n = 0; n < numNums; ++n)
+		{
+			data[n] = E3EndianSwap16( data[n] );
+		}
+	}
+	return result;
+}
+
+
+
+
+
+//=============================================================================
+//      E3FileFormat_GenericReadBinSwapArray_32 : Reads array of 32 bit values from stream.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FileFormat_GenericReadBinSwapArray_32(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int32* data)
+{
+	TQ3Status result;
+	TQ3Uns32	n;
+	result = E3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, numNums * 4);
+	
+	if (result == kQ3Success)
+	{
+		for (n = 0; n < numNums; ++n)
+		{
+			data[n] = E3EndianSwap32( data[n] );
+		}
+	}
 	return result;
 }
 

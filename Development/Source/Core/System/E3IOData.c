@@ -421,6 +421,55 @@ E3Uns8_Read(TQ3Uns8 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
+//      E3Uns8_ReadArray : Read an array of TQ3Uns8.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Uns8_ReadArray(TQ3Uns32 numNums, TQ3Uns8 *data, TQ3FileObject theFile)
+{
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3FileFormatObject				format = instanceData->format;
+	TQ3XFFormatInt8ReadMethod 		int8Read;
+	TQ3XFFormatInt8ReadArrayMethod	int8ArrayRead;
+	TQ3Uns32						n;
+	TQ3Status						status = kQ3Success;
+
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
+
+	
+	int8ArrayRead = (TQ3XFFormatInt8ReadArrayMethod)
+					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt8ReadArray);
+
+	if (int8ArrayRead == NULL)
+	{
+		int8Read = (TQ3XFFormatInt8ReadMethod)
+						E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt8Read);
+		Q3_REQUIRE_OR_RESULT((int8Read != NULL),kQ3Failure);
+		
+		
+		for (n = 0; n < numNums; ++n)
+		{
+			status = int8Read( format, (TQ3Int8*)&data[n] );
+			if (status == kQ3Failure)
+			{
+				break;
+			}
+		}
+	}
+	else
+	{
+		status = int8ArrayRead( format, numNums, (TQ3Int8*)data );
+	}
+
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
 //      E3Uns8_Write : Write a TQ3Uns8.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -440,6 +489,55 @@ TQ3Status
 E3Uns16_Read(TQ3Uns16 *data, TQ3FileObject theFile)
 {
 	return Q3Int16_Read ((TQ3Int16*)data, theFile);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Uns16_ReadArray : Read an array of TQ3Uns16.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Uns16_ReadArray(TQ3Uns32 numNums, TQ3Uns16 *data, TQ3FileObject theFile)
+{
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3FileFormatObject				format = instanceData->format;
+	TQ3XFFormatInt16ReadMethod 		int16Read;
+	TQ3XFFormatInt16ReadArrayMethod	int16ArrayRead;
+	TQ3Uns32						n;
+	TQ3Status						status = kQ3Success;
+
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
+
+	
+	int16ArrayRead = (TQ3XFFormatInt16ReadArrayMethod)
+					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt16ReadArray);
+
+	if (int16ArrayRead == NULL)
+	{
+		int16Read = (TQ3XFFormatInt16ReadMethod)
+						E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt16Read);
+		Q3_REQUIRE_OR_RESULT((int16Read != NULL),kQ3Failure);
+		
+		
+		for (n = 0; n < numNums; ++n)
+		{
+			status = int16Read( format, (TQ3Int16*)&data[n] );
+			if (status == kQ3Failure)
+			{
+				break;
+			}
+		}
+	}
+	else
+	{
+		status = int16ArrayRead( format, numNums, (TQ3Int16*)data );
+	}
+
+	
+	return status;
 }
 
 
@@ -611,6 +709,55 @@ E3Int32_Read(TQ3Int32 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
+//      E3Uns32_ReadArray : Read an array of TQ3Uns32.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Uns32_ReadArray(TQ3Uns32 numNums, TQ3Uns32 *data, TQ3FileObject theFile)
+{
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3FileFormatObject				format = instanceData->format;
+	TQ3XFFormatInt32ReadMethod 		int32Read;
+	TQ3XFFormatInt32ReadArrayMethod	int32ArrayRead;
+	TQ3Uns32						n;
+	TQ3Status						status = kQ3Success;
+
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
+
+	
+	int32ArrayRead = (TQ3XFFormatInt32ReadArrayMethod)
+					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt32ReadArray);
+
+	if (int32ArrayRead == NULL)
+	{
+		int32Read = (TQ3XFFormatInt32ReadMethod)
+						E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt32Read);
+		Q3_REQUIRE_OR_RESULT((int32Read != NULL),kQ3Failure);
+		
+		
+		for (n = 0; n < numNums; ++n)
+		{
+			status = int32Read( format, (TQ3Int32*)&data[n] );
+			if (status == kQ3Failure)
+			{
+				break;
+			}
+		}
+	}
+	else
+	{
+		status = int32ArrayRead( format, numNums, (TQ3Int32*)data );
+	}
+
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
 //      E3Int32_Write : Write a TQ3Int32.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -730,6 +877,55 @@ E3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile)
 		return float32Read(instanceData->format,data);
 
 	return(kQ3Failure);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Float32_ReadArray : Read an array of TQ3Float32.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Float32_ReadArray( TQ3Uns32 numFloats, TQ3Float32* theFloats, TQ3FileObject theFile)
+{
+	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TQ3FileFormatObject				format = instanceData->format;
+	TQ3XFFormatFloat32ReadMethod 	float32Read;
+	TQ3XFFormatFloat32ReadArrayMethod	floatArrayRead;
+	TQ3Uns32						n;
+	TQ3Status						status = kQ3Success;
+
+	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
+
+	
+	floatArrayRead = (TQ3XFFormatFloat32ReadArrayMethod)
+					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatFloat32ReadArray);
+
+	if (floatArrayRead == NULL)
+	{
+		float32Read = (TQ3XFFormatFloat32ReadMethod)
+						E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatFloat32Read);
+		Q3_REQUIRE_OR_RESULT((float32Read != NULL),kQ3Failure);
+		
+		
+		for (n = 0; n < numFloats; ++n)
+		{
+			status = float32Read( format, &theFloats[n] );
+			if (status == kQ3Failure)
+			{
+				break;
+			}
+		}
+	}
+	else
+	{
+		status = floatArrayRead( format, numFloats, theFloats );
+	}
+
+	
+	return status;
 }
 
 
