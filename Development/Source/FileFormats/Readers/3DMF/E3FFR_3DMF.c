@@ -72,6 +72,7 @@ class E3AttibuteSetList : public E3Shared // This is not a leaf class, but only 
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetList, E3AttibuteSetList, E3Shared )
 public :
 
 	TE3FFormat3DMF_AttributeSetList_Data	instanceData ;
@@ -84,6 +85,7 @@ class E3GeomAttributeSetList : public E3AttibuteSetList  // This is a leaf class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetListGeometry, E3GeomAttributeSetList, E3AttibuteSetList )
 public :
 
 	// There is no extra data for this class
@@ -96,6 +98,7 @@ class E3FaceAttributeSetList : public E3AttibuteSetList  // This is a leaf class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetListFace, E3FaceAttributeSetList, E3AttibuteSetList )
 public :
 
 	// There is no extra data for this class
@@ -108,6 +111,7 @@ class E3VertexAttributeSetList : public E3AttibuteSetList  // This is a leaf cla
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSetListVertex, E3VertexAttributeSetList, E3AttibuteSetList )
 public :
 
 	// There is no extra data for this class
@@ -120,6 +124,7 @@ class E3MeshCorners : public E3Shared  // This is a leaf class so no other class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeMeshCorners, E3MeshCorners, E3Shared )
 public :
 
 	TE3FFormat3DMF_MeshCorners_Data			instanceData ;
@@ -132,6 +137,7 @@ class E3MeshEdges : public E3Shared  // This is a leaf class so no other classes
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeMeshEdges, E3MeshEdges, E3Shared )
 public :
 
 	TE3FFormat3DMF_MeshEdges_Data			instanceData ;
@@ -144,6 +150,7 @@ class E3AttributeArray : public OpaqueTQ3Object  // This is a leaf class so no o
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeArray, E3AttributeArray, OpaqueTQ3Object )
 public :
 
 	// There is no extra data for this class
@@ -156,6 +163,7 @@ class E3TopCapSet : public OpaqueTQ3Object  // This is a leaf class so no other 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3AttributeSetTypeTopCap, E3TopCapSet, OpaqueTQ3Object )
 public :
 
 	TQ3AttributeSet							instanceData ;
@@ -168,6 +176,7 @@ class E3BottomCapSet : public OpaqueTQ3Object  // This is a leaf class so no oth
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3AttributeSetTypeBottomCap, E3BottomCapSet, OpaqueTQ3Object )
 public :
 
 	TQ3AttributeSet							instanceData ;
@@ -180,6 +189,7 @@ class E3FaceCapSet : public OpaqueTQ3Object  // This is a leaf class so no other
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3AttributeSetTypeFaceCap, E3FaceCapSet, OpaqueTQ3Object )
 public :
 
 	TQ3AttributeSet							instanceData ;
@@ -192,6 +202,7 @@ class E3InteriorCapSet : public OpaqueTQ3Object  // This is a leaf class so no o
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3AttributeSetTypeInteriorCap, E3InteriorCapSet, OpaqueTQ3Object )
 public :
 
 	TQ3AttributeSet							instanceData ;
@@ -204,6 +215,7 @@ class E3GeneralPolygonHint : public OpaqueTQ3Object  // This is a leaf class so 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeGeneralPolygonHint, E3GeneralPolygonHint, OpaqueTQ3Object )
 public :
 
 	TQ3Uns32								instanceData ;
@@ -216,6 +228,7 @@ class E3GeometryCaps : public OpaqueTQ3Object  // This is a leaf class so no oth
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeGeometryCaps, E3GeometryCaps, OpaqueTQ3Object )
 public :
 
 	TQ3Uns32								instanceData ;
@@ -228,6 +241,7 @@ class E3DisplayGroupState : public OpaqueTQ3Object  // This is a leaf class so n
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeDisplayGroupState, E3DisplayGroupState, OpaqueTQ3Object )
 public :
 
 	TQ3Uns32								instanceData ;
@@ -240,6 +254,7 @@ class E3ShaderUVTransform : public OpaqueTQ3Object  // This is a leaf class so n
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeShaderUVTransform, E3ShaderUVTransform, OpaqueTQ3Object )
 public :
 
 	TQ3Matrix3x3							instanceData ;
@@ -252,6 +267,7 @@ class E3EndGroup : public E3Shared  // This is a leaf class so no other classes 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeEndGroup, E3EndGroup, E3Shared )
 public :
 
 	// There is no extra data for this class
@@ -264,6 +280,7 @@ class E33DMF : public OpaqueTQ3Object  // This is a leaf class so no other class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectType3DMF, E33DMF, OpaqueTQ3Object )
 public :
 
 	// There is no extra data for this class
@@ -276,6 +293,7 @@ class E3TableOfContents : public OpaqueTQ3Object  // This is a leaf class so no 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeTOC, E3TableOfContents, OpaqueTQ3Object )
 public :
 
 	// There is no extra data for this class
@@ -288,6 +306,7 @@ class E3Type : public OpaqueTQ3Object  // This is a leaf class so no other class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeType, E3Type, OpaqueTQ3Object )
 public :
 
 	// There is no extra data for this class
@@ -300,6 +319,7 @@ class E3Reference : public E3Shared  // This is a leaf class so no other classes
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeReference, E3Reference, E3Shared )
 public :
 
 	TQ3Uns32								instanceData ;
@@ -2051,120 +2071,88 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 
 	// the Support objects
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-											kQ3ObjectTypeAttributeSetList,
-											kQ3ClassNameAttributeSetList,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameAttributeSetList,
 											e3fformat_3dmf_attributesetlist_metahandler,
-											sizeof(E3AttibuteSetList));
+											E3AttibuteSetList ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeAttributeSetList,
-											kQ3ObjectTypeAttributeSetListGeometry,
-											kQ3ClassNameAttributeSetListGeometry,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameAttributeSetListGeometry,
 											e3fformat_3dmf_geomattributesetlist_metahandler,
-											sizeof(E3GeomAttributeSetList));
+											E3GeomAttributeSetList ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeAttributeSetList,
-											kQ3ObjectTypeAttributeSetListFace,
-											kQ3ClassNameAttributeSetListFace,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameAttributeSetListFace,
 											e3fformat_3dmf_faceattributesetlist_metahandler,
-											sizeof(E3FaceAttributeSetList));
+											E3FaceAttributeSetList ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeAttributeSetList,
-											kQ3ObjectTypeAttributeSetListVertex,
-											kQ3ClassNameAttributeSetListVertex,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameAttributeSetListVertex,
 											e3fformat_3dmf_vertexattributesetlist_metahandler,
-											sizeof(E3VertexAttributeSetList));
+											E3VertexAttributeSetList ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-											kQ3ObjectTypeMeshCorners,
-											kQ3ClassNameMeshCorners,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameMeshCorners,
 											e3fformat_3dmf_meshcorners_metahandler,
-											sizeof(E3MeshCorners));
+											E3MeshCorners ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-											kQ3ObjectTypeMeshEdges,
-											kQ3ClassNameMeshEdges,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameMeshEdges,
 											e3fformat_3dmf_meshedges_metahandler,
-											sizeof(E3MeshEdges));
+											E3MeshEdges ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3ObjectTypeAttributeArray,
-											kQ3ClassNameAttributeArray,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameAttributeArray,
 											e3fformat_3dmf_attributearray_metahandler,
-											sizeof(E3AttributeArray));
+											E3AttributeArray ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3AttributeSetTypeTopCap,
-											kQ3ClassNameTopCapAttributeSet,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameTopCapAttributeSet,
 											NULL,
-											sizeof(E3TopCapSet));
+											E3TopCapSet ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3AttributeSetTypeBottomCap,
-											kQ3ClassNameBottomCapAttributeSet,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameBottomCapAttributeSet,
 											NULL,
-											sizeof(E3BottomCapSet));
+											E3BottomCapSet ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3AttributeSetTypeFaceCap,
-											kQ3ClassNameFaceCapAttributeSet,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFaceCapAttributeSet,
 											NULL,
-											sizeof(E3FaceCapSet));
+											E3FaceCapSet ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3AttributeSetTypeInteriorCap,
-											kQ3ClassNameInteriorCapAttributeSet,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameInteriorCapAttributeSet,
 											NULL,
-											sizeof(E3InteriorCapSet));
+											E3InteriorCapSet ) ;
 
 
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3ObjectTypeGeneralPolygonHint,
-											kQ3ClassNameGeneralPolygonHint,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameGeneralPolygonHint,
 											e3fformat_3dmf_generalpolygonhint_metahandler,
-											sizeof(E3GeneralPolygonHint));
+											E3GeneralPolygonHint ) ;
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3ObjectTypeGeometryCaps,
-											kQ3ClassNameCaps,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameCaps,
 											e3fformat_3dmf_geometry_caps_metahandler,
-											sizeof(E3GeometryCaps));
+											E3GeometryCaps ) ;
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3ObjectTypeDisplayGroupState,
-											kQ3ClassNameDisplayGroupState,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameDisplayGroupState,
 											e3fformat_3dmf_displaygroupstate_metahandler,
-											sizeof(E3DisplayGroupState));
+											E3DisplayGroupState ) ;
 
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3ObjectTypeShaderUVTransform,
-											kQ3ClassNameShaderUVTransform,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameShaderUVTransform,
 											e3fformat_3dmf_shaderuvtransform_metahandler,
-											sizeof(E3ShaderUVTransform));
+											E3ShaderUVTransform ) ;
 
 
 	// Register the end group class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-											kQ3SharedTypeEndGroup,
-											kQ3ClassNameEndGroup,
+	qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameEndGroup,
 											e3fformat_3dmf_endgroup_metahandler,
-											sizeof(E3EndGroup));
+											E3EndGroup ) ;
 
 
 
@@ -2309,41 +2297,33 @@ E3FFW_3DMF_Register(void)
 
 	// the Support objects
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-												kQ3ObjectType3DMF,
-												kQ3ClassName3DMF,
-												NULL,
-												sizeof(E33DMF));
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassName3DMF,
+											NULL,
+											E33DMF ) ;
 
 	E3ClassTree::AddMethod(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
 	E3ClassTree::AddMethod(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-												kQ3ObjectTypeTOC,
-												kQ3ClassNameTOC,
-												NULL,
-												sizeof(E3TableOfContents));
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameTOC,
+											NULL,
+											E3TableOfContents ) ;
 
 	E3ClassTree::AddMethod(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Traverse);
 	E3ClassTree::AddMethod(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Write);
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-												kQ3ObjectTypeType,
-												kQ3ClassNameType,
-												NULL,
-												sizeof(E3Type));
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameType,
+											NULL,
+											E3Type ) ;
 
 	E3ClassTree::AddMethod(kQ3ObjectTypeType,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_type_Traverse);
 	E3ClassTree::AddMethod(kQ3ObjectTypeType,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_type_Write);
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared, // on QD3D this is kQ3SharedTypeShape but the 
-												kQ3ShapeTypeReference,
-												kQ3ClassNameReference,
-												NULL,
-												sizeof(E3Reference));
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameReference,
+											NULL,
+											E3Reference ) ;
 
 	E3ClassTree::AddMethod(kQ3ShapeTypeReference,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_32_Traverse);
 	E3ClassTree::AddMethod(kQ3ShapeTypeReference,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);

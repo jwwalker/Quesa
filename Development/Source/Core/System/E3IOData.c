@@ -64,6 +64,7 @@ class E3Unknown : public E3ShapeData // This is not a leaf class, but only class
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeUnknown, E3Unknown, E3ShapeData )
 public :
 
 	TQ3Boolean					dirtyFlag ;
@@ -76,6 +77,7 @@ class E3UnknownBinary : public E3Unknown  // This is a leaf class so no other cl
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3UnknownTypeBinary, E3UnknownBinary, E3Unknown )
 public :
 
 	TE3UnknownBinary_Data		instanceData ;
@@ -88,6 +90,7 @@ class E3UnknownText : public E3Unknown  // This is a leaf class so no other clas
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3UnknownTypeText, E3UnknownText, E3Unknown )
 public :
 
 	TQ3UnknownTextData			instanceData ;
@@ -1713,23 +1716,17 @@ E3Unknown_RegisterClass(void)
 
 
 	// Register the classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
-											kQ3ShapeTypeUnknown,
-											kQ3ClassNameUnknown,
-											NULL,
-											sizeof(E3Unknown));
+	qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameUnknown,
+										NULL,
+										E3Unknown ) ;
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeUnknown,
-											kQ3UnknownTypeBinary,
-											kQ3ClassNameUnknownBinary,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameUnknownBinary,
 											e3unknown_binary_metahandler,
-											sizeof(E3UnknownBinary));
+											E3UnknownBinary ) ;
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeUnknown,
-											kQ3UnknownTypeText,
-											kQ3ClassNameUnknownText,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameUnknownText,
 											e3unknown_text_metahandler,
-											sizeof(E3UnknownText));
+											E3UnknownText ) ;
 	return(qd3dStatus);
 
 }

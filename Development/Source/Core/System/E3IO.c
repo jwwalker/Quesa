@@ -211,11 +211,9 @@ E3File_RegisterClass()
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-											kQ3SharedTypeFile,
-											kQ3ClassNameFile,
-											e3file_metahandler,
-											sizeof(E3File));
+	qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFile,
+										e3file_metahandler,
+										E3File ) ;
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3Unknown_RegisterClass ();
 

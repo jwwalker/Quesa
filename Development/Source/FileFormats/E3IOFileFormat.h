@@ -71,6 +71,7 @@ extern "C" {
 
 class E3FileFormat : public E3Shared
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeFileFormat, E3FileFormat, E3Shared )
 public :
 
 	// There is no extra data for this class
@@ -80,6 +81,7 @@ public :
 
 class E3FileFormatReader : public E3FileFormat
 	{
+Q3_CLASS_ENUMS ( kQ3FileFormatTypeReader, E3FileFormatReader, E3FileFormat )
 public :
 
 	// There is no extra data for this class
@@ -89,6 +91,7 @@ public :
 
 class E3FileFormatWriter : public E3FileFormat
 	{
+Q3_CLASS_ENUMS ( kQ3FileFormatTypeWriter, E3FileFormatWriter, E3FileFormat )
 public :
 
 	// There is no extra data for this class

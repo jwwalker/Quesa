@@ -91,6 +91,7 @@ class E3Binary3DMF : public E3FileFormatReader  // This is a leaf class so no ot
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatReaderType3DMFBin, E3Binary3DMF, E3FileFormatReader )
 public :
 
 	TE3FFormat3DMF_Bin_Data					instanceData ;
@@ -103,6 +104,7 @@ class E3SwappedBinary3DMF : public E3FileFormatReader  // This is a leaf class s
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3FFormatReaderType3DMFBinSwapped, E3SwappedBinary3DMF, E3FileFormatReader )
 public :
 
 	TE3FFormat3DMF_Bin_Data					instanceData ;
@@ -1203,18 +1205,14 @@ E3FFormat_3DMF_Bin_Reader_RegisterClass(void)
 
 
 	// the FileFormats themselves
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeReader,
-											kQ3FFormatReaderType3DMFBin,
-											kQ3ClassNameFileFormatR_3DMF_Bin,
-											e3fformat_3dmf_bin_metahandler,
-											sizeof(E3Binary3DMF));
+	qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatR_3DMF_Bin,
+										e3fformat_3dmf_bin_metahandler,
+										E3Binary3DMF ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeReader,
-											kQ3FFormatReaderType3DMFBinSwapped,
-											kQ3ClassNameFileFormatR_3DMF_BinSwap,
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatR_3DMF_BinSwap,
 											e3fformat_3dmf_binswap_metahandler,
-											sizeof(E3SwappedBinary3DMF));
+											E3SwappedBinary3DMF ) ;
 
 	return(qd3dStatus);
 }
