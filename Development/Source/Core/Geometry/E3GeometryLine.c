@@ -195,12 +195,76 @@ e3geom_line_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
+//      e3geom_line_copydata : Copy TQ3LineData from one to another.
+//-----------------------------------------------------------------------------
+//		Note :	If isDuplicate is true, we duplicate shared objects rather than
+//				obtaining new references to them.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_line_copydata( const TQ3LineData* src, TQ3LineData* dst, TQ3Boolean isDuplicate )
+{
+	TQ3Uns32			n;
+	TQ3Status			q3status = kQ3Success;
+
+	for (n = 0; n < 2; ++n)
+	{
+		dst->vertices[n].point = src->vertices[n].point;
+		
+		
+		if (src->vertices[n].attributeSet == NULL)
+		{
+			dst->vertices[n].attributeSet = NULL;
+		}
+		else if (isDuplicate)
+		{
+			dst->vertices[n].attributeSet = Q3Object_Duplicate( src->vertices[n].attributeSet );
+			if (dst->vertices[n].attributeSet == NULL)
+				q3status = kQ3Failure;
+		}
+		else
+		{
+			E3Shared_Acquire( &dst->vertices[n].attributeSet, src->vertices[n].attributeSet );
+		}
+	}
+	
+	if (src->lineAttributeSet == NULL)
+	{
+		dst->lineAttributeSet = NULL;
+	}
+	else if (isDuplicate)
+	{
+		dst->lineAttributeSet = Q3Object_Duplicate( src->lineAttributeSet );
+		if (dst->lineAttributeSet == NULL)
+			q3status = kQ3Failure;
+	}
+	else
+	{
+		E3Shared_Acquire( &dst->lineAttributeSet, src->lineAttributeSet );
+	}
+	
+	
+	// Clean up after failure
+	if (q3status == kQ3Failure)
+	{
+		E3Line_EmptyData( dst );
+	}
+	
+	
+	return q3status;
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_line_duplicate : Line duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_line_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 					  TQ3Object toObject,   void *toPrivateData)
 {	TQ3LineData			*toInstanceData = (TQ3LineData *) toPrivateData;
+	TQ3LineData			*fromInstanceData = (TQ3LineData *) fromPrivateData;
 	TQ3Status			qd3dStatus;
 #pragma unused(fromPrivateData)
 #pragma unused(toObject)
@@ -214,7 +278,7 @@ e3geom_line_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 	// Copy the data from fromObject to toObject
-	qd3dStatus = Q3Line_GetData(fromObject, toInstanceData);
+	qd3dStatus = e3geom_line_copydata( fromInstanceData, toInstanceData, kQ3True );
 
 	return(qd3dStatus);
 }
@@ -591,17 +655,8 @@ TQ3Status
 E3Line_GetData(TQ3GeometryObject theLine, TQ3LineData *lineData)
 {
 	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
-	TQ3Uns32			n;
 
-
-	//return the data
-	for(n = 0; n < 2; n++)
-	{
-		lineData->vertices[n].point = instanceData->vertices[n].point ;
-		E3Shared_Acquire(&lineData->vertices[n].attributeSet, instanceData->vertices[n].attributeSet);
-	}
-	
-	E3Shared_Acquire(&lineData->lineAttributeSet, instanceData->lineAttributeSet);
+	e3geom_line_copydata( instanceData, lineData, kQ3False );
 	
 	return(kQ3Success);
 }
@@ -617,21 +672,16 @@ TQ3Status
 E3Line_SetData(TQ3GeometryObject theLine, const TQ3LineData *lineData)
 {
 	TQ3LineData	*		instanceData = (TQ3LineData *) theLine->instanceData;
-	TQ3Uns32			n;
+	TQ3Status			q3status;
 
-
-	//return the data
-	for(n = 0; n < 2; n++)
-	{
-		instanceData->vertices[n].point = lineData->vertices[n].point ;
-		E3Shared_Acquire(&instanceData->vertices[n].attributeSet, lineData->vertices[n].attributeSet);
-	}
 	
+	E3Line_EmptyData( instanceData );
+	
+	q3status = e3geom_line_copydata( lineData, instanceData, kQ3False );
 
-	E3Shared_Replace(&instanceData->lineAttributeSet, lineData->lineAttributeSet);
 	Q3Shared_Edited(theLine);
 
-	return(kQ3Success);
+	return (q3status);
 }
 
 

@@ -87,12 +87,134 @@ e3geom_polyline_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
+//      e3geom_polyline_copydata : Copy TQ3PolyLineData from one to another.
+//-----------------------------------------------------------------------------
+//		Note :	If isDuplicate is true, we duplicate shared objects rather than
+//				obtaining new references to them.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
+	TQ3Boolean isDuplicate )
+{
+	TQ3Status	q3Status = kQ3Success;
+	TQ3Uns32	n;
+	
+	
+	dst->numVertices = src->numVertices;
+	
+	// allocate memory for vertices
+	dst->vertices =
+		(TQ3Vertex3D *) Q3Memory_Allocate( src->numVertices * sizeof( TQ3Vertex3D ) ) ;
+		
+	// handle vertex allocation failure
+	if ( dst->vertices == NULL )
+		return (kQ3Failure);
+	
+	// allocate memory for segment attributes, if present
+	if (src->segmentAttributeSet != NULL)
+	{
+		dst->segmentAttributeSet = 
+			(TQ3AttributeSet *) Q3Memory_Allocate( (dst->numVertices - 1) 
+													* sizeof(TQ3AttributeSet) ) ;
+			
+		//handle segment allocation failure
+		if( dst->segmentAttributeSet == NULL )
+		{
+			Q3Memory_Free( &dst->vertices ) ;
+			return(kQ3Failure) ;
+		}
+	}
+	else
+	{
+		dst->segmentAttributeSet = NULL;
+	}
+	
+	
+	// Copy vertex data
+	for (n = 0; n < dst->numVertices; ++n)
+	{
+		dst->vertices[n].point = src->vertices[n].point;
+		
+		if (src->vertices[n].attributeSet == NULL)
+		{
+			dst->vertices[n].attributeSet = NULL;
+		}
+		else if (isDuplicate)
+		{
+			dst->vertices[n].attributeSet = Q3Object_Duplicate( src->vertices[n].attributeSet );
+			if (dst->vertices[n].attributeSet == NULL)
+				q3Status = kQ3Failure;
+		}
+		else
+		{
+			E3Shared_Acquire( &dst->vertices[n].attributeSet, src->vertices[n].attributeSet );
+		}
+	}
+	
+	
+	// Copy segment attributes, if present
+	if (src->segmentAttributeSet != NULL)
+	{
+		for (n = 0; n < dst->numVertices - 1; ++n)
+		{
+			if (src->segmentAttributeSet[n] == NULL)
+			{
+				dst->segmentAttributeSet[n] = NULL;
+			}
+			else if (isDuplicate)
+			{
+				dst->segmentAttributeSet[n] = Q3Object_Duplicate( src->segmentAttributeSet[n] );
+				if (dst->segmentAttributeSet[n] == NULL)
+					q3Status = kQ3Failure;
+			}
+			else
+			{
+				E3Shared_Acquire( &dst->segmentAttributeSet[n], src->segmentAttributeSet[n] );
+			}
+		}
+	}
+	
+	
+	// Copy overall attributes
+	if (src->polyLineAttributeSet == NULL)
+	{
+		dst->polyLineAttributeSet = NULL;
+	}
+	else if (isDuplicate)
+	{
+		dst->polyLineAttributeSet = Q3Object_Duplicate( src->polyLineAttributeSet );
+		if (dst->polyLineAttributeSet == NULL)
+			q3Status = kQ3Failure;
+	}
+	else
+	{
+		E3Shared_Acquire( &dst->polyLineAttributeSet, src->polyLineAttributeSet );
+	}
+	
+	
+	
+	// Clean up after failure
+	if (q3Status == kQ3Failure)
+	{
+		E3PolyLine_EmptyData( dst );
+	}
+	
+	
+	return q3Status;
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_polyline_duplicate : PolyLine duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_polyline_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 						  TQ3Object toObject,   void       *toPrivateData)
 {	TQ3PolyLineData		*toInstanceData = (TQ3PolyLineData *) toPrivateData;
+	TQ3PolyLineData		*fromInstanceData = (TQ3PolyLineData *) fromPrivateData;
 	TQ3Status			qd3dStatus;
 #pragma unused(fromPrivateData)
 #pragma unused(toObject)
@@ -106,7 +228,7 @@ e3geom_polyline_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 	// Copy the data from fromObject to toObject
-	qd3dStatus = Q3PolyLine_GetData(fromObject, toInstanceData);
+	qd3dStatus = e3geom_polyline_copydata( fromInstanceData, toInstanceData, kQ3True );
 
 	return(qd3dStatus);
 }
@@ -342,71 +464,18 @@ TQ3Status
 E3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineData)
 {
 	TQ3PolyLineData *		instanceData = (TQ3PolyLineData *) polyLine->instanceData;
-	TQ3Uns32				n, newSize;
+	TQ3Status				q3status;
 	
-	//deallocate the old vertex attribute memory
-	for(n = 0; n < instanceData->numVertices; n++)
-		Q3Object_Dispose(instanceData->vertices[n].attributeSet) ;
-
-
-	//deallocate the old segment attributes if they exist
-	if( instanceData->segmentAttributeSet != NULL )
-		for(n = 0 ; instanceData->numVertices - 1; n++)
-			Q3Object_Dispose( instanceData->segmentAttributeSet[n] ) ;
-
-
-
-	//reallocate memory for vertices
-	newSize = polyLineData->numVertices * sizeof(TQ3Vertex3D);
-	Q3Memory_Reallocate(&instanceData->vertices, newSize);
-
-	if (instanceData->vertices == NULL)
-		return(kQ3Failure);
-
-	Q3Memory_Clear(instanceData->vertices, newSize);
-
-
-
-	//set vertex data
-	instanceData->numVertices = polyLineData->numVertices ;
-
-	for(n = 0; n < polyLineData->numVertices; n++)
-	{
-		instanceData->vertices[n].point = polyLineData->vertices[n].point ;
-		
-		//set vertex attributes
-		E3Shared_Replace(	&instanceData->vertices[n].attributeSet,
-							polyLineData->vertices[n].attributeSet ) ;
-	}
 	
-	//set the segment attribute sets if they exits
-	if( polyLineData->segmentAttributeSet != NULL )
-	{
-		//reallocate memory for segment attributes
-		newSize = (polyLineData->numVertices - 1) * sizeof(TQ3AttributeSet);
-		Q3Memory_Reallocate(&instanceData->segmentAttributeSet, newSize);
-
-		if (instanceData->segmentAttributeSet != NULL)
-			{
-			Q3Memory_Clear(instanceData->segmentAttributeSet, newSize);
-			
-			for(n = 0; n < polyLineData->numVertices - 1; n++)
-				E3Shared_Replace(	&instanceData->segmentAttributeSet[n],
-									polyLineData->segmentAttributeSet[n] ) ;
-			}
-	}
-	else
-	{
-		//otherwise free the memory for the old segment attribute set
-		Q3Memory_Free(&instanceData->segmentAttributeSet) ;
-	}
 	
-	//copy attributes
-	E3Shared_Replace(&instanceData->polyLineAttributeSet, polyLineData->polyLineAttributeSet);
+	E3PolyLine_EmptyData( instanceData );
+
+	q3status = e3geom_polyline_copydata( polyLineData, instanceData, kQ3False );
+
 
 	Q3Shared_Edited(polyLine);
 	
-	return(kQ3Success);
+	return (q3status);
 }
 
 
@@ -420,62 +489,13 @@ TQ3Status
 E3PolyLine_GetData(TQ3GeometryObject polyLine, TQ3PolyLineData *polyLineData)
 {
 	const TQ3PolyLineData *		instanceData = (const TQ3PolyLineData *) polyLine->instanceData;
-	TQ3Uns32					n ;
+	TQ3Status	q3status;
 	
-	//get numVertices
-	polyLineData->numVertices = instanceData->numVertices ;
 	
-	//allocate memory for vertices
-	polyLineData->vertices =
-		(TQ3Vertex3D *) Q3Memory_Allocate( instanceData->numVertices * sizeof( TQ3Vertex3D ) ) ;
-		
-	//handle vertex allocation failure
-	if( polyLineData->vertices == NULL )
-		return(kQ3Failure) ;
 	
-	//allocate memory for segmentAttributeSet if it exists
-	if( instanceData->segmentAttributeSet != NULL )
-	{
-		polyLineData->segmentAttributeSet = 
-			(TQ3AttributeSet *) Q3Memory_Allocate( (instanceData->numVertices - 1) 
-													* sizeof(TQ3AttributeSet) ) ;
-			
-		//handle segment allocation failure
-		if( polyLineData->segmentAttributeSet == NULL )
-		{
-			Q3Memory_Free( &polyLineData->vertices ) ;
-			return(kQ3Failure) ;
-		}
-	}
-	else
-	{
-		polyLineData->segmentAttributeSet = NULL ;
-	}
+	q3status = e3geom_polyline_copydata( instanceData, polyLineData, kQ3False );
 	
-	//copy vertex data
-	for(n = 0; n < instanceData->numVertices; n++)
-	{
-		polyLineData->vertices[n].point = instanceData->vertices[n].point ;
-		
-		E3Shared_Acquire(	&polyLineData->vertices[n].attributeSet,
-							instanceData->vertices[n].attributeSet ) ;		
-		
-	}
-	
-	//copy the segment attributes, if they exist
-	if( instanceData->segmentAttributeSet != NULL )
-	{
-		for(n = 0; n < instanceData->numVertices - 1; n++)
-		{
-			E3Shared_Acquire(	&polyLineData->segmentAttributeSet[n],
-								instanceData->segmentAttributeSet[n] ) ;
-		}
-	}
-	
-	//get attributes
-	E3Shared_Acquire(&polyLineData->polyLineAttributeSet, instanceData->polyLineAttributeSet);
-	
-	return(kQ3Success);
+	return q3status;
 }
 
 

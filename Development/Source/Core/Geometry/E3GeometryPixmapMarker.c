@@ -299,6 +299,7 @@ e3geom_pixmapmarker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 						      TQ3Object toObject,   void *toPrivateData)
 {	TQ3PixmapMarkerData		*toInstanceData = (TQ3PixmapMarkerData *) toPrivateData;
 	TQ3Status				qd3dStatus;
+	TQ3AttributeSet		dupSet;
 #pragma unused(fromPrivateData)
 #pragma unused(toObject)
 
@@ -312,6 +313,18 @@ e3geom_pixmapmarker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 	// Copy the data from fromObject to toObject
 	qd3dStatus = Q3PixmapMarker_GetData(fromObject, toInstanceData);
+	
+	if ( (qd3dStatus == kQ3Success) &&
+		(toInstanceData->pixmapMarkerAttributeSet != NULL) )
+	{
+		dupSet = Q3Object_Duplicate( toInstanceData->pixmapMarkerAttributeSet );
+		Q3Object_Dispose( toInstanceData->pixmapMarkerAttributeSet );
+		toInstanceData->pixmapMarkerAttributeSet = dupSet;
+		if (dupSet == NULL)
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
 
 	return(qd3dStatus);
 }
@@ -401,7 +414,7 @@ e3geom_pixmapmarker_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePic
 			{
 			for (x = 0; x < instanceData->pixmap.width; x++)
 				{
-				if (e3geom_pixmapmarker_pixel_is_set(instanceData, x, y))
+				if (e3geom_pixmapmarker_pixel_is_set(instanceData, (TQ3Int32) x, (TQ3Int32) y))
 					{
 					qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
 					return(qd3dStatus);
