@@ -90,7 +90,7 @@ Q3Light_GetType(TQ3LightObject light)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, kQ3ShapeTypeLight), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3ObjectTypeInvalid);
 
 
 
@@ -124,7 +124,7 @@ Q3Light_GetState(TQ3LightObject light, TQ3Boolean *isOn)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(isOn), kQ3Failure);
 
 
@@ -162,7 +162,7 @@ Q3Light_GetBrightness(TQ3LightObject light, float *brightness)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(brightness), kQ3Failure);
 
 
@@ -200,7 +200,7 @@ Q3Light_GetColor(TQ3LightObject light, TQ3ColorRGB *color)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), kQ3Failure);
 
 
@@ -238,7 +238,7 @@ Q3Light_SetState(TQ3LightObject light, TQ3Boolean isOn)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 
 
 
@@ -275,7 +275,7 @@ Q3Light_SetBrightness(TQ3LightObject light, float brightness)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 
 
 
@@ -312,7 +312,7 @@ Q3Light_SetColor(TQ3LightObject light, const TQ3ColorRGB *color)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), kQ3Failure);
 
 
@@ -350,7 +350,7 @@ Q3Light_GetData(TQ3LightObject light, TQ3LightData *lightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lightData), kQ3Failure);
 
 
@@ -388,7 +388,7 @@ Q3Light_SetData(TQ3LightObject light, const TQ3LightData *lightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lightData), kQ3Failure);
 
 
@@ -460,7 +460,7 @@ Q3AmbientLight_GetData(TQ3LightObject light, TQ3LightData *lightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lightData), kQ3Failure);
 
 
@@ -498,7 +498,7 @@ Q3AmbientLight_SetData(TQ3LightObject light, const TQ3LightData *lightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lightData), kQ3Failure);
 
 
@@ -570,7 +570,7 @@ Q3DirectionalLight_GetCastShadowsState(TQ3LightObject light, TQ3Boolean *castsSh
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(castsShadows), kQ3Failure);
 
 
@@ -608,7 +608,7 @@ Q3DirectionalLight_GetDirection(TQ3LightObject light, TQ3Vector3D *direction)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(direction), kQ3Failure);
 
 
@@ -646,7 +646,7 @@ Q3DirectionalLight_SetCastShadowsState(TQ3LightObject light, TQ3Boolean castsSha
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 
 
 
@@ -683,7 +683,7 @@ Q3DirectionalLight_SetDirection(TQ3LightObject light, const TQ3Vector3D *directi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(direction), kQ3Failure);
 
 
@@ -721,7 +721,7 @@ Q3DirectionalLight_GetData(TQ3LightObject light, TQ3DirectionalLightData *direct
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(directionalLightData), kQ3Failure);
 
 
@@ -759,7 +759,7 @@ Q3DirectionalLight_SetData(TQ3LightObject light, const TQ3DirectionalLightData *
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(directionalLightData), kQ3Failure);
 
 
@@ -831,7 +831,7 @@ Q3PointLight_GetCastShadowsState(TQ3LightObject light, TQ3Boolean *castsShadows)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(castsShadows), kQ3Failure);
 
 
@@ -869,7 +869,7 @@ Q3PointLight_GetAttenuation(TQ3LightObject light, TQ3AttenuationType *attenuatio
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attenuation), kQ3Failure);
 
 
@@ -907,7 +907,7 @@ Q3PointLight_GetLocation(TQ3LightObject light, TQ3Point3D *location)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(location), kQ3Failure);
 
 
@@ -945,7 +945,7 @@ Q3PointLight_GetData(TQ3LightObject light, TQ3PointLightData *pointLightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointLightData), kQ3Failure);
 
 
@@ -983,7 +983,7 @@ Q3PointLight_SetCastShadowsState(TQ3LightObject light, TQ3Boolean castsShadows)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 
 
 
@@ -1020,7 +1020,7 @@ Q3PointLight_SetAttenuation(TQ3LightObject light, TQ3AttenuationType attenuation
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 
 
 
@@ -1057,7 +1057,7 @@ Q3PointLight_SetLocation(TQ3LightObject light, const TQ3Point3D *location)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(location), kQ3Failure);
 
 
@@ -1095,7 +1095,7 @@ Q3PointLight_SetData(TQ3LightObject light, const TQ3PointLightData *pointLightDa
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointLightData), kQ3Failure);
 
 
@@ -1167,7 +1167,7 @@ Q3SpotLight_GetCastShadowsState(TQ3LightObject light, TQ3Boolean *castsShadows)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(castsShadows), kQ3Failure);
 
 
@@ -1205,7 +1205,7 @@ Q3SpotLight_GetAttenuation(TQ3LightObject light, TQ3AttenuationType *attenuation
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attenuation), kQ3Failure);
 
 
@@ -1243,7 +1243,7 @@ Q3SpotLight_GetLocation(TQ3LightObject light, TQ3Point3D *location)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(location), kQ3Failure);
 
 
@@ -1281,7 +1281,7 @@ Q3SpotLight_GetDirection(TQ3LightObject light, TQ3Vector3D *direction)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(direction), kQ3Failure);
 
 
@@ -1319,7 +1319,7 @@ Q3SpotLight_GetHotAngle(TQ3LightObject light, float *hotAngle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(hotAngle), kQ3Failure);
 
 
@@ -1357,7 +1357,7 @@ Q3SpotLight_GetOuterAngle(TQ3LightObject light, float *outerAngle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outerAngle), kQ3Failure);
 
 
@@ -1395,7 +1395,7 @@ Q3SpotLight_GetFallOff(TQ3LightObject light, TQ3FallOffType *fallOff)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fallOff), kQ3Failure);
 
 
@@ -1433,7 +1433,7 @@ Q3SpotLight_GetData(TQ3LightObject light, TQ3SpotLightData *spotLightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(spotLightData), kQ3Failure);
 
 
@@ -1471,7 +1471,7 @@ Q3SpotLight_SetCastShadowsState(TQ3LightObject light, TQ3Boolean castsShadows)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 
 
 
@@ -1508,7 +1508,7 @@ Q3SpotLight_SetAttenuation(TQ3LightObject light, TQ3AttenuationType attenuation)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 
 
 
@@ -1545,7 +1545,7 @@ Q3SpotLight_SetLocation(TQ3LightObject light, const TQ3Point3D *location)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(location), kQ3Failure);
 
 
@@ -1583,7 +1583,7 @@ Q3SpotLight_SetDirection(TQ3LightObject light, const TQ3Vector3D *direction)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(direction), kQ3Failure);
 
 
@@ -1621,7 +1621,7 @@ Q3SpotLight_SetHotAngle(TQ3LightObject light, float hotAngle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 
 
 
@@ -1658,7 +1658,7 @@ Q3SpotLight_SetOuterAngle(TQ3LightObject light, float outerAngle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 
 
 
@@ -1695,7 +1695,7 @@ Q3SpotLight_SetFallOff(TQ3LightObject light, TQ3FallOffType fallOff)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 
 
 
@@ -1732,7 +1732,7 @@ Q3SpotLight_SetData(TQ3LightObject light, const TQ3SpotLightData *spotLightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(light, (kQ3ShapeTypeLight)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Light_IsOfMyClass ( light ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(spotLightData), kQ3Failure);
 
 
