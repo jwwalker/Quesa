@@ -1883,8 +1883,6 @@ E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attrib
 	// Get the size and pointer for the data for the attribute
 	attributeType = E3Attribute_AttributeToClassType(attributeType);
 	theElement    = E3Set_AccessElementData(attributeSet, attributeType, &dataSize, &theData);
-	if (theElement == NULL)
-		return(NULL);
 
 
 
