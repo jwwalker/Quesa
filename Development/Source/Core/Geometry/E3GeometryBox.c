@@ -276,21 +276,20 @@ e3geom_box_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //      e3geom_box_cache_new : Box cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_box_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3BoxData *geomData)
-{	TQ3BoxData					*instanceData = (TQ3BoxData *) theGeom->instanceData;
-	TQ3TriMeshAttributeData		triAttributes[kQ3AttributeTypeNumTypes];
-	TQ3Vector3D					triAttributeNormal[12];
+e3geom_box_cache_new(TQ3ViewObject /*theView*/, TQ3GeometryObject /*theGeom*/, const TQ3BoxData *geomData)
+{	TQ3TriMeshAttributeData		triAttributes[kQ3AttributeTypeNumTypes];
 	float						triAttributeAmbientCoefficient[12];
-	TQ3ColorRGB					triAttributeDiffuseColour[12];
-	TQ3ColorRGB					triAttributeSpecularColour[12];
-	float						triAttributeSpecularControl[12];
 	TQ3ColorRGB					triAttributeTransparencyColour[12];
-	TQ3Switch					triAttributeHighlightState[12];
-	TQ3SurfaceShaderObject		triAttributeSurfaceShader[12];
 	TQ3Point3D					triMeshPoints[24], cubePoints[8];
-	TQ3TriMeshAttributeData		edgeAttributes[1];
+	float						triAttributeSpecularControl[12];
 	TQ3ColorRGB					edgeAttributeDiffuseColour[12];
+	TQ3ColorRGB					triAttributeSpecularColour[12];
+	TQ3Switch					triAttributeHighlightState[12];
+	TQ3ColorRGB					triAttributeDiffuseColour[12];
+	TQ3SurfaceShaderObject		triAttributeSurfaceShader[12];
+	TQ3Vector3D					triAttributeNormal[12];
 	TQ3TriMeshAttributeData		pointAttributes[1];
+	TQ3TriMeshAttributeData		edgeAttributes[1];
 	TQ3Boolean					addEdgeColour;
 	TQ3TriMeshData				triMeshData;
 	TQ3GeometryObject			theTriMesh;
@@ -329,14 +328,10 @@ e3geom_box_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3
 
 
 
-#pragma unused(theView)
-
-
-
 	// Calculate the vertices for the box. Note that the box is pretty much the worst
 	// case for a TriMesh - we need to use 24 vertices rather than 8 in order to get
 	// the correct UV mapping.
-	e3geom_box_calc_vertices(instanceData, cubePoints);
+	e3geom_box_calc_vertices(geomData, cubePoints);
 
 	triMeshPoints[0]  = cubePoints[0];	// Left 	(left/back/bottom)
 	triMeshPoints[1]  = cubePoints[1];	// 			(left/front/bottom)
@@ -390,14 +385,14 @@ e3geom_box_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3
 	triMeshData.edgeAttributeTypes        = NULL;
 	triMeshData.numVertexAttributeTypes   = 1;
 	triMeshData.vertexAttributeTypes      = pointAttributes;
-	triMeshData.triMeshAttributeSet       = instanceData->boxAttributeSet;
+	triMeshData.triMeshAttributeSet       = geomData->boxAttributeSet;
 
 	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox, triMeshData.points, 8, sizeof(TQ3Point3D));
 
 
 
 	// If there are any face attributes, set them up for each triangle
-	if (instanceData->faceAttributeSet != NULL)
+	if (geomData->faceAttributeSet != NULL)
 		{
 		// Initialise the attribute data - note that this isn't strictly correct.
 		//
@@ -427,29 +422,29 @@ e3geom_box_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3
 		// Set up the triangle attributes
 		n = 0;
 
-		if (e3geom_box_add_attribute(instanceData, &triAttributes[n], kQ3AttributeTypeNormal,             triAttributeNormal))
+		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeNormal,             triAttributeNormal))
 			n++;
 		
-		if (e3geom_box_add_attribute(instanceData, &triAttributes[n], kQ3AttributeTypeAmbientCoefficient, triAttributeAmbientCoefficient))
+		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeAmbientCoefficient, triAttributeAmbientCoefficient))
 			n++;
 
-		addEdgeColour = e3geom_box_add_attribute(instanceData, &triAttributes[n], kQ3AttributeTypeDiffuseColor, triAttributeDiffuseColour);
+		addEdgeColour = e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeDiffuseColor, triAttributeDiffuseColour);
 		if (addEdgeColour)
 			n++;
 		
-		if (e3geom_box_add_attribute(instanceData, &triAttributes[n], kQ3AttributeTypeSpecularColor,      triAttributeSpecularColour))
+		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeSpecularColor,      triAttributeSpecularColour))
 			n++;
 		
-		if (e3geom_box_add_attribute(instanceData, &triAttributes[n], kQ3AttributeTypeSpecularControl,    triAttributeSpecularControl))
+		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeSpecularControl,    triAttributeSpecularControl))
 			n++;
 		
-		if (e3geom_box_add_attribute(instanceData, &triAttributes[n], kQ3AttributeTypeTransparencyColor,  triAttributeTransparencyColour))
+		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeTransparencyColor,  triAttributeTransparencyColour))
 			n++;
 		
-		if (e3geom_box_add_attribute(instanceData, &triAttributes[n], kQ3AttributeTypeHighlightState,     triAttributeHighlightState))
+		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeHighlightState,     triAttributeHighlightState))
 			n++;
 		
-		if (e3geom_box_add_attribute(instanceData, &triAttributes[n], kQ3AttributeTypeSurfaceShader,      triAttributeSurfaceShader))
+		if (e3geom_box_add_attribute(geomData, &triAttributes[n], kQ3AttributeTypeSurfaceShader,      triAttributeSurfaceShader))
 			n++;
 
 
