@@ -37,108 +37,174 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Memory.h"
 #include "E3Viewer.h"
 
-#pragma mark new unified APIs
+#pragma mark old Mac APIs
 #pragma mark -
 
 #if QUESA_OS_MACINTOSH
 
+//=============================================================================
+//      e3viewer_OSErr : Convert a standard Quesa status code into a MacOS
+//			OSErr.  I'm not sure exactly what translation we need to do here,
+//			though an OSErr is a short and a TQ3Status is a long.  The old
+//			error codes were not defined in the QD3D docs as far as I can
+//			tell.  For now, I'll just do a simple map.  (-- JJS)
+//-----------------------------------------------------------------------------
+static inline OSErr e3viewer_OSErr(TQ3Status status)
+{
+	if (kQ3Success == status) return noErr;
+	// If we have a failure status, we really should get the error code from
+	// Quesa and try to map it onto an appropriate OSErr code.  But that's
+	// hard, so for now we'll content ourselves with:
+	return kGeneralFailureErr;
+}
+
 OSErr		
 E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_OSErr( E3Viewer_GetVersion(majorRevision, minorRevision) );
 }
 
 
 OSErr		
 E3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_OSErr( E3Viewer_GetReleaseVersion(releaseRevision) );
 }
 
 
 TQ3ViewerObject
-E3ViewerNew(CGrafPtr port, Rect *rect, TQ3Uns32 flags)
+E3ViewerNew(CGrafPtr port, Rect *rect, TQ3Uns32 oldFlags)
 {
+	TQ3Area area;
+	TQ3Uns32 newFlags = 0L;
 
-	return(NULL);  // unimplemented
+	area.min.x = rect->left;
+	area.min.y = rect->top;
+	area.max.x = rect->right;
+	area.max.y = rect->bottom;
+	
+	if (kQ3ViewerDefault == oldFlags) newFlags = kQ3ViewerFlagDefault;
+	else
+		{
+		if (oldFlags & kQ3ViewerShowBadge) newFlags |= kQ3ViewerFlagShowBadge;
+		if (oldFlags & kQ3ViewerActive) newFlags |= kQ3ViewerFlagActive;
+		if (oldFlags & kQ3ViewerControllerVisible)	; // ??? newFlags |= kQ3ViewerFlagControllerVisible;
+		if (oldFlags & kQ3ViewerDrawFrame)			newFlags |= kQ3ViewerFlagDrawFrame;
+		if (oldFlags & kQ3ViewerDraggingOff)		newFlags |= kQ3ViewerFlagDraggingOff;
+		if (oldFlags & kQ3ViewerButtonCamera)		newFlags |= kQ3ViewerFlagButtonCamera;
+		if (oldFlags & kQ3ViewerButtonTruck)		newFlags |= kQ3ViewerFlagButtonTruck;
+		if (oldFlags & kQ3ViewerButtonOrbit)		newFlags |= kQ3ViewerFlagButtonOrbit;
+		if (oldFlags & kQ3ViewerButtonZoom)			newFlags |= kQ3ViewerFlagButtonZoom;
+		if (oldFlags & kQ3ViewerButtonDolly)		newFlags |= kQ3ViewerFlagButtonDolly;
+		if (oldFlags & kQ3ViewerButtonReset)		newFlags |= kQ3ViewerFlagButtonReset;
+		if (oldFlags & kQ3ViewerOutputTextMode)		newFlags |= kQ3ViewerFlagOutputTextMode;
+		if (oldFlags & kQ3ViewerDragMode)			newFlags |= kQ3ViewerFlagDragMode;
+		if (oldFlags & kQ3ViewerDrawGrowBox)		newFlags |= kQ3ViewerFlagDrawGrowBox;
+		if (oldFlags & kQ3ViewerDrawDragBorder)		newFlags |= kQ3ViewerFlagDrawDragBorder;
+		if (oldFlags & kQ3ViewerDraggingInOff)		newFlags |= kQ3ViewerFlagDraggingInOff;
+		if (oldFlags & kQ3ViewerDraggingOutOff)		newFlags |= kQ3ViewerFlagDraggingOutOff;
+		if (oldFlags & kQ3ViewerButtonOptions)		newFlags |= kQ3ViewerFlagButtonOptions;
+		if (oldFlags & kQ3ViewerPaneGrowBox)		newFlags |= kQ3ViewerFlagPaneGrowBox;
+	}
+	
+	return E3Viewer_New(port, &area, newFlags);
 }
 
 
 OSErr		
 E3ViewerDispose(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_OSErr( E3Viewer_Dispose(theViewer) );
 }
 
 
 OSErr		
 E3ViewerUseFile(TQ3ViewerObject theViewer, TQ3Int32 refNum)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_OSErr( E3Viewer_UseFile(theViewer, refNum) );
 }
 
 
 OSErr		
 E3ViewerUseData(TQ3ViewerObject theViewer, void *data, TQ3Int32 size)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_OSErr( E3Viewer_UseData(theViewer, data, size) );	
 }
 
 
 OSErr		
 E3ViewerWriteFile(TQ3ViewerObject theViewer, TQ3Int32 refNum)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_OSErr( E3Viewer_WriteFile(theViewer, refNum) );
 }
 
 
 TQ3Uns32	
 E3ViewerWriteData(TQ3ViewerObject theViewer, Handle data)
 {
-
-	return(0); // unimplemented
+	void *tempData;
+	TQ3Uns32 dataSize;
+	OSErr memErr;
+	TQ3Status status = E3Viewer_WriteData(theViewer, &tempData, &dataSize);
+	if (kQ3Success == status)
+		{
+		SetHandleSize(data, dataSize);
+		memErr = MemError();
+		if (noErr == memErr)
+			BlockMoveData( tempData, *data, dataSize );
+		}
+	
+	E3Memory_Free( &tempData );
+	if (memErr) return memErr;
+	return e3viewer_OSErr(status);
 }
 
 
 OSErr		
 E3ViewerDraw(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_OSErr( E3Viewer_Draw(theViewer) );
 }
 
 
 OSErr		
 E3ViewerDrawContent(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_OSErr( E3Viewer_DrawContent(theViewer) );
 }
 
 
 OSErr		
 E3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
 {
-
-	return(-4);  // unimplemented
+	return e3viewer_OSErr( E3Viewer_DrawControlStrip(theViewer) );
 }
 
 
 Boolean		
 E3ViewerEvent(TQ3ViewerObject theViewer, EventRecord *evt)
 {
-
-	return(false);  // unimplemented
+	TQ3Boolean handled = kQ3False;
+	switch (evt->what)
+		{
+		case mouseDown:
+			handled = E3Viewer_EventMouseDown(theViewer, evt->where.h, evt->where.v);
+			break;
+		case mouseUp:
+			handled = E3Viewer_EventMouseUp(theViewer, evt->where.h, evt->where.v);
+			break;
+	}
+	if (!handled && (evt->message & 0xFF000000)==0xFA000000)  // mouse moved
+		handled = E3Viewer_EventMouseTrack(theViewer, evt->where.h, evt->where.v);
+		
+	if (kQ3True == handled) return true;
+	else return false;
 }
 
+// --- left off here ---
 
 PicHandle	
 E3ViewerGetPict(TQ3ViewerObject theViewer)
