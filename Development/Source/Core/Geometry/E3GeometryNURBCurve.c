@@ -250,7 +250,7 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3Vertex3D						*theVertices;
 	TQ3PolyLineData				polyLineData;
 	TQ3GeometryObject				thePolyLine;	
-	int								n;
+	TQ3Uns32								n;
 	float								uMin,uMax;
 #pragma unused(theView)
 
@@ -313,7 +313,7 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 								&thePoint);
 		
 		// Divide by w:
-		oow = 1.0/thePoint.w;
+		oow = 1.0f/thePoint.w;
 	
 		theVertices[n].point.x = thePoint.x*oow;
 		theVertices[n].point.y = thePoint.y*oow;
