@@ -322,6 +322,48 @@ e3storage_memory_delete(TQ3Object storage, void *privateData)
 
 
 //=============================================================================
+//      e3storage_memory_duplicate : Memory storage duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3storage_memory_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
+							TQ3Object toObject,   void       *toPrivateData)
+{
+	TQ3Status	theStatus = kQ3Success;
+	const TE3_MemoryStorageData*	fromInstanceData = (const TE3_MemoryStorageData *) fromPrivateData;
+	TE3_MemoryStorageData *			toInstanceData   = (TE3_MemoryStorageData *)       toPrivateData;
+#pragma unused(fromObject)
+#pragma unused(toObject)
+	
+	toInstanceData->ownBuffer = fromInstanceData->ownBuffer;
+	toInstanceData->bufferSize = fromInstanceData->bufferSize;
+	toInstanceData->validSize = fromInstanceData->validSize;
+	toInstanceData->growSize = fromInstanceData->growSize;
+	
+	if (toInstanceData->ownBuffer)
+	{
+		toInstanceData->buffer = (TQ3Uns8*) Q3Memory_Allocate( toInstanceData->bufferSize );
+		if (toInstanceData->buffer == NULL)
+		{
+			theStatus = kQ3Failure;
+		}
+		else
+		{
+			Q3Memory_Copy( fromInstanceData->buffer, toInstanceData->buffer,
+				toInstanceData->bufferSize );
+		}
+	}
+	else
+	{
+		toInstanceData->buffer = fromInstanceData->buffer;
+	}
+	return theStatus;
+}
+
+
+
+
+
+//=============================================================================
 //      e3storage_memory_metahandler : Storage metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -338,6 +380,10 @@ e3storage_memory_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3storage_memory_new;
+			break;
+		
+		case kQ3XMethodTypeObjectDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3storage_memory_duplicate;
 			break;
 
 		case kQ3XMethodTypeStorageGetSize:
