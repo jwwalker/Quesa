@@ -827,7 +827,6 @@ Q3View_SetIdleProgressMethod(TQ3ViewObject view, TQ3ViewIdleProgressMethod idleM
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(idleData), kQ3Failure);
 
 
 
@@ -837,9 +836,6 @@ Q3View_SetIdleProgressMethod(TQ3ViewObject view, TQ3ViewIdleProgressMethod idleM
 		return(kQ3Failure);
 
 	if (0) // Further checks on idleMethod
-		return(kQ3Failure);
-
-	if (0) // Further checks on idleData
 		return(kQ3Failure);
 #endif
 
