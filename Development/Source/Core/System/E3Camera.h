@@ -95,6 +95,7 @@ protected :
 public :
 	static TQ3Status	RegisterClass ( void ) ;
 	static TQ3Status	UnregisterClass ( void ) ;
+	static TQ3Boolean	IsOfMyClass ( TQ3Object object ) ;
 	
 	E3CameraInfo*		GetClass ( void ) { return (E3CameraInfo*) OpaqueTQ3Object::GetClass () ; }
 
