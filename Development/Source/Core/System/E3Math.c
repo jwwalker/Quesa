@@ -3800,7 +3800,50 @@ E3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 }
 
 
+//=============================================================================
+//      E3Quaternion_GetAxisAndAngle : Get the rotation axis and angle
+//				represented by a quaternion.
+//-----------------------------------------------------------------------------
+//		Note :	'outAxis' or 'outAngle' may be NULL.
+//
+//				For correct results, |quaternion] == 1.
+//
+//				References:
+//					http://www.cs.ualberta.ca/~andreas/math/matrfaq_latest.html
+//					book: "3D Game Engine Design"
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+E3Quaternion_GetAxisAndAngle(const TQ3Quaternion *q, TQ3Vector3D *outAxis, float *outAngle)
+{
+	if (q->w > 1.0f - FLT_EPSILON || q->w < -1.0f + FLT_EPSILON)
+		{
+		// |w| = 1 means this is a null rotation.
+		// Return 0 for the angle, and pick an arbitrary axis.
+		if (outAngle) *outAngle = 0.0f;
+		if (outAxis)
+			{
+			outAxis->x = 0.0f;
+			outAxis->y = 1.0f;
+			outAxis->z = 0.0f;
+			}
+		}
+	else
+		{
+		// |w| != 1, so we have a non-null rotation.
+		// w is the cosine of the half-angle.
+		float coshalf = q->w;
+		float angle = 2.0f * (float)acos(coshalf);
+		if (outAxis)
+			{
+			float sinhalf = sqrt( 1.0f - coshalf * coshalf );
+			outAxis->x = q->x / sinhalf;
+			outAxis->y = q->y / sinhalf;
+			outAxis->z = q->z / sinhalf;
+			}
+		}
 
+	return (outAxis);
+}
 
 
 //=============================================================================
