@@ -78,6 +78,7 @@ TQ3Status			E3NURBCurve_GetControlPoint(TQ3GeometryObject theCurve, TQ3Uns32 poi
 TQ3Status			E3NURBCurve_SetKnot(TQ3GeometryObject theCurve, TQ3Uns32 knotIndex, float knotValue);
 TQ3Status			E3NURBCurve_GetKnot(TQ3GeometryObject theCurve, TQ3Uns32 knotIndex, float *knotValue);
 TQ3Status			E3NURBCurve_GetNumPoints ( TQ3GeometryObject theCurve, TQ3Uns32* numPoints ) ;
+TQ3Boolean			E3NURBCurve_IsOfMyClass ( TQ3Object object ) ;
 
 
 
