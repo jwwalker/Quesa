@@ -48,6 +48,7 @@
 #include "E3HashTable.h"
 #include "E3Main.h"
 #include "E3Set.h"
+#include "E3String.h"
 
 
 
@@ -1196,6 +1197,37 @@ E3NameElement_GetData(TQ3Object object, char **name)
 }
 
 
+
+
+
+//=============================================================================
+//      E3NameElement_PeekData : Get the name of an object.
+//-----------------------------------------------------------------------------
+//		Note :	The returned pointer should be consider read-only and temporary.
+//-----------------------------------------------------------------------------
+TQ3Status	E3NameElement_PeekData(TQ3Object object, const char **name)
+{
+	TQ3Status status;
+	TQ3StringObject	string = NULL;
+
+
+
+	// Initialise a return value
+	*name = NULL;
+
+
+	status = Q3Object_GetElement( object, kQ3ObjectTypeCustomElementName,
+		&string );
+	
+	if (status == kQ3Success)
+	{
+		*name = E3CString_PeekString( string );
+		
+		Q3Object_Dispose(string);
+	}
+					
+	return status;
+}
 
 
 
