@@ -28,7 +28,16 @@ pushd ../../Unix || exit
 
 # create the build system for libquesa
 ######################################
-aclocal
+
+
+# make sure we can find gtk.m4
+ACLOCALADDPATHS=
+if test -d /usr/local/share/aclocal; then
+ ACLOCALADDPATHS="${ACLOCALADDPATHS} -I /usr/local/share/aclocal"
+fi
+
+aclocal --force ${ACLOCALADDPATHS}
+
 automake --add-missing
 automake
 autoconf
@@ -44,13 +53,7 @@ PATH=${PATH}:/usr/local/bin
 
 export PATH
 
-# make sure we can find gtk.m4
-ACLOCALADDPATHS=
-if test -d /usr/local/share/aclocal; then
- ACLOCALADDPATHS="${ACLOCALADDPATHS} -I /usr/local/share/aclocal"
-fi
-
-aclocal ${ACLOCALADDPATHS}
+aclocal --force ${ACLOCALADDPATHS}
 automake --add-missing
 automake
 autoconf
@@ -63,4 +66,3 @@ popd
 make
 
 popd
-

@@ -11,12 +11,27 @@ AC_PROG_LIBTOOL
 
 AC_C_BIGENDIAN_QUESA
 
+
+
 dnl Checks for X.
 AC_PATH_X
-LDFLAGS="-L${x_libraries} $LDFLAGS"
-CPPFLAGS="-I${x_includes} $CPPFLAGS"
+if test $have_x != yes; then
+	AC_MSG_ERROR([Fatal - can't find X - Stopping here.])
+fi
 
+AC_HAVE_OPENGL_QUESA
 
+if test $have_GL != yes; then
+	AC_MSG_ERROR([Fatal - can't find OpenGL Libraries - Stopping here.])
+else
+if test $have_GLU != yes; then
+	AC_MSG_ERROR([Fatal - can't find GLU Libraries - Stopping here.])
+else
+	LDFLAGS="${GL_LIBS} $LDFLAGS"
+	CPPFLAGS="${GL_CFLAGS} $CPPFLAGS"
+fi
+
+fi
 
 
 AC_OUTPUT(Makefile)

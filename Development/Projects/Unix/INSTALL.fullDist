@@ -1,6 +1,10 @@
 Welcome to Quesa for Unix
 
-this is a raw source distribution for the whole Quesa project
+These are instructions to build Quesa and its examples from the raw sources,
+from a full tarball or from CVS.
+
+if you are building the unix version from the full sources packaged for another
+platform (Mac or Win32) beware of the line endings.
 
 The GNU build system requires that the unix specific stuff were on the 
 top directory of the project, but since this is a multi-platform package, 
@@ -18,9 +22,9 @@ to build the Quesa library for your system follow these steps
 
 		[machine:Projects/Unix/Scripts] me% sh prepareUnixTree.sh
 
-Really this script just creates a number of links to lowered level directories 
+Really this script just creates a number of links to lower level directories 
 in order to put all the sources below the Development/Projects/Unix directory, 
-at this point the home directory for Quesa will be Development/Projects/Unix,
+at this point the home directory for the Quesa build will be Development/Projects/Unix,
 
 now we can create the unix build system, the Quesa library and examples
 
@@ -28,13 +32,18 @@ now we can create the unix build system, the Quesa library and examples
 
 in order the buildUnix.sh script to work, you ought to have installed in your system 
 version 1.6 or later of the GNU build system (automake, autoconf, ecc),
-also be sure to have installed in your system the X11, mesa3d and glut headers and libraries.
+also be sure to have installed in your system the X11, GTK, OpenGL and glut headers and libraries.
+	(on debian you have to install the packages 'libxt-dev','xlibmesa-gl-dev','xlibmesa-gl-dev')
+
+it uses also the mdl_have_opengl.m4 file from the GNU autoconf archive that
+you have to get too. (on debian you have to install the package 'autoconf-archive')
 
 	things that could fail:
 		aclocal complains because the undefined macro AM_PATH_GTK
-			if gtk is installed search a file called gtk.m4 and pass its directory
+			if gtk is installed, search a file called gtk.m4 and pass its directory
 			to aclocal as parameter es.
 				aclocal -I /usr/local/share/aclocal
+
 
 		configure complains because doesn't find gtk-config
 			search gtk-config and add its parent directory to your PATH environment variable
@@ -45,8 +54,8 @@ and builds the library.
 
 Before you be able to use the Quesa library (libquesa.a), you have to install it (as root)
 
-		[machine:Projects/Unix/Scripts] me% cd ..
-		[machine:Projects/Unix] me% sudo make install
+		[machine:Projects/Unix/Scripts] root# cd ..
+		[machine:Projects/Unix] root# make install
 
 this will install the quesa library (libquesa.a), in /usr/local/lib, and 
 the Quesa header files in /usr/local/includes/Quesa
@@ -56,6 +65,7 @@ and we can build the examples
 
 		[machine:Projects/Unix] me% cd Examples
 		[machine:Projects/Unix/Examples] me% ./configure
+		[machine:Projects/Unix/Examples] me% make
 
 once finished, you're ready to launch some examples
 		[machine:Projects/Unix/Examples] me% ./geomtest
@@ -71,4 +81,3 @@ For your convenience you can make a link to the unix Quesa home directory
 
 		[machine:Projects/Unix/Scripts] me% cd
 		[machine:~] me% ln Quesa/Development/Projects/Unix quesaunix
-
