@@ -56,7 +56,7 @@
 #endif
 
 #if QUT_MAC_CARBON_EVENTS
-	#include <IBCarbonRuntime.h>
+	#include <Carbon/Carbon.h>
 #endif
 
 
@@ -593,7 +593,7 @@ qut_carbon_install_handlers(void)
 	if(err) return err;
  
     err = InstallEventLoopTimer(GetMainEventLoop(),
-                          0.0f,
+                         kEventDurationNoWait,
                           kQutMacUpdateSeconds,
                           NewEventLoopTimerUPP(qut_carbon_timer_fired), 
                           NULL, &gUpdateTimer);
