@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF Binary FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,6 +45,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3FFR_3DMF_Bin.h"
+#include "E3IO.h"
 #include "E3IOData.h"
 #include "E3FFR_3DMF_Geometry.h"
 
@@ -129,9 +130,8 @@ e3read_3dmf_bin_getinstancedata( TQ3FileFormatObject format )
 //      e3read_3dmf_bin_readnextelement : Manages the reading of the next Element from a 3DMF.
 //-----------------------------------------------------------------------------
 static void
-e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent,TQ3FileObject theFile)
+e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 {
-	TQ3FileFormatObject			format;
 	TE3FFormat3DMF_Bin_Data* 	fformatData;
 	TQ3ObjectType 				elemType;
 	TQ3Uns32 					i;
@@ -147,7 +147,7 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent,TQ3FileObject theFile)
 	TQ3XFFormatInt32ReadMethod	int32Read;
 
 
-	format = E3File_GetFileFormat(theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	fformatData = e3read_3dmf_bin_getinstancedata(format);
 
 
@@ -434,9 +434,9 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 //      e3fformat_3dmf_bin_read_header : Initialize the reader.
 //-----------------------------------------------------------------------------
 static TQ3Boolean
-e3fformat_3dmf_bin_read_header(TQ3FileObject theFile)
+e3fformat_3dmf_bin_read_header ( E3File* theFile )
 {
-	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Bin_Data			*instanceData = e3read_3dmf_bin_getinstancedata(format);
 
 	TQ3Boolean						result;
@@ -502,9 +502,9 @@ e3fformat_3dmf_bin_read_header(TQ3FileObject theFile)
 //      e3fformat_3dmf_bin_get_formattype : returns the file format.
 //-----------------------------------------------------------------------------
 static TQ3FileMode
-e3fformat_3dmf_bin_get_formattype(TQ3FileObject theFile)
+e3fformat_3dmf_bin_get_formattype ( E3File* theFile )
 {
-	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
 	return (instanceData->MFData.fileMode);
 }
@@ -579,12 +579,12 @@ e3fformat_3dmf_bin_newunknown(TQ3FileFormatObject format,TQ3Int32 objectType,TQ3
 //      e3fformat_3dmf_bin_skipobject : Skips the next object from storage.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_bin_skipobject(TQ3FileObject theFile)
+e3fformat_3dmf_bin_skipobject ( E3File* theFile )
 {
 	TQ3Int32 objectType;
 	TQ3Int32 objectSize;
 	TQ3Status result;
-	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
 	TQ3XFFormatInt32ReadMethod	int32Read;
 
@@ -626,7 +626,7 @@ static void CopyElementsToShape( TQ3SetObject inSet, TQ3ShapeObject ioShape )
 //      e3fformat_3dmf_bin_readobject : Reads the next object from storage.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
+e3fformat_3dmf_bin_readobject ( E3File* theFile )
 {
 	TQ3ObjectType			objectType;
 	TQ3Size 				objectSize;
@@ -641,7 +641,7 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 	E3ClassInfoPtr			theClass = NULL;
 	TQ3Int32				tocEntryIndex = -1;
 	TQ3Uns32 				i;
-	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	
 	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
 	TQ3XFFormatInt32ReadMethod	int32Read;
@@ -885,14 +885,14 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 // 		Note : Doesn't move the storage position.
 //-----------------------------------------------------------------------------
 static TQ3ObjectType
-e3fformat_3dmf_bin_get_nexttype(TQ3FileObject theFile)
+e3fformat_3dmf_bin_get_nexttype ( E3File* theFile )
 {
 	TQ3ObjectType 				result;
 	
 	TQ3Uns32				i;
 	TQ3Int32					refID;
 	TQ3Uns32					previousPosition;
-	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
 	TQ3XFFormatInt32ReadMethod	int32Read;
 	E3ClassInfoPtr				theClass;

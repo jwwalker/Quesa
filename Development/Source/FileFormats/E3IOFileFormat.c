@@ -5,7 +5,7 @@
         Implementation of Quesa Abstract FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -182,22 +182,6 @@ E3FileFormat_Terminate(TQ3FileFormatObject theFileFormat)
 	return(kQ3Success);
 }
 
-
-
-
-
-//=============================================================================
-//      E3File_GetFileFormat : Get the file format for a file.
-//-----------------------------------------------------------------------------
-#pragma mark -
-TQ3FileFormatObject 
-E3File_GetFileFormat(TQ3FileObject theFile)
-{
-	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
-
-	
-	return(instanceData->format);
-}
 
 
 

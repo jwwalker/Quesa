@@ -5,7 +5,7 @@
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,6 +45,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3FFR_3DMF.h"
+#include "E3IO.h"
 #include "E3IOData.h"
 #include "E3FFR_3DMF_Geometry.h"
 
@@ -3587,7 +3588,6 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object	 			theObject = NULL;
 	TQ3TriMeshData			geomData;
-	TQ3FileFormatObject		format;
 	TQ3Uns16				temp16;
 	TQ3Uns8					temp8;
 	TQ3Uns32				i;
@@ -3602,7 +3602,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 
 
 	// let know the system we're reading a trimesh
-	format = E3File_GetFileFormat(theFile);
+	TQ3FileFormatObject format = ( (E3File*) theFile )->GetFileFormat () ;
 	((TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf))->currentTriMesh = &geomData;
 	
 	

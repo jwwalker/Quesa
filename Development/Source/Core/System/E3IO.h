@@ -5,7 +5,7 @@
         Header file for E3IO.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,6 +46,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "QuesaIO.h"
+#include "E3Main.h"
 
 
 
@@ -103,36 +104,51 @@ typedef struct TE3FileData {
 
 
 
+class E3File : public E3Shared
+	{
+	TE3FileData				instanceData ;
+	
+public :
+	void					CallIdle ( void ) ;
+	
+	TQ3Status				GetStorage ( TQ3StorageObject* storage ) ;
+	TQ3Status				SetStorage ( TQ3StorageObject storage ) ;
+	TQ3Status				OpenRead ( TQ3FileMode* mode ) ;
+	TQ3Status				OpenWrite ( TQ3FileMode mode ) ;
+	TQ3Status				IsOpen ( TQ3Boolean* isOpen ) ;
+	TQ3Status				GetMode ( TQ3FileMode* mode ) ;
+	TQ3Status				GetVersion ( TQ3FileVersion *version ) ;
+	TQ3Status				Close ( void ) ;
+	TQ3Status				Cancel ( void ) ;
+	TQ3ObjectType			GetNextObjectType ( void ) ;
+	TQ3Boolean				IsNextObjectOfType ( TQ3ObjectType ofType ) ;
+	TQ3Object				ReadObject ( void ) ;
+	TQ3Status				SkipObject ( void ) ;
+	TQ3Boolean				IsEndOfData ( void ) ;
+	TQ3Boolean				IsEndOfContainer ( TQ3Object rootObject ) ;
+	TQ3Boolean				IsEndOfFile ( void ) ;
+	TQ3Status				SetReadInGroup ( TQ3FileReadGroupState readGroupState ) ;
+	TQ3Status				GetReadInGroup ( TQ3FileReadGroupState* readGroupState ) ;
+	TQ3Status				SetIdleMethod ( TQ3FileIdleMethod idle, const void* idleData ) ;
+	TQ3FileFormatObject		GetFileFormat ( void ) ;
+	TE3FileStatus			GetFileStatus ( void ) ;
+
+	friend TQ3Status		e3file_format_attach ( E3File* theFile,TQ3FileFormatObject theFileFormat ) ;
+	} ;
+
+
+
 
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 TQ3Status			E3File_RegisterClass(void);
 TQ3Status			E3File_UnregisterClass(void);
-void				E3File_CallIdle(TQ3FileObject theFile);
 
 TQ3FileObject		E3File_New(void);
-TQ3Status			E3File_GetStorage(TQ3FileObject theFile, TQ3StorageObject *storage);
-TQ3Status			E3File_SetStorage(TQ3FileObject theFile, TQ3StorageObject storage);
-TQ3Status			E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode);
-TQ3Status			E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode);
-TQ3Status			E3File_IsOpen(TQ3FileObject theFile, TQ3Boolean *isOpen);
-TQ3Status			E3File_GetMode(TQ3FileObject theFile, TQ3FileMode *mode);
-TQ3Status			E3File_GetVersion(TQ3FileObject theFile, TQ3FileVersion *version);
-TQ3Status			E3File_Close(TQ3FileObject theFile);
-TQ3Status			E3File_Cancel(TQ3FileObject theFile);
-TQ3ObjectType		E3File_GetNextObjectType(TQ3FileObject theFile);
-TQ3Boolean			E3File_IsNextObjectOfType(TQ3FileObject theFile, TQ3ObjectType ofType);
-TQ3Object			E3File_ReadObject(TQ3FileObject theFile);
-TQ3Status			E3File_SkipObject(TQ3FileObject theFile);
-TQ3Boolean			E3File_IsEndOfData(TQ3FileObject theFile);
-TQ3Boolean			E3File_IsEndOfContainer(TQ3FileObject theFile, TQ3Object rootObject);
-TQ3Boolean			E3File_IsEndOfFile(TQ3FileObject theFile);
+
 TQ3Status			E3File_MarkAsExternalReference(TQ3FileObject theFile, TQ3SharedObject sharedObject);
 TQ3GroupObject		E3File_GetExternalReferences(TQ3FileObject theFile);
-TQ3Status			E3File_SetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState readGroupState);
-TQ3Status			E3File_GetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState *readGroupState);
-TQ3Status			E3File_SetIdleMethod(TQ3FileObject theFile, TQ3FileIdleMethod idle, const void *idleData);
 
 
 
