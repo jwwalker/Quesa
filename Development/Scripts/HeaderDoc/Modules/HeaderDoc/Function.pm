@@ -4,7 +4,7 @@
 # Synopsis: Holds function info parsed by headerDoc
 #
 # Author: Matt Morse (matt@apple.com)
-# Last Updated: $Date: 2001-03-18 13:26:14 $
+# Last Updated: $Date: 2001-04-08 12:18:56 $
 # 
 # Copyright (c) 1999 Apple Computer, Inc.  All Rights Reserved.
 # The contents of this file constitute Original Code as defined in and are
@@ -216,7 +216,16 @@ sub setFunctionDeclaration {
         }
         $position++;
     }
-    $retval = "<tt>$return <b>$funcName</b>($remainder)$postParens</tt><br>\n";
+	# dair, remove superfluous space - honoured by Netscape but dropped by IE
+    #$retval = "<tt>$return <b>$funcName</b>($remainder)$postParens</tt><br>\n";
+    $retval = "<tt>$return<b>$funcName</b>($remainder)$postParens</tt><br>\n";
+
+
+	# dair, strip out the EXTERN_API_C for Quesa
+	$remainder =~ s/^\s+(.*)/\1/;
+	
+    $retval = "<tt>$remainder$postParens</tt><br>\n";
+		
     print "Function: $funcName -- returning declaration:\n\t|$retval|\n" if ($localDebug);
     print "============================================================================\n" if ($localDebug);
     $self->declarationInHTML($retval);
