@@ -482,7 +482,7 @@ Q3Group_GetLastPosition (
  *  @discussion
  *      Advance to the next position in a group.
  *
- *      This function updates the <code>position</code> to refer to the
+ *      This function updates <code>position</code> to refer to the
  *		next position in the group.  If there are no further objects
  *		in the group, <code>*position</code> is set to NULL.
  *
@@ -502,14 +502,16 @@ Q3Group_GetNextPosition (
  *  @function
  *      Q3Group_GetPreviousPosition
  *  @discussion
- *      One-line description of this function.
+ *      Step back to the previous position in a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function updates <code>position</code> to refer to the
+ *		previous position in the group.  If the given position was
+ *		already on the first object in the group, <code>*position</code>
+ *		is set to NULL.
  *
- *  @param group            Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group of interest.
+ *  @param position         Address of position to step back.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPreviousPosition (
@@ -523,14 +525,15 @@ Q3Group_GetPreviousPosition (
  *  @function
  *      Q3Group_CountObjects
  *  @discussion
- *      One-line description of this function.
+ *      Determine how many objects are in a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note that subgroups (groups within the given group) count as
+ *		only one object each; this function does not recurse into them
+ *		to get the total number of objects in the hierarchy.
  *
- *  @param group            Description of the parameter.
- *  @param nObjects         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to inspect.
+ *  @param nObjects         Address of integer to receive the object count.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_CountObjects (
@@ -544,13 +547,13 @@ Q3Group_CountObjects (
  *  @function
  *      Q3Group_EmptyObjects
  *  @discussion
- *      One-line description of this function.
+ *      Remove all object references from the group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Call this function to dispose of all object references in the given
+ *		group.  (The group itself is not disposed of.)
  *
- *  @param group            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to empty.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_EmptyObjects (
@@ -563,15 +566,15 @@ Q3Group_EmptyObjects (
  *  @function
  *      Q3Group_GetFirstPositionOfType
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of the first object of a given type.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This can be used in conjunction with <code>Q3Group_GetNextPositionOfType</code>
+ *		to iterate over all group members of a certain type.
  *
- *  @param group            Description of the parameter.
- *  @param isType           Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group of interest.
+ *  @param isType           Desired object type.
+ *  @param position         Receives the position of the first object of that type.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetFirstPositionOfType (
@@ -586,15 +589,15 @@ Q3Group_GetFirstPositionOfType (
  *  @function
  *      Q3Group_GetLastPositionOfType
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of the last object of a given type.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This can be used in conjunction with <code>Q3Group_GetPreviousPositionOfType</code>
+ *		to iterate backwards over all group members of a certain type.
  *
- *  @param group            Description of the parameter.
- *  @param isType           Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group of interest.
+ *  @param isType           Desired object type.
+ *  @param position         Receives the position of the last object of that type.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetLastPositionOfType (
@@ -609,15 +612,17 @@ Q3Group_GetLastPositionOfType (
  *  @function
  *      Q3Group_GetNextPositionOfType
  *  @discussion
- *      One-line description of this function.
+ *      Advance to the position of the next object of a certain type.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function updates <code>position</code> to refer to the
+ *		next position in the group of an object of the given type.
+ *		If there are no further objects of that type
+ *		in the group, <code>*position</code> is set to NULL.
  *
- *  @param group            Description of the parameter.
- *  @param isType           Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group of interest.
+ *  @param isType           Desired object type.
+ *  @param position         Address of position to advance.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetNextPositionOfType (
@@ -632,15 +637,17 @@ Q3Group_GetNextPositionOfType (
  *  @function
  *      Q3Group_GetPreviousPositionOfType
  *  @discussion
- *      One-line description of this function.
+ *      Step back to the position of the previous object of a certain type.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function updates <code>position</code> to refer to the
+ *		previous position in the group of an object of the given type.
+ *		If there are no previous objects of that type
+ *		in the group, <code>*position</code> is set to NULL.
  *
- *  @param group            Description of the parameter.
- *  @param isType           Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group of interest.
+ *  @param isType           Desired object type.
+ *  @param position         Address of position to step back.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPreviousPositionOfType (
@@ -655,15 +662,16 @@ Q3Group_GetPreviousPositionOfType (
  *  @function
  *      Q3Group_CountObjectsOfType
  *  @discussion
- *      One-line description of this function.
+ *      Determine how many objects of a certain type are in a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note that subgroups (groups within the given group) count as
+ *		only one object each; this function does not recurse into them
+ *		to consider the entire hierarchy.
  *
- *  @param group            Description of the parameter.
- *  @param isType           Description of the parameter.
- *  @param nObjects         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to inspect.
+ *  @param isType           Object type.
+ *  @param nObjects         Address of integer to receive the object count.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_CountObjectsOfType (
@@ -678,14 +686,15 @@ Q3Group_CountObjectsOfType (
  *  @function
  *      Q3Group_EmptyObjectsOfType
  *  @discussion
- *      One-line description of this function.
+ *      Remove all objects of a particular type from a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Call this function to dispose of all object references of a certain
+ *		type in the given group.  (The group itself is not disposed of,
+ *		even if this call leaves it empty.)
  *
- *  @param group            Description of the parameter.
- *  @param isType           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to operate on.
+ *  @param isType           Type of objects to dispose.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_EmptyObjectsOfType (
@@ -699,15 +708,17 @@ Q3Group_EmptyObjectsOfType (
  *  @function
  *      Q3Group_GetFirstObjectPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the first position of an object within a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      An object may be referenced a group multiple times.  Use this function
+ *		to find the first position of the first reference to the given object.
+ *		You could then use <code>Q3Group_GetNextObjectPosition</code> to 
+ *		iterate over all other references to the same object.
  *
- *  @param group            Description of the parameter.
- *  @param object           Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to inspect.
+ *  @param object           Desired object.
+ *  @param position         Receives first position of <code>object</code> in <code>group</code>.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetFirstObjectPosition (
@@ -722,15 +733,17 @@ Q3Group_GetFirstObjectPosition (
  *  @function
  *      Q3Group_GetLastObjectPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the last position of an object within a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      An object may be referenced a group multiple times.  Use this function
+ *		to find the last position of the first reference to the given object.
+ *		You could then use <code>Q3Group_GetPreviousObjectPosition</code> to 
+ *		iterate backwards over all other references to the same object.
  *
- *  @param group            Description of the parameter.
- *  @param object           Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to inspect.
+ *  @param object           Desired object.
+ *  @param position         Receives last position of <code>object</code> in <code>group</code>.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetLastObjectPosition (
@@ -745,15 +758,17 @@ Q3Group_GetLastObjectPosition (
  *  @function
  *      Q3Group_GetNextObjectPosition
  *  @discussion
- *      One-line description of this function.
+ *      Advance to the position of the next reference to a given object
+ *		within a group.  If the given object does not occur again within
+ *		the group, <code>*position</code> is set to NULL.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Use this in conjunction with <code>Q3Group_GetFirstObjectPosition</code>
+ *		to iterate over all occurrences of an object within a group.
  *
- *  @param group            Description of the parameter.
- *  @param object           Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to inspect.
+ *  @param object           Desired object.
+ *  @param position         Position to advance to the next occurrence of <code>object</code>.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetNextObjectPosition (
@@ -768,15 +783,17 @@ Q3Group_GetNextObjectPosition (
  *  @function
  *      Q3Group_GetPreviousObjectPosition
  *  @discussion
- *      One-line description of this function.
+ *      Step back to the position of the previous reference to a given object
+ *		within a group.  If there is no previous reference to that object within
+ *		the group, <code>*position</code> is set to NULL.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Use this in conjunction with <code>Q3Group_GetLastObjectPosition</code>
+ *		to iterate in reverse over all occurrences of an object within a group.
  *
- *  @param group            Description of the parameter.
- *  @param object           Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to inspect.
+ *  @param object           Desired object.
+ *  @param position         Position to step back to the previous occurrence of <code>object</code>.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPreviousObjectPosition (
@@ -791,12 +808,15 @@ Q3Group_GetPreviousObjectPosition (
  *  @function
  *      Q3LightGroup_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new light group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		A light group is a group that contains only lights.  These can then
+ *		be attached to a view by <code>Q3View_SetLightGroup</code>.
  *
- *  @result                 Description of the function result.
+ *      This function returns a newly created, empty light group object.  If
+ *		some error occurs during creation, this returns NULL.
+ *
+ *  @result                 Newly created light group, or NULL.
  */
 EXTERN_API_C ( TQ3GroupObject  )
 Q3LightGroup_New (
@@ -809,12 +829,12 @@ Q3LightGroup_New (
  *  @function
  *      Q3InfoGroup_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new information group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function returns a newly created, empty information group
+ *		object.  If some error occurs during creation, this returns NULL.
  *
- *  @result                 Description of the function result.
+ *  @result                 Newly created information group, or NULL.
  */
 EXTERN_API_C ( TQ3GroupObject  )
 Q3InfoGroup_New (
@@ -827,12 +847,19 @@ Q3InfoGroup_New (
  *  @function
  *      Q3DisplayGroup_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new display group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		A display group contains objects that are drawable: geometry, styles,
+ *		transforms, attributes and attribute sets, and other display groups.
+ *		A display group can be rendered by calling <code>Q3DisplayGroup_Submit</code>
+ *		within the rendering loop.
  *
- *  @result                 Description of the function result.
+ *      This function returns a newly created, empty display group object.
+ *		If some error occurs during creation, this returns NULL.
+ *
+ *		See also <code>Q3OrderedDisplayGroup_New</code> and <code>Q3IOProxyDisplayGroup_New</code>.
+ *
+ *  @result                 Newly created group, or NULL.
  */
 EXTERN_API_C ( TQ3GroupObject  )
 Q3DisplayGroup_New (
@@ -845,10 +872,12 @@ Q3DisplayGroup_New (
  *  @function
  *      Q3DisplayGroup_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the specific type of a display group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The result will be <code>kQ3DisplayGroupTypeOrdered</code> for an ordered display
+ *		group, <code>kQ3DisplayGroupTypeIOProxy</code> for an I/O Proxy group, and 
+ *		<code>kQ3GroupTypeDisplay</code> for a generic display group.  
+ *		<code>kQ3ObjectTypeInvalid</code> is returned if there is some error.
  *
  *  @param group            Description of the parameter.
  *  @result                 Description of the function result.
@@ -864,14 +893,31 @@ Q3DisplayGroup_GetType (
  *  @function
  *      Q3DisplayGroup_GetState
  *  @discussion
- *      One-line description of this function.
+ *      Get the state flags of a display group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The display group state flags affect its behavior with regard to
+ *		rendering, picking, and computation of a bounding box or sphere.
+ *		
+ *		    <code>kQ3DisplayGroupStateNone</code>: no flags are set.
+ *		    <code>kQ3DisplayGroupStateMaskIsDrawn</code>: if set, the group
+ *				is processed for rendering or picking; if clear, it is skipped.
+ *		    <code>kQ3DisplayGroupStateMaskIsInline</code>: if set, the group is processed
+ *				without pushing and popping the graphics state.
+ *		    <code>kQ3DisplayGroupStateMaskUseBoundingBox</code>: if set, the bounding box
+ *				of the group is used during rendering.
+ *		    <code>kQ3DisplayGroupStateMaskUseBoundingSphere</code>: if set, the bounding
+ *				sphere of the group is used during rendering.
+ *		    <code>kQ3DisplayGroupStateMaskIsPicked</code>: if set, the group is eligible
+ *				for picking.
+ *		    <code>kQ3DisplayGroupStateMaskIsWritten</code>: if set, the group is eligible
+ *				for writing to a file.
  *
- *  @param group            Description of the parameter.
- *  @param state            Description of the parameter.
- *  @result                 Description of the function result.
+ *		The default state has the IsDrawn, IsPicked, and IsWritten flags set;
+ *		other flags are clear.
+ *
+ *  @param group            Group to inspect.
+ *  @param state            Receives the group's state flags.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_GetState (
@@ -885,14 +931,31 @@ Q3DisplayGroup_GetState (
  *  @function
  *      Q3DisplayGroup_SetState
  *  @discussion
- *      One-line description of this function.
+ *      Set the state flags of a display group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The display group state flags affect its behavior with regard to
+ *		rendering, picking, and computation of a bounding box or sphere.
+ *		
+ *		    <code>kQ3DisplayGroupStateNone</code>: no flags are set.
+ *		    <code>kQ3DisplayGroupStateMaskIsDrawn</code>: if set, the group
+ *				is processed for rendering or picking; if clear, it is skipped.
+ *		    <code>kQ3DisplayGroupStateMaskIsInline</code>: if set, the group is processed
+ *				without pushing and popping the graphics state.
+ *		    <code>kQ3DisplayGroupStateMaskUseBoundingBox</code>: if set, the bounding box
+ *				of the group is used during rendering.
+ *		    <code>kQ3DisplayGroupStateMaskUseBoundingSphere</code>: if set, the bounding
+ *				sphere of the group is used during rendering.
+ *		    <code>kQ3DisplayGroupStateMaskIsPicked</code>: if set, the group is eligible
+ *				for picking.
+ *		    <code>kQ3DisplayGroupStateMaskIsWritten</code>: if set, the group is eligible
+ *				for writing to a file.
  *
- *  @param group            Description of the parameter.
- *  @param state            Description of the parameter.
- *  @result                 Description of the function result.
+ *		The default state has the IsDrawn, IsPicked, and IsWritten flags set;
+ *		other flags are clear.
+ *
+ *  @param group            Group on which to adjust state flags.
+ *  @param state            Desired state flags.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_SetState (
@@ -906,14 +969,20 @@ Q3DisplayGroup_SetState (
  *  @function
  *      Q3DisplayGroup_Submit
  *  @discussion
- *      One-line description of this function.
+ *      Submit a display group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This group is used within an appropriate submitting loop on a view
+ *		to render, pick, bound, or write the contents of the group.
  *
- *  @param group            Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *		Note: QD3D would also let you get away with submitting a group for
+ *		rendering by calling Q3Geometry_Submit.  But this is not valid;
+ *		a group (even a display group) is not a type of geometry.  Quesa
+ *		is less lenient in this regard, so you should collect your drawable
+ *		objects in a display group, and submit them with this function.
+ *
+ *  @param group            Display group to submit.
+ *  @param view             View (which must be in a submitting loop).
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_Submit (
@@ -927,14 +996,16 @@ Q3DisplayGroup_Submit (
  *  @function
  *      Q3DisplayGroup_SetAndUseBoundingBox
  *  @discussion
- *      One-line description of this function.
+ *      Sets a bounding box for a display group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function assigns the given bounding box to the display group.  It
+ *		also sets the <code>kQ3DisplayGroupStateMaskUseBoundingBox</code> flag
+ *		on the group state, telling Quesa that the bounding box should be used
+ *		for culling.
  *
- *  @param group            Description of the parameter.
- *  @param bBox             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group on which to set a bounding box.
+ *  @param bBox             Bounding box to use (must be non-empty).
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_SetAndUseBoundingBox (
@@ -948,14 +1019,14 @@ Q3DisplayGroup_SetAndUseBoundingBox (
  *  @function
  *      Q3DisplayGroup_GetBoundingBox
  *  @discussion
- *      One-line description of this function.
+ *      Get the bounding box of a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function retrieves the bounding box of a group, if one has
+ *		been set or calculated.  If not, kQ3Failure is returned.
  *
- *  @param group            Description of the parameter.
- *  @param bBox             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to inspect.
+ *  @param bBox             Address of bounding box to set with group's bounding box.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_GetBoundingBox (
@@ -969,13 +1040,14 @@ Q3DisplayGroup_GetBoundingBox (
  *  @function
  *      Q3DisplayGroup_RemoveBoundingBox
  *  @discussion
- *      One-line description of this function.
+ *      Remove the bounding box from a group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If the given group had an assigned or calculated bounding box,
+ *		this function removes it and clears the <code>kQ3DisplayGroupStateMaskUseBoundingBox</code>
+ *		flag.  If not, it does nothing (and returns <code>kQ3Success</code> anyway).
  *
- *  @param group            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to remove the bounding box of.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_RemoveBoundingBox (
@@ -988,15 +1060,26 @@ Q3DisplayGroup_RemoveBoundingBox (
  *  @function
  *      Q3DisplayGroup_CalcAndUseBoundingBox
  *  @discussion
- *      One-line description of this function.
+ *      Calculate and use a bounding box on the given group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function computes a bounding box that contains all the geometry
+ *		in the group.  It then stores this box on the group, and sets the
+ *		<code>kQ3DisplayGroupStateMaskUseBoundingBox</code> flag
+ *		on the group state, telling Quesa that the bounding box should be used
+ *		for culling.
  *
- *  @param group            Description of the parameter.
- *  @param computeBounds    Description of the parameter.
- *  @param view             Description of the parameter.
- *  @result                 Description of the function result.
+ *		The computed bounding box will be correct at the time of this call,
+ *		but if the group contents change, the bounding box is not automatically
+ *		updated.  It is up to the application programmer to call this function
+ *		again or otherwise update the bounding box when the group changes.
+ *
+ *		This function must not be called within a submitting loop.
+ *
+ *  @param group            Group for which a bounding box is to be calculated.
+ *  @param computeBounds    Either <code>kQ3ComputeBoundsExact</code> (precise) or
+ *								<code>kQ3ComputeBoundsApproximate</code> (faster).
+ *  @param view             View in which the group will ultimately be rendered.
+ *  @result                 Error/result code.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_CalcAndUseBoundingBox (
@@ -1011,12 +1094,28 @@ Q3DisplayGroup_CalcAndUseBoundingBox (
  *  @function
  *      Q3OrderedDisplayGroup_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new ordered display group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		An ordered display group contains drawable objects (geometry,
+ *		transforms, attributes, etc.), and keeps them always sorted by
+ *		type.  They are kept (and rendered) in this order:
  *
- *  @result                 Description of the function result.
+ *           1. transforms 
+ *           2. styles 
+ *           3. attribute sets 
+ *           4. shaders 
+ *           5. geometric objects 
+ *           6. groups 
+ *           7. unknown objects
+ *
+ *		This ordering ensures that transforms, styles, attributes, and
+ *		shaders are applied to all of the geometric objects, groups,
+ *		and unknown objects in the group.
+ *
+ *      This function returns a newly created, empty ordered display group.
+ *		If some error occurs during creation, this returns NULL.
+ *
+ *  @result                 Newly created ordered display group, or NULL.
  */
 EXTERN_API_C ( TQ3GroupObject  )
 Q3OrderedDisplayGroup_New (
@@ -1029,12 +1128,21 @@ Q3OrderedDisplayGroup_New (
  *  @function
  *      Q3IOProxyDisplayGroup_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new generic group.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		An I/O proxy display group is a group that contains several alternate
+ *		representations of the same object, used for file input and output.
+ *		For example, if your object contains some advanced type of geometry
+ *		which some clients may not be able to support, you could use a
+ *		proxy display group to also provide simpler representations of the
+ *		model.  You should put the alternate representations into the group
+ *		in order of preference; client applications will use the first entry
+ *		in the group which they can understand.
  *
- *  @result                 Description of the function result.
+ *      This function returns a newly created, empty Group object.  If
+ *		some error occurs during creation, this returns NULL.
+ *
+ *  @result                 Newly created proxy display group, or NULL.
  */
 EXTERN_API_C ( TQ3GroupObject  )
 Q3IOProxyDisplayGroup_New (
@@ -1047,14 +1155,14 @@ Q3IOProxyDisplayGroup_New (
  *  @function
  *      Q3XGroup_GetPositionPrivate
  *  @discussion
- *      One-line description of this function.
+ *      Get the private data stored in a group at the given position.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function returns private data, in the form of an untyped
+ *		pointer, which is stored in a group at the given position.
  *
- *  @param group            Description of the parameter.
- *  @param position         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            Group to inspect.
+ *  @param position         Position of desired data.
+ *  @result                 Pointer to private data, or NULL.
  */
 EXTERN_API_C ( void * )
 Q3XGroup_GetPositionPrivate (
