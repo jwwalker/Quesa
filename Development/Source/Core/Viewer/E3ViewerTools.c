@@ -285,11 +285,47 @@ OSPopupMenuSelect (TQ3Rect* r, TQ3Int32 id)
 static void
 OSGetDelta (float* x, float*y, TQ3EventRecord* evt, TQ3Int32 param1, TQ3Int32 param2)
 	{
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
+	#pragma unused (param1, param2)
+	//const float kSlowSpeed = 1.0f;
+	const float kMediumSpeed = 2.5f;
+	//const float kFastSpeed = 5.0f;
+	if (x)
+		*x = 0;
+	if (y)
+		*y = 0;
+
+	if (evt && ((evt->what == keyDown) || (evt->what == autoKey)))
+		{
+		char c = evt->message & charCodeMask;
+		if (c == kLeftArrowCharCode)
+			{
+				if (x)
+					*x = (1.0f * kMediumSpeed);
+			}
+		else if (c == kRightArrowCharCode)
+			{
+				if (x)
+					*x = (-1.0f * kMediumSpeed);
+			}
+		else if (c == kUpArrowCharCode)
+			{
+				if (y)
+					*y = (1.0f * kMediumSpeed);
+			}
+		else if (c == kDownArrowCharCode)
+			{
+				if (y)
+					*y = (-1.0f * kMediumSpeed);
+			}
+		}
+#else
 #pragma unused (evt, param1, param2)
 	if (x)
 		*x = 0;
 	if (y)
 		*y = 0;
+#endif
 	}
 
 
@@ -526,7 +562,10 @@ static TQ3Status DoDollyToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject 
 	{
 	TQ3Point2D delta;
 	OSGetDelta (&delta.x, &delta.y, evt, param1, param2);
-	return DoDollyToolMove (theViewer, &delta);
+	if ((0 == delta.x) && (0 == delta.y))
+		return kQ3Failure;
+	else
+		return DoDollyToolMove (theViewer, &delta);
 	}
 
 
@@ -642,6 +681,9 @@ static TQ3Status DoTruckToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject 
 	{
 	float delta;
 	OSGetDelta (NULL, &delta, evt, param1, param2);
+	if (0 == delta)
+		return kQ3Failure;
+	else
 	return DoTruckToolMove (theViewer, delta);
 	}
 
@@ -811,6 +853,9 @@ static TQ3Status DoOrbitToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject 
 	{
 	TQ3Point2D delta;
 	OSGetDelta (&delta.x, &delta.y, evt, param1, param2);
+	if ((0 == delta.x) && (0 == delta.y))
+		return kQ3Failure;
+	else
 	return DoOrbitToolMove (theViewer, &delta);
 	}
 
@@ -939,6 +984,9 @@ static TQ3Status DoZoomToolKeyDown (TQ3ViewerObject theViewer, TQ3SharedObject _
 	{
 	float delta;
 	OSGetDelta (NULL, &delta, evt, param1, param2);
+	if (0 == delta)
+		return kQ3Failure;
+	else
 	return DoZoomToolMove (theViewer, delta);
 	}
 
