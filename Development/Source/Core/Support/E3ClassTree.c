@@ -61,6 +61,7 @@
 #include "E3Prefix.h"
 #include "E3ClassTree.h"
 #include "E3HashTable.h"
+#include "E3Set.h"
 
 #include <time.h>
 #include <stdio.h>
@@ -515,10 +516,11 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 	if ( classMetaHandler != NULL )
 		registerMethod = (TQ3XObjectRegisterMethod) classMetaHandler ( kQ3XMethodTypeNewObjectClass ) ;
 
-	for ( E3ClassInfoPtr theClass = theParent ; theClass != NULL ; theClass = theClass->theParent )
-		if ( theClass->classMetaHandler != NULL ) // Check the current class
-			if ( ( registerMethod = (TQ3XObjectRegisterMethod) theClass->classMetaHandler ( kQ3XMethodTypeNewObjectClass ) ) != NULL )
-				break ;
+	if ( registerMethod == NULL )
+		for ( E3ClassInfoPtr theClass = theParent ; theClass != NULL ; theClass = theClass->theParent )
+			if ( theClass->classMetaHandler != NULL ) // Check the current class
+				if ( ( registerMethod = (TQ3XObjectRegisterMethod) theClass->classMetaHandler ( kQ3XMethodTypeNewObjectClass ) ) != NULL )
+					break ;
 	
 	if ( registerMethod == NULL )
 		return kQ3Failure ;
@@ -741,11 +743,12 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
 			
 		// If the object is an element, it might have a copy add method
 		// which we call to initialise the object.
-		TQ3XElementCopyAddMethod copyAddMethod = (TQ3XElementCopyAddMethod) theClass->Find_Method (
-															  kQ3XMethodTypeElementCopyAdd,
-															  kQ3False ) ;
-		if ( copyAddMethod != NULL )
-			return copyAddMethod ( paramData, ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
+		TQ3XElementCopyAddMethod elementCopyAddMethod = NULL ;
+		if ( Q3_CLASS_INFO_IS_CLASS ( theClass , E3Element ) )
+			elementCopyAddMethod = ( (E3ElementInfo*) theClass )->elementCopyAddMethod ;
+			
+		if ( elementCopyAddMethod != NULL )
+			return elementCopyAddMethod ( paramData, ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
 			
 
 		// Otherwise if there was no new method, but there was parameter data, do a
@@ -857,10 +860,11 @@ OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr theClass )
 	if ( theClass->theParent != NULL )
 		parentInstanceSize = theClass->theParent->instanceSize ;
 
+	TQ3XElementDeleteMethod elementDeleteMethod = NULL ;
+	if ( Q3_CLASS_INFO_IS_CLASS ( theClass , E3Element ) )
+		elementDeleteMethod = ( (E3ElementInfo*) theClass )->elementDeleteMethod ;
+		
 	// Call the object's delete method
-	TQ3XElementDeleteMethod elementDeleteMethod = (TQ3XElementDeleteMethod) theClass->Find_Method (
-																			kQ3XMethodTypeElementDelete,
-																			kQ3False ) ;
 	if ( elementDeleteMethod != NULL )
 		{
 		OpaqueTQ3Object* thisPtr = this ; // So can be set to null in delete method
@@ -956,10 +960,11 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 			}
 		else
 			{
-			TQ3XElementCopyDuplicateMethod elementDuplicateMethod = (TQ3XElementCopyDuplicateMethod) theClass->Find_Method (
-																			kQ3XMethodTypeElementCopyDuplicate,
-																			kQ3False ) ;
-			if (elementDuplicateMethod != NULL)
+			TQ3XElementCopyDuplicateMethod elementDuplicateMethod = NULL ;
+			if ( Q3_CLASS_INFO_IS_CLASS ( theClass , E3Element ) )
+				elementDuplicateMethod = ( (E3ElementInfo*) theClass )->elementCopyDuplicateMethod ;
+
+			if ( elementDuplicateMethod != NULL )
 				{
 				TQ3Status qd3dStatus = elementDuplicateMethod ( (void*) ( (TQ3Uns8*) this + parentInstanceSize ) , (void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) ;
 				if ( qd3dStatus == kQ3Failure )

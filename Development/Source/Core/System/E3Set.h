@@ -67,8 +67,30 @@ extern "C" {
 
 
 
+class E3ElementInfo : public E3Root
+	{
+	const TQ3XElementCopyAddMethod			elementCopyAddMethod ;
+	const TQ3XElementCopyReplaceMethod		elementCopyReplaceMethod ;
+	const TQ3XElementCopyGetMethod			elementCopyGetMethod ;
+	const TQ3XElementCopyDuplicateMethod	elementCopyDuplicateMethod ;	
+	const TQ3XElementDeleteMethod			elementDeleteMethod ;
+		
+public :
+
+									E3ElementInfo	(
+													TQ3XMetaHandler	newClassMetaHandler,
+													E3ClassInfo*	newParent
+					 								) ; // constructor	
+	friend class E3Set ;
+	friend class OpaqueTQ3Object ;
+	} ;
+
+
+
+
 class E3Element : public OpaqueTQ3Object
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeElement, E3Element, OpaqueTQ3Object )
 
 	// There is no extra data for this class
 
@@ -79,6 +101,7 @@ public :
 
 class E3Attribute : public E3Element
 	{
+Q3_CLASS_ENUMS ( kQ3ElementTypeAttribute, E3Attribute, E3Element )
 
 	// There is no extra data for this class
 	
@@ -87,24 +110,72 @@ class E3Attribute : public E3Element
 	
 
 
+// Set attribute data
+typedef struct TQ3SetAttributes {
+	TQ3Vector3D			normal;
+	TQ3Switch			highlightState;
+	TQ3Tangent2D		surfaceTangent;
+	TQ3Param2D 			surfaceUV;
+	TQ3ColorRGB			diffuseColor;
+	float				ambientCoeficient;
+	TQ3ColorRGB			specularColor;
+	float				specularControl;
+	TQ3Param2D 			shadingUV;
+	TQ3SurfaceShaderObject surfaceShader;
+	TQ3ColorRGB			trasparencyColor;
+} TQ3SetAttributes;
+
+
+
+// Set instance data
+typedef struct TQ3SetData {
+	TQ3SetAttributes	attributes;			// Data for built-in attributes
+	E3HashTablePtr		theTable;			// Elements in set, keyed by type
+	TQ3Uns32			scanEditIndex;		// Set edit index while scanning
+	TQ3Uns32			scanCount;			// Size of scanResults
+	TQ3Uns32			scanIndex;			// Current index into scanResults
+	TQ3ElementType		*scanResults;		// Scan results
+	TQ3XAttributeMask	theMask;			// Attribute mask
+} TQ3SetData;
+
+
+
+class E3Set : public E3Shared
+	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeSet, E3Set, E3Shared )
+
+	TQ3SetData				setData ;
+
+public :
+
+
+	TQ3ElementObject		FindElement ( TQ3ElementType theType ) ;
+	TQ3ObjectType			GetType ( void ) ;
+	TQ3Status				Add ( TQ3ElementType theType, const void *data ) ;
+	TQ3Status				Get ( TQ3ElementType theType, void *data ) ;
+	TQ3Boolean				Contains ( TQ3ElementType theType ) ;
+	TQ3Status				Clear ( TQ3ElementType theType ) ;
+	TQ3Status				Empty ( void ) ;
+	TQ3Status				GetNextElementType ( TQ3ElementType *theType ) ;
+	TQ3Status				CopyElement ( TQ3ElementType theType, TQ3SetObject destSet ) ;
+	TQ3Status				SubmitElements ( TQ3ViewObject inView ) ;
+
+
+	friend TQ3Status E3AttributeSet_GetNextAttributeType ( TQ3AttributeSet theSet, TQ3AttributeType *theType ) ;
+	friend TQ3Status E3AttributeSet_Inherit ( TQ3AttributeSet parent, TQ3AttributeSet child, TQ3AttributeSet result ) ;
+	friend void * E3XAttributeSet_GetPointer ( TQ3AttributeSet attributeSet, TQ3AttributeType attributeType ) ;
+	friend TQ3XAttributeMask E3XAttributeSet_GetMask ( TQ3AttributeSet attributeSet ) ;
+	} ;
+
+
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-TQ3ElementObject	E3Set_FindElement(TQ3SetObject theSet, TQ3ElementType theType);
 
 TQ3Status			E3Set_RegisterClass(void);
 TQ3Status			E3Set_UnregisterClass(void);
 
 TQ3SetObject		E3Set_New(void);
-TQ3ObjectType		E3Set_GetType(TQ3SetObject theSet);
-TQ3Status			E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data);
-TQ3Status			E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data);
-TQ3Boolean			E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType);
-TQ3Status			E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType);
-TQ3Status			E3Set_Empty(TQ3SetObject theSet);
-TQ3Status			E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType);
-TQ3Status			E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject destSet );
-TQ3Status			E3Set_SubmitElements( TQ3SetObject inSet, TQ3ViewObject inView );
 
 TQ3Status			E3AttributeSet_GetNextAttributeType(TQ3AttributeSet theSet, TQ3AttributeType *theType);
 TQ3AttributeType	E3Attribute_ClassToAttributeType(TQ3ObjectType theType);
