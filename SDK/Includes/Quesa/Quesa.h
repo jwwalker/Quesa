@@ -41,28 +41,35 @@
 //      Note :  Since we normally use a fairly well defined set of compilers,
 //              we can attempt to determine the correct platform by magic.
 //-----------------------------------------------------------------------------
-// Mac OS
+#if !defined(QUESA_OS_MACINTOSH) && \
+	!defined(QUESA_OS_WIN32)     && \
+    !defined(QUESA_OS_UNIX)      && \
+    !defined(QUESA_OS_BE)        && \
+    !defined(QUESA_OS_COCOA)
 
-#if ((defined(__MWERKS__) && __dest_os == __mac_os && !(__INTEL__)) || defined(MPW_CPLUS) || defined(MPW_C))
-    #ifndef QUESA_OS_MACINTOSH
-        #define QUESA_OS_MACINTOSH              		1
-    #endif
-#endif
-
-
-// Windows
-#if (defined(_MSC_VER) || (defined(__MWERKS__) && __INTEL__))
-    #ifndef QUESA_OS_WIN32
-        #define QUESA_OS_WIN32                  		1
-    #endif
-#endif
+	// Mac OS
+	#if ((defined(__MWERKS__) && __dest_os == __mac_os) || defined(MPW_CPLUS) || defined(MPW_C))
+	    #ifndef QUESA_OS_MACINTOSH
+	        #define QUESA_OS_MACINTOSH              		1
+	    #endif
+	#endif
 
 
-// Be
-#if ((defined(__be_os) && (__dest_os == __be_os)))
-    #ifndef QUESA_OS_BE
-        #define QUESA_OS_BE                     		1
-    #endif
+	// Windows
+	#if (defined(_MSC_VER) || (defined(__MWERKS__) && __INTEL__))
+	    #ifndef QUESA_OS_WIN32
+	        #define QUESA_OS_WIN32                  		1
+	    #endif
+	#endif
+
+
+	// Be
+	#if ((defined(__be_os) && (__dest_os == __be_os)))
+	    #ifndef QUESA_OS_BE
+	        #define QUESA_OS_BE                     		1
+	    #endif
+	#endif
+
 #endif
 
 
