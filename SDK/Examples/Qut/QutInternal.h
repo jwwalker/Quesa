@@ -74,6 +74,7 @@ extern qutFuncAppMenuSelect		gAppMenuSelect;
 extern qutFuncAppRenderPre		gFuncAppRenderPre;
 extern qutFuncAppRender			gFuncAppRender;
 extern qutFuncAppRenderPost		gFuncAppRenderPost;
+extern qutFuncAppMouseDown		gFuncAppMouseDown;
 extern qutFuncAppMouseTrack		gFuncAppMouseTrack;
 
 

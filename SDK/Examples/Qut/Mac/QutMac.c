@@ -184,27 +184,42 @@ qut_carbon_window_event(EventHandlerCallRef inHandlerCallRef,
           }
         }
       case kEventWindowClickContentRgn: {
-      Point mousePoint, lastMouse;
-      TQ3Point2D mouseDiff;
-      MouseTrackingResult result;
+		TQ3Point2D				q3MousePoint, q3MouseDiff;
+		Point					mousePoint, lastMouse;
+		MouseTrackingResult		result;
 
-      err = GetEventParameter(inEvent,kEventParamMouseLocation,
-                        typeQDPoint, NULL, sizeof(Point),NULL, &mousePoint);
-      if (gFuncAppMouseTrack != NULL)
-          {
+
+		// Grab the event data
+		err = GetEventParameter(inEvent,kEventParamMouseLocation,
+        	                typeQDPoint, NULL, sizeof(Point),NULL, &mousePoint);
+
+
+		// If we have a mouse down handler, call it
+		if (gFuncAppMouseDown != NULL)
+			{
+			q3MousePoint.x = (float) mousePoint.h;
+			q3MousePoint.y = (float) mousePoint.v;
+			
+			gFuncAppMouseDown(gView, q3MousePoint);
+			}
+
+
+		// If we have a mouse track handler, call it
+		if (gFuncAppMouseTrack != NULL)
+			{
               lastMouse = mousePoint;
               err = TrackMouseLocation(GetWindowPort(gWindow),&mousePoint,&result);
               while (!err && (result != kMouseTrackingMouseReleased))
               {
-                mouseDiff.x = (float) (mousePoint.h - lastMouse.h);
-                mouseDiff.y = (float) (mousePoint.v - lastMouse.v);
+                q3MouseDiff.x = (float) (mousePoint.h - lastMouse.h);
+                q3MouseDiff.y = (float) (mousePoint.v - lastMouse.v);
   
-                gFuncAppMouseTrack(gView, mouseDiff);
+                gFuncAppMouseTrack(gView, q3MouseDiff);
                 Qut_RenderFrame();
                 lastMouse = mousePoint;
                 err = TrackMouseLocation(GetWindowPort(gWindow),&mousePoint,&result);
-            }
-          }
+			}
+		}
       
       }
         break;
@@ -715,11 +730,11 @@ qut_mainloop(void)
 	// Classic WNE event loop
 	Rect					dragRect = { -32767, -32767, 32767, 32767 };
 	Rect					growRect = { kWindowMinSize, kWindowMinSize, kWindowMaxSize, kWindowMaxSize };
+	TQ3Point2D				q3MousePoint, q3MouseDiff;
 	Point					lastMouse, theMouse;
 	TQ3DrawContextObject	theDrawContext;
 	UInt32					windowSize;
 	WindowPtr				theWindow;
-	TQ3Point2D				mouseDiff;
 	EventRecord				theEvent;
 	SInt16					partCode;
 	Str255					theStr;
@@ -787,16 +802,30 @@ qut_mainloop(void)
 							break;
 					
 						case inContent:
+							// Grab the mouse
+							GetMouse(&lastMouse);
+
+
+							// If we have a mouse down handler, call it
+							if (gFuncAppMouseDown != NULL)
+								{
+								q3MousePoint.x = (float) lastMouse.h;
+								q3MousePoint.y = (float) lastMouse.v;
+			
+								gFuncAppMouseDown(gView, q3MousePoint);
+								}
+							
+							
+							// If we have a mouse track handler, call it
 							if (gFuncAppMouseTrack != NULL)
 								{
-								GetMouse(&lastMouse);
 								while (StillDown())
 									{
 									GetMouse(&theMouse);
-									mouseDiff.x = (float) (theMouse.h - lastMouse.h);
-									mouseDiff.y = (float) (theMouse.v - lastMouse.v);
+									q3MouseDiff.x = (float) (theMouse.h - lastMouse.h);
+									q3MouseDiff.y = (float) (theMouse.v - lastMouse.v);
 
-									gFuncAppMouseTrack(gView, mouseDiff);
+									gFuncAppMouseTrack(gView, q3MouseDiff);
 									Qut_RenderFrame();
 
 									lastMouse = theMouse;

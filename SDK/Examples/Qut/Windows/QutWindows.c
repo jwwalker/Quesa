@@ -1,673 +1,1349 @@
 /*  NAME:
-        QutWindows.c
 
-    DESCRIPTION:
-        Quesa Utility Toolkit - Windows.
+        QutWindows.c
 
-    COPYRIGHT:
-        Quesa Copyright © 1999-2000, Quesa Developers.
-        
-        For the list of Quesa Developers, and contact details, see:
-        
-            Documentation/contributors.html
 
-        For the current version of Quesa, see:
 
-        	<http://www.quesa.org/>
+    DESCRIPTION:
 
-		This library is free software; you can redistribute it and/or
-		modify it under the terms of the GNU Lesser General Public
-		License as published by the Free Software Foundation; either
-		version 2 of the License, or (at your option) any later version.
+        Quesa Utility Toolkit - Windows.
 
-		This library is distributed in the hope that it will be useful,
-		but WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-		Lesser General Public License for more details.
 
-		You should have received a copy of the GNU Lesser General Public
-		License along with this library; if not, write to the Free Software
-		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-    ___________________________________________________________________________
-*/
-//=============================================================================
-//      Include files
-//-----------------------------------------------------------------------------
-#include "Qut.h"
-#include "QutInternal.h"
 
-#include "QuesaStorage.h"
+    COPYRIGHT:
 
-#include "resource.h"
+        Quesa Copyright © 1999-2000, Quesa Developers.
 
+        
 
+        For the list of Quesa Developers, and contact details, see:
 
+        
 
+            Documentation/contributors.html
 
-//=============================================================================
-//      Internal constants
-//-----------------------------------------------------------------------------
-#define kQutWindowClass									"Qut"
-#define kQutTimer										2
 
-#define kMenuRenderer									1
-#define kMenuSpecial									2
 
-#define kMenuRendererOffset								600
-#define kMenuSpecialOffset								700
+        For the current version of Quesa, see:
 
 
 
+        	<http://www.quesa.org/>
 
 
-//=============================================================================
-//      Internal globals
-//-----------------------------------------------------------------------------
-HINSTANCE				gInstance    = NULL;
-HDC						gDC          = NULL;
-UINT                    gTimer       = 0;
-BOOL					gMouseDown   = FALSE;
-BOOL					gSpecialMenu = FALSE;
-TQ3Point2D				gLastMouse   = {0.0f, 0.0f};
 
+		This library is free software; you can redistribute it and/or
 
+		modify it under the terms of the GNU Lesser General Public
 
+		License as published by the Free Software Foundation; either
 
+		version 2 of the License, or (at your option) any later version.
 
-//=============================================================================
-//		Internal functions.
-//-----------------------------------------------------------------------------
-//		qut_build_renderer_menu : Build the renderer menu.
-//-----------------------------------------------------------------------------
-static void
-qut_build_renderer_menu(void)
-{	TCHAR				theName[1024];
-	TQ3SubClassData		rendererData;
-	TQ3Status			qd3dStatus;
-	HMENU				theMenu;
-	TQ3Uns32			n, m;
 
 
+		This library is distributed in the hope that it will be useful,
 
-	// Get the renderer menu
-	theMenu = GetMenu(gWindow);
-	theMenu = GetSubMenu(theMenu, kMenuRenderer);
-	if (theMenu == NULL)
-		return;
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
 
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 
+		Lesser General Public License for more details.
 
-	// Collect the renderers which are available
-	qd3dStatus = Q3ObjectHierarchy_GetSubClassData(kQ3SharedTypeRenderer, &rendererData);
-	if (qd3dStatus != kQ3Success)
-		return;
 
 
+		You should have received a copy of the GNU Lesser General Public
 
-	// If we can find any renderers, add them to the menu
-	if (rendererData.numClasses != 0)
-		{
-		// First slot is a dummy
-		gRenderers[0] = kQ3ObjectTypeInvalid;
-		m = 1;
-		
-		
-		// Fill the remaining slots
-		for (n = 0; n < rendererData.numClasses; n++)
-			{
-			// Skip the generic renderer, since it can't actually render
-			if (rendererData.classTypes[n] != kQ3RendererTypeGeneric)
-				{
-				// Grab the nick name, falling back to the class name if that fails
-				qd3dStatus = Q3RendererClass_GetNickNameString(rendererData.classTypes[n], theName);
-				if (qd3dStatus == kQ3Failure || theName[0] == 0x00)
-					qd3dStatus = Q3ObjectHierarchy_GetStringFromType(rendererData.classTypes[n], theName);
+		License along with this library; if not, write to the Free Software
 
+		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-				// Add the menu item and save the type
-				if (qd3dStatus == kQ3Success)
-					{
-					AppendMenu(theMenu, MF_STRING, kMenuRendererOffset + m, theName);
-					gRenderers[m++] = rendererData.classTypes[n];
-					}
-				}
-			}
-		}
+    ___________________________________________________________________________
 
+*/
 
+//=============================================================================
 
-	// Clean up
-	Q3ObjectHierarchy_EmptySubClassData(&rendererData);
-}
+//      Include files
 
+//-----------------------------------------------------------------------------
 
+#include "Qut.h"
 
+#include "QutInternal.h"
 
 
-//=============================================================================
-//      qut_get_window_size : Get the size of a window.
-//-----------------------------------------------------------------------------
-static void
-qut_get_window_size(HWND theWnd, TQ3Area *theArea)
-{	RECT		theRect;
 
+#include "QuesaStorage.h"
 
 
-	// Get the size of the window
-	GetClientRect(theWnd, &theRect);
 
-	theArea->min.x = (float) theRect.left;
-	theArea->min.y = (float) theRect.top;
-	theArea->max.x = (float) theRect.right;
-	theArea->max.y = (float) theRect.bottom;
-}
+#include "resource.h"
 
 
 
 
 
-//=============================================================================
-//      qut_about_proc : About box message handler.
-//-----------------------------------------------------------------------------
-static LRESULT CALLBACK
-qut_about_proc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
 
 
-	// Handle the message
-	switch (message) {
-		case WM_INITDIALOG:
-			return(TRUE);
 
-		case WM_COMMAND:
-			if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) 
-				{
-				EndDialog(hDlg, LOWORD(wParam));
-				return(TRUE);
-				}
-			break;
-		}
 
-    return(FALSE);
-}
 
 
+//=============================================================================
 
+//      Internal constants
 
+//-----------------------------------------------------------------------------
 
-//=============================================================================
-//      qut_wnd_proc : Window message handler.
-//-----------------------------------------------------------------------------
-static LRESULT CALLBACK
-qut_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{	TQ3Point2D				mouseDiff, theMouse;
-	TQ3DrawContextObject	theDrawContext;
-	int						wmId, wmEvent;
-	TQ3Area					thePane;
-	PAINTSTRUCT				ps;
+#define kQutWindowClass									"Qut"
 
+#define kQutTimer										2
 
 
-	// Handle the message
-	switch (message) {
-		case WM_COMMAND:
-			// Handle menu selections
-			wmId    = LOWORD(wParam); 
-			wmEvent = HIWORD(wParam); 
 
-			switch (wmId) {
-				case IDM_ABOUT:
-				   DialogBox(gInstance, (LPCTSTR) IDD_ABOUTBOX, hWnd, (DLGPROC) qut_about_proc);
-				   break;
+#define kMenuRenderer									1
 
-				case IDM_EXIT:
-				   DestroyWindow(hWnd);
-				   break;
+#define kMenuSpecial									2
 
-				default:
-					if (wmId >= kMenuSpecialOffset)
-						{
-						// If the app has a callback, call it
-						if (gAppMenuSelect != NULL)
-							gAppMenuSelect(gView, wmId - kMenuSpecialOffset - 1);
-						}
 
-					else if (wmId >= kMenuRendererOffset)
-						Q3View_SetRendererByType(gView, gRenderers[wmId - kMenuRendererOffset]);
 
-					else
-						return(DefWindowProc(hWnd, message, wParam, lParam));
-				}
-			break;
+#define kMenuRendererOffset								600
 
+#define kMenuSpecialOffset								700
 
-		case WM_PAINT:
-			BeginPaint(hWnd, &ps);
-			Qut_RenderFrame();
-			EndPaint(hWnd, &ps);
-			break;
 
 
-		case WM_DESTROY:
-			PostQuitMessage(0);
-			break;
 
 
-		case WM_TIMER:
-			Qut_RenderFrame();
-			break;
 
 
-		case WM_SIZE:
-			qut_get_window_size((HWND) gWindow, &thePane);
-			
-			Q3View_GetDrawContext(gView, &theDrawContext);
-			if (theDrawContext != NULL)
-				{
-				Q3DrawContext_SetPane(theDrawContext, &thePane);
-				Q3Object_Dispose(theDrawContext);
-				}
-			break;
 
 
-		case WM_LBUTTONDOWN:
-			gLastMouse.x = (float) LOWORD(lParam);
-			gLastMouse.y = (float) HIWORD(lParam);
-			gMouseDown   = TRUE;
-			break;
 
 
-		case WM_LBUTTONUP:
-			gMouseDown = FALSE;
-			break;
+//=============================================================================
 
+//      Internal globals
 
-		case WM_MOUSEMOVE:
-			if (gFuncAppMouseTrack != NULL && gMouseDown)
-				{
-				theMouse.x = (float) LOWORD(lParam);
-				theMouse.y = (float) HIWORD(lParam);
-			
-				mouseDiff.x = theMouse.x - gLastMouse.x;
-				mouseDiff.y = theMouse.y - gLastMouse.y;
+//-----------------------------------------------------------------------------
 
-				gFuncAppMouseTrack(gView, mouseDiff);
-				Qut_RenderFrame();
+HINSTANCE				gInstance    = NULL;
 
-				gLastMouse = theMouse;
-				}
-			break;
+HDC						gDC          = NULL;
 
+UINT                    gTimer       = 0;
 
-		default:
-			return(DefWindowProc(hWnd, message, wParam, lParam));
-	   }
+BOOL					gMouseDown   = FALSE;
 
-	return(0);
-}
+BOOL					gSpecialMenu = FALSE;
 
+TQ3Point2D				gLastMouse   = {0.0f, 0.0f};
 
 
 
 
-//=============================================================================
-//      qut_register_class : Register the window class.
-//-----------------------------------------------------------------------------
-static ATOM
-qut_register_class(void)
-{	WNDCLASSEX wcex;
 
 
 
-	// Register the window
-	wcex.cbSize        = sizeof(WNDCLASSEX); 
-	wcex.style         = CS_OWNDC;
-	wcex.lpfnWndProc   = (WNDPROC) qut_wnd_proc;
-	wcex.cbClsExtra    = 0;
-	wcex.cbWndExtra    = 0;
-	wcex.hInstance     = gInstance;
-	wcex.hIcon         = LoadIcon(NULL, IDI_WINLOGO);
-	wcex.hCursor       = LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground = NULL;
-	wcex.lpszMenuName  = (LPCSTR) IDC_QUT;
-	wcex.lpszClassName = kQutWindowClass;
-	wcex.hIconSm       = NULL;
 
-	return(RegisterClassEx(&wcex));
-}
 
 
 
+//=============================================================================
 
+//		Internal functions.
 
-//=============================================================================
-//      qut_initialize : Initialise the application.
-//-----------------------------------------------------------------------------
-static BOOL
-qut_initialize(int nCmdShow)
-{	TQ3Status		qd3dStatus;
+//-----------------------------------------------------------------------------
 
+//		qut_build_renderer_menu : Build the renderer menu.
 
+//-----------------------------------------------------------------------------
 
-	// Initialise ourselves
-	qd3dStatus = Q3Initialize();
-	if (qd3dStatus != kQ3Success)
-		return(FALSE);
+static void
 
-	App_Initialise();
+qut_build_renderer_menu(void)
 
-	if (gWindow == NULL)
-		return(FALSE);
+{	TCHAR				theName[1024];
 
+	TQ3SubClassData		rendererData;
 
+	TQ3Status			qd3dStatus;
 
-	// Build the renderer menu
-	qut_build_renderer_menu();
+	HMENU				theMenu;
 
+	TQ3Uns32			n, m;
 
 
-	// Show the window and start the timer
-	ShowWindow((HWND) gWindow, nCmdShow);
 
-	gTimer = SetTimer(gWindow, WM_TIMER, kQutTimer, NULL);
 
 
 
-	// Adjust the menu bar
-	RemoveMenu(GetSubMenu(GetMenu(gWindow), kMenuRenderer), 0, MF_BYPOSITION);
-	RemoveMenu(GetSubMenu(GetMenu(gWindow), kMenuSpecial),  0, MF_BYPOSITION);
 
-	if (!gSpecialMenu)
-		RemoveMenu(GetMenu(gWindow), kMenuSpecial, MF_BYPOSITION);
+	// Get the renderer menu
 
-	DrawMenuBar(gWindow);
+	theMenu = GetMenu(gWindow);
 
-	return(TRUE);
-}
+	theMenu = GetSubMenu(theMenu, kMenuRenderer);
 
+	if (theMenu == NULL)
 
+		return;
 
 
 
-//=============================================================================
-//      qut_terminate : Terminate ourselves.
-//-----------------------------------------------------------------------------
-static void
-qut_terminate(void)
-{	TQ3Status		qd3dStatus;
 
 
 
-	// Clean up
-	if (gView != NULL)
-		Q3Object_Dispose(gView);
 
-	if (gDC != NULL)
-		ReleaseDC((HWND) gWindow, gDC);
+	// Collect the renderers which are available
 
-	KillTimer(gWindow, gTimer);
+	qd3dStatus = Q3ObjectHierarchy_GetSubClassData(kQ3SharedTypeRenderer, &rendererData);
 
-    DestroyWindow((HWND) gWindow);
+	if (qd3dStatus != kQ3Success)
 
+		return;
 
 
-	// Terminate Quesa
-	qd3dStatus = Q3Exit();
-}
 
 
 
 
 
-//=============================================================================
-//		Public functions.
-//-----------------------------------------------------------------------------
-//      Qut_CreateWindow : Create the window.
-//-----------------------------------------------------------------------------
-#pragma mark -
-void
-Qut_CreateWindow(const char		*windowTitle,
-					TQ3Uns32	theWidth,
-					TQ3Uns32	theHeight,
-					TQ3Boolean	canResize)
-{
+	// If we can find any renderers, add them to the menu
 
+	if (rendererData.numClasses != 0)
 
-	// Create the window
-	gWindow = (void *) CreateWindow(kQutWindowClass, windowTitle,
-									WS_OVERLAPPEDWINDOW |
-									WS_CLIPCHILDREN     |
-									WS_CLIPSIBLINGS,
-									30, 30, theWidth, theHeight,
-									NULL, NULL, gInstance, NULL);
+		{
 
+		// First slot is a dummy
 
+		gRenderers[0] = kQ3ObjectTypeInvalid;
 
-	// Save the window details
-	gWindowCanResize = canResize;
-}
+		m = 1;
 
+		
 
+		
 
+		// Fill the remaining slots
 
+		for (n = 0; n < rendererData.numClasses; n++)
 
-//=============================================================================
-//		Qut_CreateDrawContext : Create the draw context.
-//-----------------------------------------------------------------------------
-TQ3DrawContextObject
-Qut_CreateDrawContext(void)
-{	TQ3Win32DCDrawContextData	winDrawContextData;
-	TQ3Boolean					resetDrawContext;
-	TQ3DrawContextObject		theDrawContext;
-	TQ3Status					qd3dStatus;
+			{
 
+			// Skip the generic renderer, since it can't actually render
 
+			if (rendererData.classTypes[n] != kQ3RendererTypeGeneric)
 
-	// Get the DC
-	gDC = GetDC((HWND) gWindow);
+				{
 
+				// Grab the nick name, falling back to the class name if that fails
 
+				qd3dStatus = Q3RendererClass_GetNickNameString(rendererData.classTypes[n], theName);
 
-	// See if we've got an existing draw context we can reuse. If we
-	// do, we grab as much of its state data as we can - this means we
-	// wil preserve any changes made by the app's view-configure method.
-	resetDrawContext = kQ3True;
-	if (gView != NULL)
-		{
-		qd3dStatus = Q3View_GetDrawContext(gView, &theDrawContext);
-		if (qd3dStatus == kQ3Success)
-			{
-			resetDrawContext = kQ3False;
-			Q3DrawContext_GetData(theDrawContext, &winDrawContextData.drawContextData);
-			Q3Object_Dispose(theDrawContext);
-			}
-		}
+				if (qd3dStatus == kQ3Failure || theName[0] == 0x00)
 
+					qd3dStatus = Q3ObjectHierarchy_GetStringFromType(rendererData.classTypes[n], theName);
 
 
-	// Reset the draw context data if required
-	if (resetDrawContext)
-		{
-		// Fill in the draw context data
-		winDrawContextData.drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
-		winDrawContextData.drawContextData.clearImageColor.a = 0.0f;
-		winDrawContextData.drawContextData.clearImageColor.r = 1.0f;
-		winDrawContextData.drawContextData.clearImageColor.g = 1.0f;
-		winDrawContextData.drawContextData.clearImageColor.b = 1.0f;
-		winDrawContextData.drawContextData.paneState         = kQ3True;
-		winDrawContextData.drawContextData.maskState		 = kQ3False;	
-		winDrawContextData.drawContextData.doubleBufferState = kQ3True;
-		}
 
 
 
-	// Reset the fields which are always updated
-	qut_get_window_size((HWND) gWindow, &winDrawContextData.drawContextData.pane);
-	winDrawContextData.hdc = gDC;
+				// Add the menu item and save the type
 
+				if (qd3dStatus == kQ3Success)
 
+					{
 
-	// Create the draw context object
-	theDrawContext = Q3Win32DCDrawContext_New(&winDrawContextData);
-	return(theDrawContext);
-}
+					AppendMenu(theMenu, MF_STRING, kMenuRendererOffset + m, theName);
 
+					gRenderers[m++] = rendererData.classTypes[n];
 
+					}
 
+				}
 
+			}
 
-//=============================================================================
-//		Qut_SelectMetafile : Select a metafile.
-//-----------------------------------------------------------------------------
-TQ3StorageObject
-Qut_SelectMetafile(void)
-{	char				typeFilter[MAX_PATH] = "All Files (*.*)\0*.*\0"
-											   "\0\0";
-    char            	thePath[MAX_PATH]    = "";
-	BOOL				selectedFile;
-	TQ3StorageObject	theStorage;
-    OPENFILENAME    	openFile;
+		}
 
 
 
-	// Prompt the user for a file
-	memset(&openFile, 0x00, sizeof(openFile));
-	openFile.lStructSize       = sizeof(openFile);
-    openFile.hwndOwner         = NULL;
-    openFile.hInstance         = gInstance;
-    openFile.lpstrFilter       = typeFilter;
-    openFile.nFilterIndex      = 1;
-    openFile.lpstrFile         = thePath;
-    openFile.nMaxFile          = sizeof(thePath) - 1;
-    openFile.lpstrInitialDir   = "..\\Support Files\\Models\\3DMF\\";
-    openFile.lpstrTitle        = "Select a Model";
-    openFile.Flags             = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST |
-                                 OFN_LONGNAMES     | OFN_HIDEREADONLY;
 
-	selectedFile = GetOpenFileName(&openFile);
-	if (!selectedFile)
-		return(NULL);
 
 
 
-	// Create a storage object for the file
-	theStorage = Q3PathStorage_New(thePath);
-	return(theStorage);
-}
+	// Clean up
 
+	Q3ObjectHierarchy_EmptySubClassData(&rendererData);
 
+}
 
 
 
-//=============================================================================
-//		Qut_SelectPictureFile : Select a picture file.
-//-----------------------------------------------------------------------------
-TQ3Status
-Qut_SelectPictureFile(void *theFile, TQ3Uns32 fileLen)
-{
 
-	// To be implemented...
-	return(kQ3Failure);
-}
 
 
 
 
 
-//=============================================================================
-//      Qut_CreateMenu : Create the Special menu.
-//-----------------------------------------------------------------------------
-void
-Qut_CreateMenu(qutFuncAppMenuSelect appMenuSelect)
-{
 
 
-	// Set the flag and the callback
-    gSpecialMenu   = TRUE;
-	gAppMenuSelect = appMenuSelect;
-}
+//=============================================================================
 
+//      qut_get_window_size : Get the size of a window.
 
+//-----------------------------------------------------------------------------
 
+static void
 
+qut_get_window_size(HWND theWnd, TQ3Area *theArea)
 
-//=============================================================================
-//      Qut_CreateMenuItem : Create a menu item.
-//-----------------------------------------------------------------------------
-void
-Qut_CreateMenuItem(TQ3Uns32 itemNum, char *itemText)
-{	TQ3Uns32	numItems, finalItemNum;
-	HMENU		theMenu;
+{	RECT		theRect;
 
 
 
-	// Get the special menu
-	theMenu = GetMenu(gWindow);
-	theMenu = GetSubMenu(theMenu, kMenuSpecial);
-	if (theMenu == NULL)
-		return;
 
 
 
-	// Work out where the item is going to be
-	numItems = GetMenuItemCount(theMenu);
-	if (itemNum == 0)
-		finalItemNum = 1;
-	else if (itemNum > numItems)
-		finalItemNum = numItems + 1;
-	else
-		finalItemNum = itemNum;
 
+	// Get the size of the window
 
+	GetClientRect(theWnd, &theRect);
 
-	// Insert the item
-	if (strcmp(itemText, kMenuItemDivider) == 0)
-		AppendMenu(theMenu, MF_SEPARATOR, kMenuSpecialOffset + finalItemNum, NULL);
-	else
-		AppendMenu(theMenu, MF_STRING,    kMenuSpecialOffset + finalItemNum, itemText);
-}
 
 
+	theArea->min.x = (float) theRect.left;
 
+	theArea->min.y = (float) theRect.top;
 
+	theArea->max.x = (float) theRect.right;
 
-//=============================================================================
-//      WinMain : App entry point.
-//-----------------------------------------------------------------------------
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{	HACCEL	hAccelTable;
-	MSG		theMsg;
+	theArea->max.y = (float) theRect.bottom;
 
+}
 
 
-	// Initialise ourselves
-	gInstance = hInstance;
-	qut_register_class();
 
-	if (!qut_initialize(nCmdShow)) 
-		return(FALSE);
 
-	hAccelTable = LoadAccelerators(gInstance, (LPCTSTR)IDC_QUT);
 
 
 
-	// Run the app
-	while (GetMessage(&theMsg, NULL, 0, 0))
-		{
-		if (!TranslateAccelerator(theMsg.hwnd, hAccelTable, &theMsg)) 
-			{
-			TranslateMessage(&theMsg);
-			DispatchMessage(&theMsg);
-			}
-		}
 
 
 
-	// Clean up
-	App_Terminate();
-	qut_terminate();
 
-	return(theMsg.wParam);
-}
+//=============================================================================
 
-
+//      qut_about_proc : About box message handler.
+
+//-----------------------------------------------------------------------------
+
+static LRESULT CALLBACK
+
+qut_about_proc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+
+{
+
+
+
+
+
+	// Handle the message
+
+	switch (message) {
+
+		case WM_INITDIALOG:
+
+			return(TRUE);
+
+
+
+		case WM_COMMAND:
+
+			if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) 
+
+				{
+
+				EndDialog(hDlg, LOWORD(wParam));
+
+				return(TRUE);
+
+				}
+
+			break;
+
+		}
+
+
+
+    return(FALSE);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//      qut_wnd_proc : Window message handler.
+
+//-----------------------------------------------------------------------------
+
+static LRESULT CALLBACK
+
+qut_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+
+{	TQ3Point2D				mouseDiff, theMouse;
+
+	TQ3DrawContextObject	theDrawContext;
+
+	int						wmId, wmEvent;
+
+	TQ3Area					thePane;
+
+	PAINTSTRUCT				ps;
+
+
+
+
+
+
+
+	// Handle the message
+
+	switch (message) {
+
+		case WM_COMMAND:
+
+			// Handle menu selections
+
+			wmId    = LOWORD(wParam); 
+
+			wmEvent = HIWORD(wParam); 
+
+
+
+			switch (wmId) {
+
+				case IDM_ABOUT:
+
+				   DialogBox(gInstance, (LPCTSTR) IDD_ABOUTBOX, hWnd, (DLGPROC) qut_about_proc);
+
+				   break;
+
+
+
+				case IDM_EXIT:
+
+				   DestroyWindow(hWnd);
+
+				   break;
+
+
+
+				default:
+
+					if (wmId >= kMenuSpecialOffset)
+
+						{
+
+						// If the app has a callback, call it
+
+						if (gAppMenuSelect != NULL)
+
+							gAppMenuSelect(gView, wmId - kMenuSpecialOffset - 1);
+
+						}
+
+
+
+					else if (wmId >= kMenuRendererOffset)
+
+						Q3View_SetRendererByType(gView, gRenderers[wmId - kMenuRendererOffset]);
+
+
+
+					else
+
+						return(DefWindowProc(hWnd, message, wParam, lParam));
+
+				}
+
+			break;
+
+
+
+
+
+		case WM_PAINT:
+
+			BeginPaint(hWnd, &ps);
+
+			Qut_RenderFrame();
+
+			EndPaint(hWnd, &ps);
+
+			break;
+
+
+
+
+
+		case WM_DESTROY:
+
+			PostQuitMessage(0);
+
+			break;
+
+
+
+
+
+		case WM_TIMER:
+
+			Qut_RenderFrame();
+
+			break;
+
+
+
+
+
+		case WM_SIZE:
+
+			qut_get_window_size((HWND) gWindow, &thePane);
+
+			
+
+			Q3View_GetDrawContext(gView, &theDrawContext);
+
+			if (theDrawContext != NULL)
+
+				{
+
+				Q3DrawContext_SetPane(theDrawContext, &thePane);
+
+				Q3Object_Dispose(theDrawContext);
+
+				}
+
+			break;
+
+
+
+
+
+		case WM_LBUTTONDOWN:
+			// Grab the mouse
+
+			gLastMouse.x = (float) LOWORD(lParam);
+
+			gLastMouse.y = (float) HIWORD(lParam);
+
+			gMouseDown   = TRUE;
+
+
+			// If we have a mouse down callback, call it
+			if (gFuncAppMouseDown != NULL)
+				gFuncAppMouseDown(gView, gLastMouse);
+			break;
+
+
+
+
+
+		case WM_LBUTTONUP:
+
+			gMouseDown = FALSE;
+
+			break;
+
+
+
+
+
+		case WM_MOUSEMOVE:
+
+			if (gFuncAppMouseTrack != NULL && gMouseDown)
+
+				{
+
+				theMouse.x = (float) LOWORD(lParam);
+
+				theMouse.y = (float) HIWORD(lParam);
+
+			
+
+				mouseDiff.x = theMouse.x - gLastMouse.x;
+
+				mouseDiff.y = theMouse.y - gLastMouse.y;
+
+
+
+				gFuncAppMouseTrack(gView, mouseDiff);
+
+				Qut_RenderFrame();
+
+
+
+				gLastMouse = theMouse;
+
+				}
+
+			break;
+
+
+
+
+
+		default:
+
+			return(DefWindowProc(hWnd, message, wParam, lParam));
+
+	   }
+
+
+
+	return(0);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//      qut_register_class : Register the window class.
+
+//-----------------------------------------------------------------------------
+
+static ATOM
+
+qut_register_class(void)
+
+{	WNDCLASSEX wcex;
+
+
+
+
+
+
+
+	// Register the window
+
+	wcex.cbSize        = sizeof(WNDCLASSEX); 
+
+	wcex.style         = CS_OWNDC;
+
+	wcex.lpfnWndProc   = (WNDPROC) qut_wnd_proc;
+
+	wcex.cbClsExtra    = 0;
+
+	wcex.cbWndExtra    = 0;
+
+	wcex.hInstance     = gInstance;
+
+	wcex.hIcon         = LoadIcon(NULL, IDI_WINLOGO);
+
+	wcex.hCursor       = LoadCursor(NULL, IDC_ARROW);
+
+	wcex.hbrBackground = NULL;
+
+	wcex.lpszMenuName  = (LPCSTR) IDC_QUT;
+
+	wcex.lpszClassName = kQutWindowClass;
+
+	wcex.hIconSm       = NULL;
+
+
+
+	return(RegisterClassEx(&wcex));
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//      qut_initialize : Initialise the application.
+
+//-----------------------------------------------------------------------------
+
+static BOOL
+
+qut_initialize(int nCmdShow)
+
+{	TQ3Status		qd3dStatus;
+
+
+
+
+
+
+
+	// Initialise ourselves
+
+	qd3dStatus = Q3Initialize();
+
+	if (qd3dStatus != kQ3Success)
+
+		return(FALSE);
+
+
+
+	App_Initialise();
+
+
+
+	if (gWindow == NULL)
+
+		return(FALSE);
+
+
+
+
+
+
+
+	// Build the renderer menu
+
+	qut_build_renderer_menu();
+
+
+
+
+
+
+
+	// Show the window and start the timer
+
+	ShowWindow((HWND) gWindow, nCmdShow);
+
+
+
+	gTimer = SetTimer(gWindow, WM_TIMER, kQutTimer, NULL);
+
+
+
+
+
+
+
+	// Adjust the menu bar
+
+	RemoveMenu(GetSubMenu(GetMenu(gWindow), kMenuRenderer), 0, MF_BYPOSITION);
+
+	RemoveMenu(GetSubMenu(GetMenu(gWindow), kMenuSpecial),  0, MF_BYPOSITION);
+
+
+
+	if (!gSpecialMenu)
+
+		RemoveMenu(GetMenu(gWindow), kMenuSpecial, MF_BYPOSITION);
+
+
+
+	DrawMenuBar(gWindow);
+
+
+
+	return(TRUE);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//      qut_terminate : Terminate ourselves.
+
+//-----------------------------------------------------------------------------
+
+static void
+
+qut_terminate(void)
+
+{	TQ3Status		qd3dStatus;
+
+
+
+
+
+
+
+	// Clean up
+
+	if (gView != NULL)
+
+		Q3Object_Dispose(gView);
+
+
+
+	if (gDC != NULL)
+
+		ReleaseDC((HWND) gWindow, gDC);
+
+
+
+	KillTimer(gWindow, gTimer);
+
+
+
+    DestroyWindow((HWND) gWindow);
+
+
+
+
+
+
+
+	// Terminate Quesa
+
+	qd3dStatus = Q3Exit();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//		Public functions.
+
+//-----------------------------------------------------------------------------
+
+//      Qut_CreateWindow : Create the window.
+
+//-----------------------------------------------------------------------------
+
+#pragma mark -
+
+void
+
+Qut_CreateWindow(const char		*windowTitle,
+
+					TQ3Uns32	theWidth,
+
+					TQ3Uns32	theHeight,
+
+					TQ3Boolean	canResize)
+
+{
+
+
+
+
+
+	// Create the window
+
+	gWindow = (void *) CreateWindow(kQutWindowClass, windowTitle,
+
+									WS_OVERLAPPEDWINDOW |
+
+									WS_CLIPCHILDREN     |
+
+									WS_CLIPSIBLINGS,
+
+									30, 30, theWidth, theHeight,
+
+									NULL, NULL, gInstance, NULL);
+
+
+
+
+
+
+
+	// Save the window details
+
+	gWindowCanResize = canResize;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//		Qut_CreateDrawContext : Create the draw context.
+
+//-----------------------------------------------------------------------------
+
+TQ3DrawContextObject
+
+Qut_CreateDrawContext(void)
+
+{	TQ3Win32DCDrawContextData	winDrawContextData;
+
+	TQ3Boolean					resetDrawContext;
+
+	TQ3DrawContextObject		theDrawContext;
+
+	TQ3Status					qd3dStatus;
+
+
+
+
+
+
+
+	// Get the DC
+
+	gDC = GetDC((HWND) gWindow);
+
+
+
+
+
+
+
+	// See if we've got an existing draw context we can reuse. If we
+
+	// do, we grab as much of its state data as we can - this means we
+
+	// wil preserve any changes made by the app's view-configure method.
+
+	resetDrawContext = kQ3True;
+
+	if (gView != NULL)
+
+		{
+
+		qd3dStatus = Q3View_GetDrawContext(gView, &theDrawContext);
+
+		if (qd3dStatus == kQ3Success)
+
+			{
+
+			resetDrawContext = kQ3False;
+
+			Q3DrawContext_GetData(theDrawContext, &winDrawContextData.drawContextData);
+
+			Q3Object_Dispose(theDrawContext);
+
+			}
+
+		}
+
+
+
+
+
+
+
+	// Reset the draw context data if required
+
+	if (resetDrawContext)
+
+		{
+
+		// Fill in the draw context data
+
+		winDrawContextData.drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
+
+		winDrawContextData.drawContextData.clearImageColor.a = 0.0f;
+
+		winDrawContextData.drawContextData.clearImageColor.r = 1.0f;
+
+		winDrawContextData.drawContextData.clearImageColor.g = 1.0f;
+
+		winDrawContextData.drawContextData.clearImageColor.b = 1.0f;
+
+		winDrawContextData.drawContextData.paneState         = kQ3True;
+
+		winDrawContextData.drawContextData.maskState		 = kQ3False;	
+
+		winDrawContextData.drawContextData.doubleBufferState = kQ3True;
+
+		}
+
+
+
+
+
+
+
+	// Reset the fields which are always updated
+
+	qut_get_window_size((HWND) gWindow, &winDrawContextData.drawContextData.pane);
+
+	winDrawContextData.hdc = gDC;
+
+
+
+
+
+
+
+	// Create the draw context object
+
+	theDrawContext = Q3Win32DCDrawContext_New(&winDrawContextData);
+
+	return(theDrawContext);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//		Qut_SelectMetafile : Select a metafile.
+
+//-----------------------------------------------------------------------------
+
+TQ3StorageObject
+
+Qut_SelectMetafile(void)
+
+{	char				typeFilter[MAX_PATH] = "All Files (*.*)\0*.*\0"
+
+											   "\0\0";
+
+    char            	thePath[MAX_PATH]    = "";
+
+	BOOL				selectedFile;
+
+	TQ3StorageObject	theStorage;
+
+    OPENFILENAME    	openFile;
+
+
+
+
+
+
+
+	// Prompt the user for a file
+
+	memset(&openFile, 0x00, sizeof(openFile));
+
+	openFile.lStructSize       = sizeof(openFile);
+
+    openFile.hwndOwner         = NULL;
+
+    openFile.hInstance         = gInstance;
+
+    openFile.lpstrFilter       = typeFilter;
+
+    openFile.nFilterIndex      = 1;
+
+    openFile.lpstrFile         = thePath;
+
+    openFile.nMaxFile          = sizeof(thePath) - 1;
+
+    openFile.lpstrInitialDir   = "..\\Support Files\\Models\\3DMF\\";
+
+    openFile.lpstrTitle        = "Select a Model";
+
+    openFile.Flags             = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST |
+
+                                 OFN_LONGNAMES     | OFN_HIDEREADONLY;
+
+
+
+	selectedFile = GetOpenFileName(&openFile);
+
+	if (!selectedFile)
+
+		return(NULL);
+
+
+
+
+
+
+
+	// Create a storage object for the file
+
+	theStorage = Q3PathStorage_New(thePath);
+
+	return(theStorage);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//		Qut_SelectPictureFile : Select a picture file.
+
+//-----------------------------------------------------------------------------
+
+TQ3Status
+
+Qut_SelectPictureFile(void *theFile, TQ3Uns32 fileLen)
+
+{
+
+
+
+	// To be implemented...
+
+	return(kQ3Failure);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//      Qut_CreateMenu : Create the Special menu.
+
+//-----------------------------------------------------------------------------
+
+void
+
+Qut_CreateMenu(qutFuncAppMenuSelect appMenuSelect)
+
+{
+
+
+
+
+
+	// Set the flag and the callback
+
+    gSpecialMenu   = TRUE;
+
+	gAppMenuSelect = appMenuSelect;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//      Qut_CreateMenuItem : Create a menu item.
+
+//-----------------------------------------------------------------------------
+
+void
+
+Qut_CreateMenuItem(TQ3Uns32 itemNum, char *itemText)
+
+{	TQ3Uns32	numItems, finalItemNum;
+
+	HMENU		theMenu;
+
+
+
+
+
+
+
+	// Get the special menu
+
+	theMenu = GetMenu(gWindow);
+
+	theMenu = GetSubMenu(theMenu, kMenuSpecial);
+
+	if (theMenu == NULL)
+
+		return;
+
+
+
+
+
+
+
+	// Work out where the item is going to be
+
+	numItems = GetMenuItemCount(theMenu);
+
+	if (itemNum == 0)
+
+		finalItemNum = 1;
+
+	else if (itemNum > numItems)
+
+		finalItemNum = numItems + 1;
+
+	else
+
+		finalItemNum = itemNum;
+
+
+
+
+
+
+
+	// Insert the item
+
+	if (strcmp(itemText, kMenuItemDivider) == 0)
+
+		AppendMenu(theMenu, MF_SEPARATOR, kMenuSpecialOffset + finalItemNum, NULL);
+
+	else
+
+		AppendMenu(theMenu, MF_STRING,    kMenuSpecialOffset + finalItemNum, itemText);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+
+//      WinMain : App entry point.
+
+//-----------------------------------------------------------------------------
+
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+
+{	HACCEL	hAccelTable;
+
+	MSG		theMsg;
+
+
+
+
+
+
+
+	// Initialise ourselves
+
+	gInstance = hInstance;
+
+	qut_register_class();
+
+
+
+	if (!qut_initialize(nCmdShow)) 
+
+		return(FALSE);
+
+
+
+	hAccelTable = LoadAccelerators(gInstance, (LPCTSTR)IDC_QUT);
+
+
+
+
+
+
+
+	// Run the app
+
+	while (GetMessage(&theMsg, NULL, 0, 0))
+
+		{
+
+		if (!TranslateAccelerator(theMsg.hwnd, hAccelTable, &theMsg)) 
+
+			{
+
+			TranslateMessage(&theMsg);
+
+			DispatchMessage(&theMsg);
+
+			}
+
+		}
+
+
+
+
+
+
+
+	// Clean up
+
+	App_Terminate();
+
+	qut_terminate();
+
+
+
+	return(theMsg.wParam);
+
+}
+
+
+

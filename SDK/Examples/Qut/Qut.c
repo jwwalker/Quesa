@@ -65,6 +65,7 @@ qutFuncAppMenuSelect		gAppMenuSelect     = NULL;
 qutFuncAppRenderPre			gFuncAppRenderPre  = NULL;
 qutFuncAppRender			gFuncAppRender     = NULL;
 qutFuncAppRenderPost		gFuncAppRenderPost = NULL;
+qutFuncAppMouseDown			gFuncAppMouseDown  = NULL;
 qutFuncAppMouseTrack		gFuncAppMouseTrack = NULL;
 
 static TQ3Uns32				gFrameCount        = 0;
@@ -404,6 +405,21 @@ Qut_SetRenderPostFunc(qutFuncAppRenderPost appRenderPost)
 
 
 //=============================================================================
+//      Qut_SetMouseDownFunc : Set the mouse down callback.
+//-----------------------------------------------------------------------------
+void
+Qut_SetMouseDownFunc(qutFuncAppMouseDown appMouseDown)
+{
+
+	// Set the callback
+	gFuncAppMouseDown = appMouseDown;
+}
+
+
+
+
+
+//=============================================================================
 //      Qut_SetMouseTrackFunc : Set the mouse tracking callback.
 //-----------------------------------------------------------------------------
 void
@@ -413,6 +429,9 @@ Qut_SetMouseTrackFunc(qutFuncAppMouseTrack appMouseTrack)
 	// Set the callback
 	gFuncAppMouseTrack = appMouseTrack;
 }
+
+
+
 
 
 //=============================================================================
