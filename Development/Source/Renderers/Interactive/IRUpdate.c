@@ -810,6 +810,7 @@ ir_state_reset(TQ3InteractiveData *instanceData)
     instanceData->stateBackfacing    = kQ3BackfacingStyleBoth;
     instanceData->stateOrientation   = kQ3OrientationStyleCounterClockwise;
 
+    Q3Point3D_Set( &instanceData->stateLocalCameraPosition,       0.0f, 0.0f,  0.0f);
     Q3Vector3D_Set(&instanceData->stateLocalCameraViewVector,     0.0f, 0.0f, -1.0f);
     Q3ColorRGB_Set(&instanceData->stateDefaultDiffuseColour,      kQ3ViewDefaultDiffuseColor);
     Q3ColorRGB_Set(&instanceData->stateDefaultSpecularColour,     kQ3ViewDefaultSpecularColor);
@@ -970,13 +971,14 @@ IRRenderer_State_FlushTextureCache(TQ3InteractiveData *instanceData, TQ3Boolean 
 		n = 0;
 		while (n < instanceData->cachedTextureCount)
 			{
+			// Validate the texture
 			Q3_ASSERT(glIsTexture((GLuint) instanceData->cachedTextures[n].theTexture));
-			
+
+
 			// If we hold the last reference to this texture, release it
 			if (instanceData->cachedTextures[n].theTexture != NULL &&
 				!Q3Shared_IsReferenced(instanceData->cachedTextures[n].theTexture))
 				ir_state_texture_cache_remove(instanceData, instanceData->cachedTextures[n].theTexture);
-
 
 			// Otherwise move onto the next texture
 			else
@@ -1037,13 +1039,21 @@ IRRenderer_State_Update(TQ3InteractiveData *instanceData, TQ3AttributeSet theAtt
 //				If the attribute set contains a texture map shader, we need to
 //				submit it by hand, to apply the texture map to this geometry in
 //				the same way that Apple's Interactive Renderer does.
+//
+//				We return true/false as the attribute set contained a texture.
 //-----------------------------------------------------------------------------
-void
+TQ3Boolean
 IRRenderer_Texture_Preamble(TQ3ViewObject			theView,
 							TQ3InteractiveData		*instanceData,
 							TQ3AttributeSet			theAttributes)
-{	TQ3ShaderObject		*theShader;
+{	TQ3Boolean			hadAttributeTexture;
+	TQ3ShaderObject		*theShader;
 	TQ3XAttributeMask	theMask;
+
+
+
+	// Assume we don't have a texture
+	hadAttributeTexture = kQ3False;
 
 
 
@@ -1055,11 +1065,14 @@ IRRenderer_Texture_Preamble(TQ3ViewObject			theView,
 		theShader = (TQ3ShaderObject *) Q3XAttributeSet_GetPointer(theAttributes, kQ3AttributeTypeSurfaceShader);
 		if (theShader != NULL && *theShader != NULL)
 			{
-			// Apply it, and update the GL state
+			// Set our flag, apply it, and update the GL state
+			hadAttributeTexture = kQ3True;
 			IRRenderer_Update_Shader_Surface(theView, instanceData, theShader);
 			ir_state_adjust_gl(instanceData);
 			}
 		}
+	
+	return(hadAttributeTexture);
 }
 
 
@@ -1087,17 +1100,15 @@ IRRenderer_Texture_Preamble(TQ3ViewObject			theView,
 void
 IRRenderer_Texture_Postamble(TQ3ViewObject			theView,
 							TQ3InteractiveData		*instanceData,
-							TQ3AttributeSet			theAttributes,
-							TQ3Boolean				canTexture)
-{	TQ3XAttributeMask	theMask;
-
+							TQ3Boolean				hadAttributeTexture,
+							TQ3Boolean				couldTexture)
+{
 
 
 	// If we can texture map, remove any texture applied by the attribute set.
-	if (canTexture)
+	if (couldTexture)
 		{
-		theMask = Q3XAttributeSet_GetMask(theAttributes);
-		if ((theMask & kQ3XAttributeMaskSurfaceShader) != 0)
+		if (hadAttributeTexture)
 			IRRenderer_Update_Shader_Surface(theView, instanceData, NULL);
 		}
 	
@@ -1704,7 +1715,7 @@ IRRenderer_Texture_ConvertSize(TQ3Uns32			srcWidth,
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstHeight),            NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstRowBytes),          NULL);
 	Q3_REQUIRE_OR_RESULT(!ir_state_is_power_of_2(srcWidth) ||
-						!ir_state_is_power_of_2(srcHeight),  NULL);
+						 !ir_state_is_power_of_2(srcHeight), NULL);
 
 
 
@@ -1869,7 +1880,8 @@ TQ3Status
 IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 											TQ3InteractiveData	*instanceData,
 											TQ3Matrix4x4		*theMatrix)
-{	TQ3Vector3D			viewVector = {0.0f, 0.0f, -1.0f};
+{	TQ3Point3D			viewPosition = {0.0f, 0.0f,  0.0f};
+	TQ3Vector3D			viewVector   = {0.0f, 0.0f, -1.0f};
 	TQ3Matrix4x4		cameraToLocal;
 #pragma unused(theView)
 
@@ -1880,10 +1892,12 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 
 
 
-	// Determine the camera view vector in local coordinates
-	Q3Matrix4x4_Invert(theMatrix,     &cameraToLocal);
-	Q3Vector3D_Transform(&viewVector, &cameraToLocal, &viewVector);
-	Q3Vector3D_Normalize(&viewVector, &instanceData->stateLocalCameraViewVector);
+	// Determine the camera position and view vector in local coordinates
+	Q3Matrix4x4_Invert(theMatrix, &cameraToLocal);
+
+	Q3Point3D_Transform( &viewPosition, &cameraToLocal, &instanceData->stateLocalCameraPosition);
+	Q3Vector3D_Transform(&viewVector,   &cameraToLocal, &viewVector);
+	Q3Vector3D_Normalize(&viewVector,   &instanceData->stateLocalCameraViewVector);
 
 
 
