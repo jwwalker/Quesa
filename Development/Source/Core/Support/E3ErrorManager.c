@@ -174,8 +174,8 @@ E3ErrorManager_PostPlatformError(TQ3Uns32 theError)
 		
 				#elif QUESA_OS_UNIX
 				kQ3ErrorUnixError,
-			
-				else
+
+				#else
 				kQ3ErrorPlatformError,
 				#endif
 				
