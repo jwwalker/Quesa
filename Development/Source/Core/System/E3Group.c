@@ -1184,10 +1184,10 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 
 	// Find out if we need to submit ourselves
 	shouldSubmit = kQ3False;
+	theMode = E3View_GetViewMode(theView);
 	qd3dStatus   = Q3DisplayGroup_GetState(theGroup, &theState);
 	if (qd3dStatus == kQ3Success)
 		{
-		theMode = E3View_GetViewMode(theView);
 		switch (theMode) {
 			case kQ3ViewModeDrawing:
 				shouldSubmit = E3Bit_Test(theState, kQ3DisplayGroupStateMaskIsDrawn);
@@ -1228,7 +1228,10 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 
 
 		// Submit the group, using the generic group submit method
-		qd3dStatus = e3group_submit_contents(theView, objectType, theObject, objectData);
+		if (theMode == kQ3ViewModeWriting)
+			qd3dStatus = e3group_submit_write(theView, objectType, theObject, objectData);
+		else
+			qd3dStatus = e3group_submit_contents(theView, objectType, theObject, objectData);
 
 
 
