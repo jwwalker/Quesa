@@ -1312,6 +1312,14 @@ Q3Viewer_UseGroup
 Q3Viewer_WriteData
 Q3Viewer_WriteFile
 Q3Set_CopyElement
+Q3Shared_GetReferenceCount
+Q3Memory_StartRecording
+Q3Memory_StopRecording
+Q3Memory_IsRecording
+Q3Memory_ForgetRecording
+Q3Memory_DumpRecording
+Q3Memory_CountRecords
+Q3Memory_NextRecordedObject
 
 # support for use as a statically-linked library
 #__ViewerInitialize
