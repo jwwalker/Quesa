@@ -259,7 +259,7 @@ e3shape_delete(TQ3Object theObject, void *privateData)
 
 
 	// Dispose of our instance data
-	E3Object_DisposeAndForget(instanceData->theSet);
+	Q3Object_CleanDispose(&instanceData->theSet);
 }
 
 
@@ -704,7 +704,7 @@ E3Exit(void)
 	
 	#if Q3_DEBUG
 		// Reset leak-checking globals to initial state
-		E3Object_DisposeAndForget( theGlobals->listHead );
+		Q3Object_CleanDispose(&theGlobals->listHead );
 		theGlobals->isLeakChecking = kQ3False;
 	#endif
 
@@ -1042,6 +1042,31 @@ E3Object_Dispose(TQ3Object theObject)
 	disposeMethod(theObject);
 
 	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Object_CleanDispose : Dispose of an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Object_CleanDispose(TQ3Object *theObject)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// If we have an object, dispose of it and clear the pointer
+	if (theObject != NULL && *theObject != NULL)
+		{
+		qd3dStatus = Q3Object_Dispose(*theObject);
+		*theObject = NULL;
+		}
+	else
+		qd3dStatus = kQ3Success;
+
+	return(qd3dStatus);
 }
 
 

@@ -69,6 +69,7 @@ TQ3Status			E3ObjectHierarchy_GetSubClassData(TQ3ObjectType objectClassType, TQ3
 TQ3Status			E3ObjectHierarchy_EmptySubClassData(TQ3SubClassData *subClassData);
 
 TQ3Status			E3Object_Dispose(TQ3Object theObject);
+TQ3Status			E3Object_CleanDispose(TQ3Object *object);
 TQ3Object			E3Object_Duplicate(TQ3Object theObject);
 TQ3Status			E3Object_Submit(TQ3Object theObject, TQ3ViewObject theView);
 TQ3Boolean			E3Object_IsDrawable(TQ3Object theObject);
