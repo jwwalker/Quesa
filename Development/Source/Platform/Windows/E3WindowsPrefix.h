@@ -35,41 +35,14 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-#include <Windows.h>
-
-
-
-
-
-//=============================================================================
-//      Universal Headers compatibility
-//-----------------------------------------------------------------------------
-// If building a DLL, we need to use our own EXTERN_API_C
-#ifdef WIN32_EXPORTING
-    #include <ConditionalMacros.h>
-
-    #undef  EXTERN_API_C
-    #define EXTERN_API_C(_type) __declspec(dllexport) _type __cdecl	 
-#endif
-
-
-
 
 
 //=============================================================================
 //      Build constants
 //-----------------------------------------------------------------------------
-// Assume x86 is always little endian
-#define QUESA_HOST_IS_BIG_ENDIAN				0
-
 
 // We don't support Apple's QD3D renderers under Windows
 #define QUESA_REPLACE_QD3D_RENDERERS			1
-
-
-// Assume we're not to require QuickTime
-#define QUESA_SUPPORT_QUICKTIME					0
-
 
 
 #endif
