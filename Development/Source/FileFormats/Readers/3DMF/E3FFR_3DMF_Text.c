@@ -267,6 +267,14 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 										{kQ3StyleTypeBackfacing,"BOTH",0},
 										{kQ3StyleTypeBackfacing,"CULLED",1},
 										{kQ3StyleTypeBackfacing,"FLIPPED",2},
+										
+										{kQ3ObjectTypeDisplayGroupState,"NONE",0},
+										{kQ3ObjectTypeDisplayGroupState,"ISINLINE",1},
+										{kQ3ObjectTypeDisplayGroupState,"DONOTDRAW",2},
+										{kQ3ObjectTypeDisplayGroupState,"NOBOUNDINGBOX",4},
+										{kQ3ObjectTypeDisplayGroupState,"NOBOUNDINGSPHERE",8},
+										{kQ3ObjectTypeDisplayGroupState,"DONOTPICK",16},
+										{kQ3ObjectTypeDisplayGroupState,"DONOTBOUND",32},
 
 										{kQ3ObjectTypeGeometryCaps,"NONE",0},
 										{kQ3ObjectTypeGeometryCaps,"TOP",1},
@@ -314,7 +322,8 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 					// If we're reading cylinder flags, read ahead to see if we need to
 					// keep looping or if this was the last flag. This model could be
 					// adopted to handle other non-exclusive flags if they're added.
-					if (hint == kQ3ObjectTypeGeometryCaps)
+					if ( (hint == kQ3ObjectTypeGeometryCaps) ||
+						(hint == kQ3ObjectTypeDisplayGroupState) )
 						{
 						// Save the current storage position, and read the next token
 						saveStoragePos = formatInstanceData->currentStoragePosition;
