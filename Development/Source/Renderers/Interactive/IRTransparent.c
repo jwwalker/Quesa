@@ -46,7 +46,8 @@
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
-const float kQ3LargeZero											= -1.0e-5f;
+const float      kQ3LargeZero								= -1.0e-5f;
+const TQ3Point3D kFrustumOrigin								= { 0.0f, 0.0f, 0.0f };
 
 
 
@@ -60,11 +61,15 @@ const float kQ3LargeZero											= -1.0e-5f;
 static void
 ir_geom_transparent_calc_plane(TQ3TransparentPrim *thePrim)
 {	TQ3Vector3D		cameraSideVec, cameraToTri;
-
+	
 
 
 	// Calculate the plane equation for the triangle
-	Q3Point3D_Subtract(&thePrim->theVertices[0].thePoint, &thePrim->cameraWorld, &cameraToTri);
+	//
+	// Since transparent primitives are transformed to frustum space,
+	// the camera position is always fixed at the origin.
+	Q3Point3D_Subtract(&thePrim->theVertices[0].thePoint, &kFrustumOrigin, &cameraToTri);
+
 	Q3Point3D_CrossProductTri(&thePrim->theVertices[0].thePoint,
 							  &thePrim->theVertices[1].thePoint,
 							  &thePrim->theVertices[2].thePoint,
@@ -299,13 +304,13 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 							TQ3InteractiveData		*instanceData,
 							TQ3Uns32				numVerts,
 							const TQ3FVertex3D		*theVertices)
-{	TQ3Matrix4x4			localToWorld, worldToFrustum;
-	TQ3Point3D				frustumPoints[3];
+{	TQ3Matrix4x4			localToFrustum;
 	float					z1, z2, z3;
 	TQ3FVertex3D			*theVertex;
 	TQ3FVertexFlags			vertFlags;
 	TQ3TransparentPrim		*thePrim;
 	TQ3Uns32				n;
+
 
 
 	// Validate our parameters
@@ -323,13 +328,16 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 
 
 
-	// Initialise ourselves
-	Q3View_GetLocalToWorldMatrixState(  theView, &localToWorld);
-	Q3View_GetWorldToFrustumMatrixState(theView, &worldToFrustum);
+	// Calculate the local->frustum matrix
+	Q3Matrix4x4_Multiply(&instanceData->stateMatrixLocalToCamera, &instanceData->stateMatrixCameraToFrustum, &localToFrustum);
 
 
 
 	// Set up the primitive vertices
+	//
+	// Points and normals are transformed to frustum space, so that we can sort and
+	// render in a fixed coordinate system rather than having to track the current
+	// camera matrix state at the time each primitive was added to the buffer.
 	thePrim->numVerts = numVerts;
 	Q3Memory_Copy(theVertices, thePrim->theVertices, numVerts * sizeof(TQ3FVertex3D));
 
@@ -338,20 +346,11 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	
 	for (n = 0; n < numVerts; n++)
 		{
-		// Set up the point
-		//
-		// We transform to world coordinates for rendering, and to frustum
-		// coordinates for depth-sorting the primitive.
-		Q3Point3D_Transform(&theVertex->thePoint, &localToWorld,   &theVertex->thePoint);
-		Q3Point3D_Transform(&theVertex->thePoint, &worldToFrustum, &frustumPoints[n]);
+		Q3Point3D_Transform(&theVertex->thePoint, &localToFrustum, &theVertex->thePoint);
 
-
-		// Set up the normal
-		//
-		// We transform the normal to world coordinates, then normalise.
 		if (E3Bit_IsSet(vertFlags, kQ3FVertexHaveNormal))
 			{
-			Q3Vector3D_Transform(&theVertex->theNormal, &localToWorld, &theVertex->theNormal);
+			Q3Vector3D_Transform(&theVertex->theNormal, &localToFrustum, &theVertex->theNormal);
 			Q3Vector3D_Normalize(&theVertex->theNormal, &theVertex->theNormal);
 			}
 		
@@ -362,21 +361,15 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 
 	// Set up the primitive sorting
 	//
-	// Triangles may require the plane equation for sorting if they overlap in z, however we
-	// defer calculating this until we know we need it for - for now we just save the camera
-	// position in world coordinates and flag the rest of the plane state as invalid.
-	z1 =                   (-frustumPoints[0].z);
-	z2 = (numVerts >= 2) ? (-frustumPoints[1].z) : z1;
-	z3 = (numVerts >= 3) ? (-frustumPoints[2].z) : z1;
+	// Triangles may require the plane equation for sorting if they overlap
+	// in z, however we can defer calculating this until we know we need it.
+	z1 =                   (-thePrim->theVertices[0].thePoint.z);
+	z2 = (numVerts >= 2) ? (-thePrim->theVertices[1].thePoint.z) : z1;
+	z3 = (numVerts >= 3) ? (-thePrim->theVertices[2].thePoint.z) : z1;
 
-	thePrim->zMin = E3Num_Min(z1, E3Num_Min(z2, z3));
-	thePrim->zMax = E3Num_Max(z1, E3Num_Max(z2, z3));
-
-	if (numVerts == 3)
-		{
-		thePrim->planeIsValid  = kQ3False;
-		Q3Point3D_Transform(&instanceData->stateLocalCameraPosition, &localToWorld, &thePrim->cameraWorld);
-		}
+	thePrim->zMin         = E3Num_Min(z1, E3Num_Min(z2, z3));
+	thePrim->zMax         = E3Num_Max(z1, E3Num_Max(z2, z3));
+	thePrim->planeIsValid = kQ3False;
 
 
 
@@ -442,29 +435,14 @@ IRTransBuffer_Terminate(TQ3InteractiveData *instanceData)
 
 
 //=============================================================================
-//      IRTransBuffer_StartPass : Start a frame.
-//-----------------------------------------------------------------------------
-void
-IRTransBuffer_StartPass(TQ3InteractiveData *instanceData, TQ3CameraObject theCamera)
-{
-
-
-	// Record the type of camera we have
-	instanceData->cameraIsOrtho = (Q3Camera_GetType(theCamera) == kQ3CameraTypeOrthographic);
-}
-
-
-
-
-
-//=============================================================================
 //      IRTransBuffer_Draw : Draw the transparent primitives.
 //-----------------------------------------------------------------------------
 void
 IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
-{	TQ3Uns32				n, numPrims;
-	TQ3TransparentPrim		*thePrims;
-	TQ3TransparentPrim**	ptrs;
+{	TQ3CameraTransformData		cameraTransformData;
+	TQ3Uns32					n, numPrims;
+	TQ3TransparentPrim			*thePrims;
+	TQ3TransparentPrim			**ptrs;
 
 
 
@@ -491,12 +469,16 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 		// Update the OpenGL state
 		//
-		// We need to clear any transform which was active when the rendering loop
-		// ended, since transparent primitives have already been transformed into
-		// world coordinates.
+		// We need to clear any transforms which are active when the rendering loop ended,
+		// since transparent primitives are already transformed into frustum coordinates.
 		//
 		// We also enable blending and turn off writes to the depth buffer.
-		Q3ResetTransform_Submit(theView);
+		Q3Matrix4x4_SetIdentity(&cameraTransformData.localToWorld);
+		Q3Matrix4x4_SetIdentity(&cameraTransformData.worldToCamera);
+		Q3Matrix4x4_SetIdentity(&cameraTransformData.cameraToFrustum);
+
+		Q3CameraTransform_Submit(&cameraTransformData, theView);
+
 	    glEnable(GL_BLEND);
 		glDepthMask(GL_FALSE);
 
