@@ -65,6 +65,40 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      E3StorageInfo::E3StorageInfo : Constructor for class info of the class.
+//-----------------------------------------------------------------------------
+
+E3StorageInfo::E3StorageInfo	(
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent // nil for root class of course
+			 	)
+		: E3SharedInfo ( newClassMetaHandler, newParent ) ,
+		getData_Method		( (TQ3XStorageReadDataMethod)		Find_Method ( kQ3XMethodTypeStorageReadData ) ) ,
+		setData_Method		( (TQ3XStorageWriteDataMethod)		Find_Method ( kQ3XMethodTypeStorageWriteData ) ) ,
+		getEOF_Method		( (TQ3XStorageGetSizeMethod)		Find_Method ( kQ3XMethodTypeStorageGetSize ) )	
+		 	 
+	{
+
+	} ; 
+
+
+//=============================================================================
+//      e3transform_new_class_info : Method to construct a class info record.
+//-----------------------------------------------------------------------------
+static E3ClassInfo*
+e3storage_new_class_info (
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent
+			 	)
+	{
+	return new ( std::nothrow ) E3StorageInfo ( newClassMetaHandler, newParent ) ;
+	}
+
+
+
+
+
+//=============================================================================
 //      e3storage_memory_read : Read data from the storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -641,6 +675,27 @@ e3storage_path_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3storage_metahandler : base metahandler for storage classes.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3storage_metahandler(TQ3XMethodType methodType)
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeNewObjectClass :
+			return (TQ3XFunctionPointer) e3storage_new_class_info ;
+
+		}
+	
+	return NULL ;
+	}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3Storage_RegisterClass : Register the classes.
@@ -653,27 +708,21 @@ E3Storage_RegisterClass(void)
 
 
 	// Register the storage classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-											kQ3SharedTypeStorage,
-											kQ3ClassNameStorage,
-											NULL,
-											sizeof(E3Storage));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStorage,
+										e3storage_metahandler,
+										E3Storage ) ;
 
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeStorage,
-												kQ3StorageTypeMemory,
-												kQ3ClassNameStorageMemory,
-												e3storage_memory_metahandler,
-												sizeof(E3MemoryStorage));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStorageMemory,
+											e3storage_memory_metahandler,
+											E3MemoryStorage ) ;
 
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeStorage,
-												kQ3StorageTypePath,
-												kQ3ClassNameStoragePath,
-												e3storage_path_metahandler,
-												sizeof(E3PathStorage));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStoragePath,
+											e3storage_path_metahandler,
+											E3PathStorage ) ;
 
 
 
@@ -746,15 +795,12 @@ E3Storage_GetType(TQ3StorageObject storage)
 //      E3Storage_GetSize : Return the size of data in a storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size)
+E3Storage::GetSize ( TQ3Uns32* size )
 	{
-	TQ3Status result = kQ3Failure ;
-	// get the subclass method;
-	TQ3XStorageGetSizeMethod getEOF_Method = (TQ3XStorageGetSizeMethod) storage->GetMethod ( kQ3XMethodTypeStorageGetSize ) ;
-	if ( getEOF_Method != NULL )
-		result = getEOF_Method ( storage, size ) ;
+	if ( ( (E3StorageInfo*) GetClass () )->getEOF_Method == NULL )
+		return kQ3Failure ;
 	
-	return result ;
+	return ( (E3StorageInfo*) GetClass () )->getEOF_Method ( this, size ) ;
 	}
 
 
@@ -765,15 +811,12 @@ E3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size)
 //      E3Storage_GetData : Return the data in a storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
+E3Storage::GetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char* data, TQ3Uns32* sizeRead )
 	{
-	TQ3Status result = kQ3Failure ;
-	// get the subclass method;
-	TQ3XStorageReadDataMethod getData_Method = (TQ3XStorageReadDataMethod) storage->GetMethod ( kQ3XMethodTypeStorageReadData ) ;
-	if ( getData_Method != NULL )
-		result = getData_Method ( storage, offset, dataSize, data, sizeRead ) ;
-	
-	return result;
+	if ( ( (E3StorageInfo*) GetClass () )->getData_Method == NULL )
+		return kQ3Failure ;
+
+	return ( (E3StorageInfo*) GetClass () )->getData_Method ( this, offset, dataSize, data, sizeRead ) ;
 	}
 
 
@@ -787,15 +830,14 @@ E3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, 
 //			   sizeWritten, the storage grows to accept new data
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
+E3Storage::SetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char* data, TQ3Uns32* sizeWritten )
 	{
-	TQ3Status result = kQ3Failure ;
-	// get the subclass method;
-	TQ3XStorageWriteDataMethod setData_Method = (TQ3XStorageWriteDataMethod) storage->GetMethod ( kQ3XMethodTypeStorageWriteData ) ;
-	if ( setData_Method != NULL )
-		result = setData_Method ( storage, offset, dataSize, data, sizeWritten ) ;
+	if ( ( (E3StorageInfo*) GetClass () )->setData_Method == NULL )
+		return kQ3Failure ;
+	
+	TQ3Status result = ( (E3StorageInfo*) GetClass () )->setData_Method ( this, offset, dataSize, data, sizeWritten ) ;
 
-	Q3Shared_Edited ( storage ) ;
+	Edited () ;
 	
 	return result ;
 	}

@@ -77,6 +77,7 @@ class E3Renderer : public E3Shared // This is a leaf class so no other classes u
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeRenderer, E3Renderer, E3Shared )
 public :
 
 	TQ3RendererData			instanceData ;
@@ -89,6 +90,7 @@ class E3CSGAttribute : public E3Attribute // This is a leaf class so no other cl
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3AttributeTypeConstructiveSolidGeometryID, E3CSGAttribute, E3Attribute )
 public :
 
 	TQ3CSGObjectID			instanceData ;
@@ -289,18 +291,14 @@ TQ3Status
 E3Renderer_RegisterClass(void)
 	{
 	// Register the renderer classes
-	TQ3Status qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-											kQ3SharedTypeRenderer,
-											kQ3ClassNameRenderer,
-											NULL,
-											sizeof(E3Renderer));
+	TQ3Status qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameRenderer,
+												NULL,
+												E3Renderer ) ;
 
 	if ( qd3dStatus != kQ3Failure )
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
-												kQ3AttributeTypeConstructiveSolidGeometryID,
-												kQ3ClassNameAttributeCSGID,
-												NULL,
-												sizeof(E3CSGAttribute));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameAttributeCSGID,
+											NULL,
+											E3CSGAttribute ) ;
 
 	return qd3dStatus ;
 	}

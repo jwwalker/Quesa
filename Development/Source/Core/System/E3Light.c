@@ -72,6 +72,7 @@ class E3Light : public E3ShapeData // This is not a leaf class, but only classes
 								// includes TQ3LightData even though there are
 								// methods for Light which also access TQ3LightData.
 	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeLight, E3Light, E3ShapeData )
 public :
 
 	TQ3LightData			lightData ;
@@ -85,6 +86,7 @@ class E3AmbientLight : public E3Light // This is a leaf class so no other classe
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3LightTypeAmbient, E3AmbientLight, E3Light )
 public :
 
 	// There is no extra data for an ambient light
@@ -97,6 +99,7 @@ class E3DirectionalLight : public E3Light // This is a leaf class so no other cl
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3LightTypeDirectional, E3DirectionalLight, E3Light )
 public :
 
     TQ3Boolean				castsShadows ;
@@ -110,6 +113,7 @@ class E3PointLight : public E3Light // This is a leaf class so no other classes 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3LightTypePoint, E3PointLight, E3Light )
 public :
 
     TQ3Boolean				castsShadows ;
@@ -124,6 +128,7 @@ class E3SpotLight : public E3Light // This is a leaf class so no other classes u
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3LightTypeSpot, E3SpotLight, E3Light )
 public :
 
     TQ3Boolean				castsShadows ;
@@ -332,39 +337,29 @@ E3Light_RegisterClass(void)
 
 
 	// Register the Light classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
-											kQ3ShapeTypeLight,
-											kQ3ClassNameLight,
-											NULL,
-											sizeof(E3Light));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameLight,
+										NULL,
+										E3Light ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
-												kQ3LightTypeAmbient,
-												kQ3ClassNameLightAmbient,
-												e3light_ambient_metahandler,
-												sizeof(E3AmbientLight));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameLightAmbient,
+											e3light_ambient_metahandler,
+											E3AmbientLight ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
-												kQ3LightTypeDirectional,
-												kQ3ClassNameLightDirectional,
-												e3light_directional_metahandler,
-												sizeof(E3DirectionalLight));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameLightDirectional,
+											e3light_directional_metahandler,
+											E3DirectionalLight ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
-												kQ3LightTypePoint,
-												kQ3ClassNameLightPoint,
-												e3light_point_metahandler,
-												sizeof(E3PointLight));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameLightPoint,
+											e3light_point_metahandler,
+											E3PointLight ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
-												kQ3LightTypeSpot,
-												kQ3ClassNameLightSpot,
-												e3light_spot_metahandler,
-												sizeof(E3SpotLight));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameLightSpot,
+											e3light_spot_metahandler,
+											E3SpotLight ) ;
 
 	return(qd3dStatus);
 }

@@ -145,7 +145,7 @@ Q3Transform_GetMatrix(TQ3TransformObject transform, TQ3Matrix4x4 *matrix)
 
 
 	// Call our implementation
-	return(E3Transform_GetMatrix(transform, matrix));
+	return ( (E3Transform*) transform )->GetMatrix ( matrix ) ;
 }
 
 

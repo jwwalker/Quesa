@@ -133,20 +133,7 @@ e3geom_box_calc_vertices(const TQ3BoxData *boxData, TQ3Point3D *thePoints)
 	// Transform the points to origin
 	Q3Point3D_To3DTransformArray(thePoints, &translateMatrix, thePoints,
 									8, sizeof(TQ3Point3D), sizeof(TQ3Point3D));
-}
-
-//=============================================================================
-//      Internal types
-//-----------------------------------------------------------------------------
-
-class E3Polygon : public E3Geometry // This is a leaf class so no other files use this,
-									// so it can be local and hance all the fields public
-	{
-public :
-
-	TQ3PolygonData		instanceData ;
-	} ;
-	
+}	
 
 
 

@@ -115,6 +115,7 @@ class E3SlabMemory : public OpaqueTQ3Object  // This is a leaf class so no other
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeSlab, E3SlabMemory, OpaqueTQ3Object )
 public :
 
 	TQ3SlabData				instanceData ;
@@ -217,11 +218,9 @@ E3Memory_RegisterClass(void)
 
 
 	// Register the memory classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3ObjectTypeSlab,
-											kQ3ClassNameSlab,
-											e3slab_metahandler,
-											sizeof(E3SlabMemory));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameSlab,
+										e3slab_metahandler,
+										E3SlabMemory ) ;
 
 	return(qd3dStatus);
 }

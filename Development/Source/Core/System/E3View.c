@@ -223,6 +223,7 @@ class E3View : public OpaqueTQ3Object // This is not a leaf class, but only clas
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeView, E3View, OpaqueTQ3Object )
 public :
 
 	TQ3ViewData					instanceData ;
@@ -236,6 +237,7 @@ class E3StateOperator : public E3ShapeData // This is not a leaf class, but only
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeStateOperator, E3StateOperator, E3ShapeData )
 public :
 
 	// There is no extra data for this class
@@ -248,6 +250,7 @@ class E3Push : public E3StateOperator  // This is a leaf class so no other class
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StateOperatorTypePush, E3Push, E3StateOperator )
 public :
 
 	// There is no extra data for this class
@@ -260,6 +263,7 @@ class E3Pop : public E3StateOperator  // This is a leaf class so no other classe
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StateOperatorTypePop, E3Pop, E3StateOperator )
 public :
 
 	// There is no extra data for this class
@@ -1864,32 +1868,24 @@ E3View_RegisterClass(void)
 
 
 	// Register the classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3ObjectTypeView,
-											kQ3ClassNameView,
-											e3view_metahandler,
-											sizeof(E3View));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameView,
+										e3view_metahandler,
+										E3View ) ;
 	
 	if (qd3dStatus != kQ3Failure)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
-												kQ3ShapeTypeStateOperator,
-												kQ3ClassNameStateOperator,
-												NULL,
-												sizeof(E3StateOperator));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStateOperator,
+											NULL,
+											E3StateOperator ) ;
 	
 	if (qd3dStatus != kQ3Failure)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStateOperator,
-												kQ3StateOperatorTypePush,
-												kQ3ClassNameStateOperatorPush,
-												e3push_metahandler,
-												sizeof(E3Push));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStateOperatorPush,
+											e3push_metahandler,
+											E3Push ) ;
 	
 	if (qd3dStatus != kQ3Failure)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStateOperator,
-												kQ3StateOperatorTypePop,
-												kQ3ClassNameStateOperatorPop,
-												e3pop_metahandler,
-												sizeof(E3Pop));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStateOperatorPop,
+											e3pop_metahandler,
+											E3Pop ) ;
 
 	return qd3dStatus ;
 }

@@ -106,6 +106,7 @@ class E3MacintoshStorage : public E3Storage // This is not a leaf class, but onl
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3StorageTypeMacintosh, E3MacintoshStorage, E3Storage )
 public :
 
 	TE3_MacStorageData					macStorageData ;
@@ -118,6 +119,7 @@ class E3FSSpecStorage : public E3MacintoshStorage  // This is a leaf class so no
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3MacintoshStorageTypeFSSpec, E3FSSpecStorage, E3MacintoshStorage )
 public :
 
 	FSSpec								theFSSpec ;
@@ -130,6 +132,7 @@ class E3HandleStorage : public E3MemoryStorage  // This is a leaf class so no ot
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3MemoryStorageTypeHandle, E3HandleStorage, E3MemoryStorage )
 public :
 
 	TQ3HandleStorageData				instanceData ;
@@ -941,25 +944,19 @@ E3MacStorage_RegisterClass(void)
 	//
 	// N.B. - Handle storage is a sub-class of memory storage, not a
 	// subclass of storage (the indentation in QD3D.h is incorrect).
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeStorage,
-											kQ3StorageTypeMacintosh,
-											kQ3ClassNameStorageMacintosh,
-											e3storage_mac_metahandler,
-											sizeof(E3MacintoshStorage));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStorageMacintosh,
+										e3storage_mac_metahandler,
+										E3MacintoshStorage ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3StorageTypeMacintosh,
-											kQ3MacintoshStorageTypeFSSpec,
-											kQ3ClassNameStorageFSSpec,
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStorageFSSpec,
 											e3storage_mac_fsspec_metahandler,
-											sizeof(E3FSSpecStorage));
+											E3FSSpecStorage ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3StorageTypeMemory,
-											kQ3MemoryStorageTypeHandle,
-											kQ3ClassNameStorageHandle,
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStorageHandle,
 											e3storage_mac_handle_metahandler,
-											sizeof(E3HandleStorage));
+											E3HandleStorage ) ;
 
 	return(qd3dStatus);
 }

@@ -83,18 +83,45 @@ typedef struct TQ3PathStorageData {
 
 
 
+
+class E3StorageInfo : public E3SharedInfo
+	{
+	const TQ3XStorageReadDataMethod		getData_Method ;
+	const TQ3XStorageWriteDataMethod	setData_Method ;
+	const TQ3XStorageGetSizeMethod		getEOF_Method ;
+	
+public :
+
+									E3StorageInfo	(
+													TQ3XMetaHandler	newClassMetaHandler,
+													E3ClassInfo*	newParent
+					 								) ; // constructor	
+	friend class E3Storage ;
+	} ;
+
+
+
+
 class E3Storage : public E3Shared
 	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeStorage, E3Storage, E3Shared )
+
 	// No new instance data for this class
 	
 public :
 
+	TQ3Status						GetSize ( TQ3Uns32* size ) ;
+	TQ3Status						GetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char* data, TQ3Uns32* sizeRead ) ;
+	TQ3Status						SetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char* data, TQ3Uns32* sizeWritten ) ;
+	
 	} ;
 
 
 
 class E3MemoryStorage : public E3Storage
 	{
+Q3_CLASS_ENUMS ( kQ3StorageTypeMemory, E3MemoryStorage, E3Storage )
+
 	TE3_MemoryStorageData		memoryDetails ;
 	
 public :
@@ -113,6 +140,8 @@ public :
 
 class E3PathStorage : public E3Storage
 	{
+Q3_CLASS_ENUMS ( kQ3StorageTypePath, E3PathStorage, E3Storage )
+
 	TQ3PathStorageData		pathDetails ;
 	
 public :
@@ -135,9 +164,9 @@ TQ3Status			E3Storage_RegisterClass(void);
 TQ3Status			E3Storage_UnregisterClass(void);
 
 TQ3ObjectType		E3Storage_GetType(TQ3StorageObject storage);
-TQ3Status			E3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size);
-TQ3Status			E3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead);
-TQ3Status			E3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten);
+//TQ3Status			E3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size);
+//TQ3Status			E3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead);
+//TQ3Status			E3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten);
 TQ3ObjectType		E3MemoryStorage_GetType(TQ3StorageObject storage);
 TQ3StorageObject	E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize);
 TQ3StorageObject	E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize);

@@ -5,7 +5,7 @@
         Header file for E3Transform.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -63,13 +63,48 @@ extern "C" {
 
 
 //=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+
+
+
+class E3TransformInfo : public E3ShapeInfo
+	{
+	const TQ3XTransformMatrixMethod matrixMethod ;
+	
+public :
+
+									E3TransformInfo	(
+													TQ3XMetaHandler	newClassMetaHandler,
+													E3ClassInfo*	newParent
+					 								) ; // constructor	
+	friend class E3Transform ;
+	} ;
+
+
+
+
+class E3Transform : public E3ShapeData
+	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeTransform, E3Transform, E3ShapeData )
+public :
+
+	// There is no extra data for this class
+
+
+	TQ3Matrix4x4*			GetMatrix ( TQ3Matrix4x4* theMatrix ) ;
+	} ;
+	
+
+
+//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 TQ3Status			E3Transform_RegisterClass(void);
 TQ3Status			E3Transform_UnregisterClass(void);
 
 TQ3ObjectType		E3Transform_GetType(TQ3TransformObject theTransform);
-TQ3Matrix4x4 *		E3Transform_GetMatrix(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix);
+//TQ3Matrix4x4 *		E3Transform_GetMatrix(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix);
 TQ3Status			E3Transform_Submit(TQ3TransformObject theTransform, TQ3ViewObject theView);
 
 TQ3TransformObject	E3MatrixTransform_New(const TQ3Matrix4x4 *theMatrix);
