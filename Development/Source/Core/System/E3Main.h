@@ -59,6 +59,17 @@ extern "C" {
 #endif
 
 
+
+
+//=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
+enum
+	{
+    kQ3XMethodTypeNewObjectClass           = Q3_METHOD_TYPE('n', 'e', 'w', 'c')
+	};
+
+
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
@@ -94,12 +105,15 @@ private :
 
 class E3Root : public E3ClassInfo
 	{
-	TQ3XObjectDisposeMethod			disposeMethod ;
-	TQ3XObjectNewMethod				newMethod ;
-	TQ3XObjectDeleteMethod			deleteMethod ;
-	TQ3XObjectDuplicateMethod		duplicateMethod ;
-	
+	const TQ3XObjectDisposeMethod			disposeMethod ;
+	const TQ3XObjectNewMethod				newMethod ;
+	const TQ3XObjectDeleteMethod			deleteMethod ;
+	const TQ3XObjectDuplicateMethod			duplicateMethod ;
+
 public :
+
+	const TQ3XObjectSubmitMethod			submitWriteMethod ; // Used in elements and shared so must be at this level
+	
 
 									E3Root	(
 											TQ3XMetaHandler	newClassMetaHandler,
@@ -107,6 +121,41 @@ public :
 			 								) ; // constructor	
 			 								
 	friend struct OpaqueTQ3Object ;
+	} ;
+
+
+
+class E3SharedInfo : public E3Root
+	{
+/*	TQ3XObjectDisposeMethod			disposeMethod ;
+	TQ3XObjectNewMethod				newMethod ;
+	TQ3XObjectDeleteMethod			deleteMethod ;
+	TQ3XObjectDuplicateMethod		duplicateMethod ;*/
+	
+public :
+
+									E3SharedInfo	(
+											TQ3XMetaHandler	newClassMetaHandler,
+											E3ClassInfo*	newParent
+			 								) ; // constructor	
+	} ;
+
+
+
+
+class E3ShapeInfo : public E3SharedInfo
+	{
+/*	TQ3XObjectDisposeMethod			disposeMethod ;
+	TQ3XObjectNewMethod				newMethod ;
+	TQ3XObjectDeleteMethod			deleteMethod ;
+	TQ3XObjectDuplicateMethod		duplicateMethod ;*/
+	
+public :
+
+									E3ShapeInfo	(
+											TQ3XMetaHandler	newClassMetaHandler,
+											E3ClassInfo*	newParent
+			 								) ; // constructor	
 	} ;
 
 

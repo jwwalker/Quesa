@@ -158,7 +158,7 @@ E3ClassInfo::E3ClassInfo	(
 	// two fields are used in Find_Method which is called in the sub class constructors.
 	
 	// Also before this:
-	registerMethod = (TQ3XObjectRegisterMethod) Find_Method ( kQ3XMethodTypeObjectClassRegister , kQ3True ) ;
+	registerMethod = (TQ3XObjectRegisterMethod) Find_Method ( kQ3XMethodTypeNewObjectClass , kQ3True ) ;
 	} ;
 
 
@@ -513,11 +513,11 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 
 	TQ3XObjectRegisterMethod registerMethod = NULL ;
 	if ( classMetaHandler != NULL )
-		registerMethod = (TQ3XObjectRegisterMethod) classMetaHandler ( kQ3XMethodTypeObjectClassRegister ) ;
+		registerMethod = (TQ3XObjectRegisterMethod) classMetaHandler ( kQ3XMethodTypeNewObjectClass ) ;
 
 	for ( E3ClassInfoPtr theClass = theParent ; theClass != NULL ; theClass = theClass->theParent )
 		if ( theClass->classMetaHandler != NULL ) // Check the current class
-			if ( ( registerMethod = (TQ3XObjectRegisterMethod) theClass->classMetaHandler ( kQ3XMethodTypeObjectClassRegister ) ) != NULL )
+			if ( ( registerMethod = (TQ3XObjectRegisterMethod) theClass->classMetaHandler ( kQ3XMethodTypeNewObjectClass ) ) != NULL )
 				break ;
 	
 	if ( registerMethod == NULL )
