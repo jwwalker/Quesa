@@ -240,6 +240,56 @@ e3set_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3attributeset_render : Attribute set class render method.
+//-----------------------------------------------------------------------------
+//		Note :	See the comments in E3AttributeSet_Submit for an explanation
+//				as to why we don't perform the actual submit here.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static TQ3Status
+e3attributeset_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{	TQ3Status		qd3dStatus;
+#pragma unused(objectType)
+#pragma unused(objectData)
+
+
+
+	// Submit the attribute set
+	qd3dStatus = Q3AttributeSet_Submit(theObject, theView);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3attributeset_metahandler : Attribute set class metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3attributeset_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectSubmitBounds:
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitRender:
+			theMethod = (TQ3XFunctionPointer) e3attributeset_render;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
 //      e3attribute_surfaceuv_render : Surface UV render method.
 //-----------------------------------------------------------------------------
 #pragma mark -
@@ -968,7 +1018,7 @@ E3Set_RegisterClass(void)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeSet,
 												kQ3SetTypeAttribute,
 												kQ3ClassNameSetAttribute,
-												NULL,
+												e3attributeset_metahandler,
 												sizeof(TQ3AttributeSetData));
 
 
@@ -1847,6 +1897,18 @@ E3AttributeSet_GetNextAttributeType(TQ3AttributeSet source, TQ3AttributeType *th
 //
 //				We can therefore submit our attributes by walking through the
 //				elements in the parent set and submitting them.
+//
+//
+//				Note that since an attribute set does not store the data to be
+//				submitted in its instance data, we can't call the normal
+//				E3View_SubmitImmediate routine used for immediate mode submits.
+//
+//				Instead the immediate mode routine (this one) handles the
+//				actual submit, and the retained mode routine (our render
+//				method) calls through to us to submit retained mode objects.
+//
+//				This is the reverse of the normal scheme for immediate/retained
+//				submits, so it's worth explaining.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject view)
