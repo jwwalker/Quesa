@@ -815,7 +815,10 @@ Q3RationalPoint3D_To2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Point2D *re
 	// Debug build checks
 #if Q3_DEBUG
 	if (rationalPoint3D->w == 0.0f)
+		{
+		E3ErrorManager_PostError( kQ3ErrorInfiniteRationalPoint, kQ3False );
 		return(NULL);
+		}
 
 	if (0) // Further checks on result
 		return(NULL);
@@ -891,7 +894,10 @@ Q3RationalPoint4D_To3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Point3D *re
 	// Debug build checks
 #if Q3_DEBUG
 	if (rationalPoint4D->w == 0.0f)
+		{
+		E3ErrorManager_PostError( kQ3ErrorInfiniteRationalPoint, kQ3False );
 		return(NULL);
+		}
 
 	if (0) // Further checks on result
 		return(NULL);
