@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "QUESA_OS_WINDOWS" /D "WIN32_EXPORTING" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QUESA_EXPORTS" /Yu"stdafx.h" /FD /c
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "QUESA_OS_WIN32" /D "WIN32_EXPORTING" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QUESA_EXPORTS" /Yu"stdafx.h" /FD /c
 # ADD CPP /nologo /MT /W3 /GX /O2 /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers/3dmf" /I "../../Source/FileFormats/Writers/3dmf" /I "../../../SDK/Includes/Apple" /I "../../../SDK/Includes/Quesa" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "WIN32_EXPORTING" /YX"E3Prefix.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -74,7 +74,7 @@ PostBuild_Cmds=copy       ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll      
 # PROP Intermediate_Dir "Debug"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "QUESA_OS_WINDOWS" /D "WIN32_EXPORTING" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QUESA_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
+# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "QUESA_OS_WIN32" /D "WIN32_EXPORTING" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QUESA_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
 # ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers/3dmf" /I "../../Source/FileFormats/Writers/3dmf" /I "../../../SDK/Includes/Apple" /I "../../../SDK/Includes/Quesa" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "WIN32_EXPORTING" /FR /YX"E3Prefix.h" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
