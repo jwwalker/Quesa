@@ -37,8 +37,14 @@
 #include "E3Version.h"
 #include "E3Viewer.h"
 
-#include <NumberFormatting.h>			// HACK used to support NumToString hack.
-#include <QuickDraw.h>
+#if QUESA_OS_MACINTOSH
+	#include <QuickDraw.h>
+	#include <Appearance.h>
+	#include <Resources.h>
+
+	extern short gShlbResFile;		// not sure where this is supposed to go
+#endif
+
 
 //=============================================================================
 //      Internal types
@@ -185,7 +191,7 @@ static TQ3Uns32 e3viewer_buttonHeight(TQ3ViewerData *data)
 {
 	#pragma unused(data)
 	
-	return 28;
+	return 32;
 }
 
 //=============================================================================
@@ -217,9 +223,9 @@ static TQ3Uns32 e3viewer_buttonWidth(TQ3ViewerData *data, TQ3Uns32 buttonID)
 
 	if (kQ3ViewerFlagButtonCamera == buttonID
 	 || kQ3ViewerFlagButtonOptions == buttonID)
-	 	return 40;
+	 	return 42;
 	 	
-	return 32;
+	return 34;
 }
 
 //=============================================================================
@@ -303,26 +309,98 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 			TQ3Uns32 buttonID, TQ3Area *butnRect, TQ3Boolean down)
 {
 	// For now, let's do a Mac-only hack.
-	Rect r;
-	Str255 s;
-	SetPort((GrafPtr)data->mWindow);
+	#if QUESA_OS_MACINTOSH
+		Rect r;
+		ThemeButtonDrawInfo drawInfo = {0};
+		static GWorldPtr sIconImages = NULL, sIconMasks = NULL;
+		PicHandle resPic = NULL;
+		CGrafPtr oldGWorld;
+		GDHandle oldDevice;
+		PixMapHandle imagePM = NULL, maskPM = NULL;
+		Rect srcRect = {0,0,28,32};
+		
+		SetPort((CGrafPtr)data->mWindow);
 
-	E3Area_ToRect(butnRect, &r);
-	ForeColor(blackColor);
-	FrameRect(&r);
+		E3Area_ToRect(butnRect, &r);
+		drawInfo.state = down ? kThemeStatePressed : kThemeStateActive;
+		DrawThemeButton(&r, kThemeMediumBevelButton, 
+			&drawInfo, NULL, NULL, NULL, 0);
 
-	ForeColor(down ? blackColor : whiteColor);
-	InsetRect(&r, 1,1);
-	PaintRect(&r);
+		GetGWorld(&oldGWorld, &oldDevice);
+		if (!sIconImages || !sIconMasks)
+			{
+			Rect r = {0,0, 56, 256};
+			short oldResFile = CurResFile();
+			if (gShlbResFile) UseResFile(gShlbResFile);
+			resPic = GetPicture(129);
+			UseResFile(oldResFile);
+			Q3_ASSERT(resPic);
+			NewGWorld(&sIconImages, 32, &r, NULL, NULL, 0);
+			NewGWorld(&sIconMasks,  32, &r, NULL, NULL, 0);
+			Q3_ASSERT(sIconImages && sIconMasks);
 
-	ForeColor(down ? whiteColor : blackColor);
-	TextFont(kFontIDGeneva);
-	TextSize(12);
-	MoveTo(r.left + 4, r.bottom - 8);
-	NumToString(buttonID, s);
-	DrawString(s);
+			imagePM = GetGWorldPixMap(sIconImages);
+			LockPixels(imagePM);
+			SetGWorld(sIconImages, NULL);
+			EraseRect(&r);
+			DrawPicture(resPic, &r);
 
-	ForeColor(blackColor);
+			maskPM = GetGWorldPixMap(sIconMasks);
+			LockPixels(maskPM);
+			SetGWorld(sIconMasks, NULL);
+			OffsetRect(&r, 0, -28);
+			DrawPicture(resPic, &r);
+			}
+		else
+			{
+			imagePM = GetGWorldPixMap(sIconImages);
+			LockPixels(imagePM);
+			maskPM = GetGWorldPixMap(sIconMasks);
+			LockPixels(maskPM);		
+			}
+		
+		switch (buttonID) {
+			case kQ3ViewerFlagButtonCamera:
+				srcRect.left = 32*0;
+				break;
+			case kQ3ViewerFlagButtonTruck:
+				srcRect.left = 32*1;
+				break;
+			case kQ3ViewerFlagButtonOrbit:
+				srcRect.left = 32*2;
+				break;
+			case kQ3ViewerFlagButtonZoom:
+				srcRect.left = 32*3;
+				break;
+			case kQ3ViewerFlagButtonDolly:
+				srcRect.left = 32*4;
+				break;
+			case kQ3ViewerFlagButtonReset:
+				srcRect.left = 32*5;
+				break;
+			case kQ3ViewerFlagButtonOptions:
+				srcRect.left = 32*6;
+				break;
+			default:
+				srcRect.left = 32*7;
+		}
+		r.left += ((r.right-r.left) - srcRect.right)/2;
+		r.top += ((r.bottom-r.top) - srcRect.bottom)/2;
+		r.right = r.left + srcRect.right;
+		r.bottom = r.top + srcRect.bottom;
+		srcRect.right = srcRect.left + srcRect.right;
+
+		ForeColor(blackColor);
+		BackColor(whiteColor);
+		CopyMask( GetPortBitMapForCopyBits(sIconImages),
+				  GetPortBitMapForCopyBits(sIconMasks),
+				  GetPortBitMapForCopyBits(oldGWorld),
+				  &srcRect, &srcRect, &r );
+
+		SetGWorld(oldGWorld, oldDevice);
+		UnlockPixels(imagePM);
+		UnlockPixels(maskPM);
+	#endif // QUESA_OS_MACINTOSH
 }
 
 //=============================================================================
@@ -332,16 +410,17 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect)
 {
 	// For now, let's do a Mac-only hack.
-	Rect r;
-	RGBColor bgColor = {0xCCCC, 0xCCCC, 0xCCCC};
-	SetPort((GrafPtr)data->mWindow);
+	#if QUESA_OS_MACINTOSH
+		Rect r;
+		RGBColor bgColor = {0xCCCC, 0xCCCC, 0xCCCC};
+		SetPort((CGrafPtr)data->mWindow);
 
-	E3Area_ToRect(stripRect, &r);
-	RGBForeColor(&bgColor);
-	PaintRect(&r);				// Opportunity For Improvement: make a region that excludes the buttons!
+		E3Area_ToRect(stripRect, &r);
+		RGBForeColor(&bgColor);
+		PaintRect(&r);				// Opportunity For Improvement: make a region that excludes the buttons!
 
-	ForeColor(blackColor);
-	
+		ForeColor(blackColor);
+	#endif // QUESA_OS_MACINTOSH
 }
 
 //=============================================================================
@@ -350,24 +429,26 @@ static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect
 static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 {
 	// For now, let's do a Mac-only hack.
-	Rect r;
-	Pattern	pat;
-	SetPort((GrafPtr)data->mWindow);
+	#if QUESA_OS_MACINTOSH
+		Rect r;
+		Pattern	pat;
+		SetPort((CGrafPtr)data->mWindow);
 
-	E3Area_ToRect(rect, &r);
-	ForeColor(blackColor);
-	GetQDGlobalsGray(&pat);
-	PenPat( &pat );
-	FrameRect(&r);
-	InsetRect(&r, 2, 2);
-	FrameRect(&r);
-	
-	PenNormal();
-	InsetRect(&r, -1, -1);
-	ForeColor(whiteColor);
-	FrameRect(&r);
-	
-	ForeColor(blackColor);
+		E3Area_ToRect(rect, &r);
+		ForeColor(blackColor);
+		GetQDGlobalsGray(&pat);
+		PenPat( &pat );
+		FrameRect(&r);
+		InsetRect(&r, 2, 2);
+		FrameRect(&r);
+		
+		PenNormal();
+		InsetRect(&r, -1, -1);
+		ForeColor(whiteColor);
+		FrameRect(&r);
+		
+		ForeColor(blackColor);
+	#endif // QUESA_OS_MACINTOSH	
 }
 
 //=============================================================================
@@ -578,91 +659,94 @@ static void e3viewer_applyRoll(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 //-----------------------------------------------------------------------------
 static void e3viewer_setupView(TQ3ViewerData *instanceData)
 {
-	TQ3MacDrawContextData			contextData = {(TQ3DrawContextClearImageMethod)0};
-	TQ3DrawContextObject			drawContext;
-	TQ3RendererObject				renderer;
-	TQ3ViewAngleAspectCameraData	camData = {0};
-	TQ3CameraObject					camera;
-	TQ3GroupObject					lights;
-	TQ3LightObject					light;
-	TQ3LightData 					ambientData;
-	TQ3DirectionalLightData 		floodData;
-	
-	// Set up the draw context, renderer, etc.
-
-	// common draw context stuff
-	contextData.drawContextData.clearImageMethod = kQ3ClearMethodWithColor;
-	contextData.drawContextData.clearImageColor.a = 0.0f;
-	contextData.drawContextData.clearImageColor.r = 1.0f;
-	contextData.drawContextData.clearImageColor.g = 1.0f;
-	contextData.drawContextData.clearImageColor.b = 1.0f;
-	e3viewer_contentArea(instanceData, &contextData.drawContextData.pane);
-	contextData.drawContextData.paneState = kQ3True;         // true: use given bounds; false: use whole window
-	contextData.drawContextData.maskState = kQ3False;
-	contextData.drawContextData.doubleBufferState = kQ3True;	// should be false on OS X?!?
-
-	// Mac-specific draw context stuff
-	contextData.window = (CWindowPtr)instanceData->mWindow;
-	drawContext = Q3MacDrawContext_New(&contextData);
-
-	// renderer
-	renderer = Q3Renderer_NewFromType( kQ3RendererTypeInteractive );
-
-	// camera
-	camData.cameraData.placement.cameraLocation.x = 0.0f;
-	camData.cameraData.placement.cameraLocation.y = 1.0f;
-	camData.cameraData.placement.cameraLocation.z = 10.0f;
-	camData.cameraData.placement.upVector.y = 1.0f;
-	camData.cameraData.range.hither = 1.0f;
-	camData.cameraData.range.yon = 10000.0f;
-	camData.cameraData.viewPort.origin.x = -1.0f;
-	camData.cameraData.viewPort.origin.y = 1.0f;
-	camData.cameraData.viewPort.width = 2.0f;
-	camData.cameraData.viewPort.height = 2.0f;	
-	camData.fov = 40.0f * 0.0174532925f;		// (convert degrees to radians)
-	camData.aspectRatioXToY = 
-			(contextData.drawContextData.pane.max.x - contextData.drawContextData.pane.min.x)
-		  / (contextData.drawContextData.pane.max.y - contextData.drawContextData.pane.min.y);
-	
-	camera = Q3ViewAngleAspectCamera_New(&camData);
-	
-	// lights...
-	lights = Q3LightGroup_New();
-
-	// Ambient light:
-	ambientData.isOn = kQ3True;
-	ambientData.brightness = 0.4;
-	ambientData.color.r = ambientData.color.g = ambientData.color.b = 1.0f;
-	light = Q3AmbientLight_New(&ambientData);
-	Q3Group_AddObject( lights, light );
-	Q3Object_Dispose(light);
-
-	// Flood light:
-	floodData.lightData.isOn = kQ3True;
-	floodData.lightData.brightness = 0.6f;
-	floodData.lightData.color.r = floodData.lightData.color.g = floodData.lightData.color.b = 1.0f;
-	floodData.castsShadows = kQ3False;
-	floodData.direction.x = 0.18f;
-	floodData.direction.z = 0.22f;
-	floodData.direction.y = -0.8f;
-	Q3Vector3D_Normalize(&floodData.direction, &floodData.direction);
-	light = Q3DirectionalLight_New(&floodData);
-	Q3Group_AddObject( lights, light );
-	Q3Object_Dispose(light);
-	
+	// This code should be mostly portable, except for the contextData.
+	// But currently implemented only for Mac.
+	#if QUESA_OS_MACINTOSH
+		TQ3MacDrawContextData			contextData = {(TQ3DrawContextClearImageMethod)0};
+		TQ3DrawContextObject			drawContext;
+		TQ3RendererObject				renderer;
+		TQ3ViewAngleAspectCameraData	camData = {0};
+		TQ3CameraObject					camera;
+		TQ3GroupObject					lights;
+		TQ3LightObject					light;
+		TQ3LightData 					ambientData;
+		TQ3DirectionalLightData 		floodData;
 		
-	// hook it all together
-	Q3View_SetDrawContext(instanceData->mView, drawContext);
-	Q3View_SetCamera(instanceData->mView, camera);
-	Q3View_SetRenderer(instanceData->mView, renderer);
-	Q3View_SetLightGroup(instanceData->mView, lights);
+		// Set up the draw context, renderer, etc.
 
-	// clean up
-	Q3Object_Dispose(drawContext);
-	Q3Object_Dispose(camera);
-	Q3Object_Dispose(renderer);
-	Q3Object_Dispose(lights);
-	
+		// common draw context stuff
+		contextData.drawContextData.clearImageMethod = kQ3ClearMethodWithColor;
+		contextData.drawContextData.clearImageColor.a = 0.0f;
+		contextData.drawContextData.clearImageColor.r = 1.0f;
+		contextData.drawContextData.clearImageColor.g = 1.0f;
+		contextData.drawContextData.clearImageColor.b = 1.0f;
+		e3viewer_contentArea(instanceData, &contextData.drawContextData.pane);
+		contextData.drawContextData.paneState = kQ3True;         // true: use given bounds; false: use whole window
+		contextData.drawContextData.maskState = kQ3False;
+		contextData.drawContextData.doubleBufferState = kQ3True;	// should be false on OS X?!?
+
+		// Mac-specific draw context stuff
+		contextData.window = (CWindowPtr)instanceData->mWindow;
+		drawContext = Q3MacDrawContext_New(&contextData);
+
+		// renderer
+		renderer = Q3Renderer_NewFromType( kQ3RendererTypeInteractive );
+
+		// camera
+		camData.cameraData.placement.cameraLocation.x = 0.0f;
+		camData.cameraData.placement.cameraLocation.y = 1.0f;
+		camData.cameraData.placement.cameraLocation.z = 10.0f;
+		camData.cameraData.placement.upVector.y = 1.0f;
+		camData.cameraData.range.hither = 1.0f;
+		camData.cameraData.range.yon = 10000.0f;
+		camData.cameraData.viewPort.origin.x = -1.0f;
+		camData.cameraData.viewPort.origin.y = 1.0f;
+		camData.cameraData.viewPort.width = 2.0f;
+		camData.cameraData.viewPort.height = 2.0f;	
+		camData.fov = 40.0f * 0.0174532925f;		// (convert degrees to radians)
+		camData.aspectRatioXToY = 
+				(contextData.drawContextData.pane.max.x - contextData.drawContextData.pane.min.x)
+			  / (contextData.drawContextData.pane.max.y - contextData.drawContextData.pane.min.y);
+		
+		camera = Q3ViewAngleAspectCamera_New(&camData);
+		
+		// lights...
+		lights = Q3LightGroup_New();
+
+		// Ambient light:
+		ambientData.isOn = kQ3True;
+		ambientData.brightness = 0.4;
+		ambientData.color.r = ambientData.color.g = ambientData.color.b = 1.0f;
+		light = Q3AmbientLight_New(&ambientData);
+		Q3Group_AddObject( lights, light );
+		Q3Object_Dispose(light);
+
+		// Flood light:
+		floodData.lightData.isOn = kQ3True;
+		floodData.lightData.brightness = 0.6f;
+		floodData.lightData.color.r = floodData.lightData.color.g = floodData.lightData.color.b = 1.0f;
+		floodData.castsShadows = kQ3False;
+		floodData.direction.x = 0.18f;
+		floodData.direction.z = 0.22f;
+		floodData.direction.y = -0.8f;
+		Q3Vector3D_Normalize(&floodData.direction, &floodData.direction);
+		light = Q3DirectionalLight_New(&floodData);
+		Q3Group_AddObject( lights, light );
+		Q3Object_Dispose(light);
+		
+			
+		// hook it all together
+		Q3View_SetDrawContext(instanceData->mView, drawContext);
+		Q3View_SetCamera(instanceData->mView, camera);
+		Q3View_SetRenderer(instanceData->mView, renderer);
+		Q3View_SetLightGroup(instanceData->mView, lights);
+
+		// clean up
+		Q3Object_Dispose(drawContext);
+		Q3Object_Dispose(camera);
+		Q3Object_Dispose(renderer);
+		Q3Object_Dispose(lights);
+	#endif // QUESA_OS_MACINTOSH
 }
 
 //=============================================================================
