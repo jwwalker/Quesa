@@ -300,7 +300,6 @@ WFGeometry_TriMesh(TQ3ViewObject			theView,
 
 
 	// Set up the vertex array
-	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, geomData->points);
 
 
@@ -319,9 +318,6 @@ WFGeometry_TriMesh(TQ3ViewObject			theView,
 		glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, geomData->triangles);
 
 
-
-	// Clean up
-	glDisableClientState(GL_VERTEX_ARRAY);
 
 	return(kQ3Success);
 }
