@@ -707,25 +707,22 @@ E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 								const void					*userData,
 								TQ3TriMeshAttributeData		*theAttribute,
 								TQ3AttributeType			attributeType)
-{	TQ3Uns32			n, numPresent, attributeSize;
-	TQ3Boolean			isPresent;
-	void				*dataPtr;
-	E3ClassInfoPtr		theClass;
+{	TQ3Uns32			n;
 	TQ3AttributeSet		theSet;
 
 
 
 	// Find out how large the data for each attribute is
-	theClass = E3ClassTree_GetClassByType(E3Attribute_AttributeToClassType(attributeType));
-	if (theClass == NULL)
-		return(kQ3False);
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass  (E3Attribute_AttributeToClassType ( attributeType ) ) ;
+	if ( theClass == NULL )
+		return kQ3False ;
 
-	attributeSize = E3ClassTree_GetInstanceSize(theClass);
+	TQ3Uns32 attributeSize = theClass->GetInstanceSize () ;
 
 
 
 	// Scan the attribute sets to determine if this attribute is present
-	numPresent = 0;
+	TQ3Uns32 numPresent = 0 ;
 	for (n = 0; n < numSets; n++)
 		{
 		theSet = userCallback(userData, n);
@@ -763,10 +760,10 @@ E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 		{
 		// Grab the attribute data if it's present
 		theSet    = userCallback(userData, n);
-		isPresent = (TQ3Boolean) (theSet != NULL && Q3AttributeSet_Contains(theSet, attributeType));
+		TQ3Boolean isPresent = (TQ3Boolean) (theSet != NULL && Q3AttributeSet_Contains(theSet, attributeType));
 		if (isPresent)
 			{
-			dataPtr = ((TQ3Uns8 *) theAttribute->data) + (n * attributeSize);
+			void* dataPtr = ( (TQ3Uns8 *) theAttribute->data ) + ( n * attributeSize ) ;
 			Q3AttributeSet_Get(theSet, attributeType, dataPtr);
 			}
 

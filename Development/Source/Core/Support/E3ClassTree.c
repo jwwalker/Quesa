@@ -114,28 +114,15 @@
 #if Q3_DEBUG
 
 void
-E3InstanceNode::Verify ()
+OpaqueTQ3Object::Verify ()
 	{
 	// Verify the object
-	Q3_ASSERT(quesaTag == kQ3ObjectTypeQuesa);
-	Q3_ASSERT_VALID_PTR(theClass);
+	Q3_ASSERT ( quesaTag == kQ3ObjectTypeQuesa ) ;
+	Q3_ASSERT_VALID_PTR ( theClass ) ;
 
-	if (theClass->instanceSize == 0)
-		{
-		if ( theClass->includesParentData == kQ3False )
-			Q3_ASSERT(instanceData == NULL);
-		}
-	else
-		{
-		Q3_ASSERT_VALID_PTR(instanceData);
-		TQ3ObjectType* instanceTrailer = (TQ3ObjectType *) (((TQ3Uns8 *) instanceData) +
-											 theClass->instanceSize);
+	TQ3ObjectType* instanceTrailer = (TQ3ObjectType*) ( ( (TQ3Uns8 *) this ) + theClass->instanceSize ) ;
 		
-		Q3_ASSERT(*instanceTrailer == kQ3ObjectTypeQuesa);
-		}
-
-	if (theClass->classType != kQ3ObjectTypeRoot && theClass->includesParentData == kQ3False)
-		Q3_ASSERT_VALID_PTR(parentObject);
+	Q3_ASSERT ( *instanceTrailer == kQ3ObjectTypeQuesa ) ;
 	}
 
 #endif // Q3_DEBUG
@@ -168,10 +155,10 @@ E3ClassInfo::Attach ( E3ClassInfoPtr theChild, E3ClassInfoPtr theParent )
 
 
 	// Connect the child to the parent and the parent to the child
-	theParent->theChildren[theParent->numChildren] = theChild;
-	theParent->numChildren++;
+	theParent->theChildren [ theParent->numChildren ] = theChild ;
+	theParent->numChildren++ ;
 	
-	theChild->theParent = theParent;
+	theChild->theParent = theParent ;
 	
 	return kQ3Success ;
 	}
@@ -197,7 +184,7 @@ E3ClassInfo::Detach ( void )
 	for ( TQ3Uns32 n = 0 ; n < theParent->numChildren ; ++n )
 		{
 		// If this child matches, shift everything else down
-		if ( theParent->theChildren[n] == this )
+		if ( theParent->theChildren [ n ] == this )
 			{
 			// If there's anything above us, copy it down
 			if (n != (theParent->numChildren-1))
@@ -281,32 +268,22 @@ E3ClassInfo::Find_Method ( TQ3XMethodType methodType, TQ3Boolean canInherit )
 
 
 	// Walk up the class tree until we find the method
-	TQ3Boolean areDone   = kQ3False;
-	TQ3XFunctionPointer theMethod = NULL;
-	E3ClassInfoPtr theClass = this ;
-	do
-		{
-		// Check the current class
-		if ( theClass->classMetaHandler != NULL )
-			theMethod = theClass->classMetaHandler ( methodType ) ;
+	
+	if ( classMetaHandler != NULL )
+		if ( TQ3XFunctionPointer leafMethod = classMetaHandler ( methodType ) )
+			return leafMethod ;
+	
+	// If this class doesn't implement it, and we can inherit, try each of the parents in turn
+	if ( canInherit )	
+		for ( E3ClassInfoPtr theClass = theParent ; theClass != NULL ; theClass = theClass->theParent )
+			if ( theClass->classMetaHandler != NULL ) // Check the current class
+				if ( TQ3XFunctionPointer theMethod = theClass->classMetaHandler ( methodType ) )
+					return theMethod ;
 
 
 
-		// If this class doesn't implement it, and we can inherit, try the parent
-		if ( theMethod == NULL && theClass->theParent != NULL && canInherit )
-			theClass = theClass->theParent;
-
-
-		// Otherwise, we're done
-		else
-			areDone = kQ3True;
-		}
-	while (!areDone);
-
-
-
-	// Return whatever we found
-	return theMethod ;
+	// Did not find a suitable method, return NULL
+	return NULL ;
 	}
 
 
@@ -482,7 +459,7 @@ E3ClassTree::RegisterExternalClass (
 										classType,
 										className,
 										classMetaHandler,
-										~ ( leafInstanceSize + parentClass->instanceSize ) ) ;
+										leafInstanceSize + parentClass->instanceSize ) ;
 	}
 	
 	
@@ -491,12 +468,11 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 								TQ3ObjectType		classType,
 								const char			*className,
 								TQ3XMetaHandler		classMetaHandler,
-								TQ3Int32			instanceSizeAndFlag )
+								TQ3Int32			instanceSizeAndRedundantFlag )
 	{
+	TQ3Uns32 instanceSize = instanceSizeAndRedundantFlag >= 0 ? instanceSizeAndRedundantFlag : ~instanceSizeAndRedundantFlag ;
 	E3GlobalsPtr theGlobals = E3Globals_Get () ;
 	TQ3Status qd3dStatus = kQ3Success ;
-
-
 
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(className),                    kQ3Failure);
@@ -508,94 +484,92 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 
 
 	// Make sure the class isn't registered yet
-	if ( E3ClassTree::GetClass ( classType ) != NULL)
+	if ( E3ClassTree::GetClass ( classType ) != NULL )
 		return kQ3Failure ;
 
 
 
 	// Find the parent class
 	E3ClassInfoPtr parentClass = NULL;
-	if (parentClassType != kQ3ObjectTypeInvalid)
+	if ( parentClassType != kQ3ObjectTypeInvalid )
 		{
 		parentClass = E3ClassTree::GetClass ( parentClassType ) ;
 		if ( parentClass == NULL )
 			return kQ3Failure ;
+		Q3_ASSERT ( instanceSize >= parentClass->instanceSize ) ;
 		}
 
 
 
 	// Allocate the new class
-	E3ClassInfoPtr theClass = (E3ClassInfoPtr) Q3Memory_AllocateClear(sizeof(E3ClassInfo));
+	E3ClassInfoPtr theClass = (E3ClassInfoPtr) Q3Memory_AllocateClear ( sizeof ( E3ClassInfo ) ) ;
 	if ( theClass == NULL )
 		return kQ3Failure ;
 
-	theClass->className   = (char *) Q3Memory_Allocate(strlen(className) + 1);
-	theClass->methodTable = E3HashTable_Create(kMethodHashTableSize);
+	theClass->className   = (char *) Q3Memory_Allocate ( strlen ( className ) + 1 ) ;
+	theClass->methodTable = E3HashTable_Create ( kMethodHashTableSize)  ;
 
-	if (theClass->className == NULL || theClass->methodTable == NULL)
+	if ( theClass->className == NULL || theClass->methodTable == NULL )
 		{
-		if (theClass->className != NULL)
-			Q3Memory_Free(&theClass->className);
+		if ( theClass->className != NULL )
+			Q3Memory_Free ( & theClass->className ) ;
 		
-		if (theClass->methodTable != NULL)
-			E3HashTable_Destroy(&theClass->methodTable);
+		if ( theClass->methodTable != NULL )
+			E3HashTable_Destroy ( &theClass->methodTable ) ;
 
-		Q3Memory_Free(&theClass);
+		Q3Memory_Free ( &theClass ) ;
 		return kQ3Failure ;
 		}
 
 
 
 	// Initialise the class
-	theClass->classType        = classType;
-	theClass->classMetaHandler = classMetaHandler;
-	theClass->instanceSize     = instanceSizeAndFlag >= 0 ? instanceSizeAndFlag : ~instanceSizeAndFlag ;
-	if ( parentClass && parentClass->includesParentData == kQ3False )
-		theClass->includesParentData = kQ3False ;
-	else
-		theClass->includesParentData = instanceSizeAndFlag < 0 ? kQ3True : kQ3False ;
-	strcpy(theClass->className, className);
+	theClass->classType        = classType ;
+	theClass->classMetaHandler = classMetaHandler ;
+	theClass->instanceSize     = instanceSize ;
+
+	strcpy ( theClass->className, className ) ;
 
 
 
 	// If we don't have a hash table yet, create it
-	if (theGlobals->classTree == NULL)
+	if ( theGlobals->classTree == NULL )
 		{
-		theGlobals->classTreeRoot = theClass;
-		theGlobals->classTree     = E3HashTable_Create(kClassHashTableSize);
-		if (theGlobals->classTree == NULL)
-			qd3dStatus = kQ3Failure;
+		theGlobals->classTreeRoot = theClass ;
+		theGlobals->classTree     = E3HashTable_Create ( kClassHashTableSize ) ;
+		if ( theGlobals->classTree == NULL )
+			qd3dStatus = kQ3Failure ;
 		}
 
 
 
 	// Store the class in the hash table
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3HashTable_Add(theGlobals->classTree, classType, theClass);
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3HashTable_Add ( theGlobals->classTree, classType, theClass ) ;
 
-	if (qd3dStatus == kQ3Success && parentClass != NULL)
+	if ( qd3dStatus != kQ3Failure && parentClass != NULL )
 		qd3dStatus = E3ClassInfo::Attach ( theClass, parentClass ) ;
 
 
 
 	// Handle failure
-	if (qd3dStatus != kQ3Success)
+	if ( qd3dStatus == kQ3Failure )
 		{
 		// Clean up the class tree
-		if (theGlobals->classTree != NULL)
+		if ( theGlobals->classTree != NULL )
 			{
-			if (E3HashTable_Find(theGlobals->classTree, classType) != NULL)
-				E3HashTable_Remove(theGlobals->classTree, classType);
+			if ( E3HashTable_Find ( theGlobals->classTree, classType) != NULL )
+				E3HashTable_Remove ( theGlobals->classTree, classType ) ;
 			}
 			
-		if (theGlobals->classTreeRoot == theClass)
-				theGlobals->classTreeRoot = NULL;
+		if ( theGlobals->classTreeRoot == theClass )
+				theGlobals->classTreeRoot = NULL ;
 
 
 		// Clean up the class
-		Q3Memory_Free(&theClass->className);
-		E3HashTable_Destroy(&theClass->methodTable);
-		Q3Memory_Free(&theClass);
+		Q3Memory_Free ( & theClass->className ) ;
+		E3HashTable_Destroy ( & theClass->methodTable ) ;
+		Q3Memory_Free ( & theClass ) ;
 		}
 
 	return qd3dStatus ;
@@ -703,9 +677,9 @@ E3ClassTree::UnregisterClass ( TQ3ObjectType classType, TQ3Boolean isRequired )
 //				call Q3XObjectHierarchy_NewObject.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InstanceNode::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
-										TQ3Boolean		sharedParams,
-										const void		*paramData)
+OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
+											TQ3Boolean		sharedParams,
+											const void		*paramData )
 	{	
 	TQ3Status qd3dStatus = kQ3Success ;
 	TQ3Uns32 parentInstanceSize = 0 ;	
@@ -716,9 +690,9 @@ E3InstanceNode::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
 		{
 		parentInstanceSize = parentClass->instanceSize ;
 		if (sharedParams)
-			qd3dStatus = InitialiseInstanceData (parentClass, sharedParams, paramData);
+			qd3dStatus = InitialiseInstanceData ( parentClass, sharedParams, paramData ) ;
 		else
-			qd3dStatus = InitialiseInstanceData (parentClass, sharedParams, NULL);
+			qd3dStatus = InitialiseInstanceData ( parentClass, sharedParams, NULL ) ;
 		}
 
 	// If this class has any private data, initialise it
@@ -728,16 +702,11 @@ E3InstanceNode::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
 		TQ3XObjectNewMethod newMethod = (TQ3XObjectNewMethod) theClass->Find_Method (
 															  kQ3XMethodTypeObjectNew,
 															  kQ3False ) ;
-		if (newMethod != NULL)
+		if ( newMethod != NULL )
 			{
 			qd3dStatus = newMethod ( (TQ3Object) this, (void*) ( (TQ3Uns8*) this + parentInstanceSize ), (void *) paramData ) ;
-			if (qd3dStatus != kQ3Success)
-				{
-				if (parentObject != NULL)
-					DeleteInstanceData ( theClass->theParent ) ;
-
+			if ( qd3dStatus == kQ3Failure )
 				return kQ3Failure ;
-				}
 			}
 		else 
 			{
@@ -746,24 +715,20 @@ E3InstanceNode::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
 			TQ3XElementCopyAddMethod copyAddMethod = (TQ3XElementCopyAddMethod) theClass->Find_Method (
 																  kQ3XMethodTypeElementCopyAdd,
 																  kQ3False ) ;
-			if (copyAddMethod != NULL)
+			if ( copyAddMethod != NULL )
 				{
-				qd3dStatus = copyAddMethod(paramData, ( (TQ3Uns8*) this + parentInstanceSize ) );
-				if (qd3dStatus != kQ3Success)
-					{
-					if (parentObject != NULL)
-						DeleteInstanceData ( theClass->theParent ) ;
-
+				qd3dStatus = copyAddMethod ( paramData, ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
+				if ( qd3dStatus == kQ3Failure )
 					return kQ3Failure ;
-					}
 				}
 
 			// Otherwise if there was no new method, but there was parameter data, do a
 			// bitwise copy. Classes which require more advanced initialisation must supply
 			// a new method, and classes which don't have any parameter data will be left
 			// with instance data that's initialised to 0s.
-			else if (paramData != NULL)
-				Q3Memory_Copy(paramData, ((TQ3Uns8*) this ) + parentInstanceSize, theClass->instanceSize - parentInstanceSize );
+			else
+			if ( paramData != NULL )
+				Q3Memory_Copy ( paramData, ( (TQ3Uns8*) this ) + parentInstanceSize, theClass->instanceSize - parentInstanceSize ) ;
 			}
 		}
 
@@ -792,16 +757,8 @@ E3InstanceNode::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
 TQ3Object
 E3ClassTree::CreateInstance (	TQ3ObjectType	classType,
 								TQ3Boolean		sharedParams,
-								const void		*paramData,
-								TQ3Boolean		leaf )
+								const void		*paramData )
 	{
-	TQ3ObjectType				*instanceTrailer;
-	TQ3Status					qd3dStatus;
-	
-	
-	TQ3Object theObject = NULL ;
-
-
 	// Find the class to instantiate
 	//
 	// Instantiating objects is often the first thing to fail if the library
@@ -809,179 +766,52 @@ E3ClassTree::CreateInstance (	TQ3ObjectType	classType,
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( classType ) ;
 	if ( theClass == NULL )
 		{
-		E3ErrorManager_PostWarning(kQ3WarningTypeHasNotBeenRegistered);
+		E3ErrorManager_PostWarning ( kQ3WarningTypeHasNotBeenRegistered ) ;
 
-		if (!Q3IsInitialized())
-			E3ErrorManager_PostError(kQ3ErrorNotInitialized, kQ3False);
+		if ( ! Q3IsInitialized () )
+			E3ErrorManager_PostError ( kQ3ErrorNotInitialized, kQ3False ) ;
 
 		return NULL ;
 		}
 
 
-	if ( theClass->includesParentData == kQ3False )
-		{
-		// Allocate and initialise the object
-		E3InstanceNode* theNode = (E3InstanceNode*) Q3Memory_AllocateClear(sizeof(E3InstanceNode));
-		if (theNode == NULL)
-			return(NULL);
-
-		theNode->quesaTag = kQ3ObjectTypeQuesa;
-		theNode->theClass = theClass;
-
-
-
-		// If this class has a parent, instantiate the parent object
-		if (theClass->theParent != NULL)
-			{
-			TQ3ObjectType parentType = theClass->theParent->GetType () ;
-
-			if (sharedParams)
-				theNode->parentObject = E3ClassTree::CreateInstance ( parentType , sharedParams, paramData, kQ3False ) ;
-			else
-				theNode->parentObject = E3ClassTree::CreateInstance ( parentType , sharedParams, NULL, kQ3False ) ;
-				
-			if (theNode->parentObject == NULL)
-				{
-				Q3Memory_Free(&theNode);
-				return(NULL);
-				}
-			
-			#if Q3_DEBUG
-			theNode->parentObject->childObject = theNode;
-			#endif
-
-
-
-			E3InstanceNode* rootNode = theNode ;
-			while ( rootNode->parentObject != NULL )
-				rootNode = rootNode->parentObject ;
-			theObject = (TQ3Object) rootNode ;
-
-			if ( leaf != kQ3False )
-				theObject->leafInstanceData = theNode ;
-			}
-
-
-
-		// If this class has any private data, allocate and initialise it
-		if (theClass->instanceSize != 0)
-			{
-			// Allocate the private data
-			theNode->instanceData = Q3Memory_AllocateClear(theClass->instanceSize + sizeof(TQ3ObjectType));
-			if (theNode->instanceData == NULL)
-				{
-				if (theNode->parentObject != NULL)
-					theNode->parentObject->DestroyInstance () ;
-
-				Q3Memory_Free(&theNode);
-				return(NULL);
-				}
-
-
-
-			// Initialise the trailer
-			instanceTrailer = (TQ3ObjectType *) (((TQ3Uns8 *) theNode->instanceData) +
-												 theNode->theClass->instanceSize);
-			*instanceTrailer = kQ3ObjectTypeQuesa;
-
-
-
-			// If the object has a new method, call it to initialise the object
-			TQ3XObjectNewMethod newMethod = (TQ3XObjectNewMethod) theClass->Find_Method (
-																  kQ3XMethodTypeObjectNew,
-																  kQ3False ) ;
-			if (newMethod != NULL)
-				{
-				qd3dStatus = newMethod ( theObject, theNode->instanceData, (void*) paramData ) ;
-				if (qd3dStatus != kQ3Success)
-					{
-					if (theNode->parentObject != NULL)
-						theNode->parentObject->DestroyInstance () ;
-
-					Q3Memory_Free(&theNode->instanceData);
-					Q3Memory_Free(&theNode);
-					return(NULL);
-					}
-				}
-			else 
-				{
-				// If the object is an element, it might have a copy add method
-				// which we call to initialise the object.
-				TQ3XElementCopyAddMethod copyAddMethod = (TQ3XElementCopyAddMethod) theClass->Find_Method (
-																	  kQ3XMethodTypeElementCopyAdd,
-																	  kQ3False ) ;
-				if (copyAddMethod != NULL)
-					{
-					qd3dStatus = copyAddMethod(paramData, theNode->instanceData);
-					if (qd3dStatus != kQ3Success)
-						{
-						if (theNode->parentObject != NULL)
-							theNode->parentObject->DestroyInstance () ;
-
-						Q3Memory_Free(&theNode->instanceData);
-						Q3Memory_Free(&theNode);
-						return(NULL);
-						}
-					}
-
-				// Otherwise if there was no new method, but there was parameter data, do a
-				// bitwise copy. Classes which require more advanced initialisation must supply
-				// a new method, and classes which don't have any parameter data will be left
-				// with instance data that's initialised to 0s.
-				else if (paramData != NULL)
-					Q3Memory_Copy(paramData, theNode->instanceData, theClass->instanceSize);
-				}
-			}
-
-		// Increment the instance count of the class (watch for overflow)
-		theClass->numInstances++;
-		Q3_ASSERT(theClass->numInstances > 0);
-
-
-
-		// Verify the object and return it
-		Q3_CLASS_VERIFY(theNode);
-
-		if ( leaf != kQ3False )
-			return theObject ;
-			
-		return (TQ3Object) theNode ;
-		}
-
-
+	return theClass->CreateInstance ( sharedParams , paramData ) ;
+	}
+	
+	
+	
+TQ3Object
+E3ClassInfo::CreateInstance (	TQ3Boolean		sharedParams,
+								const void		*paramData )
+	{
 	// Allocate and initialise the object
-	theObject = (TQ3Object) Q3Memory_AllocateClear ( theClass->instanceSize + sizeof ( TQ3ObjectType ) ) ;
-	if (theObject == NULL)
-		return(NULL);
+	TQ3Object theObject = (TQ3Object) Q3Memory_AllocateClear ( instanceSize + sizeof ( TQ3ObjectType ) ) ;
+	if ( theObject == NULL )
+		return NULL ;
 
-	theObject->quesaTag = kQ3ObjectTypeQuesa;
-	theObject->theClass = theClass;
-	theObject->instanceData = (void*) theObject ; // Ditch this eventually
+	theObject->quesaTag = kQ3ObjectTypeQuesa ;
+	theObject->theClass = this ;
 	
 	// Initialise the trailer
-	instanceTrailer = (TQ3ObjectType *) (((TQ3Uns8 *) theObject) + theClass->instanceSize ) ;
-	*instanceTrailer = kQ3ObjectTypeQuesa;
-	
-	theObject->leafInstanceData = theObject ; // Done here because things called by InitialiseInstanceData use it
-	
-	qd3dStatus = theObject->InitialiseInstanceData (theClass, sharedParams, paramData);
+	TQ3ObjectType* instanceTrailer = (TQ3ObjectType *) (((TQ3Uns8 *) theObject) + instanceSize ) ;
+	*instanceTrailer = kQ3ObjectTypeQuesa ;
+		
+	TQ3Status qd3dStatus = theObject->InitialiseInstanceData ( this, sharedParams, paramData ) ;
 
-	if (qd3dStatus != kQ3Success)
+	if ( qd3dStatus == kQ3Failure )
 		{
-		Q3Memory_Free(&theObject);
-		return(NULL);
+		Q3Memory_Free ( &theObject ) ;
+		return NULL ;
 		}
 		
 	// Increment the instance count of the class (watch for overflow)
-	theClass->numInstances++;
-	Q3_ASSERT(theClass->numInstances > 0);
+	++numInstances ;
+	Q3_ASSERT ( numInstances > 0 ) ;
 
 
 
 	// Verify the object and return it
-	Q3_CLASS_VERIFY(theObject);
-
-	theObject->leafInstanceData = theObject ;
+	Q3_CLASS_VERIFY ( theObject ) ;
 
 	return theObject ;
 	}
@@ -994,7 +824,7 @@ E3ClassTree::CreateInstance (	TQ3ObjectType	classType,
 //      e3ClassTree_DeleteInstanceDataOfClass : Call delete methods on the instance data of a class and its parent classes.
 //-----------------------------------------------------------------------------
 void
-E3InstanceNode::DeleteInstanceData ( E3ClassInfoPtr theClass )
+OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr theClass )
 	{
 	TQ3Uns32 parentInstanceSize = 0 ;
 	
@@ -1005,9 +835,9 @@ E3InstanceNode::DeleteInstanceData ( E3ClassInfoPtr theClass )
 	TQ3XElementDeleteMethod elementDeleteMethod = (TQ3XElementDeleteMethod) theClass->Find_Method (
 																			kQ3XMethodTypeElementDelete,
 																			kQ3False ) ;
-	if (elementDeleteMethod != NULL)
+	if ( elementDeleteMethod != NULL )
 		{
-		E3InstanceNode* thisPtr = this ; // So can be set to null in delete method
+		OpaqueTQ3Object* thisPtr = this ; // So can be set to null in delete method
 		elementDeleteMethod ( ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
 		}	
 	else
@@ -1017,14 +847,14 @@ E3InstanceNode::DeleteInstanceData ( E3ClassInfoPtr theClass )
 																		kQ3XMethodTypeObjectDelete,
 																		kQ3False ) ;
 
-		if (deleteMethod != NULL)
+		if ( deleteMethod != NULL )
 			deleteMethod ( (TQ3Object) this , (void*)  ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
 		}
 
 
 
 	// Dispose of the parent object, if any
-	if (theClass->theParent != NULL)
+	if ( theClass->theParent != NULL )
 		DeleteInstanceData ( theClass->theParent ) ;
 
 	}
@@ -1037,56 +867,28 @@ E3InstanceNode::DeleteInstanceData ( E3ClassInfoPtr theClass )
 //      E3ClassTree_DestroyInstance : Destroy an instance of a class.
 //-----------------------------------------------------------------------------
 void
-E3InstanceNode::DestroyInstance ( void )
+OpaqueTQ3Object::DestroyInstance ( void )
 	{
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(this));
 	Q3_CLASS_VERIFY(this);
 
-	if ( theClass->includesParentData == kQ3False )
-		{
-		// Call the object's delete method
-		TQ3XElementDeleteMethod elementDeleteMethod = (TQ3XElementDeleteMethod) theClass->Find_Method (
-																			kQ3XMethodTypeElementDelete,
-																			kQ3False ) ;
-		if ( elementDeleteMethod != NULL ) 
-			elementDeleteMethod ( instanceData ) ;		
-		else
-			{
-			TQ3XObjectDeleteMethod deleteMethod = (TQ3XObjectDeleteMethod) theClass->Find_Method (
-																		kQ3XMethodTypeObjectDelete,
-																		kQ3False ) ;
-			E3InstanceNode* root = this ;
-			while ( root->parentObject != NULL )
-				root = root->parentObject ;
-			if ( deleteMethod != NULL )
-				deleteMethod ( (TQ3Object) root, instanceData ) ;
-			}
 
 
+	// Call the object's delete method and all its parent classes' delete methods
+	DeleteInstanceData ( theClass ) ;
 
-		// Dispose of the parent object, if any
-		if ( parentObject != NULL )
-			parentObject->DestroyInstance () ;
-
-		Q3Memory_Free(&instanceData);
-		}
-	else
-		{
-		// Call the object's delete method and all its parent classes' delete methods
-		DeleteInstanceData ( theClass ) ;
-		}
 
 
 	// Decrement the instance count of the class
 	Q3_ASSERT(theClass->numInstances > 0);
-	theClass->numInstances--;
+	theClass->numInstances-- ;
 
 
 
 	// Dispose of the object
 	TQ3Object theObject = (TQ3Object) this ;		
-	Q3Memory_Free(&theObject);
+	Q3Memory_Free ( & theObject ) ;
 	}
 
 
@@ -1097,7 +899,7 @@ E3InstanceNode::DestroyInstance ( void )
 //      E3ClassTree_DuplicateInstanceDataOfClass : Duplicate the instance data of a class and its parent classes.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InstanceNode::DuplicateInstanceData (	TQ3Object		newObject,
+OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 										E3ClassInfoPtr	theClass )
 	{
 	TQ3Status qd3dStatus ;
@@ -1164,164 +966,46 @@ E3InstanceNode::DuplicateInstanceData (	TQ3Object		newObject,
 //      E3ClassTree_DuplicateInstance : Duplicate an instance of a class.
 //-----------------------------------------------------------------------------
 TQ3Object
-E3InstanceNode::DuplicateInstance ( void )
+OpaqueTQ3Object::DuplicateInstance ( void )
 	{
-	TQ3ObjectType					*instanceTrailer;
-	TQ3Status						qd3dStatus;
-	TQ3Object						newObject;
-
-
-
 	// Verify our parameters
 	Q3_CLASS_VERIFY(this);
 	Q3_ASSERT_VALID_PTR(theClass);
 
 
 
-	if ( theClass->includesParentData == kQ3False )
+	// Allocate and initialise the object
+	TQ3Object newObject = (TQ3Object) Q3Memory_AllocateClear ( theClass->instanceSize + sizeof ( TQ3ObjectType ) ) ;
+	if ( newObject == NULL )
+		return NULL ;
+
+	newObject->quesaTag = kQ3ObjectTypeQuesa ;
+	newObject->theClass = theClass;
+
+	// Initialise the trailer
+	TQ3ObjectType* instanceTrailer = (TQ3ObjectType *) (((TQ3Uns8 *) newObject) + theClass->instanceSize ) ;
+	*instanceTrailer = kQ3ObjectTypeQuesa ;
+
+
+	TQ3Status qd3dStatus = DuplicateInstanceData ( newObject , theClass ) ;
+	if ( qd3dStatus == kQ3Failure )
 		{
-		// Allocate and initialise the object
-		newObject = (TQ3Object) Q3Memory_AllocateClear(sizeof(E3InstanceNode));
-		if (newObject == NULL)
-			return(NULL);
-
-		newObject->quesaTag = kQ3ObjectTypeQuesa;
-		newObject->theClass = theClass;
-
-
-
-		// If the object has a parent, duplicate the parent object
-		if ( parentObject != NULL )
-			{
-			newObject->parentObject = parentObject->DuplicateInstance () ;
-			if (newObject->parentObject == NULL)
-				{
-				Q3Memory_Free(&newObject);
-				return(NULL);
-				}
-			
-			#if Q3_DEBUG
-			newObject->parentObject->childObject = newObject;
-			#endif
-			}
-
-
-
-		// If the object has any private data, allocate and duplicate it
-		if ( instanceData != NULL )
-			{
-			// Allocate the private data
-			newObject->instanceData = Q3Memory_AllocateClear(theClass->instanceSize + sizeof(TQ3ObjectType));
-			if (newObject->instanceData == NULL)
-				{
-//				if (newObject->parentObject != NULL)
-//					Q3Object_Dispose(newObject->parentObject); In a few weeks this code will not exist. In the meantime if we fill virtual memory we leak a little, so what!
-
-				Q3Memory_Free(&newObject);
-				return(NULL);
-				}
-
-
-
-			// Initialise the trailer
-			instanceTrailer = (TQ3ObjectType *) (((TQ3Uns8 *) newObject->instanceData) +
-												 newObject->theClass->instanceSize);
-			*instanceTrailer = kQ3ObjectTypeQuesa;
-
-
-
-			// Call the object's duplicate method to initialise it. If the object
-			// does not have duplicate method, we do a bitwise copy.
-			TQ3XObjectDuplicateMethod duplicateMethod = (TQ3XObjectDuplicateMethod) theClass->Find_Method (
-																			  kQ3XMethodTypeObjectDuplicate,
-																			  kQ3False ) ;
-			if (duplicateMethod == NULL)
-				{
-				TQ3XElementCopyDuplicateMethod elementDuplicateMethod =
-						(TQ3XElementCopyDuplicateMethod) theClass->Find_Method (
-																			kQ3XMethodTypeElementCopyDuplicate,
-																			kQ3False ) ;
-				if (elementDuplicateMethod != NULL)
-					{
-					qd3dStatus = elementDuplicateMethod ( instanceData, newObject->instanceData ) ;
-					if (qd3dStatus != kQ3Success)
-						{
-//						if (newObject->parentObject != NULL)
-//							Q3Object_Dispose(newObject->parentObject); In a few weeks this code will not exist. In the meantime if we fill virtual memory we leak a little, so what!
-
-						Q3Memory_Free(&newObject->instanceData);
-						Q3Memory_Free(&newObject);
-						return(NULL);
-						}
-					}
-				else
-					Q3Memory_Copy ( instanceData, newObject->instanceData, theClass->instanceSize ) ;
-				}	
-			else
-				{
-				qd3dStatus = duplicateMethod ( (TQ3Object) this , instanceData,
-											 newObject, newObject->instanceData ) ;
-				if (qd3dStatus != kQ3Success)
-					{
-//					if (newObject->parentObject != NULL)
-//						Q3Object_Dispose(newObject->parentObject); In a few weeks this code will not exist. In the meantime if we fill virtual memory we leak a little, so what!
-
-					Q3Memory_Free(&newObject->instanceData);
-					Q3Memory_Free(&newObject);
-					return(NULL);
-					}
-				}
-			}
+		Q3Memory_Free ( &newObject ) ;
+		return NULL ;
 		}
-	else
-		{
-		// Allocate and initialise the object
-		newObject = (TQ3Object) Q3Memory_AllocateClear ( theClass->instanceSize + sizeof ( TQ3ObjectType ) ) ;
-		if ( newObject == NULL )
-			return NULL ;
-
-		newObject->quesaTag = kQ3ObjectTypeQuesa ;
-		newObject->theClass = theClass;
-		newObject->instanceData = newObject ; // remove eventually
-
-		// Initialise the trailer
-		instanceTrailer = (TQ3ObjectType *) (((TQ3Uns8 *) newObject) + theClass->instanceSize ) ;
-		*instanceTrailer = kQ3ObjectTypeQuesa ;
-
-
-		 qd3dStatus = DuplicateInstanceData ( newObject , theClass ) ;
-		if ( qd3dStatus == kQ3Failure )
-			{
-			Q3Memory_Free(&newObject);
-			return NULL ;
-			}
-		}
+	
 
 	// Increment the instance count of the object's class
-	theClass->numInstances++;
-	Q3_ASSERT(theClass->numInstances > 0);
+	theClass->numInstances++ ;
+	Q3_ASSERT ( theClass->numInstances > 0 ) ;
 
 
 
 	// Verify the object and return it
-	Q3_CLASS_VERIFY(newObject);
+	Q3_CLASS_VERIFY ( newObject ) ;
 
 	return newObject ;
 	}
-
-
-TQ3Object
-OpaqueTQ3Object::DuplicateInstance ( void )
-	{
-	E3InstanceNode* newLeaf = leafInstanceData->DuplicateInstance () ; 
-
-	E3InstanceNode* rootNode = newLeaf ;
-	while ( rootNode->parentObject != NULL )
-		rootNode = rootNode->parentObject ;
-	( (TQ3Object) rootNode )->leafInstanceData = newLeaf ;
-	return (TQ3Object) rootNode ;
-	}
-
 
 
 
@@ -1335,21 +1019,16 @@ OpaqueTQ3Object::DuplicateInstance ( void )
 //-----------------------------------------------------------------------------
 
 void *
-E3InstanceNode::FindLeafInstanceData ( void ) // Same as the old FindInstanceData ( kQ3ObjectTypeLeaf ) but simpler
+OpaqueTQ3Object::FindLeafInstanceData ( void ) // Same as the old FindInstanceData ( kQ3ObjectTypeLeaf ) but simpler
 	{
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
 	Q3_CLASS_VERIFY(this);
 
-	if ( theClass->includesParentData != kQ3False )
-		{
-		if ( theClass->theParent != NULL )
-			return (void*) ( (TQ3Uns8*) this + theClass->theParent->instanceSize ) ;
-		
-		return (void*) this ;
-		}
+	if ( theClass->theParent != NULL )
+		return (void*) ( (TQ3Uns8*) this + theClass->theParent->instanceSize ) ;
 	
-	return instanceData ;
+	return (void*) this ;
 	}
 
 
@@ -1362,7 +1041,7 @@ E3InstanceNode::FindLeafInstanceData ( void ) // Same as the old FindInstanceDat
 //		Note :	Gets the type of the first sub-class of baseType.
 //-----------------------------------------------------------------------------
 TQ3ObjectType
-E3InstanceNode::GetObjectType ( TQ3ObjectType baseType )
+OpaqueTQ3Object::GetObjectType ( TQ3ObjectType baseType )
 	{
 	// Verify our parameters
 	Q3_CLASS_VERIFY(this);
@@ -1396,15 +1075,9 @@ E3InstanceNode::GetObjectType ( TQ3ObjectType baseType )
 //-----------------------------------------------------------------------------
 #if Q3_DEBUG
 TQ3Object
-E3InstanceNode::GetLeafObject ( void )
+OpaqueTQ3Object::GetLeafObject ( void )
 	{
-	E3InstanceNode* theObject = this ;
-
-	// Move down until we find the leaf object
-	while ( theObject->childObject != NULL )
-		theObject = theObject->childObject ;
-	
-	return (TQ3Object) theObject ;
+	return (TQ3Object) this ;
 	}
 #endif
 
@@ -1416,7 +1089,7 @@ E3InstanceNode::GetLeafObject ( void )
 //      E3ClassTree_IsObjectValid : Is an object valid?
 //-----------------------------------------------------------------------------
 TQ3Boolean
-E3InstanceNode::IsObjectValid ( void )
+OpaqueTQ3Object::IsObjectValid ( void )
 	{
 	// Check to see if the object is valid
 	return (TQ3Boolean) ( quesaTag == kQ3ObjectTypeQuesa ) ;
@@ -1448,9 +1121,7 @@ E3ClassTree::GetClass ( TQ3ObjectType classType )
 
 
 	// Find the class
-	E3ClassInfoPtr theClass = (E3ClassInfoPtr) E3HashTable_Find(theGlobals->classTree, classType);
-	
-	return theClass ;
+	return (E3ClassInfoPtr) E3HashTable_Find ( theGlobals->classTree, classType ) ;
 	}
 
 
@@ -1513,7 +1184,7 @@ E3ClassTree::GetClass ( TQ3Object theObject )
 
 
 E3ClassInfoPtr
-E3InstanceNode::GetClass ( void )
+OpaqueTQ3Object::GetClass ( void )
 	{
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
@@ -1695,7 +1366,7 @@ E3ClassInfo::GetInstanceSize ( void )
 
 
 	// Return the size of the instance data for the class
-	if ( includesParentData && theParent )
+	if ( theParent )
 		return instanceSize - theParent->instanceSize ;
 		
 	return instanceSize ;
@@ -1772,7 +1443,7 @@ E3ClassInfo::GetMethod ( TQ3XMethodType methodType )
 //      E3ClassTree_GetMethodByObject : Get a method for an object's class.
 //-----------------------------------------------------------------------------
 TQ3XFunctionPointer
-E3InstanceNode::GetMethod ( TQ3XMethodType methodType )
+OpaqueTQ3Object::GetMethod ( TQ3XMethodType methodType )
 	{
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);

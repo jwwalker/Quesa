@@ -400,7 +400,7 @@ E3GeometryPoint_RegisterClass(void)
 												kQ3GeometryTypePoint,
 												kQ3ClassNameGeometryPoint,
 												e3geom_point_metahandler,
-												~sizeof(E3Point));
+												sizeof(E3Point));
 
 	return(qd3dStatus);
 }
@@ -442,11 +442,11 @@ E3Point_New(const TQ3PointData *pointData)
 		TQ3PointData defaultPt = {
 			{ 0.0f, 0.0f, 0.0f }, NULL
 		};
-		theObject = E3ClassTree_CreateInstance( kQ3GeometryTypePoint, kQ3False, &defaultPt );
+		theObject = E3ClassTree::CreateInstance (  kQ3GeometryTypePoint, kQ3False, &defaultPt );
 	}
 	else
 	{
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypePoint, kQ3False, pointData);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypePoint, kQ3False, pointData);
 	}
 
 	return(theObject);

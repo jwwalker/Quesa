@@ -221,7 +221,7 @@ E3Memory_RegisterClass(void)
 											kQ3ObjectTypeSlab,
 											kQ3ClassNameSlab,
 											e3slab_metahandler,
-											~sizeof(E3SlabMemory));
+											sizeof(E3SlabMemory));
 
 	return(qd3dStatus);
 }
@@ -350,6 +350,7 @@ E3Memory_Free(void **thePtr)
 		{
 		// Check it looks OK
 		Q3_ASSERT_VALID_PTR(realPtr);
+//		Q3_ASSERT ( ( TQ3Uns32 ( realPtr ) & 3 ) == 0 ) ;
 
 
 		// If memory debugging is active, rewind past the header and scrub the block

@@ -338,10 +338,10 @@ static TQ3Boolean
 e3fformat_3dmf_is_next_element( TQ3FileObject theFile )
 {
 	TQ3ObjectType	nextType = Q3File_GetNextObjectType( theFile );
-	E3ClassInfoPtr	theClass = E3ClassTree_GetClassByType( nextType );
+	E3ClassInfoPtr	theClass = E3ClassTree::GetClass ( nextType ) ;
 	
-	return (TQ3Boolean) (E3ClassTree_IsType( theClass, kQ3ObjectTypeElement ) ||
-		E3ClassTree_IsType( theClass, kQ3ShaderTypeSurface ));
+	return (TQ3Boolean) ( theClass->IsType ( kQ3ObjectTypeElement ) ||
+		theClass->IsType ( kQ3ShaderTypeSurface ) ) ;
 }
 
 
@@ -355,7 +355,7 @@ static TQ3Object
 e3fformat_3dmf_attribute_set_read ( E3File* theFile )
 	{
 	// Create the attribute set
-	TQ3AttributeSet theSet = E3ClassTree_CreateInstance(kQ3SetTypeAttribute, kQ3False, NULL);
+	TQ3AttributeSet theSet = E3ClassTree::CreateInstance ( kQ3SetTypeAttribute, kQ3False, NULL);
 	if (theSet == NULL)
 		return(NULL);
 
@@ -395,7 +395,7 @@ e3fformat_3dmf_set_read ( E3File* theFile )
 
 
 	// Create the attribute set
-	theSet = E3ClassTree_CreateInstance(kQ3SharedTypeSet, kQ3False, NULL);
+	theSet = E3ClassTree::CreateInstance ( kQ3SharedTypeSet, kQ3False, NULL);
 	if (theSet == NULL)
 		return(NULL);
 
@@ -444,7 +444,7 @@ e3fformat_3dmf_attribute_caps_read_core(TQ3FileObject theFile, TQ3ObjectType	cla
 			}
 		if(childObject != NULL){
 			// create the object;
-			theSet = E3ClassTree_CreateInstance(classType, kQ3False, &childObject);
+			theSet = E3ClassTree::CreateInstance ( classType, kQ3False, &childObject);
 			break;
 			}
 		}
@@ -568,7 +568,7 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 	TQ3Status	status = kQ3Failure;
 
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeMeshCorners, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeMeshCorners, kQ3False, NULL);
 	
 	if(theObject){
 	
@@ -794,7 +794,7 @@ e3fformat_3dmf_meshedges_read(TQ3FileObject theFile)
 	TQ3Status	status = kQ3Failure;
 
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeMeshEdges, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeMeshEdges, kQ3False, NULL);
 	
 	if(theObject){
 	
@@ -926,7 +926,7 @@ e3fformat_3dmf_generalpolygonhint_read(TQ3FileObject theFile)
 		return (NULL);
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeGeneralPolygonHint, kQ3False, &hint);
+	theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeGeneralPolygonHint, kQ3False, &hint);
 	
 	return(theObject);
 }
@@ -975,7 +975,7 @@ e3fformat_3dmf_geometry_caps_read(TQ3FileObject theFile)
 		return (NULL);
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeGeometryCaps, kQ3False, &capsMask);
+	theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeGeometryCaps, kQ3False, &capsMask);
 	
 	return(theObject);
 }
@@ -1027,7 +1027,7 @@ e3fformat_3dmf_displaygroupstate_read(TQ3FileObject theFile)
 	E3FFormat_3DMF_ReadFlag( &flags, theFile, kQ3ObjectTypeDisplayGroupState );
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeDisplayGroupState, kQ3False, &flags);
+	theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeDisplayGroupState, kQ3False, &flags);
 	
 	return(theObject);
 }
@@ -1075,7 +1075,7 @@ e3fformat_3dmf_shaderuvtransform_read(TQ3FileObject theFile)
 	TQ3Uns32						i,j;
 
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeShaderUVTransform, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeShaderUVTransform, kQ3False, NULL);
 	
 	if(theObject){
 	
@@ -1129,7 +1129,7 @@ e3fformat_3dmf_shader_read(TQ3FileObject theFile)
 	TQ3ShaderUVBoundary			vBoundary;
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ShapeTypeShader, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3ShapeTypeShader, kQ3False, NULL);
 	
 	if(theObject){
 				
@@ -1525,7 +1525,7 @@ static TQ3Object
 e3fformat_3dmf_geomattributesetlist_read(TQ3FileObject theFile)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
 	
 	if(theObject){
 	
@@ -1573,7 +1573,7 @@ static TQ3Object
 e3fformat_3dmf_faceattributesetlist_read(TQ3FileObject theFile)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
 	
 	if(theObject){
 	
@@ -1621,7 +1621,7 @@ static TQ3Object
 e3fformat_3dmf_vertexattributesetlist_read(TQ3FileObject theFile)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
 	
 	if(theObject){
 	
@@ -1894,42 +1894,37 @@ static TQ3Status
 e3fformat_3dmf_attributearray_write(const TE3FFormat3DMF_AttributeArray_Data *data,
 				TQ3FileObject theFile)
 {
-	TQ3Status	status;
 	TQ3AttributeType	attType = data->attributeData->attributeType;
-	TQ3ObjectType		attClassType;
-	E3ClassInfoPtr 		theClass = NULL;
 	TQ3Uns32			i;
-	TQ3Uns8*			attData;
-	TQ3XObjectWriteMethod	writeMethod;
 	
-	status = Q3Uns32_Write( (TQ3Uns32)attType, theFile );
+	TQ3Status status = Q3Uns32_Write ( (TQ3Uns32) attType, theFile ) ;
 	
-	if (status == kQ3Success)
-		status = Q3Uns32_Write( 0, theFile );
+	if ( status == kQ3Success )
+		status = Q3Uns32_Write ( 0, theFile ) ;
 	
-	if (status == kQ3Success)
+	if ( status == kQ3Success )
 		status = Q3Uns32_Write( data->whichArray, theFile );
 	
-	if (status == kQ3Success)
+	if ( status == kQ3Success )
 		status = Q3Uns32_Write( data->whichAttr, theFile );
 	
-	if (status == kQ3Success)
+	if ( status == kQ3Success )
 		status = Q3Uns32_Write( data->attributeData->attributeUseArray != NULL, theFile );
 
-	if (status == kQ3Success)
+	if ( status == kQ3Success )
 	{
 		if ( (attType > 0) && (attType != kQ3AttributeTypeSurfaceShader) )
 		{
-			attClassType = E3Attribute_AttributeToClassType( attType );
+			TQ3ObjectType attClassType = E3Attribute_AttributeToClassType( attType );
 			// retrieve the write method
-			theClass = E3ClassTree_GetClassByType(attClassType);
+			E3ClassInfoPtr theClass = E3ClassTree::GetClass ( attClassType ) ;
 			Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
 		
-			writeMethod = (TQ3XObjectWriteMethod)
-						E3ClassTree_GetMethod(theClass, kQ3XMethodTypeObjectWrite);
+			TQ3XObjectWriteMethod writeMethod = (TQ3XObjectWriteMethod)
+									theClass->GetMethod ( kQ3XMethodTypeObjectWrite ) ;
 			Q3_REQUIRE_OR_RESULT( writeMethod != NULL, kQ3Failure );
 			
-			attData = (TQ3Uns8*) data->attributeData->data;
+			TQ3Uns8* attData = (TQ3Uns8*) data->attributeData->data ;
 			
 			for (i = 0; (status == kQ3Success) && (i < data->arraySize); ++i)
 			{
@@ -1997,7 +1992,7 @@ e3fformat_3dmf_endgroup_read(TQ3FileObject theFile)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3SharedTypeEndGroup, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3SharedTypeEndGroup, kQ3False, NULL);
 	return(theObject);
 }
 
@@ -2060,77 +2055,77 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 											kQ3ObjectTypeAttributeSetList,
 											kQ3ClassNameAttributeSetList,
 											e3fformat_3dmf_attributesetlist_metahandler,
-											~sizeof(E3AttibuteSetList));
+											sizeof(E3AttibuteSetList));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeAttributeSetList,
 											kQ3ObjectTypeAttributeSetListGeometry,
 											kQ3ClassNameAttributeSetListGeometry,
 											e3fformat_3dmf_geomattributesetlist_metahandler,
-											~sizeof(E3GeomAttributeSetList));
+											sizeof(E3GeomAttributeSetList));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeAttributeSetList,
 											kQ3ObjectTypeAttributeSetListFace,
 											kQ3ClassNameAttributeSetListFace,
 											e3fformat_3dmf_faceattributesetlist_metahandler,
-											~sizeof(E3FaceAttributeSetList));
+											sizeof(E3FaceAttributeSetList));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeAttributeSetList,
 											kQ3ObjectTypeAttributeSetListVertex,
 											kQ3ClassNameAttributeSetListVertex,
 											e3fformat_3dmf_vertexattributesetlist_metahandler,
-											~sizeof(E3VertexAttributeSetList));
+											sizeof(E3VertexAttributeSetList));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 											kQ3ObjectTypeMeshCorners,
 											kQ3ClassNameMeshCorners,
 											e3fformat_3dmf_meshcorners_metahandler,
-											~sizeof(E3MeshCorners));
+											sizeof(E3MeshCorners));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 											kQ3ObjectTypeMeshEdges,
 											kQ3ClassNameMeshEdges,
 											e3fformat_3dmf_meshedges_metahandler,
-											~sizeof(E3MeshEdges));
+											sizeof(E3MeshEdges));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeAttributeArray,
 											kQ3ClassNameAttributeArray,
 											e3fformat_3dmf_attributearray_metahandler,
-											~sizeof(E3AttributeArray));
+											sizeof(E3AttributeArray));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3AttributeSetTypeTopCap,
 											kQ3ClassNameTopCapAttributeSet,
 											NULL,
-											~sizeof(E3TopCapSet));
+											sizeof(E3TopCapSet));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3AttributeSetTypeBottomCap,
 											kQ3ClassNameBottomCapAttributeSet,
 											NULL,
-											~sizeof(E3BottomCapSet));
+											sizeof(E3BottomCapSet));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3AttributeSetTypeFaceCap,
 											kQ3ClassNameFaceCapAttributeSet,
 											NULL,
-											~sizeof(E3FaceCapSet));
+											sizeof(E3FaceCapSet));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3AttributeSetTypeInteriorCap,
 											kQ3ClassNameInteriorCapAttributeSet,
 											NULL,
-											~sizeof(E3InteriorCapSet));
+											sizeof(E3InteriorCapSet));
 
 
 
@@ -2139,21 +2134,21 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 											kQ3ObjectTypeGeneralPolygonHint,
 											kQ3ClassNameGeneralPolygonHint,
 											e3fformat_3dmf_generalpolygonhint_metahandler,
-											~sizeof(E3GeneralPolygonHint));
+											sizeof(E3GeneralPolygonHint));
 
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeGeometryCaps,
 											kQ3ClassNameCaps,
 											e3fformat_3dmf_geometry_caps_metahandler,
-											~sizeof(E3GeometryCaps));
+											sizeof(E3GeometryCaps));
 
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeDisplayGroupState,
 											kQ3ClassNameDisplayGroupState,
 											e3fformat_3dmf_displaygroupstate_metahandler,
-											~sizeof(E3DisplayGroupState));
+											sizeof(E3DisplayGroupState));
 
 
 	if(qd3dStatus == kQ3Success)
@@ -2161,7 +2156,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 											kQ3ObjectTypeShaderUVTransform,
 											kQ3ClassNameShaderUVTransform,
 											e3fformat_3dmf_shaderuvtransform_metahandler,
-											~sizeof(E3ShaderUVTransform));
+											sizeof(E3ShaderUVTransform));
 
 
 	// Register the end group class
@@ -2169,124 +2164,124 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 											kQ3SharedTypeEndGroup,
 											kQ3ClassNameEndGroup,
 											e3fformat_3dmf_endgroup_metahandler,
-											~sizeof(E3EndGroup));
+											sizeof(E3EndGroup));
 
 
 
 
 
 	// Misc methods
-	E3ClassTree_AddMethodByType(kQ3SharedTypeSet,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_set_read);
-	E3ClassTree_AddMethodByType(kQ3StringTypeCString,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_String_C);
-	E3ClassTree_AddMethodByType(kQ3UnknownTypeBinary,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Unknown_Binary);
-	E3ClassTree_AddMethodByType(kQ3UnknownTypeText,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Unknown_Text);
+	E3ClassTree::AddMethod(kQ3SharedTypeSet,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_set_read);
+	E3ClassTree::AddMethod(kQ3StringTypeCString,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_String_C);
+	E3ClassTree::AddMethod(kQ3UnknownTypeBinary,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Unknown_Binary);
+	E3ClassTree::AddMethod(kQ3UnknownTypeText,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Unknown_Text);
 
 
 	
 	
 	// Attribute methods
 	// override the inheritance problem
-	E3ClassTree_AddMethodByType(kQ3SetTypeAttribute,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_attribute_set_read);
-	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeTopCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_topcapsset_read);
-	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeBottomCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_bottomcapsset_read);
-	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeFaceCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_facecapsset_read);
-	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeInteriorCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_interiorcapsset_read);
+	E3ClassTree::AddMethod(kQ3SetTypeAttribute,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_attribute_set_read);
+	E3ClassTree::AddMethod(kQ3AttributeSetTypeTopCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_topcapsset_read);
+	E3ClassTree::AddMethod(kQ3AttributeSetTypeBottomCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_bottomcapsset_read);
+	E3ClassTree::AddMethod(kQ3AttributeSetTypeFaceCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_facecapsset_read);
+	E3ClassTree::AddMethod(kQ3AttributeSetTypeInteriorCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_interiorcapsset_read);
 	
-	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeFaceCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
-	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeBottomCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
-	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeTopCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
-	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeInteriorCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
+	E3ClassTree::AddMethod(kQ3AttributeSetTypeFaceCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
+	E3ClassTree::AddMethod(kQ3AttributeSetTypeBottomCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
+	E3ClassTree::AddMethod(kQ3AttributeSetTypeTopCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
+	E3ClassTree::AddMethod(kQ3AttributeSetTypeInteriorCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
 	
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSurfaceUV,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SurfaceUV);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeShadingUV,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_ShadingUV);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeNormal,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_Normal);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeAmbientCoefficient,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_AmbientCoefficient);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeDiffuseColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_DiffuseColor);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSpecularColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SpecularColor);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSpecularControl,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SpecularControl);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeTransparencyColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_TransparencyColor);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSurfaceTangent,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SurfaceTangent);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeHighlightState,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_HighlightState);
-	E3ClassTree_AddMethodByType(kQ3AttributeTypeConstructiveSolidGeometryID,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_CSGID);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSurfaceUV,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SurfaceUV);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeShadingUV,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_ShadingUV);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeNormal,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_Normal);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeAmbientCoefficient,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_AmbientCoefficient);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeDiffuseColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_DiffuseColor);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SpecularColor);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularControl,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SpecularControl);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeTransparencyColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_TransparencyColor);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSurfaceTangent,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SurfaceTangent);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeHighlightState,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_HighlightState);
+	E3ClassTree::AddMethod(kQ3AttributeTypeConstructiveSolidGeometryID,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_CSGID);
 
-	E3ClassTree_AddMethodByType(kQ3TextureTypePixmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Texture_Pixmap);
-	E3ClassTree_AddMethodByType(kQ3TextureTypeMipmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Texture_Mipmap);
-	//E3ClassTree_AddMethodByType(kQ3TextureTypeCompressedPixmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Texture);
-	E3ClassTree_AddMethodByType(kQ3ShapeTypeShader,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_shader_read);
-	E3ClassTree_AddMethodByType(kQ3SurfaceShaderTypeTexture,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Texture);
-	E3ClassTree_AddMethodByType(kQ3IlluminationTypePhong,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Phong);
-	E3ClassTree_AddMethodByType(kQ3IlluminationTypeLambert,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Lambert);
-	E3ClassTree_AddMethodByType(kQ3IlluminationTypeNULL,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_NULL);
+	E3ClassTree::AddMethod(kQ3TextureTypePixmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Texture_Pixmap);
+	E3ClassTree::AddMethod(kQ3TextureTypeMipmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Texture_Mipmap);
+	//E3ClassTree::AddMethod(kQ3TextureTypeCompressedPixmap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Texture);
+	E3ClassTree::AddMethod(kQ3ShapeTypeShader,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_shader_read);
+	E3ClassTree::AddMethod(kQ3SurfaceShaderTypeTexture,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Texture);
+	E3ClassTree::AddMethod(kQ3IlluminationTypePhong,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Phong);
+	E3ClassTree::AddMethod(kQ3IlluminationTypeLambert,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Lambert);
+	E3ClassTree::AddMethod(kQ3IlluminationTypeNULL,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_NULL);
 
 
 	// the Group read Methods
-	E3ClassTree_AddMethodByType(kQ3ShapeTypeGroup,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group_Display);
-	E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeOrdered,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group_Display_Ordered);
-	E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeIOProxy,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group_Display_IOProxy);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeLight,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group_Light);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeInfo,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group_info);
+	E3ClassTree::AddMethod(kQ3ShapeTypeGroup,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group);
+	E3ClassTree::AddMethod(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group_Display);
+	E3ClassTree::AddMethod(kQ3DisplayGroupTypeOrdered,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group_Display_Ordered);
+	E3ClassTree::AddMethod(kQ3DisplayGroupTypeIOProxy,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group_Display_IOProxy);
+	E3ClassTree::AddMethod(kQ3GroupTypeLight,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group_Light);
+	E3ClassTree::AddMethod(kQ3GroupTypeInfo,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Group_info);
 
 
 	// the Style read Methods
-	E3ClassTree_AddMethodByType(kQ3StyleTypeSubdivision,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Subdivision);
-	E3ClassTree_AddMethodByType(kQ3StyleTypePickID,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_PickID);
-	E3ClassTree_AddMethodByType(kQ3StyleTypePickParts,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_PickParts);
-	E3ClassTree_AddMethodByType(kQ3StyleTypeCastShadows,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_CastShadows);
-	E3ClassTree_AddMethodByType(kQ3StyleTypeReceiveShadows,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_ReceiveShadows);
-	E3ClassTree_AddMethodByType(kQ3StyleTypeFill,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Fill);
-	E3ClassTree_AddMethodByType(kQ3StyleTypeBackfacing,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Backfacing);
-	E3ClassTree_AddMethodByType(kQ3StyleTypeInterpolation,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Interpolation);
-	E3ClassTree_AddMethodByType(kQ3StyleTypeHighlight,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Hilight);
-	E3ClassTree_AddMethodByType(kQ3StyleTypeOrientation,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Orientation);
-	E3ClassTree_AddMethodByType(kQ3StyleTypeAntiAlias,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_AntiAlias);
-	E3ClassTree_AddMethodByType(kQ3StyleTypeFog,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Fog);
+	E3ClassTree::AddMethod(kQ3StyleTypeSubdivision,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Subdivision);
+	E3ClassTree::AddMethod(kQ3StyleTypePickID,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_PickID);
+	E3ClassTree::AddMethod(kQ3StyleTypePickParts,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_PickParts);
+	E3ClassTree::AddMethod(kQ3StyleTypeCastShadows,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_CastShadows);
+	E3ClassTree::AddMethod(kQ3StyleTypeReceiveShadows,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_ReceiveShadows);
+	E3ClassTree::AddMethod(kQ3StyleTypeFill,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Fill);
+	E3ClassTree::AddMethod(kQ3StyleTypeBackfacing,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Backfacing);
+	E3ClassTree::AddMethod(kQ3StyleTypeInterpolation,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Interpolation);
+	E3ClassTree::AddMethod(kQ3StyleTypeHighlight,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Hilight);
+	E3ClassTree::AddMethod(kQ3StyleTypeOrientation,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Orientation);
+	E3ClassTree::AddMethod(kQ3StyleTypeAntiAlias,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_AntiAlias);
+	E3ClassTree::AddMethod(kQ3StyleTypeFog,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Fog);
 
 
 	// the Transform read Methods
-	E3ClassTree_AddMethodByType(kQ3TransformTypeMatrix,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Matrix);
-	E3ClassTree_AddMethodByType(kQ3TransformTypeRotate,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Rotate);
-	E3ClassTree_AddMethodByType(kQ3TransformTypeRotateAboutPoint,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_RotateAboutPoint);
-	E3ClassTree_AddMethodByType(kQ3TransformTypeRotateAboutAxis,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_RotateAboutAxis);
-	E3ClassTree_AddMethodByType(kQ3TransformTypeScale,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Scale);
-	E3ClassTree_AddMethodByType(kQ3TransformTypeTranslate,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Translate);
-	E3ClassTree_AddMethodByType(kQ3TransformTypeQuaternion,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Quaternion);
-	E3ClassTree_AddMethodByType(kQ3TransformTypeReset,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Reset);
+	E3ClassTree::AddMethod(kQ3TransformTypeMatrix,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Matrix);
+	E3ClassTree::AddMethod(kQ3TransformTypeRotate,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Rotate);
+	E3ClassTree::AddMethod(kQ3TransformTypeRotateAboutPoint,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_RotateAboutPoint);
+	E3ClassTree::AddMethod(kQ3TransformTypeRotateAboutAxis,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_RotateAboutAxis);
+	E3ClassTree::AddMethod(kQ3TransformTypeScale,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Scale);
+	E3ClassTree::AddMethod(kQ3TransformTypeTranslate,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Translate);
+	E3ClassTree::AddMethod(kQ3TransformTypeQuaternion,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Quaternion);
+	E3ClassTree::AddMethod(kQ3TransformTypeReset,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Transform_Reset);
 
 
 	// the Geometry read Methods
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeBox,				kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Box);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeCone,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cone);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeCylinder,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cylinder);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeDisk,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Disk);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipse,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipse);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipsoid);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeGeneralPolygon,	kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_GeneralPolygon);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeLine,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Line);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeMarker,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Marker);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeMesh,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Mesh);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBCurve,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_NURBCurve);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBPatch,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_NURBPatch);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypePixmapMarker,	kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_PixmapMarker);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypePoint,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Point);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypePolyLine,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_PolyLine);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypePolygon,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Polygon);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypePolyhedron,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Polyhedron);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeTorus,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Torus);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriGrid,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_TriGrid);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriMesh,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_TriMesh);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Triangle);
+	E3ClassTree::AddMethod(kQ3GeometryTypeBox,				kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Box);
+	E3ClassTree::AddMethod(kQ3GeometryTypeCone,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cone);
+	E3ClassTree::AddMethod(kQ3GeometryTypeCylinder,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cylinder);
+	E3ClassTree::AddMethod(kQ3GeometryTypeDisk,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Disk);
+	E3ClassTree::AddMethod(kQ3GeometryTypeEllipse,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipse);
+	E3ClassTree::AddMethod(kQ3GeometryTypeEllipsoid,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipsoid);
+	E3ClassTree::AddMethod(kQ3GeometryTypeGeneralPolygon,	kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_GeneralPolygon);
+	E3ClassTree::AddMethod(kQ3GeometryTypeLine,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Line);
+	E3ClassTree::AddMethod(kQ3GeometryTypeMarker,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Marker);
+	E3ClassTree::AddMethod(kQ3GeometryTypeMesh,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Mesh);
+	E3ClassTree::AddMethod(kQ3GeometryTypeNURBCurve,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_NURBCurve);
+	E3ClassTree::AddMethod(kQ3GeometryTypeNURBPatch,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_NURBPatch);
+	E3ClassTree::AddMethod(kQ3GeometryTypePixmapMarker,	kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_PixmapMarker);
+	E3ClassTree::AddMethod(kQ3GeometryTypePoint,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Point);
+	E3ClassTree::AddMethod(kQ3GeometryTypePolyLine,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_PolyLine);
+	E3ClassTree::AddMethod(kQ3GeometryTypePolygon,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Polygon);
+	E3ClassTree::AddMethod(kQ3GeometryTypePolyhedron,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Polyhedron);
+	E3ClassTree::AddMethod(kQ3GeometryTypeTorus,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Torus);
+	E3ClassTree::AddMethod(kQ3GeometryTypeTriGrid,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_TriGrid);
+	E3ClassTree::AddMethod(kQ3GeometryTypeTriMesh,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_TriMesh);
+	E3ClassTree::AddMethod(kQ3GeometryTypeTriangle,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Triangle);
 	
 
 	// Default geometry read methods
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeBox,				kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Box_Default);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeCone,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cone_Default);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeCylinder,		kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cylinder_Default);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeDisk,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Disk_Default);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipse,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipse_Default);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,		kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipsoid_Default);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypePoint,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Point_Default);
-	E3ClassTree_AddMethodByType(kQ3GeometryTypeTorus,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Torus_Default);
+	E3ClassTree::AddMethod(kQ3GeometryTypeBox,				kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Box_Default);
+	E3ClassTree::AddMethod(kQ3GeometryTypeCone,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cone_Default);
+	E3ClassTree::AddMethod(kQ3GeometryTypeCylinder,		kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cylinder_Default);
+	E3ClassTree::AddMethod(kQ3GeometryTypeDisk,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Disk_Default);
+	E3ClassTree::AddMethod(kQ3GeometryTypeEllipse,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipse_Default);
+	E3ClassTree::AddMethod(kQ3GeometryTypeEllipsoid,		kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipsoid_Default);
+	E3ClassTree::AddMethod(kQ3GeometryTypePoint,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Point_Default);
+	E3ClassTree::AddMethod(kQ3GeometryTypeTorus,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Torus_Default);
 
 	return(qd3dStatus);
 }
@@ -2318,40 +2313,40 @@ E3FFW_3DMF_Register(void)
 												kQ3ObjectType3DMF,
 												kQ3ClassName3DMF,
 												NULL,
-												~sizeof(E33DMF));
+												sizeof(E33DMF));
 
-	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
-	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
+	E3ClassTree::AddMethod(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
+	E3ClassTree::AddMethod(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
 	
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 												kQ3ObjectTypeTOC,
 												kQ3ClassNameTOC,
 												NULL,
-												~sizeof(E3TableOfContents));
+												sizeof(E3TableOfContents));
 
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Traverse);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Write);
+	E3ClassTree::AddMethod(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Traverse);
+	E3ClassTree::AddMethod(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Write);
 	
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 												kQ3ObjectTypeType,
 												kQ3ClassNameType,
 												NULL,
-												~sizeof(E3Type));
+												sizeof(E3Type));
 
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeType,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_type_Traverse);
-	E3ClassTree_AddMethodByType(kQ3ObjectTypeType,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_type_Write);
+	E3ClassTree::AddMethod(kQ3ObjectTypeType,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_type_Traverse);
+	E3ClassTree::AddMethod(kQ3ObjectTypeType,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_type_Write);
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared, // on QD3D this is kQ3SharedTypeShape but the 
 												kQ3ShapeTypeReference,
 												kQ3ClassNameReference,
 												NULL,
-												~sizeof(E3Reference));
+												sizeof(E3Reference));
 
-	E3ClassTree_AddMethodByType(kQ3ShapeTypeReference,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_32_Traverse);
-	E3ClassTree_AddMethodByType(kQ3ShapeTypeReference,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
+	E3ClassTree::AddMethod(kQ3ShapeTypeReference,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_32_Traverse);
+	E3ClassTree::AddMethod(kQ3ShapeTypeReference,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
 	
 	
 
@@ -2362,16 +2357,16 @@ E3FFW_3DMF_Register(void)
 
 	// the Group write Methods
 
-	E3ClassTree_AddMethodByType(kQ3ShapeTypeGroup,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
-	E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeOrdered,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
-	E3ClassTree_AddMethodByType(kQ3DisplayGroupTypeIOProxy,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeLight,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
-	E3ClassTree_AddMethodByType(kQ3GroupTypeInfo,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	E3ClassTree::AddMethod(kQ3ShapeTypeGroup,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	E3ClassTree::AddMethod(kQ3GroupTypeDisplay,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	E3ClassTree::AddMethod(kQ3DisplayGroupTypeOrdered,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	E3ClassTree::AddMethod(kQ3DisplayGroupTypeIOProxy,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_DisplayGroup_Traverse);
+	E3ClassTree::AddMethod(kQ3GroupTypeLight,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
+	E3ClassTree::AddMethod(kQ3GroupTypeInfo,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Void_Traverse);
 	
 	// String methods
-	E3ClassTree_AddMethodByType(kQ3StringTypeCString,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_CString_Traverse);
-	E3ClassTree_AddMethodByType(kQ3StringTypeCString,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_CString_Write);
+	E3ClassTree::AddMethod(kQ3StringTypeCString,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_CString_Traverse);
+	E3ClassTree::AddMethod(kQ3StringTypeCString,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_CString_Write);
 	
 	// the Style write Methods
 
@@ -2533,7 +2528,7 @@ E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
 		return (theObject);
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeMeshCorners, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeMeshCorners, kQ3False, NULL);
 	
 	if(theObject){
 	
@@ -2707,7 +2702,7 @@ TQ3Object
 E3FFormat_3DMF_FaceAttributeSetList_New(TQ3Size size)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
 	
 	if(theObject){
 	
@@ -2733,7 +2728,7 @@ TQ3Object
 E3FFormat_3DMF_VertexAttributeSetList_New(TQ3Size size)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
 	
 	if(theObject){
 	
@@ -2759,7 +2754,7 @@ TQ3Object
 E3FFormat_3DMF_GeomAttributeSetList_New(TQ3Size size)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
 	
 	if(theObject){
 	

@@ -416,7 +416,7 @@ E3GeometryPolyLine_RegisterClass(void)
 											kQ3GeometryTypePolyLine,
 											kQ3ClassNameGeometryPolyLine,
 											e3geom_polyline_metahandler,
-											~sizeof(E3PolyLine));
+											sizeof(E3PolyLine));
 
 	return(qd3dStatus);
 }
@@ -455,7 +455,7 @@ E3PolyLine_New(const TQ3PolyLineData *polyLineData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypePolyLine, kQ3False, polyLineData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypePolyLine, kQ3False, polyLineData);
 	return(theObject);
 }
 

@@ -860,7 +860,7 @@ E3GeometryPixmapMarker_RegisterClass(void)
 											kQ3GeometryTypePixmapMarker,
 											kQ3ClassNameGeometryPixmapMarker,
 											e3geom_pixmapmarker_metahandler,
-											~sizeof(E3PixmapMarker));
+											sizeof(E3PixmapMarker));
 
 	return(qd3dStatus);
 }
@@ -899,7 +899,7 @@ E3PixmapMarker_New(const TQ3PixmapMarkerData *pixmapMarkerData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypePixmapMarker, kQ3False, pixmapMarkerData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypePixmapMarker, kQ3False, pixmapMarkerData);
 	return(theObject);
 }
 

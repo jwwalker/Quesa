@@ -591,7 +591,7 @@ E3GeometryBox_RegisterClass(void)
 											kQ3GeometryTypeBox,
 											kQ3ClassNameGeometryBox,
 											e3geom_box_metahandler,
-											~sizeof(E3Box));
+											sizeof(E3Box));
 
 	return(qd3dStatus);
 }
@@ -637,11 +637,11 @@ E3Box_New(const TQ3BoxData *boxData)
 			{ 0.0f, 0.0f, 1.0f },
 			NULL, NULL
 		};
-		theObject = E3ClassTree_CreateInstance( kQ3GeometryTypeBox, kQ3False, &defaultBox );
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeBox, kQ3False, &defaultBox ) ;
 	}
 	else
 	{
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeBox, kQ3False, boxData);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeBox, kQ3False, boxData ) ;
 	}
 
 	return(theObject);

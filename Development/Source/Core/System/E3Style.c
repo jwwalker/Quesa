@@ -884,91 +884,91 @@ E3Style_RegisterClass(void)
 											kQ3ShapeTypeStyle,
 											kQ3ClassNameStyle,
 											e3style_metahandler,
-											~sizeof(E3Style));
+											sizeof(E3Style));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeSubdivision,
 												kQ3ClassNameStyleSubdivision,
 												e3style_subdivision_metahandler,
-												~sizeof(E3SubdivisionStyle));
+												sizeof(E3SubdivisionStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypePickID,
 												kQ3ClassNameStylePickID,
 												e3style_pickid_metahandler,
-												~sizeof(E3PickIDStyle));
+												sizeof(E3PickIDStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypePickParts,
 												kQ3ClassNameStylePickParts,
 												e3style_pickparts_metahandler,
-												~sizeof(E3PickPartsStyle));
+												sizeof(E3PickPartsStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeCastShadows,
 												kQ3ClassNameStyleCastShadows,
 												e3style_castshadows_metahandler,
-												~sizeof(E3CastShadowsStyle));
+												sizeof(E3CastShadowsStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeReceiveShadows,
 												kQ3ClassNameStyleReceiveShadows,
 												e3style_receiveshadows_metahandler,
-												~sizeof(E3ReceiveShadowsStyle));
+												sizeof(E3ReceiveShadowsStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeFill,
 												kQ3ClassNameStyleFill,
 												e3style_fill_metahandler,
-												~sizeof(E3FillStyle));
+												sizeof(E3FillStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeBackfacing,
 												kQ3ClassNameStyleBackfacing,
 												e3style_backfacing_metahandler,
-												~sizeof(E3BackfacingStyle));
+												sizeof(E3BackfacingStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeInterpolation,
 												kQ3ClassNameStyleInterpolation,
 												e3style_interpolation_metahandler,
-												~sizeof(E3InterpolationStyle));
+												sizeof(E3InterpolationStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeHighlight,
 												kQ3ClassNameStyleHighlight,
 												e3style_hilight_metahandler,
-												~sizeof(E3HighlightStyle));
+												sizeof(E3HighlightStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeOrientation,
 												kQ3ClassNameStyleOrientation,
 												e3style_orientation_metahandler,
-												~sizeof(E3OrientationStyle));
+												sizeof(E3OrientationStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeAntiAlias,
 												kQ3ClassNameStyleAntiAlias,
 												e3style_antialias_metahandler,
-												~sizeof(E3AntiAliasStyle));
+												sizeof(E3AntiAliasStyle));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeFog,
 												kQ3ClassNameStyleFog,
 												e3style_fog_metahandler,
-												~sizeof(E3FogStyle));
+												sizeof(E3FogStyle));
 
 	return(qd3dStatus);
 }
@@ -1011,12 +1011,10 @@ E3Style_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3Style_GetType(TQ3StyleObject theStyle)
-{
-
-
+	{
 	// Get the type
-	return(E3ClassTree_GetObjectType(theStyle, kQ3ShapeTypeStyle));
-}
+	return theStyle->GetObjectType ( kQ3ShapeTypeStyle ) ;
+	}
 
 
 
@@ -1052,7 +1050,7 @@ E3SubdivisionStyle_New(const TQ3SubdivisionStyleData *data)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeSubdivision, kQ3False, data);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeSubdivision, kQ3False, data);
 
 	return(theObject);
 }
@@ -1124,7 +1122,7 @@ E3PickIDStyle_New(TQ3Uns32 id)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypePickID, kQ3False, &id);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypePickID, kQ3False, &id);
 
 	return(theObject);
 }
@@ -1196,7 +1194,7 @@ E3PickPartsStyle_New(TQ3PickParts parts)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypePickParts, kQ3False, &parts);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypePickParts, kQ3False, &parts);
 
 	return(theObject);
 }
@@ -1268,7 +1266,7 @@ E3CastShadowsStyle_New(TQ3Boolean castShadows)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeCastShadows, kQ3False, &castShadows);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeCastShadows, kQ3False, &castShadows);
 
 	return(theObject);
 }
@@ -1340,7 +1338,7 @@ E3ReceiveShadowsStyle_New(TQ3Boolean receiveShadows)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeReceiveShadows, kQ3False, &receiveShadows);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeReceiveShadows, kQ3False, &receiveShadows);
 
 	return(theObject);
 }
@@ -1412,7 +1410,7 @@ E3FillStyle_New(TQ3FillStyle fillStyle)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeFill, kQ3False, &fillStyle);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeFill, kQ3False, &fillStyle);
 
 	return(theObject);
 }
@@ -1484,7 +1482,7 @@ E3BackfacingStyle_New(TQ3BackfacingStyle backfacingStyle)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeBackfacing, kQ3False, &backfacingStyle);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeBackfacing, kQ3False, &backfacingStyle);
 
 	return(theObject);
 }
@@ -1556,7 +1554,7 @@ E3InterpolationStyle_New(TQ3InterpolationStyle interpolationStyle)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeInterpolation, kQ3False, &interpolationStyle);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeInterpolation, kQ3False, &interpolationStyle);
 
 	return(theObject);
 }
@@ -1634,7 +1632,7 @@ E3HighlightStyle_New(TQ3AttributeSet highlightAttribute)
 	else
 		ref = NULL ;
 
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeHighlight, kQ3False, &ref);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeHighlight, kQ3False, &ref);
 
 	return(theObject);
 }
@@ -1728,7 +1726,7 @@ E3OrientationStyle_New(TQ3OrientationStyle frontFacingDirection)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeOrientation, kQ3False, &frontFacingDirection);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeOrientation, kQ3False, &frontFacingDirection);
 
 	return(theObject);
 }
@@ -1805,7 +1803,7 @@ E3AntiAliasStyle_New(const TQ3AntiAliasStyleData *data)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeAntiAlias, kQ3False, data);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeAntiAlias, kQ3False, data);
 
 	return(theObject);
 }
@@ -1877,7 +1875,7 @@ E3FogStyle_New(const TQ3FogStyleData *data)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeFog, kQ3False, data);
+	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeFog, kQ3False, data);
 
 	return(theObject);
 }

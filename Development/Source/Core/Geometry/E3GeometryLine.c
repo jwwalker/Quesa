@@ -647,7 +647,7 @@ E3GeometryLine_RegisterClass(void)
 												kQ3GeometryTypeLine,
 												kQ3ClassNameGeometryLine,
 												e3geom_line_metahandler,
-												~sizeof(E3Line));
+												sizeof(E3Line));
 
 	return(qd3dStatus);
 }
@@ -686,7 +686,7 @@ E3Line_New(const TQ3LineData *lineData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeLine, kQ3False, lineData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeLine, kQ3False, lineData);
 	return(theObject);
 }
 

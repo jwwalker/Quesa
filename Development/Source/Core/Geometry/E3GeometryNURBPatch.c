@@ -1407,7 +1407,7 @@ E3GeometryNURBPatch_RegisterClass(void)
 											kQ3GeometryTypeNURBPatch,
 											kQ3ClassNameGeometryNURBPatch,
 											e3geom_nurbpatch_metahandler,
-											~sizeof(E3NURBPatch));
+											sizeof(E3NURBPatch));
 
 	return(qd3dStatus);
 }
@@ -1446,7 +1446,7 @@ E3NURBPatch_New(const TQ3NURBPatchData *nurbPatchData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeNURBPatch, kQ3False, nurbPatchData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeNURBPatch, kQ3False, nurbPatchData);
 	return(theObject);
 }
 

@@ -13,7 +13,7 @@
         contained here.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -94,14 +94,14 @@ Q3AttributeClass_Register(TQ3AttributeType		attributeType,
 											attributeType ,
 											name ,
 											metaHandler ,
-											~ ( sizeOfElement + sizeof ( OpaqueTQ3Object ) ) ) ;
+											sizeOfElement + sizeof ( OpaqueTQ3Object ) ) ;
 	if ( qd3dStatus != kQ3Success )
 		return NULL ;
 
 
 
 	// Find the class
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( attributeType ) ;
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( attributeType ) ;
 
 	return (TQ3XObjectClass) theClass ;
 	}	
@@ -120,18 +120,18 @@ Q3ElementClass_Register(TQ3ElementType			elementType,
 							TQ3XMetaHandler		metaHandler)
 	{
 	// Register the class
-	TQ3Status qd3dStatus = E3ClassTree_RegisterClass ( kQ3ObjectTypeRoot ,
+	TQ3Status qd3dStatus = E3ClassTree::RegisterClass ( kQ3ObjectTypeRoot ,
 											elementType ,
 											name ,
 											metaHandler ,
-											~ ( sizeOfElement + sizeof ( OpaqueTQ3Object ) ) ) ;
+											sizeOfElement + sizeof ( OpaqueTQ3Object ) ) ;
 	if ( qd3dStatus != kQ3Success )
 		return NULL ;
 
 
 
 	// Find the class
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( elementType ) ;
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( elementType ) ;
 
 	return (TQ3XObjectClass) theClass ;
 	}
@@ -429,7 +429,7 @@ EiObjectHierarchy_RegisterClassByType(TQ3ObjectType 		parentType,
 
 
 	// Register the class
-	TQ3Status qd3dStatus = E3ClassTree_RegisterClass ( parentType , // This will have to be last one to be changed to new style
+	TQ3Status qd3dStatus = E3ClassTree::RegisterExternalClass/*E3ClassTree_RegisterClass*/ ( parentType , // This will have to be last one to be changed to new style
 											classType ,
 											className ,
 											metaHandler ,
@@ -440,7 +440,7 @@ EiObjectHierarchy_RegisterClassByType(TQ3ObjectType 		parentType,
 
 
 	// Find the class
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( classType ) ;
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( classType ) ;
 
 	return (TQ3XObjectClass) theClass;
 	}

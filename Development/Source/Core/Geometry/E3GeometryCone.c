@@ -948,7 +948,7 @@ E3GeometryCone_RegisterClass(void)
 											kQ3GeometryTypeCone,
 											kQ3ClassNameGeometryCone,
 											e3geom_cone_metahandler,
-											~sizeof(E3Cone));
+											sizeof(E3Cone));
 
 	return(qd3dStatus);
 }
@@ -997,11 +997,11 @@ E3Cone_New(const TQ3ConeData *coneData)
 			kQ3EndCapNone,
 			NULL, NULL, NULL, NULL
 		};
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeCone, kQ3False, &defaultCone);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeCone, kQ3False, &defaultCone ) ;
 	}
 	else
 	{
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeCone, kQ3False, coneData);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeCone, kQ3False, coneData ) ;
 	}
 
 	return(theObject);

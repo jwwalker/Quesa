@@ -245,7 +245,7 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 			{
 				sIsMakingListHead = kQ3True;	// prevent infinite recursion
 				theGlobals->listHead = E3ClassTree::CreateInstance ( kQ3ObjectTypeRoot,
-					kQ3False, NULL, kQ3True ) ;
+					kQ3False, NULL ) ;
 				sIsMakingListHead = kQ3False;
 				Q3_REQUIRE_OR_RESULT( theGlobals->listHead != NULL, kQ3Failure );
 			}

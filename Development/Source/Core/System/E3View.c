@@ -932,11 +932,11 @@ static TQ3Status
 e3view_submit_retained_pick ( E3View* view, TQ3Object theObject )
 	{
 	TQ3Status				qd3dStatus = kQ3Success ;
-	E3ClassInfoPtr			theClass = E3ClassTree_GetClassByObject ( theObject ) ;
+	E3ClassInfoPtr			theClass = theObject->GetClass () ;
 	TQ3ObjectEventCallback	eventCallback ;
 
 	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod)
-							E3ClassTree_GetMethod ( theClass, kQ3XMethodTypeObjectSubmitPick ) ;
+							theClass->GetMethod ( kQ3XMethodTypeObjectSubmitPick ) ;
 
 
 	// Call a presubmit callback, if appropriate
@@ -954,7 +954,7 @@ e3view_submit_retained_pick ( E3View* view, TQ3Object theObject )
 			
 		// Call the method
 		if ( submitMethod != NULL )
-			qd3dStatus = submitMethod ( view, E3ClassTree_GetType ( theClass ), theObject, theObject->FindLeafInstanceData () ) ;
+			qd3dStatus = submitMethod ( view, theClass->GetType (), theObject, theObject->FindLeafInstanceData () ) ;
 
 
 		// Reset the current hit target. Not strictly necessary (since we
@@ -987,8 +987,8 @@ static TQ3Status
 e3view_submit_retained_write ( E3View* theView, TQ3Object theObject)
 	{
 	// Find the submit method
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByObject ( theObject ) ;
-	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod) E3ClassTree_GetMethod ( theClass, kQ3XMethodTypeObjectSubmitWrite ) ;
+	E3ClassInfoPtr theClass = theObject->GetClass () ;
+	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod) theClass->GetMethod ( kQ3XMethodTypeObjectSubmitWrite ) ;
 
 
 
@@ -996,7 +996,7 @@ e3view_submit_retained_write ( E3View* theView, TQ3Object theObject)
 	if ( submitMethod == NULL )
 		return kQ3Success ;
 		
-	return submitMethod ( theView, E3ClassTree_GetType ( theClass ), theObject, theObject->FindLeafInstanceData () ) ;
+	return submitMethod ( theView, theClass->GetType (), theObject, theObject->FindLeafInstanceData () ) ;
 	}
 
 
@@ -1010,8 +1010,8 @@ static TQ3Status
 e3view_submit_retained_bounds ( E3View* theView, TQ3Object theObject )
 	{
 	// Find the submit method
-	E3ClassInfoPtr theClass     = E3ClassTree_GetClassByObject ( theObject ) ;
-	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod) E3ClassTree_GetMethod ( theClass, kQ3XMethodTypeObjectSubmitBounds ) ;
+	E3ClassInfoPtr theClass = theObject->GetClass () ;
+	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod) theClass->GetMethod ( kQ3XMethodTypeObjectSubmitBounds ) ;
 
 
 
@@ -1019,7 +1019,7 @@ e3view_submit_retained_bounds ( E3View* theView, TQ3Object theObject )
 	if ( submitMethod == NULL )
 		return kQ3Success ;
 	
-	return submitMethod ( theView, E3ClassTree_GetType(theClass), theObject, theObject->FindLeafInstanceData () ) ;
+	return submitMethod ( theView, theClass->GetType (), theObject, theObject->FindLeafInstanceData () ) ;
 	}
 
 
@@ -1053,8 +1053,8 @@ e3view_submit_retained_render ( E3View* theView, TQ3Object theObject)
 
 
 	// Find the submit method
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByObject ( theObject ) ;
-	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod) E3ClassTree_GetMethod ( theClass, kQ3XMethodTypeObjectSubmitRender ) ;
+	E3ClassInfoPtr theClass = theObject->GetClass () ;
+	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod) theClass->GetMethod ( kQ3XMethodTypeObjectSubmitRender ) ;
 
 
 
@@ -1066,7 +1066,7 @@ e3view_submit_retained_render ( E3View* theView, TQ3Object theObject)
 
 	// Submit the object
 	if (qd3dStatus != kQ3Failure && submitMethod != NULL)
-		qd3dStatus = submitMethod ( theView, E3ClassTree_GetType ( theClass ), theObject, theObject->FindLeafInstanceData () ) ;
+		qd3dStatus = submitMethod ( theView, theClass->GetType (), theObject, theObject->FindLeafInstanceData () ) ;
 
 
 
@@ -1128,7 +1128,7 @@ static TQ3Status
 e3view_submit_immediate_render ( E3View* theView , TQ3ObjectType objectType , const void* objectData )
 	{
 	// Find the object class
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( objectType ) ;
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectType ) ;
 	if ( theClass == NULL )
 		{
 		E3ErrorManager_PostError ( kQ3ErrorInvalidObjectClass, kQ3False ) ;
@@ -1138,7 +1138,7 @@ e3view_submit_immediate_render ( E3View* theView , TQ3ObjectType objectType , co
 
 	// Find the appropriate submit method
 	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod)
-							E3ClassTree_GetMethod ( theClass, kQ3XMethodTypeObjectSubmitRender ) ;
+							theClass->GetMethod ( kQ3XMethodTypeObjectSubmitRender ) ;
 
 
 
@@ -1162,7 +1162,7 @@ e3view_submit_immediate_pick ( E3View* view , TQ3ObjectType objectType , const v
 	TQ3Status				qd3dStatus ;
 
 	// Find the object class
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( objectType ) ;
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectType ) ;
 	if ( theClass == NULL )
 		{
 		E3ErrorManager_PostError ( kQ3ErrorInvalidObjectClass, kQ3False ) ;
@@ -1172,7 +1172,7 @@ e3view_submit_immediate_pick ( E3View* view , TQ3ObjectType objectType , const v
 
 
 	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod)
-							E3ClassTree_GetMethod ( theClass, kQ3XMethodTypeObjectSubmitPick ) ;
+							theClass->GetMethod ( kQ3XMethodTypeObjectSubmitPick ) ;
 
 
 
@@ -1210,7 +1210,7 @@ static TQ3Status
 e3view_submit_immediate_write ( E3View* theView , TQ3ObjectType objectType , const void* objectData )
 	{
 	// Find the object class
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType ( objectType ) ;
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectType ) ;
 	if ( theClass == NULL )
 		{
 		E3ErrorManager_PostError ( kQ3ErrorInvalidObjectClass, kQ3False ) ;
@@ -1220,7 +1220,7 @@ e3view_submit_immediate_write ( E3View* theView , TQ3ObjectType objectType , con
 
 
 	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod)
-							E3ClassTree_GetMethod ( theClass, kQ3XMethodTypeObjectSubmitWrite ) ;
+								theClass->GetMethod ( kQ3XMethodTypeObjectSubmitWrite ) ;
 
 
 	// Call the method
@@ -1241,7 +1241,7 @@ static TQ3Status
 e3view_submit_immediate_bounds ( E3View* theView , TQ3ObjectType objectType , const void* objectData )
 	{
 	// Find the object class
-	E3ClassInfoPtr theClass = E3ClassTree_GetClassByType(objectType);
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectType ) ;
 	if ( theClass == NULL )
 		{
 		E3ErrorManager_PostError ( kQ3ErrorInvalidObjectClass, kQ3False ) ;
@@ -1251,7 +1251,7 @@ e3view_submit_immediate_bounds ( E3View* theView , TQ3ObjectType objectType , co
 
 
 	TQ3XObjectSubmitMethod submitMethod = (TQ3XObjectSubmitMethod)
-							E3ClassTree_GetMethod ( theClass, kQ3XMethodTypeObjectSubmitBounds ) ;
+								theClass->GetMethod ( kQ3XMethodTypeObjectSubmitBounds ) ;
 
 
 	// Call the method
@@ -1904,28 +1904,28 @@ E3View_RegisterClass(void)
 											kQ3ObjectTypeView,
 											kQ3ClassNameView,
 											e3view_metahandler,
-											~sizeof(E3View));
+											sizeof(E3View));
 	
 	if (qd3dStatus != kQ3Failure)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
 												kQ3ShapeTypeStateOperator,
 												kQ3ClassNameStateOperator,
 												NULL,
-												~sizeof(E3StateOperator));
+												sizeof(E3StateOperator));
 	
 	if (qd3dStatus != kQ3Failure)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStateOperator,
 												kQ3StateOperatorTypePush,
 												kQ3ClassNameStateOperatorPush,
 												e3push_metahandler,
-												~sizeof(E3Push));
+												sizeof(E3Push));
 	
 	if (qd3dStatus != kQ3Failure)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStateOperator,
 												kQ3StateOperatorTypePop,
 												kQ3ClassNameStateOperatorPop,
 												e3pop_metahandler,
-												~sizeof(E3Pop));
+												sizeof(E3Pop));
 
 	return qd3dStatus ;
 }
@@ -3325,7 +3325,7 @@ E3View_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeView, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeView, kQ3False, NULL);
 	return(theObject);
 }
 
@@ -3660,7 +3660,7 @@ E3View_Sync(TQ3ViewObject theView)
 	//
 	// The kQ3XMethodTypeRendererEndFrame method is only implemented by async
 	// renderers, so if this method is implemented we know we need to block.
-	if ( E3ClassTree_GetMethodByObject ( ( (E3View*) theView )->instanceData.theRenderer, kQ3XMethodTypeRendererEndFrame ) != NULL )
+	if ( ( (E3View*) theView )->instanceData.theRenderer->GetMethod ( kQ3XMethodTypeRendererEndFrame ) != NULL )
 		{
 		// Note - the QD3D Interactive Renderer doesn't appear to call Q3XView_EndFrame even
 		// though it should, since it implements the kQ3XMethodTypeRendererEndFrame method.
@@ -4956,7 +4956,7 @@ E3Push_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StateOperatorTypePush, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3StateOperatorTypePush, kQ3False, NULL);
 	return(theObject);
 }
 
@@ -4974,7 +4974,7 @@ E3Pop_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StateOperatorTypePop, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3StateOperatorTypePop, kQ3False, NULL);
 	return(theObject);
 }
 

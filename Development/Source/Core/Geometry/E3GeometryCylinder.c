@@ -749,7 +749,7 @@ E3GeometryCylinder_RegisterClass(void)
 											kQ3GeometryTypeCylinder,
 											kQ3ClassNameGeometryCylinder,
 											e3geom_cylinder_metahandler,
-											~sizeof(E3Cylinder));
+											sizeof(E3Cylinder));
 
 	return(qd3dStatus);
 }
@@ -798,11 +798,11 @@ E3Cylinder_New(const TQ3CylinderData *cylinderData)
 			kQ3EndCapNone,
 			NULL, NULL, NULL, NULL, NULL
 		};
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeCylinder, kQ3False, &defaultCylinder);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeCylinder, kQ3False, &defaultCylinder ) ;
 	}
 	else
 	{
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeCylinder, kQ3False, cylinderData);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeCylinder, kQ3False, cylinderData ) ;
 	}
 
 

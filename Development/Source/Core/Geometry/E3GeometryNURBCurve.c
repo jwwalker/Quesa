@@ -914,7 +914,7 @@ E3GeometryNURBCurve_RegisterClass(void)
 											kQ3GeometryTypeNURBCurve,
 											kQ3ClassNameGeometryNURBCurve,
 											e3geom_nurbcurve_metahandler,
-											~sizeof(E3NURBCurve));
+											sizeof(E3NURBCurve));
 
 	return(qd3dStatus);
 }
@@ -953,7 +953,7 @@ E3NURBCurve_New(const TQ3NURBCurveData *curveData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeNURBCurve, kQ3False, curveData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeNURBCurve, kQ3False, curveData);
 	return(theObject);
 }
 

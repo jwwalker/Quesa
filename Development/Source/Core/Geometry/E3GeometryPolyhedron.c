@@ -814,7 +814,7 @@ E3GeometryPolyhedron_RegisterClass(void)
 											kQ3GeometryTypePolyhedron,
 											kQ3ClassNameGeometryPolyhedron,
 											e3geom_polyhedron_metahandler,
-											~sizeof(E3Polyhedron));
+											sizeof(E3Polyhedron));
 
 	return(qd3dStatus);
 }
@@ -853,7 +853,7 @@ E3Polyhedron_New(const TQ3PolyhedronData *polyhedronData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypePolyhedron, kQ3False, polyhedronData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypePolyhedron, kQ3False, polyhedronData);
 	return(theObject);
 }
 

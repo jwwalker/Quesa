@@ -8120,7 +8120,7 @@ Q3NURBCurve_SetData(TQ3GeometryObject curve, const TQ3NURBCurveData *nurbCurveDa
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3GeometryTypeNURBCurve)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nurbCurveData), kQ3Failure);
 
 
@@ -8159,7 +8159,7 @@ Q3NURBCurve_GetData(TQ3GeometryObject curve, TQ3NURBCurveData *nurbCurveData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3GeometryTypeNURBCurve)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nurbCurveData), kQ3Failure);
 
 
@@ -8231,7 +8231,7 @@ Q3NURBCurve_SetControlPoint(TQ3GeometryObject curve, TQ3Uns32 pointIndex, const 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3GeometryTypeNURBCurve)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), kQ3Failure);
 
 
@@ -8275,7 +8275,7 @@ Q3NURBCurve_GetControlPoint(TQ3GeometryObject curve, TQ3Uns32 pointIndex, TQ3Rat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3GeometryTypeNURBCurve)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), kQ3Failure);
 
 
@@ -8317,7 +8317,7 @@ TQ3Status
 Q3NURBCurve_SetKnot(TQ3GeometryObject curve, TQ3Uns32 knotIndex, float knotValue)
 	{
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3GeometryTypeNURBCurve)), kQ3Failure);
 
 
 
@@ -8369,7 +8369,7 @@ TQ3Status
 Q3NURBCurve_GetKnot(TQ3GeometryObject curve, TQ3Uns32 knotIndex, float *knotValue)
 	{
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3ShapeTypeGeometry)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(curve, (kQ3GeometryTypeNURBCurve)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(knotValue), kQ3Failure);
 
 

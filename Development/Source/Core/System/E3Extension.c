@@ -96,7 +96,7 @@ E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *object
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(parentType,
+	qd3dStatus = E3ClassTree::RegisterExternalClass(parentType,
 											*objectType,
 											objectName,
 											metaHandler,
