@@ -947,17 +947,45 @@ e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 {	TQ3TriMeshData		*instanceData = (TQ3TriMeshData *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
+	TQ3BoundingMethod			boundingMethod;
 
 
-
-	// Recalculate our bounding box if it hasn't been initialised
+	// Recalculate our local-coordinate bounding box if it hasn't been initialised
 	if (instanceData->bBox.isEmpty == kQ3True)
 		Q3BoundingBox_SetFromPoints3D(&instanceData->bBox, instanceData->points, instanceData->numPoints, sizeof(TQ3Point3D));
 
-
-
-	// Update the bounds
-	E3View_UpdateBounds(theView, 2, sizeof(TQ3Point3D), &instanceData->bBox.min);
+	boundingMethod = E3View_GetBoundingMethod(theView);
+	if (boundingMethod == kQ3BoxBoundsExact || boundingMethod == kQ3SphereBoundsExact)
+	{
+		E3View_UpdateBounds(theView, instanceData->numPoints, sizeof(TQ3Point3D), instanceData->points);
+	}
+	else	// approximate bounds
+	{
+		TQ3Point3D	corners[8];
+		corners[0] = instanceData->bBox.min;
+		corners[7] = instanceData->bBox.max;
+		corners[1] = corners[2] = corners[3] = corners[0];
+		corners[1].x = corners[7].x;
+		corners[2].y = corners[7].y;
+		corners[3].z = corners[7].z;
+		corners[4] = corners[5] = corners[6] = corners[7];
+		corners[4].x = corners[0].x;
+		corners[5].y = corners[0].y;
+		corners[6].z = corners[0].z;
+		
+		E3View_UpdateBounds(theView, 8, sizeof(TQ3Point3D), corners);
+		
+		// The previous code here was
+		//
+		//   E3View_UpdateBounds(theView, 2, sizeof(TQ3Point3D), &instanceData->bBox.min);
+		//
+		// In local coordinates, taking the bounding box of the min and max points does
+		// recreate the bounding box.  However, even in "approximate" mode, E3View_UpdateBounds
+		// uses the exact method for a bounding box of a small numbers of points, hence the min
+		// and max points would be converted to world coordinates before taking a bounding box.
+		// This can give a bad result, even an empty bounding box.
+		// The original code would probably be safe in the one case of an approximate bounding sphere.
+	}
 	
 	return(kQ3Success);
 }
