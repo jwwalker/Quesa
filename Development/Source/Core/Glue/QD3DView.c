@@ -703,8 +703,12 @@ Q3View_SetLightGroup(TQ3ViewObject view, TQ3GroupObject lightGroup)
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(lightGroup->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(lightGroup, kQ3ShapeTypeGroup), kQ3Failure);
+	
+	if (lightGroup != NULL)
+		{
+		Q3_REQUIRE_OR_RESULT(lightGroup->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+		Q3_REQUIRE_OR_RESULT(Q3Object_IsType(lightGroup, kQ3ShapeTypeGroup), kQ3Failure);
+		}
 
 
 
@@ -713,7 +717,7 @@ Q3View_SetLightGroup(TQ3ViewObject view, TQ3GroupObject lightGroup)
 	if (0) // Further checks on view
 		return(kQ3Failure);
 
-	if (0) // Further checks on lightGroup
+	if (0) // Further checks on lightGroup (may be NULL)
 		return(kQ3Failure);
 #endif
 
