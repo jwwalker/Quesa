@@ -1,5 +1,5 @@
 /*  NAME:
-        E3FFormat_Sample.c
+        3dsReader.c
 
     DESCRIPTION:
         Sample file to create an Importer Plug-In for Quesa.
@@ -1324,7 +1324,7 @@ E3FFormat_3ds_Reader_Exit(void)
 #endif
 
 //=============================================================================
-//      DllMain : DLL exit point for Windows.
+//      DllMain : DLL entry point for Windows.
 //-----------------------------------------------------------------------------
 #if OS_WIN32
 BOOL APIENTRY
