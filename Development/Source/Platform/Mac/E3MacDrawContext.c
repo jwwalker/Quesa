@@ -744,12 +744,16 @@ E3MacDrawContext_RegisterClass(void)
 
 
 	// Register our Display Manager notification callback
+#if TARGET_API_MAC_CARBON
+	theGlobals->dmNotifyUPP = NULL;
+#else
 	theGlobals->dmNotifyUPP = NewDMNotificationProc(e3drawcontext_mac_dm_notify);
 	if (theGlobals->dmNotifyUPP != NULL)
 		{
 		GetCurrentProcess(&thePSN);
 		DMRegisterNotifyProc(theGlobals->dmNotifyUPP, &thePSN);
 		}
+#endif
 
 
 
@@ -781,11 +785,14 @@ E3MacDrawContext_UnregisterClass(void)
 	// Unregister our Display Manager notification callback
 	if (theGlobals->dmNotifyUPP != NULL)
 		{
+#if TARGET_API_MAC_CARBON
+		theGlobals->dmNotifyUPP = NULL;
+#else
 		GetCurrentProcess(&thePSN);
 		DMRemoveNotifyProc(theGlobals->dmNotifyUPP, &thePSN);
 
 		DisposeDMNotificationUPP(theGlobals->dmNotifyUPP);
-		theGlobals->dmNotifyUPP = NULL;
+#endif
 		}
 
 
