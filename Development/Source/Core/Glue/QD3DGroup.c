@@ -146,7 +146,7 @@ Q3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(object && object->quesaTag == kQ3ObjectTypeQuesa, NULL);
 
 
 
