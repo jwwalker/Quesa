@@ -45,13 +45,18 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 typedef struct {
-	TQ3ViewObject			theView;
-	TQ3GroupObject			theGroup;
-	void					*theWindow;
-	TQ3Uns32				theFlags;
+	TQ3ViewObject			mView;
+	TQ3GroupObject			mGroup;
+	void					*mWindow;
+	TQ3Area					mArea;
+	TQ3Uns32				mFlags;
 } TQ3ViewerData;
 
-
+typedef struct {
+	void					*mWindow;
+	TQ3Area					*mArea;
+	TQ3Uns32				mFlags;
+} te3ViewerParams;
 
 
 
@@ -61,15 +66,17 @@ typedef struct {
 static TQ3Status
 e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) privateData;
+	te3ViewerParams			*params = (te3ViewerParams*) paramData;
 #pragma unused(theObject)
-#pragma unused(paramData)
 
 
 
 	// Initialise our instance data
-	instanceData->theView  = Q3View_New();
-	instanceData->theGroup = Q3OrderedDisplayGroup_New();
-	instanceData->theFlags = kQ3ViewerFlagDefault;
+	instanceData->mView  = Q3View_New();
+	instanceData->mGroup = Q3OrderedDisplayGroup_New();
+	instanceData->mFlags = params->mFlags;
+	instanceData->mWindow = params->mWindow;
+	instanceData->mArea = *params->mArea;
 	
 	return(kQ3Success);
 }
@@ -89,8 +96,8 @@ e3viewer_delete(TQ3Object theObject, void *privateData)
 
 
 	// Dispose of our instance data
-	E3Object_DisposeAndForget(instanceData->theView);
-	E3Object_DisposeAndForget(instanceData->theGroup);
+	E3Object_DisposeAndForget(instanceData->mView);
+	E3Object_DisposeAndForget(instanceData->mGroup);
 }
 
 
@@ -119,8 +126,6 @@ e3viewer_metahandler(TQ3XMethodType methodType)
 	
 	return(theMethod);
 }
-
-
 
 
 
@@ -165,7 +170,7 @@ E3Viewer_UnregisterClass(void)
 	return(qd3dStatus);
 }
 
-
+#pragma mark -
 
 
 
@@ -209,22 +214,25 @@ E3Viewer_GetReleaseVersion(TQ3Uns32 *releaseRevision)
 
 
 //=============================================================================
-//      E3Viewer_New : One-line description of the method.
+//      E3Viewer_New : Creates a viewer.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : The window should be a CGrafPtr on MacOS, and a HWND under
+//			   Win32.
 //-----------------------------------------------------------------------------
 TQ3ViewerObject
 E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 {	TQ3ViewerObject		theViewer;
 
-
+	te3ViewerParams		paramData;
+	
+	// Set up initial values (to be copied into the actual Quesa object).
+	paramData.mFlags = theFlags;
+	paramData.mWindow = (void*)theWindow;
+	paramData.mArea = (TQ3Area*)theRect;
 
 	// Create the object
-	// NOTE: the following is failing because kQ3ObjectTypeViewer is not
-	// recognized.  I wonder if the Viewer should just be a built-in
-	// part of Quesa now, since it seems to rely on a lot of the Quesa
-	// internals (like the class map).
-	theViewer = E3ClassTree_CreateInstance(kQ3ObjectTypeViewer, kQ3False, NULL);
+	theViewer = E3ClassTree_CreateInstance(kQ3ObjectTypeViewer, kQ3False, &paramData);
+	
 	return(theViewer);
 }
 
@@ -298,7 +306,7 @@ E3Viewer_UseGroup(TQ3ViewerObject theViewer, TQ3GroupObject theGroup)
 
 
 	// Set our group, replacing any existing group
-	E3Shared_Replace(&instanceData->theGroup, theGroup);
+	E3Shared_Replace(&instanceData->mGroup, theGroup);
 	
 	return(kQ3Success);
 }
@@ -318,7 +326,7 @@ E3Viewer_GetGroup(TQ3ViewerObject theViewer)
 
 
 	// Return another reference to our group
-	theGroup = Q3Shared_GetReference(instanceData->theGroup);
+	theGroup = Q3Shared_GetReference(instanceData->mGroup);
 	
 	return(theGroup);
 }
@@ -364,17 +372,32 @@ E3Viewer_WriteData(TQ3ViewerObject theViewer, void **theData, TQ3Uns32 *dataSize
 
 
 //=============================================================================
-//      E3Viewer_Draw : One-line description of the method.
+//      E3Viewer_Draw : Draw the viewer in its entirety.
 //-----------------------------------------------------------------------------
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_Draw(TQ3ViewerObject theViewer)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3Status status = kQ3Success;
+	
+	// For now, let's just do a Mac-specific hack to demonstrate
+	// that we can draw something.
+	CGrafPtr port = (CGrafPtr)instanceData->mWindow;
+	SetPort(port);
+	MoveTo(instanceData->mArea.min.x, instanceData->mArea.min.y);
+	LineTo(instanceData->mArea.max.x, instanceData->mArea.max.y);
+	MoveTo(instanceData->mArea.max.x, instanceData->mArea.min.y);
+	LineTo(instanceData->mArea.min.x, instanceData->mArea.max.y);
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	// Then, draw the content and the control strip.
+	if (kQ3Success == status)
+		E3Viewer_DrawContent(theViewer);
+	if (kQ3Success == status)
+		E3Viewer_DrawControlStrip(theViewer);
+		
+	return(status);
 }
 
 
@@ -382,17 +405,19 @@ E3Viewer_Draw(TQ3ViewerObject theViewer)
 
 
 //=============================================================================
-//      E3Viewer_DrawContent : One-line description of the method.
+//      E3Viewer_DrawContent : Draw the content part of the view.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : We just inset the area a bit to account for the buttons and
+//			   other frame elements, then submit the view.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 
+	// Not yet implemented, but let's pretend it's working.
 
-	// To be implemented...
-	return(kQ3Failure);
+	return(kQ3Success);
 }
 
 
@@ -402,12 +427,32 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 //=============================================================================
 //      E3Viewer_DrawControlStrip : One-line description of the method.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Simply draw each button in the control strip.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 {
-
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3Uns32			i, button;
+	TQ3Status			status;
+	TQ3Area				buttonRect;
+	
+	for (i=0; i<9; i++)
+		{
+		button = (kQ3ViewerFlagButtonCamera << i);
+		status = E3Viewer_GetButtonRect(theViewer, button, &buttonRect);
+		if (kQ3Success != status) break;
+		
+		// Mac-specific hack:
+		{
+			Rect r;
+			E3Area_ToRect(&buttonRect, &r);
+			SetPort((CGrafPtr)instanceData->mWindow);
+			FrameRect(&r);
+		}
+		
+		button <<= 1;
+	}
 
 	// To be implemented...
 	return(kQ3Failure);
@@ -418,16 +463,51 @@ E3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 
 
 //=============================================================================
-//      E3Viewer_GetButtonRect : One-line description of the method.
+//      E3Viewer_GetButtonRect : Get the bounds of the given button.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Button is specified using new (Quesa) constants, e.g.,
+//			   kQ3ViewerFlagButtonCamera.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_GetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 theButton, TQ3Area *theRect)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+
+	// Hack: just define a small box per button,
+	// assuming all buttons should appear.
+	theRect->min.x = 0.0f;
+	theRect->max.x = 32.0f;
+	theRect->max.y = instanceData->mArea.max.y;
+	theRect->min.y = theRect->max.y - 24.0f;
+	
+	if (kQ3ViewerFlagButtonCamera == theButton) return kQ3Success;
+
+	theRect->min.x = theRect->max.x + 2.0f;
+	theRect->max.x = theRect->min.x + 32.0f;
+	if (kQ3ViewerFlagButtonTruck == theButton) return kQ3Success;
+
+	theRect->min.x = theRect->max.x + 2.0f;
+	theRect->max.x = theRect->min.x + 32.0f;
+	if (kQ3ViewerFlagButtonOrbit == theButton) return kQ3Success;
+
+	theRect->min.x = theRect->max.x + 2.0f;
+	theRect->max.x = theRect->min.x + 32.0f;
+	if (kQ3ViewerFlagButtonZoom == theButton) return kQ3Success;
+
+	theRect->min.x = theRect->max.x + 2.0f;
+	theRect->max.x = theRect->min.x + 32.0f;
+	if (kQ3ViewerFlagButtonDolly == theButton) return kQ3Success;
+
+	theRect->min.x = theRect->max.x + 2.0f;
+	theRect->max.x = theRect->min.x + 32.0f;
+	if (kQ3ViewerFlagButtonReset == theButton) return kQ3Success;
+
+	theRect->min.x = theRect->max.x + 2.0f;
+	theRect->max.x = theRect->min.x + 32.0f;
+	if (kQ3ViewerFlagButtonOptions == theButton) return kQ3Success;
 
 
-	// To be implemented...
+	// Invalid or unavailable button; return failure.
 	return(kQ3Failure);
 }
 
@@ -520,7 +600,7 @@ E3Viewer_GetView(TQ3ViewerObject theViewer)
 
 
 	// Return another reference to our view
-	theView = Q3Shared_GetReference(instanceData->theView);
+	theView = Q3Shared_GetReference(instanceData->mView);
 	
 	return(theView);
 }
