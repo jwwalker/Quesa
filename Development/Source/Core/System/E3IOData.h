@@ -53,6 +53,18 @@ extern "C" {
 
 
 //=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+typedef struct TE3UnknownBinary_Data {
+	char					*typeString;
+	TQ3UnknownBinaryData	data;
+} TE3UnknownBinary_Data;
+
+
+
+
+
+//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 TQ3Status			E3Shared_ClearEditTracking(TQ3SharedObject sharedObject);
