@@ -1458,6 +1458,7 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	TQ3BoxData			geomData;
 	TQ3Uns32 			i;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -1489,7 +1490,8 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.boxAttributeSet = childObject;
-
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace)){
 					geomData.faceAttributeSet = (OpaqueTQ3Object **)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*6);
@@ -1507,6 +1509,8 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 	// Create the geometry
 	theObject = Q3Box_New(&geomData);
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
 	// Clean up
@@ -1536,6 +1540,7 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3ConeData				geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -1587,7 +1592,8 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 				}
 			else if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.coneAttributeSet = childObject;
-
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			// the interior attribute set are not defined in the 3DMF Spec
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeGeometryCaps))
@@ -1603,6 +1609,8 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 	theObject = Q3Cone_New(&geomData);
 
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
 	if (geomData.interiorAttributeSet != NULL)
@@ -1632,6 +1640,7 @@ E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3CylinderData			geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -1687,7 +1696,8 @@ E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile)
 				}
 			else if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.cylinderAttributeSet = childObject;
-
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			// the interior attribute set are not defined in the 3DMF Spec
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeGeometryCaps))
@@ -1703,6 +1713,8 @@ E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile)
 	theObject = Q3Cylinder_New(&geomData);
 
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
 	if (geomData.interiorAttributeSet != NULL)
@@ -1735,6 +1747,7 @@ E3Read_3DMF_Geom_Disk(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3DiskData				geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -1775,7 +1788,8 @@ E3Read_3DMF_Geom_Disk(TQ3FileObject theFile)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.diskAttributeSet = childObject;
-
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else
 				Q3Object_Dispose(childObject);
 			}
@@ -1787,6 +1801,8 @@ E3Read_3DMF_Geom_Disk(TQ3FileObject theFile)
 	theObject = Q3Disk_New(&geomData);
 
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
 	if (geomData.diskAttributeSet != NULL)
@@ -1807,6 +1823,7 @@ E3Read_3DMF_Geom_Ellipse(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3EllipseData			geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -1841,7 +1858,8 @@ E3Read_3DMF_Geom_Ellipse(TQ3FileObject theFile)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.ellipseAttributeSet = childObject;
-
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else
 				Q3Object_Dispose(childObject);
 			}
@@ -1853,6 +1871,8 @@ E3Read_3DMF_Geom_Ellipse(TQ3FileObject theFile)
 	theObject = Q3Ellipse_New(&geomData);
 
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
 	if (geomData.ellipseAttributeSet != NULL)
@@ -1917,7 +1937,6 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.ellipsoidAttributeSet = childObject;
-			
 			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
 				e3read_3dmf_merge_element_set( &elementSet, childObject );
 
@@ -1932,9 +1951,9 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 	// Create the geometry
 	theObject = Q3Ellipsoid_New(&geomData);
 
-	
-	// Apply any elements
+	// Apply any custom elements
 	e3read_3dmf_apply_element_set( theObject, elementSet );
+	
 
 
 	// Clean up
@@ -1957,6 +1976,7 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3GeneralPolygonData	geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -2007,7 +2027,8 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.generalPolygonAttributeSet = childObject;
-
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListVertex)){
 					vertexCount = 0;
@@ -2031,6 +2052,8 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 	// Create the geometry
 	theObject = Q3GeneralPolygon_New(&geomData);
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
 	// Clean up
@@ -2063,6 +2086,7 @@ E3Read_3DMF_Geom_Line(TQ3FileObject theFile)
 	TQ3Object		theObject;
 	TQ3LineData		geomData;
 	TQ3Uns32		i;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -2088,6 +2112,8 @@ E3Read_3DMF_Geom_Line(TQ3FileObject theFile)
 				{
 				geomData.lineAttributeSet = childObject;
 				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListVertex)){
 					for(i = 0; i< 2; i++){
@@ -2105,6 +2131,8 @@ E3Read_3DMF_Geom_Line(TQ3FileObject theFile)
 	theObject = Q3Line_New (&geomData);
 
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
 	if (geomData.lineAttributeSet != NULL)
@@ -2131,6 +2159,7 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	TQ3Uns32 			imageSize;
 	TQ3MarkerData		geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -2174,6 +2203,8 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 				{
 				geomData.markerAttributeSet = childObject;
 				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else
 				Q3Object_Dispose(childObject);
 			}
@@ -2185,6 +2216,8 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 	theObject =  Q3Marker_New (&geomData);
 
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
 	if (geomData.markerAttributeSet != NULL)
@@ -2603,6 +2636,7 @@ cleanUp:
 	TQ3Boolean			readFailed = kQ3False;
 	
 	TQ3AttributeSet		attributeSet;
+	TQ3SetObject			elementSet = NULL;
 	
 	// Read in the numVertices
 	if(Q3Uns32_Read(&numVertices, theFile)!= kQ3Success)
@@ -2719,6 +2753,9 @@ cleanUp:
 			else if(Q3Object_IsType (childObject, kQ3SetTypeAttribute)){
 					Q3Geometry_SetAttributeSet (mesh, childObject);
 				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet )){
+				Q3Shape_SetSet(mesh, childObject );
+				}
 			else if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListVertex)){
 				for(i = 0; i< numVertices; i++){
 					attributeSet = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
@@ -2737,6 +2774,7 @@ cleanUp:
 cleanUp:	
 	if(mesh != NULL)
 		{
+		// Apply any custom elements
 		Q3Mesh_ResumeUpdates(mesh);
 		if(readFailed == kQ3True)
 			{
@@ -2769,6 +2807,7 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 	TQ3Status			qd3dStatus;
 	TQ3NURBCurveData	geomData;
 	TQ3Uns32			i;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -2824,6 +2863,8 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 				{
 				geomData.curveAttributeSet = childObject;
 				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else
 				Q3Object_Dispose(childObject);
 			}
@@ -2834,6 +2875,8 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 	// Create the geometry
 	theObject =  Q3NURBCurve_New (&geomData);
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
 cleanup:
@@ -2879,6 +2922,7 @@ E3Read_3DMF_Geom_PixmapMarker(TQ3FileObject theFile)
 {	TQ3Object 			theObject = NULL;
 	TQ3Object			childObject;
 	TQ3PixmapMarkerData geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -2905,6 +2949,8 @@ E3Read_3DMF_Geom_PixmapMarker(TQ3FileObject theFile)
 				{
 				geomData.pixmapMarkerAttributeSet = childObject;
 				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else
 				Q3Object_Dispose(childObject);
 			}
@@ -2915,6 +2961,8 @@ E3Read_3DMF_Geom_PixmapMarker(TQ3FileObject theFile)
 	// Create the geometry
 	theObject = Q3PixmapMarker_New (&geomData);
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
 	// Clean up
@@ -2940,6 +2988,7 @@ E3Read_3DMF_Geom_Point(TQ3FileObject theFile)
 {	TQ3Object			childObject;
 	TQ3Object 			theObject;
 	TQ3PointData		geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -2961,6 +3010,8 @@ E3Read_3DMF_Geom_Point(TQ3FileObject theFile)
 				{
 				geomData.pointAttributeSet = childObject;
 				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else
 				Q3Object_Dispose(childObject);
 			}
@@ -2971,6 +3022,8 @@ E3Read_3DMF_Geom_Point(TQ3FileObject theFile)
 	// Create the geometry
 	theObject = Q3Point_New (&geomData);
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	
 	// Clean up
@@ -2994,6 +3047,7 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	TQ3PolyLineData		geomData;
 	TQ3Uns32			i;
+	TQ3SetObject			elementSet = NULL;
 	
 	
 
@@ -3035,6 +3089,8 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 				{
 				geomData.polyLineAttributeSet = childObject;
 				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListVertex)){
 					for(i = 0; i< geomData.numVertices; i++){
@@ -3057,6 +3113,8 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 	// Create the geometry
 	theObject =  Q3PolyLine_New (&geomData);
 		
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 		
 	// Clean up
@@ -3092,6 +3150,7 @@ E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	TQ3PolygonData		geomData;
 	TQ3Uns32 			i;
+	TQ3SetObject			elementSet = NULL;
 	
 
 
@@ -3127,6 +3186,8 @@ E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.polygonAttributeSet = childObject;
 
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListVertex)){
 					for(i = 0; i< geomData.numVertices; i++){
@@ -3143,6 +3204,8 @@ E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 	// Create the geometry
 	theObject = Q3Polygon_New(&geomData);
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
 	// Clean up
@@ -3188,6 +3251,7 @@ E3Read_3DMF_Geom_Torus(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3TorusData			geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -3235,6 +3299,8 @@ E3Read_3DMF_Geom_Torus(TQ3FileObject theFile)
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.torusAttributeSet = childObject;
 
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else{
 				Q3Object_Dispose(childObject);
 				}
@@ -3246,6 +3312,8 @@ E3Read_3DMF_Geom_Torus(TQ3FileObject theFile)
 	// Create the geometry
 	theObject = Q3Torus_New(&geomData);
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
 	// Clean up
@@ -3271,6 +3339,7 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 	TQ3Object			childObject;
 	TQ3Object 			theObject;
 	TQ3TriGridData		geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -3310,6 +3379,8 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.triGridAttributeSet = childObject;
 
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace)){
 					geomData.facetAttributeSet = (OpaqueTQ3Object **)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*numFacets);
@@ -3332,6 +3403,8 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 	// Create the geometry
 	theObject = Q3TriGrid_New(&geomData);
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
 	// Clean up
@@ -3543,6 +3616,8 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
 cleanUp:

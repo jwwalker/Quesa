@@ -94,6 +94,30 @@ e3fformat_3dmf_is_next_element( TQ3FileObject theFile )
 
 
 //=============================================================================
+//      e3fformat_3dmf_attribute_set_read : Creates and read an attribute set from a 3DMF.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_attribute_set_read(TQ3FileObject theFile)
+{TQ3AttributeSet		theSet;
+
+
+
+	// Create the attribute set
+	theSet = E3ClassTree_CreateInstance(kQ3SetTypeAttribute, kQ3False, NULL);
+	if (theSet == NULL)
+		return(NULL);
+
+
+
+	// Read the elements in to the set
+	while (!Q3File_IsEndOfContainer(theFile, NULL) && e3fformat_3dmf_is_next_element(theFile))
+		e3fformat_3dmf_read_next_element(theSet, theFile);
+
+	return(theSet);
+
+}
+
+//=============================================================================
 //      e3fformat_3dmf_set_read : Creates and read an attribute set from a 3DMF.
 //-----------------------------------------------------------------------------
 static TQ3Object
@@ -103,7 +127,7 @@ e3fformat_3dmf_set_read(TQ3FileObject theFile)
 
 
 	// Create the attribute set
-	theSet = E3ClassTree_CreateInstance(kQ3SetTypeAttribute, kQ3False, NULL);
+	theSet = E3ClassTree_CreateInstance(kQ3SharedTypeSet, kQ3False, NULL);
 	if (theSet == NULL)
 		return(NULL);
 
@@ -1464,7 +1488,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	
 	// Attribute methods
 	// override the inheritance problem
-	E3ClassTree_AddMethodByType(kQ3SetTypeAttribute,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_set_read);
+	E3ClassTree_AddMethodByType(kQ3SetTypeAttribute,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_attribute_set_read);
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeTopCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_topcapsset_read);
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeBottomCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_bottomcapsset_read);
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeFaceCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_facecapsset_read);
