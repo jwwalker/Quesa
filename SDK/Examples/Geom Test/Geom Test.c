@@ -1051,21 +1051,34 @@ createGeomMarker(void)
 //-----------------------------------------------------------------------------
 static TQ3GeometryObject
 createGeomMesh(void)
-{	TQ3Vertex3D			theVertices[9] = { { { -1.5f,  1.5f, 0.0f }, NULL },
-										   { { -1.5f, -1.5f, 0.0f }, NULL },
-										   { {  0.0f, -1.5f, 0.9f }, NULL },
-										   { {  1.5f, -1.5f, 0.0f }, NULL },
-										   { {  1.5f,  1.5f, 0.0f }, NULL },
-										   { {  0.0f,  1.5f, 0.9f }, NULL },
-										   { { -1.2f,  0.6f, 0.0f }, NULL },
-										   { {  0.0f,  0.0f, 0.0f }, NULL },
-										   { { -1.2f, -0.6f, 0.0f }, NULL } };
-	TQ3Param2D			vertUVs[9] = {
-		{0.0f, 1.0f}, {0.0f, 0.0f}, {0.5f, 0.0f}, {1.0f, 0.0f},
-		{1.0f, 1.0f}, {0.5f, 1.0f}, {0.1f, 0.8f}, {0.5f, 0.5f},
-		{0.1f, 0.4f}};
+{	TQ3Vertex3D			theVertices[11] = {	{ { -1.5f,  1.5f, 0.0f }, NULL },
+											{ { -1.5f, -1.5f, 0.0f }, NULL },
+											{ {  1.5f, -1.5f, 0.0f }, NULL },
+											{ {  1.5f,  1.5f, 0.0f }, NULL },
+											{ {  0.0f,  1.8f, 0.0f }, NULL },
+
+											{ { -1.5f, -1.5f, 0.0f }, NULL },
+											{ {  0.0f, -1.5f, 0.9f }, NULL },
+											{ {  1.5f, -1.5f, 0.0f }, NULL },
+
+											{ { -1.2f,  0.6f, 0.0f }, NULL },
+											{ {  0.0f,  0.0f, 0.0f }, NULL },
+											{ { -1.2f, -0.6f, 0.0f }, NULL } };
+	TQ3Param2D			vertUVs[11] = {	{ 0.0f, 1.0f },
+										{ 0.0f, 0.0f },
+										{ 1.0f, 0.0f },
+										{ 1.0f, 1.0f },
+										{ 0.5f, 1.2f },
+
+										{ 0.0f, 0.0f },
+										{ 0.5f, 0.2f },
+										{ 1.0f, 0.0f },
+
+										{ 0.1f, 0.8f },
+										{ 0.5f, 0.5f },
+										{ 0.1f, 0.4f }};
 	TQ3ColorRGB			theColour = { 0.3f, 0.9f, 0.5f };
-	TQ3MeshVertex		meshVertices[9];
+	TQ3MeshVertex		meshVertices[11];
 	TQ3AttributeSet		theAttributes;
 	TQ3MeshFace			theFace;
 	TQ3GeometryObject	theMesh;
@@ -1080,7 +1093,7 @@ createGeomMesh(void)
 
 
 	// Create the vertices
-	for (n = 0; n < 9; n++)
+	for (n = 0; n < 11; n++)
 		{
 		meshVertices[n] = Q3Mesh_VertexNew(theMesh, &theVertices[n]);
 
@@ -1095,14 +1108,16 @@ createGeomMesh(void)
 
 
 
-	// Add the face
+	// Add the faces
 	theAttributes = Q3AttributeSet_New();
 	if (theAttributes != NULL)
 		Q3AttributeSet_Add(theAttributes, kQ3AttributeTypeDiffuseColor, &theColour);
 
-	theFace = Q3Mesh_FaceNew(theMesh, 6, meshVertices, theAttributes);
+	theFace = Q3Mesh_FaceNew(theMesh, 5, &meshVertices[0], theAttributes);
 	if (theFace != NULL)
-		Q3Mesh_FaceToContour(theMesh, theFace, Q3Mesh_FaceNew(theMesh, 3, &meshVertices[6], NULL));
+		Q3Mesh_FaceToContour(theMesh, theFace, Q3Mesh_FaceNew(theMesh, 3, &meshVertices[8], NULL));
+
+	theFace = Q3Mesh_FaceNew(theMesh, 3, &meshVertices[5], theAttributes);
 
 
 
