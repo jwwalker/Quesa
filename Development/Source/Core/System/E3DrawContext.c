@@ -62,6 +62,8 @@ class E3PixmapDrawContext : public E3DrawContext  // This is a leaf class so no 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3DrawContextTypePixmap, E3PixmapDrawContext, E3DrawContext )
+
 public :
 
 	TQ3DrawContextUnionData				instanceData ;
@@ -69,9 +71,43 @@ public :
 	
 
 
+
+
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      E3CameraInfo::E3CameraInfo : Constructor for class info of the class.
+//-----------------------------------------------------------------------------
+
+E3DrawContextInfo::E3DrawContextInfo	(
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent // nil for root class of course
+			 	)
+		: E3SharedInfo ( newClassMetaHandler, newParent ) ,
+		updateMethod		( (TQ3XDrawContextUpdateMethod)			Find_Method ( kQ3XMethodTypeDrawContextUpdate ) ) ,		 
+		getDimensionsMethod	( (TQ3XDrawContextGetDimensionsMethod)	Find_Method ( kQ3XMethodTypeDrawContextGetDimensions ) )		 
+	{
+
+	} ;
+
+
+//=============================================================================
+//      e3drawcontext_new_class_info : Method to construct a class info record.
+//-----------------------------------------------------------------------------
+static E3ClassInfo*
+e3drawcontext_new_class_info (
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent
+			 	)
+	{
+	return new ( std::nothrow ) E3DrawContextInfo ( newClassMetaHandler, newParent ) ;
+	}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_pixmap_new : Pixmap draw context new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -263,6 +299,26 @@ e3drawcontext_pixmap_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3drawcontext_metahandler : Draw context metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3drawcontext_metahandler ( TQ3XMethodType methodType )
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeNewObjectClass :
+			return (TQ3XFunctionPointer) e3drawcontext_new_class_info ;
+		}
+	
+	return NULL ;
+	}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3DrawContext_RegisterClass : Register the class.
@@ -275,18 +331,14 @@ E3DrawContext_RegisterClass(void)
 
 
 	// Register the draw context classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-											kQ3SharedTypeDrawContext,
-											kQ3ClassNameDrawContext,
-											NULL,
-											sizeof(E3DrawContext));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameDrawContext,
+										e3drawcontext_metahandler,
+										E3DrawContext ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
-												kQ3DrawContextTypePixmap,
-												kQ3ClassNameDrawContextPixmap,
-												e3drawcontext_pixmap_metahandler,
-												sizeof(E3PixmapDrawContext));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameDrawContextPixmap,
+											e3drawcontext_pixmap_metahandler,
+											E3PixmapDrawContext ) ;
 
 #if QUESA_OS_MACINTOSH
 	if (qd3dStatus == kQ3Success)
@@ -426,17 +478,16 @@ E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget)
 //      E3DrawContext_Update : Return the type of a draw context.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3DrawContext_Update(TQ3DrawContextObject drawContext)
+E3DrawContext::Update ( void )
 	{
 	// Find the method
-	TQ3XDrawContextUpdateMethod updateMethod = (TQ3XDrawContextUpdateMethod) drawContext->GetMethod ( kQ3XMethodTypeDrawContextUpdate ) ;
-	if ( updateMethod == NULL )
+	if ( ( (E3DrawContextInfo*) GetClass () )->updateMethod == NULL )
 		return kQ3Success ;
 
 
 
 	// Call the method
-	return updateMethod ( drawContext ) ;
+	return ( (E3DrawContextInfo*) GetClass () )->updateMethod ( this ) ;
 	}
 
 
@@ -749,9 +800,10 @@ E3DrawContext_SetPane(TQ3DrawContextObject drawContext, const TQ3Area *pane)
 //      E3DrawContext_GetPane : Return the pane.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3DrawContext_GetPane(TQ3DrawContextObject drawContext, TQ3Area *pane)
-{	TQ3DrawContextUnionData					*instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
-	TQ3Status								qd3dStatus    = kQ3Success;
+E3DrawContext::GetPane ( TQ3Area* pane )
+	{
+	// The way the data is held is a mess, long term the union should be removed and ALL the common data moved into E3DrawContext
+	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) FindLeafInstanceData () ;
 
 
 
@@ -763,21 +815,18 @@ E3DrawContext_GetPane(TQ3DrawContextObject drawContext, TQ3Area *pane)
 	// Otherwise, fetch the full bounds of the draw context
 	else
 		{
-		// Find the method
-		TQ3XDrawContextGetDimensionsMethod getDimensionsMethod = (TQ3XDrawContextGetDimensionsMethod) drawContext->GetMethod ( kQ3XMethodTypeDrawContextGetDimensions ) ;
-		
 		// Get the full dimensions
-		if (getDimensionsMethod != NULL)
-			getDimensionsMethod(drawContext, pane);
+		if ( ( (E3DrawContextInfo*) GetClass () )->getDimensionsMethod != NULL )
+			( (E3DrawContextInfo*) GetClass () )->getDimensionsMethod ( this, pane ) ;
 		else
 			{
 			Q3Memory_Clear(pane, sizeof(TQ3Area));
-			qd3dStatus = kQ3Failure;
+			return kQ3Failure ;
 			}
 		}
 
-	return(qd3dStatus);
-}
+	return kQ3Success ;
+	}
 
 
 
