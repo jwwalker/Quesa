@@ -552,13 +552,15 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 			{
 				strcpy( className, "UNKNOWN" );
 			}
+			fprintf( dumpFile, "%s (%p)", className, anObject );
+			
 			if (Q3Object_IsType( anObject, kQ3ObjectTypeShared ))
 			{
-				fprintf( dumpFile, "%s   %ld\n", className, Q3Shared_GetReferenceCount(anObject) );
+				fprintf( dumpFile, "   %ld\n", Q3Shared_GetReferenceCount(anObject) );
 			}
 			else
 			{
-				fprintf( dumpFile, "%s\n", className );
+				fprintf( dumpFile, "\n" );
 			}
 			
 			// If possible, show a stack crawl
