@@ -58,6 +58,7 @@ extern "C" {
 TQ3Status				E3FileFormat_RegisterClass(void);
 TQ3Status				E3FileFormat_UnregisterClass(void);
 TQ3Status				E3FileFormat_Init(TQ3FileFormatObject theFileFormat, TQ3StorageObject storage);
+TQ3Status				E3FileFormat_Terminate(TQ3FileFormatObject theFileFormat);
 
 //-----------------------------------------------------------------------------
 

@@ -153,6 +153,30 @@ E3FileFormat_Init(TQ3FileFormatObject theFileFormat, TQ3StorageObject storage)
 
 
 //=============================================================================
+//      E3FileFormat_Terminate : Revert the job done by Init.
+//-----------------------------------------------------------------------------
+TQ3Status 
+E3FileFormat_Terminate(TQ3FileFormatObject theFileFormat)
+{
+	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) theFileFormat->instanceData;
+
+	E3Shared_Replace(&instanceData->storage, NULL);
+
+	
+	instanceData->currentStoragePosition = 0;
+	instanceData->readInGroup = kQ3True;
+
+	
+	instanceData->logicalEOF= 0;
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
 //      E3File_GetFileFormat : Get the file format for a file.
 //-----------------------------------------------------------------------------
 #pragma mark -
