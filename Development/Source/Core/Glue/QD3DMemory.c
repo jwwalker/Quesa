@@ -293,3 +293,186 @@ Q3Memory_Clear(void *thePtr, TQ3Uns32 theSize)
 
 
 
+//=============================================================================
+//      Q3Memory_StartRecording : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Status
+Q3Memory_StartRecording()
+{
+	#if Q3_DEBUG
+		// Call the bottleneck
+		E3System_Bottleneck();
+
+
+
+		// Call our implementation
+		return E3Memory_StartRecording();
+
+	#else
+		return kQ3Failure;
+	#endif
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      Q3Memory_StopRecording : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Status
+Q3Memory_StopRecording()
+{
+	#if Q3_DEBUG
+		// Call the bottleneck
+		E3System_Bottleneck();
+
+
+
+		// Call our implementation
+		return E3Memory_StopRecording();
+
+	#else
+		return kQ3Failure;
+	#endif
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      Q3Memory_IsRecording : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Boolean
+Q3Memory_IsRecording()
+{
+	#if Q3_DEBUG
+		// Call the bottleneck
+		E3System_Bottleneck();
+
+
+
+		// Call our implementation
+		return E3Memory_IsRecording();
+
+	#else
+		return kQ3False;
+	#endif
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      Q3Memory_ForgetRecording : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Status
+Q3Memory_ForgetRecording()
+{
+	#if Q3_DEBUG
+		// Call the bottleneck
+		E3System_Bottleneck();
+
+
+		// Call our implementation
+		return E3Memory_ForgetRecording();
+
+	#else
+		return kQ3Failure;
+	#endif
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      Q3Memory_DumpRecording : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Uns32
+Q3Memory_CountRecords()
+{
+	#if Q3_DEBUG
+		// Call the bottleneck
+		E3System_Bottleneck();
+
+
+		// Call our implementation
+		return E3Memory_CountRecords();
+	
+	#else
+	
+		return 0;
+	#endif
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      Q3Memory_NextRecordedObject : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Object
+Q3Memory_NextRecordedObject( TQ3Object inObject )
+{
+	#if Q3_DEBUG
+		// Call the bottleneck
+		E3System_Bottleneck();
+
+
+		// Call our implementation
+		return E3Memory_NextRecordedObject( inObject );
+	
+	#else
+		#pragma unused( inObject )
+		return NULL;
+	#endif
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      Q3Memory_DumpRecording : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Status
+Q3Memory_DumpRecording( const char* fileName, const char* memo )
+{
+	#if Q3_DEBUG
+
+		// Release build checks
+		Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(fileName), kQ3Failure );
+
+
+
+		// Call the bottleneck
+		E3System_Bottleneck();
+
+
+
+		// Call our implementation
+		return E3Memory_DumpRecording( fileName, memo );
+
+	#else
+		#pragma unused( fileName, memo )
+		return kQ3Failure;
+	#endif
+}
+#endif

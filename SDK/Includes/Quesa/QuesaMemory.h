@@ -203,6 +203,153 @@ Q3Memory_Clear (
 
 
 
+/*!
+ *	@function	Q3Memory_StartRecording
+ *	
+ *	@discussion	Begin recording allocations of Quesa objects.
+ *
+ *				In non-debug builds, this function does nothing.
+ *
+ *	@result		Error status of the function.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+EXTERN_API_C ( TQ3Status )
+Q3Memory_StartRecording();
+#endif
+
+
+
+
+
+/*!
+ *	@function	Q3Memory_StopRecording
+ *	
+ *	@discussion	Stop recording allocations of Quesa objects.
+ *
+ *				In non-debug builds, this function does nothing.
+ *
+ *	@result		Error status of the function.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+EXTERN_API_C ( TQ3Status )
+Q3Memory_StopRecording();
+#endif
+
+
+
+
+
+/*!
+ *	@function	Q3Memory_IsRecording
+ *	
+ *	@discussion	Determine whether object allocations are being recorded.
+ *
+ *	@result		kQ3True if allocation recording is on.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+EXTERN_API_C ( TQ3Boolean )
+Q3Memory_IsRecording();
+#endif
+
+
+
+
+
+/*!
+ *	@function	Q3Memory_ForgetRecording
+ *	
+ *	@discussion	Forget any previously recorded allocations of Quesa objects.
+ *
+ *				In non-debug builds, this function does nothing.
+ *
+ *	@result		Error status of the function.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+EXTERN_API_C ( TQ3Status )
+Q3Memory_ForgetRecording();
+#endif
+
+
+
+
+
+/*!
+ *	@function	Q3Memory_CountRecords
+ *	
+ *	@discussion	Return the number of recorded allocations of Quesa objects.
+ *
+ *				In non-debug builds, this function returns 0.
+ *
+ *	@result		Error status of the function.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+EXTERN_API_C ( TQ3Uns32 )
+Q3Memory_CountRecords();
+#endif
+
+
+
+
+
+/*!
+ *	@function	Q3Memory_NextRecordedObject
+ *	
+ *	@discussion	This function can be used to iterate through the list
+ *				of Quesa objects that were created while recording was
+ *				turned on.  Pass NULL to get the first object in the list.
+ *				When it returns NULL, you have reached the end.
+ *
+ *				Example:
+ *
+ *				<blockquote><pre><code>
+ *				TQ3Object	leaked = NULL;
+ *				while (NULL != (leaked = Q3Memory_NextRecordedObject( leaked )))
+ *				{
+ *				&nbsp;&nbsp;	// do something nondestructive to the object
+ *				}
+ *				</code></pre></blockquote>
+ *
+ *				In non-debug builds, this function always returns NULL.
+ *
+ *	@param		inObject	NULL or a recorded object.
+ *
+ *	@result		Next recorded object, or NULL.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+EXTERN_API_C ( TQ3Object )
+Q3Memory_NextRecordedObject( TQ3Object inObject );
+#endif
+
+
+
+
+
+/*!
+ *	@function	Q3Memory_DumpRecording
+ *	
+ *	@discussion	Write a text file listing Quesa objects that were created when
+ *				recording was turned on and still exist.  If there is already a
+ *				file in the default directory with the specified name, new text
+ *				is appended to it.
+ *
+ *				In non-debug builds, this function does nothing.
+ *
+ *				If recording is on when Q3Exit shuts down Quesa, this function
+ *				will be called for you.
+ *
+ *	@param		fileName	Name of memory dump file.
+ *	@param		memo		Text written at start of dump for identification.
+ *							May be NULL.
+ *	@result		Error status of the function.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+EXTERN_API_C ( TQ3Status )
+Q3Memory_DumpRecording( const char* fileName, const char* memo );
+#endif
+
+
+
+
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
