@@ -92,8 +92,10 @@ typedef struct E3HashTable {
 //-----------------------------------------------------------------------------
 //      e3hash_find_node : Find the node for a given key.
 //-----------------------------------------------------------------------------
-//		Note :	Hash index algorithm obtained from John Punin's hash table code
-//				for the W3's libwww library.
+//		Note :	Hash index algorithm inspired by John Punin's hash table code
+//				for the W3's libwww library.  However, libwww needs to hash
+//				strings of unknown length, whereas here we hash just 4 bytes,
+//				which allows a mathematical simplification of the hash function.
 //
 //				Returns the address of a node pointer, rather than the node
 //				pointer itself, since the node pointer may be NULL if the node
@@ -113,16 +115,11 @@ e3hash_find_node(E3HashTablePtr theTable, TQ3ObjectType theKey)
 
 
 	// Calculate the index for the node
-	theIndex = 0;
 	thePtr   = (TQ3Uns8 *) &theKey;
 	
-	theIndex = (TQ3Uns32) (((theIndex * 3) + thePtr[0]) % theTable->tableSize);
-	theIndex = (TQ3Uns32) (((theIndex * 3) + thePtr[1]) % theTable->tableSize);
-	theIndex = (TQ3Uns32) (((theIndex * 3) + thePtr[2]) % theTable->tableSize);
-	theIndex = (TQ3Uns32) (((theIndex * 3) + thePtr[3]) % theTable->tableSize);
+	theIndex = (27*thePtr[0] + 9*thePtr[1] + 3*thePtr[2] + thePtr[3]) % theTable->tableSize;
 
 	Q3_ASSERT(theIndex >= 0 && theIndex < theTable->tableSize);
-
 
 
 	// Return the address of the appropriate node within the table
@@ -425,7 +422,7 @@ void *
 E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey)
 {	E3HashTableNodePtr		theNode, *nodePtr;
 	E3HashTableItemPtr		theItem;
-	TQ3Uns32				n;
+	TQ3Uns32				n, numItems;
 	
 
 
@@ -450,12 +447,13 @@ E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey)
 
 	// Otherwise, look for the item
 	theItem = theNode->theItems;
-	for (n = 0; n < theNode->numItems; n++)
+	numItems = theNode->numItems;
+	for (n = 0; n < numItems; ++n)
 		{
 		if (theKey == theItem->theKey)
 			return(theItem->theItem);
 		
-		theItem++;
+		++theItem;
 		}
 
 	return(NULL);
