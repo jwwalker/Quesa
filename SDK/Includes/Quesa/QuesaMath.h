@@ -113,6 +113,8 @@ extern "C" {
  *  @discussion
  *      Set a 2D vector.
  *
+ *      Available in inline form as Q3FastVector2D_Set.
+ *
  *  @param vector2D         Address of vector to set (may be NULL).
  *  @param x                X coordinate to set into vector2D.
  *  @param y                Y coordinate to set into vector2D.
@@ -132,6 +134,8 @@ Q3Vector2D_Set (
  *      Q3Vector3D_Set
  *  @discussion
  *      Set a 3D vector.
+ *
+ *      Available in inline form as Q3FastVector3D_Set.
  *
  *  @param vector3D         Address of vector to set (may be NULL).
  *  @param x                X coordinate to set into vector3D.
@@ -3678,6 +3682,57 @@ Q3Math_InvSquareRoot (
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+
+
+//=============================================================================
+//      Inline APIs
+//-----------------------------------------------------------------------------
+// Implementation
+#define __Q3FastVector2D_Set(_v, _x, _y)									\
+	do																		\
+		{																	\
+		(_v)->x = (_x);														\
+		(_v)->y = (_y);														\
+		}																	\
+	while (0)
+
+#define __Q3FastVector3D_Set(_v, _x, _y, _z)								\
+	do																		\
+		{																	\
+		(_v)->x = (_x);														\
+		(_v)->y = (_y);														\
+		(_v)->z = (_z);														\
+		}																	\
+	while (0)
+
+
+// Wrappers
+#ifdef __cplusplus
+	inline TQ3Vector2D *Q3FastVector2D_Set(TQ3Vector2D *vector2D, float x, float y)
+	{
+		__Q3FastVector2D_Set(vector2D, x, y);
+		return(vector2D);
+	}
+
+	inline TQ3Vector3D *Q3FastVector3D_Set(TQ3Vector3D *vector3D, float x, float y, float z)
+	{
+		__Q3FastVector3D_Set(vector3D, x, y, z);
+		return(vector3D);
+	}
+#else
+	#define Q3FastVector2D_Set				__Q3FastVector2D_Set
+	#define Q3FastVector3D_Set				__Q3FastVector3D_Set
+#endif
+
+
+// Redirection
+#if QUESA_ALLOW_INLINE_APIS
+	#define Q3Vector2D_Set					Q3FastVector2D_Set
+	#define Q3Vector3D_Set					Q3FastVector3D_Set
+#endif
 
 
 

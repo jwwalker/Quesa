@@ -813,8 +813,7 @@ e3matrix_invert(float **a, TQ3Int32 n, TQ3Int32 *ipiv, TQ3Int32 *indxr, TQ3Int32
 TQ3Vector2D *
 E3Vector2D_Set(TQ3Vector2D *vector2D, float x, float y)
 {
-	vector2D->x = x;
-	vector2D->y = y;
+	Q3FastVector2D_Set(vector2D, x, y);
 	return(vector2D);
 }
 
@@ -828,9 +827,7 @@ E3Vector2D_Set(TQ3Vector2D *vector2D, float x, float y)
 TQ3Vector3D *
 E3Vector3D_Set(TQ3Vector3D *vector3D, float x, float y, float z)
 {
-	vector3D->x = x;
-	vector3D->y = y;
-	vector3D->z = z;
+	Q3FastVector3D_Set(vector3D, x, y, z);
 	return(vector3D);
 }
 

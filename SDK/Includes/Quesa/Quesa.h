@@ -209,7 +209,15 @@
 #ifndef QUESA_ALLOW_QD3D_EXTENSIONS
 	#define QUESA_ALLOW_QD3D_EXTENSIONS					1
 #endif
-	
+
+
+// Default to not using inline APIs
+#ifndef QUESA_ALLOW_INLINE_APIS
+	#define QUESA_ALLOW_INLINE_APIS						0
+#endif
+
+
+// Sanity-check that extensions are only used for legacy targets
 #if !QUESA_ALLOW_QD3D_EXTENSIONS
 	#if !((QUESA_OS_MACINTOSH && !TARGET_API_MAC_CARBON) || QUESA_OS_WIN32)
 		#error "Extensions should only be turned off on Mac Classic or Win32 platforms"
