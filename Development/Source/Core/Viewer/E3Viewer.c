@@ -38,10 +38,14 @@
 #include "E3Viewer.h"
 
 #if QUESA_OS_MACINTOSH
-	#include <QuickDraw.h>
-	#include <Appearance.h>
-	#include <Resources.h>
-	#include <ColorPicker.h>
+	#if QUESA_UH_IN_FRAMEWORKS
+		#include <Carbon/Carbon.h>
+	#else
+		#include <QuickDraw.h>
+		#include <Appearance.h>
+		#include <Resources.h>
+		#include <ColorPicker.h>
+	#endif
 
 	extern short gShlbResFile;		// not sure where this is supposed to go
 #endif
