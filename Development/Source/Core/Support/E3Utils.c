@@ -123,9 +123,8 @@ E3Shared_Replace(TQ3SharedObject *origObject, TQ3SharedObject newObject)
 //-----------------------------------------------------------------------------
 TQ3Status E3Bitmap_Replace(const TQ3Bitmap *original, TQ3Bitmap *copy, TQ3Boolean isCopyInternal)
 {
-	void *			originalData  ;
-	TQ3Uns32		originalSize = Q3Bitmap_GetImageSize(	original->width,
-													  		original->height ) ;
+	void *			originalData;
+	TQ3Uns32		originalSize = original->height * original->rowBytes;
 	
 	
 	
