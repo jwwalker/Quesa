@@ -456,7 +456,7 @@ E3Shared_GetEditTrackingState(TQ3SharedObject sharedObject)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3NewLine_Write(TQ3FileObject theFile)
+E3NewLine_Write(E3File* theFile)
 {
 
 
@@ -473,7 +473,7 @@ E3NewLine_Write(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
-E3Uns8_Read(TQ3Uns8 *data, TQ3FileObject theFile)
+E3Uns8_Read(TQ3Uns8 *data, E3File* theFile)
 {
 	return E3Int8_Read ((TQ3Int8*)data, theFile);
 }
@@ -486,16 +486,15 @@ E3Uns8_Read(TQ3Uns8 *data, TQ3FileObject theFile)
 //      E3Uns8_ReadArray : Read an array of TQ3Uns8.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Uns8_ReadArray(TQ3Uns32 numNums, TQ3Uns8 *data, TQ3FileObject theFile)
+E3Uns8_ReadArray(TQ3Uns32 numNums, TQ3Uns8 *data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
-	TQ3FileFormatObject				format = instanceData->format;
+	TQ3FileFormatObject				format = theFile->GetFileFormat () ;
 	TQ3XFFormatInt8ReadMethod 		int8Read;
 	TQ3XFFormatInt8ReadArrayMethod	int8ArrayRead;
 	TQ3Uns32						n;
 	TQ3Status						status = kQ3Success;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
 
 	
@@ -533,7 +532,7 @@ E3Uns8_ReadArray(TQ3Uns32 numNums, TQ3Uns8 *data, TQ3FileObject theFile)
 //      E3Uns8_Write : Write a TQ3Uns8.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Uns8_Write(TQ3Uns8 data, TQ3FileObject theFile)
+E3Uns8_Write(TQ3Uns8 data, E3File* theFile)
 {
 	return E3Int8_Write ((TQ3Int8)data, theFile);
 }
@@ -546,7 +545,7 @@ E3Uns8_Write(TQ3Uns8 data, TQ3FileObject theFile)
 //      E3Uns16_Read : Read a TQ3Uns16.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Uns16_Read(TQ3Uns16 *data, TQ3FileObject theFile)
+E3Uns16_Read(TQ3Uns16 *data, E3File* theFile)
 {
 	return E3Int16_Read ((TQ3Int16*)data, theFile);
 }
@@ -559,16 +558,15 @@ E3Uns16_Read(TQ3Uns16 *data, TQ3FileObject theFile)
 //      E3Uns16_ReadArray : Read an array of TQ3Uns16.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Uns16_ReadArray(TQ3Uns32 numNums, TQ3Uns16 *data, TQ3FileObject theFile)
+E3Uns16_ReadArray(TQ3Uns32 numNums, TQ3Uns16 *data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
-	TQ3FileFormatObject				format = instanceData->format;
+	TQ3FileFormatObject				format = theFile->GetFileFormat () ;
 	TQ3XFFormatInt16ReadMethod 		int16Read;
 	TQ3XFFormatInt16ReadArrayMethod	int16ArrayRead;
 	TQ3Uns32						n;
 	TQ3Status						status = kQ3Success;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
 
 	
@@ -606,7 +604,7 @@ E3Uns16_ReadArray(TQ3Uns32 numNums, TQ3Uns16 *data, TQ3FileObject theFile)
 //      E3Uns16_Write : Write a TQ3Uns16.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Uns16_Write(TQ3Uns16 data, TQ3FileObject theFile)
+E3Uns16_Write(TQ3Uns16 data, E3File* theFile)
 {
 	return E3Int16_Write ((TQ3Int16)data, theFile);
 }
@@ -619,7 +617,7 @@ E3Uns16_Write(TQ3Uns16 data, TQ3FileObject theFile)
 //      E3Uns32_Read : Read a TQ3Uns32.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Uns32_Read(TQ3Uns32 *data, TQ3FileObject theFile)
+E3Uns32_Read(TQ3Uns32 *data, E3File* theFile)
 {
 	return E3Int32_Read ((TQ3Int32*)data, theFile);
 }
@@ -632,7 +630,7 @@ E3Uns32_Read(TQ3Uns32 *data, TQ3FileObject theFile)
 //      E3Uns32_Write : Write a TQ3Uns32.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Uns32_Write(TQ3Uns32 data, TQ3FileObject theFile)
+E3Uns32_Write(TQ3Uns32 data, E3File* theFile)
 {
 	return E3Int32_Write ((TQ3Int32)data, theFile);
 }
@@ -645,18 +643,17 @@ E3Uns32_Write(TQ3Uns32 data, TQ3FileObject theFile)
 //      E3Int8_Read : Read a TQ3Int8.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Int8_Read(TQ3Int8 *data, TQ3FileObject theFile)
+E3Int8_Read(TQ3Int8 *data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatInt8ReadMethod 		int8Read;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	int8Read = (TQ3XFFormatInt8ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatInt8Read);
+	int8Read = (TQ3XFFormatInt8ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatInt8Read);
 
 	if (int8Read != NULL)
-		return int8Read(instanceData->format,data);
+		return int8Read( theFile->GetFileFormat (),data);
 
 	return(kQ3Failure);
 }
@@ -669,18 +666,17 @@ E3Int8_Read(TQ3Int8 *data, TQ3FileObject theFile)
 //      E3Int8_Write : Write a TQ3Int8.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Int8_Write(TQ3Int8 data, TQ3FileObject theFile)
+E3Int8_Write(TQ3Int8 data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatInt8WriteMethod 		int8Write;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	int8Write = (TQ3XFFormatInt8WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatInt8Write);
+	int8Write = (TQ3XFFormatInt8WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatInt8Write);
 
 	if (int8Write != NULL)
-		return int8Write(instanceData->format,&data);
+		return int8Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
 }
@@ -693,18 +689,17 @@ E3Int8_Write(TQ3Int8 data, TQ3FileObject theFile)
 //      E3Int16_Read : Read a TQ3Int16.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Int16_Read(TQ3Int16 *data, TQ3FileObject theFile)
+E3Int16_Read(TQ3Int16 *data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatInt16ReadMethod 		int16Read;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	int16Read = (TQ3XFFormatInt16ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatInt16Read);
+	int16Read = (TQ3XFFormatInt16ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatInt16Read);
 
 	if(int16Read != NULL)
-		return int16Read(instanceData->format,data);
+		return int16Read( theFile->GetFileFormat (),data);
 
 	return(kQ3Failure);
 }
@@ -717,18 +712,17 @@ E3Int16_Read(TQ3Int16 *data, TQ3FileObject theFile)
 //      E3Int16_Write : Write a TQ3Int16.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Int16_Write(TQ3Int16 data, TQ3FileObject theFile)
+E3Int16_Write(TQ3Int16 data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatInt16WriteMethod 		int16Write;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	int16Write = (TQ3XFFormatInt16WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatInt16Write);
+	int16Write = (TQ3XFFormatInt16WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatInt16Write);
 
 	if(int16Write != NULL)
-		return int16Write(instanceData->format,&data);
+		return int16Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
 }
@@ -741,18 +735,17 @@ E3Int16_Write(TQ3Int16 data, TQ3FileObject theFile)
 //      E3Int32_Read : Read a TQ3Int32.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Int32_Read(TQ3Int32 *data, TQ3FileObject theFile)
+E3Int32_Read(TQ3Int32 *data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatInt32ReadMethod 		int32Read;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatInt32Read);
+	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatInt32Read);
 
 	if(int32Read != NULL)
-		return int32Read(instanceData->format,data);
+		return int32Read( theFile->GetFileFormat (),data);
 
 	return(kQ3Failure);
 }
@@ -765,16 +758,15 @@ E3Int32_Read(TQ3Int32 *data, TQ3FileObject theFile)
 //      E3Uns32_ReadArray : Read an array of TQ3Uns32.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Uns32_ReadArray(TQ3Uns32 numNums, TQ3Uns32 *data, TQ3FileObject theFile)
+E3Uns32_ReadArray(TQ3Uns32 numNums, TQ3Uns32 *data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
-	TQ3FileFormatObject				format = instanceData->format;
+	TQ3FileFormatObject				format = theFile->GetFileFormat () ;
 	TQ3XFFormatInt32ReadMethod 		int32Read;
 	TQ3XFFormatInt32ReadArrayMethod	int32ArrayRead;
 	TQ3Uns32						n;
 	TQ3Status						status = kQ3Success;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
 
 	
@@ -812,18 +804,17 @@ E3Uns32_ReadArray(TQ3Uns32 numNums, TQ3Uns32 *data, TQ3FileObject theFile)
 //      E3Int32_Write : Write a TQ3Int32.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Int32_Write(TQ3Int32 data, TQ3FileObject theFile)
+E3Int32_Write(TQ3Int32 data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatInt32WriteMethod 		int32Write;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	int32Write = (TQ3XFFormatInt32WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatInt32Write);
+	int32Write = (TQ3XFFormatInt32WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatInt32Write);
 
 	if(int32Write != NULL)
-		return int32Write(instanceData->format,&data);
+		return int32Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
 }
@@ -836,7 +827,7 @@ E3Int32_Write(TQ3Int32 data, TQ3FileObject theFile)
 //      E3Uns64_Read : Read a TQ3Uns64.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Uns64_Read(TQ3Uns64 *data, TQ3FileObject theFile)
+E3Uns64_Read(TQ3Uns64 *data, E3File* theFile)
 {
 	return E3Int64_Read ((TQ3Int64*)data, theFile);
 }
@@ -849,7 +840,7 @@ E3Uns64_Read(TQ3Uns64 *data, TQ3FileObject theFile)
 //      E3Uns64_Write : Write a TQ3Uns64.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Uns64_Write(TQ3Uns64 data, TQ3FileObject theFile)
+E3Uns64_Write(TQ3Uns64 data, E3File* theFile)
 {
 	return E3Int64_Write (*((TQ3Int64*)&data), theFile);
 }
@@ -862,18 +853,17 @@ E3Uns64_Write(TQ3Uns64 data, TQ3FileObject theFile)
 //      E3Int64_Read : Read a TQ3Int64.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Int64_Read(TQ3Int64 *data, TQ3FileObject theFile)
+E3Int64_Read(TQ3Int64 *data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatInt64ReadMethod 		int64Read;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	int64Read = (TQ3XFFormatInt64ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatInt64Read);
+	int64Read = (TQ3XFFormatInt64ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatInt64Read);
 
 	if(int64Read != NULL)
-		return int64Read(instanceData->format,data);
+		return int64Read( theFile->GetFileFormat (),data);
 
 	return(kQ3Failure);
 }
@@ -886,18 +876,17 @@ E3Int64_Read(TQ3Int64 *data, TQ3FileObject theFile)
 //      E3Int64_Write : Write a TQ3Int64.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Int64_Write(TQ3Int64 data, TQ3FileObject theFile)
+E3Int64_Write(TQ3Int64 data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatInt64WriteMethod 		int64Write;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	int64Write = (TQ3XFFormatInt64WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatInt64Write);
+	int64Write = (TQ3XFFormatInt64WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatInt64Write);
 
 	if(int64Write != NULL)
-		return int64Write(instanceData->format,&data);
+		return int64Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
 }
@@ -910,20 +899,19 @@ E3Int64_Write(TQ3Int64 data, TQ3FileObject theFile)
 //      E3Float32_Read : Read a TQ3Float32.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile)
+E3Float32_Read(TQ3Float32 *data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 	TQ3Status	status = kQ3Failure;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Read);
+	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Read);
 
 	if (float32Read != NULL)
 	{
-		status = float32Read( instanceData->format, data );
+		status = float32Read( theFile->GetFileFormat (), data );
 		if (status == kQ3Success)
 		{
 			e3float32_validate( data );
@@ -941,16 +929,15 @@ E3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile)
 //      E3Float32_ReadArray : Read an array of TQ3Float32.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Float32_ReadArray( TQ3Uns32 numFloats, TQ3Float32* theFloats, TQ3FileObject theFile)
+E3Float32_ReadArray( TQ3Uns32 numFloats, TQ3Float32* theFloats, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
-	TQ3FileFormatObject				format = instanceData->format;
+	TQ3FileFormatObject				format = theFile->GetFileFormat () ;
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 	TQ3XFFormatFloat32ReadArrayMethod	floatArrayRead;
 	TQ3Uns32						n;
 	TQ3Status						status = kQ3Success;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
 
 	
@@ -996,18 +983,17 @@ E3Float32_ReadArray( TQ3Uns32 numFloats, TQ3Float32* theFloats, TQ3FileObject th
 //      E3Float32_Write : Write a TQ3Float32.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Float32_Write(TQ3Float32 data, TQ3FileObject theFile)
+E3Float32_Write(TQ3Float32 data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Write);
+	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL)
-		return float32Write(instanceData->format,&data);
+		return float32Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
 }
@@ -1020,18 +1006,17 @@ E3Float32_Write(TQ3Float32 data, TQ3FileObject theFile)
 //      E3Float64_Read : Read a TQ3Float64.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Float64_Read(TQ3Float64 *data, TQ3FileObject theFile)
+E3Float64_Read(TQ3Float64 *data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatFloat64ReadMethod 	float64Read;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float64Read = (TQ3XFFormatFloat64ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat64Read);
+	float64Read = (TQ3XFFormatFloat64ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat64Read);
 
 	if(float64Read != NULL)
-		return float64Read(instanceData->format,data);
+		return float64Read( theFile->GetFileFormat (),data);
 
 	return(kQ3Failure);
 }
@@ -1044,18 +1029,17 @@ E3Float64_Read(TQ3Float64 *data, TQ3FileObject theFile)
 //      E3Float64_Write : Write a TQ3Float64.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Float64_Write(TQ3Float64 data, TQ3FileObject theFile)
+E3Float64_Write(TQ3Float64 data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatFloat64WriteMethod 	float64Write;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float64Write = (TQ3XFFormatFloat64WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat64Write);
+	float64Write = (TQ3XFFormatFloat64WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat64Write);
 
 	if(float64Write != NULL)
-		return float64Write(instanceData->format,&data);
+		return float64Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
 }
@@ -1085,23 +1069,22 @@ E3Size_Pad(TQ3Size size)
 //      E3String_ReadUnlimited : Read a NUL-termined string.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, TQ3FileObject theFile)
+E3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, E3File* theFile)
 {
 	TQ3Status		status;
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatStringReadMethod 	stringRead;
 	TQ3Uns32		bufferSize;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 	
-	stringRead = (TQ3XFFormatStringReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatStringRead);
+	stringRead = (TQ3XFFormatStringReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatStringRead);
 
 	if (stringRead != NULL)
 	{
 		bufferSize = *ioLength;
 		
-		status = stringRead( instanceData->format, data, ioLength );
+		status = stringRead( theFile->GetFileFormat (), data, ioLength );
 		
 		if ( (status == kQ3Success) && (data != NULL) &&
 			(*ioLength >= bufferSize) )
@@ -1121,7 +1104,7 @@ E3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, TQ3FileObject theFile)
 //      E3String_Read : Read a string.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
+E3String_Read(char *data, TQ3Uns32 *length, E3File* theFile)
 {
 	TQ3Status	status;
 	
@@ -1144,18 +1127,17 @@ E3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
 //      E3String_WriteUnlimited : Write a NUL-terminated string.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3String_WriteUnlimited(const char *data, TQ3FileObject theFile)
+E3String_WriteUnlimited(const char *data, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatStringWriteMethod 	stringWrite;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	stringWrite = (TQ3XFFormatStringWriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatStringWrite);
+	stringWrite = (TQ3XFFormatStringWriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatStringWrite);
 	Q3_REQUIRE_OR_RESULT( stringWrite != NULL, kQ3Failure );
 	
-	return stringWrite( instanceData->format, data );
+	return stringWrite( theFile->GetFileFormat (), data );
 }
 
 
@@ -1166,7 +1148,7 @@ E3String_WriteUnlimited(const char *data, TQ3FileObject theFile)
 //      E3String_Write : Write a NUL-terminated string, limited length.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3String_Write(const char *data, TQ3FileObject theFile)
+E3String_Write(const char *data, E3File* theFile)
 {
 	TQ3Uns32		theLength;
 	TQ3Status		status;
@@ -1202,18 +1184,17 @@ E3String_Write(const char *data, TQ3FileObject theFile)
 //      E3RawData_Read : Read a block of raw data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3RawData_Read(unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
+E3RawData_Read(unsigned char *data, TQ3Uns32 size, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatRawReadMethod	 	rawRead;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	rawRead = (TQ3XFFormatRawReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatRawRead);
+	rawRead = (TQ3XFFormatRawReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatRawRead);
 
 	if(rawRead != NULL)
-		return rawRead(instanceData->format,data,size);
+		return rawRead( theFile->GetFileFormat (),data,size);
 
 	return(kQ3Failure);
 }
@@ -1226,18 +1207,17 @@ E3RawData_Read(unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 //      E3RawData_Write : Write a block of raw data.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3RawData_Write(const unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
+E3RawData_Write(const unsigned char *data, TQ3Uns32 size, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatRawWriteMethod	 	rawWrite;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	rawWrite = (TQ3XFFormatRawWriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatRawWrite);
+	rawWrite = (TQ3XFFormatRawWriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatRawWrite);
 
 	if(rawWrite != NULL)
-		return rawWrite(instanceData->format,data,size);
+		return rawWrite( theFile->GetFileFormat (),data,size);
 
 	return(kQ3Failure);
 }
@@ -1250,21 +1230,20 @@ E3RawData_Write(const unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 //      E3Point2D_Read : Read a TQ3Point2D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Point2D_Read(TQ3Point2D *point2D, TQ3FileObject theFile)
+E3Point2D_Read(TQ3Point2D *point2D, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3Status						result        = kQ3Failure;
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Read);
+	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Read);
 
 	if(float32Read != NULL){
-		result = float32Read(instanceData->format,&point2D->x);
+		result = float32Read( theFile->GetFileFormat (),&point2D->x);
 		if(result == kQ3Success)
-			result = float32Read(instanceData->format,&point2D->y);
+			result = float32Read( theFile->GetFileFormat (),&point2D->y);
 		}
 		
 	if (result == kQ3Success)
@@ -1284,21 +1263,20 @@ E3Point2D_Read(TQ3Point2D *point2D, TQ3FileObject theFile)
 //      E3Point2D_Write : Write a TQ3Point2D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Point2D_Write(const TQ3Point2D *point2D, TQ3FileObject theFile)
+E3Point2D_Write(const TQ3Point2D *point2D, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3Status						result        = kQ3Failure;
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Write);
+	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL){
-		result = float32Write(instanceData->format,&point2D->x);
+		result = float32Write( theFile->GetFileFormat (),&point2D->x);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,&point2D->y);
+			result = float32Write( theFile->GetFileFormat (),&point2D->y);
 		}
 
 	return(result);
@@ -1312,23 +1290,22 @@ E3Point2D_Write(const TQ3Point2D *point2D, TQ3FileObject theFile)
 //      E3Point3D_Read : Read a TQ3Point3D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Point3D_Read(TQ3Point3D *point3D, TQ3FileObject theFile)
+E3Point3D_Read(TQ3Point3D *point3D, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3Status						result = kQ3Failure;
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Read);
+	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Read);
 
 	if(float32Read != NULL){
-		result = float32Read(instanceData->format,&point3D->x);
+		result = float32Read( theFile->GetFileFormat (),&point3D->x);
 		if(result == kQ3Success)
-			result = float32Read(instanceData->format,&point3D->y);
+			result = float32Read( theFile->GetFileFormat (),&point3D->y);
 		if(result == kQ3Success)
-			result = float32Read(instanceData->format,&point3D->z);
+			result = float32Read( theFile->GetFileFormat (),&point3D->z);
 			
 		if (result == kQ3Success)
 			{
@@ -1350,23 +1327,22 @@ E3Point3D_Read(TQ3Point3D *point3D, TQ3FileObject theFile)
 //      E3Point3D_Write : Write a TQ3Point3D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Point3D_Write(const TQ3Point3D *point3D, TQ3FileObject theFile)
+E3Point3D_Write(const TQ3Point3D *point3D, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3Status						result = kQ3Failure;
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Write);
+	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL){
-		result = float32Write(instanceData->format,&point3D->x);
+		result = float32Write( theFile->GetFileFormat (),&point3D->x);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,&point3D->y);
+			result = float32Write( theFile->GetFileFormat (),&point3D->y);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,&point3D->z);
+			result = float32Write( theFile->GetFileFormat (),&point3D->z);
 		}
 
 	return(result);
@@ -1380,23 +1356,22 @@ E3Point3D_Write(const TQ3Point3D *point3D, TQ3FileObject theFile)
 //      E3RationalPoint3D_Read : Read a TQ3RationalPoint3D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, TQ3FileObject theFile)
+E3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3Status						result = kQ3Failure;
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Read);
+	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Read);
 
 	if(float32Read != NULL){
-		result = float32Read(instanceData->format,&point3D->x);
+		result = float32Read( theFile->GetFileFormat (),&point3D->x);
 		if(result == kQ3Success)
-			result = float32Read(instanceData->format,&point3D->y);
+			result = float32Read( theFile->GetFileFormat (),&point3D->y);
 		if(result == kQ3Success)
-			result = float32Read(instanceData->format,&point3D->w);
+			result = float32Read( theFile->GetFileFormat (),&point3D->w);
 
 		if (result == kQ3Success)
 			{
@@ -1417,23 +1392,22 @@ E3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, TQ3FileObject theFile)
 //      E3RationalPoint3D_Write : Write a TQ3RationalPoint3D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, TQ3FileObject theFile)
+E3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3Status						result = kQ3Failure;
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Write);
+	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL){
-		result = float32Write(instanceData->format,&point3D->x);
+		result = float32Write( theFile->GetFileFormat (),&point3D->x);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,&point3D->y);
+			result = float32Write( theFile->GetFileFormat (),&point3D->y);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,&point3D->w);
+			result = float32Write( theFile->GetFileFormat (),&point3D->w);
 		}
 
 	return(result);
@@ -1447,25 +1421,24 @@ E3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, TQ3FileObject theFile
 //      E3RationalPoint4D_Read : Read a TQ3RationalPoint4D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, TQ3FileObject theFile)
+E3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3Status						result = kQ3Failure;
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Read);
+	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Read);
 
 	if(float32Read != NULL){
-		result = float32Read(instanceData->format,&point4D->x);
+		result = float32Read( theFile->GetFileFormat (),&point4D->x);
 		if(result == kQ3Success)
-			result = float32Read(instanceData->format,&point4D->y);
+			result = float32Read( theFile->GetFileFormat (),&point4D->y);
 		if(result == kQ3Success)
-			result = float32Read(instanceData->format,&point4D->z);
+			result = float32Read( theFile->GetFileFormat (),&point4D->z);
 		if(result == kQ3Success)
-			result = float32Read(instanceData->format,&point4D->w);
+			result = float32Read( theFile->GetFileFormat (),&point4D->w);
 
 		if (result == kQ3Success)
 			{
@@ -1487,25 +1460,24 @@ E3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, TQ3FileObject theFile)
 //      E3RationalPoint4D_Write : Write a TQ3RationalPoint4D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, TQ3FileObject theFile)
+E3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3Status						result = kQ3Failure;
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Write);
+	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL){
-		result = float32Write(instanceData->format,&point4D->x);
+		result = float32Write( theFile->GetFileFormat (),&point4D->x);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,&point4D->y);
+			result = float32Write( theFile->GetFileFormat (),&point4D->y);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,&point4D->z);
+			result = float32Write( theFile->GetFileFormat (),&point4D->z);
 		if(result == kQ3Success)
-			result = float32Write(instanceData->format,&point4D->w);
+			result = float32Write( theFile->GetFileFormat (),&point4D->w);
 		}
 
 	return(result);
@@ -1519,7 +1491,7 @@ E3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, TQ3FileObject theFile
 //      E3Vector2D_Read : Read a TQ3Vector2D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Vector2D_Read(TQ3Vector2D *vector2D, TQ3FileObject theFile)
+E3Vector2D_Read(TQ3Vector2D *vector2D, E3File* theFile)
 {
 	return Q3Point2D_Read ((TQ3Point2D*)vector2D, theFile);
 }
@@ -1532,7 +1504,7 @@ E3Vector2D_Read(TQ3Vector2D *vector2D, TQ3FileObject theFile)
 //      E3Vector2D_Write : Write a TQ3Vector2D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Vector2D_Write(const TQ3Vector2D *vector2D, TQ3FileObject theFile)
+E3Vector2D_Write(const TQ3Vector2D *vector2D, E3File* theFile)
 {
 	return E3Point2D_Write ((const TQ3Point2D*)vector2D, theFile);
 }
@@ -1545,7 +1517,7 @@ E3Vector2D_Write(const TQ3Vector2D *vector2D, TQ3FileObject theFile)
 //      E3Vector3D_Read : Read a TQ3Vector3D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Vector3D_Read(TQ3Vector3D *vector3D, TQ3FileObject theFile)
+E3Vector3D_Read(TQ3Vector3D *vector3D, E3File* theFile)
 {
 	return E3Point3D_Read ((TQ3Point3D*)vector3D, theFile);
 }
@@ -1558,7 +1530,7 @@ E3Vector3D_Read(TQ3Vector3D *vector3D, TQ3FileObject theFile)
 //      E3Vector3D_Write : Write a TQ3Vector3D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Vector3D_Write(const TQ3Vector3D *vector3D, TQ3FileObject theFile)
+E3Vector3D_Write(const TQ3Vector3D *vector3D, E3File* theFile)
 {
 	return E3Point3D_Write ((const TQ3Point3D*)vector3D, theFile);
 }
@@ -1571,17 +1543,16 @@ E3Vector3D_Write(const TQ3Vector3D *vector3D, TQ3FileObject theFile)
 //      E3Matrix4x4_Read : Read a TQ3Matrix4x4.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
+E3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3Status						result = kQ3Failure;
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 	TQ3Uns32						i,j;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Read);
+	float32Read = (TQ3XFFormatFloat32ReadMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Read);
 
 	if(float32Read != NULL){
 		result = kQ3Success;
@@ -1589,7 +1560,7 @@ E3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 		for( i = 0; ((i< 4) && (result == kQ3Success)); i++)
 			for( j = 0; ((j< 4) && (result == kQ3Success)); j++)
 				{
-				result = float32Read(instanceData->format,&matrix4x4->value[i][j]);
+				result = float32Read( theFile->GetFileFormat (),&matrix4x4->value[i][j]);
 				if (result == kQ3Success)
 					e3float32_validate( &matrix4x4->value[i][j] );
 				}
@@ -1606,24 +1577,23 @@ E3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 //      E3Matrix4x4_Write : Write a TQ3Matrix4x4.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
+E3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, E3File* theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3Status						result = kQ3Failure;
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 	TQ3Uns32						i,j;
 
-	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
 
-	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatFloat32Write);
+	float32Write = (TQ3XFFormatFloat32WriteMethod) E3ClassTree_GetMethodByObject( theFile->GetFileFormat (), kQ3XMethodTypeFFormatFloat32Write);
 
 	if(float32Write != NULL){
 		result = kQ3Success;
 		
 		for( i = 0; ((i< 4) && (result == kQ3Success)); i++)
 			for( j = 0; ((j< 4) && (result == kQ3Success)); j++)
-				result = float32Write(instanceData->format,&matrix4x4->value[i][j]);
+				result = float32Write( theFile->GetFileFormat (),&matrix4x4->value[i][j]);
 		}
 
 	return(result);
@@ -1637,7 +1607,7 @@ E3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 //      E3Tangent2D_Read : Read a TQ3Tangent2D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Tangent2D_Read(TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
+E3Tangent2D_Read(TQ3Tangent2D *tangent2D, E3File* theFile)
 {
 	TQ3Status result = kQ3Failure;
 	
@@ -1656,7 +1626,7 @@ E3Tangent2D_Read(TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 //      E3Tangent2D_Write : Write a TQ3Tangent2D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Tangent2D_Write(const TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
+E3Tangent2D_Write(const TQ3Tangent2D *tangent2D, E3File* theFile)
 {
 	TQ3Status result = kQ3Failure;
 	
@@ -1675,7 +1645,7 @@ E3Tangent2D_Write(const TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 //      E3Tangent3D_Read : Read a TQ3Tangent3D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Tangent3D_Read(TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
+E3Tangent3D_Read(TQ3Tangent3D *tangent3D, E3File* theFile)
 {
 	TQ3Status result = kQ3Failure;
 	
@@ -1696,7 +1666,7 @@ E3Tangent3D_Read(TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 //      E3Tangent3D_Write : Write a TQ3Tangent3D.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Tangent3D_Write(const TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
+E3Tangent3D_Write(const TQ3Tangent3D *tangent3D, E3File* theFile)
 {
 	TQ3Status result = kQ3Failure;
 	
@@ -1719,7 +1689,7 @@ E3Tangent3D_Write(const TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Comment_Write(char *comment, TQ3FileObject theFile)
+E3Comment_Write(char *comment, E3File* theFile)
 {
 
 

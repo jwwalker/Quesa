@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -210,7 +210,7 @@ Q3File_GetStorage(TQ3FileObject theFile, TQ3StorageObject *storage)
 
 
 	// Call our implementation
-	return(E3File_GetStorage(theFile, storage));
+	return ( (E3File*) theFile )->GetStorage ( storage ) ;
 }
 
 
@@ -247,7 +247,7 @@ Q3File_SetStorage(TQ3FileObject theFile, TQ3StorageObject storage)
 
 
 	// Call our implementation
-	return(E3File_SetStorage(theFile, storage));
+	return ( (E3File*) theFile )->SetStorage ( storage ) ;
 }
 
 
@@ -284,7 +284,7 @@ Q3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 
 
 	// Call our implementation
-	return(E3File_OpenRead(theFile, mode));
+	return ( (E3File*) theFile )->OpenRead ( mode ) ;
 }
 
 
@@ -321,7 +321,7 @@ Q3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 
 
 	// Call our implementation
-	return(E3File_OpenWrite(theFile, mode));
+	return ( (E3File*) theFile )->OpenWrite ( mode ) ;
 }
 
 
@@ -359,7 +359,7 @@ Q3File_IsOpen(TQ3FileObject theFile, TQ3Boolean *isOpen)
 
 
 	// Call our implementation
-	return(E3File_IsOpen(theFile, isOpen));
+	return ( (E3File*) theFile )->IsOpen ( isOpen ) ;
 }
 
 
@@ -397,7 +397,7 @@ Q3File_GetMode(TQ3FileObject theFile, TQ3FileMode *mode)
 
 
 	// Call our implementation
-	return(E3File_GetMode(theFile, mode));
+	return ( (E3File*) theFile )->GetMode ( mode ) ;
 }
 
 
@@ -435,7 +435,7 @@ Q3File_GetVersion(TQ3FileObject theFile, TQ3FileVersion *version)
 
 
 	// Call our implementation
-	return(E3File_GetVersion(theFile, version));
+	return ( (E3File*) theFile )->GetVersion ( version ) ;
 }
 
 
@@ -469,7 +469,7 @@ Q3File_Close(TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3File_Close(theFile));
+	return ( (E3File*) theFile)->Close () ;
 }
 
 
@@ -503,7 +503,7 @@ Q3File_Cancel(TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3File_Cancel(theFile));
+	return ( (E3File*) theFile )->Cancel () ;
 }
 
 
@@ -609,7 +609,7 @@ Q3File_GetNextObjectType(TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3File_GetNextObjectType(theFile));
+	return ( (E3File*) theFile )->GetNextObjectType () ;
 }
 
 
@@ -646,7 +646,7 @@ Q3File_IsNextObjectOfType(TQ3FileObject theFile, TQ3ObjectType ofType)
 
 
 	// Call our implementation
-	return(E3File_IsNextObjectOfType(theFile, ofType));
+	return ( (E3File*) theFile )->IsNextObjectOfType ( ofType ) ;
 }
 
 
@@ -680,7 +680,7 @@ Q3File_ReadObject(TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3File_ReadObject(theFile));
+	return ( (E3File*) theFile )->ReadObject () ;
 }
 
 
@@ -714,7 +714,7 @@ Q3File_SkipObject(TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3File_SkipObject(theFile));
+	return ( (E3File*) theFile )->SkipObject () ;
 }
 
 
@@ -748,7 +748,7 @@ Q3File_IsEndOfData(TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3File_IsEndOfData(theFile));
+	return ( (E3File*) theFile )->IsEndOfData () ;
 }
 
 
@@ -785,7 +785,7 @@ Q3File_IsEndOfContainer(TQ3FileObject theFile, TQ3Object rootObject)
 
 
 	// Call our implementation
-	return(E3File_IsEndOfContainer(theFile, rootObject));
+	return ( (E3File*) theFile )->IsEndOfContainer ( rootObject ) ;
 }
 
 
@@ -819,7 +819,7 @@ Q3File_IsEndOfFile(TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3File_IsEndOfFile(theFile));
+	return ( (E3File*) theFile )->IsEndOfFile () ;
 }
 
 
@@ -996,7 +996,7 @@ Q3File_SetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState readGroupStat
 
 
 	// Call our implementation
-	return(E3File_SetReadInGroup(theFile, readGroupState));
+	return ( (E3File*) theFile )->SetReadInGroup ( readGroupState ) ;
 }
 
 
@@ -1034,7 +1034,7 @@ Q3File_GetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState *readGroupSta
 
 
 	// Call our implementation
-	return(E3File_GetReadInGroup(theFile, readGroupState));
+	return ( (E3File*) theFile )->GetReadInGroup ( readGroupState ) ;
 }
 
 
@@ -1074,7 +1074,7 @@ Q3File_SetIdleMethod(TQ3FileObject theFile, TQ3FileIdleMethod idle, const void *
 
 
 	// Call our implementation
-	return(E3File_SetIdleMethod(theFile, idle, idleData));
+	return ( (E3File*) theFile )->SetIdleMethod ( idle, idleData ) ;
 }
 
 
@@ -1108,7 +1108,7 @@ Q3NewLine_Write(TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3NewLine_Write(theFile));
+	return(E3NewLine_Write( (E3File*) theFile ));
 }
 
 
@@ -1146,7 +1146,7 @@ Q3Uns8_Read(TQ3Uns8 *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Uns8_Read(data, theFile));
+	return(E3Uns8_Read(data, (E3File*) theFile ));
 }
 
 
@@ -1175,7 +1175,7 @@ Q3Uns8_ReadArray (
 
 
 	// Call our implementation
-	return (E3Uns8_ReadArray( numNums, intArray, theFile ));
+	return (E3Uns8_ReadArray( numNums, intArray, (E3File*) theFile ));
 }
 
 
@@ -1212,7 +1212,7 @@ Q3Uns8_Write(TQ3Uns8 data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Uns8_Write(data, theFile));
+	return(E3Uns8_Write(data, (E3File*) theFile ));
 }
 
 
@@ -1250,7 +1250,7 @@ Q3Uns16_Read(TQ3Uns16 *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Uns16_Read(data, theFile));
+	return(E3Uns16_Read(data, (E3File*) theFile ));
 }
 
 
@@ -1279,7 +1279,7 @@ Q3Uns16_ReadArray (
 
 
 	// Call our implementation
-	return (E3Uns16_ReadArray( numNums, intArray, theFile ));
+	return (E3Uns16_ReadArray( numNums, intArray, (E3File*) theFile ));
 }
 
 
@@ -1316,7 +1316,7 @@ Q3Uns16_Write(TQ3Uns16 data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Uns16_Write(data, theFile));
+	return(E3Uns16_Write(data, (E3File*) theFile ));
 }
 
 
@@ -1354,7 +1354,7 @@ Q3Uns32_Read(TQ3Uns32 *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Uns32_Read(data, theFile));
+	return(E3Uns32_Read(data, (E3File*) theFile ));
 }
 
 
@@ -1383,7 +1383,7 @@ Q3Uns32_ReadArray (
 
 
 	// Call our implementation
-	return (E3Uns32_ReadArray( numNums, intArray, theFile ));
+	return (E3Uns32_ReadArray( numNums, intArray, (E3File*) theFile ));
 }
 
 
@@ -1420,7 +1420,7 @@ Q3Uns32_Write(TQ3Uns32 data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Uns32_Write(data, theFile));
+	return(E3Uns32_Write(data, (E3File*) theFile ));
 }
 
 
@@ -1458,7 +1458,7 @@ Q3Int8_Read(TQ3Int8 *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Int8_Read(data, theFile));
+	return(E3Int8_Read(data, (E3File*) theFile ));
 }
 
 
@@ -1495,7 +1495,7 @@ Q3Int8_Write(TQ3Int8 data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Int8_Write(data, theFile));
+	return(E3Int8_Write(data, (E3File*) theFile ));
 }
 
 
@@ -1533,7 +1533,7 @@ Q3Int16_Read(TQ3Int16 *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Int16_Read(data, theFile));
+	return(E3Int16_Read(data, (E3File*) theFile ));
 }
 
 
@@ -1570,7 +1570,7 @@ Q3Int16_Write(TQ3Int16 data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Int16_Write(data, theFile));
+	return(E3Int16_Write(data, (E3File*) theFile ));
 }
 
 
@@ -1608,7 +1608,7 @@ Q3Int32_Read(TQ3Int32 *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Int32_Read(data, theFile));
+	return(E3Int32_Read(data, (E3File*) theFile ));
 }
 
 
@@ -1645,7 +1645,7 @@ Q3Int32_Write(TQ3Int32 data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Int32_Write(data, theFile));
+	return(E3Int32_Write(data, (E3File*) theFile ));
 }
 
 
@@ -1683,7 +1683,7 @@ Q3Uns64_Read(TQ3Uns64 *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Uns64_Read(data, theFile));
+	return(E3Uns64_Read(data, (E3File*) theFile ));
 }
 
 
@@ -1720,7 +1720,7 @@ Q3Uns64_Write(TQ3Uns64 data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Uns64_Write(data, theFile));
+	return(E3Uns64_Write(data, (E3File*) theFile ));
 }
 
 
@@ -1758,7 +1758,7 @@ Q3Int64_Read(TQ3Int64 *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Int64_Read(data, theFile));
+	return(E3Int64_Read(data, (E3File*) theFile ));
 }
 
 
@@ -1795,7 +1795,7 @@ Q3Int64_Write(TQ3Int64 data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Int64_Write(data, theFile));
+	return(E3Int64_Write(data, (E3File*) theFile ));
 }
 
 
@@ -1833,7 +1833,7 @@ Q3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Float32_Read(data, theFile));
+	return(E3Float32_Read(data, (E3File*) theFile ));
 }
 
 
@@ -1862,7 +1862,7 @@ Q3Float32_ReadArray (
 
 
 	// Call our implementation
-	return (E3Float32_ReadArray( numFloats, floatArray, theFile ));
+	return (E3Float32_ReadArray( numFloats, floatArray, (E3File*) theFile ));
 }
 
 
@@ -1899,7 +1899,7 @@ Q3Float32_Write(TQ3Float32 data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Float32_Write(data, theFile));
+	return(E3Float32_Write(data, (E3File*) theFile ));
 }
 
 
@@ -1937,7 +1937,7 @@ Q3Float64_Read(TQ3Float64 *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Float64_Read(data, theFile));
+	return(E3Float64_Read(data, (E3File*) theFile ));
 }
 
 
@@ -1974,7 +1974,7 @@ Q3Float64_Write(TQ3Float64 data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Float64_Write(data, theFile));
+	return(E3Float64_Write(data, (E3File*) theFile ));
 }
 
 
@@ -2048,7 +2048,7 @@ Q3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3String_Read(data, length, theFile));
+	return(E3String_Read(data, length, (E3File*) theFile ));
 }
 
 
@@ -2090,7 +2090,7 @@ Q3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3String_ReadUnlimited(data, ioLength, theFile));
+	return(E3String_ReadUnlimited(data, ioLength, (E3File*) theFile ));
 }
 #endif
 
@@ -2129,7 +2129,7 @@ Q3String_Write(const char *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3String_Write(data, theFile));
+	return(E3String_Write(data, (E3File*) theFile ));
 }
 
 
@@ -2167,7 +2167,7 @@ Q3String_WriteUnlimited(const char *data, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return (E3String_WriteUnlimited(data, theFile));
+	return (E3String_WriteUnlimited(data, (E3File*) theFile ));
 }
 #endif
 
@@ -2208,7 +2208,7 @@ Q3RawData_Read(unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3RawData_Read(data, size, theFile));
+	return(E3RawData_Read(data, size, (E3File*) theFile ));
 }
 
 
@@ -2249,7 +2249,7 @@ Q3RawData_Write(const unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3RawData_Write(data, size, theFile));
+	return(E3RawData_Write(data, size, (E3File*) theFile ));
 }
 
 
@@ -2287,7 +2287,7 @@ Q3Point2D_Read(TQ3Point2D *point2D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Point2D_Read(point2D, theFile));
+	return(E3Point2D_Read(point2D, (E3File*) theFile ));
 }
 
 
@@ -2325,7 +2325,7 @@ Q3Point2D_Write(const TQ3Point2D *point2D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Point2D_Write(point2D, theFile));
+	return(E3Point2D_Write(point2D, (E3File*) theFile ));
 }
 
 
@@ -2363,7 +2363,7 @@ Q3Point3D_Read(TQ3Point3D *point3D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Point3D_Read(point3D, theFile));
+	return(E3Point3D_Read(point3D, (E3File*) theFile ));
 }
 
 
@@ -2401,7 +2401,7 @@ Q3Point3D_Write(const TQ3Point3D *point3D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Point3D_Write(point3D, theFile));
+	return(E3Point3D_Write(point3D, (E3File*) theFile ));
 }
 
 
@@ -2439,7 +2439,7 @@ Q3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3RationalPoint3D_Read(point3D, theFile));
+	return(E3RationalPoint3D_Read(point3D, (E3File*) theFile ));
 }
 
 
@@ -2477,7 +2477,7 @@ Q3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, TQ3FileObject theFile
 
 
 	// Call our implementation
-	return(E3RationalPoint3D_Write(point3D, theFile));
+	return(E3RationalPoint3D_Write(point3D, (E3File*) theFile ));
 }
 
 
@@ -2515,7 +2515,7 @@ Q3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3RationalPoint4D_Read(point4D, theFile));
+	return(E3RationalPoint4D_Read(point4D, (E3File*) theFile ));
 }
 
 
@@ -2553,7 +2553,7 @@ Q3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, TQ3FileObject theFile
 
 
 	// Call our implementation
-	return(E3RationalPoint4D_Write(point4D, theFile));
+	return(E3RationalPoint4D_Write(point4D, (E3File*) theFile ));
 }
 
 
@@ -2591,7 +2591,7 @@ Q3Vector2D_Read(TQ3Vector2D *vector2D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Vector2D_Read(vector2D, theFile));
+	return(E3Vector2D_Read(vector2D, (E3File*) theFile ));
 }
 
 
@@ -2629,7 +2629,7 @@ Q3Vector2D_Write(const TQ3Vector2D *vector2D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Vector2D_Write(vector2D, theFile));
+	return(E3Vector2D_Write(vector2D, (E3File*) theFile ));
 }
 
 
@@ -2667,7 +2667,7 @@ Q3Vector3D_Read(TQ3Vector3D *vector3D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Vector3D_Read(vector3D, theFile));
+	return(E3Vector3D_Read(vector3D, (E3File*) theFile ));
 }
 
 
@@ -2705,7 +2705,7 @@ Q3Vector3D_Write(const TQ3Vector3D *vector3D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Vector3D_Write(vector3D, theFile));
+	return(E3Vector3D_Write(vector3D, (E3File*) theFile ));
 }
 
 
@@ -2743,7 +2743,7 @@ Q3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Matrix4x4_Read(matrix4x4, theFile));
+	return(E3Matrix4x4_Read(matrix4x4, (E3File*) theFile ));
 }
 
 
@@ -2781,7 +2781,7 @@ Q3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Matrix4x4_Write(matrix4x4, theFile));
+	return(E3Matrix4x4_Write(matrix4x4, (E3File*) theFile ));
 }
 
 
@@ -2819,7 +2819,7 @@ Q3Tangent2D_Read(TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Tangent2D_Read(tangent2D, theFile));
+	return(E3Tangent2D_Read(tangent2D, (E3File*) theFile ));
 }
 
 
@@ -2857,7 +2857,7 @@ Q3Tangent2D_Write(const TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Tangent2D_Write(tangent2D, theFile));
+	return(E3Tangent2D_Write(tangent2D, (E3File*) theFile ));
 }
 
 
@@ -2895,7 +2895,7 @@ Q3Tangent3D_Read(TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Tangent3D_Read(tangent3D, theFile));
+	return(E3Tangent3D_Read(tangent3D, (E3File*) theFile ));
 }
 
 
@@ -2933,7 +2933,7 @@ Q3Tangent3D_Write(const TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Tangent3D_Write(tangent3D, theFile));
+	return(E3Tangent3D_Write(tangent3D, (E3File*) theFile ));
 }
 
 
@@ -2971,7 +2971,7 @@ Q3Comment_Write(char *comment, TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3Comment_Write(comment, theFile));
+	return(E3Comment_Write(comment, (E3File*) theFile ));
 }
 
 
@@ -4127,7 +4127,8 @@ Q3File_GetFileFormat(TQ3FileObject theFile)
 
 
 	// Call our implementation
-	return(E3File_GetFileFormat(theFile));
+	return ( (E3File*) theFile )->GetFileFormat () ;
+
 }
 
 

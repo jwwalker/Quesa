@@ -47,6 +47,7 @@
 #include "E3Set.h"
 #include "E3ClassTree.h"
 #include "E3Main.h"
+#include "E3IO.h"
 #include "E3FFR_3DMF.h"
 #include "E3FFR_3DMF_Bin.h"
 #include "E3FFR_3DMF_Text.h"
@@ -313,21 +314,19 @@ public :
 //							calls the proper method from the Format
 //-----------------------------------------------------------------------------
 static void
-e3fformat_3dmf_read_next_element(TQ3AttributeSet parent,TQ3FileObject theFile)
-{
-	TQ3FileFormatObject			format;
-	TQ3XFFormat_3DMF_ReadNextElementMethod	readNextElement;
-
-	format = E3File_GetFileFormat(theFile);
+e3fformat_3dmf_read_next_element(TQ3AttributeSet parent, E3File* theFile )
+	{
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	
 
-	readNextElement = (TQ3XFFormat_3DMF_ReadNextElementMethod) E3ClassTree_GetMethodByObject(format, kE3XMethodType_3DMF_ReadNextElement);
+	TQ3XFFormat_3DMF_ReadNextElementMethod readNextElement =
+		(TQ3XFFormat_3DMF_ReadNextElementMethod) format->GetMethod ( kE3XMethodType_3DMF_ReadNextElement ) ;
 
-	Q3_ASSERT(readNextElement != NULL);
+	Q3_ASSERT( readNextElement != NULL ) ;
 	
-	if(readNextElement != NULL)
-		readNextElement(parent,theFile);
-}
+	if ( readNextElement != NULL )
+		readNextElement ( parent, theFile ) ;
+	}
 
 
 
@@ -353,13 +352,10 @@ e3fformat_3dmf_is_next_element( TQ3FileObject theFile )
 //      e3fformat_3dmf_attribute_set_read : Creates and read an attribute set from a 3DMF.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3fformat_3dmf_attribute_set_read(TQ3FileObject theFile)
-{TQ3AttributeSet		theSet;
-
-
-
+e3fformat_3dmf_attribute_set_read ( E3File* theFile )
+	{
 	// Create the attribute set
-	theSet = E3ClassTree_CreateInstance(kQ3SetTypeAttribute, kQ3False, NULL);
+	TQ3AttributeSet theSet = E3ClassTree_CreateInstance(kQ3SetTypeAttribute, kQ3False, NULL);
 	if (theSet == NULL)
 		return(NULL);
 
@@ -393,7 +389,7 @@ e3fformat_3dmf_attribute_set_read(TQ3FileObject theFile)
 //      e3fformat_3dmf_set_read : Creates and read an attribute set from a 3DMF.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3fformat_3dmf_set_read(TQ3FileObject theFile)
+e3fformat_3dmf_set_read ( E3File* theFile )
 {TQ3AttributeSet		theSet;
 
 
@@ -1721,7 +1717,7 @@ e3fformat_3dmf_normalarray_validate( TQ3Uns32 numVectors, TQ3Vector3D* normals )
 //		trimesh object itself is beyond me
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
+e3fformat_3dmf_attributearray_read ( E3File* theFile )
 {
 	TQ3Int32 				attributeType;
 
@@ -1741,7 +1737,7 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 	TQ3Int32				*elemSwitch;
 	TQ3Object				*elemObject;
 
-	TQ3FileFormatObject format = E3File_GetFileFormat(theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TQ3TriMeshData* geomData = ( (TE3FFormat3DMF_Data*) format->FindLeafInstanceData () )->currentTriMesh;
 	
 	Q3_REQUIRE_OR_RESULT(geomData != NULL, NULL);
@@ -2852,15 +2848,13 @@ E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject)
 //							calls the proper method from the Format
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FFormat_3DMF_ReadFlag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hint)
-{
-	TQ3FileFormatObject			format;
-	TQ3XFFormat_3DMF_ReadFlagMethod	readFlag;
-
-	format = E3File_GetFileFormat(theFile);
+E3FFormat_3DMF_ReadFlag(TQ3Uns32* flag, TQ3FileObject theFile, TQ3ObjectType hint)
+	{
+	TQ3FileFormatObject format = ( ( E3File*) theFile )->GetFileFormat () ;
 	
 
-	readFlag = (TQ3XFFormat_3DMF_ReadFlagMethod) E3ClassTree_GetMethodByObject(format, kE3XMethodType_3DMF_ReadFlag);
+	TQ3XFFormat_3DMF_ReadFlagMethod readFlag = 
+		(TQ3XFFormat_3DMF_ReadFlagMethod) format->GetMethod ( kE3XMethodType_3DMF_ReadFlag ) ;
 
 	Q3_ASSERT(readFlag != NULL);
 	

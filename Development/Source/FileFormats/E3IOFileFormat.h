@@ -5,7 +5,7 @@
         Header file for E3FileFormat.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -72,7 +72,6 @@ TQ3Status				E3FileFormat_Terminate(TQ3FileFormatObject theFileFormat);
 
 //-----------------------------------------------------------------------------
 
-TQ3FileFormatObject 	E3File_GetFileFormat(TQ3FileObject theFile);
 TQ3FileFormatObject		E3FileFormat_NewFromType(TQ3ObjectType fformatObjectType);
 TQ3ObjectType			E3FileFormat_GetType(TQ3FileFormatObject format);
 

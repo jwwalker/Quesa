@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -56,6 +56,7 @@
 #include <map>
 #include <vector>
 
+#include "E3IO.h"
 #include "E3FFR_3DMF_Text.h"
 #include "E3FFR_3DMF_Geometry.h"
 #include "CQ3ObjectRef.h"
@@ -279,7 +280,7 @@ e3fformat_3dmf_text_readitem(TQ3FileFormatObject format, char* theItem, TQ3Uns32
 //				ahead and restoring the file position if we read too far.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hint)
+e3read_3dmf_text_readflag(TQ3Uns32* flag, E3File* theFile, TQ3ObjectType hint)
 {	typedef struct dictEntry {
 		TQ3ObjectType hint;
 		char name[32];
@@ -337,14 +338,13 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 	TQ3Uns32                    i, charsRead, dictValues, saveStoragePos;
 	TQ3FFormatBaseData			*formatInstanceData;
 	char						buffer[256];
-	TQ3FileFormatObject			format;
 	TQ3Status					result;
 	TQ3Boolean					areDone;
 
 
 
 	// Initialise ourselves
-	format             = E3File_GetFileFormat(theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	formatInstanceData = (TQ3FFormatBaseData *) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf);
 
 	dictValues = sizeof(dictionary)/sizeof(dictEntry);
@@ -743,7 +743,7 @@ e3fformat_3dmf_text_read_raw(TQ3FileFormatObject format, unsigned char* data, TQ
 //      e3fformat_3dmf_text_skip_rest : Skips the rest of object from storage.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_skip_to_level(TQ3FileObject theFile, TQ3Uns32 nesting)
+e3fformat_3dmf_text_skip_to_level ( E3File* theFile, TQ3Uns32 nesting )
 {
 	TQ3Status 				result = kQ3Success;
 	TQ3Uns32 				charsRead;
@@ -751,7 +751,7 @@ e3fformat_3dmf_text_skip_to_level(TQ3FileObject theFile, TQ3Uns32 nesting)
 	char separators[] = "()";
 	char buffer[256];
 	
-	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Text_Data			*instanceData = (TE3FFormat3DMF_Text_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFText);
 
 	
@@ -962,9 +962,9 @@ e3fformat_3dmf_text_read_toc( TQ3FileFormatObject format, TE3FFormat3DMF_Text_Da
 //      e3fformat_3dmf_text_read_header : Initialize the reader.
 //-----------------------------------------------------------------------------
 static TQ3Boolean
-e3fformat_3dmf_text_read_header(TQ3FileObject theFile)
+e3fformat_3dmf_text_read_header ( E3File* theFile )
 {
-	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Text_Data			*instanceData = (TE3FFormat3DMF_Text_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFText);
 	TQ3Boolean						result;
 	TQ3Uns32 						oldPosition;
@@ -1037,9 +1037,9 @@ e3fformat_3dmf_text_read_header(TQ3FileObject theFile)
 //      e3fformat_3dmf_text_get_formattype : returns the file format.
 //-----------------------------------------------------------------------------
 static TQ3FileMode
-e3fformat_3dmf_text_get_formattype(TQ3FileObject theFile)
+e3fformat_3dmf_text_get_formattype ( E3File* theFile )
 {
-	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Text_Data		*instanceData = (TE3FFormat3DMF_Text_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFText);
 	return (instanceData->MFData.fileMode);
 }
@@ -1052,14 +1052,14 @@ e3fformat_3dmf_text_get_formattype(TQ3FileObject theFile)
 //      e3fformat_3dmf_text_skipobject : Skips the next object from storage.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_skipobject(TQ3FileObject theFile)
+e3fformat_3dmf_text_skipobject ( E3File* theFile )
 {
 	TQ3Status 				result;
 	char 					objectType[64];
 	TQ3Uns32 				charsRead;
 	TQ3Uns32 				level;
 	
-	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Text_Data			*instanceData = (TE3FFormat3DMF_Text_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFText);
 	
 	level = instanceData->nestingLevel;
@@ -1132,7 +1132,7 @@ e3fformat_3dmf_textreader_resolve_reference( TE3FFormat3DMF_Text_Data* instanceD
 //      e3fformat_3dmf_text_readobject : Reads the next object from storage.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
+e3fformat_3dmf_text_readobject ( E3File* theFile )
 {
 	TQ3Status 				status;
 	TQ3Object 				result = NULL;
@@ -1147,7 +1147,7 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 	TQ3Uns32 				level;
 	TQ3Int32				referenceNum;
 
-	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	
 	TE3FFormat3DMF_Text_Data		*instanceData = (TE3FFormat3DMF_Text_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFText);
 
@@ -1273,9 +1273,8 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 //      e3read_3dmf_text_readnextelement : Manages the reading of the next Element from a 3DMF.
 //-----------------------------------------------------------------------------
 static void
-e3read_3dmf_text_readnextelement(TQ3AttributeSet parent,TQ3FileObject theFile)
+e3read_3dmf_text_readnextelement ( TQ3AttributeSet parent, E3File* theFile )
 {
-	TQ3FileFormatObject			format;
 	TE3FFormat3DMF_Text_Data* 	fformatData;
 	TQ3ObjectType 				elemType;
 	TQ3Status 					status;
@@ -1291,7 +1290,7 @@ e3read_3dmf_text_readnextelement(TQ3AttributeSet parent,TQ3FileObject theFile)
 	E3ClassInfoPtr				theClass;
 	
 
-	format = E3File_GetFileFormat(theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	fformatData = (TE3FFormat3DMF_Text_Data*)E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFText);
 
 
@@ -1393,7 +1392,7 @@ e3read_3dmf_text_readnextelement(TQ3AttributeSet parent,TQ3FileObject theFile)
 // 		Note : Doesn't move the storage position.
 //-----------------------------------------------------------------------------
 static TQ3ObjectType
-e3fformat_3dmf_text_get_nexttype(TQ3FileObject theFile)
+e3fformat_3dmf_text_get_nexttype ( E3File* theFile )
 {
 	TQ3ObjectType 				result = kQ3ObjectTypeInvalid;
 	char 						objectType[64];
@@ -1404,7 +1403,7 @@ e3fformat_3dmf_text_get_nexttype(TQ3FileObject theFile)
 	TQ3Status 					status;
 	E3ClassInfoPtr 				theClass;
 	
-	TQ3FileFormatObject 	format = E3File_GetFileFormat (theFile);
+	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Text_Data			*instanceData = (TE3FFormat3DMF_Text_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFText);
 
 	oldPosition	= instanceData->MFData.baseData.currentStoragePosition;

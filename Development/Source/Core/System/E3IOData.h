@@ -48,7 +48,7 @@
 // Include files go here
 
 
-
+#include "E3IO.h"
 
 
 //=============================================================================
@@ -79,58 +79,58 @@ typedef struct TE3UnknownBinary_Data {
 //-----------------------------------------------------------------------------
 TQ3Status			E3Shared_ClearEditTracking(TQ3SharedObject sharedObject);
 TQ3Boolean			E3Shared_GetEditTrackingState(TQ3SharedObject sharedObject);
-TQ3Status			E3NewLine_Write(TQ3FileObject theFile);
+TQ3Status			E3NewLine_Write(E3File* theFile);
 
-TQ3Status			E3Uns8_Read(TQ3Uns8 *data, TQ3FileObject theFile);
-TQ3Status			E3Uns8_ReadArray(TQ3Uns32 numNums, TQ3Uns8 *data, TQ3FileObject theFile);
-TQ3Status			E3Uns8_Write(TQ3Uns8 data, TQ3FileObject theFile);
-TQ3Status			E3Uns16_Read(TQ3Uns16 *data, TQ3FileObject theFile);
-TQ3Status			E3Uns16_ReadArray(TQ3Uns32 numNums, TQ3Uns16 *data, TQ3FileObject theFile);
-TQ3Status			E3Uns16_Write(TQ3Uns16 data, TQ3FileObject theFile);
-TQ3Status			E3Uns32_Read(TQ3Uns32 *data, TQ3FileObject theFile);
-TQ3Status			E3Uns32_ReadArray(TQ3Uns32 numNums, TQ3Uns32 *data, TQ3FileObject theFile);
-TQ3Status			E3Uns32_Write(TQ3Uns32 data, TQ3FileObject theFile);
-TQ3Status			E3Int8_Read(TQ3Int8 *data, TQ3FileObject theFile);
-TQ3Status			E3Int8_Write(TQ3Int8 data, TQ3FileObject theFile);
-TQ3Status			E3Int16_Read(TQ3Int16 *data, TQ3FileObject theFile);
-TQ3Status			E3Int16_Write(TQ3Int16 data, TQ3FileObject theFile);
-TQ3Status			E3Int32_Read(TQ3Int32 *data, TQ3FileObject theFile);
-TQ3Status			E3Int32_Write(TQ3Int32 data, TQ3FileObject theFile);
-TQ3Status			E3Uns64_Read(TQ3Uns64 *data, TQ3FileObject theFile);
-TQ3Status			E3Uns64_Write(TQ3Uns64 data, TQ3FileObject theFile);
-TQ3Status			E3Int64_Read(TQ3Int64 *data, TQ3FileObject theFile);
-TQ3Status			E3Int64_Write(TQ3Int64 data, TQ3FileObject theFile);
-TQ3Status			E3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile);
-TQ3Status			E3Float32_ReadArray( TQ3Uns32 numFloats, TQ3Float32* theFloats, TQ3FileObject theFile);
-TQ3Status			E3Float32_Write(TQ3Float32 data, TQ3FileObject theFile);
-TQ3Status			E3Float64_Read(TQ3Float64 *data, TQ3FileObject theFile);
-TQ3Status			E3Float64_Write(TQ3Float64 data, TQ3FileObject theFile);
+TQ3Status			E3Uns8_Read(TQ3Uns8 *data, E3File* theFile);
+TQ3Status			E3Uns8_ReadArray(TQ3Uns32 numNums, TQ3Uns8 *data, E3File* theFile);
+TQ3Status			E3Uns8_Write(TQ3Uns8 data, E3File* theFile);
+TQ3Status			E3Uns16_Read(TQ3Uns16 *data, E3File* theFile);
+TQ3Status			E3Uns16_ReadArray(TQ3Uns32 numNums, TQ3Uns16 *data, E3File* theFile);
+TQ3Status			E3Uns16_Write(TQ3Uns16 data, E3File* theFile);
+TQ3Status			E3Uns32_Read(TQ3Uns32 *data, E3File* theFile);
+TQ3Status			E3Uns32_ReadArray(TQ3Uns32 numNums, TQ3Uns32 *data, E3File* theFile);
+TQ3Status			E3Uns32_Write(TQ3Uns32 data, E3File* theFile);
+TQ3Status			E3Int8_Read(TQ3Int8 *data, E3File* theFile);
+TQ3Status			E3Int8_Write(TQ3Int8 data, E3File* theFile);
+TQ3Status			E3Int16_Read(TQ3Int16 *data, E3File* theFile);
+TQ3Status			E3Int16_Write(TQ3Int16 data, E3File* theFile);
+TQ3Status			E3Int32_Read(TQ3Int32 *data, E3File* theFile);
+TQ3Status			E3Int32_Write(TQ3Int32 data, E3File* theFile);
+TQ3Status			E3Uns64_Read(TQ3Uns64 *data, E3File* theFile);
+TQ3Status			E3Uns64_Write(TQ3Uns64 data, E3File* theFile);
+TQ3Status			E3Int64_Read(TQ3Int64 *data, E3File* theFile);
+TQ3Status			E3Int64_Write(TQ3Int64 data, E3File* theFile);
+TQ3Status			E3Float32_Read(TQ3Float32 *data, E3File* theFile);
+TQ3Status			E3Float32_ReadArray( TQ3Uns32 numFloats, TQ3Float32* theFloats, E3File* theFile);
+TQ3Status			E3Float32_Write(TQ3Float32 data, E3File* theFile);
+TQ3Status			E3Float64_Read(TQ3Float64 *data, E3File* theFile);
+TQ3Status			E3Float64_Write(TQ3Float64 data, E3File* theFile);
 TQ3Size				E3Size_Pad(TQ3Size size);
-TQ3Status			E3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile);
-TQ3Status			E3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, TQ3FileObject theFile);
-TQ3Status			E3String_Write(const char *data, TQ3FileObject theFile);
-TQ3Status			E3String_WriteUnlimited(const char *data, TQ3FileObject theFile);
-TQ3Status			E3RawData_Read(unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile);
-TQ3Status			E3RawData_Write(const unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile);
-TQ3Status			E3Point2D_Read(TQ3Point2D *point2D, TQ3FileObject theFile);
-TQ3Status			E3Point2D_Write(const TQ3Point2D *point2D, TQ3FileObject theFile);
-TQ3Status			E3Point3D_Read(TQ3Point3D *point3D, TQ3FileObject theFile);
-TQ3Status			E3Point3D_Write(const TQ3Point3D *point3D, TQ3FileObject theFile);
-TQ3Status			E3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, TQ3FileObject theFile);
-TQ3Status			E3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, TQ3FileObject theFile);
-TQ3Status			E3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, TQ3FileObject theFile);
-TQ3Status			E3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, TQ3FileObject theFile);
-TQ3Status			E3Vector2D_Read(TQ3Vector2D *vector2D, TQ3FileObject theFile);
-TQ3Status			E3Vector2D_Write(const TQ3Vector2D *vector2D, TQ3FileObject theFile);
-TQ3Status			E3Vector3D_Read(TQ3Vector3D *vector3D, TQ3FileObject theFile);
-TQ3Status			E3Vector3D_Write(const TQ3Vector3D *vector3D, TQ3FileObject theFile);
-TQ3Status			E3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile);
-TQ3Status			E3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile);
-TQ3Status			E3Tangent2D_Read(TQ3Tangent2D *tangent2D, TQ3FileObject theFile);
-TQ3Status			E3Tangent2D_Write(const TQ3Tangent2D *tangent2D, TQ3FileObject theFile);
-TQ3Status			E3Tangent3D_Read(TQ3Tangent3D *tangent3D, TQ3FileObject theFile);
-TQ3Status			E3Tangent3D_Write(const TQ3Tangent3D *tangent3D, TQ3FileObject theFile);
-TQ3Status			E3Comment_Write(char *comment, TQ3FileObject theFile);
+TQ3Status			E3String_Read(char *data, TQ3Uns32 *length, E3File* theFile);
+TQ3Status			E3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, E3File* theFile);
+TQ3Status			E3String_Write(const char *data, E3File* theFile);
+TQ3Status			E3String_WriteUnlimited(const char *data, E3File* theFile);
+TQ3Status			E3RawData_Read(unsigned char *data, TQ3Uns32 size, E3File* theFile);
+TQ3Status			E3RawData_Write(const unsigned char *data, TQ3Uns32 size, E3File* theFile);
+TQ3Status			E3Point2D_Read(TQ3Point2D *point2D, E3File* theFile);
+TQ3Status			E3Point2D_Write(const TQ3Point2D *point2D, E3File* theFile);
+TQ3Status			E3Point3D_Read(TQ3Point3D *point3D, E3File* theFile);
+TQ3Status			E3Point3D_Write(const TQ3Point3D *point3D, E3File* theFile);
+TQ3Status			E3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, E3File* theFile);
+TQ3Status			E3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, E3File* theFile);
+TQ3Status			E3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, E3File* theFile);
+TQ3Status			E3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, E3File* theFile);
+TQ3Status			E3Vector2D_Read(TQ3Vector2D *vector2D, E3File* theFile);
+TQ3Status			E3Vector2D_Write(const TQ3Vector2D *vector2D, E3File* theFile);
+TQ3Status			E3Vector3D_Read(TQ3Vector3D *vector3D, E3File* theFile);
+TQ3Status			E3Vector3D_Write(const TQ3Vector3D *vector3D, E3File* theFile);
+TQ3Status			E3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, E3File* theFile);
+TQ3Status			E3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, E3File* theFile);
+TQ3Status			E3Tangent2D_Read(TQ3Tangent2D *tangent2D, E3File* theFile);
+TQ3Status			E3Tangent2D_Write(const TQ3Tangent2D *tangent2D, E3File* theFile);
+TQ3Status			E3Tangent3D_Read(TQ3Tangent3D *tangent3D, E3File* theFile);
+TQ3Status			E3Tangent3D_Write(const TQ3Tangent3D *tangent3D, E3File* theFile);
+TQ3Status			E3Comment_Write(char *comment, E3File* theFile);
 
 TQ3Status			E3Unknown_RegisterClass(void);
 TQ3Status			E3Unknown_UnregisterClass(void);
