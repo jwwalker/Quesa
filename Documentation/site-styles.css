@@ -1,0 +1,13 @@
+/* Cell of outer table containing whole navigation bar */
+td.navbar { background: #EEEEEE; vertical-align:top; }
+
+/* Inner table containing navigation bar */
+table.navtable { padding:0; border:0; margin:0; width:125px }
+td.navlinks { padding:6px; padding-bottom:2ex }
+td.navhead { background:#404090; color:white; font-size:larger; padding:2px }
+
+div.qlogo {text-align:center}
+
+div.sflogo {position:absolute; top:30px; left:10px}
+
+div.footer {text-align:center; font-size:smaller; }
