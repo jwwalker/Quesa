@@ -33,88 +33,116 @@
 #ifndef QUESA_HDR
 #define QUESA_HDR
 //=============================================================================
-//      Include files
+//      Platform specific preamble
 //-----------------------------------------------------------------------------
-
+//		Note :	A lot of this will be removed when we no longer require the
+//				QD3D headers, as most of it is concerned with making bits of
+//				the Universal Headers build on Unix/Be.
+//-----------------------------------------------------------------------------
+// Unix
 #if defined(QUESA_OS_UNIX) && (QUESA_OS_UNIX == 1)
-	// Symbols, prevents QD3D headers #including Mac specific headers
-	#define __CONDITIONALMACROS__
-	#define __MOVIES__
-	#define __RAVE__
-	// Macros, Universal Header macros required by Mac specific headers
+	// Universal Header macros required by Mac specific headers
 	#define CALLBACK_API_C(_type, _name)           _type (*_name)
 	#define EXTERN_API_C(_type)                    extern _type
 	#define FOUR_CHAR_CODE(_x)                     _x
+
+
+	// Prevent QD3D headers #including Mac specific headers
+	#define __CONDITIONALMACROS__
+	#define __MOVIES__
+	#define __RAVE__
 	
-	#define TARGET_OS_MAC                     0
-	#define TARGET_OS_WIN32                   0
-	#define TARGET_OS_UNIX                    1
-#else
-#if defined(QUESA_OS_BE) && (QUESA_OS_BE == 1)
-	// Symbols, prevents QD3D headers #including Mac specific headers
-	#define __CONDITIONALMACROS__
-	#define __MOVIES__
-	#define __RAVE__
-	// Macros, Universal Header macros required by Mac specific headers
+	
+	// Set up ConditionalMacros.h style platform flags
+	#define TARGET_OS_MAC							0
+	#define TARGET_OS_WIN32							0
+	#define TARGET_OS_UNIX							1
+
+
+// Be
+#elif defined(QUESA_OS_BE) && (QUESA_OS_BE == 1)
+	// Universal Header macros required by Mac specific headers
 	#define CALLBACK_API_C(_type, _name)           _type (*_name)
 	#define EXTERN_API_C(_type)                    extern _type
 	#define FOUR_CHAR_CODE(_x)                     _x
-	#define TARGET_OS_MAC                     0
-	#define TARGET_OS_WIN32                   0
-	#define TARGET_OS_UNIX                    0
-#else // Mac or Win
 
+
+	// Prevent QD3D headers #including Mac specific headers
+	#define __CONDITIONALMACROS__
+	#define __MOVIES__
+	#define __RAVE__
+
+
+	// Set up ConditionalMacros.h style platform flags
+	#define TARGET_OS_MAC							0
+	#define TARGET_OS_WIN32               	    	0
+	#define TARGET_OS_UNIX                	    	0
+
+
+// Mac or Windows
+#else
     #include <ConditionalMacros.h>
-
-#endif
 #endif
 
 
-#define QUESA_OS_MACINTOSH TARGET_OS_MAC
-#define QUESA_OS_WIN32 TARGET_OS_WIN32
-#define QUESA_OS_UNIX TARGET_OS_UNIX
+
+// Set up the platform
+#define QUESA_OS_MACINTOSH		TARGET_OS_MAC
+#define QUESA_OS_WIN32			TARGET_OS_WIN32
+#define QUESA_OS_UNIX			TARGET_OS_UNIX
 
 #ifndef QUESA_OS_BE
-	#define QUESA_OS_BE 0
+	#define QUESA_OS_BE			0
 #endif
 
+
+
+// Mac
 #if QUESA_OS_MACINTOSH
-	// Assume Mac is always little endian
+	// Big endian, can always use QuickTime
 	#define QUESA_HOST_IS_BIG_ENDIAN 			1
 	
-	// Assume Mac is always Use QuickTime
 	#define QUESA_SUPPORT_QUICKTIME 			1
-	
+
+
+// Windows
 #elif QUESA_OS_WIN32
-	// Assume x86 is always little endian
+	// Must be first system #include
+	#ifndef _WINDOWS_
+		#include <Windows.h>
+	#endif
+
+
+	// Little endian, default to not using QuickTime 
 	#define QUESA_HOST_IS_BIG_ENDIAN 			0
 	
 	#ifndef QUESA_SUPPORT_QUICKTIME
 		#define QUESA_SUPPORT_QUICKTIME 		0
 	#endif
 	
-	#ifndef _WINDOWS_
-		#include <Windows.h>
-	#endif
 	
 	// disable unknown #pragma warning for VC++.
 	#if _MSC_VER
 		#pragma warning(disable:4068)
 	#endif
-	
+
+
 	// If building a DLL, we need to use our own EXTERN_API_C
 	#ifdef WIN32_EXPORTING
-	
 	    #undef  EXTERN_API_C
 	    #define EXTERN_API_C(_type) __declspec(dllexport) _type __cdecl	 
 	#endif
-	
+
+
+// Unix	
 #elif QUESA_OS_UNIX
+	// If endian not specified, assume big endian
 	#ifndef QUESA_HOST_IS_BIG_ENDIAN
 		#define QUESA_HOST_IS_BIG_ENDIAN 		1
 	#endif
-		
-	// Mac OS types, all QuickTime types so not available under Unix
+
+
+	// QuickTime never supported on Unix
 	#define QUESA_SUPPORT_QUICKTIME             0
 	#define QTAtomContainer                     long
 	#define TQADrawContext                      long
@@ -123,26 +151,17 @@
 	#define CodecType                           long
 	#define CodecComponent                      long
 	#define CodecQ                              long
-	
-	// X11 types, only for MOSX builds
-	#define TARGET_OS_MOSX 0
-	#if TARGET_OS_MOSX
-		#define Display                         long
-		#define Drawable                        long
-		#define Visual                          long
-		#define Colormap                        long
-		#define Window                          long
-		#define XVisualInfo                     long
-		#define Screen                          long
-	#endif
-	
+
+
+// Be
 #elif QUESA_OS_BE
+	// If endian not specified, assume big endian
 	#ifndef QUESA_HOST_IS_BIG_ENDIAN
 		#define QUESA_HOST_IS_BIG_ENDIAN 		1
 	#endif
-		
-	
-	// Mac OS types, all QuickTime types so not available under Be
+
+
+	// QuickTime never supported on Be
 	#define QUESA_SUPPORT_QUICKTIME             0
 	#define QTAtomContainer                     long
 	#define TQADrawContext                      long
@@ -151,11 +170,20 @@
 	#define CodecType                           long
 	#define CodecComponent                      long
 	#define CodecQ                              long
-	
 #endif
 
 
-#include "QD3DIO.h" // really it should be QD3D.h but here are defined several basic types
+
+
+
+//=============================================================================
+//      Include files
+//-----------------------------------------------------------------------------
+#include "QD3DIO.h"
+
+
+
+
 
 //=============================================================================
 //		C++ preamble
