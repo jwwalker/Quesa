@@ -596,6 +596,7 @@ enum {
             kQ3DrawContextTypeWin32DC           = Q3_OBJECT_TYPE('d', 'w', '3', '2'),
             kQ3DrawContextTypeDDSurface         = Q3_OBJECT_TYPE('d', 'd', 'd', 's'),
             kQ3DrawContextTypeX11               = Q3_OBJECT_TYPE('d', 'x', '1', '1'),
+            kQ3DrawContextTypeBe                = Q3_OBJECT_TYPE('d', 'c', 'b', 'e'),
         kQ3SharedTypeTexture                    = Q3_OBJECT_TYPE('t', 'x', 't', 'r'),
             kQ3TextureTypePixmap                = Q3_OBJECT_TYPE('t', 'x', 'p', 'm'),
             kQ3TextureTypeMipmap                = Q3_OBJECT_TYPE('t', 'x', 'm', 'm'),
@@ -609,6 +610,7 @@ enum {
             kQ3StorageTypeMacintosh             = Q3_OBJECT_TYPE('m', 'a', 'c', 'n'),
                 kQ3MacintoshStorageTypeFSSpec   = Q3_OBJECT_TYPE('m', 'a', 'c', 'p'),
             kQ3StorageTypeWin32                 = Q3_OBJECT_TYPE('w', 'i', 's', 't'),
+            kQ3StorageTypeBe                    = Q3_OBJECT_TYPE('b', 'e', 's', 't'),
         kQ3SharedTypeString                     = Q3_OBJECT_TYPE('s', 't', 'r', 'n'),
             kQ3StringTypeCString                = Q3_OBJECT_TYPE('s', 't', 'r', 'c'),
         kQ3SharedTypeShapePart                  = Q3_OBJECT_TYPE('s', 'p', 'r', 't'),
@@ -1535,6 +1537,39 @@ Q3Object_Dispose (
 
 /*!
  *  @function
+ *      Q3Object_CleanDispose
+ *  @discussion
+ *      Cleanly disposes of a Quesa object.
+ *
+ *      If theObject is not NULL, invokes Q3Object_Dispose to decrement the object
+ *      reference count then clears the supplied pointer to prevent stale references.
+ *
+ *      Equivalent to:
+ *
+ *          if (theObject != NULL)
+ *              {
+ *              Q3Object_Dispose(theObject);
+ *              theObject = NULL;
+ *              }
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *      
+ *  @param theObject        The object to dispose (may be NULL).
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3Object_CleanDispose (
+    TQ3Object                     *theObject
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
  *      Q3Object_Duplicate
  *  @discussion
  *      Duplicates a Quesa object.
@@ -1726,6 +1761,7 @@ Q3Shared_IsReferenced (
 );
 
 
+
 /*!
  *  @function
  *      Q3Shared_GetReferenceCount
@@ -1735,6 +1771,8 @@ Q3Shared_IsReferenced (
  *      This function should be used only for debugging.  If you are
  *      tempted to use it for something else, then you probably don't
  *		understand the correct way to work with reference-counted objects.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param sharedObject     The object to test.
  *  @result                 Reference count.
@@ -1747,6 +1785,7 @@ Q3Shared_GetReferenceCount (
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
 
 
 /*!
