@@ -5,7 +5,7 @@
         Implementation of Quesa Cylinder geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,23 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Cylinder : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3CylinderData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -662,14 +679,11 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 //      e3geom_cylinder_get_attribute : Cylinder get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_cylinder_get_attribute(TQ3GeometryObject theObject)
-{	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeCylinder);
-
-
-
+e3geom_cylinder_get_attribute ( E3Cylinder* cylinder )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->cylinderAttributeSet);
-}
+	return &cylinder->instanceData.cylinderAttributeSet ;
+	}
 
 
 
@@ -731,11 +745,11 @@ E3GeometryCylinder_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeCylinder,
 											kQ3ClassNameGeometryCylinder,
 											e3geom_cylinder_metahandler,
-											sizeof(TQ3CylinderData));
+											~sizeof(E3Cylinder));
 
 	return(qd3dStatus);
 }
@@ -754,7 +768,7 @@ E3GeometryCylinder_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeCylinder, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeCylinder, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -822,22 +836,20 @@ E3Cylinder_Submit(const TQ3CylinderData *cylinderData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_SetData(TQ3GeometryObject theCylinder, const TQ3CylinderData *cylinderData)
-{	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
-	TQ3Status		qd3dStatus;
-
-
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
 	// first, free the old data
-	e3geom_cylinder_disposedata(instanceData);
+	e3geom_cylinder_disposedata ( & cylinder->instanceData ) ;
 
 
 
 	// then copy in the new data
-	qd3dStatus = e3geom_cylinder_copydata(cylinderData, instanceData, kQ3False);
-	Q3Shared_Edited(theCylinder);
+	TQ3Status qd3dStatus = e3geom_cylinder_copydata ( cylinderData, & cylinder->instanceData, kQ3False ) ;
+	Q3Shared_Edited ( cylinder ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -848,10 +860,8 @@ E3Cylinder_SetData(TQ3GeometryObject theCylinder, const TQ3CylinderData *cylinde
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_GetData(TQ3GeometryObject theCylinder, TQ3CylinderData *cylinderData)
-{	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
-	TQ3Status		qd3dStatus;
-
-
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
 	// Copy the data out of the Cylinder
 	cylinderData->interiorAttributeSet = NULL;
@@ -859,10 +869,9 @@ E3Cylinder_GetData(TQ3GeometryObject theCylinder, TQ3CylinderData *cylinderData)
 	cylinderData->topAttributeSet = NULL;
 	cylinderData->bottomAttributeSet = NULL;
 	cylinderData->cylinderAttributeSet = NULL;
-	qd3dStatus = e3geom_cylinder_copydata(instanceData, cylinderData, kQ3False);
-
-	return(qd3dStatus);
-}
+	
+	return e3geom_cylinder_copydata ( &cylinder->instanceData, cylinderData, kQ3False ) ;
+	}
 
 
 
@@ -873,14 +882,14 @@ E3Cylinder_GetData(TQ3GeometryObject theCylinder, TQ3CylinderData *cylinderData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_SetOrigin(TQ3GeometryObject theCylinder, const TQ3Point3D *origin)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	Q3Memory_Copy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
+	Q3Memory_Copy ( origin, & cylinder->instanceData.origin, sizeof(TQ3Point3D) ) ;
 
-	Q3Shared_Edited(theCylinder);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( cylinder ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -891,14 +900,14 @@ E3Cylinder_SetOrigin(TQ3GeometryObject theCylinder, const TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_SetOrientation(TQ3GeometryObject theCylinder, const TQ3Vector3D *orientation)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	Q3Memory_Copy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy ( orientation, & cylinder->instanceData.orientation, sizeof(TQ3Vector3D) ) ;
 
-	Q3Shared_Edited(theCylinder);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( cylinder ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -909,14 +918,14 @@ E3Cylinder_SetOrientation(TQ3GeometryObject theCylinder, const TQ3Vector3D *orie
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_SetMajorRadius(TQ3GeometryObject theCylinder, const TQ3Vector3D *majorRadius)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	Q3Memory_Copy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy ( majorRadius, & cylinder->instanceData.majorRadius, sizeof(TQ3Vector3D) ) ;
 
-	Q3Shared_Edited(theCylinder);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( cylinder ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -927,14 +936,14 @@ E3Cylinder_SetMajorRadius(TQ3GeometryObject theCylinder, const TQ3Vector3D *majo
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_SetMinorRadius(TQ3GeometryObject theCylinder, const TQ3Vector3D *minorRadius)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	Q3Memory_Copy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy ( minorRadius, & cylinder->instanceData.minorRadius, sizeof(TQ3Vector3D) ) ;
 
-	Q3Shared_Edited(theCylinder);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( cylinder ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -945,12 +954,12 @@ E3Cylinder_SetMinorRadius(TQ3GeometryObject theCylinder, const TQ3Vector3D *mino
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_GetOrigin(TQ3GeometryObject theCylinder, TQ3Point3D *origin)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	Q3Memory_Copy( &instanceData->origin, origin, sizeof(TQ3Point3D) );
-	return(kQ3Success);
-}
+	Q3Memory_Copy ( & cylinder->instanceData.origin, origin, sizeof(TQ3Point3D) ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -961,12 +970,12 @@ E3Cylinder_GetOrigin(TQ3GeometryObject theCylinder, TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_GetOrientation(TQ3GeometryObject theCylinder, TQ3Vector3D *orientation)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	Q3Memory_Copy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
-	return(kQ3Success);
-}
+	Q3Memory_Copy ( & cylinder->instanceData.orientation, orientation, sizeof(TQ3Vector3D) ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -977,12 +986,12 @@ E3Cylinder_GetOrientation(TQ3GeometryObject theCylinder, TQ3Vector3D *orientatio
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_GetMajorRadius(TQ3GeometryObject theCylinder, TQ3Vector3D *majorRadius)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	Q3Memory_Copy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
-	return(kQ3Success);
-}
+	Q3Memory_Copy ( & cylinder->instanceData.majorRadius, majorRadius, sizeof(TQ3Vector3D) ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -993,12 +1002,12 @@ E3Cylinder_GetMajorRadius(TQ3GeometryObject theCylinder, TQ3Vector3D *majorRadiu
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_GetMinorRadius(TQ3GeometryObject theCylinder, TQ3Vector3D *minorRadius)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	Q3Memory_Copy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
-	return(kQ3Success);
-}
+	Q3Memory_Copy ( &cylinder->instanceData.minorRadius, minorRadius, sizeof(TQ3Vector3D) ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1012,14 +1021,14 @@ E3Cylinder_GetMinorRadius(TQ3GeometryObject theCylinder, TQ3Vector3D *minorRadiu
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_SetCaps(TQ3GeometryObject theCylinder, TQ3EndCap caps)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	instanceData->caps = caps;
+	cylinder->instanceData.caps = caps ;
 
-	Q3Shared_Edited(theCylinder);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( cylinder ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1030,12 +1039,12 @@ E3Cylinder_SetCaps(TQ3GeometryObject theCylinder, TQ3EndCap caps)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_GetCaps(TQ3GeometryObject theCylinder, TQ3EndCap *caps)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	*caps = instanceData->caps;
-	return(kQ3Success);
-}
+	*caps = cylinder->instanceData.caps ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1046,14 +1055,14 @@ E3Cylinder_GetCaps(TQ3GeometryObject theCylinder, TQ3EndCap *caps)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_SetTopAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet topAttributeSet)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	E3Shared_Replace(&instanceData->topAttributeSet, topAttributeSet);
+	E3Shared_Replace ( & cylinder->instanceData.topAttributeSet, topAttributeSet ) ;
 
-	Q3Shared_Edited(theCylinder);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( cylinder ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1066,12 +1075,12 @@ E3Cylinder_SetTopAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet top
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_GetTopAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *topAttributeSet)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	E3Shared_Acquire(topAttributeSet, instanceData->topAttributeSet);
-	return(kQ3Success);
-}
+	E3Shared_Acquire ( topAttributeSet, cylinder->instanceData.topAttributeSet ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1081,14 +1090,14 @@ E3Cylinder_GetTopAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *to
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_SetBottomAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet bottomAttributeSet)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	E3Shared_Replace(&instanceData->bottomAttributeSet, bottomAttributeSet);
+	E3Shared_Replace ( & cylinder->instanceData.bottomAttributeSet, bottomAttributeSet ) ;
 
-	Q3Shared_Edited(theCylinder);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( cylinder ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1100,12 +1109,12 @@ E3Cylinder_SetBottomAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_GetBottomAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *bottomAttributeSet)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	E3Shared_Acquire(bottomAttributeSet, instanceData->bottomAttributeSet);
-	return(kQ3Success);
-}
+	E3Shared_Acquire ( bottomAttributeSet, cylinder->instanceData.bottomAttributeSet ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1117,14 +1126,14 @@ E3Cylinder_GetBottomAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_SetFaceAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet faceAttributeSet)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	E3Shared_Replace(&instanceData->faceAttributeSet, faceAttributeSet);
+	E3Shared_Replace ( &cylinder->instanceData.faceAttributeSet, faceAttributeSet ) ;
 
-	Q3Shared_Edited(theCylinder);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( cylinder ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1136,12 +1145,12 @@ E3Cylinder_SetFaceAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet fa
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_GetFaceAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *faceAttributeSet)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	E3Shared_Acquire(faceAttributeSet, instanceData->faceAttributeSet);
-	return(kQ3Success);
-}
+	E3Shared_Acquire ( faceAttributeSet, cylinder->instanceData.faceAttributeSet ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1153,14 +1162,14 @@ E3Cylinder_GetFaceAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *f
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_SetInteriorAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet intAttributeSet)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	E3Shared_Replace(&instanceData->interiorAttributeSet, intAttributeSet);
+	E3Shared_Replace ( &cylinder->instanceData.interiorAttributeSet, intAttributeSet ) ;
 
-	Q3Shared_Edited(theCylinder);
-	return(kQ3Success);
-}
+	Q3Shared_Edited ( cylinder ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1172,12 +1181,12 @@ E3Cylinder_SetInteriorAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSe
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Cylinder_GetInteriorAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *intAttributeSet)
-{
-	TQ3CylinderData		*instanceData = (TQ3CylinderData *) E3ClassTree_FindInstanceData(theCylinder, kQ3GeometryTypeCylinder);
+	{
+	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
-	E3Shared_Acquire(intAttributeSet, instanceData->interiorAttributeSet);
-	return(kQ3Success);
-}
+	E3Shared_Acquire ( intAttributeSet, cylinder->instanceData.interiorAttributeSet ) ;
+	return kQ3Success ;
+	}
 
 
 
