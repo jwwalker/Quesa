@@ -400,28 +400,22 @@ ir_texture_get_storage_edit(TQ3TextureObject theTexture)
 
 
 //=============================================================================
-//      ir_texture_load : Load a cached QD3D texture into OpenGL.
+//      ir_texture_set_state : Inform OpenGL about attributes of a texture.
 //-----------------------------------------------------------------------------
-static TQ3Status
-ir_texture_load(TQ3CachedTexture *cachedTexture)
-{	GLint					glBoundsU, glBoundsV;
+static void
+ir_texture_set_state( TQ3CachedTexture *cachedTexture )
+{
+	GLint					glBoundsU, glBoundsV;
 	GLfloat					glMatrix[16];
-	TQ3Status				qd3dStatus;
-	TQ3ObjectType			theType;
 
-
-
-	// Create an OpenGL texture object for the texture
-	Q3_ASSERT(!glIsTexture((GLuint) cachedTexture->theTexture));
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, (GLuint) cachedTexture->theTexture);
-	Q3_ASSERT(glIsTexture( (GLuint) cachedTexture->theTexture));
-
-
-
-	// Set up the texture state
 	GLUtils_ConvertUVBoundary(cachedTexture->boundaryU, &glBoundsU);
 	GLUtils_ConvertUVBoundary(cachedTexture->boundaryV, &glBoundsV);
+	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_WRAP_S,     glBoundsU);
+	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_WRAP_T,     glBoundsV);
+
+	glTexEnvi(      GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,   GL_MODULATE);
+	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MAG_FILTER, cachedTexture->qualityFilter);
+	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MIN_FILTER, cachedTexture->qualityFilter);
 
 	glMatrix[0]  = cachedTexture->theTransform.value[0][0];
 	glMatrix[1]  = cachedTexture->theTransform.value[0][1];
@@ -443,14 +437,30 @@ ir_texture_load(TQ3CachedTexture *cachedTexture)
 	glMatrix[14] = cachedTexture->theTransform.value[2][2];
 	glMatrix[15] = 1.0f;
 
-	glTexEnvi(      GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,   GL_MODULATE);
-	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_WRAP_S,     glBoundsU);
-	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_WRAP_T,     glBoundsV);
-	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MAG_FILTER, cachedTexture->qualityFilter);
-	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MIN_FILTER, cachedTexture->qualityFilter);
-
 	glMatrixMode(GL_TEXTURE);
 	glLoadMatrixf(glMatrix);
+}
+
+
+
+
+
+//=============================================================================
+//      ir_texture_load : Load a cached QD3D texture into OpenGL.
+//-----------------------------------------------------------------------------
+static TQ3Status
+ir_texture_load(TQ3CachedTexture *cachedTexture)
+{
+	TQ3Status				qd3dStatus;
+	TQ3ObjectType			theType;
+
+
+
+	// Create an OpenGL texture object for the texture
+	Q3_ASSERT(!glIsTexture((GLuint) cachedTexture->theTexture));
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, (GLuint) cachedTexture->theTexture);
+	Q3_ASSERT(glIsTexture( (GLuint) cachedTexture->theTexture));
 
 
 
@@ -759,6 +769,7 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 						TQ3TextureObject				theTexture)
 {	TQ3Status		qd3dStatus;
 	TQ3PixelType	pixelType;
+	TQ3Uns32		i;
 
 
 
@@ -823,6 +834,17 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 			// Enable the texture
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, instanceData->stateTextureObject);
+			
+			
+			// Find the texture in the cache, and set related OpenGL state.
+			for (i = 0; i < instanceData->cachedTextureCount; ++i)
+				{
+				if (instanceData->cachedTextures[i].theTexture == theTexture)
+					{
+					ir_texture_set_state( &instanceData->cachedTextures[i] );
+					break;
+					}
+				}
 			}
 		}
 
