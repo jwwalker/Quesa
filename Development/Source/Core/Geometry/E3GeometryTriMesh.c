@@ -176,7 +176,7 @@ e3geom_trimesh_disposedata(TQ3TriMeshData *theTriMesh)
 
 
 	// Dispose of the TriMesh
-	E3Object_DisposeAndForget( theTriMesh->triMeshAttributeSet );
+	Q3Object_CleanDispose(&theTriMesh->triMeshAttributeSet );
 
 	Q3Memory_Free( &theTriMesh->triangles );
 	e3geom_trimesh_disposeattributes( theTriMesh->numTriangleAttributeTypes,
@@ -479,9 +479,9 @@ e3geom_trimesh_triangle_delete(TQ3TriangleData *theTriangle)
 
 	// Dispose of the triangle
 	for (n = 0; n < 3; n++)
-		E3Object_DisposeAndForget(theTriangle->vertices[n].attributeSet);
+		Q3Object_CleanDispose(&theTriangle->vertices[n].attributeSet);
 
-	E3Object_DisposeAndForget(theTriangle->triangleAttributeSet);
+	Q3Object_CleanDispose(&theTriangle->triangleAttributeSet);
 }
 
 
@@ -518,7 +518,7 @@ e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		// Create it
 		theTriangle = Q3Triangle_New(&triangleData);
 		if (theTriangle != NULL)
-			E3Group_AddObjectAndDispose(theGroup, theTriangle);
+			Q3Group_AddObjectAndDispose(theGroup, &theTriangle);
 
 
 		// Clean up
@@ -1198,6 +1198,8 @@ E3TriMesh_GetData(TQ3GeometryObject triMesh, TQ3TriMeshData *triMeshData)
 
 
 
+
+
 //=============================================================================
 //      E3TriMesh_EmptyData : Empty the data for a TriMesh object.
 //-----------------------------------------------------------------------------
@@ -1211,4 +1213,52 @@ E3TriMesh_EmptyData(TQ3TriMeshData *triMeshData)
 
 	return(kQ3Success);
 }
+
+
+
+
+
+//=============================================================================
+//      E3TriMesh_LockData : Lock a TriMesh for direct access.
+//-----------------------------------------------------------------------------
+//		Note :	Our current implementation does not require locking, and so we
+//				can simply return a pointer to the TriMesh instance data.
+//
+//				We will eventually be able to move responsibility for geometry
+//				data down to the renderer objects, at which time we will need
+//				to keep a flag indicating if a TriMesh is locked.
+//
+//				We will then need to update the renderer object after a TriMesh
+//				is unlocked after being locked without read-only access.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3TriMesh_LockData(TQ3GeometryObject triMesh, TQ3Boolean readOnly, TQ3TriMeshData **triMeshData)
+{	TQ3TriMeshData		*instanceData = (TQ3TriMeshData *) triMesh->instanceData;
+
+
+
+	// Return a pointer to our instance data
+	*triMeshData = instanceData;
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3TriMesh_UnlockData : Unlock a TriMesh after direct access.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3TriMesh_UnlockData(TQ3GeometryObject triMesh)
+{
+
+
+	// Nothing to do
+	//
+	// See E3TriMesh_LockData for implementation notes.
+	return(kQ3Success);
+}
+
 
