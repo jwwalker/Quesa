@@ -55,6 +55,20 @@
 
 
 //=============================================================================
+//      Temporary build constants
+//-----------------------------------------------------------------------------
+// Should TQ3Object be private within Quesa?
+//
+// For transitioning to private implementation.
+#ifndef QUESA_OBJECTS_ARE_OPAQUE
+	#define QUESA_OBJECTS_ARE_OPAQUE							0
+#endif
+
+
+
+
+
+//=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
 // Quesa (public)
@@ -157,6 +171,7 @@
 #ifndef QUESA_BUILD_AS_BINARY_COMPATIBLE
 	#define QUESA_BUILD_AS_BINARY_COMPATIBLE					0
 #endif
+
 
 
 #endif
