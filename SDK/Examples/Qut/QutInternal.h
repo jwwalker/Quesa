@@ -57,38 +57,42 @@ extern "C" {
 //-----------------------------------------------------------------------------
 #define kRendererMaxNum									50
 
-#define kStyleCmdFillFilled								1
-#define kStyleCmdFillEdges								2
-#define kStyleCmdFillPoints								3
+#define kStyleCmdShaderNull								1
+#define kStyleCmdShaderLambert							2
+#define kStyleCmdShaderPhong							3
 #define kStyleCmdDummy1									4
-#define kStyleCmdBackfacingBoth							5
-#define kStyleCmdBackfacingRemove						6
-#define kStyleCmdBackfacingFlip							7
+#define kStyleCmdFillFilled								5
+#define kStyleCmdFillEdges								6
+#define kStyleCmdFillPoints								7
 #define kStyleCmdDummy2									8
-#define kStyleCmdInterpolationNone						9
-#define kStyleCmdInterpolationVertex					10
-#define kStyleCmdInterpolationPixel						11
+#define kStyleCmdBackfacingBoth							9
+#define kStyleCmdBackfacingRemove						10
+#define kStyleCmdBackfacingFlip							11
 #define kStyleCmdDummy3									12
-#define kStyleCmdOrientationClockwise					13
-#define kStyleCmdOrientationCounterClockwise			14
-#define kStyleCmdDummy4									15
-#define kStyleCmdAntiAliasNone							16
-#define kStyleCmdAntiAliasEdges							17
-#define kStyleCmdAntiAliasFilled						18
+#define kStyleCmdInterpolationNone						13
+#define kStyleCmdInterpolationVertex					14
+#define kStyleCmdInterpolationPixel						15
+#define kStyleCmdDummy4									16
+#define kStyleCmdOrientationClockwise					17
+#define kStyleCmdOrientationCounterClockwise			18
 #define kStyleCmdDummy5									19
-#define kStyleCmdFogOn									20
-#define kStyleCmdFogOff									21
-#define kStyleCmdDummy6									22
-#define kStyleCmdSubdivisionConstant1					23
-#define kStyleCmdSubdivisionConstant2					24
-#define kStyleCmdSubdivisionConstant3					25
-#define kStyleCmdSubdivisionConstant4					26
-#define kStyleCmdSubdivisionWorldSpace1					27
-#define kStyleCmdSubdivisionWorldSpace2					28
-#define kStyleCmdSubdivisionWorldSpace3					29
-#define kStyleCmdSubdivisionScreenSpace1				30
-#define kStyleCmdSubdivisionScreenSpace2				31
-#define kStyleCmdSubdivisionScreenSpace3				32
+#define kStyleCmdAntiAliasNone							20
+#define kStyleCmdAntiAliasEdges							21
+#define kStyleCmdAntiAliasFilled						22
+#define kStyleCmdDummy6									23
+#define kStyleCmdFogOn									24
+#define kStyleCmdFogOff									25
+#define kStyleCmdDummy7									26
+#define kStyleCmdSubdivisionConstant1					27
+#define kStyleCmdSubdivisionConstant2					28
+#define kStyleCmdSubdivisionConstant3					29
+#define kStyleCmdSubdivisionConstant4					30
+#define kStyleCmdSubdivisionWorldSpace1					31
+#define kStyleCmdSubdivisionWorldSpace2					32
+#define kStyleCmdSubdivisionWorldSpace3					33
+#define kStyleCmdSubdivisionScreenSpace1				34
+#define kStyleCmdSubdivisionScreenSpace2				35
+#define kStyleCmdSubdivisionScreenSpace3				36
 
 
 
@@ -115,10 +119,14 @@ extern qutFuncAppRedraw			gFuncAppRedraw;
 
 
 
+
+
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Qut - private
+void	Qut_Initialise(void);
+void	Qut_Terminate(void);
 void	Qut_RenderFrame(void);
 void	Qut_InvokeStyleCommand(TQ3Int32 theCmd);
 
