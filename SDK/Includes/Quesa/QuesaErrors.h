@@ -188,14 +188,22 @@ extern "C" {
  *  @constant kQ3ErrorRenderingLoopFailed                  Rendering loop failed.
  *  @constant kQ3ErrorWritingLoopFailed                    Writing loop failed.
  *  @constant kQ3ErrorBoundingLoopFailed                   Bounding loop failed.
- *  @constant kQ3ErrorPlatformError                        Platform-specific error (not available in QD3D).
- *	@constant kQ3ErrorInfiniteRationalPoint                Infinite rational point.
+ *  @constant kQ3ErrorPlatformError                        Platform-specific error. Not available in QD3D.
+ *	@constant kQ3ErrorInfiniteRationalPoint                Infinite rational point. Not available in QD3D.
  */
 typedef enum {
     kQ3ErrorNone                                = 0,
+    kQ3ErrorFirst                               = -28500,
     kQ3ErrorInternalError                       = -28500,
     kQ3ErrorNoRecovery                          = -28499,
     kQ3ErrorLastFatalError                      = -28498,
+    kQ3ErrorNotUsedByQD3D_1                     = -28497,
+    kQ3ErrorNotUsedByQD3D_2                     = -28496,
+    kQ3ErrorNotUsedByQD3D_3                     = -28495,
+    kQ3ErrorNotUsedByQD3D_4                     = -28494,
+    kQ3ErrorNotUsedByQD3D_5                     = -28493,
+    kQ3ErrorNotUsedByQD3D_6                     = -28492,
+    kQ3ErrorNotUsedByQD3D_7                     = -28491,
     kQ3ErrorNotInitialized                      = -28490,
     kQ3ErrorAlreadyInitialized                  = -28489,
     kQ3ErrorUnimplemented                       = -28488,
@@ -315,6 +323,7 @@ typedef enum {
     kQ3ErrorInfiniteRationalPoint				= -28376,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
+    kQ3ErrorLast,
     kQ3ErrorSize32                              = 0xFFFFFFFF
 } TQ3Error;
 
@@ -366,10 +375,11 @@ typedef enum {
  *  @constant kQ3WarningTypeSameVersionAlreadyRegistered   Type same version already registered.
  *  @constant kQ3WarningTypeNewerVersionAlreadyRegistered  Type newer version already registered.
  *  @constant kQ3WarningInvalidObjectInGroupMetafile       Invalid object in group metafile.
- *	@constant kQ3WarningQuaternionNotNormalized            Quaternion is not normalized.
+ *	@constant kQ3WarningQuaternionNotNormalized            Quaternion is not normalized. Not available in QD3D.
  */
 typedef enum {
     kQ3WarningNone                              = 0,
+    kQ3WarningFirst                             = -28300,
     kQ3WarningInternalException                 = -28300,
     kQ3WarningNoObjectSupportForDuplicateMethod = -28299,
     kQ3WarningNoObjectSupportForDrawMethod      = -28298,
@@ -415,6 +425,7 @@ typedef enum {
 	kQ3WarningQuaternionNotNormalized			= -28260,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
+    kQ3WarningLast,
     kQ3WarningSize32                            = 0xFFFFFFFF
 } TQ3Warning;
 
@@ -445,6 +456,7 @@ typedef enum {
  */
 typedef enum {
     kQ3NoticeNone                               = 0,
+    kQ3NoticeFirst                              = -28100,
     kQ3NoticeDataAlreadyEmpty                   = -28100,
     kQ3NoticeMethodNotSupported                 = -28099,
     kQ3NoticeObjectAlreadySet                   = -28098,
@@ -461,6 +473,7 @@ typedef enum {
     kQ3NoticeSystemAlreadyInitialized           = -28087,
     kQ3NoticeViewSyncCalledAgain                = -28086,
     kQ3NoticeFileCancelled                      = -28085,
+    kQ3NoticeLast,
     kQ3NoticeSize32                             = 0xFFFFFFFF
 } TQ3Notice;
 
