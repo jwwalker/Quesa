@@ -3025,6 +3025,8 @@ E3View_SetCamera(TQ3ViewObject theView, TQ3CameraObject theCamera)
 //=============================================================================
 //      E3View_SetLightGroup : Assign a new light group to a view.
 //-----------------------------------------------------------------------------
+//		Note : Lights are removed if lightGroup is NULL.
+//-----------------------------------------------------------------------------
 TQ3Status
 E3View_SetLightGroup(TQ3ViewObject theView, TQ3GroupObject lightGroup)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
