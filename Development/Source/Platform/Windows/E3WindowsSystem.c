@@ -190,15 +190,19 @@ E3WindowsSystem_Terminate(void)
 #pragma mark -
 void
 E3WindowsSystem_LoadPlugins(void)
-{	TCHAR systemDir[MAX_PATH];
+{	TCHAR thePath[MAX_PATH];
+
 
 
 	// Register Quesa plug-ins
-	if(GetSystemDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
-		e3windowsystem_loadplugins(systemDir, TEXT("xq3"));
+	if(GetCurrentDirectory(thePath, MAX_PATH * sizeof(thePath[0])) > 0)
+		e3windowsystem_loadplugins(thePath, TEXT("xq3"));
 
-	if(GetWindowsDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
-		e3windowsystem_loadplugins(systemDir, TEXT("xq3"));
+	if(GetSystemDirectory(thePath, MAX_PATH * sizeof(thePath[0])) > 0)
+		e3windowsystem_loadplugins(thePath, TEXT("xq3"));
+
+	if(GetWindowsDirectory(thePath, MAX_PATH * sizeof(thePath[0])) > 0)
+		e3windowsystem_loadplugins(thePath, TEXT("xq3"));
 }
 
 
