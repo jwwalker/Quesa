@@ -386,14 +386,16 @@ E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 				readHeaderStatus = readHeader(theFile);
 			
 			
+			// get the custom format ID;
+			formatTypeMethod = (TQ3XFFormatGetFormatTypeMethod)E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatGetFormatType);
+			if(formatTypeMethod != NULL)
+				instanceData->mode = formatTypeMethod(theFile);
+			else
+				instanceData->mode = (TQ3FileMode)formatType;
+
 			if(mode != NULL)
 				{
-				// get the custom format ID;
-				formatTypeMethod = (TQ3XFFormatGetFormatTypeMethod)E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatGetFormatType);
-				if(formatTypeMethod != NULL)
-					*mode = formatTypeMethod(theFile);
-				else
-					*mode = (TQ3FileMode)formatType;
+				*mode = instanceData->mode;
 				}
 			
 			Q3Object_Dispose(format);
@@ -428,6 +430,7 @@ E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 {
 	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3FileFormatObject format;
+	TQ3ObjectType formatType = 0;
 
 	TQ3XStorageOpenMethod open;
 	TQ3XStorageCloseMethod close;
@@ -437,37 +440,38 @@ E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Closed),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->storage != NULL),kQ3Failure);
 	
+	instanceData->mode = mode;
 	
 	//Convert QD3D modes to Quesa format codes
 	switch(mode){
 		case kQ3FileModeNormal:
-			mode = kQ3FFormatWriterType3DMFNormalBin;
+			formatType = kQ3FFormatWriterType3DMFNormalBin;
 			break;
 		case kQ3FileModeStream:
-			mode = kQ3FFormatWriterType3DMFStreamBin;
+			formatType = kQ3FFormatWriterType3DMFStreamBin;
 			break;
 		case kQ3FileModeDatabase:
-			mode = kQ3FFormatWriterType3DMFDatabaseBin;
+			formatType = kQ3FFormatWriterType3DMFDatabaseBin;
 			break;
 		case (kQ3FileModeNormal + kQ3FileModeText):
-			mode = kQ3FFormatWriterType3DMFNormalText;
+			formatType = kQ3FFormatWriterType3DMFNormalText;
 			break;
 		case (kQ3FileModeStream + kQ3FileModeText):
-			mode = kQ3FFormatWriterType3DMFStreamText;
+			formatType = kQ3FFormatWriterType3DMFStreamText;
 			break;
 		case (kQ3FileModeDatabase + kQ3FileModeText):
-			mode = kQ3FFormatWriterType3DMFDatabaseText;
+			formatType = kQ3FFormatWriterType3DMFDatabaseText;
 			break;
 		case (kQ3FileModeStream + kQ3FileModeDatabase):
-			mode = kQ3FFormatWriterType3DMFDatabaseStreamBin;
+			formatType = kQ3FFormatWriterType3DMFDatabaseStreamBin;
 			break;
 		case (kQ3FileModeDatabase + kQ3FileModeStream + kQ3FileModeText):
-			mode = kQ3FFormatWriterType3DMFDatabaseStreamText;
+			formatType = kQ3FFormatWriterType3DMFDatabaseStreamText;
 			break;
 		}
 	
 	// Instantiate the fileFormat 
-	format = Q3FileFormat_NewFromType(mode);
+	format = Q3FileFormat_NewFromType(formatType);
 		
 	if(format != NULL){
 		if(Q3Object_IsType(format,kQ3FileFormatTypeWriter) == kQ3True){
@@ -780,7 +784,7 @@ E3File_IsEndOfData(TQ3FileObject theFile)
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3True);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3True);
-	Q3_REQUIRE_OR_RESULT((instanceData->mode <= 3),kQ3True); // only for 3DMF
+	Q3_REQUIRE_OR_RESULT((instanceData->mode <= kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream),kQ3True); // only for 3DMF
 	
 	fformatData = (TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
@@ -804,7 +808,7 @@ E3File_IsEndOfContainer(TQ3FileObject theFile, TQ3Object rootObject)
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3True);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3True);
-	Q3_REQUIRE_OR_RESULT((instanceData->mode <= 3),kQ3True); // only for 3DMF
+	Q3_REQUIRE_OR_RESULT((instanceData->mode <= kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream),kQ3True); // only for 3DMF
 	
 	fformatData = (TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
@@ -886,7 +890,7 @@ E3File_SetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState readGroupStat
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->mode <= 3),kQ3Failure); // only for 3DMF
+	Q3_REQUIRE_OR_RESULT((instanceData->mode <= kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream),kQ3Failure); // only for 3DMF
 	Q3_REQUIRE_OR_RESULT((readGroupState == kQ3FileReadWholeGroup) ||
 						(readGroupState == kQ3FileReadObjectsInGroup),kQ3Failure);
 	
@@ -916,7 +920,7 @@ E3File_GetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState *readGroupSta
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((instanceData->mode <= 3),kQ3Failure); // only for 3DMF
+	Q3_REQUIRE_OR_RESULT((instanceData->mode <= kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream),kQ3Failure); // only for 3DMF
 	
 	fformatData = (TQ3FFormatBaseData*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
