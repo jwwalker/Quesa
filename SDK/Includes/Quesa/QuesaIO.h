@@ -408,14 +408,15 @@ Q3File_SetStorage (
  *  @function
  *      Q3File_OpenRead
  *  @discussion
- *      One-line description of this function.
+ *      Open a file object for reading.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The file object must already have a storage object associated
+ *      with it, and must not already be open.
  *
- *  @param theFile          Description of the parameter.
- *  @param mode             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file object.
+ *  @param mode             On output, a combination of TQ3FileModeMasks values.
+ *							Pass NULL if you don't need this information.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_OpenRead (
@@ -429,14 +430,16 @@ Q3File_OpenRead (
  *  @function
  *      Q3File_OpenWrite
  *  @discussion
- *      One-line description of this function.
+ *      Open a file object for writing.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The file object must have a storage object associated with it,
+ *      and must not already be open.
  *
- *  @param theFile          Description of the parameter.
- *  @param mode             Description of the parameter.
- *  @result                 Description of the function result.
+ *		Currently, Quesa ignores the mode parameter and writes in binary stream mode.
+ *
+ *  @param theFile          The file object.
+ *  @param mode             A combination of TQ3FileModeMasks values.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_OpenWrite (
@@ -450,14 +453,11 @@ Q3File_OpenWrite (
  *  @function
  *      Q3File_IsOpen
  *  @discussion
- *      One-line description of this function.
+ *      Determines whether a file object is open.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param isOpen           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file object.
+ *  @param isOpen           On output, kQ3True if the file is open.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_IsOpen (
@@ -471,14 +471,11 @@ Q3File_IsOpen (
  *  @function
  *      Q3File_GetMode
  *  @discussion
- *      One-line description of this function.
+ *      Determine the mode of an open file object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param mode             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file object.
+ *  @param mode             On output, the current mode mask.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_GetMode (
@@ -492,14 +489,11 @@ Q3File_GetMode (
  *  @function
  *      Q3File_GetVersion
  *  @discussion
- *      One-line description of this function.
+ *      Get the file format version of an open file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theFile          Description of the parameter.
- *  @param version          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file object.
+ *  @param version          On output, the file format version.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_GetVersion (
@@ -513,13 +507,14 @@ Q3File_GetVersion (
  *  @function
  *      Q3File_Close
  *  @discussion
- *      One-line description of this function.
+ *      Close a file object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      When a file object is deleted (i.e., its last reference is disposed),
+ *      it is automatically closed, therefore you may not need to call
+ *		Q3File_Close.
  *
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file object.
+ *  @result                 Error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3File_Close (
@@ -631,13 +626,13 @@ Q3File_IsNextObjectOfType (
  *  @function
  *      Q3File_ReadObject
  *  @discussion
- *      One-line description of this function.
+ *      Read an object from a 3DMF file.
  *
- *      A more extensive description can be supplied here, covering
+ *      The file must already be open for reading.
  *      the typical usage of this function and any special requirements.
  *
- *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theFile          The file object.
+ *  @result                 The new object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3Object  )
 Q3File_ReadObject (
