@@ -5,7 +5,7 @@
         Quesa viewer library implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -101,6 +101,18 @@ typedef struct TQ3ViewerParams {
 
 
 
+class E3Viewer : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3ViewerData						instanceData ;
+	} ;
+	
+
+
 
 //=============================================================================
 //      Internal constants
@@ -191,9 +203,9 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer);
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
-#define CheckViewerFailure(_viewer)	if (!_viewer || (((TQ3ViewerData *) E3ClassTree_FindInstanceData(_viewer, kQ3ObjectTypeViewer))->mValidViewer != kQ3ValidViewer)) return kQ3Failure
-#define CheckViewerFalse(_viewer)	if (!_viewer || (((TQ3ViewerData *) E3ClassTree_FindInstanceData(_viewer, kQ3ObjectTypeViewer))->mValidViewer != kQ3ValidViewer)) return 0
-#define CheckViewerNULL(_viewer)	if (!_viewer || (((TQ3ViewerData *) E3ClassTree_FindInstanceData(_viewer, kQ3ObjectTypeViewer))->mValidViewer != kQ3ValidViewer)) return NULL
+#define CheckViewerFailure(_viewer)	if (!_viewer || (((E3Viewer*)(_viewer))->instanceData.mValidViewer != kQ3ValidViewer)) return kQ3Failure
+#define CheckViewerFalse(_viewer)	if (!_viewer || (((E3Viewer*)(_viewer))->instanceData.mValidViewer != kQ3ValidViewer)) return 0
+#define CheckViewerNULL(_viewer)	if (!_viewer || (((E3Viewer*)(_viewer))->instanceData.mValidViewer != kQ3ValidViewer)) return NULL
 
 
 
@@ -202,10 +214,10 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer);
 //=============================================================================
 //      instance_data : Get the instance data for a viewer.
 //-----------------------------------------------------------------------------
-static TQ3ViewerData* instance_data( TQ3ViewerObject theViewer )
-{
-	return (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
-}
+static TQ3ViewerData* instance_data ( TQ3ViewerObject theViewer )
+	{
+	return & ( (E3Viewer*) theViewer )->instanceData ;
+	}
 
 
 
@@ -250,29 +262,25 @@ static float e3viewer_angle(float dx, float dy)
 //      e3viewer_buttonAtPoint : Return the button that contains a given
 //			pixel coordinate, or 0 if no button does.
 //-----------------------------------------------------------------------------
-static TQ3Uns32 e3viewer_buttonAtPoint(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
-{
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
-	TQ3Uns32			i, button;
-	TQ3Status			status;
-	TQ3Area				rect;
-
+static TQ3Uns32 e3viewer_buttonAtPoint ( E3Viewer* theViewer, TQ3Int32 hPos, TQ3Int32 vPos )
+	{
 	// Was the click in a button?	
-	for (i=0; i<9; i++)
+	for ( TQ3Uns32 i = 0 ; i < 9 ; ++i )
 		{
-		button = (kQ3ViewerFlagButtonCamera << i);
-		status = E3Viewer_GetButtonRect(theViewer, button, &rect);
-		if (kQ3Success == status)
+		TQ3Uns32 button = ( kQ3ViewerFlagButtonCamera << i ) ;
+		TQ3Area	 rect ;
+		TQ3Status status = E3Viewer_GetButtonRect ( theViewer, button, &rect ) ;
+		if ( kQ3Success == status )
 			{
-			if (e3Rect_ContainsPoint(&rect, hPos, vPos))
-				return button;
+			if ( e3Rect_ContainsPoint ( &rect, hPos, vPos ) )
+				return button ;
 			}
 				
-		button <<= 1;
-	}
+		button <<= 1 ;
+	}	
 
-	return 0;
-}
+	return 0 ;
+	}
 
 
 
@@ -650,12 +658,11 @@ static TQ3Int32 e3viewer_popupMenu (TQ3Area* r, TQ3Int32 menuID, TQ3Int32 *outMe
 //-----------------------------------------------------------------------------
 static TQ3Status e3viewer_readFile(TQ3ViewerObject theViewer, TQ3StorageObject store)
 {
-	TQ3ViewerData		*viewerData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
-	TQ3Status status;
+	TQ3ViewerData* viewerData = instance_data ( theViewer ) ;
 	TQ3FileObject theFile = Q3File_New ();
 	if (!theFile) return kQ3Failure;
 
-	status = Q3File_SetStorage (theFile, store);
+	TQ3Status status = Q3File_SetStorage (theFile, store);
 	if (status == kQ3Success)
 		{
 		TQ3FileMode mode = kQ3FileModeNormal;
@@ -744,7 +751,7 @@ static TQ3Status e3viewer_readFile(TQ3ViewerObject theViewer, TQ3StorageObject s
 //-----------------------------------------------------------------------------
 static TQ3Status e3viewer_Write(TQ3ViewerObject theViewer, TQ3StorageObject storage)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3ViewObject		view = instanceData->mView;
 	TQ3Status 			status = kQ3Failure;
 	TQ3ViewStatus		viewStatus;
@@ -826,7 +833,7 @@ static TQ3Status e3viewer_askBackgroundColor(TQ3ColorARGB *inOutColor)
 //			positions, such as Home, Front View, etc.
 //-----------------------------------------------------------------------------
 static void e3viewer_applyCameraPreset(TQ3ViewerObject theViewer, TQ3Uns32 thePreset)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+{	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3CameraData		cameraData;
 	TQ3CameraObject		camera = NULL;
 
@@ -978,7 +985,7 @@ static TQ3Status e3viewer_getRendererName(TQ3ObjectType renderer,
 //			user's selection.
 //-----------------------------------------------------------------------------
 static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+{	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3ViewObject		view = instanceData->mView;
 	TQ3Int32			selection = 0;
 	TQ3Int32			selectedMenu = 0;
@@ -1224,7 +1231,7 @@ static void e3viewer_pressButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 //-----------------------------------------------------------------------------
 static void e3viewer_windowToWorld(TQ3ViewerObject theViewer, 
 		TQ3Int32 hPos, TQ3Int32 vPos, TQ3Point3D *out)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+{	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 
 	Q3_ASSERT_VALID_PTR(out);				// out must not be null
 	
@@ -1247,7 +1254,7 @@ static void e3viewer_windowToWorld(TQ3ViewerObject theViewer,
 //-----------------------------------------------------------------------------
 static void e3viewer_windowToObject(TQ3ViewerObject theViewer, 
 		TQ3Int32 hPos, TQ3Int32 vPos, TQ3Point3D *out)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+{	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 
 	Q3_ASSERT_VALID_PTR(out);				// out must not be null
 	
@@ -1272,7 +1279,7 @@ static void e3viewer_windowToObject(TQ3ViewerObject theViewer,
 static void e3viewer_applyTruck(TQ3ViewerObject theViewer,
 			TQ3Int32 oldY, TQ3Int32 newY)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3CameraData		cameraData;
 	TQ3CameraObject		camera = NULL;
 	float				zoom;
@@ -1316,7 +1323,7 @@ static void e3viewer_applyTruck(TQ3ViewerObject theViewer,
 static void e3viewer_applyDolly(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 			TQ3Int32 oldY, TQ3Int32 newX, TQ3Int32 newY)
 {
-	TQ3ViewerData	*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData	*instanceData = instance_data ( theViewer ) ;
 
 	// We need to know out how many units in 3D space (at the XY plane
 	// centered on the object) correspond to the given pixel deltas.
@@ -1341,7 +1348,7 @@ static void e3viewer_applyDolly(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 static void e3viewer_applyOrbit(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 			TQ3Int32 oldY, TQ3Int32 newX, TQ3Int32 newY)
 {
-	TQ3ViewerData	*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData	*instanceData = instance_data ( theViewer ) ;
 	TQ3Ray3D		ray;
 	TQ3Vector3D		oldPos = {0.0f}, newPos = {0.0f};
 	TQ3Boolean		good;
@@ -1406,7 +1413,7 @@ static void e3viewer_applyOrbit(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 static void e3viewer_applyRoll(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 			TQ3Int32 oldY, TQ3Int32 newX, TQ3Int32 newY)
 {
-	TQ3ViewerData	*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData	*instanceData = instance_data ( theViewer ) ;
 	TQ3Point3D		oldPos, newPos;
 	float			oldAngle, newAngle;
 	TQ3Quaternion	q;
@@ -1559,7 +1566,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 //-----------------------------------------------------------------------------
 static void e3viewer_groupChanged(TQ3ViewerObject theViewer)
 {
-	TQ3ViewerData	*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData	*instanceData = instance_data ( theViewer ) ;
 	TQ3DisplayGroupObject group;
 	TQ3Status		status;
 	TQ3BoundingBox	bbox;
@@ -1760,11 +1767,11 @@ E3Viewer_RegisterClass(void)
 
 
 	// Register the viewer class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeViewer,
 											kQ3ClassNameViewer,
 											e3viewer_metahandler,
-											sizeof(TQ3ViewerData));
+											~sizeof(E3Viewer));
 
 	return(qd3dStatus);
 }
@@ -1783,7 +1790,7 @@ E3Viewer_UnregisterClass(void)
 
 
 	// Unregister the viewer class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3CameraTypeViewAngleAspect, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3CameraTypeViewAngleAspect, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -1877,7 +1884,7 @@ E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 
 
 	// Create the viewer
-	theViewer = E3ClassTree_CreateInstance(kQ3ObjectTypeViewer, kQ3False, &paramData);
+	theViewer = E3ClassTree::CreateInstance(kQ3ObjectTypeViewer, kQ3False, &paramData);
 
 
 
@@ -2010,7 +2017,7 @@ E3Viewer_UseData(TQ3ViewerObject theViewer, const void *data, TQ3Uns32 dataSize)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_UseGroup(TQ3ViewerObject theViewer, TQ3GroupObject theGroup)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+{	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 
 
 
@@ -2032,7 +2039,7 @@ E3Viewer_UseGroup(TQ3ViewerObject theViewer, TQ3GroupObject theGroup)
 //-----------------------------------------------------------------------------
 TQ3GroupObject
 E3Viewer_GetGroup(TQ3ViewerObject theViewer)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+{	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3GroupObject		theGroup;
 
 
@@ -2087,7 +2094,7 @@ E3Viewer_WriteFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 TQ3Status
 E3Viewer_WriteData(TQ3ViewerObject theViewer, void **theData, TQ3Uns32 *dataSize)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3StorageObject 	storage = NULL;
 	TQ3Status 			status = kQ3Failure;
 
@@ -2118,7 +2125,7 @@ E3Viewer_WriteData(TQ3ViewerObject theViewer, void **theData, TQ3Uns32 *dataSize
 TQ3Status
 E3Viewer_Draw(TQ3ViewerObject theViewer)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3Status			status = kQ3Success;
 	TQ3Area				rect;
 	
@@ -2153,7 +2160,7 @@ E3Viewer_Draw(TQ3ViewerObject theViewer)
 TQ3Status
 E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3Uns32			i;
 	TQ3ViewObject		view = instanceData->mView;
 	TQ3Status			status;
@@ -2222,7 +2229,7 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 TQ3Status
 E3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3Uns32			i, button;
 	TQ3Status			status;
 	TQ3Area				rect;
@@ -2275,7 +2282,7 @@ E3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 TQ3Status
 E3Viewer_GetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 theButton, TQ3Area *theRect)
 {
-	TQ3ViewerData	*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData	*instanceData = instance_data ( theViewer ) ;
 	float			buttonX = -1.0f;
 	float			width = 0.0f;
 	TQ3Uns32		flags = instanceData->mFlags;
@@ -2358,7 +2365,7 @@ E3Viewer_GetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 theButton, TQ3Area *t
 TQ3Uns32
 E3Viewer_GetCurrentButton(TQ3ViewerObject theViewer)
 {
-	TQ3ViewerData	*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData	*instanceData = instance_data ( theViewer ) ;
 	
 	return instanceData->mCurrentMode;
 }
@@ -2373,7 +2380,7 @@ E3Viewer_GetCurrentButton(TQ3ViewerObject theViewer)
 TQ3Status
 E3Viewer_SetCurrentButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 {
-	TQ3ViewerData	*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData	*instanceData = instance_data ( theViewer ) ;
 	
 	if (instanceData->mFlags & theButton)
 		{
@@ -2395,7 +2402,7 @@ E3Viewer_SetCurrentButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Viewer_GetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *color)
+E3Viewer_GetBackgroundColor ( TQ3ViewerObject theViewer, TQ3ColorARGB *color )
 {
 	TQ3Status status= kQ3Failure;
 	if (color == NULL)
@@ -2454,7 +2461,7 @@ E3Viewer_SetBackgroundColor(TQ3ViewerObject theViewer, const TQ3ColorARGB *color
 //-----------------------------------------------------------------------------
 TQ3ViewObject
 E3Viewer_GetView(TQ3ViewerObject theViewer)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+{	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3ViewObject		theView;
 	
 
@@ -2515,7 +2522,7 @@ E3Viewer_GetFlags(TQ3ViewerObject theViewer)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
-{	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+{	TQ3ViewerData			*instanceData  = instance_data ( theViewer ) ;
 	TQ3Uns32 oldFlags;
 
 	CheckViewerFailure (theViewer);
@@ -2556,7 +2563,7 @@ E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
 TQ3Status
 E3Viewer_GetBounds(TQ3ViewerObject theViewer, TQ3Area *theRect)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 
 	if (theRect) *theRect = instanceData->mArea;
 	
@@ -2573,7 +2580,7 @@ E3Viewer_GetBounds(TQ3ViewerObject theViewer, TQ3Area *theRect)
 TQ3Status
 E3Viewer_SetBounds(TQ3ViewerObject theViewer, const TQ3Area *theRect)
 {
-	TQ3ViewerData			*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData			*instanceData = instance_data ( theViewer ) ;
 	TQ3DrawContextObject	context;
 	TQ3Status				status;
 	TQ3Area					contentArea;
@@ -2624,7 +2631,7 @@ E3Viewer_SetBounds(TQ3ViewerObject theViewer, const TQ3Area *theRect)
 TQ3Status
 E3Viewer_GetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *theWidth, TQ3Uns32 *theHeight)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 
 	if (theWidth) *theWidth = instanceData->mArea.max.x - instanceData->mArea.min.x;
 	if (theHeight) *theHeight = instanceData->mArea.max.y - instanceData->mArea.min.y;
@@ -2642,7 +2649,7 @@ E3Viewer_GetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *theWidth, TQ3Uns32 *t
 TQ3Status
 E3Viewer_SetDimension(TQ3ViewerObject theViewer, TQ3Uns32 theWidth, TQ3Uns32 theHeight)
 {
-	TQ3ViewerData			*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData			*instanceData = instance_data ( theViewer ) ;
 	TQ3Area					area;
 
 	area = instanceData->mArea;
@@ -2970,13 +2977,12 @@ E3Viewer_SetCameraByView(TQ3ViewerObject theViewer, TQ3ViewerCameraView viewType
 TQ3Boolean
 E3Viewer_EventMouseDown(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
-	TQ3Uns32			button;
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3Area				rect;
 	TQ3Point3D			objPos;
 			
 	// Was the click in a button?
-	button = e3viewer_buttonAtPoint(theViewer, hPos, vPos);
+	TQ3Uns32 button = e3viewer_buttonAtPoint( (E3Viewer*) theViewer, hPos, vPos);
 	if (button)
 		{
 		// There are two cases when a button is pressed.  If it's a button
@@ -3036,7 +3042,7 @@ E3Viewer_EventMouseDown(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 TQ3Boolean
 E3Viewer_EventMouseTrack(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3Area				rect;
 	
 	if (kTrackButtonDown == instanceData->mTrackingMode)
@@ -3106,7 +3112,7 @@ E3Viewer_EventMouseTrack(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos
 TQ3Boolean
 E3Viewer_EventMouseUp(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 
 	if (kTrackButtonDown == instanceData->mTrackingMode)
 		{
@@ -3163,7 +3169,7 @@ E3Viewer_EventKeyboard(TQ3ViewerObject theViewer, const void *theEvent)
 TQ3Status
 E3Viewer_GetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType *rendererType)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3RendererObject	renderer = 0L;
 
 	TQ3Status status = Q3View_GetRenderer(instanceData->mView, &renderer);
@@ -3188,7 +3194,7 @@ E3Viewer_GetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType *rendererType)
 TQ3Status
 E3Viewer_SetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType rendererType)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3Status			status;
 
 	TQ3RendererObject	renderer = Q3Renderer_NewFromType( rendererType );
@@ -3218,7 +3224,7 @@ E3Viewer_SetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType rendererType)
 TQ3Status
 E3Viewer_GetBrightness(TQ3ViewerObject theViewer, float *theBrightness)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3ViewObject		view = instanceData->mView;
 	TQ3GroupObject		lights = 0;
 	TQ3GroupPosition	pos;
@@ -3254,7 +3260,7 @@ E3Viewer_GetBrightness(TQ3ViewerObject theViewer, float *theBrightness)
 TQ3Status
 E3Viewer_SetBrightness(TQ3ViewerObject theViewer, float theBrightness)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3ViewObject		view = instanceData->mView;
 	TQ3GroupObject		lights = 0;
 	TQ3GroupPosition	pos;
@@ -3288,7 +3294,7 @@ E3Viewer_SetBrightness(TQ3ViewerObject theViewer, float theBrightness)
 TQ3Status
 E3Viewer_GetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean *removeBackfaces)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 
 	if (kQ3BackfacingStyleRemove == instanceData->mStyleBackfacing)
 		*removeBackfaces = kQ3True;
@@ -3313,7 +3319,7 @@ E3Viewer_GetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean *removeBackfac
 TQ3Status
 E3Viewer_SetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean removeBackfaces)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 
 	if (removeBackfaces)
 		instanceData->mStyleBackfacing = kQ3BackfacingStyleRemove;
@@ -3333,7 +3339,7 @@ E3Viewer_SetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean removeBackface
 TQ3Status
 E3Viewer_GetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phongShading)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 
 	*phongShading = (instanceData->mShader == sPhongShader ? kQ3True : kQ3False);
 	
@@ -3351,7 +3357,7 @@ E3Viewer_GetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phongShading)
 TQ3Status
 E3Viewer_SetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean phongShading)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) E3ClassTree_FindInstanceData(theViewer, kQ3ObjectTypeViewer);
+	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3ShaderObject		desiredShader = (phongShading ? sPhongShader : sLambertShader);
 
 	if (desiredShader)
