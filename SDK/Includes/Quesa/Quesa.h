@@ -1718,7 +1718,7 @@ Q3Shared_Edited (
  *  @discussion
  *      Get the type of a shape object.
  *
- *      Retursn kQ3ObjectTypeInvalid if the object is not a shape object or
+ *      Returns kQ3ObjectTypeInvalid if the object is not a shape object or
  *      the type can not be determined. Returns a kQ3ShapeTypeXXXX value
  *      for shape objects.
  *
