@@ -108,7 +108,457 @@
 //		In conclusion, Gaussian elimination and Gauss-Jordon elimination are
 //		preferable to the explicit formulas for finding the determinant and
 //		inverse, respectively, of an NxN matrix, even for N as small as 3 or 4.
+//
+//
+//		Originally, Quesa used e3matrix_determinant and e3matrix_invert to
+//		calculate determinants and inverses. These have now been replaced with
+//		specific 3x3 and 4x4 implementations, but the original implementations
+//		are preserved in case we need a generic NxN approach in the future.
 //-----------------------------------------------------------------------------
+
+
+
+
+
+//=============================================================================
+//          e3matrix3_determinant : Returns the determinant of the given 3x3 matrix.
+//-----------------------------------------------------------------------------
+//      Note :  The algorithm modifies the input matrix a.
+//
+//              This function uses Gaussian elimination with full pivoting to
+//              reduce the matrix to upper triangular form. Then the determinant
+//              is merely (plus or minus) the product of the diagonal elements.
+//
+//              Although the reduction would create 1's along the diagonal and
+//              0's below the diagonal, these elements are not calculated because
+//              they are not needed.
+//
+//              See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
+//-----------------------------------------------------------------------------
+static float
+e3matrix3_determinant(TQ3Matrix3x3* a)
+{
+    #define A(x,y) a->value[x][y]
+    
+    TQ3Int32 iSign, iPivot, jPivot;
+    TQ3Int32 i, j, k;
+    float determinant, big, element;
+    
+    // iSign is +1 or -1, depending on the number of row or column exchanges
+    iSign = 1;
+    
+    // Loop over 3 pivots
+    for (k = 0; k < 3; ++k)
+    {
+        // Search unpivoted part of matrix for largest element to pivot on
+        big = -1.0f;
+        for (i = k; i < 3; ++i)
+        {
+            for (j = k; j < 3; ++j)
+            {
+                // Calculate absolute value of current element
+                element = A(i,j);
+                if (element < 0.0f)
+                    element = -element;
+                
+                // Compare current element to largest element so far
+                if (element > big)
+                {
+                    big = element;
+                    iPivot = i;
+                    jPivot = j;
+                }
+            }
+        }
+        
+        // If largest element is 0, the matrix is singular
+        if (big == 0.0f)
+            return(0.0f);
+        
+        // If necessary, put pivot element on diagonal at (k,k)
+        if (iPivot != k)
+        {
+            // Exchange rows
+            iSign = -iSign;
+            for (j = k; j < 3; ++j)
+                E3Float_Swap(A(iPivot,j), A(k,j));
+        }
+        if (jPivot != k)
+        {
+            // Exchange columns
+            iSign = -iSign;
+            for (i = k; i < 3; ++i)
+                E3Float_Swap(A(i,jPivot), A(i,k));
+        }
+        
+        // Divide pivot row (to the right of the pivot column) by pivot element
+        //
+        // Note: If we were dividing by the same element many times, it would
+        // make sense to multiply by its inverse. Since we divide by a given
+        // element at most 2 (3) times for a 3x3 (4x4) matrix -- and often
+        // less -- it doesn't make sense to pay for the extra floating-point
+        // operation.
+        element = A(k,k);
+        for (j = k+1; j < 3; ++j)
+            A(k,j) /= element;
+
+        // Reduce rows below pivot row (and to the right of the pivot column)       
+        for (i = k+1; i < 3; ++i)
+        {
+            element = A(i,k);
+            for (j = k+1; j < 3; ++j)
+                A(i,j) -= A(k,j)*element;
+        }
+    }
+    
+    // Now that the matrix is upper triangular, calculate the determinant as
+    // the product of the diagonal elements
+    determinant = A(0,0);
+    for (k = 1; k < 3; ++k)
+        determinant *= A(k,k);
+    if (iSign < 0)
+        determinant = -determinant;
+        
+    return(determinant);
+    
+    #undef A
+}
+
+
+
+
+
+//=============================================================================
+//          e3matrix3_invert : Transforms the given 3x3 matrix into its inverse.
+//-----------------------------------------------------------------------------
+//      Note :  This function uses Gauss-Jordon elimination with full pivoting
+//              to transform the given matrix to the identity matrix while
+//              transforming the identity matrix to the inverse. As the given
+//              matrix is reduced to 1's and 0's column-by-column, the inverse
+//              matrix is created in its place column-by-column.
+//
+//              See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
+//-----------------------------------------------------------------------------
+static void
+e3matrix3_invert(TQ3Matrix3x3* a)
+{
+    #define A(x,y) a->value[x][y]
+    
+    TQ3Int32 irow, icol;
+    TQ3Int32 i, j, k;       // *** WARNING: 'k' must be a SIGNED integer ***
+    float big, element;
+    TQ3Int32 ipiv[3], indxr[3], indxc[3];
+
+    // Initialize ipiv: ipiv[j] is 0 (1) if row/column j has not (has) been pivoted
+    for (j = 0; j < 3; ++j)
+        ipiv[j] = 0;
+
+    // Loop over 3 pivots
+    for (k = 0; k < 3; ++k)
+    {
+        // Search unpivoted part of matrix for largest element to pivot on
+        big = -1.0f;
+        for (i = 0; i < 3; ++i)
+        {
+            if (ipiv[i])
+                continue;
+                
+            for (j = 0; j < 3; ++j)
+            {
+                if (ipiv[j])
+                    continue;
+                    
+                // Calculate absolute value of current element
+                element = A(i,j);
+                if (element < 0.0f)
+                    element = -element;
+                
+                // Compare current element to largest element so far
+                if (element > big)
+                {
+                    big = element;
+                    irow = i;
+                    icol = j;
+                }
+            }
+        }
+        
+        // If largest element is 0, the matrix is singular
+        if (big == 0.0f)
+        {
+            E3ErrorManager_PostError(kQ3ErrorNonInvertibleMatrix, kQ3False);
+            return;
+        }
+            
+        // Mark pivot row and column
+        ++ipiv[icol];
+        indxr[k] = irow;
+        indxc[k] = icol;
+        
+        // If necessary, exchange rows to put pivot element on diagonal
+        if (irow != icol)
+        {
+            for (j = 0; j < 3; ++j)
+                E3Float_Swap(A(irow,j), A(icol,j));
+        }
+
+        // Divide pivot row by pivot element
+        //
+        // Note: If we were dividing by the same element many times, it would
+        // make sense to multiply by its inverse. Since we divide by a given
+        // elemen only 3 (4) times for a 3x3 (4x4) matrix, it doesn't make sense
+        // to pay for the extra floating-point operation.
+        element = A(icol,icol);
+        A(icol,icol) = 1.0f;    // overwrite original matrix with inverse
+        for (j = 0; j < 3; ++j)
+            A(icol,j) /= element;
+
+        // Reduce other rows
+        for (i = 0; i < 3; ++i)
+        {
+            if (i == icol)
+                continue;
+
+            element = A(i,icol);
+            A(i,icol) = 0.0f; // overwrite original matrix with inverse
+            for (j = 0; j < 3; ++j)
+                A(i,j) -= A(icol,j)*element;
+        }
+    }
+    
+    // Permute columns
+    for (k = 3; --k >= 0; )     // *** WARNING: 'k' must be a SIGNED integer ***
+    {
+        if (indxr[k] != indxc[k])
+        {
+            for (i = 0; i < 3; ++i)
+                E3Float_Swap(A(i,indxr[k]), A(i,indxc[k]));
+        }
+    }
+    
+    #undef A
+}
+
+
+
+
+
+//=============================================================================
+//          e3matrix4_determinant : Returns the determinant of the given 4x4 matrix.
+//-----------------------------------------------------------------------------
+//      Note :  This function uses Gaussian elimination with full pivoting to
+//              reduce the matrix to upper triangular form. Then the determinant
+//              is merely (plus or minus) the product of the diagonal elements.
+//
+//              Although the reduction would create 1's along the diagonal and
+//              0's below the diagonal, these elements are not calculated because
+//              they are not needed.
+//
+//              See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
+//-----------------------------------------------------------------------------
+static float
+e3matrix4_determinant(TQ3Matrix4x4* a)
+{
+    #define A(x,y) a->value[x][y]
+    
+    TQ3Int32 iSign, iPivot, jPivot;
+    TQ3Int32 i, j, k;
+    float determinant, big, element;
+    
+    // iSign is +1 or -1, depending on the number of row or column exchanges
+    iSign = 1;
+    
+    // Loop over 4 pivots
+    for (k = 0; k < 4; ++k)
+    {
+        // Search unpivoted part of matrix for largest element to pivot on
+        big = -1.0f;
+        for (i = k; i < 4; ++i)
+        {
+            for (j = k; j < 4; ++j)
+            {
+                // Calculate absolute value of current element
+                element = A(i,j);
+                if (element < 0.0f)
+                    element = -element;
+                
+                // Compare current element to largest element so far
+                if (element > big)
+                {
+                    big = element;
+                    iPivot = i;
+                    jPivot = j;
+                }
+            }
+        }
+        
+        // If largest element is 0, the matrix is singular
+        if (big == 0.0f)
+            return(0.0f);
+        
+        // If necessary, put pivot element on diagonal at (k,k)
+        if (iPivot != k)
+        {
+            // Exchange rows
+            iSign = -iSign;
+            for (j = k; j < 4; ++j)
+                E3Float_Swap(A(iPivot,j), A(k,j));
+        }
+        if (jPivot != k)
+        {
+            // Exchange columns
+            iSign = -iSign;
+            for (i = k; i < 4; ++i)
+                E3Float_Swap(A(i,jPivot), A(i,k));
+        }
+        
+        // Divide pivot row (to the right of the pivot column) by pivot element
+        //
+        // Note: If we were dividing by the same element many times, it would
+        // make sense to multiply by its inverse. Since we divide by a given
+        // element at most 2 (3) times for a 3x3 (4x4) matrix -- and often
+        // less -- it doesn't make sense to pay for the extra floating-point
+        // operation.
+        element = A(k,k);
+        for (j = k+1; j < 4; ++j)
+            A(k,j) /= element;
+
+        // Reduce rows below pivot row (and to the right of the pivot column)       
+        for (i = k+1; i < 4; ++i)
+        {
+            element = A(i,k);
+            for (j = k+1; j < 4; ++j)
+                A(i,j) -= A(k,j)*element;
+        }
+    }
+    
+    // Now that the matrix is upper triangular, calculate the determinant as
+    // the product of the diagonal elements
+    determinant = A(0,0);
+    for (k = 1; k < 4; ++k)
+        determinant *= A(k,k);
+    if (iSign < 0)
+        determinant = -determinant;
+        
+    return(determinant);
+    
+    #undef A
+}
+
+
+
+
+
+//=============================================================================
+//          e3matrix4_invert : Transforms the given 4x4 matrix into its inverse.
+//-----------------------------------------------------------------------------
+//      Note :  This function uses Gauss-Jordon elimination with full pivoting
+//              to transform the given matrix to the identity matrix while
+//              transforming the identity matrix to the inverse. As the given
+//              matrix is reduced to 1's and 0's column-by-column, the inverse
+//              matrix is created in its place column-by-column.
+//
+//              See Press, et al., "Numerical Recipes in C", 2nd ed., pp. 32 ff.
+//-----------------------------------------------------------------------------
+static void
+e3matrix4_invert(TQ3Matrix4x4* a)
+{
+    #define A(x,y) a->value[x][y]
+    
+    TQ3Int32 irow, icol;
+    TQ3Int32 i, j, k;       // *** WARNING: 'k' must be a SIGNED integer ***
+    float big, element;
+    TQ3Int32 ipiv[4], indxr[4], indxc[4];
+
+    // Initialize ipiv: ipiv[j] is 0 (1) if row/column j has not (has) been pivoted
+    for (j = 0; j < 4; ++j)
+        ipiv[j] = 0;
+
+    // Loop over 4 pivots
+    for (k = 0; k < 4; ++k)
+    {
+        // Search unpivoted part of matrix for largest element to pivot on
+        big = -1.0f;
+        for (i = 0; i < 4; ++i)
+        {
+            if (ipiv[i])
+                continue;
+                
+            for (j = 0; j < 4; ++j)
+            {
+                if (ipiv[j])
+                    continue;
+                    
+                // Calculate absolute value of current element
+                element = A(i,j);
+                if (element < 0.0f)
+                    element = -element;
+                
+                // Compare current element to largest element so far
+                if (element > big)
+                {
+                    big = element;
+                    irow = i;
+                    icol = j;
+                }
+            }
+        }
+        
+        // If largest element is 0, the matrix is singular
+        if (big == 0.0f)
+        {
+            E3ErrorManager_PostError(kQ3ErrorNonInvertibleMatrix, kQ3False);
+            return;
+        }
+            
+        // Mark pivot row and column
+        ++ipiv[icol];
+        indxr[k] = irow;
+        indxc[k] = icol;
+        
+        // If necessary, exchange rows to put pivot element on diagonal
+        if (irow != icol)
+        {
+            for (j = 0; j < 4; ++j)
+                E3Float_Swap(A(irow,j), A(icol,j));
+        }
+
+        // Divide pivot row by pivot element
+        //
+        // Note: If we were dividing by the same element many times, it would
+        // make sense to multiply by its inverse. Since we divide by a given
+        // elemen only 3 (4) times for a 3x3 (4x4) matrix, it doesn't make sense
+        // to pay for the extra floating-point operation.
+        element = A(icol,icol);
+        A(icol,icol) = 1.0f;    // overwrite original matrix with inverse
+        for (j = 0; j < 4; ++j)
+            A(icol,j) /= element;
+
+        // Reduce other rows
+        for (i = 0; i < 4; ++i)
+        {
+            if (i == icol)
+                continue;
+
+            element = A(i,icol);
+            A(i,icol) = 0.0f; // overwrite original matrix with inverse
+            for (j = 0; j < 4; ++j)
+                A(i,j) -= A(icol,j)*element;
+        }
+    }
+    
+    // Permute columns
+    for (k = 4; --k >= 0; )     // *** WARNING: 'k' must be a SIGNED integer ***
+    {
+        if (indxr[k] != indxc[k])
+        {
+            for (i = 0; i < 4; ++i)
+                E3Float_Swap(A(i,indxr[k]), A(i,indxc[k]));
+        }
+    }
+    
+    #undef A
+}
 
 
 
@@ -873,22 +1323,25 @@ E3Point2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2,
 //		Note : 'result' may be the same as 'v1' and/or 'v2'.
 //-----------------------------------------------------------------------------
 TQ3Vector3D *
-E3Vector3D_Cross(const TQ3Vector3D *v1, const TQ3Vector3D *v2,
-	TQ3Vector3D *result)
-{
-	// If result is alias of input, output to temporary
-	TQ3Vector3D temp;
-	TQ3Vector3D* output = (result == v1 || result == v2 ? &temp : result);
-	
-	// Calculate the cross product of v1 and v2
-	output->x = v1->y*v2->z - v1->z*v2->y;
-	output->y = v1->z*v2->x - v1->x*v2->z;
-	output->z = v1->x*v2->y - v1->y*v2->x;
-	
-	if (output == &temp)
-		*result = temp;
+E3Vector3D_Cross(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result)
+{	TQ3Vector3D temp;
 
-	return(result);
+
+    if ((result == v1) || (result == v2)) {
+        // Result is one of our inputs:
+        temp.x = v1->y*v2->z - v1->z*v2->y;
+        temp.y = v1->z*v2->x - v1->x*v2->z;
+        temp.z = v1->x*v2->y - v1->y*v2->x;
+        
+        *result = temp;
+
+    } else {
+        //  Safe to write directly to the result vector:
+        result->x = v1->y*v2->z - v1->z*v2->y;
+        result->y = v1->z*v2->x - v1->x*v2->z;
+        result->z = v1->x*v2->y - v1->y*v2->x;
+    }
+    return(result);
 }
 
 
@@ -2967,18 +3420,9 @@ E3Matrix4x4_Transpose(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 float
 E3Matrix3x3_Determinant(const TQ3Matrix3x3 *matrix3x3)
 {
-	TQ3Int32 i, j;
-	float *a[3];
-	float temp[3][3];
-	
-	for (i = 0; i < 3; ++i)
-	{
-		a[i] = temp[i];
-		for (j = 0; j < 3; ++j)
-			temp[i][j] = matrix3x3->value[i][j];
-	}
-		
-	return(e3matrix_determinant(a, 3));
+    TQ3Matrix3x3        temp = *matrix3x3;
+    
+    return(e3matrix3_determinant(&temp));
 }
 
 
@@ -2991,18 +3435,9 @@ E3Matrix3x3_Determinant(const TQ3Matrix3x3 *matrix3x3)
 float
 E3Matrix4x4_Determinant(const TQ3Matrix4x4 *matrix4x4)
 {
-	TQ3Int32 i, j;
-	float *a[4];
-	float temp[4][4];
-	
-	for (i = 0; i < 4; ++i)
-	{
-		a[i] = temp[i];
-		for (j = 0; j < 4; ++j)
-			temp[i][j] = matrix4x4->value[i][j];
-	}
-		
-	return(e3matrix_determinant(a, 4));
+    TQ3Matrix4x4        temp = *matrix4x4;
+    
+    return(e3matrix4_determinant(&temp));
 }
 
 
@@ -3065,19 +3500,12 @@ E3Matrix3x3_Adjoint(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 TQ3Matrix3x3 *
 E3Matrix3x3_Invert(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 {
-	TQ3Int32 i;
-	TQ3Int32 ipiv[3], indxr[3], indxc[3];
-	float *a[3];
-
-	if (result != matrix3x3)
-		*result = *matrix3x3;
-			
-	for (i = 0; i < 3; ++i)
-		a[i] = result->value[i];
-		
-	e3matrix_invert(a, 3, ipiv, indxr, indxc);
-		
-	return(result);
+    if (result != matrix3x3)
+        *result = *matrix3x3;
+        
+    e3matrix3_invert(result);
+        
+    return(result);
 }
 
 
@@ -3092,19 +3520,12 @@ E3Matrix3x3_Invert(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 TQ3Matrix4x4 *
 E3Matrix4x4_Invert(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 {
-	TQ3Int32 i;
-	TQ3Int32 ipiv[4], indxr[4], indxc[4];
-	float *a[4];
-
-	if (result != matrix4x4)
-		*result = *matrix4x4;
-			
-	for (i = 0; i < 4; ++i)
-		a[i] = result->value[i];
-		
-	e3matrix_invert(a, 4, ipiv, indxr, indxc);
-		
-	return(result);
+    if (result != matrix4x4)
+        *result = *matrix4x4;
+        
+    e3matrix4_invert(result);
+        
+    return(result);
 }
 
 
@@ -3122,9 +3543,6 @@ E3Matrix3x3_Multiply(const TQ3Matrix3x3 *m1, const TQ3Matrix3x3 *m2, TQ3Matrix3x
 	// If result is alias of input, output to temporary
 	TQ3Matrix3x3 temp;
 	TQ3Matrix3x3* output = (result == m1 || result == m2 ? &temp : result);
-	
-	//  * I unrolled the for() loops we were using here to cut any possible overhead
-	//	  in the matrix multiplication.  -JTF 08/08/1999
 	
 	#define A(x,y)	m1->value[x][y]
 	#define B(x,y)	m2->value[x][y]
@@ -3167,9 +3585,6 @@ E3Matrix4x4_Multiply(const TQ3Matrix4x4 *m1, const TQ3Matrix4x4 *m2, TQ3Matrix4x
 	// If result is alias of input, output to temporary
 	TQ3Matrix4x4 temp;
 	TQ3Matrix4x4* output = (result == m1 || result == m2 ? &temp : result);
-	
-	//  * I unrolled the for() loops we were using here to cut any possible overhead
-	//	  in the matrix multiplication.  -JTF 08/08/1999
 	
 	#define A(x,y)	m1->value[x][y]
 	#define B(x,y)	m2->value[x][y]
