@@ -421,15 +421,23 @@ static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect
 	// For now, let's do a Mac-only hack.
 	#if QUESA_OS_MACINTOSH
 		Rect r;
+		ThemeBrush theme;
+		
 		E3Area_ToRect(stripRect, &r);
 		SetPort((CGrafPtr)data->mWindow);
 
 		// Let's use the Appearance Manager to draw a proper themed background.
-		// Should look right in both OS9 and OS X.  Note that we really should
-		// vary this depending on whether the window is active -- but I'm not
-		// sure how to tell that.  Maybe we can get the window from the port,
-		// and use some system call to check whether that window is active?
-		SetThemeBackground(kThemeTextColorModelessDialogActive, 32, true);
+		// Should look right in both OS9 and OS X.
+		theme = kThemeTextColorModelessDialogActive;
+		#if TARGET_API_MAC_CARBON
+			// Under Carbon, we can adjust for inactive windows as follows.
+			if ((UInt32)kUnresolvedCFragSymbolAddress != (UInt32)IsWindowActive
+			  && !IsWindowActive(GetWindowFromPort((CGrafPtr)data->mWindow)))
+				{
+			  	theme = kThemeTextColorModelessDialogInactive;
+			  	}
+		#endif
+		SetThemeBackground(theme, 32, true);
 		EraseRect(&r);				// Opportunity For Improvement: make a region that excludes the buttons!
 
 		// Older code, that just draws a solid color.
