@@ -1422,20 +1422,26 @@ E3Triangle_CrossProductArray(TQ3Uns32			numTriangles,
 	if (usageFlags == NULL)
 		{
 		for (n = 0, m = 0; n < numTriangles; n++, m += 3)
+			{
 			Q3Point3D_CrossProductTri(&thePoints[theIndices[m + 0]],
 									  &thePoints[theIndices[m + 1]],
 									  &thePoints[theIndices[m + 2]],
 									  &theNormals[n]);
+			Q3Vector3D_Normalize(&theNormals[n], &theNormals[n]);
+			}
 		}
 	else
 		{
 		for (n = 0, m = 0; n < numTriangles; n++, m += 3)
 			{
 			if (!usageFlags[n])
+				{
 				Q3Point3D_CrossProductTri(&thePoints[theIndices[m + 0]],
 										  &thePoints[theIndices[m + 1]],
 										  &thePoints[theIndices[m + 2]],
 										  &theNormals[n]);
+				Q3Vector3D_Normalize(&theNormals[n], &theNormals[n]);
+				}
 			}
 		}
 	
