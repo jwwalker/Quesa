@@ -197,12 +197,33 @@ typedef struct TQ3DrawContextUnionData {
 
 
 
+class E3DrawContextInfo : public E3SharedInfo
+	{
+	TQ3XDrawContextUpdateMethod			updateMethod ;
+	TQ3XDrawContextGetDimensionsMethod	getDimensionsMethod ;
+	
+public :
+
+									E3DrawContextInfo	(
+													TQ3XMetaHandler	newClassMetaHandler,
+													E3ClassInfo*	newParent
+					 								) ; // constructor	
+	friend class E3DrawContext ;
+	} ;
+
+
+
+
 class E3DrawContext : public E3Shared 
 	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeDrawContext, E3DrawContext, E3Shared )
 
 	// There is no extra data for this class
 public :
 
+	TQ3Status				Update ( void ) ;
+
+	TQ3Status				GetPane ( TQ3Area* pane ) ;
 	} ;
 	
 
@@ -215,7 +236,7 @@ TQ3Status				E3DrawContext_RegisterClass(void);
 TQ3Status				E3DrawContext_UnregisterClass(void);
 void					E3DrawContext_InitaliseData(TQ3DrawContextData *drawContextData);
 TQ3DrawContextObject	E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget);
-TQ3Status				E3DrawContext_Update(TQ3DrawContextObject drawContext);
+//TQ3Status				E3DrawContext_Update(TQ3DrawContextObject drawContext);
 void					E3DrawContext_ResetState(TQ3DrawContextObject drawContext);
 TQ3Status				E3DrawContext_CreateRegions(TQ3DrawContextObject drawContext, TQ3Uns32 numRegions);
 TQ3XDevicePixelType		E3DrawContext_GetDevicePixelTypeFromBPP(TQ3Uns32 pixelSize);
@@ -227,7 +248,7 @@ TQ3Status				E3DrawContext_GetData(TQ3DrawContextObject drawContext, TQ3DrawCont
 TQ3Status				E3DrawContext_SetClearImageColor(TQ3DrawContextObject drawContext, const TQ3ColorARGB *color);
 TQ3Status				E3DrawContext_GetClearImageColor(TQ3DrawContextObject drawContext, TQ3ColorARGB *color);
 TQ3Status				E3DrawContext_SetPane(TQ3DrawContextObject drawContext, const TQ3Area *pane);
-TQ3Status				E3DrawContext_GetPane(TQ3DrawContextObject drawContext, TQ3Area *pane);
+//TQ3Status				E3DrawContext_GetPane(TQ3DrawContextObject drawContext, TQ3Area *pane);
 TQ3Status				E3DrawContext_SetPaneState(TQ3DrawContextObject drawContext, TQ3Boolean state);
 TQ3Status				E3DrawContext_GetPaneState(TQ3DrawContextObject drawContext, TQ3Boolean *state);
 TQ3Status				E3DrawContext_SetClearImageMethod(TQ3DrawContextObject drawContext, TQ3DrawContextClearImageMethod method);

@@ -336,7 +336,7 @@ Q3DrawContext_GetPane(TQ3DrawContextObject context, TQ3Area *pane)
 
 
 	// Call our implementation
-	return(E3DrawContext_GetPane(context, pane));
+	return ( (E3DrawContext*) context )->GetPane ( pane ) ;
 }
 
 

@@ -3507,7 +3507,7 @@ E3View_StartRendering(TQ3ViewObject theView)
 	// If this is the first pass then update the draw context and start the frame
 	if ( ( (E3View*) theView )->instanceData.viewPass == 1 && qd3dStatus != kQ3Failure )
 		{
-		qd3dStatus = E3DrawContext_Update ( ( (E3View*) theView )->instanceData.theDrawContext ) ;
+		qd3dStatus = ( (E3DrawContext*) ( (E3View*) theView )->instanceData.theDrawContext )->Update () ;
 
 		if ( qd3dStatus != kQ3Failure )
 			qd3dStatus = E3Renderer_Method_StartFrame ( theView, ( (E3View*) theView )->instanceData.theDrawContext ) ;
