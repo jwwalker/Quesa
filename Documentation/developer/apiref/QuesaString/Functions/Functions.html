@@ -1,153 +1,160 @@
 <html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
 <a name="//apple_ref/c/func/Q3CString_EmptyData"></a>
 <h3><a name="Q3CString_EmptyData">Q3CString_EmptyData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CString_EmptyData (
     char                          **str
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Releases the memory allocated by a previous call to
+Q3CString_GetString.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+After the string data has been freed, the str parameter
+will be reset to NULL.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>str</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>str</tt></td><td>The string data to release.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CString_GetLength"></a>
 <h3><a name="Q3CString_GetLength">Q3CString_GetLength</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CString_GetLength (
     TQ3StringObject               stringObj,
     TQ3Uns32                      *length
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the length of a string object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Returns the number of bytes required to store the character
+data in the string object. The length returned does not
+include the terminating NULL byte.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>stringObj</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>length</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>stringObj</tt></td><td>The object to test.</td></tr>
+<tr valign=top><td><tt>length</tt></td><td>The number of bytes needed for character data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CString_GetString"></a>
 <h3><a name="Q3CString_GetString">Q3CString_GetString</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CString_GetString (
     TQ3StringObject               stringObj,
     char                          **str
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Return the character data of a string object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The data returned must be released with a subsequent call to
+Q3CString_EmptyData. The data returned will be NULL terminated.
+<br><br>
+The str parameter is overwritten, and so must not point to an
+existing string or a memory leak will occur. If the value of
+the str parameter is not NULL, a warning will be posted.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>stringObj</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>str</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>stringObj</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>str</tt></td><td>Receives a pointer to the character data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CString_New"></a>
 <h3><a name="Q3CString_New">Q3CString_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3StringObject  )
+<blockquote><pre><tt>TQ3StringObject  
 Q3CString_New (
     const char                    *str
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Create a new C string object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Creates a string object based on a NULL terminated string. The
+string data is copied, and so str can be disposed of after
+creating the object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>str</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>str</tt></td><td>The C string to copy.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new string object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CString_SetString"></a>
 <h3><a name="Q3CString_SetString">Q3CString_SetString</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3CString_SetString (
     TQ3StringObject               stringObj,
     const char                    *str
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the character data of a string object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Assigns a C string to the string object. The string data is copied
+and so str can be disposed of after this call.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>stringObj</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>str</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>stringObj</tt></td><td>The object to update.</td></tr>
+<tr valign=top><td><tt>str</tt></td><td>The string to assign to the object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3String_GetType"></a>
 <h3><a name="Q3String_GetType">Q3String_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3String_GetType (
     TQ3StringObject               stringObj
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Returns the type of a string object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Returns kQ3StringTypeCString, or kQ3ObjectTypeInvalid if the
+object type is unknown.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>stringObj</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>stringObj</tt></td><td>The object to test.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The top level type of the object.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/13/2001 </a></font></p>
 </body></html>

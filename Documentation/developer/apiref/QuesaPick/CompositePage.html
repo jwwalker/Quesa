@@ -4,7 +4,7 @@ Declares the Quesa pick objects.
  <hr><br><h2>Functions</h2>
 <a name="//apple_ref/c/func/Q3HitPath_EmptyData"></a>
 <h3><a name="Q3HitPath_EmptyData">Q3HitPath_EmptyData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3HitPath_EmptyData (
     TQ3HitPath                    *hitPath
 );
@@ -28,7 +28,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MeshEdgePart_GetEdge"></a>
 <h3><a name="Q3MeshEdgePart_GetEdge">Q3MeshEdgePart_GetEdge</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MeshEdgePart_GetEdge (
     TQ3MeshEdgePartObject         meshEdgePartObject,
     TQ3MeshEdge                   *edge
@@ -54,7 +54,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MeshFacePart_GetFace"></a>
 <h3><a name="Q3MeshFacePart_GetFace">Q3MeshFacePart_GetFace</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MeshFacePart_GetFace (
     TQ3MeshFacePartObject         meshFacePartObject,
     TQ3MeshFace                   *face
@@ -80,7 +80,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MeshPart_GetComponent"></a>
 <h3><a name="Q3MeshPart_GetComponent">Q3MeshPart_GetComponent</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MeshPart_GetComponent (
     TQ3MeshPartObject             meshPartObject,
     TQ3MeshComponent              *component
@@ -106,7 +106,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MeshPart_GetType"></a>
 <h3><a name="Q3MeshPart_GetType">Q3MeshPart_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3MeshPart_GetType (
     TQ3MeshPartObject             meshPartObject
 );
@@ -130,7 +130,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MeshVertexPart_GetVertex"></a>
 <h3><a name="Q3MeshVertexPart_GetVertex">Q3MeshVertexPart_GetVertex</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MeshVertexPart_GetVertex (
     TQ3MeshVertexPartObject       meshVertexPartObject,
     TQ3MeshVertex                 *vertex
@@ -156,7 +156,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_EmptyHitList"></a>
 <h3><a name="Q3Pick_EmptyHitList">Q3Pick_EmptyHitList</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Pick_EmptyHitList (
     TQ3PickObject                 pick
 );
@@ -180,7 +180,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetData"></a>
 <h3><a name="Q3Pick_GetData">Q3Pick_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Pick_GetData (
     TQ3PickObject                 pick,
     TQ3PickData                   *data
@@ -206,7 +206,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetEdgeTolerance"></a>
 <h3><a name="Q3Pick_GetEdgeTolerance">Q3Pick_GetEdgeTolerance</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Pick_GetEdgeTolerance (
     TQ3PickObject                 pick,
     float                         *edgeTolerance
@@ -232,7 +232,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetNumHits"></a>
 <h3><a name="Q3Pick_GetNumHits">Q3Pick_GetNumHits</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Pick_GetNumHits (
     TQ3PickObject                 pick,
     TQ3Uns32                      *numHits
@@ -258,7 +258,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetPickDetailData"></a>
 <h3><a name="Q3Pick_GetPickDetailData">Q3Pick_GetPickDetailData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Pick_GetPickDetailData (
     TQ3PickObject                 pick,
     TQ3Uns32                      index,
@@ -288,7 +288,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetPickDetailValidMask"></a>
 <h3><a name="Q3Pick_GetPickDetailValidMask">Q3Pick_GetPickDetailValidMask</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Pick_GetPickDetailValidMask (
     TQ3PickObject                 pick,
     TQ3Uns32                      index,
@@ -316,7 +316,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetType"></a>
 <h3><a name="Q3Pick_GetType">Q3Pick_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3Pick_GetType (
     TQ3PickObject                 pick
 );
@@ -340,7 +340,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_GetVertexTolerance"></a>
 <h3><a name="Q3Pick_GetVertexTolerance">Q3Pick_GetVertexTolerance</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Pick_GetVertexTolerance (
     TQ3PickObject                 pick,
     float                         *vertexTolerance
@@ -366,7 +366,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_SetData"></a>
 <h3><a name="Q3Pick_SetData">Q3Pick_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Pick_SetData (
     TQ3PickObject                 pick,
     const TQ3PickData             *data
@@ -392,7 +392,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_SetEdgeTolerance"></a>
 <h3><a name="Q3Pick_SetEdgeTolerance">Q3Pick_SetEdgeTolerance</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Pick_SetEdgeTolerance (
     TQ3PickObject                 pick,
     float                         edgeTolerance
@@ -418,7 +418,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Pick_SetVertexTolerance"></a>
 <h3><a name="Q3Pick_SetVertexTolerance">Q3Pick_SetVertexTolerance</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Pick_SetVertexTolerance (
     TQ3PickObject                 pick,
     float                         vertexTolerance
@@ -444,7 +444,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3ShapePart_GetShape"></a>
 <h3><a name="Q3ShapePart_GetShape">Q3ShapePart_GetShape</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ShapePart_GetShape (
     TQ3ShapePartObject            shapePartObject,
     TQ3ShapeObject                *shapeObject
@@ -470,7 +470,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3ShapePart_GetType"></a>
 <h3><a name="Q3ShapePart_GetType">Q3ShapePart_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3ShapePart_GetType (
     TQ3ShapePartObject            shapePartObject
 );
@@ -494,7 +494,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WindowPointPick_GetData"></a>
 <h3><a name="Q3WindowPointPick_GetData">Q3WindowPointPick_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WindowPointPick_GetData (
     TQ3PickObject                 pick,
     TQ3WindowPointPickData        *data
@@ -520,7 +520,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WindowPointPick_GetPoint"></a>
 <h3><a name="Q3WindowPointPick_GetPoint">Q3WindowPointPick_GetPoint</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WindowPointPick_GetPoint (
     TQ3PickObject                 pick,
     TQ3Point2D                    *point
@@ -546,7 +546,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WindowPointPick_New"></a>
 <h3><a name="Q3WindowPointPick_New">Q3WindowPointPick_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3PickObject  )
+<blockquote><pre><tt>TQ3PickObject  
 Q3WindowPointPick_New (
     const TQ3WindowPointPickData  *data
 );
@@ -570,7 +570,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WindowPointPick_SetData"></a>
 <h3><a name="Q3WindowPointPick_SetData">Q3WindowPointPick_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WindowPointPick_SetData (
     TQ3PickObject                 pick,
     const TQ3WindowPointPickData  *data
@@ -596,7 +596,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WindowPointPick_SetPoint"></a>
 <h3><a name="Q3WindowPointPick_SetPoint">Q3WindowPointPick_SetPoint</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WindowPointPick_SetPoint (
     TQ3PickObject                 pick,
     const TQ3Point2D              *point
@@ -622,7 +622,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WindowRectPick_GetData"></a>
 <h3><a name="Q3WindowRectPick_GetData">Q3WindowRectPick_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WindowRectPick_GetData (
     TQ3PickObject                 pick,
     TQ3WindowRectPickData         *data
@@ -648,7 +648,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WindowRectPick_GetRect"></a>
 <h3><a name="Q3WindowRectPick_GetRect">Q3WindowRectPick_GetRect</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WindowRectPick_GetRect (
     TQ3PickObject                 pick,
     TQ3Area                       *rect
@@ -674,7 +674,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WindowRectPick_New"></a>
 <h3><a name="Q3WindowRectPick_New">Q3WindowRectPick_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3PickObject  )
+<blockquote><pre><tt>TQ3PickObject  
 Q3WindowRectPick_New (
     const TQ3WindowRectPickData   *data
 );
@@ -698,7 +698,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WindowRectPick_SetData"></a>
 <h3><a name="Q3WindowRectPick_SetData">Q3WindowRectPick_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WindowRectPick_SetData (
     TQ3PickObject                 pick,
     const TQ3WindowRectPickData   *data
@@ -724,7 +724,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WindowRectPick_SetRect"></a>
 <h3><a name="Q3WindowRectPick_SetRect">Q3WindowRectPick_SetRect</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WindowRectPick_SetRect (
     TQ3PickObject                 pick,
     const TQ3Area                 *rect
@@ -750,7 +750,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WorldRayPick_GetData"></a>
 <h3><a name="Q3WorldRayPick_GetData">Q3WorldRayPick_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WorldRayPick_GetData (
     TQ3PickObject                 pick,
     TQ3WorldRayPickData           *data
@@ -776,7 +776,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WorldRayPick_GetRay"></a>
 <h3><a name="Q3WorldRayPick_GetRay">Q3WorldRayPick_GetRay</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WorldRayPick_GetRay (
     TQ3PickObject                 pick,
     TQ3Ray3D                      *ray
@@ -802,7 +802,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WorldRayPick_New"></a>
 <h3><a name="Q3WorldRayPick_New">Q3WorldRayPick_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3PickObject  )
+<blockquote><pre><tt>TQ3PickObject  
 Q3WorldRayPick_New (
     const TQ3WorldRayPickData     *data
 );
@@ -826,7 +826,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WorldRayPick_SetData"></a>
 <h3><a name="Q3WorldRayPick_SetData">Q3WorldRayPick_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WorldRayPick_SetData (
     TQ3PickObject                 pick,
     const TQ3WorldRayPickData     *data
@@ -852,7 +852,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3WorldRayPick_SetRay"></a>
 <h3><a name="Q3WorldRayPick_SetRay">Q3WorldRayPick_SetRay</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3WorldRayPick_SetRay (
     TQ3PickObject                 pick,
     const TQ3Ray3D                *ray
@@ -876,5 +876,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/13/2001 </a></font></p>
 </body></html>

@@ -1,7 +1,7 @@
 <html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
 <a name="//apple_ref/c/func/Q3BeStorage_Get"></a>
 <h3><a name="Q3BeStorage_Get">Q3BeStorage_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3BeStorage_Get (
     TQ3StorageObject              theStorage,
     BFile                         **theFile
@@ -24,7 +24,7 @@ Q3BeStorage_Get (
 <hr>
 <a name="//apple_ref/c/func/Q3BeStorage_New"></a>
 <h3><a name="Q3BeStorage_New">Q3BeStorage_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3StorageObject  )
+<blockquote><pre><tt>TQ3StorageObject  
 Q3BeStorage_New (
     BFile                         *theFile
 );
@@ -45,7 +45,7 @@ Q3BeStorage_New (
 <hr>
 <a name="//apple_ref/c/func/Q3BeStorage_Set"></a>
 <h3><a name="Q3BeStorage_Set">Q3BeStorage_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3BeStorage_Set (
     TQ3StorageObject              theStorage,
     BFile                         *theFile
@@ -68,7 +68,7 @@ Q3BeStorage_Set (
 <hr>
 <a name="//apple_ref/c/func/Q3FSSpecStorage_Get"></a>
 <h3><a name="Q3FSSpecStorage_Get">Q3FSSpecStorage_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3FSSpecStorage_Get (
     TQ3StorageObject              storage,
     FSSpec                        *fs
@@ -94,7 +94,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3FSSpecStorage_New"></a>
 <h3><a name="Q3FSSpecStorage_New">Q3FSSpecStorage_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3StorageObject  )
+<blockquote><pre><tt>TQ3StorageObject  
 Q3FSSpecStorage_New (
     const FSSpec                  *fs
 );
@@ -118,7 +118,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3FSSpecStorage_Set"></a>
 <h3><a name="Q3FSSpecStorage_Set">Q3FSSpecStorage_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3FSSpecStorage_Set (
     TQ3StorageObject              storage,
     const FSSpec                  *fs
@@ -144,7 +144,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3HandleStorage_Get"></a>
 <h3><a name="Q3HandleStorage_Get">Q3HandleStorage_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3HandleStorage_Get (
     TQ3StorageObject              storage,
     Handle                        *handle,
@@ -172,7 +172,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3HandleStorage_New"></a>
 <h3><a name="Q3HandleStorage_New">Q3HandleStorage_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3StorageObject  )
+<blockquote><pre><tt>TQ3StorageObject  
 Q3HandleStorage_New (
     Handle                        handle,
     TQ3Uns32                      validSize
@@ -198,7 +198,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3HandleStorage_Set"></a>
 <h3><a name="Q3HandleStorage_Set">Q3HandleStorage_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3HandleStorage_Set (
     TQ3StorageObject              storage,
     Handle                        handle,
@@ -226,7 +226,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacintoshStorage_Get"></a>
 <h3><a name="Q3MacintoshStorage_Get">Q3MacintoshStorage_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MacintoshStorage_Get (
     TQ3StorageObject              storage,
     TQ3Int16                      *fsRefNum
@@ -252,7 +252,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacintoshStorage_GetType"></a>
 <h3><a name="Q3MacintoshStorage_GetType">Q3MacintoshStorage_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3MacintoshStorage_GetType (
     TQ3StorageObject              storage
 );
@@ -276,7 +276,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacintoshStorage_New"></a>
 <h3><a name="Q3MacintoshStorage_New">Q3MacintoshStorage_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3StorageObject  )
+<blockquote><pre><tt>TQ3StorageObject  
 Q3MacintoshStorage_New (
     TQ3Int16                      fsRefNum
 );
@@ -300,7 +300,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MacintoshStorage_Set"></a>
 <h3><a name="Q3MacintoshStorage_Set">Q3MacintoshStorage_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MacintoshStorage_Set (
     TQ3StorageObject              storage,
     TQ3Int16                      fsRefNum
@@ -326,7 +326,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MemoryStorage_GetBuffer"></a>
 <h3><a name="Q3MemoryStorage_GetBuffer">Q3MemoryStorage_GetBuffer</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MemoryStorage_GetBuffer (
     TQ3StorageObject              storage,
     unsigned char                 **buffer,
@@ -356,7 +356,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MemoryStorage_GetType"></a>
 <h3><a name="Q3MemoryStorage_GetType">Q3MemoryStorage_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3MemoryStorage_GetType (
     TQ3StorageObject              storage
 );
@@ -380,7 +380,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MemoryStorage_New"></a>
 <h3><a name="Q3MemoryStorage_New">Q3MemoryStorage_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3StorageObject  )
+<blockquote><pre><tt>TQ3StorageObject  
 Q3MemoryStorage_New (
     const unsigned char           *buffer,
     TQ3Uns32                      validSize
@@ -406,7 +406,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MemoryStorage_NewBuffer"></a>
 <h3><a name="Q3MemoryStorage_NewBuffer">Q3MemoryStorage_NewBuffer</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3StorageObject  )
+<blockquote><pre><tt>TQ3StorageObject  
 Q3MemoryStorage_NewBuffer (
     unsigned char                 *buffer,
     TQ3Uns32                      validSize,
@@ -434,7 +434,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MemoryStorage_Set"></a>
 <h3><a name="Q3MemoryStorage_Set">Q3MemoryStorage_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MemoryStorage_Set (
     TQ3StorageObject              storage,
     const unsigned char           *buffer,
@@ -462,7 +462,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MemoryStorage_SetBuffer"></a>
 <h3><a name="Q3MemoryStorage_SetBuffer">Q3MemoryStorage_SetBuffer</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MemoryStorage_SetBuffer (
     TQ3StorageObject              storage,
     unsigned char                 *buffer,
@@ -492,7 +492,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3PathStorage_Get"></a>
 <h3><a name="Q3PathStorage_Get">Q3PathStorage_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PathStorage_Get (
     TQ3StorageObject              theStorage,
     char                          *pathName
@@ -515,7 +515,7 @@ Q3PathStorage_Get (
 <hr>
 <a name="//apple_ref/c/func/Q3PathStorage_New"></a>
 <h3><a name="Q3PathStorage_New">Q3PathStorage_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3StorageObject  )
+<blockquote><pre><tt>TQ3StorageObject  
 Q3PathStorage_New (
     const char                    *pathName
 );
@@ -536,7 +536,7 @@ Q3PathStorage_New (
 <hr>
 <a name="//apple_ref/c/func/Q3PathStorage_Set"></a>
 <h3><a name="Q3PathStorage_Set">Q3PathStorage_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3PathStorage_Set (
     TQ3StorageObject              theStorage,
     const char                    *pathName
@@ -559,7 +559,7 @@ Q3PathStorage_Set (
 <hr>
 <a name="//apple_ref/c/func/Q3Storage_GetData"></a>
 <h3><a name="Q3Storage_GetData">Q3Storage_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Storage_GetData (
     TQ3StorageObject              storage,
     TQ3Uns32                      offset,
@@ -591,7 +591,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Storage_GetSize"></a>
 <h3><a name="Q3Storage_GetSize">Q3Storage_GetSize</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Storage_GetSize (
     TQ3StorageObject              storage,
     TQ3Uns32                      *size
@@ -617,7 +617,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Storage_GetType"></a>
 <h3><a name="Q3Storage_GetType">Q3Storage_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3Storage_GetType (
     TQ3StorageObject              storage
 );
@@ -641,7 +641,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Storage_SetData"></a>
 <h3><a name="Q3Storage_SetData">Q3Storage_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Storage_SetData (
     TQ3StorageObject              storage,
     TQ3Uns32                      offset,
@@ -673,7 +673,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3UnixPathStorage_Get"></a>
 <h3><a name="Q3UnixPathStorage_Get">Q3UnixPathStorage_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3UnixPathStorage_Get (
     TQ3StorageObject              storage,
     char                          *pathName
@@ -699,7 +699,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3UnixPathStorage_New"></a>
 <h3><a name="Q3UnixPathStorage_New">Q3UnixPathStorage_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3StorageObject  )
+<blockquote><pre><tt>TQ3StorageObject  
 Q3UnixPathStorage_New (
     const char                    *pathName
 );
@@ -723,7 +723,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3UnixPathStorage_Set"></a>
 <h3><a name="Q3UnixPathStorage_Set">Q3UnixPathStorage_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3UnixPathStorage_Set (
     TQ3StorageObject              storage,
     const char                    *pathName
@@ -749,7 +749,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Win32Storage_Get"></a>
 <h3><a name="Q3Win32Storage_Get">Q3Win32Storage_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Win32Storage_Get (
     TQ3StorageObject              storage,
     HANDLE                        *hFile
@@ -775,7 +775,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Win32Storage_New"></a>
 <h3><a name="Q3Win32Storage_New">Q3Win32Storage_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3StorageObject  )
+<blockquote><pre><tt>TQ3StorageObject  
 Q3Win32Storage_New (
     HANDLE                        hFile
 );
@@ -799,7 +799,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Win32Storage_Set"></a>
 <h3><a name="Q3Win32Storage_Set">Q3Win32Storage_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Win32Storage_Set (
     TQ3StorageObject              storage,
     HANDLE                        hFile
@@ -823,5 +823,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/13/2001 </a></font></p>
 </body></html>

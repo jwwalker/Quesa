@@ -1,7 +1,7 @@
 <html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
 <a name="//apple_ref/c/func/Q3MatrixTransform_Get"></a>
 <h3><a name="Q3MatrixTransform_Get">Q3MatrixTransform_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MatrixTransform_Get (
     TQ3TransformObject            transform,
     TQ3Matrix4x4                  *matrix
@@ -27,7 +27,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MatrixTransform_New"></a>
 <h3><a name="Q3MatrixTransform_New">Q3MatrixTransform_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3TransformObject  )
+<blockquote><pre><tt>TQ3TransformObject  
 Q3MatrixTransform_New (
     const TQ3Matrix4x4            *matrix
 );
@@ -51,7 +51,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MatrixTransform_Set"></a>
 <h3><a name="Q3MatrixTransform_Set">Q3MatrixTransform_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MatrixTransform_Set (
     TQ3TransformObject            transform,
     const TQ3Matrix4x4            *matrix
@@ -77,7 +77,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3MatrixTransform_Submit"></a>
 <h3><a name="Q3MatrixTransform_Submit">Q3MatrixTransform_Submit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3MatrixTransform_Submit (
     const TQ3Matrix4x4            *matrix,
     TQ3ViewObject                 view
@@ -103,7 +103,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_Get"></a>
 <h3><a name="Q3QuaternionTransform_Get">Q3QuaternionTransform_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3QuaternionTransform_Get (
     TQ3TransformObject            transform,
     TQ3Quaternion                 *quaternion
@@ -129,7 +129,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_New"></a>
 <h3><a name="Q3QuaternionTransform_New">Q3QuaternionTransform_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3TransformObject  )
+<blockquote><pre><tt>TQ3TransformObject  
 Q3QuaternionTransform_New (
     const TQ3Quaternion           *quaternion
 );
@@ -153,7 +153,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_Set"></a>
 <h3><a name="Q3QuaternionTransform_Set">Q3QuaternionTransform_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3QuaternionTransform_Set (
     TQ3TransformObject            transform,
     const TQ3Quaternion           *quaternion
@@ -179,7 +179,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_Submit"></a>
 <h3><a name="Q3QuaternionTransform_Submit">Q3QuaternionTransform_Submit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3QuaternionTransform_Submit (
     const TQ3Quaternion           *quaternion,
     TQ3ViewObject                 view
@@ -205,7 +205,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3ResetTransform_New"></a>
 <h3><a name="Q3ResetTransform_New">Q3ResetTransform_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3TransformObject  )
+<blockquote><pre><tt>TQ3TransformObject  
 Q3ResetTransform_New (
     void
 );
@@ -222,7 +222,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3ResetTransform_Submit"></a>
 <h3><a name="Q3ResetTransform_Submit">Q3ResetTransform_Submit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ResetTransform_Submit (
     TQ3ViewObject                 view
 );
@@ -246,7 +246,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetAngle"></a>
 <h3><a name="Q3RotateAboutAxisTransform_GetAngle">Q3RotateAboutAxisTransform_GetAngle</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutAxisTransform_GetAngle (
     TQ3TransformObject            transform,
     float                         *radians
@@ -272,7 +272,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetData"></a>
 <h3><a name="Q3RotateAboutAxisTransform_GetData">Q3RotateAboutAxisTransform_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutAxisTransform_GetData (
     TQ3TransformObject            transform,
     TQ3RotateAboutAxisTransformData *data
@@ -298,7 +298,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetOrientation"></a>
 <h3><a name="Q3RotateAboutAxisTransform_GetOrientation">Q3RotateAboutAxisTransform_GetOrientation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutAxisTransform_GetOrientation (
     TQ3TransformObject            transform,
     TQ3Vector3D                   *axis
@@ -324,7 +324,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetOrigin"></a>
 <h3><a name="Q3RotateAboutAxisTransform_GetOrigin">Q3RotateAboutAxisTransform_GetOrigin</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutAxisTransform_GetOrigin (
     TQ3TransformObject            transform,
     TQ3Point3D                    *origin
@@ -350,7 +350,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_New"></a>
 <h3><a name="Q3RotateAboutAxisTransform_New">Q3RotateAboutAxisTransform_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3TransformObject  )
+<blockquote><pre><tt>TQ3TransformObject  
 Q3RotateAboutAxisTransform_New (
     const TQ3RotateAboutAxisTransformData *data
 );
@@ -374,7 +374,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetAngle"></a>
 <h3><a name="Q3RotateAboutAxisTransform_SetAngle">Q3RotateAboutAxisTransform_SetAngle</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutAxisTransform_SetAngle (
     TQ3TransformObject            transform,
     float                         radians
@@ -400,7 +400,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetData"></a>
 <h3><a name="Q3RotateAboutAxisTransform_SetData">Q3RotateAboutAxisTransform_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutAxisTransform_SetData (
     TQ3TransformObject            transform,
     const TQ3RotateAboutAxisTransformData *data
@@ -426,7 +426,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetOrientation"></a>
 <h3><a name="Q3RotateAboutAxisTransform_SetOrientation">Q3RotateAboutAxisTransform_SetOrientation</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutAxisTransform_SetOrientation (
     TQ3TransformObject            transform,
     const TQ3Vector3D             *axis
@@ -452,7 +452,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetOrigin"></a>
 <h3><a name="Q3RotateAboutAxisTransform_SetOrigin">Q3RotateAboutAxisTransform_SetOrigin</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutAxisTransform_SetOrigin (
     TQ3TransformObject            transform,
     const TQ3Point3D              *origin
@@ -478,7 +478,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_Submit"></a>
 <h3><a name="Q3RotateAboutAxisTransform_Submit">Q3RotateAboutAxisTransform_Submit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutAxisTransform_Submit (
     const TQ3RotateAboutAxisTransformData *data,
     TQ3ViewObject                 view
@@ -504,7 +504,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAboutPoint"></a>
 <h3><a name="Q3RotateAboutPointTransform_GetAboutPoint">Q3RotateAboutPointTransform_GetAboutPoint</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutPointTransform_GetAboutPoint (
     TQ3TransformObject            transform,
     TQ3Point3D                    *about
@@ -530,7 +530,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAngle"></a>
 <h3><a name="Q3RotateAboutPointTransform_GetAngle">Q3RotateAboutPointTransform_GetAngle</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutPointTransform_GetAngle (
     TQ3TransformObject            transform,
     float                         *radians
@@ -556,7 +556,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAxis"></a>
 <h3><a name="Q3RotateAboutPointTransform_GetAxis">Q3RotateAboutPointTransform_GetAxis</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutPointTransform_GetAxis (
     TQ3TransformObject            transform,
     TQ3Axis                       *axis
@@ -582,7 +582,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetData"></a>
 <h3><a name="Q3RotateAboutPointTransform_GetData">Q3RotateAboutPointTransform_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutPointTransform_GetData (
     TQ3TransformObject            transform,
     TQ3RotateAboutPointTransformData *data
@@ -608,7 +608,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_New"></a>
 <h3><a name="Q3RotateAboutPointTransform_New">Q3RotateAboutPointTransform_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3TransformObject  )
+<blockquote><pre><tt>TQ3TransformObject  
 Q3RotateAboutPointTransform_New (
     const TQ3RotateAboutPointTransformData *data
 );
@@ -632,7 +632,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAboutPoint"></a>
 <h3><a name="Q3RotateAboutPointTransform_SetAboutPoint">Q3RotateAboutPointTransform_SetAboutPoint</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutPointTransform_SetAboutPoint (
     TQ3TransformObject            transform,
     const TQ3Point3D              *about
@@ -658,7 +658,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAngle"></a>
 <h3><a name="Q3RotateAboutPointTransform_SetAngle">Q3RotateAboutPointTransform_SetAngle</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutPointTransform_SetAngle (
     TQ3TransformObject            transform,
     float                         radians
@@ -684,7 +684,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAxis"></a>
 <h3><a name="Q3RotateAboutPointTransform_SetAxis">Q3RotateAboutPointTransform_SetAxis</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutPointTransform_SetAxis (
     TQ3TransformObject            transform,
     TQ3Axis                       axis
@@ -710,7 +710,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetData"></a>
 <h3><a name="Q3RotateAboutPointTransform_SetData">Q3RotateAboutPointTransform_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutPointTransform_SetData (
     TQ3TransformObject            transform,
     const TQ3RotateAboutPointTransformData *data
@@ -736,7 +736,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_Submit"></a>
 <h3><a name="Q3RotateAboutPointTransform_Submit">Q3RotateAboutPointTransform_Submit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateAboutPointTransform_Submit (
     const TQ3RotateAboutPointTransformData *data,
     TQ3ViewObject                 view
@@ -762,7 +762,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_GetAngle"></a>
 <h3><a name="Q3RotateTransform_GetAngle">Q3RotateTransform_GetAngle</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateTransform_GetAngle (
     TQ3TransformObject            transform,
     float                         *radians
@@ -788,7 +788,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_GetAxis"></a>
 <h3><a name="Q3RotateTransform_GetAxis">Q3RotateTransform_GetAxis</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateTransform_GetAxis (
     TQ3TransformObject            renderable,
     TQ3Axis                       *axis
@@ -814,7 +814,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_GetData"></a>
 <h3><a name="Q3RotateTransform_GetData">Q3RotateTransform_GetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateTransform_GetData (
     TQ3TransformObject            transform,
     TQ3RotateTransformData        *data
@@ -840,7 +840,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_New"></a>
 <h3><a name="Q3RotateTransform_New">Q3RotateTransform_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3TransformObject  )
+<blockquote><pre><tt>TQ3TransformObject  
 Q3RotateTransform_New (
     const TQ3RotateTransformData  *data
 );
@@ -864,7 +864,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_SetAngle"></a>
 <h3><a name="Q3RotateTransform_SetAngle">Q3RotateTransform_SetAngle</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateTransform_SetAngle (
     TQ3TransformObject            transform,
     float                         radians
@@ -890,7 +890,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_SetAxis"></a>
 <h3><a name="Q3RotateTransform_SetAxis">Q3RotateTransform_SetAxis</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateTransform_SetAxis (
     TQ3TransformObject            transform,
     TQ3Axis                       axis
@@ -916,7 +916,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_SetData"></a>
 <h3><a name="Q3RotateTransform_SetData">Q3RotateTransform_SetData</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateTransform_SetData (
     TQ3TransformObject            transform,
     const TQ3RotateTransformData  *data
@@ -942,7 +942,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_Submit"></a>
 <h3><a name="Q3RotateTransform_Submit">Q3RotateTransform_Submit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3RotateTransform_Submit (
     const TQ3RotateTransformData  *data,
     TQ3ViewObject                 view
@@ -968,7 +968,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_Get"></a>
 <h3><a name="Q3ScaleTransform_Get">Q3ScaleTransform_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ScaleTransform_Get (
     TQ3TransformObject            transform,
     TQ3Vector3D                   *scale
@@ -994,7 +994,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_New"></a>
 <h3><a name="Q3ScaleTransform_New">Q3ScaleTransform_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3TransformObject  )
+<blockquote><pre><tt>TQ3TransformObject  
 Q3ScaleTransform_New (
     const TQ3Vector3D             *scale
 );
@@ -1018,7 +1018,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_Set"></a>
 <h3><a name="Q3ScaleTransform_Set">Q3ScaleTransform_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ScaleTransform_Set (
     TQ3TransformObject            transform,
     const TQ3Vector3D             *scale
@@ -1044,7 +1044,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_Submit"></a>
 <h3><a name="Q3ScaleTransform_Submit">Q3ScaleTransform_Submit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3ScaleTransform_Submit (
     const TQ3Vector3D             *scale,
     TQ3ViewObject                 view
@@ -1070,7 +1070,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Transform_GetMatrix"></a>
 <h3><a name="Q3Transform_GetMatrix">Q3Transform_GetMatrix</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+<blockquote><pre><tt>TQ3Matrix4x4 * 
 Q3Transform_GetMatrix (
     TQ3TransformObject            transform,
     TQ3Matrix4x4                  *matrix
@@ -1096,7 +1096,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Transform_GetType"></a>
 <h3><a name="Q3Transform_GetType">Q3Transform_GetType</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+<blockquote><pre><tt>TQ3ObjectType  
 Q3Transform_GetType (
     TQ3TransformObject            transform
 );
@@ -1120,7 +1120,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3Transform_Submit"></a>
 <h3><a name="Q3Transform_Submit">Q3Transform_Submit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3Transform_Submit (
     TQ3TransformObject            transform,
     TQ3ViewObject                 view
@@ -1146,7 +1146,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_Get"></a>
 <h3><a name="Q3TranslateTransform_Get">Q3TranslateTransform_Get</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3TranslateTransform_Get (
     TQ3TransformObject            transform,
     TQ3Vector3D                   *translate
@@ -1172,7 +1172,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_New"></a>
 <h3><a name="Q3TranslateTransform_New">Q3TranslateTransform_New</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3TransformObject  )
+<blockquote><pre><tt>TQ3TransformObject  
 Q3TranslateTransform_New (
     const TQ3Vector3D             *translate
 );
@@ -1196,7 +1196,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_Set"></a>
 <h3><a name="Q3TranslateTransform_Set">Q3TranslateTransform_Set</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3TranslateTransform_Set (
     TQ3TransformObject            transform,
     const TQ3Vector3D             *translate
@@ -1222,7 +1222,7 @@ the typical usage of this function and any special requirements.
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_Submit"></a>
 <h3><a name="Q3TranslateTransform_Submit">Q3TranslateTransform_Submit</a></h3>
-<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+<blockquote><pre><tt>TQ3Status  
 Q3TranslateTransform_Submit (
     const TQ3Vector3D             *translate,
     TQ3ViewObject                 view
@@ -1246,5 +1246,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 4/8/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/13/2001 </a></font></p>
 </body></html>
