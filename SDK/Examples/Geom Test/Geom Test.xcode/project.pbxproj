@@ -1,0 +1,515 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 39;
+	objects = {
+		080E96DDFE201D6D7F000001 = {
+			children = (
+				AB3A7F0F055E6BE200CA83BE,
+				AB3A7F21055E6BF300CA83BE,
+			);
+			isa = PBXGroup;
+			name = Source;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//080
+//081
+//082
+//083
+//084
+//100
+//101
+//102
+//103
+//104
+		1058C7A0FEA54F0111CA2CBB = {
+			children = (
+				1058C7A1FEA54F0111CA2CBB,
+				AB3A7EFE055E6BAC00CA83BE,
+				AB83B653055E766A0034F56A,
+				AB83B6ED055E76770034F56A,
+			);
+			isa = PBXGroup;
+			name = "Linked Frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1058C7A1FEA54F0111CA2CBB = {
+			expectedFileType = wrapper.framework;
+			fallbackIsa = PBXFileReference;
+			isa = PBXFrameworkReference;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		1058C7A2FEA54F0111CA2CBB = {
+			children = (
+				29B97325FDCFA39411CA2CEA,
+				29B97324FDCFA39411CA2CEA,
+			);
+			isa = PBXGroup;
+			name = "Other Frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//100
+//101
+//102
+//103
+//104
+//190
+//191
+//192
+//193
+//194
+		19C28FACFE9D520D11CA2CBB = {
+			children = (
+				8D1107320486CEB800E47090,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//190
+//191
+//192
+//193
+//194
+//290
+//291
+//292
+//293
+//294
+		29B97313FDCFA39411CA2CEA = {
+			buildSettings = {
+			};
+			buildStyles = (
+				4A9504CCFFE6A4B311CA0CBA,
+				4A9504CDFFE6A4B311CA0CBA,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			mainGroup = 29B97314FDCFA39411CA2CEA;
+			projectDirPath = "";
+			targets = (
+				8D1107260486CEB800E47090,
+			);
+		};
+		29B97314FDCFA39411CA2CEA = {
+			children = (
+				080E96DDFE201D6D7F000001,
+				29B97317FDCFA39411CA2CEA,
+				29B97323FDCFA39411CA2CEA,
+				19C28FACFE9D520D11CA2CBB,
+			);
+			isa = PBXGroup;
+			name = "Geom Test";
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA = {
+			children = (
+				AB3A7F0B055E6BD100CA83BE,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA = {
+			children = (
+				1058C7A0FEA54F0111CA2CBB,
+				1058C7A2FEA54F0111CA2CBB,
+			);
+			isa = PBXGroup;
+			name = Frameworks;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		29B97324FDCFA39411CA2CEA = {
+			expectedFileType = wrapper.framework;
+			fallbackIsa = PBXFileReference;
+			isa = PBXFrameworkReference;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		29B97325FDCFA39411CA2CEA = {
+			expectedFileType = wrapper.framework;
+			fallbackIsa = PBXFileReference;
+			isa = PBXFrameworkReference;
+			name = Foundation.framework;
+			path = /System/Library/Frameworks/Foundation.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+//290
+//291
+//292
+//293
+//294
+//4A0
+//4A1
+//4A2
+//4A3
+//4A4
+		4A9504CCFFE6A4B311CA0CBA = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		4A9504CDFFE6A4B311CA0CBA = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//4A0
+//4A1
+//4A2
+//4A3
+//4A4
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+		8D1107260486CEB800E47090 = {
+			buildPhases = (
+				8D1107270486CEB800E47090,
+				8D1107290486CEB800E47090,
+				8D11072C0486CEB800E47090,
+				8D11072E0486CEB800E47090,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = ../../../Development/Projects/Mac/build;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "../Qut/Mac/Qut Prefix Carbon.h";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ../../../SDK/Includes;
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "-DQUESA_OS_MACINTOSH=1 -DTARGET_API_MAC_CARBON=1 -DTARGET_RT_MAC_MACHO=1";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "Geom Test";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = "Geom Test";
+			productInstallPath = "$(HOME)/Applications";
+			productName = "Geom Test";
+			productReference = 8D1107320486CEB800E47090;
+			productType = "com.apple.product-type.application";
+		};
+		8D1107270486CEB800E47090 = {
+			buildActionMask = 2147483647;
+			files = (
+				AB3A7F18055E6BEE00CA83BE,
+				AB3A7F1B055E6BEE00CA83BE,
+				AB3A7F1C055E6BEE00CA83BE,
+				AB3A7F1D055E6BEE00CA83BE,
+				AB3A7F4B055E6E4B00CA83BE,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D1107290486CEB800E47090 = {
+			buildActionMask = 2147483647;
+			files = (
+				AB3A7F0C055E6BD100CA83BE,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072C0486CEB800E47090 = {
+			buildActionMask = 2147483647;
+			files = (
+				AB3A7F10055E6BE200CA83BE,
+				AB3A7F19055E6BEE00CA83BE,
+				AB3A7F1A055E6BEE00CA83BE,
+				AB3A7F1E055E6BEE00CA83BE,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072E0486CEB800E47090 = {
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090,
+				AB3A7EFF055E6BAC00CA83BE,
+				AB83B654055E766A0034F56A,
+				AB83B6EE055E76770034F56A,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072F0486CEB800E47090 = {
+			fileRef = 1058C7A1FEA54F0111CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8D1107320486CEB800E47090 = {
+			expectedFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = "Geom Test.app";
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+//AB0
+//AB1
+//AB2
+//AB3
+//AB4
+		AB3A7EFE055E6BAC00CA83BE = {
+			expectedFileType = wrapper.framework;
+			isa = PBXFileReference;
+			name = Quesa.framework;
+			path = ../../../Development/Projects/Mac/build/Quesa.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7EFF055E6BAC00CA83BE = {
+			fileRef = AB3A7EFE055E6BAC00CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3A7F0B055E6BD100CA83BE = {
+			expectedFileType = wrapper.nib;
+			isa = PBXFileReference;
+			name = main.nib;
+			path = ../Qut/Mac/main.nib;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7F0C055E6BD100CA83BE = {
+			fileRef = AB3A7F0B055E6BD100CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3A7F0F055E6BE200CA83BE = {
+			expectedFileType = sourcecode.c.c;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "Geom Test.c";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7F10055E6BE200CA83BE = {
+			fileRef = AB3A7F0F055E6BE200CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3A7F11055E6BEE00CA83BE = {
+			expectedFileType = sourcecode.c.h;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = QutMac.h;
+			path = ../Qut/Mac/QutMac.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7F12055E6BEE00CA83BE = {
+			expectedFileType = sourcecode.c.c;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = QutMac.c;
+			path = ../Qut/Mac/QutMac.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7F13055E6BEE00CA83BE = {
+			expectedFileType = sourcecode.c.c;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Qut.c;
+			path = ../Qut/Qut.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7F14055E6BEE00CA83BE = {
+			expectedFileType = sourcecode.c.h;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Qut.h;
+			path = ../Qut/Qut.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7F15055E6BEE00CA83BE = {
+			expectedFileType = sourcecode.c.h;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = QutInternal.h;
+			path = ../Qut/QutInternal.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7F16055E6BEE00CA83BE = {
+			expectedFileType = sourcecode.c.h;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = QutTexture.h;
+			path = ../Qut/QutTexture.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7F17055E6BEE00CA83BE = {
+			expectedFileType = sourcecode.c.c;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = QutTexture.c;
+			path = ../Qut/QutTexture.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7F18055E6BEE00CA83BE = {
+			fileRef = AB3A7F11055E6BEE00CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3A7F19055E6BEE00CA83BE = {
+			fileRef = AB3A7F12055E6BEE00CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3A7F1A055E6BEE00CA83BE = {
+			fileRef = AB3A7F13055E6BEE00CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3A7F1B055E6BEE00CA83BE = {
+			fileRef = AB3A7F14055E6BEE00CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3A7F1C055E6BEE00CA83BE = {
+			fileRef = AB3A7F15055E6BEE00CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3A7F1D055E6BEE00CA83BE = {
+			fileRef = AB3A7F16055E6BEE00CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3A7F1E055E6BEE00CA83BE = {
+			fileRef = AB3A7F17055E6BEE00CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB3A7F21055E6BF300CA83BE = {
+			children = (
+				AB3A7F13055E6BEE00CA83BE,
+				AB3A7F14055E6BEE00CA83BE,
+				AB3A7F17055E6BEE00CA83BE,
+				AB3A7F16055E6BEE00CA83BE,
+				AB3A7F12055E6BEE00CA83BE,
+				AB3A7F11055E6BEE00CA83BE,
+				AB3A7F15055E6BEE00CA83BE,
+				AB3A7F4A055E6E4B00CA83BE,
+			);
+			isa = PBXGroup;
+			name = Qut;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		AB3A7F4A055E6E4B00CA83BE = {
+			expectedFileType = sourcecode.c.h;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = "Qut Prefix Carbon.h";
+			path = "../Qut/Mac/Qut Prefix Carbon.h";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7F4B055E6E4B00CA83BE = {
+			fileRef = AB3A7F4A055E6E4B00CA83BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB83B653055E766A0034F56A = {
+			expectedFileType = wrapper.framework;
+			isa = PBXFileReference;
+			name = Carbon.framework;
+			path = /System/Library/Frameworks/Carbon.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		AB83B654055E766A0034F56A = {
+			fileRef = AB83B653055E766A0034F56A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AB83B6ED055E76770034F56A = {
+			expectedFileType = wrapper.framework;
+			isa = PBXFileReference;
+			name = QuickTime.framework;
+			path = /System/Library/Frameworks/QuickTime.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		AB83B6EE055E76770034F56A = {
+			fileRef = AB83B6ED055E76770034F56A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA;
+}
