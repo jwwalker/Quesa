@@ -381,6 +381,7 @@ RS_DefineTexture_PixMap(
 	TRTPixelType		thePixelType;
 	
 	basePtr = NULL;
+	thePixmap.image = NULL;
 	
 	result = Q3PixmapTexture_GetPixmap(inTextureObject, &thePixmap);
 	if (result != kQ3Success)
@@ -411,18 +412,18 @@ RS_DefineTexture_PixMap(
 					(int)rowBytes,
 					(void*)basePtr,
 					thePixelType);
-	if (result != kQ3Success)
-		goto cleanup;
-	
-	if (basePtr) free(basePtr);
-	return kQ3Success;
+
 cleanup:
 	if (basePtr) free(basePtr);
+	if (thePixmap.image != NULL)
+	{
+		Q3Object_Dispose( thePixmap.image );
+	}
 	return result;
 }
 /*===========================================================================*\
  *
- *	Routine:	RS_DefineTexture_PixMap()
+ *	Routine:	RS_DefineTexture_MipMap()
  *
  *	Comments:	Defines the texture number.
  *
@@ -442,6 +443,7 @@ RS_DefineTexture_MipMap(
 	TRTPixelType		thePixelType;
 	
 	basePtr = NULL;
+	theMipmap.image = NULL;
 	
 	result = Q3MipmapTexture_GetMipmap(inTextureObject, &theMipmap);
 	if (result != kQ3Success)
@@ -472,13 +474,13 @@ RS_DefineTexture_MipMap(
 					(int)rowBytes,
 					(void*)basePtr,
 					(TRTPixelType)thePixelType);
-	if (result != kQ3Success)
-		goto cleanup;
-	
-	if (basePtr) free(basePtr);
-	return kQ3Success;
+
 cleanup:
 	if (basePtr) free(basePtr);
+	if (theMipmap.image != NULL)
+	{
+		Q3Object_Dispose( theMipmap.image );
+	}
 	return result;
 }
 /*===========================================================================*\
