@@ -76,6 +76,8 @@ E3Memory_Allocate(TQ3Uns32 theSize)
 {	void	*thePtr;
 
 
+	Q3_ASSERT( theSize > 0 );
+
 
 	// Allocate the memory and a header to hold the size
 	thePtr = malloc(theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER);
@@ -199,9 +201,6 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 {	void			*realPtr, *newPtr;
 	TQ3Status		qd3dStatus;
 	TQ3Uns32		padSize;
-#if Q3_MEMORY_DEBUG
-	TQ3Uns32		theSize;
-#endif
 
 
 
@@ -220,62 +219,69 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 		// If memory debugging is active, adjust for the header
 #if Q3_MEMORY_DEBUG
-		// Rewind past the header and fetch the size
+		// Rewind past the header
 		realPtr = (void *) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
-		theSize = *((TQ3Uns32 *) realPtr);
-
-
-		// If we're going to free the block, fill it with rubbish first
-		if (newSize == 0)
-			{
-			Q3_ASSERT(theSize != 0);
-			E3Memory_Initialize(realPtr, theSize + Q3_MEMORY_HEADER, kMemoryFreed);
-			}
 #endif
 		}
 
 
 
-	// If we're going to allocate or resize, increase the pad size to cover any header
-	if (newSize != 0)
-		padSize = Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER;
 
 
-
-	// Reallocate the block, and see if it worked
-	newPtr     = realloc(realPtr, newSize + padSize);
-	qd3dStatus = (newPtr != NULL || newSize == 0) ? kQ3Success : kQ3Failure;
-
-	if (qd3dStatus != kQ3Success)
-		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
-
-
-
-	// Update the pointer and return
-	if (qd3dStatus == kQ3Success)
+	if (newSize == 0)
 		{
-		// If memory debugging is active, update the contents
-#if Q3_MEMORY_DEBUG
-		// If we didn't just free the block, save the size
-		if (newPtr != NULL)
+		if (realPtr != NULL)
 			{
+			// Not every implementation of realloc frees when called as
+			// realloc( p, 0 ).  Let's not leave it up to chance.
+			E3Memory_Free( thePtr );
+			}
+		qd3dStatus = kQ3Success;
+		}
+	
+	else	// newSize != 0
+	
+		{
+		// If we're going to allocate or resize, increase the pad size to cover any header
+		padSize = Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER;
+		
+		
+		
+		// Reallocate the block, and see if it worked
+		newPtr     = realloc(realPtr, newSize + padSize);
+		qd3dStatus = (newPtr != NULL) ? kQ3Success : kQ3Failure;
+
+
+
+		if (qd3dStatus != kQ3Success)
+			E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
+
+
+
+		// Update the pointer and return
+		if (qd3dStatus == kQ3Success)
+			{
+			// If memory debugging is active, update the contents
+	#if Q3_MEMORY_DEBUG
+			// Save the size
 			*((TQ3Uns32 *) newPtr) = newSize;
 			newPtr                 = (void *) (((TQ3Uns8 *) newPtr) + sizeof(TQ3Uns32));
+
+
+			// If we just allocated the block, fill it with rubbish
+			if (realPtr == NULL)
+				E3Memory_Initialize(newPtr, newSize + Q3_MEMORY_TRAILER, kMemoryUninitialised);
+			
+			
+			// If we resized the block, reset the trailer.
+			if ( realPtr != NULL )
+				E3Memory_Initialize(((TQ3Uns8 *) newPtr) + newSize, Q3_MEMORY_TRAILER, kMemoryUninitialised);
+	#endif
+
+
+			// Return the new pointer
+			*thePtr = newPtr;
 			}
-
-
-		// If we just allocated the block, fill it with rubbish
-		if (realPtr == NULL && newSize != 0)
-			E3Memory_Initialize(newPtr, newSize + Q3_MEMORY_TRAILER, kMemoryUninitialised);
-		
-		// If we resized the block, reset the trailer.
-		if ( (realPtr != NULL) && (newSize != 0) )
-			E3Memory_Initialize(((TQ3Uns8 *) newPtr) + newSize, Q3_MEMORY_TRAILER, kMemoryUninitialised);
-#endif
-
-
-		// Return the new pointer
-		*thePtr = newPtr;
 		}
 
 	return(qd3dStatus);
