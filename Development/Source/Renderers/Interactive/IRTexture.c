@@ -666,7 +666,7 @@ ir_texture_flush_cache(TQ3InteractiveData *instanceData, TQ3Boolean forceFlush)
 	if (forceFlush)
 		{
 		if (instanceData->glContext != NULL)
-			GLDrawContext_SetCurrent(instanceData->glContext);
+			GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 		
 		// Dispose of the objects in the cache
 		while (instanceData->cachedTextureCount != 0)
@@ -763,7 +763,7 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 

@@ -350,7 +350,7 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -404,7 +404,7 @@ IRRenderer_Update_Style_Interpolation(TQ3ViewObject				theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -447,7 +447,7 @@ IRRenderer_Update_Style_Backfacing(TQ3ViewObject		theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -496,7 +496,7 @@ IRRenderer_Update_Style_Fill(TQ3ViewObject		theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -554,7 +554,7 @@ IRRenderer_Update_Style_Orientation(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -592,7 +592,7 @@ IRRenderer_Update_Style_Hilight(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -626,7 +626,7 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -710,7 +710,7 @@ IRRenderer_Update_Style_Fog(TQ3ViewObject		theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -880,7 +880,7 @@ IRRenderer_Update_Shader_Illumination(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -935,7 +935,7 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 

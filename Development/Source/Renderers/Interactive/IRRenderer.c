@@ -75,7 +75,7 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 
         // Otherwise, make sure it's active (in case we can re-use it)
         else
-            GLDrawContext_SetCurrent(instanceData->glContext);
+            GLDrawContext_SetCurrent(instanceData->glContext, kQ3True);
 
 
 
@@ -136,8 +136,8 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 
 
 
-	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	// Activate our context (forcing it to be set at least once per frame)
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3True);
 
 
 
@@ -163,7 +163,7 @@ IRRenderer_EndFrame(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -202,7 +202,7 @@ IRRenderer_StartPass(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -234,7 +234,7 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 

@@ -71,6 +71,11 @@ WFRenderer_StartFrame(TQ3ViewObject				theView,
 			drawContextFlags = kQ3XDrawContextValidationAll;
 
 
+        // Otherwise, make sure it's active (in case we can re-use it)
+        else
+            GLDrawContext_SetCurrent(instanceData->glContext, kQ3True);
+
+
 
 		// Handle some common cases
 		if (drawContextFlags != kQ3XDrawContextValidationAll)
@@ -140,8 +145,8 @@ WFRenderer_StartFrame(TQ3ViewObject				theView,
 
 
 
-	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	// Activate our context (forcing it to be set at least once per frame)
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3True);
 
 
 
@@ -167,7 +172,7 @@ WFRenderer_EndFrame(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -202,7 +207,7 @@ WFRenderer_StartPass(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -227,7 +232,7 @@ WFRenderer_EndPass(TQ3ViewObject theView, TQ3WireframeData *instanceData)
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 

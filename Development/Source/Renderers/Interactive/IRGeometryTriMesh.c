@@ -1417,7 +1417,7 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
