@@ -325,7 +325,7 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 		PixMapHandle imagePM = NULL, maskPM = NULL;
 		Rect srcRect = {0,0,28,32};
 		
-		SetPort((CGrafPtr)data->mWindow);
+		SetPort(data->mWindow);
 
 		E3Area_ToRect(butnRect, &r);
 		drawInfo.state = down ? kThemeStatePressed : kThemeStateActive;
@@ -418,34 +418,33 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 //-----------------------------------------------------------------------------
 static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect)
 {
-	// For now, let's do a Mac-only hack.
 	#if QUESA_OS_MACINTOSH
+		// MacOS implementation: use the Appearance Manager to draw an
+		// appropriate theme background.
 		Rect r;
 		ThemeBrush theme;
+		WindowRef window;
+		Boolean active;
 		
 		E3Area_ToRect(stripRect, &r);
-		SetPort((CGrafPtr)data->mWindow);
+		SetPort(data->mWindow);
+		window = GetWindowFromPort((CGrafPtr)data->mWindow);
 
 		// Let's use the Appearance Manager to draw a proper themed background.
 		// Should look right in both OS9 and OS X.
-		theme = kThemeTextColorModelessDialogActive;
-		#if TARGET_API_MAC_CARBON
-			// Under Carbon, we can adjust for inactive windows as follows.
-			if ((UInt32)kUnresolvedCFragSymbolAddress != (UInt32)IsWindowActive
-			  && !IsWindowActive(GetWindowFromPort((CGrafPtr)data->mWindow)))
-				{
-			  	theme = kThemeTextColorModelessDialogInactive;
-			  	}
-		#endif
+		// NOTE: some Apple docs say that Carbon apps should rely on IsWindowActive
+		// to determine whether to draw active or inactitve content.  But this
+		// function call does not, in fact, work when the whole app is deactivated,
+		// and Apple engineers have personally recommended to me (JJS) that we use
+		// IsWindowHilited for this purpose anyway.
+		active = IsWindowHilited(window);
+
+		if (active)
+			theme = kThemeBrushModelessDialogBackgroundActive;
+		else
+			theme = kThemeBrushModelessDialogBackgroundInactive;
 		SetThemeBackground(theme, 32, true);
 		EraseRect(&r);				// Opportunity For Improvement: make a region that excludes the buttons!
-
-		// Older code, that just draws a solid color.
-		// Probably should remove this once comfortable with the above.
-//		RGBColor bgColor = {0xCCCC, 0xCCCC, 0xCCCC};
-//		RGBForeColor(&bgColor);
-//		PaintRect(&r);				// Opportunity For Improvement: make a region that excludes the buttons!
-//		ForeColor(blackColor);
 	#endif // QUESA_OS_MACINTOSH
 }
 
@@ -458,7 +457,7 @@ static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 	#if QUESA_OS_MACINTOSH
 		Rect r;
 		Pattern	pat;
-		SetPort((CGrafPtr)data->mWindow);
+		SetPort(data->mWindow);
 
 		E3Area_ToRect(rect, &r);
 		ForeColor(blackColor);
@@ -712,7 +711,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 		contextData.drawContextData.doubleBufferState = kQ3True;	// should be false on OS X?!?
 
 		// Mac-specific draw context stuff
-		contextData.window = GetWindowFromPort(instanceData->mWindow);
+		contextData.window = (CWindowPtr)GetWindowFromPort(instanceData->mWindow);
 		drawContext = Q3MacDrawContext_New(&contextData);
 
 		// renderer
