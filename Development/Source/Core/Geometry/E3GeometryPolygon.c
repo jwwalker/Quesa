@@ -451,7 +451,7 @@ E3GeometryPolygon_RegisterClass(void)
 											kQ3GeometryTypePolygon,
 											kQ3ClassNameGeometryPolygon,
 											e3geom_polygon_metahandler,
-											~sizeof(E3Polygon));
+											sizeof(E3Polygon));
 
 	return(qd3dStatus);
 }
@@ -470,7 +470,7 @@ E3GeometryPolygon_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypePolygon, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypePolygon, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -490,7 +490,7 @@ E3Polygon_New(const TQ3PolygonData *polygonData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypePolygon, kQ3False, polygonData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypePolygon, kQ3False, polygonData);
 	return(theObject);
 }
 

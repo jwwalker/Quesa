@@ -1063,77 +1063,77 @@ E3Transform_RegisterClass(void)
 											kQ3ShapeTypeTransform,
 											kQ3ClassNameTransform,
 											e3transform_metahandler,
-											~sizeof(E3Transform));
+											sizeof(E3Transform));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeMatrix,
 												kQ3ClassNameTransformMatrix,
 												e3transform_matrix_metahandler,
-												~sizeof(E3MatrixTransform));
+												sizeof(E3MatrixTransform));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeRotate,
 												kQ3ClassNameTransformRotate,
 												e3transform_rotate_metahandler,
-												~sizeof(E3RotateTransform));
+												sizeof(E3RotateTransform));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeRotateAboutPoint,
 												kQ3ClassNameTransformRotateAboutPoint,
 												e3transform_rotateaboutpoint_metahandler,
-												~sizeof(E3RotateAboutPointTransform));
+												sizeof(E3RotateAboutPointTransform));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeRotateAboutAxis,
 												kQ3ClassNameTransformRotateAboutAxis,
 												e3transform_rotateaboutaxis_metahandler,
-												~sizeof(E3RotateAboutAxisTransform));
+												sizeof(E3RotateAboutAxisTransform));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeScale,
 												kQ3ClassNameTransformScale,
 												e3transform_scale_metahandler,
-												~sizeof(E3ScaleTransform));
+												sizeof(E3ScaleTransform));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeTranslate,
 												kQ3ClassNameTransformTranslate,
 												e3transform_translate_metahandler,
-												~sizeof(E3TranslateTransform));
+												sizeof(E3TranslateTransform));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeQuaternion,
 												kQ3ClassNameTransformQuaternion,
 												e3transform_quaternion_metahandler,
-												~sizeof(E3QuaternionTransform));
+												sizeof(E3QuaternionTransform));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeReset,
 												kQ3ClassNameTransformReset,
 												e3transform_reset_metahandler,
-												~sizeof(E3ResetTransform));
+												sizeof(E3ResetTransform));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeCamera,
 												kQ3ClassNameTransformCamera,
 												e3transform_camera_metahandler,
-												~sizeof(E3CameraTransform));
+												sizeof(E3CameraTransform));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeCameraRasterize,
 												kQ3ClassNameTransformCameraRasterize,
 												e3transform_camera_rasterize_metahandler,
-												~sizeof(E3CameraRasterizeTransform));
+												sizeof(E3CameraRasterizeTransform));
 
 	return(qd3dStatus);
 }
@@ -1176,12 +1176,10 @@ E3Transform_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3Transform_GetType(TQ3TransformObject theTransform)
-{
-
-
+	{
 	// Get the type
-	return(E3ClassTree_GetObjectType(theTransform, kQ3ShapeTypeTransform));
-}
+	return theTransform->GetObjectType ( kQ3ShapeTypeTransform ) ;
+	}
 
 
 
@@ -1192,24 +1190,21 @@ E3Transform_GetType(TQ3TransformObject theTransform)
 //-----------------------------------------------------------------------------
 TQ3Matrix4x4 *
 E3Transform_GetMatrix(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix)
-{	TQ3XTransformMatrixMethod		matrixMethod;
-
-
-
+	{
 	// Get the matrix method for the transform
-	matrixMethod = (TQ3XTransformMatrixMethod)
-					E3ClassTree_GetMethodByObject(theTransform, kQ3XMethodTypeTransformMatrix);
+	TQ3XTransformMatrixMethod matrixMethod = (TQ3XTransformMatrixMethod)
+					theTransform->GetMethod ( kQ3XMethodTypeTransformMatrix ) ;
 
 
 
 	// Call the method, or revert to the identity matrix on error
-	if (matrixMethod != NULL)
-		matrixMethod( theTransform->FindLeafInstanceData (), theMatrix);
+	if ( matrixMethod != NULL )
+		matrixMethod ( theTransform->FindLeafInstanceData (), theMatrix ) ;
 	else
-		Q3Matrix4x4_SetIdentity(theMatrix);
+		Q3Matrix4x4_SetIdentity ( theMatrix ) ;
 	
-	return(theMatrix);
-}
+	return theMatrix ;
+	}
 
 
 
@@ -1244,7 +1239,7 @@ E3MatrixTransform_New(const TQ3Matrix4x4 *theMatrix)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeMatrix, kQ3False, theMatrix);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeMatrix, kQ3False, theMatrix);
 
 	return(theObject);
 }
@@ -1315,7 +1310,7 @@ E3RotateTransform_New(const TQ3RotateTransformData *data)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeRotate, kQ3False, data);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeRotate, kQ3False, data);
 
 	return(theObject);
 }
@@ -1452,7 +1447,7 @@ E3RotateAboutPointTransform_New(const TQ3RotateAboutPointTransformData *data)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeRotateAboutPoint, kQ3False, data);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeRotateAboutPoint, kQ3False, data);
 
 	return(theObject);
 }
@@ -1622,7 +1617,7 @@ E3RotateAboutAxisTransform_New(const TQ3RotateAboutAxisTransformData *data)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeRotateAboutAxis, kQ3False, data);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeRotateAboutAxis, kQ3False, data);
 
 	return(theObject);
 }
@@ -1792,7 +1787,7 @@ E3ScaleTransform_New(const TQ3Vector3D *scale)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeScale, kQ3False, scale);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeScale, kQ3False, scale);
 
 	return(theObject);
 }
@@ -1863,7 +1858,7 @@ E3TranslateTransform_New(const TQ3Vector3D *translate)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeTranslate, kQ3False, translate);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeTranslate, kQ3False, translate);
 
 	return(theObject);
 }
@@ -1934,7 +1929,7 @@ E3QuaternionTransform_New(const TQ3Quaternion *quaternion)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeQuaternion, kQ3False, quaternion);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeQuaternion, kQ3False, quaternion);
 
 	return(theObject);
 }
@@ -2005,7 +2000,7 @@ E3ResetTransform_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeReset, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeReset, kQ3False, NULL);
 
 	return(theObject);
 }
@@ -2043,7 +2038,7 @@ E3CameraTransform_New(const TQ3CameraTransformData *theData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeCamera, kQ3False, theData);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeCamera, kQ3False, theData);
 
 	return(theObject);
 }
@@ -2114,7 +2109,7 @@ E3RasterizeCameraTransform_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeCameraRasterize, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeCameraRasterize, kQ3False, NULL);
 
 	return(theObject);
 }

@@ -595,7 +595,7 @@ E3GeometryTriGrid_RegisterClass(void)
 											kQ3GeometryTypeTriGrid,
 											kQ3ClassNameGeometryTriGrid,
 											e3geom_trigrid_metahandler,
-											~sizeof(E3TriGrid));
+											sizeof(E3TriGrid));
 
 	return(qd3dStatus);
 }
@@ -634,7 +634,7 @@ E3TriGrid_New(const TQ3TriGridData *triGridData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeTriGrid, kQ3False, triGridData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeTriGrid, kQ3False, triGridData);
 	return(theObject);
 }
 

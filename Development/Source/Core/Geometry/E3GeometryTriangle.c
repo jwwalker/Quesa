@@ -439,7 +439,7 @@ E3GeometryTriangle_RegisterClass(void)
 											kQ3GeometryTypeTriangle,
 											kQ3ClassNameGeometryTriangle,
 											e3geom_triangle_metahandler,
-											~sizeof(E3Triangle));
+											sizeof(E3Triangle));
 
 	return(qd3dStatus);
 }
@@ -458,7 +458,7 @@ E3GeometryTriangle_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeTriangle, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeTriangle, kQ3True);
 	
 	return(qd3dStatus);
 }
@@ -478,7 +478,7 @@ E3Triangle_New(const TQ3TriangleData *triangleData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeTriangle, kQ3False, triangleData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeTriangle, kQ3False, triangleData);
 	return(theObject);
 }
 

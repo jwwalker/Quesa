@@ -183,36 +183,32 @@ e3geom_trimesh_copyattributes(TQ3Uns32						numAttributeTypes,
 								TQ3Uns32					numElements,
 								TQ3TriMeshAttributeData		*srcAttributeTypes,
 								TQ3TriMeshAttributeData		**destAttributeTypes)
-{
-	TQ3Uns32				i, bytes, attrSize;	
-	TQ3Status				qd3dStatus;
-	TQ3AttributeType		attrType;
-	E3ClassInfoPtr			theClass;
-
-	if (numAttributeTypes < 1) {
-		*destAttributeTypes = NULL;
-		return(kQ3Success);
-	}
+	{
+	if ( numAttributeTypes < 1 )
+		{
+		*destAttributeTypes = NULL ;
+		return kQ3Success ;
+		}
 	
-	qd3dStatus = e3geom_trimesh_clone(srcAttributeTypes,
+	TQ3Status qd3dStatus = e3geom_trimesh_clone(srcAttributeTypes,
 									  (void **) destAttributeTypes,
 									  numAttributeTypes * sizeof(TQ3TriMeshAttributeData));
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
 
-	for (i=0; i<numAttributeTypes && qd3dStatus == kQ3Success; i++)
+	for ( TQ3Uns32 i = 0 ; i < numAttributeTypes && qd3dStatus == kQ3Success ; ++i )
 		{
 		// We must make a copy of the data elements; but first, we must figure
 		// out how big they are (depends on the attribute type)
-		attrType = srcAttributeTypes[i].attributeType;
+		TQ3AttributeType attrType = srcAttributeTypes[i].attributeType;
 		attrType = E3Attribute_AttributeToClassType(attrType);
-		theClass = E3ClassTree_GetClassByType(attrType);
-		if (theClass != NULL)
+		E3ClassInfoPtr theClass = E3ClassTree::GetClass ( attrType ) ;
+		if ( theClass != NULL )
 			{
 			// Copy the attribute data
-			attrSize = E3ClassTree_GetInstanceSize(theClass);
-			bytes    = numElements * attrSize;
-			if (bytes != 0 )
+			TQ3Uns32 attrSize = theClass->GetInstanceSize () ;
+			TQ3Uns32 bytes    = numElements * attrSize ;
+			if ( bytes != 0 )
 				qd3dStatus = e3geom_trimesh_clone(srcAttributeTypes[i].data,
 												  &(*destAttributeTypes)[i].data,
 												  bytes);
@@ -231,8 +227,8 @@ e3geom_trimesh_copyattributes(TQ3Uns32						numAttributeTypes,
 			}
 		}
 	
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -629,10 +625,10 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 			{
 			attrType = theTriMesh->triangleAttributeTypes[n].attributeType;
 			attrType = E3Attribute_AttributeToClassType(attrType);
-			theClass = E3ClassTree_GetClassByType(attrType);
+			theClass = E3ClassTree::GetClass ( attrType ) ;
 			if (theClass != NULL)
 				{
-				attrSize = E3ClassTree_GetInstanceSize(theClass);
+				attrSize = theClass->GetInstanceSize () ;
 				Q3AttributeSet_Add(theTriangle->triangleAttributeSet, attrType,
 									(TQ3Uns8 *) theTriMesh->triangleAttributeTypes[n].data + (theIndex * attrSize));
 				}
@@ -692,10 +688,10 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 					{
 					attrType = theTriMesh->vertexAttributeTypes[m].attributeType;
 					attrType = E3Attribute_AttributeToClassType(attrType);
-					theClass = E3ClassTree_GetClassByType(attrType);
+					theClass = E3ClassTree::GetClass ( attrType ) ;
 					if (theClass != NULL)
 						{
-						attrSize = E3ClassTree_GetInstanceSize(theClass);
+						attrSize = theClass->GetInstanceSize () ;
 						Q3AttributeSet_Add(theTriangle->vertices[n].attributeSet, attrType,
 											(TQ3Uns8 *) theTriMesh->vertexAttributeTypes[m].data + (vertIndex * attrSize));
 						}
@@ -1370,7 +1366,7 @@ E3GeometryTriMesh_RegisterClass(void)
 											kQ3GeometryTypeTriMesh,
 											kQ3ClassNameGeometryTriMesh,
 											e3geom_trimesh_metahandler,
-											~sizeof(E3TriMesh));
+											sizeof(E3TriMesh));
 
 	return(qd3dStatus);
 }
@@ -1409,7 +1405,7 @@ E3TriMesh_New(const TQ3TriMeshData *triMeshData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeTriMesh, kQ3False, triMeshData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeTriMesh, kQ3False, triMeshData);
 	return(theObject);
 }
 

@@ -4423,7 +4423,7 @@ E3GeometryMesh_RegisterClass(void)
 											kQ3GeometryTypeMesh,
 											kQ3ClassNameGeometryMesh,
 											e3geom_mesh_metahandler,
-											~sizeof(E3Mesh));
+											sizeof(E3Mesh));
 
 	return(qd3dStatus);
 }
@@ -4462,7 +4462,7 @@ E3Mesh_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeMesh, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeMesh, kQ3False, NULL);
 	return(theObject);
 }
 

@@ -560,7 +560,7 @@ E3GeometryTorus_RegisterClass(void)
 											kQ3GeometryTypeTorus,
 											kQ3ClassNameGeometryTorus,
 											e3geom_torus_metahandler,
-											~sizeof(E3Torus));
+											sizeof(E3Torus));
 
 	return(qd3dStatus);
 }
@@ -609,11 +609,11 @@ E3Torus_New(const TQ3TorusData *torusData)
 			kQ3EndCapNone,
 			NULL, NULL
 		};
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeTorus, kQ3False, &defaultTorus);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeTorus, kQ3False, &defaultTorus);
 	}
 	else
 	{
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeTorus, kQ3False, torusData);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeTorus, kQ3False, torusData);
 	}
 
 

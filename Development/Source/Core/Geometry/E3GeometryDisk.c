@@ -577,7 +577,7 @@ E3GeometryDisk_RegisterClass(void)
 											kQ3GeometryTypeDisk,
 											kQ3ClassNameGeometryDisk,
 											e3geom_disk_metahandler,
-											~sizeof(E3Disk));
+											sizeof(E3Disk));
 
 	return(qd3dStatus);
 }
@@ -624,10 +624,10 @@ E3Disk_New(const TQ3DiskData *diskData)
 			0.0f, 1.0f, 0.0f, 1.0f,
 			NULL
 		};
-		theObject = E3ClassTree_CreateInstance( kQ3GeometryTypeDisk, kQ3False, &defaultDiskData );
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeDisk, kQ3False, &defaultDiskData ) ;
 	}
 	else
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeDisk, kQ3False, diskData);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeDisk, kQ3False, diskData ) ;
 	
 
 	return (theObject);

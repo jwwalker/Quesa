@@ -385,7 +385,7 @@ E3GeometryGeneralPolygon_RegisterClass(void)
 											kQ3GeometryTypeGeneralPolygon,
 											kQ3ClassNameGeometryGeneralPolygon,
 											e3geom_generalpolygon_metahandler,
-											~sizeof(E3GeneralPolygon));
+											sizeof(E3GeneralPolygon));
 
 	return(qd3dStatus);
 }
@@ -424,7 +424,7 @@ E3GeneralPolygon_New(const TQ3GeneralPolygonData *generalPolygonData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeGeneralPolygon, kQ3False, generalPolygonData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeGeneralPolygon, kQ3False, generalPolygonData);
 	return(theObject);
 }
 

@@ -710,7 +710,7 @@ E3Shader_RegisterClass(void)
 											kQ3ShapeTypeShader,
 											kQ3ClassNameShader,
 											e3shader_metahandler,
-											~sizeof(E3Shader)) ;
+											sizeof(E3Shader)) ;
 
 
 	//register illumination shader bases class
@@ -719,7 +719,7 @@ E3Shader_RegisterClass(void)
 												kQ3ShaderTypeIllumination,
 												kQ3ClassNameShaderIllumination,
 												e3shader_illumination_metahandler,
-												~sizeof(E3IlluminationShader)) ;
+												sizeof(E3IlluminationShader)) ;
 
 
 	//register illumination shaders
@@ -728,20 +728,20 @@ E3Shader_RegisterClass(void)
 												kQ3IlluminationTypeNULL,
 												kQ3ClassNameIlluminationNULL,
 												NULL,
-												~sizeof(E3NULLIllumination));
+												sizeof(E3NULLIllumination));
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShaderTypeIllumination,
 												kQ3IlluminationTypeLambert,
 												kQ3ClassNameIlluminationLambert,
 												NULL,
-												~sizeof(E3LambertIllumination));
+												sizeof(E3LambertIllumination));
 	
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShaderTypeIllumination,
 												kQ3IlluminationTypePhong,
 												kQ3ClassNameIlluminationPhong,
 												NULL,
-												~sizeof(E3PhongIllumination));	
+												sizeof(E3PhongIllumination));	
 
 
 	//register surface shader base class
@@ -750,7 +750,7 @@ E3Shader_RegisterClass(void)
 												kQ3ShaderTypeSurface,
 												kQ3ClassNameShaderSurface,
 												e3shader_surface_metahandler,
-												~sizeof(E3SurfaceShader)) ;
+												sizeof(E3SurfaceShader)) ;
 
 
 	//register surface shaders
@@ -759,7 +759,7 @@ E3Shader_RegisterClass(void)
 												kQ3SurfaceShaderTypeTexture,
 												kQ3ClassNameSurfaceTexture,
 												e3shader_texture_metahandler,
-												~sizeof(E3TextureShader)) ;
+												sizeof(E3TextureShader)) ;
 
 
 	return(qd3dStatus) ;
@@ -800,12 +800,10 @@ E3Shader_UnregisterClass(void)
 #pragma mark -
 TQ3ObjectType
 E3Shader_GetType(TQ3ShaderObject shader)
-{
-
-
+	{
 	// Return the type
-	return(E3ClassTree_GetObjectType(shader, kQ3ShapeTypeShader));
-}
+	return shader->GetObjectType ( kQ3ShapeTypeShader ) ;
+	}
 
 
 
@@ -938,12 +936,10 @@ E3Shader_GetVBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary *vBoundary)
 #pragma mark -
 TQ3ObjectType
 E3IlluminationShader_GetType(TQ3ShaderObject shader)
-{
-
-
+	{
 	// Return the type
-	return(E3ClassTree_GetObjectType(shader, kQ3ShaderTypeIllumination));
-}
+	return shader->GetObjectType ( kQ3ShaderTypeIllumination ) ;
+	}
 
 
 
@@ -959,7 +955,7 @@ E3PhongIllumination_New(void)
 	
 	
 	// Create the object
-	phongShader = E3ClassTree_CreateInstance(kQ3IlluminationTypePhong, kQ3False, NULL) ;
+	phongShader = E3ClassTree::CreateInstance ( kQ3IlluminationTypePhong, kQ3False, NULL) ;
 
 	return(phongShader);
 }
@@ -978,7 +974,7 @@ E3LambertIllumination_New(void)
 	
 	
 	// Create the object
-	lambertShader = E3ClassTree_CreateInstance(kQ3IlluminationTypeLambert, kQ3False, NULL) ;
+	lambertShader = E3ClassTree::CreateInstance ( kQ3IlluminationTypeLambert, kQ3False, NULL) ;
 
 	return(lambertShader);
 }
@@ -997,7 +993,7 @@ E3NULLIllumination_New(void)
 
 
 	// Create the object	
-	nullShader = E3ClassTree_CreateInstance(kQ3IlluminationTypeNULL, kQ3False, NULL) ;
+	nullShader = E3ClassTree::CreateInstance ( kQ3IlluminationTypeNULL, kQ3False, NULL) ;
 
 	return(nullShader);
 }
@@ -1012,12 +1008,10 @@ E3NULLIllumination_New(void)
 #pragma mark -
 TQ3ObjectType
 E3SurfaceShader_GetType(TQ3SurfaceShaderObject shader)
-{
-
-
+	{
 	// Return the type
-	return(E3ClassTree_GetObjectType(shader, kQ3ShaderTypeSurface));
-}
+	return shader->GetObjectType ( kQ3ShaderTypeSurface ) ;
+	}
 
 
 
@@ -1033,7 +1027,7 @@ E3TextureShader_New(TQ3TextureObject texture)
 	
 	
 	// Create the object
-	textureShader = E3ClassTree_CreateInstance(	kQ3SurfaceShaderTypeTexture, kQ3False, &texture);
+	textureShader = E3ClassTree::CreateInstance ( 	kQ3SurfaceShaderTypeTexture, kQ3False, &texture);
 	
 	return(textureShader) ;
 }

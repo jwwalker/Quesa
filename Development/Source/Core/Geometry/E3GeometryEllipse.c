@@ -337,7 +337,7 @@ E3GeometryEllipse_RegisterClass(void)
 											kQ3GeometryTypeEllipse,
 											kQ3ClassNameGeometryEllipse,
 											e3geom_ellipse_metahandler,
-											~sizeof(E3Ellipse));
+											sizeof(E3Ellipse));
 
 	return(qd3dStatus);
 }
@@ -384,11 +384,11 @@ E3Ellipse_New(const TQ3EllipseData *ellipseData)
 			{ 0.0f, 0.0f, 1.0f },
 			0.0f, 1.0f, NULL
 		};
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeEllipse, kQ3False, &defaultEllipse);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeEllipse, kQ3False, &defaultEllipse ) ;
 	}
 	else
 	{
-		theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeEllipse, kQ3False, ellipseData);
+		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeEllipse, kQ3False, ellipseData ) ;
 	}
 
 

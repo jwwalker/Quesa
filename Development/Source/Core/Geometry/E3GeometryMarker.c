@@ -541,7 +541,7 @@ E3GeometryMarker_RegisterClass(void)
 											kQ3GeometryTypeMarker,
 											kQ3ClassNameGeometryMarker,
 											e3geom_marker_metahandler,
-											~sizeof(E3Marker));
+											sizeof(E3Marker));
 
 	return(qd3dStatus);
 }
@@ -580,7 +580,7 @@ E3Marker_New(const TQ3MarkerData *markerData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GeometryTypeMarker, kQ3False, markerData);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeMarker, kQ3False, markerData);
 	return(theObject);
 }
 

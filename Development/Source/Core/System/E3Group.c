@@ -965,8 +965,8 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 
 
 	// Find our methods
-	startIterateMethod = (TQ3XGroupStartIterateMethod) E3ClassTree_GetMethodByObject(theObject, kQ3XMethodType_GroupStartIterate);
-	endIterateMethod   = (TQ3XGroupEndIterateMethod)   E3ClassTree_GetMethodByObject(theObject, kQ3XMethodType_GroupEndIterate);
+	startIterateMethod = (TQ3XGroupStartIterateMethod) theObject->GetMethod ( kQ3XMethodType_GroupStartIterate);
+	endIterateMethod   = (TQ3XGroupEndIterateMethod)   theObject->GetMethod ( kQ3XMethodType_GroupEndIterate);
 
 	if (startIterateMethod == NULL || endIterateMethod == NULL)
 		{
@@ -1425,16 +1425,16 @@ static TQ3XOrderIndex	e3group_display_ordered_typetoindex( TQ3ObjectType objectT
 	{
 		// The type may be derived from one of the simple types we looked for.
 		// Walk up the class tree until we find a type we know or reach the top.
-		E3ClassInfoPtr	theClass = E3ClassTree_GetClassByType( objectType );
+		E3ClassInfoPtr	theClass = E3ClassTree::GetClass ( objectType ) ;
 		while (theClass != NULL)
 		{
 			theIndex = e3group_display_ordered_simpletypetoindex(
-				E3ClassTree_GetType( theClass ) );
+				theClass->GetType () );
 			if (theIndex != kQ3XOrderIndex_All)
 			{
 				break;
 			}
-			theClass = E3ClassTree_GetParent( theClass );
+			theClass = theClass->GetParent () ;
 		}
 	}
 	return theIndex;
@@ -2493,42 +2493,42 @@ E3Group_RegisterClass(void)
 											kQ3ShapeTypeGroup,
 											kQ3ClassNameGroup,
 											e3group_metahandler,
-											~sizeof(E3Group));
+											sizeof(E3Group));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
 												kQ3GroupTypeDisplay,
 												kQ3ClassNameGroupDisplay,
 												e3group_display_metahandler,
-												~sizeof(E3DisplayGroup));
+												sizeof(E3DisplayGroup));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3GroupTypeDisplay,
 												kQ3DisplayGroupTypeOrdered,
 												kQ3ClassNameGroupDisplayOrdered,
 												e3group_display_ordered_metahandler,
-												~sizeof(E3OrderedDisplayGroup));
+												sizeof(E3OrderedDisplayGroup));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3GroupTypeDisplay,
 												kQ3DisplayGroupTypeIOProxy,
 												kQ3ClassNameGroupDisplayIOProxy,
 												e3group_display_ioproxy_metahandler,
-												~sizeof(E3IOProxyDisplayGroup));
+												sizeof(E3IOProxyDisplayGroup));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
 												kQ3GroupTypeLight,
 												kQ3ClassNameGroupLight,
 												e3group_light_metahandler,
-												~sizeof(E3LightGroup));
+												sizeof(E3LightGroup));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
 												kQ3GroupTypeInfo,
 												kQ3ClassNameGroupInfo,
 												e3group_info_metahandler,
-												~sizeof(E3InfoGroup));
+												sizeof(E3InfoGroup));
 
 	return(qd3dStatus);
 }
@@ -2547,12 +2547,12 @@ E3Group_UnregisterClass(void)
 
 
 	// Unregister the class in reverse order
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GroupTypeInfo,				kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GroupTypeLight,				kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3DisplayGroupTypeIOProxy,	kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3DisplayGroupTypeOrdered,	kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GroupTypeDisplay,			kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShapeTypeGroup,				kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GroupTypeInfo,				kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GroupTypeLight,				kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DisplayGroupTypeIOProxy,	kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DisplayGroupTypeOrdered,	kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GroupTypeDisplay,			kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeGroup,				kQ3True);
 
 	return(qd3dStatus);
 }
@@ -2572,7 +2572,7 @@ E3Group_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ShapeTypeGroup, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3ShapeTypeGroup, kQ3False, NULL);
 	return(theObject);
 }
 
@@ -2585,12 +2585,10 @@ E3Group_New(void)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3Group_GetType(TQ3GroupObject group)
-{
-
-
+	{
 	// Get the type
-	return(E3ClassTree_GetObjectType(group, kQ3ShapeTypeGroup));
-}
+	return group->GetObjectType ( kQ3ShapeTypeGroup ) ;
+	}
 
 
 
@@ -3252,7 +3250,7 @@ E3DisplayGroup_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GroupTypeDisplay, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3GroupTypeDisplay, kQ3False, NULL);
 	return(theObject);
 }
 
@@ -3265,13 +3263,12 @@ E3DisplayGroup_New(void)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3DisplayGroup_GetType(TQ3GroupObject theGroup)
-{
-
-	if (E3ClassTree_GetType(E3ClassTree_GetClassByObject(theGroup)) == kQ3GroupTypeDisplay)
-		return kQ3GroupTypeDisplay;
-	else
-		return (E3ClassTree_GetObjectType(theGroup, kQ3GroupTypeDisplay));
-}
+	{
+	if ( theGroup->GetClass ()->GetType () == kQ3GroupTypeDisplay )
+		return kQ3GroupTypeDisplay ;
+	
+	return theGroup->GetObjectType ( kQ3GroupTypeDisplay ) ;
+	}
 
 
 
@@ -3427,7 +3424,7 @@ E3LightGroup_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GroupTypeLight, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3GroupTypeLight, kQ3False, NULL);
 	return(theObject);
 }
 
@@ -3445,7 +3442,7 @@ E3InfoGroup_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3GroupTypeInfo, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3GroupTypeInfo, kQ3False, NULL);
 	return(theObject);
 }
 
@@ -3463,7 +3460,7 @@ E3OrderedDisplayGroup_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3DisplayGroupTypeOrdered, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3DisplayGroupTypeOrdered, kQ3False, NULL);
 	return(theObject);
 }
 
@@ -3481,7 +3478,7 @@ E3IOProxyDisplayGroup_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3DisplayGroupTypeIOProxy, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3DisplayGroupTypeIOProxy, kQ3False, NULL);
 	return(theObject);
 }
 

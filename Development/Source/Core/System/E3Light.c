@@ -336,35 +336,35 @@ E3Light_RegisterClass(void)
 											kQ3ShapeTypeLight,
 											kQ3ClassNameLight,
 											NULL,
-											~sizeof(E3Light));
+											sizeof(E3Light));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
 												kQ3LightTypeAmbient,
 												kQ3ClassNameLightAmbient,
 												e3light_ambient_metahandler,
-												~sizeof(E3AmbientLight));
+												sizeof(E3AmbientLight));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
 												kQ3LightTypeDirectional,
 												kQ3ClassNameLightDirectional,
 												e3light_directional_metahandler,
-												~sizeof(E3DirectionalLight));
+												sizeof(E3DirectionalLight));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
 												kQ3LightTypePoint,
 												kQ3ClassNameLightPoint,
 												e3light_point_metahandler,
-												~sizeof(E3PointLight));
+												sizeof(E3PointLight));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
 												kQ3LightTypeSpot,
 												kQ3ClassNameLightSpot,
 												e3light_spot_metahandler,
-												~sizeof(E3SpotLight));
+												sizeof(E3SpotLight));
 
 	return(qd3dStatus);
 }
@@ -402,12 +402,10 @@ E3Light_UnregisterClass(void)
 #pragma mark -
 TQ3ObjectType
 E3Light_GetType(TQ3LightObject theLight)
-{
-
-
+	{
 	// Return the type
-	return(E3ClassTree_GetObjectType(theLight, kQ3ShapeTypeLight));
-}
+	return theLight->GetObjectType ( kQ3ShapeTypeLight ) ;
+	}
 
 
 
@@ -557,7 +555,7 @@ TQ3LightObject
 E3AmbientLight_New(const TQ3LightData *lightData)
 	{
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance ( kQ3LightTypeAmbient, kQ3False, NULL ) ;
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypeAmbient, kQ3False, NULL ) ;
 
 	E3AmbientLight_SetData ( theObject , lightData ) ;
 
@@ -609,7 +607,7 @@ TQ3LightObject
 E3DirectionalLight_New(const TQ3DirectionalLightData *directionalLightData)
 	{
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance ( kQ3LightTypeDirectional, kQ3False, NULL ) ;
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypeDirectional, kQ3False, NULL ) ;
 	
 	E3DirectionalLight_SetData ( theObject , directionalLightData ) ;
 	
@@ -735,7 +733,7 @@ TQ3LightObject
 E3PointLight_New(const TQ3PointLightData *pointLightData)
 	{
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance ( kQ3LightTypePoint, kQ3False, NULL ) ;
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypePoint, kQ3False, NULL ) ;
 	
 	E3PointLight_SetData ( theObject , pointLightData ) ;
 
@@ -894,7 +892,7 @@ TQ3LightObject
 E3SpotLight_New(const TQ3SpotLightData *spotLightData)
 	{
 	// Create the object
-	TQ3Object theObject = E3ClassTree_CreateInstance ( kQ3LightTypeSpot, kQ3False,  NULL ) ;
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypeSpot, kQ3False,  NULL ) ;
 
 	E3SpotLight_SetData ( theObject , spotLightData ) ;
 

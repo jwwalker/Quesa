@@ -330,28 +330,28 @@ E3Camera::RegisterClass(void)
 											kQ3ShapeTypeCamera,
 											kQ3ClassNameCamera,
 											NULL,
-											~sizeof ( E3Camera ) ) ;
+											sizeof ( E3Camera ) ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeCamera,
 												kQ3CameraTypeOrthographic,
 												kQ3ClassNameCameraOrthographic,
 												e3camera_orthographic_metahandler,
-												~sizeof ( E3OrthographicCamera ) ) ;
+												sizeof ( E3OrthographicCamera ) ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeCamera,
 												kQ3CameraTypeViewPlane,
 												kQ3ClassNameCameraViewPlane,
 												e3camera_viewplane_metahandler,
-												~sizeof ( E3ViewPlaneCamera ) ) ;
+												sizeof ( E3ViewPlaneCamera ) ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeCamera,
 												kQ3CameraTypeViewAngleAspect,
 												kQ3ClassNameCameraViewAngle,
 												e3camera_viewangle_metahandler,
-												~sizeof ( E3ViewAngleAspectCamera ) ) ;
+												sizeof ( E3ViewAngleAspectCamera ) ) ;
 
 	return(qd3dStatus);
 }
@@ -636,7 +636,7 @@ E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
 
 	// Get the camera method
 	TQ3XCameraFrustumMatrixMethod frustumMatrixMethod = (TQ3XCameraFrustumMatrixMethod)
-						  E3ClassTree_GetMethodByObject ( this, kQ3XMethodTypeCameraFrustumMatrix ) ;
+						  GetMethod ( kQ3XMethodTypeCameraFrustumMatrix ) ;
 	if ( frustumMatrixMethod == NULL )
 		return kQ3Failure ;
 
@@ -697,7 +697,7 @@ TQ3CameraObject
 E3OrthographicCamera_New(const TQ3OrthographicCameraData *orthographicData)
 	{
 	// Create the object
-	return E3ClassTree::CreateInstance ( kQ3CameraTypeOrthographic, kQ3False, orthographicData, kQ3True ) ;
+	return E3ClassTree::CreateInstance ( kQ3CameraTypeOrthographic, kQ3False, orthographicData ) ;
 	}
 
 
@@ -885,7 +885,7 @@ E3ViewPlaneCamera_New(const TQ3ViewPlaneCameraData *cameraData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3CameraTypeViewPlane, kQ3False, cameraData);
+	theObject = E3ClassTree::CreateInstance ( kQ3CameraTypeViewPlane, kQ3False, cameraData);
 	return(theObject);
 }
 
@@ -1108,7 +1108,7 @@ E3ViewAngleAspectCamera_New(const TQ3ViewAngleAspectCameraData *cameraData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3CameraTypeViewAngleAspect, kQ3False, cameraData);
+	theObject = E3ClassTree::CreateInstance ( kQ3CameraTypeViewAngleAspect, kQ3False, cameraData);
 	return(theObject);
 }
 
