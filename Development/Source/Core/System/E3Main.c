@@ -43,6 +43,8 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
+#include <new>
+
 #include "E3Prefix.h"
 #include "E3Version.h"
 #include "E3View.h"
@@ -215,9 +217,44 @@ e3shared_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3root_new : Root object new method.
+//      E3ClassInfo::E3ClassInfo : Constructor for class info of root class.
 //-----------------------------------------------------------------------------
 #pragma mark -
+
+E3Root::E3Root	(
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent // nil for root class of course
+			 	)
+	: E3ClassInfo ( newClassMetaHandler , newParent )
+	{
+	// Fill in the method data of the class
+	
+	disposeMethod = (TQ3XObjectDisposeMethod) Find_Method ( kQ3XMethodTypeObjectDispose , kQ3True ) ;
+	} ;
+
+
+//=============================================================================
+//      e3root_register : Method to construct a class info record for the root class.
+// This is necessary because applications can register their own object classes based on ours
+//-----------------------------------------------------------------------------
+static E3ClassInfo*
+e3root_register (
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent // nil for root class of course
+			 	)
+	{
+	// Dispose of the object
+	return new ( std::nothrow ) E3Root ( newClassMetaHandler, newParent ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3root_new : Root object new method.
+//-----------------------------------------------------------------------------
+
 TQ3Status
 e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 {
@@ -373,6 +410,10 @@ e3root_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) kQ3PackedVersion;
 			break;
 
+		case kQ3XMethodTypeObjectClassRegister:
+			theMethod = (TQ3XFunctionPointer) e3root_register;
+			break;
+
 		case kQ3XMethodTypeObjectDispose:
 			theMethod = (TQ3XFunctionPointer) e3root_dispose;
 			break;
@@ -405,31 +446,30 @@ static TQ3Status
 e3main_registercoreclasses(void)
 	{
 	// Register the classes
+	E3Root* rootInfo = new ( std::nothrow ) E3Root ( e3root_metahandler , nil ) ;
 	TQ3Status qd3dStatus = E3ClassTree::RegisterClass (
-											kQ3ObjectTypeInvalid,
-											kQ3ObjectTypeRoot,
+											rootInfo,
+											OpaqueTQ3Object::eClassType,
 											kQ3ClassNameRoot,
-											e3root_metahandler,
-											sizeof(OpaqueTQ3Object)
+											sizeof ( OpaqueTQ3Object )
 											);
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-												kQ3ObjectTypeShared,
+		qd3dStatus = Q3_REGISTER_CLASS (		kQ3ObjectTypeRoot,
+												E3Root,
 												kQ3ClassNameShared,
 												e3shared_metahandler,
-												sizeof(E3Shared));
+												E3Shared ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-												kQ3SharedTypeShape,
+		qd3dStatus = Q3_REGISTER_CLASS (		kQ3ObjectTypeShared,
+												E3Root,
 												kQ3ClassNameShape,
 												NULL,
-												sizeof(E3ShapeData));
+												E3ShapeData ) ;
 
 	return qd3dStatus ;
 	}
-
 
 
 
@@ -910,25 +950,11 @@ E3ObjectHierarchy_EmptySubClassData(TQ3SubClassData *subClassData)
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
-E3Object_Dispose(TQ3Object theObject)
+OpaqueTQ3Object::Dispose ( void )
 	{
-	// Skip NULL objects
-	if (theObject == NULL)
-		return(kQ3Failure);
-
-
-
-	// Get the method
-	TQ3XObjectDisposeMethod disposeMethod =
-		(TQ3XObjectDisposeMethod) theObject->GetClass ()->GetMethod ( kQ3XMethodTypeObjectDispose ) ;
-		
-	if (disposeMethod == NULL)
-		return(kQ3Failure);
-
-
 
 	// Dispose of the object
-	disposeMethod(theObject);
+	 ( (E3Root*) GetClass () )->disposeMethod ( this ) ;
 
 	return kQ3Success ;
 	}
