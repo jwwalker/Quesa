@@ -440,8 +440,6 @@ e3geom_torus_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object t
 	// a torus that's rotated around the Z axis: the bounds of the torus should
 	// stay the same, but if we rotate the points we calculate below then the bounds
 	// will be for the rotated box rather than the rotated torus).
-	//
-	// This needs to be applied to other geometries as well - see dair for details.
 	boundingMethod = E3View_GetBoundingMethod(theView);
 	if (boundingMethod == kQ3BoxBoundsExact || boundingMethod == kQ3SphereBoundsExact)
 		{
