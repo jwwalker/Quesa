@@ -37,11 +37,15 @@
 #include "E3System.h"
 
 #if QUESA_UH_IN_FRAMEWORKS
+    #include <CarbonCore/Aliases.h>
     #include <CarbonCore/CodeFragments.h>
     #include <CarbonCore/Folders.h>
+    #include <CarbonCore/Processes.h>
 #else
+	#include <Aliases.h>
 	#include <CodeFragments.h>
 	#include <Folders.h>
+	#include <Processes.h>
 #endif
 
 #if TARGET_RT_MAC_MACHO
@@ -53,6 +57,25 @@
 #if Q3_PROFILE
 	#include <Profiler.h>
 #endif
+
+
+
+
+
+//=============================================================================
+//      Function prototyes
+//-----------------------------------------------------------------------------
+pascal OSErr E3MacCFM_Initialise(const CFragInitBlock *initBlock);
+pascal OSErr E3MacCFM_Terminate(void);
+
+
+
+
+
+//=============================================================================
+//      Internal globals
+//-----------------------------------------------------------------------------
+static AliasHandle gQuesaLib = NULL;
 
 
 
@@ -77,10 +100,84 @@ e3mac_load_plugin(const FSSpec *theFSSpec)
 
 
 
-	// Load the plug-in
-	theErr = GetDiskFragment(theFSSpec, 0, kCFragGoesToEOF,
-								"\p", kPrivateCFragCopy,
-								&theConnection, &mainAddr, theStr);
+	// Load the plug-in. Note that we just need to open a connection
+	// to the fragment, and the plug-ins CFM initialisation routine
+	// will register any Quesa objects with the system.
+	theErr = GetDiskFragment(theFSSpec, 0, kCFragGoesToEOF, "\p",
+							 kPrivateCFragCopy, &theConnection,
+							 &mainAddr, theStr);
+}
+
+
+
+
+
+//=============================================================================
+//      e3mac_load_plugins : Scan a directory for plug-ins and load them.
+//-----------------------------------------------------------------------------
+//		Note :	Although it makes the interface a little unusual, the FSSpec
+//				that is supplied is to a file contained in the directory to
+//				be scanned (e.g., passing an FSSpec to the application would
+//				cause the application directory to be scanned).
+//
+//				This simplifies the code which invokes us (since it starts with
+//				an FSSpec to a file in a directory to be scanned), and our own
+//				implementation (since we need the directory ID of the directory
+//				to scan, which we'd have to recalculate ourselves if we were
+//				passed an FSSpec to the directory to scan).
+//-----------------------------------------------------------------------------
+static void
+e3mac_load_plugins(const FSSpec *fileInDirToScan)
+{	Boolean			targetIsFolder;
+	Boolean			wasAliased;
+	FSSpec			theFSSpec;
+	TQ3Uns32		theIndex;
+	OSErr			theErr;
+	CInfoPBRec		thePB;
+
+
+
+	// Iterate through the directory, looking for plug-ins
+	theIndex = 1;
+	do
+		{
+		// Get the next file
+		thePB.dirInfo.ioFDirIndex = theIndex;
+		thePB.dirInfo.ioVRefNum   = fileInDirToScan->vRefNum;
+		thePB.dirInfo.ioDrDirID   = fileInDirToScan->parID;
+		thePB.dirInfo.ioNamePtr   = theFSSpec.name;
+		
+		theErr = PBGetCatInfoSync(&thePB);
+
+		if (theErr == noErr)
+			{
+			// Grab the file
+			theErr = FSMakeFSSpec(fileInDirToScan->vRefNum, fileInDirToScan->parID, theFSSpec.name, &theFSSpec);
+			if (theErr == noErr)
+				{
+				// Resolve any aliases
+				targetIsFolder = TRUE;
+				ResolveAliasFile(&theFSSpec, true, &targetIsFolder, &wasAliased);
+
+
+				// If this isn't a directory, check the type
+				if (!targetIsFolder)
+					{
+					// If this is a plug-in, load it
+					if (thePB.hFileInfo.ioFlFndrInfo.fdType    == kQ3XExtensionMacFileType &&
+						thePB.hFileInfo.ioFlFndrInfo.fdCreator == kQ3XExtensionMacCreatorType)
+						e3mac_load_plugin(&theFSSpec);
+					}
+				}
+			
+			
+			// Clear any error - don't stop if we hit an error at this point
+			theErr = noErr;
+			}
+		
+		theIndex++;
+		}
+	while (theErr == noErr);
 }
 
 
@@ -90,9 +187,59 @@ e3mac_load_plugin(const FSSpec *theFSSpec)
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
-//      E3MacSystem_Initialise : Initialise the system.
+//      E3MacCFM_Initialise : CFM initialise routine.
 //-----------------------------------------------------------------------------
 #pragma mark -
+pascal OSErr
+E3MacCFM_Initialise(const CFragInitBlock *initBlock)
+{	OSErr	theErr;
+
+
+
+	// Save an alias to our FSSpec for later
+	if (initBlock->fragLocator.where == kDataForkCFragLocator)
+		theErr = NewAlias(NULL, initBlock->fragLocator.u.onDisk.fileSpec, &gQuesaLib);
+	else	
+		theErr = noErr;
+
+	return(theErr);
+}
+
+
+
+
+
+//=============================================================================
+//      E3MacCFM_Terminate : CFM termination routine.
+//-----------------------------------------------------------------------------
+pascal OSErr
+E3MacCFM_Terminate(void)
+{
+
+
+	// Make sure Quesa has been shut down by the app
+	if (Q3IsInitialized())
+		Q3Exit();
+
+
+
+	// Dispose of our alias
+	if (gQuesaLib != NULL)
+		{
+		DisposeHandle((Handle) gQuesaLib);
+		gQuesaLib = NULL;
+		}
+
+	return(noErr);
+}
+
+
+
+
+
+//=============================================================================
+//      E3MacSystem_Initialise : Initialise the system.
+//-----------------------------------------------------------------------------
 TQ3Status
 E3MacSystem_Initialise(void)
 {
@@ -115,7 +262,6 @@ E3MacSystem_Initialise(void)
 //=============================================================================
 //      E3MacSystem_Terminate : Terminate the system.
 //-----------------------------------------------------------------------------
-#pragma mark -
 void
 E3MacSystem_Terminate(void)
 {
@@ -146,62 +292,77 @@ E3MacSystem_Terminate(void)
 //=============================================================================
 //      E3MacSystem_LoadPlugins : Scan for and load plug-ins.
 //-----------------------------------------------------------------------------
+//		Note :	Plug-ins are loaded by scanning the application directory,
+//				the Quesa library directory, and the Extensions folder.
+//
+//				Note that we deliberately pass e3mac_load_plugins an FSSpec to
+//				a file within the directory to scan. This is deliberate.
+//-----------------------------------------------------------------------------
 void
 E3MacSystem_LoadPlugins(void)
-{	SInt16			extensionFolderVolRefNum;
-	SInt32			extensionFolderDirID;
-	Boolean			targetIsFolder;
-	Boolean			wasAliased;
-	FSSpec			theFSSpec;
-	TQ3Uns32		theIndex;
-	OSErr			theErr;
-	CInfoPBRec		thePB;
+{	FSSpec					appFSSpec, quesaFSSpec, extensionsFSSpec;
+	ProcessInfoRec			processInfo;
+	Boolean					wasChanged;
+	ProcessSerialNumber		thePSN;
+	OSErr					theErr;
 
 
 
-	// Find	the extensions folder
+	// Initialise ourselves
+	memset(&appFSSpec,        0x00, sizeof(appFSSpec));
+	memset(&quesaFSSpec,      0x00, sizeof(quesaFSSpec));
+	memset(&extensionsFSSpec, 0x00, sizeof(extensionsFSSpec));
+
+
+
+	// Find the application file
+	processInfo.processInfoLength = sizeof(ProcessInfoRec);
+	processInfo.processName       = (StringPtr) &appFSSpec.name;
+	processInfo.processAppSpec    = &appFSSpec;
+	
+	theErr = GetCurrentProcess(&thePSN);
+	theErr = GetProcessInformation(&thePSN, &processInfo);
+
+
+
+	// Find the Quesa shared library file
+	if (gQuesaLib != NULL)
+		theErr = ResolveAlias(NULL, gQuesaLib, &quesaFSSpec, &wasChanged);
+
+
+
+	// Find a file (any file) within the Extensions folder
 	theErr = FindFolder(kOnSystemDisk, kExtensionFolderType, true,
-						&extensionFolderVolRefNum, &extensionFolderDirID);
-	if (theErr != noErr)
-		return;
-
-
-
-	// Iterate through the directory, looking for plug-ins
-	theIndex = 1;
-	do
+						&extensionsFSSpec.vRefNum, &extensionsFSSpec.parID);
+	if (theErr == noErr)
 		{
-		// Get the next file
-		thePB.dirInfo.ioFDirIndex = theIndex;
-		thePB.dirInfo.ioVRefNum   = extensionFolderVolRefNum;
-		thePB.dirInfo.ioDrDirID   = extensionFolderDirID;
-		thePB.dirInfo.ioNamePtr   = theFSSpec.name;
-		
-		theErr = PBGetCatInfoSync(&thePB);
-
-		if (theErr == noErr)
-			{
-			if (FSMakeFSSpec(extensionFolderVolRefNum,
-									extensionFolderDirID,
-									theFSSpec.name, &theFSSpec) == noErr)
-				{
-				targetIsFolder = TRUE;
-		
-				ResolveAliasFile(&theFSSpec, kQ3True, &targetIsFolder, &wasAliased);
-
-
-				// If this isn't a directory, check the type
-				if (!targetIsFolder)
-					{
-					// If this is a plug-in, load it
-					if (thePB.hFileInfo.ioFlFndrInfo.fdType    == kQ3XExtensionMacFileType &&
-						thePB.hFileInfo.ioFlFndrInfo.fdCreator == kQ3XExtensionMacCreatorType)
-						e3mac_load_plugin(&theFSSpec);
-					}
-				}
-			}
-		
-		theIndex++;
+		extensionsFSSpec.name[0] = 1;
+		extensionsFSSpec.name[1] = 'Q';
 		}
-	while (theErr == noErr);
+
+
+
+	// Reset any duplicate FSSpecs to avoid multiple re-scans. Note that
+	// using memcmp on Pascal strings would not normally be valid, but
+	// we initialised our FSSpecs with 0s so unused bytes will be equal.
+	if (memcmp(&appFSSpec, &quesaFSSpec, sizeof(FSSpec)) == 0)
+		memset(&quesaFSSpec, 0x00, sizeof(quesaFSSpec));
+
+	if (memcmp(&appFSSpec, &extensionsFSSpec, sizeof(FSSpec)) == 0)
+		memset(&extensionsFSSpec, 0x00, sizeof(extensionsFSSpec));
+
+	if (memcmp(&quesaFSSpec, &extensionsFSSpec, sizeof(FSSpec)) == 0)
+		memset(&extensionsFSSpec, 0x00, sizeof(extensionsFSSpec));
+
+
+
+	// Scan for and load our plug-ins
+	if (appFSSpec.name[0] != 0x00)
+		e3mac_load_plugins(&appFSSpec);
+
+	if (quesaFSSpec.name[0] != 0x00)
+		e3mac_load_plugins(&quesaFSSpec);
+
+	if (extensionsFSSpec.name[0] != 0x00)
+		e3mac_load_plugins(&extensionsFSSpec);
 }
