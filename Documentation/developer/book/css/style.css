@@ -1,0 +1,28 @@
+body		{	color:					black;
+				font-size:				12px;
+				font-family:			"Lucida Grande", Arial, Helvetica, sans-serif; }
+
+pre			{	font-size:				14px; }
+
+tt			{	font-size:				14px; }
+
+td			{	color:					black;
+				font-size:				12px;
+				font-family:			"Lucida Grande", Arial, Helvetica, sans-serif; }
+
+h1			{	color:					black;
+				font-weight:			bold;
+				font-size:				medium;
+				font-family:			"Lucida Grande", Arial, Helvetica, sans-serif; }
+
+h2			{	color:					black;
+				font-weight:			bold;
+				font-size:				small;
+				font-family:			"Lucida Grande", Arial, Helvetica, sans-serif; }
+
+h3			{	color:					black;
+				font-weight:			bold;
+				font-size:				x-small;
+				font-family:			"Lucida Grande", Arial, Helvetica, sans-serif; }
+
+
