@@ -172,6 +172,7 @@ TQ3Status				E3View_GetReceiveShadowsStyleState(TQ3ViewObject theView, TQ3Boolea
 TQ3Status				E3View_GetPickIDStyleState(TQ3ViewObject theView, TQ3Uns32 *pickIDStyle);
 TQ3Status				E3View_GetPickPartsStyleState(TQ3ViewObject theView, TQ3PickParts *pickPartsStyle);
 TQ3Status				E3View_GetAntiAliasStyleState(TQ3ViewObject theView, TQ3AntiAliasStyleData *antiAliasData);
+TQ3Status				E3View_GetFogStyleState(TQ3ViewObject theView, TQ3FogStyleData *fogData);
 TQ3Status				E3View_GetDefaultAttributeSet(TQ3ViewObject theView, TQ3AttributeSet *attributeSet);
 TQ3Status				E3View_SetDefaultAttributeSet(TQ3ViewObject theView, TQ3AttributeSet attributeSet);
 TQ3Status				E3View_GetAttributeSetState(TQ3ViewObject theView, TQ3AttributeSet *attributeSet);

@@ -636,6 +636,18 @@ Q3View_GetAntiAliasStyleState (
 
 
 /*
+ *	Q3View_GetFogStyleState
+ *		Description of function
+ */
+EXTERN_API_C ( TQ3Status  )
+Q3View_GetFogStyleState (
+	TQ3ViewObject                 view,
+	TQ3FogStyleData               *fogData
+);
+
+
+
+/*
  *	Q3View_GetDefaultAttributeSet
  *		Description of function
  */

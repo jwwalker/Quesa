@@ -1072,6 +1072,7 @@ Q3View_EndRendering
 Q3View_EndWriting
 Q3View_Flush
 Q3View_GetAntiAliasStyleState
+Q3View_GetFogStyleState
 Q3View_GetAttributeSetState
 Q3View_GetAttributeState
 Q3View_GetBackfacingStyleState

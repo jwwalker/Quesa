@@ -1716,6 +1716,45 @@ Q3View_GetAntiAliasStyleState(TQ3ViewObject view, TQ3AntiAliasStyleData *antiAli
 
 
 //=============================================================================
+//      Q3View_GetFogStyleState : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3View_GetFogStyleState(TQ3ViewObject view, TQ3FogStyleData *fogData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fogData), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on view
+		return(kQ3Failure);
+
+	if (0) // Further checks on fogData
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3View_GetFogStyleState(view, fogData));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3View_GetDefaultAttributeSet : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status

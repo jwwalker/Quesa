@@ -3724,6 +3724,39 @@ E3View_GetAntiAliasStyleState(TQ3ViewObject theView, TQ3AntiAliasStyleData *anti
 
 
 //=============================================================================
+//      E3View_GetFogStyleState : Get the current state.
+//-----------------------------------------------------------------------------
+//		Note : Can only be called within a submitting loop.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_GetFogStyleState(TQ3ViewObject theView, TQ3FogStyleData *fogData)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+
+
+
+	// Make sure we're in the correct state
+	if (instanceData->viewState != kQ3ViewStateSubmitting)
+		return(kQ3Failure);
+
+
+
+	// Validate our state
+	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
+	Q3_ASSERT(instanceData->stackCount != 0);
+
+
+
+	// Get the value
+	*fogData = instanceData->stackState[instanceData->stackCount-1].styleFog;
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
 //      E3View_GetDefaultAttributeSet : Return the view default attribute set.
 //-----------------------------------------------------------------------------
 //		Note :	We return a new reference to the attribute set - not clear from
