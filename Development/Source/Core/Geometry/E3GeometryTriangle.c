@@ -535,9 +535,9 @@ E3Triangle_EmptyData(TQ3TriangleData *triangleData)
 
 	// Release the data
 	for (n = 0; n < 3; n++)
-		E3Object_DisposeAndForget(triangleData->vertices[n].attributeSet);
+		Q3Object_CleanDispose(&triangleData->vertices[n].attributeSet);
 
-	E3Object_DisposeAndForget(triangleData->triangleAttributeSet);
+	Q3Object_CleanDispose(&triangleData->triangleAttributeSet);
 
 	return(kQ3Success);
 }

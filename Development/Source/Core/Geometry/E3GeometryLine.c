@@ -729,9 +729,9 @@ E3Line_EmptyData(TQ3LineData *lineData)
 
 	// Release the data
 	for (n = 0; n < 2; n++)
-		E3Object_DisposeAndForget(lineData->vertices[n].attributeSet);
+		Q3Object_CleanDispose(&lineData->vertices[n].attributeSet);
 
-	E3Object_DisposeAndForget(lineData->lineAttributeSet);
+	Q3Object_CleanDispose(&lineData->lineAttributeSet);
 
 	return(kQ3Success);
 }

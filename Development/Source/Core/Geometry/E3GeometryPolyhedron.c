@@ -722,13 +722,13 @@ E3Polyhedron_SetData(TQ3GeometryObject thePolyhedron, const TQ3PolyhedronData *p
 
 	// Dispose of the existing data
 	for (n = 0; n < instanceData->numVertices; n++)
-		E3Object_DisposeAndForget(instanceData->vertices[n].attributeSet);
+		Q3Object_CleanDispose(&instanceData->vertices[n].attributeSet);
 
 	for (n = 0; n < instanceData->numTriangles; n++)
-		E3Object_DisposeAndForget(instanceData->triangles[n].triangleAttributeSet);
+		Q3Object_CleanDispose(&instanceData->triangles[n].triangleAttributeSet);
 
 	for (n = 0; n < instanceData->numEdges; n++)
-		E3Object_DisposeAndForget(instanceData->edges[n].edgeAttributeSet);
+		Q3Object_CleanDispose(&instanceData->edges[n].edgeAttributeSet);
 
 	Q3Memory_Free(&instanceData->vertices);
 	Q3Memory_Free(&instanceData->triangles);
@@ -884,19 +884,19 @@ E3Polyhedron_EmptyData(TQ3PolyhedronData *polyhedronData)
 
 	// Release the data
 	for (n = 0; n < polyhedronData->numVertices; n++)
-		E3Object_DisposeAndForget(polyhedronData->vertices[n].attributeSet);
+		Q3Object_CleanDispose(&polyhedronData->vertices[n].attributeSet);
 
 	for (n = 0; n < polyhedronData->numTriangles; n++)
-		E3Object_DisposeAndForget(polyhedronData->triangles[n].triangleAttributeSet);
+		Q3Object_CleanDispose(&polyhedronData->triangles[n].triangleAttributeSet);
 
 	for (n = 0; n < polyhedronData->numEdges; n++)
-		E3Object_DisposeAndForget(polyhedronData->edges[n].edgeAttributeSet);
+		Q3Object_CleanDispose(&polyhedronData->edges[n].edgeAttributeSet);
 
 	Q3Memory_Free(&polyhedronData->vertices);
 	Q3Memory_Free(&polyhedronData->triangles);
 	Q3Memory_Free(&polyhedronData->edges);
 
-	E3Object_DisposeAndForget(polyhedronData->polyhedronAttributeSet);
+	Q3Object_CleanDispose(&polyhedronData->polyhedronAttributeSet);
 
 	return(kQ3Success);
 }

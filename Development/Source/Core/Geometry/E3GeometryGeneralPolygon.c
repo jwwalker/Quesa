@@ -365,7 +365,7 @@ E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolyg
 	for (n = 0; n < instanceData->numContours; n++)
 		{
 		for (m = 0; m < instanceData->contours[n].numVertices; m++)
-			E3Object_DisposeAndForget(instanceData->contours[n].vertices[m].attributeSet);
+			Q3Object_CleanDispose(&instanceData->contours[n].vertices[m].attributeSet);
 
 		Q3Memory_Free(&instanceData->contours[n].vertices);
 		}
@@ -484,13 +484,13 @@ E3GeneralPolygon_EmptyData(TQ3GeneralPolygonData *generalPolygonData)
 	for (n = 0; n < generalPolygonData->numContours; n++)
 		{
 		for (m = 0; m < generalPolygonData->contours[n].numVertices; m++)
-			E3Object_DisposeAndForget(generalPolygonData->contours[n].vertices[m].attributeSet);
+			Q3Object_CleanDispose(&generalPolygonData->contours[n].vertices[m].attributeSet);
 
 		Q3Memory_Free(&generalPolygonData->contours[n].vertices);
 		}
 
 	Q3Memory_Free(&generalPolygonData->contours);
-	E3Object_DisposeAndForget(generalPolygonData->generalPolygonAttributeSet);
+	Q3Object_CleanDispose(&generalPolygonData->generalPolygonAttributeSet);
 
 	return(kQ3Success);
 }

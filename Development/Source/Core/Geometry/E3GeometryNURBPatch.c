@@ -151,7 +151,8 @@ e3geom_patch_disposedata(TQ3NURBPatchData *theNURBPatch)
 	Q3Memory_Free( &theNURBPatch->controlPoints );
 	Q3Memory_Free( &theNURBPatch->uKnots );
 	Q3Memory_Free( &theNURBPatch->vKnots );
-	E3Object_DisposeAndForget( theNURBPatch->patchAttributeSet );
+	Q3Object_CleanDispose(&theNURBPatch->patchAttributeSet );
+
 	for (i=0; i < theNURBPatch->numTrimLoops; i++) {
 		for (j=0; j < theNURBPatch->trimLoops[i].numTrimCurves; j++) {
 			Q3Memory_Free( &theNURBPatch->trimLoops[i].trimCurves[j].controlPoints );
@@ -1203,7 +1204,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	// Clean up
 surface_cache_new_error_cleanup:
 	
-	E3Object_DisposeAndForget(triMeshData.triMeshAttributeSet);
+	Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
 	Q3Memory_Free(&points);
 	Q3Memory_Free(&normals);
 	Q3Memory_Free(&uvs);

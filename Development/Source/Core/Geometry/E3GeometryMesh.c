@@ -672,7 +672,7 @@ e3meshCorner_Destroy(
 	Q3_ASSERT_VALID_PTR(cornerPtr);
 
 	// Release attribute set
-	E3Object_DisposeAndForget(cornerPtr->attributeSet);
+	Q3Object_CleanDispose(&cornerPtr->attributeSet);
 
 	// Destroy face pointer array or list
 	e3meshFacePtrArrayOrList_Destroy(&cornerPtr->facePtrArrayOrList, NULL);
@@ -1003,7 +1003,7 @@ e3meshVertex_Destroy(
 	Q3_ASSERT_VALID_PTR(vertexPtr);
 
 	// Release attribute set
-	E3Object_DisposeAndForget(vertexPtr->attributeSet);
+	Q3Object_CleanDispose(&vertexPtr->attributeSet);
 
 	// Destroy corner array or list
 	e3meshCornerArrayOrList_Destroy(&vertexPtr->cornerArrayOrList, NULL);
@@ -1743,7 +1743,7 @@ e3meshFace_Destroy(
 	Q3_ASSERT_VALID_PTR(facePtr);
 
 	// Release attribute set
-	E3Object_DisposeAndForget(facePtr->attributeSet);
+	Q3Object_CleanDispose(&facePtr->attributeSet);
 
 	// Destroy contour array or list
 	e3meshContourArrayOrList_Destroy(&facePtr->contourArrayOrList, &e3meshContour_Destroy);
@@ -2315,7 +2315,7 @@ e3mesh_Destroy(
 	Q3_ASSERT_VALID_PTR(meshPtr);
 
 	//	Release attribute set
-	E3Object_DisposeAndForget(meshPtr->attributeSet);
+	Q3Object_CleanDispose(&meshPtr->attributeSet);
 
 	// Destroy face array or list
 	e3meshFaceArrayOrList_Destroy(&meshPtr->faceArrayOrList, &e3meshFace_Destroy);

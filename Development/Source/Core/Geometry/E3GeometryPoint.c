@@ -478,7 +478,7 @@ TQ3Status
 E3Point_EmptyData(TQ3PointData *pointData)
 {
 
-	E3Object_DisposeAndForget( pointData->pointAttributeSet ) ;
+	Q3Object_CleanDispose(&pointData->pointAttributeSet ) ;
 
 	return(kQ3Success);
 }

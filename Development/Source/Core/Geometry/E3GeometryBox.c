@@ -391,7 +391,7 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	
 	if (status != kQ3Success)
 	{
-		E3Object_DisposeAndForget( theGroup );
+		Q3Object_CleanDispose(&theGroup );
 	}
 
 	return theGroup;
@@ -602,7 +602,7 @@ E3Box_SetData(TQ3GeometryObject theBox, const TQ3BoxData *boxData)
 		if (instanceData->faceAttributeSet != NULL)
 			{
 			for (n = 0; n < 6; n++)
-				E3Object_DisposeAndForget(instanceData->faceAttributeSet[n]);
+				Q3Object_CleanDispose(&instanceData->faceAttributeSet[n]);
 
 			Q3Memory_Free(&instanceData->faceAttributeSet);
 			}
@@ -673,12 +673,12 @@ E3Box_EmptyData(TQ3BoxData *boxData)
 	if (boxData->faceAttributeSet != NULL)
 		{
 		for (n = 0; n < 6; n++)
-			E3Object_DisposeAndForget(boxData->faceAttributeSet[n]);
+			Q3Object_CleanDispose(&boxData->faceAttributeSet[n]);
 		
 		Q3Memory_Free(&boxData->faceAttributeSet);
 		}
 		
-	E3Object_DisposeAndForget(boxData->boxAttributeSet);
+	Q3Object_CleanDispose(&boxData->boxAttributeSet);
 
 	return(kQ3Success);
 }

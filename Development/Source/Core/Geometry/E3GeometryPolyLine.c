@@ -493,7 +493,7 @@ E3PolyLine_EmptyData(TQ3PolyLineData *polyLineData)
 	//delete memory for the vertex attribute sets
 	for(n = 0; n < polyLineData->numVertices; n++)
 	{
-		E3Object_DisposeAndForget( polyLineData->vertices[n].attributeSet ) ;
+		Q3Object_CleanDispose(&polyLineData->vertices[n].attributeSet ) ;
 	}
 	
 	//delete memory for the vertex array
@@ -504,14 +504,14 @@ E3PolyLine_EmptyData(TQ3PolyLineData *polyLineData)
 	{
 		for(n = 0; n < polyLineData->numVertices - 1; n++)
 		{
-			E3Object_DisposeAndForget( polyLineData->segmentAttributeSet[n] ) ;
+			Q3Object_CleanDispose(&polyLineData->segmentAttributeSet[n] ) ;
 		}
 	
 		//then delete it
 		Q3Memory_Free(&polyLineData->segmentAttributeSet);
 	}
 
-	E3Object_DisposeAndForget(polyLineData->polyLineAttributeSet);			
+	Q3Object_CleanDispose(&polyLineData->polyLineAttributeSet);			
 
 	return(kQ3Success);
 }

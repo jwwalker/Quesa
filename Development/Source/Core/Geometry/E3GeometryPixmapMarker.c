@@ -690,8 +690,8 @@ E3PixmapMarker_EmptyData(TQ3PixmapMarkerData *pixmapMarkerData)
 
 
 	// Release the data
-	E3Object_DisposeAndForget(pixmapMarkerData->pixmap.image);
-	E3Object_DisposeAndForget(pixmapMarkerData->pixmapMarkerAttributeSet);
+	Q3Object_CleanDispose(&pixmapMarkerData->pixmap.image);
+	Q3Object_CleanDispose(&pixmapMarkerData->pixmapMarkerAttributeSet);
 
 	return(kQ3Success);
 }
@@ -848,7 +848,7 @@ E3PixmapMarker_SetPixmap(TQ3GeometryObject pixmapMarker, const TQ3StoragePixmap 
 
 
 	// Set the pixmap
-	E3Object_DisposeAndForget(instanceData->pixmap.image);
+	Q3Object_CleanDispose(&instanceData->pixmap.image);
 
 	instanceData->pixmap = *pixmap;
 

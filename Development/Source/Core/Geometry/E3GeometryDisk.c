@@ -492,7 +492,7 @@ E3Disk_EmptyData(TQ3DiskData *diskData)
 
 
 	// Release the data
-	E3Object_DisposeAndForget(diskData->diskAttributeSet);
+	Q3Object_CleanDispose(&diskData->diskAttributeSet);
 
 	return(kQ3Success);
 }

@@ -485,7 +485,7 @@ E3Polygon_SetData(TQ3GeometryObject thePolygon, const TQ3PolygonData *polygonDat
 
 	// Dispose of the existing data
 	for (n = 0; n < instanceData->numVertices; n++)
-		E3Object_DisposeAndForget(instanceData->vertices[n].attributeSet);
+		Q3Object_CleanDispose(&instanceData->vertices[n].attributeSet);
 
 	Q3Memory_Free(&instanceData->vertices);
 
@@ -560,10 +560,10 @@ E3Polygon_EmptyData(TQ3PolygonData *polygonData)
 
 	// Dispose of the data
 	for (n = 0; n < polygonData->numVertices; n++)
-		E3Object_DisposeAndForget(polygonData->vertices[n].attributeSet);
+		Q3Object_CleanDispose(&polygonData->vertices[n].attributeSet);
 
 	Q3Memory_Free(&polygonData->vertices);
-	E3Object_DisposeAndForget(polygonData->polygonAttributeSet);
+	Q3Object_CleanDispose(&polygonData->polygonAttributeSet);
 
 	return(kQ3Success);
 }
