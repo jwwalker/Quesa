@@ -137,6 +137,7 @@ typedef enum TQ3PolyhedronEdgeMasks {
  *      TQ3BoxData
  *	@discussion
  *		Data describing the state of a box object.
+ *
  *	@field		origin				Origin of the box (one of the corners).
  *	@field		orientation			Orientation vector of the box.
  *	@field		majorAxis			Major axis of the box.
@@ -1460,6 +1461,43 @@ Q3Geometry_Submit (
     TQ3GeometryObject             geometry,
     TQ3ViewObject                 view
 );
+
+
+
+/*!
+ *	@function
+ *		Q3Geometry_GetDecomposed
+ *	@discussion
+ *		This function creates the decomposed form of the geometry, if any.  The result
+ *		may be a geometry or a group.  If the geometry cannot be decomposed further,
+ *		NULL is returned.  The decomposition of a given geometry is not documented
+ *		and is subject to change.  The decomposition could contain more than one kind
+ *		of geometry; for example, the decomposition of a cone with a bottom cap may
+ *		be a group containing a TriMesh and a Disk.
+ *
+ *		You are free to modify the group or geometry returned by this function, and
+ *		it is your responsibility to dispose it when you are done with it.
+ *
+ *		This function must be called in a submitting loop.  Its result may be affected
+ *		by the subdivision style in effect at the time of the call.  Depending on the
+ *		subdivision method, the result may also depend on the current transformation
+ *		and camera state.
+ *
+ *		<em>This function is not available in QD3D.</em>
+ *
+ *	@param	geometry		A geometry object.
+ *	@param	view			A view object
+ *	@result					A new reference to a group or geometry object, or NULL.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C( TQ3Object )
+Q3Geometry_GetDecomposed (
+	TQ3GeometryObject			geometry,
+	TQ3ViewObject				view
+);
+
+#endif
 
 
 
