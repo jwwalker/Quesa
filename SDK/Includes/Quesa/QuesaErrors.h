@@ -275,7 +275,7 @@ typedef CALLBACK_API_C(void,                TQ3ErrorMethod)(
                             
 typedef CALLBACK_API_C(void,                TQ3WarningMethod)(
                             TQ3Warning          firstWarning,
-                            TQ3Warning          lastWarnin,
+                            TQ3Warning          lastWarning,
                             TQ3Int32            userData);
                             
 typedef CALLBACK_API_C(void,                TQ3NoticeMethod)(
@@ -294,14 +294,15 @@ typedef CALLBACK_API_C(void,                TQ3NoticeMethod)(
  *  @function
  *      Q3Error_Register
  *  @discussion
- *      One-line description of this function.
+ *      Install a callback to handle errors.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Use this function to register an error-handling function that will be
+ *      called when Quesa detects an error condition that it can't handle.
+ *		Your callback should not call Quesa except for Error Manager routines.
  *
- *  @param errorPost        Description of the parameter.
- *  @param reference        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param errorPost        Callback to receive error notifications.
+ *  @param reference        Constant passed to error callback.
+ *  @result                 kQ3Success when the callback is installed.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Error_Register (
@@ -315,14 +316,15 @@ Q3Error_Register (
  *  @function
  *      Q3Warning_Register
  *  @discussion
- *      One-line description of this function.
+ *      Install a callback to handle warnings.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Use this function to register an warning-handling function that will be
+ *      called when a Quesa routine generates a warning that it can't handle.
+ *		Your callback should not call Quesa except for Error Manager routines.
  *
- *  @param warningPost      Description of the parameter.
- *  @param reference        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param warningPost      Callback to receive warning notifications.
+ *  @param reference        Constant passed to warning callback.
+ *  @result                 kQ3Success when the callback is installed.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Warning_Register (
@@ -336,14 +338,16 @@ Q3Warning_Register (
  *  @function
  *      Q3Notice_Register
  *  @discussion
- *      One-line description of this function.
+ *      Install a callback to handle notifications.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Use this function to register an warning-handling function that will be
+ *		called when a Quesa routine generates a notice.
+ *		This will only happen in debugging versions of Quesa.
+ *		Your callback should not call Quesa except for Error Manager routines.
  *
- *  @param noticePost       Description of the parameter.
- *  @param reference        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param noticePost       Routine to be called to handle notices.
+ *  @param reference        Constant passed to notice callback.
+ *  @result                 kQ3Success when the callback is installed.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Notice_Register (
@@ -357,13 +361,16 @@ Q3Notice_Register (
  *  @function
  *      Q3Error_Get
  *  @discussion
- *      One-line description of this function.
+ *      Retrieve latest error codes from Quesa.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Retrieve the most recent error code, and optionally also the oldest
+ *		unreported error code.  After this call, the next Quesa call that is not
+ *		part of the Error Manager will clear the error codes.
  *
- *  @param firstError       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param firstError       Pointer to variable to receive the oldest error code
+ *							that has not yet been reported.  May be NULL if you
+ *							don't need that information.
+ *  @result                 Most recent error code.
  */
 EXTERN_API_C ( TQ3Error  )
 Q3Error_Get (
@@ -376,13 +383,14 @@ Q3Error_Get (
  *  @function
  *      Q3Error_IsFatalError
  *  @discussion
- *      One-line description of this function.
+ *      Determine whether a Quesa error code is fatal.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      You can call this function from an error callback or after getting
+ *      an error code with Q3Error_Get.  If the error is fatal, your application
+ *		should quit without calling any other Quesa routines.
  *
- *  @param error            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param error            A Quesa error code.
+ *  @result                 True if the error is fatal.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3Error_IsFatalError (
@@ -394,14 +402,17 @@ Q3Error_IsFatalError (
 /*!
  *  @function
  *      Q3Warning_Get
- *  @discussion
- *      One-line description of this function.
+ *	@discussing
+ *      Retrieve latest warning codes from Quesa.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Retrieve the most recent warning code, and optionally also the oldest
+ *		unreported warning code.  After this call, the next Quesa call that is not
+ *		part of the Error Manager will clear the warning codes.
  *
- *  @param firstWarning     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param firstWarning     Pointer to variable to receive the oldest warning code
+ *							that has not yet been reported.  May be NULL if you
+ *							don't need that information.
+ *  @result                 Most recent warning code.
  */
 EXTERN_API_C ( TQ3Warning  )
 Q3Warning_Get (
@@ -414,13 +425,16 @@ Q3Warning_Get (
  *  @function
  *      Q3Notice_Get
  *  @discussion
- *      One-line description of this function.
+ *      Retrieve latest notice codes from Quesa.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Retrieve the most recent notice code, and optionally also the oldest
+ *		unreported notice code.  After this call, the next Quesa call that is not
+ *		part of the Error Manager will clear the notice codes.
  *
- *  @param firstNotice      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param firstNotice      Pointer to variable to receive the oldest notice code
+ *							that has not yet been reported.  May be NULL if you
+ *							don't need that information.
+ *  @result                 Most recent notice code.
  */
 EXTERN_API_C ( TQ3Notice  )
 Q3Notice_Get (
@@ -433,10 +447,21 @@ Q3Notice_Get (
  *  @function
  *      Q3Error_PlatformGet  
  *  @discussion
- *      Not supported by QD3D.
+ *      Not supported by QD3D.  Gets platform-specific error codes.
+ *		This is a generalization of Q3MacintoshError_Get, and may be used in place
+ *		of Q3MacintoshError_Get on the Macintosh platform.
  *
- *  @param firstErr         Description of the parameter.
- *  @result                 Description of the function result.
+ *		If an error callback or Q3Error_Get returns one of the special error codes
+ *		kQ3ErrorMacintoshError, kQ3ErrorWin32Error, kQ3ErrorUnixError, 
+ *		kQ3ErrorPlatformError, you can call this function to retrieve
+ *		platform-specific error codes.
+ *		After this call, the next Quesa call that is not part of the Error Manager
+ *		will clear the platform-specific error codes.
+ *
+ *  @param firstErr         Pointer to variable to receive the oldest unreported
+ *							platform-specific error code.  May be NULL if you
+ *							don't need that information.
+ *  @result                 Most recent platform-specific error code.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -451,12 +476,13 @@ Q3Error_PlatformGet (
 
 /*!
  *  @function
- *      Q3Error_PlatformPost 
+ *      Q3Error_PlatformPost
  *  @discussion
- *      Not supported by QD3D.
+ *      Not supported by QD3D.  Posts a platform-specific error code.
  *
- *  @param theErr           Description of the parameter.
- *  @result                 Description of the function result.
+ *		Normally this would be used only by Quesa plug-ins, not by application code.
+ *
+ *  @param theErr           A platform-specific error code.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -473,11 +499,12 @@ Q3Error_PlatformPost (
  *  @function
  *      Q3Error_ToString
  *  @discussion
- *      Not supported by QD3D.
+ *      Not supported by QD3D.  Retrieve a string version of the error code.
  *
- *  @param theLanguage      Description of the parameter.
- *  @param theError         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theLanguage      Preferred language for the error string.
+ *							Currently only English is supported.
+ *  @param theError         Quesa error code.
+ *  @result                 Text version of the error code, as a NUL-terminated string.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -495,11 +522,12 @@ Q3Error_ToString (
  *  @function
  *      Q3Warning_ToString
  *  @discussion
- *      Not supported by QD3D.
+ *      Not supported by QD3D.  Retrieve a string version of the warning code.
  *
- *  @param theLanguage      Description of the parameter.
- *  @param theWarning       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theLanguage      Preferred language for the warning string.
+ *							Currently only English is supported.
+ *  @param theWarning       Quesa warning code.
+ *  @result                 Text version of the warning code, as a NUL-terminated string.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -517,11 +545,12 @@ Q3Warning_ToString (
  *  @function
  *      Q3Notice_ToString
  *  @discussion
- *      Not supported by QD3D.
+ *      Not supported by QD3D.  Retrieve a string version of the notice code.
  *
- *  @param theLanguage      Description of the parameter.
- *  @param theError         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theLanguage      Preferred language for the notice string.
+ *							Currently only English is supported.
+ *  @param theWarning       Quesa notice code.
+ *  @result                 Text version of the notice code, as a NUL-terminated string.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -546,13 +575,16 @@ Q3Notice_ToString (
  *  @function
  *      Q3MacintoshError_Get
  *  @discussion
- *      One-line description of this function.
+ *      Retrieve the most recent Macintosh error code, and optionally also the oldest
+ *		unreported Mac error code.  After this call, the next Quesa call that is not
+ *		part of the Error Manager will clear the error codes.
+ *		
+ *		Q3Error_PlatformGet may be used in place of this function.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param firstMacErr      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param firstMacErr      Pointer to variable to receive the oldest Mac error code
+ *							that has not yet been reported.  May be NULL if you
+ *							don't need that information.
+ *  @result                 Most recent Mac error code.
  */
 EXTERN_API_C ( OSErr  )
 Q3MacintoshError_Get (
