@@ -467,6 +467,26 @@ E3ClassTree::GetNextClassType ( void )
 //
 //-----------------------------------------------------------------------------
 TQ3Status
+E3ClassTree::RegisterExternalClass (
+								TQ3ObjectType		parentClassType,
+								TQ3ObjectType		classType,
+								const char			*className,
+								TQ3XMetaHandler		classMetaHandler,
+								TQ3Int32			leafInstanceSize )
+	{
+	E3ClassInfoPtr parentClass = E3ClassTree::GetClass ( parentClassType ) ;
+	if ( parentClass == NULL )
+		return kQ3Failure ;
+		
+	return E3ClassTree::RegisterClass ( parentClassType,
+										classType,
+										className,
+										classMetaHandler,
+										~ ( leafInstanceSize + parentClass->instanceSize ) ) ;
+	}
+	
+	
+TQ3Status
 E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 								TQ3ObjectType		classType,
 								const char			*className,
