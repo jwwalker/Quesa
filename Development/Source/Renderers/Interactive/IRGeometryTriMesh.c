@@ -1187,23 +1187,7 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 				break;
 			}
 		}
-
-
-	// TEMPORARY FIX
-	// If we are using a texture, pretend the vertices are opaque white.
-	// This is to make it so that a textured TriMesh is affected by lighting,
-	// but not by the color of the geometry.
-	if ( vertexArray->geomNeedsUVs && (vertexArray->geomVertexUVsData != NULL) )
-	{
-		Q3ColorRGB_Set( &vertexArray->geomDiffuse, 1.0f, 1.0f, 1.0f );
-		vertexArray->geomFinalDiffuse = vertexArray->geomDiffuse;
-		vertexArray->geomTransparency = vertexArray->geomDiffuse;
-		vertexArray->geomFinalTransparency = vertexArray->geomDiffuse;
-		vertexArray->geomVertexDiffuseData = NULL;
-		vertexArray->geomTriDiffuseData = NULL;
-		vertexArray->geomTriTransparencyData = NULL;
-		vertexArray->geomVertexTransparencyData = NULL;
-	}
+		
 
 
 	// Set up the vertex array pointers
