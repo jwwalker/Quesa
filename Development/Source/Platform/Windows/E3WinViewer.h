@@ -103,6 +103,9 @@ TQ3Status			E3WinViewerGetCameraCount(TQ3ViewerObject viewer, TQ3Uns32 *count);
 TQ3Status			E3WinViewerSetCameraNumber(TQ3ViewerObject viewer, TQ3Uns32 cameraNo);
 TQ3Status			E3WinViewerSetCameraView(TQ3ViewerObject viewer, TQ3ViewerCameraView viewType);
 
+TQ3ViewerObject		E3WinViewerNew(HWND window,  const RECT *rect, unsigned long flags);
+TQ3Status			E3WinViewerRegisterWindowClasses(HINSTANCE hInstance);
+
 
 
 
