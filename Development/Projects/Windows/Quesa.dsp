@@ -289,6 +289,10 @@ SOURCE=..\..\Source\Core\Glue\QD3DView.c
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\..\Source\Core\Support\E3ArrayOrList.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Source\Core\Support\E3ClassTree.c
 # End Source File
 # Begin Source File
@@ -310,6 +314,10 @@ SOURCE=..\..\Source\Core\Support\E3HashTable.c
 # Begin Source File
 
 SOURCE=..\..\Source\Core\Support\E3Memory.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\Core\Support\E3Pool.c
 # End Source File
 # Begin Source File
 

@@ -133,12 +133,14 @@ QUESA_OBJS = ${OBJ}${GLUE}/QD3DCamera.o                   \
              ${OBJ}${SYSTEM}/E3Texture.o                  \
              ${OBJ}${SYSTEM}/E3Transform.o                \
              ${OBJ}${SYSTEM}/E3View.o                     \
+             ${OBJ}${SUPPORT}/E3ArrayOrList.o             \
              ${OBJ}${SUPPORT}/E3ClassTree.o               \
              ${OBJ}${SUPPORT}/E3Compatibility.o           \
              ${OBJ}${SUPPORT}/E3ErrorManager.o            \
              ${OBJ}${SUPPORT}/E3Globals.o                 \
              ${OBJ}${SUPPORT}/E3HashTable.o               \
              ${OBJ}${SUPPORT}/E3Memory.o                  \
+             ${OBJ}${SUPPORT}/E3Pool.o                    \
              ${OBJ}${SUPPORT}/E3System.o                  \
              ${OBJ}${SUPPORT}/E3Utils.o                   \
              ${OBJ}${GEOMETRY}/E3Geometry.o               \
@@ -345,6 +347,9 @@ ${OBJ}${SYSTEM}/E3Transform.o: ${SRC}${SYSTEM}/E3Transform.c
 ${OBJ}${SYSTEM}/E3View.o: ${SRC}${SYSTEM}/E3View.c
 	$(COMPILE)
 
+${OBJ}${SUPPORT}/E3ArrayOrList.o: ${SRC}${SUPPORT}/E3ArrayOrList.c
+	$(COMPILE)
+
 ${OBJ}${SUPPORT}/E3ClassTree.o: ${SRC}${SUPPORT}/E3ClassTree.c
 	$(COMPILE)
 
@@ -361,6 +366,9 @@ ${OBJ}${SUPPORT}/E3HashTable.o: ${SRC}${SUPPORT}/E3HashTable.c
 	$(COMPILE)
 
 ${OBJ}${SUPPORT}/E3Memory.o: ${SRC}${SUPPORT}/E3Memory.c
+	$(COMPILE)
+
+${OBJ}${SUPPORT}/E3Pool.o: ${SRC}${SUPPORT}/E3Pool.c
 	$(COMPILE)
 
 ${OBJ}${SUPPORT}/E3System.o: ${SRC}${SUPPORT}/E3System.c
