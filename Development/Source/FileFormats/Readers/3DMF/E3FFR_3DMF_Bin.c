@@ -782,14 +782,17 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 				
 				if(theClass == NULL){
 				
-					if ( (objectType < 0) /* custom object */ ||
-						(kQ3SharedTypeViewHints == objectType /*Temporary patch*/) ||
-						(Q3_OBJECT_TYPE('d', 'g', 'b', 'b') == objectType /*Temporary patch*/) ||
-						(Q3_OBJECT_TYPE('e', 'd', 'i', 't') == objectType /*Temporary patch*/)
-					)
+					if (objectType < 0)
 						{
 						instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
 						result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
+						instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
+						}
+					else if ( (kQ3SharedTypeViewHints == objectType /*Temporary patch*/) ||
+						(Q3_OBJECT_TYPE('d', 'g', 'b', 'b') == objectType /*Temporary patch*/) ||
+						(Q3_OBJECT_TYPE('e', 'd', 'i', 't') == objectType /*Temporary patch*/) )
+						{
+						// just skip known unimplemented classes
 						instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
 						}
 					else // corrupted. finish here
