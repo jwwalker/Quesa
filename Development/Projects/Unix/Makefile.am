@@ -32,7 +32,7 @@ lib_LTLIBRARIES= libquesa.la
 
 # Flags
 WARN= -Wall -Wpointer-arith -Wno-cast-qual -Waggregate-return         \
-       -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \
+       -Wstrict-prototypes -Wmissing-prototypes \
        -Wredundant-decls -Wno-multichar -Wno-conversion                \
        -Wno-unknown-pragmas -Wno-unused
 					 
@@ -133,6 +133,7 @@ myIncludes= ${pkginclude_HEADERS} \
              ${SRC}${RENDERER}/Common/GLPrefix.h           \
              ${SRC}${RENDERER}/Common/GLUtils.h           \
              ${SRC}${RENDERER}/Common/GLDrawContext.h     \
+             ${SRC}${RENDERER}/Common/GLTextureManager.h     \
              ${SRC}${RENDERER}/Generic/GNPrefix.h       \
              ${SRC}${RENDERER}/Generic/GNGeometry.h       \
              ${SRC}${RENDERER}/Generic/GNRegister.h       \
@@ -245,6 +246,7 @@ libquesa_la_SOURCES=	${myIncludes}            \
              ${SRC}${RENDERER}/Common/GLCamera.c          \
              ${SRC}${RENDERER}/Common/GLUtils.c           \
              ${SRC}${RENDERER}/Common/GLDrawContext.c     \
+             ${SRC}${RENDERER}/Common/GLTextureManager.c     \
              ${SRC}${RENDERER}/Generic/GNGeometry.c       \
              ${SRC}${RENDERER}/Generic/GNRegister.c       \
              ${SRC}${RENDERER}/Generic/GNRenderer.c       \
@@ -267,6 +269,5 @@ libquesa_la_SOURCES=	${myIncludes}            \
              ${SRC}${PLATFORM}/E3UnixDrawContext.c       
 
 
-libquesa_la_CFLAGS= -std=c99 -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES)
+libquesa_la_CFLAGS= -x c++ -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES)
 libquesa_la_LIBADD= -lm -lc -lX11 -lGL -lGLU
-

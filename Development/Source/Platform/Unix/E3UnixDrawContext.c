@@ -171,7 +171,7 @@ E3XDrawContext_UnregisterClass(void)
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTre::UnregisterClass(kQ3DrawContextTypeX11, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DrawContextTypeX11, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -493,7 +493,11 @@ E3X_GetVisualInfo(Display *dpy, Screen *screen)
 
 	// Fill in the template
 	visualInfoMask            = VisualClassMask | VisualScreenMask;
+#ifdef __cplusplus
+	visualInfoTemplate.c_class  = PseudoColor;
+#else
 	visualInfoTemplate.class  = PseudoColor;
+#endif
 	visualInfoTemplate.screen = DefaultScreen(dpy);
 
 
@@ -506,4 +510,3 @@ E3X_GetVisualInfo(Display *dpy, Screen *screen)
 
 	return(visualArray);
 }
-

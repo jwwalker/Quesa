@@ -115,14 +115,14 @@ E3UnixStorage_RegisterClass(void)
 											kQ3StorageTypeUnix,
 											kQ3ClassNameStorageUnix,
 											NULL,
-											sizeof(UnixStorage));
+											sizeof(E3UnixStorage));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3StorageTypeUnix,
 												kQ3UnixStorageTypePath,
 												kQ3ClassNameStorageUnixPath,
 												theClass->GetMetaHandler (),
-												sizeof(UnixPathStorage));
+												sizeof(E3UnixStorage));
 
 	return(qd3dStatus);
 }
@@ -203,4 +203,3 @@ E3UnixPathStorage_Get(TQ3StorageObject storage, char *pathName)
 
 	return(qd3dStatus);
 }
-

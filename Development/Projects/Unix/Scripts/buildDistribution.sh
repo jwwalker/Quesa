@@ -38,7 +38,7 @@ if test -d /usr/local/share/aclocal; then
  ACLOCALADDPATHS="${ACLOCALADDPATHS} -I /usr/local/share/aclocal"
 fi
 
-aclocal --force ${ACLOCALADDPATHS}
+aclocal ${ACLOCALADDPATHS}
 automake --add-missing
 automake
 autoconf
@@ -60,7 +60,7 @@ PATH=${PATH}:/usr/local/bin
 
 export PATH
 
-aclocal --force ${ACLOCALADDPATHS}
+aclocal ${ACLOCALADDPATHS}
 automake --add-missing
 automake
 autoconf
