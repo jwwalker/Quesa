@@ -1,1 +1,48 @@
-#***************************************************************************# Makefile for Unix builds# dair@webthing.net## NB - Real makefile hackers required: should we be using autoconf for this?#***************************************************************************# FlagsWARN = -Wall -Wpointer-arith -Wcast-qual -Waggregate-return            \       -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \       -Wredundant-decls -Wno-multichar -Wno-conversionINCLUDE = -include "../../../Development/Source/Platform/Unix/E3UnixPrefix.h" \          -I "../../Includes/Apple" \          -I "../../Includes/Quesa" \          -I "../Qut"               \          -I "../Qut/Unix"          \CFLAGS = $(WARN) $(INCLUDE) -cLDFLAGS = -L../../Libraries/Unix/Debug/ \          -L/usr/X11/lib                \          -L/usr/local/lib              \          -lquesa -lc -lm -lX11 -lGL -lGLU -lglib -lgtk -lgdk# ToolsCC = gcc# Targetsall: obj obj/DumpGroup.o dumpgroupclean:	rm -fr obj dumpgroupobj:	mkdir objobj/DumpGroup.o: Dump\ Group.c	$(CC) $(CFLAGS) "$^" -o $@dumpgroup: obj/DumpGroup.o	${CC} obj/DumpGroup.o -o dumpgroup ${LDFLAGS}
+#***************************************************************************
+# Makefile for Unix builds
+# dair@webthing.net
+#
+# NB - Real makefile hackers required: should we be using autoconf for this?
+#***************************************************************************
+
+
+
+# Flags
+WARN = -Wall -Wpointer-arith -Wcast-qual -Waggregate-return            \
+       -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \
+       -Wredundant-decls -Wno-multichar -Wno-conversion
+
+INCLUDE = -include "../../../Development/Source/Platform/Unix/E3UnixPrefix.h" \
+          -I "../../Includes/Apple" \
+          -I "../../Includes/Quesa" \
+          -I "../Qut"               \
+          -I "../Qut/Unix"          \
+
+CFLAGS = $(WARN) $(INCLUDE) -c
+
+LDFLAGS = -L../../Libraries/Unix/Debug/ \
+          -L/usr/X11/lib                \
+          -L/usr/local/lib              \
+          -lquesa -lc -lm -lX11 -lGL -lGLU -lglib -lgtk -lgdk
+
+
+
+# Tools
+CC = gcc
+
+
+
+# Targets
+all: obj obj/DumpGroup.o dumpgroup
+
+clean:
+	rm -fr obj dumpgroup
+
+obj:
+	mkdir obj
+
+obj/DumpGroup.o: Dump\ Group.c
+	$(CC) $(CFLAGS) "$^" -o $@
+
+dumpgroup: obj/DumpGroup.o
+	${CC} obj/DumpGroup.o -o dumpgroup ${LDFLAGS}
