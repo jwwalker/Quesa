@@ -145,6 +145,7 @@ typedef struct TQ3InteractiveData {
 	TQ3Boolean				glClientStateColor;
 	TQ3Boolean				glClientStateUV;
 	TQ3Uns32				rendererEditIndex;
+	TQ3Uns32				drawContextEditIndex;
 	TQ3GLExtensions			glExtensions;
 
 
