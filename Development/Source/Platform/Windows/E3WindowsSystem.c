@@ -195,11 +195,17 @@ void
 E3WindowsSystem_LoadPlugins(void)
 {
 	TCHAR systemDir[MAX_PATH];
+	
+#if QUESA_REPLACE_QD3D_RENDERERS
+	TCHAR extExtension[] = TEXT("xq3");
+#else
+	TCHAR extExtension[] = TEXT("q3x");
+#endif
 
 	if(GetSystemDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
-		e3windowsystem_loadplugins(systemDir,TEXT("xq3"));
+		e3windowsystem_loadplugins(systemDir,extExtension);
 
 	if(GetWindowsDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
-		e3windowsystem_loadplugins(systemDir,TEXT("xq3"));
+		e3windowsystem_loadplugins(systemDir,extExtension);
 	
 }

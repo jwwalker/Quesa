@@ -41,8 +41,6 @@
 //      Build constants
 //-----------------------------------------------------------------------------
 
-// We don't support Apple's QD3D renderers under Windows
-#define QUESA_REPLACE_QD3D_RENDERERS			1
 
 
 #endif
