@@ -812,7 +812,6 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	{
 		TQ3DiskData			botDisk;
 		TQ3GeometryObject	botGeom;
-		TQ3Vector3D			workVec;
 		
 		Q3Vector3D_Scale( &geomData->orientation, vMin, &workVec );
 		Q3Point3D_Vector3D_Add( &geomData->origin, &workVec, &botDisk.origin );
