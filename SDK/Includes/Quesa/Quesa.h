@@ -212,7 +212,7 @@
 	
 #if !QUESA_ALLOW_QD3D_EXTENSIONS
 	#if !((QUESA_OS_MACINTOSH && !TARGET_API_MAC_CARBON) || QUESA_OS_WIN32)
-		#pragma error "Extensions should only be turned off on Mac Classic or Win32 platforms"
+		#error "Extensions should only be turned off on Mac Classic or Win32 platforms"
 	#endif
 #endif
 
