@@ -34,11 +34,211 @@ So, if you call a Quesa function that returns an object (such as
 <a href="../../apiref/QuesaGeometry/Functions/Functions.html#Q3Box_New">Q3Box_New</a> or 
 <a href="../../apiref/QuesaGroup/Functions/Functions.html#Q3Group_GetPositionObject">Q3Group_GetPositionObject</a>), you have gained a reference to that object.  As long as you keep that reference in your data, everything is fine.  When that reference is about to disappear -- for example, because it's in a local variable that is about to go out of scope or be assigned a different value, or in an object that is being destroyed -- then you must call <a href="../../apiref/Quesa/Functions/Functions.html#Q3Object_Dispose">Q3Object_Dispose</a> to let Quesa know that there is one less reference to that object.
 
-<p>If your own code causes another reference to an object to be created -- for example, because you're returning an object from a function but also keeping your own reference to it -- then you should call <a href="../../apiref/Quesa/Functions/Functions.html#Q3Shared_GetReference">Q3Shared_GetReference</a> to increment its reference count.
+<p>If your own code causes another reference to a shared object to be created -- for example, because you're returning an object from a function but also keeping your own reference to it -- then you should call <a href="../../apiref/Quesa/Functions/Functions.html#Q3Shared_GetReference">Q3Shared_GetReference</a> to increment its reference count.
+
+<p>How do you know whether an object is shared (i.e. reference-counted)?  Any Quesa type which derives from kQ3ObjectTypeShared is reference-counted; other types are not.  If you know at compile time what sort of type you have, you can look at the class hierarchy (see below) to see if it is shared.  If the type of a Q3Object isn't known until runtime, then you can check by calling <a href="../../apiref/Quesa/Functions/Functions.html#Q3Object_IsType">Q3Object_IsType</a>( obj, kQ3ObjectTypeShared ).  Currently, almost all Quesa types are shared (picks and views are the most notable exceptions).
 
 
 <!----------------------------------------------------------------------------->
 <h3>Inherited class system</h3>
+
+Although Quesa uses a plain C API, it uses object-oriented principles under the hood.  Data structures in Quesa are known as "objects" and are arranged in a type hierarchy.  Any function which accepts a general type will also work with a more specific type -- and more specific types may customize the behavior of that function.
+
+<p>For example, <a href="../../apiref/Quesa/Functions/Functions.html#Q3Shared_GetReference">Q3Shared_GetReference</a> has a parameter of type TQ3SharedObject.  Suppose you have a torus-shaped model stored in a variable of type TQ3GeometryObject.  Because a TQ3GeometryObject is also a TQ3SharedObject, your torus is a valid argument for <a href="../../apiref/Quesa/Functions/Functions.html#Q3Shared_GetReference">Q3Shared_GetReference</a>.
+
+<p>Quesa uses a mixture of strong and weak typing in its API.  Internal Quesa class types are identified with constants such as kQ3GeometryTypeTorus, which you can obtain from <a href="../../apiref/Quesa/Functions/Functions.html#Q3Object_GetType">Q3Object_GetType</a>.  Some parts of the class hierarchy also get a custom C type, to add type safety to the API.  So, for example, any file object has a class type of kQ3SharedTypeFile, and can be referenced in C as a TQ3FileObject.  But while a torus has a type of kQ3GeometryTypeTorus, and a cone has a type of kQ3GeometryTypeCone, both must be referred to in C as TQ3GeometryObject; there is no more specifc C type for a torus or cone.
+
+<p>The class hierarchy is defined in the Quesa.h header file.  As of the time of this writing, the hierarchy looks like this:
+
+<p>(<b>TQ3Object</b>)
+<ul>
+<li>    kQ3ObjectTypeInvalid
+<li>    kQ3ObjectTypeView (<b>TQ3ViewObject</b>)
+<li>    kQ3ObjectTypeViewer (<b>TQ3ViewerObject</b>)
+<li>    kQ3ObjectTypeSlab (<b>TQ3SlabObject</b>)
+<li>    kQ3ObjectTypeElement (<b>TQ3ElementObject</b>)
+<ul>
+<li>        kQ3ElementTypeAttribute
+</ul>
+<li>    kQ3ObjectTypePick (<b>TQ3PickObject</b>)
+<ul>
+<li>        kQ3PickTypeWindowPoint
+<li>        kQ3PickTypeWindowRect
+<li>        kQ3PickTypeWorldRay
+</ul>
+<li>    kQ3ObjectTypeShared (<b>TQ3SharedObject</b>)
+<ul>
+<li>        kQ3SharedTypeRenderer (<b>TQ3RendererObject</b>)
+<ul>
+<li>            kQ3RendererTypeWireFrame
+<li>            kQ3RendererTypeGeneric
+<li>            kQ3RendererTypeInteractive
+</ul>
+<li>        kQ3SharedTypeShape (<b>TQ3ShapeObject</b>)
+<ul>
+<li>            kQ3ShapeTypeGeometry (<b>TQ3GeometryObject</b>)
+<ul>
+<li>                kQ3GeometryTypeBox
+<li>                kQ3GeometryTypeGeneralPolygon
+<li>                kQ3GeometryTypeLine
+<li>                kQ3GeometryTypeMarker
+<li>                kQ3GeometryTypePixmapMarker
+<li>                kQ3GeometryTypeMesh
+<li>                kQ3GeometryTypeNURBCurve
+<li>                kQ3GeometryTypeNURBPatch
+<li>                kQ3GeometryTypePoint
+<li>                kQ3GeometryTypePolygon
+<li>                kQ3GeometryTypePolyLine
+<li>                kQ3GeometryTypeTriangle
+<li>                kQ3GeometryTypeTriGrid
+<li>                kQ3GeometryTypeCone
+<li>                kQ3GeometryTypeCylinder
+<li>                kQ3GeometryTypeDisk
+<li>                kQ3GeometryTypeEllipse
+<li>                kQ3GeometryTypeEllipsoid
+<li>                kQ3GeometryTypePolyhedron
+<li>                kQ3GeometryTypeTorus
+<li>                kQ3GeometryTypeTriMesh
+</ul>
+<li>            kQ3ShapeTypeShader (<b>TQ3ShaderObject</b>)
+<ul>
+<li>                kQ3ShaderTypeSurface (<b>TQ3SurfaceShaderObject</b>)
+<ul>
+<li>                    kQ3SurfaceShaderTypeTexture
+</ul>
+<li>                kQ3ShaderTypeIllumination (<b>TQ3IlluminationShaderObject</b>)
+<ul>
+<li>                    kQ3IlluminationTypePhong
+<li>                    kQ3IlluminationTypeLambert
+<li>                    kQ3IlluminationTypeNULL
+</ul>
+</ul>
+<li>            kQ3ShapeTypeStyle (<b>TQ3StyleObject</b>)
+<ul>
+<li>                kQ3StyleTypeBackfacing
+<li>                kQ3StyleTypeInterpolation
+<li>                kQ3StyleTypeFill
+<li>                kQ3StyleTypePickID
+<li>                kQ3StyleTypeCastShadows
+<li>                kQ3StyleTypeReceiveShadows
+<li>                kQ3StyleTypeHighlight
+<li>                kQ3StyleTypeSubdivision
+<li>                kQ3StyleTypeOrientation
+<li>                kQ3StyleTypePickParts
+<li>                kQ3StyleTypeAntiAlias
+<li>                kQ3StyleTypeFog
+</ul>
+<li>            kQ3ShapeTypeTransform (<b>TQ3TransformObject</b>)
+<ul>
+<li>                kQ3TransformTypeMatrix
+<li>                kQ3TransformTypeScale
+<li>                kQ3TransformTypeTranslate
+<li>                kQ3TransformTypeRotate
+<li>                kQ3TransformTypeRotateAboutPoint
+<li>                kQ3TransformTypeRotateAboutAxis
+<li>                kQ3TransformTypeQuaternion
+<li>                kQ3TransformTypeReset
+<li>                kQ3TransformTypeCamera
+<li>                kQ3TransformTypeCameraRasterize
+</ul>
+<li>            kQ3ShapeTypeLight (<b>TQ3LightObject</b>)
+<ul>
+<li>                kQ3LightTypeAmbient
+<li>                kQ3LightTypeDirectional
+<li>                kQ3LightTypePoint
+<li>                kQ3LightTypeSpot
+</ul>
+<li>            kQ3ShapeTypeCamera (<b>TQ3CameraObject</b>)
+<ul>
+<li>                kQ3CameraTypeOrthographic
+<li>                kQ3CameraTypeViewPlane
+<li>                kQ3CameraTypeViewAngleAspect
+</ul>
+<li>            kQ3ShapeTypeStateOperator (<b>TQ3StateOperatorObject</b>)
+<ul>
+<li>                kQ3StateOperatorTypePush
+<li>                kQ3StateOperatorTypePop
+</ul>
+<li>            kQ3ShapeTypeGroup (<b>TQ3GroupObject</b>)
+<ul>
+<li>                kQ3GroupTypeDisplay (<b>TQ3DisplayGroupObject</b>)
+<ul>
+<li>                    kQ3DisplayGroupTypeOrdered
+<li>                    kQ3DisplayGroupTypeIOProxy
+</ul>
+<li>                kQ3GroupTypeLight
+<li>                kQ3GroupTypeInfo
+</ul>
+<li>            kQ3ShapeTypeUnknown (<b>TQ3UnknownObject</b>)
+<ul>
+<li>                kQ3UnknownTypeText
+<li>                kQ3UnknownTypeBinary
+</ul>
+<li>            kQ3ShapeTypeReference (<b>TQ3ReferenceObject</b>)
+<ul>
+<li>                kQ3ReferenceTypeExternal
+</ul>
+</ul>
+<li>        kQ3SharedTypeSet (<b>TQ3SetObject</b>)
+<ul>
+<li>            kQ3SetTypeAttribute (<b>TQ3AttributeSet</b>)
+</ul>
+<li>        kQ3SharedTypeDrawContext (<b>TQ3DrawContextObject</b>)
+<ul>
+<li>            kQ3DrawContextTypePixmap
+<li>            kQ3DrawContextTypeMacintosh
+<li>            kQ3DrawContextTypeCocoa
+<li>            kQ3DrawContextTypeWin32DC
+<li>            kQ3DrawContextTypeDDSurface
+<li>            kQ3DrawContextTypeX11
+<li>            kQ3DrawContextTypeBe
+</ul>
+<li>        kQ3SharedTypeTexture (<b>TQ3TextureObject</b>)
+<ul>
+<li>            kQ3TextureTypePixmap
+<li>            kQ3TextureTypeMipmap
+<li>            kQ3TextureTypeCompressedPixmap
+</ul>
+<li>        kQ3SharedTypeFile (<b>TQ3FileObject</b>)
+<li>        kQ3SharedTypeStorage (<b>TQ3StorageObject</b>)
+<ul>
+<li>            kQ3StorageTypeMemory
+<ul>
+<li>                kQ3MemoryStorageTypeHandle
+</ul>
+<li>            kQ3StorageTypeUnix
+<ul>
+<li>                kQ3UnixStorageTypePath
+</ul>
+<li>            kQ3StorageTypeMacintosh
+<ul>
+<li>                kQ3MacintoshStorageTypeFSSpec
+</ul>
+<li>            kQ3StorageTypeWin32
+<li>            kQ3StorageTypeBe
+</ul>
+<li>        kQ3SharedTypeString (<b>TQ3StringObject</b>)
+<ul>
+<li>            kQ3StringTypeCString
+</ul>
+<li>        kQ3SharedTypeShapePart (<b>TQ3ShapePartObject</b>)
+<ul>
+<li>            kQ3ShapePartTypeMeshPart (<b>TQ3MeshPartObject</b>)
+<ul>
+<li>                kQ3MeshPartTypeMeshFacePart (<b>TQ3MeshFacePartObject</b>)
+<li>                kQ3MeshPartTypeMeshEdgePart (<b>TQ3MeshEdgePartObject</b>)
+<li>                kQ3MeshPartTypeMeshVertexPart (<b>TQ3MeshVertexPartObject</b>)
+</ul>
+</ul>
+<li>        kQ3SharedTypeControllerState (<b>TQ3ControllerStateObject</b>)
+<li>        kQ3SharedTypeTracker (<b>TQ3TrackerObject</b>)
+<li>        kQ3SharedTypeViewHints (<b>TQ3ViewHintsObject</b>)
+<li>        kQ3SharedTypeEndGroup
+</ul>
+</ul>
+
+
+
 
 <!----------------------------------------------------------------------------->
 <h3>API naming convention</h3>
