@@ -562,6 +562,7 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 									TQ3AntiAliasStyleData		*styleData)
 {
 #pragma unused(theView)
+	GLfloat				lineWidth;
 	#if QUESA_OS_MACINTOSH
 	
 	const TQ3Uns32		ATI_FSAA_SAMPLES = 510;
@@ -594,8 +595,17 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 	if (styleData->state == kQ3On)
 		{
 		// Set up our aliasing thresholds
+		//
+		// Implementations should clamp anti-aliased lines to their minimum width
+		// automatically, however some common systems (Rev-A G5s, some iBooks and
+		// AlBooks) will draw zero-width lines if line smoothing is enabled.
+		//
+		// To avoid this we clamp our line widths to the minimum supported sizes,
+		// to ensure we always have a visible line.
+		lineWidth = E3Num_Max(kAALineSize, GLDrawContext_GetMinLineWidth(instanceData->glContext));
+
 		glPointSize(kAAPointSize);
-		glLineWidth(kAALineSize);
+		glLineWidth(lineWidth);
 
 
 		// Always do points
@@ -619,7 +629,7 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 	//
 	// http://cvs.designcommunity.com/bugzilla/show_bug.cgi?id=69
 	#if QUESA_OS_MACINTOSH
-	
+
 	if (!instanceData->glATICheckedFSAA)
 		{
 		instanceData->glATICheckedFSAA = kQ3True;
