@@ -52,6 +52,26 @@ extern "C" {
 
 
 //=============================================================================
+//      Macros
+//-----------------------------------------------------------------------------
+// E3System_Bottleneck
+//
+// Invoked on every API entry point to allow us to perform system housekeeping.
+// To minimise the performance impact, the bottleneck is implemented as a macro
+// which polls a global then invokes a real function if there is any work to do.
+#define E3System_Bottleneck()													\
+				do																\
+					{															\
+					if (gE3Globals.systemDoBottleneck)							\
+						E3System_ClearBottleneck();								\
+					}															\
+				while (0)
+
+
+
+
+
+//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Cross platform
@@ -59,7 +79,7 @@ TQ3Status	E3System_Initialise(void);
 void		E3System_Terminate(void);
 void		E3System_LoadPlugins(void);
 void		E3System_UnloadPlugins(void);
-void		E3System_Bottleneck(void);
+void		E3System_ClearBottleneck(void);
 
 
 // Mac specific
