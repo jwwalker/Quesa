@@ -931,37 +931,28 @@ E3Geometry_Submit(TQ3GeometryObject theGeom, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Object
 E3Geometry_GetDecomposed( TQ3GeometryObject theGeom, TQ3ViewObject view )
-{	void						*leafInstanceData;
-	TQ3Object					decomposed;
-	TQ3ObjectType				objectType;
-	TQ3XGeomCacheNewMethod		cacheNew;
-
-	
-	
+	{
 	// Verify that we are in a submitting loop
 	Q3_REQUIRE_OR_RESULT( E3View_GetViewState( view ) == kQ3ViewStateSubmitting, NULL );
 
 
 
 	// Find the method we need
-	cacheNew  = (TQ3XGeomCacheNewMethod)  E3ClassTree_GetMethodByObject(theGeom, kQ3XMethodTypeGeomCacheNew);
-	if (cacheNew == NULL)
-		return (NULL);
+	TQ3XGeomCacheNewMethod cacheNew = (TQ3XGeomCacheNewMethod) E3ClassTree_GetMethodByObject ( theGeom, kQ3XMethodTypeGeomCacheNew ) ;
+	if ( cacheNew == NULL )
+		return NULL ;
 
 
 
 	// Find our instance data
-	objectType       = Q3Object_GetLeafType( theGeom );
-	leafInstanceData = E3ClassTree_FindInstanceData(theGeom, objectType);
+	void* leafInstanceData = E3ClassTree_FindInstanceData ( theGeom, kQ3ObjectTypeLeaf ) ;
 	Q3_ASSERT_VALID_PTR(leafInstanceData);
 
 
 
 	// Build the decomposed object
-	decomposed = cacheNew( view, theGeom, leafInstanceData);
-
-	return decomposed;
-}
+	return cacheNew ( view, theGeom, leafInstanceData ) ;
+	}
 
 
 
