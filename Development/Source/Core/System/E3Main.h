@@ -100,6 +100,8 @@ TQ3Status			E3Shape_SubmitElements( TQ3ShapeObject inShape, TQ3ViewObject inView
 
 TQ3Status			E3Bitmap_Empty(TQ3Bitmap *theBitmap);
 TQ3Uns32			E3Bitmap_GetImageSize(TQ3Uns32 theWidth, TQ3Uns32 theHeight);
+TQ3Boolean			E3Bitmap_GetBit(const TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y);
+TQ3Status			E3Bitmap_SetBit(TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y, TQ3Boolean theState);
 
 
 

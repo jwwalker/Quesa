@@ -1658,3 +1658,90 @@ Q3Bitmap_GetImageSize(TQ3Uns32 width, TQ3Uns32 height)
 
 
 
+//=============================================================================
+//      Q3Bitmap_GetBit : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+Q3Bitmap_GetBit(const TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theBitmap), kQ3False);
+	Q3_REQUIRE_OR_RESULT(x < theBitmap->width,    kQ3False);
+	Q3_REQUIRE_OR_RESULT(y < theBitmap->height,   kQ3False);
+	
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theBitmap
+		return(0);
+
+	if (0) // Further checks on x
+		return(0);
+
+	if (0) // Further checks on y
+		return(0);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Bitmap_GetBit(theBitmap, x, y));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Bitmap_SetBit : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Bitmap_SetBit(TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y, TQ3Boolean theState)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theBitmap), kQ3False);
+	Q3_REQUIRE_OR_RESULT(x < theBitmap->width,    kQ3False);
+	Q3_REQUIRE_OR_RESULT(y < theBitmap->height,   kQ3False);
+	
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theBitmap
+		return(0);
+
+	if (0) // Further checks on x
+		return(0);
+
+	if (0) // Further checks on y
+		return(0);
+
+	if (0) // Further checks on theState
+		return(0);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Bitmap_SetBit(theBitmap, x, y, theState));
+}
+
+
+
+
+
