@@ -84,7 +84,14 @@ ir_interactive_new(TQ3Object theObject, void *privateData, void *paramData)
 
 
 	// Initialise the renderer
-	qd3dStatus = IRTransBuffer_Initialize(instanceData);
+	qd3dStatus = kQ3Success;
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = IRGeometry_Initialize(instanceData);
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = IRTransBuffer_Initialize(instanceData);
+
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = IRTriBuffer_Initialize(instanceData);
 
@@ -107,9 +114,9 @@ ir_interactive_delete(TQ3Object theObject, void *privateData)
 
 	// Dispose of our state
 	IRTriBuffer_Terminate(instanceData);
-	IRRenderer_Texture_Terminate(instanceData);
-	IRGeometry_Terminate(instanceData);
 	IRTransBuffer_Terminate(instanceData);
+	IRGeometry_Terminate(instanceData);
+	IRRenderer_Texture_Terminate(instanceData);
 	IRGeometry_TriMesh_Terminate(instanceData);
 
 

@@ -216,39 +216,16 @@ ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
 
 
 
-	// Set up the orientation and backfacing style for triangles
+	// Set up the orientation style for triangles
+	//
+	// Could possibly pre-process all triangles when they're added
+	// to be in CCW order to reduce these state changes?
 	if (thePrim->numVerts == 3)
 		{
-		// Orientation
 		if (thePrim->orientationStyle == kQ3OrientationStyleClockwise)
 			glFrontFace(GL_CW);
 		else
 			glFrontFace(GL_CCW);
-		
-
-		
-		// Backfacing
-		switch (thePrim->backfacingStyle) {
-			case kQ3BackfacingStyleRemove:
-				// Disable 2-sided lighting and cull back-faces
-				glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-				glEnable(GL_CULL_FACE);
-				glCullFace(GL_BACK);
-				break;
-
-			case kQ3BackfacingStyleFlip:
-				// Enable 2-sided lighting and turn off culling
-				glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-				glDisable(GL_CULL_FACE);
-				break;
-
-			case kQ3BackfacingStyleBoth:
-			default:
-				// Disable 2-sided lighting and turn off culling
-				glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-				glDisable(GL_CULL_FACE);
-				break;
-			}
 		}
 
 
@@ -518,11 +495,8 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 		// ended, since transparent primitives have already been transformed into
 		// world coordinates.
 		//
-		// Vertex normals have also been normalized, so we can turn off GL_NORMALIZE.
-		//
 		// We also enable blending and turn off writes to the depth buffer.
 		Q3ResetTransform_Submit(theView);
-		glDisable(GL_NORMALIZE);
 	    glEnable(GL_BLEND);
 		glDepthMask(GL_FALSE);
 

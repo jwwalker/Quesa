@@ -250,14 +250,16 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 
 
 
-	// Adjust the normalisation state. If the current transform doesn't have a
-	// scale component, we can turn off automatic normalization - our current
-	// assumption is that incoming geometry will have normalized vertex normals,
-	// and this will be true for any triangulated geometries we create to
-	// represent the implicit geometries.
+	// Adjust the normalisation state
 	//
-	// We may want to change this, although leaving normalization on all the
-	// time will have about a 4% performance hit.
+	// If the current transform doesn't have a scale component, we can turn off automatic
+	// normalization. Quesa's documented behaviour is that incoming TriMesh objects always
+	// have normalized normals, and we always normalize Triangle normals, so we can avoid
+	// having OpenGL do normalization if that is the case.
+	//
+	// Even if the current transform does have a scale component, we should probably use
+	// GL_RESCALE_NORMAL if it's available - if the scale is uniform, this is potentially
+	// more efficient than GL_NORMALIZE since OpenGL can use a simpler re-normalization.
 	if (theMatrix->value[0][0] != 1.0f ||
 		theMatrix->value[1][1] != 1.0f ||
 		theMatrix->value[2][2] != 1.0f ||
@@ -346,27 +348,26 @@ IRRenderer_Update_Style_Backfacing(TQ3ViewObject		theView,
 
 
 	// Set the backfacing style
+	//
+	// Note that backface culling is handled by the renderer rather than OpenGL,
+	// to allow triangles to be culled based on an application-supplied normal
+	// rather than always using the geometric normal (as per OpenGL culling).
+	//
+	// However we do need to adjust the OpenGL lighting model at this point, as
+	// we want backfacing triangles to be lit as if they were front facing.
 	instanceData->stateBackfacing = *styleData;
 
 	switch (instanceData->stateBackfacing) {
-		case kQ3BackfacingStyleRemove:
-			// Disable 2-sided lighting and cull back-faces
-			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_BACK);
-			break;
-
 		case kQ3BackfacingStyleFlip:
-			// Enable 2-sided lighting and turn off culling
+			// Enable 2-sided lighting
 			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-			glDisable(GL_CULL_FACE);
 			break;
 
 		case kQ3BackfacingStyleBoth:
+		case kQ3BackfacingStyleRemove:
 		default:
-			// Disable 2-sided lighting and turn off culling
+			// Disable 2-sided lighting
 			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-			glDisable(GL_CULL_FACE);
 			break;
 		}
 
@@ -461,7 +462,7 @@ IRRenderer_Update_Style_Orientation(TQ3ViewObject			theView,
 
 	// Set the front facing direction
 	instanceData->stateOrientation = *styleData;
-	
+
 	switch (instanceData->stateOrientation) {
 		case kQ3OrientationStyleClockwise:
 			glFrontFace(GL_CW);

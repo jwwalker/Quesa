@@ -94,17 +94,36 @@ ir_geom_adjust_state(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttrib
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
-//      IRGeometry_Terminate : Terminate the geometry state.
+//      IRGeometry_Initialize : Initialise the geometry buffer.
 //-----------------------------------------------------------------------------
 #pragma mark -
+TQ3Status
+IRGeometry_Initialize(TQ3InteractiveData *instanceData)
+{
+
+
+	// Initialise our state
+	instanceData->geomScratchSlab = Q3SlabMemory_New(1, 0, NULL);
+	if (instanceData->geomScratchSlab == NULL)
+		return(kQ3Failure);
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      IRGeometry_Terminate : Terminate the geometry state.
+//-----------------------------------------------------------------------------
 void
 IRGeometry_Terminate(TQ3InteractiveData *instanceData)
 {
 
 
 	// Dispose of the geometry state
-	instanceData->geomSize = 0;
-	Q3Memory_Free(&instanceData->geomData);
+	Q3Object_CleanDispose(&instanceData->geomScratchSlab);
 }
 
 
@@ -129,7 +148,7 @@ IRGeometry_Terminate(TQ3InteractiveData *instanceData)
 TQ3Boolean
 IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttributes,
 							 TQ3InteractiveData *instanceData, TQ3XAttributeMask needAttributesMask)
-{   TQ3AttributeSet     viewAttributes;
+{   TQ3AttributeSet     viewAttributes = NULL;
 	TQ3ShaderObject 	*theShader;
 	TQ3XAttributeMask	theMask, hiliteMask;
 	TQ3Boolean			hadAttributeTexture;
@@ -211,16 +230,17 @@ IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttribut
 
 
 //=============================================================================
-//      IRGeometry_Vertex_GetState : Get the state for a vertex.
+//      IRGeometry_Generate_Vertex_State : Generate the state for a vertex.
 //-----------------------------------------------------------------------------
 void
-IRGeometry_Vertex_GetState(TQ3InteractiveData	*instanceData,
-							TQ3Vertex3D			*srcVertex,
-							TQ3FVertex3D		*dstVertex)
-{	TQ3ColorRGB			*colourDiffuse, *colourTransparency;
-	TQ3Vector3D			*theNormal;
-	TQ3XAttributeMask	theMask;
-	TQ3Param2D			*theUV;
+IRGeometry_Generate_Vertex_State(TQ3InteractiveData		*instanceData,
+								const TQ3Vector3D		*defaultNormal,
+								TQ3Vertex3D				*srcVertex,
+								TQ3FVertex3D			*dstVertex)
+{	const TQ3ColorRGB		*colourDiffuse, *colourTransparency;
+	const TQ3Vector3D		*theNormal;
+	TQ3XAttributeMask		theMask;
+	const TQ3Param2D		*theUV;
 
 
 
@@ -252,7 +272,10 @@ IRGeometry_Vertex_GetState(TQ3InteractiveData	*instanceData,
 
 
 
-	// Fall back to the geometry for colours
+	// Fall back to the defaults
+	if (theNormal == NULL && defaultNormal != NULL)
+		theNormal = defaultNormal;
+
 	if (colourDiffuse == NULL || instanceData->stateGeomHilightState == kQ3On)
 		colourDiffuse = instanceData->stateGeomDiffuseColour;
 
@@ -265,13 +288,18 @@ IRGeometry_Vertex_GetState(TQ3InteractiveData	*instanceData,
 
 
 	// Set up the vertex
+	//
+	// We assume the default normal has already been normalized.
 	dstVertex->theFlags = kQ3FVertexFlagNone;
 	dstVertex->thePoint = srcVertex->point;
 
 	if (theNormal != NULL)
 		{
 		dstVertex->theFlags |= kQ3FVertexHaveNormal;
-		dstVertex->theNormal = *theNormal;
+		if (theNormal == defaultNormal)
+			dstVertex->theNormal = *theNormal;
+		else
+			Q3Vector3D_Normalize(theNormal, &dstVertex->theNormal);
 		}
 
 	if (theUV != NULL)
@@ -298,41 +326,49 @@ IRGeometry_Vertex_GetState(TQ3InteractiveData	*instanceData,
 
 
 //=============================================================================
-//      IRGeometry_Triangle_CalcFlags : Calculate the flags for triangles.
+//      IRGeometry_Generate_Triangle_Flags : Generate triangle flags.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
-								TQ3Uns32			numTriangles,
-								const TQ3Uns32		*theIndices,
-								const TQ3Point3D	*thePoints,
-								const TQ3Vector3D	*theNormals,
-								TQ3TriFlags			*theFlags)
+IRGeometry_Generate_Triangle_Flags(TQ3InteractiveData	*instanceData,
+									TQ3Uns32			numTriangles,
+									const TQ3Uns32		*theIndices,
+									const TQ3Point3D	*thePoints,
+									const TQ3Vector3D	*theNormals,
+									TQ3TriFlags			*theFlags)
 {	TQ3Uns32		sizeTriToEye, sizeDotProducts, sizeDotLessThanZero;
 	TQ3Uns32		offTriToEye, offDotProducts, offDotLessThanZero;
 	TQ3Boolean		*dotLessThanZero;
-	TQ3Uns32		n, requiredSize;
+	TQ3Vector3D		orthoTriToEye;
 	float			*dotProducts;
 	TQ3Status		qd3dStatus;
+	TQ3Uns32		n, theSize;
 	TQ3Vector3D		*triToEye;
-	TQ3Vector3D		orthoTriToEye;
+
+
+
+	// If we're to render everything, mark everything as visible
+	if (instanceData->stateBackfacing == kQ3BackfacingStyleBoth)
+		{
+		for (n = 0; n < numTriangles; n++)
+			theFlags[n] = kQ3TriFlagVisible;
+			
+		return(kQ3Success);
+		}
 
 
 
 	// Grow the geometry scratch space
+	//
+	// The element size in our slab is a single byte, as we just want a
+	// growable buffer to store our temporary items into.
 	sizeTriToEye        = (numTriangles * sizeof(TQ3Vector3D));
 	sizeDotProducts     = (numTriangles * sizeof(float));
 	sizeDotLessThanZero = (numTriangles * sizeof(TQ3Boolean));
 
-	requiredSize = (sizeTriToEye + sizeDotProducts + sizeDotLessThanZero);
-	
-	if (requiredSize > instanceData->geomSize)
-		{
-		qd3dStatus = Q3Memory_Reallocate(&instanceData->geomData, requiredSize);
-		if (qd3dStatus != kQ3Success)
-			return(qd3dStatus);
-		
-		instanceData->geomSize = requiredSize;
-		}
+	theSize    = (sizeTriToEye + sizeDotProducts + sizeDotLessThanZero);
+	qd3dStatus = Q3SlabMemory_SetCount(instanceData->geomScratchSlab, theSize);
+	if (qd3dStatus != kQ3Success)
+		return(qd3dStatus);
 
 
 
@@ -341,18 +377,18 @@ IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
 	offDotProducts     = offTriToEye    + sizeTriToEye;
 	offDotLessThanZero = offDotProducts + sizeDotProducts;
 
-	triToEye        = (TQ3Vector3D *) &instanceData->geomData[offTriToEye];
-	dotProducts     = (float       *) &instanceData->geomData[offDotProducts];
-	dotLessThanZero = (TQ3Boolean  *) &instanceData->geomData[offDotLessThanZero];
+	triToEye        = (TQ3Vector3D *) Q3SlabMemory_GetData(instanceData->geomScratchSlab, offTriToEye);
+	dotProducts     = (float       *) Q3SlabMemory_GetData(instanceData->geomScratchSlab, offDotProducts);
+	dotLessThanZero = (TQ3Boolean  *) Q3SlabMemory_GetData(instanceData->geomScratchSlab, offDotLessThanZero);
 
 
 
 	// Verify our pointers are aligned
 	//
-	// Not strictly an error, but for performance we want to make sure that our pointers are
-	// at least 4-byte aligned (or we'll take a large performance hit on PowerPC). All our
-	// items are multiples of 4 bytes at present, but this will catch us if we allocate any
-	// single byte entries in the future.
+	// Not strictly an error, but for performance we want to make sure that our pointers
+	// are at least 4-byte aligned (or we'll take a large performance hit on PowerPC). All
+	// our items are multiples of 4 bytes at present, but this will catch us if we allocate
+	// any single byte entries in the future.
 	Q3_ASSERT(((TQ3Uns32) triToEye)        % 4 == 0);
 	Q3_ASSERT(((TQ3Uns32) dotProducts)     % 4 == 0);
 	Q3_ASSERT(((TQ3Uns32) dotLessThanZero) % 4 == 0);
@@ -361,9 +397,8 @@ IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
 
 	// Determine the eye->triangle vectors to use
 	//
-	// For orthographic cameras we can use the camera's view direction (in
-	// local coordinates), but for perspective cameras we need a vector from
-	// the eye position to one of the triangle's vertices.
+	// For orthographic cameras we can use the camera's view direction (in local coordinates),
+	// but for perspective cameras we need a vector from the eye position to one of the vertices.
 	if (instanceData->cameraIsOrtho)
 		{
 		Q3Vector3D_Negate( &instanceData->stateLocalCameraViewVector, &orthoTriToEye );
@@ -385,23 +420,14 @@ IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
 
 
 	// Set up the triangle flags
-	//
-	// Back-facing triangles aren't visible if we're to remove them, and
-	// they're flipped if we're to flip them for rendering.
 	if (qd3dStatus == kQ3Success)
 		{
 		for (n = 0; n < numTriangles; n++)
 			{
-			theFlags[n] = kQ3TriFlagVisible;
-
-			if (dotLessThanZero[n])
-				{
-				if (instanceData->stateBackfacing == kQ3BackfacingStyleRemove)
-					theFlags[n] = kQ3TriFlagCulled;
-		
-				else if (instanceData->stateBackfacing == kQ3BackfacingStyleFlip)
-					theFlags[n] |= kQ3TriFlagFlipped;
-				}
+			if (instanceData->stateBackfacing == kQ3BackfacingStyleRemove && dotLessThanZero[n])
+				theFlags[n] = kQ3TriFlagCulled;
+			else
+				theFlags[n] = kQ3TriFlagVisible;
 			}
 		}
 	
@@ -413,65 +439,216 @@ IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
 
 
 //=============================================================================
-//      IRGeometry_Triangle_IsVisible : Check a triangle normal for culling.
+//      IRGeometry_Generate_Triangle_Normals : Generate triangle normals.
 //-----------------------------------------------------------------------------
-//		Note :	If the triangle normal indicates that it is backfacing, and the
-//				current orientation/backfacing style will allow it, we cull
-//				the triangle at this point rather than processing it further.
-//
-//				Note that the triangle normal is assumed to be in _local_
-//				coordinates, and as such can be compared with the camera
-//				view vector in the current local coordinate system.
+//		Note :	The usageFlags array indicates which values are required. If
+//				this array is NULL, all values are returned. If it is not NULL,
+//				entries which are zero indicate the normal is required.
 //-----------------------------------------------------------------------------
-TQ3Boolean
-IRGeometry_Triangle_IsVisible(TQ3InteractiveData		*instanceData,
-								 const TQ3Vector3D		*triNormal)
-{	float			dotProduct;
-	TQ3Vector3D		theNormal;
+void
+IRGeometry_Generate_Triangle_Normals(TQ3InteractiveData		*instanceData,
+										TQ3Uns32			numTriangles,
+										const TQ3Uns8		*usageFlags,
+										const TQ3Uns32		*theIndices,
+										const TQ3Point3D	*thePoints,
+										TQ3Vector3D			*theNormals)
+{	TQ3Uns32	n;
 
 
 
-	// if we're to allow backfacing triangles, the triangle is allowed
-	if (instanceData->stateBackfacing == kQ3BackfacingStyleBoth)
-		return(kQ3True);
-
-
-
-	// Grab a copy of the normal, reversing it if the orientation is clockwise
-	if (instanceData->stateOrientation == kQ3OrientationStyleClockwise)
+	// Calculate the triangle normals
+	//
+	// We can find the normal for a CCW triangle with Q3Point3D_CrossProductTri,
+	// or with Q3Triangle_CrossProductArray if we have multiple triangles.
+	if (numTriangles == 1)
 		{
-		theNormal.x = -triNormal->x;
-		theNormal.y = -triNormal->y;
-		theNormal.z = -triNormal->z;
+		Q3Point3D_CrossProductTri(thePoints + theIndices[0],
+								  thePoints + theIndices[1],
+								  thePoints + theIndices[2],
+								  theNormals);
+
+		Q3Vector3D_Normalize(theNormals, theNormals);
 		}
 	else
-		theNormal = *triNormal;
+		Q3Triangle_CrossProductArray(numTriangles, usageFlags, theIndices, thePoints, theNormals);
 
 
 
-	// Calculate the the dot product betweent the normal and the camera view
-	// vector in local coordinates. If this is less than 0, the triangle is
-	// front facing and so is visible.
-	dotProduct = Q3Vector3D_Dot(&theNormal, &instanceData->stateLocalCameraViewVector);
-	if (dotProduct < 0.0f)
-		return(kQ3True);
-
-
-
-	// Otherwise, the dot product is more than 0.0 and so the triangle is
-	// back facing. If we're to remove back facing triangles, we're done.
-	if (instanceData->stateBackfacing == kQ3BackfacingStyleRemove)
-		return(kQ3False);
-
-
-
-	// If we're not to remove back facing triangles, we must be drawing
-	// flipped and the triangle is still visible.
+	// Reverse the normals if required
 	//
-	// This is OK, since OpenGL will take care of flipping the normal
-	// when rendering to produce the correct results.
-	Q3_ASSERT(instanceData->stateBackfacing == kQ3BackfacingStyleFlip);
-	return(kQ3True);
+	// Since the default normal for a triangle depends on the current orientation
+	// style, we need to reverse the normal if the triangle is actually CW.
+	if (instanceData->stateOrientation == kQ3OrientationStyleClockwise)
+		{
+		// Reverse them all if we have no usage flags
+		if (usageFlags == NULL)
+			{
+			for (n = 0; n < numTriangles; n++)
+				Q3Vector3D_Negate(&theNormals[n], &theNormals[n]);
+			}
+		
+		
+		// Reverse the missing entries if we do
+		else
+			{
+			for (n = 0; n < numTriangles; n++)
+				{
+				if (!usageFlags[n])
+					Q3Vector3D_Negate(&theNormals[n], &theNormals[n]);
+				}
+			}
+		}
+}
+
+
+
+
+
+//=============================================================================
+//      IRGeometry_Validate_Triangles : Validate a set of triangles.
+//-----------------------------------------------------------------------------
+void
+IRGeometry_Validate_Triangles(TQ3InteractiveData		*instanceData,
+								TQ3Uns32				numTriangles,
+								const TQ3Uns32			*theIndices,
+								const TQ3Point3D		*thePoints,
+								const TQ3Vector3D		*theNormals)
+{
+#if !Q3_DEBUG
+	// Keep compiler happy
+	instanceData;
+	numTriangles;
+	theIndices;
+	thePoints;
+	theNormals;
+#else
+	float				dotProduct, theLength;
+	const TQ3Uns32		*triIndices;
+	TQ3Vector3D			geomNormal;
+	TQ3Uns32			n;
+
+
+
+	// Check for normals which can not be flipped
+	//
+	// When rendering with the flip backfacing style, we any application-supplied normals
+	// must face the same direction as the geometric normal for triangles.
+	//
+	//
+	// OpenGL's approach is to light vertices using the supplied vertex normals, except
+	// if 2-sided lighting is on.
+	//
+	// If 2-sided lighting is on, the geometric normal (or rather an equivalent) is calculated
+	// by taking the cross product of the projected triangle (with respect to the current value
+	// of glFrontFace). If this normal points away from the camera, the vertex normals are
+	// flipped when the vertices are lit.
+	//
+	//
+	// QD3D's approach is to take the application-supplied normal in preference to the geometric
+	// normal, and to flip the vertex normals if the triangle normal points away from the camera.
+	//
+	// We can create the same effect using OpenGL, but only if every triangle normal is compared
+	// with the geometric normal and glFrontFace used to force the flipping behaviour of OpenGL
+	// on a per-triangle basis (i.e., glFrontFace allows us to control what OpenGL does with the
+	// geometric normal it calculates, which we can use to control what happens to the vertex
+	// normals).
+	//
+	//
+	// Since this would reduce us to rendering individual triangles, Quesa requires that any
+	// application-supplied normals have the same direction as the geometric normal when rendering
+	// under kQ3BackfacingStyleFlip.
+	//
+	// If we detect any triangles with normals which do not meet this condition, we know OpenGL
+	// is going to render them incorrectly and post a warning.
+	//
+	//
+	// The most likely scenario which will cause this is if an application generates normals
+	// assuming a particular orientation (e.g., CCW) and then submits the geometry under the
+	// opposite orientation (e.g., CW).
+	//
+	// This situation could be handled as per QD3D if we used OpenGL purely as a rasterisation
+	// API, however this would remove potential acceleration from AltiVec/hardware T&L.
+	if (instanceData->stateBackfacing == kQ3BackfacingStyleFlip)
+		{
+		for (n = 0; n < numTriangles; n++)
+			{
+			// Calculate the geometric normal
+			triIndices = theIndices + (n * 3);
+			IRGeometry_Generate_Triangle_Normals(instanceData, 1, NULL, triIndices, thePoints, &geomNormal);
+
+
+
+			// Compare the two vectors and warn if they face opposite directions
+			//
+			// Even if the two vectors face opposite directions, QD3D would always render using
+			// the application-supplied normal and flip that normal if required.
+			//
+			// If the application-supplied normal points towards the camera and the geometric
+			// normal points away, OpenGL will flip the vertex normals - causing them to point
+			// away from the camera, even though they already pointed to the camera.
+			//
+			// If the application-supplied normal points away from the camera and the geometric
+			// normal points towards, OpenGL will not flip the vertex normals - causing them to
+			// continue to point away from the camera, even though they should be flipped.
+			dotProduct = Q3Vector3D_Dot(&geomNormal, &theNormals[n]);
+			if (dotProduct < 0.0)
+				Q3XWarning_Post(kQ3WarningNormalCanNotBeFlipped);
+			}
+		}
+
+
+
+	// Check for normals which are not normalized
+	//
+	// All triangle normals passing through this point should be normalized.
+	for (n = 0; n < numTriangles; n++)
+		{
+		theLength = Q3Vector3D_Length(&theNormals[n]);
+		if (theLength > (1.0f + kQ3RealZero))
+			Q3XWarning_Post(kQ3WarningTriangleNotNormalized);
+		}
+
+#endif
+}
+
+
+
+
+
+//=============================================================================
+//      IRGeometry_Validate_Vertices : Validate a set of vertices.
+//-----------------------------------------------------------------------------
+void
+IRGeometry_Validate_Vertices(TQ3InteractiveData		*instanceData,
+								TQ3Uns32			numVertices,
+								UInt32				vertexStride,
+								const TQ3Vector3D	*theNormals)
+{
+#if !Q3_DEBUG
+	// Keep compiler happy
+	instanceData;
+	numVertices;
+	vertexStride;
+	theNormals;
+#else
+	const TQ3Vector3D	*theNormal;
+	float				theLength;
+	TQ3Uns32			n;
+
+
+
+	// Check for normals which are not normalized
+	//
+	// All vertex normals passing through this point should be normalized.
+	for (n = 0; n < numVertices; n++)
+		{
+		theNormal = (const TQ3Vector3D *) (((const TQ3Uns8 *) theNormals) + (vertexStride * n));
+		theLength = Q3Vector3D_Length(theNormal);
+		if (theLength > (1.0f + kQ3RealZero))
+			Q3XWarning_Post(kQ3WarningVertexNotNormalized);
+		}
+
+#endif
 }
 
 
@@ -486,12 +663,16 @@ IRGeometry_Submit_Triangle(TQ3ViewObject			theView,
 							TQ3InteractiveData		*instanceData,
 							TQ3GeometryObject		theGeom,
 							TQ3TriangleData			*geomData)
-{	TQ3Vector3D			*triNormal, tmpNormal;
-	TQ3Boolean			hadAttributeTexture;
-	TQ3FVertex3D		theVertices[3];
-	TQ3FVertexFlags		vertexFlags;
-	TQ3Status			qd3dStatus;
-	TQ3Uns32			n;
+{	static const TQ3Uns32	theIndices[3] = { 0, 1, 2 };
+	TQ3Vector3D				triNormal, *normalPtr;
+	TQ3Boolean				hadAttributeTexture;
+	TQ3FVertex3D			theVertices[3];
+	TQ3Point3D				thePoints[3];
+	TQ3FVertexFlags			vertexFlags;
+	TQ3Status				qd3dStatus;
+	TQ3TriFlags				theFlag;
+	TQ3Uns32				n;
+
 #pragma unused(theGeom)
 
 
@@ -502,52 +683,62 @@ IRGeometry_Submit_Triangle(TQ3ViewObject			theView,
 
 
 	// Update our state for this object and the texture mapping
-	hadAttributeTexture = IRGeometry_Attribute_Handler(theView, geomData->triangleAttributeSet,
-											instanceData, kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader);
+	hadAttributeTexture = IRGeometry_Attribute_Handler(theView,
+														geomData->triangleAttributeSet,
+														instanceData,
+														kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader);
+
+
+
+	// Get the triangle points
+	for (n = 0; n < 3; n++)
+		thePoints[n] = geomData->vertices[n].point;
 
 
 
 	// Get the triangle normal
 	//
-	// If not normal is supplied, we need to calculate it from the vertices.
-	triNormal = NULL;
+	// If a normal is supplied we ensure it's normalized, and if it
+	// wasn't supplied we need to calculate it.
+	normalPtr = NULL;
+
 	if (geomData->triangleAttributeSet != NULL)
-		triNormal = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(geomData->triangleAttributeSet, kQ3AttributeTypeNormal);
+		normalPtr = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(geomData->triangleAttributeSet, kQ3AttributeTypeNormal);
 
-	if (triNormal == NULL)
-		{
-		Q3Point3D_CrossProductTri(&geomData->vertices[0].point,
-								  &geomData->vertices[1].point,
-								  &geomData->vertices[2].point,
-								  &tmpNormal);
-		Q3Vector3D_Normalize(&tmpNormal, &tmpNormal);
-		triNormal = &tmpNormal;
-		}
-
-
-
-	// Check to see if we can cull this triangle
-	if (!IRGeometry_Triangle_IsVisible(instanceData, triNormal))
-		return(kQ3Success);
-
-
-
-	// Get the vertices
-	vertexFlags = kQ3FVertexFlagNone;
-
-	for (n = 0; n < 3; n++)
-		{
-		IRGeometry_Vertex_GetState(instanceData, &geomData->vertices[n], &theVertices[n]);
-		vertexFlags |= theVertices[n].theFlags;
-		}
-
-
-
-	// Submit the triangle
-	if (instanceData->stateTextureIsTransparent || E3Bit_IsSet(vertexFlags, kQ3FVertexHaveTransparency))
-		qd3dStatus = IRTransBuffer_AddTriangle(theView, instanceData, theVertices);
+	if (normalPtr != NULL)
+		Q3Vector3D_Normalize(normalPtr, &triNormal);
 	else
-		qd3dStatus = IRTriBuffer_AddTriangle(theView, instanceData, theVertices);
+		IRGeometry_Generate_Triangle_Normals(instanceData, 1, NULL, theIndices, thePoints, &triNormal);
+
+
+
+	// Process the triangle if it's visible
+	qd3dStatus = IRGeometry_Generate_Triangle_Flags(instanceData, 1, theIndices, thePoints, &triNormal, &theFlag);
+	if (E3Bit_IsSet(theFlag, kQ3TriFlagVisible))
+		{
+		// Get the vertices
+		vertexFlags = kQ3FVertexFlagNone;
+
+		for (n = 0; n < 3; n++)
+			{
+			IRGeometry_Generate_Vertex_State(instanceData, &triNormal, &geomData->vertices[n], &theVertices[n]);
+			vertexFlags |= theVertices[n].theFlags;
+			}
+
+
+
+		// Validate our state
+		IRGeometry_Validate_Triangles(instanceData, 1, theIndices, thePoints, &triNormal);
+		IRGeometry_Validate_Vertices( instanceData, 3, sizeof(TQ3FVertex3D), &theVertices[0].theNormal);
+
+
+
+		// Submit the triangle
+		if (instanceData->stateTextureIsTransparent || E3Bit_IsSet(vertexFlags, kQ3FVertexHaveTransparency))
+			qd3dStatus = IRTransBuffer_AddTriangle(theView, instanceData, theVertices);
+		else
+			qd3dStatus = IRTriBuffer_AddTriangle(theView, instanceData, theVertices);
+		}
 
 
 
@@ -592,7 +783,7 @@ IRGeometry_Submit_Line(TQ3ViewObject			theView,
 
 	for (n = 0; n < 2; n++)
 		{
-		IRGeometry_Vertex_GetState(instanceData, &geomData->vertices[n], &theVertices[n]);
+		IRGeometry_Generate_Vertex_State(instanceData, NULL, &geomData->vertices[n], &theVertices[n]);
 		vertexFlags |= theVertices[n].theFlags;
 		}
 
@@ -656,7 +847,7 @@ IRGeometry_Submit_Point(TQ3ViewObject				theView,
 	srcVertex.point        = geomData->point;
 	srcVertex.attributeSet = geomData->pointAttributeSet;
 
-	IRGeometry_Vertex_GetState(instanceData, &srcVertex, &theVertex);
+	IRGeometry_Generate_Vertex_State(instanceData, NULL, &srcVertex, &theVertex);
 
 
 
@@ -972,7 +1163,7 @@ IRGeometry_Submit_PolyLine(TQ3ViewObject			theView,
 
 		for (m = 0; m < 2; m++)
 			{
-			IRGeometry_Vertex_GetState(instanceData, &geomData->vertices[n + m], &theVertices[m]);
+			IRGeometry_Generate_Vertex_State(instanceData, NULL, &geomData->vertices[n + m], &theVertices[m]);
 			vertexFlags |= theVertices[m].theFlags;
 			}
 
