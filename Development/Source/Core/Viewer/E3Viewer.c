@@ -296,21 +296,15 @@ static TQ3ViewerData* gDragViewer = NULL;
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3_viewer_GetPortWindow :	Convert a TQ3Port into the associated Window.
-//									Mac only.  There may be an easier way to do
-//									this under Carbon, but I don't know how.
+//									MacOS only.
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
 static
 WindowRef e3_viewer_GetPortWindow(TQ3Port port)
 {
 	#if TARGET_API_MAC_CARBON
-		// Under Carbon, I don't know how to do this short of a loop:
-		WindowRef w = GetFrontWindowOfClass(kAllWindowClasses, false);
-		while (w) {
-			if (GetWindowPort(w) == port) break;
-			w = GetNextWindowOfClass(w, kAllWindowClasses, false);
-		}
-		return w;
+		// Under Carbon, use a function:
+		return GetWindowFromPort(port);
 	#else
 		// under Classic MacOS, you can just typecast:
 		return (WindowRef)port;
