@@ -1,16 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
 <!--=========================================================================-->
 <!-- Page Header                                                             -->
 <!--=========================================================================-->
 <html>
 <head>
-        <title>Quesa - Discussion List Archive and Search</title>
+	<title>Quesa - Discussion List Archive and Search</title>
+	<link rel="stylesheet" type="text/css" href="../site-styles.css">
 </head>
 <body bgcolor=white text=black background="../images/logo_gray.gif">
 
-<p align=center>
-<a href="../index.html"><img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
-</p>
+<div class="sflogo">
+<a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=45158&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo"></a>
+</div>
 
+<div class="qlogo">
+<a href="../index.html">
+<img src="../images/logo_text.jpg" alt="Quesa" width="311" height="105" border="0"></a>
+</div>
 
 
 <!--=========================================================================-->
@@ -18,37 +25,41 @@
 <!--=========================================================================-->
 <table border=0>
 <tr>
-<td valign=top width=90 bgcolor="#EEEEEE">
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Info</font></td></tr></table><br>
+<td class="navbar">
+	<table class="navtable" cellspacing="0">
+	
+	<tr><td class="navhead">Info</td></tr>
+	<tr><td class="navlinks">
 	<a href="../info/status.html">Status</a><br>
-	<a href="../info/screenshots.html">Screenshots</a><br>
+	<a href="../info/screenshots.html">Screenshots</a>
 	<a href="../info/download.html">Download</a><br>
 	<a href="../info/list.html">Mailing List</a><br>
 	<a href="../info/list_archive.html">List Archive</a><br>
-	<a href="http://www.quesa.org/quesa_forum.html">Quesa Forum</a><br>
+	</td></tr>
 
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Developer</font></td></tr></table><br>
+	<tr><td class="navhead">Developer</td></tr>
+	<tr><td class="navlinks">
 	<a href="../developer/todo.html">Todo</a><br>
 	<a href="../developer/bugs.html">Bug List</a><br>
 	<a href="../developer/cvs.html">CVS Server</a><br>
-	<a href="../developer/apiref/MasterTOC.html">API Reference</a><br>
-
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
+	<a href="../developer/apiref/MasterTOC.html">API Reference</a>
+	</td></tr>
+	
+	<tr><td class="navhead">Reference</td></tr>
+	<tr><td class="navlinks">
 	<a href="../reference/docs.html">Documentation</a><br>
 	<a href="../reference/build.html">Building Quesa</a><br>
-	<a href="../reference/licence.html">License</a><br>
+	<a href="../reference/licence.html">License</a>
+	</td></tr>
 
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Other</font></td></tr></table><br>
+	<tr><td class="navhead">Other</td></tr>
+	<tr><td class="navlinks">
 	<a href="../other/contributors.html">Contributors</a><br>
 	<a href="../other/logo.html">Quesa Logo</a><br>
-	<a href="../other/links.html">Links</a><br>
+	<a href="../other/links.html">Links</a>
+	</td></tr>
+
+	</table>
 </td>
 <!--=========================================================================-->
 <td width=10>&nbsp;</td>
@@ -56,40 +67,11 @@
 
 
 <h3>Search List Archives</h3>
-<p>
-The mailing list archives can be searched with a full text search engine:
-</p>
-
-<table>
-<tr><td width=40>&nbsp;</td><td>
-<form method="get" action="http://www.quesa.org/cgi-bin/library/searchindex/query.pl">
-	<input type="hidden" name="swishindex" value="/usr/local/swish-e/quesa_list.swish">
-	<input type="hidden" name="maxresults" value="25">
-
-	<p>
-	<input name="keywords" size=45 maxlength=200> &nbsp; &nbsp;
-	<input type="submit" value="Search">
-	</p>
-	
-	<p>
-	<input type=radio name=detail value=yes checked> <b>Detailed report</b> &nbsp; &nbsp;
-	<input type=radio name=detail value=no>          <b>Simple report</b>
-	</p>
-</form>
-</td></tr>
-</table>
 
 <p>
-Examples:
+The mailing list archives after the move to SourceForge in 2004 can be
+<a href="http://sourceforge.net/mail/?group_id=45158">searched at SourceForge</a>.
 </p>
-
-<pre>
-        john and doe or jane
-        john and (doe or jane)
-        not (john or jane) and doe
-        j* and doe
-</pre>
-
 
 
 <h3>Previous Archives</h3>
@@ -102,7 +84,6 @@ After 2000.02.09, the Quesa Discussion List Archive is integrated into the
 Archives prior to this date are available as:
 </p>
 
-<p>
 <blockquote>
 <A HREF="http://quesa.designcommunity.com/info/list/quesa_list-2000.0209.txt">quesa_list-2000.02.09</A><br>
 <A HREF="http://quesa.designcommunity.com/info/list/quesa_list-2000.0208.txt">quesa_list-2000.02.08</A><br>
@@ -214,7 +195,6 @@ Archives prior to this date are available as:
 <A HREF="http://quesa.designcommunity.com/info/list/quesa_list-1999.0717.txt">quesa_list-1999.07.17</A><br>
 <A HREF="http://quesa.designcommunity.com/info/list/quesa_list-1999.0716.txt">quesa_list-1999.07.16</A><br>
 </blockquote>
-</p>
 
 
 </td>
@@ -231,15 +211,10 @@ Archives prior to this date are available as:
 <br>
 <br>
 <hr width="90%">
-<table border=0 align=center>
-<tr>
-<td colspan=2 align=center>
-<font size="-1">
-Quesa Web Site hosted by <a href="http://www.DesignCommunity.com/home.html">DesignCommunity.com</a>
-</font>
-</td>
-</tr>
-</table>
+
+<div class="footer">
+Quesa Web Site hosted by <a href="http://sourceforge.net">SourceForge</a>
+</div>
 
 </body>
 </html>
