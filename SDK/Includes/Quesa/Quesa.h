@@ -40,7 +40,7 @@
 //				magic.
 //-----------------------------------------------------------------------------
 // Mac OS
-#if defined(__MWERKS__) && powerc
+#if defined(__MWERKS__) && macintosh
 	#ifndef QUESA_OS_MACINTOSH
 		#define QUESA_OS_MACINTOSH				1
 	#endif
