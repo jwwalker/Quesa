@@ -448,115 +448,6 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 
 
 
-//=============================================================================
-//      e3geom_torus_bounds : Torus bounds method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3geom_torus_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	const TQ3TorusData			*instanceData = (const TQ3TorusData *) objectData;
-	TQ3Vector3D					theOrientation, majorRadius, minorRadius;
-	TQ3Point3D					maxMajor, maxMinor, minMajor, minMinor;
-	float						orientationScale;
-	TQ3BoundingMethod			boundingMethod;
-	const TQ3Matrix4x4			*localToWorld;
-	TQ3Point3D					thePoints[8];
-	TQ3Vector3D					theVector;
-	TQ3Uns32					n;
-#pragma unused(objectType)
-#pragma unused(theObject)
-
-
-
-	// Determine which vectors to use. If we're computing an exact bounding box, we
-	// need to apply the local->world transform to our vectors before creating the
-	// points for the bounding box.
-	//
-	// Otherwise the bounds will be the same as the approximate bounds, since we'd
-	// be computing a local bounding box and then transforming that (e.g., imagine
-	// a torus that's rotated around the Z axis: the bounds of the torus should
-	// stay the same, but if we rotate the points we calculate below then the bounds
-	// will be for the rotated box rather than the rotated torus).
-	boundingMethod = E3View_GetBoundingMethod(theView);
-	if (boundingMethod == kQ3BoxBoundsExact || boundingMethod == kQ3SphereBoundsExact)
-		{
-		localToWorld = E3View_State_GetLocalToWorld(theView);
-		Q3Vector3D_Transform(&instanceData->orientation, localToWorld, &theOrientation);
-		Q3Vector3D_Transform(&instanceData->majorRadius, localToWorld, &majorRadius);
-		Q3Vector3D_Transform(&instanceData->minorRadius, localToWorld, &minorRadius);
-		}
-	else
-		{
-		theOrientation = instanceData->orientation;
-		majorRadius    = instanceData->majorRadius;
-		minorRadius    = instanceData->minorRadius;
-		}
-
-
-
-	// First calculate the max and min values for the major and minor radii,
-	// extending them out to the outer wall of the torus.
-	orientationScale = Q3Vector3D_Length(&theOrientation) * instanceData->ratio;
-
-	Q3Point3D_Vector3D_Add(&instanceData->origin, &majorRadius, &maxMajor);
-	Q3Point3D_Subtract(&maxMajor, &instanceData->origin, &theVector);
-	Q3Vector3D_Scale(&theVector, orientationScale / Q3Vector3D_Length(&theVector), &theVector);
-	Q3Point3D_Vector3D_Add(&maxMajor, &theVector, &maxMajor);
-
-	Q3Point3D_Vector3D_Add(&instanceData->origin, &minorRadius, &maxMinor);
-	Q3Point3D_Subtract(&maxMinor, &instanceData->origin, &theVector);
-	Q3Vector3D_Scale(&theVector, orientationScale / Q3Vector3D_Length(&theVector), &theVector);
-	Q3Point3D_Vector3D_Add(&maxMinor, &theVector, &maxMinor);
-
-	Q3Point3D_Vector3D_Subtract(&instanceData->origin, &majorRadius, &minMajor);
-	Q3Point3D_Subtract(&minMajor, &instanceData->origin, &theVector);
-	Q3Vector3D_Scale(&theVector, orientationScale / Q3Vector3D_Length(&theVector), &theVector);
-	Q3Point3D_Vector3D_Add(&minMajor, &theVector, &minMajor);
-
-	Q3Point3D_Vector3D_Subtract(&instanceData->origin, &minorRadius, &minMinor);
-	Q3Point3D_Subtract(&minMinor, &instanceData->origin, &theVector);
-	Q3Vector3D_Scale(&theVector, orientationScale / Q3Vector3D_Length(&theVector), &theVector);
-	Q3Point3D_Vector3D_Add(&minMinor, &theVector, &minMinor);
-
-
-
-	// Calculate the four corners of the torus in its major/minor plane
-	thePoints[0].x = instanceData->origin.x - maxMajor.x + maxMinor.x;
-	thePoints[0].y = instanceData->origin.y - maxMajor.y + maxMinor.y;
-	thePoints[0].z = instanceData->origin.z - maxMajor.z + maxMinor.z;
-
-	thePoints[1].x = instanceData->origin.x - maxMajor.x + minMinor.x;
-	thePoints[1].y = instanceData->origin.y - maxMajor.y + minMinor.y;
-	thePoints[1].z = instanceData->origin.z - maxMajor.z + minMinor.z;
-
-	thePoints[2].x = instanceData->origin.x - minMajor.x + maxMinor.x;
-	thePoints[2].y = instanceData->origin.y - minMajor.y + maxMinor.y;
-	thePoints[2].z = instanceData->origin.z - minMajor.z + maxMinor.z;
-
-	thePoints[3].x = instanceData->origin.x - minMajor.x + minMinor.x;
-	thePoints[3].y = instanceData->origin.y - minMajor.y + minMinor.y;
-	thePoints[3].z = instanceData->origin.z - minMajor.z + minMinor.z;
-
-
-
-	// Calculate the eight corners of the bounding box above and below the major/minor plane
-	for (n = 0; n < 4; n++)
-		{
-		thePoints[n + 4] = thePoints[n];
-		Q3Point3D_Vector3D_Subtract(&thePoints[n],     &theOrientation, &thePoints[n]);
-		Q3Point3D_Vector3D_Add(     &thePoints[n + 4], &theOrientation, &thePoints[n + 4]);
-		}
-
-
-
-	// Update the bounds
-	E3View_UpdateBounds(theView, 8, sizeof(TQ3Point3D), thePoints);
-
-	return(kQ3Success);
-}
-
-
-
-
 
 //=============================================================================
 //      e3geom_torus_get_attribute : Torus get attribute set pointer.
@@ -602,10 +493,6 @@ e3geom_torus_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3geom_torus_cache_new;
 			break;
 
-		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3geom_torus_bounds;
-			break;
-		
 		case kQ3XMethodTypeGeomGetAttribute:
 			theMethod = (TQ3XFunctionPointer) e3geom_torus_get_attribute;
 			break;

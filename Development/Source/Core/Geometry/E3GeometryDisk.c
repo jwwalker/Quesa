@@ -284,39 +284,6 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 
-//=============================================================================
-//      e3geom_disk_bounds : Disk bounds method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3geom_disk_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	const TQ3DiskData		*instanceData = (const TQ3DiskData *) objectData;
-	TQ3Point3D				thePoints[4];
-#pragma unused(objectType)
-#pragma unused(theObject)
-
-
-
-	// Update the bounds
-	Q3Point3D_Vector3D_Add(&instanceData->origin, &instanceData->majorRadius, &thePoints[0]);
-	Q3Point3D_Vector3D_Add(&thePoints[0],         &instanceData->minorRadius, &thePoints[0]);
-	
-	Q3Point3D_Vector3D_Add(&instanceData->origin, &instanceData->majorRadius, &thePoints[1]);
-	Q3Point3D_Vector3D_Subtract(&thePoints[1],    &instanceData->minorRadius, &thePoints[1]);
-	
-	Q3Point3D_Vector3D_Subtract(&instanceData->origin, &instanceData->majorRadius, &thePoints[2]);
-	Q3Point3D_Vector3D_Add(&thePoints[2],              &instanceData->minorRadius, &thePoints[2]);
-
-	Q3Point3D_Vector3D_Subtract(&instanceData->origin, &instanceData->majorRadius, &thePoints[3]);
-	Q3Point3D_Vector3D_Subtract(&thePoints[3],         &instanceData->minorRadius, &thePoints[3]);
-
-	E3View_UpdateBounds(theView, 4, sizeof(TQ3Point3D), thePoints);
-	
-	return(kQ3Success);
-}
-
-
-
-
 
 //=============================================================================
 //      e3geom_disk_get_attribute : Disk get attribute set pointer.
@@ -362,10 +329,6 @@ e3geom_disk_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3geom_disk_cache_new;
 			break;
 
-		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3geom_disk_bounds;
-			break;
-		
 		case kQ3XMethodTypeGeomGetAttribute:
 			theMethod = (TQ3XFunctionPointer) e3geom_disk_get_attribute;
 			break;
