@@ -60,7 +60,7 @@
 			do															\
 				{														\
 				(_data)->MFData.inContainer = (TQ3Boolean)						\
-					(((_data)->nestingLevel) >= (_data)->containerLevel); \
+					((((_data)->nestingLevel) >= (_data)->containerLevel)); \
 				}														\
 			while (0)
 
@@ -69,6 +69,7 @@
 //      Globals
 //-----------------------------------------------------------------------------
 static char 	ContainerLabel[] = "Container";
+static char 	BeginGroupLabel[] = "BeginGroup";
 
 
 
@@ -139,6 +140,8 @@ e3fformat_3dmf_text_readobjecttype(TQ3FileFormatObject format, char* theItem, TQ
 	TE3FFormat3DMF_Text_Data		*instanceData = (TE3FFormat3DMF_Text_Data *) format->instanceData;
 
 	result = E3FileFormat_GenericReadText_SkipBlanks (format);
+	if(result == kQ3Success)
+		result = e3fformat_3dmf_text_skipcomments (format);
 	if(result == kQ3Success)
 		result = E3FileFormat_GenericReadText_ReadUntilChars (format, theItem, separators, 2, kQ3True, &lastSeparator, maxLen, charsRead);
 	if(lastSeparator == ':'){// its a label, skip it (by now)
@@ -655,6 +658,7 @@ e3fformat_3dmf_text_read_header(TQ3FileObject theFile)
 	instanceData->MFData.baseData.readInGroup = kQ3True;
 	instanceData->MFData.baseData.groupDeepCounter = 0;
 	instanceData->MFData.noMoreObjectData = kQ3True;
+	instanceData->containerLevel = 0xFFFFFFFF;
 
 
 	if(instanceData->MFData.baseData.logicalEOF <= 24)
@@ -751,7 +755,6 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 	char 					objectType[64];
 	TQ3Uns32 				charsRead;
 	TQ3Uns32 				level;
-	static char 	BeginGroup[] = "BeginGroup";
 
 	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
 	
@@ -775,7 +778,7 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 				e3fformat_3dmf_text_skip_to_level (theFile, level);
 				instanceData->containerLevel = oldContainer;
 			}
-		else if(strcmp(BeginGroup,objectType) == 0) // BeginGroup
+		else if(strcmp(BeginGroupLabel,objectType) == 0) // BeginGroup
 			{
 			if(instanceData->MFData.baseData.readInGroup == kQ3True) // we have to return the whole group
 				{
@@ -815,6 +818,7 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 			}
 		else
 			{
+			E3FFormat_3DMF_Text_Check_ContainerEnd(instanceData);
 			theClass = E3ClassTree_GetClassByName(objectType);
 			if(theClass == NULL){
 				//result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
@@ -969,7 +973,8 @@ e3fformat_3dmf_text_get_nexttype(TQ3FileObject theFile)
 
 	status = e3fformat_3dmf_text_readobjecttype(format, objectType, 64, &charsRead);
 	if(status == kQ3Success){
-		while(strcmp(ContainerLabel,objectType) == 0) // Container
+		while((strcmp(ContainerLabel,objectType) == 0) ||// Container
+			(strcmp(BeginGroupLabel,objectType) == 0))
 			status = e3fformat_3dmf_text_readobjecttype(format, objectType, 64, &charsRead);
 	
 		if(status == kQ3Success){
