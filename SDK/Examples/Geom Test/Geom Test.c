@@ -2557,6 +2557,7 @@ appRender(TQ3ViewObject theView)
 		// precession of the axis
 		Q3Matrix4x4_SetRotate_Y( &rotationMatrix, timeFactor * 0.1f );
 		Q3Vector3D_Transform( &sAxis, &rotationMatrix, &sAxis );
+		Q3Vector3D_Normalize( &sAxis, &sAxis );
 		
 		Q3Matrix4x4_SetRotateAboutAxis( &rotationMatrix, &kOrigin, &sAxis, timeFactor );
 		Q3Matrix4x4_Multiply(&gMatrixCurrent, &rotationMatrix, &gMatrixCurrent);
