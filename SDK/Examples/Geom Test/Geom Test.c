@@ -2142,9 +2142,8 @@ doLoadModel(TQ3ViewObject theView)
 	if( storageObj == NULL )
 		return NULL;
 	
+	// Read the file (note, this disposes of storageObj)
 	theModel = Qut_ReadModel(storageObj);
-	Q3Object_Dispose( storageObj );
-	storageObj = NULL;
 	
 	
 		// Adjust the scale and translation required for the model
