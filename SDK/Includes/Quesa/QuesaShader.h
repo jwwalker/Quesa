@@ -1330,15 +1330,24 @@ Q3CompressedPixmapTexture_CompressImage (
 //
 // __VA_ARGS__ is required for the _Set methods when compiling as C, to allow them to
 // accept both individual parameters and other macros like kQ3ViewDefaultDiffuseColor.
+//
+// Unfortunately we need to #if this based on compiler, since the __VA_ARGS__ approach
+// fails with gcc 3.1.
 #if QUESA_ALLOW_INLINE_APIS
-	#define Q3ColorARGB_Set(...)						Q3FastColorARGB_Set(__VA_ARGS__)
+	#ifdef __GNUC__
+		#define Q3ColorARGB_Set(args...)				Q3FastColorARGB_Set(args)
+		#define Q3ColorRGB_Set(args...)					Q3FastColorRGB_Set(args)
+	#else
+		#define Q3ColorARGB_Set(...)					Q3FastColorARGB_Set(__VA_ARGS__)
+		#define Q3ColorRGB_Set(...)						Q3FastColorRGB_Set(__VA_ARGS__)
+	#endif
+
 	#define Q3ColorARGB_Add								Q3FastColorARGB_Add
 	#define Q3ColorARGB_Subtract						Q3FastColorARGB_Subtract
 	#define Q3ColorARGB_Scale							Q3FastColorARGB_Scale
 	#define Q3ColorARGB_Clamp							Q3FastColorARGB_Clamp
 	#define Q3ColorARGB_Lerp							Q3FastColorARGB_Lerp
 	#define Q3ColorARGB_Accumulate						Q3FastColorARGB_Accumulate
-	#define Q3ColorRGB_Set(...)							Q3FastColorRGB_Set(__VA_ARGS__)
 	#define Q3ColorRGB_Add								Q3FastColorRGB_Add
 	#define Q3ColorRGB_Subtract							Q3FastColorRGB_Subtract
 	#define Q3ColorRGB_Scale							Q3FastColorRGB_Scale
