@@ -82,14 +82,14 @@ TQ3Status			E3Renderer_SetConfigurationData(TQ3RendererObject theRenderer, unsig
 
 TQ3Status			E3InteractiveRenderer_SetCSGEquation(TQ3RendererObject theRenderer, TQ3CSGEquation equation);
 TQ3Status			E3InteractiveRenderer_GetCSGEquation(TQ3RendererObject theRenderer, TQ3CSGEquation *equation);
-TQ3Status			E3InteractiveRenderer_SetPreferences(TQ3RendererObject theRenderer, TQ3Int32 vendorID, TQ3Int32 engineID);
-TQ3Status			E3InteractiveRenderer_GetPreferences(TQ3RendererObject theRenderer, TQ3Int32 *vendorID, TQ3Int32 *engineID);
+TQ3Status			E3InteractiveRenderer_SetPreferences(TQ3RendererObject theRenderer, TQ3RaveVendorID vendorID, TQ3RaveEngineID engineID);
+TQ3Status			E3InteractiveRenderer_GetPreferences(TQ3RendererObject theRenderer, TQ3RaveVendorID *vendorID, TQ3RaveEngineID *engineID);
 TQ3Status			E3InteractiveRenderer_SetDoubleBufferBypass(TQ3RendererObject theRenderer, TQ3Boolean bypass);
 TQ3Status			E3InteractiveRenderer_GetDoubleBufferBypass(TQ3RendererObject theRenderer, TQ3Boolean *bypass);
 TQ3Status			E3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject theRenderer, TQ3Uns32 RAVEContextHints);
 TQ3Status			E3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject theRenderer, TQ3Uns32 *RAVEContextHints);
-TQ3Status			E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns32 RAVEtextureFilterValue);
-TQ3Status			E3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns32 *RAVEtextureFilterValue);
+TQ3Status			E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3TextureFilter RAVEtextureFilterValue);
+TQ3Status			E3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3TextureFilter *RAVEtextureFilterValue);
 TQ3Status			E3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject theRenderer, TQ3Uns32 *numRAVEContexts);
 TQ3Status			E3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject theRenderer, TQADrawContext **raveDrawContextList, TQAEngine **raveDrawingEnginesList, TQ3Uns32 *numRAVEContexts, TQ3RaveDestroyCallback raveDestroyCallback);
 

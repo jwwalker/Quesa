@@ -211,6 +211,83 @@ enum {
 };
 
 
+/*!
+ *  @enum
+ *      TQ3TextureFilter
+ *  @discussion
+ *      Texture filter type.
+ *
+ *  @constant kQATextureFilter_Fast    Select nearest pixel.
+ *  @constant kQATextureFilter_Mid     Perform some filtering.
+ *  @constant kQATextureFilter_Best    Perform high quality filtering.
+ */
+typedef enum {
+    kQATextureFilter_Fast                       = 0,                // Pick nearest pixel
+    kQATextureFilter_Mid                        = 1,                // Perform some filtering
+    kQATextureFilter_Best                       = 2                 // Perform high quality filtering
+} TQ3TextureFilter;
+
+
+/*!
+ *  @enum
+ *      TQ3RaveVendorID
+ *  @discussion
+ *      RAVE vendor IDs. Obsolete, but preserved for source compatibility.
+ *
+ *  @constant kQAVendor_BestChoice          Selects the best choice for the target device.
+ *  @constant kQAVendor_Apple               Apple.
+ *  @constant kQAVendor_ATI                 ATI.
+ *  @constant kQAVendor_Radius              Radius.
+ *  @constant kQAVendor_DesignMark          DesignMark.
+ *  @constant kQAVendor_Matrix              Matrox.
+ *  @constant kQAVendor_Yarc                Yarc.
+ *  @constant kQAVendor_DiamondMM           Diamond.
+ *  @constant kQAVendor_3DLabs              3D Labs.
+ *  @constant kQAVendor_D3DAdaptor          D3D shim.
+ *  @constant kQAVendor_IXMicro             IXMicro.
+ *  @constant kQAVendor_NumberNine          Number Nine.
+ *  @constant kQAVendor_MicroConversions    MicroConversions.
+ *  @constant kQAVendor_PurpleShark         Purple Shark D3D shim.
+ *  @constant kQAVendor_VillageTronic       VillageTronic.
+ */
+typedef enum {
+    kQAVendor_BestChoice                        = -1,
+    kQAVendor_Apple                             = 0,
+    kQAVendor_ATI                               = 1,
+    kQAVendor_Radius                            = 2,
+    kQAVendor_DesignMark                        = 3,
+    kQAVendor_Matrox                            = 4,
+    kQAVendor_Yarc                              = 5,
+    kQAVendor_DiamondMM                         = 6,
+    kQAVendor_3DLabs                            = 7,
+    kQAVendor_D3DAdaptor                        = 8,
+    kQAVendor_IXMicro                           = 9,
+    kQAVendor_NumberNine                        = 10,
+    kQAVendor_MicroConversions                  = 11,
+    kQAVendor_PurpleShark                       = 12,
+    kQAVendor_VillageTronic                     = 14
+} TQ3RaveVendorID;
+
+
+/*!
+ *  @enum
+ *      TQ3RaveEngineID
+ *  @discussion
+ *      RAVE engine IDs. Obsolete, but preserved for source compatibility.
+ *
+ *  @constant kQAEngine_AppleSW     Default software rasterizer.
+ *  @constant kQAEngine_AppleHW     Apple accelerator.
+ *  @constant kQAEngine_AppleHW2    Another Apple accelerator.
+ *  @constant kQAEngine_AppleHW3    Yet another Apple accelerator.
+ */
+typedef enum {
+    kQAEngine_AppleSW                           = 0,
+    kQAEngine_AppleHW                           = -1,
+    kQAEngine_AppleHW2                          = 1,
+    kQAEngine_AppleHW3                          = 2
+} TQ3RaveEngineID;
+
+
 
 
 
@@ -717,8 +794,8 @@ Q3InteractiveRenderer_GetCSGEquation (
 EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetPreferences (
     TQ3RendererObject             renderer,
-    TQ3Int32                      vendorID,
-    TQ3Int32                      engineID
+    TQ3RaveVendorID               vendorID,
+    TQ3RaveEngineID               engineID
 );
 
 
@@ -740,8 +817,8 @@ Q3InteractiveRenderer_SetPreferences (
 EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetPreferences (
     TQ3RendererObject             renderer,
-    TQ3Int32                      *vendorID,
-    TQ3Int32                      *engineID
+    TQ3RaveVendorID               *vendorID,
+    TQ3RaveEngineID               *engineID
 );
 
 
@@ -840,13 +917,13 @@ Q3InteractiveRenderer_GetRAVEContextHints (
  *      the typical usage of this function and any special requirements.
  *
  *  @param renderer         Description of the parameter.
- *  @param RAVEtextureFilterValue Description of the parameter.
+ *  @param raveTextureFilterValue Description of the parameter.
  *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetRAVETextureFilter (
     TQ3RendererObject             renderer,
-    TQ3Uns32                      RAVEtextureFilterValue
+    TQ3TextureFilter              raveTextureFilterValue
 );
 
 
@@ -861,13 +938,13 @@ Q3InteractiveRenderer_SetRAVETextureFilter (
  *      the typical usage of this function and any special requirements.
  *
  *  @param renderer         Description of the parameter.
- *  @param RAVEtextureFilterValue Description of the parameter.
+ *  @param raveTextureFilterValue Description of the parameter.
  *  @result                 Description of the function result.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetRAVETextureFilter (
     TQ3RendererObject             renderer,
-    TQ3Uns32                      *RAVEtextureFilterValue
+    TQ3TextureFilter              *raveTextureFilterValue
 );
 
 

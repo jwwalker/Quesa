@@ -456,7 +456,7 @@ Q3InteractiveRenderer_GetCSGEquation(TQ3RendererObject renderer, TQ3CSGEquation 
 //      Q3InteractiveRenderer_SetPreferences : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_SetPreferences(TQ3RendererObject renderer, TQ3Int32 vendorID, TQ3Int32 engineID)
+Q3InteractiveRenderer_SetPreferences(TQ3RendererObject renderer, TQ3RaveVendorID vendorID, TQ3RaveEngineID engineID)
 {
 
 
@@ -497,7 +497,7 @@ Q3InteractiveRenderer_SetPreferences(TQ3RendererObject renderer, TQ3Int32 vendor
 //      Q3InteractiveRenderer_GetPreferences : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_GetPreferences(TQ3RendererObject renderer, TQ3Int32 *vendorID, TQ3Int32 *engineID)
+Q3InteractiveRenderer_GetPreferences(TQ3RendererObject renderer, TQ3RaveVendorID *vendorID, TQ3RaveEngineID *engineID)
 {
 
 
@@ -694,7 +694,7 @@ Q3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject renderer, TQ3Uns32 *
 //      Q3InteractiveRenderer_SetRAVETextureFilter : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject renderer, TQ3Uns32 RAVEtextureFilterValue)
+Q3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject renderer, TQ3TextureFilter raveTextureFilterValue)
 {
 
 
@@ -709,7 +709,7 @@ Q3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject renderer, TQ3Uns32 
 	if (0) // Further checks on renderer
 		return(kQ3Failure);
 
-	if (0) // Further checks on RAVEtextureFilterValue
+	if (0) // Further checks on raveTextureFilterValue
 		return(kQ3Failure);
 #endif
 
@@ -721,7 +721,7 @@ Q3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject renderer, TQ3Uns32 
 
 
 	// Call our implementation
-	return(E3InteractiveRenderer_SetRAVETextureFilter(renderer, RAVEtextureFilterValue));
+	return(E3InteractiveRenderer_SetRAVETextureFilter(renderer, raveTextureFilterValue));
 }
 
 
@@ -732,14 +732,14 @@ Q3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject renderer, TQ3Uns32 
 //      Q3InteractiveRenderer_GetRAVETextureFilter : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject renderer, TQ3Uns32 *RAVEtextureFilterValue)
+Q3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject renderer, TQ3TextureFilter *raveTextureFilterValue)
 {
 
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(renderer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(renderer, kQ3SharedTypeRenderer), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(RAVEtextureFilterValue), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(raveTextureFilterValue), kQ3Failure);
 
 
 
@@ -760,7 +760,7 @@ Q3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject renderer, TQ3Uns32 
 
 
 	// Call our implementation
-	return(E3InteractiveRenderer_GetRAVETextureFilter(renderer, RAVEtextureFilterValue));
+	return(E3InteractiveRenderer_GetRAVETextureFilter(renderer, raveTextureFilterValue));
 }
 
 

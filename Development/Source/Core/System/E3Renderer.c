@@ -49,11 +49,11 @@
 typedef struct {
 	// Interactive renderer state (for all interactive renderers)
 	TQ3CSGEquation			interactiveCSGEquation;
-	TQ3Uns32				interactiveVendorID;
-	TQ3Uns32				interactiveEngineID;
+	TQ3RaveVendorID			interactiveVendorID;
+	TQ3RaveEngineID			interactiveEngineID;
 	TQ3Boolean				interactiveDoubleBufferBypass;
 	TQ3Uns32				raveContextHints;
-	TQ3Uns32				raveTextureFilter;
+	TQ3TextureFilter		raveTextureFilter;
 	TQ3Boolean				drawContextReset;
 } TQ3RendererData;
 
@@ -1137,7 +1137,7 @@ E3InteractiveRenderer_GetCSGEquation(TQ3RendererObject theRenderer, TQ3CSGEquati
 //      E3InteractiveRenderer_SetPreferences : Set the vendor/engine ID.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_SetPreferences(TQ3RendererObject theRenderer, TQ3Int32 vendorID, TQ3Int32 engineID)
+E3InteractiveRenderer_SetPreferences(TQ3RendererObject theRenderer, TQ3RaveVendorID vendorID, TQ3RaveEngineID engineID)
 {	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
@@ -1158,7 +1158,7 @@ E3InteractiveRenderer_SetPreferences(TQ3RendererObject theRenderer, TQ3Int32 ven
 //      E3InteractiveRenderer_GetPreferences : Get the vendor/engine ID.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_GetPreferences(TQ3RendererObject theRenderer, TQ3Int32 *vendorID, TQ3Int32 *engineID)
+E3InteractiveRenderer_GetPreferences(TQ3RendererObject theRenderer, TQ3RaveVendorID *vendorID, TQ3RaveEngineID *engineID)
 {	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
@@ -1256,13 +1256,13 @@ E3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject theRenderer, TQ3Uns3
 //      E3InteractiveRenderer_SetRAVETextureFilter : Set the RAVE filter.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns32 RAVEtextureFilterValue)
+E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3TextureFilter raveTextureFilterValue)
 {	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
 	// Set the field, and flag that we need to reset the draw context state.
-	instanceData->raveTextureFilter = RAVEtextureFilterValue;
+	instanceData->raveTextureFilter = raveTextureFilterValue;
 	instanceData->drawContextReset  = kQ3True;
 
 	Q3Shared_Edited(theRenderer);
@@ -1278,13 +1278,13 @@ E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns
 //      E3InteractiveRenderer_GetRAVETextureFilter : Get the RAVE filter.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns32 *RAVEtextureFilterValue)
+E3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3TextureFilter *raveTextureFilterValue)
 {	TQ3RendererData		*instanceData = (TQ3RendererData *) E3ClassTree_FindInstanceData(theRenderer, kQ3SharedTypeRenderer);
 
 
 
 	// Get the field
-	*RAVEtextureFilterValue = instanceData->raveTextureFilter;
+	*raveTextureFilterValue = instanceData->raveTextureFilter;
 	
 	return(kQ3Success);
 }

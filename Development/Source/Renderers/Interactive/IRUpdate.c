@@ -269,7 +269,7 @@ ir_state_texture_convert_compressed_pixmap(TQ3TextureObject theTexture)
 static GLuint
 ir_state_texture_convert_rave_filter(TQ3ViewObject theView)
 {	TQ3RendererObject	theRenderer;
-	TQ3Uns32			raveFilter;
+	TQ3TextureFilter	raveFilter;
 
 
 
@@ -285,7 +285,10 @@ ir_state_texture_convert_rave_filter(TQ3ViewObject theView)
 
 
 	// And return the appropriate GL filter value
-	return(raveFilter ? GL_LINEAR : GL_NEAREST);
+	if (raveFilter == kQATextureFilter_Fast)
+		return(GL_NEAREST);
+	
+	return(GL_LINEAR);
 }
 
 
