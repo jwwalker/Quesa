@@ -1005,7 +1005,8 @@ Q3Shape_AddElement(TQ3ShapeObject shape, TQ3ElementType theType, const void *dat
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(shape->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) ||
+		Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1047,7 +1048,8 @@ Q3Shape_GetElement(TQ3ShapeObject shape, TQ3ElementType theType, void *data)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(shape->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) ||
+		Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1089,7 +1091,8 @@ Q3Shape_ContainsElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(shape->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape), kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) ||
+		Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
 
 
 
@@ -1127,7 +1130,8 @@ Q3Shape_GetNextElementType(TQ3ShapeObject shape, TQ3ElementType *theType)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(shape->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) ||
+		Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theType), kQ3Failure);
 
 
@@ -1166,7 +1170,8 @@ Q3Shape_EmptyElements(TQ3ShapeObject shape)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(shape->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) ||
+		Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
 
 
 
@@ -1201,7 +1206,8 @@ Q3Shape_ClearElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(shape->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) ||
+		Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
 
 
 
