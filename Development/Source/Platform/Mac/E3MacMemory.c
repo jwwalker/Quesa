@@ -84,6 +84,8 @@
 
 
 
+
+
 //============================================================================
 //      Internal constants
 //----------------------------------------------------------------------------
@@ -111,7 +113,6 @@
 //============================================================================
 //      Internal types
 //----------------------------------------------------------------------------
-
 // Function pointer types corresponding to mmap and mprotect, whose declarations
 // can be found in /usr/include/sys/mman.h .
 #ifdef Q3_DEBUG_WITH_MMAP
@@ -126,11 +127,11 @@
 //============================================================================
 //      Internal globals
 //----------------------------------------------------------------------------
-
 #ifdef Q3_DEBUG_WITH_MMAP
-	static mmap_p		sMmap = NULL;
+	static mmap_p		sMmap     = NULL;
 	static mprotect_p	sMprotect = NULL;
 #endif
+
 
 
 
@@ -138,13 +139,11 @@
 //============================================================================
 //      Internal functions
 //----------------------------------------------------------------------------
-
-//============================================================================
 //      LoadFrameworkBundle
 //----------------------------------------------------------------------------
 //	Get a bundle reference for one of the system frameworks by name.
+//----------------------------------------------------------------------------
 #ifdef Q3_DEBUG_WITH_MMAP
-
 static OSStatus LoadFrameworkBundle(CFStringRef framework, CFBundleRef *bundlePtr)
 {
 	OSStatus 	err;
@@ -204,7 +203,6 @@ static OSStatus LoadFrameworkBundle(CFStringRef framework, CFBundleRef *bundlePt
 //      LoadFunctionPtrs
 //----------------------------------------------------------------------------
 #ifdef Q3_DEBUG_WITH_MMAP
-
 static void LoadFunctionPtrs()
 {
 	CFBundleRef	sysBundle;
@@ -231,8 +229,8 @@ static void LoadFunctionPtrs()
 //      mmap_alloc
 //----------------------------------------------------------------------------
 //	Allocate some memory with mmap, initially allowing read/write/execute access.
+//----------------------------------------------------------------------------
 #ifdef Q3_DEBUG_WITH_MMAP
-
 static void* mmap_alloc( size_t inSize )
 {
 	void*	theMem = NULL;
@@ -256,8 +254,8 @@ static void* mmap_alloc( size_t inSize )
 //      mmap_free
 //----------------------------------------------------------------------------
 //	Use mprotect to deny any access to some memory allocated by mmap.
+//----------------------------------------------------------------------------
 #ifdef Q3_DEBUG_WITH_MMAP
-
 static void mmap_free( void* inAddr, size_t inSize )
 {
 	if (sMprotect == NULL)
