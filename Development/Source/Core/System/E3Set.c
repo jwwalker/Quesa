@@ -2358,6 +2358,7 @@ E3AttributeSet_Submit(TQ3AttributeSet theSet, TQ3ViewObject theView)
 
 
 
+
 //=============================================================================
 //      E3AttributeSet_New : Create an attribute set.
 //-----------------------------------------------------------------------------
@@ -2386,7 +2387,8 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 {	TQ3SetData							*parentInstanceData, *childInstanceData, *resultInstanceData;
 	TQ3Status							qd3dStatus;
 	TQ3AttributeSetInheritParamInfo		paramInfo;
-	TQ3XAttributeMask	mask;
+	TQ3XAttributeMask					theMask;
+
 
 
 	// Empty the final attribute set
@@ -2406,16 +2408,19 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 
 
 
-	// Iterate over the child
+	// Process the child
 	if (qd3dStatus == kQ3Success)
 		{
-		
-		resultInstanceData->theMask = childInstanceData->theMask;
+		// Copy the mask and attributes directly
+		resultInstanceData->theMask    = childInstanceData->theMask;
 		resultInstanceData->attributes = childInstanceData->attributes;
 		if(resultInstanceData->attributes.surfaceShader != NULL)
 			resultInstanceData->attributes.surfaceShader = Q3Shared_GetReference(childInstanceData->attributes.surfaceShader);
 
-		if(childInstanceData->theTable != NULL)
+
+
+		// Iterate over any additional elements
+		if (childInstanceData->theTable != NULL)
 			{
 			paramInfo.theResult = result;
 			paramInfo.isChild   = kQ3True;
@@ -2425,49 +2430,61 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 
 
 
-	// Iterate over the parent
+	// Process the parent
 	if (qd3dStatus == kQ3Success)
 		{
+		// Copy any attributes which were not defined by the child
+		if (parentInstanceData->theMask != kQ3XAttributeMaskNone)
+			{
+			// Set theMask to the attributes unique to the parent
+			theMask = ~childInstanceData->theMask;
+			theMask &= parentInstanceData->theMask;
 
-		if(parentInstanceData->theMask != kQ3XAttributeMaskNone){
-			mask = ~childInstanceData->theMask;
-			mask &= parentInstanceData->theMask;
-			if((mask & kQ3XAttributeMaskSurfaceUV) != 0)
-				resultInstanceData->attributes.surfaceUV  = parentInstanceData->attributes.surfaceUV;
 
-			if((mask & kQ3XAttributeMaskShadingUV) != 0)
+
+			// Copy those attributes to the result
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskSurfaceUV))
+				resultInstanceData->attributes.surfaceUV = parentInstanceData->attributes.surfaceUV;
+
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskShadingUV))
 				resultInstanceData->attributes.shadingUV = parentInstanceData->attributes.shadingUV;
 
-			if((mask & kQ3XAttributeMaskNormal) != 0)
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskNormal))
 				resultInstanceData->attributes.normal = parentInstanceData->attributes.normal;
 
-			if((mask & kQ3XAttributeMaskAmbientCoefficient) != 0)
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskAmbientCoefficient))
 				resultInstanceData->attributes.ambientCoeficient = parentInstanceData->attributes.ambientCoeficient;
 
-			if((mask & kQ3XAttributeMaskDiffuseColor) != 0)
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskDiffuseColor))
 				resultInstanceData->attributes.diffuseColor = parentInstanceData->attributes.diffuseColor;
 
-			if((mask & kQ3XAttributeMaskSpecularColor) != 0)
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskSpecularColor))
 				resultInstanceData->attributes.specularColor = parentInstanceData->attributes.specularColor;
 
-			if((mask & kQ3XAttributeMaskSpecularControl) != 0)
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskSpecularControl))
 				resultInstanceData->attributes.specularControl = parentInstanceData->attributes.specularControl;
 
-			if((mask & kQ3XAttributeMaskTransparencyColor) != 0)
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskTransparencyColor))
 				resultInstanceData->attributes.trasparencyColor = parentInstanceData->attributes.trasparencyColor;
 
-			if((mask & kQ3XAttributeMaskSurfaceTangent) != 0)
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskSurfaceTangent))
 				resultInstanceData->attributes.surfaceTangent = parentInstanceData->attributes.surfaceTangent;
 
-			if((mask & kQ3XAttributeMaskHighlightState) != 0)
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskHighlightState))
 				resultInstanceData->attributes.highlightState = parentInstanceData->attributes.highlightState;
 
-			if((mask & kQ3XAttributeMaskSurfaceShader) != 0)
+			if (E3Bit_IsSet(theMask, kQ3XAttributeMaskSurfaceShader))
 				resultInstanceData->attributes.surfaceShader = Q3Shared_GetReference(parentInstanceData->attributes.surfaceShader);
 
+
+			// Update the mask in the result
+			resultInstanceData->theMask |= theMask;
 			}
 
-		if(parentInstanceData->theTable != NULL)
+
+
+		// Iterate over any additional elements
+		if (parentInstanceData->theTable != NULL)
 			{
 			paramInfo.theResult = result;
 			paramInfo.isChild   = kQ3False;
