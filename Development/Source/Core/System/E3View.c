@@ -146,6 +146,7 @@ typedef struct TQ3ViewData {
 	// Bounds state
 	TQ3BoundingMethod			boundingMethod;
 	TQ3BoundingBox				boundingBox;
+	TQ3SlabObject				boundingPointsSlab;
 	TQ3BoundingSphere			boundingSphere;
 	
 	
@@ -693,13 +694,12 @@ e3view_bounds_sphere_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 p
 {	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
 	const TQ3Matrix4x4		*localToWorld;
 	TQ3Point3D				*worldPoints;
-	TQ3BoundingSphere		localBounds;
 
 
 
 	// Validate our parameters and state
 	Q3_ASSERT(numPoints                    != 0);
-	Q3_ASSERT(instanceData->boundingMethod == kQ3SphereBoundsExact);
+//	Q3_ASSERT(instanceData->boundingMethod == kQ3SphereBoundsExact);
 
 
 
@@ -707,26 +707,20 @@ e3view_bounds_sphere_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 p
 	localToWorld = &instanceData->stackState->matrixLocalToWorld;
 	Q3_ASSERT_VALID_PTR(localToWorld);
 
+	if(instanceData->boundingPointsSlab != NULL)
+		{	
 
+		// Transform the points to world coordinates, and store them in the slab
+		worldPoints = (TQ3Point3D *) Q3SlabMemory_AppendData(instanceData->boundingPointsSlab, numPoints, NULL);
+		if (worldPoints == NULL)
+			return;
 
-	// Transform the points to world coordinates
-	worldPoints = (TQ3Point3D *) Q3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
-	if (worldPoints == NULL)
-		return;
-
-	Q3Point3D_To3DTransformArray(thePoints, localToWorld, worldPoints,
+		Q3Point3D_To3DTransformArray(thePoints, localToWorld, worldPoints,
 								  numPoints, pointStride, sizeof(TQ3Point3D));
 
 
+	}
 
-	// Calculate their bounding sphere and accumulate it
-	Q3BoundingSphere_SetFromPoints3D(&localBounds, worldPoints, numPoints, sizeof(TQ3Point3D));
-	Q3BoundingSphere_Union(&localBounds, &instanceData->boundingSphere, &instanceData->boundingSphere);
-
-
-
-	// Clean up
-	Q3Memory_Free(&worldPoints);
 }
 
 
@@ -1333,6 +1327,7 @@ e3view_delete(TQ3Object theObject, void *privateData)
 	Q3Object_CleanDispose(&instanceData->theLights);
 	Q3Object_CleanDispose(&instanceData->theDrawContext);
 	Q3Object_CleanDispose(&instanceData->defaultAttributeSet);
+	Q3Object_CleanDispose(&instanceData->boundingPointsSlab);
 
 	e3view_stack_pop_clean(theObject);
 }
@@ -1957,7 +1952,8 @@ E3View_UpdateBounds(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 pointStr
 			break;
 
 		case kQ3SphereBoundsApprox:
-			e3view_bounds_sphere_approx(theView, numPoints, pointStride, thePoints);
+			e3view_bounds_sphere_exact(theView, numPoints, pointStride, thePoints);
+//			e3view_bounds_sphere_approx(theView, numPoints, pointStride, thePoints);
 			break;
 
 		default:
@@ -3508,6 +3504,15 @@ E3View_StartBoundingSphere(TQ3ViewObject theView, TQ3ComputeBounds computeBounds
 	// If this is the first pass, initialise the bounding sphere
 	if (instanceData->viewPass == 1)
 		{
+		// clean previous points from an aborted operation...
+		Q3Object_CleanDispose(&instanceData->boundingPointsSlab);
+		
+		// allocate new Slab to hold the points
+		instanceData->boundingPointsSlab = Q3SlabMemory_New(sizeof(TQ3Point3D), 0, NULL);
+		if (instanceData->boundingPointsSlab == NULL)
+			return(qd3dStatus);
+		
+		
 		if (computeBounds == kQ3ComputeBoundsExact)
 			instanceData->boundingMethod = kQ3SphereBoundsExact;
 		else
@@ -3540,17 +3545,29 @@ TQ3ViewStatus
 E3View_EndBoundingSphere(TQ3ViewObject theView, TQ3BoundingSphere *result)
 {	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
 	TQ3ViewStatus		viewStatus    = kQ3ViewStatusDone;
+	TQ3Point3D			*points;
 
 
 
-	// If we're still in the submit loop, return the results
+	// If we're still in the submit loop, calcolate and return the results
 	if (instanceData->viewState == kQ3ViewStateSubmitting)
+		{
+		if(instanceData->boundingPointsSlab != NULL && Q3SlabMemory_GetCount(instanceData->boundingPointsSlab) > 0)
+			{
+			points = Q3SlabMemory_GetData(instanceData->boundingPointsSlab,0);
+			if(points != NULL)
+				Q3BoundingSphere_SetFromPoints3D(&instanceData->boundingSphere,
+								 points, Q3SlabMemory_GetCount(instanceData->boundingPointsSlab), sizeof(TQ3Point3D));
+			}
 		*result = instanceData->boundingSphere;
+		}
 
 
 
 	// End the submit loop
 	viewStatus = e3view_submit_end(theView, viewStatus);
+
+	Q3Object_CleanDispose(&instanceData->boundingPointsSlab);
 
 	return(viewStatus);
 }
