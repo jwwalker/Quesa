@@ -63,6 +63,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -3091,6 +3092,8 @@ Q3FileFormat_GenericWriteBinSwap_64 (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+
+#pragma enumsalwaysint reset
 
 
 

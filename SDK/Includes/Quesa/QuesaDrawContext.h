@@ -88,6 +88,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -1479,6 +1480,7 @@ Q3CocoaDrawContext_GetNSView (
 #endif // QUESA_OS_COCOA
 
 
+#pragma enumsalwaysint reset
 
 
 

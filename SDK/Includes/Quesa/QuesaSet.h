@@ -59,6 +59,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -601,6 +602,7 @@ Q3XAttributeClass_Register (
 );
 
 
+#pragma enumsalwaysint reset
 
 
 

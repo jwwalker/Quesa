@@ -62,6 +62,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -894,6 +895,7 @@ Q3MeshVertexPart_GetVertex (
 );
 
 
+#pragma enumsalwaysint reset
 
 
 

@@ -62,6 +62,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -1213,6 +1214,7 @@ Q3View_GetAttributeState (
 );
 
 
+#pragma enumsalwaysint reset
 
 
 

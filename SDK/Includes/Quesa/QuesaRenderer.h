@@ -62,6 +62,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -1619,6 +1620,7 @@ Q3XDrawRegion_GetGDHandle (
 #endif // QUESA_OS_MACINTOSH
 
 
+#pragma enumsalwaysint reset
 
 
 

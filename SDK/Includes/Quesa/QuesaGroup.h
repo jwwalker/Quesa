@@ -59,6 +59,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -1172,6 +1173,7 @@ Q3XGroup_GetPositionPrivate (
 
 
 
+#pragma enumsalwaysint reset
 
 
 //=============================================================================

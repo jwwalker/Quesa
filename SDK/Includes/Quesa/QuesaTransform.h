@@ -59,6 +59,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -1101,6 +1102,7 @@ Q3ResetTransform_Submit (
 );
 
 
+#pragma enumsalwaysint reset
 
 
 

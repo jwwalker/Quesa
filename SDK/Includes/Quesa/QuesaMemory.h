@@ -52,6 +52,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -198,6 +199,7 @@ Q3Memory_Clear (
 );
 
 
+#pragma enumsalwaysint reset
 
 
 

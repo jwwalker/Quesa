@@ -158,7 +158,6 @@
 
     // Ensure compiler settings match QD3D, to be binary compatible
     #pragma options align=power
-    #pragma enumsalwaysint on
 #endif // QUESA_OS_MACINTOSH
 
 
@@ -253,6 +252,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -1954,7 +1954,7 @@ Q3Bitmap_GetImageSize (
 );
 
 
-
+#pragma enumsalwaysint reset
 
 
 //=============================================================================

@@ -60,6 +60,8 @@ extern "C" {
 
 
 
+#pragma enumsalwaysint on
+
 
 
 //=============================================================================
@@ -594,6 +596,8 @@ Q3MacintoshError_Get (
 #endif // QUESA_OS_MACINTOSH
 
 
+
+#pragma enumsalwaysint reset
 
 
 

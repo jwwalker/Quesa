@@ -60,6 +60,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -7162,6 +7163,7 @@ Q3TriMesh_EmptyData (
 
 
 
+#pragma enumsalwaysint reset
 
 
 //=============================================================================
