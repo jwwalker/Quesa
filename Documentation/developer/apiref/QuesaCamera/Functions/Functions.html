@@ -8,21 +8,18 @@ Q3Camera_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the common state of a camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>cameraData</tt></td><td>Receives the common state of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Camera_GetPlacement"></a>
@@ -34,21 +31,18 @@ Q3Camera_GetPlacement (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the placement of a camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>placement</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>placement</tt></td><td>Receives the placement of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Camera_GetRange"></a>
@@ -60,21 +54,18 @@ Q3Camera_GetRange (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the range of a camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>range</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>range</tt></td><td>Receives the range of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Camera_GetType"></a>
@@ -111,21 +102,18 @@ Q3Camera_GetViewPort (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the view port of a camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>viewPort</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>viewPort</tt></td><td>Receives the view port of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Camera_GetViewToFrustum"></a>
@@ -137,21 +125,25 @@ Q3Camera_GetViewToFrustum (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the view-to-frustum matrix of a camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The view-to-frustum matrix transforms the camera coordinate system
+(as returned by Q3Camera_GetWorldToView) to the viewing frustum
+coordinate system.
+<br><br>
+The frustum coordinate system ranges from 0.0 to 1.0 in z, and from
+-1.0 to +1.0 in both x and y.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>viewToFrustum</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>viewToFrustum</tt></td><td>Receives the view-to-frustum matrix of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Camera_GetWorldToFrustum"></a>
@@ -163,21 +155,22 @@ Q3Camera_GetWorldToFrustum (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the world-to-frustum matrix of a camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The world-to-frustum matrix transforms world coordinates to the viewing
+frustum coordinate system. It is equivalent to multiplying the matrices
+returned by Q3Camera_GetWorldToView and Q3Camera_GetViewToFrustum.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>worldToFrustum</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>worldToFrustum</tt></td><td>Receives the world-to-frustum matrix of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Camera_GetWorldToView"></a>
@@ -189,21 +182,23 @@ Q3Camera_GetWorldToView (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the world-to-view matrix of a camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The world-to-view matrix transforms world coordinates to a coordinate
+system relative to the camera. The origin of this coordinate system is
+the camera location, with the camera view pointing down the -z axis
+and the camera up vector placed along the +y axis.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>worldToView</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>worldToView</tt></td><td>Receives the world-to-view matrix of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Camera_SetData"></a>
@@ -215,21 +210,18 @@ Q3Camera_SetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the common state for a camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>cameraData</tt></td><td>The new common state for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Camera_SetPlacement"></a>
@@ -241,21 +233,18 @@ Q3Camera_SetPlacement (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the placement for a camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>placement</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>placement</tt></td><td>The new placement for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Camera_SetRange"></a>
@@ -267,21 +256,18 @@ Q3Camera_SetRange (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the range for a camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>range</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>range</tt></td><td>The new range for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Camera_SetViewPort"></a>
@@ -293,21 +279,18 @@ Q3Camera_SetViewPort (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the view port for a camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>viewPort</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>viewPort</tt></td><td>The new view port for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_GetBottom"></a>
@@ -319,21 +302,18 @@ Q3OrthographicCamera_GetBottom (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the bottom side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>bottom</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>bottom</tt></td><td>Receives the bottom side of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_GetData"></a>
@@ -345,21 +325,18 @@ Q3OrthographicCamera_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the data for an orthographic camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>cameraData</tt></td><td>Receives the data of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_GetLeft"></a>
@@ -371,21 +348,18 @@ Q3OrthographicCamera_GetLeft (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the left side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>left</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>left</tt></td><td>Receives the left side of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_GetRight"></a>
@@ -397,21 +371,18 @@ Q3OrthographicCamera_GetRight (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the right side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>right</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>right</tt></td><td>Receives the right side of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_GetTop"></a>
@@ -423,21 +394,18 @@ Q3OrthographicCamera_GetTop (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the top side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>top</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>top</tt></td><td>Receives the top side of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_New"></a>
@@ -448,20 +416,17 @@ Q3OrthographicCamera_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new orthographic camera object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>orthographicData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>orthographicData</tt></td><td>The data for the camera object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new camera object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_SetBottom"></a>
@@ -473,47 +438,41 @@ Q3OrthographicCamera_SetBottom (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the bottom side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>bottom</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>bottom</tt></td><td>The new bottom side for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_SetData"></a>
 <h3><a name="Q3OrthographicCamera_SetData">Q3OrthographicCamera_SetData</a></h3>
 <blockquote><pre><tt>TQ3Status  
 Q3OrthographicCamera_SetData (
-    TQ3CameraObject               camera,
+    TQ3CameraObject                  camera,
     const TQ3OrthographicCameraData *cameraData
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the data for an orthographic camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>cameraData</tt></td><td>The new data for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_SetLeft"></a>
@@ -525,21 +484,18 @@ Q3OrthographicCamera_SetLeft (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the left side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>left</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>left</tt></td><td>The new left side for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_SetRight"></a>
@@ -551,21 +507,18 @@ Q3OrthographicCamera_SetRight (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the right side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>right</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>right</tt></td><td>The new right side for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3OrthographicCamera_SetTop"></a>
@@ -577,21 +530,18 @@ Q3OrthographicCamera_SetTop (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the top side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>top</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>top</tt></td><td>The new top side for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_GetAspectRatio"></a>
@@ -603,21 +553,22 @@ Q3ViewAngleAspectCamera_GetAspectRatio (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the aspect ratio of a view angle aspect camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If the aspect ratio is greater than 1.0, the field of view of the
+camera is vertical. If it is less than 1.0, the field of view is
+horizontal.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>aspectRatioXToY</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>aspectRatioXToY</tt></td><td>Receives the horizontal-to-vertical aspect ratio of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_GetData"></a>
@@ -629,21 +580,18 @@ Q3ViewAngleAspectCamera_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the data for a view angle aspect camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>cameraData</tt></td><td>Receives the data of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_GetFOV"></a>
@@ -655,21 +603,20 @@ Q3ViewAngleAspectCamera_GetFOV (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the field of view of a view angle aspect camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The field of view is specified in radians.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>fov</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>fov</tt></td><td>Receives the field of view of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_New"></a>
@@ -680,20 +627,17 @@ Q3ViewAngleAspectCamera_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new view angle aspect camera object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>cameraData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>cameraData</tt></td><td>The data for the camera object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new camera object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_SetAspectRatio"></a>
@@ -705,47 +649,45 @@ Q3ViewAngleAspectCamera_SetAspectRatio (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the aspect ratio for a view angle aspect camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If the aspect ratio is greater than 1.0, the field of view of the
+camera is vertical. If it is less than 1.0, the field of view is
+horizontal.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>aspectRatioXToY</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>aspectRatioXToY</tt></td><td>The new horizontal-to-vertical aspect ratio of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_SetData"></a>
 <h3><a name="Q3ViewAngleAspectCamera_SetData">Q3ViewAngleAspectCamera_SetData</a></h3>
 <blockquote><pre><tt>TQ3Status  
 Q3ViewAngleAspectCamera_SetData (
-    TQ3CameraObject               camera,
+    TQ3CameraObject                     camera,
     const TQ3ViewAngleAspectCameraData *cameraData
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the data for a view angle aspect camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>cameraData</tt></td><td>The new data for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_SetFOV"></a>
@@ -757,21 +699,20 @@ Q3ViewAngleAspectCamera_SetFOV (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the field of view for a view angle aspect camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The field of view is specified in radians.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>fov</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>fov</tt></td><td>The new field of view for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetCenterX"></a>
@@ -783,21 +724,21 @@ Q3ViewPlaneCamera_GetCenterX (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the x coordinate of the view rectangle center of a view plane camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The area of the view plane which will be rendered is a rectangle, whose
+origin in x is at the returned coordinate.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>centerXOnViewPlane</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>centerXOnViewPlane</tt></td><td>Receives the x coordinate of the center of the view rectangle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetCenterY"></a>
@@ -809,21 +750,21 @@ Q3ViewPlaneCamera_GetCenterY (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the y coordinate of the view rectangle center of a view plane camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The area of the view plane which will be rendered is a rectangle, whose
+origin in y is at the returned coordinate.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>centerYOnViewPlane</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>centerYOnViewPlane</tt></td><td>Receives the y coordinate of the center of the view rectangle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetData"></a>
@@ -835,21 +776,18 @@ Q3ViewPlaneCamera_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the data for a view plane camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>cameraData</tt></td><td>Receives the data of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetHalfHeight"></a>
@@ -861,21 +799,21 @@ Q3ViewPlaneCamera_GetHalfHeight (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the half-height of the view rectangle of a view plane camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The area of the view plane which will be rendered is a rectangle,
+whose height is twice the returned half-height.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>halfHeightAtViewPlane</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>halfHeightAtViewPlane</tt></td><td>Receives the half-height of the view rectangle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetHalfWidth"></a>
@@ -887,21 +825,21 @@ Q3ViewPlaneCamera_GetHalfWidth (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the half-width of the view rectangle of a view plane camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The area of the view plane which will be rendered is a rectangle,
+whose width is twice the returned half-width.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>halfWidthAtViewPlane</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>halfWidthAtViewPlane</tt></td><td>Receives the half-width of the view rectangle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetViewPlane"></a>
@@ -913,21 +851,21 @@ Q3ViewPlaneCamera_GetViewPlane (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the view plane distance of a view plane camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The view plane distance is the distance along the camera view vector
+from the camera location.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>viewPlane</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
+<tr valign=top><td><tt>viewPlane</tt></td><td>Receives the view plane distance of the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_New"></a>
@@ -938,20 +876,17 @@ Q3ViewPlaneCamera_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new view plane camera object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>cameraData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>cameraData</tt></td><td>The data for the camera object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new camera object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetCenterX"></a>
@@ -963,21 +898,21 @@ Q3ViewPlaneCamera_SetCenterX (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the x coordinate of the view rectangle center of a view plane camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The area of the view plane which will be rendered is a rectangle, whose
+origin in x is at the specified coordinate.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>centerXOnViewPlane</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>centerXOnViewPlane</tt></td><td>The new x coordinate for the center of the view rectangle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetCenterY"></a>
@@ -989,21 +924,21 @@ Q3ViewPlaneCamera_SetCenterY (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the y coordinate of the view rectangle center of a view plane camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The area of the view plane which will be rendered is a rectangle, whose
+origin in y is at the specified coordinate.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>centerYOnViewPlane</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>centerYOnViewPlane</tt></td><td>The new y coordinate for the center of the view rectangle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetData"></a>
@@ -1015,21 +950,18 @@ Q3ViewPlaneCamera_SetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the data for a view plane camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>cameraData</tt></td><td>The new data for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetHalfHeight"></a>
@@ -1041,21 +973,21 @@ Q3ViewPlaneCamera_SetHalfHeight (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the half-height of the view rectangle of a view plane camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The area of the view plane which will be rendered is a rectangle,
+whose height is twice the specified half-height.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>halfHeightAtViewPlane</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>halfHeightAtViewPlane</tt></td><td>The new half-height of the view rectangle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetHalfWidth"></a>
@@ -1067,21 +999,21 @@ Q3ViewPlaneCamera_SetHalfWidth (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the half-width of the view rectangle of a view plane camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The area of the view plane which will be rendered is a rectangle,
+whose width is twice the specified half-width.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>halfWidthAtViewPlane</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>halfWidthAtViewPlane</tt></td><td>The new half-width of the view rectangle.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetViewPlane"></a>
@@ -1093,22 +1025,22 @@ Q3ViewPlaneCamera_SetViewPlane (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the view plane distance for a view plane camera.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The view plane distance is the distance along the camera view vector
+from the camera location.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>viewPlane</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
+<tr valign=top><td><tt>viewPlane</tt></td><td>The new view plane distance for the camera.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 8/9/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
 </body></html>

@@ -845,7 +845,7 @@ return kQ3False if the object a reference count of one.
 <a name="//apple_ref/c/tag/TQ3Area"></a>
 <h3><a name="TQ3Area">TQ3Area</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Area {
     TQ3Point2D                                  min;
     TQ3Point2D                                  max;
 } TQ3Area;
@@ -866,7 +866,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Bitmap"></a>
 <h3><a name="TQ3Bitmap">TQ3Bitmap</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Bitmap {
     TQ3Uns8                                     *image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -894,7 +894,7 @@ Note that each row of image data starts on a new byte.</td><tr>
 <a name="//apple_ref/c/tag/TQ3BoundingBox"></a>
 <h3><a name="TQ3BoundingBox">TQ3BoundingBox</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3BoundingBox {
     TQ3Point3D                                  min;
     TQ3Point3D                                  max;
     TQ3Boolean                                  isEmpty;
@@ -917,7 +917,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3BoundingSphere"></a>
 <h3><a name="TQ3BoundingSphere">TQ3BoundingSphere</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3BoundingSphere {
     TQ3Point3D                                  origin;
     float                                       radius;
     TQ3Boolean                                  isEmpty;
@@ -940,7 +940,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3ColorARGB"></a>
 <h3><a name="TQ3ColorARGB">TQ3ColorARGB</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3ColorARGB {
     float                                       a;
     float                                       r;
     float                                       g;
@@ -965,7 +965,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3ColorRGB"></a>
 <h3><a name="TQ3ColorRGB">TQ3ColorRGB</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3ColorRGB {
     float                                       r;
     float                                       g;
     float                                       b;
@@ -985,10 +985,35 @@ typedef struct {
 </table>
 </blockquote>
 <hr>
+<a name="//apple_ref/c/tag/TQ3ColorRGBA"></a>
+<h3><a name="TQ3ColorRGBA">TQ3ColorRGBA</a></h3>
+<blockquote><pre>
+typedef struct TQ3ColorRGBA {
+    float                                       r;
+    float                                       g;
+    float                                       b;
+    float                                       a;
+} TQ3ColorRGBA;
+</pre>
+</blockquote>
+<p>Fundamental RGBA point type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>r</tt></td><td>Red component, between 0.0 and 1.0.</td><tr>
+<tr valign=top><td><tt>g</tt></td><td>Green component, between 0.0 and 1.0.</td><tr>
+<tr valign=top><td><tt>b</tt></td><td>Blue component, between 0.0 and 1.0.</td><tr>
+<tr valign=top><td><tt>a</tt></td><td>Alpha component, between 0.0 (transparent) and 1.0 (opaque).</td><tr>
+</table>
+</blockquote>
+<hr>
 <a name="//apple_ref/c/tag/TQ3CompressedPixmap"></a>
 <h3><a name="TQ3CompressedPixmap">TQ3CompressedPixmap</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3CompressedPixmap {
     TQ3StorageObject                            compressedImage;
     TQ3Endian                                   imageDescByteOrder;
     TQ3StorageObject                            imageDesc;
@@ -1021,7 +1046,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Matrix3x3"></a>
 <h3><a name="TQ3Matrix3x3">TQ3Matrix3x3</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Matrix3x3 {
     float                                       value[3][3];
 } TQ3Matrix3x3;
 </pre>
@@ -1040,7 +1065,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Matrix4x4"></a>
 <h3><a name="TQ3Matrix4x4">TQ3Matrix4x4</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Matrix4x4 {
     float                                       value[4][4];
 } TQ3Matrix4x4;
 </pre>
@@ -1059,7 +1084,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Mipmap"></a>
 <h3><a name="TQ3Mipmap">TQ3Mipmap</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Mipmap {
     TQ3StorageObject                            image;
     TQ3Boolean                                  useMipmapping;
     TQ3PixelType                                pixelType;
@@ -1090,7 +1115,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3MipmapImage"></a>
 <h3><a name="TQ3MipmapImage">TQ3MipmapImage</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3MipmapImage {
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
     TQ3Uns32                                    rowBytes;
@@ -1115,7 +1140,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Param2D"></a>
 <h3><a name="TQ3Param2D">TQ3Param2D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Param2D {
     float                                       u;
     float                                       v;
 } TQ3Param2D;
@@ -1136,7 +1161,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Param3D"></a>
 <h3><a name="TQ3Param3D">TQ3Param3D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Param3D {
     float                                       u;
     float                                       v;
     float                                       w;
@@ -1159,7 +1184,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Pixmap"></a>
 <h3><a name="TQ3Pixmap">TQ3Pixmap</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Pixmap {
     void                                        *image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -1192,7 +1217,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3PlaneEquation"></a>
 <h3><a name="TQ3PlaneEquation">TQ3PlaneEquation</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3PlaneEquation {
     TQ3Vector3D                                 normal;
     float                                       constant;
 } TQ3PlaneEquation;
@@ -1213,7 +1238,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Point2D"></a>
 <h3><a name="TQ3Point2D">TQ3Point2D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Point2D {
     float                                       x;
     float                                       y;
 } TQ3Point2D;
@@ -1234,7 +1259,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Point3D"></a>
 <h3><a name="TQ3Point3D">TQ3Point3D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Point3D {
     float                                       x;
     float                                       y;
     float                                       z;
@@ -1257,7 +1282,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3PolarPoint"></a>
 <h3><a name="TQ3PolarPoint">TQ3PolarPoint</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3PolarPoint {
     float                                       r;
     float                                       theta;
 } TQ3PolarPoint;
@@ -1278,7 +1303,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Quaternion"></a>
 <h3><a name="TQ3Quaternion">TQ3Quaternion</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Quaternion {
     float                                       w;
     float                                       x;
     float                                       y;
@@ -1303,7 +1328,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3RationalPoint3D"></a>
 <h3><a name="TQ3RationalPoint3D">TQ3RationalPoint3D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3RationalPoint3D {
     float                                       x;
     float                                       y;
     float                                       w;
@@ -1326,7 +1351,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3RationalPoint4D"></a>
 <h3><a name="TQ3RationalPoint4D">TQ3RationalPoint4D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3RationalPoint4D {
     float                                       x;
     float                                       y;
     float                                       z;
@@ -1351,7 +1376,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Ray3D"></a>
 <h3><a name="TQ3Ray3D">TQ3Ray3D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Ray3D {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 direction;
 } TQ3Ray3D;
@@ -1372,7 +1397,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Sphere"></a>
 <h3><a name="TQ3Sphere">TQ3Sphere</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Sphere {
     TQ3Point3D                                  origin;
     float                                       radius;
 } TQ3Sphere;
@@ -1393,7 +1418,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3SphericalPoint"></a>
 <h3><a name="TQ3SphericalPoint">TQ3SphericalPoint</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3SphericalPoint {
     float                                       rho;
     float                                       theta;
     float                                       phi;
@@ -1417,7 +1442,7 @@ radius vector onto the xy plane.</td><tr>
 <a name="//apple_ref/c/tag/TQ3StoragePixmap"></a>
 <h3><a name="TQ3StoragePixmap">TQ3StoragePixmap</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3StoragePixmap {
     TQ3StorageObject                            image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -1450,7 +1475,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3SubClassData"></a>
 <h3><a name="TQ3SubClassData">TQ3SubClassData</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3SubClassData {
     TQ3Uns32                                    numClasses;
     TQ3ObjectType                               *classTypes;
 } TQ3SubClassData;
@@ -1471,7 +1496,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Tangent2D"></a>
 <h3><a name="TQ3Tangent2D">TQ3Tangent2D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Tangent2D {
     TQ3Vector3D                                 uTangent;
     TQ3Vector3D                                 vTangent;
 } TQ3Tangent2D;
@@ -1492,7 +1517,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Tangent3D"></a>
 <h3><a name="TQ3Tangent3D">TQ3Tangent3D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Tangent3D {
     TQ3Vector3D                                 uTangent;
     TQ3Vector3D                                 vTangent;
     TQ3Vector3D                                 wTangent;
@@ -1515,7 +1540,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Vector2D"></a>
 <h3><a name="TQ3Vector2D">TQ3Vector2D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Vector2D {
     float                                       x;
     float                                       y;
 } TQ3Vector2D;
@@ -1536,7 +1561,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Vector3D"></a>
 <h3><a name="TQ3Vector3D">TQ3Vector3D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Vector3D {
     float                                       x;
     float                                       y;
     float                                       z;
@@ -1559,7 +1584,7 @@ typedef struct {
 <a name="//apple_ref/c/tag/TQ3Vertex3D"></a>
 <h3><a name="TQ3Vertex3D">TQ3Vertex3D</a></h3>
 <blockquote><pre>
-typedef struct {
+typedef struct TQ3Vertex3D {
     TQ3Point3D                                  point;
     TQ3AttributeSet                             attributeSet;
 } TQ3Vertex3D;
@@ -1577,5 +1602,5 @@ typedef struct {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 8/9/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
 </body></html>
