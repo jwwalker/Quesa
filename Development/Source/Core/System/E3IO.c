@@ -383,7 +383,7 @@ E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 	TQ3XStorageOpenMethod open;
 	TQ3XStorageCloseMethod close;
 	
-	TQ3Status openStatus = kQ3Failure;
+	TQ3Status openStatus = kQ3Success;
 	TQ3Status readHeaderStatus = kQ3Success;
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Closed),kQ3Failure);
@@ -458,7 +458,7 @@ E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 	TQ3XStorageOpenMethod open;
 	TQ3XStorageCloseMethod close;
 	
-	TQ3Status openStatus = kQ3Failure;
+	TQ3Status openStatus = kQ3Success;
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Closed),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->storage != NULL),kQ3Failure);
