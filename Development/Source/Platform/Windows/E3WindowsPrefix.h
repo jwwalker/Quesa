@@ -46,5 +46,13 @@
 #define QUESA_BUILD_AS_BINARY_COMPATIBLE					1
 
 
+// tell the sistem if you have to initialize your DIBs used by Quesa as 
+//			"top-up" (default in QuickTime, Quesa and QD3D) or
+//			"bottom-up" aka "normal" (default in OS/2 and hence in Windows 
+//			and in the Win32 implementation of OpenGL)
+#ifndef QUESA_USES_NORMAL_DIBs
+	#define QUESA_USES_NORMAL_DIBs							0
+#endif
+
 
 #endif
