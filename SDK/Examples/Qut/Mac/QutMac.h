@@ -77,5 +77,7 @@
 #endif
 
 
+Boolean		QutMac_SelectMetafileToOpen(FSSpec* fileSpecPtr);
+Boolean		QutMac_SelectMetafileToSaveTo(FSSpec* fileSpecPtr);
 
 #endif
