@@ -131,10 +131,14 @@ enum {
 
     // Used for Q3XXX_ReadMethods, no strict need to override to implement a new format
     kQ3XMethodTypeFFormatFloat32Read            = Q3_METHOD_TYPE('F', 'f', '3', 'r'),
+    kQ3XMethodTypeFFormatFloat32ReadArray       = Q3_METHOD_TYPE('F', 'f', '3', 'A'),
     kQ3XMethodTypeFFormatFloat64Read            = Q3_METHOD_TYPE('F', 'f', '6', 'r'),
     kQ3XMethodTypeFFormatInt8Read               = Q3_METHOD_TYPE('F', 'i', '8', 'r'),
+    kQ3XMethodTypeFFormatInt8ReadArray     		= Q3_METHOD_TYPE('F', 'i', '8', 'A'),
     kQ3XMethodTypeFFormatInt16Read              = Q3_METHOD_TYPE('F', 'i', '1', 'r'),
+    kQ3XMethodTypeFFormatInt16ReadArray     	= Q3_METHOD_TYPE('F', 'i', '1', 'A'),
     kQ3XMethodTypeFFormatInt32Read              = Q3_METHOD_TYPE('F', 'i', '3', 'r'),
+    kQ3XMethodTypeFFormatInt32ReadArray     	= Q3_METHOD_TYPE('F', 'i', '3', 'A'),
     kQ3XMethodTypeFFormatInt64Read              = Q3_METHOD_TYPE('F', 'i', '6', 'r'),
     kQ3XMethodTypeFFormatStringRead             = Q3_METHOD_TYPE('F', 's', 't', 'r'),
     kQ3XMethodTypeFFormatRawRead                = Q3_METHOD_TYPE('F', 'r', 'w', 'r'),
@@ -285,10 +289,14 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitObjectMethod)(
 
 // Method types - used for Q3XXX_ReadMethods (not required when implementing a new format)
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadMethod)   (TQ3FileFormatObject format, TQ3Float32* data);
+typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadArrayMethod)   (TQ3FileFormatObject format, TQ3Uns32 numFloats, TQ3Float32* data);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat64ReadMethod)   (TQ3FileFormatObject format, TQ3Float64* data);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8ReadMethod)      (TQ3FileFormatObject format, TQ3Int8* data);
+typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int8* data);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16ReadMethod)     (TQ3FileFormatObject format, TQ3Int16* data);
+typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int16* data);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32ReadMethod)     (TQ3FileFormatObject format, TQ3Int32* data);
+typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int32* data);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt64ReadMethod)     (TQ3FileFormatObject format, TQ3Int64* data);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatStringReadMethod)    (TQ3FileFormatObject format, char* data, TQ3Uns32 *length);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatRawReadMethod)       (TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);
@@ -3383,6 +3391,134 @@ Q3FileFormat_GenericWriteBinSwap_64 (
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+
+/*!
+ *  @function
+ *      Q3Float32_ReadArray
+ *  @discussion
+ *      Read an array of 32-bit floating point numbers from a file object.
+ *
+ *      Calling this function has somewhat less overhead than calling
+ *      Q3Float32_Read repeatedly.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param	numFloats		Number of numbers to read.
+ *  @param	floatArray		Address of array to receive the numbers.
+ *	@param	theFile			A file object.
+ *  @result    Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3Float32_ReadArray (
+	TQ3Uns32					numFloats,
+	TQ3Float32*					floatArray,
+	TQ3FileObject            	theFile
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+
+
+
+
+/*!
+ *  @function
+ *      Q3Uns32_ReadArray
+ *  @discussion
+ *      Read an array of 32-bit unsigned integers from a file object.
+ *
+ *      Calling this function has somewhat less overhead than calling
+ *      Q3Uns32_Read repeatedly.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param	numNums			Number of numbers to read.
+ *  @param	intArray		Address of array to receive the numbers.
+ *	@param	theFile			A file object.
+ *  @result    Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3Uns32_ReadArray (
+	TQ3Uns32					numNums,
+	TQ3Uns32*					intArray,
+	TQ3FileObject            	theFile
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+
+
+
+/*!
+ *  @function
+ *      Q3Uns16_ReadArray
+ *  @discussion
+ *      Read an array of 16-bit unsigned integers from a file object.
+ *
+ *      Calling this function has somewhat less overhead than calling
+ *      Q3Uns16_Read repeatedly.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param	numNums			Number of numbers to read.
+ *  @param	intArray		Address of array to receive the numbers.
+ *	@param	theFile			A file object.
+ *  @result    Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3Uns16_ReadArray (
+	TQ3Uns32					numNums,
+	TQ3Uns16*					intArray,
+	TQ3FileObject            	theFile
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+
+
+
+/*!
+ *  @function
+ *      Q3Uns8_ReadArray
+ *  @discussion
+ *      Read an array of 8-bit unsigned integers from a file object.
+ *
+ *      Calling this function has somewhat less overhead than calling
+ *      Q3Uns8_Read repeatedly.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param	numNums			Number of numbers to read.
+ *  @param	intArray		Address of array to receive the numbers.
+ *	@param	theFile			A file object.
+ *  @result    Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3Uns8_ReadArray (
+	TQ3Uns32					numNums,
+	TQ3Uns8*					intArray,
+	TQ3FileObject            	theFile
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
 
 
 
