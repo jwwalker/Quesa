@@ -88,7 +88,8 @@
 // Geometry data
 typedef struct TQ3GeometryData {
 	TQ3Uns32					cameraEditIndex;
-	TQ3SubdivisionStyleData		subdivisionStyle;
+	TQ3SubdivisionStyleData		styleSubdivision;
+	TQ3OrientationStyle			styleOrientation;
 	TQ3Uns32					cachedEditIndex;
 	TQ3Object					cachedObject;
 	float						cachedDeterminant;
@@ -139,24 +140,13 @@ e3geometry_get_attributes(TQ3GeometryObject theGeom)
 //-----------------------------------------------------------------------------
 static void
 e3geometry_delete(TQ3Object theObject, void *privateData)
-{	TQ3GeometryData					*instanceData = (TQ3GeometryData *) privateData;
-	TQ3XGeomCacheDeleteMethod		cacheDelete;
+{	TQ3GeometryData			*instanceData = (TQ3GeometryData *) privateData;
 #pragma unused(theObject)
 
 
 
-	// If we have a cached object, delete it
-	if (instanceData->cachedObject)
-		{
-		// Find the method
-		cacheDelete = (TQ3XGeomCacheDeleteMethod) E3ClassTree_GetMethod(theObject->theClass,
-																		kQ3XMethodTypeGeomCacheDelete);
-		Q3_ASSERT_VALID_PTR(cacheDelete);
-		
-		
-		// Delete the object
-		cacheDelete(instanceData->cachedObject);
-		}
+	// Clean up
+	Q3Object_CleanDispose(&instanceData->cachedObject);
 }
 
 
@@ -175,11 +165,12 @@ e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 	// Duplicate the geometry
-	toInstanceData->subdivisionStyle = fromInstanceData->subdivisionStyle;
-	toInstanceData->cameraEditIndex  = 0;
-	toInstanceData->cachedEditIndex  = 0;
-	toInstanceData->cachedObject     = NULL;
-	toInstanceData->cachedDeterminant  = 0.0f;
+	toInstanceData->cameraEditIndex   = 0;
+	toInstanceData->styleSubdivision  = fromInstanceData->styleSubdivision;
+	toInstanceData->styleOrientation  = fromInstanceData->styleOrientation;
+	toInstanceData->cachedEditIndex   = 0;
+	toInstanceData->cachedObject      = NULL;
+	toInstanceData->cachedDeterminant = 0.0f;
 	
 	return kQ3Success;
 }
@@ -418,25 +409,6 @@ e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theO
 
 
 //=============================================================================
-//      e3geometry_cache_delete : Geometry cache delete method.
-//-----------------------------------------------------------------------------
-//		Note :	Provides the default behaviour for deleting a cached object.
-//-----------------------------------------------------------------------------
-static void
-e3geometry_cache_delete(TQ3Object cachedGeom)
-{	TQ3Status		qd3dStatus;
-
-
-
-	// Delete the cached geometry
-	qd3dStatus = Q3Object_Dispose(cachedGeom);
-}
-
-
-
-
-
-//=============================================================================
 //      e3geometry_cache_isvalid : Geometry cache is valid method.
 //-----------------------------------------------------------------------------
 //		Note :	Provides the default behaviour for determining if a cached
@@ -456,11 +428,12 @@ static TQ3Boolean
 e3geometry_cache_isvalid(TQ3ViewObject theView,
 						TQ3ObjectType objectType, TQ3GeometryObject theGeom,
 						const void   *geomData,   TQ3Object         cachedGeom)
-{	TQ3GeometryData		*instanceData;
-	TQ3Uns32			editIndex;
-	E3ClassInfoPtr		theClass;
-	TQ3Matrix4x4		localToWorld;
-	float				theDet, detRatio;
+{	float					theDet, detRatio;
+	TQ3OrientationStyle		theOrientation;
+	TQ3GeometryData			*instanceData;
+	TQ3Matrix4x4			localToWorld;
+	TQ3Uns32				editIndex;
+	E3ClassInfoPtr			theClass;
 
 
 
@@ -475,7 +448,7 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 
 
 
-	// First check the edit index - if this has changed, the cache is stale
+	// First check the geometry edit index
 	editIndex = Q3Shared_GetEditIndex(theGeom);
 	if (instanceData->cachedObject == NULL || editIndex > instanceData->cachedEditIndex)
 		{
@@ -485,26 +458,30 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 
 
 
-	// If the geometry uses subdivision, do some more extensive tests
+	// Find the geometry class
 	theClass = E3ClassTree_GetClassByType(objectType);
 	Q3_ASSERT_VALID_PTR(theClass);
 
+
+
+	// Check for changes to the subdivision style
 	if (E3ClassTree_GetMethod(theClass, kQ3XMethodTypeGeomUsesSubdivision) != NULL)
 		{
 		// Check to see if the current subdivision style is different
-		if (memcmp(&instanceData->subdivisionStyle,
+		if (memcmp(&instanceData->styleSubdivision,
 					E3View_State_GetStyleSubdivision(theView),
 					sizeof(TQ3SubdivisionStyleData)) != 0)
 			{
 			Q3Memory_Copy(E3View_State_GetStyleSubdivision(theView),
-							&instanceData->subdivisionStyle,
+							&instanceData->styleSubdivision,
 							sizeof(TQ3SubdivisionStyleData));
 			return(kQ3False);
 			}
 
 
+
 		// If the subdivision style is screen space, check to see if the camera has changed
-		if (instanceData->subdivisionStyle.method == kQ3SubdivisionMethodScreenSpace)
+		if (instanceData->styleSubdivision.method == kQ3SubdivisionMethodScreenSpace)
 			{
 			editIndex = Q3Shared_GetEditIndex(E3View_AccessCamera(theView));
 			if (editIndex > instanceData->cameraEditIndex)
@@ -513,10 +490,11 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 				return(kQ3False);
 				}
 			}
+
 			
 		// If the subdivision style is not constant, check to see if the local to world
 		// transformation has changed its scale factor.
-		if (instanceData->subdivisionStyle.method != kQ3SubdivisionMethodConstant)
+		if (instanceData->styleSubdivision.method != kQ3SubdivisionMethodConstant)
 			{
 			Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
 			theDet = Q3Matrix4x4_Determinant( &localToWorld );
@@ -526,6 +504,19 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 				instanceData->cachedDeterminant = theDet;
 				return kQ3False;
 				}
+			}
+		}
+
+
+
+	// Check for changes to the orientation style
+	if (E3ClassTree_GetMethod(theClass, kQ3XMethodTypeGeomUsesOrientation) != NULL)
+		{
+		theOrientation = E3View_State_GetStyleOrientation(theView);
+		if (instanceData->styleOrientation != theOrientation)
+			{
+			instanceData->styleOrientation = theOrientation;
+			return(kQ3False);
 			}
 		}
 
@@ -554,9 +545,8 @@ static void
 e3geometry_cache_update(TQ3ViewObject theView,
 						TQ3ObjectType objectType, TQ3GeometryObject theGeom,
 						const void   *geomData,   TQ3Object         *cachedGeom)
-{	TQ3XGeomCacheDeleteMethod		cacheDelete;
-	TQ3XGeomCacheNewMethod			cacheNew;
-	E3ClassInfoPtr					theClass;
+{	TQ3XGeomCacheNewMethod		cacheNew;
+	E3ClassInfoPtr				theClass;
 #pragma unused(theView)
 
 
@@ -566,29 +556,18 @@ e3geometry_cache_update(TQ3ViewObject theView,
 
 
 
-	// Find the class, and the appropriate methods
+	// Find the class, and the appropriate method
 	theClass = E3ClassTree_GetClassByType(objectType);
 	if (theClass == NULL)
 		return;
 
-	cacheNew    = (TQ3XGeomCacheNewMethod)    E3ClassTree_GetMethod(theClass, kQ3XMethodTypeGeomCacheNew);
-	cacheDelete = (TQ3XGeomCacheDeleteMethod) E3ClassTree_GetMethod(theClass, kQ3XMethodTypeGeomCacheDelete);
-
-
-
-	// Make sure we have a delete method - the new method is optional,
-	// but the delete method should be picked up from the geom class
-	// if it wasn't overridden.
-	Q3_ASSERT_VALID_PTR(cacheDelete);
+	cacheNew = (TQ3XGeomCacheNewMethod) E3ClassTree_GetMethod(theClass, kQ3XMethodTypeGeomCacheNew);
 
 
 
 	// Get rid of the existing cached object, if any
 	if (*cachedGeom != NULL)
-		{
-		cacheDelete(*cachedGeom);
-		*cachedGeom = NULL;
-		}
+		Q3Object_CleanDispose(cachedGeom);
 
 
 
@@ -638,10 +617,6 @@ e3geometry_metahandler(TQ3XMethodType methodType)
 		
 		case kQ3XMethodTypeObjectSubmitWrite:
 			theMethod = (TQ3XFunctionPointer) e3geometry_write;
-			break;
-
-		case kQ3XMethodTypeGeomCacheDelete:
-			theMethod = (TQ3XFunctionPointer) e3geometry_cache_delete;
 			break;
 
 		case kQ3XMethodTypeGeomCacheIsValid:
@@ -893,33 +868,34 @@ E3Geometry_Submit(TQ3GeometryObject theGeom, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Object
 E3Geometry_GetDecomposed( TQ3GeometryObject theGeom, TQ3ViewObject view )
-{
-	TQ3Object			decomposed = NULL;
-	void				*leafInstanceData;
-	TQ3XGeomCacheUpdateMethod		cacheUpdate;
-	TQ3ObjectType		objectType;
+{	void						*leafInstanceData;
+	TQ3Object					decomposed;
+	TQ3ObjectType				objectType;
+	TQ3XGeomCacheNewMethod		cacheNew;
+
 	
 	
 	// Verify that we are in a submitting loop
 	Q3_REQUIRE_OR_RESULT( E3View_GetViewState( view ) == kQ3ViewStateSubmitting, NULL );
 
 
-	// Find the method we need
-	cacheUpdate  = (TQ3XGeomCacheUpdateMethod)  E3ClassTree_GetMethod(theGeom->theClass, kQ3XMethodTypeGeomCacheUpdate);
 
-	if (cacheUpdate == NULL)
+	// Find the method we need
+	cacheNew  = (TQ3XGeomCacheNewMethod)  E3ClassTree_GetMethod(theGeom->theClass, kQ3XMethodTypeGeomCacheNew);
+	if (cacheNew == NULL)
 		return (NULL);
 
 
+
 	// Find our instance data
-	objectType = Q3Object_GetLeafType( theGeom );
+	objectType       = Q3Object_GetLeafType( theGeom );
 	leafInstanceData = E3ClassTree_FindInstanceData(theGeom, objectType);
 	Q3_ASSERT_VALID_PTR(leafInstanceData);
-	
-	
-	// Build the decomposed object
-	cacheUpdate( view, objectType, theGeom, leafInstanceData, &decomposed );
 
-	
+
+
+	// Build the decomposed object
+	decomposed = cacheNew( view, theGeom, leafInstanceData);
+
 	return decomposed;
 }
