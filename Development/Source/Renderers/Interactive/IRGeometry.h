@@ -55,6 +55,9 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+void				IRGeometry_Terminate(
+								TQ3InteractiveData		*instanceData);
+
 TQ3AttributeSet		IRGeometry_Attribute_Combine(
 								TQ3ViewObject			theView,
 								TQ3AttributeSet			geomAttributes);
@@ -77,11 +80,14 @@ TQ3Param2D			*IRGeometry_Attribute_GetUV(
 								TQ3InteractiveData		*instanceData,
 								TQ3AttributeSet			theAttributes);
 
-TQ3TriFlags			IRGeometry_Triangle_CalcFlags(
+TQ3Status			IRGeometry_Triangle_CalcFlags(
 								TQ3InteractiveData		*instanceData,
-								const TQ3Vector3D		*triNormal,
-								const TQ3Point3D		*pointOnTri);
-
+								TQ3Uns32				numTriangles,
+								const TQ3Uns32			*theIndices,
+								const TQ3Point3D		*thePoints,
+								const TQ3Vector3D		*theNormals,
+								TQ3TriFlags				*theFlags);
+								
 TQ3Boolean			IRGeometry_Triangle_IsVisible(
 								TQ3InteractiveData		*instanceData,
 								const TQ3Vector3D		*triNormal);
