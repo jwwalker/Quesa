@@ -1584,7 +1584,7 @@ E3Bitmap_GetImageSize(TQ3Uns32 theWidth, TQ3Uns32 theHeight)
 
 
 	// Bitmaps are 1 bit deep, so every 8 pixels requires 1 byte
-	imageSize  = (theWidth / 8) + (theWidth % 8);
+	imageSize  = ((theWidth - 1) / 8) + 1;
 	imageSize *= theHeight;
 
 	return(imageSize);
