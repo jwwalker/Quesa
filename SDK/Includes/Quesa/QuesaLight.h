@@ -59,6 +59,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -1067,6 +1068,7 @@ Q3SpotLight_SetData (
 
 
 
+#pragma enumsalwaysint reset
 
 
 //=============================================================================

@@ -63,6 +63,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -4140,6 +4141,7 @@ Q3WinViewerSetCameraView (
 #endif // QUESA_OS_WIN32
 
 
+#pragma enumsalwaysint reset
 
 
 

@@ -59,6 +59,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -284,6 +285,7 @@ CEWireElement_EmptyData (
 #endif // QUESA_SUPPORT_QUICKTIME
 
 
+#pragma enumsalwaysint reset
 
 
 

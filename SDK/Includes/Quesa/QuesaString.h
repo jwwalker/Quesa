@@ -60,6 +60,7 @@ extern "C" {
 
 
 
+#pragma enumsalwaysint on
 
 
 //=============================================================================
@@ -191,6 +192,7 @@ Q3CString_EmptyData (
 );
 
 
+#pragma enumsalwaysint reset
 
 
 

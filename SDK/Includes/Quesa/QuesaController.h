@@ -61,6 +61,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -1146,6 +1147,7 @@ Q3CursorTracker_GetNotifyFunc (
 
 
 
+#pragma enumsalwaysint reset
 
 
 //=============================================================================

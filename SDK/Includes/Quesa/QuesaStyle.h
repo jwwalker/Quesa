@@ -60,6 +60,7 @@ extern "C" {
 
 
 
+#pragma enumsalwaysint on
 
 
 //=============================================================================
@@ -1201,6 +1202,7 @@ Q3FogStyle_SetData (
 );
 
 
+#pragma enumsalwaysint reset
 
 
 

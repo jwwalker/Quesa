@@ -59,6 +59,7 @@ extern "C" {
 #endif
 
 
+#pragma enumsalwaysint on
 
 
 
@@ -1052,6 +1053,7 @@ Q3ViewAngleAspectCamera_GetAspectRatio (
 );
 
 
+#pragma enumsalwaysint reset
 
 
 
