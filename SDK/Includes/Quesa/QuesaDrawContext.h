@@ -401,14 +401,15 @@ Q3DrawContext_GetClearImageColor (
  *  @function
  *      Q3DrawContext_SetPane
  *  @discussion
- *      One-line description of this function.
+ *      Set the area within the draw context which is rendered to.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Rendering within a draw context is constrained to within the active
+ *      pane. If no pane is active, renderers will draw to the entire
+ *		draw context (e.g., the bounds of the window).
  *
- *  @param context          Description of the parameter.
- *  @param pane             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to update.
+ *  @param pane             The area which rendering will be constrained to.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetPane (
@@ -422,14 +423,19 @@ Q3DrawContext_SetPane (
  *  @function
  *      Q3DrawContext_GetPane
  *  @discussion
- *      One-line description of this function.
+ *      Get the area within the draw context which is rendered to.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Rendering within a draw context is constrained to within the active
+ *      pane. If no pane is active, renderers will draw to the entire
+ *		draw context (e.g., the bounds of the window).
  *
- *  @param context          Description of the parameter.
- *  @param pane             Description of the parameter.
- *  @result                 Description of the function result.
+ *      Note that, unlike QD3D, Quesa will return the size of the entire
+ *      draw context if this routine is called on a draw context which has
+ *      not had an explicit pane set.
+ *
+ *  @param context          The draw context to query.
+ *  @param pane             Receives the dimensions of the rendered area.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetPane (
