@@ -139,6 +139,42 @@ ir_texture_pixel_type(TQ3TextureObject theTexture)
 
 
 
+//=============================================================================
+//      ir_texture_usemipmapping : Return a texture's mipmapping setting.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+ir_texture_usemipmapping(TQ3TextureObject theTexture)
+{	TQ3Status		qd3dStatus;
+	TQ3Mipmap		theMipmap;
+	TQ3ObjectType	theType;
+	TQ3Boolean		useMipmapping = false;
+
+	theType = Q3Texture_GetType(theTexture);
+	switch (theType) {
+		case kQ3TextureTypePixmap:
+			// Automatic
+			useMipmapping = true;
+			break;
+	
+		case kQ3TextureTypeMipmap:
+			// Get the mipmap data
+			qd3dStatus = Q3MipmapTexture_GetMipmap(theTexture, &theMipmap);
+			if (qd3dStatus == kQ3Success)
+				useMipmapping = theMipmap.useMipmapping;
+			break;
+
+		case kQ3TextureTypeCompressedPixmap:
+		default:
+			useMipmapping = false;
+			break;
+		}
+		
+	return useMipmapping;
+}
+
+
+
+
 
 //=============================================================================
 //      ir_texture_convert_pixmap : Convert a QD3D Pixmap texture.
@@ -450,7 +486,11 @@ ir_texture_set_state(TQ3InteractiveData *instanceData, TQ3CachedTexture *cachedT
 	
 	glTexEnvi(      GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,   glEnvMode);
 	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MAG_FILTER, cachedTexture->qualityFilter.magFilter);
-	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MIN_FILTER, cachedTexture->qualityFilter.minFilter);
+
+	if (cachedTexture->useMipmapping)
+		glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MIN_FILTER, cachedTexture->qualityFilter.minFilter);
+	else
+		glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MIN_FILTER, cachedTexture->qualityFilter.magFilter);
 
 
 
@@ -564,16 +604,17 @@ ir_texture_cache_add(TQ3ViewObject			theView,
 	// disposed of, then we could improve this - at present we need to check the
 	// whole cache for things to flush after each frame, but it would be better
 	// if we could only flush what we need when we need to.
-	cachedTexture.theTexture       = Q3Shared_GetReference(theTexture);
-	cachedTexture.qualityFilter    = ir_texture_convert_rave_filter(theView);
-	cachedTexture.editIndexShader  = Q3Shared_GetEditIndex(theShader);
-	cachedTexture.editIndexTexture = Q3Shared_GetEditIndex(theTexture);
-	cachedTexture.editIndexStorage = ir_texture_get_storage_edit(theTexture);
-
+	cachedTexture.theTexture      	= Q3Shared_GetReference(theTexture);
+	cachedTexture.qualityFilter   	= ir_texture_convert_rave_filter(theView);
+	cachedTexture.editIndexShader  	= Q3Shared_GetEditIndex(theShader);
+	cachedTexture.editIndexTexture 	= Q3Shared_GetEditIndex(theTexture);
+	cachedTexture.editIndexStorage 	= ir_texture_get_storage_edit(theTexture);
+	cachedTexture.useMipmapping		= ir_texture_usemipmapping(theTexture);
+	
 	Q3Shader_GetUBoundary(theShader,   &cachedTexture.boundaryU);
 	Q3Shader_GetVBoundary(theShader,   &cachedTexture.boundaryV);
 	Q3Shader_GetUVTransform(theShader, &cachedTexture.theTransform);
-
+	
 
 
 	// Load it into OpenGL

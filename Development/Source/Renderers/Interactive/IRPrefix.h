@@ -136,6 +136,7 @@ typedef struct TQ3CachedTexture {
 	TQ3Uns32				editIndexStorage;
 	TQ3ShaderUVBoundary		boundaryU;
 	TQ3ShaderUVBoundary		boundaryV;
+	TQ3Boolean				useMipmapping;
 } TQ3CachedTexture;
 
 
