@@ -274,7 +274,7 @@ WFRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 		lineWidth = E3Num_Max(kAALineSize, GLDrawContext_GetMinLineWidth(instanceData->glContext));
 
 		glPointSize(kAAPointSize);
-		glLineWidth(kAALineSize);
+		glLineWidth(lineWidth);
 
 
 		// Always do points
@@ -360,5 +360,3 @@ WFRenderer_Update_Style_Fog(TQ3ViewObject		theView,
 
 	return(kQ3Success);
 }
-
-
