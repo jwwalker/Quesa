@@ -287,8 +287,9 @@ static
 TQ3Status
 e3meshVertexPtr_Relink(
 	TE3MeshVertexPtr* vertexHdl,
-	void* /* dummy argument required by e3meshVertexPtrArray_DoForEach */)
+	void*unusedArg)
 {
+    unusedArg; /* Suppress compiler warning */
 	return(e3meshPartPtr_Relink(E3_UP_CAST(TE3MeshPartPtr*, vertexHdl)));
 }
 
@@ -307,8 +308,9 @@ static
 TQ3Status
 e3meshFacePtr_Relink(
 	TE3MeshFacePtr* faceHdl,
-	void* /* dummy argument required by e3meshFacePtrArrayOrList_DoForEach */)
+	void*unusedArg)
 {
+    unusedArg; /* Suppress compiler warning */
 	return(e3meshPartPtr_Relink(E3_UP_CAST(TE3MeshPartPtr*, faceHdl)));
 }
 
@@ -642,8 +644,10 @@ static
 TQ3Status
 e3meshCorner_RelinkFaces(
 	TE3MeshCornerData* cornerPtr,
-	void* /* dummy argument required by e3meshCornerArrayOrList_DoForEach */)
+	void*unusedArg)
 {
+    unusedArg; /* Suppress compiler warning */
+
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(cornerPtr);
 
@@ -974,8 +978,10 @@ static
 TQ3Status
 e3meshVertex_RelinkCornerFaces(
 	TE3MeshVertexData* vertexPtr,
-	void* /* dummy argument required by e3meshVertexArrayOrList_DoForEach */)
+	void*unusedArg)
 {
+    unusedArg; /* Suppress compiler warning */
+
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(vertexPtr);
 
@@ -1388,8 +1394,10 @@ static
 TQ3Status
 e3meshContour_RelinkContainerFace(
 	TE3MeshContourData* contourPtr,
-	void* /* dummy argument required by e3meshContourArrayOrList_DoForEach */)
+	void*unusedArg)
 {
+    unusedArg; /* Suppress compiler warning */
+
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(contourPtr);
 
@@ -1445,8 +1453,10 @@ static
 TQ3Status
 e3meshContour_RelinkVertices(
 	TE3MeshContourData* contourPtr,
-	void* /* dummy argument required by e3meshContourArrayOrList_DoForEach */)
+	void*unusedArg)
 {
+    unusedArg; /* Suppress compiler warning */
+
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(contourPtr);
 
@@ -1681,8 +1691,10 @@ static
 TQ3Status
 e3meshFace_RelinkContourFaces(
 	TE3MeshFaceData* facePtr,
-	void* /* dummy argument required by e3meshFaceArrayOrList_DoForEach */)
+	void*unusedArg)
 {
+    unusedArg; /* Suppress compiler warning */
+
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(facePtr);
 
@@ -1769,8 +1781,10 @@ static
 TQ3Status
 e3meshFace_RelinkContourVertices(
 	TE3MeshFaceData* facePtr,
-	void* /* dummy argument required by e3meshFaceArrayOrList_DoForEach */)
+	void*unusedArg)
 {
+    unusedArg; /* Suppress compiler warning */
+
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(facePtr);
 
