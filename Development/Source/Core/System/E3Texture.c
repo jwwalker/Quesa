@@ -1039,7 +1039,7 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 	{
 		MoveHHi(compressedDataH);
 		HLock(compressedDataH);
-		compressedDataP = StripAddress(*compressedDataH);
+		compressedDataP = *compressedDataH;
 	
 		theErr = FCompressImage(sourcePixMap,
 								&bounds,
