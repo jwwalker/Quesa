@@ -199,20 +199,38 @@ E3System_UnloadPlugins(void)
 //				to perform any bookkeeping that's required.
 //
 //				At the present, this simply involves clearing the global error
-//				state. For speed, we check the state from outside to see if
-//				something has been posted.
-//
-//				Please profile before making any changes to this routine, as
-//				this will be called for every API entry point (so must have
-//				minimal overhead).
+//				state. Please be careful adding new code to this routine, as
+//				it will be called on for every API entry point (and so should
+//				have minimal overhead).
 //-----------------------------------------------------------------------------
 void
 E3System_Bottleneck(void)
 {	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	TQ3Boolean		needToClear;
 
 
 
-	// Clear the global error state
-	if (theGlobals->errMgrSomethingPosted)
-		E3ErrorManager_ClearAll(theGlobals);
+	// Decide if we need to clear - we do a bitwise or rather than a logical
+	// or, to avoid C short-cutting the expression and to give us a single
+	// branch for the most common case rather than four tests.
+	needToClear = (theGlobals->errMgrClearError   | theGlobals->errMgrClearWarning |
+				   theGlobals->errMgrClearNotice  | theGlobals->errMgrClearPlatform);
+
+
+
+	// Clear any error state that's required
+	if (needToClear)
+		{
+		if (theGlobals->errMgrClearError)
+			E3ErrorManager_ClearError();
+
+		if (theGlobals->errMgrClearWarning)
+			E3ErrorManager_ClearWarning();
+
+		if (theGlobals->errMgrClearNotice)
+			E3ErrorManager_ClearNotice();
+
+		if (theGlobals->errMgrClearPlatform)
+			E3ErrorManager_ClearPlatformError();
+		}
 }
