@@ -403,20 +403,33 @@ ir_texture_get_storage_edit(TQ3TextureObject theTexture)
 //      ir_texture_set_state : Inform OpenGL about attributes of a texture.
 //-----------------------------------------------------------------------------
 static void
-ir_texture_set_state( TQ3CachedTexture *cachedTexture )
-{
-	GLint					glBoundsU, glBoundsV;
-	GLfloat					glMatrix[16];
+ir_texture_set_state(TQ3InteractiveData *instanceData, TQ3CachedTexture *cachedTexture)
+{	GLint		glEnvMode, glBoundsU, glBoundsV;
+	GLfloat		glMatrix[16];
 
+
+
+	// Set up the UV mapping
 	GLUtils_ConvertUVBoundary(cachedTexture->boundaryU, &glBoundsU);
 	GLUtils_ConvertUVBoundary(cachedTexture->boundaryV, &glBoundsV);
-	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_WRAP_S,     glBoundsU);
-	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_WRAP_T,     glBoundsV);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, glBoundsU);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, glBoundsV);
 
-	glTexEnvi(      GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,   GL_MODULATE);
+
+
+	// Set up the texture mode
+	if (instanceData->stateViewIllumination == kQ3IlluminationTypeNULL)
+		glEnvMode = GL_MODULATE;
+	else
+		glEnvMode = GL_REPLACE;
+	
+	glTexEnvi(      GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,   glEnvMode);
 	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MAG_FILTER, cachedTexture->qualityFilter);
 	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MIN_FILTER, cachedTexture->qualityFilter);
 
+
+
+	// Set up the texture matrix
 	glMatrix[0]  = cachedTexture->theTransform.value[0][0];
 	glMatrix[1]  = cachedTexture->theTransform.value[0][1];
 	glMatrix[2]  = cachedTexture->theTransform.value[0][2];
@@ -841,7 +854,7 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 				{
 				if (instanceData->cachedTextures[i].theTexture == theTexture)
 					{
-					ir_texture_set_state( &instanceData->cachedTextures[i] );
+					ir_texture_set_state(instanceData, &instanceData->cachedTextures[i]);
 					break;
 					}
 				}
@@ -906,17 +919,6 @@ IRRenderer_Texture_Rebuild(TQ3ViewObject theView, TQ3InteractiveData *instanceDa
 //		Note :	Called by geometries which can be textured mapped, to allow us
 //				to update the OpenGL texture state to produce the correct
 //				effect.
-//
-//				We undo any temporary changes that were applied by the previous
-//				call to IRGeometry_Attribute_Handler, and re-enable textures
-//				which were turned off by geometries which found themselves
-//				without UVs.
-//
-//				Note that the second step reverses a glDisable carried out by
-//				the geometry callbacks themselves - IRGeometry_Attribute_Handler
-//				wasn't able to do it for them, since at the time at which it
-//				was called the geometries hadn't checked their UVs (they don't
-//				bother searching for UVs if there isn't a texture active).
 //-----------------------------------------------------------------------------
 void
 IRRenderer_Texture_Postamble(TQ3ViewObject			theView,
@@ -932,12 +934,6 @@ IRRenderer_Texture_Postamble(TQ3ViewObject			theView,
 		if (hadAttributeTexture)
 			IRRenderer_Update_Shader_Surface(theView, instanceData, NULL);
 		}
-	
-	
-	// Otherwise, check to see if a texture is currently active. If it is, we
-	// need to turn it back on again for future objects.
-	else if (instanceData->stateTextureForceWhite)
-		glEnable(GL_TEXTURE_2D);
 }
 
 

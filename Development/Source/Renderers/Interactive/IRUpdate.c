@@ -59,33 +59,6 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      ir_state_adjust_texture_lighting : Adjust our state for a geometry.
-//-----------------------------------------------------------------------------
-static void
-ir_state_adjust_texture_lighting(TQ3InteractiveData *instanceData)
-{
-
-
-	// Check to see if we need to force vertex colours to white.
-	//
-	// To produce the same effect as QD3D (i.e., textured geometry is still
-	// illuminated by lights), we need to force the vertex colour to white
-	// under some circumstances to get the correct effect. This seems slightly
-	// odd, so if you know of a better way please let us know!
-	//
-	// If we're using anything than a NULL illumination, and we're rendering
-	// in filled mode, we need to force the vertex colours to white.
-	instanceData->stateTextureForceWhite = (TQ3Boolean)
-		(instanceData->stateTextureActive    &&
-		 instanceData->stateViewIllumination != kQ3IlluminationTypeNULL &&
-		 instanceData->stateFill             == kQ3FillStyleFilled);
-}
-
-
-
-
-
-//=============================================================================
 //      ir_state_reset : Reset our state to the defaults.
 //-----------------------------------------------------------------------------
 static void
@@ -114,7 +87,6 @@ ir_state_reset(TQ3InteractiveData *instanceData)
 	instanceData->stateTextureActive          = kQ3False;
 	instanceData->stateTextureObject          = 0;
 	instanceData->stateTextureIsTransparent   = kQ3False;
-	instanceData->stateTextureForceWhite      = kQ3False;
 
     instanceData->stateGeomDiffuseColour      = &instanceData->stateDefaultDiffuseColour;
     instanceData->stateGeomSpecularColour     = &instanceData->stateDefaultSpecularColour;
@@ -233,13 +205,6 @@ IRRenderer_State_AdjustGL(TQ3InteractiveData *instanceData)
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
 			}
 		}
-
-
-
-	// If we're to force vertex colours to white (for texturing), set the current
-	// colour to white so we don't have to explicitly set it for each geometry.
-	if (instanceData->stateTextureForceWhite)
-		glColor3f(1.0f, 1.0f, 1.0f);
 }
 
 
@@ -457,11 +422,6 @@ IRRenderer_Update_Style_Fill(TQ3ViewObject		theView,
 		else
 			glDisable(GL_TEXTURE_2D);
 		}
-
-
-
-	// Update the texture lighting state
-	ir_state_adjust_texture_lighting(instanceData);
 
 	return(kQ3Success);
 }
@@ -862,11 +822,6 @@ IRRenderer_Update_Shader_Illumination(TQ3ViewObject			theView,
 			break;
 		}
 
-
-
-	// Update the texture lighting state
-	ir_state_adjust_texture_lighting(instanceData);
-
     return(kQ3Success);
 }
 
@@ -911,10 +866,9 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 
 
 
-	// Set the texture and update the lighting state
+	// Set the texture
 	IRRenderer_Texture_Set(theView, instanceData, theShader, theTexture);
-	ir_state_adjust_texture_lighting(instanceData);
-
+	
 
 
 	// Clean up

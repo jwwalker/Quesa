@@ -1083,7 +1083,7 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 	vertexArray->geomIsHilighted = (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL);
 	vertexArray->geomNeedsUVs    = (instanceData->stateTextureActive             && !vertexArray->renderEdges);
 
-	vertexArray->geomDiffuse           = *IRGeometry_Attribute_GetDiffuse(    instanceData, geomAttributes, vertexArray->geomNeedsUVs, kQ3True);
+	vertexArray->geomDiffuse           = *IRGeometry_Attribute_GetDiffuse(    instanceData, geomAttributes);
 	vertexArray->geomTransparency      = *IRGeometry_Attribute_GetTransparent(instanceData, geomAttributes);
 	vertexArray->geomFinalDiffuse      = vertexArray->geomDiffuse;
 	vertexArray->geomFinalTransparency = vertexArray->geomTransparency;
