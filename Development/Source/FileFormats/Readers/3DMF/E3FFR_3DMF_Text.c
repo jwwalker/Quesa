@@ -1015,15 +1015,13 @@ e3fformat_3dmf_text_read_header ( E3File* theFile )
 		{
 			TQ3Uns32	oldNestLevel = format->instanceData.nestingLevel;
 			
-			try
+			TRY
 			{
 				e3fformat_3dmf_text_readlabels( format, & format->instanceData );
 				
 				e3fformat_3dmf_text_read_toc( format, & format->instanceData , header );
 			}
-			catch (...)
-			{
-			}
+			CATCH_ALL
 			
 			format->instanceData.nestingLevel = oldNestLevel;
 		}
