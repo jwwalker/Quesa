@@ -94,6 +94,7 @@ e3geom_ellipse_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 						 TQ3Object toObject,   void       *toPrivateData)
 {	TQ3EllipseData		*toInstanceData = (TQ3EllipseData *) toPrivateData;
 	TQ3Status			qd3dStatus;
+	TQ3AttributeSet		dupSet;
 #pragma unused(fromPrivateData)
 #pragma unused(toObject)
 
@@ -107,6 +108,18 @@ e3geom_ellipse_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 	// Copy the data from fromObject to toObject
 	qd3dStatus = Q3Ellipse_GetData(fromObject, toInstanceData);
+	
+	if ( (qd3dStatus == kQ3Success) &&
+		(toInstanceData->ellipseAttributeSet != NULL) )
+	{
+		dupSet = Q3Object_Duplicate( toInstanceData->ellipseAttributeSet );
+		Q3Object_Dispose( toInstanceData->ellipseAttributeSet );
+		toInstanceData->ellipseAttributeSet = dupSet;
+		if (dupSet == NULL)
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
 
 	return(qd3dStatus);
 }

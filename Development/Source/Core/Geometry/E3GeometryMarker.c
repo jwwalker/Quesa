@@ -74,7 +74,7 @@ e3geom_marker_pixel_is_set(const TQ3MarkerData *instanceData, TQ3Int32 x, TQ3Int
 
 
 	// Find the right byte within the row
-	byteOffset = (x / 8);
+	byteOffset = (TQ3Uns32) (x / 8);
 	thePtr    += byteOffset;
 	theByte    = *thePtr;
 
@@ -146,6 +146,7 @@ e3geom_marker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 {	
 	TQ3MarkerData		*toInstanceData	= (TQ3MarkerData *) toPrivateData;
 	TQ3Status			qd3dStatus;
+	TQ3AttributeSet		dupSet;
 #pragma unused(fromPrivateData)
 #pragma unused(toObject)
 
@@ -159,6 +160,18 @@ e3geom_marker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 	// Copy the data from fromObject to toObject
 	qd3dStatus = Q3Marker_GetData(fromObject, toInstanceData);
+	
+	if ( (qd3dStatus == kQ3Success) &&
+		(toInstanceData->markerAttributeSet != NULL) )
+	{
+		dupSet = Q3Object_Duplicate( toInstanceData->markerAttributeSet );
+		Q3Object_Dispose( toInstanceData->markerAttributeSet );
+		toInstanceData->markerAttributeSet = dupSet;
+		if (dupSet == NULL)
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
 
 	return(qd3dStatus);
 }
@@ -248,7 +261,7 @@ e3geom_marker_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3
 			{
 			for (x = 0; x < instanceData->bitmap.width; x++)
 				{
-				if (e3geom_marker_pixel_is_set(instanceData, x, y))
+				if (e3geom_marker_pixel_is_set(instanceData, (TQ3Int32) x, (TQ3Int32) y))
 					{
 					qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
 					return(qd3dStatus);

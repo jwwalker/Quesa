@@ -95,6 +95,7 @@ e3geom_triangle_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 						  TQ3Object toObject,   void       *toPrivateData)
 {	TQ3TriangleData		*toInstanceData = (TQ3TriangleData *) toPrivateData;
 	TQ3Status			qd3dStatus;
+	TQ3AttributeSet		dupSet;
 #pragma unused(fromPrivateData)
 #pragma unused(toObject)
 
@@ -108,6 +109,18 @@ e3geom_triangle_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 	// Copy the data from fromObject to toObject
 	qd3dStatus = Q3Triangle_GetData(fromObject, toInstanceData);
+	
+	if ( (qd3dStatus == kQ3Success) &&
+		(toInstanceData->triangleAttributeSet != NULL) )
+	{
+		dupSet = Q3Object_Duplicate( toInstanceData->triangleAttributeSet );
+		Q3Object_Dispose( toInstanceData->triangleAttributeSet );
+		toInstanceData->triangleAttributeSet = dupSet;
+		if (dupSet == NULL)
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
 
 	return(qd3dStatus);
 }

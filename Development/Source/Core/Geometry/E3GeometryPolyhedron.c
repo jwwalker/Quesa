@@ -182,14 +182,170 @@ e3geom_polyhedron_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
+//      e3geom_polyhedron_copydata : Copy TQ3PolyhedronData from one to another.
+//-----------------------------------------------------------------------------
+//		Note :	If isDuplicate is true, we duplicate shared objects rather than
+//				obtaining new references to them.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
+	TQ3PolyhedronData* dst, TQ3Boolean isDuplicate )
+{
+	TQ3Status	q3status = kQ3Success;
+	TQ3Uns32	n;
+	
+	
+	
+	// Allocate memory
+	dst->vertices = (TQ3Vertex3D *) Q3Memory_Allocate( src->numVertices * sizeof(TQ3Vertex3D) );
+	dst->triangles = (TQ3PolyhedronTriangleData *) Q3Memory_Allocate( src->numTriangles *
+		sizeof(TQ3PolyhedronTriangleData) );
+	if (src->numEdges > 0)
+	{
+		dst->edges = (TQ3PolyhedronEdgeData *) Q3Memory_Allocate( src->numEdges *
+			sizeof(TQ3PolyhedronEdgeData) );
+	}
+	else
+	{
+		dst->edges = NULL;
+	}
+	
+	
+	
+	// Check for memory failure
+	if ( (dst->vertices == NULL) || (dst->triangles == NULL) ||
+		( (dst->edges == NULL) && (src->edges != NULL) ) )
+	{
+		Q3Memory_Free( &dst->vertices );
+		Q3Memory_Free( &dst->triangles );
+		Q3Memory_Free( &dst->edges );
+		
+		return kQ3Failure;
+	}
+	
+	
+	
+	// Copy non-array fields.
+	dst->numVertices = src->numVertices;
+	dst->numEdges = src->numEdges;
+	dst->numTriangles = src->numTriangles;
+	if (src->polyhedronAttributeSet == NULL)
+	{
+		dst->polyhedronAttributeSet = NULL;
+	}
+	else if (isDuplicate)
+	{
+		dst->polyhedronAttributeSet = Q3Object_Duplicate( src->polyhedronAttributeSet );
+		if (dst->polyhedronAttributeSet == NULL)
+			q3status = kQ3Failure;
+	}
+	else
+	{
+		E3Shared_Acquire( &dst->polyhedronAttributeSet, src->polyhedronAttributeSet );
+	}
+	
+	
+	
+	// Copy vertices
+	for (n = 0; n < dst->numVertices; ++n)
+	{
+		dst->vertices[n].point = src->vertices[n].point;
+		if (src->vertices[n].attributeSet == NULL)
+		{
+			dst->vertices[n].attributeSet = NULL;
+		}
+		else if (isDuplicate)
+		{
+			dst->vertices[n].attributeSet = Q3Object_Duplicate( src->vertices[n].attributeSet );
+			if (dst->vertices[n].attributeSet == NULL)
+				q3status = kQ3Failure;
+		}
+		else
+		{
+			E3Shared_Acquire( &dst->vertices[n].attributeSet, src->vertices[n].attributeSet );
+		}
+	}
+	
+	
+	
+	// Copy edges
+	if (dst->edges != NULL)
+	{
+		for (n = 0; n < dst->numEdges; ++n)
+		{
+			dst->edges[n].vertexIndices[0] = src->edges[n].vertexIndices[0];
+			dst->edges[n].vertexIndices[1] = src->edges[n].vertexIndices[1];
+			dst->edges[n].triangleIndices[0] = src->edges[n].triangleIndices[0];
+			dst->edges[n].triangleIndices[1] = src->edges[n].triangleIndices[1];
+			if (src->edges[n].edgeAttributeSet == NULL)
+			{
+				dst->edges[n].edgeAttributeSet = NULL;
+			}
+			else if (isDuplicate)
+			{
+				dst->edges[n].edgeAttributeSet = Q3Object_Duplicate( src->edges[n].edgeAttributeSet );
+				if (dst->edges[n].edgeAttributeSet == NULL)
+					q3status = kQ3Failure;
+			}
+			else
+			{
+				E3Shared_Acquire( &dst->edges[n].edgeAttributeSet, src->edges[n].edgeAttributeSet );
+			}
+		}
+	}
+	
+	
+	
+	// Copy triangles
+	for (n = 0; n < dst->numTriangles; ++n)
+	{
+		dst->triangles[n].vertexIndices[0] = src->triangles[n].vertexIndices[0];
+		dst->triangles[n].vertexIndices[1] = src->triangles[n].vertexIndices[1];
+		dst->triangles[n].vertexIndices[2] = src->triangles[n].vertexIndices[2];
+		dst->triangles[n].edgeFlag = src->triangles[n].edgeFlag;
+		if (src->triangles[n].triangleAttributeSet == NULL)
+		{
+			dst->triangles[n].triangleAttributeSet = NULL;
+		}
+		else if (isDuplicate)
+		{
+			dst->triangles[n].triangleAttributeSet = Q3Object_Duplicate(
+				src->triangles[n].triangleAttributeSet );
+			if (dst->triangles[n].triangleAttributeSet == NULL)
+				q3status = kQ3Failure;
+		}
+		else
+		{
+			E3Shared_Acquire( &dst->triangles[n].triangleAttributeSet,
+				src->triangles[n].triangleAttributeSet );
+		}
+	}
+	
+	
+	
+	// Clean up after failure
+	if (q3status == kQ3Failure)
+	{
+		E3Polyhedron_EmptyData( dst );
+	}
+	
+	
+	return q3status;
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_polyhedron_duplicate : Polyhedron duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_polyhedron_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 							TQ3Object toObject,   void       *toPrivateData)
 {	TQ3PolyhedronData		*toInstanceData = (TQ3PolyhedronData *) toPrivateData;
+	TQ3PolyhedronData		*fromInstanceData = (TQ3PolyhedronData *) fromPrivateData;
 	TQ3Status				qd3dStatus;
-#pragma unused(fromPrivateData)
 #pragma unused(toObject)
 
 
@@ -201,7 +357,7 @@ e3geom_polyhedron_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 	// Copy the data from fromObject to toObject
-	qd3dStatus = Q3Polyhedron_GetData(fromObject, toInstanceData);
+	qd3dStatus = e3geom_polyhedron_copydata(fromInstanceData, toInstanceData, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -691,93 +847,11 @@ E3Polyhedron_Submit(const TQ3PolyhedronData *polyhedronData, TQ3ViewObject theVi
 TQ3Status
 E3Polyhedron_SetData(TQ3GeometryObject thePolyhedron, const TQ3PolyhedronData *polyhedronData)
 {	TQ3PolyhedronData			*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
-	TQ3PolyhedronTriangleData	*newTriangles;
-	TQ3Vertex3D					*newVertices;
-	TQ3PolyhedronEdgeData		*newEdges;
-	TQ3Uns32					n;
+	TQ3Status					q3status;
 
+	E3Polyhedron_EmptyData( instanceData );
 
-
-	// Allocate the space for the new data
-	newVertices  = (TQ3Vertex3D *)               Q3Memory_Allocate(polyhedronData->numVertices  * sizeof(TQ3Vertex3D));
-	newTriangles = (TQ3PolyhedronTriangleData *) Q3Memory_Allocate(polyhedronData->numTriangles * sizeof(TQ3PolyhedronTriangleData));
-	newEdges     = NULL;
-	
-	if (polyhedronData->edges != NULL)
-		newEdges = (TQ3PolyhedronEdgeData *) Q3Memory_Allocate(polyhedronData->numEdges * sizeof(TQ3PolyhedronEdgeData));
-
-
-
-	// Handle failure
-	if (newVertices == NULL || newTriangles == NULL || (newEdges == NULL && polyhedronData->edges != NULL))
-		{
-		Q3Memory_Free(&newVertices);
-		Q3Memory_Free(&newTriangles);
-		Q3Memory_Free(&newEdges);
-		
-		return(kQ3Failure);
-		}
-
-
-
-	// Dispose of the existing data
-	for (n = 0; n < instanceData->numVertices; n++)
-		Q3Object_CleanDispose(&instanceData->vertices[n].attributeSet);
-
-	for (n = 0; n < instanceData->numTriangles; n++)
-		Q3Object_CleanDispose(&instanceData->triangles[n].triangleAttributeSet);
-
-	for (n = 0; n < instanceData->numEdges; n++)
-		Q3Object_CleanDispose(&instanceData->edges[n].edgeAttributeSet);
-
-	Q3Memory_Free(&instanceData->vertices);
-	Q3Memory_Free(&instanceData->triangles);
-	Q3Memory_Free(&instanceData->edges);
-
-
-
-	// Copy the new data
-	instanceData->numVertices  = polyhedronData->numVertices;
-	instanceData->vertices     = newVertices;
-	instanceData->numEdges     = polyhedronData->numEdges;
-	instanceData->edges        = newEdges;
-	instanceData->numTriangles = polyhedronData->numTriangles;
-	instanceData->triangles    = newTriangles;
-	
-	E3Shared_Replace(&instanceData->polyhedronAttributeSet, polyhedronData->polyhedronAttributeSet);
-	
-	for (n = 0; n < instanceData->numVertices; n++)
-		{
-		instanceData->vertices[n].point = polyhedronData->vertices[n].point;
-		E3Shared_Acquire( &instanceData->vertices[n].attributeSet,
-			             polyhedronData->vertices[n].attributeSet);
-		}
-	
-	for (n = 0; n < instanceData->numTriangles; n++)
-		{
-		Q3Memory_Copy(	polyhedronData->triangles[n].vertexIndices,
-						instanceData->triangles[n].vertexIndices,
-						sizeof(instanceData->triangles[n].vertexIndices));
-
-		instanceData->triangles[n].edgeFlag = polyhedronData->triangles[n].edgeFlag;
-
-		E3Shared_Acquire( &instanceData->triangles[n].triangleAttributeSet,
-			             polyhedronData->triangles[n].triangleAttributeSet);
-		}
-	
-	for (n = 0; n < instanceData->numEdges; n++)
-		{
-		Q3Memory_Copy(	polyhedronData->edges[n].vertexIndices,
-						instanceData->edges[n].vertexIndices,
-						sizeof(instanceData->edges[n].vertexIndices));
-
-		Q3Memory_Copy(	polyhedronData->edges[n].triangleIndices,
-						instanceData->edges[n].triangleIndices,
-						sizeof(instanceData->edges[n].triangleIndices));
-
-		E3Shared_Acquire( &instanceData->edges[n].edgeAttributeSet,
-			             polyhedronData->edges[n].edgeAttributeSet);
-		}
+	q3status = e3geom_polyhedron_copydata( polyhedronData, instanceData, kQ3False );
 
 	Q3Shared_Edited(thePolyhedron);
 
@@ -794,79 +868,12 @@ E3Polyhedron_SetData(TQ3GeometryObject thePolyhedron, const TQ3PolyhedronData *p
 TQ3Status
 E3Polyhedron_GetData(TQ3GeometryObject thePolyhedron, TQ3PolyhedronData *polyhedronData)
 {	TQ3PolyhedronData			*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
-	TQ3PolyhedronTriangleData	*newTriangles;
-	TQ3Vertex3D					*newVertices;
-	TQ3PolyhedronEdgeData		*newEdges;
-	TQ3Uns32					n;
+	TQ3Status					q3status;
 
 
+	q3status = e3geom_polyhedron_copydata( instanceData, polyhedronData, kQ3False );
 
-	// Allocate the space for the new data
-	newVertices  = (TQ3Vertex3D *)               Q3Memory_Allocate(instanceData->numVertices  * sizeof(TQ3Vertex3D));
-	newTriangles = (TQ3PolyhedronTriangleData *) Q3Memory_Allocate(instanceData->numTriangles * sizeof(TQ3PolyhedronTriangleData));
-	newEdges     = NULL;
-	
-	if (instanceData->edges != NULL)
-		newEdges = (TQ3PolyhedronEdgeData *) Q3Memory_Allocate(instanceData->numEdges * sizeof(TQ3PolyhedronEdgeData));
-
-
-
-	// Handle failure
-	if (newVertices == NULL || newTriangles == NULL || (newEdges == NULL && instanceData->edges != NULL))
-		{
-		Q3Memory_Free(&newVertices);
-		Q3Memory_Free(&newTriangles);
-		Q3Memory_Free(&newEdges);
-		
-		return(kQ3Failure);
-		}
-
-
-
-	// Return the new data
-	polyhedronData->numVertices  = instanceData->numVertices;
-	polyhedronData->vertices     = newVertices;
-	polyhedronData->numEdges     = instanceData->numEdges;
-	polyhedronData->edges        = newEdges;
-	polyhedronData->numTriangles = instanceData->numTriangles;
-	polyhedronData->triangles    = newTriangles;
-	
-	E3Shared_Acquire(&polyhedronData->polyhedronAttributeSet, instanceData->polyhedronAttributeSet);
-	
-	for (n = 0; n < polyhedronData->numVertices; n++)
-		{
-		polyhedronData->vertices[n].point = instanceData->vertices[n].point;
-		E3Shared_Acquire(&polyhedronData->vertices[n].attributeSet,
-			                instanceData->vertices[n].attributeSet);
-		}
-	
-	for (n = 0; n < polyhedronData->numTriangles; n++)
-		{
-		Q3Memory_Copy(instanceData->triangles[n].vertexIndices,
-			     polyhedronData->triangles[n].vertexIndices,
-			     sizeof(polyhedronData->triangles[n].vertexIndices));
-
-		polyhedronData->triangles[n].edgeFlag = instanceData->triangles[n].edgeFlag;
-
-		E3Shared_Acquire(&polyhedronData->triangles[n].triangleAttributeSet,
-			                instanceData->triangles[n].triangleAttributeSet);
-		}
-	
-	for (n = 0; n < polyhedronData->numEdges; n++)
-		{
-		Q3Memory_Copy(instanceData->edges[n].vertexIndices,
-			     polyhedronData->edges[n].vertexIndices,
-			     sizeof(polyhedronData->edges[n].vertexIndices));
-
-		Q3Memory_Copy(instanceData->edges[n].triangleIndices,
-			     polyhedronData->edges[n].triangleIndices,
-			     sizeof(polyhedronData->edges[n].triangleIndices));
-
-		E3Shared_Acquire(&polyhedronData->edges[n].edgeAttributeSet,
-			                instanceData->edges[n].edgeAttributeSet);
-		}
-
-	return(kQ3Success);
+	return (q3status);
 }
 
 

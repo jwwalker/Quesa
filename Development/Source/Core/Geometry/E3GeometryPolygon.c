@@ -117,6 +117,7 @@ e3geom_polygon_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 						  TQ3Object toObject,   void       *toPrivateData)
 {	TQ3PolygonData		*toInstanceData = (TQ3PolygonData *) toPrivateData;
 	TQ3Status			qd3dStatus;
+	TQ3AttributeSet		dupSet;
 #pragma unused(fromPrivateData)
 #pragma unused(toObject)
 
@@ -130,6 +131,18 @@ e3geom_polygon_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 	// Copy the data from fromObject to toObject
 	qd3dStatus = Q3Polygon_GetData(fromObject, toInstanceData);
+	
+	if ( (qd3dStatus == kQ3Success) &&
+		(toInstanceData->polygonAttributeSet != NULL) )
+	{
+		dupSet = Q3Object_Duplicate( toInstanceData->polygonAttributeSet );
+		Q3Object_Dispose( toInstanceData->polygonAttributeSet );
+		toInstanceData->polygonAttributeSet = dupSet;
+		if (dupSet == NULL)
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
 
 	return(qd3dStatus);
 }

@@ -90,14 +90,110 @@ e3geom_generalpolygon_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
+//      e3geom_generalpolygon_copydata : Copy TQ3GeneralPolygonData from one to another.
+//-----------------------------------------------------------------------------
+//		Note :	If isDuplicate is true, we duplicate shared objects rather than
+//				obtaining new references to them.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_generalpolygon_copydata( const TQ3GeneralPolygonData* src,
+	TQ3GeneralPolygonData* dst, TQ3Boolean isDuplicate )
+{
+	TQ3Status					qd3dStatus = kQ3Success;
+	TQ3Uns32					contourIndex, vertexIndex;
+
+
+	// Allocate some space for the new contours
+	dst->contours = (TQ3GeneralPolygonContourData *)
+		Q3Memory_Allocate(src->numContours * sizeof(TQ3GeneralPolygonContourData));
+	if (dst->contours == NULL)
+		return (kQ3Failure);
+
+	
+	// Copy non-contour fields
+	dst->numContours = src->numContours;
+	dst->shapeHint = src->shapeHint;
+	if (src->generalPolygonAttributeSet == NULL)
+	{
+		dst->generalPolygonAttributeSet = NULL;
+	}
+	else if (isDuplicate)
+	{
+		dst->generalPolygonAttributeSet = Q3Object_Duplicate( src->generalPolygonAttributeSet );
+		if (dst->generalPolygonAttributeSet == NULL)
+			qd3dStatus = kQ3Failure;
+	}
+	else
+	{
+		E3Shared_Acquire( &dst->generalPolygonAttributeSet, src->generalPolygonAttributeSet );
+	}
+	
+	
+	// Copy contour data
+	for (contourIndex = 0; contourIndex < dst->numContours; ++contourIndex)
+	{
+		dst->contours[ contourIndex ].numVertices = src->contours[ contourIndex ].numVertices;
+		dst->contours[ contourIndex ].vertices = (TQ3Vertex3D *) Q3Memory_Allocate(
+			src->contours[ contourIndex ].numVertices * sizeof(TQ3Vertex3D));
+		if (dst->contours[ contourIndex ].vertices == NULL)
+		{
+			qd3dStatus = kQ3Failure;
+		}
+		else
+		{
+			for (vertexIndex = 0;
+				vertexIndex < dst->contours[ contourIndex ].numVertices;
+				++vertexIndex)
+			{
+				dst->contours[ contourIndex ].vertices[vertexIndex].point =
+					src->contours[ contourIndex ].vertices[vertexIndex].point;
+				
+				if (src->contours[ contourIndex ].vertices[vertexIndex].attributeSet == NULL)
+				{
+					dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet = NULL;
+				}
+				else if (isDuplicate)
+				{
+					dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet =
+						Q3Object_Duplicate(
+							src->contours[ contourIndex ].vertices[vertexIndex].attributeSet );
+					
+					if (dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet == NULL)
+						qd3dStatus = kQ3Failure;
+				}
+				else
+				{
+					E3Shared_Acquire( &dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet,
+						src->contours[ contourIndex ].vertices[vertexIndex].attributeSet );
+				}
+			}
+		}
+	}
+	
+	
+	
+	// Clean up after failure
+	if (qd3dStatus == kQ3Failure)
+	{
+		E3GeneralPolygon_EmptyData( dst );
+	}
+	
+	return qd3dStatus;
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_generalpolygon_duplicate : GeneralPolygon duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_generalpolygon_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 						  		TQ3Object toObject,   void       *toPrivateData)
 {	TQ3GeneralPolygonData		*toInstanceData = (TQ3GeneralPolygonData *) toPrivateData;
+	TQ3GeneralPolygonData		*fromInstanceData = (TQ3GeneralPolygonData *) fromPrivateData;
 	TQ3Status					qd3dStatus;
-#pragma unused(fromPrivateData)
 #pragma unused(toObject)
 
 
@@ -109,7 +205,8 @@ e3geom_generalpolygon_duplicate(TQ3Object fromObject, const void *fromPrivateDat
 
 
 	// Copy the data from fromObject to toObject
-	qd3dStatus = Q3GeneralPolygon_GetData(fromObject, toInstanceData);
+	qd3dStatus = e3geom_generalpolygon_copydata( fromInstanceData, toInstanceData, kQ3True );
+
 
 	return(qd3dStatus);
 }
@@ -324,78 +421,17 @@ E3GeneralPolygon_Submit(const TQ3GeneralPolygonData *generalPolygonData, TQ3View
 TQ3Status
 E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolygonData *generalPolygonData)
 {	TQ3GeneralPolygonData			*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
-	TQ3GeneralPolygonContourData	*newContours;
 	TQ3Status						qd3dStatus;
-	TQ3Uns32						n, m;
 
+	
+	E3GeneralPolygon_EmptyData( instanceData );
+	
+	qd3dStatus = e3geom_generalpolygon_copydata( generalPolygonData, instanceData, kQ3False );
 
-
-	// Allocate some space for the new contours
-	newContours = (TQ3GeneralPolygonContourData *) Q3Memory_Allocate(generalPolygonData->numContours * sizeof(TQ3GeneralPolygonContourData));
-	if (newContours == NULL)
-		return(kQ3Failure);
-
-
-
-	// Allocate some space for the new vertices
-	qd3dStatus = kQ3Success;
-	for (n = 0; n < generalPolygonData->numContours && qd3dStatus == kQ3Success; n++)
-		{
-		newContours[n].vertices = (TQ3Vertex3D *) Q3Memory_Allocate(generalPolygonData->contours[n].numVertices * sizeof(TQ3Vertex3D));
-		if (newContours[n].vertices == NULL)
-			qd3dStatus = kQ3Failure;
-		}
-
-
-
-	// Handle failure
-	if (qd3dStatus != kQ3Success)
-		{
-		for (n = 0; n < generalPolygonData->numContours; n++)
-			Q3Memory_Free(&newContours[n].vertices);
-
-		Q3Memory_Free(&newContours);
-		
-		return(qd3dStatus);
-		}
-
-
-
-	// Dispose of the existing data
-	for (n = 0; n < instanceData->numContours; n++)
-		{
-		for (m = 0; m < instanceData->contours[n].numVertices; m++)
-			Q3Object_CleanDispose(&instanceData->contours[n].vertices[m].attributeSet);
-
-		Q3Memory_Free(&instanceData->contours[n].vertices);
-		}
-
-	Q3Memory_Free(&instanceData->contours);
-
-
-
-	// Copy the new data
-	instanceData->numContours = generalPolygonData->numContours;
-	instanceData->contours    = newContours;
-	instanceData->shapeHint   = generalPolygonData->shapeHint;
-
-	E3Shared_Replace(&instanceData->generalPolygonAttributeSet, generalPolygonData->generalPolygonAttributeSet);
-
-	for (n = 0; n < instanceData->numContours; n++)
-		{
-		instanceData->contours[n].numVertices = generalPolygonData->contours[n].numVertices;
-
-		for (m = 0; m < instanceData->contours[n].numVertices; m++)
-			{
-			instanceData->contours[n].vertices[m].point = generalPolygonData->contours[n].vertices[m].point;
-			E3Shared_Acquire(     &instanceData->contours[n].vertices[m].attributeSet,
-			                 generalPolygonData->contours[n].vertices[m].attributeSet);
-			}
-		}
 
 	Q3Shared_Edited(generalPolygon);
 
-	return(kQ3Success);
+	return (qd3dStatus);
 }
 
 
@@ -408,63 +444,12 @@ E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolyg
 TQ3Status
 E3GeneralPolygon_GetData(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonData *generalPolygonData)
 {	TQ3GeneralPolygonData			*instanceData = (TQ3GeneralPolygonData *) generalPolygon->instanceData;
-	TQ3GeneralPolygonContourData	*newContours;
 	TQ3Status						qd3dStatus;
-	TQ3Uns32						n, m;
 
 
+	qd3dStatus = e3geom_generalpolygon_copydata( instanceData, generalPolygonData, kQ3False );
 
-	// Allocate some space for the new contours
-	newContours = (TQ3GeneralPolygonContourData *) Q3Memory_Allocate(instanceData->numContours * sizeof(TQ3GeneralPolygonContourData));
-	if (newContours == NULL)
-		return(kQ3Failure);
-
-
-
-	// Allocate some space for the new vertices
-	qd3dStatus = kQ3Success;
-	for (n = 0; n < instanceData->numContours && qd3dStatus == kQ3Success; n++)
-		{
-		newContours[n].vertices = (TQ3Vertex3D *) Q3Memory_Allocate(instanceData->contours[n].numVertices * sizeof(TQ3Vertex3D));
-		if (newContours[n].vertices == NULL)
-			qd3dStatus = kQ3Failure;
-		}
-
-
-
-	// Handle failure
-	if (qd3dStatus != kQ3Success)
-		{
-		for (n = 0; n < instanceData->numContours; n++)
-			Q3Memory_Free(&newContours[n].vertices);
-
-		Q3Memory_Free(&newContours);
-		
-		return(qd3dStatus);
-		}
-
-
-
-	// Return the new data
-	generalPolygonData->numContours = instanceData->numContours;
-	generalPolygonData->contours    = newContours;
-	generalPolygonData->shapeHint   = instanceData->shapeHint;
-
-	E3Shared_Acquire(&generalPolygonData->generalPolygonAttributeSet, instanceData->generalPolygonAttributeSet);
-
-	for (n = 0; n < generalPolygonData->numContours; n++)
-		{
-		generalPolygonData->contours[n].numVertices = instanceData->contours[n].numVertices;
-
-		for (m = 0; m < generalPolygonData->contours[n].numVertices; m++)
-			{
-			generalPolygonData->contours[n].vertices[m].point = instanceData->contours[n].vertices[m].point;
-			E3Shared_Acquire(&generalPolygonData->contours[n].vertices[m].attributeSet,
-									instanceData->contours[n].vertices[m].attributeSet);
-			}
-		}
-
-	return(kQ3Success);
+	return(qd3dStatus);
 }
 
 
