@@ -139,7 +139,48 @@ typedef struct {
 } TQ3WorldRayPickData;
 
 
-// Hit data
+/*!
+ *  @struct
+ *      TQ3HitPath
+ *  @discussion
+ *      Hit path data.
+ *
+ *		Returned by Q3Pick_GetPickDetailData for the kQ3PickDetailMaskPath
+ *      pick selector. Disposed of by Q3HitPath_EmptyData.
+ *
+ *      rootGroup holds the top level group which encloses the picked
+ *      object. positions holds an array for each nested group within
+ *      the submit sequence, indicating the position that was submitted
+ *      at each level. This array contains depth values.
+ *
+ *      E.g., assuming 'object' is the picked object, then submitting:
+ *
+ *          group1(object)
+ *
+ *      would produce a rootGroup field of group 1, a depth field of 1,
+ *      and positions[0] would contain the position of object within
+ *      group1.
+ *
+ *      Submitting:
+ *
+ *          group1(group2(object))
+ *
+ *      would produce a rootGroup field of group1, a depth field of 2,
+ *      positions[0] would hold the position of group2 within group1,
+ *      and positions[1] would hold the position of object within group2.
+ *
+ *
+ *      Note that the contents of the position array are only valid if
+ *      the submitted groups are unchanged since they were submitted
+ *      for picking.
+ *
+ *      If these groups have had items added or removed since they
+ *      were submitted, the positions array will no longer be valid.
+ *
+ *  @field rootGroup        Top level group which was submitted.
+ *  @field depth            Number of valid entries within positions.
+ *  @field positions        Array of group positions leading to the picked object.
+ */
 typedef struct {
     TQ3GroupObject                              rootGroup;
     TQ3Uns32                                    depth;
@@ -390,13 +431,10 @@ Q3Pick_GetPickDetailData (
  *  @function
  *      Q3HitPath_EmptyData
  *  @discussion
- *      One-line description of this function.
+ *      Release the memory allocated by a previous call to Q3Pick_GetPickDetailData.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param hitPath          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param hitPath          The hit-path data to release.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3HitPath_EmptyData (
