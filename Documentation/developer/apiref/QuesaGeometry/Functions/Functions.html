@@ -3283,21 +3283,18 @@ Q3Mesh_ContourToFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Convert a mesh face to a contour.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>contour</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to update.</td></tr>
+<tr valign=top><td><tt>contour</tt></td><td>The contour to convert to a face.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new mesh face.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_DelayUpdates"></a>
@@ -3308,17 +3305,41 @@ Q3Mesh_DelayUpdates (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Delay updates to a mesh.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Can be used before a mesh is edited to allow Quesa to defer any
+geometrical optimisations on the mesh. While updates are deferred,
+Quesa will select a more flexible internal mesh representation.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to delay updates on.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Mesh_EmptyData"></a>
+<h3><a name="Q3Mesh_EmptyData">Q3Mesh_EmptyData</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Mesh_EmptyData (
+    TQ3MeshData                   *meshData
+);
+</tt><br>
+</pre></blockquote>
+<p>Releases the memory allocated by a prior call to <code>Q3Mesh_GetData</code>.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>meshData</tt></td><td>A pointer to the mesh data allocated by <code>Q3Mesh_GetData()</code>.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -3333,18 +3354,15 @@ Q3Mesh_FaceDelete (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Delete a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to remove the face from.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The mesh face to delete.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -3361,23 +3379,20 @@ Q3Mesh_FaceNew (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numVertices</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertices</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to create the face within.</td></tr>
+<tr valign=top><td><tt>numVertices</tt></td><td>The number of vertices in the face.</td></tr>
+<tr valign=top><td><tt>vertices</tt></td><td>The vertices for the face.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set for the face.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new mesh face.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FaceToContour"></a>
@@ -3390,22 +3405,19 @@ Q3Mesh_FaceToContour (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Convert a mesh face to a contour.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>containerFace</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to update.</td></tr>
+<tr valign=top><td><tt>containerFace</tt></td><td>The face containing the face which will be converted.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to convert to a contour.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new mesh contour.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstComponentEdge"></a>
@@ -3417,21 +3429,18 @@ Q3Mesh_FirstComponentEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first edge in a mesh component.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>component</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>component</tt></td><td>The component to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first edge in the component.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstComponentVertex"></a>
@@ -3443,21 +3452,18 @@ Q3Mesh_FirstComponentVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first vertex in a mesh component.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>component</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>component</tt></td><td>The component to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first vertex in the component.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstContourEdge"></a>
@@ -3469,21 +3475,18 @@ Q3Mesh_FirstContourEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first edge in a mesh contour.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>contour</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>contour</tt></td><td>The contour to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first edge in the contour.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstContourFace"></a>
@@ -3495,21 +3498,18 @@ Q3Mesh_FirstContourFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first face in a mesh contour.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>contour</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>contour</tt></td><td>The contour to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first face in the contour.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstContourVertex"></a>
@@ -3521,21 +3521,18 @@ Q3Mesh_FirstContourVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first vertex in a mesh contour.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>contour</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>contour</tt></td><td>The contour to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first vertex in the contour.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstFaceContour"></a>
@@ -3547,21 +3544,18 @@ Q3Mesh_FirstFaceContour (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first contour in a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first contour in the face.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstFaceEdge"></a>
@@ -3573,21 +3567,18 @@ Q3Mesh_FirstFaceEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first edge in a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first edge in the face.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstFaceFace"></a>
@@ -3599,21 +3590,18 @@ Q3Mesh_FirstFaceFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first face in a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first face in the face.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstFaceVertex"></a>
@@ -3625,21 +3613,18 @@ Q3Mesh_FirstFaceVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first vertex in a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first vertex in the face.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstMeshComponent"></a>
@@ -3651,21 +3636,18 @@ Q3Mesh_FirstMeshComponent (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first component in a mesh.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first component in the mesh.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstMeshEdge"></a>
@@ -3677,21 +3659,18 @@ Q3Mesh_FirstMeshEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first edge in a mesh.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first edge in the mesh.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstMeshFace"></a>
@@ -3703,21 +3682,18 @@ Q3Mesh_FirstMeshFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first face in a mesh.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first face in the mesh.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstMeshVertex"></a>
@@ -3729,21 +3705,18 @@ Q3Mesh_FirstMeshVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first vertex in a mesh.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first vertex in the mesh.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstVertexEdge"></a>
@@ -3755,21 +3728,18 @@ Q3Mesh_FirstVertexEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first edge in a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first edge in the vertex.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstVertexFace"></a>
@@ -3781,21 +3751,18 @@ Q3Mesh_FirstVertexFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first face in a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first face in the vertex.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_FirstVertexVertex"></a>
@@ -3807,21 +3774,18 @@ Q3Mesh_FirstVertexVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the first vertex in a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to query.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>Receives the mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The first vertex in the vertex.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_GetComponentBoundingBox"></a>
@@ -3834,19 +3798,16 @@ Q3Mesh_GetComponentBoundingBox (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the bounding box of a mesh component
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>component</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>boundingBox</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>component</tt></td><td>The component to query.</td></tr>
+<tr valign=top><td><tt>boundingBox</tt></td><td>Receives the bounding box of the component.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -3862,19 +3823,16 @@ Q3Mesh_GetComponentNumEdges (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of edges in a mesh component
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>component</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numEdges</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>component</tt></td><td>The component to query.</td></tr>
+<tr valign=top><td><tt>numEdges</tt></td><td>Receives the number of edges in the component.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -3890,19 +3848,16 @@ Q3Mesh_GetComponentNumVertices (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of vertices in a mesh component
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>component</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numVertices</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>component</tt></td><td>The component to query.</td></tr>
+<tr valign=top><td><tt>numVertices</tt></td><td>Receives the number of vertices in the component.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -3918,19 +3873,16 @@ Q3Mesh_GetComponentOrientable (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the orientable state of a mesh component
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>component</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientable</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>component</tt></td><td>The component to query.</td></tr>
+<tr valign=top><td><tt>orientable</tt></td><td>Receives the orientable state of the component.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -3946,19 +3898,16 @@ Q3Mesh_GetContourFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the face of a mesh contour.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>contour</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>contour</tt></td><td>The contour to query.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>Receives the face of the mesh contour.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -3974,19 +3923,16 @@ Q3Mesh_GetContourNumVertices (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of vertices in a mesh contour.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>contour</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numVertices</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>contour</tt></td><td>The contour to query.</td></tr>
+<tr valign=top><td><tt>numVertices</tt></td><td>Receives the number of vertices in the mesh contour.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4003,20 +3949,45 @@ Q3Mesh_GetCornerAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the attribute set of a mesh corner.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to query.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the attribute set of the mesh corner.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Mesh_GetData"></a>
+<h3><a name="Q3Mesh_GetData">Q3Mesh_GetData</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Mesh_GetData (
+    TQ3GeometryObject             mesh,
+    TQ3MeshData                   *meshData
+);
+</tt><br>
+</pre></blockquote>
+<p>Gets the properties of an existing mesh object.
+<br><br>
+Memory is allocated for the 'meshData' parameter, and <code>Q3Mesh_EmptyData</code>
+must be called to dispose of this memory.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>mesh</tt></td><td>A reference to a mesh geometry object.</td></tr>
+<tr valign=top><td><tt>meshData</tt></td><td>Receives the mesh object's description.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4032,19 +4003,16 @@ Q3Mesh_GetEdgeAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the attribute set of a mesh edge.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edge</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>edge</tt></td><td>The edge to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the attribute set of the mesh edge.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4060,19 +4028,16 @@ Q3Mesh_GetEdgeComponent (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the component of a mesh edge.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edge</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>component</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>edge</tt></td><td>The edge to query.</td></tr>
+<tr valign=top><td><tt>component</tt></td><td>Receives the component of the mesh edge.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4089,20 +4054,17 @@ Q3Mesh_GetEdgeFaces (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the faces of a mesh edge.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edge</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face1</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>edge</tt></td><td>The edge to query.</td></tr>
+<tr valign=top><td><tt>face1</tt></td><td>Receives the first face of the mesh edge.</td></tr>
+<tr valign=top><td><tt>face2</tt></td><td>Receives the second face of the mesh edge.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4118,19 +4080,16 @@ Q3Mesh_GetEdgeOnBoundary (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the boundary state of a mesh edge.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edge</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>onBoundary</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>edge</tt></td><td>The edge to query.</td></tr>
+<tr valign=top><td><tt>onBoundary</tt></td><td>Receives the boundary state of the mesh edge.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4147,20 +4106,17 @@ Q3Mesh_GetEdgeVertices (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the vertices of a mesh edge.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edge</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex1</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>edge</tt></td><td>The edge to query.</td></tr>
+<tr valign=top><td><tt>vertex1</tt></td><td>Receives the first vertex of the mesh edge.</td></tr>
+<tr valign=top><td><tt>vertex2</tt></td><td>Receives the second vertex of the mesh edge.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4176,19 +4132,16 @@ Q3Mesh_GetFaceAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the attribute set of a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the attribute set of the mesh face.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4204,19 +4157,16 @@ Q3Mesh_GetFaceComponent (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the component of a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>component</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>component</tt></td><td>Receives the component of the mesh face.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4232,19 +4182,16 @@ Q3Mesh_GetFaceIndex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the index of a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>Receives the index of the mesh face.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4260,19 +4207,16 @@ Q3Mesh_GetFaceNumContours (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of contours of a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numContours</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>numContours</tt></td><td>Receives the number of contours of the mesh face.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4288,19 +4232,16 @@ Q3Mesh_GetFaceNumVertices (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of vertices in a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numVertices</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>numVertices</tt></td><td>Receives the number of vertices in the mesh face.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4316,19 +4257,16 @@ Q3Mesh_GetFacePlaneEquation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the plane equation of a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>planeEquation</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to query.</td></tr>
+<tr valign=top><td><tt>planeEquation</tt></td><td>Receives the plane equation of the mesh face.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4343,18 +4281,15 @@ Q3Mesh_GetNumComponents (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of components of a mesh.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numComponents</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>numComponents</tt></td><td>Receives the number of components of the mesh.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4369,18 +4304,15 @@ Q3Mesh_GetNumCorners (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of corners in a mesh
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numCorners</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>numCorners</tt></td><td>Receives the number of corners in the mesh.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4395,18 +4327,15 @@ Q3Mesh_GetNumEdges (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of edges in a mesh
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numEdges</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>numEdges</tt></td><td>Receives the number of edges in the mesh.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4421,18 +4350,15 @@ Q3Mesh_GetNumFaces (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of faces in a mesh
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numFaces</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>numFaces</tt></td><td>Receives the number of faces in the mesh.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4447,18 +4373,15 @@ Q3Mesh_GetNumVertices (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the number of vertices in a mesh
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numVertices</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>numVertices</tt></td><td>Receives the number of vertices in the mesh.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4473,18 +4396,15 @@ Q3Mesh_GetOrientable (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the mesh orientable state
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientable</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>orientable</tt></td><td>Receives the mesh orientable state.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4500,19 +4420,16 @@ Q3Mesh_GetVertexAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the attribute set of a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the attribute set of the mesh vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4528,19 +4445,16 @@ Q3Mesh_GetVertexComponent (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the component of a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>component</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to query.</td></tr>
+<tr valign=top><td><tt>component</tt></td><td>Receives the component of the mesh vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4556,19 +4470,16 @@ Q3Mesh_GetVertexCoordinates (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the coordinates of a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>coordinates</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to query.</td></tr>
+<tr valign=top><td><tt>coordinates</tt></td><td>Receives the coordinates of the vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4584,19 +4495,16 @@ Q3Mesh_GetVertexIndex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the index of a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>Receives the index of the vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4612,19 +4520,16 @@ Q3Mesh_GetVertexOnBoundary (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the boundary state for a mesh vertex
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>onBoundary</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to query.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to query.</td></tr>
+<tr valign=top><td><tt>onBoundary</tt></td><td>Receives the vertex boundary state.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -4652,20 +4557,17 @@ Q3Mesh_NextComponentEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next edge in a mesh component.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next edge in the component.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextComponentVertex"></a>
@@ -4676,20 +4578,17 @@ Q3Mesh_NextComponentVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next vertex in a mesh component.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next vertex in the component.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextContourEdge"></a>
@@ -4700,20 +4599,17 @@ Q3Mesh_NextContourEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next edge in a mesh contour.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next edge in the contour.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextContourFace"></a>
@@ -4724,20 +4620,17 @@ Q3Mesh_NextContourFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next face in a mesh contour.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next face in the contour.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextContourVertex"></a>
@@ -4748,20 +4641,17 @@ Q3Mesh_NextContourVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next vertex in a mesh contour.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next vertex in the contour.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextFaceContour"></a>
@@ -4772,20 +4662,17 @@ Q3Mesh_NextFaceContour (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next contour in a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next contour in the face.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextFaceEdge"></a>
@@ -4796,20 +4683,17 @@ Q3Mesh_NextFaceEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next edge in a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next edge in the face.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextFaceFace"></a>
@@ -4820,20 +4704,17 @@ Q3Mesh_NextFaceFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next face in a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next face in the face.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextFaceVertex"></a>
@@ -4844,20 +4725,17 @@ Q3Mesh_NextFaceVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next vertex in a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next vertex in the face.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextMeshComponent"></a>
@@ -4868,20 +4746,17 @@ Q3Mesh_NextMeshComponent (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next component in a mesh.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next component in the mesh.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextMeshEdge"></a>
@@ -4892,20 +4767,17 @@ Q3Mesh_NextMeshEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next edge in a mesh.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next edge in the mesh.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextMeshFace"></a>
@@ -4916,20 +4788,17 @@ Q3Mesh_NextMeshFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next face in a mesh.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next face in the mesh.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextMeshVertex"></a>
@@ -4940,20 +4809,17 @@ Q3Mesh_NextMeshVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next vertex in a mesh.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next vertex in the mesh.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextVertexEdge"></a>
@@ -4964,20 +4830,17 @@ Q3Mesh_NextVertexEdge (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next edge in a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next edge in the vertex.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextVertexFace"></a>
@@ -4988,20 +4851,17 @@ Q3Mesh_NextVertexFace (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next face in a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next face in the vertex.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_NextVertexVertex"></a>
@@ -5012,20 +4872,17 @@ Q3Mesh_NextVertexVertex (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the next vertex in a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>iterator</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>iterator</tt></td><td>The mesh iterator.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The next vertex in the vertex.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Mesh_ResumeUpdates"></a>
@@ -5036,17 +4893,18 @@ Q3Mesh_ResumeUpdates (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Resume updates to a mesh.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Should be used after a preceding call to Q3Mesh_DelayUpdates to
+indicate to Quesa that an optimised internal representation of
+the mesh would be preferred to a more flexible form.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to resume updatse for.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5063,20 +4921,47 @@ Q3Mesh_SetCornerAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set for a mesh corner.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to update.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to update.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The new attribute set for the mesh corner.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Mesh_SetData"></a>
+<h3><a name="Q3Mesh_SetData">Q3Mesh_SetData</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Mesh_SetData (
+    TQ3GeometryObject             mesh,
+    const TQ3MeshData             *meshData
+);
+</tt><br>
+</pre></blockquote>
+<p>Sets the properties of an existing mesh object.
+<br><br>
+If successful, this function invalidates all preexisting references to mesh parts
+(<code>TQ3MeshVertex</code>, <code>TQ3MeshContour</code>, <code>TQ3MeshFace</code>, 
+<code>TQ3MeshCorner</code>, <code>TQ3MeshEdge</code>, <code>TQ3MeshComponent</code>)
+and mesh iterators (<code>TQ3MeshIterator</code>).
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>mesh</tt></td><td>A reference to a mesh geometry object.</td></tr>
+<tr valign=top><td><tt>meshData</tt></td><td>A pointer to the mesh data to apply to the mesh object.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5092,19 +4977,16 @@ Q3Mesh_SetEdgeAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set for a mesh edge.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edge</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to update.</td></tr>
+<tr valign=top><td><tt>edge</tt></td><td>The edge to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The new attribute set for the mesh edge.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5120,19 +5002,16 @@ Q3Mesh_SetFaceAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set of a mesh face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>face</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to update.</td></tr>
+<tr valign=top><td><tt>face</tt></td><td>The face to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The new attribute set for the mesh face.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5148,19 +5027,16 @@ Q3Mesh_SetVertexAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set of a mesh vertex
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to udate.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The new attribute set for the mesh vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5176,19 +5052,16 @@ Q3Mesh_SetVertexCoordinates (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the coordinates of a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>coordinates</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to update.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The vertex to update.</td></tr>
+<tr valign=top><td><tt>coordinates</tt></td><td>The new coordinates for the mesh vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5203,18 +5076,15 @@ Q3Mesh_VertexDelete (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Delete a mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to remove the vertex from.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The mesh vertex to delete.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5229,21 +5099,18 @@ Q3Mesh_VertexNew (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new mesh vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mesh</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vertex</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mesh</tt></td><td>The mesh to create the vertex within.</td></tr>
+<tr valign=top><td><tt>vertex</tt></td><td>The data for the vertex.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new mesh vertex.
  
 <hr>
 <a name="//apple_ref/c/func/Q3NURBCurve_EmptyData"></a>
@@ -5278,19 +5145,16 @@ Q3NURBCurve_GetControlPoint (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get a control point from a NURB curve.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>curve</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>pointIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>point4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>curve</tt></td><td>The NURB curve to query.</td></tr>
+<tr valign=top><td><tt>pointIndex</tt></td><td>The index of the point to query.</td></tr>
+<tr valign=top><td><tt>point4D</tt></td><td>Receives the control point value.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5332,19 +5196,16 @@ Q3NURBCurve_GetKnot (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get a knot from a NURB curve.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>curve</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotValue</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>curve</tt></td><td>The NURB curve to query.</td></tr>
+<tr valign=top><td><tt>knotIndex</tt></td><td>The index of the knot to query.</td></tr>
+<tr valign=top><td><tt>knotValue</tt></td><td>Receives the knot value.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5381,19 +5242,16 @@ Q3NURBCurve_SetControlPoint (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set a control point for a NURB curve.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>curve</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>pointIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>point4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>curve</tt></td><td>The NURB curve to update.</td></tr>
+<tr valign=top><td><tt>pointIndex</tt></td><td>The index of the point to update.</td></tr>
+<tr valign=top><td><tt>point4D</tt></td><td>The new control point value.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5432,19 +5290,16 @@ Q3NURBCurve_SetKnot (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set a knot for a NURB curve.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>curve</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotValue</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>curve</tt></td><td>The NURB curve to update.</td></tr>
+<tr valign=top><td><tt>knotIndex</tt></td><td>The index of the knot to update.</td></tr>
+<tr valign=top><td><tt>knotValue</tt></td><td>The new knot value.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5508,20 +5363,17 @@ Q3NURBPatch_GetControlPoint (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get a control point for a NURB patch.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>nurbPatch</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rowIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>columnIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>point4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>nurbPatch</tt></td><td>The NURB patch to query.</td></tr>
+<tr valign=top><td><tt>rowIndex</tt></td><td>The row index of the control point.</td></tr>
+<tr valign=top><td><tt>columnIndex</tt></td><td>The column index of the control point.</td></tr>
+<tr valign=top><td><tt>point4D</tt></td><td>Receives the control point value.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5563,19 +5415,16 @@ Q3NURBPatch_GetUKnot (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get a U knot from a NURB patch.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>nurbPatch</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotValue</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>nurbPatch</tt></td><td>The NURB patch to query.</td></tr>
+<tr valign=top><td><tt>knotIndex</tt></td><td>The index of the knot to query.</td></tr>
+<tr valign=top><td><tt>knotValue</tt></td><td>Rceives the knot value.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5591,19 +5440,16 @@ Q3NURBPatch_GetVKnot (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get a V knot from a NURB patch.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>nurbPatch</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotValue</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>nurbPatch</tt></td><td>The NURB patch to query.</td></tr>
+<tr valign=top><td><tt>knotIndex</tt></td><td>The index of the knot to query.</td></tr>
+<tr valign=top><td><tt>knotValue</tt></td><td>Rceives the knot value.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5641,20 +5487,17 @@ Q3NURBPatch_SetControlPoint (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set a control point for a NURB patch.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>nurbPatch</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rowIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>columnIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>point4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>nurbPatch</tt></td><td>The NURB patch to update.</td></tr>
+<tr valign=top><td><tt>rowIndex</tt></td><td>The row index of the control point.</td></tr>
+<tr valign=top><td><tt>columnIndex</tt></td><td>The column index of the control point.</td></tr>
+<tr valign=top><td><tt>point4D</tt></td><td>The new control point value.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5693,19 +5536,16 @@ Q3NURBPatch_SetUKnot (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set a U knot for a NURB patch.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>nurbPatch</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotValue</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>nurbPatch</tt></td><td>The NURB patch to update.</td></tr>
+<tr valign=top><td><tt>knotIndex</tt></td><td>The index of the knot to update.</td></tr>
+<tr valign=top><td><tt>knotValue</tt></td><td>The new value for the knot.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -5721,19 +5561,16 @@ Q3NURBPatch_SetVKnot (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set a K knot for a NURB patch.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>nurbPatch</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>knotValue</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>nurbPatch</tt></td><td>The NURB patch to update.</td></tr>
+<tr valign=top><td><tt>knotIndex</tt></td><td>The index of the knot to update.</td></tr>
+<tr valign=top><td><tt>knotValue</tt></td><td>The new value for the knot.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6292,19 +6129,16 @@ Q3PolyLine_GetSegmentAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the attribute set of a polyline segment.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyLine</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyLine</tt></td><td>The polyline to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the segment to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the attribute set of the polyline segment.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6320,19 +6154,16 @@ Q3PolyLine_GetVertexAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the attribute set of a polyline vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyLine</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyLine</tt></td><td>The polyline to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the attribute set of the polyline vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6348,19 +6179,16 @@ Q3PolyLine_GetVertexPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the position of a polyline vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyLine</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyLine</tt></td><td>The polyline to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to query.</td></tr>
+<tr valign=top><td><tt>position</tt></td><td>Receives the position of the polyline vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6420,19 +6248,16 @@ Q3PolyLine_SetSegmentAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set of a polyline segment.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyLine</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyLine</tt></td><td>The polyline to update.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the segment to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The new attribute set for the polyline segment.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6448,19 +6273,16 @@ Q3PolyLine_SetVertexAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set of a polyline vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyLine</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyLine</tt></td><td>The polyline to update.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The new attribute set for the polyline vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6476,19 +6298,16 @@ Q3PolyLine_SetVertexPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the position of a polyline vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyLine</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyLine</tt></td><td>The polyline to update.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to update.</td></tr>
+<tr valign=top><td><tt>position</tt></td><td>The new position for the polyline vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6794,19 +6613,16 @@ Q3Polyhedron_GetEdgeData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the data of a polyhedron edge.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyhedron</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edgeIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edgeData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyhedron</tt></td><td>The polyhedron to query.</td></tr>
+<tr valign=top><td><tt>edgeIndex</tt></td><td>The index of the edge to query.</td></tr>
+<tr valign=top><td><tt>edgeData</tt></td><td>Receives the data of the edge.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6822,19 +6638,16 @@ Q3Polyhedron_GetTriangleData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the data of a polyhedron triangle.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyhedron</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>triangleIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>triangleData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyhedron</tt></td><td>The polyhedron to query.</td></tr>
+<tr valign=top><td><tt>triangleIndex</tt></td><td>The index of the triangle to query.</td></tr>
+<tr valign=top><td><tt>triangleData</tt></td><td>Receives the data of the triangle.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6850,19 +6663,16 @@ Q3Polyhedron_GetVertexAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the position of a polyhedron vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyhedron</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyhedron</tt></td><td>The polyhedron to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the attribute set of the vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6878,19 +6688,16 @@ Q3Polyhedron_GetVertexPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the position of a polyhedron vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyhedron</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>point</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyhedron</tt></td><td>The polyhedron to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to query.</td></tr>
+<tr valign=top><td><tt>point</tt></td><td>Receives the position of the vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6950,19 +6757,16 @@ Q3Polyhedron_SetEdgeData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the data of a polyhedron edge.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyhedron</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edgeIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>edgeData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyhedron</tt></td><td>The polyhedron to update.</td></tr>
+<tr valign=top><td><tt>edgeIndex</tt></td><td>The index of the edge to update.</td></tr>
+<tr valign=top><td><tt>edgeData</tt></td><td>The new data for the edge.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -6978,19 +6782,16 @@ Q3Polyhedron_SetTriangleData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the data of a polyhedron triangle.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyhedron</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>triangleIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>triangleData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyhedron</tt></td><td>The polyhedron to update.</td></tr>
+<tr valign=top><td><tt>triangleIndex</tt></td><td>The index of the triangle to update.</td></tr>
+<tr valign=top><td><tt>triangleData</tt></td><td>The new data for the triangle.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7006,19 +6807,16 @@ Q3Polyhedron_SetVertexAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set of a polyhedron vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyhedron</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyhedron</tt></td><td>The polyhedron to update.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The new attribute set for the vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7034,19 +6832,16 @@ Q3Polyhedron_SetVertexPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the position of a polyhedron vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>polyhedron</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>point</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>polyhedron</tt></td><td>The polyhedron to update.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to update.</td></tr>
+<tr valign=top><td><tt>point</tt></td><td>The new position for the vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7226,18 +7021,15 @@ Q3Torus_GetRatio (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the ratio of a torus.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>torus</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>ratio</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>torus</tt></td><td>The torus to query.</td></tr>
+<tr valign=top><td><tt>ratio</tt></td><td>Receives the ratio of the torus.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7388,18 +7180,15 @@ Q3Torus_SetRatio (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the ratio of a torus.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>torus</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>ratio</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>torus</tt></td><td>The torus to update.</td></tr>
+<tr valign=top><td><tt>ratio</tt></td><td>The new ratio for the torus.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7488,19 +7277,16 @@ Q3TriGrid_GetFacetAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the attribute set of a trigrid face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>triGrid</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>faceIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>facetAttributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>triGrid</tt></td><td>The trigrid to query.</td></tr>
+<tr valign=top><td><tt>faceIndex</tt></td><td>The index of the face to query.</td></tr>
+<tr valign=top><td><tt>facetAttributeSet</tt></td><td>Receives the attribute set of the trigrid face.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7517,20 +7303,17 @@ Q3TriGrid_GetVertexAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the attribute set of a trigrid vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>triGrid</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rowIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>columnIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>triGrid</tt></td><td>The trigrid to query.</td></tr>
+<tr valign=top><td><tt>rowIndex</tt></td><td>The row index of the vertex to query.</td></tr>
+<tr valign=top><td><tt>columnIndex</tt></td><td>The column index of the vertex to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the attribute set of the trigrid vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7547,20 +7330,17 @@ Q3TriGrid_GetVertexPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the position of a trigrid vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>triGrid</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rowIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>columnIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>triGrid</tt></td><td>The trigrid to query.</td></tr>
+<tr valign=top><td><tt>rowIndex</tt></td><td>The row index of the vertex to query.</td></tr>
+<tr valign=top><td><tt>columnIndex</tt></td><td>The column index of the vertex to query.</td></tr>
+<tr valign=top><td><tt>position</tt></td><td>Receives the position of the trigrid vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7620,19 +7400,16 @@ Q3TriGrid_SetFacetAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set of a trigrid face.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>triGrid</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>faceIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>facetAttributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>triGrid</tt></td><td>The trigrid to update.</td></tr>
+<tr valign=top><td><tt>faceIndex</tt></td><td>The index of the face to update.</td></tr>
+<tr valign=top><td><tt>facetAttributeSet</tt></td><td>The new attribute set for the trigrid face.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7649,20 +7426,17 @@ Q3TriGrid_SetVertexAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set of a trigrid vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>triGrid</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rowIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>columnIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>triGrid</tt></td><td>The trigrid to update.</td></tr>
+<tr valign=top><td><tt>rowIndex</tt></td><td>The row index of the vertex to update.</td></tr>
+<tr valign=top><td><tt>columnIndex</tt></td><td>The column index of the vertex to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The new attribute set for the trigrid vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7679,20 +7453,17 @@ Q3TriGrid_SetVertexPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the position of a trigrid vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>triGrid</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rowIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>columnIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>triGrid</tt></td><td>The trigrid to update.</td></tr>
+<tr valign=top><td><tt>rowIndex</tt></td><td>The row index of the vertex to update.</td></tr>
+<tr valign=top><td><tt>columnIndex</tt></td><td>The column index of the vertex to update.</td></tr>
+<tr valign=top><td><tt>position</tt></td><td>The new position for the trigrid vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7968,19 +7739,16 @@ Q3Triangle_GetVertexAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the attribute set of a triangle vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>triangle</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>triangle</tt></td><td>The triangle to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the attribute set of the triangle vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -7996,19 +7764,16 @@ Q3Triangle_GetVertexPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the position of a triangle vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>triangle</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>point</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>triangle</tt></td><td>The triangle to query.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to query.</td></tr>
+<tr valign=top><td><tt>point</tt></td><td>Receives the position of the triangle vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -8068,19 +7833,16 @@ Q3Triangle_SetVertexAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set of a triangle vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>triangle</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>triangle</tt></td><td>The triangle to update.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The new attribute set for the triangle vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -8096,19 +7858,16 @@ Q3Triangle_SetVertexPosition (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the position of a triangle vertex.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>triangle</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>index</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>point</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>triangle</tt></td><td>The triangle to update.</td></tr>
+<tr valign=top><td><tt>index</tt></td><td>The index of the vertex to update.</td></tr>
+<tr valign=top><td><tt>point</tt></td><td>The new position for the triangle vertex.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -8139,5 +7898,5 @@ This function should only be called in a submitting loop.
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
 </body></html>

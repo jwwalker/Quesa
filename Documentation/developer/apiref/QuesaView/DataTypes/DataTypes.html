@@ -1,0 +1,67 @@
+<html><head><title>Defined Types</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Defined Types</h1></font><hr><br>
+<a name="//apple_ref/c/tdef/TQ3ViewEndFrameMethod"></a>
+<h3><a name="TQ3ViewEndFrameMethod">TQ3ViewEndFrameMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3ViewEndFrameMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *endFrameData);</tt><br>
+</blockquote>
+<p>Application callback for Q3View_SetEndFrameMethod.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being submitted to.</td><tr>
+<tr valign=top><td><tt>endFrameData</tt></td><td>The application-specific data passed to Q3View_SetEndFrameMethod.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3ViewIdleMethod"></a>
+<h3><a name="TQ3ViewIdleMethod">TQ3ViewIdleMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3ViewIdleMethod)</b>(
+                            TQ3ViewObject       theView,
+                            const void          *idlerData);</tt><br>
+</blockquote>
+<p>Application callback for Q3View_SetIdleMethod.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being submitted to.</td><tr>
+<tr valign=top><td><tt>idlerData</tt></td><td>The application-specific data passed to Q3View_SetIdleMethod.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3ViewIdleProgressMethod"></a>
+<h3><a name="TQ3ViewIdleProgressMethod">TQ3ViewIdleProgressMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3ViewIdleProgressMethod)</b>(
+                            TQ3ViewObject       theView,
+                            const void          *idlerData,
+                            TQ3Uns32            progressCurrent,
+                            TQ3Uns32            progressCompleted);</tt><br>
+</blockquote>
+<p>Application callback for Q3View_SetIdleProgressMethod.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being submitted to.</td><tr>
+<tr valign=top><td><tt>idlerData</tt></td><td>The application-specific data passed to Q3View_SetIdleProgressMethod.</td><tr>
+<tr valign=top><td><tt>progressCurrent</tt></td><td>The number of work units completed.</td><tr>
+<tr valign=top><td><tt>progressCompleted</tt></td><td>The total number of work units which will be completed.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
+</body></html>

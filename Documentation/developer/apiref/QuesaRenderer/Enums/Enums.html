@@ -1,14 +1,91 @@
 <html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
+<a name="//apple_ref/c/tag/TQ3AttributeTypeCSGID"></a>
+<h3><a name="TQ3AttributeTypeCSGID">TQ3AttributeTypeCSGID</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3AttributeTypeConstructiveSolidGeometryID = Q3_METHOD_TYPE('c', 's', 'g', 'i')
+} TQ3AttributeTypeCSGID;
+</pre>
+</blockquote>
+<p>CSG attribute.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeConstructiveSolidGeometryID"><tt>kQ3AttributeTypeConstructiveSolidGeometryID</tt></a></td><td>CSG attribute ID.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3CSGEquation"></a>
+<h3><a name="TQ3CSGEquation">TQ3CSGEquation</a></h3>
+<blockquote><pre>
+typedef enum TQ3CSGEquation {
+    kQ3CSGEquationAandB                         = 0x88888888,
+    kQ3CSGEquationAandnotB                      = 0x22222222,
+    kQ3CSGEquationAanBonCad                     = 0x2F222F22,
+    kQ3CSGEquationnotAandB                      = 0x44444444,
+    kQ3CSGEquationnAaBorCanB                    = 0x74747474,
+    kQ3CSGEquationSize32                        = 0xFFFFFFFF
+} TQ3CSGEquation;
+</pre>
+</blockquote>
+<p>CSG equations.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3CSGEquationAandB"><tt>kQ3CSGEquationAandB</tt></a></td><td>Indicates A and B.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3CSGEquationAandnotB"><tt>kQ3CSGEquationAandnotB</tt></a></td><td>Indicates A and not B.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3CSGEquationAanBonCad"><tt>kQ3CSGEquationAanBonCad</tt></a></td><td>Indicates A and B on C.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3CSGEquationnotAandB"><tt>kQ3CSGEquationnotAandB</tt></a></td><td>Indicates not A and B.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3CSGEquationnAaBorCanB"><tt>kQ3CSGEquationnAaBorCanB</tt></a></td><td>Indicates not A and B or C and B.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3CSGObject"></a>
+<h3><a name="TQ3CSGObject">TQ3CSGObject</a></h3>
+<blockquote><pre>
+typedef enum TQ3CSGObject {
+    kQ3SolidGeometryObjNone                     = -1,
+    kQ3SolidGeometryObjA                        = 0,
+    kQ3SolidGeometryObjB                        = 1,
+    kQ3SolidGeometryObjC                        = 2,
+    kQ3SolidGeometryObjD                        = 3,
+    kQ3SolidGeometryObjE                        = 4,
+    kQ3SolidGeometrySize32                      = 0xFFFFFFFF
+} TQ3CSGObject;
+</pre>
+</blockquote>
+<p>CSG objects.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SolidGeometryObjNone"><tt>kQ3SolidGeometryObjNone</tt></a></td><td>Indicates no object.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SolidGeometryObjA"><tt>kQ3SolidGeometryObjA</tt></a></td><td>Indicates the 'A' object.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SolidGeometryObjB"><tt>kQ3SolidGeometryObjB</tt></a></td><td>Indicates the 'B' object.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SolidGeometryObjC"><tt>kQ3SolidGeometryObjC</tt></a></td><td>Indicates the 'C' object.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SolidGeometryObjD"><tt>kQ3SolidGeometryObjD</tt></a></td><td>Indicates the 'D' object.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SolidGeometryObjE"><tt>kQ3SolidGeometryObjE</tt></a></td><td>Indicates the 'E' object.</td><tr>
+</table>
+</blockquote>
+<hr>
 <a name="//apple_ref/c/tag/TQ3RaveEngineID"></a>
 <h3><a name="TQ3RaveEngineID">TQ3RaveEngineID</a></h3>
 <blockquote><pre>
-typedef long TQ3RaveEngineID;
-enum {
+typedef enum TQ3RaveEngineID {
     kQAEngine_AppleSW                           = 0,
     kQAEngine_AppleHW                           = -1,
     kQAEngine_AppleHW2                          = 1,
-    kQAEngine_AppleHW3                          = 2
-};
+    kQAEngine_AppleHW3                          = 2,
+    kQAEngine_Size32                            = 0xFFFFFFFF
+} TQ3RaveEngineID;
 </pre>
 </blockquote>
 <p>RAVE engine IDs. Obsolete, but preserved for source compatibility.
@@ -28,8 +105,7 @@ enum {
 <a name="//apple_ref/c/tag/TQ3RaveVendorID"></a>
 <h3><a name="TQ3RaveVendorID">TQ3RaveVendorID</a></h3>
 <blockquote><pre>
-typedef long TQ3RaveVendorID;
-enum {
+typedef enum TQ3RaveVendorID {
     kQAVendor_BestChoice                        = -1,
     kQAVendor_Apple                             = 0,
     kQAVendor_ATI                               = 1,
@@ -44,8 +120,9 @@ enum {
     kQAVendor_NumberNine                        = 10,
     kQAVendor_MicroConversions                  = 11,
     kQAVendor_PurpleShark                       = 12,
-    kQAVendor_VillageTronic                     = 14
-};
+    kQAVendor_VillageTronic                     = 14,
+    kQAVendor_Size32                            = 0xFFFFFFFF
+} TQ3RaveVendorID;
 </pre>
 </blockquote>
 <p>RAVE vendor IDs. Obsolete, but preserved for source compatibility.
@@ -76,12 +153,12 @@ enum {
 <a name="//apple_ref/c/tag/TQ3TextureFilter"></a>
 <h3><a name="TQ3TextureFilter">TQ3TextureFilter</a></h3>
 <blockquote><pre>
-typedef unsigned long TQ3TextureFilter;
-enum {
+typedef enum TQ3TextureFilter {
     kQATextureFilter_Fast                       = 0,
     kQATextureFilter_Mid                        = 1,
-    kQATextureFilter_Best                       = 2
-};
+    kQATextureFilter_Best                       = 2,
+    kQATextureFilter_Size32                     = 0xFFFFFFFF
+} TQ3TextureFilter;
 </pre>
 </blockquote>
 <p>Texture filter type.
@@ -97,5 +174,278 @@ enum {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+<a name="//apple_ref/c/tag/TQ3XAttributeMask"></a>
+<h3><a name="TQ3XAttributeMask">TQ3XAttributeMask</a></h3>
+<blockquote><pre>
+typedef enum TQ3XAttributeMask {
+    kQ3XAttributeMaskNone                       = 0,
+    kQ3XAttributeMaskSurfaceUV                  = (1 << (kQ3AttributeTypeSurfaceUV          - 1)),
+    kQ3XAttributeMaskShadingUV                  = (1 << (kQ3AttributeTypeShadingUV          - 1)),
+    kQ3XAttributeMaskNormal                     = (1 << (kQ3AttributeTypeNormal             - 1)),
+    kQ3XAttributeMaskAmbientCoefficient         = (1 << (kQ3AttributeTypeAmbientCoefficient - 1)),
+    kQ3XAttributeMaskDiffuseColor               = (1 << (kQ3AttributeTypeDiffuseColor       - 1)),
+    kQ3XAttributeMaskSpecularColor              = (1 << (kQ3AttributeTypeSpecularColor      - 1)),
+    kQ3XAttributeMaskSpecularControl            = (1 << (kQ3AttributeTypeSpecularControl    - 1)),
+    kQ3XAttributeMaskTransparencyColor          = (1 << (kQ3AttributeTypeTransparencyColor  - 1)),
+    kQ3XAttributeMaskSurfaceTangent             = (1 << (kQ3AttributeTypeSurfaceTangent     - 1)),
+    kQ3XAttributeMaskHighlightState             = (1 << (kQ3AttributeTypeHighlightState     - 1)),
+    kQ3XAttributeMaskSurfaceShader              = (1 << (kQ3AttributeTypeSurfaceShader      - 1)),
+    kQ3XAttributeMaskCustomAttribute            = 0x80000000,
+    kQ3XAttributeMaskAll                        = 0x800007FF,
+    kQ3XAttributeMaskInherited                  = 0x000003FF,
+    kQ3XAttributeMaskInterpolated               = kQ3XAttributeMaskSurfaceUV          |
+                                                  kQ3XAttributeMaskShadingUV          |
+                                                  kQ3XAttributeMaskNormal             |
+                                                  kQ3XAttributeMaskAmbientCoefficient |
+                                                  kQ3XAttributeMaskDiffuseColor       |
+                                                  kQ3XAttributeMaskSpecularControl    |
+                                                  kQ3XAttributeMaskTransparencyColor  |
+                                                  kQ3XAttributeMaskSurfaceTangent,
+    kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
+} TQ3XAttributeMask;
+</pre>
+</blockquote>
+<p>Attribute mask flags.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskNone"><tt>kQ3XAttributeMaskNone</tt></a></td><td>No attributes.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSurfaceUV"><tt>kQ3XAttributeMaskSurfaceUV</tt></a></td><td>Surface UV attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskShadingUV"><tt>kQ3XAttributeMaskShadingUV</tt></a></td><td>Shading UV attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskNormal"><tt>kQ3XAttributeMaskNormal</tt></a></td><td>Normal attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskAmbientCoefficient"><tt>kQ3XAttributeMaskAmbientCoefficient</tt></a></td><td>Ambient coefficent attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskDiffuseColor"><tt>kQ3XAttributeMaskDiffuseColor</tt></a></td><td>Diffuse color attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSpecularColor"><tt>kQ3XAttributeMaskSpecularColor</tt></a></td><td>Specular color attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSpecularControl"><tt>kQ3XAttributeMaskSpecularControl</tt></a></td><td>Specular control attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskTransparencyColor"><tt>kQ3XAttributeMaskTransparencyColor</tt></a></td><td>Transparency color attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSurfaceTangent"><tt>kQ3XAttributeMaskSurfaceTangent</tt></a></td><td>Surface tangent attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskHighlightState"><tt>kQ3XAttributeMaskHighlightState</tt></a></td><td>Highlight state attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSurfaceShader"><tt>kQ3XAttributeMaskSurfaceShader</tt></a></td><td>Surface shader attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskCustomAttribute"><tt>kQ3XAttributeMaskCustomAttribute</tt></a></td><td>Custom attribute mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskAll"><tt>kQ3XAttributeMaskAll</tt></a></td><td>All attributes.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskInherited"><tt>kQ3XAttributeMaskInherited</tt></a></td><td>Inherited attributes mask.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskInterpolated"><tt>kQ3XAttributeMaskInterpolated</tt></a></td><td>Interpolated attributes mask.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3XClipMaskState"></a>
+<h3><a name="TQ3XClipMaskState">TQ3XClipMaskState</a></h3>
+<blockquote><pre>
+typedef enum TQ3XClipMaskState {
+    kQ3XClipMaskFullyExposed                    = 0,
+    kQ3XClipMaskPartiallyExposed                = 1,
+    kQ3XClipMaskNotExposed                      = 2,
+    kQ3XClipMaskSize32                          = 0xFFFFFFFF
+} TQ3XClipMaskState;
+</pre>
+</blockquote>
+<p>Draw Context clip mask state.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XClipMaskFullyExposed"><tt>kQ3XClipMaskFullyExposed</tt></a></td><td>The draw context is not exposed.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XClipMaskPartiallyExposed"><tt>kQ3XClipMaskPartiallyExposed</tt></a></td><td>The draw context is partially exposed.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XClipMaskNotExposed"><tt>kQ3XClipMaskNotExposed</tt></a></td><td>The draw context is fully exposed.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3XDevicePixelType"></a>
+<h3><a name="TQ3XDevicePixelType">TQ3XDevicePixelType</a></h3>
+<blockquote><pre>
+typedef enum TQ3XDevicePixelType {
+    kQ3XDevicePixelTypeInvalid                  = 0,
+    kQ3XDevicePixelTypeRGB32                    = 1,
+    kQ3XDevicePixelTypeARGB32                   = 2,
+    kQ3XDevicePixelTypeRGB24                    = 3,
+    kQ3XDevicePixelTypeRGB16                    = 4,
+    kQ3XDevicePixelTypeARGB16                   = 5,
+    kQ3XDevicePixelTypeRGB16_565                = 6,
+    kQ3XDevicePixelTypeIndexed8                 = 7,
+    kQ3XDevicePixelTypeIndexed4                 = 8,
+    kQ3XDevicePixelTypeIndexed2                 = 9,
+    kQ3XDevicePixelTypeIndexed1                 = 10,
+    kQ3XDevicePixelTypeSize32                   = 0xFFFFFFFF
+} TQ3XDevicePixelType;
+</pre>
+</blockquote>
+<p>Draw Context pixel type. 16/32-bit pixel types use the native
+byte order for integers of that size.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeInvalid"><tt>kQ3XDevicePixelTypeInvalid</tt></a></td><td>Invalid pixel format.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeRGB32"><tt>kQ3XDevicePixelTypeRGB32</tt></a></td><td>X:8, R:8, G:8, B:8.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeARGB32"><tt>kQ3XDevicePixelTypeARGB32</tt></a></td><td>A:8, R:8, G:8, B:8.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeRGB24"><tt>kQ3XDevicePixelTypeRGB24</tt></a></td><td>R:8, G:8, B:8.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeRGB16"><tt>kQ3XDevicePixelTypeRGB16</tt></a></td><td>X:1, R:5, G:5, B:5.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeARGB16"><tt>kQ3XDevicePixelTypeARGB16</tt></a></td><td>A:1, R:5, G:5, B:5.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeRGB16_565"><tt>kQ3XDevicePixelTypeRGB16_565</tt></a></td><td>R:5, G:6, B:5.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeIndexed8"><tt>kQ3XDevicePixelTypeIndexed8</tt></a></td><td>8 bit colour table index (unupported).</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeIndexed4"><tt>kQ3XDevicePixelTypeIndexed4</tt></a></td><td>4 bit colour table index (unupported).</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeIndexed2"><tt>kQ3XDevicePixelTypeIndexed2</tt></a></td><td>2 bit colour table index (unupported).</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDevicePixelTypeIndexed1"><tt>kQ3XDevicePixelTypeIndexed1</tt></a></td><td>1 bit colour table index (unupported).</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3XDrawContextValidationMasks"></a>
+<h3><a name="TQ3XDrawContextValidationMasks">TQ3XDrawContextValidationMasks</a></h3>
+<blockquote><pre>
+typedef enum TQ3XDrawContextValidationMasks {
+    kQ3XDrawContextValidationClearFlags         = 0,
+    kQ3XDrawContextValidationDoubleBuffer       = (1 << 0),
+    kQ3XDrawContextValidationShader             = (1 << 1),
+    kQ3XDrawContextValidationClearFunction      = (1 << 2),
+    kQ3XDrawContextValidationActiveBuffer       = (1 << 3),
+    kQ3XDrawContextValidationInternalOffScreen  = (1 << 4),
+    kQ3XDrawContextValidationPane               = (1 << 5),
+    kQ3XDrawContextValidationMask               = (1 << 6),
+    kQ3XDrawContextValidationDevice             = (1 << 7),
+    kQ3XDrawContextValidationWindow             = (1 << 8),
+    kQ3XDrawContextValidationWindowSize         = (1 << 9),
+    kQ3XDrawContextValidationWindowClip         = (1 << 10),
+    kQ3XDrawContextValidationWindowPosition     = (1 << 11),
+    kQ3XDrawContextValidationPlatformAttributes = (1 << 12),
+    kQ3XDrawContextValidationForegroundShader   = (1 << 13),
+    kQ3XDrawContextValidationBackgroundShader   = (1 << 14),
+    kQ3XDrawContextValidationColorPalette       = (1 << 15),
+    kQ3XDrawContextValidationRAVETextureFilter  = (1 << 16),
+    kQ3XDrawContextValidationAll                = 0xFFFFFFFF,
+    kQ3XDrawContextValidationSize32             = 0xFFFFFFFF
+} TQ3XDrawContextValidationMasks;
+</pre>
+</blockquote>
+<p>Draw Context validation mask flags.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationClearFlags"><tt>kQ3XDrawContextValidationClearFlags</tt></a></td><td>The clear state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationDoubleBuffer"><tt>kQ3XDrawContextValidationDoubleBuffer</tt></a></td><td>The double buffer state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationShader"><tt>kQ3XDrawContextValidationShader</tt></a></td><td>The shader state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationClearFunction"><tt>kQ3XDrawContextValidationClearFunction</tt></a></td><td>The clear method state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationActiveBuffer"><tt>kQ3XDrawContextValidationActiveBuffer</tt></a></td><td>The active buffer state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationInternalOffScreen"><tt>kQ3XDrawContextValidationInternalOffScreen</tt></a></td><td>The internal off-screen state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationPane"><tt>kQ3XDrawContextValidationPane</tt></a></td><td>The pane state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationMask"><tt>kQ3XDrawContextValidationMask</tt></a></td><td>The mask state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationDevice"><tt>kQ3XDrawContextValidationDevice</tt></a></td><td>The device state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationWindow"><tt>kQ3XDrawContextValidationWindow</tt></a></td><td>The window state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationWindowSize"><tt>kQ3XDrawContextValidationWindowSize</tt></a></td><td>The window size state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationWindowClip"><tt>kQ3XDrawContextValidationWindowClip</tt></a></td><td>The window clip state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationWindowPosition"><tt>kQ3XDrawContextValidationWindowPosition</tt></a></td><td>The window position state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationPlatformAttributes"><tt>kQ3XDrawContextValidationPlatformAttributes</tt></a></td><td>The platform-specific state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationForegroundShader"><tt>kQ3XDrawContextValidationForegroundShader</tt></a></td><td>The foreground shader state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationBackgroundShader"><tt>kQ3XDrawContextValidationBackgroundShader</tt></a></td><td>The background shader state is invalid.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationColorPalette"><tt>kQ3XDrawContextValidationColorPalette</tt></a></td><td>The color palette state is invalid (unupported).</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationRAVETextureFilter"><tt>kQ3XDrawContextValidationRAVETextureFilter</tt></a></td><td>The RAVE texture filter state is invalid (unupported).</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawContextValidationAll"><tt>kQ3XDrawContextValidationAll</tt></a></td><td>The draw context state is invalid.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3XDrawRegionServicesMasks"></a>
+<h3><a name="TQ3XDrawRegionServicesMasks">TQ3XDrawRegionServicesMasks</a></h3>
+<blockquote><pre>
+typedef enum TQ3XDrawRegionServicesMasks {
+    kQ3XDrawRegionServicesNoneFlag                 = 0,
+    kQ3XDrawRegionServicesClearFlag                = (1 << 0),
+    kQ3XDrawRegionServicesDontLockDDSurfaceFlag    = (1 << 1),
+    kQ3XDrawRegionServicesSize32                   = 0xFFFFFFFF
+} TQ3XDrawRegionServicesMasks;
+</pre>
+</blockquote>
+<p>Draw Context services mask flags.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawRegionServicesNoneFlag"><tt>kQ3XDrawRegionServicesNoneFlag</tt></a></td><td>No services are supported.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawRegionServicesClearFlag"><tt>kQ3XDrawRegionServicesClearFlag</tt></a></td><td>Clearing is supported (unsupported).</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XDrawRegionServicesDontLockDDSurfaceFlag"><tt>kQ3XDrawRegionServicesDontLockDDSurfaceFlag</tt></a></td><td>DirectDraw locking is supported (unsupported).</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3XMethodTypeRenderer"></a>
+<h3><a name="TQ3XMethodTypeRenderer">TQ3XMethodTypeRenderer</a></h3>
+<blockquote><pre>
+typedef enum TQ3XMethodTypeRenderer {
+    kQ3XMethodTypeRendererIsInteractive                             = Q3_METHOD_TYPE('i', 's', 'i', 'n'),
+    kQ3XMethodTypeRendererModalConfigure                            = Q3_METHOD_TYPE('r', 'd', 'm', 'c'),
+    kQ3XMethodTypeRendererGetNickNameString                         = Q3_METHOD_TYPE('r', 'd', 'n', 's'),
+    kQ3XMethodTypeRendererGetConfigurationData                      = Q3_METHOD_TYPE('r', 'd', 'g', 'p'),
+    kQ3XMethodTypeRendererSetConfigurationData                      = Q3_METHOD_TYPE('r', 'd', 's', 'p'),
+    kQ3XMethodTypeRendererStartFrame                                = Q3_METHOD_TYPE('r', 'd', 'c', 'l'),
+    kQ3XMethodTypeRendererStartPass                                 = Q3_METHOD_TYPE('r', 'd', 's', 't'),
+    kQ3XMethodTypeRendererFlushFrame                                = Q3_METHOD_TYPE('r', 'd', 'f', 'l'),
+    kQ3XMethodTypeRendererEndPass                                   = Q3_METHOD_TYPE('r', 'd', 'e', 'd'),
+    kQ3XMethodTypeRendererEndFrame                                  = Q3_METHOD_TYPE('r', 'd', 's', 'y'),
+    kQ3XMethodTypeRendererCancel                                    = Q3_METHOD_TYPE('r', 'd', 'a', 'b'),
+    kQ3XMethodTypeRendererPush                                      = Q3_METHOD_TYPE('r', 'd', 'p', 's'),
+    kQ3XMethodTypeRendererPop                                       = Q3_METHOD_TYPE('r', 'd', 'p', 'o'),
+    kQ3XMethodTypeRendererIsBoundingBoxVisible                      = Q3_METHOD_TYPE('r', 'd', 'b', 'x'),
+    kQ3XMethodTypeRendererSubmitGeometryMetaHandler                 = Q3_METHOD_TYPE('r', 'd', 'g', 'm'),
+    kQ3XMethodTypeRendererSubmitCameraMetaHandler                   = Q3_METHOD_TYPE('r', 'd', 'c', 'm'),
+    kQ3XMethodTypeRendererSubmitLightMetaHandler                    = Q3_METHOD_TYPE('r', 'd', 'l', 'g'),
+    kQ3XMethodTypeRendererUpdateStyleMetaHandler                    = Q3_METHOD_TYPE('r', 'd', 'y', 'u'),
+    kQ3XMethodTypeRendererUpdateAttributeMetaHandler                = Q3_METHOD_TYPE('r', 'd', 'a', 'u'),
+    kQ3XMethodTypeRendererUpdateShaderMetaHandler                   = Q3_METHOD_TYPE('r', 'd', 's', 'u'),
+    kQ3XMethodTypeRendererUpdateMatrixMetaHandler                   = Q3_METHOD_TYPE('r', 'd', 'x', 'u'),
+    kQ3XMethodTypeRendererUpdateMatrixLocalToWorld                  = Q3_METHOD_TYPE('u', 'l', 'w', 'x'),
+    kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse           = Q3_METHOD_TYPE('u', 'l', 'w', 'i'),
+    kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose  = Q3_METHOD_TYPE('u', 'l', 'w', 't'),
+    kQ3XMethodTypeRendererUpdateMatrixLocalToCamera                 = Q3_METHOD_TYPE('u', 'l', 'c', 'x'),
+    kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum                = Q3_METHOD_TYPE('u', 'l', 'f', 'x'),
+    kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum                = Q3_METHOD_TYPE('u', 'w', 'f', 'x')
+} TQ3XMethodTypeRenderer;
+</pre>
+</blockquote>
+<p>Renderer method types.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererIsInteractive"><tt>kQ3XMethodTypeRendererIsInteractive</tt></a></td><td>Is the renderer interactive?</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererModalConfigure"><tt>kQ3XMethodTypeRendererModalConfigure</tt></a></td><td>Display a application-modal configure dialog.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererGetNickNameString"><tt>kQ3XMethodTypeRendererGetNickNameString</tt></a></td><td>Get the user-level renderer name.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererGetConfigurationData"><tt>kQ3XMethodTypeRendererGetConfigurationData</tt></a></td><td>Get renderer configuration data.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererSetConfigurationData"><tt>kQ3XMethodTypeRendererSetConfigurationData</tt></a></td><td>Set renderer configuration data.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererStartFrame"><tt>kQ3XMethodTypeRendererStartFrame</tt></a></td><td>Start a frame.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererStartPass"><tt>kQ3XMethodTypeRendererStartPass</tt></a></td><td>Start a pass within a frame.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererFlushFrame"><tt>kQ3XMethodTypeRendererFlushFrame</tt></a></td><td>Flush a frame.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererEndPass"><tt>kQ3XMethodTypeRendererEndPass</tt></a></td><td>End a pass within a frame.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererEndFrame"><tt>kQ3XMethodTypeRendererEndFrame</tt></a></td><td>End a frame.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererCancel"><tt>kQ3XMethodTypeRendererCancel</tt></a></td><td>Cancel rendering.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererPush"><tt>kQ3XMethodTypeRendererPush</tt></a></td><td>Push the renderer state.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererPop"><tt>kQ3XMethodTypeRendererPop</tt></a></td><td>Pop the renderer state.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererIsBoundingBoxVisible"><tt>kQ3XMethodTypeRendererIsBoundingBoxVisible</tt></a></td><td>Is a local-coordinate bounding box visible to the camera?</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererSubmitGeometryMetaHandler"><tt>kQ3XMethodTypeRendererSubmitGeometryMetaHandler</tt></a></td><td>Meta-handler for geometry methods.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererSubmitCameraMetaHandler"><tt>kQ3XMethodTypeRendererSubmitCameraMetaHandler</tt></a></td><td>Meta-handler for camera methods.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererSubmitLightMetaHandler"><tt>kQ3XMethodTypeRendererSubmitLightMetaHandler</tt></a></td><td>Meta-handler for light methods.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererUpdateStyleMetaHandler"><tt>kQ3XMethodTypeRendererUpdateStyleMetaHandler</tt></a></td><td>Meta-handler for style methods.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererUpdateAttributeMetaHandler"><tt>kQ3XMethodTypeRendererUpdateAttributeMetaHandler</tt></a></td><td>Meta-handler for attribute methods.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererUpdateShaderMetaHandler"><tt>kQ3XMethodTypeRendererUpdateShaderMetaHandler</tt></a></td><td>Meta-handler for shader methods.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererUpdateMatrixMetaHandler"><tt>kQ3XMethodTypeRendererUpdateMatrixMetaHandler</tt></a></td><td>Meta-handler for matrix methods.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererUpdateMatrixLocalToWorld"><tt>kQ3XMethodTypeRendererUpdateMatrixLocalToWorld</tt></a></td><td>The local-to-world matrix state has changed.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse"><tt>kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse</tt></a></td><td>The inverse-local-to-world matrix state has changed.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose"><tt>kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose</tt></a></td><td>The inverse-transpose-local-to-world matrix state has changed.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererUpdateMatrixLocalToCamera"><tt>kQ3XMethodTypeRendererUpdateMatrixLocalToCamera</tt></a></td><td>The local-to-camera matrix state has changed.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum"><tt>kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum</tt></a></td><td>The local-to-frustum matrix state has changed.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum"><tt>kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum</tt></a></td><td>The world-to-world matrix state has changed.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
 </body></html>

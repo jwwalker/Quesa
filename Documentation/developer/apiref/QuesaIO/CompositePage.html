@@ -11,21 +11,18 @@ Q3Comment_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a comment to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>comment</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>comment</tt></td><td>The comment to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormatClass_GetFormatNameString"></a>
@@ -37,10 +34,9 @@ Q3FileFormatClass_GetFormatNameString (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the user-visible name of a file format.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The user visible name is suitable for display in a menu or window.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -49,11 +45,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>formatClassType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>formatClassString</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>formatClassType</tt></td><td>The class type of the file format to query.</td></tr>
+<tr valign=top><td><tt>formatClassString</tt></td><td>Receives the name of the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadBinSwap_16"></a>
@@ -65,10 +61,7 @@ Q3FileFormat_GenericReadBinSwap_16 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read and endian swap a TQ3Int16 from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -77,11 +70,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadBinSwap_32"></a>
@@ -93,10 +86,7 @@ Q3FileFormat_GenericReadBinSwap_32 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read and endian swap a TQ3Int32 from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -105,11 +95,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadBinSwap_64"></a>
@@ -121,10 +111,7 @@ Q3FileFormat_GenericReadBinSwap_64 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read and endian swap a TQ3Int64 from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -133,11 +120,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadBinary_16"></a>
@@ -149,10 +136,7 @@ Q3FileFormat_GenericReadBinary_16 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Int16 from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -161,11 +145,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadBinary_32"></a>
@@ -177,10 +161,7 @@ Q3FileFormat_GenericReadBinary_32 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Int32 from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -189,11 +170,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadBinary_64"></a>
@@ -205,10 +186,7 @@ Q3FileFormat_GenericReadBinary_64 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Int64 from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -217,11 +195,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadBinary_8"></a>
@@ -233,10 +211,7 @@ Q3FileFormat_GenericReadBinary_8 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Int8 from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -245,11 +220,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadBinary_Raw"></a>
@@ -262,10 +237,7 @@ Q3FileFormat_GenericReadBinary_Raw (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a block of data from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -274,12 +246,12 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>length</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file format.</td></tr>
+<tr valign=top><td><tt>length</tt></td><td>The number of bytes to read from the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadBinary_String"></a>
@@ -292,10 +264,7 @@ Q3FileFormat_GenericReadBinary_String (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a string from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -304,12 +273,12 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>length</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file format.</td></tr>
+<tr valign=top><td><tt>length</tt></td><td>Receives the number of bytes written to data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadText_ReadUntilChars"></a>
@@ -327,10 +296,7 @@ Q3FileFormat_GenericReadText_ReadUntilChars (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read until characters have been found from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -339,17 +305,17 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>buffer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>chars</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>numChars</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>blanks</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>foundChar</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>maxLen</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>charsRead</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
+<tr valign=top><td><tt>buffer</tt></td><td>The buffer to read to.</td></tr>
+<tr valign=top><td><tt>chars</tt></td><td>The list of "stop" characters.</td></tr>
+<tr valign=top><td><tt>numChars</tt></td><td>The number of characters in chars.</td></tr>
+<tr valign=top><td><tt>blanks</tt></td><td>Should reading stop on any characters < 0x20.</td></tr>
+<tr valign=top><td><tt>foundChar</tt></td><td>The character which caused reading to stop.</td></tr>
+<tr valign=top><td><tt>maxLen</tt></td><td>The maximum number of characters to read.</td></tr>
+<tr valign=top><td><tt>charsRead</tt></td><td>Receives the number of characters read.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericReadText_SkipBlanks"></a>
@@ -360,10 +326,7 @@ Q3FileFormat_GenericReadText_SkipBlanks (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read and discard whitespace from a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -372,10 +335,10 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to read with.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericWriteBinSwap_16"></a>
@@ -387,10 +350,7 @@ Q3FileFormat_GenericWriteBinSwap_16 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Endian swap and write a TQ3Int16 to a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -399,11 +359,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to write with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericWriteBinSwap_32"></a>
@@ -415,10 +375,7 @@ Q3FileFormat_GenericWriteBinSwap_32 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Endian swap and write a TQ3Int32 to a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -427,11 +384,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to write with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericWriteBinSwap_64"></a>
@@ -443,10 +400,7 @@ Q3FileFormat_GenericWriteBinSwap_64 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Endian swap and write a TQ3Int64 to a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -455,11 +409,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to write with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericWriteBinary_16"></a>
@@ -471,10 +425,7 @@ Q3FileFormat_GenericWriteBinary_16 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Int16 to a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -483,11 +434,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to write with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericWriteBinary_32"></a>
@@ -499,10 +450,7 @@ Q3FileFormat_GenericWriteBinary_32 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Int32 to a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -511,11 +459,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to write with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericWriteBinary_64"></a>
@@ -527,10 +475,7 @@ Q3FileFormat_GenericWriteBinary_64 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Int64 to a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -539,11 +484,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to write with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericWriteBinary_8"></a>
@@ -555,10 +500,7 @@ Q3FileFormat_GenericWriteBinary_8 (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Int8 to a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -567,11 +509,11 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to write with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericWriteBinary_Raw"></a>
@@ -584,10 +526,7 @@ Q3FileFormat_GenericWriteBinary_Raw (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a block of data to a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -596,12 +535,12 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>length</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to write with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file format.</td></tr>
+<tr valign=top><td><tt>length</tt></td><td>The number of bytes to write.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GenericWriteBinary_String"></a>
@@ -614,10 +553,7 @@ Q3FileFormat_GenericWriteBinary_String (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a string to a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -626,12 +562,12 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>length</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to write with.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file format.</td></tr>
+<tr valign=top><td><tt>length</tt></td><td>The number of bytes to write.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GetConfigurationData"></a>
@@ -645,10 +581,18 @@ Q3FileFormat_GetConfigurationData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the configuration data for a file format.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Configuration data should be saved by the application in a manner appropriate
+for the current platform (e.g., the Registry on Windows or a .plist file on
+the Mac), tagging it with the file format's type for later identification.
+<br><br>
+If dataBuffer is NULL, the size of data required to store the configuration
+data will be returned in actualDataSize.
+<br><br>
+Otherwise bufferSize should be set to the number of bytes pointed to by
+dataBuffer, and actualDataSize will receive the number of bytes written to
+dataBuffer.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -657,14 +601,12 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>dataBuffer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>bufferSize</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>actualDataSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to query.</td></tr>
+<tr valign=top><td><tt>dataBuffer</tt></td><td>Receives the file format configuration data. May be NULL.</td></tr>
+<tr valign=top><td><tt>bufferSize</tt></td><td>The number of bytes pointed to by dataBuffer. May be 0.</td></tr>
+<tr valign=top><td><tt>actualDataSize</tt></td><td>Receives the number of bytes required for, or written to, dataBuffer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_GetType"></a>
 <h3><a name="Q3FileFormat_GetType">Q3FileFormat_GetType</a></h3>
@@ -674,10 +616,7 @@ Q3FileFormat_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the type of a file format.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -686,10 +625,10 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the file format.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_HasModalConfigure"></a>
@@ -700,10 +639,7 @@ Q3FileFormat_HasModalConfigure (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Does a file format have a modal configure dialog?
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -712,10 +648,10 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Does the file format have a modal configure dialog?
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_ModalConfigure"></a>
@@ -728,10 +664,17 @@ Q3FileFormat_ModalConfigure (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Invoke a file format's modal configure dialog.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If the file format provides a user interface for adjusting its preferences,
+a modal configure dialog can be displayed by this function.
+<br><br>
+The cancel/accept state of the dialog is returned through the cancelled
+parameter.
+<br><br>
+After a configure dialog has been accepted, the current preferences
+should be retrieved with Q3FileFormat_GetConfigurationData and stored by
+the application for later recall.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -740,12 +683,12 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>dialogAnchor</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>canceled</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format whose configure dialog is to be displayed.</td></tr>
+<tr valign=top><td><tt>dialogAnchor</tt></td><td>Platform-specific dialog data.</td></tr>
+<tr valign=top><td><tt>cancelled</tt></td><td>Receives the OK/Cancel state of the dialog.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_NewFromType"></a>
@@ -756,10 +699,7 @@ Q3FileFormat_NewFromType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new file format object.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -768,10 +708,10 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>fformatObjectType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>fformatObjectType</tt></td><td>The type of the file format.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new file format object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3FileFormat_SetConfigurationData"></a>
@@ -784,10 +724,10 @@ Q3FileFormat_SetConfigurationData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the configuration data for a file format.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The configuration must have been obtained with a previous call to
+Q3FileFormat_GetConfigurationData.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -796,12 +736,12 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>dataBuffer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>bufferSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>format</tt></td><td>The file format to update.</td></tr>
+<tr valign=top><td><tt>dataBuffer</tt></td><td>The configuration data for the file format.</td></tr>
+<tr valign=top><td><tt>bufferSize</tt></td><td>The number of bytes pointed to by dataBuffer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_Cancel"></a>
@@ -812,20 +752,17 @@ Q3File_Cancel (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Cancel a read/write operation on a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to cancel the current read/write operation for.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_Close"></a>
@@ -861,20 +798,17 @@ Q3File_GetExternalReferences (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the external references of a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The external objects within the file.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_GetFileFormat"></a>
@@ -885,10 +819,7 @@ Q3File_GetFileFormat (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the file format used to process a file.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -897,10 +828,10 @@ the typical usage of this function and any special requirements.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The file format used to process the file.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_GetMode"></a>
@@ -934,20 +865,17 @@ Q3File_GetNextObjectType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the type of the next object in a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the next object in the file.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_GetReadInGroup"></a>
@@ -959,21 +887,18 @@ Q3File_GetReadInGroup (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the group reading state for a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>readGroupState</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td></tr>
+<tr valign=top><td><tt>readGroupState</tt></td><td>Receives the group reading state for the file.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_GetStorage"></a>
@@ -985,21 +910,18 @@ Q3File_GetStorage (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the storage object for a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>storage</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td></tr>
+<tr valign=top><td><tt>storage</tt></td><td>Receives the storage object for the file.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_GetVersion"></a>
@@ -1034,21 +956,18 @@ Q3File_IsEndOfContainer (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Has the end of the current container in a file been reached?
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rootObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td></tr>
+<tr valign=top><td><tt>rootObject</tt></td><td>The root object in the container.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Has the end of the container been reached?
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_IsEndOfData"></a>
@@ -1059,20 +978,17 @@ Q3File_IsEndOfData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Has the end of the data within a file been reached?
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Has the end of the data been reached?
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_IsEndOfFile"></a>
@@ -1083,20 +999,17 @@ Q3File_IsEndOfFile (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Has the end of a file been reached?
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Has the end of the file been reached?
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_IsNextObjectOfType"></a>
@@ -1108,21 +1021,18 @@ Q3File_IsNextObjectOfType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Test the type of the next object in a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>ofType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td></tr>
+<tr valign=top><td><tt>ofType</tt></td><td>The type to compare against.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Does the next object match the specified type?
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_IsOpen"></a>
@@ -1157,21 +1067,18 @@ Q3File_MarkAsExternalReference (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Mark an object within a file as being an external reference.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to update.</td></tr>
+<tr valign=top><td><tt>sharedObject</tt></td><td>The object to mark as external.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_New"></a>
@@ -1182,13 +1089,10 @@ Q3File_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new file object.
 <br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new file object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_OpenRead"></a>
@@ -1202,6 +1106,8 @@ Q3File_OpenRead (
 </pre></blockquote>
 <p>Open a file object for reading.
 <br><br>
+Associate a FileFormat object with the File
+<br><br>
 The file object must already have a storage object associated
 with it, and must not already be open.
 <br><br>
@@ -1211,7 +1117,8 @@ with it, and must not already be open.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theFile</tt></td><td>The file object.</td></tr>
-<tr valign=top><td><tt>mode</tt></td><td>Receives a combination of TQ3FileModeMasks values.
+<tr valign=top><td><tt>mode</tt></td><td>Receives a combination of TQ3FileModeMasks values if the file is a 3DMF file,
+otherway it receives the choosed file format signature.
 Pass NULL if you don't need this information.</td></tr>
 </table>
 </blockquote>
@@ -1280,22 +1187,19 @@ Q3File_SetIdleMethod (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the idle method for a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>idle</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>idleData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to update.</td></tr>
+<tr valign=top><td><tt>idle</tt></td><td>The idle callback.</td></tr>
+<tr valign=top><td><tt>idleData</tt></td><td>Application-specific data for the idle callback.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_SetReadInGroup"></a>
@@ -1307,21 +1211,18 @@ Q3File_SetReadInGroup (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the group reading state for a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>readGroupState</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to update.</td></tr>
+<tr valign=top><td><tt>readGroupState</tt></td><td>The new group reading state for the file.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_SetStorage"></a>
@@ -1333,21 +1234,18 @@ Q3File_SetStorage (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the storage objectfor a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>storage</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td></tr>
+<tr valign=top><td><tt>storage</tt></td><td>The new storage object for the file.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3File_SkipObject"></a>
@@ -1358,20 +1256,17 @@ Q3File_SkipObject (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Skip the next object in a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to process.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Float32_Read"></a>
@@ -1383,22 +1278,17 @@ Q3Float32_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Float32 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3Float32_ReadArray"></a>
 <h3><a name="Q3Float32_ReadArray">Q3Float32_ReadArray</a></h3>
@@ -1439,21 +1329,18 @@ Q3Float32_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Float32 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Float64_Read"></a>
@@ -1465,22 +1352,17 @@ Q3Float64_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Float64 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3Float64_Write"></a>
 <h3><a name="Q3Float64_Write">Q3Float64_Write</a></h3>
@@ -1491,21 +1373,18 @@ Q3Float64_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Float64 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Int16_Read"></a>
@@ -1517,22 +1396,17 @@ Q3Int16_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Int16 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3Int16_Write"></a>
 <h3><a name="Q3Int16_Write">Q3Int16_Write</a></h3>
@@ -1543,21 +1417,18 @@ Q3Int16_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Int16 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Int32_Read"></a>
@@ -1569,22 +1440,17 @@ Q3Int32_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Int32 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3Int32_Write"></a>
 <h3><a name="Q3Int32_Write">Q3Int32_Write</a></h3>
@@ -1595,21 +1461,18 @@ Q3Int32_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Int32 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Int64_Read"></a>
@@ -1621,22 +1484,17 @@ Q3Int64_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Int64 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3Int64_Write"></a>
 <h3><a name="Q3Int64_Write">Q3Int64_Write</a></h3>
@@ -1647,21 +1505,18 @@ Q3Int64_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Int64 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Int8_Read"></a>
@@ -1673,22 +1528,17 @@ Q3Int8_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Int8 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3Int8_Write"></a>
 <h3><a name="Q3Int8_Write">Q3Int8_Write</a></h3>
@@ -1699,21 +1549,18 @@ Q3Int8_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Int8 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Matrix4x4_Read"></a>
@@ -1725,21 +1572,18 @@ Q3Matrix4x4_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Matrix4x4 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Receives the matrix read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Matrix4x4_Write"></a>
@@ -1751,21 +1595,18 @@ Q3Matrix4x4_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Matrix4x4 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>The matrix to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3NewLine_Write"></a>
@@ -1776,20 +1617,17 @@ Q3NewLine_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a newline to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Point2D_Read"></a>
@@ -1801,21 +1639,18 @@ Q3Point2D_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Point2D from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>point2D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>point2D</tt></td><td>Receives the point read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Point2D_Write"></a>
@@ -1827,21 +1662,18 @@ Q3Point2D_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Point2D to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>point2D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>point2D</tt></td><td>The point to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Point3D_Read"></a>
@@ -1853,21 +1685,18 @@ Q3Point3D_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Point3D from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>point3D</tt></td><td>Receives the point read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Point3D_Write"></a>
@@ -1879,21 +1708,18 @@ Q3Point3D_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Point3D to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>point3D</tt></td><td>The point to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RationalPoint3D_Read"></a>
@@ -1905,21 +1731,18 @@ Q3RationalPoint3D_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3RationalPoint3D from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>point3D</tt></td><td>Receives the point read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RationalPoint3D_Write"></a>
@@ -1931,21 +1754,18 @@ Q3RationalPoint3D_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3RationalPoint3D to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>point3D</tt></td><td>The point to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RationalPoint4D_Read"></a>
@@ -1957,21 +1777,18 @@ Q3RationalPoint4D_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3RationalPoint4D from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>point4D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>point4D</tt></td><td>Receives the point read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RationalPoint4D_Write"></a>
@@ -1983,21 +1800,18 @@ Q3RationalPoint4D_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3RationalPoint4D to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>point4D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>point4D</tt></td><td>The point to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RawData_Read"></a>
@@ -2010,22 +1824,19 @@ Q3RawData_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a block of data from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>size</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>size</tt></td><td>The number of bytes to read.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RawData_Write"></a>
@@ -2038,22 +1849,19 @@ Q3RawData_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a block of data to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>size</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>size</tt></td><td>The number of bytes to write.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shared_ClearEditTracking"></a>
@@ -2064,20 +1872,17 @@ Q3Shared_ClearEditTracking (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Clear the edit tracking state of a shared object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>sharedObject</tt></td><td>The shared object to update.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shared_GetEditTrackingState"></a>
@@ -2088,20 +1893,17 @@ Q3Shared_GetEditTrackingState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the edit tracking state of a shared object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>sharedObject</tt></td><td>The shared object to update.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> the current edit tracking state of the object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Size_Pad"></a>
@@ -2279,21 +2081,18 @@ Q3Tangent2D_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Tangent2D from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>tangent2D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>tangent2D</tt></td><td>Receives the tangent read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tangent2D_Write"></a>
@@ -2305,21 +2104,18 @@ Q3Tangent2D_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Tangent2D to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>tangent2D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>tangent2D</tt></td><td>The tangent to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tangent3D_Read"></a>
@@ -2331,21 +2127,18 @@ Q3Tangent3D_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Tangent3D from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>tangent3D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>tangent3D</tt></td><td>Receives the tangent read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Tangent3D_Write"></a>
@@ -2357,21 +2150,18 @@ Q3Tangent3D_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Tangent3D to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>tangent3D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>tangent3D</tt></td><td>The tangent to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3UnknownBinary_EmptyData"></a>
@@ -2382,20 +2172,17 @@ Q3UnknownBinary_EmptyData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Release the data of an unknown binary object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>unknownBinaryData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>unknownBinaryData</tt></td><td>The binary data to release.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3UnknownBinary_EmptyTypeString"></a>
@@ -2406,20 +2193,17 @@ Q3UnknownBinary_EmptyTypeString (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Release the type string of an unknown binary object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>typeString</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>typeString</tt></td><td>The type string to release.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3UnknownBinary_GetData"></a>
@@ -2431,21 +2215,18 @@ Q3UnknownBinary_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the data from an unknown binary object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>unknownObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>unknownBinaryData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>unknownObject</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>unknownBinaryData</tt></td><td>Receives the binary data from the object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3UnknownBinary_GetTypeString"></a>
@@ -2457,21 +2238,18 @@ Q3UnknownBinary_GetTypeString (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the type string of an unknown binary object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>unknownObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>typeString</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>unknownObject</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>typeString</tt></td><td>Receives the type string from the object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3UnknownText_EmptyData"></a>
@@ -2482,20 +2260,17 @@ Q3UnknownText_EmptyData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Release the data of an unknown text object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>unknownTextData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>unknownTextData</tt></td><td>The text data to release.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3UnknownText_GetData"></a>
@@ -2507,21 +2282,18 @@ Q3UnknownText_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the data from an unknown text object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>unknownObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>unknownTextData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>unknownObject</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>unknownTextData</tt></td><td>Receives the text data from the object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Unknown_GetDirtyState"></a>
@@ -2533,21 +2305,18 @@ Q3Unknown_GetDirtyState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the dirty state of an unknown object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>unknownObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>isDirty</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>unknownObject</tt></td><td>The object to query.</td></tr>
+<tr valign=top><td><tt>isDirty</tt></td><td>Receives the dirty state of the object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Unknown_GetType"></a>
@@ -2558,20 +2327,17 @@ Q3Unknown_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the type of an unknown object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>unknownObject</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>unknownObject</tt></td><td>The object to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Unknown_SetDirtyState"></a>
@@ -2583,21 +2349,18 @@ Q3Unknown_SetDirtyState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the dirty state for an unknown object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>unknownObject</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>isDirty</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>unknownObject</tt></td><td>The object to update.</td></tr>
+<tr valign=top><td><tt>isDirty</tt></td><td>The new dirty state of the object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Uns16_Read"></a>
@@ -2609,22 +2372,17 @@ Q3Uns16_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Uns16 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3Uns16_ReadArray"></a>
 <h3><a name="Q3Uns16_ReadArray">Q3Uns16_ReadArray</a></h3>
@@ -2665,21 +2423,18 @@ Q3Uns16_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Uns16 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Uns32_Read"></a>
@@ -2691,22 +2446,17 @@ Q3Uns32_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Uns32 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3Uns32_ReadArray"></a>
 <h3><a name="Q3Uns32_ReadArray">Q3Uns32_ReadArray</a></h3>
@@ -2747,21 +2497,18 @@ Q3Uns32_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Uns32 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Uns64_Read"></a>
@@ -2773,22 +2520,17 @@ Q3Uns64_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Uns64 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
- 
 <hr>
 <a name="//apple_ref/c/func/Q3Uns64_Write"></a>
 <h3><a name="Q3Uns64_Write">Q3Uns64_Write</a></h3>
@@ -2799,21 +2541,18 @@ Q3Uns64_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Uns64 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Uns8_Read"></a>
@@ -2825,21 +2564,18 @@ Q3Uns8_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Uns8 from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Uns8_ReadArray"></a>
@@ -2881,21 +2617,18 @@ Q3Uns8_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Uns8 to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Vector2D_Read"></a>
@@ -2907,21 +2640,18 @@ Q3Vector2D_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Vector2D from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vector2D</tt></td><td>Receives the vector read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Vector2D_Write"></a>
@@ -2933,21 +2663,18 @@ Q3Vector2D_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Vector2D to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vector2D</tt></td><td>The vector to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Vector3D_Read"></a>
@@ -2959,21 +2686,18 @@ Q3Vector3D_Read (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Read a TQ3Vector3D from a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vector3D</tt></td><td>Receives the vector read from the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read from.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Vector3D_Write"></a>
@@ -2985,21 +2709,18 @@ Q3Vector3D_Write (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write a TQ3Vector3D to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vector3D</tt></td><td>The vector to write to the file.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to write to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_GetAttributeSet"></a>
@@ -3011,21 +2732,18 @@ Q3ViewHints_GetAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the attribute set from a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the attribute set from the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_GetCamera"></a>
@@ -3037,21 +2755,18 @@ Q3ViewHints_GetCamera (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the camera from a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to query.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>Receives the camera from the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_GetClearImageColor"></a>
@@ -3063,21 +2778,18 @@ Q3ViewHints_GetClearImageColor (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the clear image color from a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to query.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>Receives the clear image color from the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_GetClearImageMethod"></a>
@@ -3089,21 +2801,18 @@ Q3ViewHints_GetClearImageMethod (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the clear image method from a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>clearMethod</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to query.</td></tr>
+<tr valign=top><td><tt>clearMethod</tt></td><td>Receives the clear image method from the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_GetDimensions"></a>
@@ -3116,22 +2825,19 @@ Q3ViewHints_GetDimensions (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the dimensions of a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>width</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to query.</td></tr>
+<tr valign=top><td><tt>width</tt></td><td>Receives the width from the view hints.</td></tr>
+<tr valign=top><td><tt>height</tt></td><td>Receives the height from the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_GetDimensionsState"></a>
@@ -3143,21 +2849,18 @@ Q3ViewHints_GetDimensionsState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the dimension state of a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>isValid</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to query.</td></tr>
+<tr valign=top><td><tt>isValid</tt></td><td>Receives the dimension state from the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_GetLightGroup"></a>
@@ -3169,21 +2872,18 @@ Q3ViewHints_GetLightGroup (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the light group from a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>lightGroup</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to query.</td></tr>
+<tr valign=top><td><tt>lightGroup</tt></td><td>Receives the light group from the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_GetMask"></a>
@@ -3195,21 +2895,18 @@ Q3ViewHints_GetMask (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the mask from a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>mask</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to query.</td></tr>
+<tr valign=top><td><tt>mask</tt></td><td>Receives the mask from the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_GetMaskState"></a>
@@ -3221,21 +2918,18 @@ Q3ViewHints_GetMaskState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the mask state from a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>isValid</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to query.</td></tr>
+<tr valign=top><td><tt>isValid</tt></td><td>Receives the mask state from the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_GetRenderer"></a>
@@ -3247,21 +2941,18 @@ Q3ViewHints_GetRenderer (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the renderer from a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>renderer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to query.</td></tr>
+<tr valign=top><td><tt>renderer</tt></td><td>Receives the renderer from the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_New"></a>
@@ -3272,20 +2963,17 @@ Q3ViewHints_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view the view hints should be based on.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new view hints object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_SetAttributeSet"></a>
@@ -3297,21 +2985,18 @@ Q3ViewHints_SetAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the attribute set for a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The new attribute set for the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_SetCamera"></a>
@@ -3323,21 +3008,18 @@ Q3ViewHints_SetCamera (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the camera for a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to update.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The new camera for the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_SetClearImageColor"></a>
@@ -3349,21 +3031,18 @@ Q3ViewHints_SetClearImageColor (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the clear image color of a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to update.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>The new clear image color for the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_SetClearImageMethod"></a>
@@ -3375,21 +3054,18 @@ Q3ViewHints_SetClearImageMethod (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the clear image method of a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>clearMethod</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to update.</td></tr>
+<tr valign=top><td><tt>clearMethod</tt></td><td>The new clear image method for the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_SetDimensions"></a>
@@ -3402,22 +3078,19 @@ Q3ViewHints_SetDimensions (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the dimensions of a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>width</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to update.</td></tr>
+<tr valign=top><td><tt>width</tt></td><td>The new width for the view hints.</td></tr>
+<tr valign=top><td><tt>height</tt></td><td>The new height for the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_SetDimensionsState"></a>
@@ -3429,21 +3102,18 @@ Q3ViewHints_SetDimensionsState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the dimension state of a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>isValid</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to update.</td></tr>
+<tr valign=top><td><tt>isValid</tt></td><td>The new dimension state for the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_SetLightGroup"></a>
@@ -3455,21 +3125,18 @@ Q3ViewHints_SetLightGroup (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the light group for a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>lightGroup</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to update.</td></tr>
+<tr valign=top><td><tt>lightGroup</tt></td><td>The new light group for the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_SetMask"></a>
@@ -3481,21 +3148,18 @@ Q3ViewHints_SetMask (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the mask of a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>mask</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to update.</td></tr>
+<tr valign=top><td><tt>mask</tt></td><td>The new mask for the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_SetMaskState"></a>
@@ -3507,21 +3171,18 @@ Q3ViewHints_SetMaskState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the mask state of a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>isValid</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to update.</td></tr>
+<tr valign=top><td><tt>isValid</tt></td><td>The new mask state for the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewHints_SetRenderer"></a>
@@ -3533,21 +3194,18 @@ Q3ViewHints_SetRenderer (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the renderer for a view hints object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>viewHints</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>renderer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>viewHints</tt></td><td>The view hints to update.</td></tr>
+<tr valign=top><td><tt>renderer</tt></td><td>The new renderer for the view hints.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_EndWriting"></a>
@@ -3558,20 +3216,18 @@ Q3View_EndWriting (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>End a writing loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to end writing to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the writing loop.
+Note that the result is a TQ3ViewStatus, not a TQ3Status.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_StartWriting"></a>
@@ -3583,21 +3239,18 @@ Q3View_StartWriting (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Start a writing loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to start writing to.</td></tr>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to start writing to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XView_SubmitSubObjectData"></a>
@@ -3612,24 +3265,21 @@ Q3XView_SubmitSubObjectData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a sub-object to a view for writing.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>objectClass</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>size</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>deleteData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view being submitted to.</td></tr>
+<tr valign=top><td><tt>objectClass</tt></td><td>The class of the object being submitted.</td></tr>
+<tr valign=top><td><tt>size</tt></td><td>The number of bytes pointed to by data.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data for the object.</td></tr>
+<tr valign=top><td><tt>deleteData</tt></td><td>Delete callback to dispose of the data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XView_SubmitWriteData"></a>
@@ -3643,26 +3293,593 @@ Q3XView_SubmitWriteData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit data to a view for writing.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>size</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>deleteData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view being submitted to.</td></tr>
+<tr valign=top><td><tt>size</tt></td><td>The number of bytes pointed to by data.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to submit for writing.</td></tr>
+<tr valign=top><td><tt>deleteData</tt></td><td>Delete callback to dispose of the data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <h2>Typedefs</h2>
+<a name="//apple_ref/c/tdef/TQ3FileIdleMethod"></a>
+<h3><a name="TQ3FileIdleMethod">TQ3FileIdleMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3FileIdleMethod)</b>(TQ3FileObject theFile, const void *idlerData);</tt><br>
+</blockquote>
+<p>Idle callback for reading/writing.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theFile</tt></td><td>The file being process.</td><tr>
+<tr valign=top><td><tt>idlerData</tt></td><td>Application-specific data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XDataDeleteMethod"></a>
+<h3><a name="TQ3XDataDeleteMethod">TQ3XDataDeleteMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3XDataDeleteMethod)</b>(void *data);</tt><br>
+</blockquote>
+<p>Delete method.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>delete</tt></td><td>The data to delete.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatCanReadMethod"></a>
+<h3><a name="TQ3XFFormatCanReadMethod">TQ3XFFormatCanReadMethod</a></h3>
+<b>Abstract:</b> Returns whether the called FileFormat is able to read the given storage.
+
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Boolean, <b>TQ3XFFormatCanReadMethod)</b>(TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound);</tt><br>
+</blockquote>
+<p>This method is called for every subclass of kQ3FileFormatTypeReader from Q3File_OpenRead.
+Once found a FileFormat that returns something other than kQ3ObjectTypeInvalid in the theFileFormatFound
+parameter the search stops.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>storage</tt></td><td>Storage Object - positioned at zero - that contains the model to read.</td><tr>
+<tr valign=top><td><tt>theFileFormatFound</tt></td><td>returns the signature of the FileFormat able to read this file 
+or kQ3ObjectTypeInvalid.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatCloseMethod"></a>
+<h3><a name="TQ3XFFormatCloseMethod">TQ3XFFormatCloseMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatCloseMethod)</b>(TQ3FileFormatObject format, TQ3Boolean abort);</tt><br>
+</blockquote>
+<p>Close method.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The format to close.</td><tr>
+<tr valign=top><td><tt>abort</tt></td><td>Closing due to an abort.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatFloat32ReadArrayMethod"></a>
+<h3><a name="TQ3XFFormatFloat32ReadArrayMethod">TQ3XFFormatFloat32ReadArrayMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatFloat32ReadArrayMethod)</b>(TQ3FileFormatObject format, TQ3Uns32 numFloats, TQ3Float32* data);</tt><br>
+</blockquote>
+<p>Read an array of 32-bit floats from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>numFloats</tt></td><td>The number of floats to read.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatFloat32ReadMethod"></a>
+<h3><a name="TQ3XFFormatFloat32ReadMethod">TQ3XFFormatFloat32ReadMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatFloat32ReadMethod)</b>(TQ3FileFormatObject format, TQ3Float32* data);</tt><br>
+</blockquote>
+<p>Read a 32-bit float from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatFloat32WriteMethod"></a>
+<h3><a name="TQ3XFFormatFloat32WriteMethod">TQ3XFFormatFloat32WriteMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatFloat32WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Float32 *data);</tt><br>
+</blockquote>
+<p>Write a 32-bit float to a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatFloat64ReadMethod"></a>
+<h3><a name="TQ3XFFormatFloat64ReadMethod">TQ3XFFormatFloat64ReadMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatFloat64ReadMethod)</b>(TQ3FileFormatObject format, TQ3Float64* data);</tt><br>
+</blockquote>
+<p>Read a 64-bit float from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatFloat64WriteMethod"></a>
+<h3><a name="TQ3XFFormatFloat64WriteMethod">TQ3XFFormatFloat64WriteMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatFloat64WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Float64 *data);</tt><br>
+</blockquote>
+<p>Write a 64-bit float to a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatGetFormatTypeMethod"></a>
+<h3><a name="TQ3XFFormatGetFormatTypeMethod">TQ3XFFormatGetFormatTypeMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3FileMode, <b>TQ3XFFormatGetFormatTypeMethod)</b>(TQ3FileObject theFile);</tt><br>
+</blockquote>
+<p>Get the format type for a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The file format.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatGetNextTypeMethod"></a>
+<h3><a name="TQ3XFFormatGetNextTypeMethod">TQ3XFFormatGetNextTypeMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3ObjectType, <b>TQ3XFFormatGetNextTypeMethod)</b>(TQ3FileObject theFile);</tt><br>
+</blockquote>
+<p>Get the next type from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to process.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The next type in the file.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt16ReadArrayMethod"></a>
+<h3><a name="TQ3XFFormatInt16ReadArrayMethod">TQ3XFFormatInt16ReadArrayMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt16ReadArrayMethod)</b>(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int16* data);</tt><br>
+</blockquote>
+<p>Read an array of 16-bit integers from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>numNums</tt></td><td>The number of numbers to read.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt16ReadMethod"></a>
+<h3><a name="TQ3XFFormatInt16ReadMethod">TQ3XFFormatInt16ReadMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt16ReadMethod)</b>(TQ3FileFormatObject format, TQ3Int16* data);</tt><br>
+</blockquote>
+<p>Read a 16-bit integer from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt16WriteMethod"></a>
+<h3><a name="TQ3XFFormatInt16WriteMethod">TQ3XFFormatInt16WriteMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt16WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Int16 *data);</tt><br>
+</blockquote>
+<p>Write a 16-bit integer to a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt32ReadArrayMethod"></a>
+<h3><a name="TQ3XFFormatInt32ReadArrayMethod">TQ3XFFormatInt32ReadArrayMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt32ReadArrayMethod)</b>(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int32* data);</tt><br>
+</blockquote>
+<p>Read an array of 32-bit integers from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>numNums</tt></td><td>The number of numbers to read.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt32ReadMethod"></a>
+<h3><a name="TQ3XFFormatInt32ReadMethod">TQ3XFFormatInt32ReadMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt32ReadMethod)</b>(TQ3FileFormatObject format, TQ3Int32* data);</tt><br>
+</blockquote>
+<p>Read a 32-bit integer from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt32WriteMethod"></a>
+<h3><a name="TQ3XFFormatInt32WriteMethod">TQ3XFFormatInt32WriteMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt32WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Int32 *data);</tt><br>
+</blockquote>
+<p>Write a 32-bit integer to a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt64ReadMethod"></a>
+<h3><a name="TQ3XFFormatInt64ReadMethod">TQ3XFFormatInt64ReadMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt64ReadMethod)</b>(TQ3FileFormatObject format, TQ3Int64* data);</tt><br>
+</blockquote>
+<p>Read a 64-bit integer from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt64WriteMethod"></a>
+<h3><a name="TQ3XFFormatInt64WriteMethod">TQ3XFFormatInt64WriteMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt64WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Int64 *data);</tt><br>
+</blockquote>
+<p>Write a 64-bit integer to a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt8ReadArrayMethod"></a>
+<h3><a name="TQ3XFFormatInt8ReadArrayMethod">TQ3XFFormatInt8ReadArrayMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt8ReadArrayMethod)</b>(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int8* data);</tt><br>
+</blockquote>
+<p>Read an array of 8-bit integers from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>numNums</tt></td><td>The number of numbers to read.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt8ReadMethod"></a>
+<h3><a name="TQ3XFFormatInt8ReadMethod">TQ3XFFormatInt8ReadMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt8ReadMethod)</b>(TQ3FileFormatObject format, TQ3Int8* data);</tt><br>
+</blockquote>
+<p>Read an 8-bit integer from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatInt8WriteMethod"></a>
+<h3><a name="TQ3XFFormatInt8WriteMethod">TQ3XFFormatInt8WriteMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt8WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Int8 *data);</tt><br>
+</blockquote>
+<p>Write a 8-bit integer to a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatRawReadMethod"></a>
+<h3><a name="TQ3XFFormatRawReadMethod">TQ3XFFormatRawReadMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatRawReadMethod)</b>(TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);</tt><br>
+</blockquote>
+<p>Read a block of data from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+<tr valign=top><td><tt>length</tt></td><td>Receives the number of bytes read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatRawWriteMethod"></a>
+<h3><a name="TQ3XFFormatRawWriteMethod">TQ3XFFormatRawWriteMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatRawWriteMethod)</b>(TQ3FileFormatObject format, const unsigned char* data, TQ3Uns32 length);</tt><br>
+</blockquote>
+<p>Write a block of data to a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
+<tr valign=top><td><tt>length</tt></td><td>The number of bytes to write.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatReadHeaderMethod"></a>
+<h3><a name="TQ3XFFormatReadHeaderMethod">TQ3XFFormatReadHeaderMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatReadHeaderMethod)</b>(TQ3FileObject theFile);</tt><br>
+</blockquote>
+<p>Read the header from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to process.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatReadObjectMethod"></a>
+<h3><a name="TQ3XFFormatReadObjectMethod">TQ3XFFormatReadObjectMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Object, <b>TQ3XFFormatReadObjectMethod)</b>(TQ3FileObject theFile);</tt><br>
+</blockquote>
+<p>Read an object from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to process.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatSkipObjectMethod"></a>
+<h3><a name="TQ3XFFormatSkipObjectMethod">TQ3XFFormatSkipObjectMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatSkipObjectMethod)</b>(TQ3FileObject theFile);</tt><br>
+</blockquote>
+<p>Skip an object in a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to process.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatStringReadMethod"></a>
+<h3><a name="TQ3XFFormatStringReadMethod">TQ3XFFormatStringReadMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatStringReadMethod)</b>(TQ3FileFormatObject format, char* data, TQ3Uns32 *length);</tt><br>
+</blockquote>
+<p>Read a string from a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
+<tr valign=top><td><tt>length</tt></td><td>Receives the number of bytes read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFFormatStringWriteMethod"></a>
+<h3><a name="TQ3XFFormatStringWriteMethod">TQ3XFFormatStringWriteMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatStringWriteMethod)</b>(TQ3FileFormatObject format, const char* data);</tt><br>
+</blockquote>
+<p>Write a C-string to a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XFileFormatSubmitObjectMethod"></a>
+<h3><a name="TQ3XFileFormatSubmitObjectMethod">TQ3XFileFormatSubmitObjectMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFileFormatSubmitObjectMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *fileFormatPrivate,
+                            TQ3Object			theObject,
+							TQ3ObjectType		objectType,
+							const void			*objectData);</tt><br>
+</blockquote>
+<p>Submit an object to a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being submitted to.</td><tr>
+<tr valign=top><td><tt>fileFormatPrivate</tt></td><td>File-format specific data.</td><tr>
+<tr valign=top><td><tt>theObject</tt></td><td>The object to submit.</td><tr>
+<tr valign=top><td><tt>objectType</tt></td><td>The type of theObject.</td><tr>
+<tr valign=top><td><tt>objectData</tt></td><td>The data for theObject.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XObjectAttachMethod"></a>
+<h3><a name="TQ3XObjectAttachMethod">TQ3XObjectAttachMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XObjectAttachMethod)</b>(TQ3Object childObject, TQ3Object parentObject);</tt><br>
+</blockquote>
+<p>Attach method.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>childObject</tt></td><td>The child object.</td><tr>
+<tr valign=top><td><tt>parentObject</tt></td><td>The parent object.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
 <a name="//apple_ref/c/tdef/TQ3XObjectReadDataMethod"></a>
 <h3><a name="TQ3XObjectReadDataMethod">TQ3XObjectReadDataMethod</a></h3>
 <b>Abstract:</b> Object method of type <code>kQ3XMethodTypeObjectReadData</code> for a
@@ -3683,6 +3900,23 @@ then adds the element data to its parent set.
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XObjectReadMethod"></a>
+<h3><a name="TQ3XObjectReadMethod">TQ3XObjectReadMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Object, <b>TQ3XObjectReadMethod)</b>(TQ3FileObject theFile);</tt><br>
+</blockquote>
+<p>Read method.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theFile</tt></td><td>The file to read.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The object(s) read from the file.
  
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XObjectTraverseDataMethod"></a>
@@ -3754,5 +3988,95 @@ child objects does not need to provide this method.
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+<h2>Structs</h2>
+<a name="//apple_ref/c/tag/TQ3FFormatBaseData"></a>
+<h3><a name="TQ3FFormatBaseData">TQ3FFormatBaseData</a></h3>
+<blockquote><pre>
+typedef struct TQ3FFormatBaseData {
+    // Initialised by Quesa
+    TQ3Uns32                                    baseDataVersion;
+    TQ3StorageObject                            storage;
+    TQ3Uns32                                    currentStoragePosition;
+    TQ3Uns32                                    logicalEOF;
+
+
+    // Initialised by the importer
+    TQ3FileVersion                              fileVersion;
+    TQ3Boolean                                  noMoreObjects;
+    TQ3Endian                                   byteOrder;
+    TQ3Boolean                                  readInGroup;
+    TQ3Int32                                    groupDeepCounter;
+    TQ3Uns32                                    *reserved1;
+    TQ3Uns32                                    *reserved2;
+    TQ3Uns32                                    *reserved3;
+} TQ3FFormatBaseData;
+</pre>
+</blockquote>
+<p>Common data for FileFormat objects.
+<br><br>
+This must be the first field in any derived structures.
+<br><br>
+The baseDataVersion, storage, currentStoragePosition, and logicalEOF fields
+are initialised automatically by Quesa. Remaining fields must be initialised
+by the importer.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>baseDataVersion</tt></td><td>The base data version.</td><tr>
+<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td><tr>
+<tr valign=top><td><tt>currentStoragePosition</tt></td><td>The current position within the storage object.</td><tr>
+<tr valign=top><td><tt>logicalEOF</tt></td><td>The number of bytes in the storage object.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3UnknownBinaryData"></a>
+<h3><a name="TQ3UnknownBinaryData">TQ3UnknownBinaryData</a></h3>
+<blockquote><pre>
+typedef struct TQ3UnknownBinaryData {
+    TQ3ObjectType                               objectType;
+    TQ3Size                                     size;
+    TQ3Endian                                   byteOrder;
+    char                                        *contents;
+} TQ3UnknownBinaryData;
+</pre>
+</blockquote>
+<p>Unknown binary data.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>objectType</tt></td><td>The type of the object.</td><tr>
+<tr valign=top><td><tt>size</tt></td><td>The size of the object data.</td><tr>
+<tr valign=top><td><tt>byteOrder</tt></td><td>The byte order of the object data.</td><tr>
+<tr valign=top><td><tt>contents</tt></td><td>The data for the object.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3UnknownTextData"></a>
+<h3><a name="TQ3UnknownTextData">TQ3UnknownTextData</a></h3>
+<blockquote><pre>
+typedef struct TQ3UnknownTextData {
+    char                                        *objectName;
+    char                                        *contents;
+} TQ3UnknownTextData;
+</pre>
+</blockquote>
+<p>Unknown text data.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>objectName</tt></td><td>The name of the object.</td><tr>
+<tr valign=top><td><tt>contents</tt></td><td>The data for the object.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
 </body></html>
