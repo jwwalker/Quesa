@@ -1469,27 +1469,132 @@ e3ffw_3DMF_point_write(const TQ3PointData *object,
 
 
 
+
 //=============================================================================
 //      e3ffw_3DMF_marker_traverse : Marker traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_marker_traverse (	TQ3Object object ,
+								TQ3MarkerData* data ,
+								TQ3ViewObject view )
+	{
+	#pragma unused(object)
+
+	TQ3Status	status ;
+	
+	if ( data == NULL || data->bitmap.image == NULL )
+		{
+		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
+		return kQ3Failure;
+		}
+		
+	status = Q3XView_SubmitWriteData ( view ,
+		Q3Size_Pad ( 36 + data->bitmap.rowBytes * data->bitmap.height )  , (void*) data , NULL ) ;
+	
+	// Overall attribute set
+	if ( ( status != kQ3Failure ) && ( data->markerAttributeSet != NULL ) )
+		status = Q3Object_Submit ( data->markerAttributeSet , view ) ;
+
+
+	return status ;
+	}
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_marker_write : Marker write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_marker_write (	const TQ3MarkerData* data ,
+							TQ3FileObject theFile )
+	{
+	TQ3Status writeStatus = Q3Point3D_Write ( &data->location , theFile ) ;	
+
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Int32_Write ( data->xOffset , theFile ) ;
+	
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Int32_Write ( data->yOffset , theFile ) ;
+	
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Uns32_Write ( data->bitmap.width , theFile ) ;
+	
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Uns32_Write ( data->bitmap.height , theFile ) ;
+	
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Uns32_Write ( data->bitmap.rowBytes , theFile ) ;
+	
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Uns32_Write ( data->bitmap.bitOrder , theFile ) ;
+	
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3RawData_Write ( data->bitmap.image ,
+			Q3Size_Pad ( data->bitmap.rowBytes * data->bitmap.height ) , theFile ) ;
+	
+	return writeStatus ;
+	}
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_pixmapmarker_traverse : Pixmap Marker traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_pixmapmarker_traverse (	TQ3Object object ,
+									TQ3PixmapMarkerData* data ,
+									TQ3ViewObject view )
+	{
+	#pragma unused(object)
+
+	TQ3Status	status ;
+	
+	if ( data == NULL || data->pixmap.image == NULL )
+		{
+		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
+		return kQ3Failure;
+		}
+		
+	status = Q3XView_SubmitWriteData ( view ,
+		Q3Size_Pad ( 48 + data->pixmap.rowBytes * data->pixmap.height ) , (void*) data , NULL ) ;
+	
+	// Overall attribute set
+	if ( ( status != kQ3Failure ) && ( data->pixmapMarkerAttributeSet != NULL ) )
+		status = Q3Object_Submit ( data->pixmapMarkerAttributeSet , view ) ;
+
+
+	return status ;
+	}
+
+
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_pixmapmarker_write : Pixmap Marker write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_pixmapmarker_write (	const TQ3PixmapMarkerData* data ,
+							TQ3FileObject theFile )
+	{
+	TQ3Status writeStatus = Q3Point3D_Write ( &data->position , theFile ) ;	
+
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Int32_Write ( data->xOffset , theFile ) ;
+	
+	if ( writeStatus != kQ3Failure )
+		writeStatus = Q3Int32_Write ( data->yOffset , theFile ) ;
+	
+	if ( writeStatus != kQ3Failure )
+		writeStatus = e3ffw_3DMF_pixmap_write ( (TQ3StoragePixmap*) &data->pixmap , theFile ) ;
+	
+	return writeStatus ;
+	}
+
 
 
 
@@ -3481,6 +3586,12 @@ E3FFW_3DMF_RegisterGeom(void)
 	
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBPatch,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_NURBpatch_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBPatch,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_NURBpatch_write);
+
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeMarker,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_marker_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeMarker,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_marker_write);
+	
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePixmapMarker,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_pixmapmarker_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePixmapMarker,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_pixmapmarker_write);
 
 	return kQ3Success;
 }
