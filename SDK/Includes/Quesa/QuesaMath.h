@@ -30,12 +30,14 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef __QUESA_MATH__
-#define __QUESA_MATH__
+#ifndef QUESA_MATH_HDR
+#define QUESA_MATH_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
+
+#include "QD3DMath.h"
 
 
 
