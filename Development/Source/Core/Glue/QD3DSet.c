@@ -678,7 +678,7 @@ Q3AttributeSet_GetNextAttributeType(TQ3AttributeSet source, TQ3AttributeType *th
 
 
 	// Call our implementation
-	return(E3Set_GetNextElementType(source, theType));
+	return(E3AttributeSet_GetNextAttributeType(source, theType));
 }
 
 

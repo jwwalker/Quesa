@@ -1389,7 +1389,7 @@ E3Set_RegisterClass(void)
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
 												kQ3ElementTypeAttribute,
-												kQ3ClassNameElement,
+												kQ3ClassNameAttribute,
 												e3element_metahandler,
 												0);
 
@@ -1972,131 +1972,16 @@ E3Set_Empty(TQ3SetObject theSet)
 //=============================================================================
 //      E3Set_GetNextElementType : Get the next element type in a set.
 //-----------------------------------------------------------------------------
-//		Note :	Assumes the set will not be changed while scanning. If the set
-//				is changed, we will detect this and stop the iteration.
-//
-//				To avoid depending on the details of how sets are implemented,
-//				we use an iterator to build up a flat list of the types of the
-//				elements in the set.
-//
-//				When the search concludes, this list will be freed: if a scan
-//				is stopped early, the list will persist until the next scan or
-//				until the set is disposed of.
+//		See notes in E3AttributeSet_GetNextAttributeType
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
-{	TQ3SetData			*instanceData;
-	TQ3Uns32			editIndex;
-	TQ3XAttributeMask	mask;
+{
+	TQ3Status qd3dStatus = E3AttributeSet_GetNextAttributeType(theSet, theType);
+	*theType = E3Attribute_AttributeToClassType(*theType);
 
+	return(qd3dStatus);
 
-
-	// Find the instance data
-	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-
-
-	// Get the edit index for the set
-	editIndex = Q3Shared_GetEditIndex(theSet);
-
-
-
-	// Prepare to start a new scan
-	if (*theType == kQ3ElementTypeNone)
-		{
-		// Reset our state from any previous scan 
-		instanceData->scanEditIndex = editIndex;
-		instanceData->scanCount     = 0;
-		instanceData->scanIndex     = 0;
-		Q3Memory_Free(&instanceData->scanResults);
-		
-		// put in the built-in attributes
-		if(instanceData->theMask != kQ3XAttributeMaskNone){
-			mask = instanceData->theMask;
-			if((mask & kQ3XAttributeMaskSurfaceUV) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeSurfaceUV, NULL, NULL);
-
-			if((mask & kQ3XAttributeMaskShadingUV) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeShadingUV, NULL, NULL);
-
-			if((mask & kQ3XAttributeMaskNormal) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeNormal, NULL, NULL);
-
-			if((mask & kQ3XAttributeMaskAmbientCoefficient) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeAmbientCoefficient, NULL, NULL);
-
-			if((mask & kQ3XAttributeMaskDiffuseColor) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeDiffuseColor, NULL, NULL);
-
-			if((mask & kQ3XAttributeMaskSpecularColor) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeSpecularColor, NULL, NULL);
-
-			if((mask & kQ3XAttributeMaskSpecularControl) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeSpecularControl, NULL, NULL);
-
-			if((mask & kQ3XAttributeMaskTransparencyColor) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeTransparencyColor, NULL, NULL);
-
-			if((mask & kQ3XAttributeMaskSurfaceTangent) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeSurfaceTangent, NULL, NULL);
-
-			if((mask & kQ3XAttributeMaskHighlightState) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeHighlightState, NULL, NULL);
-
-			if((mask & kQ3XAttributeMaskSurfaceShader) != 0)
-				e3set_iterator_scan_types(instanceData, kQ3ObjectTypeAttributeSurfaceShader, NULL, NULL);
-
-			}
-
-		// Build the array of types in the set
-		if (instanceData->theTable != NULL)
-			e3set_iterate_elements(instanceData, e3set_iterator_scan_types, NULL);
-		}
-	
-	
-	// Continue a previous scan
-	else
-		{
-		// If we've been edited, stop the scan
-		if (editIndex != instanceData->scanEditIndex)
-			{
-			instanceData->scanCount     = 0;
-			instanceData->scanIndex     = 0;
-			Q3Memory_Free(&instanceData->scanResults);
-
-			*theType = kQ3ElementTypeNone;
-			return(kQ3Success);
-			}
-		}
-
-
-
-	// Return the next type in the set
-	if (instanceData->scanIndex < instanceData->scanCount)
-		{
-		Q3_ASSERT_VALID_PTR(instanceData->scanResults);
-		
-		*theType = instanceData->scanResults[instanceData->scanIndex];
-		instanceData->scanIndex++;
-		}
-	else
-		{
-		*theType = kQ3ElementTypeNone;
-		}
-
-
-
-	// If that was the last type, clean up
-	if (instanceData->scanIndex == instanceData->scanCount)
-		{
-		instanceData->scanCount     = 0;
-		instanceData->scanIndex     = 0;
-		Q3Memory_Free(&instanceData->scanResults);
-		}
-	
-	return(kQ3Success);
 }
 
 
@@ -2279,6 +2164,139 @@ E3Attribute_AttributeToClassType(TQ3AttributeType theType)
 	return(theType);
 }
 
+
+
+
+
+//=============================================================================
+//      E3AttributeSet_GetNextAttributeType : Get the next element type in a set.
+//-----------------------------------------------------------------------------
+//		Note :	Assumes the set will not be changed while scanning. If the set
+//				is changed, we will detect this and stop the iteration.
+//
+//				To avoid depending on the details of how sets are implemented,
+//				we use an iterator to build up a flat list of the types of the
+//				elements in the set.
+//
+//				When the search concludes, this list will be freed: if a scan
+//				is stopped early, the list will persist until the next scan or
+//				until the set is disposed of.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3AttributeSet_GetNextAttributeType(TQ3AttributeSet theSet, TQ3AttributeType *theType)
+{	TQ3SetData			*instanceData;
+	TQ3Uns32			editIndex;
+	TQ3XAttributeMask	mask;
+
+
+
+	// Find the instance data
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
+	if (instanceData == NULL)
+		return(kQ3Failure);
+
+
+
+	// Get the edit index for the set
+	editIndex = Q3Shared_GetEditIndex(theSet);
+
+
+
+	// Prepare to start a new scan
+	if (*theType == kQ3ElementTypeNone)
+		{
+		// Reset our state from any previous scan 
+		instanceData->scanEditIndex = editIndex;
+		instanceData->scanCount     = 0;
+		instanceData->scanIndex     = 0;
+		Q3Memory_Free(&instanceData->scanResults);
+		
+		// put in the built-in attributes
+		if(instanceData->theMask != kQ3XAttributeMaskNone){
+			mask = instanceData->theMask;
+			if((mask & kQ3XAttributeMaskSurfaceUV) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSurfaceUV, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskShadingUV) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeShadingUV, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskNormal) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeNormal, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskAmbientCoefficient) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeAmbientCoefficient, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskDiffuseColor) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeDiffuseColor, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskSpecularColor) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSpecularColor, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskSpecularControl) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSpecularControl, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskTransparencyColor) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeTransparencyColor, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskSurfaceTangent) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSurfaceTangent, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskHighlightState) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeHighlightState, NULL, NULL);
+
+			if((mask & kQ3XAttributeMaskSurfaceShader) != 0)
+				e3set_iterator_scan_types(instanceData, kQ3AttributeTypeSurfaceShader, NULL, NULL);
+
+			}
+
+		// Build the array of types in the set
+		if (instanceData->theTable != NULL)
+			e3set_iterate_elements(instanceData, e3set_iterator_scan_types, NULL);
+		}
+	
+	
+	// Continue a previous scan
+	else
+		{
+		// If we've been edited, stop the scan
+		if (editIndex != instanceData->scanEditIndex)
+			{
+			instanceData->scanCount     = 0;
+			instanceData->scanIndex     = 0;
+			Q3Memory_Free(&instanceData->scanResults);
+
+			*theType = kQ3ElementTypeNone;
+			return(kQ3Success);
+			}
+		}
+
+
+
+	// Return the next type in the set
+	if (instanceData->scanIndex < instanceData->scanCount)
+		{
+		Q3_ASSERT_VALID_PTR(instanceData->scanResults);
+		
+		*theType = instanceData->scanResults[instanceData->scanIndex];
+		instanceData->scanIndex++;
+		}
+	else
+		{
+		*theType = kQ3ElementTypeNone;
+		}
+
+
+
+	// If that was the last type, clean up
+	if (instanceData->scanIndex == instanceData->scanCount)
+		{
+		instanceData->scanCount     = 0;
+		instanceData->scanIndex     = 0;
+		Q3Memory_Free(&instanceData->scanResults);
+		}
+	
+	return(kQ3Success);
+}
 
 
 
