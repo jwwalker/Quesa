@@ -762,34 +762,38 @@ ir_state_adjust_gl(TQ3InteractiveData *instanceData)
 			
 
 
-		// Update the specular control if it's changed. There doesn't seem to be an
-		// exact mapping between the lighting controls in QD3D and in OpenGL, so we
-		// use this hack for now.
+		// Update the specular control if it's changed.
 		if (instanceData->stateGeomSpecularControl != instanceData->stateCurrentSpecularControl)
 			{
 			instanceData->stateCurrentSpecularControl = instanceData->stateGeomSpecularControl;
 			specularControl                           = instanceData->stateCurrentSpecularControl;
 			
-			if (specularControl < 10.0f)
-				specularControl *= 10.0f;
+			if (specularControl < 0.5f)
+            	specularControl *= 0.0f;
+
+			else if (specularControl < 1.0f)
+            	specularControl *= 1.0f;
+
+			else if (specularControl < 2.0f)
+            	specularControl *= 1.5f;
+
+			else if (specularControl < 5.0f)
+            	specularControl *= 2.5f;
+
+			else if (specularControl < 10.0f)
+            	specularControl *= 4.0f;
+
+			else if (specularControl < 15.0f)
+				specularControl *= 12.0f;
 
 			else if (specularControl < 20.0f)
-				specularControl *= 3.5f;
+				specularControl *= 30.0f;
 
-			else if (specularControl < 40.0f)
-				specularControl *= 3.0f;
-
-			else if (specularControl < 60.0f)
-				specularControl *= 2.25f;
-
-			else if (specularControl < 100.0f)
-				specularControl *= 1.8f;
-
-			else if (specularControl < 128.0f)
-				specularControl *= 1.24f;
+			else if (specularControl < 25.0f)
+				specularControl *= 80.0f;
 
 			else
-				specularControl = 128.0f;
+            	specularControl = 128.0f;
 
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &specularControl);
 			}
