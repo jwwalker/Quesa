@@ -386,7 +386,7 @@ typedef struct TQ3XColormapData {
  *  @field drawContextData  The common state for the draw context.
  *  @field display          The X11 Display.
  *  @field drawable         The X11 Drawable.
- *  @field visual           The X11 visual.
+ *  @field visual           The X11 Visual.
  *  @field cmap             The X11 color map.
  *  @field colorMapData     The X11 color map data.
  */

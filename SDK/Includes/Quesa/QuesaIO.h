@@ -1440,9 +1440,8 @@ Q3String_Read (
  *	@discussion
  *		Read a NUL-terminated string (C string) from a file.
  *
- *		<em>This function is not part of QuickDraw 3D</em>.  Unlike
- *		the QD3D function <code>Q3String_Read</code>, it is not limited to
- *		reading at most <code>kQ3StringMaximumLength</code> bytes.  Note that
+ *		Unlike the QD3D function <code>Q3String_Read</code>, this function is not
+ *      limited to reading at most <code>kQ3StringMaximumLength</code> bytes. Note that
  *		the length parameter is an input-output parameter.
  *
  *      If you pass NULL for the buffer, <code>Q3String_ReadUnlimited</code> will still
@@ -1459,6 +1458,8 @@ Q3String_Read (
  *
  *		If you passed a non-NULL buffer that was not big enough for the whole string,
  *		Quesa posts <code>kQ3WarningStringExceedsMaximumLength</code>.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *	@param	data			Buffer to receive string data, or NULL.
  *	@param	ioLength		Pass the size of your buffer.  Receives the number of
