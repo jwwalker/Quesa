@@ -227,9 +227,11 @@ typedef struct TQ3ViewPlaneCameraData {
  *      A view angle aspect camera is a perspective camera defined by a field of
  *      view angle and an aspect ratio.
  *
- *      The field of view angle must be a positive angle in radians. The aspect
- *      ratio should be greater than 1.0 if the field of view is vertical, and
- *      less than 1.0 if the field of view is horizontal.
+ *		The field of view angle must be a positive angle in radians.  If the
+ *		aspect ratio is greater than 1.0, the field of view represents the
+ *		vertical range of visibility, and if the aspect ratio is less than 1.0,
+ *		the field of view is horizontal.  In other words, the field of view is
+ *		the smaller of the two angles.
  *
  *  @field cameraData       The common state for the camera.
  *  @field fov              The field of view of the camera, in radians.
