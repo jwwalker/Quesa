@@ -1001,10 +1001,17 @@ Q3ViewerCursorChanged (
  *  @function
  *      Q3ViewerGetState
  *  @discussion
- *      One-line description of this function.
+ *      Returns a set of status bits indicating the viewer state.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The bits returned will be some combination of the following:
+ *			kQ3ViewerEmpty: no image is currently displayed
+ *			kQ3ViewerHasModel: an image of a 3D model is currently displayed
+ *			kQ3ViewerHasUndo: the Viewer is able to undo a recent action
+ *
+ *		You might use these flags to enable the appropriate items of the
+ *		Edit menu, for example.
+ *
+ *		See also the <code>Q3ViewerGetUndoString</code> function.
  *
  *  @param theViewer        Viewer object.
  *  @result                 Description of the function result.
@@ -1019,10 +1026,10 @@ Q3ViewerGetState (
  *  @function
  *      Q3ViewerClear
  *  @discussion
- *      One-line description of this function.
+ *      Executes the Clear editing command.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Call this function in response to the user selecting the standard
+ *		Clear command when the viewer has the focus.
  *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
@@ -1037,10 +1044,10 @@ Q3ViewerClear (
  *  @function
  *      Q3ViewerCut
  *  @discussion
- *      One-line description of this function.
+ *      Executes the Cut editing command.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Call this function in response to the user selecting the standard
+ *		Cut command when the viewer has the focus.
  *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
@@ -1055,10 +1062,10 @@ Q3ViewerCut (
  *  @function
  *      Q3ViewerCopy
  *  @discussion
- *      One-line description of this function.
+ *      Executes the Copy editing command.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Call this function in response to the user selecting the standard
+ *		Copy command when the viewer has the focus.
  *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
@@ -1073,10 +1080,10 @@ Q3ViewerCopy (
  *  @function
  *      Q3ViewerPaste
  *  @discussion
- *      One-line description of this function.
+ *      Executes the Paste editing command.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Call this function in response to the user selecting the standard
+ *		Paste command when the viewer has the focus.
  *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
@@ -1091,14 +1098,15 @@ Q3ViewerPaste (
  *  @function
  *      Q3ViewerMouseDown
  *  @discussion
- *      One-line description of this function.
+ *      Handles a mouse-down event.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		If you're not using <code>Q3ViewerEvent</code>, then you'll need to
+ *		handle a mouse-down event by calling this function.
  *
  *  @param theViewer        Viewer object.
- *  @param x                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param x                Horizontal global (screen) location of mouse down.
+ *  @param y                Vertical global (screen) location of mouse down.
+ *  @result                 True if the Viewer handled the event, false otherwise.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerMouseDown (
@@ -1112,14 +1120,17 @@ Q3ViewerMouseDown (
  *  @function
  *      Q3ViewerContinueTracking
  *  @discussion
- *      One-line description of this function.
+ *      Handles continued depression of the mouse.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		If you're not using <code>Q3ViewerEvent</code>, then you'll should
+ *		call this method after calling <code>Q3ViewerMouseDown</code> (and
+ *		receiving a <code>true</code> result), whenever any event (such as
+ *		a mouse movement) occurs as long as the mouse remains down.
  *
  *  @param theViewer        Viewer object.
- *  @param x                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param x                Horizontal global (screen) location of mouse cursor.
+ *  @param y                Vertical global (screen) location of mouse cursor.
+ *  @result                 True if the Viewer handled the event, false otherwise.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerContinueTracking (
@@ -1133,14 +1144,16 @@ Q3ViewerContinueTracking (
  *  @function
  *      Q3ViewerMouseUp
  *  @discussion
- *      One-line description of this function.
+ *      Handles a mouse-up event.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		If you're not using <code>Q3ViewerEvent</code>, then you'll need to
+ *		handle a mouse-up event by calling this function.  But you only need
+ *		to do so if <code>Q3ViewerMouseDown</code> returned <code>true</code>.
  *
  *  @param theViewer        Viewer object.
- *  @param x                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param x                Horizontal global (screen) location of mouse up.
+ *  @param y                Vertical global (screen) location of mouse up.
+ *  @result                 True if the Viewer handled the event, false otherwise.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerMouseUp (
@@ -1154,14 +1167,15 @@ Q3ViewerMouseUp (
  *  @function
  *      Q3ViewerHandleKeyEvent
  *  @discussion
- *      One-line description of this function.
+ *      Handles a key event.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		If you're not using <code>Q3ViewerEvent</code>, then you'll need to
+ *		handle a key event that occurs while the Viewer has the focus by
+ *		calling this method.
  *
  *  @param theViewer        Viewer object.
- *  @param evt              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param evt              Address of MacOS event record describing a key event.
+ *  @result                 True if the Viewer handled the event, false otherwise.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerHandleKeyEvent (
@@ -1174,14 +1188,16 @@ Q3ViewerHandleKeyEvent (
  *  @function
  *      Q3ViewerSetDrawingCallbackMethod
  *  @discussion
- *      One-line description of this function.
+ *      Sets a callback function to be called after any drawing.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function is invoked after the Viewer draws any part of itself.
+ *		You can use it to do any further processing you might need to do.
+ *		For example, if the Viewer is associated with an offscreen graphics
+ *		world, you might use this callback to update the screen.
  *
  *  @param theViewer        Viewer object.
- *  @param callbackMethod   Description of the parameter.
- *  @param data             Description of the parameter.
+ *  @param callbackMethod   Pointer to a drawing callback routine.
+ *  @param data             Arbitrary pointer passed to your callback routine.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1196,14 +1212,17 @@ Q3ViewerSetDrawingCallbackMethod (
  *  @function
  *      Q3ViewerSetWindowResizeCallback
  *  @discussion
- *      One-line description of this function.
+ *      Sets a callback function to be called when window containing
+ *		the Viewer is resized.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function is invoked when the Viewer is resized.  You can
+ *		use it to do any further processing that might be needed.  For
+ *		example, you might resize or move your Viewer pane to fit the
+ *		new window bounds.
  *
  *  @param theViewer        Viewer object.
- *  @param windowResizeCallbackMethod Description of the parameter.
- *  @param data             Description of the parameter.
+ *  @param windowResizeCallbackMethod Pointer to a window resize callback procedure.
+ *  @param data             Arbitrary pointer passed to your callback routine.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1218,14 +1237,14 @@ Q3ViewerSetWindowResizeCallback (
  *  @function
  *      Q3ViewerSetPaneResizeNotifyCallback
  *  @discussion
- *      One-line description of this function.
+ *      Sets a callback function to be called when the Viewer is resized.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This function is invoked when the Viewer is resized.  You can
+ *		use it to do any further processing that might be needed.
  *
  *  @param theViewer        Viewer object.
- *  @param paneResizeNotifyCallbackMethod Description of the parameter.
- *  @param data             Description of the parameter.
+ *  @param paneResizeNotifyCallbackMethod Pointer to a pane resize callback procedure.
+ *  @param data             Arbitrary pointer passed to your callback routine.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1240,10 +1259,10 @@ Q3ViewerSetPaneResizeNotifyCallback (
  *  @function
  *      Q3ViewerUndo
  *  @discussion
- *      One-line description of this function.
+ *      Executes the Undo editing command.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Call this function in response to the user selecting the standard
+ *		Undo command when the viewer has the focus.
  *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
@@ -1258,15 +1277,20 @@ Q3ViewerUndo (
  *  @function
  *      Q3ViewerGetUndoString
  *  @discussion
- *      One-line description of this function.
+ *      Gets text for the current Undo operation.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function stores the name of the current Undoable operation
+ *		in the user-supplied character buffer.  The text should be
+ *		localized to the user's preferred language (but probably is not,
+ *		in Quesa 1.6 at least).  Note that this text does not contain
+ *		the "Undo" word itself, but only the name of the operation.  So
+ *		if you want to use this to set the text of a menu item, you'll
+ *		need to combine it with "Undo " yourself.
  *
  *  @param theViewer        Viewer object.
- *  @param str              Description of the parameter.
- *  @param cnt              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param str              Pointer to a character buffer.
+ *  @param cnt              On entry, the buffer size; on exit, the text length.
+ *  @result                 True if there is an Undoable operation; false otherwise.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerGetUndoString (
@@ -1280,13 +1304,17 @@ Q3ViewerGetUndoString (
  *  @function
  *      Q3ViewerGetCameraCount
  *  @discussion
- *      One-line description of this function.
+ *      Returns how many cameras are supplied by the Viewer's view hints.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Model files may contain view hints which provide things such as
+ *		"good" camera positions.  This function will report how many
+ *		such cameras are suggested.  If there are no view hints associated
+ *		with the Viewer, then this function returns 0.
  *
+ *		See also <code>Q3ViewerSetCameraByNumber</code>.
+ 
  *  @param theViewer        Viewer object.
- *  @param cnt              Description of the parameter.
+ *  @param cnt              Address of integer to receive the camera count.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1300,19 +1328,21 @@ Q3ViewerGetCameraCount (
  *  @function
  *      Q3ViewerSetCameraByNumber
  *  @discussion
- *      One-line description of this function.
+ *      Sets the view to a camera in the Viewer's view hints.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Model files may contain view hints which provide things such as
+ *		"good" camera positions.  This function selects one of those cameras.
+ *		The camera number supplied is 1-based, and the value must be less
+ *		than or equal to the result of <code>Q3ViewerGetCameraCount</code>.
  *
  *  @param theViewer        Viewer object.
- *  @param cameraNo         Description of the parameter.
+ *  @param cameraNum        1-based index of camera to select.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetCameraByNumber (
     TQ3ViewerObject                theViewer,
-    unsigned long                  cameraNo
+    unsigned long                  cameraNum
 );
 
 
@@ -1320,13 +1350,20 @@ Q3ViewerSetCameraByNumber (
  *  @function
  *      Q3ViewerSetCameraByView
  *  @discussion
- *      One-line description of this function.
+ *      Sets the camera to one of the predefined views.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Possible values for viewType are:
+ *		    kQ3ViewerCameraRestore -- reset to initial position
+ *		    kQ3ViewerCameraFit -- fit entire model in the view
+ *		    kQ3ViewerCameraFront -- look at the front of the model
+ *		    kQ3ViewerCameraBack -- look at the back of the model
+ *		    kQ3ViewerCameraLeft -- look at the left side of the model
+ *		    kQ3ViewerCameraRight -- look at the right side of the model
+ *		    kQ3ViewerCameraTop -- look down at the top of the model
+ *		    kQ3ViewerCameraBottom -- look up at the bottom of the model
  *
  *  @param theViewer        Viewer object.
- *  @param viewType         Description of the parameter.
+ *  @param viewType         A constant selecting one of the predefined views.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1340,13 +1377,14 @@ Q3ViewerSetCameraByView (
  *  @function
  *      Q3ViewerSetRendererType
  *  @discussion
- *      One-line description of this function.
+ *      Sets the renderer type used by the Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Calling this function is equivalent to selecting one of the renderers
+ *		from the pop-up menu on the Options control button.  The object type
+ *		must be associated with one of the installed renderers.
  *
  *  @param theViewer        Viewer object.
- *  @param rendererType     Description of the parameter.
+ *  @param rendererType     Type of renderer to use.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1360,13 +1398,10 @@ Q3ViewerSetRendererType (
  *  @function
  *      Q3ViewerGetRendererType
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Gets the renderer type currently used by the Viewer.
  *
  *  @param theViewer        Viewer object.
- *  @param rendererType     Description of the parameter.
+ *  @param rendererType     Address to stuff with current renderer type.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1380,13 +1415,10 @@ Q3ViewerGetRendererType (
  *  @function
  *      Q3ViewerChangeBrightness
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Changes the intensity of lighting used on the model.
  *
  *  @param theViewer        Viewer object.
- *  @param brightness       Description of the parameter.
+ *  @param brightness       Desired brightness (from 0 to 1?).
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1400,13 +1432,16 @@ Q3ViewerChangeBrightness (
  *  @function
  *      Q3ViewerSetRemoveBackfaces
  *  @discussion
- *      One-line description of this function.
+ *      Tells the Viewer whether to draw back-facing polygons.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Use this function to change how the Viewer handles polygons
+ *		which face away from the camera.  If you pass true for the
+ *		<code>remove</code> parameter, such polygons will not be
+ *		drawn.  If you pass false, all polygons will be drawn, even
+ *		when they face away from the camera.
  *
  *  @param theViewer        Viewer object.
- *  @param remove           Description of the parameter.
+ *  @param remove           Whether backfaces should be removed.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1420,13 +1455,16 @@ Q3ViewerSetRemoveBackfaces (
  *  @function
  *      Q3ViewerGetRemoveBackfaces
  *  @discussion
- *      One-line description of this function.
+ *      Reports whether the Viewer is currently removing back-facing polygons.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Use this function to discover how the Viewer handles polygons
+ *		which face away from the camera.  If it stores true in the
+ *		<code>remove</code> parameter, such polygons are not being
+ *		drawn.  If it stores false, all polygons are being drawn, even
+ *		when they face away from the camera.
  *
  *  @param theViewer        Viewer object.
- *  @param remove           Description of the parameter.
+ *  @param remove           Address of boolean to receive backfacing option.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1440,13 +1478,14 @@ Q3ViewerGetRemoveBackfaces (
  *  @function
  *      Q3ViewerSetPhongShading
  *  @discussion
- *      One-line description of this function.
+ *      Tells the Viewer whether to render with phong shading.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Phong shading is generally slower but produces a more
+ *		realistic effect, particularly where highlights are
+ *		concerned.  (Not all renderers support phong shading.)
  *
  *  @param theViewer        Viewer object.
- *  @param phong            Description of the parameter.
+ *  @param phong            Whether phong shading is desired.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
@@ -1460,13 +1499,19 @@ Q3ViewerSetPhongShading (
  *  @function
  *      Q3ViewerGetPhongShading
  *  @discussion
- *      One-line description of this function.
+ *      Reports whether the Viewer is set to use phong shading.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Phong shading is generally slower but produces a more
+ *		realistic effect, particularly where highlights are
+ *		concerned.
+ *
+ *		Not all renderers support phong shading.  A value of 
+ *		true reported by this function indicates only that the
+ *		phong shading option is turned on; not whether the renderer
+ *		is actually rendering any differently because of it.
  *
  *  @param theViewer        Viewer object.
- *  @param phong            Description of the parameter.
+ *  @param phong            Address of boolean to receive phone shading option.
  *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
