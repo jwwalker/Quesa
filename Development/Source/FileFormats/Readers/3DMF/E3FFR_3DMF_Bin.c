@@ -276,7 +276,7 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt64Read);
 					
 	status = int32Read(format, &tocType);
-	Q3_REQUIRE_OR_RESULT(tocType == 0x746F6320 /*'toc '*/, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(tocType == kQ3ObjectTypeTOC, kQ3Failure);
 	if(status == kQ3Success)
 		status = int32Read(format, &tocSize);
 	
