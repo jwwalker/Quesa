@@ -1029,6 +1029,10 @@ e3fformat_3dmf_binswap_metahandler(TQ3XMethodType methodType)
 		case kE3XMethodType_3DMF_ReadNextElement:
 			theMethod = (TQ3XFunctionPointer) e3read_3dmf_bin_readnextelement;
 			break;
+
+		case kE3XMethodType_3DMF_ReadFlag:
+			theMethod = (TQ3XFunctionPointer) e3read_3dmf_bin_readflag;
+			break;
 		}
 	
 	return(theMethod);
