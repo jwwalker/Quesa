@@ -137,8 +137,9 @@ typedef struct TQ3ViewData {
 
 
 	// View stack
-	TQ3Uns32					stackCount;
-	TQ3ViewStackItem			*stackState;
+	TQ3Uns32					stackAllocCount;		// how many items are allocated for the stack
+	TQ3Uns32					stackCount;				// how many we're actually using
+	TQ3ViewStackItem			*stackState;			// array of those items
 
 
 	// Bounds state
@@ -443,18 +444,25 @@ e3view_stack_push(TQ3ViewObject theView)
 	TQ3Status			qd3dStatus;
 
 
-
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(theView);
 
 
 
-	// Grow the view stack to the hold the new item
-	qd3dStatus = Q3Memory_Reallocate(&instanceData->stackState,
-									  sizeof(TQ3ViewStackItem) * (instanceData->stackCount+1));
-	if (qd3dStatus != kQ3Success)
-		return(qd3dStatus);
-
+	// Grow the view stack if needed to the hold the new item
+	if (instanceData->stackCount >= instanceData->stackAllocCount)
+		{
+		// Double the stack size each time we need to grow
+		TQ3Uns32 newCount = instanceData->stackAllocCount * 2L;
+		if (newCount < 2L)
+			newCount = 2L;
+			
+		qd3dStatus = Q3Memory_Reallocate(&instanceData->stackState,
+									  sizeof(TQ3ViewStackItem) * newCount);
+		if (qd3dStatus != kQ3Success)
+			return(qd3dStatus);
+		instanceData->stackAllocCount = newCount;
+		}
 
 
 	// If this is the first item, initialise it
@@ -503,7 +511,8 @@ e3view_stack_push(TQ3ViewObject theView)
 
 	// Increment the stack count
 	instanceData->stackCount++;		
-
+	Q3_ASSERT(instanceData->stackCount <= instanceData->stackAllocCount);
+	
 	return(kQ3Success);
 }
 
@@ -545,9 +554,7 @@ e3view_stack_pop(TQ3ViewObject theView)
 
 	// Shrink the stack to get rid of the last item
 	instanceData->stackCount--;
-	qd3dStatus = Q3Memory_Reallocate(&instanceData->stackState,
-									  sizeof(TQ3ViewStackItem) * instanceData->stackCount);
-	Q3_ASSERT(qd3dStatus == kQ3Success);
+	// Note: for performance reasons, we don't actually reduce the stack allocation.
 
 
 
@@ -566,7 +573,7 @@ e3view_stack_pop(TQ3ViewObject theView)
 static void
 e3view_stack_pop_clean(TQ3ViewObject theView)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
-
+	TQ3Status		qd3dStatus;
 
 
 	// Validate our parameters
@@ -577,6 +584,13 @@ e3view_stack_pop_clean(TQ3ViewObject theView)
 	// Pop the stack clean
 	while (instanceData->stackCount != 0)
 		e3view_stack_pop(theView);
+
+
+	// And release the stack memory
+	qd3dStatus = Q3Memory_Reallocate(&instanceData->stackState, 0);
+	Q3_ASSERT(kQ3Success != qd3dStatus);
+	if (kQ3Success == qd3dStatus)
+		instanceData->stackAllocCount = 0;
 }
 
 
