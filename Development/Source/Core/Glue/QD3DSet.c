@@ -359,6 +359,38 @@ Q3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 
 
 
+
+
+//=============================================================================
+//      Q3Set_CopyElement : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Set_CopyElement(
+	TQ3SetObject				sourceSet,
+	TQ3ElementType				theType,
+	TQ3SetObject				destSet
+)
+{
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(sourceSet->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sourceSet, kQ3SharedTypeSet), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(destSet->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(destSet, kQ3SharedTypeSet), kQ3Failure);
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Set_CopyElement(sourceSet, theType, destSet));
+}
+
+
+
 #pragma mark -
 
 //=============================================================================

@@ -322,6 +322,33 @@ Q3Set_GetNextElementType (
 
 /*!
  *  @function
+ *      Q3Set_CopyElement
+ *  @discussion
+ *      Copies an element from one set to another.
+ *
+ *      If the destination set already contains an element of the specified
+ *      type, the element will be replaced.
+ *
+ *		<em>This function is not available in QD3D.</em>
+ *
+ *  @param sourceSet   		The set containing the element to be copied.
+ *  @param theType          Type of the element.
+ *  @param destSet          Set to receive the copied element.
+ *  @result                 Error status of the function.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+EXTERN_API_C ( TQ3Status  )
+Q3Set_CopyElement(
+	TQ3SetObject				sourceSet,
+	TQ3ElementType				theType,
+	TQ3SetObject				destSet
+);
+#endif
+
+
+
+/*!
+ *  @function
  *      Q3Attribute_Submit
  *  @discussion
  *      One-line description of this function.
