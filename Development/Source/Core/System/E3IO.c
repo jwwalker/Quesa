@@ -51,6 +51,11 @@ static TQ3Status
 e3file_format_attach(TQ3FileObject theFile,TQ3FileFormatObject theFileFormat)
 {	TE3FileData				*instanceData = (TE3FileData *) theFile->instanceData;
 
+	if( (theFileFormat != instanceData->format) && (instanceData->format != NULL))
+		{
+		E3FileFormat_Terminate (instanceData->format);
+		}
+		
 	E3Shared_Replace(&instanceData->format, theFileFormat);
 
 	if( theFileFormat != NULL)
