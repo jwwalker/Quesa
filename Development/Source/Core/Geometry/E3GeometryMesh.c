@@ -39,6 +39,7 @@
 #include "E3GeometryMesh.h"
 #include "E3ArrayOrList.h"
 #include "E3Pool.h"
+#include "GLPrefix.h"
 
 
 
@@ -119,7 +120,7 @@ struct TE3MeshPartData {
 struct TE3MeshCornerData {
 	// *** A corner is NOT a part! ***
 	TE3MeshFacePtrArrayOrList		facePtrArrayOrList;
-	TQ3AttributeSet 				attributeSet;
+	TQ3AttributeSet					attributeSet;
 };
 
 E3_ARRAY_OR_LIST_DECLARE(TE3MeshCornerData, e3meshCorner, static);
@@ -130,9 +131,9 @@ E3_ARRAY_OR_LIST_DEFINE(TE3MeshCornerData, e3meshCorner, static, kE3MeshCorner);
 // TE3MeshVertexData
 struct TE3MeshVertexData {
 	TE3MeshPartData					part;					// base class
-	TQ3Point3D 						point;
+	TQ3Point3D						point;
 	TE3MeshCornerDataArrayOrList	cornerArrayOrList;
-	TQ3AttributeSet 				attributeSet;
+	TQ3AttributeSet					attributeSet;
 };
 
 E3_ARRAY_OR_LIST_DECLARE(TE3MeshVertexData, e3meshVertex, static);
@@ -156,11 +157,40 @@ E3_ARRAY_OR_LIST_DEFINE(TE3MeshContourData, e3meshContour, static, kE3MeshContou
 struct TE3MeshFaceData {
 	TE3MeshPartData					part;					// base class
 	TE3MeshContourDataArrayOrList	contourArrayOrList;
-	TQ3AttributeSet 				attributeSet;
+	TQ3AttributeSet					attributeSet;
 };
 
 E3_ARRAY_OR_LIST_DECLARE(TE3MeshFaceData, e3meshFace, static);
 E3_ARRAY_OR_LIST_DEFINE(TE3MeshFaceData, e3meshFace, static, kE3MeshFace);
+
+
+
+// GLU callback
+#ifndef CALLBACK
+	#define CALLBACK
+#endif
+
+typedef void (CALLBACK *GLcallback)();
+
+
+
+// TQ3PolyhedronTriangleData
+E3_ARRAY_OR_LIST_DECLARE(TQ3PolyhedronTriangleData, e3polyhedronTriangle, static);
+E3_ARRAY_OR_LIST_DEFINE(TQ3PolyhedronTriangleData, e3polyhedronTriangle, static, kE3PolyhedronTriangle);
+
+
+
+// TE3MeshTessellator
+typedef struct TE3MeshTessellator {
+	const TE3MeshVertexDataArray* vertexArrayPtr;
+	TQ3AttributeSet faceAttributeSet;
+	GLUtriangulatorObj* gluTessellatorPtr;
+	TQ3PolyhedronTriangleDataArrayOrList polyhedronTriangleArrayOrList;
+	TQ3Status status;
+	TQ3PolyhedronTriangleData polyhedronTriangle;
+	TQ3Boolean isEdge;
+	TQ3Uns32 vertexIdx;
+} TE3MeshTessellator;
 
 
 
@@ -178,7 +208,7 @@ struct TE3MeshData {
 	unsigned long					numCorners;
 	TE3MeshVertexDataArrayOrList	vertexArrayOrList;
 	TE3MeshFaceDataArrayOrList		faceArrayOrList;
-	TQ3AttributeSet 				attributeSet;
+	TQ3AttributeSet					attributeSet;
 };
 
 
@@ -202,6 +232,7 @@ e3meshPartPtr_Relink(
 {
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(partHdl);
+	Q3_ASSERT_VALID_PTR(*partHdl);
 	
 	(*partHdl) = (*partHdl)->partPtrOrHdl.newPartPtr;
 
@@ -292,6 +323,37 @@ e3meshVertexPtr_Relink(
     unusedArg; /* Suppress compiler warning */
 
 	return(e3meshPartPtr_Relink(E3_UP_CAST(TE3MeshPartPtr*, vertexHdl)));
+}
+
+
+
+
+
+//=============================================================================
+//      e3meshVertexPtr_Tessellate : Tessellate vertex.
+//-----------------------------------------------------------------------------
+//		Warning :	In contrast to other functions, the parameter for this
+//					function is a pointer to a pointer, not a pointer!
+//-----------------------------------------------------------------------------
+static
+TQ3Status
+e3meshVertexPtr_Tessellate(
+	TE3MeshVertexPtr* vertexHdl,
+	GLUtriangulatorObj* gluTessellatorPtr)
+{
+	GLdouble vertCoords[3];
+	
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(vertexHdl);
+	Q3_ASSERT_VALID_PTR(*vertexHdl);
+	Q3_ASSERT_VALID_PTR(gluTessellatorPtr);
+
+	vertCoords[0] = (GLdouble) (*vertexHdl)->point.x;
+	vertCoords[1] = (GLdouble) (*vertexHdl)->point.y;
+	vertCoords[2] = (GLdouble) (*vertexHdl)->point.z;
+	gluTessVertex(gluTessellatorPtr, vertCoords, *vertexHdl);
+
+	return(kQ3Success);
 }
 
 
@@ -1390,6 +1452,33 @@ e3meshContour_Relocate(
 
 
 //=============================================================================
+//      e3meshContour_Tessellate : Tessellate contour.
+//-----------------------------------------------------------------------------
+static
+TQ3Status
+e3meshContour_Tessellate(
+	TE3MeshContourData* contourPtr,
+	GLUtriangulatorObj* gluTessellatorPtr)
+{
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(contourPtr);
+	Q3_ASSERT_VALID_PTR(gluTessellatorPtr);
+
+	gluTessBeginContour(gluTessellatorPtr);
+	e3meshVertexPtrArray_DoForEach(
+		&contourPtr->vertexPtrArray,
+		E3_DOWN_CAST(TQ3Status (*)(TE3MeshVertexPtr*, void*), &e3meshVertexPtr_Tessellate),
+		gluTessellatorPtr);
+	gluTessEndContour(gluTessellatorPtr);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
 //      e3meshContour_RelinkContainerFace : Relink pointer to container face.
 //-----------------------------------------------------------------------------
 static
@@ -1687,6 +1776,40 @@ e3meshFace_Relocate(
 
 
 //=============================================================================
+//      e3meshFace_Tessellate : Tessellate face.
+//-----------------------------------------------------------------------------
+static
+TQ3Status
+e3meshFace_Tessellate(
+	TE3MeshFaceData* facePtr,
+	TE3MeshTessellator* tessellatorPtr)
+{
+	GLUtriangulatorObj* gluTessellatorPtr;	
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(facePtr);
+	Q3_ASSERT_VALID_PTR(tessellatorPtr);
+
+	// Remember face attribute set (but don't increment reference count!)
+	tessellatorPtr->faceAttributeSet = facePtr->attributeSet;
+
+	gluTessellatorPtr = tessellatorPtr->gluTessellatorPtr;	
+
+	gluTessBeginPolygon(gluTessellatorPtr, tessellatorPtr);
+	e3meshContourArrayOrList_DoForEach(
+		&facePtr->contourArrayOrList,
+		E3_DOWN_CAST(TQ3Status (*)(TE3MeshContourData*, void*), &e3meshContour_Tessellate),
+		gluTessellatorPtr);
+	gluTessEndPolygon(gluTessellatorPtr);
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
 //      e3meshFace_RelinkContourFaces : Relink pointers to contour faces.
 //-----------------------------------------------------------------------------
 static
@@ -1906,6 +2029,224 @@ e3meshFaceExtRef_Mesh(
 	TE3MeshFaceExtRef faceExtRef)
 {
 	return(e3meshPartHdl_Mesh(E3_UP_CAST(TE3MeshPartData**, faceExtRef)));
+}
+
+
+
+
+
+//=============================================================================
+//      e3meshTessellatorCallback_Begin : Begin a new triangle.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static
+void CALLBACK
+e3meshTessellatorCallback_Begin(
+	GLenum which,
+	TE3MeshTessellator* tessellatorPtr)
+{
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(tessellatorPtr);
+
+	// Validate our state - since we asked for edge data, we should only see triangles
+	Q3_ASSERT(which == GL_TRIANGLES);
+	
+	tessellatorPtr->polyhedronTriangle.edgeFlag = kQ3PolyhedronEdgeNone;
+	// Copy face attribute set to triangle (but don't increment reference count!)
+	tessellatorPtr->polyhedronTriangle.triangleAttributeSet = tessellatorPtr->faceAttributeSet;
+	tessellatorPtr->vertexIdx = 0;
+	tessellatorPtr->isEdge = kQ3True;
+}
+
+
+
+
+
+//=============================================================================
+//      e3meshTessellatorCallback_End : End the current triangle.
+//-----------------------------------------------------------------------------
+static
+void CALLBACK
+e3meshTessellatorCallback_End(
+	TE3MeshTessellator* tessellatorPtr)
+{
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(tessellatorPtr);
+
+	// Push back polyhedron triangle
+	if (e3polyhedronTriangleList_PushBackItem(&tessellatorPtr->polyhedronTriangleArrayOrList.list, &tessellatorPtr->polyhedronTriangle) == NULL)
+		tessellatorPtr->status = kQ3Failure;
+}
+
+
+
+
+
+//=============================================================================
+//      e3meshTessellatorCallback_Edge : Update the edge state.
+//-----------------------------------------------------------------------------
+static
+void CALLBACK
+e3meshTessellatorCallback_Edge(
+	GLboolean isEdge,
+	TE3MeshTessellator* tessellatorPtr)
+{
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(tessellatorPtr);
+	
+	tessellatorPtr->isEdge = isEdge == GL_TRUE ? kQ3True : kQ3False;
+}
+
+
+
+
+
+//=============================================================================
+//      e3meshTessellatorCallback_Vertex : Process another vertex.
+//-----------------------------------------------------------------------------
+static
+void CALLBACK
+e3meshTessellatorCallback_Vertex(
+	TE3MeshVertexData* vertexPtr,
+	TE3MeshTessellator* tessellatorPtr)
+{
+	static const TQ3PolyhedronEdge kEdgeFlags[3] = {
+		kQ3PolyhedronEdge01,
+		kQ3PolyhedronEdge12,
+		kQ3PolyhedronEdge20
+	};
+		
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(vertexPtr);
+	Q3_ASSERT_VALID_PTR(tessellatorPtr);
+
+	// If we're not getting individual begin/end callbacks for each triangle,
+	// our index will eventually overflow - once this happens, we need to
+	// close this triangle and start the next one ourselves.
+	if (tessellatorPtr->vertexIdx == 3)
+	{
+		e3meshTessellatorCallback_End(tessellatorPtr);
+		e3meshTessellatorCallback_Begin(GL_TRIANGLES, tessellatorPtr);
+	}
+
+	tessellatorPtr->polyhedronTriangle.vertexIndices[tessellatorPtr->vertexIdx] =
+		e3meshVertexArray_ItemIndex(tessellatorPtr->vertexArrayPtr, vertexPtr);
+
+	if (tessellatorPtr->isEdge)
+		tessellatorPtr->polyhedronTriangle.edgeFlag |= kEdgeFlags[tessellatorPtr->vertexIdx];
+
+	++tessellatorPtr->vertexIdx;
+}
+
+
+
+
+
+//=============================================================================
+//      e3meshTessellatorCallback_Combine : Combine vertices to form a new vertex.
+//-----------------------------------------------------------------------------
+static
+void CALLBACK
+e3meshTessellatorCallback_Combine(
+	const GLdouble pointIn[3],
+	const void* dataIn[4],
+	const GLfloat theWeights[4],
+	void** dataOut,
+	TE3MeshTessellator* tessellatorPtr)
+{
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(tessellatorPtr);
+}
+
+
+
+
+
+//=============================================================================
+//      e3meshTessellatorCallback_Error : Store an error code in the tessellator state.
+//-----------------------------------------------------------------------------
+static
+void CALLBACK
+e3meshTessellatorCallback_Error(
+	GLenum errorCode,
+	TE3MeshTessellator* tessellatorPtr)
+{
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(tessellatorPtr);
+}
+
+
+
+
+
+//=============================================================================
+//      e3meshTessellator_Create : TE3MeshTessellator constructor.
+//-----------------------------------------------------------------------------
+//		Note : If unable to create (out of memory), return kQ3Failure.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static
+TQ3Status
+e3meshTessellator_Create(
+	TE3MeshTessellator* tessellatorPtr,
+	const TE3MeshVertexDataArray* vertexArrayPtr)
+{
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(tessellatorPtr);
+	Q3_ASSERT_VALID_PTR(vertexArrayPtr);
+
+	// Save vertex array
+	tessellatorPtr->vertexArrayPtr = vertexArrayPtr;
+
+	// Initialize face attribute set
+	tessellatorPtr->faceAttributeSet = NULL;
+
+	// Create new OpenGL tessellator
+	if ((tessellatorPtr->gluTessellatorPtr = gluNewTess()) == NULL)
+	{
+		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
+		goto failure_1;
+	}
+
+	// Create empty polyhedron triangle list
+	if (e3polyhedronTriangleList_Create(&tessellatorPtr->polyhedronTriangleArrayOrList.list, 0, NULL) == kQ3Failure)
+		goto failure_2;
+
+	tessellatorPtr->status = kQ3Success;
+	
+	return(kQ3Success);
+	
+	// Dead code to reverse e3polyhedronTriangleList_Create
+failure_2:
+	
+	gluDeleteTess(tessellatorPtr->gluTessellatorPtr);
+failure_1:
+
+	return(kQ3Failure);
+}
+
+
+
+
+
+//=============================================================================
+//      e3meshTessellator_Destroy : TE3MeshTessellator destructor.
+//-----------------------------------------------------------------------------
+static
+void
+e3meshTessellator_Destroy(
+	TE3MeshTessellator* tessellatorPtr)
+{
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(tessellatorPtr);
+
+	// Destroy polyhedron triangle list
+	e3polyhedronTriangleArrayOrList_Destroy(&tessellatorPtr->polyhedronTriangleArrayOrList, NULL);
+
+	// Delete OpenGL tessellator
+	gluDeleteTess(tessellatorPtr->gluTessellatorPtr);
+
+	// Forget face attribute set (don't decrement reference count!)
 }
 
 
@@ -2338,6 +2679,7 @@ e3geom_mesh_cache_new(
 	const TE3MeshData* meshPtr)
 {
 #pragma unused(view)
+/*
 	TQ3GeometryObject polyhedron;
 	TQ3PolyhedronData polyhedronData;	
 	const TE3MeshFaceData* facePtr;
@@ -2456,6 +2798,90 @@ cleanup_2:
 	Q3Memory_Free(&polyhedronData.vertices);
 cleanup_1:
 
+	return(polyhedron);
+*/
+	TE3MeshTessellator tessellator;
+	GLUtriangulatorObj* gluTessellatorPtr;
+	TQ3GeometryObject polyhedron;
+	TQ3PolyhedronData polyhedronData;	
+	const TE3MeshVertexData* firstMeshVertexPtr;
+	TQ3Uns32 vertexIdx;
+
+	// Assume unable to create polyhedron
+	polyhedron = NULL;
+
+	// Use array of vertices in mesh (*** MAY RELOCATE VERTICES ***)
+	if (e3mesh_UseVertexArray(E3_CONST_CAST(TE3MeshData*, meshPtr)) == kQ3Failure)
+		goto cleanup_1;
+
+	// Create tessellator
+	if (e3meshTessellator_Create(&tessellator, &meshPtr->vertexArrayOrList.array) == kQ3Failure)
+		goto cleanup_2;
+
+	gluTessellatorPtr = tessellator.gluTessellatorPtr;
+
+	// Set it up
+	gluTessProperty(gluTessellatorPtr, GLU_TESS_WINDING_RULE,   GLU_TESS_WINDING_ODD);
+	gluTessCallback(gluTessellatorPtr, GLU_TESS_BEGIN_DATA,     (GLcallback) e3meshTessellatorCallback_Begin);
+	gluTessCallback(gluTessellatorPtr, GLU_TESS_END_DATA,       (GLcallback) e3meshTessellatorCallback_End);
+	gluTessCallback(gluTessellatorPtr, GLU_TESS_EDGE_FLAG_DATA, (GLcallback) e3meshTessellatorCallback_Edge);
+	gluTessCallback(gluTessellatorPtr, GLU_TESS_VERTEX_DATA,    (GLcallback) e3meshTessellatorCallback_Vertex);
+//	gluTessCallback(gluTessellatorPtr, GLU_TESS_COMBINE_DATA,   (GLcallback) e3meshTessellatorCallback_Combine);
+//	gluTessCallback(gluTessellatorPtr, GLU_TESS_ERROR_DATA,     (GLcallback) e3meshTessellatorCallback_Error);
+
+	e3meshFaceArrayOrList_DoForEach(
+		E3_CONST_CAST(TE3MeshFaceDataArrayOrList*, &meshPtr->faceArrayOrList),
+		E3_DOWN_CAST(TQ3Status (*)(TE3MeshFaceData*, void*), &e3meshFace_Tessellate),
+		&tessellator);
+	
+	// Allocate memory for polyhedron vertices
+	polyhedronData.numVertices = e3mesh_NumVertices(meshPtr);
+	if (polyhedronData.numVertices > 0)
+	{
+		if ((polyhedronData.vertices = (TQ3Vertex3D*) Q3Memory_Allocate(polyhedronData.numVertices * sizeof(TQ3Vertex3D))) == NULL)
+			goto cleanup_3;
+	}
+	else
+		polyhedronData.vertices = NULL;
+	
+	// Get first vertex
+	firstMeshVertexPtr = e3meshVertexArray_FirstItemConst(&meshPtr->vertexArrayOrList.array);
+
+	// Initialize the vertices
+	for (vertexIdx = 0; vertexIdx < polyhedronData.numVertices; ++vertexIdx)
+	{
+		polyhedronData.vertices[vertexIdx].point = firstMeshVertexPtr[vertexIdx].point;
+		polyhedronData.vertices[vertexIdx].attributeSet = firstMeshVertexPtr[vertexIdx].attributeSet;
+	}
+	
+	// Allocate memory for polyhedron edges
+	polyhedronData.numEdges = 0;
+	polyhedronData.edges = NULL;
+
+	// Use array of triangles in tessellator
+	if (e3polyhedronTriangleArrayOrList_UseArray(&tessellator.polyhedronTriangleArrayOrList, NULL, NULL, NULL) == kQ3Failure)
+		goto cleanup_4;
+	
+	// Set polyhedron triangles
+	polyhedronData.numTriangles = e3polyhedronTriangleArray_Length(&tessellator.polyhedronTriangleArrayOrList.array);
+	polyhedronData.triangles = e3polyhedronTriangleArray_FirstItem(&tessellator.polyhedronTriangleArrayOrList.array);
+
+	// Set polyhedron attribute set
+	polyhedronData.polyhedronAttributeSet = meshPtr->attributeSet;
+
+	// Create the polyhedron and clean up
+	polyhedron = Q3Polyhedron_New(&polyhedronData);
+
+cleanup_4:
+
+	Q3Memory_Free(&polyhedronData.vertices);
+cleanup_3:
+
+	e3meshTessellator_Destroy(&tessellator);
+cleanup_2:
+
+cleanup_1:
+	
 	return(polyhedron);
 }
 
