@@ -135,7 +135,7 @@ enum {
 enum {
     kQ3ViewerShowBadge                          = (1 << 0),
     kQ3ViewerActive                             = (1 << 1),
-    kQ3ViewerControllerVisibile                 = (1 << 2),
+    kQ3ViewerControllerVisible                  = (1 << 2),
     kQ3ViewerButtonCamera                       = (1 << 3),
     kQ3ViewerButtonTruck                        = (1 << 4),
     kQ3ViewerButtonOrbit                        = (1 << 5),
@@ -1433,15 +1433,19 @@ Q3WinViewerGetReleaseVersion (
  *  @function
  *      Q3WinViewerNew
  *  @discussion
- *      One-line description of this function.
+ *      Create a new viewer in your window.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		At creation time of your window (WM_CREATE) you
+ *		call this routine to create the viewer, which is a child window, e.g.
  *
- *  @param window           Description of the parameter.
- *  @param rect             Description of the parameter.
- *  @param flags            Description of the parameter.
- *  @result                 Description of the function result.
+ *				RECT aWinRect;
+ *				GetClientRect(hWnd, (LPRECT)&aWinRect);
+ *				theViewer = Q3WinViewerNew (yourWnd, &aWinRect, kQ3ViewerDefault);
+ *
+ *  @param window           The parent window.
+ *  @param rect             The client rect in the parent window.
+ *  @param flags            The viewer style.
+ *  @result                 The reference to a new viewer object on success, else 0.
  */
 EXTERN_API_C ( TQ3ViewerObject )
 Q3WinViewerNew (
@@ -1455,13 +1459,13 @@ Q3WinViewerNew (
  *  @function
  *      Q3WinViewerDispose
  *  @discussion
- *      One-line description of this function.
+ *      Free all resources for the viewer window.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      You call this routine before destroying the parent viewer
+ *		of the viewer.
  *
- *  @param viewer           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           Your viewer which you did create with Q3WinViewerNew.
+ *  @result                 Normally kQ3Success, kQ3Failure if you input an invalid viewer.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerDispose (
@@ -1559,13 +1563,13 @@ Q3WinViewerWriteData (
  *  @function
  *      Q3WinViewerDraw
  *  @discussion
- *      One-line description of this function.
+ *      Draw the content of the viewer and the control strip.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Call this function whenever you think that the normal windows
+ *      update mechanisms do not show the current status of your 3D viewer.
  *
- *  @param viewer           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerDraw (
@@ -1577,13 +1581,13 @@ Q3WinViewerDraw (
  *  @function
  *      Q3WinViewerDrawContent
  *  @discussion
- *      One-line description of this function.
+ *      Draw the 3D world.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Call this function whenever you think that the normal windows
+ *      update mechanisms do not show the current status of your 3D world.
  *
- *  @param viewer           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerDrawContent (
@@ -1595,13 +1599,13 @@ Q3WinViewerDrawContent (
  *  @function
  *      Q3WinViewerDrawControlStrip
  *  @discussion
- *      One-line description of this function.
+ *      Redraw the content of the viewer and the control strip.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Call this function whenever you think that the normal windows
+ *      update mechanisms do not show the current status of your control strip.
  *
- *  @param viewer           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerDrawControlStrip (
@@ -1676,13 +1680,15 @@ Q3WinViewerMouseUp (
  *  @function
  *      Q3WinViewerGetBitmap
  *  @discussion
- *      One-line description of this function.
+ *      Returns a bitmap photo of your 3D world.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The dimension of the bitmap will correspond to your current
+ *		viewer size.
+ *      The color depth of the bitmap will correspond to your current
+ *		screen resolution.
  *
- *  @param viewer           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @result                 The bitmap, if successful, or NULL.
  */
 EXTERN_API_C ( HBITMAP )
 Q3WinViewerGetBitmap (
@@ -1792,14 +1798,21 @@ Q3WinViewerGetGroup (
  *  @function
  *      Q3WinViewerSetBackgroundColor
  *  @discussion
- *      One-line description of this function.
+ *      Sets the flat background color of your 3D viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Example:
+ *			TQ3ColorARGB color;
+ *			DWORD rgb;  // 32-bit RGB value
+ *			rgb= myFavoriteColor();
+ *			color.a = 1.0F;
+ *			color.r = (float)GetRValue(rgb)/(float)255;
+ *			color.g = (float)GetGValue(rgb)/(float)255;
+ *			color.b = (float)GetBValue(rgb)/(float)255;
+ *			Q3WinViewerSetBackgroundColor (theViewer, &color);
  *
- *  @param viewer           Description of the parameter.
- *  @param color            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @param color            A Quesa argb color in the 0..1 box.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetBackgroundColor (
@@ -1812,14 +1825,16 @@ Q3WinViewerSetBackgroundColor (
  *  @function
  *      Q3WinViewerGetBackgroundColor
  *  @discussion
- *      One-line description of this function.
+ *      Inquires the current flat background color of your 3D viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Example:
+ *			COLORREF RGB;
+ *			if (Q3WinViewerGetBackgroundColor (gViewer, &color) == kQ3Failure) return false;
+ *			rgb= RGB((BYTE)color.r * 255.0F,(BYTE)color.g * 255.0F, (BYTE)color.b * 255.0F); 
  *
- *  @param viewer           Description of the parameter.
- *  @param color            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @param color            A Quesa argb color in the 0..1 box.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetBackgroundColor (
@@ -1906,14 +1921,13 @@ Q3WinViewerGetFlags (
  *  @function
  *      Q3WinViewerSetBounds
  *  @discussion
- *      One-line description of this function.
+ *      Sets the viewer window to a new place in the parent window.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		It does include the screen space for the control strip.
  *
- *  @param viewer           Description of the parameter.
- *  @param bounds           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @param bounds           The new place of the viewer window in the parent window.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetBounds (
@@ -1926,14 +1940,13 @@ Q3WinViewerSetBounds (
  *  @function
  *      Q3WinViewerGetBounds
  *  @discussion
- *      One-line description of this function.
+ *      Inquires the current position of the viewer window.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The resulting bounds do include the screen space for the control strip.
  *
- *  @param viewer           Description of the parameter.
- *  @param bounds           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @param bounds           The current place of the viewer window in the parent window.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetBounds (
@@ -1946,15 +1959,17 @@ Q3WinViewerGetBounds (
  *  @function
  *      Q3WinViewerSetDimension
  *  @discussion
- *      One-line description of this function.
+ *      Sets the extent of the viewer window.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      It does not change the anchor of the window, therefore
+ *		you typically call this upon a resize of the parent window.
  *
- *  @param viewer           Description of the parameter.
- *  @param width            Description of the parameter.
- *  @param height           Description of the parameter.
- *  @result                 Description of the function result.
+ *		The size does include the screen space for the control strip.
+ *
+ *  @param viewer           A valid viewer.
+ *  @param width            The new width of the viewer window.
+ *  @param height           The new height of the viewer window.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetDimension (
@@ -1968,15 +1983,14 @@ Q3WinViewerSetDimension (
  *  @function
  *      Q3WinViewerGetDimension
  *  @discussion
- *      One-line description of this function.
+ *      Inquires the extent of the viewer window.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The resulting size does include the screen space for the control strip.
  *
- *  @param viewer           Description of the parameter.
- *  @param width            Description of the parameter.
- *  @param height           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @param width            The current width of the viewer window.
+ *  @param height           The current height of the viewer window.
+ *  @result                 Success indicator.
  */
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetDimension (
@@ -2032,13 +2046,10 @@ Q3WinViewerSetWindow (
  *  @function
  *      Q3WinViewerGetWindow
  *  @discussion
- *      One-line description of this function.
+ *      Inquires the child window handle of the viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewer           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @result                 The handle to the child window of the viewer, or zero, if not successful.
  */
 EXTERN_API_C ( HWND )
 Q3WinViewerGetWindow (
@@ -2050,13 +2061,12 @@ Q3WinViewerGetWindow (
  *  @function
  *      Q3WinViewerGetViewer
  *  @discussion
- *      One-line description of this function.
+ *      Inquires a viewer which is associated to the given window.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The reference count of the viewer will not be increased.
  *
- *  @param theWindow        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theWindow        Your window.
+ *  @result                 The viewer, or NULL, if not successful.
  */
 EXTERN_API_C ( TQ3ViewerObject )
 Q3WinViewerGetViewer (
@@ -2068,13 +2078,10 @@ Q3WinViewerGetViewer (
  *  @function
  *      Q3WinViewerGetControlStrip
  *  @discussion
- *      One-line description of this function.
+ *      Inquires the child window handle of the control strip.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param viewer           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param viewer           A valid viewer.
+ *  @result                 The handle to the child window of the viewer, or zero, if not successful.
  */
 EXTERN_API_C ( HWND )
 Q3WinViewerGetControlStrip (
