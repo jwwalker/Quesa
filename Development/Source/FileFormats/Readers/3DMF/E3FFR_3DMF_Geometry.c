@@ -170,6 +170,7 @@ e3read_3dmf_merge_element_set( TQ3SetObject* ioElements, TQ3SetObject ioNewChild
 }
 
 
+
 //=============================================================================
 //      e3read_3dmf_apply_element_set : Apply custom elements to a shape.
 //-----------------------------------------------------------------------------
@@ -187,6 +188,44 @@ e3read_3dmf_apply_element_set( TQ3ShapeObject ioShape, TQ3SetObject ioElements )
 
 
 //=============================================================================
+//      e3read_3dmf_geom_finish_default : Finish reading a default geometry.
+//-----------------------------------------------------------------------------
+static void
+e3read_3dmf_geom_finish_default( TQ3GeometryObject ioGeom, TQ3FileObject ioFile )
+{
+	TQ3Object				childObject;
+	TQ3SetObject			elementSet = NULL;
+
+
+	if (ioGeom != NULL)
+		{
+		// Read in the attributes
+		while (Q3File_IsEndOfContainer(ioFile, NULL) == kQ3False)
+			{
+			childObject = Q3File_ReadObject(ioFile);
+			if (childObject != NULL)
+				{
+				if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
+					{
+					Q3Geometry_SetAttributeSet( ioGeom, childObject );
+					Q3Object_Dispose( childObject );
+					}
+				else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+					e3read_3dmf_merge_element_set( &elementSet, childObject );
+				else
+					Q3Object_Dispose(childObject);
+				}
+			}
+
+
+		// Apply any custom elements
+		e3read_3dmf_apply_element_set( ioGeom, elementSet );
+		}
+}
+
+
+
+//=============================================================================
 //      e3read_3dmf_spreadarray_uns16to32 : Convert an array of 16-bit unsigned
 //								 integers to 32-bit unsigned integers, in place.
 //-----------------------------------------------------------------------------
@@ -197,7 +236,7 @@ e3read_3dmf_spreadarray_uns16to32( TQ3Uns32 numNums, void* ioData )
 	TQ3Uns32*	outArray = (TQ3Uns32*)ioData;
 	TQ3Int32	n;
 	
-	for (n = numNums - 1; n >= 0; --n)
+	for (n = (TQ3Int32)numNums - 1; n >= 0; --n)
 	{
 		outArray[ n ] = inArray[ n ];
 	}
@@ -216,7 +255,7 @@ e3read_3dmf_spreadarray_uns8to32( TQ3Uns32 numNums, void* ioData )
 	TQ3Uns32*	outArray = (TQ3Uns32*)ioData;
 	TQ3Int32	n;
 	
-	for (n = numNums - 1; n >= 0; --n)
+	for (n = (TQ3Int32)numNums - 1; n >= 0; --n)
 	{
 		outArray[ n ] = inArray[ n ];
 	}
@@ -1445,7 +1484,8 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	TQ3BoxData			geomData;
 	TQ3Uns32 			i;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject		elementSet = NULL;
+	TQ3AttributeSet		faceAtts[6];
 
 
 
@@ -1481,9 +1521,9 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace)){
-					geomData.faceAttributeSet = (OpaqueTQ3Object **)Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*6);
+					geomData.faceAttributeSet = faceAtts;
 					for(i = 0; i< 6; i++){
-						geomData.faceAttributeSet[i] = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
+						faceAtts[i] = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
 						}
 					}
 				Q3Object_Dispose(childObject);
@@ -1509,8 +1549,60 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 			if (geomData.faceAttributeSet[i] != NULL)
 				Q3Object_Dispose(geomData.faceAttributeSet[i]);
 			}
-		Q3Memory_Free(&geomData.faceAttributeSet);
 		}
+		
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Geom_Box_Default : Default Box read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Geom_Box_Default(TQ3FileObject theFile)
+{
+	TQ3Object			childObject;
+	TQ3Uns32 			i;
+	TQ3SetObject		elementSet = NULL;
+	TQ3Object			theObject = Q3Box_New( NULL );
+	TQ3AttributeSet		attSet;
+	
+	// Read in the attributes
+	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+		{
+		childObject = Q3File_ReadObject(theFile);
+		if (childObject != NULL)
+			{
+			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
+				{
+				Q3Geometry_SetAttributeSet( theObject, childObject );
+				Q3Object_Dispose( childObject );
+				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
+			else{
+				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace))
+					{
+					for (i = 0; i< 6; i++)
+						{
+						attSet = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
+						if (attSet != NULL)
+							{
+							Q3Box_SetFaceAttributeSet( theObject, i, attSet );
+							Q3Object_Dispose( attSet );
+							}
+						}
+					}
+				Q3Object_Dispose(childObject);
+				}
+			}
+		}
+
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 		
 	return theObject;
 }
@@ -1612,6 +1704,69 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 	if (geomData.coneAttributeSet != NULL)
 		Q3Object_Dispose(geomData.coneAttributeSet);
 		
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Geom_Cone_Default : Default Cone read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Geom_Cone_Default(TQ3FileObject theFile)
+{
+	TQ3Object	theObject = Q3Cone_New( NULL );
+	TQ3Object				childObject;
+	TQ3SetObject			elementSet = NULL;
+	TQ3AttributeSet			attSet;
+	TQ3EndCap				caps;
+	
+	
+	// Read in the attributes
+	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+		{
+		childObject = Q3File_ReadObject(theFile);
+		if (childObject != NULL)
+			{
+			if(Q3Object_IsType( childObject, kQ3AttributeSetTypeBottomCap )){
+				attSet = E3FFormat_3DMF_CapsAttributes_Get( childObject );
+				Q3Cone_SetBottomAttributeSet( theObject, attSet );
+				Q3Object_Dispose(childObject);
+				Q3Object_Dispose( attSet );
+				}
+			else if(Q3Object_IsType( childObject, kQ3AttributeSetTypeFaceCap )){
+				attSet = E3FFormat_3DMF_CapsAttributes_Get( childObject );
+				Q3Cone_SetFaceAttributeSet( theObject, attSet );
+				Q3Object_Dispose(childObject);
+				Q3Object_Dispose( attSet );
+				}
+			else if (Q3Object_IsType( childObject, kQ3SetTypeAttribute ))
+				{
+				Q3Geometry_SetAttributeSet( theObject, childObject );
+				Q3Object_Dispose(childObject);
+				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
+			// the interior attribute set are not defined in the 3DMF Spec
+			else{
+				if(Q3Object_IsType (childObject, kQ3ObjectTypeGeometryCaps))
+					{
+					caps = E3FFormat_3DMF_GeometryCapsMask_Get(childObject);
+					Q3Cone_SetCaps( theObject, caps );
+					}
+				Q3Object_Dispose(childObject);
+				}
+			}
+		}
+
+
+
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
+	
+	
 	return theObject;
 }
 
@@ -1727,6 +1882,74 @@ E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      E3Read_3DMF_Geom_Cylinder_Default : Default Cylinder read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Geom_Cylinder_Default(TQ3FileObject theFile)
+{
+	TQ3Object				childObject;
+	TQ3SetObject			elementSet = NULL;
+	TQ3AttributeSet			attSet;
+	TQ3EndCap				caps;
+	TQ3Object	theObject = Q3Cylinder_New( NULL );
+	
+	// Read in the attributes
+	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+		{
+		childObject = Q3File_ReadObject(theFile);
+		if (childObject != NULL)
+			{
+			if(Q3Object_IsType (childObject, kQ3AttributeSetTypeTopCap)){
+				attSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Cylinder_SetTopAttributeSet( theObject, attSet );
+				Q3Object_Dispose( childObject );
+				Q3Object_Dispose( attSet );
+				}
+			else if(Q3Object_IsType (childObject, kQ3AttributeSetTypeBottomCap)){
+				attSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Cylinder_SetBottomAttributeSet( theObject, attSet );
+				Q3Object_Dispose( childObject );
+				Q3Object_Dispose( attSet );
+				}
+			else if(Q3Object_IsType (childObject, kQ3AttributeSetTypeFaceCap)){
+				attSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Cylinder_SetFaceAttributeSet( theObject, attSet );
+				Q3Object_Dispose( childObject );
+				Q3Object_Dispose( attSet );
+				}
+			else if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
+				{
+				Q3Geometry_SetAttributeSet( theObject, childObject );
+				Q3Object_Dispose(childObject);
+				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
+			// the interior attribute set are not defined in the 3DMF Spec
+			else{
+				if(Q3Object_IsType (childObject, kQ3ObjectTypeGeometryCaps))
+					{
+					caps = E3FFormat_3DMF_GeometryCapsMask_Get(childObject);
+					Q3Cylinder_SetCaps( theObject, caps );
+					}
+				Q3Object_Dispose(childObject);
+				}
+			}
+		}
+
+
+
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
+
+
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
 //      E3Read_3DMF_Geom_Disk : Disk read method for 3DMF.
 //-----------------------------------------------------------------------------
 TQ3Object
@@ -1803,6 +2026,25 @@ E3Read_3DMF_Geom_Disk(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      E3Read_3DMF_Geom_Disk_Default : Disk default read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Geom_Disk_Default( TQ3FileObject theFile )
+{
+	TQ3Object 				theObject;
+
+	theObject = Q3Disk_New( NULL );
+	
+	e3read_3dmf_geom_finish_default( theObject, theFile );
+		
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
 //      E3Read_3DMF_Geom_Ellipse : Ellipse read method for 3DMF.
 //-----------------------------------------------------------------------------
 TQ3Object
@@ -1864,6 +2106,23 @@ E3Read_3DMF_Geom_Ellipse(TQ3FileObject theFile)
 	// Clean up
 	if (geomData.ellipseAttributeSet != NULL)
 		Q3Object_Dispose(geomData.ellipseAttributeSet);
+		
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Geom_Ellipse_Default : Default Ellipse read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Geom_Ellipse_Default(TQ3FileObject theFile)
+{
+	TQ3Object	theObject = Q3Ellipse_New( NULL );
+	
+	e3read_3dmf_geom_finish_default( theObject, theFile );
 		
 	return theObject;
 }
@@ -1946,6 +2205,23 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 	// Clean up
 	if (geomData.ellipsoidAttributeSet != NULL)
 		Q3Object_Dispose(geomData.ellipsoidAttributeSet);
+		
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Geom_Ellipsoid_Default : Default Ellipsoid read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Geom_Ellipsoid_Default(TQ3FileObject theFile)
+{
+	TQ3Object	theObject = Q3Ellipsoid_New( NULL );
+	
+	e3read_3dmf_geom_finish_default( theObject, theFile );
 		
 	return theObject;
 }
@@ -2332,7 +2608,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 		// create the face
 		if(numFaceVertexIndices > 0) // it's a face
 			{
-			lastFace = Q3Mesh_FaceNew (mesh, absFaceVertexIndices, faceVertices, NULL);
+			lastFace = Q3Mesh_FaceNew (mesh, (TQ3Uns32) absFaceVertexIndices, faceVertices, NULL);
 			faces[faceCount] = lastFace;
 			faceCount ++;
 			}
@@ -2341,7 +2617,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 			Q3_ASSERT(lastFace != NULL);
 				
 			Q3Mesh_FaceToContour (mesh, lastFace, 
-								 Q3Mesh_FaceNew (mesh, absFaceVertexIndices, faceVertices, NULL));
+								 Q3Mesh_FaceNew (mesh, (TQ3Uns32) absFaceVertexIndices, faceVertices, NULL));
 			}
 		}
 
@@ -2655,6 +2931,23 @@ E3Read_3DMF_Geom_Point(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      E3Read_3DMF_Geom_Point_Default : Default Point read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Geom_Point_Default(TQ3FileObject theFile)
+{
+	TQ3Object	theObject = Q3Point_New( NULL );
+	
+	e3read_3dmf_geom_finish_default( theObject, theFile );
+		
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
 //      E3Read_3DMF_Geom_PolyLine : Polyline read method for 3DMF.
 //-----------------------------------------------------------------------------
 TQ3Object
@@ -2939,6 +3232,23 @@ E3Read_3DMF_Geom_Torus(TQ3FileObject theFile)
 		
 	if (geomData.torusAttributeSet != NULL)
 		Q3Object_Dispose(geomData.torusAttributeSet);
+		
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Geom_Torus_Default : Default Torus read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Geom_Torus_Default(TQ3FileObject theFile)
+{
+	TQ3Object	theObject = Q3Torus_New( NULL );
+	
+	e3read_3dmf_geom_finish_default( theObject, theFile );
 		
 	return theObject;
 }

@@ -1870,6 +1870,17 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriGrid,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_TriGrid);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriMesh,			kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_TriMesh);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,		kQ3XMethodTypeObjectRead, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Triangle);
+	
+
+	// Default geometry read methods
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeBox,				kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Box_Default);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeCone,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cone_Default);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeCylinder,		kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Cylinder_Default);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeDisk,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Disk_Default);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipse,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipse_Default);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,		kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Ellipsoid_Default);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypePoint,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Point_Default);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeTorus,			kQ3XMethodTypeObjectReadDefault, (TQ3XFunctionPointer) E3Read_3DMF_Geom_Torus_Default);
 
 	return(qd3dStatus);
 }

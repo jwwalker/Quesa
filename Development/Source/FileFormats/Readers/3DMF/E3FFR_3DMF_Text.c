@@ -321,9 +321,10 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 						
 						
 						// If it's not a pipe, that was the last flag: we're done
-						areDone = !E3CString_IsEqual(buffer, "|");
+						areDone = (result == kQ3Failure) || !E3CString_IsEqual(buffer, "|");
 						if (areDone)
 							formatInstanceData->currentStoragePosition = saveStoragePos;
+							result = kQ3Success;
 						}
 					
 					
@@ -355,7 +356,7 @@ e3fformat_3dmf_text_read_int8(TQ3FileFormatObject format, TQ3Int8* data)
 	result = e3fformat_3dmf_text_readitem (format, buffer, 256, &charsRead);
 	
 	if(result == kQ3Success)
-		*data = atoi(buffer);
+		*data = (TQ3Int8) atoi(buffer);
 		
 	return (result);
 }
@@ -377,7 +378,7 @@ e3fformat_3dmf_text_read_int16(TQ3FileFormatObject format, TQ3Int16* data)
 	result = e3fformat_3dmf_text_readitem (format, buffer, 256, &charsRead);
 	
 	if(result == kQ3Success)
-		*data = atoi(buffer);
+		*data = (TQ3Int16) atoi(buffer);
 		
 	return (result);
 }
@@ -422,7 +423,7 @@ e3fformat_3dmf_text_read_int64(TQ3FileFormatObject format, TQ3Int64* data)
 	
 	if(result == kQ3Success){
 		data->hi = 0;
-		data->lo = atoi(buffer);
+		data->lo = (TQ3Uns32) atoi(buffer);
 		}
 		
 	return (result);
@@ -802,7 +803,8 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 	TQ3Object 				childObject = NULL;
 	TQ3Uns32 				objLocation;
 	TQ3Uns32 				oldContainer;
-	TQ3XObjectReadMethod 	readMethod;
+	TQ3XObjectReadMethod 			readMethod = NULL;
+	TQ3XObjectReadDefaultMethod		readDefaultMethod = NULL;
 	E3ClassInfoPtr			theClass = NULL;
 	char 					objectType[64];
 	TQ3Uns32 				charsRead;
@@ -877,13 +879,30 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 				e3fformat_3dmf_text_skip_to_level (theFile, level);
 				}
 			else{
-				// find the read Object method for the class and call it
-				readMethod = (TQ3XObjectReadMethod)E3ClassTree_GetMethod (theClass, kQ3XMethodTypeObjectRead);
-				if (readMethod != NULL)
+				// In the case of a default geometry, we may have skipped all the way past
+				// the closing parenthesis.
+				if (instanceData->nestingLevel == level)
 					{
-					result = readMethod(theFile);
+					readDefaultMethod = (TQ3XObjectReadDefaultMethod) E3ClassTree_GetMethod (theClass,
+								kQ3XMethodTypeObjectReadDefault );
+					
+					if (readDefaultMethod != NULL)
+						{
+						result = readDefaultMethod( theFile );
+						}
 					}
-				else
+					
+				if (readDefaultMethod == NULL)
+					{
+					// find the read Object method for the class and call it
+					readMethod = (TQ3XObjectReadMethod)E3ClassTree_GetMethod (theClass, kQ3XMethodTypeObjectRead);
+					if (readMethod != NULL)
+						{
+						result = readMethod(theFile);
+						}
+					}
+				
+				if ( (readMethod == NULL) && (readDefaultMethod == NULL) )
 					{
 					//result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
 					e3fformat_3dmf_text_skip_to_level (theFile, level);
