@@ -50,6 +50,10 @@ extern "C" {
 typedef struct E3HashTable *E3HashTablePtr;
 
 
+// Hash table iterator
+typedef TQ3Status (*TQ3HashTableIterator)(E3HashTablePtr theTable, TQ3ObjectType theKey, void *theItem, void *userData);
+
+
 
 
 
@@ -58,7 +62,7 @@ typedef struct E3HashTable *E3HashTablePtr;
 //-----------------------------------------------------------------------------
 // Create/destroy a hash table
 E3HashTablePtr		E3HashTable_Create(TQ3Uns32 tableSize);
-void				E3HashTable_Destroy(E3HashTablePtr theTable);
+void				E3HashTable_Destroy(E3HashTablePtr *theTable);
 
 
 // Add/remove an item to/from a hash table
@@ -68,6 +72,10 @@ void				E3HashTable_Remove(E3HashTablePtr theTable, TQ3ObjectType theKey);
 
 // Find an item in a hash table
 void				*E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey);
+
+
+// Iterate over the items in a hash table
+TQ3Status			E3HashTable_Iterate(E3HashTablePtr theTable, TQ3HashTableIterator theIterator, void *userData);
 
 
 // Get info on a hash table

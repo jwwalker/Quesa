@@ -249,33 +249,36 @@ E3HashTable_Create(TQ3Uns32 tableSize)
 //      E3HashTable_Destroy : Destroy a hash table.
 //-----------------------------------------------------------------------------
 void
-E3HashTable_Destroy(E3HashTablePtr theTable)
-{	E3HashTableNodePtr		theNode;
+E3HashTable_Destroy(E3HashTablePtr *theTable)
+{	E3HashTablePtr			tablePtr;
+	E3HashTableNodePtr		theNode;
 	TQ3Uns32				n;
 
 
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(theTable);
+	Q3_ASSERT_VALID_PTR(*theTable);
 
 
 
 	// Dispose of the table items
-	for (n = 0; n < theTable->tableSize; n++)
+	tablePtr = *theTable;
+	for (n = 0; n < tablePtr->tableSize; n++)
 		{
-		theNode = theTable->theTable[n];
+		theNode = tablePtr->theTable[n];
 		if (theNode != NULL)
 			{
 			Q3Memory_Free(&theNode->theItems);
-			Q3Memory_Free(&theTable->theTable[n]);
+			Q3Memory_Free(&tablePtr->theTable[n]);
 			}
 		}
 
 
 
 	// Dispose of the table itself
-	Q3Memory_Free(&theTable->theTable);
-	Q3Memory_Free(&theTable);
+	Q3Memory_Free(&tablePtr->theTable);
+	Q3Memory_Free(theTable);
 }
 
 
@@ -446,6 +449,49 @@ E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey)
 		}
 
 	return(NULL);
+}
+
+
+
+
+
+//=============================================================================
+//      E3HashTable_Iterate : Iterate over the items in a hash table.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3HashTable_Iterate(E3HashTablePtr theTable, TQ3HashTableIterator theIterator, void *userData)
+{	TQ3Status				qd3dStatus;
+	E3HashTableItemPtr		theItem;
+	E3HashTableNodePtr		theNode;
+	TQ3Uns32				n, m;
+
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+	Q3_ASSERT_VALID_PTR(theIterator);
+
+
+
+	// Iterate over the table
+	for (n = 0; n < theTable->tableSize; n++)
+		{
+		theNode = theTable->theTable[n];
+		if (theNode != NULL)
+			{
+			theItem = theNode->theItems;
+			for (m = 0; m < theNode->numItems; m++)
+				{
+				qd3dStatus = theIterator(theTable, theItem->theKey, theItem->theItem, userData);
+				if (qd3dStatus != kQ3Success)
+					break;
+
+				theItem++;
+				}
+			}
+		}
+	
+	return(qd3dStatus);
 }
 
 
