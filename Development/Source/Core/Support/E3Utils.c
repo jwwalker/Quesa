@@ -95,6 +95,12 @@ E3Shared_Replace(TQ3SharedObject *origObject, TQ3SharedObject newObject)
 
 
 
+	// Do nothing if we're getting a reference to the current object
+	if (*origObject == newObject)
+		return;
+
+
+
 	// Dispose of any existing reference
 	if (*origObject != NULL)
 		Q3Object_Dispose(*origObject);
