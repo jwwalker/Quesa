@@ -46,8 +46,6 @@
 		#include <Resources.h>
 		#include <ColorPicker.h>
 	#endif
-
-	extern short gShlbResFile;		// not sure where this is supposed to go
 #endif
 
 
@@ -91,12 +89,13 @@ typedef struct TQ3ViewerParams {
 } TQ3ViewerParams;
 
 
-#pragma mark -
+
 
 
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
+#pragma mark -
 #define kQ3ValidViewer		0xFEEDD0D0
 #define kQ3InvalidViewer	0xDEADD0D0
 
@@ -157,11 +156,18 @@ enum {
 
 
 //=============================================================================
-//      Internal static variables
+//      Globals
 //-----------------------------------------------------------------------------
-static TQ3GeometryObject sGuideCircle = NULL;
-static TQ3ShaderObject sPhongShader = NULL;
-static TQ3ShaderObject sLambertShader = NULL;
+// Should move to E3Globals.c
+static TQ3Boolean			gViewerInitedQuesa = kQ3False;
+static TQ3GeometryObject	sGuideCircle       = NULL;
+static TQ3ShaderObject		sPhongShader       = NULL;
+static TQ3ShaderObject		sLambertShader     = NULL;
+
+extern short gShlbResFile;
+
+
+
 
 
 //=============================================================================
@@ -172,18 +178,29 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer);
 
 
 
-//=============================================================================
-//      Utilities
-//-----------------------------------------------------------------------------
 
+
+//=============================================================================
+//      Macros
+//-----------------------------------------------------------------------------
 #define CheckViewerFailure(_viewer)	if (!_viewer || (((TQ3ViewerData *) _viewer->instanceData)->mValidViewer != kQ3ValidViewer)) return kQ3Failure
 #define CheckViewerFalse(_viewer)	if (!_viewer || ((TQ3ViewerData*)(_viewer->instanceData))->mValidViewer != kQ3ValidViewer) return 0
 #define CheckViewerNULL(_viewer)	if (!_viewer || ((TQ3ViewerData*)(_viewer->instanceData))->mValidViewer != kQ3ValidViewer) return NULL
 
+
+
+
+
+//=============================================================================
+//      instance_data : Get the instance data for a viewer.
+//-----------------------------------------------------------------------------
 static TQ3ViewerData* instance_data( TQ3ViewerObject theViewer )
 {
 	return (TQ3ViewerData *) theViewer->instanceData;
 }
+
+
+
 
 
 //=============================================================================
@@ -195,6 +212,9 @@ static TQ3Boolean e3Rect_ContainsPoint(const TQ3Area *theRect, TQ3Int32 hPos, TQ
 	return (TQ3Boolean)(hPos >= theRect->min.x && hPos < theRect->max.x 
 		 && vPos >= theRect->min.y && vPos < theRect->max.y);
 }
+
+
+
 
 
 //=============================================================================
@@ -213,6 +233,9 @@ static float e3viewer_angle(float dx, float dy)
 	}
 	return (ang > 0 ? ang : ang+kQ32Pi);
 }
+
+
+
 
 
 //=============================================================================
@@ -243,6 +266,10 @@ static TQ3Uns32 e3viewer_buttonAtPoint(TQ3ViewerObject theViewer, TQ3Int32 hPos,
 	return 0;
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_buttonHeight : Return height of control strip buttons.
 //-----------------------------------------------------------------------------
@@ -252,6 +279,10 @@ static TQ3Uns32 e3viewer_buttonHeight(TQ3ViewerData *data)
 	
 	return 32;
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_buttonTopMargin : Return padding above buttons.
@@ -263,6 +294,10 @@ static TQ3Uns32 e3viewer_buttonTopMargin(TQ3ViewerData *data)
 	return 0;
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_buttonBottomMargin : Return padding below buttons.
 //-----------------------------------------------------------------------------
@@ -272,6 +307,10 @@ static TQ3Uns32 e3viewer_buttonBottomMargin(TQ3ViewerData *data)
 	
 	return 0;
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_buttonWidth : Return width of a control strip button.
@@ -286,6 +325,10 @@ static TQ3Uns32 e3viewer_buttonWidth(TQ3ViewerData *data, TQ3Uns32 buttonID)
 	 	
 	return 34;
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_contentArea : Return area used for actual rendering,
@@ -320,6 +363,9 @@ static void e3viewer_contentArea(TQ3ViewerData *data, TQ3Area *outArea)
 		outArea->max.y -= inset;
 		}
 }
+
+
+
 
 
 //=============================================================================
@@ -358,6 +404,10 @@ static TQ3GeometryObject e3viewer_createGuideCircle(void)
 
 	return(thePolyLine);
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_drawButton : Draw one control strip button.
@@ -462,6 +512,10 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 	#endif // QUESA_OS_MACINTOSH
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_drawStripBackground : Draw the background of the control
 //			strip, i.e., sans the buttons.  Note: has the side-effect of
@@ -499,6 +553,10 @@ static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect
 	#endif // QUESA_OS_MACINTOSH
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_drawDragFrame : Draw a drag frame.
 //-----------------------------------------------------------------------------
@@ -526,6 +584,10 @@ static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 		ForeColor(blackColor);
 	#endif // QUESA_OS_MACINTOSH	
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_popupMenu : Pop up the indicated menu associated with the
@@ -570,6 +632,10 @@ static TQ3Int32 e3viewer_popupMenu (TQ3Area* r, TQ3Int32 menuID, TQ3Int32 *outMe
 	#endif // QUESA_OS_MACINTOSH	
 	return result;
 }
+
+
+
+
 
 //=============================================================================
 //	e3viewer_readFile : Read data from a storage object.
@@ -667,6 +733,9 @@ static TQ3Status e3viewer_readFile(TQ3ViewerObject theViewer, TQ3StorageObject s
 }
 
 
+
+
+
 //=============================================================================
 //	e3viewer_Write : Read data from a storage object.
 //-----------------------------------------------------------------------------
@@ -713,6 +782,10 @@ static TQ3Status e3viewer_Write(TQ3ViewerObject theViewer, TQ3StorageObject stor
 	return status;
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_askBackgroundColor : Post a standard color picker to ask
 //			the user what we should use for the background color.
@@ -740,6 +813,10 @@ static TQ3Status e3viewer_askBackgroundColor(TQ3ColorARGB *inOutColor)
 	
 	return status;
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_applyCameraPreset : Apply one of the preset camera
@@ -809,6 +886,10 @@ static void e3viewer_applyCameraPreset(TQ3ViewerObject theViewer, TQ3Uns32 thePr
 	E3Viewer_DrawContent(theViewer);
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_doCameraButton : Handle a press of the Camera button
 //			by popping up a menu of camera options, then handling the
@@ -829,6 +910,10 @@ static void e3viewer_doCameraButton(TQ3ViewerObject theViewer)
 	// Note: the above assumes that the order of items in the Camera menu
 	// matches the order of constants defined as kCameraHome, etc.
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_getRendererList : Get a list of all the non-generic
@@ -859,6 +944,10 @@ static void e3viewer_getRendererList(TQ3ObjectType outRendererTypes[kMaxRenderer
 
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_getRendererName : Get the name of a renderer.  We first try
 //			getting the nickname; if that fails, we get a string directly
@@ -876,6 +965,10 @@ static TQ3Status e3viewer_getRendererName(TQ3ObjectType renderer,
 
 	return status;
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_doOptionsButton : Handle a press of the Options button
@@ -1074,6 +1167,10 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 		}
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_pressButton : Activate the indicated button.
 //-----------------------------------------------------------------------------
@@ -1114,6 +1211,10 @@ static void e3viewer_pressButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 	}
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_windowToWorld : Find the world coordinates associated
 //			with the given window coordinates, at the Z-plane that bisects
@@ -1134,6 +1235,10 @@ static void e3viewer_windowToWorld(TQ3ViewerObject theViewer,
 		   * ((float)vPos - (instanceData->mArea.max.y + instanceData->mArea.min.y)*0.5f);
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_windowToObject : Find the object-relative coordinates 
 //			associated with the given window coordinates.
@@ -1152,6 +1257,10 @@ static void e3viewer_windowToObject(TQ3ViewerObject theViewer,
 	out->y -= instanceData->mTranslation.y;
 	out->z -= instanceData->mTranslation.z;
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_applyTruck : Respond a mouse movement while using the
@@ -1189,6 +1298,10 @@ static void e3viewer_applyTruck(TQ3ViewerObject theViewer,
 	E3Viewer_DrawContent(theViewer);
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_applyDolly : Respond a mouse movement while using the
 //			dolly tool.  Do this by translating the object in the XY plane.
@@ -1209,6 +1322,10 @@ static void e3viewer_applyDolly(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 	// And redraw the view.
 	E3Viewer_DrawContent(theViewer);
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_applyOrbit : Respond a mouse movement while using the
@@ -1265,6 +1382,10 @@ static void e3viewer_applyOrbit(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 	E3Viewer_DrawContent(theViewer);
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_applyRoll : Respond a mouse movement while using the
 //			orbit tool in "roll" (rotation about the Z axis) mode.
@@ -1295,6 +1416,10 @@ static void e3viewer_applyRoll(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 	E3Viewer_DrawContent(theViewer);
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_reset: Restore the viewer parameters to their defaults.
 //			This is the guts of the Home button.
@@ -1304,6 +1429,10 @@ static void e3viewer_reset(TQ3ViewerObject theViewer)
 	// I think this should just be equivalent to:
 	e3viewer_applyCameraPreset(theViewer, kCameraHome);
 }
+
+
+
+
 
 //=============================================================================
 //      e3viewer_setupView: Prepare draw context, renderer, etc.
@@ -1406,6 +1535,10 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 	Q3Object_CleanDispose(&instanceData->mDataStorage);
 }
 
+
+
+
+
 //=============================================================================
 //      e3viewer_groupChanged : Called whenever the group data in the viewer
 //			changes.  Recomputes the bounding sphere, and anything else we
@@ -1463,10 +1596,14 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer)
 	Q3Object_CleanDispose(&instanceData->mDataStorage);
 }
 
-#pragma mark -
+
+
+
+
 //=============================================================================
 //      e3viewer_new : Viewer class new method.
 //-----------------------------------------------------------------------------
+#pragma mark -
 static TQ3Status
 e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) privateData;
@@ -1519,6 +1656,7 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 static void
 e3viewer_delete(TQ3Object theObject, void *privateData)
 {	TQ3ViewerData		*instanceData = (TQ3ViewerData *) privateData;
+	TQ3Status			qd3dStatus;
 #pragma unused(theObject)
 
 
@@ -1528,8 +1666,24 @@ e3viewer_delete(TQ3Object theObject, void *privateData)
 	Q3Object_CleanDispose(&instanceData->mGroup);
 	Q3Object_CleanDispose(&instanceData->mDataStorage);
 
+
+
 	// Mark viewer as invalid
 	instanceData->mValidViewer = kQ3InvalidViewer;
+
+
+
+	// Terminate Quesa
+	//
+	// If Quesa was not automatically initialised by Q3Viewer_New, the application
+	// is responsible for performing the final Q3Exit.
+	//
+	// We can therefore safely "terminate" Quesa here, to balance the earlier call
+	// to Q3Initialize made by Q3Viewer_New. It would be illegal to try and shut
+	// down Quesa from inside a delete method, however we know this must be safe
+	// since the reference count was already non-zero when Q3Viewer_New was called.
+	if (!gViewerInitedQuesa)
+		qd3dStatus = Q3Exit();
 }
 
 
@@ -1604,7 +1758,7 @@ E3Viewer_UnregisterClass(void)
 	return(qd3dStatus);
 }
 
-#pragma mark -
+
 
 
 
@@ -1613,6 +1767,7 @@ E3Viewer_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 //		Note : The version numbers are not encoded in BCD as per Q3GetVersion.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Status
 E3Viewer_GetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 {
@@ -1648,32 +1803,55 @@ E3Viewer_GetReleaseVersion(TQ3Uns32 *releaseRevision)
 
 
 //=============================================================================
-//      E3Viewer_New : Creates a viewer.
+//      E3Viewer_New : Create a new viewer.
 //-----------------------------------------------------------------------------
 //		Note : The window should be a CGrafPtr on MacOS, and a HWND under
 //			   Win32.
 //-----------------------------------------------------------------------------
 TQ3ViewerObject
 E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
-{	TQ3ViewerObject		theViewer;
-
+{	TQ3Status			qd3dStatus;
+	TQ3ViewerObject		theViewer;
 	TQ3ViewerParams		paramData;
 
-	// Make sure Quesa is initialized.  The QD3D Viewer would initialize QD3D
-	// when it was created, and deinitialize it when destroyed, so we need to
-	// do the same.  But our behavior is actually much better, since the calls
-	// to Q3Init and Q3Exit are counted, so we don't exit prematurely.
-	Q3Initialize();
-	
-	// Set up initial values (to be copied into the actual Quesa object).
-	paramData.mFlags = theFlags;
-	paramData.mWindow = (void*)theWindow;
-	paramData.mArea = (TQ3Area*)theRect;
 
-	// Create the object
+
+	// Initialise Quesa
+	//
+	// If Quesa has not yet been initialised, the application is relying on
+	// Q3Viewer_New to initialise it for them. The must then dispose of their
+	// viewer objects with Q3Viewer_Dispose to ensure that Quesa will be shut
+	// down when the final viewer object is destroyed.
+	//
+	// We record the situation here (i.e., did a viewer perform the initial
+	// initialisation or has the application already done it), then "initialise"
+	// Quesa again.
+	//
+	// Since Quesa's initialisation sequence is reference counted, our call to
+	// Q3Initialize here will be balanced by a Q3Exit from either our ObjectDelete
+	// method or the final call to Q3Viewer_Dispose.
+	if (!Q3IsInitialized())
+		gViewerInitedQuesa = kQ3True;
+
+	qd3dStatus = Q3Initialize();
+	if (qd3dStatus != kQ3Success)
+		return(NULL);
+
+
+
+	// Set up our parameters
+	paramData.mWindow      = (void    *) theWindow;
+	paramData.mArea        = (TQ3Area *) theRect;
+	paramData.mFlags       = theFlags;
+
+
+
+	// Create the viewer
 	theViewer = E3ClassTree_CreateInstance(kQ3ObjectTypeViewer, kQ3False, &paramData);
-	
-	// While we're at it, make sure our extra geometry is ready.
+
+
+
+	// Instantiate our static helper geometry
 	if (NULL == sGuideCircle)
 		sGuideCircle = e3viewer_createGuideCircle();
 	
@@ -1691,18 +1869,38 @@ E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 
 
 //=============================================================================
-//      E3Viewer_Dispose : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_Dispose : Dispose of a viewer.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_Dispose(TQ3ViewerObject theViewer)
-{
-	// Deinitialize Quesa (see comments in E3Viewer_New).
-	Q3Exit();
+{	TQ3Status	qd3dStatus;
 
-	// To be implemented...
-	return(kQ3Failure);
+
+
+	// Dispose of the viewer
+	qd3dStatus = Q3Object_Dispose(theViewer);
+
+
+
+	// Terminate Quesa
+	//
+	// If Quesa was initialised by a prior call to Q3Viewer_New, the application
+	// must use Q3Viewer_Dispose to dispose of their viewer objects.
+	//
+	// By terminating Quesa here, we can balance the call to Q3Initialize made by
+	// Q3Viewer_New, and shut down Quesa when the last viewer is destroyed.
+	if (gViewerInitedQuesa)
+		{
+		// Shut down Quesa
+		qd3dStatus = Q3Exit();
+		
+		
+		// Reset our flag if Quesa has been shut down
+		if (!Q3IsInitialized())
+			gViewerInitedQuesa = kQ3False;
+		}
+	
+	return(qd3dStatus);
 }
 
 
