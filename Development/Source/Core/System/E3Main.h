@@ -61,7 +61,7 @@ TQ3Boolean			E3IsInitialized(void);
 TQ3Status			E3GetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision);
 TQ3Status			E3GetReleaseVersion(TQ3Uns32 *releaseRevision);
 
-TQ3Status			E3ObjectHierarchy_GetTypeFromString(TQ3ObjectClassNameString objectClassString, TQ3ObjectType *objectClassType);
+TQ3Status			E3ObjectHierarchy_GetTypeFromString(const TQ3ObjectClassNameString objectClassString, TQ3ObjectType *objectClassType);
 TQ3Status			E3ObjectHierarchy_GetStringFromType(TQ3ObjectType objectClassType, TQ3ObjectClassNameString objectClassString);
 TQ3Boolean			E3ObjectHierarchy_IsTypeRegistered(TQ3ObjectType objectClassType);
 TQ3Boolean			E3ObjectHierarchy_IsNameRegistered(const char *objectClassName);
