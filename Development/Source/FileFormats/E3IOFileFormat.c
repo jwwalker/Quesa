@@ -637,9 +637,18 @@ E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject format,char* buf
 			{
 			instanceData->currentStoragePosition ++;
 			
+			if ((blanks == kQ3True) && (((TQ3Uns8)buffer[index]) <= 0x20))
+				{
+				if (foundChar)
+					*foundChar = ((TQ3Uns8)buffer[index]);
+				buffer[index] = 0;
+				found = kQ3True;
+				break;
+				}
+			
 			for(i = 0; i< numChars; i++)
-				if((chars[i] == buffer[index]) || ((blanks == kQ3True) && (buffer[index] <= 0x20))
-					|| ((chars[i] == 0x0D) && (buffer[index] == 0x0A)))// unix file
+				if((chars[i] == buffer[index]) ||
+					((chars[i] == 0x0D) && (buffer[index] == 0x0A)))// unix file
 					{
 					if(foundChar)
 						*foundChar = buffer[index];
