@@ -2357,9 +2357,20 @@ doPicktest(TQ3ViewObject theView, TQ3Point2D mousePoint)
 
 
 
-	// Test for hits
+	// Test for hits.
+	// If there is a hit, verify that the first hit contains all the requested
+	// information.
 	if (Q3Pick_GetNumHits(thePick, &numHits) != kQ3Failure && numHits > 0)
-		hitGood = kQ3True;
+		{
+		TQ3Uns32	validMask;
+		TQ3Status		maskStatus = Q3Pick_GetPickDetailValidMask( thePick,
+				0, &validMask );
+		if ( (kQ3Success == maskStatus) &&
+				((validMask & pickData.data.mask) == pickData.data.mask) )
+			{
+			hitGood = kQ3True;
+			}
+		}
 
 
 
