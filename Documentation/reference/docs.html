@@ -1,0 +1,391 @@
+<!--=========================================================================-->
+<!-- Page Header                                                             -->
+<!--=========================================================================-->
+<html>
+<head>
+	<title>Quesa - Documentation</title>
+</head>
+<body bgcolor=white text=black background="../images/logo_gray.gif">
+
+<p align=center>
+<a href="../index.html"><img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
+</p>
+
+
+
+<!--=========================================================================-->
+<!-- Page Content                                                            -->
+<!--=========================================================================-->
+<table border=0>
+<tr>
+<td valign=top width=90 bgcolor="#EEEEEE">
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Info</font></td></tr></table><br>
+	<a href="../info/status.html">Status</a><br>
+	<a href="../info/screenshots.html">Screenshots</a><br>
+	<a href="../info/download.html">Download</a><br>
+	<a href="../info/list.html">Mailing List</a><br>
+	<a href="http://quesa.DesignCommunity.com/info/list_archive.html">List Archive</a><br>
+	<a href="http://quesa.DesignCommunity.com/quesa_forum.html">Quesa Forum</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Developer</font></td></tr></table><br>
+	<a href="../developer/todo.html">Todo</a><br>
+	<a href="../developer/bugs.html">Bug List</a><br>
+	<a href="../developer/cvs.html">CVS Server</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
+	<a href="../reference/docs.html">Documentation</a><br>
+	<a href="../reference/build.html">Building Quesa</a><br>
+	<a href="../reference/lgpl.html">LGPL License</a><br>
+	<a href="../reference/carbon.html">Carbon Dating</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Other</font></td></tr></table><br>
+	<a href="../other/contributors.html">Contributors</a><br>
+	<a href="../other/logo.html">Quesa Logo</a><br>
+	<a href="../other/links.html">Links</a><br>
+</td>
+<!--=========================================================================-->
+<td width=10>&nbsp;</td>
+<td valign=top>
+
+
+<h3>Getting Started</h3>
+<p>
+The definitive reference for the behaviour of Quesa is currently the source code.
+However, this page will attempt to provide an overview of the Quesa system, and
+provide some background for development.
+</p>
+
+<p>
+The Quesa distribution is divided into three main folders:
+</p>
+
+<ul>
+	<li>SDK
+	<li>Development
+	<li>Documentation
+</ul>
+
+<p>
+The SDK folder contains example applications and receives the Quesa libraries
+produced by builds. It also contains additional projects related to Quesa such
+as the Queeg game framework, and an example file importer plug-in.
+</p>
+
+<p>
+The Development folder contains the projects, makefiles, and source code required
+to build Quesa.
+</p>
+
+<p>
+The Documentation folder contains the documentation, which is a local copy of the
+Quesa web site.
+</p>
+
+
+
+<h3>File Structure</h3>
+<p>
+Ignoring the SDK and Documentation directories, the third directory in the Quesa
+distribution is the Development directory.
+</p>
+
+<p>
+This directory contains the projects, makefiles, and all of the source code required
+to build Quesa. The layout of this directory looks like:
+</p>
+
+<pre>
+    Development/
+        Projects/
+            Be/
+            Mac/
+            Unix/
+            Windows/
+        Scripts/
+        Source/
+            Core/
+                Geometry/
+                Glue/
+                Support/
+                System/
+                Viewer/
+            Platform/
+                Be/
+                Mac/
+                Unix/
+                Windows/
+            Renderers/
+                Common/
+                Generic/
+                Interactive/
+                Wireframe/
+</pre>
+
+<p>
+At the top level, three directories are provided: Projects, Scripts, and Source.
+</p>
+
+
+
+<h4>Projects</h4>
+<p>
+The Projects directory contains the projects and makefiles required to build Quesa,
+split into directories for each platform.
+</p>
+
+<p>
+These projects look for source files and include files within the Development/Source
+directory, and leave their output in the appropriate SDK/Libraries directory.
+</p>
+
+<p>
+<i>The Unix makefile is fairly rudimentary - if you have experience of tools like
+autoconf (and think using it would be a good idea), please let the mailing list
+know.</i>
+</p>
+
+
+
+<h4>Scripts</h4>
+<p>
+The Scripts directory contains some Perl scripts used in the development of Quesa,
+e.g., for updating the status table on each release.
+</p>
+
+
+
+<h4>Source</h4>
+<p>
+The Source directory is the most important directory - it contains the entire source
+tree for Quesa.
+</p>
+
+<p>
+The Source directory contains all of the source for all of the components of Quesa: this
+builds into at least three shared libraries, all of which draw files from different
+portions of the tree.
+</p>
+
+<p>
+The Source directory is split into three main categories: Core, Platform, and Renderers.
+</p>
+
+<ul>
+	<li>The Core directory contains the core source code for Quesa. Everything
+		within this directory is cross platform.
+
+	<li>The Platform directory contains platform specific code, split into further
+		directories for each platform.
+
+	<li>The Renderers directory contains the source code for Quesa's plug-in renderers.
+		Everything within this directory is cross platform, and capable of being built
+		as a separate shared library which can be loaded at run-time.
+</ul>
+
+The Platform and Renderers directories are fairly straightforward, however the Core
+directory contains a further split which needs discussion.
+
+
+
+<h4>Source/Core</h4>
+<p>
+At the lowest level, the Core directory contains five directories: Geometry, Glue, Support,
+System, and Viewer.
+</p>
+
+<ul>
+	<li>The Geometry directory contains the individual geometry classes. Each class
+		is contained in a separate .c file, with a matching .h file to export the
+		methods available for that class.
+	
+	<li>The Glue directory contains the symbols exported by the Quesa library: these
+		are the entry points called by applications, and are responsible for performing
+		parameter checking, system housekeeping, and forwarding the call to the
+		implementation routine.<br>
+		Each .c file in this directory contains the entry points for the matching
+		API .h file (e.g., QD3DMath.c corresponds to QD3DMath.h).
+	
+	<li>The Support directory contains support code: debug routines, memory management,
+		hash tables, the class tree, etc.
+	
+	<li>The System directory contains the bulk of Quesa - the files within this directory
+		are the actual implementation routines invoked by the Glue entry points.<br>
+		There is a single .c and .h file for each of the Glue .c files (e.g., E3Math.[ch]
+		corresponds to QD3DMath.c).
+	
+	<li>The Viewer directory contains the source for the Viewer library: this is a utility
+		library which sits on top of Quesa, and as such can be self-contained.
+</ul>
+
+
+
+<h3>Internal Structure</h3>
+<p>
+No detailed documentation or design documents exist for the internals of Quesa.
+</p>
+
+<p>
+However, the main flow of control during a rendering loop can be described through
+a pyramid structure as seen below.
+</p>
+
+<table align=center width=10% border=1 bordercolor=black bgcolor="#E0E0FF"><tr align=center><td>
+Glue
+</td></tr></table>
+<br>
+<table align=center width=15% border=1 bordercolor=black bgcolor="#E0FFE0"><tr align=center><td>
+System
+</td></tr></table>
+<br>
+<table align=center width=20% border=1 bordercolor=black bgcolor="#FFE0E0"><tr align=center><td>
+Geometry
+</td></tr></table>
+<br>
+<table align=center width=25% border=1 bordercolor=black bgcolor="#FFFFE0"><tr align=center><td>
+Support
+</td></tr></table>
+<br>
+<table align=center width=30% border=1 bordercolor=black bgcolor="#E0FFFF"><tr align=center><td>
+Platform
+</td></tr></table>
+
+<p>
+The flow of control proceeds from top to bottom, with the application invoking the Glue
+level at the top of the pyramid and an image being produced with the help of the Platform
+layer at the base of the pyramid.
+</p>
+
+<p>
+<i>Note that this is slightly inaccurate, in that the final image is actually produced by
+a renderer object, which sits outside this pyramid - however, the platform level is as good
+a place as any to consider when looking for the 'base' of Quesa.</i>
+</p>
+
+<p>
+In more detail, the steps are:
+</p>
+
+<ol>
+	<li>The Application calls an API entry point, which is implemented by a function within
+		the Core/Glue area of the source tree. This function performs parameter validation,
+		updates some internal structures, and forwards the call to the matching implementation
+		routine.
+	
+	<li>This implementation routine typically lives within the Core/System area of the source
+		tree, and will ultimately perform the majority of the work involved in handling the
+		request.
+	
+	<li>A more specialised level exists below the System level, which is the geometry objects.
+		These are invoked during the rendering pipeline, and produce efficient (e.g., TriMesh)
+		representations of higher level geometries for a renderer.
+	
+	<li>The lowest level that still remains platform independent is the Core/Support level. This
+		includes fundamental data structures such as the class tree (a tree-like structure which
+		indicates the relationships between the various classes registered with Quesa).
+
+	<li>Finally, the lowest level is the platform specific level. This is typically concerned
+		with issues such as shared library loading, working with the platform's native windowing
+		API to arrange output, and implementing platform specific storage classes.
+</ol>
+
+
+
+<h3>Classes And Objects</h3>
+<p>
+The terms 'class' and 'object' have been referred to above, and as such require further
+explanation.
+</p>
+
+<p>
+In Quesa, virtually every persistent data structure is related in some way to an <em>object</em>
+(more specifically, a TQ3Object).
+</p>
+
+<p>
+As in a language such as C++, <em>objects</em> are <em>instances</em> of entities called
+<em>classes</em>. An object holds the particular data for an instantiation of a class,
+while a class holds the data which is common to all objects of that type.
+</p>
+
+<p>
+E.g., the triangle class contains methods which are used to initialise and destroy
+triangle objects. This data is common to all triangle objects (and so stored in the
+class), while specific instances of triangle objects carry additional data which makes
+them unique (e.g., their colour).
+</p>
+
+<p>
+Quesa maintains a data structure known as the class tree, which acts as a database to record
+what classes are registered with the system. A tree is used since classes can, as in normal
+OO programming, inherit from other classes (e.g., the TQ3SharedObject class provides reference
+counting services to every class derived from it).
+</p>
+
+<p>
+Modules within Quesa register their classes with the class tree when Quesa is initialised,
+and provide functions to manipulate instances of that class as the application creates them.
+</p>
+
+
+
+<h4>An Example Class</h4>
+<p>
+To get a feel for how this fits together, you may want to study one particular class. A good
+class to start with is the triangle geometry.
+</p>
+
+<p>
+Examine System/Geometry/E3GeometryTriangle.c to see how the class registers itself with
+the class tree, and the methods it registers with the class tree.
+</p>
+
+<p>
+These methods are invoked as triangles are created, disposed of, and manipulated, so
+placing breakpoints within this file will allow you to observe when and how objects
+are manipulated by Quesa at runtime.
+</p>
+
+<p>
+The triangle object is a good starting point since it demonstrates how a simple object
+is registered and unregistered within Quesa, how the instance data of an object is
+manipulated, and how instances of the class are created and destroyed.
+</p>
+
+<p>
+Although some details will differ, the code to implement a triangle object is
+fundamentally identical in structure to the code for all other Quesa objects.
+</p>
+
+</td>
+</tr>
+</table>
+
+
+
+
+
+<!--=========================================================================-->
+<!-- Page Footer                                                             -->
+<!--=========================================================================-->
+<br>
+<br>
+<hr width="90%">
+<table border=0 align=center>
+<tr>
+<td colspan=2 align=center>
+<font size="-1">
+Quesa Web Site hosted by <a href="http://www.DesignCommunity.com/home.html">DesignCommunity.com</a>
+</font>
+</td>
+</tr>
+</table>
+
+</body>
+</html>

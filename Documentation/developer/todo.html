@@ -1,0 +1,969 @@
+<!--=========================================================================-->
+<!-- Page Header                                                             -->
+<!--=========================================================================-->
+<html>
+<head>
+	<title>Quesa - Todo</title>
+</head>
+<body bgcolor=white text=black background="../images/logo_gray.gif">
+
+<p align=center>
+<a href="../index.html"><img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
+</p>
+
+
+
+<!--=========================================================================-->
+<!-- Page Content                                                            -->
+<!--=========================================================================-->
+<table border=0>
+<tr>
+<td valign=top width=90 bgcolor="#EEEEEE">
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Info</font></td></tr></table><br>
+	<a href="../info/status.html">Status</a><br>
+	<a href="../info/screenshots.html">Screenshots</a><br>
+	<a href="../info/download.html">Download</a><br>
+	<a href="../info/list.html">Mailing List</a><br>
+	<a href="http://quesa.DesignCommunity.com/info/list_archive.html">List Archive</a><br>
+	<a href="http://quesa.DesignCommunity.com/quesa_forum.html">Quesa Forum</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Developer</font></td></tr></table><br>
+	<a href="../developer/todo.html">Todo</a><br>
+	<a href="../developer/bugs.html">Bug List</a><br>
+	<a href="../developer/cvs.html">CVS Server</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
+	<a href="../reference/docs.html">Documentation</a><br>
+	<a href="../reference/build.html">Building Quesa</a><br>
+	<a href="../reference/lgpl.html">LGPL License</a><br>
+	<a href="../reference/carbon.html">Carbon Dating</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Other</font></td></tr></table><br>
+	<a href="../other/contributors.html">Contributors</a><br>
+	<a href="../other/logo.html">Quesa Logo</a><br>
+	<a href="../other/links.html">Links</a><br>
+</td>
+<!--=========================================================================-->
+<td width=10>&nbsp;</td>
+<td valign=top>
+
+
+<h3>Todo</h3>
+<p>
+The following tasks are currently being worked on:
+</p>
+
+
+<table border=1 width=80% align=center>
+<tr><th width=100>Owner</th><th>Task</th></tr>
+<tr><td>Jose Cruanyes</td><td>
+Implementing 3DMF/3DS importers/exporters.
+</td></tr>
+
+<tr><td>Dair Grant</td><td>
+Finishing Interactive Renderer.
+</td></tr>
+
+<tr><td>Joseph Strout</td><td>
+Continuing implementation of the Queeg framework.
+</td></tr>
+</table>
+
+<p>
+Note that this list is only updated on each release, and so may not be completely
+up to date: if in doubt, check with the mailing list.
+</p>
+
+<p>
+Contact details for developers can be found on the
+<a href="../other/contributors.html">contributors</a> page.
+</p>
+
+
+<h3>Future Projects</h3>
+<p>
+The following items have not been claimed, but are listed here in case you want to help.
+</p>
+
+<p>
+Note that these are ordered roughly by priority, with immediate development tasks at the
+start and more general wish-list items towards the end.
+</p>
+
+<ul>
+	<li>Anything not yet complete on the <a href="../info/status.html">status</a> page.
+
+	<li>Test all functions on the 'Testing' list.
+
+	<li>Implement remaining kQ3XMethodTypeCameraFrustumMatrix camera methods (for
+		orthographic and view plane cameras).
+
+	<li>Glue functions should make use of the Error Manager to report errors, and should
+		include additional tests in debug builds.
+
+	<li>Make all example apps cross platform.
+
+	<li>MPW Makefiles to do builds with MrC: may provide better performance than CodeWarrior
+		on Mac OS.
+
+	<li>Be OpenGL support.
+
+	<li>Non-Apple headers, to allow development without Universal Headers (particularly
+	    useful for Unix and Be ports, where the Universal Headers aren't easily available).
+
+	<li>Matrix camera object, allows direct specification of world->screen matrix.
+
+	<li>Accessors to be able to retriever various callbacks after setting them: error handlers,
+		view progress functions, etc.
+
+	<li>Publish plug-in geometry API (currently used internally, but not documented).
+
+	<li>API to expose the cached form of high level geometries (i.e., access the TriMesh
+		generated for them during rendering).
+
+	<li>Error Manager, be able to turn a TQ3Error/TQ3Warning/TQ3Notice into a string suitable
+		for displaying in a dialog.
+
+	<li>QD3DLight.h, An 'eye' light type.
+
+	<li>QD3DLight.h, Be able to put lights in non-light groups.
+
+	<li>QD3DMath.h, #define to enable inline versions of simple routines.
+
+	<li>QD3DShader.h, Q3ColorARGB_Luminance, to take a TQ3ColorARGB.
+
+	<li>QD3DStyle.h, A 'cast shadow' style to complement the 'receive shadow' style.
+
+	<li>QD3DStyle.h, Be able to set fill style independently for backfacing and frontfacing polygons.
+
+	<li>QD3DStyle.h, A 'kQ3AntiAliasModeMaskPoints' style as per OpenGL.
+
+	<li>QD3DView.h, Q3View_GetFogStyleState to access fog style state.
+
+	<li>QD3DView.h, Q3View_GetAllowAllGroupCulling to access group culling state.
+
+	<li>QD3DStyle.h, subdivision style that allows use of c2 in world and screen space
+		subdivision, allows things like torus to control subdivision in both u and v.
+
+	<li>Behaviours, to be able to associate some sort of behaviour with a TQ3Object, and for that
+		behaviour to be invoked automatically during rendering.
+	 
+	<li>File importers. 3DMF and 3DS are planned, DXF and VRML have been proposed.
+	
+	<li>API extension, generate a group of normal indicators for a geometry (currently
+	    implemented internally, but not published).
+	 
+	<li>Greater renderer control, through pre and post render callbacks called immediately
+	    before objects are passed to a renderer (e.g., to enable API specific functionality
+	    like disabling a Z-buffer on an API like OpenGL).
+
+	<li>3D text geometry object, takes text strings and creates 3D representations of them.
+	
+	<li>General extrusion library, takes a TQ3Bitmap and creates a 3D extrusion of it.
+	
+	<li>AltiVec support for Mac OS (e.g., in E3Math.c).
+	
+	<li>Multithreading support.
+	
+	<li>Additional plug-in renderers (e.g., POV-Ray, or Direct3D).
+	
+	<li>Non-Apple documentation.
+	
+	<li>Customisable object registration - clients using static libraries should be able to
+	    only register the objects they need.
+	
+	<li>Grayscale texture support - define a kQ3PixelTypeLuminance8 pixel type, and update
+	    the OpenGL renderer to support that pixel format.
+
+	<li>Be able to register a callback for when an object is disposed of: would allow the
+	    Quesa IR to free up textures automatically, rather than having to poll them on
+	    each frame.
+
+	<li>IRUpdate.c, QuickTime compressed textures need to be uncompressed for passing to OpenGL.
+	
+	<li>A Q3Perf application for performance testing, similar to GLPerf.
+
+	<li>Qut, apps should limit their frame rate when not in Show FPS mode.
+
+	<li>Error manager only needs to be built in debug builds: should be a no-op in release builds.
+
+	<li>Q3Xxxxx post calls should only be available to extensions.
+
+	<li>Need Transform Test app to test transform objects.
+
+	<li>Viewer, update about box.
+
+	<li>Viewer, need Windows, Unix, Be projects.
+
+	<li>Viewer, put tools in separate source files?
+
+	<li>Viewer, put platform specific code in separate source files.
+
+	<li>3D World, expects to be able to call with bad params, should glue check for correct object.
+		types even in release build and return an error?
+
+	<li>Break out 3DMF importer/exporter into a plug-in, as per renderers.
+
+	<li>Debugging, when dispose a shared object put it on a freed-list to catch double-disposes.
+
+	<li>Performance, should we automatically add face/vertex normals to retained mode objects?
+
+	<li>Qut, implement select picture/metafile for Unix/Windows.
+
+	<li>Qut, implement texture importers for Unix/Windows.
+
+	<li>Qut, implement mouse events for Unix.
+
+	<li>TriGrid, cached form should be a TriMesh rather than a group of triangles.
+
+	<li>General Polygon, need to support holes.
+
+	<li>Performance, check that geometries add face/vertex normals for fastest path through OpenGL.
+
+	<li>Performance, add an attribute that indicates a geometry is closed (e.g., box, ellipsoid, etc).
+		IR can then turn on backface culling for these objects if they're not rendering in edge
+		mode and if no transparency is active.
+
+	<li>IR, doesn't support specular colour/control at the vertex level.
+
+	<li>IR, doesn't support ambient coefficient.
+
+	<li>IR, doesn't support transparency.
+
+	<li>IR, doesn't support alpha in textures.
+
+	<li>IR, add support for kQ3XMethodTypeRendererIsBoundingBoxVisible method (and call it from Quesa).
+
+	<li>IR, if object is entirely visible set OpenGL frustum clip hint to turn off scissoring.
+
+	<li>IR, faster to pass colour data as 3 bytes rather than 3 floats?
+</ul>
+
+
+
+<h3>Testing</h3>
+<p>
+Many of the functions which have been implemented so far have not been fully tested.
+</p>
+
+<p>
+Although almost all of these are trivial, and hence are almost certainly correct, they
+should still be stepped through in the debugger to verify that they are functioning
+correctly.
+</p>
+
+<pre>
+    CEWireElement_EmptyData
+    CEWireElement_GetData
+    CEWireElement_SetData
+    Q3AmbientLight_GetData
+    Q3AmbientLight_SetData
+    Q3AntiAliasStyle_GetData
+    Q3AntiAliasStyle_SetData
+    Q3AttributeSet_Clear
+    Q3AttributeSet_Submit
+    Q3BackfacingStyle_Get
+    Q3BackfacingStyle_Set
+    Q3BoundingBox_Copy
+    Q3BoundingSphere_Copy
+    Q3BoundingSphere_UnionRationalPoint4D
+    Q3Box_GetFaceAttributeSet
+    Q3Box_GetMajorAxis
+    Q3Box_GetMinorAxis
+    Q3Box_GetOrientation
+    Q3Box_GetOrigin
+    Q3Box_SetFaceAttributeSet
+    Q3Box_SetMajorAxis
+    Q3Box_SetMinorAxis
+    Q3Box_SetOrientation
+    Q3Box_SetOrigin
+    Q3Box_Submit
+    Q3CString_GetLength
+    Q3CString_SetString
+    Q3Camera_GetRange
+    Q3Camera_GetViewPort
+    Q3Camera_SetData
+    Q3Camera_SetRange
+    Q3Camera_SetViewPort
+    Q3ColorRGB_Accumulate
+    Q3ColorRGB_Add
+    Q3ColorRGB_Clamp
+    Q3ColorRGB_Lerp
+    Q3ColorRGB_Scale
+    Q3ColorRGB_Subtract
+    Q3CompressedPixmapTexture_GetCompressedPixmap
+    Q3CompressedPixmapTexture_SetCompressedPixmap
+    Q3Cone_GetBottomAttributeSet
+    Q3Cone_GetCaps
+    Q3Cone_GetFaceAttributeSet
+    Q3Cone_GetMajorRadius
+    Q3Cone_GetMinorRadius
+    Q3Cone_GetOrientation
+    Q3Cone_GetOrigin
+    Q3Cone_SetBottomAttributeSet
+    Q3Cone_SetCaps
+    Q3Cone_SetFaceAttributeSet
+    Q3Cone_SetMajorRadius
+    Q3Cone_SetMinorRadius
+    Q3Cone_SetOrientation
+    Q3Cone_SetOrigin
+    Q3Cone_Submit
+    Q3Cylinder_GetBottomAttributeSet
+    Q3Cylinder_GetCaps
+    Q3Cylinder_GetFaceAttributeSet
+    Q3Cylinder_GetMajorRadius
+    Q3Cylinder_GetMinorRadius
+    Q3Cylinder_GetOrientation
+    Q3Cylinder_GetOrigin
+    Q3Cylinder_GetTopAttributeSet
+    Q3Cylinder_SetBottomAttributeSet
+    Q3Cylinder_SetCaps
+    Q3Cylinder_SetFaceAttributeSet
+    Q3Cylinder_SetMajorRadius
+    Q3Cylinder_SetMinorRadius
+    Q3Cylinder_SetOrientation
+    Q3Cylinder_SetOrigin
+    Q3Cylinder_SetTopAttributeSet
+    Q3Cylinder_Submit
+    Q3DDSurfaceDrawContext_GetDirectDrawSurface
+    Q3DDSurfaceDrawContext_New
+    Q3DDSurfaceDrawContext_SetDirectDrawSurface
+    Q3DirectionalLight_SetData
+    Q3Disk_GetMajorRadius
+    Q3Disk_GetMinorRadius
+    Q3Disk_GetOrigin
+    Q3Disk_SetMajorRadius
+    Q3Disk_SetMinorRadius
+    Q3Disk_SetOrigin
+    Q3Disk_Submit
+    Q3DisplayGroup_CalcAndUseBoundingBox
+    Q3DisplayGroup_GetBoundingBox
+    Q3DisplayGroup_GetType
+    Q3DisplayGroup_RemoveBoundingBox
+    Q3DisplayGroup_SetAndUseBoundingBox
+    Q3DisplayGroup_SetState
+    Q3DrawContext_GetDoubleBufferState
+    Q3DrawContext_GetMask
+    Q3DrawContext_GetMaskState
+    Q3DrawContext_GetPaneState
+    Q3DrawContext_SetClearImageMethod
+    Q3DrawContext_SetData
+    Q3DrawContext_SetDoubleBufferState
+    Q3DrawContext_SetMask
+    Q3DrawContext_SetMaskState
+    Q3DrawContext_SetPaneState
+    Q3Ellipse_GetMajorRadius
+    Q3Ellipse_GetMinorRadius
+    Q3Ellipse_GetOrigin
+    Q3Ellipse_SetMajorRadius
+    Q3Ellipse_SetMinorRadius
+    Q3Ellipse_SetOrigin
+    Q3Ellipse_Submit
+    Q3Ellipsoid_EmptyData
+    Q3Ellipsoid_GetData
+    Q3Ellipsoid_GetMajorRadius
+    Q3Ellipsoid_GetMinorRadius
+    Q3Ellipsoid_GetOrientation
+    Q3Ellipsoid_GetOrigin
+    Q3Ellipsoid_SetData
+    Q3Ellipsoid_SetMajorRadius
+    Q3Ellipsoid_SetMinorRadius
+    Q3Ellipsoid_SetOrientation
+    Q3Ellipsoid_SetOrigin
+    Q3Ellipsoid_Submit
+    Q3FSSpecStorage_Get
+    Q3FSSpecStorage_Set
+    Q3File_Cancel
+    Q3File_GetMode
+    Q3File_GetReadInGroup
+    Q3File_GetStorage
+    Q3File_GetVersion
+    Q3File_IsEndOfData
+    Q3File_IsNextObjectOfType
+    Q3File_IsOpen
+    Q3File_SetIdleMethod
+    Q3File_SetReadInGroup
+    Q3File_SkipObject
+    Q3FillStyle_Get
+    Q3FillStyle_Set
+    Q3Float64_Read
+    Q3FogStyle_GetData
+    Q3FogStyle_SetData
+    Q3GeneralPolygon_GetShapeHint
+    Q3GeneralPolygon_GetVertexAttributeSet
+    Q3GeneralPolygon_GetVertexPosition
+    Q3GeneralPolygon_SetShapeHint
+    Q3GeneralPolygon_SetVertexAttributeSet
+    Q3GeneralPolygon_SetVertexPosition
+    Q3GeneralPolygon_Submit
+    Q3Geometry_GetAttributeSet
+    Q3Geometry_GetType
+    Q3Geometry_SetAttributeSet
+    Q3Group_AddObjectAfter
+    Q3Group_CountObjectsOfType
+    Q3Group_EmptyObjectsOfType
+    Q3Group_GetFirstObjectPosition
+    Q3Group_GetFirstPositionOfType
+    Q3Group_GetLastObjectPosition
+    Q3Group_GetLastPosition
+    Q3Group_GetLastPositionOfType
+    Q3Group_GetNextObjectPosition
+    Q3Group_GetNextPositionOfType
+    Q3Group_GetPreviousObjectPosition
+    Q3Group_GetPreviousPosition
+    Q3Group_GetPreviousPositionOfType
+    Q3Group_GetType
+    Q3Group_SetPositionObject
+    Q3HandleStorage_Set
+    Q3HighlightStyle_Get
+    Q3HighlightStyle_Set
+    Q3HighlightStyle_Submit
+    Q3IOProxyDisplayGroup_New
+    Q3Int16_Read
+    Q3Int64_Read
+    Q3InteractiveRenderer_CountRAVEDrawContexts
+    Q3InteractiveRenderer_GetCSGEquation
+    Q3InteractiveRenderer_GetDoubleBufferBypass
+    Q3InteractiveRenderer_GetPreferences
+    Q3InteractiveRenderer_GetRAVEContextHints
+    Q3InteractiveRenderer_GetRAVEDrawContexts
+    Q3InteractiveRenderer_GetRAVETextureFilter
+    Q3InteractiveRenderer_SetCSGEquation
+    Q3InteractiveRenderer_SetDoubleBufferBypass
+    Q3InteractiveRenderer_SetPreferences
+    Q3InteractiveRenderer_SetRAVEContextHints
+    Q3InteractiveRenderer_SetRAVETextureFilter
+    Q3InterpolationStyle_Get
+    Q3InterpolationStyle_Set
+    Q3Light_SetData
+    Q3Line_GetVertexAttributeSet
+    Q3Line_GetVertexPosition
+    Q3Line_SetVertexAttributeSet
+    Q3Line_SetVertexPosition
+    Q3Line_Submit
+    Q3MacDrawContext_Get2DLibrary
+    Q3MacDrawContext_GetGXViewPort
+    Q3MacDrawContext_GetGrafPort
+    Q3MacDrawContext_Set2DLibrary
+    Q3MacDrawContext_SetGXViewPort
+    Q3MacintoshStorage_Get
+    Q3MacintoshStorage_GetType
+    Q3MacintoshStorage_Set
+    Q3Marker_GetBitmap
+    Q3Marker_GetPosition
+    Q3Marker_GetXOffset
+    Q3Marker_GetYOffset
+    Q3Marker_SetBitmap
+    Q3Marker_SetPosition
+    Q3Marker_SetXOffset
+    Q3Marker_SetYOffset
+    Q3Marker_Submit
+    Q3Matrix4x4_Copy
+    Q3Matrix4x4_Read
+    Q3Matrix4x4_Transpose
+    Q3MatrixTransform_Get
+    Q3MatrixTransform_Set
+    Q3MemoryStorage_GetBuffer
+    Q3MemoryStorage_GetType
+    Q3MemoryStorage_SetBuffer
+    Q3MeshEdgePart_GetEdge
+    Q3MeshFacePart_GetFace
+    Q3MeshPart_GetComponent
+    Q3MeshPart_GetType
+    Q3MeshVertexPart_GetVertex
+    Q3MipmapTexture_GetMipmap
+    Q3MipmapTexture_SetMipmap
+    Q3NURBCurve_New
+    Q3NURBCurve_Submit
+    Q3NURBPatch_New
+    Q3NURBPatch_Submit
+    Q3NameElement_EmptyData
+    Q3NameElement_GetData
+    Q3NameElement_SetData
+    Q3Object_IsWritable
+    Q3OrientationStyle_Get
+    Q3OrientationStyle_Set
+    Q3OrthographicCamera_GetBottom
+    Q3OrthographicCamera_GetData
+    Q3OrthographicCamera_GetLeft
+    Q3OrthographicCamera_GetRight
+    Q3OrthographicCamera_GetTop
+    Q3OrthographicCamera_New
+    Q3OrthographicCamera_SetBottom
+    Q3OrthographicCamera_SetData
+    Q3OrthographicCamera_SetLeft
+    Q3OrthographicCamera_SetRight
+    Q3OrthographicCamera_SetTop
+    Q3Param2D_AffineComb
+    Q3Param2D_Distance
+    Q3Param2D_DistanceSquared
+    Q3Param2D_Vector2D_Add
+    Q3Param2D_Vector2D_Subtract
+    Q3PickIDStyle_Get
+    Q3PickIDStyle_Set
+    Q3PickIDStyle_Submit
+    Q3PickPartsStyle_Get
+    Q3PickPartsStyle_Set
+    Q3PickPartsStyle_Submit
+    Q3Pick_EmptyHitList
+    Q3Pick_GetData
+    Q3Pick_GetEdgeTolerance
+    Q3Pick_GetNumHits
+    Q3Pick_GetPickDetailData
+    Q3Pick_GetPickDetailValidMask
+    Q3Pick_GetType
+    Q3Pick_GetVertexTolerance
+    Q3Pick_SetData
+    Q3Pick_SetEdgeTolerance
+    Q3Pick_SetVertexTolerance
+    Q3PixmapDrawContext_GetPixmap
+    Q3PixmapDrawContext_SetPixmap
+    Q3PixmapMarker_GetPixmap
+    Q3PixmapMarker_GetPosition
+    Q3PixmapMarker_GetXOffset
+    Q3PixmapMarker_GetYOffset
+    Q3PixmapMarker_SetPixmap
+    Q3PixmapMarker_SetPosition
+    Q3PixmapMarker_SetXOffset
+    Q3PixmapMarker_SetYOffset
+    Q3PixmapMarker_Submit
+    Q3PixmapTexture_GetPixmap
+    Q3PixmapTexture_SetPixmap
+    Q3Point2D_Vector2D_Add
+    Q3Point3D_AffineComb
+    Q3Point3D_DistanceSquared
+    Q3Point3D_To3DTransformArray
+    Q3Point3D_To4D
+    Q3Point3D_To4DTransformArray
+    Q3Point3D_TransformQuaternion
+    Q3Point3D_Vector3D_Subtract
+    Q3PointLight_GetAttenuation
+    Q3PointLight_GetCastShadowsState
+    Q3PointLight_GetLocation
+    Q3PointLight_New
+    Q3PointLight_SetAttenuation
+    Q3PointLight_SetCastShadowsState
+    Q3PointLight_SetData
+    Q3PointLight_SetLocation
+    Q3Point_GetPosition
+    Q3Point_SetPosition
+    Q3Point_Submit
+    Q3PolarPoint_Set
+    Q3PolarPoint_ToPoint2D
+    Q3PolyLine_GetSegmentAttributeSet
+    Q3PolyLine_GetVertexAttributeSet
+    Q3PolyLine_GetVertexPosition
+    Q3PolyLine_SetSegmentAttributeSet
+    Q3PolyLine_SetVertexAttributeSet
+    Q3PolyLine_SetVertexPosition
+    Q3PolyLine_Submit
+    Q3Polygon_GetVertexAttributeSet
+    Q3Polygon_GetVertexPosition
+    Q3Polygon_SetVertexAttributeSet
+    Q3Polygon_SetVertexPosition
+    Q3Polygon_Submit
+    Q3Polyhedron_GetEdgeData
+    Q3Polyhedron_GetTriangleData
+    Q3Polyhedron_GetVertexAttributeSet
+    Q3Polyhedron_GetVertexPosition
+    Q3Polyhedron_SetEdgeData
+    Q3Polyhedron_SetTriangleData
+    Q3Polyhedron_SetVertexAttributeSet
+    Q3Polyhedron_SetVertexPosition
+    Q3Polyhedron_Submit
+    Q3Pop_New
+    Q3Push_New
+    Q3QuaternionTransform_Get
+    Q3QuaternionTransform_Set
+    Q3QuaternionTransform_Submit
+    Q3Quaternion_Copy
+    Q3Quaternion_IsIdentity
+    Q3Quaternion_MatchReflection
+    Q3Quaternion_Set
+    Q3Quaternion_SetRotateVectorToVector
+    Q3RationalPoint3D_AffineComb
+    Q3RationalPoint3D_Read
+    Q3RationalPoint3D_Set
+    Q3RationalPoint4D_AffineComb
+    Q3RationalPoint4D_Read
+    Q3RationalPoint4D_Set
+    Q3RationalPoint4D_To3D
+    Q3RationalPoint4D_To4DTransformArray
+    Q3ReceiveShadowsStyle_Get
+    Q3ReceiveShadowsStyle_Set
+    Q3ReceiveShadowsStyle_Submit
+    Q3Renderer_GetConfigurationData
+    Q3Renderer_GetType
+    Q3Renderer_SetConfigurationData
+    Q3ResetTransform_New
+    Q3ResetTransform_Submit
+    Q3RotateAboutAxisTransform_GetAngle
+    Q3RotateAboutAxisTransform_GetData
+    Q3RotateAboutAxisTransform_GetOrientation
+    Q3RotateAboutAxisTransform_GetOrigin
+    Q3RotateAboutAxisTransform_SetAngle
+    Q3RotateAboutAxisTransform_SetData
+    Q3RotateAboutAxisTransform_SetOrientation
+    Q3RotateAboutAxisTransform_SetOrigin
+    Q3RotateAboutAxisTransform_Submit
+    Q3RotateAboutPointTransform_GetAboutPoint
+    Q3RotateAboutPointTransform_GetAngle
+    Q3RotateAboutPointTransform_GetAxis
+    Q3RotateAboutPointTransform_GetData
+    Q3RotateAboutPointTransform_SetAboutPoint
+    Q3RotateAboutPointTransform_SetAngle
+    Q3RotateAboutPointTransform_SetAxis
+    Q3RotateAboutPointTransform_SetData
+    Q3RotateAboutPointTransform_Submit
+    Q3RotateTransform_GetAngle
+    Q3RotateTransform_GetAxis
+    Q3RotateTransform_GetData
+    Q3RotateTransform_SetAngle
+    Q3RotateTransform_SetAxis
+    Q3RotateTransform_SetData
+    Q3RotateTransform_Submit
+    Q3ScaleTransform_Get
+    Q3ScaleTransform_Set
+    Q3ScaleTransform_Submit
+    Q3Set_GetType
+    Q3Shader_GetType
+    Q3Shader_GetUBoundary
+    Q3Shader_GetUVTransform
+    Q3Shader_GetVBoundary
+    Q3Shader_SetUBoundary
+    Q3Shader_SetUVTransform
+    Q3Shader_SetVBoundary
+    Q3ShapePart_GetShape
+    Q3ShapePart_GetType
+    Q3Shape_AddElement
+    Q3Shape_ClearElement
+    Q3Shape_ContainsElement
+    Q3Shape_EmptyElements
+    Q3Shape_GetElement
+    Q3Shape_GetNextElementType
+    Q3Shared_GetEditIndex
+    Q3Shared_GetType
+    Q3Shared_IsReferenced
+    Q3SphericalPoint_Set
+    Q3SpotLight_GetAttenuation
+    Q3SpotLight_GetCastShadowsState
+    Q3SpotLight_GetDirection
+    Q3SpotLight_GetFallOff
+    Q3SpotLight_GetHotAngle
+    Q3SpotLight_GetLocation
+    Q3SpotLight_GetOuterAngle
+    Q3SpotLight_SetAttenuation
+    Q3SpotLight_SetCastShadowsState
+    Q3SpotLight_SetData
+    Q3SpotLight_SetFallOff
+    Q3SpotLight_SetHotAngle
+    Q3SpotLight_SetOuterAngle
+    Q3StateOperator_Submit
+    Q3Storage_GetData
+    Q3Storage_GetSize
+    Q3Storage_GetType
+    Q3Storage_SetData
+    Q3String_GetType
+    Q3Style_GetType
+    Q3SubdivisionStyle_GetData
+    Q3SubdivisionStyle_SetData
+    Q3SurfaceShader_GetType
+    Q3Tangent2D_Read
+    Q3Tangent3D_Read
+    Q3TextureShader_GetTexture
+    Q3TextureShader_SetTexture
+    Q3Texture_GetHeight
+    Q3Texture_GetType
+    Q3Texture_GetWidth
+    Q3Torus_GetMajorRadius
+    Q3Torus_GetMinorRadius
+    Q3Torus_GetOrientation
+    Q3Torus_GetOrigin
+    Q3Torus_GetRatio
+    Q3Torus_SetMajorRadius
+    Q3Torus_SetMinorRadius
+    Q3Torus_SetOrientation
+    Q3Torus_SetOrigin
+    Q3Torus_SetRatio
+    Q3Torus_Submit
+    Q3Transform_GetMatrix
+    Q3Transform_GetType
+    Q3Transform_Submit
+    Q3TranslateTransform_Get
+    Q3TranslateTransform_Set
+    Q3TriGrid_New
+    Q3TriGrid_Submit
+    Q3TriMesh_Submit
+    Q3Triangle_GetVertexAttributeSet
+    Q3Triangle_GetVertexPosition
+    Q3Triangle_SetVertexAttributeSet
+    Q3Triangle_SetVertexPosition
+    Q3Triangle_Submit
+    Q3UnixPathStorage_Get
+    Q3UnixPathStorage_Set
+    Q3UnknownBinary_EmptyData
+    Q3UnknownBinary_EmptyTypeString
+    Q3UnknownBinary_GetData
+    Q3UnknownBinary_GetTypeString
+    Q3UnknownText_EmptyData
+    Q3UnknownText_GetData
+    Q3Unknown_GetDirtyState
+    Q3Unknown_GetType
+    Q3Unknown_SetDirtyState
+    Q3Uns16_Write
+    Q3Uns32_Write
+    Q3Uns64_Read
+    Q3Uns8_Write
+    Q3UrlElement_EmptyData
+    Q3UrlElement_GetData
+    Q3UrlElement_SetData
+    Q3Vector2D_Add
+    Q3Vector2D_Dot
+    Q3Vector2D_Length
+    Q3Vector2D_Negate
+    Q3Vector2D_Read
+    Q3Vector2D_Scale
+    Q3Vector2D_Set
+    Q3Vector2D_Transform
+    Q3Vector2D_Write
+    Q3Vector3D_Add
+    Q3Vector3D_Negate
+    Q3Vector3D_Read
+    Q3Vector3D_Subtract
+    Q3Vector3D_TransformQuaternion 
+    Q3Vector3D_Write
+    Q3ViewAngleAspectCamera_GetAspectRatio
+    Q3ViewAngleAspectCamera_GetData
+    Q3ViewAngleAspectCamera_GetFOV
+    Q3ViewAngleAspectCamera_SetAspectRatio
+    Q3ViewAngleAspectCamera_SetData
+    Q3ViewAngleAspectCamera_SetFOV
+    Q3ViewPlaneCamera_GetCenterX
+    Q3ViewPlaneCamera_GetCenterY
+    Q3ViewPlaneCamera_GetData
+    Q3ViewPlaneCamera_GetHalfHeight
+    Q3ViewPlaneCamera_GetHalfWidth
+    Q3ViewPlaneCamera_GetViewPlane
+    Q3ViewPlaneCamera_New
+    Q3ViewPlaneCamera_SetCenterX
+    Q3ViewPlaneCamera_SetCenterY
+    Q3ViewPlaneCamera_SetData
+    Q3ViewPlaneCamera_SetHalfHeight
+    Q3ViewPlaneCamera_SetHalfWidth
+    Q3ViewPlaneCamera_SetViewPlane
+    Q3View_AllowAllGroupCulling
+    Q3View_Cancel
+    Q3View_EndBoundingSphere
+    Q3View_EndPicking
+    Q3View_EndRendering
+    Q3View_Flush
+    Q3View_GetAntiAliasStyleState
+    Q3View_GetAttributeState
+    Q3View_GetBackfacingStyleState
+    Q3View_GetDefaultAttributeSet
+    Q3View_GetFillStyleState
+    Q3View_GetFrustumToWindowMatrixState
+    Q3View_GetHighlightStyleState
+    Q3View_GetInterpolationStyleState
+    Q3View_GetLocalToWorldMatrixState
+    Q3View_GetOrientationStyleState
+    Q3View_GetPickIDStyleState
+    Q3View_GetPickPartsStyleState
+    Q3View_GetReceiveShadowsStyleState
+    Q3View_GetWorldToFrustumMatrixState
+    Q3View_IsBoundingBoxVisible
+    Q3View_SetDefaultAttributeSet
+    Q3View_SetEndFrameMethod
+    Q3View_SetIdleMethod
+    Q3View_SetIdleProgressMethod
+    Q3View_StartBoundingSphere
+    Q3View_StartPicking
+    Q3ViewerAdjustCursor
+    Q3ViewerChangeBrightness
+    Q3ViewerClear
+    Q3ViewerContinueTracking
+    Q3ViewerCopy
+    Q3ViewerCursorChanged
+    Q3ViewerCut
+    Q3ViewerDispose
+    Q3ViewerDraw
+    Q3ViewerDrawContent
+    Q3ViewerDrawControlStrip
+    Q3ViewerEvent
+    Q3ViewerGetBackgroundColor
+    Q3ViewerGetBounds
+    Q3ViewerGetButtonRect
+    Q3ViewerGetCameraCount
+    Q3ViewerGetCurrentButton
+    Q3ViewerGetDimension
+    Q3ViewerGetFlags
+    Q3ViewerGetGroup
+    Q3ViewerGetMinimumDimension
+    Q3ViewerGetPhongShading
+    Q3ViewerGetPict
+    Q3ViewerGetPort
+    Q3ViewerGetReleaseVersion
+    Q3ViewerGetRemoveBackfaces
+    Q3ViewerGetRendererType
+    Q3ViewerGetState
+    Q3ViewerGetUndoString
+    Q3ViewerGetVersion
+    Q3ViewerGetView
+    Q3ViewerHandleKeyEvent
+    Q3ViewerMouseDown
+    Q3ViewerMouseUp
+    Q3ViewerNew
+    Q3ViewerPaste
+    Q3ViewerRestoreView
+    Q3ViewerSetBackgroundColor
+    Q3ViewerSetBounds
+    Q3ViewerSetCameraByNumber
+    Q3ViewerSetCameraByView
+    Q3ViewerSetCurrentButton
+    Q3ViewerSetDimension
+    Q3ViewerSetDrawingCallbackMethod
+    Q3ViewerSetFlags
+    Q3ViewerSetPaneResizeNotifyCallback
+    Q3ViewerSetPhongShading
+    Q3ViewerSetPort
+    Q3ViewerSetRemoveBackfaces
+    Q3ViewerSetRendererType
+    Q3ViewerSetWindowResizeCallback
+    Q3ViewerUndo
+    Q3ViewerUseData
+    Q3ViewerUseFile
+    Q3ViewerUseGroup
+    Q3ViewerWriteData
+    Q3ViewerWriteFile
+    Q3Win32DCDrawContext_SetDC
+    Q3Win32Storage_Get
+    Q3Win32Storage_New
+    Q3Win32Storage_Set
+    Q3WinViewerClear
+    Q3WinViewerCursorChanged
+    Q3WinViewerCut
+    Q3WinViewerDispose
+    Q3WinViewerDraw
+    Q3WinViewerDrawContent
+    Q3WinViewerGetBackgroundColor
+    Q3WinViewerGetBounds
+    Q3WinViewerGetButtonRect
+    Q3WinViewerGetCameraCount
+    Q3WinViewerGetCurrentButton
+    Q3WinViewerGetDimension
+    Q3WinViewerGetFlags
+    Q3WinViewerGetGroup
+    Q3WinViewerGetMinimumDimension
+    Q3WinViewerGetReleaseVersion
+    Q3WinViewerGetState
+    Q3WinViewerGetUndoString
+    Q3WinViewerGetVersion
+    Q3WinViewerGetView
+    Q3WinViewerMouseDown
+    Q3WinViewerMouseUp
+    Q3WinViewerNew
+    Q3WinViewerRestoreView
+    Q3WinViewerSetBackgroundColor
+    Q3WinViewerSetBounds
+    Q3WinViewerSetCurrentButton
+    Q3WinViewerSetDimension
+    Q3WinViewerSetFlags
+    Q3WinViewerUndo
+    Q3WinViewerUseData
+    Q3WinViewerUseFile
+    Q3WinViewerUseGroup
+    Q3WinViewerWriteData
+    Q3WinViewerWriteFile
+    Q3WindowPointPick_GetData
+    Q3WindowPointPick_GetPoint
+    Q3WindowPointPick_New
+    Q3WindowPointPick_SetData
+    Q3WindowPointPick_SetPoint
+    Q3WindowRectPick_GetData
+    Q3WindowRectPick_GetRect
+    Q3WindowRectPick_New
+    Q3WindowRectPick_SetData
+    Q3WindowRectPick_SetRect
+    Q3WorldRayPick_GetData
+    Q3WorldRayPick_GetRay
+    Q3WorldRayPick_New
+    Q3WorldRayPick_SetData
+    Q3WorldRayPick_SetRay
+    Q3XAttributeClass_Register
+    Q3XBuffers_New
+    Q3XBuffers_Swap
+    Q3XDrawContext_GetColormap
+    Q3XDrawContext_GetColormapData
+    Q3XDrawContext_SetColormap
+    Q3XDrawContext_SetColormapData
+    Q3XDrawContext_SetDisplay
+    Q3XDrawContext_SetDrawable
+    Q3XDrawContext_SetVisual
+    Q3XDrawRegion_GetDeviceTransform
+    Q3XDrawRegion_GetUseDefaultRendererFlag
+    Q3XDrawRegion_SetUseDefaultRendererFlag
+    Q3XElementClass_Register
+    Q3XElementType_GetElementSize
+    Q3XGroup_GetPositionPrivate
+    Q3XObjectClass_GetLeafType
+    Q3XObjectClass_GetMethod
+    Q3XObjectClass_GetPrivate
+    Q3XObjectClass_GetType
+    Q3XObjectHierarchy_FindClassByType
+    Q3XObjectHierarchy_GetClassVersion
+    Q3XObjectHierarchy_NewObject
+    Q3XObjectHierarchy_RegisterClass
+    Q3XObjectHierarchy_UnregisterClass
+    Q3XObject_GetClass
+    Q3XView_EndFrame
+    Q3XView_IdleProgress
+    Q3X_GetVisualInfo
+    Q3TriGrid_SetData
+    Q3TriGrid_GetData
+    Q3TriGrid_EmptyData
+    Q3TriGrid_GetVertexPosition
+    Q3TriGrid_SetVertexPosition
+    Q3TriGrid_GetVertexAttributeSet
+    Q3TriGrid_SetVertexAttributeSet
+    Q3TriGrid_GetFacetAttributeSet
+    Q3TriGrid_SetFacetAttributeSet
+</pre>
+
+<p>
+If you test any of these functions, please let the mailing list know so that
+that this list can be updated.
+</p>
+
+</td>
+</tr>
+</table>
+
+
+
+
+
+<!--=========================================================================-->
+<!-- Page Footer                                                             -->
+<!--=========================================================================-->
+<br>
+<br>
+<hr width="90%">
+<table border=0 align=center>
+<tr>
+<td colspan=2 align=center>
+<font size="-1">
+Quesa Web Site hosted by <a href="http://www.DesignCommunity.com/home.html">DesignCommunity.com</a>
+</font>
+</td>
+</tr>
+</table>
+
+</body>
+</html>

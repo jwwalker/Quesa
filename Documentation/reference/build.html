@@ -1,0 +1,307 @@
+<!--=========================================================================-->
+<!-- Page Header                                                             -->
+<!--=========================================================================-->
+<html>
+<head>
+	<title>Quesa - Building Quesa</title>
+</head>
+<body bgcolor=white text=black background="../images/logo_gray.gif">
+
+<p align=center>
+<a href="../index.html"><img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
+</p>
+
+
+
+<!--=========================================================================-->
+<!-- Page Content                                                            -->
+<!--=========================================================================-->
+<table border=0>
+<tr>
+<td valign=top width=90 bgcolor="#EEEEEE">
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Info</font></td></tr></table><br>
+	<a href="../info/status.html">Status</a><br>
+	<a href="../info/screenshots.html">Screenshots</a><br>
+	<a href="../info/download.html">Download</a><br>
+	<a href="../info/list.html">Mailing List</a><br>
+	<a href="http://quesa.DesignCommunity.com/info/list_archive.html">List Archive</a><br>
+	<a href="http://quesa.DesignCommunity.com/quesa_forum.html">Quesa Forum</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Developer</font></td></tr></table><br>
+	<a href="../developer/todo.html">Todo</a><br>
+	<a href="../developer/bugs.html">Bug List</a><br>
+	<a href="../developer/cvs.html">CVS Server</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
+	<a href="../reference/docs.html">Documentation</a><br>
+	<a href="../reference/build.html">Building Quesa</a><br>
+	<a href="../reference/lgpl.html">LGPL License</a><br>
+	<a href="../reference/carbon.html">Carbon Dating</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Other</font></td></tr></table><br>
+	<a href="../other/contributors.html">Contributors</a><br>
+	<a href="../other/logo.html">Quesa Logo</a><br>
+	<a href="../other/links.html">Links</a><br>
+</td>
+<!--=========================================================================-->
+<td width=10>&nbsp;</td>
+<td valign=top>
+
+
+
+<h3>Building Quesa</h3>
+<p>
+Quesa is written in ANSI C, and has been built on a variety of platforms with various
+development environments. Supported environments are:
+</p>
+
+<ul>
+	<li>Metrowerks CodeWarrior Pro 5.3 or later (Pro 3 users may need to modify a
+		#define in E3MacMemory.c - see the comments in that file for more details)
+	<li>Microsoft Visual C++ 5.0 or later
+	<li>gcc (Linux/Be)
+</ul>
+
+<p>
+To build Quesa, you will also need to obtain the QuickDraw&#8482; 3D 1.6 headers
+from Apple.
+</p>
+
+
+<h4>Building Quesa on Mac OS</h4>
+<p>
+Mac OS developers will normally be using CodeWarrior as their development environment.
+Unfortunately CodeWarrior Pro 5 includes the headers for QD3D 1.5, whereas Quesa
+implements the 1.6 API.
+</p>
+
+<p>
+To obtain the 1.6 headers, you must download the QuickDraw&#8482; 3D 1.6 SDK, which
+can be found
+<a href="ftp://ftp.apple.com//developer/Development_Kits/QuickDraw_3D/QuickDraw_3D_SDK/">here</a>.
+</p>
+
+<p>
+You will also need to obtain the OpenGL 1.0 SDK from Apple, which can be found
+<a href="ftp://ftp.apple.com/developer/Development_Kits/OpenGL_1.0_SDK.sit.hqx">here</a>.
+</p>
+
+<p>
+Place the QuickDraw&#8482; 3D 1.6 headers, the OpenGL 1.0 headers, and the Open GL 1.0
+stub libraries in your "Quesa/SDK/Includes/Apple" folder, or in the appropriate location
+for your development environment.
+<p>
+
+
+<h4>Building Quesa on other platforms</h4>
+<p>
+For other platforms, you should obtain the headers by downloading the
+<a href="ftp://ftp.apple.com//developer/Quicktime/qtwsdk.zip">QuickTime SDK</a>
+for Windows.
+</p>
+
+<p>
+After downloading the QuickTime SDK, copy the contents of the "CIncludes" folder in the
+archive to the "SDK/Includes/Apple/" folder within Quesa.
+</p>
+
+<p>
+If you are using Unix, unpack the archive with "<tt>unzip -a qtwsdk.zip</tt>" to convert
+the line endings from DOS to Unix format.
+</p>
+
+<p>
+You will also need to obtain the appropriate OpenGL headers and libraries for your platform,
+although these will often be supplied by your compiler vendor.
+</p>
+
+
+
+<h3>Porting Quesa</h3>
+<p>
+Quesa has been designed to be extremely portable, and all of the platform specific
+code is contained within a single well defined source area.
+</p>
+
+<p>
+Non-portable code is not allowed within any other area of the source tree, except
+when an API call acts as a wrapper around the platform specific implementation (but
+these are extremely rare, and it is unlikely that more cases of this sort will be
+needed).
+</p>
+
+<p>
+Typically, only five platform specific files are required for a new platform 'Foo':
+</p>
+
+<ul>
+	<li>E3FooDebug.c - debugging support
+	<li>E3FooDrawContext.c - platform specific draw context objects
+	<li>E3FooPrefix.h - platform specific build constants
+	<li>E3FooStorage - platform specific storage objects
+	<li>E3FooSystem.c - system level support (e.g., scanning for plug-ins)
+</ul>
+
+<p>
+Porting Quesa to a new platform should not involve anything more than providing
+implementations for the functions in these files.
+</p>
+
+
+
+<h3>Coding Notes</h3>
+<p>
+Rather than try and put any structure on them, here are a list of coding notes you may
+find useful when adding code to Quesa:
+</p>
+
+<ul>
+	<li>Global state should be avoided if at all possible (it introduces locking
+		requirements for preemptively threaded environments). Any global state which
+		does have to be added should be added through the global data structure in
+		E3Globals.h.
+		<br>
+		<br>
+
+	<li>E3Memory.h defines the Quesa memory manager - all memory management within
+		Quesa must go through these routines, rather than accessing malloc/free
+		directly.
+		<br>
+		<br>
+		This gives us an extra level of indirection to add debug code, and adjust
+		our behaviour on platforms with badly performing C libraries.
+		<br>
+		<br>
+
+	<li>E3Version.h defines the version for the build. This is reported back by
+		the version API calls, and can also be used for platform specific purposes
+		(e.g., the Mac build uses this to create a 'vers' resource).
+		<br>
+		<br>
+
+	<li>The initial source tree for Quesa was generated automatically by a Perl
+		script from the QD3D header files.
+		<br>
+		<br>
+		This has produced a high degree of consistency between source files - in
+		order to keep the source accessible to as many developers as possible,
+		please make sure you conform to the current framework when adding new
+		source files (e.g., naming conventions, function headers, etc).
+		<br>
+		<br>
+
+	<li>Always turn on all of the warnings your compiler allows, and make sure
+		that new code does not produce warnings when compiled.
+		<br>
+		<br>
+		This is particularly important when writing cross platform code, since compiler
+		warnings often indicate portability problems.
+		<br>
+		<br>
+
+	<li>Since Quesa is written in ANSI C, be careful not introduce any C++isms inadvertently.
+		Examples would be inlined functions, references, 'and'/'or' keywords, declarations
+		after statements, or declarations within for/while loop containers.
+		<br>
+		<br>
+
+	<li>Floating point constants should have an 'f' suffix (e.g., "1.0f" rather than
+		"1.0"). This is because floating point constants are actually doubles under ANSI
+		C, so not providing an explicit type can produce lots of warnings under some
+		compilers.
+		<br>
+		<br>
+
+	<li>Platform specific types, functions, or #includes should only be used within the
+		appropriate source area for that platform.
+		<br>
+		<br>
+
+	<li>Quesa functions which call other Quesa functions must always go back out through
+		the Q3xxxx entry points.
+		<br>
+		<br>
+		This ensures these functions get the same debugging code that applications enjoy,
+		and that various housekeeping functions get called.
+		<br>
+		<br>
+		The only exception to this rule is the E3Math.c routines. For speed, these are
+		allowed to call each other directly without going through the public API.
+		<br>
+		<br>
+
+	<li>Do not, if possible, put structures in header files. Define an opaque type, and
+		provide accessors to get/set fields within the structure.
+		<br>
+		<br>
+		This should be followed for even the simplest of structures - it lets you change
+		the implementation of the module at a later point without breaking any other code
+		within Quesa.
+		<br>
+		<br>
+		There are only two exceptions to this at present within Quesa, both of which
+		are required for architectural reasons (and which will be removed in the future).
+		<br>
+		<br>
+	
+	<li>If an object can be inherited, it must look up its instance data by hand - it can
+		not assume that the object it is passed is of the type that it needs.
+		<br>
+		<br>
+		For an example, look at the definition of a TQ3SharedObject.
+		<br>
+		<br>
+		The methods for this class can be passed any object which is a descendent of
+		TQ3SharedObject, so the instance data for the shared object must be discovered
+		by walking back up through the parents of the supplied object until the shared
+		object is found.
+		<br>
+		<br>
+		The exception to this is where you know you're dealing with a leaf class:
+		e.g., a triangle object can use a simple cast to obtain the triangle data since
+		triangle objects can not be inherited.
+		<br>
+		<br>
+
+	<li>Public functions must have prototypes declared in the appropriate header file
+		for their module, while private functions must be declared as 'static'.
+		<br>
+		<br>
+
+	<li>Public functions should be named 'E3Module_Function', while private functions
+		should be named 'e3module_function'.
+</ul>
+
+</td>
+</tr>
+</table>
+
+
+
+
+
+<!--=========================================================================-->
+<!-- Page Footer                                                             -->
+<!--=========================================================================-->
+<br>
+<br>
+<hr width="90%">
+<table border=0 align=center>
+<tr>
+<td colspan=2 align=center>
+<font size="-1">
+Quesa Web Site hosted by <a href="http://www.DesignCommunity.com/home.html">DesignCommunity.com</a>
+</font>
+</td>
+</tr>
+</table>
+
+</body>
+</html>

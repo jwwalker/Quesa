@@ -1,0 +1,144 @@
+/*  NAME:
+        E3Pick.h
+
+    DESCRIPTION:
+        Header file for E3Pick.c.
+
+    COPYRIGHT:
+        Quesa Copyright © 1999-2000, Quesa Developers.
+        
+        For the list of Quesa Developers, and contact details, see:
+        
+            Documentation/contributors.html
+
+        For the current version of Quesa, see:
+
+        	<http://www.quesa.org/>
+
+		This library is free software; you can redistribute it and/or
+		modify it under the terms of the GNU Lesser General Public
+		License as published by the Free Software Foundation; either
+		version 2 of the License, or (at your option) any later version.
+
+		This library is distributed in the hope that it will be useful,
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+		Lesser General Public License for more details.
+
+		You should have received a copy of the GNU Lesser General Public
+		License along with this library; if not, write to the Free Software
+		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+    ___________________________________________________________________________
+*/
+#ifndef __E3PICK__
+#define __E3PICK__
+//=============================================================================
+//      Include files
+//-----------------------------------------------------------------------------
+// Include files go here
+
+
+
+
+
+//=============================================================================
+//		C++ preamble
+//-----------------------------------------------------------------------------
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
+
+
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+typedef struct TQ3PickedData *TQ3PickedDataPtr;
+
+typedef struct TQ3PickedData {
+	TQ3PickedDataPtr	next;
+	TQ3PickDetail		validMask;
+	TQ3Int32			pickID;
+	TQ3HitPath			path;
+	TQ3SharedObject		object;
+	TQ3Matrix4x4		localToWorldMatrix;
+	TQ3Point3D			xyz;
+	float				distance;
+	TQ3Vector3D			normal;
+	TQ3ShapePartObject	shapePart;
+	TQ3PickParts		pickPart;
+	TQ3Param2D			uv;
+} TQ3PickedData;
+
+
+
+
+
+//=============================================================================
+//      Function prototypes
+//-----------------------------------------------------------------------------
+TQ3Status				E3Pick_RegisterClass(void);
+TQ3Status				E3Pick_UnregisterClass(void);
+
+TQ3ObjectType			E3Pick_GetType(TQ3PickObject pick);
+TQ3Status				E3Pick_GetData(TQ3PickObject pick, TQ3PickData *data);
+TQ3Status				E3Pick_SetData(TQ3PickObject pick, const TQ3PickData *data);
+TQ3Status				E3Pick_GetVertexTolerance(TQ3PickObject pick, float *vertexTolerance);
+TQ3Status				E3Pick_GetEdgeTolerance(TQ3PickObject pick, float *edgeTolerance);
+TQ3Status				E3Pick_SetVertexTolerance(TQ3PickObject pick, float vertexTolerance);
+TQ3Status				E3Pick_SetEdgeTolerance(TQ3PickObject pick, float edgeTolerance);
+TQ3Status				E3Pick_GetNumHits(TQ3PickObject pick, unsigned long *numHits);
+TQ3Status				E3Pick_AddHitData(TQ3PickObject pick, const TQ3PickedData* data);
+TQ3Status				E3Pick_EmptyHitList(TQ3PickObject pick);
+TQ3Status				E3Pick_GetPickDetailValidMask(TQ3PickObject pick, unsigned long index, TQ3PickDetail *pickDetailValidMask);
+TQ3Status				E3Pick_GetPickDetailData(TQ3PickObject pick, unsigned long index, TQ3PickDetail pickDetailValue, void *detailData);
+
+TQ3PickObject			E3WindowPointPick_New(const TQ3WindowPointPickData *data);
+TQ3Status				E3WindowPointPick_GetPoint(TQ3PickObject pick, TQ3Point2D *point);
+TQ3Status				E3WindowPointPick_SetPoint(TQ3PickObject pick, const TQ3Point2D *point);
+TQ3Status				E3WindowPointPick_GetData(TQ3PickObject pick, TQ3WindowPointPickData *data);
+TQ3Status				E3WindowPointPick_SetData(TQ3PickObject pick, const TQ3WindowPointPickData *data);
+
+TQ3PickObject			E3WindowRectPick_New(const TQ3WindowRectPickData *data);
+TQ3Status				E3WindowRectPick_GetRect(TQ3PickObject pick, TQ3Area *rect);
+TQ3Status				E3WindowRectPick_SetRect(TQ3PickObject pick, const TQ3Area *rect);
+TQ3Status				E3WindowRectPick_GetData(TQ3PickObject pick, TQ3WindowRectPickData *data);
+TQ3Status				E3WindowRectPick_SetData(TQ3PickObject pick, const TQ3WindowRectPickData *data);
+
+TQ3PickObject			E3WorldRayPick_New(const TQ3WorldRayPickData *data);
+TQ3Status				E3WorldRayPick_GetRay(TQ3PickObject pick, TQ3Ray3D *ray);
+TQ3Status				E3WorldRayPick_SetRay(TQ3PickObject pick, const TQ3Ray3D *ray);
+TQ3Status				E3WorldRayPick_GetData(TQ3PickObject pick, TQ3WorldRayPickData *data);
+TQ3Status				E3WorldRayPick_SetData(TQ3PickObject pick, const TQ3WorldRayPickData *data);
+
+TQ3MeshPartObject		E3MeshPart_New(const TQ3MeshComponent data);
+TQ3ObjectType			E3MeshPart_GetType(TQ3MeshPartObject meshPartObject);
+TQ3Status				E3MeshPart_GetComponent(TQ3MeshPartObject meshPartObject, TQ3MeshComponent *component);
+TQ3MeshFacePartObject	E3MeshFacePart_New(const TQ3MeshFace data);
+TQ3Status				E3MeshFacePart_GetFace(TQ3MeshFacePartObject meshFacePartObject, TQ3MeshFace *face);
+TQ3MeshEdgePartObject	E3MeshEdgePart_New(const TQ3MeshEdge data);
+TQ3Status				E3MeshEdgePart_GetEdge(TQ3MeshEdgePartObject meshEdgePartObject, TQ3MeshEdge *edge);
+TQ3MeshVertexPartObject	E3MeshVertexPart_New(const TQ3MeshVertex data);
+TQ3Status				E3MeshVertexPart_GetVertex(TQ3MeshVertexPartObject meshVertexPartObject, TQ3MeshVertex *vertex);
+
+TQ3ShapePartObject		E3ShapePart_New(const TQ3ShapeObject object);
+TQ3ObjectType			E3ShapePart_GetType(TQ3ShapePartObject shapePartObject);
+TQ3Status				E3ShapePart_GetShape(TQ3ShapePartObject shapePartObject, TQ3ShapeObject *shapeObject);
+
+TQ3Status				E3HitPath_EmptyData(TQ3HitPath *hitPath);
+
+
+
+
+
+//=============================================================================
+//		C++ postamble
+//-----------------------------------------------------------------------------
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+

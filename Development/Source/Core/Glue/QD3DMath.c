@@ -1,0 +1,5497 @@
+/*  NAME:
+        QD3DMath.c
+
+    DESCRIPTION:
+        Entry point for Quesa API calls. Performs parameter checking and
+        then forwards each API call to the equivalent E3xxxxx routine.
+
+    COPYRIGHT:
+        Quesa Copyright © 1999-2000, Quesa Developers.
+        
+        For the list of Quesa Developers, and contact details, see:
+        
+            Documentation/contributors.html
+
+        For the current version of Quesa, see:
+
+        	<http://www.quesa.org/>
+
+		This library is free software; you can redistribute it and/or
+		modify it under the terms of the GNU Lesser General Public
+		License as published by the Free Software Foundation; either
+		version 2 of the License, or (at your option) any later version.
+
+		This library is distributed in the hope that it will be useful,
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+		Lesser General Public License for more details.
+
+		You should have received a copy of the GNU Lesser General Public
+		License along with this library; if not, write to the Free Software
+		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+    ___________________________________________________________________________
+*/
+//=============================================================================
+//      Include files
+//-----------------------------------------------------------------------------
+#include "E3Prefix.h"
+#include "E3Math.h"
+
+
+
+
+
+//=============================================================================
+//      Internal constants
+//-----------------------------------------------------------------------------
+// Internal constants go here
+
+
+
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+// Internal types go here
+
+
+
+
+
+//=============================================================================
+//      Internal macros
+//-----------------------------------------------------------------------------
+// Internal macros go here
+
+
+
+
+
+//=============================================================================
+//      Public functions
+//-----------------------------------------------------------------------------
+//      Q3Point2D_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#pragma mark -
+TQ3Point2D *
+Q3Point2D_Set(TQ3Point2D *point2D, float x, float y)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point2D
+		return(NULL);
+
+	if (0) // Further checks on x
+		return(NULL);
+
+	if (0) // Further checks on y
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_Set(point2D, x, y));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Param2D_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Param2D *
+Q3Param2D_Set(TQ3Param2D *param2D, float u, float v)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on param2D
+		return(NULL);
+
+	if (0) // Further checks on u
+		return(NULL);
+
+	if (0) // Further checks on v
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Param2D_Set(param2D, u, v));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point3D *
+Q3Point3D_Set(TQ3Point3D *point3D, float x, float y, float z)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on x
+		return(NULL);
+
+	if (0) // Further checks on y
+		return(NULL);
+
+	if (0) // Further checks on z
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_Set(point3D, x, y, z));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint3D_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3RationalPoint3D *
+Q3RationalPoint3D_Set(TQ3RationalPoint3D *point3D, float x, float y, float w)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on x
+		return(NULL);
+
+	if (0) // Further checks on y
+		return(NULL);
+
+	if (0) // Further checks on w
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint3D_Set(point3D, x, y, w));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint4D_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3RationalPoint4D *
+Q3RationalPoint4D_Set(TQ3RationalPoint4D *point4D, float x, float y, float z, float w)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point4D
+		return(NULL);
+
+	if (0) // Further checks on x
+		return(NULL);
+
+	if (0) // Further checks on y
+		return(NULL);
+
+	if (0) // Further checks on z
+		return(NULL);
+
+	if (0) // Further checks on w
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint4D_Set(point4D, x, y, z, w));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector2D_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector2D *
+Q3Vector2D_Set(TQ3Vector2D *vector2D, float x, float y)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector2D
+		return(NULL);
+
+	if (0) // Further checks on x
+		return(NULL);
+
+	if (0) // Further checks on y
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_Set(vector2D, x, y));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Vector3D_Set(TQ3Vector3D *vector3D, float x, float y, float z)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector3D
+		return(NULL);
+
+	if (0) // Further checks on x
+		return(NULL);
+
+	if (0) // Further checks on y
+		return(NULL);
+
+	if (0) // Further checks on z
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_Set(vector3D, x, y, z));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3PolarPoint_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3PolarPoint *
+Q3PolarPoint_Set(TQ3PolarPoint *polarPoint, float r, float theta)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polarPoint), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on polarPoint
+		return(NULL);
+
+	if (0) // Further checks on r
+		return(NULL);
+
+	if (0) // Further checks on theta
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3PolarPoint_Set(polarPoint, r, theta));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3SphericalPoint_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3SphericalPoint *
+Q3SphericalPoint_Set(TQ3SphericalPoint *sphericalPoint, float rho, float theta, float phi)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(sphericalPoint), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on sphericalPoint
+		return(NULL);
+
+	if (0) // Further checks on rho
+		return(NULL);
+
+	if (0) // Further checks on theta
+		return(NULL);
+
+	if (0) // Further checks on phi
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3SphericalPoint_Set(sphericalPoint, rho, theta, phi));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_To3D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point3D *
+Q3Point2D_To3D(const TQ3Point2D *point2D, TQ3Point3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point2D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_To3D(point2D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint3D_To2D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point2D *
+Q3RationalPoint3D_To2D(const TQ3RationalPoint3D *point3D, TQ3Point2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint3D_To2D(point3D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_To4D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3RationalPoint4D *
+Q3Point3D_To4D(const TQ3Point3D *point3D, TQ3RationalPoint4D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_To4D(point3D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint4D_To3D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point3D *
+Q3RationalPoint4D_To3D(const TQ3RationalPoint4D *point4D, TQ3Point3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point4D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint4D_To3D(point4D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector2D_To3D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Vector2D_To3D(const TQ3Vector2D *vector2D, TQ3Vector3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector2D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_To3D(vector2D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_To2D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector2D *
+Q3Vector3D_To2D(const TQ3Vector3D *vector3D, TQ3Vector2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector3D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_To2D(vector3D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_Subtract : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector2D *
+Q3Point2D_Subtract(const TQ3Point2D *p1, const TQ3Point2D *p2, TQ3Vector2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(NULL);
+
+	if (0) // Further checks on p2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_Subtract(p1, p2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Param2D_Subtract : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector2D *
+Q3Param2D_Subtract(const TQ3Param2D *p1, const TQ3Param2D *p2, TQ3Vector2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(NULL);
+
+	if (0) // Further checks on p2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Param2D_Subtract(p1, p2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_Subtract : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Point3D_Subtract(const TQ3Point3D *p1, const TQ3Point3D *p2, TQ3Vector3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(NULL);
+
+	if (0) // Further checks on p2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_Subtract(p1, p2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_Distance : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Point2D_Distance(const TQ3Point2D *p1, const TQ3Point2D *p2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(0.0f);
+
+	if (0) // Further checks on p2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_Distance(p1, p2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_DistanceSquared : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Point2D_DistanceSquared(const TQ3Point2D *p1, const TQ3Point2D *p2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(0.0f);
+
+	if (0) // Further checks on p2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_DistanceSquared(p1, p2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Param2D_Distance : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Param2D_Distance(const TQ3Param2D *p1, const TQ3Param2D *p2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(0.0f);
+
+	if (0) // Further checks on p2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Param2D_Distance(p1, p2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Param2D_DistanceSquared : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Param2D_DistanceSquared(const TQ3Param2D *p1, const TQ3Param2D *p2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(0.0f);
+
+	if (0) // Further checks on p2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Param2D_DistanceSquared(p1, p2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint3D_Distance : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3RationalPoint3D_Distance(const TQ3RationalPoint3D *p1, const TQ3RationalPoint3D *p2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(0.0f);
+
+	if (0) // Further checks on p2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint3D_Distance(p1, p2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint3D_DistanceSquared : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3RationalPoint3D_DistanceSquared(const TQ3RationalPoint3D *p1, const TQ3RationalPoint3D *p2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(0.0f);
+
+	if (0) // Further checks on p2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint3D_DistanceSquared(p1, p2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_Distance : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Point3D_Distance(const TQ3Point3D *p1, const TQ3Point3D *p2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(0.0f);
+
+	if (0) // Further checks on p2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_Distance(p1, p2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_DistanceSquared : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Point3D_DistanceSquared(const TQ3Point3D *p1, const TQ3Point3D *p2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(0.0f);
+
+	if (0) // Further checks on p2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_DistanceSquared(p1, p2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint4D_Distance : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3RationalPoint4D_Distance(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(0.0f);
+
+	if (0) // Further checks on p2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint4D_Distance(p1, p2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint4D_DistanceSquared : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3RationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(0.0f);
+
+	if (0) // Further checks on p2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint4D_DistanceSquared(p1, p2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_RRatio : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point2D *
+Q3Point2D_RRatio(const TQ3Point2D *p1, const TQ3Point2D *p2, float r1, float r2, TQ3Point2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(NULL);
+
+	if (0) // Further checks on p2
+		return(NULL);
+
+	if (0) // Further checks on r1
+		return(NULL);
+
+	if (0) // Further checks on r2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_RRatio(p1, p2, r1, r2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Param2D_RRatio : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Param2D *
+Q3Param2D_RRatio(const TQ3Param2D *p1, const TQ3Param2D *p2, float r1, float r2, TQ3Param2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(NULL);
+
+	if (0) // Further checks on p2
+		return(NULL);
+
+	if (0) // Further checks on r1
+		return(NULL);
+
+	if (0) // Further checks on r2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Param2D_RRatio(p1, p2, r1, r2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_RRatio : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point3D *
+Q3Point3D_RRatio(const TQ3Point3D *p1, const TQ3Point3D *p2, float r1, float r2, TQ3Point3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(NULL);
+
+	if (0) // Further checks on p2
+		return(NULL);
+
+	if (0) // Further checks on r1
+		return(NULL);
+
+	if (0) // Further checks on r2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_RRatio(p1, p2, r1, r2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint4D_RRatio : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3RationalPoint4D *
+Q3RationalPoint4D_RRatio(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2, float r1, float r2, TQ3RationalPoint4D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on p1
+		return(NULL);
+
+	if (0) // Further checks on p2
+		return(NULL);
+
+	if (0) // Further checks on r1
+		return(NULL);
+
+	if (0) // Further checks on r2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint4D_RRatio(p1, p2, r1, r2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_Vector2D_Add : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point2D *
+Q3Point2D_Vector2D_Add(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D, TQ3Point2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point2D
+		return(NULL);
+
+	if (0) // Further checks on vector2D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_Vector2D_Add(point2D, vector2D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Param2D_Vector2D_Add : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Param2D *
+Q3Param2D_Vector2D_Add(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D, TQ3Param2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on param2D
+		return(NULL);
+
+	if (0) // Further checks on vector2D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Param2D_Vector2D_Add(param2D, vector2D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_Vector3D_Add : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point3D *
+Q3Point3D_Vector3D_Add(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D, TQ3Point3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on vector3D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_Vector3D_Add(point3D, vector3D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_Vector2D_Subtract : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point2D *
+Q3Point2D_Vector2D_Subtract(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D, TQ3Point2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point2D
+		return(NULL);
+
+	if (0) // Further checks on vector2D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_Vector2D_Subtract(point2D, vector2D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Param2D_Vector2D_Subtract : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Param2D *
+Q3Param2D_Vector2D_Subtract(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D, TQ3Param2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on param2D
+		return(NULL);
+
+	if (0) // Further checks on vector2D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Param2D_Vector2D_Subtract(param2D, vector2D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_Vector3D_Subtract : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point3D *
+Q3Point3D_Vector3D_Subtract(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D, TQ3Point3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on vector3D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_Vector3D_Subtract(point3D, vector3D, result));
+}
+
+
+#pragma mark -
+
+
+//=============================================================================
+//      Q3Vector2D_Scale : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector2D *
+Q3Vector2D_Scale(const TQ3Vector2D *vector2D, float scalar, TQ3Vector2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector2D
+		return(NULL);
+
+	if (0) // Further checks on scalar
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_Scale(vector2D, scalar, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_Scale : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Vector3D_Scale(const TQ3Vector3D *vector3D, float scalar, TQ3Vector3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector3D
+		return(NULL);
+
+	if (0) // Further checks on scalar
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_Scale(vector3D, scalar, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector2D_Length : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Vector2D_Length(const TQ3Vector2D *vector2D)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector2D
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_Length(vector2D));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_Length : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Vector3D_Length(const TQ3Vector3D *vector3D)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector3D
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_Length(vector3D));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector2D_Normalize : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector2D *
+Q3Vector2D_Normalize(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector2D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_Normalize(vector2D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_Normalize : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Vector3D_Normalize(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector3D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_Normalize(vector3D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector2D_Add : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector2D *
+Q3Vector2D_Add(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on v1
+		return(NULL);
+
+	if (0) // Further checks on v2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_Add(v1, v2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_Add : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Vector3D_Add(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on v1
+		return(NULL);
+
+	if (0) // Further checks on v2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_Add(v1, v2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector2D_Subtract : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector2D *
+Q3Vector2D_Subtract(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on v1
+		return(NULL);
+
+	if (0) // Further checks on v2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_Subtract(v1, v2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_Subtract : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Vector3D_Subtract(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on v1
+		return(NULL);
+
+	if (0) // Further checks on v2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_Subtract(v1, v2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector2D_Cross : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Vector2D_Cross(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on v1
+		return(0.0f);
+
+	if (0) // Further checks on v2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_Cross(v1, v2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_Cross : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Vector3D_Cross(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on v1
+		return(NULL);
+
+	if (0) // Further checks on v2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_Cross(v1, v2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_CrossProductTri : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Point3D_CrossProductTri(const TQ3Point3D *point1, const TQ3Point3D *point2, const TQ3Point3D *point3, TQ3Vector3D *crossVector)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(crossVector), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point1
+		return(NULL);
+
+	if (0) // Further checks on point2
+		return(NULL);
+
+	if (0) // Further checks on point3
+		return(NULL);
+
+	if (0) // Further checks on crossVector
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_CrossProductTri(point1, point2, point3, crossVector));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector2D_Dot : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Vector2D_Dot(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on v1
+		return(0.0f);
+
+	if (0) // Further checks on v2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_Dot(v1, v2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_Dot : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Vector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on v1
+		return(0.0f);
+
+	if (0) // Further checks on v2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_Dot(v1, v2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector2D_Transform : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector2D *
+Q3Vector2D_Transform(const TQ3Vector2D *vector2D, const TQ3Matrix3x3 *matrix3x3, TQ3Vector2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector2D
+		return(NULL);
+
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_Transform(vector2D, matrix3x3, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_Transform : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Vector3D_Transform(const TQ3Vector3D *vector3D, const TQ3Matrix4x4 *matrix4x4, TQ3Vector3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector3D
+		return(NULL);
+
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_Transform(vector3D, matrix4x4, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_Transform : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point2D *
+Q3Point2D_Transform(const TQ3Point2D *point2D, const TQ3Matrix3x3 *matrix3x3, TQ3Point2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point2D
+		return(NULL);
+
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_Transform(point2D, matrix3x3, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Param2D_Transform : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Param2D *
+Q3Param2D_Transform(const TQ3Param2D *param2D, const TQ3Matrix3x3 *matrix3x3, TQ3Param2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on param2D
+		return(NULL);
+
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Param2D_Transform(param2D, matrix3x3, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_Transform : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point3D *
+Q3Point3D_Transform(const TQ3Point3D *point3D, const TQ3Matrix4x4 *matrix4x4, TQ3Point3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_Transform(point3D, matrix4x4, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint4D_Transform : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3RationalPoint4D *
+Q3RationalPoint4D_Transform(const TQ3RationalPoint4D *point4D, const TQ3Matrix4x4 *matrix4x4, TQ3RationalPoint4D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point4D
+		return(NULL);
+
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint4D_Transform(point4D, matrix4x4, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_To3DTransformArray : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoint3D, const TQ3Matrix4x4 *matrix, TQ3Point3D *outPoint3D, long numPoints, unsigned long inStructSize, unsigned long outStructSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inPoint3D),  kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix),     kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outPoint3D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(numPoints >= 1,           kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on inPoint3D
+		return(kQ3Failure);
+
+	if (0) // Further checks on matrix
+		return(kQ3Failure);
+
+	if (0) // Further checks on outPoint3D
+		return(kQ3Failure);
+
+	if (0) // Further checks on numPoints
+		return(kQ3Failure);
+
+	if (0) // Further checks on inStructSize
+		return(kQ3Failure);
+
+	if (0) // Further checks on outStructSize
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_To3DTransformArray(inPoint3D, matrix, outPoint3D, numPoints, inStructSize, outStructSize));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_To4DTransformArray : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoint3D, const TQ3Matrix4x4 *matrix, TQ3RationalPoint4D *outPoint4D, long numPoints, unsigned long inStructSize, unsigned long outStructSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inPoint3D),  kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix),     kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outPoint4D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(numPoints >= 1,           kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on inPoint3D
+		return(kQ3Failure);
+
+	if (0) // Further checks on matrix
+		return(kQ3Failure);
+
+	if (0) // Further checks on outPoint4D
+		return(kQ3Failure);
+
+	if (0) // Further checks on numPoints
+		return(kQ3Failure);
+
+	if (0) // Further checks on inStructSize
+		return(kQ3Failure);
+
+	if (0) // Further checks on outStructSize
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_To4DTransformArray(inPoint3D, matrix, outPoint4D, numPoints, inStructSize, outStructSize));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint4D_To4DTransformArray : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D *inPoint4D, const TQ3Matrix4x4 *matrix, TQ3RationalPoint4D *outPoint4D, long numPoints, unsigned long inStructSize, unsigned long outStructSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inPoint4D),  kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix),     kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outPoint4D), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(numPoints >= 1,           kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on inPoint4D
+		return(kQ3Failure);
+
+	if (0) // Further checks on matrix
+		return(kQ3Failure);
+
+	if (0) // Further checks on outPoint4D
+		return(kQ3Failure);
+
+	if (0) // Further checks on numPoints
+		return(kQ3Failure);
+
+	if (0) // Further checks on inStructSize
+		return(kQ3Failure);
+
+	if (0) // Further checks on outStructSize
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint4D_To4DTransformArray(inPoint4D, matrix, outPoint4D, numPoints, inStructSize, outStructSize));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector2D_Negate : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector2D *
+Q3Vector2D_Negate(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector2D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector2D_Negate(vector2D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_Negate : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Vector3D_Negate(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector3D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_Negate(vector3D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_ToPolar : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3PolarPoint *
+Q3Point2D_ToPolar(const TQ3Point2D *point2D, TQ3PolarPoint *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point2D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_ToPolar(point2D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3PolarPoint_ToPoint2D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point2D *
+Q3PolarPoint_ToPoint2D(const TQ3PolarPoint *polarPoint, TQ3Point2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polarPoint), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on polarPoint
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3PolarPoint_ToPoint2D(polarPoint, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_ToSpherical : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3SphericalPoint *
+Q3Point3D_ToSpherical(const TQ3Point3D *point3D, TQ3SphericalPoint *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_ToSpherical(point3D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3SphericalPoint_ToPoint3D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point3D *
+Q3SphericalPoint_ToPoint3D(const TQ3SphericalPoint *sphericalPoint, TQ3Point3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(sphericalPoint), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on sphericalPoint
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3SphericalPoint_ToPoint3D(sphericalPoint, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point2D_AffineComb : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point2D *
+Q3Point2D_AffineComb(const TQ3Point2D *points2D, const float *weights, unsigned long nPoints, TQ3Point2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on points2D
+		return(NULL);
+
+	if (0) // Further checks on weights
+		return(NULL);
+
+	if (0) // Further checks on nPoints
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point2D_AffineComb(points2D, weights, nPoints, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Param2D_AffineComb : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Param2D *
+Q3Param2D_AffineComb(const TQ3Param2D *params2D, const float *weights, unsigned long nPoints, TQ3Param2D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(params2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on params2D
+		return(NULL);
+
+	if (0) // Further checks on weights
+		return(NULL);
+
+	if (0) // Further checks on nPoints
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Param2D_AffineComb(params2D, weights, nPoints, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint3D_AffineComb : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3RationalPoint3D *
+Q3RationalPoint3D_AffineComb(const TQ3RationalPoint3D *points3D, const float *weights, unsigned long numPoints, TQ3RationalPoint3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on points3D
+		return(NULL);
+
+	if (0) // Further checks on weights
+		return(NULL);
+
+	if (0) // Further checks on numPoints
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint3D_AffineComb(points3D, weights, numPoints, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_AffineComb : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point3D *
+Q3Point3D_AffineComb(const TQ3Point3D *points3D, const float *weights, unsigned long numPoints, TQ3Point3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on points3D
+		return(NULL);
+
+	if (0) // Further checks on weights
+		return(NULL);
+
+	if (0) // Further checks on numPoints
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_AffineComb(points3D, weights, numPoints, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RationalPoint4D_AffineComb : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3RationalPoint4D *
+Q3RationalPoint4D_AffineComb(const TQ3RationalPoint4D *points4D, const float *weights, unsigned long numPoints, TQ3RationalPoint4D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points4D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on points4D
+		return(NULL);
+
+	if (0) // Further checks on weights
+		return(NULL);
+
+	if (0) // Further checks on numPoints
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RationalPoint4D_AffineComb(points4D, weights, numPoints, result));
+}
+
+
+#pragma mark -
+
+
+//=============================================================================
+//      Q3Matrix3x3_Copy : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix3x3 *
+Q3Matrix3x3_Copy(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix3x3_Copy(matrix3x3, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_Copy : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_Copy(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_Copy(matrix4x4, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix3x3_SetIdentity : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix3x3 *
+Q3Matrix3x3_SetIdentity(TQ3Matrix3x3 *matrix3x3)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix3x3_SetIdentity(matrix3x3));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetIdentity : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetIdentity(TQ3Matrix4x4 *matrix4x4)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetIdentity(matrix4x4));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix3x3_Transpose : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix3x3 *
+Q3Matrix3x3_Transpose(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix3x3_Transpose(matrix3x3, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_Transpose : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_Transpose(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_Transpose(matrix4x4, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix3x3_Invert : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix3x3 *
+Q3Matrix3x3_Invert(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix3x3_Invert(matrix3x3, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_Invert : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_Invert(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_Invert(matrix4x4, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix3x3_Adjoint : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix3x3 *
+Q3Matrix3x3_Adjoint(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix3x3_Adjoint(matrix3x3, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix3x3_Multiply : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix3x3 *
+Q3Matrix3x3_Multiply(const TQ3Matrix3x3 *matrixA, const TQ3Matrix3x3 *matrixB, TQ3Matrix3x3 *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrixA), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrixB), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrixA
+		return(NULL);
+
+	if (0) // Further checks on matrixB
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix3x3_Multiply(matrixA, matrixB, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_Multiply : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_Multiply(const TQ3Matrix4x4 *matrixA, const TQ3Matrix4x4 *matrixB, TQ3Matrix4x4 *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrixA), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrixB), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrixA
+		return(NULL);
+
+	if (0) // Further checks on matrixB
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_Multiply(matrixA, matrixB, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix3x3_SetTranslate : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix3x3 *
+Q3Matrix3x3_SetTranslate(TQ3Matrix3x3 *matrix3x3, float xTrans, float yTrans)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+
+	if (0) // Further checks on xTrans
+		return(NULL);
+
+	if (0) // Further checks on yTrans
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix3x3_SetTranslate(matrix3x3, xTrans, yTrans));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix3x3_SetScale : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix3x3 *
+Q3Matrix3x3_SetScale(TQ3Matrix3x3 *matrix3x3, float xScale, float yScale)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+
+	if (0) // Further checks on xScale
+		return(NULL);
+
+	if (0) // Further checks on yScale
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix3x3_SetScale(matrix3x3, xScale, yScale));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix3x3_SetRotateAboutPoint : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix3x3 *
+Q3Matrix3x3_SetRotateAboutPoint(TQ3Matrix3x3 *matrix3x3, const TQ3Point2D *origin, float angle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix3x3
+		return(NULL);
+
+	if (0) // Further checks on origin
+		return(NULL);
+
+	if (0) // Further checks on angle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix3x3_SetRotateAboutPoint(matrix3x3, origin, angle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetTranslate : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetTranslate(TQ3Matrix4x4 *matrix4x4, float xTrans, float yTrans, float zTrans)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on xTrans
+		return(NULL);
+
+	if (0) // Further checks on yTrans
+		return(NULL);
+
+	if (0) // Further checks on zTrans
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetTranslate(matrix4x4, xTrans, yTrans, zTrans));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetScale : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetScale(TQ3Matrix4x4 *matrix4x4, float xScale, float yScale, float zScale)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on xScale
+		return(NULL);
+
+	if (0) // Further checks on yScale
+		return(NULL);
+
+	if (0) // Further checks on zScale
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetScale(matrix4x4, xScale, yScale, zScale));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetRotateAboutPoint : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetRotateAboutPoint(TQ3Matrix4x4 *matrix4x4, const TQ3Point3D *origin, float xAngle, float yAngle, float zAngle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on origin
+		return(NULL);
+
+	if (0) // Further checks on xAngle
+		return(NULL);
+
+	if (0) // Further checks on yAngle
+		return(NULL);
+
+	if (0) // Further checks on zAngle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetRotateAboutPoint(matrix4x4, origin, xAngle, yAngle, zAngle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetRotateAboutAxis : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetRotateAboutAxis(TQ3Matrix4x4 *matrix4x4, const TQ3Point3D *origin, const TQ3Vector3D *orientation, float angle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orientation), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on origin
+		return(NULL);
+
+	if (0) // Further checks on orientation
+		return(NULL);
+
+	if (0) // Further checks on angle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetRotateAboutAxis(matrix4x4, origin, orientation, angle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetRotate_X : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetRotate_X(TQ3Matrix4x4 *matrix4x4, float angle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on angle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetRotate_X(matrix4x4, angle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetRotate_Y : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetRotate_Y(TQ3Matrix4x4 *matrix4x4, float angle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on angle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetRotate_Y(matrix4x4, angle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetRotate_Z : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetRotate_Z(TQ3Matrix4x4 *matrix4x4, float angle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on angle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetRotate_Z(matrix4x4, angle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetRotate_XYZ : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetRotate_XYZ(TQ3Matrix4x4 *matrix4x4, float xAngle, float yAngle, float zAngle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on xAngle
+		return(NULL);
+
+	if (0) // Further checks on yAngle
+		return(NULL);
+
+	if (0) // Further checks on zAngle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetRotate_XYZ(matrix4x4, xAngle, yAngle, zAngle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetRotateVectorToVector : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4, const TQ3Vector3D *v1, const TQ3Vector3D *v2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(NULL);
+
+	if (0) // Further checks on v1
+		return(NULL);
+
+	if (0) // Further checks on v2
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetRotateVectorToVector(matrix4x4, v1, v2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_SetQuaternion : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Matrix4x4 *
+Q3Matrix4x4_SetQuaternion(TQ3Matrix4x4 *matrix, const TQ3Quaternion *quaternion)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix
+		return(NULL);
+
+	if (0) // Further checks on quaternion
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_SetQuaternion(matrix, quaternion));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix3x3_Determinant : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Matrix3x3_Determinant(const TQ3Matrix3x3 *matrix3x3)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix3x3
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix3x3_Determinant(matrix3x3));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Matrix4x4_Determinant : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Matrix4x4_Determinant(const TQ3Matrix4x4 *matrix4x4)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on matrix4x4
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Matrix4x4_Determinant(matrix4x4));
+}
+
+
+
+#pragma mark -
+
+//=============================================================================
+//      Q3Quaternion_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_Set(TQ3Quaternion *quaternion, float w, float x, float y, float z)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on w
+		return(NULL);
+
+	if (0) // Further checks on x
+		return(NULL);
+
+	if (0) // Further checks on y
+		return(NULL);
+
+	if (0) // Further checks on z
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_Set(quaternion, w, x, y, z));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_SetIdentity : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_SetIdentity(TQ3Quaternion *quaternion)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_SetIdentity(quaternion));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_Copy : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_Copy(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_Copy(quaternion, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_IsIdentity : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+Q3Quaternion_IsIdentity(const TQ3Quaternion *quaternion)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), kQ3False);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(kQ3False);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_IsIdentity(quaternion));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_Invert : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_Invert(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_Invert(quaternion, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_Normalize : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_Normalize(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_Normalize(quaternion, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_Dot : Quesa API entry point.
+//-----------------------------------------------------------------------------
+float
+Q3Quaternion_Dot(const TQ3Quaternion *q1, const TQ3Quaternion *q2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), 0.0f);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), 0.0f);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on q1
+		return(0.0f);
+
+	if (0) // Further checks on q2
+		return(0.0f);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_Dot(q1, q2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_Multiply : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_Multiply(const TQ3Quaternion *q1, const TQ3Quaternion *q2, TQ3Quaternion *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on q1
+		return(NULL);
+
+	if (0) // Further checks on q2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_Multiply(q1, q2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_SetRotateAboutAxis : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_SetRotateAboutAxis(TQ3Quaternion *quaternion, const TQ3Vector3D *axis, float angle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(axis), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on axis
+		return(NULL);
+
+	if (0) // Further checks on angle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_SetRotateAboutAxis(quaternion, axis, angle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_SetRotate_XYZ : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_SetRotate_XYZ(TQ3Quaternion *quaternion, float xAngle, float yAngle, float zAngle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on xAngle
+		return(NULL);
+
+	if (0) // Further checks on yAngle
+		return(NULL);
+
+	if (0) // Further checks on zAngle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_SetRotate_XYZ(quaternion, xAngle, yAngle, zAngle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_SetRotate_X : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_SetRotate_X(TQ3Quaternion *quaternion, float angle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on angle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_SetRotate_X(quaternion, angle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_SetRotate_Y : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_SetRotate_Y(TQ3Quaternion *quaternion, float angle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on angle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_SetRotate_Y(quaternion, angle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_SetRotate_Z : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_SetRotate_Z(TQ3Quaternion *quaternion, float angle)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on angle
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_SetRotate_Z(quaternion, angle));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_SetMatrix : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_SetMatrix(TQ3Quaternion *quaternion, const TQ3Matrix4x4 *matrix)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on matrix
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_SetMatrix(quaternion, matrix));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_SetRotateVectorToVector : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion, const TQ3Vector3D *v1, const TQ3Vector3D *v2)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on v1
+		return(NULL);
+
+	if (0) // Further checks on v2
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_SetRotateVectorToVector(quaternion, v1, v2));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_MatchReflection : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_MatchReflection(const TQ3Quaternion *q1, const TQ3Quaternion *q2, TQ3Quaternion *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on q1
+		return(NULL);
+
+	if (0) // Further checks on q2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_MatchReflection(q1, q2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_InterpolateFast : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_InterpolateFast(const TQ3Quaternion *q1, const TQ3Quaternion *q2, float t, TQ3Quaternion *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on q1
+		return(NULL);
+
+	if (0) // Further checks on q2
+		return(NULL);
+
+	if (0) // Further checks on t
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_InterpolateFast(q1, q2, t, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Quaternion_InterpolateLinear : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Quaternion *
+Q3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2, float t, TQ3Quaternion *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on q1
+		return(NULL);
+
+	if (0) // Further checks on q2
+		return(NULL);
+
+	if (0) // Further checks on t
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_InterpolateLinear(q1, q2, t, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Vector3D_TransformQuaternion : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Vector3D_TransformQuaternion(const TQ3Vector3D *vector3D, const TQ3Quaternion *quaternion, TQ3Vector3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on vector3D
+		return(NULL);
+
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Vector3D_TransformQuaternion(vector3D, quaternion, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Point3D_TransformQuaternion : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Point3D *
+Q3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ3Quaternion *quaternion, TQ3Point3D *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on quaternion
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Point3D_TransformQuaternion(point3D, quaternion, result));
+}
+
+
+#pragma mark -
+
+
+//=============================================================================
+//      Q3BoundingBox_Copy : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingBox *
+Q3BoundingBox_Copy(const TQ3BoundingBox *src, TQ3BoundingBox *dest)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(src), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dest), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on src
+		return(NULL);
+
+	if (0) // Further checks on dest
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingBox_Copy(src, dest));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingBox_Union : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingBox *
+Q3BoundingBox_Union(const TQ3BoundingBox *v1, const TQ3BoundingBox *v2, TQ3BoundingBox *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on v1
+		return(NULL);
+
+	if (0) // Further checks on v2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingBox_Union(v1, v2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingBox_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingBox *
+Q3BoundingBox_Set(TQ3BoundingBox *bBox, const TQ3Point3D *min, const TQ3Point3D *max, TQ3Boolean isEmpty)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(min), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(max), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bBox
+		return(NULL);
+
+	// Further checks on min and max
+	if (min->x > max->x ||
+		min->y > max->y ||
+		min->z > max->z)
+		return(NULL);
+
+	if (0) // Further checks on isEmpty
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingBox_Set(bBox, min, max, isEmpty));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingBox_UnionPoint3D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingBox *
+Q3BoundingBox_UnionPoint3D(const TQ3BoundingBox *bBox, const TQ3Point3D *point3D, TQ3BoundingBox *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bBox
+		return(NULL);
+
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingBox_UnionPoint3D(bBox, point3D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingBox_UnionRationalPoint4D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingBox *
+Q3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox, const TQ3RationalPoint4D *point4D, TQ3BoundingBox *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bBox
+		return(NULL);
+
+	if (0) // Further checks on point4D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingBox_UnionRationalPoint4D(bBox, point4D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingBox_SetFromPoints3D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingBox *
+Q3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox, const TQ3Point3D *points3D, unsigned long numPoints, unsigned long structSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox),     NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), NULL);
+	Q3_REQUIRE_OR_RESULT(numPoints >= 1,         NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bBox
+		return(NULL);
+
+	if (0) // Further checks on points3D
+		return(NULL);
+
+	if (0) // Further checks on numPoints
+		return(NULL);
+
+	if (0) // Further checks on structSize
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingBox_SetFromPoints3D(bBox, points3D, numPoints, structSize));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingBox_SetFromRationalPoints4D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingBox *
+Q3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox, const TQ3RationalPoint4D *points4D, unsigned long numPoints, unsigned long structSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox),     NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points4D), NULL);
+	Q3_REQUIRE_OR_RESULT(numPoints >= 1,         NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bBox
+		return(NULL);
+
+	if (0) // Further checks on points4D
+		return(NULL);
+
+	if (0) // Further checks on numPoints
+		return(NULL);
+
+	if (0) // Further checks on structSize
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingBox_SetFromRationalPoints4D(bBox, points4D, numPoints, structSize));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingSphere_Copy : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingSphere *
+Q3BoundingSphere_Copy(const TQ3BoundingSphere *src, TQ3BoundingSphere *dest)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(src), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dest), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on src
+		return(NULL);
+
+	if (0) // Further checks on dest
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingSphere_Copy(src, dest));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingSphere_Union : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingSphere *
+Q3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2, TQ3BoundingSphere *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(s1), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(s2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on s1
+		return(NULL);
+
+	if (0) // Further checks on s2
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingSphere_Union(s1, s2, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingSphere_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingSphere *
+Q3BoundingSphere_Set(TQ3BoundingSphere *bSphere, const TQ3Point3D *origin, float radius, TQ3Boolean isEmpty)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bSphere
+		return(NULL);
+
+	if (0) // Further checks on origin
+		return(NULL);
+
+	if (0) // Further checks on radius
+		return(NULL);
+
+	if (0) // Further checks on isEmpty
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingSphere_Set(bSphere, origin, radius, isEmpty));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingSphere_UnionPoint3D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingSphere *
+Q3BoundingSphere_UnionPoint3D(const TQ3BoundingSphere *bSphere, const TQ3Point3D *point3D, TQ3BoundingSphere *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bSphere
+		return(NULL);
+
+	if (0) // Further checks on point3D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingSphere_UnionPoint3D(bSphere, point3D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingSphere_UnionRationalPoint4D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingSphere *
+Q3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphere *bSphere, const TQ3RationalPoint4D *point4D, TQ3BoundingSphere *result)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point4D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bSphere
+		return(NULL);
+
+	if (0) // Further checks on point4D
+		return(NULL);
+
+	if (0) // Further checks on result
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingSphere_UnionRationalPoint4D(bSphere, point4D, result));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingSphere_SetFromPoints3D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingSphere *
+Q3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *points3D, unsigned long numPoints, unsigned long structSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere),  NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), NULL);
+	Q3_REQUIRE_OR_RESULT(numPoints >= 1,         NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bSphere
+		return(NULL);
+
+	if (0) // Further checks on points3D
+		return(NULL);
+
+	if (0) // Further checks on numPoints
+		return(NULL);
+
+	if (0) // Further checks on structSize
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingSphere_SetFromPoints3D(bSphere, points3D, numPoints, structSize));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingSphere_SetFromRationalPoints4D : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3BoundingSphere *
+Q3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3RationalPoint4D *points4D, unsigned long numPoints, unsigned long structSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere),  NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points4D), NULL);
+	Q3_REQUIRE_OR_RESULT(numPoints >= 1,         NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bSphere
+		return(NULL);
+
+	if (0) // Further checks on points4D
+		return(NULL);
+
+	if (0) // Further checks on numPoints
+		return(NULL);
+
+	if (0) // Further checks on structSize
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingSphere_SetFromRationalPoints4D(bSphere, points4D, numPoints, structSize));
+}
+

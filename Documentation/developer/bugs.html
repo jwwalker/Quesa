@@ -1,0 +1,239 @@
+<!--=========================================================================-->
+<!-- Page Header                                                             -->
+<!--=========================================================================-->
+<html>
+<head>
+	<title>Quesa - Bug List</title>
+</head>
+<body bgcolor=white text=black background="../images/logo_gray.gif">
+
+<p align=center>
+<a href="../index.html"><img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
+</p>
+
+
+
+<!--=========================================================================-->
+<!-- Page Content                                                            -->
+<!--=========================================================================-->
+<table border=0>
+<tr>
+<td valign=top width=90 bgcolor="#EEEEEE">
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Info</font></td></tr></table><br>
+	<a href="../info/status.html">Status</a><br>
+	<a href="../info/screenshots.html">Screenshots</a><br>
+	<a href="../info/download.html">Download</a><br>
+	<a href="../info/list.html">Mailing List</a><br>
+	<a href="http://quesa.DesignCommunity.com/info/list_archive.html">List Archive</a><br>
+	<a href="http://quesa.DesignCommunity.com/quesa_forum.html">Quesa Forum</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Developer</font></td></tr></table><br>
+	<a href="../developer/todo.html">Todo</a><br>
+	<a href="../developer/bugs.html">Bug List</a><br>
+	<a href="../developer/cvs.html">CVS Server</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
+	<a href="../reference/docs.html">Documentation</a><br>
+	<a href="../reference/build.html">Building Quesa</a><br>
+	<a href="../reference/lgpl.html">LGPL License</a><br>
+	<a href="../reference/carbon.html">Carbon Dating</a><br>
+
+	<br>
+	<table border=0 bgcolor="#404090" width="100%">
+	<tr><td><font color=white size="+1">Other</font></td></tr></table><br>
+	<a href="../other/contributors.html">Contributors</a><br>
+	<a href="../other/logo.html">Quesa Logo</a><br>
+	<a href="../other/links.html">Links</a><br>
+</td>
+<!--=========================================================================-->
+<td width=10>&nbsp;</td>
+<td valign=top>
+
+
+<h3>Bug List</h3>
+<p>
+The following bugs and issues are known to exist in Quesa:
+</p>
+
+<p>
+For 'Possible' bugs, please consult the relevant Quesa source code: this
+will typically have additional information on the nature of the problem.
+</p>
+
+<!-- Next bug ID, 24 -->
+<table border=1 width=90% align=center>
+<tr><th>Severity</th><th>ID</th><th>Description</th>
+</tr>
+
+<tr><td>Medium</td><td>00005</td><td>
+Storage objects can not be duplicated, and will be rejected by Q3Object_Duplicate.
+</td></tr>
+
+<tr><td>Medium</td><td>00023</td><td>
+Geometries which are decomposed to TriMeshes fix the attribute data at the time of creation,
+should use a special value to allow renderers to update the attribute data with the current
+state to provide for inheritence.
+</td></tr>
+
+<tr><td>Medium</td><td>00017</td><td>
+Groups, adding an attribute set to an ordered display group fails.
+</td></tr>
+
+<tr><td>Medium</td><td>00020</td><td>
+Implicit geometries do not support screen space subdivision: unclear how to go from screen
+space back to world space?
+</td></tr>
+
+<tr><td>Medium</td><td>00021</td><td>
+The General Polygon geometry doesn't support holes or concave polygons: there is LGPL'd
+source within <a href="http://www.mesa3d.org/">Mesa</a> which could be adapted for this,
+or alternatively the Quesa renderers could support this geometry directly (by rendering
+an OpenGL general polygon).
+</td></tr>
+
+<tr><td>Medium</td><td>00024</td><td>
+QD3D viewer, doesn't let you rotate around model if running with Quesa.
+</td></tr>
+
+<tr><td>Medium</td><td>00025</td><td>
+Kazoo Player, no rotation with Apple's IR because renderer caches camera: bump edit index of camera is partial fix.
+</td></tr>
+
+<tr><td>Medium</td><td>00026</td><td>
+Multiple monitor support on Mac not fully functional.
+</td></tr>
+
+<tr><td>Medium</td><td>00027</td><td>
+Adding attribute set to ordered display group fails.
+</td></tr>
+
+<tr><td>Medium</td><td>00028</td><td>
+TriMesh attributes should always store dummy value, update with current value at render time (see dair for details).
+</td></tr>
+
+<tr><td>Medium</td><td>00029</td><td>
+Groups do not submit their attribute sets during rendering.
+</td></tr>
+
+<tr><td>Medium</td><td>00030</td><td>
+Geometry bound calculation is incorrect: only Torus has correct implementation.
+</td></tr>
+
+<tr><td>Medium</td><td>00031</td><td>
+Nanosaur, IR doesn't handle fog correctly
+</td></tr>
+
+<tr><td>Medium</td><td>00032</td><td>
+Nanosaur, face culling is back to front?
+</td></tr>
+
+<tr><td>Medium</td><td>00033</td><td>
+IR, Light Test produces white geometry
+</td></tr>
+
+<tr><td>Minor</td><td>00001</td><td>
+Macintosh window draw contexts do not support clipping masks.
+</td></tr>
+
+<tr><td>Minor</td><td>00002</td><td>
+Pixmap window draw contexts do not support clipping masks.
+</td></tr>
+
+<tr><td>Minor</td><td>00007</td><td>
+Wireframe/Interactive renderers doesn't support segment attributes for polylines.
+</td></tr>
+
+<tr><td>Minor</td><td>00008</td><td>
+Wireframe renderer doesn't support individual triangle colours for TriMeshes.
+</td></tr>
+
+<tr><td>Minor</td><td>00009</td><td>
+Wireframe/Interactive renderers don't support kQ3CameraTypeViewPlane cameras.
+</td></tr>
+
+<tr><td>Minor</td><td>00018</td><td>
+Cone geometry not as smooth in appearance as QD3D 1.6 implementation. This is due to the
+number of vertices we produce (a QD3D cone with ~100 vertices only uses ~10 vertices under
+Quesa), but should look at improving this).
+</td></tr>
+
+<tr><td>Minor</td><td>00022</td><td>
+Quesa's Wireframe and Interactive renderers ignore PolyLine segment attribute sets.
+</td></tr>
+
+<tr><td>Minor</td><td>00034</td><td>
+Viewer, about box button should display dialog on mouse up not mouse down.
+</td></tr>
+
+<tr><td>Minor</td><td>00035</td><td>
+Import Test, storage object not being disposed of somewhere.
+</td></tr>
+
+<tr><td>Minor</td><td>00036</td><td>
+Queeg, Quesa IR renders darker and flatter than QD3D IR.
+</td></tr>
+
+<tr><td>Minor</td><td>00037</td><td>
+Queeg, changing window size produces different image with Quesa than with QD3D.
+</td></tr>
+
+<tr><td>Possible</td><td>00003</td><td>
+Q3Quaternion_SetMatrix, possible bug in QD3D 1.6 implementation.
+</td></tr>
+
+<tr><td>Possible</td><td>00004</td><td>
+Q3BoundingSphere_SetFromRationalPoints4D, possible bug in QD3D 1.6 implementation.
+</td></tr>
+
+<tr><td>Possible</td><td>00006</td><td>
+Q3View_GetAttributeState, possible bug in QD3D 1.6 docs - correct behaviour not clear.
+</td></tr>
+
+<tr><td>Possible</td><td>00010</td><td>
+Wire elements, don't support IO. Also don't copy the QTAtomContainer, although the
+QD3D implementation might - docs on this element's behaviour are needed.
+</td></tr>
+
+<tr><td>Possible</td><td>00011</td><td>
+Q3View_Sync does not work correctly with QD3D interactive renderer, possible bug
+in QD3D 1.6 renderer.
+</td></tr>
+</table>
+
+<p>
+If you encounter problems running Quesa, please submit a patch or a bug report to the
+mailing list: this is the best way to make sure it will be fixed in future versions
+of the library.
+</p>
+
+</td>
+</tr>
+</table>
+
+
+
+
+
+<!--=========================================================================-->
+<!-- Page Footer                                                             -->
+<!--=========================================================================-->
+<br>
+<br>
+<hr width="90%">
+<table border=0 align=center>
+<tr>
+<td colspan=2 align=center>
+<font size="-1">
+Quesa Web Site hosted by <a href="http://www.DesignCommunity.com/home.html">DesignCommunity.com</a>
+</font>
+</td>
+</tr>
+</table>
+
+</body>
+</html>

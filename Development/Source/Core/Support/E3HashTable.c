@@ -1,0 +1,523 @@
+/*  NAME:
+        E3HashTable.c
+
+    DESCRIPTION:
+        Quesa hash table.
+        
+        Implements a simple hash table, where items within the table are
+        keyed using four character constants. Collisions are handled by
+        a resizeable array of unsorted items stored at each slot.
+        
+		Used by the class tree to store the class tree nodes, and to cache
+		the methods for each node.
+
+    COPYRIGHT:
+        Quesa Copyright © 1999-2000, Quesa Developers.
+        
+        For the list of Quesa Developers, and contact details, see:
+        
+            Documentation/contributors.html
+
+        For the current version of Quesa, see:
+
+        	<http://www.quesa.org/>
+
+		This library is free software; you can redistribute it and/or
+		modify it under the terms of the GNU Lesser General Public
+		License as published by the Free Software Foundation; either
+		version 2 of the License, or (at your option) any later version.
+
+		This library is distributed in the hope that it will be useful,
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+		Lesser General Public License for more details.
+
+		You should have received a copy of the GNU Lesser General Public
+		License along with this library; if not, write to the Free Software
+		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+    ___________________________________________________________________________
+*/
+//=============================================================================
+//      Include files
+//-----------------------------------------------------------------------------
+#include "E3Prefix.h"
+#include "E3HashTable.h"
+
+
+
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+// An item stored within each node
+typedef struct E3HashTableItem {
+	TQ3ObjectType		theKey;						// Key for item
+	void				*theItem;					// Data for item
+} E3HashTableItem, *E3HashTableItemPtr;
+
+
+// A node within a hash table
+typedef struct E3HashTableNode {
+	TQ3Uns32			numItems;					// Number of items in node
+	E3HashTableItemPtr	theItems;					// Array of items for node
+} E3HashTableNode, *E3HashTableNodePtr;
+
+
+// A hash table
+typedef struct E3HashTable {
+	TQ3Uns32			collisionMax;				// Worst case collision count
+	float				collisionAverage;			// Average collision count
+	TQ3Uns32			numItems;					// Number of items in table
+	TQ3Uns32			tableSize;					// Number of slots in table
+	E3HashTableNodePtr	*theTable;
+} E3HashTable;
+
+
+
+
+
+//=============================================================================
+//      Internal functions
+//-----------------------------------------------------------------------------
+//      e3hash_find_node : Find the node for a given key.
+//-----------------------------------------------------------------------------
+//		Note :	Hash index algorithm obtained from John Punin's hash table code
+//				for the W3's libwww library.
+//
+//				Returns the address of a node pointer, rather than the node
+//				pointer itself, since the node pointer may be NULL if the node
+//				hasn't been allocated yet.
+//-----------------------------------------------------------------------------
+static E3HashTableNodePtr *
+e3hash_find_node(E3HashTablePtr theTable, TQ3ObjectType theKey)
+{	TQ3Uns32		n, theIndex;
+	TQ3Uns8			*thePtr;
+	
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+	Q3_ASSERT_VALID_PTR(theKey);
+
+
+
+	// Calculate the index for the node
+	theIndex = 0;
+	thePtr   = (TQ3Uns8 *) &theKey;
+	
+	for (n = 0; n < 4; n++)
+		theIndex = (TQ3Uns32) (((theIndex * 3) + thePtr[n]) % theTable->tableSize);
+
+	Q3_ASSERT(theIndex >= 0 && theIndex < theTable->tableSize);
+
+
+
+	// Return the address of the appropriate node within the table
+	return(&theTable->theTable[theIndex]);
+}
+
+
+
+
+
+//=============================================================================
+//      e3hash_add_key : Add a key and its item to a node.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3hash_add_key(E3HashTableNodePtr theNode, TQ3ObjectType theKey, void *theItem)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theNode);
+
+
+
+	// Grow the node item array
+	qd3dStatus = E3Memory_Reallocate(&theNode->theItems,
+										sizeof(E3HashTableItem) * (theNode->numItems + 1));
+	if (qd3dStatus != kQ3Success)
+		return(qd3dStatus);
+
+
+
+	// Save the item and its key at the end of the node's list,
+	// and update the count for the node
+	theNode->theItems[theNode->numItems].theKey  = theKey;
+	theNode->theItems[theNode->numItems].theItem = theItem;
+	theNode->numItems++;
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3hash_update_stats : Update the table stats.
+//-----------------------------------------------------------------------------
+static void
+e3hash_update_stats(E3HashTablePtr theTable)
+{	TQ3Uns32				n, itemCount, slotCount;
+	E3HashTableNodePtr		theNode;
+
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+
+
+
+	// Recalculate the table stats
+	theTable->collisionMax     = 0;
+	theTable->collisionAverage = 0.0f;
+	itemCount                  = 0;
+	slotCount                  = 0;
+	
+	for (n = 0; n < theTable->tableSize; n++)
+		{
+		theNode = theTable->theTable[n];
+		if (theNode != NULL)
+			{
+			if (theNode->numItems > theTable->collisionMax)
+				theTable->collisionMax = theNode->numItems;
+		
+			itemCount += theNode->numItems;
+			slotCount++;
+			}
+		}
+	
+	theTable->collisionAverage = (float) itemCount / (float) slotCount;
+}
+
+
+
+
+
+//=============================================================================
+//      Public functions
+//-----------------------------------------------------------------------------
+//      E3HashTable_Create : Create a hash table.
+//-----------------------------------------------------------------------------
+#pragma mark -
+E3HashTablePtr
+E3HashTable_Create(TQ3Uns32 tableSize)
+{	E3HashTablePtr		theTable;
+
+
+
+	// Validate our parameters
+	Q3_ASSERT(tableSize != 0 && tableSize < 10000);
+
+
+
+	// Create the table
+	theTable = (E3HashTablePtr) E3Memory_Allocate(sizeof(E3HashTable));
+	if (theTable != NULL)
+		{
+		// Initialise the table
+		theTable->collisionMax     = 0;
+		theTable->collisionAverage = 0.0f;
+		theTable->tableSize        = tableSize;
+		theTable->numItems         = 0;
+		theTable->theTable = (E3HashTableNodePtr *) E3Memory_AllocateClear(sizeof(E3HashTableNodePtr)
+																			* theTable->tableSize);
+
+
+
+		// Handle failure
+		if (theTable->theTable == NULL)
+			{
+			E3Memory_Free(&theTable);
+			theTable = NULL;
+			}
+		}
+
+	return(theTable);
+}
+
+
+
+
+
+//=============================================================================
+//      E3HashTable_Destroy : Destroy a hash table.
+//-----------------------------------------------------------------------------
+void
+E3HashTable_Destroy(E3HashTablePtr theTable)
+{	E3HashTableNodePtr		theNode;
+	TQ3Uns32				n;
+
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+
+
+
+	// Dispose of the table items
+	for (n = 0; n < theTable->tableSize; n++)
+		{
+		theNode = theTable->theTable[n];
+		if (theNode != NULL)
+			E3Memory_Free(&theTable->theTable[n]);
+		}
+
+
+
+	// Dispose of the table itself
+	E3Memory_Free(&theTable);
+}
+
+
+
+
+
+//=============================================================================
+//      E3HashTable_Add : Add an item to a hash table.
+//-----------------------------------------------------------------------------
+//		Note :	The item indicated by theKey must not be present in the table,
+//				and theItem must not be NULL.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3HashTable_Add(E3HashTablePtr theTable, TQ3ObjectType theKey, void *theItem)
+{	TQ3Status				qd3dStatus;
+	E3HashTableNodePtr		*theNode;
+
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+	Q3_ASSERT(theItem != NULL);
+
+
+
+	// Make sure the item isn't already present
+	Q3_ASSERT(E3HashTable_Find(theTable, theKey) == NULL);
+
+
+
+	// Find the node which should contain the item
+	theNode = e3hash_find_node(theTable, theKey);
+	Q3_ASSERT_VALID_PTR(theNode);
+
+
+
+	// If the node doesn't exist, create it
+	if (*theNode == NULL)
+		{
+		*theNode = (E3HashTableNodePtr) E3Memory_AllocateClear(sizeof(E3HashTableNode));
+		if (*theNode == NULL)
+			return(kQ3Failure);
+		}
+
+
+
+	// Add the item to the node
+	qd3dStatus = e3hash_add_key(*theNode, theKey, theItem);
+	if (qd3dStatus != kQ3Success)
+		return(qd3dStatus);
+
+
+
+	// Update the table
+	theTable->numItems++;
+	e3hash_update_stats(theTable);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3HashTable_Remove : Remove an item from a hash table.
+//-----------------------------------------------------------------------------
+//		Note : The item must be present in the hash table.
+//-----------------------------------------------------------------------------
+void E3HashTable_Remove(E3HashTablePtr theTable, TQ3ObjectType theKey)
+{	E3HashTableNodePtr		theNode, *nodePtr;
+	TQ3Boolean				foundItem;
+	TQ3Uns32				n;
+
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+
+
+
+	// Find the node which should contain the item
+	nodePtr = e3hash_find_node(theTable, theKey);
+	Q3_ASSERT_VALID_PTR(nodePtr);
+	
+	theNode = *nodePtr;
+	Q3_ASSERT_VALID_PTR(nodePtr);
+
+
+
+	// Remove the item from the node
+	foundItem = kQ3False;
+	for (n = 0; n < theNode->numItems && !foundItem; n++)
+		{
+		if (theKey == theNode->theItems[n].theKey)
+			{
+			// Shift the items above this item, if any, done by 1
+			if (n != (theNode->numItems - 1))
+				memmove(&theNode->theItems[n],
+						&theNode->theItems[n+1],
+						(theNode->numItems - n - 1) * sizeof(E3HashTableItem));
+			
+			
+			// Decrement the node count and break
+			Q3_ASSERT(theNode->numItems >= 1);
+			theNode->numItems--;
+			foundItem = kQ3True;
+			}
+		}
+
+
+
+	// Update the table
+	Q3_ASSERT(foundItem);
+	Q3_ASSERT(theTable->numItems >= 1);
+
+	if (foundItem)
+		{
+		theTable->numItems--;
+		e3hash_update_stats(theTable);
+		}
+}
+
+
+
+
+
+//=============================================================================
+//      E3HashTable_Find : Find an item within a hash table.
+//-----------------------------------------------------------------------------
+//		Note :	If the item can not be found, we will return NULL.
+//-----------------------------------------------------------------------------
+void *
+E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey)
+{	E3HashTableNodePtr		theNode, *nodePtr;
+	TQ3Uns32				n;
+	
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+
+
+
+	// Find the node which should contain the item
+	nodePtr = e3hash_find_node(theTable, theKey);
+
+
+
+	// If the node is empty, we're done
+	if (*nodePtr == NULL)
+		return(NULL);
+
+	theNode = *nodePtr;
+	Q3_ASSERT_VALID_PTR(theNode);
+
+
+
+	// Otherwise, look for the item
+	for (n = 0; n < theNode->numItems; n++)
+		{
+		if (theKey == theNode->theItems[n].theKey)
+			return(theNode->theItems[n].theItem);
+		}
+
+	return(NULL);
+}
+
+
+
+
+
+//=============================================================================
+//      E3HashTable_GetCollisionMax : Get the max collision count for a table.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+E3HashTable_GetCollisionMax(E3HashTablePtr theTable)
+{
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+
+
+
+	// Get the value
+	return(theTable->collisionMax);
+}
+
+
+
+
+
+//=============================================================================
+//      E3HashTable_GetCollisionAverage : Get the average collision count.
+//-----------------------------------------------------------------------------
+float
+E3HashTable_GetCollisionAverage(E3HashTablePtr theTable)
+{
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+
+
+
+	// Get the value
+	return(theTable->collisionAverage);
+}
+
+
+
+
+
+//=============================================================================
+//      E3HashTable_GetNumItems : Get the number of items in a table.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+E3HashTable_GetNumItems(E3HashTablePtr theTable)
+{
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+
+
+
+	// Get the value
+	return(theTable->numItems);
+}
+
+
+
+
+
+//=============================================================================
+//      E3HashTable_GetTableSize : Get the table size for a table.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+E3HashTable_GetTableSize(E3HashTablePtr theTable)
+{
+
+
+	// Validate our parameters
+	Q3_ASSERT_VALID_PTR(theTable);
+
+
+
+	// Get the value
+	return(theTable->tableSize);
+}
