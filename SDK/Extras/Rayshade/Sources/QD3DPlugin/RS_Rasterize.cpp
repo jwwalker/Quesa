@@ -249,6 +249,7 @@ cleanup:
 	if (result)	free (result);
 	return NULL;
 }
+
 void			RSRasterizer_Delete(
 					TRSRasterizer				*inRasterizer)
 {
@@ -256,7 +257,7 @@ void			RSRasterizer_Delete(
 		return;
 	
 	if (inRasterizer->isLocked)
-		RSResterizer_Unlock(inRasterizer);
+		RSRasterizer_Unlock(inRasterizer);
 	
 	free(inRasterizer);
 }
@@ -308,7 +309,7 @@ TQ3Status		RSRasterizer_Lock(
 
 	return kQ3Success;
 }
-void			RSResterizer_Unlock(
+void			RSRasterizer_Unlock(
 					TRSRasterizer				*inRasterizer)
 {
 	if (inRasterizer == NULL)
@@ -317,6 +318,37 @@ void			RSResterizer_Unlock(
 	
 	inRasterizer->rgbSpanRasterize = RSRasterizer_Rasterize_RGB_Span_Nop;
 	inRasterizer->isLocked = false;
+}
+
+void			RSRasterizer_Start(
+					TRSRasterizer				*inRasterizer)
+{
+#ifdef macintosh
+ 	if (inRasterizer->type == kQ3DrawContextTypeMacintosh)
+ 	{
+ 		LockPortBits( (GrafPtr)inRasterizer->grafPort );
+ 		
+		Rect	dirtyRect = {
+			0, 0, inRasterizer->height, inRasterizer->width
+		};
+		QDAddRectToDirtyRegion( (GrafPtr)inRasterizer->grafPort, &dirtyRect );
+ 	}
+#else
+	#pragma unused( inRasterizer )
+#endif
+}
+
+void			RSRasterizer_Finish(
+					TRSRasterizer				*inRasterizer)
+{
+#ifdef macintosh
+ 	if (inRasterizer->type == kQ3DrawContextTypeMacintosh)
+ 	{
+ 		UnlockPortBits( (GrafPtr)inRasterizer->grafPort );
+ 	}
+#else
+	#pragma unused( inRasterizer )
+#endif
 }
 
 static

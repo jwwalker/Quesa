@@ -500,6 +500,8 @@ TQ3ViewStatus RS_EndPass(
 			int xres = width;
 	        int yres = height;
 	        TQ3Uns8 buf[2048][3];
+	      
+	      	RSRasterizer_Start( theRasterizer );
 	                
 	        for (int i = 0; i < yres; i++)
 	        {
@@ -521,7 +523,7 @@ TQ3ViewStatus RS_EndPass(
             		goto cleanup;
             	}
 	            RSRasterizer_Rasterize_RGB_Span(theRasterizer,0,i,width,buf);
-           		RSResterizer_Unlock(theRasterizer);
+           		RSRasterizer_Unlock(theRasterizer);
 
          		/*
          		 * Call user supplied idle method and cancel if the user 
@@ -534,6 +536,9 @@ TQ3ViewStatus RS_EndPass(
             	}
             	
             }
+            
+	      	RSRasterizer_Finish( theRasterizer );
+
             RSRasterizer_Delete(theRasterizer);
             theRasterizer = NULL;
             RTRayTracer_Delete(theTracer);

@@ -69,8 +69,14 @@ void			RSRasterizer_Delete(
 
 TQ3Status		RSRasterizer_Lock(
 					TRSRasterizer				*inRasterizer);
-void			RSResterizer_Unlock(
-					TRSRasterizer				*inRasterizer);					
+void			RSRasterizer_Unlock(
+					TRSRasterizer				*inRasterizer);
+
+void			RSRasterizer_Start(
+					TRSRasterizer				*inRasterizer);
+void			RSRasterizer_Finish(
+					TRSRasterizer				*inRasterizer);
+
 
 TQ3Status		RSRasterizer_Rasterize_RGB_Span(
 					TRSRasterizer				*inRasterizer,
