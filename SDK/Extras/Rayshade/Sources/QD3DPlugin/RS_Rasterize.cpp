@@ -336,7 +336,10 @@ void			RSRasterizer_Start(
  		LockPortBits( (GrafPtr)inRasterizer->grafPort );
  		
 		Rect	dirtyRect = {
-			0, 0, inRasterizer->height, inRasterizer->width
+			inRasterizer->top,
+			inRasterizer->left,
+			inRasterizer->top + inRasterizer->height,
+			inRasterizer->left + inRasterizer->width
 		};
 		QDAddRectToDirtyRegion( (GrafPtr)inRasterizer->grafPort, &dirtyRect );
  	}
