@@ -1,0 +1,927 @@
+<html><head><title>Quesa.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Quesa.h</h1></font><hr><br>
+<h2>Discussion</h2>
+Declares the fundamental Quesa types and functions.
+ <hr><br><h2>Functions</h2>
+<a name="//apple_ref/c/func/Q3Bitmap_Empty"></a>
+<h3><a name="Q3Bitmap_Empty">Q3Bitmap_Empty</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Bitmap_Empty (
+    TQ3Bitmap                     *bitmap
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bitmap</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Bitmap_GetImageSize"></a>
+<h3><a name="Q3Bitmap_GetImageSize">Q3Bitmap_GetImageSize</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Uns32  )
+Q3Bitmap_GetImageSize (
+    TQ3Uns32                      width,
+    TQ3Uns32                      height
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>width</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>height</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Exit"></a>
+<h3><a name="Q3Exit">Q3Exit</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Exit (
+    void
+);
+</tt><br>
+</pre></blockquote>
+<p>Shuts down Quesa, and releases any resources allocated by the library.
+<br><br>
+</p>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3GetReleaseVersion"></a>
+<h3><a name="Q3GetReleaseVersion">Q3GetReleaseVersion</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3GetReleaseVersion (
+    TQ3Uns32                      *releaseRevision
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns the release version of Quesa.
+<br><br>
+The version number is returned in the format of the first four
+bytes of a Mac 'vers' resource. E.g., 1.6.1 would be identified
+as 0x01618000.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>releaseRevision</tt></td><td>Receives the release version number.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3GetVersion"></a>
+<h3><a name="Q3GetVersion">Q3GetVersion</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3GetVersion (
+    TQ3Uns32                      *majorRevision,
+    TQ3Uns32                      *minorRevision
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns the version of Quesa.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>majorRevision</tt></td><td>Receives the major version number.</td></tr>
+<tr valign=top><td><tt>minorRevision</tt></td><td>Receives the minor version number.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Initialize"></a>
+<h3><a name="Q3Initialize">Q3Initialize</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Initialize (
+    void
+);
+</tt><br>
+</pre></blockquote>
+<p>Initialises Quesa.
+<br><br>
+Only Q3IsInitialized, Q3GetVersion, and Q3GetReleaseVersion may be
+called before the Quesa library is initialised.
+<br><br>
+</p>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3IsInitialized"></a>
+<h3><a name="Q3IsInitialized">Q3IsInitialized</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+Q3IsInitialized (
+    void
+);
+</tt><br>
+</pre></blockquote>
+<p>Tests to see if Quesa has been initialised or not.
+<br><br>
+</p>
+<b>Result:</b> True or false as Quesa has been initialised or not.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ObjectHierarchy_EmptySubClassData"></a>
+<h3><a name="Q3ObjectHierarchy_EmptySubClassData">Q3ObjectHierarchy_EmptySubClassData</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3ObjectHierarchy_EmptySubClassData (
+    TQ3SubClassData               *subClassData
+);
+</tt><br>
+</pre></blockquote>
+<p>Release the memory allocated by a previous call to
+Q3ObjectHierarchy_GetSubClassData.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>subClassData</tt></td><td>The sub-class data to release.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ObjectHierarchy_GetStringFromType"></a>
+<h3><a name="Q3ObjectHierarchy_GetStringFromType">Q3ObjectHierarchy_GetStringFromType</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3ObjectHierarchy_GetStringFromType (
+    TQ3ObjectType                 objectClassType,
+    TQ3ObjectClassNameString      objectClassString
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns the class name string for a class identified by a class type.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>objectClassType</tt></td><td>The class type of the class to locate.</td></tr>
+<tr valign=top><td><tt>objectClassString</tt></td><td>Receives the class name string of the class.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ObjectHierarchy_GetSubClassData"></a>
+<h3><a name="Q3ObjectHierarchy_GetSubClassData">Q3ObjectHierarchy_GetSubClassData</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3ObjectHierarchy_GetSubClassData (
+    TQ3ObjectType                 objectClassType,
+    TQ3SubClassData               *subClassData
+);
+</tt><br>
+</pre></blockquote>
+<p>Return the immediate sub-classes of a class.
+<br><br>
+The data returned must be released with a subsequent call to
+Q3ObjectHierarchy_EmptySubClassData.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>objectClassType</tt></td><td>The class type of the class to query.</td></tr>
+<tr valign=top><td><tt>subClassData</tt></td><td>Receives the immediate sub-classes of the class.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ObjectHierarchy_GetTypeFromString"></a>
+<h3><a name="Q3ObjectHierarchy_GetTypeFromString">Q3ObjectHierarchy_GetTypeFromString</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3ObjectHierarchy_GetTypeFromString (
+    TQ3ObjectClassNameString      objectClassString,
+    TQ3ObjectType                 *objectClassType
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns the class type for a class identified by a class name string.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>objectClassString</tt></td><td>The class name of the class to locate.</td></tr>
+<tr valign=top><td><tt>objectClassType</tt></td><td>Receives the class type of the class.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ObjectHierarchy_IsNameRegistered"></a>
+<h3><a name="Q3ObjectHierarchy_IsNameRegistered">Q3ObjectHierarchy_IsNameRegistered</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+Q3ObjectHierarchy_IsNameRegistered (
+    const char                    *objectClassName
+);
+</tt><br>
+</pre></blockquote>
+<p>Check to see if a class is registered with Quesa.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>majorRevision</tt></td><td>The class name of the class to check.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> True or false as the class is registered or not.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3ObjectHierarchy_IsTypeRegistered"></a>
+<h3><a name="Q3ObjectHierarchy_IsTypeRegistered">Q3ObjectHierarchy_IsTypeRegistered</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+Q3ObjectHierarchy_IsTypeRegistered (
+    TQ3ObjectType                 objectClassType
+);
+</tt><br>
+</pre></blockquote>
+<p>Check to see if a class is registered with Quesa.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>objectClassType</tt></td><td>The class type of the class to check.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> True or false as the class is registered or not.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_Dispose"></a>
+<h3><a name="Q3Object_Dispose">Q3Object_Dispose</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Object_Dispose (
+    TQ3Object                     object
+);
+</tt><br>
+</pre></blockquote>
+<p>Disposes of a Quesa object.
+<br><br>
+Since TQ3Objects are reference counted, this function decrements the
+reference count of the object. When the reference count falls to 0,
+the object is disposed of.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to dispose.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_Duplicate"></a>
+<h3><a name="Q3Object_Duplicate">Q3Object_Duplicate</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Object  )
+Q3Object_Duplicate (
+    TQ3Object                     object
+);
+</tt><br>
+</pre></blockquote>
+<p>Duplicates a Quesa object.
+<br><br>
+Returns a new copy of the object, with a reference count of 1.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to duplicate.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> A new copy of the object.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_GetLeafType"></a>
+<h3><a name="Q3Object_GetLeafType">Q3Object_GetLeafType</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+Q3Object_GetLeafType (
+    TQ3Object                     object
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns the leaf type of an object.
+<br><br>
+Returns the most specific type that can be identified from the object
+(e.g., a camera object may have a leaf type of kQ3CameraTypeViewAngleAspect).
+Returns kQ3ObjectTypeInvalid if the object type is unknown.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to test.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The leaf type of the object.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_GetType"></a>
+<h3><a name="Q3Object_GetType">Q3Object_GetType</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+Q3Object_GetType (
+    TQ3Object                     object
+);
+</tt><br>
+</pre></blockquote>
+<p>Returns the top level type of an object.
+<br><br>
+Returns kQ3ObjectTypeElement, kQ3ObjectTypePick, kQ3ObjectTypeShared,
+or kQ3ObjectTypeView. Returns kQ3ObjectTypeInvalid if the object type
+is unknown.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to test.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> The top level type of the object.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_IsDrawable"></a>
+<h3><a name="Q3Object_IsDrawable">Q3Object_IsDrawable</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+Q3Object_IsDrawable (
+    TQ3Object                     object
+);
+</tt><br>
+</pre></blockquote>
+<p>Tests to see if an object is drawable.
+<br><br>
+Only drawable objects may be submitted to a view's rendering loop.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to test.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> True or false as the object is drawable or not.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_IsType"></a>
+<h3><a name="Q3Object_IsType">Q3Object_IsType</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+Q3Object_IsType (
+    TQ3Object                     object,
+    TQ3ObjectType                 theType
+);
+</tt><br>
+</pre></blockquote>
+<p>Tests to see if an object belongs to a given type.
+<br><br>
+Examines both the object supplied and its parents. E.g., a camera object
+would return true for a type of kQ3CameraTypeViewAngleAspect,
+kQ3ShapeTypeCamera, kQ3SharedTypeShape, and kQ3ObjectTypeShared but would
+return false for kQ3ObjectTypePick.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to test.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The type to test the object against.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> True or false as the object belongs to the type or not.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_IsWritable"></a>
+<h3><a name="Q3Object_IsWritable">Q3Object_IsWritable</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+Q3Object_IsWritable (
+    TQ3Object                     object,
+    TQ3FileObject                 theFile
+);
+</tt><br>
+</pre></blockquote>
+<p>Tests to see if an object is writable.
+<br><br>
+Only drawable objects may be submitted to a view's writing loop.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to test.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> True or false as the object is writable or not.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Object_Submit"></a>
+<h3><a name="Q3Object_Submit">Q3Object_Submit</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Object_Submit (
+    TQ3Object                     object,
+    TQ3ViewObject                 view
+);
+</tt><br>
+</pre></blockquote>
+<p>Submit an object to a view.
+<br><br>
+The object is submitted to the view's current processing loop,
+e.g., for rendering, picking, or writing to a file.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>object</tt></td><td>The object to submit.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to submit the object to.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shape_AddElement"></a>
+<h3><a name="Q3Shape_AddElement">Q3Shape_AddElement</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Shape_AddElement (
+    TQ3ShapeObject                shape,
+    TQ3ElementType                theType,
+    const void                    *data
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shape_ClearElement"></a>
+<h3><a name="Q3Shape_ClearElement">Q3Shape_ClearElement</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Shape_ClearElement (
+    TQ3ShapeObject                shape,
+    TQ3ElementType                theType
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shape_ContainsElement"></a>
+<h3><a name="Q3Shape_ContainsElement">Q3Shape_ContainsElement</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+Q3Shape_ContainsElement (
+    TQ3ShapeObject                shape,
+    TQ3ElementType                theType
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shape_EmptyElements"></a>
+<h3><a name="Q3Shape_EmptyElements">Q3Shape_EmptyElements</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Shape_EmptyElements (
+    TQ3ShapeObject                shape
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shape_GetElement"></a>
+<h3><a name="Q3Shape_GetElement">Q3Shape_GetElement</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Shape_GetElement (
+    TQ3ShapeObject                shape,
+    TQ3ElementType                theType,
+    void                          *data
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shape_GetNextElementType"></a>
+<h3><a name="Q3Shape_GetNextElementType">Q3Shape_GetNextElementType</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Shape_GetNextElementType (
+    TQ3ShapeObject                shape,
+    TQ3ElementType                *theType
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shape_GetSet"></a>
+<h3><a name="Q3Shape_GetSet">Q3Shape_GetSet</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Shape_GetSet (
+    TQ3ShapeObject                shape,
+    TQ3SetObject                  *theSet
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shape_GetType"></a>
+<h3><a name="Q3Shape_GetType">Q3Shape_GetType</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+Q3Shape_GetType (
+    TQ3ShapeObject                shape
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shape_SetSet"></a>
+<h3><a name="Q3Shape_SetSet">Q3Shape_SetSet</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Shape_SetSet (
+    TQ3ShapeObject                shape,
+    TQ3SetObject                  theSet
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>shape</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shared_Edited"></a>
+<h3><a name="Q3Shared_Edited">Q3Shared_Edited</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Shared_Edited (
+    TQ3SharedObject               sharedObject
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shared_GetEditIndex"></a>
+<h3><a name="Q3Shared_GetEditIndex">Q3Shared_GetEditIndex</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Uns32  )
+Q3Shared_GetEditIndex (
+    TQ3SharedObject               sharedObject
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shared_GetReference"></a>
+<h3><a name="Q3Shared_GetReference">Q3Shared_GetReference</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3SharedObject  )
+Q3Shared_GetReference (
+    TQ3SharedObject               sharedObject
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shared_GetType"></a>
+<h3><a name="Q3Shared_GetType">Q3Shared_GetType</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3ObjectType  )
+Q3Shared_GetType (
+    TQ3SharedObject               sharedObject
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Shared_IsReferenced"></a>
+<h3><a name="Q3Shared_IsReferenced">Q3Shared_IsReferenced</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+Q3Shared_IsReferenced (
+    TQ3SharedObject               sharedObject
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>sharedObject</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<h2>Structs</h2>
+<a name="//apple_ref/c/tag/TQ3Point2D"></a>
+<h3><a name="TQ3Point2D">TQ3Point2D</a></h3>
+<blockquote><pre>
+typedef  struct  {
+  float  x;
+  float  y;
+}  TQ3Point2D;
+</pre>
+</blockquote>
+<p>Fundamental 2D point type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
+<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Point3D"></a>
+<h3><a name="TQ3Point3D">TQ3Point3D</a></h3>
+<blockquote><pre>
+typedef  struct  {
+  float  x;
+  float  y;
+  float  z;
+}  TQ3Point3D;
+</pre>
+</blockquote>
+<p>Fundamental 3D point type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
+<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
+<tr valign=top><td><tt>z</tt></td><td>z coordinate.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Vector2D"></a>
+<h3><a name="TQ3Vector2D">TQ3Vector2D</a></h3>
+<blockquote><pre>
+typedef  struct  {
+  float  x;
+  float  y;
+}  TQ3Vector2D;
+</pre>
+</blockquote>
+<p>Fundamental 2D vector type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
+<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3Vector3D"></a>
+<h3><a name="TQ3Vector3D">TQ3Vector3D</a></h3>
+<blockquote><pre>
+typedef  struct  {
+  float  x;
+  float  y;
+  float  z;
+}  TQ3Vector3D;
+</pre>
+</blockquote>
+<p>Fundamental 3D vector type.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
+<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
+<tr valign=top><td><tt>z</tt></td><td>z coordinate.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 3/20/2001 </a></font></p>
+</body></html>

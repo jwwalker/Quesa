@@ -1,0 +1,3992 @@
+<html><head><title>QuesaMath.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>QuesaMath.h</h1></font><hr><br>
+<h2>Discussion</h2>
+Declares the Quesa math utilities.
+ <hr><br><h2>Functions</h2>
+<a name="//apple_ref/c/func/Q3BoundingBox_Copy"></a>
+<h3><a name="Q3BoundingBox_Copy">Q3BoundingBox_Copy</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingBox * )
+Q3BoundingBox_Copy (
+    const TQ3BoundingBox          *bBox,
+    TQ3BoundingBox                *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bBox</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingBox_Set"></a>
+<h3><a name="Q3BoundingBox_Set">Q3BoundingBox_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingBox * )
+Q3BoundingBox_Set (
+    TQ3BoundingBox                *bBox,
+    const TQ3Point3D              *min,
+    const TQ3Point3D              *max,
+    TQ3Boolean                    isEmpty
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bBox</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>min</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>max</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>isEmpty</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingBox_SetFromPoints3D"></a>
+<h3><a name="Q3BoundingBox_SetFromPoints3D">Q3BoundingBox_SetFromPoints3D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingBox * )
+Q3BoundingBox_SetFromPoints3D (
+    TQ3BoundingBox                *bBox,
+    const TQ3Point3D              *points3D,
+    TQ3Uns32                      numPoints,
+    TQ3Uns32                      structSize
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bBox</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>points3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>structSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingBox_SetFromRationalPoints4D"></a>
+<h3><a name="Q3BoundingBox_SetFromRationalPoints4D">Q3BoundingBox_SetFromRationalPoints4D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingBox * )
+Q3BoundingBox_SetFromRationalPoints4D (
+    TQ3BoundingBox                *bBox,
+    const TQ3RationalPoint4D      *rationalPoints4D,
+    TQ3Uns32                      numPoints,
+    TQ3Uns32                      structSize
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bBox</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>rationalPoints4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>structSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingBox_Union"></a>
+<h3><a name="Q3BoundingBox_Union">Q3BoundingBox_Union</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingBox * )
+Q3BoundingBox_Union (
+    const TQ3BoundingBox          *b1,
+    const TQ3BoundingBox          *b2,
+    TQ3BoundingBox                *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>b1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>b2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingBox_UnionPoint3D"></a>
+<h3><a name="Q3BoundingBox_UnionPoint3D">Q3BoundingBox_UnionPoint3D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingBox * )
+Q3BoundingBox_UnionPoint3D (
+    const TQ3BoundingBox          *bBox,
+    const TQ3Point3D              *point3D,
+    TQ3BoundingBox                *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bBox</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingBox_UnionRationalPoint4D"></a>
+<h3><a name="Q3BoundingBox_UnionRationalPoint4D">Q3BoundingBox_UnionRationalPoint4D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingBox * )
+Q3BoundingBox_UnionRationalPoint4D (
+    const TQ3BoundingBox          *bBox,
+    const TQ3RationalPoint4D      *rationalPoint4D,
+    TQ3BoundingBox                *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bBox</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>rationalPoint4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingSphere_Copy"></a>
+<h3><a name="Q3BoundingSphere_Copy">Q3BoundingSphere_Copy</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingSphere * )
+Q3BoundingSphere_Copy (
+    const TQ3BoundingSphere       *bSphere,
+    TQ3BoundingSphere             *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bSphere</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingSphere_Set"></a>
+<h3><a name="Q3BoundingSphere_Set">Q3BoundingSphere_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingSphere * )
+Q3BoundingSphere_Set (
+    TQ3BoundingSphere             *bSphere,
+    const TQ3Point3D              *origin,
+    float                         radius,
+    TQ3Boolean                    isEmpty
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bSphere</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>origin</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>radius</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>isEmpty</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingSphere_SetFromPoints3D"></a>
+<h3><a name="Q3BoundingSphere_SetFromPoints3D">Q3BoundingSphere_SetFromPoints3D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingSphere * )
+Q3BoundingSphere_SetFromPoints3D (
+    TQ3BoundingSphere             *bSphere,
+    const TQ3Point3D              *points3D,
+    TQ3Uns32                      numPoints,
+    TQ3Uns32                      structSize
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bSphere</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>points3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>structSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingSphere_SetFromRationalPoints4D"></a>
+<h3><a name="Q3BoundingSphere_SetFromRationalPoints4D">Q3BoundingSphere_SetFromRationalPoints4D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingSphere * )
+Q3BoundingSphere_SetFromRationalPoints4D (
+    TQ3BoundingSphere             *bSphere,
+    const TQ3RationalPoint4D      *rationalPoints4D,
+    TQ3Uns32                      numPoints,
+    TQ3Uns32                      structSize
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bSphere</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>rationalPoints4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>structSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingSphere_Union"></a>
+<h3><a name="Q3BoundingSphere_Union">Q3BoundingSphere_Union</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingSphere * )
+Q3BoundingSphere_Union (
+    const TQ3BoundingSphere       *s1,
+    const TQ3BoundingSphere       *s2,
+    TQ3BoundingSphere             *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>s1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>s2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingSphere_UnionPoint3D"></a>
+<h3><a name="Q3BoundingSphere_UnionPoint3D">Q3BoundingSphere_UnionPoint3D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingSphere * )
+Q3BoundingSphere_UnionPoint3D (
+    const TQ3BoundingSphere       *bSphere,
+    const TQ3Point3D              *point3D,
+    TQ3BoundingSphere             *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bSphere</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3BoundingSphere_UnionRationalPoint4D"></a>
+<h3><a name="Q3BoundingSphere_UnionRationalPoint4D">Q3BoundingSphere_UnionRationalPoint4D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3BoundingSphere * )
+Q3BoundingSphere_UnionRationalPoint4D (
+    const TQ3BoundingSphere       *bSphere,
+    const TQ3RationalPoint4D      *rationalPoint4D,
+    TQ3BoundingSphere             *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bSphere</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>rationalPoint4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_Adjoint"></a>
+<h3><a name="Q3Matrix3x3_Adjoint">Q3Matrix3x3_Adjoint</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix3x3 * )
+Q3Matrix3x3_Adjoint (
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3Matrix3x3                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_Copy"></a>
+<h3><a name="Q3Matrix3x3_Copy">Q3Matrix3x3_Copy</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix3x3 * )
+Q3Matrix3x3_Copy (
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3Matrix3x3                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_Determinant"></a>
+<h3><a name="Q3Matrix3x3_Determinant">Q3Matrix3x3_Determinant</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Matrix3x3_Determinant (
+    const TQ3Matrix3x3            *matrix3x3
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_Invert"></a>
+<h3><a name="Q3Matrix3x3_Invert">Q3Matrix3x3_Invert</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix3x3 * )
+Q3Matrix3x3_Invert (
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3Matrix3x3                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_Multiply"></a>
+<h3><a name="Q3Matrix3x3_Multiply">Q3Matrix3x3_Multiply</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix3x3 * )
+Q3Matrix3x3_Multiply (
+    const TQ3Matrix3x3            *m1,
+    const TQ3Matrix3x3            *m2,
+    TQ3Matrix3x3                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>m1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>m2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_SetIdentity"></a>
+<h3><a name="Q3Matrix3x3_SetIdentity">Q3Matrix3x3_SetIdentity</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix3x3 * )
+Q3Matrix3x3_SetIdentity (
+    TQ3Matrix3x3                  *matrix3x3
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_SetRotate"></a>
+<h3><a name="Q3Matrix3x3_SetRotate">Q3Matrix3x3_SetRotate</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix3x3 * )
+Q3Matrix3x3_SetRotate (
+    TQ3Matrix3x3                  *matrix3x3,
+    float                         angle
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>angle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_SetRotateAboutPoint"></a>
+<h3><a name="Q3Matrix3x3_SetRotateAboutPoint">Q3Matrix3x3_SetRotateAboutPoint</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix3x3 * )
+Q3Matrix3x3_SetRotateAboutPoint (
+    TQ3Matrix3x3                  *matrix3x3,
+    const TQ3Point2D              *origin,
+    float                         angle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>origin</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>angle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_SetScale"></a>
+<h3><a name="Q3Matrix3x3_SetScale">Q3Matrix3x3_SetScale</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix3x3 * )
+Q3Matrix3x3_SetScale (
+    TQ3Matrix3x3                  *matrix3x3,
+    float                         xScale,
+    float                         yScale
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>xScale</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>yScale</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_SetTranslate"></a>
+<h3><a name="Q3Matrix3x3_SetTranslate">Q3Matrix3x3_SetTranslate</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix3x3 * )
+Q3Matrix3x3_SetTranslate (
+    TQ3Matrix3x3                  *matrix3x3,
+    float                         xTrans,
+    float                         yTrans
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>xTrans</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>yTrans</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix3x3_Transpose"></a>
+<h3><a name="Q3Matrix3x3_Transpose">Q3Matrix3x3_Transpose</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix3x3 * )
+Q3Matrix3x3_Transpose (
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3Matrix3x3                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_Copy"></a>
+<h3><a name="Q3Matrix4x4_Copy">Q3Matrix4x4_Copy</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_Copy (
+    const TQ3Matrix4x4            *matrix4x4,
+    TQ3Matrix4x4                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_Determinant"></a>
+<h3><a name="Q3Matrix4x4_Determinant">Q3Matrix4x4_Determinant</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Matrix4x4_Determinant (
+    const TQ3Matrix4x4            *matrix4x4
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_Invert"></a>
+<h3><a name="Q3Matrix4x4_Invert">Q3Matrix4x4_Invert</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_Invert (
+    const TQ3Matrix4x4            *matrix4x4,
+    TQ3Matrix4x4                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_Multiply"></a>
+<h3><a name="Q3Matrix4x4_Multiply">Q3Matrix4x4_Multiply</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_Multiply (
+    const TQ3Matrix4x4            *m1,
+    const TQ3Matrix4x4            *m2,
+    TQ3Matrix4x4                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>m1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>m2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetIdentity"></a>
+<h3><a name="Q3Matrix4x4_SetIdentity">Q3Matrix4x4_SetIdentity</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetIdentity (
+    TQ3Matrix4x4                  *matrix4x4
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetQuaternion"></a>
+<h3><a name="Q3Matrix4x4_SetQuaternion">Q3Matrix4x4_SetQuaternion</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetQuaternion (
+    TQ3Matrix4x4                  *matrix4x4,
+    const TQ3Quaternion           *quaternion
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetRotateAboutAxis"></a>
+<h3><a name="Q3Matrix4x4_SetRotateAboutAxis">Q3Matrix4x4_SetRotateAboutAxis</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetRotateAboutAxis (
+    TQ3Matrix4x4                  *matrix4x4,
+    const TQ3Point3D              *origin,
+    const TQ3Vector3D             *axis,
+    float                         angle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>origin</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>angle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetRotateAboutPoint"></a>
+<h3><a name="Q3Matrix4x4_SetRotateAboutPoint">Q3Matrix4x4_SetRotateAboutPoint</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetRotateAboutPoint (
+    TQ3Matrix4x4                  *matrix4x4,
+    const TQ3Point3D              *origin,
+    float                         xAngle,
+    float                         yAngle,
+    float                         zAngle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>origin</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>xAngle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>yAngle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>zAngle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetRotateVectorToVector"></a>
+<h3><a name="Q3Matrix4x4_SetRotateVectorToVector">Q3Matrix4x4_SetRotateVectorToVector</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetRotateVectorToVector (
+    TQ3Matrix4x4                  *matrix4x4,
+    const TQ3Vector3D             *v1,
+    const TQ3Vector3D             *v2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetRotate_X"></a>
+<h3><a name="Q3Matrix4x4_SetRotate_X">Q3Matrix4x4_SetRotate_X</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetRotate_X (
+    TQ3Matrix4x4                  *matrix4x4,
+    float                         angle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>angle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetRotate_XYZ"></a>
+<h3><a name="Q3Matrix4x4_SetRotate_XYZ">Q3Matrix4x4_SetRotate_XYZ</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetRotate_XYZ (
+    TQ3Matrix4x4                  *matrix4x4,
+    float                         xAngle,
+    float                         yAngle,
+    float                         zAngle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>xAngle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>yAngle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>zAngle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetRotate_Y"></a>
+<h3><a name="Q3Matrix4x4_SetRotate_Y">Q3Matrix4x4_SetRotate_Y</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetRotate_Y (
+    TQ3Matrix4x4                  *matrix4x4,
+    float                         angle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>angle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetRotate_Z"></a>
+<h3><a name="Q3Matrix4x4_SetRotate_Z">Q3Matrix4x4_SetRotate_Z</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetRotate_Z (
+    TQ3Matrix4x4                  *matrix4x4,
+    float                         angle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>angle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetScale"></a>
+<h3><a name="Q3Matrix4x4_SetScale">Q3Matrix4x4_SetScale</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetScale (
+    TQ3Matrix4x4                  *matrix4x4,
+    float                         xScale,
+    float                         yScale,
+    float                         zScale
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>xScale</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>yScale</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>zScale</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_SetTranslate"></a>
+<h3><a name="Q3Matrix4x4_SetTranslate">Q3Matrix4x4_SetTranslate</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_SetTranslate (
+    TQ3Matrix4x4                  *matrix4x4,
+    float                         xTrans,
+    float                         yTrans,
+    float                         zTrans
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>xTrans</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>yTrans</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>zTrans</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Matrix4x4_Transpose"></a>
+<h3><a name="Q3Matrix4x4_Transpose">Q3Matrix4x4_Transpose</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Matrix4x4 * )
+Q3Matrix4x4_Transpose (
+    const TQ3Matrix4x4            *matrix4x4,
+    TQ3Matrix4x4                  *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Param2D_AffineComb"></a>
+<h3><a name="Q3Param2D_AffineComb">Q3Param2D_AffineComb</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Param2D * )
+Q3Param2D_AffineComb (
+    const TQ3Param2D              *params2D,
+    const float                   *weights,
+    TQ3Uns32                      numPoints,
+    TQ3Param2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>params2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>weights</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Param2D_Distance"></a>
+<h3><a name="Q3Param2D_Distance">Q3Param2D_Distance</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Param2D_Distance (
+    const TQ3Param2D              *p1,
+    const TQ3Param2D              *p2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Param2D_DistanceSquared"></a>
+<h3><a name="Q3Param2D_DistanceSquared">Q3Param2D_DistanceSquared</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Param2D_DistanceSquared (
+    const TQ3Param2D              *p1,
+    const TQ3Param2D              *p2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Param2D_RRatio"></a>
+<h3><a name="Q3Param2D_RRatio">Q3Param2D_RRatio</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Param2D * )
+Q3Param2D_RRatio (
+    const TQ3Param2D              *p1,
+    const TQ3Param2D              *p2,
+    float                         r1,
+    float                         r2,
+    TQ3Param2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>r1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>r2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Param2D_Set"></a>
+<h3><a name="Q3Param2D_Set">Q3Param2D_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Param2D * )
+Q3Param2D_Set (
+    TQ3Param2D                    *param2D,
+    float                         u,
+    float                         v
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>param2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>u</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Param2D_Subtract"></a>
+<h3><a name="Q3Param2D_Subtract">Q3Param2D_Subtract</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3Param2D_Subtract (
+    const TQ3Param2D              *p1,
+    const TQ3Param2D              *p2,
+    TQ3Vector2D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Param2D_Transform"></a>
+<h3><a name="Q3Param2D_Transform">Q3Param2D_Transform</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Param2D * )
+Q3Param2D_Transform (
+    const TQ3Param2D              *param2D,
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3Param2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>param2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Param2D_Vector2D_Add"></a>
+<h3><a name="Q3Param2D_Vector2D_Add">Q3Param2D_Vector2D_Add</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Param2D * )
+Q3Param2D_Vector2D_Add (
+    const TQ3Param2D              *param2D,
+    const TQ3Vector2D             *vector2D,
+    TQ3Param2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>param2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Param2D_Vector2D_Subtract"></a>
+<h3><a name="Q3Param2D_Vector2D_Subtract">Q3Param2D_Vector2D_Subtract</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Param2D * )
+Q3Param2D_Vector2D_Subtract (
+    const TQ3Param2D              *param2D,
+    const TQ3Vector2D             *vector2D,
+    TQ3Param2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>param2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_AffineComb"></a>
+<h3><a name="Q3Point2D_AffineComb">Q3Point2D_AffineComb</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point2D * )
+Q3Point2D_AffineComb (
+    const TQ3Point2D              *points2D,
+    const float                   *weights,
+    TQ3Uns32                      numPoints,
+    TQ3Point2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>points2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>weights</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_CrossProductTri"></a>
+<h3><a name="Q3Point2D_CrossProductTri">Q3Point2D_CrossProductTri</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float )
+Q3Point2D_CrossProductTri (
+    const TQ3Point2D              *p1,
+    const TQ3Point2D              *p2,
+    const TQ3Point2D              *p3
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p3</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_Distance"></a>
+<h3><a name="Q3Point2D_Distance">Q3Point2D_Distance</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Point2D_Distance (
+    const TQ3Point2D              *p1,
+    const TQ3Point2D              *p2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_DistanceSquared"></a>
+<h3><a name="Q3Point2D_DistanceSquared">Q3Point2D_DistanceSquared</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Point2D_DistanceSquared (
+    const TQ3Point2D              *p1,
+    const TQ3Point2D              *p2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_RRatio"></a>
+<h3><a name="Q3Point2D_RRatio">Q3Point2D_RRatio</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point2D * )
+Q3Point2D_RRatio (
+    const TQ3Point2D              *p1,
+    const TQ3Point2D              *p2,
+    float                         r1,
+    float                         r2,
+    TQ3Point2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>r1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>r2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_Set"></a>
+<h3><a name="Q3Point2D_Set">Q3Point2D_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point2D * )
+Q3Point2D_Set (
+    TQ3Point2D                    *point2D,
+    float                         x,
+    float                         y
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>x</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_Subtract"></a>
+<h3><a name="Q3Point2D_Subtract">Q3Point2D_Subtract</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3Point2D_Subtract (
+    const TQ3Point2D              *p1,
+    const TQ3Point2D              *p2,
+    TQ3Vector2D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_To2DTransformArray"></a>
+<h3><a name="Q3Point2D_To2DTransformArray">Q3Point2D_To2DTransformArray</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Point2D_To2DTransformArray (
+    const TQ3Point2D              *inPoints2D,
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3Point2D                    *outPoints2D,
+    TQ3Int32                      numPoints,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outStructSize
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>inPoints2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outPoints2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>inStructSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outStructSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_To3D"></a>
+<h3><a name="Q3Point2D_To3D">Q3Point2D_To3D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint3D * )
+Q3Point2D_To3D (
+    const TQ3Point2D              *point2D,
+    TQ3RationalPoint3D            *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+The Apple version incorrectly declares the type of 'result' to
+be TQ3Point3D rather than TQ3RationalPoint3D. At a binary level
+there is no difference, but at the source code level the Apple
+version forces the use of the incorrect type or type casting.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_ToPolar"></a>
+<h3><a name="Q3Point2D_ToPolar">Q3Point2D_ToPolar</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3PolarPoint * )
+Q3Point2D_ToPolar (
+    const TQ3Point2D              *point2D,
+    TQ3PolarPoint                 *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_Transform"></a>
+<h3><a name="Q3Point2D_Transform">Q3Point2D_Transform</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point2D * )
+Q3Point2D_Transform (
+    const TQ3Point2D              *point2D,
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3Point2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_Vector2D_Add"></a>
+<h3><a name="Q3Point2D_Vector2D_Add">Q3Point2D_Vector2D_Add</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point2D * )
+Q3Point2D_Vector2D_Add (
+    const TQ3Point2D              *point2D,
+    const TQ3Vector2D             *vector2D,
+    TQ3Point2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_Vector2D_Subtract"></a>
+<h3><a name="Q3Point2D_Vector2D_Subtract">Q3Point2D_Vector2D_Subtract</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point2D * )
+Q3Point2D_Vector2D_Subtract (
+    const TQ3Point2D              *point2D,
+    const TQ3Vector2D             *vector2D,
+    TQ3Point2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_AffineComb"></a>
+<h3><a name="Q3Point3D_AffineComb">Q3Point3D_AffineComb</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point3D * )
+Q3Point3D_AffineComb (
+    const TQ3Point3D              *points3D,
+    const float                   *weights,
+    TQ3Uns32                      numPoints,
+    TQ3Point3D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>points3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>weights</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_CrossProductTri"></a>
+<h3><a name="Q3Point3D_CrossProductTri">Q3Point3D_CrossProductTri</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Point3D_CrossProductTri (
+    const TQ3Point3D              *p1,
+    const TQ3Point3D              *p2,
+    const TQ3Point3D              *p3,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_Distance"></a>
+<h3><a name="Q3Point3D_Distance">Q3Point3D_Distance</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Point3D_Distance (
+    const TQ3Point3D              *p1,
+    const TQ3Point3D              *p2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_DistanceSquared"></a>
+<h3><a name="Q3Point3D_DistanceSquared">Q3Point3D_DistanceSquared</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Point3D_DistanceSquared (
+    const TQ3Point3D              *p1,
+    const TQ3Point3D              *p2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_RRatio"></a>
+<h3><a name="Q3Point3D_RRatio">Q3Point3D_RRatio</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point3D * )
+Q3Point3D_RRatio (
+    const TQ3Point3D              *p1,
+    const TQ3Point3D              *p2,
+    float                         r1,
+    float                         r2,
+    TQ3Point3D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>r1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>r2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_Set"></a>
+<h3><a name="Q3Point3D_Set">Q3Point3D_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point3D * )
+Q3Point3D_Set (
+    TQ3Point3D                    *point3D,
+    float                         x,
+    float                         y,
+    float                         z
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>x</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>y</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_Subtract"></a>
+<h3><a name="Q3Point3D_Subtract">Q3Point3D_Subtract</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Point3D_Subtract (
+    const TQ3Point3D              *p1,
+    const TQ3Point3D              *p2,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_To3DTransformArray"></a>
+<h3><a name="Q3Point3D_To3DTransformArray">Q3Point3D_To3DTransformArray</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Point3D_To3DTransformArray (
+    const TQ3Point3D              *inPoints3D,
+    const TQ3Matrix4x4            *matrix4x4,
+    TQ3Point3D                    *outPoints3D,
+    TQ3Int32                      numPoints,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outStructSize
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>inPoints3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outPoints3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>inStructSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outStructSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_To4D"></a>
+<h3><a name="Q3Point3D_To4D">Q3Point3D_To4D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint4D * )
+Q3Point3D_To4D (
+    const TQ3Point3D              *point3D,
+    TQ3RationalPoint4D            *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_To4DTransformArray"></a>
+<h3><a name="Q3Point3D_To4DTransformArray">Q3Point3D_To4DTransformArray</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Point3D_To4DTransformArray (
+    const TQ3Point3D              *inPoints3D,
+    const TQ3Matrix4x4            *matrix4x4,
+    TQ3RationalPoint4D            *outRationalPoints4D,
+    TQ3Int32                      numPoints,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outStructSize
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>inPoints3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outRationalPoints4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>inStructSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outStructSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_ToSpherical"></a>
+<h3><a name="Q3Point3D_ToSpherical">Q3Point3D_ToSpherical</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3SphericalPoint * )
+Q3Point3D_ToSpherical (
+    const TQ3Point3D              *point3D,
+    TQ3SphericalPoint             *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_Transform"></a>
+<h3><a name="Q3Point3D_Transform">Q3Point3D_Transform</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point3D * )
+Q3Point3D_Transform (
+    const TQ3Point3D              *point3D,
+    const TQ3Matrix4x4            *matrix4x4,
+    TQ3Point3D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_TransformQuaternion"></a>
+<h3><a name="Q3Point3D_TransformQuaternion">Q3Point3D_TransformQuaternion</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point3D * )
+Q3Point3D_TransformQuaternion (
+    const TQ3Point3D              *point3D,
+    const TQ3Quaternion           *quaternion,
+    TQ3Point3D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_Vector3D_Add"></a>
+<h3><a name="Q3Point3D_Vector3D_Add">Q3Point3D_Vector3D_Add</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point3D * )
+Q3Point3D_Vector3D_Add (
+    const TQ3Point3D              *point3D,
+    const TQ3Vector3D             *vector3D,
+    TQ3Point3D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point3D_Vector3D_Subtract"></a>
+<h3><a name="Q3Point3D_Vector3D_Subtract">Q3Point3D_Vector3D_Subtract</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point3D * )
+Q3Point3D_Vector3D_Subtract (
+    const TQ3Point3D              *point3D,
+    const TQ3Vector3D             *vector3D,
+    TQ3Point3D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3PolarPoint_Set"></a>
+<h3><a name="Q3PolarPoint_Set">Q3PolarPoint_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3PolarPoint * )
+Q3PolarPoint_Set (
+    TQ3PolarPoint                 *polarPoint,
+    float                         r,
+    float                         theta
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>polarPoint</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>r</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theta</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3PolarPoint_ToPoint2D"></a>
+<h3><a name="Q3PolarPoint_ToPoint2D">Q3PolarPoint_ToPoint2D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point2D * )
+Q3PolarPoint_ToPoint2D (
+    const TQ3PolarPoint           *polarPoint,
+    TQ3Point2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>polarPoint</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_Copy"></a>
+<h3><a name="Q3Quaternion_Copy">Q3Quaternion_Copy</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_Copy (
+    const TQ3Quaternion           *quaternion,
+    TQ3Quaternion                 *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_Dot"></a>
+<h3><a name="Q3Quaternion_Dot">Q3Quaternion_Dot</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Quaternion_Dot (
+    const TQ3Quaternion           *q1,
+    const TQ3Quaternion           *q2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>q1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>q2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_InterpolateFast"></a>
+<h3><a name="Q3Quaternion_InterpolateFast">Q3Quaternion_InterpolateFast</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_InterpolateFast (
+    const TQ3Quaternion           *q1,
+    const TQ3Quaternion           *q2,
+    float                         t,
+    TQ3Quaternion                 *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>q1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>q2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>t</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_InterpolateLinear"></a>
+<h3><a name="Q3Quaternion_InterpolateLinear">Q3Quaternion_InterpolateLinear</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_InterpolateLinear (
+    const TQ3Quaternion           *q1,
+    const TQ3Quaternion           *q2,
+    float                         t,
+    TQ3Quaternion                 *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>q1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>q2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>t</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_Invert"></a>
+<h3><a name="Q3Quaternion_Invert">Q3Quaternion_Invert</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_Invert (
+    const TQ3Quaternion           *quaternion,
+    TQ3Quaternion                 *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_IsIdentity"></a>
+<h3><a name="Q3Quaternion_IsIdentity">Q3Quaternion_IsIdentity</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Boolean  )
+Q3Quaternion_IsIdentity (
+    const TQ3Quaternion           *quaternion
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_MatchReflection"></a>
+<h3><a name="Q3Quaternion_MatchReflection">Q3Quaternion_MatchReflection</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_MatchReflection (
+    const TQ3Quaternion           *q1,
+    const TQ3Quaternion           *q2,
+    TQ3Quaternion                 *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>q1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>q2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_Multiply"></a>
+<h3><a name="Q3Quaternion_Multiply">Q3Quaternion_Multiply</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_Multiply (
+    const TQ3Quaternion           *q1,
+    const TQ3Quaternion           *q2,
+    TQ3Quaternion                 *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>q1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>q2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_Normalize"></a>
+<h3><a name="Q3Quaternion_Normalize">Q3Quaternion_Normalize</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_Normalize (
+    const TQ3Quaternion           *quaternion,
+    TQ3Quaternion                 *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_Set"></a>
+<h3><a name="Q3Quaternion_Set">Q3Quaternion_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_Set (
+    TQ3Quaternion                 *quaternion,
+    float                         w,
+    float                         x,
+    float                         y,
+    float                         z
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>w</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>x</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>y</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_SetIdentity"></a>
+<h3><a name="Q3Quaternion_SetIdentity">Q3Quaternion_SetIdentity</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_SetIdentity (
+    TQ3Quaternion                 *quaternion
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_SetMatrix"></a>
+<h3><a name="Q3Quaternion_SetMatrix">Q3Quaternion_SetMatrix</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_SetMatrix (
+    TQ3Quaternion                 *quaternion,
+    const TQ3Matrix4x4            *matrix4x4
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_SetRotateAboutAxis"></a>
+<h3><a name="Q3Quaternion_SetRotateAboutAxis">Q3Quaternion_SetRotateAboutAxis</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_SetRotateAboutAxis (
+    TQ3Quaternion                 *quaternion,
+    const TQ3Vector3D             *axis,
+    float                         angle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>angle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_SetRotateVectorToVector"></a>
+<h3><a name="Q3Quaternion_SetRotateVectorToVector">Q3Quaternion_SetRotateVectorToVector</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_SetRotateVectorToVector (
+    TQ3Quaternion                 *quaternion,
+    const TQ3Vector3D             *v1,
+    const TQ3Vector3D             *v2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_SetRotate_X"></a>
+<h3><a name="Q3Quaternion_SetRotate_X">Q3Quaternion_SetRotate_X</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_SetRotate_X (
+    TQ3Quaternion                 *quaternion,
+    float                         angle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>angle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_SetRotate_XYZ"></a>
+<h3><a name="Q3Quaternion_SetRotate_XYZ">Q3Quaternion_SetRotate_XYZ</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_SetRotate_XYZ (
+    TQ3Quaternion                 *quaternion,
+    float                         xAngle,
+    float                         yAngle,
+    float                         zAngle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>xAngle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>yAngle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>zAngle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_SetRotate_Y"></a>
+<h3><a name="Q3Quaternion_SetRotate_Y">Q3Quaternion_SetRotate_Y</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_SetRotate_Y (
+    TQ3Quaternion                 *quaternion,
+    float                         angle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>angle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Quaternion_SetRotate_Z"></a>
+<h3><a name="Q3Quaternion_SetRotate_Z">Q3Quaternion_SetRotate_Z</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Quaternion * )
+Q3Quaternion_SetRotate_Z (
+    TQ3Quaternion                 *quaternion,
+    float                         angle
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>angle</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint3D_AffineComb"></a>
+<h3><a name="Q3RationalPoint3D_AffineComb">Q3RationalPoint3D_AffineComb</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint3D * )
+Q3RationalPoint3D_AffineComb (
+    const TQ3RationalPoint3D      *rationalPoints3D,
+    const float                   *weights,
+    TQ3Uns32                      numPoints,
+    TQ3RationalPoint3D            *result
+);
+</tt><br>
+</pre></blockquote>
+<p>This operation makes no sense mathematically.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rationalPoints3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>weights</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint3D_Distance"></a>
+<h3><a name="Q3RationalPoint3D_Distance">Q3RationalPoint3D_Distance</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3RationalPoint3D_Distance (
+    const TQ3RationalPoint3D      *p1,
+    const TQ3RationalPoint3D      *p2
+);
+</tt><br>
+</pre></blockquote>
+<p>This operation makes no sense mathematically.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint3D_DistanceSquared"></a>
+<h3><a name="Q3RationalPoint3D_DistanceSquared">Q3RationalPoint3D_DistanceSquared</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3RationalPoint3D_DistanceSquared (
+    const TQ3RationalPoint3D      *p1,
+    const TQ3RationalPoint3D      *p2
+);
+</tt><br>
+</pre></blockquote>
+<p>This operation makes no sense mathematically.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint3D_Set"></a>
+<h3><a name="Q3RationalPoint3D_Set">Q3RationalPoint3D_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint3D * )
+Q3RationalPoint3D_Set (
+    TQ3RationalPoint3D            *rationalPoint3D,
+    float                         x,
+    float                         y,
+    float                         w
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rationalPoint3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>x</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>y</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint3D_To2D"></a>
+<h3><a name="Q3RationalPoint3D_To2D">Q3RationalPoint3D_To2D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point2D * )
+Q3RationalPoint3D_To2D (
+    const TQ3RationalPoint3D      *rationalPoint3D,
+    TQ3Point2D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rationalPoint3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint3D_To3DTransformArray"></a>
+<h3><a name="Q3RationalPoint3D_To3DTransformArray">Q3RationalPoint3D_To3DTransformArray</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3RationalPoint3D_To3DTransformArray (
+    const TQ3RationalPoint3D      *inRationalPoints3D,
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3RationalPoint3D            *outRationalPoints3D,
+    TQ3Int32                      numPoints,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outStructSize
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>inRationalPoints3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outRationalPoints3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>inStructSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outStructSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint3D_ToVector2D"></a>
+<h3><a name="Q3RationalPoint3D_ToVector2D">Q3RationalPoint3D_ToVector2D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3RationalPoint3D_ToVector2D (
+    const TQ3RationalPoint3D      *rationalPoint3D,
+    TQ3Vector2D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rationalPoint3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint3D_Transform"></a>
+<h3><a name="Q3RationalPoint3D_Transform">Q3RationalPoint3D_Transform</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint3D * )
+Q3RationalPoint3D_Transform (
+    const TQ3RationalPoint3D      *rationalPoint3D,
+    const TQ3Matrix3x3            *matri3x3,
+    TQ3RationalPoint3D            *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rationalPoint3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matri3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint4D_AffineComb"></a>
+<h3><a name="Q3RationalPoint4D_AffineComb">Q3RationalPoint4D_AffineComb</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint4D * )
+Q3RationalPoint4D_AffineComb (
+    const TQ3RationalPoint4D      *rationalPoints4D,
+    const float                   *weights,
+    TQ3Uns32                      numPoints,
+    TQ3RationalPoint4D            *result
+);
+</tt><br>
+</pre></blockquote>
+<p>This operation makes no sense mathematically.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rationalPoints4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>weights</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint4D_Distance"></a>
+<h3><a name="Q3RationalPoint4D_Distance">Q3RationalPoint4D_Distance</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3RationalPoint4D_Distance (
+    const TQ3RationalPoint4D      *p1,
+    const TQ3RationalPoint4D      *p2
+);
+</tt><br>
+</pre></blockquote>
+<p>This operation makes no sense mathematically.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint4D_DistanceSquared"></a>
+<h3><a name="Q3RationalPoint4D_DistanceSquared">Q3RationalPoint4D_DistanceSquared</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3RationalPoint4D_DistanceSquared (
+    const TQ3RationalPoint4D      *p1,
+    const TQ3RationalPoint4D      *p2
+);
+</tt><br>
+</pre></blockquote>
+<p>This operation makes no sense mathematically.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint4D_RRatio"></a>
+<h3><a name="Q3RationalPoint4D_RRatio">Q3RationalPoint4D_RRatio</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint4D * )
+Q3RationalPoint4D_RRatio (
+    const TQ3RationalPoint4D      *p1,
+    const TQ3RationalPoint4D      *p2,
+    float                         r1,
+    float                         r2,
+    TQ3RationalPoint4D            *result
+);
+</tt><br>
+</pre></blockquote>
+<p>This operation makes no sense mathematically.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>p1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>p2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>r1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>r2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint4D_Set"></a>
+<h3><a name="Q3RationalPoint4D_Set">Q3RationalPoint4D_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint4D * )
+Q3RationalPoint4D_Set (
+    TQ3RationalPoint4D            *rationalPoint4D,
+    float                         x,
+    float                         y,
+    float                         z,
+    float                         w
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rationalPoint4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>x</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>y</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>z</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint4D_To3D"></a>
+<h3><a name="Q3RationalPoint4D_To3D">Q3RationalPoint4D_To3D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point3D * )
+Q3RationalPoint4D_To3D (
+    const TQ3RationalPoint4D      *rationalPoint4D,
+    TQ3Point3D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rationalPoint4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint4D_To4DTransformArray"></a>
+<h3><a name="Q3RationalPoint4D_To4DTransformArray">Q3RationalPoint4D_To4DTransformArray</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3RationalPoint4D_To4DTransformArray (
+    const TQ3RationalPoint4D      *inRationalPoints4D,
+    const TQ3Matrix4x4            *matrix4x4,
+    TQ3RationalPoint4D            *outRationalPoints4D,
+    TQ3Int32                      numPoints,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outStructSize
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>inRationalPoints4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outRationalPoints4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>inStructSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outStructSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint4D_ToVector3D"></a>
+<h3><a name="Q3RationalPoint4D_ToVector3D">Q3RationalPoint4D_ToVector3D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3RationalPoint4D_ToVector3D (
+    const TQ3RationalPoint4D      *rationalPoint4D,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rationalPoint4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3RationalPoint4D_Transform"></a>
+<h3><a name="Q3RationalPoint4D_Transform">Q3RationalPoint4D_Transform</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint4D * )
+Q3RationalPoint4D_Transform (
+    const TQ3RationalPoint4D      *rationalPoint4D,
+    const TQ3Matrix4x4            *matrix4x4,
+    TQ3RationalPoint4D            *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rationalPoint4D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3SphericalPoint_Set"></a>
+<h3><a name="Q3SphericalPoint_Set">Q3SphericalPoint_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3SphericalPoint * )
+Q3SphericalPoint_Set (
+    TQ3SphericalPoint             *sphericalPoint,
+    float                         rho,
+    float                         theta,
+    float                         phi
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>sphericalPoint</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>rho</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theta</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>phi</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3SphericalPoint_ToPoint3D"></a>
+<h3><a name="Q3SphericalPoint_ToPoint3D">Q3SphericalPoint_ToPoint3D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Point3D * )
+Q3SphericalPoint_ToPoint3D (
+    const TQ3SphericalPoint       *sphericalPoint,
+    TQ3Point3D                    *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>sphericalPoint</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_Add"></a>
+<h3><a name="Q3Vector2D_Add">Q3Vector2D_Add</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3Vector2D_Add (
+    const TQ3Vector2D             *v1,
+    const TQ3Vector2D             *v2,
+    TQ3Vector2D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>v1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_Cross"></a>
+<h3><a name="Q3Vector2D_Cross">Q3Vector2D_Cross</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Vector2D_Cross (
+    const TQ3Vector2D             *v1,
+    const TQ3Vector2D             *v2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>v1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_Dot"></a>
+<h3><a name="Q3Vector2D_Dot">Q3Vector2D_Dot</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Vector2D_Dot (
+    const TQ3Vector2D             *v1,
+    const TQ3Vector2D             *v2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>v1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_Length"></a>
+<h3><a name="Q3Vector2D_Length">Q3Vector2D_Length</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Vector2D_Length (
+    const TQ3Vector2D             *vector2D
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_LengthSquared"></a>
+<h3><a name="Q3Vector2D_LengthSquared">Q3Vector2D_LengthSquared</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Vector2D_LengthSquared (
+    const TQ3Vector2D             *vector2D
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_Negate"></a>
+<h3><a name="Q3Vector2D_Negate">Q3Vector2D_Negate</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3Vector2D_Negate (
+    const TQ3Vector2D             *vector2D,
+    TQ3Vector2D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_Normalize"></a>
+<h3><a name="Q3Vector2D_Normalize">Q3Vector2D_Normalize</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3Vector2D_Normalize (
+    const TQ3Vector2D             *vector2D,
+    TQ3Vector2D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_Scale"></a>
+<h3><a name="Q3Vector2D_Scale">Q3Vector2D_Scale</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3Vector2D_Scale (
+    const TQ3Vector2D             *vector2D,
+    float                         scalar,
+    TQ3Vector2D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>scalar</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_Set"></a>
+<h3><a name="Q3Vector2D_Set">Q3Vector2D_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3Vector2D_Set (
+    TQ3Vector2D                   *vector2D,
+    float                         x,
+    float                         y
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>x</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_Subtract"></a>
+<h3><a name="Q3Vector2D_Subtract">Q3Vector2D_Subtract</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3Vector2D_Subtract (
+    const TQ3Vector2D             *v1,
+    const TQ3Vector2D             *v2,
+    TQ3Vector2D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>v1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_To2DTransformArray"></a>
+<h3><a name="Q3Vector2D_To2DTransformArray">Q3Vector2D_To2DTransformArray</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Vector2D_To2DTransformArray (
+    const TQ3Vector2D             *inVectors2D,
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3Vector2D                   *outVectors2D,
+    TQ3Int32                      numVectors,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outStructSize
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>inVectors2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outVectors2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numVectors</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>inStructSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outStructSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_To3D"></a>
+<h3><a name="Q3Vector2D_To3D">Q3Vector2D_To3D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Vector2D_To3D (
+    const TQ3Vector2D             *vector2D,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>This operation makes no sense mathematically.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_ToRationalPoint3D"></a>
+<h3><a name="Q3Vector2D_ToRationalPoint3D">Q3Vector2D_ToRationalPoint3D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint3D * )
+Q3Vector2D_ToRationalPoint3D (
+    const TQ3Vector2D             *vector2D,
+    TQ3RationalPoint3D            *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector2D_Transform"></a>
+<h3><a name="Q3Vector2D_Transform">Q3Vector2D_Transform</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3Vector2D_Transform (
+    const TQ3Vector2D             *vector2D,
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3Vector2D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector2D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_Add"></a>
+<h3><a name="Q3Vector3D_Add">Q3Vector3D_Add</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Vector3D_Add (
+    const TQ3Vector3D             *v1,
+    const TQ3Vector3D             *v2,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>v1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_Cross"></a>
+<h3><a name="Q3Vector3D_Cross">Q3Vector3D_Cross</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Vector3D_Cross (
+    const TQ3Vector3D             *v1,
+    const TQ3Vector3D             *v2,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>v1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_Dot"></a>
+<h3><a name="Q3Vector3D_Dot">Q3Vector3D_Dot</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Vector3D_Dot (
+    const TQ3Vector3D             *v1,
+    const TQ3Vector3D             *v2
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>v1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v2</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_Length"></a>
+<h3><a name="Q3Vector3D_Length">Q3Vector3D_Length</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Vector3D_Length (
+    const TQ3Vector3D             *vector3D
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_LengthSquared"></a>
+<h3><a name="Q3Vector3D_LengthSquared">Q3Vector3D_LengthSquared</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( float  )
+Q3Vector3D_LengthSquared (
+    const TQ3Vector3D             *vector3D
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_Negate"></a>
+<h3><a name="Q3Vector3D_Negate">Q3Vector3D_Negate</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Vector3D_Negate (
+    const TQ3Vector3D             *vector3D,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_Normalize"></a>
+<h3><a name="Q3Vector3D_Normalize">Q3Vector3D_Normalize</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Vector3D_Normalize (
+    const TQ3Vector3D             *vector3D,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_Scale"></a>
+<h3><a name="Q3Vector3D_Scale">Q3Vector3D_Scale</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Vector3D_Scale (
+    const TQ3Vector3D             *vector3D,
+    float                         scalar,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>scalar</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_Set"></a>
+<h3><a name="Q3Vector3D_Set">Q3Vector3D_Set</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Vector3D_Set (
+    TQ3Vector3D                   *vector3D,
+    float                         x,
+    float                         y,
+    float                         z
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>x</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>y</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_Subtract"></a>
+<h3><a name="Q3Vector3D_Subtract">Q3Vector3D_Subtract</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Vector3D_Subtract (
+    const TQ3Vector3D             *v1,
+    const TQ3Vector3D             *v2,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>v1</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>v2</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_To2D"></a>
+<h3><a name="Q3Vector3D_To2D">Q3Vector3D_To2D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector2D * )
+Q3Vector3D_To2D (
+    const TQ3Vector3D             *vector3D,
+    TQ3Vector2D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>This operation makes no sense mathematically.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_To3DTransformArray"></a>
+<h3><a name="Q3Vector3D_To3DTransformArray">Q3Vector3D_To3DTransformArray</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Status  )
+Q3Vector3D_To3DTransformArray (
+    const TQ3Vector3D             *inVectors3D,
+    const TQ3Matrix4x4            *matrix4x4,
+    TQ3Vector3D                   *outVectors3D,
+    TQ3Int32                      numVectors,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outStructSize
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>inVectors3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outVectors3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>numVectors</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>inStructSize</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>outStructSize</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_ToRationalPoint4D"></a>
+<h3><a name="Q3Vector3D_ToRationalPoint4D">Q3Vector3D_ToRationalPoint4D</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3RationalPoint4D * )
+Q3Vector3D_ToRationalPoint4D (
+    const TQ3Vector3D             *vector3D,
+    TQ3RationalPoint4D            *result
+);
+</tt><br>
+</pre></blockquote>
+<p>Not supported by QD3D.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_Transform"></a>
+<h3><a name="Q3Vector3D_Transform">Q3Vector3D_Transform</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Vector3D_Transform (
+    const TQ3Vector3D             *vector3D,
+    const TQ3Matrix4x4            *matrix4x4,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>matrix4x4</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Vector3D_TransformQuaternion"></a>
+<h3><a name="Q3Vector3D_TransformQuaternion">Q3Vector3D_TransformQuaternion</a></h3>
+<blockquote><pre><tt> <b>EXTERN_API_C</b>( TQ3Vector3D * )
+Q3Vector3D_TransformQuaternion (
+    const TQ3Vector3D             *vector3D,
+    const TQ3Quaternion           *quaternion,
+    TQ3Vector3D                   *result
+);
+</tt><br>
+</pre></blockquote>
+<p>One-line description of this function.
+<br><br>
+A more extensive description can be supplied here, covering
+the typical usage of this function and any special requirements.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vector3D</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>quaternion</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Description of the function result.
+ 
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 3/20/2001 </a></font></p>
+</body></html>
