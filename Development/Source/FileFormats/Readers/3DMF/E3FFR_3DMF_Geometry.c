@@ -206,18 +206,27 @@ e3read_3dmf_apply_element_set( TQ3ShapeObject ioShape, TQ3SetObject ioElements )
 TQ3Object
 E3Read_3DMF_String_C(TQ3FileObject theFile)
 {
-	TQ3StringObject theNewString;
+	TQ3StringObject theNewString = NULL;
 	char *buffer = NULL;
 	TQ3Uns32 bytesRead;
 	
-	buffer = (char *) Q3Memory_Allocate(kQ3StringMaximumLength);
-	bytesRead = kQ3StringMaximumLength;
-	
-	Q3String_Read (buffer, &bytesRead, theFile);
-	
-	theNewString = Q3CString_New (buffer);
-	
-	Q3Memory_Free(&buffer);
+	// Find the length of the string
+	if (kQ3Success == Q3String_ReadUnlimited( NULL, &bytesRead, theFile ))
+	{
+		// Allocate a buffer (+1 for trailing NUL byte)
+		bytesRead += 1;
+		buffer = (char *) Q3Memory_Allocate(bytesRead);
+		
+		if (buffer != NULL)
+		{
+			// Read the string
+			if (kQ3Success == Q3String_ReadUnlimited( buffer, &bytesRead, theFile ))
+			{
+				theNewString = Q3CString_New( buffer );
+			}
+			Q3Memory_Free(&buffer);
+		}
+	}
 	
 	return theNewString;
 }
