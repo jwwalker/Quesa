@@ -38,7 +38,7 @@
 #include "E3Prefix.h"
 
 #if TARGET_API_MAC_CARBON
-	#include <CarbonHeaders.c>
+	#include <Carbon.h>
 #endif
 
 #pragma mark SHARED FUNCTIONS

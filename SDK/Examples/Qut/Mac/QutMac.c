@@ -1057,8 +1057,7 @@ Qut_CreateWindow(const char		*windowTitle,
 	
 	SetPort((GrafPtr) GetWindowPort(gWindow));
 	SetRect(&theRect, 0, 0, theWidth, theHeight);
-	ValidRect(&theRect);
-
+	ValidWindowRect(gWindow, &theRect);
 
 
 #else

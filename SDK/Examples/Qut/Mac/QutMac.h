@@ -54,6 +54,19 @@
 	#define GetPortBitMapForCopyBits(_port)			&((GrafPtr) _port)->portBits
 
 
+	// Validate a port rect
+	#define ValidWindowRect(_window, _rect)			\
+		do											\
+			{	GrafPtr		savePort;				\
+													\
+			GetPort(&_savePort);					\
+			SetPort((GrafPtr) _window);				\
+			ValidRect(_rect);						\
+			SetPort(_savePort);						\
+			}										\
+		while (0)
+
+
 	// Older UH support
 	#if (UNIVERSAL_INTERFACES_VERSION == 0x0320)
 		#ifndef DisposeNavEventUPP
