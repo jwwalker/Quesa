@@ -75,7 +75,7 @@ extern "C" {
  *		object type is unknown.
  *
  *  @param stringObj        The object to test.
- *  @result                 The top level type of the object.
+ *  @result                 The type of the object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3String_GetType (
