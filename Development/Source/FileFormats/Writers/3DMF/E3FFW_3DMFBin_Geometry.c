@@ -42,6 +42,92 @@
 //-----------------------------------------------------------------------------
 
 
+
+//=============================================================================
+//      e3ffw_3DMF_storage_write : utility method to write storages (for pixmaps ecc).
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3FileObject theFile)
+{
+	TQ3Status			qd3dStatus;
+	TQ3Uns8				*basePtr = NULL;
+	TQ3Boolean			wasCopied = kQ3False;
+	TQ3Uns32			validSize, bufferSize;
+	TQ3ObjectType		theType;
+#if QUESA_OS_MACINTOSH
+	Handle				theHnd = NULL;
+#endif			
+
+	// Get a pointer to the data for the image, ideally without copying
+
+	theType    = Q3Storage_GetType(theStorage);
+	switch (theType) {
+		case kQ3StorageTypeMemory:
+			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, &basePtr, &validSize, &bufferSize);
+			break;
+
+#if QUESA_OS_MACINTOSH
+		case kQ3MemoryStorageTypeHandle:
+			{
+			
+			qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
+			if (qd3dStatus == kQ3Success && theHnd != NULL)
+				{
+			    MoveHHi(theHnd);
+    			HLock(theHnd);
+    			basePtr = (TQ3Uns8 *) *theHnd;
+    			}
+    		}
+    		break;
+#endif
+
+		default:
+			qd3dStatus = Q3Storage_GetSize(theStorage, &bufferSize);
+			if (qd3dStatus == kQ3Success)
+				basePtr = (TQ3Uns8 *) Q3Memory_Allocate(bufferSize);
+			
+			if (basePtr != NULL)
+				{
+				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, basePtr, &validSize);
+				wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
+				
+				if (qd3dStatus != kQ3Success)
+					Q3Memory_Free(&basePtr);
+				}
+			break;
+		}
+
+	
+	
+	if(basePtr == NULL)
+		return (kQ3Failure);
+	
+	validSize = Q3Size_Pad(validSize);
+	
+	Q3_ASSERT(validSize>=expectedSize);
+	
+
+	qd3dStatus = Q3RawData_Write (basePtr, expectedSize, theFile);
+	
+#if QUESA_OS_MACINTOSH
+	// If this is a Mac handle object, unlock the handle
+	if(theHnd != NULL)
+		HUnlock(theHnd);
+
+#endif
+
+	// If the data was copied, dispose of it
+	if (wasCopied)
+		Q3Memory_Free(&basePtr);
+	
+	return(qd3dStatus);
+
+}
+
+
+
+
+
 //=============================================================================
 //      Transforms
 //-----------------------------------------------------------------------------
@@ -60,6 +146,10 @@ e3ffw_3DMF_transform_vector_traverse(TQ3Object object,
 	return qd3dstatus;
 }
 
+
+
+
+
 //=============================================================================
 //      e3ffw_3DMF_transform_vector_write :  Write method for scale and translate transforms.
 //-----------------------------------------------------------------------------
@@ -76,6 +166,10 @@ e3ffw_3DMF_transform_vector_write(const TQ3Vector3D *object,
 	return(writeStatus);
 }
 
+
+
+
+
 //-----------------------------------------------------------------------------
 //      e3ffw_3DMF_transform_matrix_traverse : Transform Matrix traverse method.
 //-----------------------------------------------------------------------------
@@ -91,6 +185,10 @@ e3ffw_3DMF_transform_matrix_traverse(TQ3Object object,
 	
 	return qd3dstatus;
 }
+
+
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_transform_matrix_write : Transform Matrix write method.
@@ -109,6 +207,10 @@ e3ffw_3DMF_transform_matrix_write(const TQ3Matrix4x4 *object,
 	return(writeStatus);
 }
 
+
+
+
+
 //-----------------------------------------------------------------------------
 //      e3ffw_3DMF_transform_rotate_traverse : Transform Rotate traverse method.
 //-----------------------------------------------------------------------------
@@ -124,6 +226,10 @@ e3ffw_3DMF_transform_rotate_traverse(TQ3Object object,
 	
 	return qd3dstatus;
 }
+
+
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_transform_rotate_write : Transform Rotate write method.
@@ -145,6 +251,9 @@ e3ffw_3DMF_transform_rotate_write(const TQ3RotateTransformData *object,
 }
 
 
+
+
+
 //-----------------------------------------------------------------------------
 //      e3ffw_3DMF_transform_rotatepoint_traverse : Transform RotateAboutPoint traverse method.
 //-----------------------------------------------------------------------------
@@ -160,6 +269,10 @@ e3ffw_3DMF_transform_rotatepoint_traverse(TQ3Object object,
 	
 	return qd3dstatus;
 }
+
+
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_transform_rotatepoint_write : Transform RotateAboutPoint write method.
@@ -184,6 +297,9 @@ e3ffw_3DMF_transform_rotatepoint_write(const TQ3RotateAboutPointTransformData *o
 }
 
 
+
+
+
 //-----------------------------------------------------------------------------
 //      e3ffw_3DMF_transform_rotateaxis_traverse : Transform RotateAboutAxis traverse method.
 //-----------------------------------------------------------------------------
@@ -199,6 +315,10 @@ e3ffw_3DMF_transform_rotateaxis_traverse(TQ3Object object,
 	
 	return qd3dstatus;
 }
+
+
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_transform_rotateaxis_write : Transform RotateAboutAxis write method.
@@ -223,6 +343,9 @@ e3ffw_3DMF_transform_rotateaxis_write(const TQ3RotateAboutAxisTransformData *obj
 }
 
 
+
+
+
 //-----------------------------------------------------------------------------
 //      e3ffw_3DMF_transform_quaternion_traverse : Transform Quaternion traverse method.
 //-----------------------------------------------------------------------------
@@ -238,6 +361,9 @@ e3ffw_3DMF_transform_quaternion_traverse(TQ3Object object,
 	
 	return qd3dstatus;
 }
+
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_transform_quaternion_write : Transform Quaternion write method.
@@ -255,6 +381,10 @@ e3ffw_3DMF_transform_quaternion_write(const TQ3Quaternion *object,
 	
 	return(writeStatus);
 }
+
+
+
+
 
 //=============================================================================
 //      Attributes
@@ -377,6 +507,9 @@ e3ffw_3DMF_set_traverse(TQ3Object theSet,
 	return qd3dstatus;
 }
 
+
+
+
 //=============================================================================
 //      e3ffw_3DMF_attribute_surfaceuv_write : Surface UV attribute write method.
 //-----------------------------------------------------------------------------
@@ -395,6 +528,10 @@ e3ffw_3DMF_attribute_surfaceuv_write(const TQ3Param2D *object,
 	
 	return(writeStatus);
 }
+
+
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_attribute_shadinguv_write : Shading UV attribute write method.
@@ -415,6 +552,10 @@ e3ffw_3DMF_attribute_shadinguv_write(const TQ3Param2D *object,
 	return(writeStatus);
 }
 
+
+
+
+
 //=============================================================================
 //      e3ffw_3DMF_attribute_normal_write : Normal attribute write method.
 //-----------------------------------------------------------------------------
@@ -432,6 +573,10 @@ e3ffw_3DMF_attribute_normal_write(const TQ3Vector3D *object,
 	return(writeStatus);
 }
 
+
+
+
+
 //=============================================================================
 //      e3ffw_3DMF_attribute_ambientcoefficient_write : Ambient coefficient attribute write method.
 //-----------------------------------------------------------------------------
@@ -448,6 +593,10 @@ e3ffw_3DMF_attribute_ambientcoefficient_write(const TQ3Float32 *object,
 	
 	return(writeStatus);
 }
+
+
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_attribute_diffusecolor_write : Diffuse color attribute write method.
@@ -470,6 +619,9 @@ e3ffw_3DMF_attribute_diffusecolor_write(const TQ3ColorRGB *object,
 	return(writeStatus);
 }
 
+
+
+
 //=============================================================================
 //      e3ffw_3DMF_attribute_specularcolor_write : Specular color attribute write method.
 //-----------------------------------------------------------------------------
@@ -491,6 +643,9 @@ e3ffw_3DMF_attribute_specularcolor_write(const TQ3ColorRGB *object,
 	return(writeStatus);
 }
 
+
+
+
 //=============================================================================
 //      e3ffw_3DMF_attribute_specularcontrol_write : Specular control attribute write method.
 //-----------------------------------------------------------------------------
@@ -507,6 +662,9 @@ e3ffw_3DMF_attribute_specularcontrol_write(const TQ3Float32 *object,
 	
 	return(writeStatus);
 }
+
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_attribute_transparencycolor_write : Transparency color attribute write method.
@@ -529,6 +687,10 @@ e3ffw_3DMF_attribute_transparencycolor_write(const TQ3ColorRGB *object,
 	return(writeStatus);
 }
 
+
+
+
+
 //=============================================================================
 //      e3ffw_3DMF_attribute_surfacetangent_write : Surface tangent attribute write method.
 //-----------------------------------------------------------------------------
@@ -546,6 +708,9 @@ e3ffw_3DMF_attribute_surfacetangent_write(const TQ3Tangent2D *object,
 	return(writeStatus);
 }
 
+
+
+
 //=============================================================================
 //      e3ffw_3DMF_attribute_highlightstate_write : Highlight state attribute write method.
 //-----------------------------------------------------------------------------
@@ -562,6 +727,334 @@ e3ffw_3DMF_attribute_highlightstate_write(const TQ3Uns32 *object,
 	
 	return(writeStatus);
 }
+
+
+
+
+
+//=============================================================================
+//      Shaders
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_shader_traverse : Shader traverse method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_shader_traverse(TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(data)
+	TQ3ShaderUVBoundary		uBoundary;
+	TQ3ShaderUVBoundary		vBoundary;
+	TQ3Uns32*				boundaries;
+	TQ3Matrix3x3*			uvTransform;
+	const TQ3Matrix3x3	identityMatrix = { { { 1.0f, 0.0f, 0.0f},
+											{ 0.0f, 1.0f, 0.0f},
+											{ 0.0f,0.0f, 1.0f} } };
+
+
+
+	TQ3Status qd3dstatus;
+	
+	// Write uv Boundaries
+	
+	TQ3XObjectClass	theClass = Q3XObjectHierarchy_FindClassByType (kQ3ShapeTypeShader);
+	
+	if(theClass == NULL){
+		E3ErrorManager_PostWarning(kQ3WarningTypeHasNotBeenRegistered);
+		}
+	else{
+		qd3dstatus = Q3Shader_GetUBoundary (object, &uBoundary);
+		if(qd3dstatus != kQ3Success)
+			return qd3dstatus;
+			
+		qd3dstatus = Q3Shader_GetVBoundary (object, &vBoundary);
+		if(qd3dstatus != kQ3Success)
+			return qd3dstatus;
+			
+		if((uBoundary != kQ3ShaderUVBoundaryWrap) || (vBoundary != kQ3ShaderUVBoundaryWrap)){
+		
+			boundaries = (TQ3Uns32*)Q3Memory_Allocate (8);
+			if(boundaries == NULL)
+				return kQ3Failure;
+				
+			boundaries[0] = (TQ3Uns32)uBoundary;
+			boundaries[1] = (TQ3Uns32)vBoundary;
+			
+			theClass = Q3XObjectHierarchy_FindClassByType (kQ3ObjectTypeDisplayGroupState);
+	
+			qd3dstatus = Q3XView_SubmitSubObjectData (view, theClass, 8, boundaries, E3FFW_3DMF_Default_Delete);
+			if(qd3dstatus != kQ3Success){
+				Q3Memory_Free(&boundaries);
+				return qd3dstatus;
+				}
+			}
+		}
+	// Write uvTransform
+
+
+	theClass = Q3XObjectHierarchy_FindClassByType (kQ3ObjectTypeShaderUVTransform);
+	
+	if(theClass == NULL){
+		E3ErrorManager_PostWarning(kQ3WarningTypeHasNotBeenRegistered);
+		}
+	else{
+		uvTransform = (TQ3Matrix3x3*)Q3Memory_Allocate (sizeof(TQ3Matrix3x3));
+		if(uvTransform == NULL)
+			return kQ3Failure;
+			
+		qd3dstatus = Q3Shader_GetUVTransform (object, uvTransform);
+		if(qd3dstatus != kQ3Success)
+			return qd3dstatus;
+		if(memcmp(&identityMatrix, uvTransform, sizeof(TQ3Matrix3x3)) != 0){
+			qd3dstatus = Q3XView_SubmitSubObjectData (view, theClass, sizeof(TQ3Matrix3x3), uvTransform, E3FFW_3DMF_Default_Delete);
+			if(qd3dstatus != kQ3Success){
+				Q3Memory_Free(&uvTransform);
+				return qd3dstatus;
+				}
+			}
+		else
+			Q3Memory_Free(&uvTransform);
+		}
+	
+	return qd3dstatus;
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_shader_texture_traverse : Texture Shader traverse method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_shader_texture_traverse(TQ3Object object,
+					 TQ3TextureObject *data,
+					 TQ3ViewObject view)
+{	
+	TQ3Status qd3dstatus = kQ3Success;
+	
+	if(data == NULL || *data == NULL){
+		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
+		return qd3dstatus;
+		}
+	
+	qd3dstatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
+	if(qd3dstatus != kQ3Success)
+		return qd3dstatus;
+	
+	qd3dstatus = e3ffw_3DMF_shader_traverse (object, NULL, view);
+	if(qd3dstatus != kQ3Success)
+		return qd3dstatus;
+	
+	qd3dstatus = Q3Object_Submit(*data, view);
+	
+	return qd3dstatus;
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_shader_write : ShaderData write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_shader_write(TQ3Uns32 *object,TQ3FileObject theFile)
+{
+	TQ3Status						result = kQ3Success;
+
+		result = Q3Uns32_Write(object[0],theFile);
+		if(result != kQ3Success)
+			result = Q3Uns32_Write(object[1],theFile);
+
+	return(result);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_pixmap_traverse : PixMap traverse method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_pixmap_traverse(TQ3Object object,
+					 TQ3StoragePixmap *data,
+					 TQ3ViewObject view)
+{
+	TQ3Status       qd3dstatus = kQ3Success;
+
+	TQ3Size size;
+	
+	if(data == NULL || data->image == NULL){
+		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
+		return qd3dstatus;
+		}
+	
+	size = 28 + (data->rowBytes * data->height);
+	
+	size = Q3Size_Pad(size);
+	
+	qd3dstatus = Q3XView_SubmitWriteData (view, size, data, NULL);
+	
+	
+	return(qd3dstatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_pixmap_write : PixMap write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_pixmap_write(TQ3StoragePixmap *object,TQ3FileObject theFile)
+{
+
+	TQ3Status			qd3dStatus;
+	TQ3Uns32			imageSize;
+
+
+	// Write pixmap parameters
+	qd3dStatus = Q3Uns32_Write(object->width,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	qd3dStatus = Q3Uns32_Write(object->height,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	qd3dStatus = Q3Uns32_Write(object->rowBytes,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	qd3dStatus = Q3Uns32_Write(object->pixelSize,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	
+	qd3dStatus = Q3Uns32_Write(object->pixelType,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	
+	qd3dStatus = Q3Uns32_Write(object->bitOrder,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	
+	qd3dStatus = Q3Uns32_Write(object->byteOrder,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	
+	imageSize = object->height * object->rowBytes;
+	imageSize = Q3Size_Pad(imageSize);
+
+	qd3dStatus = e3ffw_3DMF_storage_write (object->image, imageSize, theFile);
+	
+	return(qd3dStatus);
+
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_mipmap_traverse : MipMap traverse method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_mipmap_traverse(TQ3Object object,
+					 TQ3Mipmap *data,
+					 TQ3ViewObject view)
+{
+	TQ3Status       qd3dstatus = kQ3Success;
+
+	TQ3Size size;
+	
+	if(data == NULL || data->image == NULL){
+		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
+		return qd3dstatus;
+		}
+	
+	if(data->useMipmapping == kQ3True){
+		E3ErrorManager_PostError(kQ3ErrorUnimplemented,kQ3False);
+		return kQ3Failure;
+		}
+	
+	size = 32 + (data->mipmaps[0].rowBytes * data->mipmaps[0].height);
+	
+	size = Q3Size_Pad(size);
+	
+	qd3dstatus = Q3XView_SubmitWriteData (view, size, data, NULL);
+	
+	
+	return (qd3dstatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_mipmap_write : MipMap write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_mipmap_write(TQ3Mipmap *object,TQ3FileObject theFile)
+{
+
+	TQ3Status			qd3dStatus;
+	TQ3Uns32			imageSize;
+
+	// Write pixmap parameters
+	qd3dStatus = Q3Uns32_Write(object->useMipmapping,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	qd3dStatus = Q3Uns32_Write(object->pixelType,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	qd3dStatus = Q3Uns32_Write(object->bitOrder,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	qd3dStatus = Q3Uns32_Write(object->byteOrder,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	qd3dStatus = Q3Uns32_Write(object->mipmaps[0].width,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	qd3dStatus = Q3Uns32_Write(object->mipmaps[0].height,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	qd3dStatus = Q3Uns32_Write(object->mipmaps[0].rowBytes,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	qd3dStatus = Q3Uns32_Write(object->mipmaps[0].offset,theFile);
+	if(qd3dStatus == kQ3Failure)
+		return(qd3dStatus);
+		
+	
+	imageSize = object->mipmaps[0].height * object->mipmaps[0].rowBytes;
+	imageSize = Q3Size_Pad(imageSize);
+
+	qd3dStatus = e3ffw_3DMF_storage_write (object->image, imageSize, theFile);
+	
+	return(qd3dStatus);
+
+}
+
+
+
+
 
 //=============================================================================
 //      Geometry
@@ -605,6 +1098,10 @@ e3ffw_3DMF_triangle_traverse(TQ3Object object,
 	
 	return qd3dstatus;
 }
+
+
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_triangle_write : Triangle write method.
@@ -1245,11 +1742,13 @@ E3FFW_3DMF_RegisterGeom()
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSurfaceTangent,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_surfacetangent_write);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeHighlightState,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_highlightstate_write);
 
-	//E3ClassTree_AddMethodByType(kQ3TextureTypePixmap,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3Read_3DMF_Texture_Pixmap);
-	//E3ClassTree_AddMethodByType(kQ3TextureTypeMipmap,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3Read_3DMF_Texture_Mipmap);
-	//E3ClassTree_AddMethodByType(kQ3TextureTypeCompressedPixmap,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Texture);
-	//E3ClassTree_AddMethodByType(kQ3ShapeTypeShader,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3fformat_3dmf_shader_read);
-	//E3ClassTree_AddMethodByType(kQ3SurfaceShaderTypeTexture,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Texture);
+	E3ClassTree_AddMethodByType(kQ3TextureTypePixmap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_pixmap_traverse);
+	E3ClassTree_AddMethodByType(kQ3TextureTypePixmap,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_pixmap_write);
+	E3ClassTree_AddMethodByType(kQ3TextureTypeMipmap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_mipmap_traverse);
+	E3ClassTree_AddMethodByType(kQ3TextureTypeMipmap,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_mipmap_write);
+	//E3ClassTree_AddMethodByType(kQ3TextureTypeCompressedPixmap,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)void);
+	E3ClassTree_AddMethodByType(kQ3ShapeTypeShader,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_shader_write);
+	E3ClassTree_AddMethodByType(kQ3SurfaceShaderTypeTexture,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_shader_texture_traverse);
 
 	// Triangle
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_triangle_traverse);
@@ -1257,6 +1756,7 @@ E3FFW_3DMF_RegisterGeom()
 	
 	return kQ3Success;
 }
+
 
 
 

@@ -172,6 +172,9 @@ e3fformat_3dmf_displaygroupstate_metahandler(TQ3XMethodType methodType)
 }
 
 
+
+
+
 //=============================================================================
 //      e3fformat_3dmf_shaderuvtransform_read : Shader UV Transform read method.
 //-----------------------------------------------------------------------------
@@ -205,6 +208,9 @@ e3fformat_3dmf_shaderuvtransform_read(TQ3FileObject theFile)
 }
 
 
+
+
+
 //=============================================================================
 //      e3fformat_3dmf_shaderuvtransform_write : Shader UV Transform read method.
 //-----------------------------------------------------------------------------
@@ -220,6 +226,10 @@ e3fformat_3dmf_shaderuvtransform_write(TQ3Matrix3x3 *object,TQ3FileObject theFil
 
 	return(result);
 }
+
+
+
+
 
 //=============================================================================
 //      e3fformat_3dmf_shader_read : Shader read method.
@@ -253,22 +263,6 @@ e3fformat_3dmf_shader_read(TQ3FileObject theFile)
 		}
 	
 	return(theObject);
-}
-
-
-//=============================================================================
-//      e3fformat_3dmf_shader_write : Shader UV Transform read method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3fformat_3dmf_shader_write(TQ3Uns32 *object,TQ3FileObject theFile)
-{
-	TQ3Status						result = kQ3Success;
-
-		result = Q3Uns32_Write(object[0],theFile);
-		if(result != kQ3Success)
-			result = Q3Uns32_Write(object[1],theFile);
-
-	return(result);
 }
 
 
