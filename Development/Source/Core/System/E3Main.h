@@ -86,9 +86,8 @@ private :
 
 
 // root object data
-class OpaqueTQ3Object
+struct OpaqueTQ3Object
 	{
-public :
 	enum
 		{
 		eClassDepth = 0 ,

@@ -78,10 +78,9 @@ enum
 //      Types
 //-----------------------------------------------------------------------------
 
-class OpaqueTQ3Object ;
 
 // Nodes in the class tree have all their fields private
-typedef struct E3ClassInfo *E3ClassInfoPtr ;
+typedef class E3ClassInfo *E3ClassInfoPtr ;
 
 // A single node within the class tree
 class E3ClassInfo
@@ -131,7 +130,7 @@ public :
 
 	
 	friend class E3ClassTree ;
-	friend class OpaqueTQ3Object ;
+	friend struct OpaqueTQ3Object ;
 	} ;
 
 
