@@ -149,7 +149,7 @@ IRGeometry_StartPass(TQ3InteractiveData *instanceData, TQ3CameraObject theCamera
 
 
 	// Record the type of camera we have
-	instanceData->cameraIsOrtho = (Q3Camera_GetType(theCamera) == kQ3CameraTypeOrthographic);
+	instanceData->cameraIsOrtho = (TQ3Boolean)(Q3Camera_GetType(theCamera) == kQ3CameraTypeOrthographic);
 }
 
 
@@ -193,7 +193,7 @@ IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttribut
 	if(geomAttributes != NULL)
 		{
         theMask = Q3XAttributeSet_GetMask(geomAttributes);
-		ir_geom_adjust_state(instanceData, geomAttributes, (needAttributesMask & theMask));
+		ir_geom_adjust_state(instanceData, geomAttributes, (TQ3XAttributeMask)(needAttributesMask & theMask));
 		
 	    if (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL)
 	    	{
@@ -201,7 +201,7 @@ IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttribut
 	    	
 	    	theMask |= hiliteMask; // add the hilite attributes
 	    	
-        	ir_geom_adjust_state(instanceData, instanceData->stateHilight,needAttributesMask & hiliteMask);
+        	ir_geom_adjust_state(instanceData, instanceData->stateHilight, (TQ3XAttributeMask)(needAttributesMask & hiliteMask));
         	
         	}
         
@@ -213,7 +213,7 @@ IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttribut
 				{
 				// Set our flag, apply it, and update the GL state
 				hadAttributeTexture = kQ3True;
-				IRRenderer_Update_Shader_Surface(theView, instanceData, theShader);
+				Q3Object_Submit( *theShader, theView );
 				}
 			}
 		}
@@ -712,7 +712,7 @@ IRGeometry_Submit_Triangle(TQ3ViewObject			theView,
 	hadAttributeTexture = IRGeometry_Attribute_Handler(theView,
 														geomData->triangleAttributeSet,
 														instanceData,
-														kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader);
+														(TQ3XAttributeMask)(kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader));
 
 
 
@@ -800,7 +800,7 @@ IRGeometry_Submit_Line(TQ3ViewObject			theView,
 
 	// Update our state for this object and the texture mapping
 	IRGeometry_Attribute_Handler(theView, geomData->lineAttributeSet,
-											instanceData, kQ3XAttributeMaskGeometry);
+											instanceData, (TQ3XAttributeMask)kQ3XAttributeMaskGeometry);
 
 
 
@@ -865,7 +865,7 @@ IRGeometry_Submit_Point(TQ3ViewObject				theView,
 
 	// Update our state for this object and the texture mapping
 	IRGeometry_Attribute_Handler(theView, geomData->pointAttributeSet,
-											instanceData, kQ3XAttributeMaskGeometry);
+											instanceData, (TQ3XAttributeMask)kQ3XAttributeMaskGeometry);
 
 
 
@@ -925,7 +925,7 @@ IRGeometry_Submit_PolyLine(TQ3ViewObject			theView,
 
 	// Update our state for this object and the texture mapping
 	IRGeometry_Attribute_Handler(theView, geomData->polyLineAttributeSet,
-											instanceData, kQ3XAttributeMaskGeometry);
+											instanceData, (TQ3XAttributeMask)kQ3XAttributeMaskGeometry);
 
 
 
