@@ -135,6 +135,9 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 }
 
 
+
+
+
 //=============================================================================
 //      e3geom_patch_disposedata : Dispose of a TQ3NURBPatch's data.
 //-----------------------------------------------------------------------------
@@ -156,6 +159,9 @@ e3geom_patch_disposedata(TQ3NURBPatchData *theNURBPatch)
 	}
 	E3Memory_Free( &theNURBPatch->trimLoops );	
 }
+
+
+
 
 
 //=============================================================================
@@ -232,13 +238,19 @@ e3geom_nurbpatch_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 
-/*
- * This is the recursive definition, as in the Schneider article, etc.
- * TODO: timing testing, because it's not clear this method is much slower than
- * 		 non-recursive algorithms.  Esp since this is cached.
- */
+
+
+//=============================================================================
+//      e3geom_nurbpatch_evaluate_basis : Evaluate the basis.
+//-----------------------------------------------------------------------------
+//		Note :	This is the recursive definition, as in the Schneider article.
+//				Needs further timing testing, because it's not clear this
+//				method is much slower than non-recursive algorithms.  Esp since
+//				this goes into a cached form (the trimesh).
+//-----------------------------------------------------------------------------
 static float
-e3_evaluate_nurbpatch_basis( float u, TQ3Uns32 i, TQ3Uns32 k, float *knots ) {
+e3geom_nurbpatch_evaluate_basis( float u, TQ3Uns32 i, TQ3Uns32 k, float *knots )
+{
 	
 	float theResult ;
 	float bottomL, bottomR, fracL, fracR ;
@@ -260,11 +272,11 @@ e3_evaluate_nurbpatch_basis( float u, TQ3Uns32 i, TQ3Uns32 k, float *knots ) {
 			
 		// stops recursing if we already know the result will be 0
 		if ( fracL > kQ3RealZero ) // fp inaccuracies
-			fracL *= e3_evaluate_nurbpatch_basis(u,i,k-1,knots) ;
+			fracL *= e3geom_nurbpatch_evaluate_basis(u,i,k-1,knots) ;
 		else fracL = 0.0f ;
 			
 		if ( fracR > kQ3RealZero ) // fp inaccuracies
-			fracR *= e3_evaluate_nurbpatch_basis(u,i+1,k-1,knots) ;
+			fracR *= e3geom_nurbpatch_evaluate_basis(u,i+1,k-1,knots) ;
 		else fracR = 0.0f ;
 		
 		theResult = fracL + fracR ;
@@ -273,15 +285,22 @@ e3_evaluate_nurbpatch_basis( float u, TQ3Uns32 i, TQ3Uns32 k, float *knots ) {
 	return theResult;
 }
 
-/*
- * Computes the derivative of the basis function
- *m/
+
+
+
+
+//=============================================================================
+//      e3geom_nurbpatch_evaluate_basis_deriv : Evaluate the basis derivative.
+//-----------------------------------------------------------------------------
+//		Note : Also lifted from the B,B,&B book.
+//-----------------------------------------------------------------------------
 static float
-e3_evaluate_nurbpatch_basis_deriv( float u, TQ3Uns32 i, TQ3Uns32 k, float *knots ) {
-		
+e3geom_nurbpatch_evaluate_basis_deriv( float u, TQ3Uns32 i, TQ3Uns32 k, float *knots )
+{
+	
 	//float theResult ;
 	float bottomL, bottomR, fracL, fracR ;
-
+	
 	bottomL = ( knots[i+k-1] - knots[i] ) ;
 	fracL =
 		( bottomL <= kQ3RealZero ) ? 0.0f : // floating point inaccuracies
@@ -293,46 +312,56 @@ e3_evaluate_nurbpatch_basis_deriv( float u, TQ3Uns32 i, TQ3Uns32 k, float *knots
 		
 	// stops recursing if we already know the result will be 0
 	if ( fracL > kQ3RealZero )	// fp inaccuracies
-		fracL *= e3_evaluate_nurbpatch_basis(u,i,k-1,knots) ;
+		fracL *= e3geom_nurbpatch_evaluate_basis(u,i,k-1,knots) ;
 	else fracL = 0.0f ;
 		
 	if ( fracR > kQ3RealZero ) // fp inaccuracies
-		fracR *= e3_evaluate_nurbpatch_basis(u,i+1,k-1,knots) ;
+		fracR *= e3geom_nurbpatch_evaluate_basis(u,i+1,k-1,knots) ;
 	else fracR = 0.0f ;
 	
 	//theResult = (k-1)*(fracL - fracR) ;
 	
 	return (k-1)*(fracL - fracR) ;
-}*/
+}
 
 
-/*
- * Evaluates the NURB patchData at u and v into outPoint, the normal into outNormal, and u and v into outuv
- */
+
+
+
+//=============================================================================
+//      e3geom_nurbpatch_evaluate_uv : Evaluate the NURB patch data.
+//-----------------------------------------------------------------------------
+//		Note :	Returns the coordinates into outPoint, the normal into
+//				outNormal, and u and v into outuv.
+//
+//				You could argue that e3geom_nurbpatch_evaluate_uv is a misnomer
+//				b/c it actually doesn't do anything for the uv's.
+//-----------------------------------------------------------------------------
 static void
-e3_evaluate_nurbpatch_uv( float u, float v, const TQ3NURBPatchData * patchData, /*TQ3Vector3D * outNormal, TQ3Param2D * outuv,*/ TQ3Point3D * outPoint ) {
+e3geom_nurbpatch_evaluate_uv( float u, float v, const TQ3NURBPatchData * patchData, TQ3Vector3D * outNormal, TQ3Point3D * outPoint )
+{
 	
-	TQ3Uns32	iU, jV ;
-	float			xTop, yTop, zTop;//, xTopDu, yTopDu, zTopDu, xTopDv, yTopDv, zTopDv ;
-	float			OneOverBottom, bottom;//, bottomDu, bottomDv ;
-	//TQ3Vector3D		dU, dV ;
+	TQ3Uns32		iU, jV ;
+	float			xTop, yTop, zTop, xTopDu, yTopDu, zTopDu, xTopDv, yTopDv, zTopDv ;
+	float			OneOverBottom, bottom, bottom_squared, bottomDu, bottomDv ;
+	TQ3Vector3D		dU, dV ;
 
 	float uBasisValues[ kQ3NURBPatchMaxOrder ];
 	float vBasisValues[ kQ3NURBPatchMaxOrder ];
-//	float uBasisDerivValues[ kQ3NURBPatchMaxOrder ];
-//	float vBasisDerivValues[ kQ3NURBPatchMaxOrder ];
+	float uBasisDerivValues[ kQ3NURBPatchMaxOrder ];
+	float vBasisDerivValues[ kQ3NURBPatchMaxOrder ];
 	// Let's...
-	xTop = yTop = zTop = bottom = 0.0f;//xTopDu = xTopDv = yTopDu = yTopDv = zTopDu = zTopDv = bottomDu = bottomDv = 0.0f ;
+	xTop = yTop = zTop = bottom = xTopDu = xTopDv = yTopDu = yTopDv = zTopDu = zTopDv = bottomDu = bottomDv = 0.0f ;
 	// Go
 	for ( iU = 0; iU < patchData->numColumns; iU++ ) {
-		uBasisValues[iU] = e3_evaluate_nurbpatch_basis( u, iU, patchData->uOrder, patchData->uKnots) ;
-		//uBasisDerivValues[iU] = e3_evaluate_nurbpatch_basis_deriv( u, iU, patchData->uOrder, patchData->uKnots) ;
+		uBasisValues[iU] = e3geom_nurbpatch_evaluate_basis( u, iU, patchData->uOrder, patchData->uKnots) ;
+		uBasisDerivValues[iU] = e3geom_nurbpatch_evaluate_basis_deriv( u, iU, patchData->uOrder, patchData->uKnots) ;
 	}
 
 	// Again
 	for ( jV = 0; jV < patchData->numRows; jV++ ) {
-		vBasisValues[jV] = e3_evaluate_nurbpatch_basis( v, jV, patchData->vOrder, patchData->vKnots) ;
-		//uBasisDerivValues[jV] = e3_evaluate_nurbpatch_basis_deriv( v, jV, patchData->vOrder, patchData->vKnots) ;
+		vBasisValues[jV] = e3geom_nurbpatch_evaluate_basis( v, jV, patchData->vOrder, patchData->vKnots) ;
+		vBasisDerivValues[jV] = e3geom_nurbpatch_evaluate_basis_deriv( v, jV, patchData->vOrder, patchData->vKnots) ;
 	}
 
 	// Now some summation rotation recreation, like p. 46-47 in Bartels, Beatty, & Barsky
@@ -343,61 +372,75 @@ e3_evaluate_nurbpatch_uv( float u, float v, const TQ3NURBPatchData * patchData, 
 			yTop += patchData->controlPoints[patchData->numColumns*jV + iU].y * uBasisValues[iU] * vBasisValues[jV] ;
 			zTop += patchData->controlPoints[patchData->numColumns*jV + iU].z * uBasisValues[iU] * vBasisValues[jV] ;
 			bottom += patchData->controlPoints[patchData->numColumns*jV + iU].w * uBasisValues[iU] * vBasisValues[jV] ;
-/*			// Now the derivative over u
+			/* Now let's take care of the derivatives */
+			/*
+			 * We will pretend that we've taken this recursive defition of the NURB evaluation.  Are you picturing this?  It has
+			 * a numerator and denominator.  Get a nice mental picture.  To do the derivative of it, we must use the chain rule:
+			 * ((low * Dhigh) - (high * Dlow)) / low^2.
+			 *
+			 * So for this upcoming loop, we are building the Du of the individual Top's and the bottom, as well as the Dv of the Top's
+			 * and bottom.
+			 * Then later I will put it together with that chain rule to get my answer.
+			 */
+			// So first Du
 			xTopDu += patchData->controlPoints[patchData->numColumns*jV + iU].x * uBasisDerivValues[iU] * vBasisValues[jV] ;
 			yTopDu += patchData->controlPoints[patchData->numColumns*jV + iU].y * uBasisDerivValues[iU] * vBasisValues[jV] ;
 			zTopDu += patchData->controlPoints[patchData->numColumns*jV + iU].z * uBasisDerivValues[iU] * vBasisValues[jV] ;
 			bottomDu += patchData->controlPoints[patchData->numColumns*jV + iU].w * uBasisDerivValues[iU] * vBasisValues[jV] ;
-			// Now the derivative over v
+			// And next Dv
 			xTopDv += patchData->controlPoints[patchData->numColumns*jV + iU].x * uBasisValues[iU] * vBasisDerivValues[jV] ;
 			yTopDv += patchData->controlPoints[patchData->numColumns*jV + iU].y * uBasisValues[iU] * vBasisDerivValues[jV] ;
 			zTopDv += patchData->controlPoints[patchData->numColumns*jV + iU].z * uBasisValues[iU] * vBasisDerivValues[jV] ;
 			bottomDv += patchData->controlPoints[patchData->numColumns*jV + iU].w * uBasisValues[iU] * vBasisDerivValues[jV] ;
-*/
-		}
-		
-	}
+	}	}
+	
+	bottom_squared = bottom * bottom ;
 	
 	// The point
 	OneOverBottom = 1.0f / bottom ;
 	outPoint->x = xTop * OneOverBottom ;
 	outPoint->y = yTop * OneOverBottom ;
 	outPoint->z = zTop * OneOverBottom ;
-/*
-	// The derivative vector on u
-	OneOverBottom = 1.0f / bottomDu ;
-	dU.x = xTopDu * OneOverBottom ;
-	dU.y = yTopDu * OneOverBottom ;
-	dU.z = zTopDu * OneOverBottom ;
 	
-	// The derivative vector on v
-	OneOverBottom = 1.0f / bottomDv ;
-	dV.x = xTopDv * OneOverBottom ;
-	dV.y = yTopDv * OneOverBottom ;
-	dV.z = zTopDv * OneOverBottom ;
+	/* The Du vector */
+	// low^2 = bottom^2
+	OneOverBottom = 1.0f / bottom_squared ;
+	// ((low * Dhigh) - (high * Dlow)) / bottom^2
+	dU.x = ((bottom * xTopDu) - (xTop * bottomDu))*OneOverBottom ;
+	dU.y = ((bottom * yTopDu) - (yTop * bottomDu))*OneOverBottom ;
+	dU.z = ((bottom * zTopDu) - (zTop * bottomDu))*OneOverBottom ;
 	
-	outuv->u = E3Vector3D_Length((const TQ3Vector3D *)&dU);
-	outuv->v = E3Vector3D_Length((const TQ3Vector3D *)&dV);
+	/* The Dv vector */
+	// low^2 = bottom^2
+//	OneOverBottom = 1.0f / bottom_squared ;
+	// ((low * Dhigh) - (high * Dlow)) / bottom^2
+	dV.x = ((bottom * xTopDv) - (xTop * bottomDv))*OneOverBottom ;
+	dV.y = ((bottom * yTopDv) - (yTop * bottomDv))*OneOverBottom ;
+	dV.z = ((bottom * zTopDv) - (zTop * bottomDv))*OneOverBottom ;
 	
-	E3Vector3D_Cross( (const TQ3Vector3D *)&dU, (const TQ3Vector3D *)&dV, outNormal );
-*/	
+//	outuv->u = E3Vector3D_Length((const TQ3Vector3D *)&dU);
+//	outuv->v = E3Vector3D_Length((const TQ3Vector3D *)&dV);
+	
+	Q3Vector3D_Cross( (const TQ3Vector3D *)&dU, (const TQ3Vector3D *)&dV, outNormal );
+
+	// Make sure the final normal is normalised
+	Q3Vector3D_Normalize( (const TQ3Vector3D *)outNormal, outNormal );
+	
 	return;
 }
 
 
-/*
- * Computes the normal of the NURB patchData at u and v into outVector
- *m/
-static void
-e3_evaluate_nurbpatch_normal( float u, float v, const TQ3NURBPatchData * patchData, TQ3Vector3D * outVector ) {
-}*/
 
 
-/*
- * Finds all of the 'interesting' (non-repetitive knots)
- */
+
+//=============================================================================
+//      e3geom_nurbpatch_interesting_knots : Find the interesting knots.
+//-----------------------------------------------------------------------------
+//		Note : Interesting == non-repetitive.
+//-----------------------------------------------------------------------------
 static TQ3Uns32
-e3_interesting_knots( float * inKnots, TQ3Uns32 numPoints, TQ3Uns32 order, float * interestingK ) {
+e3geom_nurbpatch_interesting_knots( float * inKnots, TQ3Uns32 numPoints, TQ3Uns32 order, float * interestingK )
+{
 	TQ3Uns32 start, stop, n;
 	interestingK[0] = inKnots[order - 1];
 	start = 0;
@@ -419,6 +462,8 @@ e3_interesting_knots( float * inKnots, TQ3Uns32 numPoints, TQ3Uns32 order, float
 
 
 
+
+
 //=============================================================================
 //      e3geom_nurbpatch_cache_new : NURBPatch cache new method.
 //-----------------------------------------------------------------------------
@@ -427,12 +472,12 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 {	TQ3TriMeshData			triMeshData;
 	TQ3GeometryObject		theTriMesh;
 	TQ3Point3D 				*points;
-//	TQ3Vector3D 			*normals, uVec, vVec;
-//	TQ3Param2D				*uvs;
+	TQ3Vector3D 			*normals; //, uVec, vVec;
+	TQ3Param2D				*uvs;
 	TQ3TriMeshTriangleData	*triangles;
 	TQ3SubdivisionStyleData	subdivisionData;
-//	TQ3TriMeshAttributeData	vertexAttributes[2];
-	float					incrementU, incrementV, curIncrU, curIncrV, curU, curV;
+	TQ3TriMeshAttributeData	vertexAttributes[2];
+	float					incrementU, incrementV, curIncrU, curIncrV, curU, curV, subdivU = 10.0f, subdivV = 10.0f;
 	float					*interestingU, *interestingV;
 	TQ3Uns32				curKnotU, curKnotV, u, v, ptInd, trInd,
 							numIntU, numIntV, numrows, numcolumns, numpoints, numtriangles;
@@ -440,23 +485,39 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 
 	// Get the subdivision style, figure out how to tessellate.
 	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
+		subdivU = subdivisionData.c1;
+		subdivV = subdivisionData.c2;
 		switch (subdivisionData.method) {
 			// For now, let's do these subdivisions together
 			case kQ3SubdivisionMethodScreenSpace: // Not implemented
+				// Let's play make-believe
+//				subdivU *= 4.0f / 15.0f;
+//				subdivV *= 4.0f / 15.0f; // divide by 15.0f because ScreenSpace falls through to WorldSpace
 			case kQ3SubdivisionMethodWorldSpace: // Not implemented
+				// Snufalufagus
+//				subdivU *= 15.0f;
+//				subdivV *= 15.0f;
+				
+				// My what an arbitrary number you have!
+				// The better to visualize you with.
+				subdivU = subdivV = 30.0f;
 			case kQ3SubdivisionMethodConstant:
+				// First some sanity checking on subdivisionData
+				subdivU = (TQ3Uns32)E3Num_Max(E3Num_Min(subdivU, 256.0f), 1.0f);
+				subdivV = (TQ3Uns32)E3Num_Max(E3Num_Min(subdivV, 256.0f), 1.0f);
+				
 				// Find the interesting knots (ie skip the repeated knots)
 				interestingU = (float *) E3Memory_Allocate((geomData->numColumns - geomData->uOrder + 2) * sizeof(float));
 				if (interestingU == NULL)
 					return(NULL);
-				numIntU = e3_interesting_knots( geomData->uKnots, geomData->numColumns, geomData->uOrder, interestingU );
-				numcolumns = (numIntU-1)*((TQ3Uns32)subdivisionData.c1) + 1;
+				numIntU = e3geom_nurbpatch_interesting_knots( geomData->uKnots, geomData->numColumns, geomData->uOrder, interestingU );
+				numcolumns = (numIntU-1)*((TQ3Uns32)subdivU) + 1;
 				
 				interestingV = (float *) E3Memory_Allocate((geomData->numRows - geomData->vOrder + 2) * sizeof(float));
 				if (interestingV == NULL)
 					return(NULL);
-				numIntV = e3_interesting_knots( geomData->vKnots, geomData->numRows, geomData->vOrder, interestingV );
-				numrows = (numIntV-1)*((TQ3Uns32)subdivisionData.c2) + 1;
+				numIntV = e3geom_nurbpatch_interesting_knots( geomData->vKnots, geomData->numRows, geomData->vOrder, interestingV );
+				numrows = (numIntV-1)*((TQ3Uns32)subdivV) + 1;
 				
 				// sanity checking the subdivisionData
 				// What should these numbers be?
@@ -468,26 +529,24 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 				numtriangles = (numrows - 1)*(numcolumns - 1)*2;
 				
 				// Allocate some memory for the TriMesh
-				// Until there is normal and uv support I am doing an AllocateClear
-				// Actually, I'm not going to allocate anything at all
 				points    = (TQ3Point3D *)             E3Memory_Allocate(numpoints    * sizeof(TQ3Point3D));
-//				normals   = (TQ3Vector3D *)            E3Memory_AllocateClear(numpoints    * sizeof(TQ3Vector3D));
-//				uvs       = (TQ3Param2D  *)            E3Memory_AllocateClear(numpoints    * sizeof(TQ3Param2D));
+				normals   = (TQ3Vector3D *)            E3Memory_Allocate(numpoints    * sizeof(TQ3Vector3D));
+				uvs       = (TQ3Param2D  *)            E3Memory_Allocate(numpoints    * sizeof(TQ3Param2D));
 				triangles = (TQ3TriMeshTriangleData *) E3Memory_Allocate(numtriangles * sizeof(TQ3TriMeshTriangleData));
 
-				if (points == NULL || /*normals == NULL || uvs == NULL ||*/ triangles == NULL) {
+				if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL) {
 					E3Memory_Free(&points);
-//					E3Memory_Free(&normals);
-//					E3Memory_Free(&uvs);
+					E3Memory_Free(&normals);
+					E3Memory_Free(&uvs);
 					E3Memory_Free(&triangles);
 					
 					return(NULL);
 				}
 				// Outer V loop
 				for (curKnotV = 0; curKnotV < numIntV - 1; curKnotV++ ) {
-					incrementV = (interestingV[curKnotV+1] - interestingV[curKnotV]) / subdivisionData.c2;
+					incrementV = (interestingV[curKnotV+1] - interestingV[curKnotV]) / subdivV;
 					
-					for (curIncrV = 0.0f; curIncrV < subdivisionData.c2; curIncrV+=1.0f ) {
+					for (curIncrV = 0.0f; curIncrV < subdivV; curIncrV+=1.0f ) {
 						curV = interestingV[curKnotV] + curIncrV*incrementV;
 #if Q3_DEBUG
 						Q3_ASSERT( curV >= interestingV[0] );
@@ -496,60 +555,57 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 						
 						// Inner U loop
 						for (curKnotU = 0; curKnotU < numIntU - 1; curKnotU++ ) {
-							incrementU = (interestingU[curKnotU+1] - interestingU[curKnotU]) / subdivisionData.c1;
+							incrementU = (interestingU[curKnotU+1] - interestingU[curKnotU]) / subdivU;
 							
-							for (curIncrU = 0.0f; curIncrU < subdivisionData.c1; curIncrU+=1.0f ) {
+							for (curIncrU = 0.0f; curIncrU < subdivU; curIncrU+=1.0f ) {
 									curU = interestingU[curKnotU] + curIncrU*incrementU;
 #if Q3_DEBUG
 									Q3_ASSERT( curU >= interestingU[0] );
 									Q3_ASSERT( curU <= interestingU[numIntU-1] );
 #endif
 									
-									ptInd =  ( curKnotV*(TQ3Uns32)subdivisionData.c2+(TQ3Uns32)curIncrV )*numcolumns + 
-											curKnotU*(TQ3Uns32)subdivisionData.c1+(TQ3Uns32)curIncrU ;
+									ptInd =  ( curKnotV*(TQ3Uns32)subdivV+(TQ3Uns32)curIncrV )*numcolumns + 
+											curKnotU*(TQ3Uns32)subdivU+(TQ3Uns32)curIncrU ;
+									// Let's try this for our uv's
+									uvs[ptInd].u = curU ;
+									uvs[ptInd].v = curV ;
+									
 #if Q3_DEBUG
 									Q3_ASSERT( ptInd >= 0 && ptInd < numpoints );
 #endif
-								e3_evaluate_nurbpatch_uv(
+								e3geom_nurbpatch_evaluate_uv(
 														curU,
 														curV,
 														geomData,
-														//&normals[ptInd],
+														&normals[ptInd],
 														//&uvs[ptInd],
 														&points[ptInd] );
-								/*e3_evaluate_nurbpatch_normal(
-														curU,
-														curV,
-														geomData,
-														&normals[ptInd] );*/
 							}
 						}
 						// Cap evaluation for u
-							ptInd = ( curKnotV*(TQ3Uns32)subdivisionData.c2+(TQ3Uns32)curIncrV )*numcolumns +
-									numcolumns - 1;
+						ptInd = ( curKnotV*(TQ3Uns32)subdivV+(TQ3Uns32)curIncrV )*numcolumns +
+								numcolumns - 1;
+						// Let's try this for our uv's
+						uvs[ptInd].u = interestingU[numIntU - 1] ;
+						uvs[ptInd].v = curV ;
 #if Q3_DEBUG
-							Q3_ASSERT( ptInd >= 0 && ptInd < numpoints );
+						Q3_ASSERT( ptInd >= 0 && ptInd < numpoints );
 #endif
-						e3_evaluate_nurbpatch_uv(
+						e3geom_nurbpatch_evaluate_uv(
 													interestingU[numIntU - 1],
 													curV,
 													geomData,
-													//&normals[ptInd],
+													&normals[ptInd],
 													//&uvs[ptInd],
 													&points[ptInd] );
-						/*e3_evaluate_nurbpatch_normal(
-													interestingU[numIntU - 1],
-													curV,
-													geomData,
-													&normals[ptInd] );*/
 
 					}
 				}
 				// Final evaluation loop (on the v-cap)
 				for (curKnotU = 0; curKnotU < numIntU - 1; curKnotU++ ) {
-					incrementU = (interestingU[curKnotU+1] - interestingU[curKnotU]) / subdivisionData.c1;
+					incrementU = (interestingU[curKnotU+1] - interestingU[curKnotU]) / subdivU;
 					
-					for (curIncrU = 0.0f; curIncrU < subdivisionData.c1; curIncrU+=1.0f ) {
+					for (curIncrU = 0.0f; curIncrU < subdivU; curIncrU+=1.0f ) {
 							curU = interestingU[curKnotU] + curIncrU*incrementU;
 #if Q3_DEBUG
 							Q3_ASSERT( curU >= interestingU[0] );
@@ -557,41 +613,37 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 #endif
 							
 							ptInd =  (numrows - 1)*numcolumns + 
-									curKnotU*(TQ3Uns32)subdivisionData.c1+(TQ3Uns32)curIncrU ;
+									curKnotU*(TQ3Uns32)subdivU+(TQ3Uns32)curIncrU ;
+							// Let's try this for our uv's
+							uvs[ptInd].u = curU ;
+							uvs[ptInd].v = interestingV[numIntV - 1] ;
 #if Q3_DEBUG
 							Q3_ASSERT( ptInd >= 0 && ptInd < numpoints );
 #endif
-						e3_evaluate_nurbpatch_uv(
+						e3geom_nurbpatch_evaluate_uv(
 												curU,
 												interestingV[numIntV - 1],
 												geomData,
-												//&normals[ptInd],
+												&normals[ptInd],
 												//&uvs[ptInd],
 												&points[ptInd] );
-						/*e3_evaluate_nurbpatch_normal(
-												curU,
-												interestingV[numIntV - 1],
-												geomData,
-												&normals[ptInd] );*/
 					}
 				}
 				// The grande finale cap evaluation
 					ptInd = numpoints - 1;
+					// Let's try this for our uv's
+					uvs[ptInd].u = interestingU[numIntU - 1] ;
+					uvs[ptInd].v = interestingV[numIntV - 1] ;
 #if Q3_DEBUG
 					Q3_ASSERT( ptInd >= 0 && ptInd < numpoints );
 #endif
-				e3_evaluate_nurbpatch_uv(
+				e3geom_nurbpatch_evaluate_uv(
 											interestingU[numIntU - 1],
 											interestingV[numIntV - 1],
 											geomData,
-											//&normals[ptInd],
+											&normals[ptInd],
 											//&uvs[ptInd],
 											&points[numpoints - 1] );
-				/*e3_evaluate_nurbpatch_normal(
-											interestingU[numIntU - 1],
-											interestingV[numIntV - 1],
-											geomData,
-											&normals[numpoints - 1] );*/
 				
 				break;
 		}
@@ -642,7 +694,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 															Q3_ASSERT( ptInd >= 0 && ptInd < numpoints );
 #endif
 			triangles[trInd].pointIndices[0] = ptInd;
-															ptInd =(v+1)*numcolumns + u/2 +1;
+															ptInd = (v+1)*numcolumns + u/2 +1;
 #if Q3_DEBUG
 															Q3_ASSERT( ptInd >= 0 && ptInd < numpoints );
 #endif
@@ -682,7 +734,9 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 #if Q3_DEBUG
 	Q3_ASSERT( v*(numcolumns-1)*2 == numtriangles );
 #endif
-	
+
+//  Uncomment this and get a big flat square approximating the surface.
+//	Not very interesting if what is supposed to work does ;)
 //	triangles[0].pointIndices[0] = 0;
 //	triangles[0].pointIndices[1] = numpoints-1;//numcolumns - 1;
 //	triangles[0].pointIndices[2] = (numrows-1)*(numcolumns);
@@ -695,13 +749,18 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 					&triMeshData.triMeshAttributeSet );
 
 	// set up remaining trimesh data
-/*	vertexAttributes[0].attributeType     = kQ3AttributeTypeNormal;
+	vertexAttributes[0].attributeType     = kQ3AttributeTypeNormal;
 	vertexAttributes[0].data              = normals;
 	vertexAttributes[0].attributeUseArray = NULL;
 
 	vertexAttributes[1].attributeType     = kQ3AttributeTypeSurfaceUV;
 	vertexAttributes[1].data              = uvs;
 	vertexAttributes[1].attributeUseArray = NULL;
+
+/*
+	vertexAttributes[0].attributeType     = kQ3AttributeTypeSurfaceUV;
+	vertexAttributes[0].data              = uvs;
+	vertexAttributes[0].attributeUseArray = NULL;
 */
 
 	triMeshData.numPoints                 = numpoints;
@@ -714,8 +773,8 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	triMeshData.edges                     = NULL;
 	triMeshData.numEdgeAttributeTypes     = 0;
 	triMeshData.edgeAttributeTypes        = NULL;
-	triMeshData.numVertexAttributeTypes   = 0;//2;
-	triMeshData.vertexAttributeTypes      = NULL;//vertexAttributes;
+	triMeshData.numVertexAttributeTypes   = 2;
+	triMeshData.vertexAttributeTypes      = vertexAttributes;
 
 	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox,
 									triMeshData.points,
@@ -732,8 +791,8 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	// Clean up
 	E3Object_DisposeAndForget(triMeshData.triMeshAttributeSet);
 	E3Memory_Free(&points);
-//	E3Memory_Free(&normals);
-//	E3Memory_Free(&uvs);
+	E3Memory_Free(&normals);
+	E3Memory_Free(&uvs);
 	E3Memory_Free(&triangles);
 
 
@@ -778,21 +837,8 @@ e3geom_nurbpatch_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 #pragma unused(objectType)
 #pragma unused(theObject)
 
-/* Unused.  Posterity's sake.
-	TQ3Uns32	i, numPoints;
-	TQ3Point3D		*boundP;
 
 
-	// Bounds are easy to do for a NURB, it's the control points
-	numPoints = instanceData->numRows * instanceData->numColumns;
-	boundP = (TQ3Point3D *) E3Memory_AllocateClear( sizeof(TQ3Point3D) * numPoints );
-	if ( boundP == NULL )
-			return(kQ3Failure);
-	
-	// We just have to get them from 4D to 3D
-	//for ( i = 0; i < numPoints; i++ )
-		//E3RationalPoint4D_To3D( &instanceData->controlPoints[i], &boundP[i] );
-*/
 	// Update the bounds
 	E3View_UpdateBounds(theView, instanceData->numRows * instanceData->numColumns, sizeof(TQ3RationalPoint4D), (TQ3Point3D *)instanceData->controlPoints);
 	
