@@ -250,7 +250,7 @@ typedef struct TQ3ViewAngleAspectCameraData {
  *      kQ3CameraTypeViewPlane. Returns kQ3ObjectTypeInvalid if the camera type
  *      is unknown.
  *
- *  @param camera           The camera to test.
+ *  @param camera           The camera to query.
  *  @result                 The type of the camera object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
