@@ -157,6 +157,20 @@ e3fformat_3dmf_bottomcapsset_read(TQ3FileObject theFile)
 
 
 
+//=============================================================================
+//      e3ffw_3DMF_Object_Delete :  Called to delete the end cap attribute object
+//									submitted by e3fformat_3dmf_capsset_traverse.
+//
+//		Note: e3ffw_3DMF_write_objects has a provision for deleting a temporary
+//			object, but it doesn't apply in this case because the cap objects
+//			are not shared.
+//-----------------------------------------------------------------------------
+static void
+e3ffw_3DMF_Object_Delete(void *data)
+{
+	 Q3Object_Dispose( (TQ3Object) data );
+}
+
 
 
 //=============================================================================
@@ -170,6 +184,20 @@ e3fformat_3dmf_facecapsset_read(TQ3FileObject theFile)
 }
 
 
+//=============================================================================
+//      e3fformat_3dmf_capsset_traverse : Creates and read a top/bottom/face caps attribute set from a 3DMF.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_capsset_traverse( TQ3Object object, void *data, TQ3ViewObject view )
+{
+	TQ3Status	status = Q3XView_SubmitWriteData( view, 0, object, e3ffw_3DMF_Object_Delete );
+
+	// submit the attribute set packaged in the end cap attribute set
+	if (status == kQ3Success)
+		status = Q3Object_Submit( (TQ3Object)data, view );
+	
+	return status;
+}
 
 
 
@@ -270,6 +298,21 @@ e3fformat_3dmf_geometry_caps_read(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      e3fformat_3dmf_geometry_caps_write : Cylinder and Cone Caps write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_geometry_caps_write( const TQ3Uns32* inCapsFlag, TQ3FileObject theFile )
+{
+	TQ3Status	status = Q3Uns32_Write( *inCapsFlag, theFile );
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_geometry_caps_metahandler : Cylinder and Cone Caps metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -283,6 +326,11 @@ e3fformat_3dmf_geometry_caps_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_geometry_caps_read;
 			break;
+			
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_geometry_caps_write;
+			break;
+			
 		}
 	
 	return(theMethod);
@@ -1437,6 +1485,10 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeTopCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_topcapsset_read);
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeBottomCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_bottomcapsset_read);
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeFaceCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_facecapsset_read);
+	
+	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeFaceCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
+	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeBottomCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
+	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeTopCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
 	
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSurfaceUV,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SurfaceUV);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeShadingUV,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_ShadingUV);
