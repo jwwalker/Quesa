@@ -530,6 +530,7 @@ Q3PathStorage_New(const char *pathName)
 
 
 
+
 //=============================================================================
 //      Q3PathStorage_Set : Quesa API entry point.
 //-----------------------------------------------------------------------------
@@ -570,6 +571,7 @@ Q3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName)
 
 
 
+
 //=============================================================================
 //      Q3PathStorage_Get : Quesa API entry point.
 //-----------------------------------------------------------------------------
@@ -606,6 +608,7 @@ Q3PathStorage_Get(TQ3StorageObject theStorage, char *pathName)
 	return(E3PathStorage_Get(theStorage, pathName));
 }
 #endif
+
 
 
 
