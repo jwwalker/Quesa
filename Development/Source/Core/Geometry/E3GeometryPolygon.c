@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -52,6 +52,20 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Polygon : public E3Geometry // This is a leaf class so no other files use this,
+									// so it can be local and hance all the fields public
+	{
+public :
+
+	TQ3PolygonData		instanceData ;
+	} ;
+	
 
 
 //=============================================================================
@@ -364,13 +378,10 @@ e3geom_polygon_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_polygon_get_attribute(TQ3GeometryObject theObject)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypePolygon);
-
-
-
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->polygonAttributeSet);
-}
+	return & ( (E3Polygon*) theObject )->instanceData.polygonAttributeSet ;
+	}
 
 
 
@@ -436,11 +447,11 @@ E3GeometryPolygon_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypePolygon,
 											kQ3ClassNameGeometryPolygon,
 											e3geom_polygon_metahandler,
-											sizeof(TQ3PolygonData));
+											~sizeof(E3Polygon));
 
 	return(qd3dStatus);
 }
@@ -509,44 +520,41 @@ E3Polygon_Submit(const TQ3PolygonData *polygonData, TQ3ViewObject theView)
 //      E3Polygon_SetData : Set the data for a polygon.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polygon_SetData(TQ3GeometryObject thePolygon, const TQ3PolygonData *polygonData)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
-	TQ3Vertex3D			*newVertices;
-	TQ3Uns32			n;
-
-
+E3Polygon_SetData ( TQ3GeometryObject thePolygon, const TQ3PolygonData *polygonData )
+	{
+	E3Polygon* poly = (E3Polygon*) thePolygon ;
 
 	// Allocate some space for the new vertices
-	newVertices = (TQ3Vertex3D *) Q3Memory_Allocate(polygonData->numVertices * sizeof(TQ3Vertex3D));
+	TQ3Vertex3D* newVertices = (TQ3Vertex3D *) Q3Memory_Allocate(polygonData->numVertices * sizeof(TQ3Vertex3D));
 	if (newVertices == NULL)
 		return(kQ3Failure);
 
 
 
 	// Dispose of the existing data
-	for (n = 0; n < instanceData->numVertices; n++)
-		Q3Object_CleanDispose(&instanceData->vertices[n].attributeSet);
+	for ( TQ3Uns32 m = 0 ; m < poly->instanceData.numVertices ; ++m )
+		Q3Object_CleanDispose(&poly->instanceData.vertices[m].attributeSet);
 
-	Q3Memory_Free(&instanceData->vertices);
+	Q3Memory_Free(&poly->instanceData.vertices);
 
 
 
 	// Copy the new data
-	instanceData->numVertices = polygonData->numVertices;
-	instanceData->vertices    = newVertices;
+	poly->instanceData.numVertices = polygonData->numVertices;
+	poly->instanceData.vertices    = newVertices;
 
-	for (n = 0; n < instanceData->numVertices; n++)
+	for ( TQ3Uns32 n = 0 ; n < poly->instanceData.numVertices ; ++n )
 		{
-		instanceData->vertices[n].point = polygonData->vertices[n].point;
-		E3Shared_Acquire(&instanceData->vertices[n].attributeSet, polygonData->vertices[n].attributeSet);
+		poly->instanceData.vertices[n].point = polygonData->vertices[n].point;
+		E3Shared_Acquire(&poly->instanceData.vertices[n].attributeSet, polygonData->vertices[n].attributeSet);
 		}
 
-	E3Shared_Replace(&instanceData->polygonAttributeSet, polygonData->polygonAttributeSet);
+	E3Shared_Replace(&poly->instanceData.polygonAttributeSet, polygonData->polygonAttributeSet);
 
 	Q3Shared_Edited(thePolygon);
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -556,34 +564,33 @@ E3Polygon_SetData(TQ3GeometryObject thePolygon, const TQ3PolygonData *polygonDat
 //      E3Polygon_GetData : Get the data for a polygon.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polygon_GetData(TQ3GeometryObject thePolygon, TQ3PolygonData *polygonData)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
-	TQ3Vertex3D			*newVertices;
-	TQ3Uns32			n;
+E3Polygon_GetData ( TQ3GeometryObject thePolygon, TQ3PolygonData *polygonData )
+	{
+	E3Polygon* poly = (E3Polygon*) thePolygon ;
 
 
 
 	// Allocate some space for the new vertices
-	newVertices = (TQ3Vertex3D *) Q3Memory_Allocate(instanceData->numVertices * sizeof(TQ3Vertex3D));
+	TQ3Vertex3D* newVertices = (TQ3Vertex3D *) Q3Memory_Allocate ( poly->instanceData.numVertices * sizeof ( TQ3Vertex3D ) ) ;
 	if (newVertices == NULL)
 		return(kQ3Failure);
 
 
 
 	// Copy the data
-	polygonData->numVertices = instanceData->numVertices;
+	polygonData->numVertices = poly->instanceData.numVertices;
 	polygonData->vertices    = newVertices;
 
-	for (n = 0; n < polygonData->numVertices; n++)
+	for ( TQ3Uns32 n = 0 ; n < polygonData->numVertices ; ++n )
 		{
-		polygonData->vertices[n].point = instanceData->vertices[n].point;
-		E3Shared_Acquire(& polygonData->vertices[n].attributeSet, instanceData->vertices[n].attributeSet);
+		polygonData->vertices[n].point = poly->instanceData.vertices[n].point;
+		E3Shared_Acquire(& polygonData->vertices[n].attributeSet, poly->instanceData.vertices[n].attributeSet);
 		}
 
-	E3Shared_Acquire(&polygonData->polygonAttributeSet, instanceData->polygonAttributeSet);
+	E3Shared_Acquire(&polygonData->polygonAttributeSet, poly->instanceData.polygonAttributeSet);
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -616,16 +623,13 @@ E3Polygon_EmptyData(TQ3PolygonData *polygonData)
 //      E3Polygon_GetVertexPosition : Get the position for a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polygon_GetVertexPosition(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3Point3D *point)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
-
-
-
+E3Polygon_GetVertexPosition ( TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3Point3D *point )
+	{
 	// Get the vertex position
-	*point = instanceData->vertices[index].point;
+	*point = ( (E3Polygon*) thePolygon )->instanceData.vertices [ index ].point ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -635,18 +639,15 @@ E3Polygon_GetVertexPosition(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3Poi
 //      E3Polygon_SetVertexPosition : Set the position for a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polygon_SetVertexPosition(TQ3GeometryObject thePolygon, TQ3Uns32 index, const TQ3Point3D *point)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
-
-
-
+E3Polygon_SetVertexPosition ( TQ3GeometryObject thePolygon, TQ3Uns32 index, const TQ3Point3D *point )
+	{
 	// Set the vertex position
-	instanceData->vertices[index].point = *point;
+	( (E3Polygon*) thePolygon )->instanceData.vertices [ index ].point = *point ;
 	
-	Q3Shared_Edited(thePolygon);
+	Q3Shared_Edited ( thePolygon ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -656,16 +657,13 @@ E3Polygon_SetVertexPosition(TQ3GeometryObject thePolygon, TQ3Uns32 index, const 
 //      E3Polygon_GetVertexAttributeSet : Get the attribute set for a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polygon_GetVertexAttributeSet(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
-
-
-
+E3Polygon_GetVertexAttributeSet ( TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3AttributeSet *attributeSet )
+	{
 	// Get the vertex attribute set
-	E3Shared_Acquire(attributeSet, instanceData->vertices[index].attributeSet);
+	E3Shared_Acquire ( attributeSet, ( (E3Polygon*) thePolygon )->instanceData.vertices [ index ].attributeSet ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -675,15 +673,12 @@ E3Polygon_GetVertexAttributeSet(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ
 //      E3Polygon_SetVertexAttributeSet : Set the attribute set for a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Polygon_SetVertexAttributeSet(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3AttributeSet attributeSet)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
-
-
-
+E3Polygon_SetVertexAttributeSet ( TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3AttributeSet attributeSet )
+	{
 	// Set the vertex attribute set
-	E3Shared_Replace(&instanceData->vertices[index].attributeSet, attributeSet);
+	E3Shared_Replace ( & ( (E3Polygon*) thePolygon )->instanceData.vertices [ index ].attributeSet, attributeSet ) ;
 	
-	Q3Shared_Edited(thePolygon);
+	Q3Shared_Edited ( thePolygon ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
