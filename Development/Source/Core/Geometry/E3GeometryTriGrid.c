@@ -269,19 +269,13 @@ e3geom_trigrid_addtriangle(TQ3GroupObject			group,
 	//
 	// We ensure there is a triangle normal for each face, to allow efficient
 	// culling even if no normal has been defined.
-	triangleData.triangleAttributeSet = Q3AttributeSet_New();
+	if (geomData->facetAttributeSet != NULL && geomData->facetAttributeSet[tnum] != NULL)
+		triangleData.triangleAttributeSet = Q3Shared_GetReference( geomData->facetAttributeSet[tnum] );
+	else
+		triangleData.triangleAttributeSet = Q3AttributeSet_New();
+
 	if (triangleData.triangleAttributeSet != NULL)
 		{
-		if (geomData->triGridAttributeSet != NULL)
-			Q3AttributeSet_Inherit(geomData->triGridAttributeSet,
-								   triangleData.triangleAttributeSet,
-								   triangleData.triangleAttributeSet);
-		
-		if (geomData->facetAttributeSet != NULL && geomData->facetAttributeSet[tnum] != NULL)
-			Q3AttributeSet_Inherit(geomData->facetAttributeSet[tnum],
-								   triangleData.triangleAttributeSet,
-								   triangleData.triangleAttributeSet);
-
 		if (!Q3AttributeSet_Contains(triangleData.triangleAttributeSet, kQ3AttributeTypeNormal))
 			{
 			// Calculate the triangle normal
@@ -376,6 +370,9 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		theGroup = Q3DisplayGroup_New();
 		if (theGroup == NULL)
 			return(NULL);
+		
+		if (geomData->triGridAttributeSet != NULL)
+			Q3Group_AddObject( theGroup, geomData->triGridAttributeSet );
 
 		// Add a bunch of triangles to the group
 		for (row=0; row < geomData->numRows-1; row++) {
