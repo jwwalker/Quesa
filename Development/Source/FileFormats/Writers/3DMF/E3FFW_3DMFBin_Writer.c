@@ -547,7 +547,11 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 				Q3_ASSERT(pos+instanceData->stack[i].size == instanceData->baseData.currentStoragePosition);
 				}
 			//call deletedata if any
-			E3Shared_Replace(&instanceData->stack[i].theObject,NULL);
+			if (instanceData->stack[i].theObject != NULL && Q3Object_IsType(instanceData->stack[i].theObject, kQ3ObjectTypeShared))
+				E3Shared_Replace(&instanceData->stack[i].theObject,NULL);
+			else
+				instanceData->stack[i].theObject = NULL;
+				
 			if(instanceData->stack[i].deleteData != NULL)
 				instanceData->stack[i].deleteData(instanceData->stack[i].data);
 			
@@ -728,7 +732,11 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 	newItem->level = instanceData->baseData.groupDeepCounter-1;
 	newItem->objectType = instanceData->lastObjectType;
 	// retain objects that could be created and disposed on the fly in a parents' traverse method
-	E3Shared_Acquire (&newItem->theObject, instanceData->lastObject);
+	if (instanceData->lastObject != NULL && Q3Object_IsType(instanceData->lastObject, kQ3ObjectTypeShared))
+		E3Shared_Acquire (&newItem->theObject, instanceData->lastObject);
+	else
+		newItem->theObject = instanceData->lastObject;
+		
 	newItem->writeMethod = writeMethod;
 	newItem->size = size;
 	newItem->tocIndex = instanceData->lastTocIndex;
