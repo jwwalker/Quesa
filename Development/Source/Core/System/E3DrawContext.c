@@ -173,6 +173,26 @@ e3drawcontext_pixmap_update(TQ3DrawContextObject theDrawContext)
 
 
 //=============================================================================
+//      e3drawcontext_pixmap_get_dimensions : Pixmap draw context dimensions.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_pixmap_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+
+
+
+	// Return our dimensions
+	thePane->min.x = 0.0f;
+	thePane->min.y = 0.0f;
+	thePane->max.x = instanceData->data.pixmapData.pixmap.width;
+	thePane->max.y = instanceData->data.pixmapData.pixmap.height;
+}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_pixmap_metahandler : Pixmap draw context metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -193,6 +213,10 @@ e3drawcontext_pixmap_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeDrawContextUpdate:
 			theMethod = (TQ3XFunctionPointer) e3drawcontext_pixmap_update;
+			break;
+
+		case kQ3XMethodTypeDrawContextGetDimensions:
+			theMethod = (TQ3XFunctionPointer) e3drawcontext_pixmap_get_dimensions;
 			break;
 		}
 	
@@ -550,6 +574,13 @@ E3DrawContext_GetData(TQ3DrawContextObject drawContext, TQ3DrawContextData *cont
 
 	// Return the data
 	*contextData = instanceData->data.common;
+
+
+
+	// If we don't have a pane set, grab the full size before returning
+	if (!contextData->paneState)
+		Q3DrawContext_GetPane(drawContext, &contextData->pane);
+
 	return(kQ3Success);
 }
 
@@ -628,13 +659,36 @@ E3DrawContext_SetPane(TQ3DrawContextObject drawContext, const TQ3Area *pane)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_GetPane(TQ3DrawContextObject drawContext, TQ3Area *pane)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData					*instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+	TQ3Status								qd3dStatus    = kQ3Success;
+	TQ3XDrawContextGetDimensionsMethod		getDimensionsMethod;
 
 
 
-	// Return the pane
-	*pane = instanceData->data.common.pane;
-	return(kQ3Success);
+	// If we have a pane, return it
+	if (instanceData->data.common.paneState)
+		*pane = instanceData->data.common.pane;
+
+
+	// Otherwise, fetch the full bounds of the draw context
+	else
+		{
+		// Find the method
+		getDimensionsMethod = (TQ3XDrawContextGetDimensionsMethod)
+								E3ClassTree_GetMethod(drawContext->theClass,
+													  kQ3XMethodTypeDrawContextGetDimensions);
+		
+		// Get the full dimensions
+		if (getDimensionsMethod != NULL)
+			getDimensionsMethod(drawContext, pane);
+		else
+			{
+			Q3Memory_Clear(pane, sizeof(TQ3Area));
+			qd3dStatus = kQ3Failure;
+			}
+		}
+
+	return(qd3dStatus);
 }
 
 
