@@ -449,6 +449,11 @@ qut_initialise_platform(int nCmdShow)
 	if (qd3dStatus != kQ3Success)
 		return(FALSE);
 
+	Qut_Initialise();
+	App_Initialise();
+
+
+
 	if (gWindow == NULL)
 		return(FALSE);
 
@@ -778,9 +783,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	if (!qut_initialise_platform(nCmdShow)) 
 		return(FALSE);
-
-	Qut_Initialise();
-	App_Initialise();
 
 
 
