@@ -221,11 +221,12 @@ enum {
  *  @constant kQATextureFilter_Mid     Perform some filtering.
  *  @constant kQATextureFilter_Best    Perform high quality filtering.
  */
-typedef enum {
+typedef unsigned long TQ3TextureFilter;
+enum {
     kQATextureFilter_Fast                       = 0,                // Pick nearest pixel
     kQATextureFilter_Mid                        = 1,                // Perform some filtering
     kQATextureFilter_Best                       = 2                 // Perform high quality filtering
-} TQ3TextureFilter;
+};
 
 
 /*!
@@ -250,7 +251,8 @@ typedef enum {
  *  @constant kQAVendor_PurpleShark         Purple Shark D3D shim.
  *  @constant kQAVendor_VillageTronic       VillageTronic.
  */
-typedef enum {
+typedef long TQ3RaveVendorID;
+enum {
     kQAVendor_BestChoice                        = -1,
     kQAVendor_Apple                             = 0,
     kQAVendor_ATI                               = 1,
@@ -266,7 +268,7 @@ typedef enum {
     kQAVendor_MicroConversions                  = 11,
     kQAVendor_PurpleShark                       = 12,
     kQAVendor_VillageTronic                     = 14
-} TQ3RaveVendorID;
+};
 
 
 /*!
@@ -280,12 +282,13 @@ typedef enum {
  *  @constant kQAEngine_AppleHW2    Another Apple accelerator.
  *  @constant kQAEngine_AppleHW3    Yet another Apple accelerator.
  */
-typedef enum {
+typedef long TQ3RaveEngineID;
+enum {
     kQAEngine_AppleSW                           = 0,
     kQAEngine_AppleHW                           = -1,
     kQAEngine_AppleHW2                          = 1,
     kQAEngine_AppleHW3                          = 2
-} TQ3RaveEngineID;
+};
 
 
 
