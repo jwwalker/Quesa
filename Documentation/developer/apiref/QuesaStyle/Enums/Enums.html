@@ -1,0 +1,201 @@
+<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
+<a name="//apple_ref/c/tag/TQ3AntiAliasModeMasks"></a>
+<h3><a name="TQ3AntiAliasModeMasks">TQ3AntiAliasModeMasks</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3AntiAliasModeMaskEdges                   = (1 << 0),
+    kQ3AntiAliasModeMaskFilled                  = (1 << 1)
+#if QUESA_ALLOW_QD3D_EXTENSIONS    
+    ,
+    kQ3AntiAliasModeMaskFullScreen              = (1 << 2)
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+} TQ3AntiAliasModeMasks;
+</pre>
+</blockquote>
+<p>Anti-alias style selectors.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AntiAliasModeMaskEdges"><tt>kQ3AntiAliasModeMaskEdges</tt></a></td><td>Apply anti-aliasing to wireframe objects.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AntiAliasModeMaskFilled"><tt>kQ3AntiAliasModeMaskFilled</tt></a></td><td>Apply anti-aliasing to filled objects.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AntiAliasModeMaskFullScreen"><tt>kQ3AntiAliasModeMaskFullScreen</tt></a></td><td>Apply global anti-aliasing (e.g., FSAA).
+Not supported by QD3D.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3BackfacingStyle"></a>
+<h3><a name="TQ3BackfacingStyle">TQ3BackfacingStyle</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3BackfacingStyleBoth                      = 0,
+    kQ3BackfacingStyleRemove                    = 1,
+    kQ3BackfacingStyleFlip                      = 2
+} TQ3BackfacingStyle;
+</pre>
+</blockquote>
+<p>Backfacing styles.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3BackfacingStyleBoth"><tt>kQ3BackfacingStyleBoth</tt></a></td><td>Both backfacing and front facing surfaces
+are rendered.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3BackfacingStyleRemove"><tt>kQ3BackfacingStyleRemove</tt></a></td><td>Backfacing surfaces are removed before rendering.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3BackfacingStyleFlip"><tt>kQ3BackfacingStyleFlip</tt></a></td><td>Both backfacing and front facing surfaces are
+rendered, and the surface normals of backfacing
+surfaces are inverted before rendering.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3FillStyle"></a>
+<h3><a name="TQ3FillStyle">TQ3FillStyle</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3FillStyleFilled                          = 0,
+    kQ3FillStyleEdges                           = 1,
+    kQ3FillStylePoints                          = 2
+} TQ3FillStyle;
+</pre>
+</blockquote>
+<p>Fill styles.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FillStyleFilled"><tt>kQ3FillStyleFilled</tt></a></td><td>Shapes are rendered as filled surfaces.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FillStyleEdges"><tt>kQ3FillStyleEdges</tt></a></td><td>Shapes are rendered as sets of lines.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FillStylePoints"><tt>kQ3FillStylePoints</tt></a></td><td>Shapes are rendered as sets of points.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3FogMode"></a>
+<h3><a name="TQ3FogMode">TQ3FogMode</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3FogModeLinear                            = 0,
+    kQ3FogModeExponential                       = 1,
+    kQ3FogModeExponentialSquared                = 2,
+    kQ3FogModeAlpha                             = 3
+} TQ3FogMode;
+</pre>
+</blockquote>
+<p>Indicates how fog increases in density with distance.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FogModeLinear"><tt>kQ3FogModeLinear</tt></a></td><td>Fog == (End - Z) / (End - Start)</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FogModeExponential"><tt>kQ3FogModeExponential</tt></a></td><td>Fog == exp(-Density * z)</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FogModeExponentialSquared"><tt>kQ3FogModeExponentialSquared</tt></a></td><td>Fog == exp(-Density * z * Density * Z).</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FogModeAlpha"><tt>kQ3FogModeAlpha</tt></a></td><td>Fog == Vertex Alpha</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3InterpolationStyle"></a>
+<h3><a name="TQ3InterpolationStyle">TQ3InterpolationStyle</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3InterpolationStyleNone                   = 0,
+    kQ3InterpolationStyleVertex                 = 1,
+    kQ3InterpolationStylePixel                  = 2
+} TQ3InterpolationStyle;
+</pre>
+</blockquote>
+<p>Interpolation styles.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3InterpolationStyleNone"><tt>kQ3InterpolationStyleNone</tt></a></td><td>Faces are rendered with a uniform illumination.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3InterpolationStyleVertex"><tt>kQ3InterpolationStyleVertex</tt></a></td><td>Individual vertices are shaded, and their values
+are interpolated across each face.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3InterpolationStylePixel"><tt>kQ3InterpolationStylePixel</tt></a></td><td>Individual pixels are shaded. Is not typically
+supported by interactive renderers.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3OrientationStyle"></a>
+<h3><a name="TQ3OrientationStyle">TQ3OrientationStyle</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3OrientationStyleCounterClockwise         = 0,
+    kQ3OrientationStyleClockwise                = 1
+} TQ3OrientationStyle;
+</pre>
+</blockquote>
+<p>Defines the "front facing" side of polygons.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3OrientationStyleCounterClockwise"><tt>kQ3OrientationStyleCounterClockwise</tt></a></td><td>The front face is defined as CCW order.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3OrientationStyleClockwise"><tt>kQ3OrientationStyleClockwise</tt></a></td><td>The front face is defined as CW order.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3PickPartsMasks"></a>
+<h3><a name="TQ3PickPartsMasks">TQ3PickPartsMasks</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3PickPartsObject                          = 0,
+    kQ3PickPartsMaskFace                        = (1 << 0),
+    kQ3PickPartsMaskEdge                        = (1 << 1),
+    kQ3PickPartsMaskVertex                      = (1 << 2)
+} TQ3PickPartsMasks;
+</pre>
+</blockquote>
+<p>Indicates the kind of objects placed in a hit list.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickPartsObject"><tt>kQ3PickPartsObject</tt></a></td><td>The hit list contains whole objects.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickPartsMaskFace"><tt>kQ3PickPartsMaskFace</tt></a></td><td>The hit list contains faces.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickPartsMaskEdge"><tt>kQ3PickPartsMaskEdge</tt></a></td><td>The hit list contains edges.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickPartsMaskVertex"><tt>kQ3PickPartsMaskVertex</tt></a></td><td>The hit list contains vertices.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3SubdivisionMethod"></a>
+<h3><a name="TQ3SubdivisionMethod">TQ3SubdivisionMethod</a></h3>
+<blockquote><pre>
+typedef enum {
+    kQ3SubdivisionMethodConstant                = 0,
+    kQ3SubdivisionMethodWorldSpace              = 1,
+    kQ3SubdivisionMethodScreenSpace             = 2
+} TQ3SubdivisionMethod;
+</pre>
+</blockquote>
+<p>Subdivision methods.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SubdivisionMethodConstant"><tt>kQ3SubdivisionMethodConstant</tt></a></td><td>Surfaces are divided into the specified
+number of segments.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SubdivisionMethodWorldSpace"><tt>kQ3SubdivisionMethodWorldSpace</tt></a></td><td>Surfaces are divided into segments smaller
+than the specified size in world-space.</td><tr>
+<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SubdivisionMethodScreenSpace"><tt>kQ3SubdivisionMethodScreenSpace</tt></a></td><td>Surfaces are divided into segments smaller
+than the specified size in pixels.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 3/29/2002 </a></font></p>
+</body></html>
