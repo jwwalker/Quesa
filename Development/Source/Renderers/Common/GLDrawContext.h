@@ -99,6 +99,9 @@ TQ3Boolean			GLDrawContext_UpdateWindowPosition(
 GLfloat				GLDrawContext_GetMinLineWidth(
 								void					*glContext);
 
+TQ3Status			GLDrawContext_UpdateSize(
+								TQ3DrawContextObject	theDrawContext,
+								void					*glContext );
 
 
 
