@@ -94,6 +94,7 @@ appConfigureView(TQ3ViewObject				theView,
 {	float			xBounds, yBounds, zBounds, scaleFactor;
 	TQ3BoundingBox	theBounds;
 	TQ3ShaderObject	newShader = NULL ;
+	TQ3RendererObject	theRenderer = NULL;
 #pragma unused(theView)
 #pragma unused(theCamera)
 
@@ -101,6 +102,13 @@ appConfigureView(TQ3ViewObject				theView,
 
 	// Adjust the background colour
 	Q3DrawContext_SetClearImageColor(theDrawContext, &kColourARGBBackground);
+
+
+
+	// Adjust the texture filter
+	Q3View_GetRenderer( theView, &theRenderer );
+	Q3InteractiveRenderer_SetRAVETextureFilter( theRenderer, kQATextureFilter_Fast );
+	Q3Object_Dispose( theRenderer );
 
 
 
@@ -179,12 +187,106 @@ appRender(TQ3ViewObject theView)
 
 
 
+
+
+
+
+
+#if QUESA_OS_MACINTOSH
+//=============================================================================
+//      showMessage : Display a message in a debugger or console.
+//-----------------------------------------------------------------------------
+static void showMessage( const char* inMessage )
+{
+	unsigned char	msg[256];
+	int		msgLen;
+	
+	msgLen = strlen( inMessage );
+	if (msgLen > 255)
+	{
+		msgLen = 255;
+	}
+	msg[0] = msgLen;
+	memcpy( &msg[1], inMessage, msgLen );
+	DebugStr( msg );
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      errorCallback : Receive notification of errors.
+//-----------------------------------------------------------------------------
+static void errorCallback( TQ3Error            firstError,
+                            TQ3Error            lastError,
+                            TQ3Int32            userData )
+{
+#pragma unused( lastError, userData )
+	const char*	theText;
+	
+	theText = Q3Error_ToString( kQ3LanguageDefault, firstError );
+#if QUESA_OS_MACINTOSH
+	showMessage( theText );
+#endif
+}
+
+
+
+
+
+//=============================================================================
+//      warningCallback : Receive notification of warnings.
+//-----------------------------------------------------------------------------
+static void warningCallback( TQ3Warning          firstWarning,
+                            TQ3Warning          lastWarning,
+                            TQ3Int32            userData )
+{
+#pragma unused( lastWarning, userData )
+	const char*	theText;
+	
+	theText = Q3Warning_ToString( kQ3LanguageDefault, firstWarning );
+#if QUESA_OS_MACINTOSH
+	showMessage( theText );
+#endif
+}
+
+
+
+
+
+//=============================================================================
+//      noticeCallback : Receive notification of notices.
+//-----------------------------------------------------------------------------
+static void noticeCallback( TQ3Notice           firstNotice,
+                            TQ3Notice           lastNotice,
+                            TQ3Int32            userData )
+{
+#pragma unused( lastNotice, userData )
+	const char*	theText;
+	
+	theText = Q3Notice_ToString( kQ3LanguageDefault, firstNotice );
+#if QUESA_OS_MACINTOSH
+	showMessage( theText );
+#endif
+}
+
+
+
+
+
 //=============================================================================
 //      App_Initialise : Initialise the app.
 //-----------------------------------------------------------------------------
 void
 App_Initialise(void)
 {
+	// Install error handlers.
+	Q3Error_Register( errorCallback, 0 );
+	Q3Warning_Register( warningCallback, 0 );
+	Q3Notice_Register( noticeCallback, 0 );
+
 
 
 	// Create the geometry
