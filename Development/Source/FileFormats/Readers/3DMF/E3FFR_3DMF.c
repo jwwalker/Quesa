@@ -345,11 +345,13 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 		while ((Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) && (i< instanceData->nCorners))
 			{
 			childObject = Q3File_ReadObject(theFile);
+			k = Q3Shared_GetReferenceCount(childObject);
 			if (childObject != NULL)
 				{
 				Q3_ASSERT (Q3Object_IsType (childObject, kQ3SetTypeAttribute));
 				E3Shared_Replace(&instanceData->corners[i].attributeSet,childObject);
 				Q3Object_Dispose(childObject);
+				k = Q3Shared_GetReferenceCount(childObject);
 				}
 			i++;
 			}
@@ -397,6 +399,79 @@ e3fformat_3dmf_meshcorners_delete(TQ3Object theObject, void *privateData)
 
 
 
+//=============================================================================
+//      e3ffw_3DMF_meshcorner_traverse : Traverse method for scale and translate transforms.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_meshcorner_traverse(TQ3Object object,
+					 TE3FFormat3DMF_MeshCorners_Data *data,
+					 TQ3ViewObject view)
+{
+	#pragma unused(object)
+	TQ3Uns32		i,meshCornersSize;
+	TQ3Status 		status = kQ3Success;
+	
+	if(data->corners != NULL && data->nCorners != 0)
+		{
+		
+		meshCornersSize = 4; // nCorners
+		
+		for (i = 0 ; i < data->nCorners; i++)
+			{
+			meshCornersSize += 4/* vertexIndex */ + 4 /* nFaces */ + (4 * data->corners[i].nFaces)/* faces */;
+			}
+			
+		status = Q3XView_SubmitWriteData (view, meshCornersSize, (void*)data, NULL);
+		
+		for (i = 0 ; i < data->nCorners && status == kQ3Success; i++)
+			{
+			status = Q3Object_Submit (data->corners[i].attributeSet, view);
+			}
+			
+		}
+
+		
+	return status;
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_meshcorner_write :  Write method for scale and translate transforms.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_meshcorner_write(const TE3FFormat3DMF_MeshCorners_Data *data,
+				TQ3FileObject theFile)
+{
+	TQ3Uns32		i,j;
+
+	TQ3Status 		writeStatus;
+	
+	// write the numCorners
+	writeStatus = Q3Uns32_Write(data->nCorners,theFile);
+		
+	for(i = 0; i < data->nCorners && writeStatus == kQ3Success; i++)
+		{
+		writeStatus = Q3Uns32_Write(data->corners[i].vertexIndex, theFile );
+
+		if(writeStatus == kQ3Success)
+			writeStatus = Q3Uns32_Write(data->corners[i].nFaces, theFile );
+			
+		for(j = 0; j < data->corners[i].nFaces && writeStatus == kQ3Success; j++)
+			{
+			writeStatus = Q3Uns32_Write(data->corners[i].faces[j], theFile);
+			}
+		}
+
+	return(writeStatus);
+}
+
+
+
+
 
 
 //=============================================================================
@@ -415,6 +490,12 @@ e3fformat_3dmf_meshcorners_metahandler(TQ3XMethodType methodType)
 			break;
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_meshcorners_read;
+			break;
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3DMF_meshcorner_traverse;
+			break;
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) e3ffw_3DMF_meshcorner_write;
 			break;
 		}
 	
@@ -1708,14 +1789,14 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 											0);
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
 											kQ3ObjectTypeMeshCorners,
 											kQ3ClassNameMeshCorners,
 											e3fformat_3dmf_meshcorners_metahandler,
 											sizeof(TE3FFormat3DMF_MeshCorners_Data));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
 											kQ3ObjectTypeMeshEdges,
 											kQ3ClassNameMeshEdges,
 											e3fformat_3dmf_meshedges_metahandler,
@@ -2128,6 +2209,102 @@ E3FFormat_3DMF_CapsAttributes_Get(TQ3Object theObject)
 {
 	return(*(TQ3AttributeSet*)theObject->instanceData);
 }
+
+
+
+
+//=============================================================================
+//      E3FFormat_3DMF_MeshCorners_New : meshcorners build method.
+//-----------------------------------------------------------------------------
+// this code is only used by the mesh traverse method
+//-----------------------------------------------------------------------------
+TQ3Object
+E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
+{
+	TQ3Object	theObject = NULL;
+	TE3FFormat3DMF_MeshCorners_Data		*instanceData;
+	TQ3Uns32	i,j,k;
+	TQ3Uns32	numCorners = 0;
+	TQ3Status	status = kQ3Failure;
+	
+	// count corners
+	for(i = 0; i < meshData->numVertices; i++)
+		{
+		numCorners += meshData->vertices[i].numCorners;
+		}
+	
+	if (numCorners == 0)
+		return (theObject);
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeMeshCorners, kQ3False, NULL);
+	
+	if(theObject){
+	
+		instanceData = (TE3FFormat3DMF_MeshCorners_Data *) E3ClassTree_FindInstanceData(theObject,
+                      kQ3ObjectTypeMeshCorners);
+	
+	
+		// allocate the array of corners
+		instanceData->corners = Q3Memory_AllocateClear (numCorners * sizeof(TE3FFormat3DMF_MeshCorner_Data));
+		
+		if(instanceData->corners == NULL)
+			goto fail;
+			
+		instanceData->nCorners = numCorners;
+		
+		numCorners = 0;
+		
+		// fill the corners from array of vertices
+		for(i = 0; i < meshData->numVertices; i++)
+			{
+			if(meshData->vertices[i].numCorners > 0)
+				{
+				
+				for(j = 0; j < meshData->vertices[i].numCorners; j++)
+					{
+					if(meshData->vertices[i].corners[j].cornerAttributeSet != NULL)
+						{
+					
+						instanceData->corners[numCorners].vertexIndex = i;
+						instanceData->corners[numCorners].faces = 
+									Q3Memory_AllocateClear(meshData->vertices[i].corners[j].numFaces * sizeof(TQ3Uns32));
+						if(instanceData->corners[numCorners].faces == NULL)
+							goto fail;
+							
+						instanceData->corners[numCorners].nFaces = meshData->vertices[i].corners[j].numFaces;
+						
+						for(k = 0; k < instanceData->corners[numCorners].nFaces; k++)
+							{
+							instanceData->corners[numCorners].faces[k] = meshData->vertices[i].corners[j].faceIndices[k];
+							}
+							
+						E3Shared_Replace(&instanceData->corners[numCorners].attributeSet,meshData->vertices[i].corners[j].cornerAttributeSet);
+						
+						numCorners++;
+						}
+					else
+						{
+						instanceData->nCorners--;
+						if(instanceData->nCorners == 0)
+							goto fail;
+						}
+					}
+					
+				}
+			}
+	
+		}
+	
+	return(theObject);
+	
+fail:
+	if(theObject)
+		Q3Object_Dispose(theObject);
+	
+	return(NULL);
+}
+
 
 
 

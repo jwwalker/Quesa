@@ -130,7 +130,6 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 
 
 
-
 //=============================================================================
 //      Transforms
 //-----------------------------------------------------------------------------
@@ -152,7 +151,6 @@ e3ffw_3DMF_transform_vector_traverse(TQ3Object object,
 
 
 
-
 //=============================================================================
 //      e3ffw_3DMF_transform_vector_write :  Write method for scale and translate transforms.
 //-----------------------------------------------------------------------------
@@ -168,7 +166,6 @@ e3ffw_3DMF_transform_vector_write(const TQ3Vector3D *object,
 		
 	return(writeStatus);
 }
-
 
 
 
@@ -1617,7 +1614,7 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 	TQ3MeshData*		meshData;
 	TQ3Uns32 			meshSize;
 	TQ3Uns32 			i,j;
-	TQ3Object 			attributeList = NULL;
+	TQ3Object 			subobject = NULL;
 	TQ3Status			status;
 	
 	meshData = Q3Memory_Allocate(sizeof(TQ3MeshData));
@@ -1651,20 +1648,20 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 	if (status == kQ3Success)
 		{
 		
-		attributeList = E3FFormat_3DMF_VertexAttributeSetList_New (meshData->numVertices);
+		subobject = E3FFormat_3DMF_VertexAttributeSetList_New (meshData->numVertices);
 		
-		if(attributeList){
+		if(subobject){
 		
 			for(i = 0; i < meshData->numVertices && status == kQ3Success; i++)
 				{
 				if(meshData->vertices[i].attributeSet != NULL){
-					status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, meshData->vertices[i].attributeSet);
+					status = E3FFormat_3DMF_AttributeSetList_Set (subobject, i, meshData->vertices[i].attributeSet);
 					}
 				}
 				
 			if(status == kQ3Success)
-				status = Q3Object_Submit (attributeList, view);
-			Q3Object_CleanDispose(&attributeList);
+				status = Q3Object_Submit (subobject, view);
+			Q3Object_CleanDispose(&subobject);
 			
 			}
 		else
@@ -1678,20 +1675,20 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 	if (status == kQ3Success)
 		{
 		
-		attributeList = E3FFormat_3DMF_FaceAttributeSetList_New (meshData->numFaces);
+		subobject = E3FFormat_3DMF_FaceAttributeSetList_New (meshData->numFaces);
 		
-		if(attributeList){
+		if(subobject){
 		
 			for(i = 0; i < meshData->numFaces && status == kQ3Success; i++)
 				{
 				if(meshData->faces[i].faceAttributeSet != NULL){
-					status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, meshData->faces[i].faceAttributeSet);
+					status = E3FFormat_3DMF_AttributeSetList_Set (subobject, i, meshData->faces[i].faceAttributeSet);
 					}
 				}
 				
 			if(status == kQ3Success)
-				status = Q3Object_Submit (attributeList, view);
-			Q3Object_CleanDispose(&attributeList);
+				status = Q3Object_Submit (subobject, view);
+			Q3Object_CleanDispose(&subobject);
 			
 			}
 		else
@@ -1700,7 +1697,19 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 			}
 		
 		}
+		
+	// mesh corners
+	if (status == kQ3Success)
+		{
+		subobject = E3FFormat_3DMF_MeshCorners_New(meshData);
 	
+		if(subobject)
+			{
+			status = Q3Object_Submit (subobject, view);
+			Q3Object_CleanDispose(&subobject);
+			}
+		}
+		
 	
 	// Overall attribute set
 	if ( (status == kQ3Success) && (meshData->meshAttributeSet != NULL) )
