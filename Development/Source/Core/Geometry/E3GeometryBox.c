@@ -160,7 +160,8 @@ e3geom_box_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 					 TQ3Object toObject,   void       *toPrivateData)
 {	TQ3BoxData				*toInstanceData = (TQ3BoxData *) toPrivateData;
 	TQ3BoxData				*fromInstanceData = (TQ3BoxData *) fromPrivateData;
-	TQ3Status				qd3dStatus;
+	TQ3Uns32				n;
+	
 #pragma unused(toObject)
 
 
@@ -191,14 +192,17 @@ e3geom_box_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 				if(fromInstanceData->faceAttributeSet[n] != NULL)
 					toInstanceData->faceAttributeSet[n] = Q3Object_Duplicate(fromInstanceData->faceAttributeSet[n]);
 				else
-					toInstanceData->faceAttributeSet[n];
+					toInstanceData->faceAttributeSet[n] = NULL;
 			}
 		}
 	
 	// duplicate the box attributes
-	toInstanceData->boxAttributeSet = Q3Object_Duplicate(fromInstanceData->boxAttributeSet);
-
-	return(qd3dStatus);
+	if(fromInstanceData->boxAttributeSet)
+		toInstanceData->boxAttributeSet = Q3Object_Duplicate(fromInstanceData->boxAttributeSet);
+	else
+		toInstanceData->boxAttributeSet;
+		
+	return(kQ3Success);
 }
 
 
