@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,6 +46,7 @@
 #include "E3Prefix.h"
 #include "E3Set.h"
 #include "E3ClassTree.h"
+#include "E3Main.h"
 #include "E3FFR_3DMF.h"
 #include "E3FFR_3DMF_Bin.h"
 #include "E3FFR_3DMF_Text.h"
@@ -56,6 +57,253 @@
 #include "E3FFW_3DMFBin_Writer.h"
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3AttibuteSetList : public E3Shared // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	TE3FFormat3DMF_AttributeSetList_Data	instanceData ;
+	} ;
+	
+
+
+class E3GeomAttributeSetList : public E3AttibuteSetList  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3FaceAttributeSetList : public E3AttibuteSetList  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3VertexAttributeSetList : public E3AttibuteSetList  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3MeshCorners : public E3Shared  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TE3FFormat3DMF_MeshCorners_Data			instanceData ;
+	} ;
+	
+
+
+class E3MeshEdges : public E3Shared  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TE3FFormat3DMF_MeshEdges_Data			instanceData ;
+	} ;
+	
+
+
+class E3AttributeArray : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3TopCapSet : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3AttributeSet							instanceData ;
+	} ;
+	
+
+
+class E3BottomCapSet : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3AttributeSet							instanceData ;
+	} ;
+	
+
+
+class E3FaceCapSet : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3AttributeSet							instanceData ;
+	} ;
+	
+
+
+class E3InteriorCapSet : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3AttributeSet							instanceData ;
+	} ;
+	
+
+
+class E3GeneralPolygonHint : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Uns32								instanceData ;
+	} ;
+	
+
+
+class E3GeometryCaps : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Uns32								instanceData ;
+	} ;
+	
+
+
+class E3DisplayGroupState : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Uns32								instanceData ;
+	} ;
+	
+
+
+class E3ShaderUVTransform : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Matrix3x3							instanceData ;
+	} ;
+	
+
+
+class E3EndGroup : public E3Shared  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E33DMF : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3TableOfContents : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3Type : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3Reference : public E3Shared  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Uns32								instanceData ;
+	} ;
+	
 
 
 //=============================================================================
@@ -320,19 +568,15 @@ delete_attributeset_list(TE3FFormat3DMF_AttributeSetList_Data *theList)
 static TQ3Object
 e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 {
-	TQ3Object	theObject;
-	TE3FFormat3DMF_MeshCorners_Data		*instanceData;
 	TQ3Uns32	i,j,k;
-	TQ3Object	childObject;
 	TQ3Status	status = kQ3Failure;
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeMeshCorners, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeMeshCorners, kQ3False, NULL);
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_MeshCorners_Data *) E3ClassTree_FindInstanceData(theObject,
-                      kQ3ObjectTypeMeshCorners);
+		TE3FFormat3DMF_MeshCorners_Data* instanceData = & ( (E3MeshCorners*) theObject )->instanceData ;
 	
 		// read the total number of corners
 		status = Q3Uns32_Read(&i, theFile);
@@ -382,7 +626,7 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 		i=0;
 		while ((Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) && (i< instanceData->nCorners))
 			{
-			childObject = Q3File_ReadObject(theFile);
+			TQ3Object childObject = Q3File_ReadObject(theFile);
 			k = Q3Shared_GetReferenceCount(childObject);
 			if (childObject != NULL)
 				{
@@ -550,19 +794,15 @@ e3fformat_3dmf_meshcorners_metahandler(TQ3XMethodType methodType)
 static TQ3Object
 e3fformat_3dmf_meshedges_read(TQ3FileObject theFile)
 {
-	TQ3Object	theObject;
-	TE3FFormat3DMF_MeshEdges_Data		*instanceData;
 	TQ3Uns32	i,k;
-	TQ3Object	childObject;
 	TQ3Status	status = kQ3Failure;
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeMeshEdges, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeMeshEdges, kQ3False, NULL);
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_MeshEdges_Data *) E3ClassTree_FindInstanceData(theObject,
-                      kQ3ObjectTypeMeshEdges);
+		TE3FFormat3DMF_MeshEdges_Data* instanceData = & ( (E3MeshEdges*) theObject )->instanceData ;
 	
 		// read the total number of edges
 		status = Q3Uns32_Read(&i, theFile);
@@ -599,7 +839,7 @@ e3fformat_3dmf_meshedges_read(TQ3FileObject theFile)
 		i=0;
 		while ((Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) && (i< instanceData->nEdges))
 			{
-			childObject = Q3File_ReadObject(theFile);
+			TQ3Object childObject = Q3File_ReadObject(theFile);
 			if (childObject != NULL)
 				{
 				Q3_ASSERT (Q3Object_IsType (childObject, kQ3SetTypeAttribute));
@@ -835,21 +1075,17 @@ e3fformat_3dmf_displaygroupstate_metahandler(TQ3XMethodType methodType)
 static TQ3Object
 e3fformat_3dmf_shaderuvtransform_read(TQ3FileObject theFile)
 {
-	TQ3Object						theObject;
-	TQ3Matrix3x3				*instanceData;
 	TQ3Status						result = kQ3Success;
 	TQ3Uns32						i,j;
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeShaderUVTransform, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeShaderUVTransform, kQ3False, NULL);
 	
 	if(theObject){
 	
-		instanceData = (TQ3Matrix3x3 *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeShaderUVTransform);
-	
 		for( i = 0; ((i< 3) && (result == kQ3Success)); i++)
 			for( j = 0; ((j< 3) && (result == kQ3Success)); j++)
-				result = Q3Float32_Read(&instanceData->value[i][j],theFile);
+				result = Q3Float32_Read(& ( (E3ShaderUVTransform*) theObject )->instanceData.value[i][j],theFile);
 
 		if(result != kQ3Success)
 			{
@@ -1144,9 +1380,7 @@ e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	#pragma unused(data)
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *)
-																	E3ClassTree_FindInstanceData(object,
-                     												 kQ3ObjectTypeAttributeSetList);
+	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = & ( (E3AttibuteSetList*) object )->instanceData ;
 	TQ3Size size = 0;
 	TQ3Uns32* dataToWrite;
 	TQ3Uns32 i,j;
@@ -1294,18 +1528,12 @@ e3fformat_3dmf_attributesetlist_metahandler(TQ3XMethodType methodType)
 static TQ3Object
 e3fformat_3dmf_geomattributesetlist_read(TQ3FileObject theFile)
 {
-	TQ3Object	theObject;
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData;
-
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
-                      kQ3ObjectTypeAttributeSetList);
-	
-		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, instanceData) != kQ3Success)
+		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttibuteSetList*) theObject )->instanceData ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -1348,18 +1576,12 @@ e3fformat_3dmf_geomattributesetlist_metahandler(TQ3XMethodType methodType)
 static TQ3Object
 e3fformat_3dmf_faceattributesetlist_read(TQ3FileObject theFile)
 {
-	TQ3Object	theObject;
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData;
-
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
-                      kQ3ObjectTypeAttributeSetList);
-	
-		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, instanceData) != kQ3Success)
+		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttibuteSetList*) theObject )->instanceData ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -1402,18 +1624,12 @@ e3fformat_3dmf_faceattributesetlist_metahandler(TQ3XMethodType methodType)
 static TQ3Object
 e3fformat_3dmf_vertexattributesetlist_read(TQ3FileObject theFile)
 {
-	TQ3Object	theObject;
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData;
-
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
-                      kQ3ObjectTypeAttributeSetList);
-	
-		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, instanceData) != kQ3Success)
+		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttibuteSetList*) theObject )->instanceData ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -1524,13 +1740,9 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 	
 	TQ3Int32				*elemSwitch;
 	TQ3Object				*elemObject;
-	
-	TQ3TriMeshData			*geomData;
-	
-	TQ3FileFormatObject		format;
 
-	format = E3File_GetFileFormat(theFile);
-	geomData = ((TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf))->currentTriMesh;
+	TQ3FileFormatObject format = E3File_GetFileFormat(theFile);
+	TQ3TriMeshData* geomData = ( (TE3FFormat3DMF_Data*) format->FindLeafInstanceData () )->currentTriMesh;
 	
 	Q3_REQUIRE_OR_RESULT(geomData != NULL, NULL);
 	
@@ -1848,120 +2060,120 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 
 	// the Support objects
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 											kQ3ObjectTypeAttributeSetList,
 											kQ3ClassNameAttributeSetList,
 											e3fformat_3dmf_attributesetlist_metahandler,
-											sizeof(TE3FFormat3DMF_AttributeSetList_Data));
+											~sizeof(E3AttibuteSetList));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeAttributeSetList,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeAttributeSetList,
 											kQ3ObjectTypeAttributeSetListGeometry,
 											kQ3ClassNameAttributeSetListGeometry,
 											e3fformat_3dmf_geomattributesetlist_metahandler,
-											0);
+											~sizeof(E3GeomAttributeSetList));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeAttributeSetList,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeAttributeSetList,
 											kQ3ObjectTypeAttributeSetListFace,
 											kQ3ClassNameAttributeSetListFace,
 											e3fformat_3dmf_faceattributesetlist_metahandler,
-											0);
+											~sizeof(E3FaceAttributeSetList));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeAttributeSetList,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeAttributeSetList,
 											kQ3ObjectTypeAttributeSetListVertex,
 											kQ3ClassNameAttributeSetListVertex,
 											e3fformat_3dmf_vertexattributesetlist_metahandler,
-											0);
+											~sizeof(E3VertexAttributeSetList));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 											kQ3ObjectTypeMeshCorners,
 											kQ3ClassNameMeshCorners,
 											e3fformat_3dmf_meshcorners_metahandler,
-											sizeof(TE3FFormat3DMF_MeshCorners_Data));
+											~sizeof(E3MeshCorners));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 											kQ3ObjectTypeMeshEdges,
 											kQ3ClassNameMeshEdges,
 											e3fformat_3dmf_meshedges_metahandler,
-											sizeof(TE3FFormat3DMF_MeshEdges_Data));
+											~sizeof(E3MeshEdges));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeAttributeArray,
 											kQ3ClassNameAttributeArray,
 											e3fformat_3dmf_attributearray_metahandler,
-											0);
+											~sizeof(E3AttributeArray));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3AttributeSetTypeTopCap,
 											kQ3ClassNameTopCapAttributeSet,
 											NULL,
-											sizeof(TQ3AttributeSet));
+											~sizeof(E3TopCapSet));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3AttributeSetTypeBottomCap,
 											kQ3ClassNameBottomCapAttributeSet,
 											NULL,
-											sizeof(TQ3AttributeSet));
+											~sizeof(E3BottomCapSet));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3AttributeSetTypeFaceCap,
 											kQ3ClassNameFaceCapAttributeSet,
 											NULL,
-											sizeof(TQ3AttributeSet));
+											~sizeof(E3FaceCapSet));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3AttributeSetTypeInteriorCap,
 											kQ3ClassNameInteriorCapAttributeSet,
 											NULL,
-											sizeof(TQ3AttributeSet));
+											~sizeof(E3InteriorCapSet));
 
 
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeGeneralPolygonHint,
 											kQ3ClassNameGeneralPolygonHint,
 											e3fformat_3dmf_generalpolygonhint_metahandler,
-											sizeof(TQ3Uns32));
+											~sizeof(E3GeneralPolygonHint));
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeGeometryCaps,
 											kQ3ClassNameCaps,
 											e3fformat_3dmf_geometry_caps_metahandler,
-											sizeof(TQ3Uns32));
+											~sizeof(E3GeometryCaps));
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeDisplayGroupState,
 											kQ3ClassNameDisplayGroupState,
 											e3fformat_3dmf_displaygroupstate_metahandler,
-											sizeof(TQ3Uns32));
+											~sizeof(E3DisplayGroupState));
 
 
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeShaderUVTransform,
 											kQ3ClassNameShaderUVTransform,
 											e3fformat_3dmf_shaderuvtransform_metahandler,
-											sizeof(TQ3Matrix3x3));
+											~sizeof(E3ShaderUVTransform));
 
 
 	// Register the end group class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 											kQ3SharedTypeEndGroup,
 											kQ3ClassNameEndGroup,
 											e3fformat_3dmf_endgroup_metahandler,
-											0);
+											~sizeof(E3EndGroup));
 
 
 
@@ -2106,41 +2318,41 @@ E3FFW_3DMF_Register(void)
 
 	// the Support objects
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 												kQ3ObjectType3DMF,
 												kQ3ClassName3DMF,
 												NULL,
-												0);
+												~sizeof(E33DMF));
 
 	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
 	E3ClassTree_AddMethodByType(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 												kQ3ObjectTypeTOC,
 												kQ3ClassNameTOC,
 												NULL,
-												0);
+												~sizeof(E3TableOfContents));
 
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Traverse);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Write);
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 												kQ3ObjectTypeType,
 												kQ3ClassNameType,
 												NULL,
-												0);
+												~sizeof(E3Type));
 
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeType,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_type_Traverse);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeType,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_type_Write);
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared, // on QD3D this is kQ3SharedTypeShape but the 
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared, // on QD3D this is kQ3SharedTypeShape but the 
 												kQ3ShapeTypeReference,
 												kQ3ClassNameReference,
 												NULL,
-												sizeof(TQ3Uns32));
+												~sizeof(E3Reference));
 
 	E3ClassTree_AddMethodByType(kQ3ShapeTypeReference,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_32_Traverse);
 	E3ClassTree_AddMethodByType(kQ3ShapeTypeReference,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
@@ -2191,15 +2403,15 @@ E3FFormat_3DMF_Reader_UnregisterClass(void)
 	qd3dStatus = E3FFormat_3DMF_Text_Reader_UnregisterClass();
 
 
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3SharedTypeEndGroup,					kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeAttributeArray,			kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeAttributeSetListVertex,	kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeAttributeSetListFace,		kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeAttributeSetListGeometry,	kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeAttributeSetList,		    kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeEndGroup,					kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeArray,			kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetListVertex,	kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetListFace,		kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetListGeometry,	kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetList,		    kQ3True);
 	
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeMeshCorners,		   		kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeMeshEdges,		    	kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeMeshCorners,		   		kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeMeshEdges,		    	kQ3True);
 
 
 	// Unregistering methods removed for now - Jose
@@ -2297,7 +2509,7 @@ E3FFW_3DMF_Unregister(void)
 TQ3AttributeSet
 E3FFormat_3DMF_CapsAttributes_Get(TQ3Object theObject)
 {
-	return(*(TQ3AttributeSet*)E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf));
+	return(*(TQ3AttributeSet*) theObject->FindLeafInstanceData () ) ;
 }
 
 
@@ -2310,7 +2522,7 @@ E3FFormat_3DMF_CapsAttributes_Get(TQ3Object theObject)
 //-----------------------------------------------------------------------------
 TQ3Object
 E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
-{	TE3FFormat3DMF_MeshCorners_Data *instanceData;
+{	
 	TQ3Object	theObject = NULL;
 	TQ3Uns32	i,j,k;
 	TQ3Uns32	numCorners = 0;
@@ -2329,8 +2541,7 @@ E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_MeshCorners_Data *) E3ClassTree_FindInstanceData(theObject,
-                      kQ3ObjectTypeMeshCorners);
+		TE3FFormat3DMF_MeshCorners_Data* instanceData = & ( (E3MeshCorners*) theObject )->instanceData ;
 	
 	
 		// allocate the array of corners
@@ -2406,15 +2617,12 @@ E3FFormat_3DMF_MeshCorners_Assign(TQ3Object theMeshCorners, TQ3GeometryObject th
 									TQ3Uns32 nFaces, TQ3MeshFace* faces,
 									TQ3Uns32 nVertices, TQ3MeshVertex* vertices)
 {
-	TQ3Uns32	i,j;
-	TE3FFormat3DMF_MeshCorners_Data		*instanceData = (TE3FFormat3DMF_MeshCorners_Data *)
-																	E3ClassTree_FindInstanceData(theMeshCorners,
-                     												 kQ3ObjectTypeMeshCorners);
-	for(i = 0; i < instanceData->nCorners; i++)
+	TE3FFormat3DMF_MeshCorners_Data* instanceData = & ( (E3MeshCorners*) theMeshCorners )->instanceData ;
+	for( TQ3Uns32 i = 0; i < instanceData->nCorners; i++)
 		{
 		if(instanceData->corners[i].vertexIndex < nVertices)
 			{
-			for(j = 0; j < instanceData->corners[i].nFaces; j++)
+			for( TQ3Uns32 j = 0; j < instanceData->corners[i].nFaces; j++)
 				{
 					if(instanceData->corners[i].faces[j] < nFaces)
 						{
@@ -2439,9 +2647,7 @@ void
 E3FFormat_3DMF_MeshEdges_Assign(TQ3Object theMeshEdges, TQ3GeometryObject theMesh,
 									TQ3Uns32 nVertices, TQ3MeshVertex* vertices)
 {
-	TE3FFormat3DMF_MeshEdges_Data		*instanceData = (TE3FFormat3DMF_MeshEdges_Data *)
-																	E3ClassTree_FindInstanceData(theMeshEdges,
-                     												 kQ3ObjectTypeMeshEdges);
+	TE3FFormat3DMF_MeshEdges_Data* instanceData = & ( (E3MeshEdges*) theMeshEdges )->instanceData ;
 	// To be implemented...
 }
 
@@ -2457,9 +2663,7 @@ E3FFormat_3DMF_MeshEdges_Assign(TQ3Object theMeshEdges, TQ3GeometryObject theMes
 TQ3AttributeSet
 E3FFormat_3DMF_AttributeSetList_Get(TQ3Object theAttributeSetList, TQ3Uns32 index)
 {
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *)
-																	E3ClassTree_FindInstanceData(theAttributeSetList,
-                     												 kQ3ObjectTypeAttributeSetList);
+	TE3FFormat3DMF_AttributeSetList_Data* instanceData = & ( (E3AttibuteSetList*) theAttributeSetList )->instanceData ;
 	
 	TQ3AttributeSet result = NULL;
 	
@@ -2483,9 +2687,7 @@ TQ3Status
 E3FFormat_3DMF_AttributeSetList_Set(TQ3Object theAttributeSetList,
 										TQ3Uns32 index, TQ3AttributeSet theAttributeSet)
 {
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = (TE3FFormat3DMF_AttributeSetList_Data *)
-																	E3ClassTree_FindInstanceData(theAttributeSetList,
-                     												 kQ3ObjectTypeAttributeSetList);
+	TE3FFormat3DMF_AttributeSetList_Data* instanceData = & ( (E3AttibuteSetList*) theAttributeSetList )->instanceData ;
 	Q3_REQUIRE_OR_RESULT(instanceData != NULL,kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(instanceData->attributeSetCounter != 0,kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(instanceData->attributeSetCounter > index,kQ3Failure);
@@ -2508,18 +2710,12 @@ E3FFormat_3DMF_AttributeSetList_Set(TQ3Object theAttributeSetList,
 TQ3Object
 E3FFormat_3DMF_FaceAttributeSetList_New(TQ3Size size)
 {
-	TQ3Object	theObject;
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData;
-
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
-                      kQ3ObjectTypeAttributeSetList);
-	
-		if(e3fformat_3DMF_attributesetlist_allocate (instanceData, size) != kQ3Success)
+		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttibuteSetList*) theObject )->instanceData, size ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -2540,18 +2736,12 @@ E3FFormat_3DMF_FaceAttributeSetList_New(TQ3Size size)
 TQ3Object
 E3FFormat_3DMF_VertexAttributeSetList_New(TQ3Size size)
 {
-	TQ3Object	theObject;
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData;
-
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
-                      kQ3ObjectTypeAttributeSetList);
-	
-		if(e3fformat_3DMF_attributesetlist_allocate (instanceData, size) != kQ3Success)
+		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttibuteSetList*) theObject )->instanceData, size ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -2572,18 +2762,12 @@ E3FFormat_3DMF_VertexAttributeSetList_New(TQ3Size size)
 TQ3Object
 E3FFormat_3DMF_GeomAttributeSetList_New(TQ3Size size)
 {
-	TQ3Object	theObject;
-	TE3FFormat3DMF_AttributeSetList_Data		*instanceData;
-
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
 	
 	if(theObject){
 	
-		instanceData = (TE3FFormat3DMF_AttributeSetList_Data *) E3ClassTree_FindInstanceData(theObject,
-                      kQ3ObjectTypeAttributeSetList);
-	
-		if(e3fformat_3DMF_attributesetlist_allocate (instanceData, size) != kQ3Success)
+		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttibuteSetList*) theObject )->instanceData, size ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
 			theObject = NULL;
@@ -2605,7 +2789,7 @@ TQ3GeneralPolygonShapeHint
 E3FFormat_3DMF_GeneralPolygonHint_Get(TQ3Object theObject)
 {
 	
-	return((TQ3GeneralPolygonShapeHint)*(TQ3Uns32*)E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf));
+	return((TQ3GeneralPolygonShapeHint)*(TQ3Uns32*) theObject->FindLeafInstanceData () );
 }
 
 
@@ -2619,7 +2803,7 @@ TQ3EndCap
 E3FFormat_3DMF_GeometryCapsMask_Get(TQ3Object theObject)
 {
 	
-	return((TQ3GeneralPolygonShapeHint)*(TQ3Uns32*)E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf));
+	return((TQ3GeneralPolygonShapeHint)*(TQ3Uns32*) theObject->FindLeafInstanceData () ) ;
 }
 
 
@@ -2635,7 +2819,7 @@ E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject)
 	TQ3DisplayGroupState resultState = kQ3DisplayGroupStateMaskIsDrawn |
 		kQ3DisplayGroupStateMaskIsPicked | kQ3DisplayGroupStateMaskIsWritten |
 		kQ3DisplayGroupStateMaskUseBoundingBox | kQ3DisplayGroupStateMaskUseBoundingSphere;
-	TQ3Uns32 state = *(TQ3Uns32*)E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf);
+	TQ3Uns32 state = *(TQ3Uns32*) theObject->FindLeafInstanceData () ;
 	
 	if((state & 0x01) == 0x01) // inline
 		resultState |= kQ3DisplayGroupStateMaskIsInline;
