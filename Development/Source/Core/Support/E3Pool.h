@@ -123,16 +123,16 @@ typedef struct TE3Pool {
 //		only by the "member functions" for derived "classes": TE3FooPool.
 //
 //		In general, there is a single E3Xxx_Yyy function that is called by all
-//		the E3FooXxx_Yyy glue functions.
+//		the e3fooXxx_Yyy glue functions.
 //
 //		In some cases, both time and space can be saved if the E3Xxx_Yyy
 //		function is "inlined". In these cases, the E3Xxx_Yyy function is
 //		commented out and implemented directly as a macro. (Some compliers can
 //		automatically inline a function if it is defined in the source code
-//		before it is used. Unfortunately, the E3FooXxx_Yyy glue functions are
+//		before it is used. Unfortunately, the e3fooXxx_Yyy glue functions are
 //		defined in other source files and thus can not take advantage of this
 //		capability.) Thus, functions that should be inlined that are called by
-//		E3FooXxx_Yyy glue functions are defined as macros to ensure they are
+//		e3fooXxx_Yyy glue functions are defined as macros to ensure they are
 //		inlined. Note that, unlike true functions, macros are not type-safe.
 //		Thus only private, internal functions should be defined as macros.
 //-----------------------------------------------------------------------------
@@ -188,13 +188,13 @@ E3PoolItem_Tag			(const TE3PoolItem*		itemPtr,
 //		TE3Foo's. To use the TE3FooPool class, do the following:
 //
 //		1)	In header or source files, declare the TE3FooPool type and
-//			E3FooPool_* functions:
+//			e3fooPool_* functions:
 //
-//			E3POOL_DECLARE(TE3Foo, E3Foo, prefix);
+//			E3POOL_DECLARE(TE3Foo, e3foo, prefix);
 //
-//		2)	In a single source file, define the E3FooPool_* functions:
+//		2)	In a single source file, define the e3fooPool_* functions:
 //
-//			E3POOL_DEFINE (TE3Foo, E3Foo, prefix, blockLength);
+//			E3POOL_DEFINE (TE3Foo, e3foo, prefix, blockLength);
 //
 //		Here "prefix" is a possibly empty storage class specifier, for example,
 //		"static", which is applied to every defined function; and "blockLength"
@@ -205,24 +205,24 @@ E3PoolItem_Tag			(const TE3PoolItem*		itemPtr,
 //		These macros declare/define the following functions:
 //
 //			TQ3Status
-//			E3FooPool_Create		(TE3FooPool*			fooPoolPtr);
+//			e3fooPool_Create		(TE3FooPool*			fooPoolPtr);
 //
 //			void
-//			E3FooPool_Destroy		(TE3FooPool*			fooPoolPtr);
+//			e3fooPool_Destroy		(TE3FooPool*			fooPoolPtr);
 //
 //			TE3Foo*
-//			E3FooPool_Allocate		(TE3FooPool*			fooPoolPtr);
+//			e3fooPool_Allocate		(TE3FooPool*			fooPoolPtr);
 //
 //			TE3Foo*
-//			E3FooPool_AllocateTagged(TE3FooPool*			fooPoolPtr,
+//			e3fooPool_AllocateTagged(TE3FooPool*			fooPoolPtr,
 //									 const TE3Foo*			tagFooPtr);
 //
 //			void
-//			E3FooPool_Free			(TE3FooPool*			fooPoolPtr,
+//			e3fooPool_Free			(TE3FooPool*			fooPoolPtr,
 //									 TE3Foo**				fooPtrPtr);
 //
 //			const TE3Foo*
-//			E3FooPoolItem_Tag		(const TE3Foo*			fooPtr,
+//			e3fooPoolItem_Tag		(const TE3Foo*			fooPtr,
 //									 TQ3Boolean				(*isTagFooFunc)(const TE3Foo*));
 //-----------------------------------------------------------------------------
 #define E3POOL_DECLARE(TYPE, FUNC, PREFIX)									\
@@ -275,7 +275,7 @@ FUNC##PoolItem_Tag(															\
 	const TYPE* itemPtr,													\
 	TQ3Boolean (*isTagItemFunc)(const TYPE*));								\
 																			\
-void TYPE##FUNC##PREFIX##PoolDeclare_SwallowSemicolon(void)
+void FUNC##E3Pool_Declare_SwallowSemicolon(void)
 
 
 
@@ -349,7 +349,7 @@ FUNC##PoolItem_Tag(															\
 		E3_UP_CAST(TQ3Boolean (*)(const TE3PoolItem*), isTagItemFunc))));	\
 }																			\
 																			\
-void TYPE##FUNC##PREFIX##PoolDefine_SwallowSemicolon(void)
+void FUNC##E3Pool_Define_SwallowSemicolon(void)
 
 
 
