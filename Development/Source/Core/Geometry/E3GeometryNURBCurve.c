@@ -376,7 +376,7 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 				for (n = 0; n < numInt - 1; n++ ) {
 					increment = (interestingU[n+1] - interestingU[n]) / subdivU;
 					
-					for (i = 0; i < (TQ3Uns32)subdivisionData.c1; i++ ) {
+					for (i = 0; i < (TQ3Uns32) subdivU; i++ ) {
 							e3geom_nurbcurve_evaluate_nurbs_curve_u(
 													interestingU[n] + ((float)i)*increment,
 													geomData,
