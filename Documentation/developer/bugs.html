@@ -65,7 +65,7 @@ For 'Possible' bugs, please consult the relevant Quesa source code: this
 will typically have additional information on the nature of the problem.
 </p>
 
-<!-- Next bug ID, 46 -->
+<!-- Next bug ID, 49 -->
 <table border=1 width=90% align=center>
 <tr><th>Severity</th><th>ID</th><th>Description</th>
 </tr>
@@ -166,6 +166,14 @@ Queeg, changing window size produces different image with Quesa than with QD3D.
 Q3BoundingSphere_SetFromPoints3D and Q3BoundingSphere_SetFromRationalPoints4D return significantly incorrect results for some inputs. They are probably using an incorrect algorithm.
 </td></tr>
 
+<tr><td>Minor</td><td>00046</td><td>
+Pixmap/bitmap markers are culled by OpenGL if they are partially off-screen, should be clipped.
+</td></tr>
+
+<tr><td>Minor</td><td>00047</td><td>
+Wireframe renderer doesn't support pixmap/bitmap markers.
+</td></tr>
+
 <tr><td>Possible</td><td>00003</td><td>
 Q3Quaternion_SetMatrix, possible bug in QD3D 1.6 implementation.
 </td></tr>
@@ -228,7 +236,12 @@ or Q3Point3D_AffineComb, and then converting the result back to the original dim
 Do the functions Q3Vector2D_To3D and Q3Vector3D_To2D do anything useful? Would it be
 better to eliminate them in favor of Q3Vector2D_ToRationalPoint3D and Q3RationalPoint3D_ToVector2D?
 </td></tr>
+
+<tr><td>Possible</td><td>00048</td><td>
+Verify all QD3D pixmap formats for Pixmap marker object, make sure they're converted correctly.
+</td></tr>
 </table>
+
 
 <p>
 If you encounter problems running Quesa, please submit a patch or a bug report to the
