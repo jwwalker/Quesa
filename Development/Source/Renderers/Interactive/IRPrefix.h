@@ -75,6 +75,9 @@ typedef struct TQ3CachedPrim {
 	TQ3Boolean				textureIsTransparent;
 	float					zMin;
 	float					zMax;
+	TQ3OrientationStyle		orientationStyle;
+	TQ3FillStyle			fillStyle;
+	TQ3BackfacingStyle		backfacingStyle;
 
 
 	// Data
