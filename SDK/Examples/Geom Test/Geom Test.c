@@ -2412,8 +2412,12 @@ doLoadModel(TQ3ViewObject theView)
 	// Read the file (note, this disposes of storageObj)
 	theModel = Qut_ReadModel(storageObj);
 		
-		// Adjust the scale and translation required for the model
-		
+	
+	// Adjust the scale and translation required for the model
+	//
+	// Qut positions the camera 5 units away from the origin, with a hither-yon
+	// distance of ~10 units. By scaling the object to be 3.75f units across,
+	// we obtain something which fits within the visible range of the camera.
 	if(theModel)
 		{
 		Qut_CalcBounds(theView, theModel, &theBounds);
@@ -2423,18 +2427,16 @@ doLoadModel(TQ3ViewObject theView)
 
 		scaleFactor = (xBounds > yBounds)     ? xBounds : yBounds;
 		scaleFactor = (zBounds > scaleFactor) ? zBounds : scaleFactor;
-		scaleFactor = 1.0f / (scaleFactor * 0.3f);
+		scaleFactor = 3.75f / scaleFactor;
 
-		if (xBounds <= 0.0003f && yBounds <= 0.0003f && zBounds <= 0.0003f)
-				scaleFactor = 1.0f;
+		scale.x = scaleFactor;
+		scale.y = scaleFactor;
+		scale.z = scaleFactor;
 
 		translateToOrigin.x = -(theBounds.min.x + (xBounds * 0.5f));
 		translateToOrigin.y = -(theBounds.min.y + (yBounds * 0.5f));
 		translateToOrigin.z = -(theBounds.min.z + (zBounds * 0.5f));
 
-		scale.x = scaleFactor;
-		scale.y = scaleFactor;
-		scale.z = scaleFactor;
 	    
 	    normalizedModel = Q3DisplayGroup_New();
 	    if(normalizedModel != NULL)
@@ -2827,7 +2829,7 @@ appRender(TQ3ViewObject theView)
 	if (sPrevRenderTime != 0)
 		{
 		timeFactor = (renderTime - sPrevRenderTime) / ((float) CLOCKS_PER_SEC);
-		
+
 		// precession of the axis
 		Q3Matrix4x4_SetRotate_Y( &rotationMatrix, timeFactor * 0.1f );
 		Q3Vector3D_Transform( &sAxis, &rotationMatrix, &sAxis );
