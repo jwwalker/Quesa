@@ -63,7 +63,9 @@ TRSRasterizer	*RSRasterizer_Create(
 TQ3Status		RSRasterizer_GetSize(
 					TRSRasterizer				*inRasterizer,
 					int							*outWidth,
-					int							*outHeight);
+					int							*outHeight,
+					int							*outMinX,
+					int							*outMinY);
 void			RSRasterizer_Delete(
 					TRSRasterizer				*inRasterizer);
 

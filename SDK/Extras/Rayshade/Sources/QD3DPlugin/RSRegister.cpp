@@ -470,7 +470,7 @@ TQ3ViewStatus RS_EndPass(
     
     if ( Q3View_GetDrawContext ( pView , &theDrawContext ) != kQ3Failure )
     {
-    	int width,height;
+    	int width,height, left, top;
     	
     	theRasterizer = RSRasterizer_Create(theDrawContext);
     	if (theRasterizer == NULL)
@@ -479,7 +479,7 @@ TQ3ViewStatus RS_EndPass(
     		goto cleanup;
     	}
     	
-    	theStatus = RSRasterizer_GetSize(theRasterizer,&width,&height);
+    	theStatus = RSRasterizer_GetSize(theRasterizer,&width,&height, &left, &top);
     	if (theStatus != kQ3Success)
     	{
     		result = kQ3ViewStatusError;
@@ -522,7 +522,7 @@ TQ3ViewStatus RS_EndPass(
             		result = kQ3ViewStatusError;	
             		goto cleanup;
             	}
-	            RSRasterizer_Rasterize_RGB_Span(theRasterizer,0,i,width,buf);
+	            RSRasterizer_Rasterize_RGB_Span(theRasterizer,left,i+top,width,buf);
            		RSRasterizer_Unlock(theRasterizer);
 
          		/*

@@ -88,7 +88,8 @@ typedef TQ3Status (*TRGBSpanRasterizerFunction)(
 typedef struct TRSRasterizer {
 	bool						isLocked;
 	
-	int							width,height;
+	int							width, height;
+	int							left, top;
 #if defined(macintosh)
 	CGrafPtr					grafPort;
 #elif defined(WIN32)
@@ -241,7 +242,9 @@ TRSRasterizer	*RSRasterizer_Create(
 	}
 	
 	result->width 	= (int)(theData.pane.max.x-theData.pane.min.x);
-    result->height 	= (int)(theData.pane.max.y-theData.pane.min.y);	
+    result->height 	= (int)(theData.pane.max.y-theData.pane.min.y);
+    result->left = (int)theData.pane.min.x;
+    result->top = (int)theData.pane.min.y;
     
 	result->rgbSpanRasterize = RSRasterizer_Rasterize_RGB_Span_Nop;
 	return result;
@@ -264,12 +267,16 @@ void			RSRasterizer_Delete(
 TQ3Status		RSRasterizer_GetSize(
 							TRSRasterizer	*inRasterizer,
 							int				*outWidth,
-							int				*outHeight)
+							int				*outHeight,
+							int				*outMinX,
+							int				*outMinY)
 {
 	if (inRasterizer == NULL)
 		return kQ3Failure;
 	*outWidth = inRasterizer->width;
 	*outHeight = inRasterizer->height;
+	*outMinX = inRasterizer->left;
+	*outMinY = inRasterizer->top;
 	
 	return kQ3Success;
 }
