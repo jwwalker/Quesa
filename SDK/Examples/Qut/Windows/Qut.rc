@@ -50,7 +50,7 @@ BEGIN
         MENUITEM "Backfacing Style Flip",               IDM_STYLE_BACKFACING_FLIP
         MENUITEM SEPARATOR
         MENUITEM "Interpolation Style None",            IDM_STYLE_INTERPOLATION_NONE
-        MENUITEM "Interpolation Style Vertex",          IDM_STYLE_INTERPOLATION_STYLE_VERTEX
+        MENUITEM "Interpolation Style Vertex",          IDM_STYLE_INTERPOLATION_VERTEX
         MENUITEM "Interpolation Style Pixel",           IDM_STYLE_INTERPOLATION_PIXEL
         MENUITEM SEPARATOR
         MENUITEM "Orientation Style Clockwise",         IDM_STYLE_ORIENTATION_CLOCKWISE
