@@ -986,10 +986,8 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 
 
 
-			// Submit the object
-			qd3dStatus = Q3Object_Submit(subObject, theView);
-			if (qd3dStatus == kQ3Failure)
-				return(kQ3Failure);
+			// Submit the object, ignore errors
+			Q3Object_Submit(subObject, theView);
 
 
 
