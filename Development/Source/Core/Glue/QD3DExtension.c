@@ -388,7 +388,7 @@ Q3XObjectClass_GetPrivate(TQ3XObjectClass objectClass, TQ3Object targetObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(targetObject->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(targetObject), NULL);
 
 
 
@@ -425,7 +425,7 @@ Q3XObject_GetClass(TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), NULL);
 
 
 

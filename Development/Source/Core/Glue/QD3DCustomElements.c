@@ -90,7 +90,7 @@ CENameElement_SetData(TQ3Object object, const char *name)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(object), kQ3Failure);
 
 
@@ -128,7 +128,7 @@ CENameElement_GetData(TQ3Object object, char **name)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(name), kQ3Failure);
 
@@ -201,7 +201,7 @@ CEUrlElement_SetData(TQ3Object object, TCEUrlData *urlData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(object), kQ3Failure);
 
 
@@ -239,7 +239,7 @@ CEUrlElement_GetData(TQ3Object object, TCEUrlData **urlData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(object),  kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(urlData), kQ3Failure);
 
@@ -313,7 +313,7 @@ CEWireElement_SetData(TQ3Object object, QTAtomContainer wireData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(object), kQ3Failure);
 
 
@@ -351,7 +351,7 @@ CEWireElement_GetData(TQ3Object object, QTAtomContainer *wireData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(object),   kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(wireData), kQ3Failure);
 

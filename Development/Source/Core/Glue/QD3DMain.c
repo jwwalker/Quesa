@@ -440,7 +440,7 @@ Q3Object_Dispose(TQ3Object object)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( object != NULL, kQ3Failure );
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 
 
 
@@ -475,7 +475,7 @@ Q3Object_CleanDispose(TQ3Object *object)
 
 	// Release build checks
 	if (object != NULL && *object != NULL)
-		Q3_REQUIRE_OR_RESULT((*object)->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+		Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(*object), kQ3Failure);
 
 
 
@@ -509,7 +509,7 @@ Q3Object_Duplicate(TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), NULL);
 
 
 
@@ -543,7 +543,7 @@ Q3Object_Submit(TQ3Object object, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
@@ -581,7 +581,7 @@ Q3Object_IsDrawable(TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3False);
 
 
 
@@ -615,7 +615,7 @@ Q3Object_IsWritable(TQ3Object object, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3False);
 
 
@@ -653,7 +653,7 @@ Q3Object_GetType(TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3ObjectTypeInvalid);
 
 
 
@@ -687,7 +687,7 @@ Q3Object_GetLeafType(TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3ObjectTypeInvalid);
 
 
 
@@ -722,7 +722,7 @@ Q3Object_IsType(TQ3Object object, TQ3ObjectType theType)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(object != NULL, kQ3False);
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3False);
 
 
 
@@ -758,7 +758,7 @@ Q3Object_AddElement(TQ3Object object, TQ3ElementType theType, const void *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -799,7 +799,7 @@ Q3Object_GetElement(TQ3Object object, TQ3ElementType theType, void *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -840,7 +840,7 @@ Q3Object_ContainsElement(TQ3Object object, TQ3ElementType theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3False);
 
 
 
@@ -877,7 +877,7 @@ Q3Object_GetNextElementType(TQ3Object object, TQ3ElementType *theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theType), kQ3Failure);
 
 
@@ -915,7 +915,7 @@ Q3Object_EmptyElements(TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 
 
 
@@ -949,7 +949,7 @@ Q3Object_ClearElement(TQ3Object object, TQ3ElementType theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 
 
 
@@ -989,7 +989,7 @@ Q3Object_GetProperty(
 	void*					buffer )
 {
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	
 	
 	
@@ -1015,7 +1015,7 @@ Q3Object_RemoveProperty(
 	TQ3ObjectType			propType )
 {
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	
 
 	
@@ -1043,7 +1043,7 @@ Q3Object_SetProperty(
 	const void*				data )
 {
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 	
 
@@ -1070,7 +1070,7 @@ Q3Object_GetSet ( TQ3Object object, TQ3SetObject* set )
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(set), kQ3Failure);
 
 
@@ -1108,7 +1108,7 @@ Q3Object_SetSet ( TQ3Object object, TQ3SetObject set )
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((set == NULL) || Q3Object_IsType(set, kQ3SharedTypeSet), kQ3Failure);
 
 

@@ -146,7 +146,7 @@ Q3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
-	Q3_REQUIRE_OR_RESULT(object && object->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(object && E3ClassTree_IsObjectValid(object), NULL);
 
 
 
@@ -186,7 +186,7 @@ Q3Group_AddObjectAndDispose(TQ3GroupObject theGroup, TQ3Object *theObject)
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theGroup, kQ3ShapeTypeGroup), NULL);
 	
 	if (theObject != NULL && *theObject != NULL)
-		Q3_REQUIRE_OR_RESULT((*theObject)->quesaTag == kQ3ObjectTypeQuesa, NULL);
+		Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(*theObject), NULL);
 
 
 
@@ -224,7 +224,7 @@ Q3Group_AddObjectBefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Obje
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), NULL);
 
 
 
@@ -265,7 +265,7 @@ Q3Group_AddObjectAfter(TQ3GroupObject group, TQ3GroupPosition position, TQ3Objec
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, kQ3ShapeTypeGroup), NULL);
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), NULL);
 
 
 
@@ -347,7 +347,7 @@ Q3Group_SetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Ob
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 
 
 
@@ -891,7 +891,7 @@ Q3Group_GetFirstObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupP
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -933,7 +933,7 @@ Q3Group_GetLastObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -975,7 +975,7 @@ Q3Group_GetNextObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
@@ -1017,7 +1017,7 @@ Q3Group_GetPreviousObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3Gro
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(group, (kQ3ShapeTypeGroup)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(object->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(E3ClassTree_IsObjectValid(object), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(position), kQ3Failure);
 
 
