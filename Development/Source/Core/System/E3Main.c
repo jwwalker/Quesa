@@ -79,13 +79,6 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
-// Shared object data
-typedef struct TQ3SharedData {
-	TQ3Uns32		refCount;
-	TQ3Uns32		editIndex;
-} TQ3SharedData;
-
-
 
 
 
@@ -95,7 +88,7 @@ typedef struct TQ3SharedData {
 //-----------------------------------------------------------------------------
 //      e3shared_new : Shared new method.
 //-----------------------------------------------------------------------------
-static TQ3Status
+TQ3Status
 e3shared_new(TQ3Object theObject, void *privateData, void *paramData)
 {	TQ3SharedData		*instanceData = (TQ3SharedData *) privateData;
 #pragma unused(theObject)
@@ -117,14 +110,11 @@ e3shared_new(TQ3Object theObject, void *privateData, void *paramData)
 //=============================================================================
 //      e3shared_dispose : Shared dispose method.
 //-----------------------------------------------------------------------------
-static void
+void
 e3shared_dispose(TQ3Object theObject)
-{	TQ3SharedData		*instanceData;
-
-
-
+	{
 	// Find the instance data
-	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeShared);
+	TQ3SharedData* instanceData = (TQ3SharedData *) theObject ;
 	if (instanceData == NULL)
 		return;
 
@@ -137,9 +127,9 @@ e3shared_dispose(TQ3Object theObject)
 
 
 	// If the reference count falls to 0, dispose of the object
-	if (instanceData->refCount == 0)
-		E3ClassTree_DestroyInstance(theObject);
-}
+	if ( instanceData->refCount == 0 )
+		theObject->DestroyInstance () ;
+	}
 
 
 
@@ -148,7 +138,7 @@ e3shared_dispose(TQ3Object theObject)
 //=============================================================================
 //      e3shared_duplicate : Shared duplicate method.
 //-----------------------------------------------------------------------------
-static TQ3Status
+TQ3Status
 e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 						 TQ3Object toObject, void *toPrivateData)
 {	TQ3SharedData		*instanceData = (TQ3SharedData *) toPrivateData;
@@ -180,16 +170,11 @@ e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 //      e3shared_write : Default write method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3shared_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3Status		qd3dStatus;
-
-
-
+e3shared_write ( TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData )
+	{
 	// Submit the object
-	qd3dStatus = E3FileFormat_Method_SubmitObject (theView, theObject, objectType, objectData);
-
-	return(qd3dStatus);
-}
+	return E3FileFormat_Method_SubmitObject ( theView, theObject, objectType, objectData ) ;
+	}
 
 
 
@@ -234,11 +219,11 @@ e3shared_metahandler(TQ3XMethodType methodType)
 //      e3root_new : Root object new method.
 //-----------------------------------------------------------------------------
 #pragma mark -
-static TQ3Status
+TQ3Status
 e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 {
 #pragma unused( paramData )
-	TQ3ObjectData	*instanceData = (TQ3ObjectData *) privateData;
+#pragma unused( privateData )
 
 
 #if Q3_DEBUG
@@ -247,9 +232,9 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 	
 	if (sIsMakingListHead == kQ3True)
 	{
-		instanceData->next = theObject;
-		instanceData->prev = theObject;
-		instanceData->stackCrawl = NULL;
+		theObject->next = theObject;
+		theObject->prev = theObject;
+		theObject->stackCrawl = NULL;
 	}
 	else
 	{
@@ -260,32 +245,32 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 			if (theGlobals->listHead == NULL)
 			{
 				sIsMakingListHead = kQ3True;	// prevent infinite recursion
-				theGlobals->listHead = E3ClassTree_CreateInstance( kQ3ObjectTypeRoot,
-					kQ3False, NULL );
+				theGlobals->listHead = E3ClassTree::CreateInstance ( kQ3ObjectTypeRoot,
+					kQ3False, NULL, kQ3True ) ;
 				sIsMakingListHead = kQ3False;
 				Q3_REQUIRE_OR_RESULT( theGlobals->listHead != NULL, kQ3Failure );
 			}
-			Q3_ASSERT( E3ClassTree_GetType(E3ClassTree_GetClassByObject(theGlobals->listHead)) == kQ3ObjectTypeRoot);
+			Q3_ASSERT( theGlobals->listHead->GetClass ()->GetType () == kQ3ObjectTypeRoot ) ;
 			
 			// insert the new node between the list header and last normal node
-			instanceData->next = theGlobals->listHead;
-			instanceData->prev = PREVLINK( theGlobals->listHead );
+			theObject->next = theGlobals->listHead;
+			theObject->prev = PREVLINK( theGlobals->listHead );
 			NEXTLINK( PREVLINK( theGlobals->listHead ) ) = theObject;
 			PREVLINK( theGlobals->listHead ) = theObject;
 			
 			// Record a stack crawl if possible
-			instanceData->stackCrawl = E3StackCrawl_New();
+			theObject->stackCrawl = E3StackCrawl_New();
 		}
 		else
 		{
-			instanceData->next = NULL;
-			instanceData->prev = NULL;
-			instanceData->stackCrawl = NULL;
+			theObject->next = NULL;
+			theObject->prev = NULL;
+			theObject->stackCrawl = NULL;
 		}
 	}
 #endif
 	
-	instanceData->theSet = NULL;
+	theObject->theSet = NULL;
 	
 	return kQ3Success;
 }
@@ -297,7 +282,7 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 //=============================================================================
 //      e3root_duplicate : Root object duplicate method.
 //-----------------------------------------------------------------------------
-static TQ3Status
+TQ3Status
 e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 						 TQ3Object toObject, void *toPrivateData)
 {
@@ -308,8 +293,8 @@ e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 	
 	if (q3status == kQ3Success)
 	{
-		TQ3ObjectData*	fromInstanceData = (TQ3ObjectData*) fromPrivateData;
-		TQ3ObjectData*	toInstanceData = (TQ3ObjectData*) toPrivateData;
+		OpaqueTQ3Object*	fromInstanceData = (OpaqueTQ3Object*) fromPrivateData;
+		OpaqueTQ3Object*	toInstanceData = (OpaqueTQ3Object*) toPrivateData;
 		
 		
 		if (fromInstanceData->theSet != NULL)
@@ -332,12 +317,13 @@ e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 //=============================================================================
 //      e3root_delete : Root delete method.
 //-----------------------------------------------------------------------------
-static void
+void
 e3root_delete( TQ3Object theObject, void *privateData )
 {
-	TQ3ObjectData	*instanceData = (TQ3ObjectData *) privateData;
+	OpaqueTQ3Object	*instanceData = (OpaqueTQ3Object *) privateData;
 
-	Q3_ASSERT(privateData == E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf));
+	Q3_ASSERT(privateData == theObject);
+//	Q3_ASSERT(privateData == E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf));
 	
 	Q3Object_CleanDispose( &instanceData->theSet );
 
@@ -364,12 +350,10 @@ e3root_delete( TQ3Object theObject, void *privateData )
 //-----------------------------------------------------------------------------
 static void
 e3root_dispose(TQ3Object theObject)
-{
-
-
+	{
 	// Dispose of the object
-	E3ClassTree_DestroyInstance(theObject);
-}
+	theObject->DestroyInstance () ;
+	}
 
 
 
@@ -420,34 +404,32 @@ e3root_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 static TQ3Status
 e3main_registercoreclasses(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Register the classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeInvalid,
+	TQ3Status qd3dStatus = E3ClassTree::RegisterClass (
+											kQ3ObjectTypeInvalid,
 											kQ3ObjectTypeRoot,
 											kQ3ClassNameRoot,
 											e3root_metahandler,
-											sizeof(TQ3ObjectData)
+											~sizeof(OpaqueTQ3Object)
 											);
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 												kQ3ObjectTypeShared,
 												kQ3ClassNameShared,
 												e3shared_metahandler,
-												sizeof(TQ3SharedData));
+												~sizeof(TQ3SharedData));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 												kQ3SharedTypeShape,
 												kQ3ClassNameShape,
 												NULL,
-												0);
+												~sizeof(TQ3ShapeData));
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -458,15 +440,11 @@ e3main_registercoreclasses(void)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3main_unregistercoreclasses(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Unregister the classes. Unregistering the root class will
 	// unregister everything else anchored underneath it.
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeRoot, kQ3True);
-	return(qd3dStatus);
-}
+	return E3ClassTree::UnregisterClass ( kQ3ObjectTypeRoot, kQ3True ) ;
+	}
 
 
 
@@ -524,7 +502,7 @@ E3Initialize(void)
 			qd3dStatus = E3DrawContext_RegisterClass();
 
 		if (qd3dStatus == kQ3Success)
-			qd3dStatus = E3Camera_RegisterClass();
+			qd3dStatus = E3Camera::RegisterClass();
 
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3Geometry_RegisterClass();
@@ -614,7 +592,7 @@ E3Exit(void)
 		{
 		// Dump some stats
 #if QUESA_DUMP_STATS_ON_EXIT
-		E3ClassTree_Dump();
+		E3ClassTree::Dump () ;
 #endif
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS && Q3_DEBUG
@@ -654,7 +632,7 @@ E3Exit(void)
 		qd3dStatus = E3Texture_UnregisterClass();
 		qd3dStatus = E3Shader_UnregisterClass();
 		qd3dStatus = E3Geometry_UnregisterClass();
-		qd3dStatus = E3Camera_UnregisterClass();
+		qd3dStatus = E3Camera::UnregisterClass();
 		qd3dStatus = E3DrawContext_UnregisterClass();
 		qd3dStatus = E3View_UnregisterClass();
 		qd3dStatus = E3Style_UnregisterClass();
@@ -665,7 +643,7 @@ E3Exit(void)
 		qd3dStatus = E3String_UnregisterClass();
 		qd3dStatus = E3Memory_UnregisterClass();
 		qd3dStatus = e3main_unregistercoreclasses();
-		E3ClassTree_Destroy();
+		E3ClassTree::Destroy () ;
 
 
 
@@ -765,26 +743,23 @@ E3GetReleaseVersion(TQ3Uns32 *releaseRevision)
 #pragma mark -
 TQ3Status
 E3ObjectHierarchy_GetTypeFromString(const TQ3ObjectClassNameString objectClassString, TQ3ObjectType *objectClassType)
-{	E3ClassInfoPtr		theClass;
-
-
-
+	{
 	// Initialise a return value
-	*objectClassType = kQ3ObjectTypeInvalid;
+	*objectClassType = kQ3ObjectTypeInvalid ;
 
 
 
 	// Find the class
-	theClass = E3ClassTree_GetClassByName(objectClassString);
-	if (theClass == NULL)
-		return(kQ3Failure);
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassString ) ;
+	if ( theClass == NULL )
+		return kQ3Failure ;
 
 
 
 	// Return the type
-	*objectClassType = E3ClassTree_GetType(theClass);
-	return(kQ3Success);
-}
+	*objectClassType = theClass->GetType () ;
+	return kQ3Success ;
+	}
 
 
 
@@ -797,26 +772,23 @@ E3ObjectHierarchy_GetTypeFromString(const TQ3ObjectClassNameString objectClassSt
 //-----------------------------------------------------------------------------
 TQ3Status
 E3ObjectHierarchy_GetStringFromType(TQ3ObjectType objectClassType, TQ3ObjectClassNameString objectClassString)
-{	E3ClassInfoPtr		theClass;
-
-
-
+	{
 	// Initialise a return value
-	strcpy(objectClassString, "");
+	strcpy ( objectClassString, "" ) ;
 
 
 
 	// Find the class
-	theClass = E3ClassTree_GetClassByType(objectClassType);
-	if (theClass == NULL)
-		return(kQ3Failure);
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassType ) ;
+	if ( theClass == NULL )
+		return kQ3Failure ;
 
 
 
 	// Return the name
-	strcpy(objectClassString, E3ClassTree_GetName(theClass));
-	return(kQ3Success);
-}
+	strcpy ( objectClassString, theClass->GetName () ) ;
+	return kQ3Success ;
+	}
 
 
 
@@ -827,15 +799,12 @@ E3ObjectHierarchy_GetStringFromType(TQ3ObjectType objectClassType, TQ3ObjectClas
 //-----------------------------------------------------------------------------
 TQ3Boolean
 E3ObjectHierarchy_IsTypeRegistered(TQ3ObjectType objectClassType)
-{	E3ClassInfoPtr		theClass;
-
-
-
+	{
 	// Find the class
-	theClass = E3ClassTree_GetClassByType(objectClassType);
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassType ) ;
 
-	return(theClass != NULL ? kQ3True : kQ3False);
-}
+	return theClass != NULL ? kQ3True : kQ3False ;
+	}
 
 
 
@@ -846,15 +815,12 @@ E3ObjectHierarchy_IsTypeRegistered(TQ3ObjectType objectClassType)
 //-----------------------------------------------------------------------------
 TQ3Boolean
 E3ObjectHierarchy_IsNameRegistered(const char *objectClassName)
-{	E3ClassInfoPtr		theClass;
-
-
-
+	{
 	// Find the class
-	theClass = E3ClassTree_GetClassByName(objectClassName);
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassName ) ;
 
-	return(theClass != NULL ? kQ3True : kQ3False);
-}
+	return theClass != NULL ? kQ3True : kQ3False ;
+	}
 
 
 
@@ -868,11 +834,7 @@ E3ObjectHierarchy_IsNameRegistered(const char *objectClassName)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3ObjectHierarchy_GetSubClassData(TQ3ObjectType objectClassType, TQ3SubClassData *subClassData)
-{	E3ClassInfoPtr		theClass, theChild;
-	TQ3Uns32			n, numChildren;
-
-
-
+	{
 	// Initialise a return value
 	subClassData->numClasses = 0;
 	subClassData->classTypes = NULL;
@@ -880,16 +842,16 @@ E3ObjectHierarchy_GetSubClassData(TQ3ObjectType objectClassType, TQ3SubClassData
 
 
 	// Find the class
-	theClass = E3ClassTree_GetClassByType(objectClassType);
-	if (theClass == NULL)
-		return(kQ3Failure);
+	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassType ) ;
+	if ( theClass == NULL )
+		return kQ3Failure ;
 
 
 
 	// Allocate the array for the child classes
 	Q3Memory_Clear(subClassData, sizeof(TQ3SubClassData));
 
-	numChildren = E3ClassTree_GetNumChildren(theClass);
+	TQ3Uns32 numChildren = theClass->GetNumChildren () ;
 	if (numChildren != 0)
 		{
 		subClassData->classTypes = (TQ3ObjectType *) Q3Memory_Allocate(sizeof(TQ3ObjectType) * numChildren);
@@ -902,19 +864,19 @@ E3ObjectHierarchy_GetSubClassData(TQ3ObjectType objectClassType, TQ3SubClassData
 
 
 	// Collect the child classes	
-	for (n = 0; n < numChildren; n++)
+	for ( TQ3Uns32 n = 0 ; n < numChildren ; ++n )
 		{
 		// Get the child
-		theChild = E3ClassTree_GetChild(theClass, n);
+		E3ClassInfoPtr theChild = theClass->GetChild ( n ) ;
 		Q3_ASSERT_VALID_PTR(theChild);
 		
 		
 		// Grab the type
-		subClassData->classTypes[n] = E3ClassTree_GetType(theChild);
+		subClassData->classTypes [ n ] = theChild->GetType () ;
 		}
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -950,10 +912,7 @@ E3ObjectHierarchy_EmptySubClassData(TQ3SubClassData *subClassData)
 #pragma mark -
 TQ3Status
 E3Object_Dispose(TQ3Object theObject)
-{	TQ3XObjectDisposeMethod		disposeMethod;
-
-
-
+	{
 	// Skip NULL objects
 	if (theObject == NULL)
 		return(kQ3Failure);
@@ -961,9 +920,9 @@ E3Object_Dispose(TQ3Object theObject)
 
 
 	// Get the method
-	disposeMethod = (TQ3XObjectDisposeMethod) E3ClassTree_GetMethod(
-												E3ClassTree_GetClassByObject(theObject),
-												kQ3XMethodTypeObjectDispose);
+	TQ3XObjectDisposeMethod disposeMethod =
+		(TQ3XObjectDisposeMethod) theObject->GetClass ()->GetMethod ( kQ3XMethodTypeObjectDispose ) ;
+		
 	if (disposeMethod == NULL)
 		return(kQ3Failure);
 
@@ -972,8 +931,8 @@ E3Object_Dispose(TQ3Object theObject)
 	// Dispose of the object
 	disposeMethod(theObject);
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1016,10 +975,7 @@ E3Object_CleanDispose(TQ3Object *theObject)
 //-----------------------------------------------------------------------------
 TQ3Object
 E3Object_Duplicate(TQ3Object theObject)
-{	TQ3Object		newObject;
-
-
-
+	{
 	// Reject draw context and view objects
 	//
 	// Note - the current Quesa implementation does not support
@@ -1042,9 +998,9 @@ E3Object_Duplicate(TQ3Object theObject)
 
 
 	// Duplicate the object
-	newObject = E3ClassTree_DuplicateInstance(theObject);
-	return(newObject);
-}
+	TQ3Object newObject =  theObject->DuplicateInstance () ;
+	return newObject ;
+	}
 
 
 
@@ -1076,17 +1032,13 @@ E3Object_Submit(TQ3Object theObject, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Boolean
 E3Object_IsDrawable(TQ3Object theObject)
-{	TQ3Boolean		isDrawable;
-
-
-
+	{
 	// Get the 'method'
-	isDrawable = (TQ3Boolean) (NULL != E3ClassTree_GetMethod(
-									E3ClassTree_GetClassByObject(theObject),
-									kQ3XMethodTypeObjectIsDrawable));
+	TQ3Boolean isDrawable = (TQ3Boolean) ( NULL != theObject->GetClass ()->GetMethod (
+									kQ3XMethodTypeObjectIsDrawable ) ) ;
 
-	return(isDrawable);
-}
+	return isDrawable ;
+	}
 
 
 
@@ -1099,21 +1051,19 @@ E3Object_IsDrawable(TQ3Object theObject)
 //-----------------------------------------------------------------------------
 TQ3Boolean
 E3Object_IsWritable(TQ3Object theObject, TQ3FileObject theFile)
-{	TQ3XObjectWriteMethod		writeMethod;
+	{
 #pragma unused(theFile)
 
 
 
 	// Get the method
-	writeMethod = (TQ3XObjectWriteMethod) E3ClassTree_GetMethod(
-												E3ClassTree_GetClassByObject(theObject),
-												kQ3XMethodTypeObjectWrite);
+	TQ3XObjectWriteMethod writeMethod = (TQ3XObjectWriteMethod) theObject->GetClass ()->GetMethod ( kQ3XMethodTypeObjectWrite ) ;
 
 
 
 	// Return as the method exists or not
-	return((TQ3Boolean) (writeMethod != NULL));
-}
+	return (TQ3Boolean) ( writeMethod != NULL ) ;
+	}
 
 
 
@@ -1130,15 +1080,10 @@ E3Object_IsWritable(TQ3Object theObject, TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3Object_GetType(TQ3Object theObject)
-{	TQ3ObjectType	theType;
-
-
-
+	{
 	// Get the type of the object below the root object
-	theType = E3ClassTree_GetObjectType(theObject, kQ3ObjectTypeRoot);
-
-	return(theType);
-}
+	return theObject->GetObjectType ( kQ3ObjectTypeRoot ) ;
+	}
 
 
 
@@ -1149,15 +1094,10 @@ E3Object_GetType(TQ3Object theObject)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3Object_GetLeafType(TQ3Object theObject)
-{	TQ3ObjectType		theType;
-
-
-
+	{
 	// Get the most specific type of the object
-	theType = E3ClassTree_GetType(E3ClassTree_GetClassByObject(theObject));
-
-	return(theType);
-}
+	return theObject->GetClass ()->GetType () ;
+	}
 
 
 
@@ -1168,15 +1108,10 @@ E3Object_GetLeafType(TQ3Object theObject)
 //-----------------------------------------------------------------------------
 TQ3Boolean
 E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType)
-{	TQ3Boolean		isType;
-
-
-
+	{
 	// Return as the object is an instance of the type
-	isType = E3ClassTree_IsType(E3ClassTree_GetClassByObject(theObject), theType);
-	
-	return(isType);
-}
+	return theObject->GetClass ()->IsType ( theType ) ;
+	}
 
 
 
@@ -1186,51 +1121,35 @@ E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType)
 //      E3Object_AddElement : Add an element to an object
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Object_AddElement(TQ3Object theObject, TQ3ElementType theType, const void *theData)
-{
-	TQ3ObjectData*	instanceData;
-	TQ3Status		qd3dStatus;
-
-
-
-	// Translate public type to internal type for set elements
-	if (theType == kQ3ElementTypeSet)
+OpaqueTQ3Object::AddElement ( TQ3ElementType theType, const void *theData )
 	{
+	// Translate public type to internal type for set elements
+	if ( theType == kQ3ElementTypeSet )
 		theType = kQ3ObjectTypeSetElement;
-	}
 
 
 
 	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
-	{
-		qd3dStatus = Q3Set_Add( (TQ3SetObject) theObject, theType, theData );
-	}
-	else	// otherwise use the set within the instance data
-	{
-		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
-		if (instanceData == NULL)
-			return(kQ3Failure);
+	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+		return Q3Set_Add ( (TQ3SetObject) this, theType, theData ) ;
 		
-		if (instanceData->theSet == NULL)
+	// otherwise use the set within the instance data
+	if ( theSet == NULL )
 		{
-			instanceData->theSet = Q3Set_New();
-			
-			if (instanceData->theSet == NULL)
-				return(kQ3Failure);
+		theSet = Q3Set_New () ;
+		
+		if ( theSet == NULL )
+			return kQ3Failure ;
 		}
-		
-		qd3dStatus = Q3Set_Add( instanceData->theSet, theType, theData );
-		
-		
-		if ( (qd3dStatus == kQ3Success) && Q3Object_IsType( theObject, kQ3ObjectTypeShared ) )
-		{
-			E3Shared_Edited( theObject );
-		}
-	}
 	
-	return qd3dStatus;
-}
+	TQ3Status qd3dStatus = Q3Set_Add ( theSet, theType, theData ) ;
+	
+	
+	if ( ( qd3dStatus != kQ3Failure ) && Q3Object_IsType ( this, kQ3ObjectTypeShared ) )
+		( (TQ3SharedData*) this )->Edited () ;
+	
+	return qd3dStatus ;
+	}
 
 
 
@@ -1240,45 +1159,25 @@ E3Object_AddElement(TQ3Object theObject, TQ3ElementType theType, const void *the
 //      E3Object_GetElement : Get element data from an object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Object_GetElement(TQ3Object theObject, TQ3ElementType theType, void *theData)
-{
-	TQ3ObjectData*	instanceData;
-	TQ3Status		qd3dStatus;
-	
-	
-	
+OpaqueTQ3Object::GetElement ( TQ3ElementType theType, void *theData )
+	{
 	// Translate public type to internal type for set elements
 	if (theType == kQ3ElementTypeSet)
-	{
 		theType = kQ3ObjectTypeSetElement;
-	}
 
 
 
 	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
-	{
-		qd3dStatus = Q3Set_Get( (TQ3SetObject) theObject, theType, theData );
-	}
-	else	// otherwise use the set within the instance data
-	{
-		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
-		if (instanceData == NULL)
-			return(kQ3Failure);
-		
-		
-		if (instanceData->theSet == NULL)
-		{
-			qd3dStatus = kQ3Failure;
-		}
-		else
-		{
-			qd3dStatus = Q3Set_Get(instanceData->theSet, theType, (void*)theData);
-		}
-	}
+	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+		return Q3Set_Get ( (TQ3SetObject) this, theType, theData ) ;
 	
-	return qd3dStatus;
-}
+	// otherwise use the set within the instance data
+	
+	if ( theSet == NULL )
+		return kQ3Failure ;
+	
+	return Q3Set_Get ( theSet, theType, (void*)theData ) ;
+	}
 
 
 
@@ -1288,40 +1187,27 @@ E3Object_GetElement(TQ3Object theObject, TQ3ElementType theType, void *theData)
 //      E3Object_ContainsElement : Test whether an object contains an element.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-E3Object_ContainsElement(TQ3Object theObject, TQ3ElementType theType)
-{
-	TQ3ObjectData*	instanceData;
-	TQ3Boolean		isElementPresent = kQ3False;
-	
-	
-	
-	// Translate public type to internal type for set elements
-	if (theType == kQ3ElementTypeSet)
+OpaqueTQ3Object::ContainsElement ( TQ3ElementType theType )
 	{
-		theType = kQ3ObjectTypeSetElement;
-	}
+	// Translate public type to internal type for set elements
+	if ( theType == kQ3ElementTypeSet )
+		theType = kQ3ObjectTypeSetElement ;
 
 
 
 	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
-	{
-		isElementPresent = Q3Set_Contains( (TQ3SetObject) theObject, theType );
-	}
-	else	// otherwise use the set within the instance data
-	{
-		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
+	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+		return Q3Set_Contains ( (TQ3SetObject) this, theType ) ;
+	
+	// otherwise use the set within the instance data		
+		
+	if ( theSet != NULL )
+		return Q3Set_Contains ( theSet, theType ) ;
 		
 		
-		if ( (instanceData != NULL) && (instanceData->theSet != NULL) )
-		{
-			isElementPresent = Q3Set_Contains( instanceData->theSet, theType );
-		}
+	
+	return kQ3False ;
 	}
-	
-	
-	return isElementPresent;
-}
 
 
 
@@ -1331,55 +1217,40 @@ E3Object_ContainsElement(TQ3Object theObject, TQ3ElementType theType)
 //      E3Object_GetNextElementType : Get the next element type in an object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Object_GetNextElementType(TQ3Object theObject, TQ3ElementType *theType)
-{
-	TQ3ObjectData*	instanceData;
-	TQ3Status		qd3dStatus = kQ3Failure;
+OpaqueTQ3Object::GetNextElementType ( TQ3ElementType *theType )
+	{
+	TQ3Status qd3dStatus = kQ3Failure ;
 	
 	
 	
 	// Translate public type to internal type for set elements
-	if (*theType == kQ3ElementTypeSet)
-	{
-		*theType = kQ3ObjectTypeSetElement;
-	}
+	if ( *theType == kQ3ElementTypeSet )
+		*theType = kQ3ObjectTypeSetElement ;
 
 
 
 	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
-	{
-		qd3dStatus = Q3Set_GetNextElementType( (TQ3SetObject) theObject, theType );
-	}
+	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+		qd3dStatus = Q3Set_GetNextElementType ( (TQ3SetObject) this, theType ) ;
 	else	// otherwise use the set within the instance data
-	{
-		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
-		
-		
-		if ( instanceData != NULL )
 		{
-			if (instanceData->theSet == NULL)
+		if ( theSet == NULL )
 			{
-				*theType = kQ3ElementTypeNone;
-				qd3dStatus = kQ3Success;
+			*theType = kQ3ElementTypeNone ;
+			return kQ3Success ;
 			}
-			else
-			{
-				qd3dStatus = Q3Set_GetNextElementType(instanceData->theSet, theType);
-			}
+		
+		qd3dStatus = Q3Set_GetNextElementType ( theSet, theType ) ;
 		}
-	}
 
 
 
-	if (*theType == kQ3ObjectTypeSetElement)
-	{
-		*theType = kQ3ElementTypeSet;
-	}
+	if ( *theType == kQ3ObjectTypeSetElement )
+		*theType = kQ3ElementTypeSet ;
 	
 	
-	return qd3dStatus;
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -1389,46 +1260,25 @@ E3Object_GetNextElementType(TQ3Object theObject, TQ3ElementType *theType)
 //      E3Object_EmptyElements : Remove all elements from an object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Object_EmptyElements(TQ3Object theObject)
-{
-	TQ3ObjectData*	instanceData;
-	TQ3Status		qd3dStatus = kQ3Failure;
-	
-	
-	
+OpaqueTQ3Object::EmptyElements ( void )
+	{
 	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
-	{
-		qd3dStatus = Q3Set_Empty( (TQ3SetObject) theObject );
-	}
-	else	// otherwise use the set within the instance data
-	{
-		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
-		
-		
-		if (instanceData == NULL)
-		{
-			qd3dStatus = kQ3Failure;	// should never happen
-		}
-		else if ( instanceData->theSet == NULL )
-		{
-			qd3dStatus = kQ3Success;
-		}
-		else
-		{
-			qd3dStatus = Q3Set_Empty(instanceData->theSet);
-		
-		
-			if ( (qd3dStatus == kQ3Success) && Q3Object_IsType( theObject, kQ3ObjectTypeShared ) )
-			{
-				E3Shared_Edited( theObject );
-			}
-		}
-	}
+	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+		return Q3Set_Empty ( (TQ3SetObject) this ) ;
+	
+	// otherwise use the set within the instance data
+	if ( theSet == NULL )
+		return kQ3Success ;
+	
+	TQ3Status qd3dStatus = Q3Set_Empty ( theSet ) ;
 	
 	
-	return qd3dStatus;
-}
+	if ( ( qd3dStatus != kQ3Failure ) && Q3Object_IsType ( this, kQ3ObjectTypeShared ) )
+		( (TQ3SharedData*) this )->Edited () ;
+	
+	
+	return qd3dStatus ;
+	}
 
 
 
@@ -1438,54 +1288,31 @@ E3Object_EmptyElements(TQ3Object theObject)
 //      E3Object_ClearElement : Remove a specific type of element from an object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Object_ClearElement(TQ3Object theObject, TQ3ElementType theType)
-{
-	TQ3ObjectData*	instanceData;
-	TQ3Status		qd3dStatus = kQ3Failure;
-	
-	
-	
+OpaqueTQ3Object::ClearElement ( TQ3ElementType theType )
+	{
 	// Translate public type to internal type for set elements
 	if (theType == kQ3ElementTypeSet)
-	{
 		theType = kQ3ObjectTypeSetElement;
-	}
 
 
 
 	// If we've actually been passed a set, use it directly
-	if (Q3Object_IsType(theObject, kQ3SharedTypeSet))
-	{
-		qd3dStatus = Q3Set_Clear( (TQ3SetObject) theObject, theType );
-	}
-	else	// otherwise use the set within the instance data
-	{
-		instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeRoot);
+	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+		return Q3Set_Clear ( (TQ3SetObject) this, theType ) ;
+	
+	// otherwise use the set within the instance data
+	if ( theSet == NULL )
+		return kQ3Success ;
+		
+	TQ3Status qd3dStatus = Q3Set_Clear ( theSet, theType ) ;
 		
 		
-		if (instanceData == NULL)
-		{
-			qd3dStatus = kQ3Failure;	// should never happen
-		}
-		else if ( instanceData->theSet == NULL )
-		{
-			qd3dStatus = kQ3Success;
-		}
-		else
-		{
-			qd3dStatus = Q3Set_Clear( instanceData->theSet, theType );
-		
-		
-			if ( (qd3dStatus == kQ3Success) && Q3Object_IsType( theObject, kQ3ObjectTypeShared ) )
-			{
-				E3Shared_Edited( theObject );
-			}
-		}
-	}
+	if ( ( qd3dStatus != kQ3Failure ) && Q3Object_IsType ( this, kQ3ObjectTypeShared ) )
+		( (TQ3SharedData*) this )->Edited () ;
 	
 	
-	return qd3dStatus;
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -1495,15 +1322,12 @@ E3Object_ClearElement(TQ3Object theObject, TQ3ElementType theType)
 //      E3Object_GetSet : Get the set of an object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Object_GetSet( TQ3Object theObject, TQ3SetObject *theSet )
-{
-	TQ3ObjectData*	instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(
-		theObject, kQ3ObjectTypeRoot );
+OpaqueTQ3Object::GetSet ( TQ3SetObject *set )
+	{
+	E3Shared_Acquire ( set, theSet ) ;
 	
-	E3Shared_Acquire( theSet, instanceData->theSet );
-	
-	return kQ3Success;
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1513,15 +1337,12 @@ E3Object_GetSet( TQ3Object theObject, TQ3SetObject *theSet )
 //      E3Object_SetSet : Set the set of an object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Object_SetSet(TQ3Object theObject, TQ3SetObject theSet)
-{
-	TQ3ObjectData*	instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(
-		theObject, kQ3ObjectTypeRoot );
+OpaqueTQ3Object::SetSet ( TQ3SetObject set )
+	{
+	E3Shared_Replace ( &theSet, set ) ;
 	
-	E3Shared_Replace( &instanceData->theSet, theSet );
-	
-	return kQ3Success;
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1533,12 +1354,10 @@ E3Object_SetSet(TQ3Object theObject, TQ3SetObject theSet)
 #pragma mark -
 TQ3ObjectType
 E3Shared_GetType(TQ3SharedObject sharedObject)
-{
-
-
+	{
 	// Return the type
-	return(E3ClassTree_GetObjectType(sharedObject, kQ3ObjectTypeShared));
-}
+	return sharedObject->GetObjectType ( kQ3ObjectTypeShared ) ;
+	}
 
 
 
@@ -1556,27 +1375,17 @@ E3Shared_GetType(TQ3SharedObject sharedObject)
 //				If acquiring a new reference could ever fail, routines like
 //				E3Shared_Replace will need to be updated.
 //-----------------------------------------------------------------------------
-TQ3SharedObject
-E3Shared_GetReference(TQ3SharedObject sharedObject)
-{	TQ3SharedData		*instanceData;
-
-
-
-	// Find the instance data
-	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(sharedObject, kQ3ObjectTypeShared);
-	if (instanceData == NULL)
-		return(NULL);
-
-
-
+TQ3SharedData*
+TQ3SharedData::GetReference ( void )
+	{
 	// Increment the reference count and return the object. Note that we
 	// return the object passed in: this is OK since we're not declared
 	// to return a different object.
-	instanceData->refCount++;
-	Q3_ASSERT(instanceData->refCount >= 2);
+	refCount++;
+	Q3_ASSERT(refCount >= 2);
 
-	return(sharedObject);
-}
+	return this ;
+	}
 
 
 
@@ -1589,21 +1398,11 @@ E3Shared_GetReference(TQ3SharedObject sharedObject)
 //				object, and kQ3False if there is one reference to the object.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-E3Shared_IsReferenced(TQ3SharedObject sharedObject)
-{	TQ3SharedData		*instanceData;
-
-
-
-	// Find the instance data
-	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(sharedObject, kQ3ObjectTypeShared);
-	if (instanceData == NULL)
-		return(kQ3False);
-
-
-
+TQ3SharedData::IsReferenced ( void )
+	{
 	// Return as the reference count is greater than 1
-	return((TQ3Boolean) (instanceData->refCount > 1));
-}
+	return ( (TQ3Boolean) ( refCount > 1 ) ) ;
+	}
 
 
 
@@ -1613,21 +1412,11 @@ E3Shared_IsReferenced(TQ3SharedObject sharedObject)
 //      E3Shared_GetReferenceCount : Return the reference count.
 //-----------------------------------------------------------------------------
 TQ3Uns32
-E3Shared_GetReferenceCount( TQ3SharedObject sharedObject )
-{
-	TQ3SharedData		*instanceData;
-
-
-	// Find the instance data
-	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(sharedObject, kQ3ObjectTypeShared);
-	if (instanceData == NULL)
-		return(0);
-
-
-
+TQ3SharedData::GetReferenceCount ( void )
+	{
 	// Return the reference count
-	return instanceData->refCount;
-}
+	return refCount ;
+	}
 
 
 
@@ -1637,21 +1426,11 @@ E3Shared_GetReferenceCount( TQ3SharedObject sharedObject )
 //      E3Shared_GetEditIndex : Return the edit index of a shared object.
 //-----------------------------------------------------------------------------
 TQ3Uns32
-E3Shared_GetEditIndex(TQ3SharedObject sharedObject)
-{	TQ3SharedData		*instanceData;
-
-
-
-	// Find the instance data
-	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(sharedObject, kQ3ObjectTypeShared);
-	if (instanceData == NULL)
-		return(0);
-
-
-
+TQ3SharedData::GetEditIndex ( void )
+	{
 	// Return the edit index
-	return(instanceData->editIndex);
-}
+	return editIndex ;
+	}
 
 
 
@@ -1661,22 +1440,12 @@ E3Shared_GetEditIndex(TQ3SharedObject sharedObject)
 //      E3Shared_Edited : Increase the edit index of an object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shared_Edited(TQ3SharedObject sharedObject)
-{	TQ3SharedData		*instanceData;
-
-
-
-	// Find the instance data
-	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(sharedObject, kQ3ObjectTypeShared);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-
-
+TQ3SharedData::Edited ( void )
+	{
 	// Increment the edit index
-	instanceData->editIndex++;
-	return(kQ3Success);
-}
+	++editIndex ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1688,12 +1457,10 @@ E3Shared_Edited(TQ3SharedObject sharedObject)
 #pragma mark -
 TQ3ObjectType
 E3Shape_GetType(TQ3ShapeObject theShape)
-{
-
-
+	{
 	// Return the type
-	return(E3ClassTree_GetObjectType(theShape, kQ3SharedTypeShape));
-}
+	return theShape->GetObjectType ( kQ3SharedTypeShape ) ;
+	}
 
 
 
@@ -1704,10 +1471,10 @@ E3Shape_GetType(TQ3ShapeObject theShape)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet)
-{
-	*theSet = NULL;
-	return E3Object_GetElement( theShape, kQ3ElementTypeSet, theSet );
-}
+	{
+	*theSet = NULL ;
+	return theShape->GetElement ( kQ3ElementTypeSet, theSet ) ;
+	}
 
 
 
@@ -1718,20 +1485,12 @@ E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shape_SetSet(TQ3ShapeObject theShape, TQ3SetObject theSet)
-{
-	TQ3Status	q3status;
-	
-	if (theSet == NULL)
 	{
-		q3status = E3Object_ClearElement( theShape, kQ3ElementTypeSet );
-	}
-	else
-	{
-		q3status = E3Object_AddElement( theShape, kQ3ElementTypeSet, &theSet );
-	}
+	if ( theSet == NULL )
+		return theShape->ClearElement ( kQ3ElementTypeSet ) ;
 	
-	return q3status;
-}
+	return theShape->AddElement ( kQ3ElementTypeSet, &theSet ) ;
+	}
 
 
 
@@ -1744,30 +1503,14 @@ E3Shape_SetSet(TQ3ShapeObject theShape, TQ3SetObject theSet)
 //		any custom elements that might be attached to the shape.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shape_SubmitElements( TQ3ShapeObject inShape, TQ3ViewObject inView )
-{
-	TQ3ObjectData		*instanceData;
-	TQ3Status			qd3dStatus;
-
-
-
-	// Find the instance data
-	instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(inShape, kQ3ObjectTypeRoot);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-
-
+OpaqueTQ3Object::SubmitElements ( TQ3ViewObject inView )
+	{
 	// Use the shape's set, if any.
-	if (instanceData->theSet == NULL)
-		qd3dStatus = kQ3Success;
-	else
-		qd3dStatus = E3Set_SubmitElements( instanceData->theSet, inView );
+	if ( theSet == NULL )
+		return kQ3Success ;
 	
-	
-	
-	return qd3dStatus;
-}
+	return E3Set_SubmitElements ( theSet, inView ) ;
+	}
 
 
 
