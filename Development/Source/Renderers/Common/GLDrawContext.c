@@ -35,7 +35,10 @@
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
 #include "GLDrawContext.h"
+
+#if QUESA_OS_COCOA
 #include "GLCocoaContext.h"
+#endif
 
 
 
