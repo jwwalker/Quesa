@@ -707,9 +707,19 @@ E3ClassTree_CreateInstance(TQ3ObjectType	classType,
 
 
 	// Find the class to instantiate
+	//
+	// Instantiating objects is often the first thing to fail if the library
+	// has not been initialised yet, so we also check for that case here.
 	theClass = E3ClassTree_GetClassByType(classType);
 	if (theClass == NULL)
+		{
+		E3ErrorManager_PostWarning(kQ3WarningTypeHasNotBeenRegistered);
+
+		if (!Q3IsInitialized())
+			E3ErrorManager_PostError(kQ3ErrorNotInitialized, kQ3False);
+
 		return(NULL);
+		}
 
 
 
