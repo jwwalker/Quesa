@@ -5389,7 +5389,7 @@ Q3Quaternion_GetAxisAndAngle(const TQ3Quaternion *quaternion, TQ3Vector3D *outAx
 #if Q3_DEBUG
 	// Further checks on quaternion
 	qlength = (float) sqrt(E3Quaternion_Dot(quaternion, quaternion));
-	if (qlength < 1.0f - FLT_EPSILON || qlength > 1.0f + FLT_EPSILON)
+	if (qlength < 1.0f - kQ3RealZero || qlength > 1.0f + kQ3RealZero)
 		return(NULL);			// quaternion must be normalized
 
 	if (0) // Further checks on outAngle
