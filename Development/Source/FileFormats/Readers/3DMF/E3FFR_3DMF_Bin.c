@@ -910,6 +910,16 @@ e3fformat_3dmf_bin_close(TQ3FileFormatObject format, TQ3Boolean abort)
 }
 
 
+//=============================================================================
+//      e3fformat_3dmf_bin_read_string : reads a string and pads the length to
+//										4 boundary.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_bin_read_string(TQ3FileFormatObject format, char* data,
+	TQ3Uns32 *ioLength)
+{
+	return E3FileFormat_GenericReadBinary_StringPadded(format, data, ioLength, kQ3True);
+}
 
 
 
@@ -991,7 +1001,7 @@ e3fformat_3dmf_bin_metahandler(TQ3XMethodType methodType)
 			break;
 
 		case kQ3XMethodTypeFFormatStringRead:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_String;
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_bin_read_string;
 			break;
 
 		case kQ3XMethodTypeFFormatRawRead:
