@@ -1210,8 +1210,7 @@ e3group_display_new(TQ3Object theObject, void *privateData, const void *paramDat
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3DisplayGroupObject 		theGroup = E3ClassTree_FindParentInstance(theObject, kQ3GroupTypeDisplay);
-	TQ3Boolean					shouldSubmit, isInline;
+{	TQ3Boolean					shouldSubmit, isInline;
 	TQ3Status					qd3dStatus;
 	TQ3DisplayGroupState		theState;
 	TQ3ViewMode					theMode;
@@ -1228,7 +1227,7 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 	// Find out if we need to submit ourselves
 	shouldSubmit = kQ3False;
 	theMode = E3View_GetViewMode(theView);
-	qd3dStatus   = Q3DisplayGroup_GetState(theGroup, &theState);
+	qd3dStatus   = E3DisplayGroup_GetState(theObject, &theState);
 	if (qd3dStatus == kQ3Success)
 		{
 		switch (theMode) {
