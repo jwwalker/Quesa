@@ -446,6 +446,11 @@ Q3Set_Empty (
  *		}
  *		</code></pre></blockquote>
  *
+ *      Search results are undefined if the set is edited while a search is in progress.
+ *      Q3Set_GetNextElementType will always return a valid element type or kQ3ElementTypeNone,
+ *      however some elements may be skipped if the set is modified before the final
+ *      kQ3ElementTypeNone is returned.
+ *
  *  @param theSet           The set object.
  *  @param theType          Given an element type, receives the next element type.
  *  @result                 Success or failure of the operation.
