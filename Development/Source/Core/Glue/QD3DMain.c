@@ -1092,7 +1092,7 @@ Q3Shape_ContainsElement(TQ3ShapeObject shape, TQ3ElementType theType)
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(shape->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape) ||
-		Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3Failure);
+		Q3Object_IsType(shape, kQ3SharedTypeSet), kQ3False);
 
 
 
