@@ -1081,9 +1081,9 @@ E3Object_IsDrawable(TQ3Object theObject)
 
 
 	// Get the 'method'
-	isDrawable = (TQ3Boolean) E3ClassTree_GetMethod(
+	isDrawable = (TQ3Boolean) (NULL != E3ClassTree_GetMethod(
 									E3ClassTree_GetClassByObject(theObject),
-									kQ3XMethodTypeObjectIsDrawable);
+									kQ3XMethodTypeObjectIsDrawable));
 
 	return(isDrawable);
 }

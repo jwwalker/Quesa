@@ -889,8 +889,8 @@ E3Renderer_IsInteractive(TQ3RendererObject theRenderer)
 
 
 	// Return as the method is defined or not
-	return((TQ3Boolean) E3ClassTree_GetMethodByObject(theRenderer,
-										 		kQ3XMethodTypeRendererIsInteractive));
+	return((TQ3Boolean) (NULL !=E3ClassTree_GetMethodByObject(theRenderer,
+										 		kQ3XMethodTypeRendererIsInteractive)));
 }
 
 

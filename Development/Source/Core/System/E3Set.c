@@ -555,7 +555,7 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 		else
 			{
 			// See if we need to inherit
-			inheritMethod = (TQ3XAttributeInheritMethod) E3ClassTree_GetMethodByObject(theElement, kQ3XMethodTypeAttributeInherit);
+			inheritMethod = (TQ3XAttributeInheritMethod) (NULL != E3ClassTree_GetMethodByObject(theElement, kQ3XMethodTypeAttributeInherit));
 			if (inheritMethod == kQ3True)
 				{
 				// Use the copy inherit method to copy the attribute
