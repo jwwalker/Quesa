@@ -61,6 +61,37 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      E3CameraInfo::E3CameraInfo : Constructor for class info of the class.
+//-----------------------------------------------------------------------------
+
+E3CameraInfo::E3CameraInfo	(
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent // nil for root class of course
+			 	)
+		: E3ShapeInfo ( newClassMetaHandler, newParent ) ,
+		frustumMatrixMethod		( (TQ3XCameraFrustumMatrixMethod)		Find_Method ( kQ3XMethodTypeCameraFrustumMatrix ) )		 
+	{
+
+	} ;
+
+
+//=============================================================================
+//      e3camera_new_class_info : Method to construct a class info record.
+//-----------------------------------------------------------------------------
+static E3ClassInfo*
+e3camera_new_class_info (
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent
+			 	)
+	{
+	return new ( std::nothrow ) E3CameraInfo ( newClassMetaHandler, newParent ) ;
+	}
+
+
+
+
+
+//=============================================================================
 //      e3camera_orthographic_frustum_matrix : Get the view to frustum matrix.
 //-----------------------------------------------------------------------------
 static void
@@ -314,6 +345,26 @@ e3camera_viewangle_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3camera_metahandler : Camera metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3camera_metahandler ( TQ3XMethodType methodType )
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeNewObjectClass :
+			return (TQ3XFunctionPointer) e3camera_new_class_info ;
+		}
+	
+	return NULL ;
+	}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3Camera_RegisterClass : Register the camera classes.
@@ -326,32 +377,24 @@ E3Camera::RegisterClass(void)
 
 
 	// Register the camera classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
-											kQ3ShapeTypeCamera,
-											kQ3ClassNameCamera,
-											NULL,
-											sizeof ( E3Camera ) ) ;
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameCamera,
+										e3camera_metahandler,
+										E3Camera ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeCamera,
-												kQ3CameraTypeOrthographic,
-												kQ3ClassNameCameraOrthographic,
-												e3camera_orthographic_metahandler,
-												sizeof ( E3OrthographicCamera ) ) ;
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameCameraOrthographic,
+											e3camera_orthographic_metahandler,
+											E3OrthographicCamera ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeCamera,
-												kQ3CameraTypeViewPlane,
-												kQ3ClassNameCameraViewPlane,
-												e3camera_viewplane_metahandler,
-												sizeof ( E3ViewPlaneCamera ) ) ;
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameCameraViewPlane,
+											e3camera_viewplane_metahandler,
+											E3ViewPlaneCamera ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeCamera,
-												kQ3CameraTypeViewAngleAspect,
-												kQ3ClassNameCameraViewAngle,
-												e3camera_viewangle_metahandler,
-												sizeof ( E3ViewAngleAspectCamera ) ) ;
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameCameraViewAngle,
+											e3camera_viewangle_metahandler,
+											E3ViewAngleAspectCamera ) ;
 
 	return(qd3dStatus);
 }

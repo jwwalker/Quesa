@@ -129,7 +129,7 @@ Q3Set_GetType(TQ3SetObject theSet)
 
 
 	// Call our implementation
-	return(E3Set_GetType(theSet));
+	return ( (E3Set*) theSet )->GetType () ;
 }
 
 
@@ -172,7 +172,7 @@ Q3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 
 
 	// Call our implementation
-	return(E3Set_Add(theSet, theType, data));
+	return ( (E3Set*) theSet )->Add ( theType, data ) ;
 }
 
 
@@ -213,7 +213,7 @@ Q3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 
 
 	// Call our implementation
-	return(E3Set_Get(theSet, theType, data));
+	return ( (E3Set*) theSet )->Get ( theType, data ) ;
 }
 
 
@@ -250,7 +250,7 @@ Q3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Call our implementation
-	return(E3Set_Contains(theSet, theType));
+	return ( (E3Set*) theSet )->Contains ( theType ) ;
 }
 
 
@@ -287,7 +287,7 @@ Q3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Call our implementation
-	return(E3Set_Clear(theSet, theType));
+	return ( (E3Set*) theSet )->Clear ( theType ) ;
 }
 
 
@@ -321,7 +321,7 @@ Q3Set_Empty(TQ3SetObject target)
 
 
 	// Call our implementation
-	return(E3Set_Empty(target));
+	return ( (E3Set*) target )->Empty () ;
 }
 
 
@@ -359,7 +359,7 @@ Q3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 
 
 	// Call our implementation
-	return(E3Set_GetNextElementType(theSet, theType));
+	return ( (E3Set*) theSet )->GetNextElementType ( theType ) ;
 }
 
 
@@ -389,7 +389,7 @@ Q3Set_CopyElement(
 
 
 	// Call our implementation
-	return(E3Set_CopyElement(sourceSet, theType, destSet));
+	return ( (E3Set*) sourceSet )->CopyElement ( theType, destSet ) ;
 }
 
 
@@ -491,7 +491,7 @@ Q3AttributeSet_Add(TQ3AttributeSet attributeSet, TQ3AttributeType theType, const
 
 
 	// Call our implementation
-	return(E3Set_Add(attributeSet, theType, data));
+	return ( (E3Set*) attributeSet )->Add ( theType, data ) ;
 }
 
 
@@ -527,7 +527,7 @@ Q3AttributeSet_Contains(TQ3AttributeSet attributeSet, TQ3AttributeType attribute
 
 
 	// Call our implementation
-	return(E3Set_Contains(attributeSet, attributeType));
+	return ( (E3Set*) attributeSet )->Contains ( attributeType ) ;
 }
 
 
@@ -567,7 +567,7 @@ Q3AttributeSet_Get(TQ3AttributeSet attributeSet, TQ3AttributeType theType, void 
 
 
 	// Call our implementation
-	return(E3Set_Get(attributeSet, theType, data));
+	return ( (E3Set*) attributeSet )->Get ( theType, data ) ;
 }
 
 
@@ -603,7 +603,7 @@ Q3AttributeSet_Clear(TQ3AttributeSet attributeSet, TQ3AttributeType theType)
 
 
 	// Call our implementation
-	return(E3Set_Clear(attributeSet, theType));
+	return ( (E3Set*) attributeSet )->Clear ( theType ) ;
 }
 
 
@@ -636,7 +636,7 @@ Q3AttributeSet_Empty(TQ3AttributeSet target)
 
 
 	// Call our implementation
-	return(E3Set_Empty(target));
+	return ( (E3Set*) target )->Empty () ;
 }
 
 

@@ -514,7 +514,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 						}
 					break;
 				default:
-					subObject = E3Set_FindElement(theSet, classType);
+					subObject = ( (E3Set*) theSet )->FindElement ( classType ) ;
 					if(subObject != NULL)
 						qd3dstatus = Q3Object_Submit (subObject, view);
 					break;

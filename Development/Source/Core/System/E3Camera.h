@@ -69,8 +69,24 @@ extern "C" {
 
 
 
+class E3CameraInfo : public E3ShapeInfo
+	{
+	TQ3XCameraFrustumMatrixMethod frustumMatrixMethod ;
+	
+public :
+
+									E3CameraInfo	(
+													TQ3XMetaHandler	newClassMetaHandler,
+													E3ClassInfo*	newParent
+					 								) ; // constructor	
+	} ;
+
+
+
+
 class E3Camera : public E3ShapeData
 	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeCamera, E3Camera, E3ShapeData )
 protected :
 
     TQ3CameraData cameraData ;
@@ -97,6 +113,7 @@ public :
 
 class E3OrthographicCamera : public E3Camera
 	{
+Q3_CLASS_ENUMS ( kQ3CameraTypeOrthographic, E3OrthographicCamera, E3Camera )
     float                                       left ;
     float                                       top ;
     float                                       right ;
@@ -125,6 +142,7 @@ public :
 
 class E3ViewPlaneCamera : public E3Camera
 	{
+Q3_CLASS_ENUMS ( kQ3CameraTypeViewPlane, E3ViewPlaneCamera, E3Camera )
     float                                       viewPlane ;
     float                                       halfWidthAtViewPlane ;
     float                                       halfHeightAtViewPlane ;
@@ -155,6 +173,7 @@ public :
 
 class E3ViewAngleAspectCamera : public E3Camera
 	{
+Q3_CLASS_ENUMS ( kQ3CameraTypeViewAngleAspect, E3ViewAngleAspectCamera, E3Camera )
     float                                       fov ;
     float                                       aspectRatioXToY ;
 

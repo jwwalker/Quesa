@@ -1617,7 +1617,7 @@ OpaqueTQ3Object::SubmitElements ( TQ3ViewObject inView )
 	if ( theSet == NULL )
 		return kQ3Success ;
 	
-	return E3Set_SubmitElements ( theSet, inView ) ;
+	return ( (E3Set*) theSet )->SubmitElements ( inView ) ;
 	}
 
 
