@@ -38,7 +38,6 @@
 
 
 
-
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
@@ -74,7 +73,8 @@
 #define kTriGridPoints										(kTriGridRows * kTriGridCols)
 
 const TQ3ColorARGB kColourARGBBackground = {1.0f, 0.0f, 0.0f, 0.1f};
-
+const TQ3ColorARGB kColorARGBPickHit = {1.0f, 1.0f, 1.0f, 0.1f};
+const TQ3ColorARGB kColorARGBPickMiss = {1.0f, 0.0f, 0.0f, 1.0f};
 
 
 
@@ -90,7 +90,8 @@ TQ3ShaderObject		gSceneTexture       = NULL;
 TQ3Boolean			gShowTexture        = kQ3False;
 TQ3Matrix4x4		gMatrixCurrent;
 TQ3Matrix4x4		gMatrixRotation;
-
+UInt32				gFlashStep			= 0;		// counts down while flash fades
+TQ3ColorARGB		gBackgroundColor;
 
 
 
@@ -1613,6 +1614,50 @@ createGeomTriMesh(void)
 
 
 
+//=============================================================================
+//      testPick : Return kQ3True if the given point hits the geometry in
+//				   gSceneGeometry, kQ3False otherwise.  (Tests Picking.)
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+testPick(TQ3ViewObject theView, TQ3Point2D mousePoint)
+{
+	TQ3WindowPointPickData	myPickData;
+	TQ3PickObject 			myPick;
+	TQ3Boolean				hitGood = kQ3False;
+	unsigned long			numHits = 0;
+	UInt32 i;
+	
+	// Prepare a window-point pick object.
+	myPickData.data.sort = kQ3PickSortNearToFar;	// give me the closest object
+	myPickData.data.mask = kQ3PickDetailMaskPickID | kQ3PickDetailMaskXYZ;	// give me the object, as well as the XYZ point
+	myPickData.data.numHitsToReturn = kQ3ReturnAllHits;	// don't really want all hits, but it appears we have no choice:
+	myPickData.point.x = mousePoint.x;				// set the point...
+	myPickData.point.y = mousePoint.y;
+	myPickData.vertexTolerance = 2.0;	// and tolerance (not sure about this!)
+	myPickData.edgeTolerance = 2.0;
+	
+	myPick = Q3WindowPointPick_New(&myPickData);
+
+	// do the picking loop
+	Q3View_StartPicking(theView, myPick);
+	for (i=0; i<100; i++) {			// try submitting up to 100 times
+		Q3MatrixTransform_Submit(&gMatrixCurrent, theView);
+		Q3Object_Submit(gSceneGeometry, theView);
+
+		// exit picking loop unless we need to retraverse
+		if (Q3View_EndPicking(theView) != kQ3ViewStatusRetraverse) break;
+	}
+
+	// check for hits
+	if (Q3Pick_GetNumHits(myPick, &numHits) != kQ3Failure && numHits > 0) hitGood = kQ3True;
+	
+	// clean up
+	Q3Pick_EmptyHitList(myPick);
+	Q3Object_Dispose(myPick);
+	return hitGood;
+}
+
+
 
 //=============================================================================
 //      appConfigureView : Configure the view.
@@ -1632,8 +1677,19 @@ appConfigureView(TQ3ViewObject				theView,
 }
 
 
-
-
+//=============================================================================
+//      appMouseDown : Handle mouse clicks.
+//					   Here, we use them to test Picking.
+//-----------------------------------------------------------------------------
+static void
+appMouseDown(TQ3ViewObject theView, TQ3Point2D mousePoint)
+{
+	gFlashStep = 5;
+	gBackgroundColor = testPick(theView, mousePoint) ? kColorARGBPickHit : kColorARGBPickMiss;
+	gBackgroundColor.r *= 2.0f;
+	gBackgroundColor.g *= 2.0f;
+	gBackgroundColor.b *= 2.0f;
+}
 
 //=============================================================================
 //      appMenuSelect : Handle menu selections.
@@ -1794,12 +1850,27 @@ static void
 appRender(TQ3ViewObject theView)
 {
 
-
 	// Subdivision styles, for testing geometries until Geom Test and Style Test merge
 	TQ3SubdivisionStyleData subdivStyle = {kQ3SubdivisionMethodConstant,   30.0f, 30.0f};
 //	TQ3SubdivisionStyleData subdivStyle = {kQ3SubdivisionMethodScreenSpace, 3.0f, 3.0f};
 //	TQ3SubdivisionStyleData subdivStyle = {kQ3SubdivisionMethodWorldSpace,  0.5f, 0.5f};
 
+
+	// If we're flashing the background color, update it now
+	TQ3DrawContextObject context;
+	if (gFlashStep) {
+		gFlashStep--;
+		if (0 == gFlashStep) {
+			gBackgroundColor = kColourARGBBackground;
+		} else {
+			gBackgroundColor.r = (gBackgroundColor.r + kColourARGBBackground.r) / 2.0f;
+			gBackgroundColor.g = (gBackgroundColor.g + kColourARGBBackground.r) / 2.0f;
+			gBackgroundColor.b = (gBackgroundColor.b + kColourARGBBackground.r) / 2.0f;
+		}
+		Q3View_GetDrawContext(theView, &context);
+		Q3DrawContext_SetClearImageColor(context, &gBackgroundColor);
+		Q3Object_Dispose(context);
+	}
 
 
 	// Submit the styles
@@ -1832,7 +1903,6 @@ appRender(TQ3ViewObject theView)
 
 
 
-
 //=============================================================================
 //      App_Initialise : Initialise the app.
 //-----------------------------------------------------------------------------
@@ -1845,7 +1915,8 @@ App_Initialise(void)
 	Qut_CreateWindow("Geom Test", 300, 300, kQ3True);
 	Qut_CreateView(appConfigureView);
 	Qut_SetRenderFunc(appRender);
-
+	Qut_SetMouseDownFunc(appMouseDown);
+	
 
 
 	// Create the initial scene
