@@ -503,7 +503,6 @@ Q3HandleStorage_Get (
  *
  *      This creates a storage object whose data is stored in a file,
  *		specified by a Mac file reference number for an open file.
- *      the typical usage of this function and any special requirements.
  *		The specified file must remain open as long as you use the storage
  *		object, and it is your responsibility to close the file later.
  *
