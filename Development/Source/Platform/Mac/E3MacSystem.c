@@ -156,7 +156,7 @@ e3mac_load_plugins(const FSSpec *fileInDirToScan)
 			if (theErr == noErr)
 				{
 				// Resolve any aliases
-				targetIsFolder = TRUE;
+				targetIsFolder = true;
 				ResolveAliasFile(&theFSSpec, true, &targetIsFolder, &wasAliased);
 
 
