@@ -170,7 +170,8 @@ TQ3Boolean	E3Rect_ContainsRect(const TQ3Area *rect1, const TQ3Area *rect2);
 
 TQ3Boolean	E3Rect_IntersectRect(const TQ3Area *rect1, const TQ3Area *rect2);
 
-void		E3Triangle_InterpolateHit(const TQ3TriangleData		*triangleData,
+void		E3Triangle_InterpolateHit (	TQ3ViewObject			theView,
+										const TQ3TriangleData	*triangleData,
 										const TQ3Param3D		*theHit,
 										TQ3Point3D				*hitXYZ,
 										TQ3Vector3D				*hitNormal,
