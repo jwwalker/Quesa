@@ -114,13 +114,13 @@ GLUtils_ConvertPixelType(TQ3PixelType pixelType)
 	// Convert the pixel type
 	switch (pixelType) {
 		case kQ3PixelTypeARGB32:
-#if QUESA_OS_MACINTOSH
-			// Workaround for bug in Apple OpenGL - requesting
-			// GL_RGBA8 produces no texture with OpenGL 1.1.2.
-			glPixelType = GL_RGB8;
-#else
+			// Note, Apple's OpenGL 1.1.2 incorrectly produces no texture if we
+			// return GL_RGBA8 here (we must return GL_RGB8). Since Apple have
+			// updated their implementation we now return the correct value.
+			//
+			// If your textures vanish and you trace it to here, check which
+			// version of OpenGL you are using.s
 			glPixelType = GL_RGBA8;
-#endif
 			break;
 	
 		case kQ3PixelTypeRGB32:
