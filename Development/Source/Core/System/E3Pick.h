@@ -5,7 +5,7 @@
         Header file for E3Pick.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -67,6 +67,8 @@ extern "C" {
 //-----------------------------------------------------------------------------
 TQ3Status				E3Pick_RegisterClass(void);
 TQ3Status				E3Pick_UnregisterClass(void);
+
+TQ3Boolean				E3Pick_IsOfMyClass ( TQ3Object object ) ;
 
 TQ3ObjectType			E3Pick_GetType(TQ3PickObject thePick);
 TQ3Status				E3Pick_GetData(TQ3PickObject thePick, TQ3PickData *data);
