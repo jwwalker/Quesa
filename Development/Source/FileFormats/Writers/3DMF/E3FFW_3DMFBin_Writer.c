@@ -450,9 +450,7 @@ E3FFW_3DMF_Close( TQ3FileFormatObject format, TQ3Boolean abort )
 		}
 			
 		
-		
-	E3Shared_Replace( &instanceData->baseData.storage, NULL );
-	
+			
 	return status;
 }
 

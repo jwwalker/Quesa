@@ -940,7 +940,6 @@ e3fformat_3dmf_bin_close(TQ3FileFormatObject format, TQ3Boolean abort)
 		Q3Memory_Free(&instanceData->types);
 		}
 	
-	E3Shared_Replace(&instanceData->MFData.baseData.storage, NULL);
 	return (status);
 
 }
