@@ -12,13 +12,12 @@ WARN = -Wall -Wpointer-arith -Wcast-qual -Waggregate-return            \
        -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \
        -Wredundant-decls -Wno-multichar -Wno-conversion
 
-INCLUDE = -include "../../../Development/Source/Platform/Unix/E3UnixPrefix.h" \
-          -I "../../Includes/Apple" \
+INCLUDE = -I "../../Includes/Apple" \
           -I "../../Includes/Quesa" \
           -I "../Qut"               \
           -I "../Qut/Unix"          \
 
-CFLAGS = $(WARN) $(INCLUDE) -c
+CFLAGS = $(WARN) $(INCLUDE) -c -DQUESA_OS_UNIX=1
 
 LDFLAGS = -L../../Libraries/Unix/Debug/ \
           -L/usr/X11/lib                \

@@ -30,8 +30,7 @@ WARN = -Wall -Wpointer-arith -Wcast-qual -Waggregate-return            \
        -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \
        -Wredundant-decls -Wno-multichar -Wno-conversion
 
-INCLUDE = -include ${SRC}${PLATFORM}/E3UnixPrefix.h \
-          -I ${SDK}"/Includes/Apple"                \
+INCLUDE = -I ${SDK}"/Includes/Apple"                \
           -I ${SDK}"/Includes/Quesa"                \
           -I ${SRC}${GLUE}                          \
           -I ${SRC}${SYSTEM}                        \
@@ -46,7 +45,7 @@ INCLUDE = -include ${SRC}${PLATFORM}/E3UnixPrefix.h \
           -I ${SRC}${RENDERER}/Interactive          \
           -I ${SRC}${PLATFORM}                      \
 
-CFLAGS = $(WARN) $(INCLUDE) -c
+CFLAGS = $(WARN) $(INCLUDE) -c -DQUESA_OS_UNIX=1
 
 LDFLAGS = -export-dynamic -lc -lm -lX11 -lGL -lGLU -L/usr/X11/lib
 
