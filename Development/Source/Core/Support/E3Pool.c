@@ -14,7 +14,7 @@
 			E3POOL_DEFINE (TE3Foo, E3Foo, static, 8);
 
 	COPYRIGHT:
-		Quesa Copyright © 1999-2001, Quesa Developers.
+		Quesa Copyright © 1999-2002, Quesa Developers.
 
 		For the list of Quesa Developers, and contact details, see:
 

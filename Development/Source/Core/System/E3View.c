@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2001, Quesa Developers.
+        Quesa Copyright © 1999-2002, Quesa Developers.
         
         For the list of Quesa Developers, and contact details, see:
         
@@ -27,7 +27,7 @@
 
 		You should have received a copy of the GNU Lesser General Public
 		License along with this library; if not, write to the Free Software
-		boundMethodFoundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
 //=============================================================================
@@ -2607,7 +2607,6 @@ E3View_State_SetStyleInterpolation(TQ3ViewObject theView, TQ3InterpolationStyle 
 //=============================================================================
 //      E3View_State_SetStyleHilight : Set the orientation state.
 //-----------------------------------------------------------------------------
-// Fred, 20/08/2001
 void
 E3View_State_SetStyleHighlight(TQ3ViewObject theView, TQ3AttributeSet highlightAttribute)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;

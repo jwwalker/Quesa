@@ -1,4 +1,3 @@
-
 /*  NAME:
         QGDemoInput_Mac.cpp
         
@@ -6,9 +5,9 @@
 		Mac implementation of QGDemoInput - checks for key presses
 
     COPYRIGHT:
-        Queeg/Quesa Copyright © 1999-2001, Queeg/Quesa Developers.
+        Quesa Copyright © 1999-2002, Quesa Developers.
         
-        For the list of Queeg/Quesa Developers, and contact details, see:
+        For the list of Quesa Developers, and contact details, see:
         
             Documentation/contributors.html
 

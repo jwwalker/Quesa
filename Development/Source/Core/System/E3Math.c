@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Quesa Copyright © 1999-2001, Quesa Developers.
+        Quesa Copyright © 1999-2002, Quesa Developers.
 
         For the list of Quesa Developers, and contact details, see:
         
