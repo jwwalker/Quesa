@@ -47,6 +47,8 @@
 //-----------------------------------------------------------------------------
 // Include files go here
 
+#include <new>
+
 
 #include "E3Memory.h"
 
@@ -112,6 +114,9 @@ class E3Root : public E3ClassInfo
 
 public :
 
+	const TQ3XObjectSubmitMethod			submitRenderMethod ; // Used in attributes and geometry so must be at this level
+	const TQ3XObjectSubmitMethod			submitPickMethod ; // Used in attributes and geometry so must be at this level
+	const TQ3XObjectSubmitMethod			submitBoundsMethod ; // Used in attributes and geometry so must be at this level
 	const TQ3XObjectSubmitMethod			submitWriteMethod ; // Used in elements and shared so must be at this level
 	
 

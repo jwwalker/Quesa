@@ -104,10 +104,10 @@ E3ShapeInfo::E3ShapeInfo	(
 
 
 //=============================================================================
-//      e3shape_register : Method to construct a class info record.
+//      e3shape_new_class_info : Method to construct a class info record.
 //-----------------------------------------------------------------------------
 static E3ClassInfo*
-e3shape_register (
+e3shape_new_class_info (
 				TQ3XMetaHandler	newClassMetaHandler,
 				E3ClassInfo*	newParent
 			 	)
@@ -131,7 +131,7 @@ e3shape_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeNewObjectClass:
-			theMethod = (TQ3XFunctionPointer) e3shape_register;
+			theMethod = (TQ3XFunctionPointer) e3shape_new_class_info;
 			break;
 
 		}
@@ -163,10 +163,10 @@ E3SharedInfo::E3SharedInfo	(
 
 
 //=============================================================================
-//      e3shared_register : Method to construct a class info record.
+//      e3shared_new_class_info : Method to construct a class info record.
 //-----------------------------------------------------------------------------
 static E3ClassInfo*
-e3shared_register (
+e3shared_new_class_info (
 				TQ3XMetaHandler	newClassMetaHandler,
 				E3ClassInfo*	newParent
 			 	)
@@ -284,7 +284,7 @@ e3shared_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeNewObjectClass:
-			theMethod = (TQ3XFunctionPointer) e3shared_register;
+			theMethod = (TQ3XFunctionPointer) e3shared_new_class_info;
 			break;
 
 		case kQ3XMethodTypeObjectNew:
@@ -326,6 +326,9 @@ E3Root::E3Root	(
 	newMethod			( (TQ3XObjectNewMethod)			Find_Method ( kQ3XMethodTypeObjectNew , kQ3False ) ) , // N.B. False, not inherited
 	deleteMethod		( (TQ3XObjectDeleteMethod)		Find_Method ( kQ3XMethodTypeObjectDelete , kQ3False ) ) , // N.B. False, not inherited
 	duplicateMethod		( (TQ3XObjectDuplicateMethod)	Find_Method ( kQ3XMethodTypeObjectDuplicate , kQ3False ) ) , // N.B. False, not inherited
+	submitRenderMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitRender , kQ3True ) ) ,
+	submitPickMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitPick , kQ3True ) ) ,
+	submitBoundsMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitBounds , kQ3True ) ) ,
 	submitWriteMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitWrite , kQ3True ) )
 	{
 	
@@ -333,11 +336,11 @@ E3Root::E3Root	(
 
 
 //=============================================================================
-//      e3root_register : Method to construct a class info record for the root class.
+//      e3root_new_class_info : Method to construct a class info record for the root class.
 // This is necessary because applications can register their own object classes based on ours
 //-----------------------------------------------------------------------------
 static E3ClassInfo*
-e3root_register (
+e3root_new_class_info (
 				TQ3XMetaHandler	newClassMetaHandler,
 				E3ClassInfo*	newParent // nil for root class of course
 			 	)
@@ -509,7 +512,7 @@ e3root_metahandler(TQ3XMethodType methodType)
 			break;
 
 		case kQ3XMethodTypeNewObjectClass:
-			theMethod = (TQ3XFunctionPointer) e3root_register;
+			theMethod = (TQ3XFunctionPointer) e3root_new_class_info;
 			break;
 
 		case kQ3XMethodTypeObjectDispose:
