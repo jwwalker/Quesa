@@ -291,6 +291,7 @@ static char gContinueTracking = 0;
 static TQ3EventRecord* gEventPtr = NULL;
 static TQ3ViewerData* gDragViewer = NULL;
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
+	static TQ3Boolean  gIsSharedLib  = kQ3False;
 	static AliasHandle gAliasHandle = NULL;
 	static TQ3Int16 gResFileRefNum = 0;
 	static TQ3Uns32 gResFileCount = 0;
@@ -302,6 +303,78 @@ static TQ3ViewerData* gDragViewer = NULL;
 
 //=============================================================================
 //      Internal functions
+//-----------------------------------------------------------------------------
+//      e3_viewer_Initialize :	Internal global initializations.
+//-----------------------------------------------------------------------------
+static
+TQ3Status e3_viewer_Initialize()
+{
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
+	if (!gResFileRefNum)
+		{
+		if (gIsSharedLib)
+			{
+			// If the gIsSharedLib is set to kQ3True then we were loaded as a shared 
+			// library and the gAliasHandle was initilized for us in the __ViewerInitialize
+			// routine to reference the shared library file that contains our resources.
+			Boolean wasChanged;
+			FSSpec fileSpec;
+			OSErr err;
+			if (!gAliasHandle)
+				return kQ3Failure;
+			err = ResolveAlias (NULL, gAliasHandle, &fileSpec, &wasChanged);
+			if (err)
+				return kQ3Failure;
+			gResFileRefNum = FSpOpenResFile (&fileSpec, fsRdPerm);
+			err = ResError ();
+			if (err)
+				return kQ3Failure;
+			}
+		else
+			{
+			// Otherwise we are a static library and the application file should contain 
+			// the Viewer resources.
+			OSErr err;
+			gResFileRefNum = CurResFile();
+			err = ResError ();
+			if (err)
+				return kQ3Failure;
+			// should we check availability of our resources? drury@process.com.au 4 March 2001
+			}
+		}
+	++gResFileCount;
+#endif
+
+	return kQ3Success;
+}
+
+//-----------------------------------------------------------------------------
+//      e3_viewer_Terminate : Internal global termination.
+//-----------------------------------------------------------------------------
+static
+TQ3Status e3_viewer_Terminate()
+{
+#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
+	if (gResFileCount)
+		{
+		--gResFileCount;
+		if (gResFileCount == 0)
+			{
+			if (gIsSharedLib)
+				{
+				CloseResFile (gResFileRefNum);
+				}
+			else
+				{
+				}
+			gResFileRefNum = 0;
+			}
+		}
+#endif
+
+	return kQ3Success;
+}
+
 //-----------------------------------------------------------------------------
 //      e3_viewer_GetPortWindow :	Convert a TQ3Port into the associated Window.
 //									MacOS only.
@@ -380,6 +453,14 @@ e3_viewer_button_to_external(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 	if (theButton == n)
 		return(m);
 	if (viewerData->flags & kQ3ViewerButtonOptions)
+		m++;
+	n++;
+
+	// The non-QD3D About button which is always on.
+	// Maybe need to add option for this? drury@process.com.au 23 March 2001
+	if (theButton == n)
+		return(m);
+	if (true)
 		m++;
 	n++;
 
@@ -1731,7 +1812,9 @@ e3_viewer_button_to_internal(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 	if (viewerData->flags & kQ3ViewerButtonOptions)
 		externalButtons[n++] = eOptionsButton;
 
-
+	// The non-QD3D About button which is always on.
+	// Maybe need to add option for this? drury@process.com.au 23 March 2001
+	externalButtons[n++] = eAboutBoxButton;
 
 	// Look up the button
 	if (theButton > eFirstButton && theButton < eLastButton)
@@ -1791,24 +1874,8 @@ Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 		return NULL;
 	if (Q3Initialize () == kQ3Failure)
 		return NULL;
-#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
-	if (!gResFileRefNum)
-		{
-		Boolean wasChanged;
-		FSSpec fileSpec;
-		OSErr err;
-		if (!gAliasHandle)
-			return NULL;
-		err = ResolveAlias (NULL, gAliasHandle, &fileSpec, &wasChanged);
-		if (err)
-			return NULL;
-		gResFileRefNum = FSpOpenResFile (&fileSpec, fsRdPerm);
-		err = ResError ();
-		if (err)
-			return NULL;
-		}
-	++gResFileCount;
-#endif
+	if (e3_viewer_Initialize() == kQ3Failure)
+		return NULL;
 	viewerData = (TQ3ViewerData*)E3Memory_Allocate (sizeof (TQ3ViewerData));
 	if (viewerData)
 		{
@@ -2106,17 +2173,7 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 		}
 	e3callallplugins (viewerData, kQ3XMethodType_ViewerPluginDeleteViewer);
 	E3Memory_Free (&((void *) viewerData));
-#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
-	if (gResFileCount)
-		{
-		--gResFileCount;
-		if (gResFileCount == 0)
-			{
-			CloseResFile (gResFileRefNum);
-			gResFileRefNum = 0;
-			}
-		}
-#endif
+	e3_viewer_Terminate();
 	// do not recode this as kQ3GoodResult is noErr on MacOS
 	if (Q3Exit () == kQ3Success)
 		return kQ3GoodResult;
@@ -3428,15 +3485,15 @@ Q3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 		
 		r = viewer->theRect;
 		r.top = r.bottom - kQ3ControllerHeight;
-		if (e3pointinrect (&pt, &r)) // in tool rect
-			return 1;
+		if (e3pointinrect (&pt, &r)) // in tool rect, but not on a button so I didn't handle it
+			return 0;
 		
 	#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 		// mouse must be in drag border
 		if ((viewer->flags & kQ3ViewerDragMode) && ((viewer->flags & kQ3ViewerDraggingOutOff) == 0))
 			e3dodrag (viewer, gEventPtr);
 	#endif
-		return 1; // It was in my area so I handled it even if I did nothing
+		return 0; // It was in my area but I didn't handle it, so give the application a chance
 		}
 	return 0;
 	}
@@ -4491,6 +4548,7 @@ extern void __terminate(void);
 OSErr __ViewerInitialize (const CFragInitBlock* initBlock)
 	{
 	OSErr err = __initialize (initBlock);
+	gIsSharedLib = kQ3True;
 	if (err == noErr)
 		{
 		if (initBlock->fragLocator.where == kDataForkCFragLocator)
