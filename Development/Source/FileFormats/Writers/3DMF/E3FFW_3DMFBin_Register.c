@@ -59,7 +59,6 @@
 //-----------------------------------------------------------------------------
 //      e3ffw_3dmfbin_geom : Writer geometry metahandler.
 //-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmf_geom(TQ3XMethodType methodType)
 {	TQ3XFunctionPointer		theMethod = NULL;
@@ -91,7 +90,7 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 */
 
 /* 
-	by now let's convert everithing to triangles
+	by now let's convert everything to triangles
 		case kQ3GeometryTypeBox:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Box;
 			break;
