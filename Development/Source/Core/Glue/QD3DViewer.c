@@ -1534,7 +1534,7 @@ Q3Viewer_EditUndo(TQ3ViewerObject theViewer)
 //      Q3Viewer_GetUndoString : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-Q3Viewer_GetUndoString(TQ3ViewerObject theViewer, char *theBuffer, TQ3Uns32 bufferSize)
+Q3Viewer_GetUndoString(TQ3ViewerObject theViewer, char *theBuffer, TQ3Uns32 *bufferSize)
 {
 
 
@@ -1803,7 +1803,7 @@ Q3Viewer_EventMouseUp(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 
 
 	// Call our implementation
-	return(E3Viewer_MouseUp(theViewer, hPos, vPos));
+	return(E3Viewer_EventMouseUp(theViewer, hPos, vPos));
 }
 
 
@@ -2269,40 +2269,6 @@ Q3Viewer_SetCallbackDraw(TQ3ViewerObject theViewer, TQ3ViewerDrawCallbackMethod 
 
 
 
-//=============================================================================
-//      Q3Viewer_GetCallbackResize : Quesa API entry point.
-//-----------------------------------------------------------------------------
-TQ3ViewerWindowResizeCallbackMethod
-Q3Viewer_GetCallbackResize(TQ3ViewerObject theViewer)
-{
-
-
-	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
-
-
-
-	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theViewer
-		return(NULL);
-#endif
-
-
-
-	// Call the bottleneck
-	E3System_Bottleneck();
-
-
-
-	// Call our implementation
-	return(E3Viewer_GetCallbackResize(theViewer));
-}
-
-
-
-
 
 //=============================================================================
 //      Q3Viewer_SetCallbackResize : Quesa API entry point.
@@ -2349,7 +2315,7 @@ Q3Viewer_SetCallbackResize(TQ3ViewerObject theViewer, TQ3ViewerWindowResizeCallb
 //=============================================================================
 //      Q3Viewer_GetCallbackResize : Quesa API entry point.
 //-----------------------------------------------------------------------------
-TQ3ViewerPaneResizeNotifyCallbackMethod
+TQ3ViewerWindowResizeCallbackMethod
 Q3Viewer_GetCallbackResize(TQ3ViewerObject theViewer)
 {
 
@@ -2381,50 +2347,13 @@ Q3Viewer_GetCallbackResize(TQ3ViewerObject theViewer)
 
 
 
-//=============================================================================
-//      Q3Viewer_SetCallbackResize : Quesa API entry point.
-//-----------------------------------------------------------------------------
-TQ3Status
-Q3Viewer_SetCallbackResize(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyCallbackMethod theCallback, const void *userData)
-{
-
-
-	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(userData), kQ3Failure);
-
-
-
-	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theViewer
-		return(kQ3Failure);
-
-	if (0) // Further checks on theCallback
-		return(kQ3Failure);
-
-	if (0) // Further checks on userData
-		return(kQ3Failure);
-#endif
-
-
-
-	// Call the bottleneck
-	E3System_Bottleneck();
-
-
-
-	// Call our implementation
-	return(E3Viewer_SetCallbackResize(theViewer, theCallback, userData));
-}
-
-
-
 
 
 //=============================================================================
 //      QD3D Viewer - Mac OS public functions
+//-----------------------------------------------------------------------------
+#if QUESA_OS_MACINTOSH
+
 //-----------------------------------------------------------------------------
 //      Q3ViewerGetVersion : Quesa API entry point.
 //-----------------------------------------------------------------------------
@@ -4486,12 +4415,15 @@ Q3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong)
 	return(E3ViewerGetPhongShading(theViewer, phong));
 }
 
-
+#endif // QUESA_OS_MACINTOSH
 
 
 
 //=============================================================================
 //      QD3D Viewer - Windows public functions
+//-----------------------------------------------------------------------------
+#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
+
 //-----------------------------------------------------------------------------
 //      Q3WinViewerGetVersion : Quesa API entry point.
 //-----------------------------------------------------------------------------
@@ -6185,6 +6117,7 @@ Q3WinViewerSetCameraView(TQ3ViewerObject viewer, TQ3ViewerCameraView viewType)
 }
 
 
+#endif // defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 
 
 
