@@ -36,6 +36,7 @@
 #include "IRPrefix.h"
 #include "IRUpdate.h"
 #include "IRTexture.h"
+#include "IRTriBuffer.h"
 
 #include "GLPrefix.h"
 #include "GLCamera.h"
@@ -318,6 +319,12 @@ IRRenderer_Update_Style_Interpolation(TQ3ViewObject				theView,
 
 
 
+	// Flush any buffered triangles
+	if (instanceData->triBufferActive)
+		IRTriBuffer_Draw(theView, instanceData);
+
+
+
 	// Set the interpolation style
 	//
 	// OpenGL has two shading model, flat and smooth (Gouraud shading).
@@ -358,6 +365,12 @@ IRRenderer_Update_Style_Backfacing(TQ3ViewObject		theView,
 
 	// Activate our context
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
+
+
+
+	// Flush any buffered triangles
+	if (instanceData->triBufferActive)
+		IRTriBuffer_Draw(theView, instanceData);
 
 
 
@@ -407,6 +420,12 @@ IRRenderer_Update_Style_Fill(TQ3ViewObject		theView,
 
 	// Activate our context
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
+
+
+
+	// Flush any buffered triangles
+	if (instanceData->triBufferActive)
+		IRTriBuffer_Draw(theView, instanceData);
 
 
 
@@ -465,6 +484,12 @@ IRRenderer_Update_Style_Orientation(TQ3ViewObject			theView,
 
 	// Activate our context
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
+
+
+
+	// Flush any buffered triangles
+	if (instanceData->triBufferActive)
+		IRTriBuffer_Draw(theView, instanceData);
 
 
 
@@ -537,6 +562,12 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 
 	// Activate our context
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
+
+
+
+	// Flush any buffered triangles
+	if (instanceData->triBufferActive)
+		IRTriBuffer_Draw(theView, instanceData);
 
 
 
@@ -621,6 +652,12 @@ IRRenderer_Update_Style_Fog(TQ3ViewObject		theView,
 
 	// Activate our context
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
+
+
+
+	// Flush any buffered triangles
+	if (instanceData->triBufferActive)
+		IRTriBuffer_Draw(theView, instanceData);
 
 
 
@@ -794,6 +831,12 @@ IRRenderer_Update_Shader_Illumination(TQ3ViewObject			theView,
 
 
 
+	// Flush any buffered triangles
+	if (instanceData->triBufferActive)
+		IRTriBuffer_Draw(theView, instanceData);
+
+
+
 	// Update our state
     if (shaderData != NULL && *shaderData != NULL)
         instanceData->stateViewIllumination = Q3IlluminationShader_GetType(*shaderData);
@@ -846,6 +889,12 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 
 	// Activate our context
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
+
+
+
+	// Flush any buffered triangles
+	if (instanceData->triBufferActive)
+		IRTriBuffer_Draw(theView, instanceData);
 
 
 
