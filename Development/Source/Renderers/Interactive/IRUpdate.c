@@ -44,6 +44,7 @@
 
 
 
+
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
@@ -1843,23 +1844,29 @@ IRRenderer_Update_Style_Backfacing(TQ3ViewObject		theView,
 
 
 	// Set the backfacing style
-	//
-	// OpenGL doesn't do automatic flipping, so we have to just treat
-	// that style as being equivalent to kQ3BackfacingStyleBoth.
 	instanceData->stateBackfacing = *styleData;
 
 	switch (instanceData->stateBackfacing) {
 		case kQ3BackfacingStyleRemove:
+			// Disable 2-sided lighting and cull back-faces
+			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_BACK);
 			break;
 
 		case kQ3BackfacingStyleFlip:
-		case kQ3BackfacingStyleBoth:
-		default:
+			// Enable 2-sided lighting and turn off culling
+			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 			glDisable(GL_CULL_FACE);
 			break;
-		}	
+
+		case kQ3BackfacingStyleBoth:
+		default:
+			// Disable 2-sided lighting and turn off culling
+			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
+			glDisable(GL_CULL_FACE);
+			break;
+		}
 
 	return(kQ3Success);
 }
