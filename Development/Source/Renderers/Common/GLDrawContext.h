@@ -83,6 +83,8 @@ TQ3Boolean			GLDrawContext_UpdateWindowClip(
 TQ3Boolean			GLDrawContext_UpdateWindowPosition(
 								void					*glContext);
 
+GLfloat				GLDrawContext_GetMinLineWidth(
+								void					*glContext);
 
 
 
