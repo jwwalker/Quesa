@@ -50,7 +50,11 @@
 //-----------------------------------------------------------------------------
 #define kAAPointSize									0.5f
 #define kAALineSize										0.5f
-
+#if QUESA_HOST_IS_BIG_ENDIAN
+	#define kNativeEndian kQ3EndianBig
+#else
+	#define kNativeEndian kQ3EndianLittle
+#endif
 
 
 
@@ -1322,9 +1326,9 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 		}
 
 
-	// Big endian conversion
-	if (srcByteOrder == kQ3EndianBig)
+	if (srcByteOrder == kNativeEndian)
 		{
+		// Pixel conversion with no endian-swapping
 		switch(srcPixelType) {
 			case kQ3PixelTypeARGB32:
 				for (y = 0; y < theHeight; y++)
@@ -1482,9 +1486,9 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 		}
 
 
-	// Little endian conversion
 	else
 		{
+		// Pixel conversion with endian-swapping
 		switch(srcPixelType) {
 			case kQ3PixelTypeARGB32:
 				for (y = 0; y < theHeight; y++)
