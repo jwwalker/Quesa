@@ -660,7 +660,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
     pixelFormatDesc.nVersion   = 1;
     pixelFormatDesc.dwFlags    = pfdFlags;
     pixelFormatDesc.cColorBits = colorBits;
-    pixelFormatDesc.cDepthBits = depthBits;
+    pixelFormatDesc.cDepthBits = (TQ3Uns8)depthBits;
     pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
 
 	if (drawContextData.doubleBufferState)
@@ -743,8 +743,6 @@ gldrawcontext_win_destroy(void *glContext)
 
 
 
-
-
 //=============================================================================
 //		gldrawcontext_win_swapbuffers : Swap the buffers of an OpenGL context.
 //-----------------------------------------------------------------------------
@@ -752,7 +750,12 @@ static void
 gldrawcontext_win_swapbuffers(void *glContext)
 {	HDC		theDC;
 	WinGLContext		*theContext = (WinGLContext *) glContext;
-	TQ3Uns32 x,y,srcRows,dstRows,*src,*dst;
+	TQ3Uns32 rowDWORDS,*src,*dst;
+#if QUESA_USES_NORMAL_DIBs
+	TQ3Uns32 pixmapSize,*dstEnd;
+#else
+	TQ3Uns32 x,y;
+#endif
 	
 
 
@@ -766,19 +769,39 @@ gldrawcontext_win_swapbuffers(void *glContext)
 	
 	// if OpenGL is drawing into our backBuffer copy it
 	if(theContext->backBuffer != NULL){
-		//Quick hack to test concept
-			if(theContext->pixmap.pixelSize == 16){
-				src = (TQ3Uns32*)theContext->pBits;
-				dst = theContext->pixmap.image;
-				srcRows = dstRows = (theContext->pixmap.width + 1) / 2;
-				for(y = 0; y < theContext->pixmap.height; y++){
-					for(x = 0; x < srcRows; x++){
-						dst[x] = src[x];
-						}
-						src += srcRows;
-						dst += dstRows;
-					}
-				}
+		
+		switch(theContext->pixmap.pixelSize){
+			case 16:
+				rowDWORDS = ((theContext->pixmap.width + 1) / 2);
+				break;
+			case 24:
+				rowDWORDS = Q3Size_Pad(theContext->pixmap.width * 3) / 4;
+				break;
+			case 32:
+				rowDWORDS = theContext->pixmap.width;
+				break;
+			}
+			
+		src = (TQ3Uns32*)theContext->pBits;
+		dst = theContext->pixmap.image;
+
+#if QUESA_USES_NORMAL_DIBs
+		pixmapSize = rowDWORDS * theContext->pixmap.height;
+		dstEnd = dst + pixmapSize;
+		while(dst < dstEnd){
+			*dst++ = *src++;
+			}
+#else
+		dst += rowDWORDS * (theContext->pixmap.height -1);
+		
+		for(y = 0; y < theContext->pixmap.height; y++){
+			for(x = 0; x < rowDWORDS; x++){
+				dst[x] = src[x];
+			}
+			src += rowDWORDS;
+			dst -= rowDWORDS;
+		}
+#endif
 		}
 }
 
