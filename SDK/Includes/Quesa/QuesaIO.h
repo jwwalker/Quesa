@@ -211,7 +211,7 @@ typedef TQ3Object                               TQ3FileFormatObject;
  *	@param		view		A view object.
  *	result		Success or failure of the operation.
 */
-typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseMethod)       (TQ3Object object, void *data, TQ3ViewObject view);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseMethod)       (TQ3Object object, void *data, TQ3ViewObject view);
 
 /*!
  *	@typedef	TQ3XObjectTraverseDataMethod
@@ -220,7 +220,7 @@ typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseMethod)       
  *		The QuickDraw 3D documention mentions this method, but does not explain how it
  *		differs from <code>TQ3XObjectTraverseMethod</code>.  Quesa does not use it.
  */
-typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseDataMethod)   (TQ3Object object, void *data, TQ3ViewObject view);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseDataMethod)   (TQ3Object object, void *data, TQ3ViewObject view);
 
 /*!
  *	@typedef	TQ3XObjectWriteMethod
@@ -242,12 +242,12 @@ typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseDataMethod)   
  *	@param		theFile		A file object.
  *	@result		Success or failure of the operation.
  */
-typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectWriteMethod)          (const void *data, TQ3FileObject theFile);
-typedef CALLBACK_API_C(void,                    TQ3XDataDeleteMethod)           (void *data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectWriteMethod)          (const void *data, TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(void,                    TQ3XDataDeleteMethod)           (void *data);
 
 
 // Method types - 3DMF read
-typedef CALLBACK_API_C(TQ3Object,               TQ3XObjectReadMethod)           (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XObjectReadMethod)           (TQ3FileObject theFile);
 
 /*!
  *	@typedef	TQ3XObjectReadDataMethod
@@ -261,13 +261,13 @@ typedef CALLBACK_API_C(TQ3Object,               TQ3XObjectReadMethod)           
  *	@param		theFile				A file object.	
  *	@result		Success or failure of the operation.
  */
-typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectReadDataMethod)       (TQ3Object parentObject, TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectAttachMethod)         (TQ3Object childObject, TQ3Object parentObject);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectReadDataMethod)       (TQ3Object parentObject, TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectAttachMethod)         (TQ3Object childObject, TQ3Object parentObject);
 
 
 // Method types - file format common
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatCloseMethod)         (TQ3FileFormatObject format, TQ3Boolean abort);
-typedef CALLBACK_API_C(TQ3FileMode,             TQ3XFFormatGetFormatTypeMethod) (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatCloseMethod)         (TQ3FileFormatObject format, TQ3Boolean abort);
+typedef Q3_CALLBACK_API_C(TQ3FileMode,             TQ3XFFormatGetFormatTypeMethod) (TQ3FileObject theFile);
 
 
 // Method types - file format read
@@ -287,16 +287,16 @@ typedef CALLBACK_API_C(TQ3FileMode,             TQ3XFFormatGetFormatTypeMethod) 
  *										or kQ3ObjectTypeInvalid.	
  *	@result		Success or failure of the operation.
  */
-typedef CALLBACK_API_C(TQ3Boolean,              TQ3XFFormatCanReadMethod)       (TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatReadHeaderMethod)    (TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3Object,               TQ3XFFormatReadObjectMethod)    (TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatSkipObjectMethod)    (TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod)   (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Boolean,              TQ3XFFormatCanReadMethod)       (TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatReadHeaderMethod)    (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XFFormatReadObjectMethod)    (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatSkipObjectMethod)    (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod)   (TQ3FileObject theFile);
 
 
 // Method types - file format write
 
-typedef CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitObjectMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitObjectMethod)(
                             TQ3ViewObject       theView,
                             void                *fileFormatPrivate,
                             TQ3Object			theObject,
@@ -304,33 +304,33 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitObjectMethod)(
 							const void			*objectData);
 
 // Method types - used for Q3XXX_ReadMethods (not required when implementing a new format)
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadMethod)   (TQ3FileFormatObject format, TQ3Float32* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadArrayMethod)   (TQ3FileFormatObject format, TQ3Uns32 numFloats, TQ3Float32* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat64ReadMethod)   (TQ3FileFormatObject format, TQ3Float64* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8ReadMethod)      (TQ3FileFormatObject format, TQ3Int8* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int8* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16ReadMethod)     (TQ3FileFormatObject format, TQ3Int16* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int16* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32ReadMethod)     (TQ3FileFormatObject format, TQ3Int32* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int32* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt64ReadMethod)     (TQ3FileFormatObject format, TQ3Int64* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatStringReadMethod)    (TQ3FileFormatObject format, char* data, TQ3Uns32 *length);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatRawReadMethod)       (TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadMethod)   (TQ3FileFormatObject format, TQ3Float32* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadArrayMethod)   (TQ3FileFormatObject format, TQ3Uns32 numFloats, TQ3Float32* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat64ReadMethod)   (TQ3FileFormatObject format, TQ3Float64* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8ReadMethod)      (TQ3FileFormatObject format, TQ3Int8* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int8* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16ReadMethod)     (TQ3FileFormatObject format, TQ3Int16* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int16* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32ReadMethod)     (TQ3FileFormatObject format, TQ3Int32* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int32* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt64ReadMethod)     (TQ3FileFormatObject format, TQ3Int64* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatStringReadMethod)    (TQ3FileFormatObject format, char* data, TQ3Uns32 *length);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatRawReadMethod)       (TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);
 
 
 // Method types - used for Q3XXX_WriteMethods
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32WriteMethod)  (TQ3FileFormatObject format, const TQ3Float32 *data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat64WriteMethod)  (TQ3FileFormatObject format, const TQ3Float64 *data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8WriteMethod)     (TQ3FileFormatObject format, const TQ3Int8 *data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16WriteMethod)    (TQ3FileFormatObject format, const TQ3Int16 *data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32WriteMethod)    (TQ3FileFormatObject format, const TQ3Int32 *data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt64WriteMethod)    (TQ3FileFormatObject format, const TQ3Int64 *data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatStringWriteMethod)   (TQ3FileFormatObject format, const char* data);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatRawWriteMethod)      (TQ3FileFormatObject format, const unsigned char* data, TQ3Uns32 length);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32WriteMethod)  (TQ3FileFormatObject format, const TQ3Float32 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat64WriteMethod)  (TQ3FileFormatObject format, const TQ3Float64 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt8WriteMethod)     (TQ3FileFormatObject format, const TQ3Int8 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt16WriteMethod)    (TQ3FileFormatObject format, const TQ3Int16 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt32WriteMethod)    (TQ3FileFormatObject format, const TQ3Int32 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatInt64WriteMethod)    (TQ3FileFormatObject format, const TQ3Int64 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatStringWriteMethod)   (TQ3FileFormatObject format, const char* data);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatRawWriteMethod)      (TQ3FileFormatObject format, const unsigned char* data, TQ3Uns32 length);
 
 
 // Method types - misc
-typedef CALLBACK_API_C(TQ3Status,               TQ3FileIdleMethod)              (TQ3FileObject theFile, const void *idlerData);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3FileIdleMethod)              (TQ3FileObject theFile, const void *idlerData);
 
 
 // FileFormat common data (must be first field in struct)           
@@ -404,7 +404,7 @@ typedef struct TQ3UnknownBinaryData {
  *  @param deleteData       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_SubmitWriteData (
     TQ3ViewObject                 view,
     TQ3Size                       size,
@@ -430,7 +430,7 @@ Q3XView_SubmitWriteData (
  *  @param deleteData       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_SubmitSubObjectData (
     TQ3ViewObject                 view,
     TQ3XObjectClass               objectClass,
@@ -452,7 +452,7 @@ Q3XView_SubmitSubObjectData (
  *
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3FileObject  )
+Q3_EXTERN_API_C ( TQ3FileObject  )
 Q3File_New (
     void
 );
@@ -472,7 +472,7 @@ Q3File_New (
  *  @param storage          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_GetStorage (
     TQ3FileObject                 theFile,
     TQ3StorageObject              *storage
@@ -493,7 +493,7 @@ Q3File_GetStorage (
  *  @param storage          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SetStorage (
     TQ3FileObject                 theFile,
     TQ3StorageObject              storage
@@ -518,7 +518,7 @@ Q3File_SetStorage (
  *                          Pass NULL if you don't need this information.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_OpenRead (
     TQ3FileObject                 theFile,
     TQ3FileMode                   *mode
@@ -541,7 +541,7 @@ Q3File_OpenRead (
  *  @param mode             A combination of TQ3FileModeMasks values.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_OpenWrite (
     TQ3FileObject                 theFile,
     TQ3FileMode                   mode
@@ -559,7 +559,7 @@ Q3File_OpenWrite (
  *  @param isOpen           Receives kQ3True if the file is open.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_IsOpen (
     TQ3FileObject                 theFile,
     TQ3Boolean                    *isOpen
@@ -577,7 +577,7 @@ Q3File_IsOpen (
  *  @param mode             Receives the current mode mask.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_GetMode (
     TQ3FileObject                 theFile,
     TQ3FileMode                   *mode
@@ -595,7 +595,7 @@ Q3File_GetMode (
  *  @param version          Receives the file format version.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_GetVersion (
     TQ3FileObject                 theFile,
     TQ3FileVersion                *version
@@ -616,7 +616,7 @@ Q3File_GetVersion (
  *  @param theFile          The file object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_Close (
     TQ3FileObject                 theFile
 );
@@ -635,7 +635,7 @@ Q3File_Close (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_Cancel (
     TQ3FileObject                 theFile
 );
@@ -655,7 +655,7 @@ Q3File_Cancel (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartWriting (
     TQ3ViewObject                 view,
     TQ3FileObject                 theFile
@@ -675,7 +675,7 @@ Q3View_StartWriting (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ViewStatus  )
+Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndWriting (
     TQ3ViewObject                 view
 );
@@ -694,7 +694,7 @@ Q3View_EndWriting (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3File_GetNextObjectType (
     TQ3FileObject                 theFile
 );
@@ -714,7 +714,7 @@ Q3File_GetNextObjectType (
  *  @param ofType           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsNextObjectOfType (
     TQ3FileObject                 theFile,
     TQ3ObjectType                 ofType
@@ -734,7 +734,7 @@ Q3File_IsNextObjectOfType (
  *  @param theFile          The file object.
  *  @result                 The new object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3Object  )
+Q3_EXTERN_API_C ( TQ3Object  )
 Q3File_ReadObject (
     TQ3FileObject                 theFile
 );
@@ -753,7 +753,7 @@ Q3File_ReadObject (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SkipObject (
     TQ3FileObject                 theFile
 );
@@ -772,7 +772,7 @@ Q3File_SkipObject (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsEndOfData (
     TQ3FileObject                 theFile
 );
@@ -792,7 +792,7 @@ Q3File_IsEndOfData (
  *  @param rootObject       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsEndOfContainer (
     TQ3FileObject                 theFile,
     TQ3Object                     rootObject
@@ -812,7 +812,7 @@ Q3File_IsEndOfContainer (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsEndOfFile (
     TQ3FileObject                 theFile
 );
@@ -832,7 +832,7 @@ Q3File_IsEndOfFile (
  *  @param sharedObject     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_MarkAsExternalReference (
     TQ3FileObject                 theFile,
     TQ3SharedObject               sharedObject
@@ -852,7 +852,7 @@ Q3File_MarkAsExternalReference (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3GroupObject  )
+Q3_EXTERN_API_C ( TQ3GroupObject  )
 Q3File_GetExternalReferences (
     TQ3FileObject                 theFile
 );
@@ -871,7 +871,7 @@ Q3File_GetExternalReferences (
  *  @param sharedObject     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shared_ClearEditTracking (
     TQ3SharedObject               sharedObject
 );
@@ -890,7 +890,7 @@ Q3Shared_ClearEditTracking (
  *  @param sharedObject     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Shared_GetEditTrackingState (
     TQ3SharedObject               sharedObject
 );
@@ -910,7 +910,7 @@ Q3Shared_GetEditTrackingState (
  *  @param readGroupState   Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SetReadInGroup (
     TQ3FileObject                 theFile,
     TQ3FileReadGroupState         readGroupState
@@ -931,7 +931,7 @@ Q3File_SetReadInGroup (
  *  @param readGroupState   Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_GetReadInGroup (
     TQ3FileObject                 theFile,
     TQ3FileReadGroupState         *readGroupState
@@ -953,7 +953,7 @@ Q3File_GetReadInGroup (
  *  @param idleData         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SetIdleMethod (
     TQ3FileObject                 theFile,
     TQ3FileIdleMethod             idle,
@@ -974,7 +974,7 @@ Q3File_SetIdleMethod (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NewLine_Write (
     TQ3FileObject                 theFile
 );
@@ -994,7 +994,7 @@ Q3NewLine_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns8_Read (
     TQ3Uns8                       *data,
     TQ3FileObject                 theFile
@@ -1015,7 +1015,7 @@ Q3Uns8_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns8_Write (
     TQ3Uns8                       data,
     TQ3FileObject                 theFile
@@ -1036,7 +1036,7 @@ Q3Uns8_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns16_Read (
     TQ3Uns16                      *data,
     TQ3FileObject                 theFile
@@ -1057,7 +1057,7 @@ Q3Uns16_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns16_Write (
     TQ3Uns16                      data,
     TQ3FileObject                 theFile
@@ -1078,7 +1078,7 @@ Q3Uns16_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns32_Read (
     TQ3Uns32                      *data,
     TQ3FileObject                 theFile
@@ -1099,7 +1099,7 @@ Q3Uns32_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns32_Write (
     TQ3Uns32                      data,
     TQ3FileObject                 theFile
@@ -1120,7 +1120,7 @@ Q3Uns32_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int8_Read (
     TQ3Int8                       *data,
     TQ3FileObject                 theFile
@@ -1141,7 +1141,7 @@ Q3Int8_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int8_Write (
     TQ3Int8                       data,
     TQ3FileObject                 theFile
@@ -1162,7 +1162,7 @@ Q3Int8_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int16_Read (
     TQ3Int16                      *data,
     TQ3FileObject                 theFile
@@ -1183,7 +1183,7 @@ Q3Int16_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int16_Write (
     TQ3Int16                      data,
     TQ3FileObject                 theFile
@@ -1204,7 +1204,7 @@ Q3Int16_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int32_Read (
     TQ3Int32                      *data,
     TQ3FileObject                 theFile
@@ -1225,7 +1225,7 @@ Q3Int32_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int32_Write (
     TQ3Int32                      data,
     TQ3FileObject                 theFile
@@ -1246,7 +1246,7 @@ Q3Int32_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns64_Read (
     TQ3Uns64                      *data,
     TQ3FileObject                 theFile
@@ -1267,7 +1267,7 @@ Q3Uns64_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns64_Write (
     TQ3Uns64                      data,
     TQ3FileObject                 theFile
@@ -1288,7 +1288,7 @@ Q3Uns64_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int64_Read (
     TQ3Int64                      *data,
     TQ3FileObject                 theFile
@@ -1309,7 +1309,7 @@ Q3Int64_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int64_Write (
     TQ3Int64                      data,
     TQ3FileObject                 theFile
@@ -1330,7 +1330,7 @@ Q3Int64_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float32_Read (
     TQ3Float32                    *data,
     TQ3FileObject                 theFile
@@ -1351,7 +1351,7 @@ Q3Float32_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float32_Write (
     TQ3Float32                    data,
     TQ3FileObject                 theFile
@@ -1372,7 +1372,7 @@ Q3Float32_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float64_Read (
     TQ3Float64                    *data,
     TQ3FileObject                 theFile
@@ -1393,7 +1393,7 @@ Q3Float64_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float64_Write (
     TQ3Float64                    data,
     TQ3FileObject                 theFile
@@ -1412,7 +1412,7 @@ Q3Float64_Write (
  *  @param size             An unsigned integer.
  *  @result                 Next multiple of 4.
  */
-EXTERN_API_C ( TQ3Size  )
+Q3_EXTERN_API_C ( TQ3Size  )
 Q3Size_Pad (
     TQ3Size                       size
 );
@@ -1444,7 +1444,7 @@ Q3Size_Pad (
  *  @param theFile          A file object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3String_Read (
     char                          *data,
     TQ3Uns32                      *length,
@@ -1489,7 +1489,7 @@ Q3String_Read (
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3String_ReadUnlimited(
     char                          *data,
     TQ3Uns32                      *ioLength,
@@ -1515,7 +1515,7 @@ Q3String_ReadUnlimited(
  *  @param theFile          A file object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3String_Write (
     const char                    *data,
     TQ3FileObject                 theFile
@@ -1537,7 +1537,7 @@ Q3String_Write (
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3String_WriteUnlimited (
     const char                    *data,
     TQ3FileObject                 theFile
@@ -1560,7 +1560,7 @@ Q3String_WriteUnlimited (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3RawData_Read (
     unsigned char                 *data,
     TQ3Uns32                      size,
@@ -1583,7 +1583,7 @@ Q3RawData_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3RawData_Write (
     const unsigned char           *data,
     TQ3Uns32                      size,
@@ -1605,7 +1605,7 @@ Q3RawData_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point2D_Read (
     TQ3Point2D                    *point2D,
     TQ3FileObject                 theFile
@@ -1626,7 +1626,7 @@ Q3Point2D_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point2D_Write (
     const TQ3Point2D              *point2D,
     TQ3FileObject                 theFile
@@ -1647,7 +1647,7 @@ Q3Point2D_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point3D_Read (
     TQ3Point3D                    *point3D,
     TQ3FileObject                 theFile
@@ -1668,7 +1668,7 @@ Q3Point3D_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point3D_Write (
     const TQ3Point3D              *point3D,
     TQ3FileObject                 theFile
@@ -1689,7 +1689,7 @@ Q3Point3D_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint3D_Read (
     TQ3RationalPoint3D            *point3D,
     TQ3FileObject                 theFile
@@ -1710,7 +1710,7 @@ Q3RationalPoint3D_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint3D_Write (
     const TQ3RationalPoint3D      *point3D,
     TQ3FileObject                 theFile
@@ -1731,7 +1731,7 @@ Q3RationalPoint3D_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint4D_Read (
     TQ3RationalPoint4D            *point4D,
     TQ3FileObject                 theFile
@@ -1752,7 +1752,7 @@ Q3RationalPoint4D_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint4D_Write (
     const TQ3RationalPoint4D      *point4D,
     TQ3FileObject                 theFile
@@ -1773,7 +1773,7 @@ Q3RationalPoint4D_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector2D_Read (
     TQ3Vector2D                   *vector2D,
     TQ3FileObject                 theFile
@@ -1794,7 +1794,7 @@ Q3Vector2D_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector2D_Write (
     const TQ3Vector2D             *vector2D,
     TQ3FileObject                 theFile
@@ -1815,7 +1815,7 @@ Q3Vector2D_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector3D_Read (
     TQ3Vector3D                   *vector3D,
     TQ3FileObject                 theFile
@@ -1836,7 +1836,7 @@ Q3Vector3D_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector3D_Write (
     const TQ3Vector3D             *vector3D,
     TQ3FileObject                 theFile
@@ -1857,7 +1857,7 @@ Q3Vector3D_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Matrix4x4_Read (
     TQ3Matrix4x4                  *matrix4x4,
     TQ3FileObject                 theFile
@@ -1878,7 +1878,7 @@ Q3Matrix4x4_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Matrix4x4_Write (
     const TQ3Matrix4x4            *matrix4x4,
     TQ3FileObject                 theFile
@@ -1899,7 +1899,7 @@ Q3Matrix4x4_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent2D_Read (
     TQ3Tangent2D                  *tangent2D,
     TQ3FileObject                 theFile
@@ -1920,7 +1920,7 @@ Q3Tangent2D_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent2D_Write (
     const TQ3Tangent2D            *tangent2D,
     TQ3FileObject                 theFile
@@ -1941,7 +1941,7 @@ Q3Tangent2D_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent3D_Read (
     TQ3Tangent3D                  *tangent3D,
     TQ3FileObject                 theFile
@@ -1962,7 +1962,7 @@ Q3Tangent3D_Read (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent3D_Write (
     const TQ3Tangent3D            *tangent3D,
     TQ3FileObject                 theFile
@@ -1983,7 +1983,7 @@ Q3Tangent3D_Write (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Comment_Write (
     char                          *comment,
     TQ3FileObject                 theFile
@@ -2003,7 +2003,7 @@ Q3Comment_Write (
  *  @param unknownObject    Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Unknown_GetType (
     TQ3UnknownObject              unknownObject
 );
@@ -2023,7 +2023,7 @@ Q3Unknown_GetType (
  *  @param isDirty          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Unknown_GetDirtyState (
     TQ3UnknownObject              unknownObject,
     TQ3Boolean                    *isDirty
@@ -2044,7 +2044,7 @@ Q3Unknown_GetDirtyState (
  *  @param isDirty          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Unknown_SetDirtyState (
     TQ3UnknownObject              unknownObject,
     TQ3Boolean                    isDirty
@@ -2065,7 +2065,7 @@ Q3Unknown_SetDirtyState (
  *  @param unknownTextData  Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownText_GetData (
     TQ3UnknownObject              unknownObject,
     TQ3UnknownTextData            *unknownTextData
@@ -2085,7 +2085,7 @@ Q3UnknownText_GetData (
  *  @param unknownTextData  Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownText_EmptyData (
     TQ3UnknownTextData            *unknownTextData
 );
@@ -2105,7 +2105,7 @@ Q3UnknownText_EmptyData (
  *  @param unknownBinaryData Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_GetData (
     TQ3UnknownObject              unknownObject,
     TQ3UnknownBinaryData          *unknownBinaryData
@@ -2125,7 +2125,7 @@ Q3UnknownBinary_GetData (
  *  @param unknownBinaryData Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_EmptyData (
     TQ3UnknownBinaryData          *unknownBinaryData
 );
@@ -2145,7 +2145,7 @@ Q3UnknownBinary_EmptyData (
  *  @param typeString       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_GetTypeString (
     TQ3UnknownObject              unknownObject,
     char                          **typeString
@@ -2165,7 +2165,7 @@ Q3UnknownBinary_GetTypeString (
  *  @param typeString       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_EmptyTypeString (
     char                          **typeString
 );
@@ -2184,7 +2184,7 @@ Q3UnknownBinary_EmptyTypeString (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ViewHintsObject  )
+Q3_EXTERN_API_C ( TQ3ViewHintsObject  )
 Q3ViewHints_New (
     TQ3ViewObject                 view
 );
@@ -2204,7 +2204,7 @@ Q3ViewHints_New (
  *  @param renderer         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetRenderer (
     TQ3ViewHintsObject            viewHints,
     TQ3RendererObject             renderer
@@ -2225,7 +2225,7 @@ Q3ViewHints_SetRenderer (
  *  @param renderer         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetRenderer (
     TQ3ViewHintsObject            viewHints,
     TQ3RendererObject             *renderer
@@ -2246,7 +2246,7 @@ Q3ViewHints_GetRenderer (
  *  @param camera           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetCamera (
     TQ3ViewHintsObject            viewHints,
     TQ3CameraObject               camera
@@ -2267,7 +2267,7 @@ Q3ViewHints_SetCamera (
  *  @param camera           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetCamera (
     TQ3ViewHintsObject            viewHints,
     TQ3CameraObject               *camera
@@ -2288,7 +2288,7 @@ Q3ViewHints_GetCamera (
  *  @param lightGroup       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetLightGroup (
     TQ3ViewHintsObject            viewHints,
     TQ3GroupObject                lightGroup
@@ -2309,7 +2309,7 @@ Q3ViewHints_SetLightGroup (
  *  @param lightGroup       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetLightGroup (
     TQ3ViewHintsObject            viewHints,
     TQ3GroupObject                *lightGroup
@@ -2330,7 +2330,7 @@ Q3ViewHints_GetLightGroup (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetAttributeSet (
     TQ3ViewHintsObject            viewHints,
     TQ3AttributeSet               attributeSet
@@ -2351,7 +2351,7 @@ Q3ViewHints_SetAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetAttributeSet (
     TQ3ViewHintsObject            viewHints,
     TQ3AttributeSet               *attributeSet
@@ -2372,7 +2372,7 @@ Q3ViewHints_GetAttributeSet (
  *  @param isValid          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetDimensionsState (
     TQ3ViewHintsObject            viewHints,
     TQ3Boolean                    isValid
@@ -2393,7 +2393,7 @@ Q3ViewHints_SetDimensionsState (
  *  @param isValid          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetDimensionsState (
     TQ3ViewHintsObject            viewHints,
     TQ3Boolean                    *isValid
@@ -2415,7 +2415,7 @@ Q3ViewHints_GetDimensionsState (
  *  @param height           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetDimensions (
     TQ3ViewHintsObject            viewHints,
     TQ3Uns32                      width,
@@ -2438,7 +2438,7 @@ Q3ViewHints_SetDimensions (
  *  @param height           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetDimensions (
     TQ3ViewHintsObject            viewHints,
     TQ3Uns32                      *width,
@@ -2460,7 +2460,7 @@ Q3ViewHints_GetDimensions (
  *  @param isValid          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetMaskState (
     TQ3ViewHintsObject            viewHints,
     TQ3Boolean                    isValid
@@ -2481,7 +2481,7 @@ Q3ViewHints_SetMaskState (
  *  @param isValid          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetMaskState (
     TQ3ViewHintsObject            viewHints,
     TQ3Boolean                    *isValid
@@ -2502,7 +2502,7 @@ Q3ViewHints_GetMaskState (
  *  @param mask             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetMask (
     TQ3ViewHintsObject            viewHints,
     const TQ3Bitmap               *mask
@@ -2523,7 +2523,7 @@ Q3ViewHints_SetMask (
  *  @param mask             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetMask (
     TQ3ViewHintsObject            viewHints,
     TQ3Bitmap                     *mask
@@ -2544,7 +2544,7 @@ Q3ViewHints_GetMask (
  *  @param clearMethod      Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetClearImageMethod (
     TQ3ViewHintsObject            viewHints,
     TQ3DrawContextClearImageMethod clearMethod
@@ -2565,7 +2565,7 @@ Q3ViewHints_SetClearImageMethod (
  *  @param clearMethod      Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetClearImageMethod (
     TQ3ViewHintsObject            viewHints,
     TQ3DrawContextClearImageMethod *clearMethod
@@ -2586,7 +2586,7 @@ Q3ViewHints_GetClearImageMethod (
  *  @param color            Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetClearImageColor (
     TQ3ViewHintsObject            viewHints,
     const TQ3ColorARGB            *color
@@ -2607,7 +2607,7 @@ Q3ViewHints_SetClearImageColor (
  *  @param color            Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetClearImageColor (
     TQ3ViewHintsObject            viewHints,
     TQ3ColorARGB                  *color
@@ -2631,7 +2631,7 @@ Q3ViewHints_GetClearImageColor (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3FileFormatObject  )
+Q3_EXTERN_API_C ( TQ3FileFormatObject  )
 Q3File_GetFileFormat (
     TQ3FileObject                 theFile
 );
@@ -2656,7 +2656,7 @@ Q3File_GetFileFormat (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3FileFormatObject  )
+Q3_EXTERN_API_C ( TQ3FileFormatObject  )
 Q3FileFormat_NewFromType (
     TQ3ObjectType                 fformatObjectType
 );
@@ -2681,7 +2681,7 @@ Q3FileFormat_NewFromType (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3FileFormat_GetType (
     TQ3FileFormatObject           format
 );
@@ -2706,7 +2706,7 @@ Q3FileFormat_GetType (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3FileFormat_HasModalConfigure (
     TQ3FileFormatObject           format
 );
@@ -2733,7 +2733,7 @@ Q3FileFormat_HasModalConfigure (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_ModalConfigure (
     TQ3FileFormatObject           format,
     TQ3DialogAnchor               dialogAnchor,
@@ -2761,7 +2761,7 @@ Q3FileFormat_ModalConfigure (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormatClass_GetFormatNameString (
     TQ3ObjectType                 formatClassType,
     TQ3ObjectClassNameString      formatClassString
@@ -2790,7 +2790,7 @@ Q3FileFormatClass_GetFormatNameString (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GetConfigurationData (
     TQ3FileFormatObject           format,
     unsigned char                 *dataBuffer,
@@ -2820,7 +2820,7 @@ Q3FileFormat_GetConfigurationData (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_SetConfigurationData (
     TQ3RendererObject             format,
     unsigned char                 *dataBuffer,
@@ -2853,7 +2853,7 @@ Q3FileFormat_SetConfigurationData (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_8 (
     TQ3FileFormatObject           format,
     TQ3Int8                       *data
@@ -2880,7 +2880,7 @@ Q3FileFormat_GenericReadBinary_8 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_16 (
     TQ3FileFormatObject           format,
     TQ3Int16                      *data
@@ -2907,7 +2907,7 @@ Q3FileFormat_GenericReadBinary_16 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_32 (
     TQ3FileFormatObject           format,
     TQ3Int32                      *data
@@ -2934,7 +2934,7 @@ Q3FileFormat_GenericReadBinary_32 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_64 (
     TQ3FileFormatObject           format,
     TQ3Int64                      *data
@@ -2962,7 +2962,7 @@ Q3FileFormat_GenericReadBinary_64 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_String (
     TQ3FileFormatObject           format,
     char                          *data,
@@ -2991,7 +2991,7 @@ Q3FileFormat_GenericReadBinary_String (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_Raw (
     TQ3FileFormatObject           format,
     unsigned char                 *data,
@@ -3024,7 +3024,7 @@ Q3FileFormat_GenericReadBinary_Raw (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_16 (
     TQ3FileFormatObject           format,
     TQ3Int16                      *data
@@ -3051,7 +3051,7 @@ Q3FileFormat_GenericReadBinSwap_16 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_32 (
     TQ3FileFormatObject           format,
     TQ3Int32                      *data
@@ -3078,7 +3078,7 @@ Q3FileFormat_GenericReadBinSwap_32 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_64 (
     TQ3FileFormatObject           format,
     TQ3Int64                      *data
@@ -3109,7 +3109,7 @@ Q3FileFormat_GenericReadBinSwap_64 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadText_SkipBlanks (
     TQ3FileFormatObject           format
 );
@@ -3141,7 +3141,7 @@ Q3FileFormat_GenericReadText_SkipBlanks (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadText_ReadUntilChars (
     TQ3FileFormatObject           format,
     char                          *buffer,
@@ -3179,7 +3179,7 @@ Q3FileFormat_GenericReadText_ReadUntilChars (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_8 (
     TQ3FileFormatObject           format,
     const TQ3Int8                 *data
@@ -3206,7 +3206,7 @@ Q3FileFormat_GenericWriteBinary_8 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_16 (
     TQ3FileFormatObject           format,
     const TQ3Int16                *data
@@ -3233,7 +3233,7 @@ Q3FileFormat_GenericWriteBinary_16 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_32 (
     TQ3FileFormatObject           format,
     const TQ3Int32                *data
@@ -3260,7 +3260,7 @@ Q3FileFormat_GenericWriteBinary_32 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_64 (
     TQ3FileFormatObject           format,
     const TQ3Int64                *data
@@ -3288,7 +3288,7 @@ Q3FileFormat_GenericWriteBinary_64 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_String (
     TQ3FileFormatObject           format,
     const char                    *data,
@@ -3317,7 +3317,7 @@ Q3FileFormat_GenericWriteBinary_String (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_Raw (
     TQ3FileFormatObject           format,
     const unsigned char           *data,
@@ -3350,7 +3350,7 @@ Q3FileFormat_GenericWriteBinary_Raw (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_16 (
     TQ3FileFormatObject           format,
     const TQ3Int16                *data
@@ -3377,7 +3377,7 @@ Q3FileFormat_GenericWriteBinSwap_16 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_32 (
     TQ3FileFormatObject           format,
     const TQ3Int32                *data
@@ -3404,7 +3404,7 @@ Q3FileFormat_GenericWriteBinSwap_32 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_64 (
     TQ3FileFormatObject           format,
     const TQ3Int64                *data
@@ -3433,7 +3433,7 @@ Q3FileFormat_GenericWriteBinSwap_64 (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float32_ReadArray (
 	TQ3Uns32					numFloats,
 	TQ3Float32*					floatArray,
@@ -3466,7 +3466,7 @@ Q3Float32_ReadArray (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns32_ReadArray (
 	TQ3Uns32					numNums,
 	TQ3Uns32*					intArray,
@@ -3498,7 +3498,7 @@ Q3Uns32_ReadArray (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns16_ReadArray (
 	TQ3Uns32					numNums,
 	TQ3Uns16*					intArray,
@@ -3530,7 +3530,7 @@ Q3Uns16_ReadArray (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns8_ReadArray (
 	TQ3Uns32					numNums,
 	TQ3Uns8*					intArray,

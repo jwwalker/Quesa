@@ -106,7 +106,7 @@ typedef enum TobjectManagerCmd {
 	kParseDone					// Called when parsing is done
 } TobjectManagerCmd;
 
-typedef CALLBACK_API_C(TQ3Boolean, ObjectManagerProcPtr)(TobjectManagerCmd cmd, void *cmdData, void *userData);
+typedef Q3_CALLBACK_API_C(TQ3Boolean, ObjectManagerProcPtr)(TobjectManagerCmd cmd, void *cmdData, void *userData);
 
 typedef struct TmaterialData {
 	char *			name;

@@ -130,7 +130,7 @@ typedef struct TCEUrlData {
  *  @param name             The C string to associate with the object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 CENameElement_SetData (
     TQ3Object                     object,
     const char                    *name
@@ -152,7 +152,7 @@ CENameElement_SetData (
  *  @param name             Receives the name associated with the object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 CENameElement_GetData (
     TQ3Object                     object,
     char                          **name
@@ -169,7 +169,7 @@ CENameElement_GetData (
  *  @param name             A pointer previously returned by CENameElement_GetData.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 CENameElement_EmptyData (
     char                          **name
 );
@@ -188,7 +188,7 @@ CENameElement_EmptyData (
  *  @param urlData          The URL data to associate with the object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 CEUrlElement_SetData (
     TQ3Object                     object,
     TCEUrlData                    *urlData
@@ -210,7 +210,7 @@ CEUrlElement_SetData (
  *  @param urlData          Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 CEUrlElement_GetData (
     TQ3Object                     object,
     TCEUrlData                    **urlData
@@ -227,7 +227,7 @@ CEUrlElement_GetData (
  *  @param urlData          A pointer previously returned by CEUrlElement_GetData.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 CEUrlElement_EmptyData (
     TCEUrlData                    **urlData
 );
@@ -246,7 +246,7 @@ CEUrlElement_EmptyData (
  *  @param wireData         The QuickTime wired element to associate with the object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 CEWireElement_SetData (
     TQ3Object                     object,
     QTAtomContainer               wireData
@@ -268,7 +268,7 @@ CEWireElement_SetData (
  *  @param wireData         Receives the QuickTime wired element associated with the object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 CEWireElement_GetData (
     TQ3Object                     object,
     QTAtomContainer               *wireData
@@ -285,7 +285,7 @@ CEWireElement_GetData (
  *  @param wireData         A pointer previously returned by CEWireElement_GetData.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 CEWireElement_EmptyData (
     QTAtomContainer               *wireData
 );

@@ -4,7 +4,7 @@
 # Synopsis: Holds function info parsed by headerDoc
 #
 # Author: Matt Morse (matt@apple.com)
-# Last Updated: $Date: 2001-04-08 12:18:56 $
+# Last Updated: $Date: 2002-12-01 12:12:04 $
 # 
 # Copyright (c) 1999 Apple Computer, Inc.  All Rights Reserved.
 # The contents of this file constitute Original Code as defined in and are
@@ -221,7 +221,7 @@ sub setFunctionDeclaration {
     $retval = "<tt>$return<b>$funcName</b>($remainder)$postParens</tt><br>\n";
 
 
-	# dair, strip out the EXTERN_API_C for Quesa
+	# dair, strip out the Q3_EXTERN_API_C for Quesa
 	$remainder =~ s/^\s+(.*)/\1/;
 	
     $retval = "<tt>$remainder$postParens</tt><br>\n";

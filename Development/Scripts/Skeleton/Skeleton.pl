@@ -711,7 +711,7 @@ sub processHeader
     while (defined(my $theLine = <IN_FILE>))
         {
         # Process the line
-        if ($theLine =~ /^EXTERN_API_C\(\s*(.*)\s*\)/)
+        if ($theLine =~ /^Q3_EXTERN_API_C\(\s*(.*)\s*\)/)
             {
             # Grab the return type
             my $theResult = $1;

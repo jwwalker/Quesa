@@ -71,7 +71,7 @@ sub processHeader
 
 
 		# If we've found a function, start processing it
-        if ($theLine =~ /^EXTERN_API_C\s*\(\s*(.*)\s*\)/)
+        if ($theLine =~ /^Q3_EXTERN_API_C\s*\(\s*(.*)\s*\)/)
             {
             # Grab the return type
             my $theResult = $1;

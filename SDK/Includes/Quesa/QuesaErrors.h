@@ -474,7 +474,7 @@ typedef enum {
  *  @param lastError        The most recent error which has occurred.
  *  @param userData         The reference parameter passed to Q3Error_Register.
  */
-typedef CALLBACK_API_C(void,                TQ3ErrorMethod)(
+typedef Q3_CALLBACK_API_C(void,                TQ3ErrorMethod)(
                             TQ3Error            firstError,
                             TQ3Error            lastError,
                             TQ3Int32            userData);
@@ -491,7 +491,7 @@ typedef CALLBACK_API_C(void,                TQ3ErrorMethod)(
  *  @param lastWarning      The most recent warning which has occurred.
  *  @param userData         The reference parameter passed to Q3Warning_Register.
  */
-typedef CALLBACK_API_C(void,                TQ3WarningMethod)(
+typedef Q3_CALLBACK_API_C(void,                TQ3WarningMethod)(
                             TQ3Warning          firstWarning,
                             TQ3Warning          lastWarning,
                             TQ3Int32            userData);
@@ -508,7 +508,7 @@ typedef CALLBACK_API_C(void,                TQ3WarningMethod)(
  *  @param lastNotice       The most recent notice which has occurred.
  *  @param userData         The reference parameter passed to Q3Notice_Register.
  */
-typedef CALLBACK_API_C(void,                TQ3NoticeMethod)(
+typedef Q3_CALLBACK_API_C(void,                TQ3NoticeMethod)(
                             TQ3Notice           firstNotice,
                             TQ3Notice           lastNotice,
                             TQ3Int32            userData);
@@ -534,7 +534,7 @@ typedef CALLBACK_API_C(void,                TQ3NoticeMethod)(
  *  @param reference        Constant passed to error callback.
  *  @result                 kQ3Success when the callback is installed.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Error_Register (
     TQ3ErrorMethod                errorPost,
     TQ3Int32                      reference
@@ -556,7 +556,7 @@ Q3Error_Register (
  *  @param reference        Constant passed to warning callback.
  *  @result                 kQ3Success when the callback is installed.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Warning_Register (
     TQ3WarningMethod              warningPost,
     TQ3Int32                      reference
@@ -579,7 +579,7 @@ Q3Warning_Register (
  *  @param reference        Constant passed to notice callback.
  *  @result                 kQ3Success when the callback is installed.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Notice_Register (
     TQ3NoticeMethod               noticePost,
     TQ3Int32                      reference
@@ -602,7 +602,7 @@ Q3Notice_Register (
  *							don't need that information.
  *  @result                 Most recent error code.
  */
-EXTERN_API_C ( TQ3Error  )
+Q3_EXTERN_API_C ( TQ3Error  )
 Q3Error_Get (
     TQ3Error                      *firstError
 );
@@ -622,7 +622,7 @@ Q3Error_Get (
  *  @param error            A Quesa error code.
  *  @result                 True if the error is fatal.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Error_IsFatalError (
     TQ3Error                      error
 );
@@ -644,7 +644,7 @@ Q3Error_IsFatalError (
  *							don't need that information.
  *  @result                 Most recent warning code.
  */
-EXTERN_API_C ( TQ3Warning  )
+Q3_EXTERN_API_C ( TQ3Warning  )
 Q3Warning_Get (
     TQ3Warning                    *firstWarning
 );
@@ -666,7 +666,7 @@ Q3Warning_Get (
  *							don't need that information.
  *  @result                 Most recent notice code.
  */
-EXTERN_API_C ( TQ3Notice  )
+Q3_EXTERN_API_C ( TQ3Notice  )
 Q3Notice_Get (
     TQ3Notice                     *firstNotice
 );
@@ -697,7 +697,7 @@ Q3Notice_Get (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Uns32  )
+Q3_EXTERN_API_C ( TQ3Uns32  )
 Q3Error_PlatformGet (
     TQ3Uns32                      *firstErr
 );
@@ -720,7 +720,7 @@ Q3Error_PlatformGet (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( void  )
+Q3_EXTERN_API_C ( void  )
 Q3Error_PlatformPost (
     TQ3Uns32                      theErr
 );
@@ -744,7 +744,7 @@ Q3Error_PlatformPost (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( const char * )
+Q3_EXTERN_API_C ( const char * )
 Q3Error_ToString (
     TQ3Language                   theLanguage,
     TQ3Error                      theError
@@ -769,7 +769,7 @@ Q3Error_ToString (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( const char * )
+Q3_EXTERN_API_C ( const char * )
 Q3Warning_ToString (
     TQ3Language                   theLanguage,
     TQ3Warning                    theWarning
@@ -794,7 +794,7 @@ Q3Warning_ToString (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( const char * )
+Q3_EXTERN_API_C ( const char * )
 Q3Notice_ToString (
     TQ3Language                   theLanguage,
     TQ3Notice                     theError
@@ -826,7 +826,7 @@ Q3Notice_ToString (
  *							don't need that information.
  *  @result                 Most recent Mac error code.
  */
-EXTERN_API_C ( OSErr  )
+Q3_EXTERN_API_C ( OSErr  )
 Q3MacintoshError_Get (
     OSErr                         *firstMacErr
 );

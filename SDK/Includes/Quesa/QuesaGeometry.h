@@ -1325,7 +1325,7 @@ typedef struct TQ3TriMeshData {
  *  @param geometry         A reference to a geometry object.
  *  @result                 A constant enumerating the type of 'geometry'.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Geometry_GetType (
     TQ3GeometryObject             geometry
 );
@@ -1350,7 +1350,7 @@ Q3Geometry_GetType (
  *  @param attributeSet     Receives a reference to the attribute set of the geometry.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Geometry_GetAttributeSet (
     TQ3GeometryObject             geometry,
     TQ3AttributeSet               *attributeSet
@@ -1371,7 +1371,7 @@ Q3Geometry_GetAttributeSet (
  *  @param attributeSet     The attribute set to apply to the object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Geometry_SetAttributeSet (
     TQ3GeometryObject             geometry,
     TQ3AttributeSet               attributeSet
@@ -1394,7 +1394,7 @@ Q3Geometry_SetAttributeSet (
  *  @param view             The view to submit the geometric object to.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Geometry_Submit (
     TQ3GeometryObject             geometry,
     TQ3ViewObject                 view
@@ -1411,7 +1411,7 @@ Q3Geometry_Submit (
  *  @param boxData          Instance data passed in specifying the parameters of the new box object.
  *  @result                 A reference to the new geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Box_New (
     const TQ3BoxData              *boxData
 );
@@ -1431,7 +1431,7 @@ Q3Box_New (
  *  @param view				The view to submit the box to.
  *  @result					Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_Submit (
     const TQ3BoxData              *boxData,
     TQ3ViewObject                 view
@@ -1449,7 +1449,7 @@ Q3Box_Submit (
  *  @param boxData          A pointer to the box data to apply to the box object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetData (
     TQ3GeometryObject             box,
     const TQ3BoxData              *boxData
@@ -1470,7 +1470,7 @@ Q3Box_SetData (
  *  @param boxData          Receives the box object's description.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetData (
     TQ3GeometryObject             box,
     TQ3BoxData                    *boxData
@@ -1487,7 +1487,7 @@ Q3Box_GetData (
  *  @param boxData          A pointer to the box data allocated by <code>Q3Box_GetData()</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_EmptyData (
     TQ3BoxData                    *boxData
 );
@@ -1504,7 +1504,7 @@ Q3Box_EmptyData (
  *  @param origin           The point to which to set 'box's origin.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetOrigin (
     TQ3GeometryObject             box,
     const TQ3Point3D              *origin
@@ -1522,7 +1522,7 @@ Q3Box_SetOrigin (
  *  @param orientation      The vector to which to set 'box's orientation.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetOrientation (
     TQ3GeometryObject             box,
     const TQ3Vector3D             *orientation
@@ -1540,7 +1540,7 @@ Q3Box_SetOrientation (
  *  @param majorAxis        The vector to which to set 'box's major axis.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetMajorAxis (
     TQ3GeometryObject             box,
     const TQ3Vector3D             *majorAxis
@@ -1558,7 +1558,7 @@ Q3Box_SetMajorAxis (
  *  @param minorAxis        The vector to which to set 'box's minor axis.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetMinorAxis (
     TQ3GeometryObject             box,
     const TQ3Vector3D             *minorAxis
@@ -1576,7 +1576,7 @@ Q3Box_SetMinorAxis (
  *  @param origin           Receives the origin of the box object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetOrigin (
     TQ3GeometryObject             box,
     TQ3Point3D                    *origin
@@ -1594,7 +1594,7 @@ Q3Box_GetOrigin (
  *  @param orientation      Receives the orientation vector of the box.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetOrientation (
     TQ3GeometryObject             box,
     TQ3Vector3D                   *orientation
@@ -1612,7 +1612,7 @@ Q3Box_GetOrientation (
  *  @param majorAxis        Receives the major axis of the box.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetMajorAxis (
     TQ3GeometryObject             box,
     TQ3Vector3D                   *majorAxis
@@ -1630,7 +1630,7 @@ Q3Box_GetMajorAxis (
  *  @param minorAxis        Receives the minor axis of the box.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetMinorAxis (
     TQ3GeometryObject             box,
     TQ3Vector3D                   *minorAxis
@@ -1656,7 +1656,7 @@ Q3Box_GetMinorAxis (
  *							NULL if the face does not have an attribute set.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetFaceAttributeSet (
     TQ3GeometryObject             box,
     TQ3Uns32                      faceIndex,
@@ -1680,7 +1680,7 @@ Q3Box_GetFaceAttributeSet (
  *  @param faceAttributeSet An attribute set to be applied.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetFaceAttributeSet (
     TQ3GeometryObject             box,
     TQ3Uns32                      faceIndex,
@@ -1698,7 +1698,7 @@ Q3Box_SetFaceAttributeSet (
  *  @param coneData         Pointer to data describing the cone.
  *  @result                 The new cone object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Cone_New (
     const TQ3ConeData             *coneData
 );
@@ -1717,7 +1717,7 @@ Q3Cone_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_Submit (
     const TQ3ConeData             *coneData,
     TQ3ViewObject                 view
@@ -1735,7 +1735,7 @@ Q3Cone_Submit (
  *  @param coneData         Pointer to data describing a cone.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetData (
     TQ3GeometryObject             cone,
     const TQ3ConeData             *coneData
@@ -1755,7 +1755,7 @@ Q3Cone_SetData (
  *  @param coneData         Receives data describing the cone.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetData (
     TQ3GeometryObject             cone,
     TQ3ConeData                   *coneData
@@ -1773,7 +1773,7 @@ Q3Cone_GetData (
  *  @param origin           The new origin.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetOrigin (
     TQ3GeometryObject             cone,
     const TQ3Point3D              *origin
@@ -1791,7 +1791,7 @@ Q3Cone_SetOrigin (
  *  @param orientation      The new orientation vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetOrientation (
     TQ3GeometryObject             cone,
     const TQ3Vector3D             *orientation
@@ -1809,7 +1809,7 @@ Q3Cone_SetOrientation (
  *  @param majorRadius      New major radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetMajorRadius (
     TQ3GeometryObject             cone,
     const TQ3Vector3D             *majorRadius
@@ -1827,7 +1827,7 @@ Q3Cone_SetMajorRadius (
  *  @param minorRadius      New minor radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetMinorRadius (
     TQ3GeometryObject             cone,
     const TQ3Vector3D             *minorRadius
@@ -1845,7 +1845,7 @@ Q3Cone_SetMinorRadius (
  *  @param origin           Receives the origin.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetOrigin (
     TQ3GeometryObject             cone,
     TQ3Point3D                    *origin
@@ -1863,7 +1863,7 @@ Q3Cone_GetOrigin (
  *  @param orientation      Receives the orientation vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetOrientation (
     TQ3GeometryObject             cone,
     TQ3Vector3D                   *orientation
@@ -1881,7 +1881,7 @@ Q3Cone_GetOrientation (
  *  @param majorRadius      Receives the major radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetMajorRadius (
     TQ3GeometryObject             cone,
     TQ3Vector3D                   *majorRadius
@@ -1899,7 +1899,7 @@ Q3Cone_GetMajorRadius (
  *  @param minorRadius      Receives the minor radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetMinorRadius (
     TQ3GeometryObject             cone,
     TQ3Vector3D                   *minorRadius
@@ -1920,7 +1920,7 @@ Q3Cone_GetMinorRadius (
  *							<code>kQ3EndCapNone</code>).
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetCaps (
     TQ3GeometryObject             cone,
     TQ3EndCap                     caps
@@ -1939,7 +1939,7 @@ Q3Cone_SetCaps (
  *							defined in Quesa.h, for values.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetCaps (
     TQ3GeometryObject             cone,
     TQ3EndCap                     *caps
@@ -1959,7 +1959,7 @@ Q3Cone_GetCaps (
  *  @param bottomAttributeSet	New bottom attribute set.  May be NULL.
  *  @result                 	Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetBottomAttributeSet (
     TQ3GeometryObject             cone,
     TQ3AttributeSet               bottomAttributeSet
@@ -1977,7 +1977,7 @@ Q3Cone_SetBottomAttributeSet (
  *  @param bottomAttributeSet	Receives a reference to the bottom attribute set, or NULL.
  *  @result                 	Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetBottomAttributeSet (
     TQ3GeometryObject             cone,
     TQ3AttributeSet               *bottomAttributeSet
@@ -1995,7 +1995,7 @@ Q3Cone_GetBottomAttributeSet (
  *  @param faceAttributeSet New face attribute set.  May be NULL.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetFaceAttributeSet (
     TQ3GeometryObject             cone,
     TQ3AttributeSet               faceAttributeSet
@@ -2013,7 +2013,7 @@ Q3Cone_SetFaceAttributeSet (
  *  @param faceAttributeSet Receives the attribute set for the face, or NULL.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetFaceAttributeSet (
     TQ3GeometryObject             cone,
     TQ3AttributeSet               *faceAttributeSet
@@ -2031,7 +2031,7 @@ Q3Cone_GetFaceAttributeSet (
  *							<code>Q3Cone_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_EmptyData (
     TQ3ConeData                   *coneData
 );
@@ -2047,7 +2047,7 @@ Q3Cone_EmptyData (
  *  @param cylinderData     Data describing a cylinder.
  *  @result                 Reference to a new Cylinder geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Cylinder_New (
     const TQ3CylinderData         *cylinderData
 );
@@ -2066,7 +2066,7 @@ Q3Cylinder_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_Submit (
     const TQ3CylinderData         *cylinderData,
     TQ3ViewObject                 view
@@ -2084,7 +2084,7 @@ Q3Cylinder_Submit (
  *  @param cylinderData     Data describing a cylinder.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetData (
     TQ3GeometryObject             cylinder,
     const TQ3CylinderData         *cylinderData
@@ -2105,7 +2105,7 @@ Q3Cylinder_SetData (
  *  @param cylinderData     Receives data describing the cylinder.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetData (
     TQ3GeometryObject             cylinder,
     TQ3CylinderData               *cylinderData
@@ -2123,7 +2123,7 @@ Q3Cylinder_GetData (
  *  @param origin           New point of origin.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetOrigin (
     TQ3GeometryObject             cylinder,
     const TQ3Point3D              *origin
@@ -2141,7 +2141,7 @@ Q3Cylinder_SetOrigin (
  *  @param orientation      New orientation vector for the cylinder.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetOrientation (
     TQ3GeometryObject             cylinder,
     const TQ3Vector3D             *orientation
@@ -2159,7 +2159,7 @@ Q3Cylinder_SetOrientation (
  *  @param majorRadius      New major radius vector for the cylinder.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetMajorRadius (
     TQ3GeometryObject             cylinder,
     const TQ3Vector3D             *majorRadius
@@ -2177,7 +2177,7 @@ Q3Cylinder_SetMajorRadius (
  *  @param minorRadius      New minor radius vector for the cylinder.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetMinorRadius (
     TQ3GeometryObject             cylinder,
     const TQ3Vector3D             *minorRadius
@@ -2195,7 +2195,7 @@ Q3Cylinder_SetMinorRadius (
  *  @param origin           Receives the origin of the cylinder.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetOrigin (
     TQ3GeometryObject             cylinder,
     TQ3Point3D                    *origin
@@ -2213,7 +2213,7 @@ Q3Cylinder_GetOrigin (
  *  @param orientation      Receives the orientation vector of the cylinder.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetOrientation (
     TQ3GeometryObject             cylinder,
     TQ3Vector3D                   *orientation
@@ -2231,7 +2231,7 @@ Q3Cylinder_GetOrientation (
  *  @param majorRadius      Receives the major radius vector of the cylinder.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetMajorRadius (
     TQ3GeometryObject             cylinder,
     TQ3Vector3D                   *majorRadius
@@ -2249,7 +2249,7 @@ Q3Cylinder_GetMajorRadius (
  *  @param minorRadius      Receives the minor radius vector of the cylinder.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetMinorRadius (
     TQ3GeometryObject             cylinder,
     TQ3Vector3D                   *minorRadius
@@ -2270,7 +2270,7 @@ Q3Cylinder_GetMinorRadius (
  *							defined in Quesa.h, for values.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetCaps (
     TQ3GeometryObject             cylinder,
     TQ3EndCap                     caps
@@ -2289,7 +2289,7 @@ Q3Cylinder_SetCaps (
  *							defined in Quesa.h, for values.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetCaps (
     TQ3GeometryObject             cylinder,
     TQ3EndCap                     *caps
@@ -2307,7 +2307,7 @@ Q3Cylinder_GetCaps (
  *  @param topAttributeSet  New attribute set for the top cap.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetTopAttributeSet (
     TQ3GeometryObject             cylinder,
     TQ3AttributeSet               topAttributeSet
@@ -2325,7 +2325,7 @@ Q3Cylinder_SetTopAttributeSet (
  *  @param topAttributeSet  Receives the attribute set for the top cap, or NULL.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetTopAttributeSet (
     TQ3GeometryObject             cylinder,
     TQ3AttributeSet               *topAttributeSet
@@ -2343,7 +2343,7 @@ Q3Cylinder_GetTopAttributeSet (
  *  @param bottomAttributeSet	New attribute set for the bottom cap.
  *  @result                		Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetBottomAttributeSet (
     TQ3GeometryObject             cylinder,
     TQ3AttributeSet               bottomAttributeSet
@@ -2361,7 +2361,7 @@ Q3Cylinder_SetBottomAttributeSet (
  *  @param bottomAttributeSet	Receives the attribute set for the bottom cap, or NULL.
  *  @result						Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetBottomAttributeSet (
     TQ3GeometryObject             cylinder,
     TQ3AttributeSet               *bottomAttributeSet
@@ -2379,7 +2379,7 @@ Q3Cylinder_GetBottomAttributeSet (
  *  @param faceAttributeSet New attribute set for the face of the cylinder.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetFaceAttributeSet (
     TQ3GeometryObject             cylinder,
     TQ3AttributeSet               faceAttributeSet
@@ -2397,7 +2397,7 @@ Q3Cylinder_SetFaceAttributeSet (
  *  @param faceAttributeSet Receives the attribute set for the face, or NULL.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetFaceAttributeSet (
     TQ3GeometryObject             cylinder,
     TQ3AttributeSet               *faceAttributeSet
@@ -2414,7 +2414,7 @@ Q3Cylinder_GetFaceAttributeSet (
  *  @param cylinderData     Cylinder data previously obtained using <code>Q3Cylinder_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_EmptyData (
     TQ3CylinderData               *cylinderData
 );
@@ -2430,7 +2430,7 @@ Q3Cylinder_EmptyData (
  *  @param diskData         Data describing a disk object.
  *  @result                 Reference to a new Disk geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Disk_New (
     const TQ3DiskData             *diskData
 );
@@ -2449,7 +2449,7 @@ Q3Disk_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_Submit (
     const TQ3DiskData             *diskData,
     TQ3ViewObject                 view
@@ -2467,7 +2467,7 @@ Q3Disk_Submit (
  *  @param diskData         Data describing a disk object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetData (
     TQ3GeometryObject             disk,
     const TQ3DiskData             *diskData
@@ -2487,7 +2487,7 @@ Q3Disk_SetData (
  *  @param diskData         Data describing a disk object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetData (
     TQ3GeometryObject             disk,
     TQ3DiskData                   *diskData
@@ -2505,7 +2505,7 @@ Q3Disk_GetData (
  *  @param origin           New origin for the disk.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetOrigin (
     TQ3GeometryObject             disk,
     const TQ3Point3D              *origin
@@ -2523,7 +2523,7 @@ Q3Disk_SetOrigin (
  *  @param majorRadius      New major radius vector for the disk object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetMajorRadius (
     TQ3GeometryObject             disk,
     const TQ3Vector3D             *majorRadius
@@ -2541,7 +2541,7 @@ Q3Disk_SetMajorRadius (
  *  @param minorRadius      New minor radius vector for the disk object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetMinorRadius (
     TQ3GeometryObject             disk,
     const TQ3Vector3D             *minorRadius
@@ -2559,7 +2559,7 @@ Q3Disk_SetMinorRadius (
  *  @param origin           Receives the origin of the disk.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetOrigin (
     TQ3GeometryObject             disk,
     TQ3Point3D                    *origin
@@ -2577,7 +2577,7 @@ Q3Disk_GetOrigin (
  *  @param majorRadius      Receives the major radius vector of the disk.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetMajorRadius (
     TQ3GeometryObject             disk,
     TQ3Vector3D                   *majorRadius
@@ -2595,7 +2595,7 @@ Q3Disk_GetMajorRadius (
  *  @param minorRadius      Receives the minor radius vector of the disk.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetMinorRadius (
     TQ3GeometryObject             disk,
     TQ3Vector3D                   *minorRadius
@@ -2613,7 +2613,7 @@ Q3Disk_GetMinorRadius (
  *							<code>Q3Disk_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_EmptyData (
     TQ3DiskData                   *diskData
 );
@@ -2629,7 +2629,7 @@ Q3Disk_EmptyData (
  *  @param ellipseData      Data describing an ellipse.
  *  @result                 Reference to a new Ellipse geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Ellipse_New (
     const TQ3EllipseData          *ellipseData
 );
@@ -2648,7 +2648,7 @@ Q3Ellipse_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_Submit (
     const TQ3EllipseData          *ellipseData,
     TQ3ViewObject                 view
@@ -2666,7 +2666,7 @@ Q3Ellipse_Submit (
  *  @param ellipseData      Data describing an ellipse.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetData (
     TQ3GeometryObject             ellipse,
     const TQ3EllipseData          *ellipseData
@@ -2687,7 +2687,7 @@ Q3Ellipse_SetData (
  *  @param ellipseData      Receives data describing the ellipse object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetData (
     TQ3GeometryObject             ellipse,
     TQ3EllipseData                *ellipseData
@@ -2705,7 +2705,7 @@ Q3Ellipse_GetData (
  *  @param origin           The new origin.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetOrigin (
     TQ3GeometryObject             ellipse,
     const TQ3Point3D              *origin
@@ -2723,7 +2723,7 @@ Q3Ellipse_SetOrigin (
  *  @param majorRadius      New major radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetMajorRadius (
     TQ3GeometryObject             ellipse,
     const TQ3Vector3D             *majorRadius
@@ -2741,7 +2741,7 @@ Q3Ellipse_SetMajorRadius (
  *  @param minorRadius      New minor radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetMinorRadius (
     TQ3GeometryObject             ellipse,
     const TQ3Vector3D             *minorRadius
@@ -2759,7 +2759,7 @@ Q3Ellipse_SetMinorRadius (
  *  @param origin           Receives the origin.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetOrigin (
     TQ3GeometryObject             ellipse,
     TQ3Point3D                    *origin
@@ -2777,7 +2777,7 @@ Q3Ellipse_GetOrigin (
  *  @param majorRadius      Receives the major radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetMajorRadius (
     TQ3GeometryObject             ellipse,
     TQ3Vector3D                   *majorRadius
@@ -2795,7 +2795,7 @@ Q3Ellipse_GetMajorRadius (
  *  @param minorRadius      Receives the minor radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetMinorRadius (
     TQ3GeometryObject             ellipse,
     TQ3Vector3D                   *minorRadius
@@ -2813,7 +2813,7 @@ Q3Ellipse_GetMinorRadius (
  *							<code>Q3Ellipse_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_EmptyData (
     TQ3EllipseData                *ellipseData
 );
@@ -2829,7 +2829,7 @@ Q3Ellipse_EmptyData (
  *  @param ellipsoidData    Data describing an ellipsoid.
  *  @result                 Reference to a new Ellipsoid geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Ellipsoid_New (
     const TQ3EllipsoidData        *ellipsoidData
 );
@@ -2848,7 +2848,7 @@ Q3Ellipsoid_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_Submit (
     const TQ3EllipsoidData        *ellipsoidData,
     TQ3ViewObject                 view
@@ -2866,7 +2866,7 @@ Q3Ellipsoid_Submit (
  *  @param ellipsoidData    Data describing an ellipsoid.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetData (
     TQ3GeometryObject             ellipsoid,
     const TQ3EllipsoidData        *ellipsoidData
@@ -2887,7 +2887,7 @@ Q3Ellipsoid_SetData (
  *  @param ellipsoidData    Receives data describing the ellipsoid object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetData (
     TQ3GeometryObject             ellipsoid,
     TQ3EllipsoidData              *ellipsoidData
@@ -2905,7 +2905,7 @@ Q3Ellipsoid_GetData (
  *  @param origin           The new origin.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetOrigin (
     TQ3GeometryObject             ellipsoid,
     const TQ3Point3D              *origin
@@ -2923,7 +2923,7 @@ Q3Ellipsoid_SetOrigin (
  *  @param orientation      New orientation vector for the Ellipsoid.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetOrientation (
     TQ3GeometryObject             ellipsoid,
     const TQ3Vector3D             *orientation
@@ -2941,7 +2941,7 @@ Q3Ellipsoid_SetOrientation (
  *  @param majorRadius      New major radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetMajorRadius (
     TQ3GeometryObject             ellipsoid,
     const TQ3Vector3D             *majorRadius
@@ -2959,7 +2959,7 @@ Q3Ellipsoid_SetMajorRadius (
  *  @param minorRadius      New minor radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetMinorRadius (
     TQ3GeometryObject             ellipsoid,
     const TQ3Vector3D             *minorRadius
@@ -2977,7 +2977,7 @@ Q3Ellipsoid_SetMinorRadius (
  *  @param origin           Receives the origin.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetOrigin (
     TQ3GeometryObject             ellipsoid,
     TQ3Point3D                    *origin
@@ -2995,7 +2995,7 @@ Q3Ellipsoid_GetOrigin (
  *  @param orientation      Receives the orientation vector of the Ellipsoid.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetOrientation (
     TQ3GeometryObject             ellipsoid,
     TQ3Vector3D                   *orientation
@@ -3013,7 +3013,7 @@ Q3Ellipsoid_GetOrientation (
  *  @param majorRadius      Receives the major radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetMajorRadius (
     TQ3GeometryObject             ellipsoid,
     TQ3Vector3D                   *majorRadius
@@ -3031,7 +3031,7 @@ Q3Ellipsoid_GetMajorRadius (
  *  @param minorRadius      Receives the minor radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetMinorRadius (
     TQ3GeometryObject             ellipsoid,
     TQ3Vector3D                   *minorRadius
@@ -3049,7 +3049,7 @@ Q3Ellipsoid_GetMinorRadius (
  *							<code>Q3Ellipsoid_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_EmptyData (
     TQ3EllipsoidData              *ellipsoidData
 );
@@ -3065,7 +3065,7 @@ Q3Ellipsoid_EmptyData (
  *  @param generalPolygonData	Data describing a general polygon.
  *  @result						Reference to a new General Polygon geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3GeneralPolygon_New (
     const TQ3GeneralPolygonData   *generalPolygonData
 );
@@ -3084,7 +3084,7 @@ Q3GeneralPolygon_New (
  *  @param view					A view object.
  *  @result						Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_Submit (
     const TQ3GeneralPolygonData   *generalPolygonData,
     TQ3ViewObject                 view
@@ -3102,7 +3102,7 @@ Q3GeneralPolygon_Submit (
  *  @param generalPolygonData	Data describing a general polygon object.
  *  @result						Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetData (
     TQ3GeometryObject             generalPolygon,
     const TQ3GeneralPolygonData   *generalPolygonData
@@ -3123,7 +3123,7 @@ Q3GeneralPolygon_SetData (
  *  @param generalPolygonData	Receives data describing the general polygon object.
  *  @result						Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetData (
     TQ3GeometryObject             polygon,
     TQ3GeneralPolygonData         *generalPolygonData
@@ -3141,7 +3141,7 @@ Q3GeneralPolygon_GetData (
  *								<code>Q3GeneralPolygon_GetData</code>.
  *  @result						Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_EmptyData (
     TQ3GeneralPolygonData         *generalPolygonData
 );
@@ -3160,7 +3160,7 @@ Q3GeneralPolygon_EmptyData (
  *  @param position         Receives the position of the vertex.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetVertexPosition (
     TQ3GeometryObject             generalPolygon,
     TQ3Uns32                      contourIndex,
@@ -3182,7 +3182,7 @@ Q3GeneralPolygon_GetVertexPosition (
  *  @param position         New position for the vertex.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetVertexPosition (
     TQ3GeometryObject             generalPolygon,
     TQ3Uns32                      contourIndex,
@@ -3204,7 +3204,7 @@ Q3GeneralPolygon_SetVertexPosition (
  *  @param attributeSet     Receives a new reference to the vertex attribute set, or NULL.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetVertexAttributeSet (
     TQ3GeometryObject             generalPolygon,
     TQ3Uns32                      contourIndex,
@@ -3228,7 +3228,7 @@ Q3GeneralPolygon_GetVertexAttributeSet (
  *  @param attributeSet     Attribute set for the vertex.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetVertexAttributeSet (
     TQ3GeometryObject             generalPolygon,
     TQ3Uns32                      contourIndex,
@@ -3250,7 +3250,7 @@ Q3GeneralPolygon_SetVertexAttributeSet (
  *  @param shapeHint        The shape hint.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetShapeHint (
     TQ3GeometryObject             generalPolygon,
     TQ3GeneralPolygonShapeHint    shapeHint
@@ -3268,7 +3268,7 @@ Q3GeneralPolygon_SetShapeHint (
  *  @param shapeHint        Receives the shape hint.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetShapeHint (
     TQ3GeometryObject             generalPolygon,
     TQ3GeneralPolygonShapeHint    *shapeHint
@@ -3285,7 +3285,7 @@ Q3GeneralPolygon_GetShapeHint (
  *  @param lineData         Data describing a line.
  *  @result                 Reference to a new Line geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Line_New (
     const TQ3LineData             *lineData
 );
@@ -3304,7 +3304,7 @@ Q3Line_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_Submit (
     const TQ3LineData             *lineData,
     TQ3ViewObject                 view
@@ -3325,7 +3325,7 @@ Q3Line_Submit (
  *  @param lineData         Receives data describing the Line object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_GetData (
     TQ3GeometryObject             line,
     TQ3LineData                   *lineData
@@ -3343,7 +3343,7 @@ Q3Line_GetData (
  *  @param lineData         Data describing a line.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_SetData (
     TQ3GeometryObject             line,
     const TQ3LineData             *lineData
@@ -3362,7 +3362,7 @@ Q3Line_SetData (
  *  @param position         Receives the position of the vertex.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_GetVertexPosition (
     TQ3GeometryObject             line,
     TQ3Uns32                      index,
@@ -3382,7 +3382,7 @@ Q3Line_GetVertexPosition (
  *  @param position         New position of the vertex.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_SetVertexPosition (
     TQ3GeometryObject             line,
     TQ3Uns32                      index,
@@ -3402,7 +3402,7 @@ Q3Line_SetVertexPosition (
  *  @param attributeSet     Receives a new reference to the attribute set, or NULL.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_GetVertexAttributeSet (
     TQ3GeometryObject             line,
     TQ3Uns32                      index,
@@ -3425,7 +3425,7 @@ Q3Line_GetVertexAttributeSet (
  *  @param attributeSet     The new attribute set.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_SetVertexAttributeSet (
     TQ3GeometryObject             line,
     TQ3Uns32                      index,
@@ -3444,7 +3444,7 @@ Q3Line_SetVertexAttributeSet (
  *							<code>Q3Line_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_EmptyData (
     TQ3LineData                   *lineData
 );
@@ -3460,7 +3460,7 @@ Q3Line_EmptyData (
  *  @param markerData       Data describing a marker.
  *  @result                 Reference to a new Marker geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Marker_New (
     const TQ3MarkerData           *markerData
 );
@@ -3479,7 +3479,7 @@ Q3Marker_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_Submit (
     const TQ3MarkerData           *markerData,
     TQ3ViewObject                 view
@@ -3497,7 +3497,7 @@ Q3Marker_Submit (
  *  @param markerData       Data describing a marker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetData (
     TQ3GeometryObject             geometry,
     const TQ3MarkerData           *markerData
@@ -3518,7 +3518,7 @@ Q3Marker_SetData (
  *  @param markerData       Receives data describing the Marker object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetData (
     TQ3GeometryObject             geometry,
     TQ3MarkerData                 *markerData
@@ -3536,7 +3536,7 @@ Q3Marker_GetData (
  *							<code>Q3Marker_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_EmptyData (
     TQ3MarkerData                 *markerData
 );
@@ -3556,7 +3556,7 @@ Q3Marker_EmptyData (
  *  @param location         Receives the location of the marker object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetPosition (
     TQ3GeometryObject             marker,
     TQ3Point3D                    *location
@@ -3577,7 +3577,7 @@ Q3Marker_GetPosition (
  *  @param location         New location of the marker object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetPosition (
     TQ3GeometryObject             marker,
     const TQ3Point3D              *location
@@ -3596,7 +3596,7 @@ Q3Marker_SetPosition (
  *  @param xOffset          Receives the horizontal offset in pixels.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetXOffset (
     TQ3GeometryObject             marker,
     TQ3Int32                      *xOffset
@@ -3615,7 +3615,7 @@ Q3Marker_GetXOffset (
  *  @param xOffset          New horizontal offset in pixels.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetXOffset (
     TQ3GeometryObject             marker,
     TQ3Int32                      xOffset
@@ -3634,7 +3634,7 @@ Q3Marker_SetXOffset (
  *  @param yOffset          Receives the vertical offset in pixels.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetYOffset (
     TQ3GeometryObject             marker,
     TQ3Int32                      *yOffset
@@ -3653,7 +3653,7 @@ Q3Marker_GetYOffset (
  *  @param yOffset          New vertical offset in pixels.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetYOffset (
     TQ3GeometryObject             marker,
     TQ3Int32                      yOffset
@@ -3674,7 +3674,7 @@ Q3Marker_SetYOffset (
  *  @param bitmap           Receives a copy of the bitmap of the marker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetBitmap (
     TQ3GeometryObject             marker,
     TQ3Bitmap                     *bitmap
@@ -3695,7 +3695,7 @@ Q3Marker_GetBitmap (
  *  @param bitmap           New bitmap to be used by the marker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetBitmap (
     TQ3GeometryObject             marker,
     const TQ3Bitmap               *bitmap
@@ -3711,7 +3711,7 @@ Q3Marker_SetBitmap (
  *
  *  @result                 Reference to a new Mesh geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Mesh_New (
     void
 );
@@ -3737,7 +3737,7 @@ Q3Mesh_New (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetData (
     TQ3GeometryObject             mesh,
     const TQ3MeshData             *meshData
@@ -3764,7 +3764,7 @@ Q3Mesh_SetData (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetData (
     TQ3GeometryObject             mesh,
     TQ3MeshData                   *meshData
@@ -3787,7 +3787,7 @@ Q3Mesh_GetData (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_EmptyData (
     TQ3MeshData                   *meshData
 );
@@ -3809,7 +3809,7 @@ Q3Mesh_EmptyData (
  *  @param vertex           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_VertexNew (
     TQ3GeometryObject             mesh,
     const TQ3Vertex3D             *vertex
@@ -3832,7 +3832,7 @@ Q3Mesh_VertexNew (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_FaceNew (
     TQ3GeometryObject             mesh,
     TQ3Uns32                      numVertices,
@@ -3855,7 +3855,7 @@ Q3Mesh_FaceNew (
  *  @param vertex           Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_VertexDelete (
     TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex
@@ -3876,7 +3876,7 @@ Q3Mesh_VertexDelete (
  *  @param face             Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_FaceDelete (
     TQ3GeometryObject             mesh,
     TQ3MeshFace                   face
@@ -3896,7 +3896,7 @@ Q3Mesh_FaceDelete (
  *  @param mesh             Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_DelayUpdates (
     TQ3GeometryObject             mesh
 );
@@ -3915,7 +3915,7 @@ Q3Mesh_DelayUpdates (
  *  @param mesh             Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_ResumeUpdates (
     TQ3GeometryObject             mesh
 );
@@ -3936,7 +3936,7 @@ Q3Mesh_ResumeUpdates (
  *  @param face             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshContour  )
+Q3_EXTERN_API_C ( TQ3MeshContour  )
 Q3Mesh_FaceToContour (
     TQ3GeometryObject             mesh,
     TQ3MeshFace                   containerFace,
@@ -3958,7 +3958,7 @@ Q3Mesh_FaceToContour (
  *  @param contour          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_ContourToFace (
     TQ3GeometryObject             mesh,
     TQ3MeshContour                contour
@@ -3979,7 +3979,7 @@ Q3Mesh_ContourToFace (
  *  @param numComponents    Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumComponents (
     TQ3GeometryObject             mesh,
     TQ3Uns32                      *numComponents
@@ -4000,7 +4000,7 @@ Q3Mesh_GetNumComponents (
  *  @param numEdges         Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumEdges (
     TQ3GeometryObject             mesh,
     TQ3Uns32                      *numEdges
@@ -4021,7 +4021,7 @@ Q3Mesh_GetNumEdges (
  *  @param numVertices      Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumVertices (
     TQ3GeometryObject             mesh,
     TQ3Uns32                      *numVertices
@@ -4042,7 +4042,7 @@ Q3Mesh_GetNumVertices (
  *  @param numFaces         Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumFaces (
     TQ3GeometryObject             mesh,
     TQ3Uns32                      *numFaces
@@ -4063,7 +4063,7 @@ Q3Mesh_GetNumFaces (
  *  @param numCorners       Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumCorners (
     TQ3GeometryObject             mesh,
     TQ3Uns32                      *numCorners
@@ -4084,7 +4084,7 @@ Q3Mesh_GetNumCorners (
  *  @param orientable       Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetOrientable (
     TQ3GeometryObject             mesh,
     TQ3Boolean                    *orientable
@@ -4106,7 +4106,7 @@ Q3Mesh_GetOrientable (
  *  @param numVertices      Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentNumVertices (
     TQ3GeometryObject             mesh,
     TQ3MeshComponent              component,
@@ -4129,7 +4129,7 @@ Q3Mesh_GetComponentNumVertices (
  *  @param numEdges         Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentNumEdges (
     TQ3GeometryObject             mesh,
     TQ3MeshComponent              component,
@@ -4152,7 +4152,7 @@ Q3Mesh_GetComponentNumEdges (
  *  @param boundingBox      Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentBoundingBox (
     TQ3GeometryObject             mesh,
     TQ3MeshComponent              component,
@@ -4175,7 +4175,7 @@ Q3Mesh_GetComponentBoundingBox (
  *  @param orientable       Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentOrientable (
     TQ3GeometryObject             mesh,
     TQ3MeshComponent              component,
@@ -4198,7 +4198,7 @@ Q3Mesh_GetComponentOrientable (
  *  @param coordinates      Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexCoordinates (
     TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex,
@@ -4221,7 +4221,7 @@ Q3Mesh_GetVertexCoordinates (
  *  @param index            Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexIndex (
     TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex,
@@ -4244,7 +4244,7 @@ Q3Mesh_GetVertexIndex (
  *  @param onBoundary       Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexOnBoundary (
     TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex,
@@ -4267,7 +4267,7 @@ Q3Mesh_GetVertexOnBoundary (
  *  @param component        Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexComponent (
     TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex,
@@ -4290,7 +4290,7 @@ Q3Mesh_GetVertexComponent (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexAttributeSet (
     TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex,
@@ -4313,7 +4313,7 @@ Q3Mesh_GetVertexAttributeSet (
  *  @param coordinates      Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetVertexCoordinates (
     TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex,
@@ -4336,7 +4336,7 @@ Q3Mesh_SetVertexCoordinates (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetVertexAttributeSet (
     TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex,
@@ -4359,7 +4359,7 @@ Q3Mesh_SetVertexAttributeSet (
  *  @param numVertices      Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceNumVertices (
     TQ3GeometryObject             mesh,
     TQ3MeshFace                   face,
@@ -4382,7 +4382,7 @@ Q3Mesh_GetFaceNumVertices (
  *  @param planeEquation    Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFacePlaneEquation (
     TQ3GeometryObject             mesh,
     TQ3MeshFace                   face,
@@ -4405,7 +4405,7 @@ Q3Mesh_GetFacePlaneEquation (
  *  @param numContours      Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceNumContours (
     TQ3GeometryObject             mesh,
     TQ3MeshFace                   face,
@@ -4428,7 +4428,7 @@ Q3Mesh_GetFaceNumContours (
  *  @param index            Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceIndex (
     TQ3GeometryObject             mesh,
     TQ3MeshFace                   face,
@@ -4451,7 +4451,7 @@ Q3Mesh_GetFaceIndex (
  *  @param component        Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceComponent (
     TQ3GeometryObject             mesh,
     TQ3MeshFace                   face,
@@ -4474,7 +4474,7 @@ Q3Mesh_GetFaceComponent (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceAttributeSet (
     TQ3GeometryObject             mesh,
     TQ3MeshFace                   face,
@@ -4497,7 +4497,7 @@ Q3Mesh_GetFaceAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetFaceAttributeSet (
     TQ3GeometryObject             mesh,
     TQ3MeshFace                   face,
@@ -4521,7 +4521,7 @@ Q3Mesh_SetFaceAttributeSet (
  *  @param vertex2          Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeVertices (
     TQ3GeometryObject             mesh,
     TQ3MeshEdge                   edge,
@@ -4546,7 +4546,7 @@ Q3Mesh_GetEdgeVertices (
  *  @param face2            Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeFaces (
     TQ3GeometryObject             mesh,
     TQ3MeshEdge                   edge,
@@ -4570,7 +4570,7 @@ Q3Mesh_GetEdgeFaces (
  *  @param onBoundary       Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeOnBoundary (
     TQ3GeometryObject             mesh,
     TQ3MeshEdge                   edge,
@@ -4593,7 +4593,7 @@ Q3Mesh_GetEdgeOnBoundary (
  *  @param component        Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeComponent (
     TQ3GeometryObject             mesh,
     TQ3MeshEdge                   edge,
@@ -4616,7 +4616,7 @@ Q3Mesh_GetEdgeComponent (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeAttributeSet (
     TQ3GeometryObject             mesh,
     TQ3MeshEdge                   edge,
@@ -4639,7 +4639,7 @@ Q3Mesh_GetEdgeAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetEdgeAttributeSet (
     TQ3GeometryObject             mesh,
     TQ3MeshEdge                   edge,
@@ -4662,7 +4662,7 @@ Q3Mesh_SetEdgeAttributeSet (
  *  @param face             Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetContourFace (
     TQ3GeometryObject             mesh,
     TQ3MeshContour                contour,
@@ -4685,7 +4685,7 @@ Q3Mesh_GetContourFace (
  *  @param numVertices      Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetContourNumVertices (
     TQ3GeometryObject             mesh,
     TQ3MeshContour                contour,
@@ -4709,7 +4709,7 @@ Q3Mesh_GetContourNumVertices (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetCornerAttributeSet (
     TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex,
@@ -4734,7 +4734,7 @@ Q3Mesh_GetCornerAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetCornerAttributeSet (
     TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex,
@@ -4757,7 +4757,7 @@ Q3Mesh_SetCornerAttributeSet (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshComponent  )
+Q3_EXTERN_API_C ( TQ3MeshComponent  )
 Q3Mesh_FirstMeshComponent (
     TQ3GeometryObject             mesh,
     TQ3MeshIterator               *iterator
@@ -4777,7 +4777,7 @@ Q3Mesh_FirstMeshComponent (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshComponent  )
+Q3_EXTERN_API_C ( TQ3MeshComponent  )
 Q3Mesh_NextMeshComponent (
     TQ3MeshIterator               *iterator
 );
@@ -4797,7 +4797,7 @@ Q3Mesh_NextMeshComponent (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_FirstComponentVertex (
     TQ3MeshComponent              component,
     TQ3MeshIterator               *iterator
@@ -4817,7 +4817,7 @@ Q3Mesh_FirstComponentVertex (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_NextComponentVertex (
     TQ3MeshIterator               *iterator
 );
@@ -4837,7 +4837,7 @@ Q3Mesh_NextComponentVertex (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_FirstComponentEdge (
     TQ3MeshComponent              component,
     TQ3MeshIterator               *iterator
@@ -4857,7 +4857,7 @@ Q3Mesh_FirstComponentEdge (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_NextComponentEdge (
     TQ3MeshIterator               *iterator
 );
@@ -4877,7 +4877,7 @@ Q3Mesh_NextComponentEdge (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_FirstMeshVertex (
     TQ3GeometryObject             mesh,
     TQ3MeshIterator               *iterator
@@ -4897,7 +4897,7 @@ Q3Mesh_FirstMeshVertex (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_NextMeshVertex (
     TQ3MeshIterator               *iterator
 );
@@ -4917,7 +4917,7 @@ Q3Mesh_NextMeshVertex (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_FirstMeshFace (
     TQ3GeometryObject             mesh,
     TQ3MeshIterator               *iterator
@@ -4937,7 +4937,7 @@ Q3Mesh_FirstMeshFace (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_NextMeshFace (
     TQ3MeshIterator               *iterator
 );
@@ -4957,7 +4957,7 @@ Q3Mesh_NextMeshFace (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_FirstMeshEdge (
     TQ3GeometryObject             mesh,
     TQ3MeshIterator               *iterator
@@ -4977,7 +4977,7 @@ Q3Mesh_FirstMeshEdge (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_NextMeshEdge (
     TQ3MeshIterator               *iterator
 );
@@ -4997,7 +4997,7 @@ Q3Mesh_NextMeshEdge (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_FirstVertexEdge (
     TQ3MeshVertex                 vertex,
     TQ3MeshIterator               *iterator
@@ -5017,7 +5017,7 @@ Q3Mesh_FirstVertexEdge (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_NextVertexEdge (
     TQ3MeshIterator               *iterator
 );
@@ -5037,7 +5037,7 @@ Q3Mesh_NextVertexEdge (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_FirstVertexVertex (
     TQ3MeshVertex                 vertex,
     TQ3MeshIterator               *iterator
@@ -5057,7 +5057,7 @@ Q3Mesh_FirstVertexVertex (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_NextVertexVertex (
     TQ3MeshIterator               *iterator
 );
@@ -5077,7 +5077,7 @@ Q3Mesh_NextVertexVertex (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_FirstVertexFace (
     TQ3MeshVertex                 vertex,
     TQ3MeshIterator               *iterator
@@ -5097,7 +5097,7 @@ Q3Mesh_FirstVertexFace (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_NextVertexFace (
     TQ3MeshIterator               *iterator
 );
@@ -5117,7 +5117,7 @@ Q3Mesh_NextVertexFace (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_FirstFaceEdge (
     TQ3MeshFace                   face,
     TQ3MeshIterator               *iterator
@@ -5137,7 +5137,7 @@ Q3Mesh_FirstFaceEdge (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_NextFaceEdge (
     TQ3MeshIterator               *iterator
 );
@@ -5157,7 +5157,7 @@ Q3Mesh_NextFaceEdge (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_FirstFaceVertex (
     TQ3MeshFace                   face,
     TQ3MeshIterator               *iterator
@@ -5177,7 +5177,7 @@ Q3Mesh_FirstFaceVertex (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_NextFaceVertex (
     TQ3MeshIterator               *iterator
 );
@@ -5197,7 +5197,7 @@ Q3Mesh_NextFaceVertex (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_FirstFaceFace (
     TQ3MeshFace                   face,
     TQ3MeshIterator               *iterator
@@ -5217,7 +5217,7 @@ Q3Mesh_FirstFaceFace (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_NextFaceFace (
     TQ3MeshIterator               *iterator
 );
@@ -5237,7 +5237,7 @@ Q3Mesh_NextFaceFace (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshContour  )
+Q3_EXTERN_API_C ( TQ3MeshContour  )
 Q3Mesh_FirstFaceContour (
     TQ3MeshFace                   face,
     TQ3MeshIterator               *iterator
@@ -5257,7 +5257,7 @@ Q3Mesh_FirstFaceContour (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshContour  )
+Q3_EXTERN_API_C ( TQ3MeshContour  )
 Q3Mesh_NextFaceContour (
     TQ3MeshIterator               *iterator
 );
@@ -5277,7 +5277,7 @@ Q3Mesh_NextFaceContour (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_FirstContourEdge (
     TQ3MeshContour                contour,
     TQ3MeshIterator               *iterator
@@ -5297,7 +5297,7 @@ Q3Mesh_FirstContourEdge (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge  )
 Q3Mesh_NextContourEdge (
     TQ3MeshIterator               *iterator
 );
@@ -5317,7 +5317,7 @@ Q3Mesh_NextContourEdge (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_FirstContourVertex (
     TQ3MeshContour                contour,
     TQ3MeshIterator               *iterator
@@ -5337,7 +5337,7 @@ Q3Mesh_FirstContourVertex (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex  )
 Q3Mesh_NextContourVertex (
     TQ3MeshIterator               *iterator
 );
@@ -5357,7 +5357,7 @@ Q3Mesh_NextContourVertex (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_FirstContourFace (
     TQ3MeshContour                contour,
     TQ3MeshIterator               *iterator
@@ -5377,7 +5377,7 @@ Q3Mesh_FirstContourFace (
  *  @param iterator         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace  )
 Q3Mesh_NextContourFace (
     TQ3MeshIterator               *iterator
 );
@@ -5393,7 +5393,7 @@ Q3Mesh_NextContourFace (
  *  @param curveData        Data describing a NURB curve.
  *  @result                 Reference to a new NURB curve geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3NURBCurve_New (
     const TQ3NURBCurveData        *curveData
 );
@@ -5412,7 +5412,7 @@ Q3NURBCurve_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_Submit (
     const TQ3NURBCurveData        *curveData,
     TQ3ViewObject                 view
@@ -5430,7 +5430,7 @@ Q3NURBCurve_Submit (
  *  @param nurbCurveData    Data describing a NURB curve object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_SetData (
     TQ3GeometryObject             curve,
     const TQ3NURBCurveData        *nurbCurveData
@@ -5451,7 +5451,7 @@ Q3NURBCurve_SetData (
  *  @param nurbCurveData    Receives data describing the NURB Curve object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_GetData (
     TQ3GeometryObject             curve,
     TQ3NURBCurveData              *nurbCurveData
@@ -5469,7 +5469,7 @@ Q3NURBCurve_GetData (
  *							<code>Q3NURBCurve_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_EmptyData (
     TQ3NURBCurveData              *nurbCurveData
 );
@@ -5490,7 +5490,7 @@ Q3NURBCurve_EmptyData (
  *  @param point4D          Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_SetControlPoint (
     TQ3GeometryObject             curve,
     TQ3Uns32                      pointIndex,
@@ -5513,7 +5513,7 @@ Q3NURBCurve_SetControlPoint (
  *  @param point4D          Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_GetControlPoint (
     TQ3GeometryObject             curve,
     TQ3Uns32                      pointIndex,
@@ -5536,7 +5536,7 @@ Q3NURBCurve_GetControlPoint (
  *  @param knotValue        Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_SetKnot (
     TQ3GeometryObject             curve,
     TQ3Uns32                      knotIndex,
@@ -5559,7 +5559,7 @@ Q3NURBCurve_SetKnot (
  *  @param knotValue        Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_GetKnot (
     TQ3GeometryObject             curve,
     TQ3Uns32                      knotIndex,
@@ -5577,7 +5577,7 @@ Q3NURBCurve_GetKnot (
  *  @param nurbPatchData    Data describing a NURB patch.
  *  @result                 Reference to a new NURB patch geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3NURBPatch_New (
     const TQ3NURBPatchData        *nurbPatchData
 );
@@ -5596,7 +5596,7 @@ Q3NURBPatch_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_Submit (
     const TQ3NURBPatchData        *nurbPatchData,
     TQ3ViewObject                 view
@@ -5614,7 +5614,7 @@ Q3NURBPatch_Submit (
  *  @param nurbPatchData    Data describing a NURB patch object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetData (
     TQ3GeometryObject             nurbPatch,
     const TQ3NURBPatchData        *nurbPatchData
@@ -5635,7 +5635,7 @@ Q3NURBPatch_SetData (
  *  @param nurbPatchData    Receives data describing the NURB Patch object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetData (
     TQ3GeometryObject             nurbPatch,
     TQ3NURBPatchData              *nurbPatchData
@@ -5658,7 +5658,7 @@ Q3NURBPatch_GetData (
  *  @param point4D          Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetControlPoint (
     TQ3GeometryObject             nurbPatch,
     TQ3Uns32                      rowIndex,
@@ -5683,7 +5683,7 @@ Q3NURBPatch_SetControlPoint (
  *  @param point4D          Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetControlPoint (
     TQ3GeometryObject             nurbPatch,
     TQ3Uns32                      rowIndex,
@@ -5707,7 +5707,7 @@ Q3NURBPatch_GetControlPoint (
  *  @param knotValue        Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetUKnot (
     TQ3GeometryObject             nurbPatch,
     TQ3Uns32                      knotIndex,
@@ -5730,7 +5730,7 @@ Q3NURBPatch_SetUKnot (
  *  @param knotValue        Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetVKnot (
     TQ3GeometryObject             nurbPatch,
     TQ3Uns32                      knotIndex,
@@ -5753,7 +5753,7 @@ Q3NURBPatch_SetVKnot (
  *  @param knotValue        Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetUKnot (
     TQ3GeometryObject             nurbPatch,
     TQ3Uns32                      knotIndex,
@@ -5776,7 +5776,7 @@ Q3NURBPatch_GetUKnot (
  *  @param knotValue        Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetVKnot (
     TQ3GeometryObject             nurbPatch,
     TQ3Uns32                      knotIndex,
@@ -5795,7 +5795,7 @@ Q3NURBPatch_GetVKnot (
  *							<code>Q3NURBPatch_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_EmptyData (
     TQ3NURBPatchData              *nurbPatchData
 );
@@ -5811,7 +5811,7 @@ Q3NURBPatch_EmptyData (
  *  @param pixmapMarkerData Data describing a pixmap marker.
  *  @result                 Reference to a new pixmap marker geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3PixmapMarker_New (
     const TQ3PixmapMarkerData     *pixmapMarkerData
 );
@@ -5830,7 +5830,7 @@ Q3PixmapMarker_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_Submit (
     const TQ3PixmapMarkerData     *pixmapMarkerData,
     TQ3ViewObject                 view
@@ -5848,7 +5848,7 @@ Q3PixmapMarker_Submit (
  *  @param pixmapMarkerData Data describing a pixmap marker object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetData (
     TQ3GeometryObject             geometry,
     const TQ3PixmapMarkerData     *pixmapMarkerData
@@ -5869,7 +5869,7 @@ Q3PixmapMarker_SetData (
  *  @param pixmapMarkerData Receives data describing the Pixmap Marker object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetData (
     TQ3GeometryObject             geometry,
     TQ3PixmapMarkerData           *pixmapMarkerData
@@ -5887,7 +5887,7 @@ Q3PixmapMarker_GetData (
  *							<code>Q3PixmapMarker_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_EmptyData (
     TQ3PixmapMarkerData           *pixmapMarkerData
 );
@@ -5904,7 +5904,7 @@ Q3PixmapMarker_EmptyData (
  *  @param position         Receives the position of the pixmap marker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetPosition (
     TQ3GeometryObject             pixmapMarker,
     TQ3Point3D                    *position
@@ -5922,7 +5922,7 @@ Q3PixmapMarker_GetPosition (
  *  @param position         New position of the pixmap marker in world coordinates.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetPosition (
     TQ3GeometryObject             pixmapMarker,
     const TQ3Point3D              *position
@@ -5941,7 +5941,7 @@ Q3PixmapMarker_SetPosition (
  *  @param xOffset          Receives the horizontal offset of the marker in pixels.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetXOffset (
     TQ3GeometryObject             pixmapMarker,
     TQ3Int32                      *xOffset
@@ -5960,7 +5960,7 @@ Q3PixmapMarker_GetXOffset (
  *  @param xOffset          The horizontal offset of the marker in pixels.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetXOffset (
     TQ3GeometryObject             pixmapMarker,
     TQ3Int32                      xOffset
@@ -5979,7 +5979,7 @@ Q3PixmapMarker_SetXOffset (
  *  @param yOffset          Receives the vertical offset of the marker in pixels.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetYOffset (
     TQ3GeometryObject             pixmapMarker,
     TQ3Int32                      *yOffset
@@ -5998,7 +5998,7 @@ Q3PixmapMarker_GetYOffset (
  *  @param yOffset          The vertical offset of the marker in pixels.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetYOffset (
     TQ3GeometryObject             pixmapMarker,
     TQ3Int32                      yOffset
@@ -6017,7 +6017,7 @@ Q3PixmapMarker_SetYOffset (
  *  @param pixmap           Receives the pixmap structure of the marker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetPixmap (
     TQ3GeometryObject             pixmapMarker,
     TQ3StoragePixmap              *pixmap
@@ -6036,7 +6036,7 @@ Q3PixmapMarker_GetPixmap (
  *  @param pixmap           New pixmap to be used by the marker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetPixmap (
     TQ3GeometryObject             pixmapMarker,
     const TQ3StoragePixmap        *pixmap
@@ -6053,7 +6053,7 @@ Q3PixmapMarker_SetPixmap (
  *  @param pointData        Data describing a point.
  *  @result                 Reference to a new Point geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Point_New (
     const TQ3PointData            *pointData
 );
@@ -6072,7 +6072,7 @@ Q3Point_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_Submit (
     const TQ3PointData            *pointData,
     TQ3ViewObject                 view
@@ -6093,7 +6093,7 @@ Q3Point_Submit (
  *  @param pointData        Receives data describing the Point object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_GetData (
     TQ3GeometryObject             point,
     TQ3PointData                  *pointData
@@ -6111,7 +6111,7 @@ Q3Point_GetData (
  *  @param pointData        Data describing a point object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_SetData (
     TQ3GeometryObject             point,
     const TQ3PointData            *pointData
@@ -6129,7 +6129,7 @@ Q3Point_SetData (
  *							<code>Q3Point_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_EmptyData (
     TQ3PointData                  *pointData
 );
@@ -6146,7 +6146,7 @@ Q3Point_EmptyData (
  *  @param position         New position for the point.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_SetPosition (
     TQ3GeometryObject             point,
     const TQ3Point3D              *position
@@ -6164,7 +6164,7 @@ Q3Point_SetPosition (
  *  @param position         Receives the position of the point.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_GetPosition (
     TQ3GeometryObject             point,
     TQ3Point3D                    *position
@@ -6181,7 +6181,7 @@ Q3Point_GetPosition (
  *  @param polygonData      Data describing a polygon.
  *  @result                 Reference to a new Polygon geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Polygon_New (
     const TQ3PolygonData          *polygonData
 );
@@ -6200,7 +6200,7 @@ Q3Polygon_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_Submit (
     const TQ3PolygonData          *polygonData,
     TQ3ViewObject                 view
@@ -6218,7 +6218,7 @@ Q3Polygon_Submit (
  *  @param polygonData      Data describing a polygon.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_SetData (
     TQ3GeometryObject             polygon,
     const TQ3PolygonData          *polygonData
@@ -6239,7 +6239,7 @@ Q3Polygon_SetData (
  *  @param polygonData      Receives data describing the Polygon object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_GetData (
     TQ3GeometryObject             polygon,
     TQ3PolygonData                *polygonData
@@ -6257,7 +6257,7 @@ Q3Polygon_GetData (
  *							<code>Q3Polygon_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_EmptyData (
     TQ3PolygonData                *polygonData
 );
@@ -6275,7 +6275,7 @@ Q3Polygon_EmptyData (
  *  @param point            Receives the position of the vertex.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_GetVertexPosition (
     TQ3GeometryObject             polygon,
     TQ3Uns32                      index,
@@ -6295,7 +6295,7 @@ Q3Polygon_GetVertexPosition (
  *  @param point            New position of the vertex.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_SetVertexPosition (
     TQ3GeometryObject             polygon,
     TQ3Uns32                      index,
@@ -6315,7 +6315,7 @@ Q3Polygon_SetVertexPosition (
  *  @param attributeSet     Receives a new reference to the attribute set, or NULL.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_GetVertexAttributeSet (
     TQ3GeometryObject             polygon,
     TQ3Uns32                      index,
@@ -6335,7 +6335,7 @@ Q3Polygon_GetVertexAttributeSet (
  *  @param attributeSet     New attribute set for the vertex.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_SetVertexAttributeSet (
     TQ3GeometryObject             polygon,
     TQ3Uns32                      index,
@@ -6353,7 +6353,7 @@ Q3Polygon_SetVertexAttributeSet (
  *  @param polyhedronData   Data describing a polyhedron.
  *  @result                 Reference to a new Polyhedron geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Polyhedron_New (
     const TQ3PolyhedronData       *polyhedronData
 );
@@ -6372,7 +6372,7 @@ Q3Polyhedron_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_Submit (
     const TQ3PolyhedronData       *polyhedronData,
     TQ3ViewObject                 view
@@ -6390,7 +6390,7 @@ Q3Polyhedron_Submit (
  *  @param polyhedronData   Data describing a polyhedron.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetData (
     TQ3GeometryObject             polyhedron,
     const TQ3PolyhedronData       *polyhedronData
@@ -6411,7 +6411,7 @@ Q3Polyhedron_SetData (
  *  @param polyhedronData   Receives data describing the Polyhedron object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetData (
     TQ3GeometryObject             polyhedron,
     TQ3PolyhedronData             *polyhedronData
@@ -6429,7 +6429,7 @@ Q3Polyhedron_GetData (
  *							<code>Q3Polyhedron_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_EmptyData (
     TQ3PolyhedronData             *polyhedronData
 );
@@ -6450,7 +6450,7 @@ Q3Polyhedron_EmptyData (
  *  @param point            Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetVertexPosition (
     TQ3GeometryObject             polyhedron,
     TQ3Uns32                      index,
@@ -6473,7 +6473,7 @@ Q3Polyhedron_SetVertexPosition (
  *  @param point            Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetVertexPosition (
     TQ3GeometryObject             polyhedron,
     TQ3Uns32                      index,
@@ -6496,7 +6496,7 @@ Q3Polyhedron_GetVertexPosition (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetVertexAttributeSet (
     TQ3GeometryObject             polyhedron,
     TQ3Uns32                      index,
@@ -6519,7 +6519,7 @@ Q3Polyhedron_SetVertexAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetVertexAttributeSet (
     TQ3GeometryObject             polyhedron,
     TQ3Uns32                      index,
@@ -6542,7 +6542,7 @@ Q3Polyhedron_GetVertexAttributeSet (
  *  @param triangleData     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetTriangleData (
     TQ3GeometryObject             polyhedron,
     TQ3Uns32                      triangleIndex,
@@ -6565,7 +6565,7 @@ Q3Polyhedron_GetTriangleData (
  *  @param triangleData     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetTriangleData (
     TQ3GeometryObject             polyhedron,
     TQ3Uns32                      triangleIndex,
@@ -6588,7 +6588,7 @@ Q3Polyhedron_SetTriangleData (
  *  @param edgeData         Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetEdgeData (
     TQ3GeometryObject             polyhedron,
     TQ3Uns32                      edgeIndex,
@@ -6611,7 +6611,7 @@ Q3Polyhedron_GetEdgeData (
  *  @param edgeData         Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetEdgeData (
     TQ3GeometryObject             polyhedron,
     TQ3Uns32                      edgeIndex,
@@ -6629,7 +6629,7 @@ Q3Polyhedron_SetEdgeData (
  *  @param polylineData     Data describing a polyline.
  *  @result                 Reference to a new Polyline geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3PolyLine_New (
     const TQ3PolyLineData         *polylineData
 );
@@ -6648,7 +6648,7 @@ Q3PolyLine_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_Submit (
     const TQ3PolyLineData         *polyLineData,
     TQ3ViewObject                 view
@@ -6666,7 +6666,7 @@ Q3PolyLine_Submit (
  *  @param polyLineData     Data describing a PolyLine.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetData (
     TQ3GeometryObject             polyLine,
     const TQ3PolyLineData         *polyLineData
@@ -6687,7 +6687,7 @@ Q3PolyLine_SetData (
  *  @param polyLineData     Receives data describing the PolyLine object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetData (
     TQ3GeometryObject             polyLine,
     TQ3PolyLineData               *polyLineData
@@ -6705,7 +6705,7 @@ Q3PolyLine_GetData (
  *							<code>Q3PolyLine_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_EmptyData (
     TQ3PolyLineData               *polyLineData
 );
@@ -6726,7 +6726,7 @@ Q3PolyLine_EmptyData (
  *  @param position         Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetVertexPosition (
     TQ3GeometryObject             polyLine,
     TQ3Uns32                      index,
@@ -6749,7 +6749,7 @@ Q3PolyLine_GetVertexPosition (
  *  @param position         Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetVertexPosition (
     TQ3GeometryObject             polyLine,
     TQ3Uns32                      index,
@@ -6772,7 +6772,7 @@ Q3PolyLine_SetVertexPosition (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetVertexAttributeSet (
     TQ3GeometryObject             polyLine,
     TQ3Uns32                      index,
@@ -6795,7 +6795,7 @@ Q3PolyLine_GetVertexAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetVertexAttributeSet (
     TQ3GeometryObject             polyLine,
     TQ3Uns32                      index,
@@ -6818,7 +6818,7 @@ Q3PolyLine_SetVertexAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetSegmentAttributeSet (
     TQ3GeometryObject             polyLine,
     TQ3Uns32                      index,
@@ -6841,7 +6841,7 @@ Q3PolyLine_GetSegmentAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetSegmentAttributeSet (
     TQ3GeometryObject             polyLine,
     TQ3Uns32                      index,
@@ -6859,7 +6859,7 @@ Q3PolyLine_SetSegmentAttributeSet (
  *  @param torusData        Data describing a torus.
  *  @result                 Reference to a new Torus geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Torus_New (
     const TQ3TorusData            *torusData
 );
@@ -6878,7 +6878,7 @@ Q3Torus_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_Submit (
     const TQ3TorusData            *torusData,
     TQ3ViewObject                 view
@@ -6896,7 +6896,7 @@ Q3Torus_Submit (
  *  @param torusData        Data describing a torus.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetData (
     TQ3GeometryObject             torus,
     const TQ3TorusData            *torusData
@@ -6917,7 +6917,7 @@ Q3Torus_SetData (
  *  @param torusData        Receives data describing the Torus object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetData (
     TQ3GeometryObject             torus,
     TQ3TorusData                  *torusData
@@ -6935,7 +6935,7 @@ Q3Torus_GetData (
  *  @param origin           The new origin.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetOrigin (
     TQ3GeometryObject             torus,
     const TQ3Point3D              *origin
@@ -6953,7 +6953,7 @@ Q3Torus_SetOrigin (
  *  @param orientation      New orientation vector for the torus.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetOrientation (
     TQ3GeometryObject             torus,
     const TQ3Vector3D             *orientation
@@ -6971,7 +6971,7 @@ Q3Torus_SetOrientation (
  *  @param majorRadius      New major radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetMajorRadius (
     TQ3GeometryObject             torus,
     const TQ3Vector3D             *majorRadius
@@ -6989,7 +6989,7 @@ Q3Torus_SetMajorRadius (
  *  @param minorRadius      New minor radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetMinorRadius (
     TQ3GeometryObject             torus,
     const TQ3Vector3D             *minorRadius
@@ -7010,7 +7010,7 @@ Q3Torus_SetMinorRadius (
  *  @param ratio            Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetRatio (
     TQ3GeometryObject             torus,
     float                         ratio
@@ -7028,7 +7028,7 @@ Q3Torus_SetRatio (
  *  @param origin           Receives the origin.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetOrigin (
     TQ3GeometryObject             torus,
     TQ3Point3D                    *origin
@@ -7046,7 +7046,7 @@ Q3Torus_GetOrigin (
  *  @param orientation      Receives the orientation vector of the torus.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetOrientation (
     TQ3GeometryObject             torus,
     TQ3Vector3D                   *orientation
@@ -7064,7 +7064,7 @@ Q3Torus_GetOrientation (
  *  @param majorRadius      Receives the major radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetMajorRadius (
     TQ3GeometryObject             torus,
     TQ3Vector3D                   *majorRadius
@@ -7082,7 +7082,7 @@ Q3Torus_GetMajorRadius (
  *  @param minorRadius      Receives the minor radius vector.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetMinorRadius (
     TQ3GeometryObject             torus,
     TQ3Vector3D                   *minorRadius
@@ -7103,7 +7103,7 @@ Q3Torus_GetMinorRadius (
  *  @param ratio            Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetRatio (
     TQ3GeometryObject             torus,
     float                         *ratio
@@ -7121,7 +7121,7 @@ Q3Torus_GetRatio (
  *							<code>Q3Torus_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_EmptyData (
     TQ3TorusData                  *torusData
 );
@@ -7137,7 +7137,7 @@ Q3Torus_EmptyData (
  *  @param triangleData     Data describing a triangle.
  *  @result                 Reference to a new Triangle geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Triangle_New (
     const TQ3TriangleData         *triangleData
 );
@@ -7156,7 +7156,7 @@ Q3Triangle_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_Submit (
     const TQ3TriangleData         *triangleData,
     TQ3ViewObject                 view
@@ -7174,7 +7174,7 @@ Q3Triangle_Submit (
  *  @param triangleData     Data describing a triangle.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_SetData (
     TQ3GeometryObject             triangle,
     const TQ3TriangleData         *triangleData
@@ -7195,7 +7195,7 @@ Q3Triangle_SetData (
  *  @param triangleData     Receives data describing the Triangle object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_GetData (
     TQ3GeometryObject             triangle,
     TQ3TriangleData               *triangleData
@@ -7213,7 +7213,7 @@ Q3Triangle_GetData (
  *							<code>Q3Triangle_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_EmptyData (
     TQ3TriangleData               *triangleData
 );
@@ -7234,7 +7234,7 @@ Q3Triangle_EmptyData (
  *  @param point            Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_GetVertexPosition (
     TQ3GeometryObject             triangle,
     TQ3Uns32                      index,
@@ -7257,7 +7257,7 @@ Q3Triangle_GetVertexPosition (
  *  @param point            Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_SetVertexPosition (
     TQ3GeometryObject             triangle,
     TQ3Uns32                      index,
@@ -7280,7 +7280,7 @@ Q3Triangle_SetVertexPosition (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_GetVertexAttributeSet (
     TQ3GeometryObject             triangle,
     TQ3Uns32                      index,
@@ -7303,7 +7303,7 @@ Q3Triangle_GetVertexAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_SetVertexAttributeSet (
     TQ3GeometryObject             triangle,
     TQ3Uns32                      index,
@@ -7321,7 +7321,7 @@ Q3Triangle_SetVertexAttributeSet (
  *  @param triGridData      Data describing a TriGrid.
  *  @result                 Reference to a new TriGrid geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3TriGrid_New (
     const TQ3TriGridData          *triGridData
 );
@@ -7340,7 +7340,7 @@ Q3TriGrid_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_Submit (
     const TQ3TriGridData          *triGridData,
     TQ3ViewObject                 view
@@ -7358,7 +7358,7 @@ Q3TriGrid_Submit (
  *  @param triGridData      Data describing a TriGrid.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetData (
     TQ3GeometryObject             triGrid,
     const TQ3TriGridData          *triGridData
@@ -7379,7 +7379,7 @@ Q3TriGrid_SetData (
  *  @param triGridData      Receives data describing the TriGrid object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetData (
     TQ3GeometryObject             triGrid,
     TQ3TriGridData                *triGridData
@@ -7397,7 +7397,7 @@ Q3TriGrid_GetData (
  *							<code>Q3TriGrid_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_EmptyData (
     TQ3TriGridData                *triGridData
 );
@@ -7419,7 +7419,7 @@ Q3TriGrid_EmptyData (
  *  @param position         Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetVertexPosition (
     TQ3GeometryObject             triGrid,
     TQ3Uns32                      rowIndex,
@@ -7444,7 +7444,7 @@ Q3TriGrid_GetVertexPosition (
  *  @param position         Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetVertexPosition (
     TQ3GeometryObject             triGrid,
     TQ3Uns32                      rowIndex,
@@ -7469,7 +7469,7 @@ Q3TriGrid_SetVertexPosition (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetVertexAttributeSet (
     TQ3GeometryObject             triGrid,
     TQ3Uns32                      rowIndex,
@@ -7494,7 +7494,7 @@ Q3TriGrid_GetVertexAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetVertexAttributeSet (
     TQ3GeometryObject             triGrid,
     TQ3Uns32                      rowIndex,
@@ -7518,7 +7518,7 @@ Q3TriGrid_SetVertexAttributeSet (
  *  @param facetAttributeSet Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetFacetAttributeSet (
     TQ3GeometryObject             triGrid,
     TQ3Uns32                      faceIndex,
@@ -7541,7 +7541,7 @@ Q3TriGrid_GetFacetAttributeSet (
  *  @param facetAttributeSet Description of the parameter.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetFacetAttributeSet (
     TQ3GeometryObject             triGrid,
     TQ3Uns32                      faceIndex,
@@ -7562,7 +7562,7 @@ Q3TriGrid_SetFacetAttributeSet (
  *  @param triMeshData      Data describing a TriMesh.
  *  @result                 Reference to a new TriMesh geometry object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3TriMesh_New (
     const TQ3TriMeshData          *triMeshData
 );
@@ -7581,7 +7581,7 @@ Q3TriMesh_New (
  *  @param view             A view object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_Submit (
     const TQ3TriMeshData          *triMeshData,
     TQ3ViewObject                 view
@@ -7602,7 +7602,7 @@ Q3TriMesh_Submit (
  *  @param triMeshData      Data describing a TriMesh.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_SetData (
     TQ3GeometryObject             triMesh,
     const TQ3TriMeshData          *triMeshData
@@ -7623,7 +7623,7 @@ Q3TriMesh_SetData (
  *  @param triMeshData      Receives data describing the TriMesh object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_GetData (
     TQ3GeometryObject             triMesh,
     TQ3TriMeshData                *triMeshData
@@ -7641,7 +7641,7 @@ Q3TriMesh_GetData (
  *							<code>Q3TriMesh_GetData</code>.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_EmptyData (
     TQ3TriMeshData                *triMeshData
 );
@@ -7677,7 +7677,7 @@ Q3TriMesh_EmptyData (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_LockData (
     TQ3GeometryObject             triMesh,
     TQ3Boolean                    readOnly,
@@ -7701,7 +7701,7 @@ Q3TriMesh_LockData (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_UnlockData (
     TQ3GeometryObject             triMesh
 );

@@ -1331,7 +1331,7 @@ Has no effect if the tracker is inactive.
 <h2>Typedefs</h2>
 <a name="//apple_ref/c/tdef/TQ3ChannelGetMethod"></a>
 <h3><a name="TQ3ChannelGetMethod">TQ3ChannelGetMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3ChannelGetMethod)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3ChannelGetMethod)</b>(
                             TQ3ControllerRef    controllerRef,
                             TQ3Uns32            channel,
                             void                *data,
@@ -1358,7 +1358,7 @@ and should receive the number of bytes written to data.</td><tr>
 <hr>
 <a name="//apple_ref/c/tdef/TQ3ChannelSetMethod"></a>
 <h3><a name="TQ3ChannelSetMethod">TQ3ChannelSetMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3ChannelSetMethod)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3ChannelSetMethod)</b>(
                             TQ3ControllerRef    controllerRef,
                             TQ3Uns32            channel,
                             const void          *data,
@@ -1384,14 +1384,14 @@ At most kQ3ControllerSetChannelMaxDataSize bytes of data will be supplied.
 <hr>
 <a name="//apple_ref/c/tdef/TQ3CursorTrackerNotifyFunc"></a>
 <h3><a name="TQ3CursorTrackerNotifyFunc">TQ3CursorTrackerNotifyFunc</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(void, <b>TQ3CursorTrackerNotifyFunc)</b>(void);</tt><br>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3CursorTrackerNotifyFunc)</b>(void);</tt><br>
 </blockquote>
 <p>Cursor tracker notification callback.
  </p>
 <hr>
 <a name="//apple_ref/c/tdef/TQ3TrackerNotifyFunc"></a>
 <h3><a name="TQ3TrackerNotifyFunc">TQ3TrackerNotifyFunc</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3TrackerNotifyFunc)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3TrackerNotifyFunc)</b>(
                             TQ3TrackerObject    trackerObject,
                             TQ3ControllerRef    controllerRef);</tt><br>
 </blockquote>

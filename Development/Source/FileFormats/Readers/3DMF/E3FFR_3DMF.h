@@ -124,8 +124,8 @@ enum{
 	kE3XMethodType_3DMF_ReadNextElement = Q3_FOUR_CHARACTER_CONSTANT('3', 'F', 'r', 'e'),
 	kE3XMethodType_3DMF_ReadFlag = Q3_FOUR_CHARACTER_CONSTANT('3', 'F', 'r', 'f')
 	};
-typedef CALLBACK_API_C(void, TQ3XFFormat_3DMF_ReadNextElementMethod)(TQ3AttributeSet parent,TQ3FileObject theFile);
-typedef CALLBACK_API_C(TQ3Status, TQ3XFFormat_3DMF_ReadFlagMethod)(TQ3Uns32* flag,TQ3FileObject file, TQ3ObjectType hint);
+typedef Q3_CALLBACK_API_C(void, TQ3XFFormat_3DMF_ReadNextElementMethod)(TQ3AttributeSet parent,TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormat_3DMF_ReadFlagMethod)(TQ3Uns32* flag,TQ3FileObject file, TQ3ObjectType hint);
 
 
 

@@ -98,36 +98,36 @@ typedef TQ3Uns32 TQ3XObjectClassVersion;
 
 
 // Class methods
-typedef CALLBACK_API_C(TQ3Status,           TQ3XObjectClassRegisterMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XObjectClassRegisterMethod)(
                             TQ3XObjectClass     objectClass,
                             void                *classPrivate);
 
-typedef CALLBACK_API_C(void,                TQ3XObjectClassReplaceMethod)(
+typedef Q3_CALLBACK_API_C(void,                TQ3XObjectClassReplaceMethod)(
                             TQ3XObjectClass     oldObjectClass,
                             void                *oldClassPrivate,
                             TQ3XObjectClass     newObjectClass,
                             void                *newClassPrivate);
 
-typedef CALLBACK_API_C(void,                TQ3XObjectClassUnregisterMethod)(
+typedef Q3_CALLBACK_API_C(void,                TQ3XObjectClassUnregisterMethod)(
                             TQ3XObjectClass     objectClass,
                             void                *classPrivate);
 
-typedef CALLBACK_API_C(TQ3Status,           TQ3XObjectNewMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XObjectNewMethod)(
                             TQ3Object           object,
                             void                *privateData,
                             void                *parameters);
 
-typedef CALLBACK_API_C(void,                TQ3XObjectDeleteMethod)(
+typedef Q3_CALLBACK_API_C(void,                TQ3XObjectDeleteMethod)(
                             TQ3Object           object,
                             void                *privateData);
 
-typedef CALLBACK_API_C(TQ3Status,           TQ3XObjectDuplicateMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XObjectDuplicateMethod)(
                             TQ3Object           fromObject,
                             const void          *fromPrivateData,
                             TQ3Object           toObject,
                             const void          *toPrivateData);
 
-typedef CALLBACK_API_C(TQ3Status,           TQ3XSharedLibraryRegister)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XSharedLibraryRegister)(
                             void);
 
 
@@ -204,7 +204,7 @@ typedef struct TQ3XSharedLibraryInfo {
  *  @param instanceSize          The size of the instance data for the class, if any.
  *  @result                      The new class reference.
  */
-EXTERN_API_C ( TQ3XObjectClass  )
+Q3_EXTERN_API_C ( TQ3XObjectClass  )
 Q3XObjectHierarchy_RegisterClass (
     TQ3ObjectType                 parentType,
     TQ3ObjectType                 *objectType,
@@ -229,7 +229,7 @@ Q3XObjectHierarchy_RegisterClass (
  *  @param objectClass      The class to unregister.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XObjectHierarchy_UnregisterClass (
     TQ3XObjectClass               objectClass
 );
@@ -246,7 +246,7 @@ Q3XObjectHierarchy_UnregisterClass (
  *  @param methodType       The method type to retrieve.
  *  @result                 The function pointer for the method.
  */
-EXTERN_API_C ( TQ3XFunctionPointer  )
+Q3_EXTERN_API_C ( TQ3XFunctionPointer  )
 Q3XObjectClass_GetMethod (
     TQ3XObjectClass               objectClass,
     TQ3XMethodType                methodType
@@ -264,7 +264,7 @@ Q3XObjectClass_GetMethod (
  *  @param parameters       The parameter data for the NewMethod method.
  *  @result                 A new instance of the class.
  */
-EXTERN_API_C ( TQ3Object  )
+Q3_EXTERN_API_C ( TQ3Object  )
 Q3XObjectHierarchy_NewObject (
     TQ3XObjectClass               objectClass,
     void                          *parameters
@@ -284,7 +284,7 @@ Q3XObjectHierarchy_NewObject (
  *  @param objectClass      The class to query.
  *  @result                 The leaf type of the class.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3XObjectClass_GetLeafType (
     TQ3XObjectClass               objectClass
 );
@@ -303,7 +303,7 @@ Q3XObjectClass_GetLeafType (
  *  @param version          Receives the version of the class.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XObjectHierarchy_GetClassVersion (
     TQ3ObjectType                 objectClassType,
     TQ3XObjectClassVersion        *version
@@ -321,7 +321,7 @@ Q3XObjectHierarchy_GetClassVersion (
  *  @param theType          Receives the type of the class.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XObjectClass_GetType (
     TQ3XObjectClass               objectClass,
     TQ3ObjectType                 *theType
@@ -338,7 +338,7 @@ Q3XObjectClass_GetType (
  *  @param theType          The class type.
  *  @result                 The class registered under theType, or NULL.
  */
-EXTERN_API_C ( TQ3XObjectClass  )
+Q3_EXTERN_API_C ( TQ3XObjectClass  )
 Q3XObjectHierarchy_FindClassByType (
     TQ3ObjectType                 theType
 );
@@ -358,7 +358,7 @@ Q3XObjectHierarchy_FindClassByType (
  *  @param targetObject     The object to query.
  *  @result                 A pointer to the private instance data.
  */
-EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * )
 Q3XObjectClass_GetPrivate (
     TQ3XObjectClass               objectClass,
     TQ3Object                     targetObject
@@ -375,7 +375,7 @@ Q3XObjectClass_GetPrivate (
  *  @param object           The object to query.
  *  @result                 The class of the object.
  */
-EXTERN_API_C ( TQ3XObjectClass  )
+Q3_EXTERN_API_C ( TQ3XObjectClass  )
 Q3XObject_GetClass (
     TQ3Object                     object
 );
@@ -396,7 +396,7 @@ Q3XObject_GetClass (
  *  @param sharedLibraryInfo    The shared library registration state.
  *  @result                     Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XSharedLibrary_Register (
     TQ3XSharedLibraryInfo         *sharedLibraryInfo
 );
@@ -416,7 +416,7 @@ Q3XSharedLibrary_Register (
  *  @param sharedLibrary    The shared library reference.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XSharedLibrary_Unregister (
     TQ3Uns32                      sharedLibrary
 );
@@ -434,7 +434,7 @@ Q3XSharedLibrary_Unregister (
  *
  *  @param error            The error to post.
  */
-EXTERN_API_C ( void  )
+Q3_EXTERN_API_C ( void  )
 Q3XError_Post (
     TQ3Error                      error
 );
@@ -452,7 +452,7 @@ Q3XError_Post (
  *
  *  @param warning          The warning to post.
  */
-EXTERN_API_C ( void  )
+Q3_EXTERN_API_C ( void  )
 Q3XWarning_Post (
     TQ3Warning                    warning
 );
@@ -470,7 +470,7 @@ Q3XWarning_Post (
  *
  *  @param notice           The notice to post.
  */
-EXTERN_API_C ( void  )
+Q3_EXTERN_API_C ( void  )
 Q3XNotice_Post (
     TQ3Notice                     notice
 );
@@ -498,7 +498,7 @@ Q3XNotice_Post (
  *
  *  @param macOSErr         The Mac OS error to post.
  */
-EXTERN_API_C ( void  )
+Q3_EXTERN_API_C ( void  )
 Q3XMacintoshError_Post (
     OSErr                         macOSErr
 );

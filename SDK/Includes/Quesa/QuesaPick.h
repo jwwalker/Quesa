@@ -286,7 +286,7 @@ typedef struct TQ3HitPath {
  *  @param pick             The pick to query.
  *  @result                 The type of the pick object.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Pick_GetType (
     TQ3PickObject                 pick
 );
@@ -303,7 +303,7 @@ Q3Pick_GetType (
  *  @param data             Receives the common state of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetData (
     TQ3PickObject                 pick,
     TQ3PickData                   *data
@@ -321,7 +321,7 @@ Q3Pick_GetData (
  *  @param data             The new common state for the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetData (
     TQ3PickObject                 pick,
     const TQ3PickData             *data
@@ -339,7 +339,7 @@ Q3Pick_SetData (
  *  @param vertexTolerance  Receives the vertex tolerance of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetVertexTolerance (
     TQ3PickObject                 pick,
     float                         *vertexTolerance
@@ -357,7 +357,7 @@ Q3Pick_GetVertexTolerance (
  *  @param edgeTolerance    Receives the edge tolerance of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetEdgeTolerance (
     TQ3PickObject                 pick,
     float                         *edgeTolerance
@@ -375,7 +375,7 @@ Q3Pick_GetEdgeTolerance (
  *  @param vertexTolerance  The new vertex tolerance of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetVertexTolerance (
     TQ3PickObject                 pick,
     float                         vertexTolerance
@@ -393,7 +393,7 @@ Q3Pick_SetVertexTolerance (
  *  @param edgeTolerance    The new edge tolerance of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetEdgeTolerance (
     TQ3PickObject                 pick,
     float                         edgeTolerance
@@ -411,7 +411,7 @@ Q3Pick_SetEdgeTolerance (
  *  @param numHits          Receives the number of hits of a pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetNumHits (
     TQ3PickObject                 pick,
     TQ3Uns32                      *numHits
@@ -428,7 +428,7 @@ Q3Pick_GetNumHits (
  *  @param pick             The pick object to update.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_EmptyHitList (
     TQ3PickObject                 pick
 );
@@ -449,7 +449,7 @@ Q3Pick_EmptyHitList (
  *  @param pickDetailValidMask    Receives the available data mask for the hit.
  *  @result                       Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetPickDetailValidMask (
     TQ3PickObject                 pick,
     TQ3Uns32                      index,
@@ -476,7 +476,7 @@ Q3Pick_GetPickDetailValidMask (
  *  @param detailData       Receives the data from the hit.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetPickDetailData (
     TQ3PickObject                 pick,
     TQ3Uns32                      index,
@@ -495,7 +495,7 @@ Q3Pick_GetPickDetailData (
  *  @param hitPath          The hit-path data to release.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3HitPath_EmptyData (
     TQ3HitPath                    *hitPath
 );
@@ -511,7 +511,7 @@ Q3HitPath_EmptyData (
  *  @param data             The data for the pick object.
  *  @result                 The new pick object.
  */
-EXTERN_API_C ( TQ3PickObject  )
+Q3_EXTERN_API_C ( TQ3PickObject  )
 Q3WindowPointPick_New (
     const TQ3WindowPointPickData  *data
 );
@@ -528,7 +528,7 @@ Q3WindowPointPick_New (
  *  @param point            Receives the pick point of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_GetPoint (
     TQ3PickObject                 pick,
     TQ3Point2D                    *point
@@ -546,7 +546,7 @@ Q3WindowPointPick_GetPoint (
  *  @param point            The new pick point for the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_SetPoint (
     TQ3PickObject                 pick,
     const TQ3Point2D              *point
@@ -564,7 +564,7 @@ Q3WindowPointPick_SetPoint (
  *  @param data             Receives the data of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_GetData (
     TQ3PickObject                 pick,
     TQ3WindowPointPickData        *data
@@ -582,7 +582,7 @@ Q3WindowPointPick_GetData (
  *  @param data             The new data for the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_SetData (
     TQ3PickObject                 pick,
     const TQ3WindowPointPickData  *data
@@ -599,7 +599,7 @@ Q3WindowPointPick_SetData (
  *  @param data             The data for the pick object.
  *  @result                 The new pick object.
  */
-EXTERN_API_C ( TQ3PickObject  )
+Q3_EXTERN_API_C ( TQ3PickObject  )
 Q3WindowRectPick_New (
     const TQ3WindowRectPickData   *data
 );
@@ -616,7 +616,7 @@ Q3WindowRectPick_New (
  *  @param rect             Receives the pick rect of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_GetRect (
     TQ3PickObject                 pick,
     TQ3Area                       *rect
@@ -634,7 +634,7 @@ Q3WindowRectPick_GetRect (
  *  @param rect             The new pick rect of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_SetRect (
     TQ3PickObject                 pick,
     const TQ3Area                 *rect
@@ -652,7 +652,7 @@ Q3WindowRectPick_SetRect (
  *  @param data             Receives the data of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_GetData (
     TQ3PickObject                 pick,
     TQ3WindowRectPickData         *data
@@ -670,7 +670,7 @@ Q3WindowRectPick_GetData (
  *  @param data             The new data for the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_SetData (
     TQ3PickObject                 pick,
     const TQ3WindowRectPickData   *data
@@ -687,7 +687,7 @@ Q3WindowRectPick_SetData (
  *  @param data             The data for the pick object.
  *  @result                 The new pick object.
  */
-EXTERN_API_C ( TQ3PickObject  )
+Q3_EXTERN_API_C ( TQ3PickObject  )
 Q3WorldRayPick_New (
     const TQ3WorldRayPickData     *data
 );
@@ -704,7 +704,7 @@ Q3WorldRayPick_New (
  *  @param ray              Receives the ray of the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_GetRay (
     TQ3PickObject                 pick,
     TQ3Ray3D                      *ray
@@ -722,7 +722,7 @@ Q3WorldRayPick_GetRay (
  *  @param ray              The new ray for the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_SetRay (
     TQ3PickObject                 pick,
     const TQ3Ray3D                *ray
@@ -740,7 +740,7 @@ Q3WorldRayPick_SetRay (
  *  @param data             Receives the data for the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_GetData (
     TQ3PickObject                 pick,
     TQ3WorldRayPickData           *data
@@ -758,7 +758,7 @@ Q3WorldRayPick_GetData (
  *  @param data             The new data for the pick object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_SetData (
     TQ3PickObject                 pick,
     const TQ3WorldRayPickData     *data
@@ -775,7 +775,7 @@ Q3WorldRayPick_SetData (
  *  @param shapePartObject  The shape part to query.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3ShapePart_GetType (
     TQ3ShapePartObject            shapePartObject
 );
@@ -795,7 +795,7 @@ Q3ShapePart_GetType (
  *  @param meshPartObject   The mesh part to query.
  *  @result                 The type of the mesh part.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3MeshPart_GetType (
     TQ3MeshPartObject             meshPartObject
 );
@@ -812,7 +812,7 @@ Q3MeshPart_GetType (
  *  @param shapeObject      Receives the shape object that contains shapePartObject.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ShapePart_GetShape (
     TQ3ShapePartObject            shapePartObject,
     TQ3ShapeObject                *shapeObject
@@ -830,7 +830,7 @@ Q3ShapePart_GetShape (
  *  @param component        Receives the mesh component that contains meshPartObject.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MeshPart_GetComponent (
     TQ3MeshPartObject             meshPartObject,
     TQ3MeshComponent              *component
@@ -848,7 +848,7 @@ Q3MeshPart_GetComponent (
  *  @param face                  Receives the mesh face that corresponds to meshFacePartObject.
  *  @result                      Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MeshFacePart_GetFace (
     TQ3MeshFacePartObject         meshFacePartObject,
     TQ3MeshFace                   *face
@@ -866,7 +866,7 @@ Q3MeshFacePart_GetFace (
  *  @param edge                  Receives the mesh edge that corresponds to meshEdgePartObject.
  *  @result                      Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MeshEdgePart_GetEdge (
     TQ3MeshEdgePartObject         meshEdgePartObject,
     TQ3MeshEdge                   *edge
@@ -884,7 +884,7 @@ Q3MeshEdgePart_GetEdge (
  *  @param vertex                  Receives the mesh vertex that corresponds to meshVertedPartObject.
  *  @result                        Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MeshVertexPart_GetVertex (
     TQ3MeshVertexPartObject       meshVertexPartObject,
     TQ3MeshVertex                 *vertex
