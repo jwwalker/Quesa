@@ -65,6 +65,13 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+
+TQ3TextureObject	QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePath );
+
+TQ3ShaderObject		QutTexture_CreateTextureFromTGAFile( const char* inFilePath );
+
+#if QUESA_OS_MACINTOSH
+
 GWorldPtr			QutTexture_CreateGWorldFromPICT(	PicHandle		thePicture,
 														TQ3PixelType	pixelType);
 
@@ -123,6 +130,7 @@ TQ3TextureObject	QutTexture_CreateCompressedTextureObjectFromFile(
 														TQ3PixelType	pixelType,
 														TQ3Boolean		wantMipMaps);
 
+#endif
 
 
 
