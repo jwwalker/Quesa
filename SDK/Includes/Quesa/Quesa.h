@@ -130,6 +130,11 @@
 	#include <MacTypes.h>
 
 
+	// Ensure compiler settings match QD3D, to be binary compatible
+    #pragma options        align=power
+    #pragma enumsalwaysint on
+
+
 	// Build constants
 	#define QUESA_HOST_IS_BIG_ENDIAN 			1
 	#define QUESA_SUPPORT_QUICKTIME 			1
@@ -793,7 +798,7 @@ typedef struct {
 //-----------------------------------------------------------------------------
 /*
  *	Q3Initialize
- *		Description of function
+ *		Initialize Quesa.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Initialize (
@@ -804,7 +809,7 @@ Q3Initialize (
 
 /*
  *	Q3Exit
- *		Description of function
+ *		Terminate Quesa.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Exit (
@@ -815,7 +820,7 @@ Q3Exit (
 
 /*
  *	Q3IsInitialized
- *		Description of function
+ *		Has Quesa been initialized?
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3IsInitialized (
@@ -826,7 +831,9 @@ Q3IsInitialized (
 
 /*
  *	Q3GetVersion
- *		Description of function
+ *		Return the Quesa major and minor versions, in BCD format.
+ *
+ *		May be called outside of a Q3Initialize/Q3Exit block.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GetVersion (
@@ -838,7 +845,9 @@ Q3GetVersion (
 
 /*
  *	Q3GetReleaseVersion
- *		Description of function
+ *		Return the Quesa release version, in 'vers' format.
+ *
+ *		May be called outside of a Q3Initialize/Q3Exit block.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GetReleaseVersion (
