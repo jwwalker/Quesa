@@ -1543,8 +1543,9 @@ E3View_UnregisterClass(void)
 TQ3Status
 E3View_SubmitRetained(TQ3ViewObject theView, TQ3Object theObject)
 {	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3Status			qd3dStatus;
+	TQ3Status			qd3dStatus = kQ3Success;
 	TQ3Error			theError;
+	TQ3ObjectEventCallback	eventCallback;
 
 
 
@@ -1575,9 +1576,31 @@ E3View_SubmitRetained(TQ3ViewObject theView, TQ3Object theObject)
 
 
 
+	// Call a prerender callback, if appropriate
+	if ( (instanceData->viewMode == kQ3ViewModeDrawing) &&
+		(kQ3Success == Q3Object_GetElement( theView, kQ3CallbackElementTypeBeforeRender,
+			&eventCallback )) )
+		{
+		qd3dStatus = eventCallback( theObject, kQ3CallbackElementTypeBeforeRender, theView );
+		}
+
+
+
 	// Submit the object
-	qd3dStatus = e3view_submit_object(theView,   E3ClassTree_GetType(theObject->theClass),
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = e3view_submit_object(theView, E3ClassTree_GetType(theObject->theClass),
 									  theObject, theObject->instanceData);
+
+
+	// Call a postrender callback, if appropriate
+	if ( (qd3dStatus == kQ3Success) &&
+		(instanceData->viewMode == kQ3ViewModeDrawing) &&
+		(kQ3Success == Q3Object_GetElement( theView, kQ3CallbackElementTypeAfterRender,
+			&eventCallback )) )
+		{
+		(void) eventCallback( theObject, kQ3CallbackElementTypeBeforeRender, theView );
+		}
+
 
 	return(qd3dStatus);
 }
