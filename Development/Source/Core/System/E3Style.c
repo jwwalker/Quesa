@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,9 +46,173 @@
 #include "E3Prefix.h"
 #include "E3Style.h"
 #include "E3View.h"
+#include "E3Main.h"
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3Style : public E3ShapeData // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3SubdivisionStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3SubdivisionStyleData		instanceData ;
+	} ;
+	
+
+
+class E3PickIDStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Uns32					instanceData ;
+	} ;
+	
+
+
+class E3PickPartsStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3PickParts				instanceData ;
+	} ;
+	
+
+
+class E3CastShadowsStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Boolean					instanceData ;
+	} ;
+	
+
+
+class E3ReceiveShadowsStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Boolean					instanceData ;
+	} ;
+	
+
+
+class E3FillStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3FillStyle				instanceData ;
+	} ;
+	
+
+
+class E3BackfacingStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3BackfacingStyle			instanceData ;
+	} ;
+	
+
+
+class E3InterpolationStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3InterpolationStyle		instanceData ;
+	} ;
+	
+
+
+class E3HighlightStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3AttributeSet				instanceData ;
+	} ;
+	
+
+
+class E3OrientationStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3OrientationStyle			instanceData ;
+	} ;
+	
+
+
+class E3AntiAliasStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3AntiAliasStyleData		instanceData ;
+	} ;
+	
+
+
+class E3FogStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3FogStyleData				instanceData ;
+	} ;
+	
 
 
 //=============================================================================
@@ -716,95 +880,95 @@ E3Style_RegisterClass(void)
 
 
 	// Register the Style classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShape,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
 											kQ3ShapeTypeStyle,
 											kQ3ClassNameStyle,
 											e3style_metahandler,
-											0);
+											~sizeof(E3Style));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeSubdivision,
 												kQ3ClassNameStyleSubdivision,
 												e3style_subdivision_metahandler,
-												sizeof(TQ3SubdivisionStyleData));
+												~sizeof(E3SubdivisionStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypePickID,
 												kQ3ClassNameStylePickID,
 												e3style_pickid_metahandler,
-												sizeof(TQ3Uns32));
+												~sizeof(E3PickIDStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypePickParts,
 												kQ3ClassNameStylePickParts,
 												e3style_pickparts_metahandler,
-												sizeof(TQ3PickParts));
+												~sizeof(E3PickPartsStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeCastShadows,
 												kQ3ClassNameStyleCastShadows,
 												e3style_castshadows_metahandler,
-												sizeof(TQ3Boolean));
+												~sizeof(E3CastShadowsStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeReceiveShadows,
 												kQ3ClassNameStyleReceiveShadows,
 												e3style_receiveshadows_metahandler,
-												sizeof(TQ3Boolean));
+												~sizeof(E3ReceiveShadowsStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeFill,
 												kQ3ClassNameStyleFill,
 												e3style_fill_metahandler,
-												sizeof(TQ3FillStyle));
+												~sizeof(E3FillStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeBackfacing,
 												kQ3ClassNameStyleBackfacing,
 												e3style_backfacing_metahandler,
-												sizeof(TQ3BackfacingStyle));
+												~sizeof(E3BackfacingStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeInterpolation,
 												kQ3ClassNameStyleInterpolation,
 												e3style_interpolation_metahandler,
-												sizeof(TQ3InterpolationStyle));
+												~sizeof(E3InterpolationStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeHighlight,
 												kQ3ClassNameStyleHighlight,
 												e3style_hilight_metahandler,
-												sizeof(TQ3AttributeSet));
+												~sizeof(E3HighlightStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeOrientation,
 												kQ3ClassNameStyleOrientation,
 												e3style_orientation_metahandler,
-												sizeof(TQ3OrientationStyle));
+												~sizeof(E3OrientationStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeAntiAlias,
 												kQ3ClassNameStyleAntiAlias,
 												e3style_antialias_metahandler,
-												sizeof(TQ3AntiAliasStyleData));
+												~sizeof(E3AntiAliasStyle));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeFog,
 												kQ3ClassNameStyleFog,
 												e3style_fog_metahandler,
-												sizeof(TQ3FogStyleData));
+												~sizeof(E3FogStyle));
 
 	return(qd3dStatus);
 }
@@ -823,19 +987,19 @@ E3Style_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeFog,         			 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeAntiAlias,         	 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeOrientation,         	 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeHighlight,            	 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeInterpolation,			 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeBackfacing,      		 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeFill,    				 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeCastShadows,	  		 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeReceiveShadows,  		 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypePickParts, 			 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypePickID,    			 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeSubdivision,			 kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShapeTypeStyle,     			 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeFog,         			 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeAntiAlias,         	 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeOrientation,         	 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeHighlight,             kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeInterpolation,		 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeBackfacing,      		 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeFill,    				 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeCastShadows,	  		 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeReceiveShadows,  		 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypePickParts, 			 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypePickID,    			 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeSubdivision,			 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeStyle,     			 kQ3True);
 
 	return(qd3dStatus);
 }
@@ -921,16 +1085,13 @@ E3SubdivisionStyle_Submit(const TQ3SubdivisionStyleData *data, TQ3ViewObject the
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SubdivisionStyle_SetData(TQ3StyleObject theStyle, const TQ3SubdivisionStyleData *data)
-{	TQ3SubdivisionStyleData* instanceData = (TQ3SubdivisionStyleData*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeSubdivision);
-
-
-
+	{
 	// Set the data
-	*instanceData = *data;
-	Q3Shared_Edited(theStyle);
+	( (E3SubdivisionStyle*) theStyle )->instanceData = *data ;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -941,15 +1102,12 @@ E3SubdivisionStyle_SetData(TQ3StyleObject theStyle, const TQ3SubdivisionStyleDat
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SubdivisionStyle_GetData(TQ3StyleObject theStyle, TQ3SubdivisionStyleData *data)
-{	TQ3SubdivisionStyleData* instanceData = (TQ3SubdivisionStyleData*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeSubdivision);
-
-
-
+	{
 	// Get the data
-	*data = *instanceData;
+	*data = ( (E3SubdivisionStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -999,15 +1157,12 @@ E3PickIDStyle_Submit(TQ3Uns32 id, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PickIDStyle_Get(TQ3StyleObject theStyle, TQ3Uns32 *id)
-{	TQ3Uns32* instanceData = (TQ3Uns32*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypePickID);
-
-
-
+	{
 	// Get the data
-	*id = *instanceData;
+	*id = ( (E3PickIDStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1018,16 +1173,13 @@ E3PickIDStyle_Get(TQ3StyleObject theStyle, TQ3Uns32 *id)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PickIDStyle_Set(TQ3StyleObject theStyle, TQ3Uns32 id)
-{	TQ3Uns32* instanceData = (TQ3Uns32*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypePickID);
-
-
-
+	{
 	// Set the data	
-	*instanceData = id;
-	Q3Shared_Edited(theStyle);
+	( (E3PickIDStyle*) theStyle )->instanceData = id ;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1077,15 +1229,12 @@ E3PickPartsStyle_Submit(TQ3PickParts parts, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PickPartsStyle_Get(TQ3StyleObject theStyle, TQ3PickParts *parts)
-{	TQ3PickParts* instanceData = (TQ3PickParts*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypePickParts);
-
-
-
+	{
 	// Get the data
-	*parts = *instanceData;
+	*parts = ( (E3PickPartsStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1096,16 +1245,13 @@ E3PickPartsStyle_Get(TQ3StyleObject theStyle, TQ3PickParts *parts)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PickPartsStyle_Set(TQ3StyleObject theStyle, TQ3PickParts parts)
-{	TQ3PickParts* instanceData = (TQ3PickParts*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypePickParts);
-
-
-
+	{
 	// Set the data
-	*instanceData = parts;
-	Q3Shared_Edited(theStyle);
+	( (E3PickPartsStyle*) theStyle )->instanceData = parts ;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1155,15 +1301,12 @@ E3CastShadowsStyle_Submit(TQ3Boolean castShadows, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CastShadowsStyle_Get(TQ3StyleObject theStyle, TQ3Boolean *castShadows)
-{	TQ3Boolean* instanceData = (TQ3Boolean*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeCastShadows);
-
-
-
+	{
 	// Get the data
-	*castShadows = *instanceData;
+	*castShadows = ( (E3CastShadowsStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1174,16 +1317,13 @@ E3CastShadowsStyle_Get(TQ3StyleObject theStyle, TQ3Boolean *castShadows)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CastShadowsStyle_Set(TQ3StyleObject theStyle, TQ3Boolean castShadows)
-{	TQ3Boolean* instanceData = (TQ3Boolean*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeCastShadows);
-
-
-
+	{
 	// Set the data
-	*instanceData = castShadows;
-	Q3Shared_Edited(theStyle);
+	( (E3CastShadowsStyle*) theStyle )->instanceData = castShadows ;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1233,15 +1373,12 @@ E3ReceiveShadowsStyle_Submit(TQ3Boolean receiveShadows, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3ReceiveShadowsStyle_Get(TQ3StyleObject theStyle, TQ3Boolean *receiveShadows)
-{	TQ3Boolean* instanceData = (TQ3Boolean*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeReceiveShadows);
-
-
-
+	{
 	// Get the data
-	*receiveShadows = *instanceData;
+	*receiveShadows = ( (E3ReceiveShadowsStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1252,16 +1389,13 @@ E3ReceiveShadowsStyle_Get(TQ3StyleObject theStyle, TQ3Boolean *receiveShadows)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3ReceiveShadowsStyle_Set(TQ3StyleObject theStyle, TQ3Boolean receiveShadows)
-{	TQ3Boolean* instanceData = (TQ3Boolean*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeReceiveShadows);
-
-
-
+	{
 	// Set the data
-	*instanceData = receiveShadows;
-	Q3Shared_Edited(theStyle);
+	( (E3ReceiveShadowsStyle*) theStyle )->instanceData = receiveShadows ;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1311,15 +1445,12 @@ E3FillStyle_Submit(TQ3FillStyle fillStyle, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FillStyle_Get(TQ3StyleObject theStyle, TQ3FillStyle *fillStyle)
-{	TQ3FillStyle* instanceData = (TQ3FillStyle*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeFill);
-
-
-
+	{
 	// Get the data
-	*fillStyle = *instanceData;
+	*fillStyle = ( (E3FillStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1330,16 +1461,13 @@ E3FillStyle_Get(TQ3StyleObject theStyle, TQ3FillStyle *fillStyle)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FillStyle_Set(TQ3StyleObject theStyle, TQ3FillStyle fillStyle)
-{	TQ3FillStyle* instanceData = (TQ3FillStyle*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeFill);
-
-
-
+	{
 	// Set the data
-	*instanceData = fillStyle;
-	Q3Shared_Edited(theStyle);
+	( (E3FillStyle*) theStyle )->instanceData = fillStyle ;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1389,15 +1517,12 @@ E3BackfacingStyle_Submit(TQ3BackfacingStyle backfacingStyle, TQ3ViewObject theVi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3BackfacingStyle_Get(TQ3StyleObject theStyle, TQ3BackfacingStyle *backfacingStyle)
-{	TQ3BackfacingStyle* instanceData = (TQ3BackfacingStyle*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeBackfacing);
-
-
-
+	{
 	// Get the data
-	*backfacingStyle = *instanceData;
+	*backfacingStyle = ( (E3BackfacingStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1408,16 +1533,13 @@ E3BackfacingStyle_Get(TQ3StyleObject theStyle, TQ3BackfacingStyle *backfacingSty
 //-----------------------------------------------------------------------------
 TQ3Status
 E3BackfacingStyle_Set(TQ3StyleObject theStyle, TQ3BackfacingStyle backfacingStyle)
-{	TQ3BackfacingStyle* instanceData = (TQ3BackfacingStyle*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeBackfacing);
-
-
-
+	{
 	// Set the data
-	*instanceData = backfacingStyle;
-	Q3Shared_Edited(theStyle);
+	( (E3BackfacingStyle*) theStyle )->instanceData = backfacingStyle ;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1467,15 +1589,12 @@ E3InterpolationStyle_Submit(TQ3InterpolationStyle interpolationStyle, TQ3ViewObj
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InterpolationStyle_Get(TQ3StyleObject theStyle, TQ3InterpolationStyle *interpolationStyle)
-{	TQ3InterpolationStyle* instanceData = (TQ3InterpolationStyle*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeInterpolation);
-
-
-
+	{
 	// Get the data
-	*interpolationStyle = *instanceData;
+	*interpolationStyle = ( (E3InterpolationStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1486,16 +1605,13 @@ E3InterpolationStyle_Get(TQ3StyleObject theStyle, TQ3InterpolationStyle *interpo
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InterpolationStyle_Set(TQ3StyleObject theStyle, TQ3InterpolationStyle interpolationStyle)
-{	TQ3InterpolationStyle* instanceData = (TQ3InterpolationStyle*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeInterpolation);
-
-
-
+	{
 	// Set the data
-	*instanceData = interpolationStyle;
-	Q3Shared_Edited(theStyle);
+	( (E3InterpolationStyle*) theStyle )->instanceData = interpolationStyle;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1551,21 +1667,23 @@ E3HighlightStyle_Submit(TQ3AttributeSet highlightAttribute, TQ3ViewObject theVie
 //-----------------------------------------------------------------------------
 TQ3Status
 E3HighlightStyle_Get(TQ3StyleObject theStyle, TQ3AttributeSet *highlightAttribute)
-{	TQ3AttributeSet* instanceData = (TQ3AttributeSet*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeHighlight);
-
-
-
+	{
+	E3HighlightStyle* style = (E3HighlightStyle*) theStyle ;
+	
+	
+	
 	// Get the data
-	if ( instanceData )
+	if ( style->instanceData != NULL && highlightAttribute != NULL )
 		{
-		*highlightAttribute = Q3Shared_GetReference ( *instanceData ) ;
-		return(kQ3Success);
+		*highlightAttribute = Q3Shared_GetReference ( style->instanceData ) ;
+		return kQ3Success ;
 		}
-	else if (highlightAttribute)
-		*highlightAttribute = NULL;
+	
+	if ( highlightAttribute != NULL )
+		*highlightAttribute = NULL ;
 
-	return(kQ3Failure);
-}
+	return kQ3Failure ;
+	}
 
 
 
@@ -1576,23 +1694,24 @@ E3HighlightStyle_Get(TQ3StyleObject theStyle, TQ3AttributeSet *highlightAttribut
 //-----------------------------------------------------------------------------
 TQ3Status
 E3HighlightStyle_Set(TQ3StyleObject theStyle, TQ3AttributeSet highlightAttribute)
-{	TQ3AttributeSet* instanceData = (TQ3AttributeSet*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeHighlight);
+	{
+	E3HighlightStyle* style = (E3HighlightStyle*) theStyle ;
 
 
 
 	// Set the data
-	if ( *instanceData )
-		Q3Object_Dispose ( *instanceData ) ;
+	if ( style->instanceData )
+		Q3Object_Dispose ( style->instanceData ) ;
 		
 	if ( highlightAttribute )
-		*instanceData = Q3Shared_GetReference ( highlightAttribute ) ;
+		style->instanceData = Q3Shared_GetReference ( highlightAttribute ) ;
 	else
-		*instanceData = NULL ;
+		style->instanceData = NULL ;
 
-	Q3Shared_Edited(theStyle);
+	Q3Shared_Edited ( style ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1642,15 +1761,12 @@ E3OrientationStyle_Submit(TQ3OrientationStyle frontFacingDirection, TQ3ViewObjec
 //-----------------------------------------------------------------------------
 TQ3Status
 E3OrientationStyle_Get(TQ3StyleObject theStyle, TQ3OrientationStyle *frontFacingDirection)
-{	TQ3OrientationStyle* instanceData = (TQ3OrientationStyle*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeOrientation);
-
-
-
+	{
 	// Get the data
-	*frontFacingDirection = *instanceData;
+	*frontFacingDirection = ( (E3OrientationStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1661,16 +1777,13 @@ E3OrientationStyle_Get(TQ3StyleObject theStyle, TQ3OrientationStyle *frontFacing
 //-----------------------------------------------------------------------------
 TQ3Status
 E3OrientationStyle_Set(TQ3StyleObject theStyle, TQ3OrientationStyle frontFacingDirection)
-{	TQ3OrientationStyle* instanceData = (TQ3OrientationStyle*)  E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeOrientation);
-
-
-
+	{
 	// Set the data
-	*instanceData = frontFacingDirection;
-	Q3Shared_Edited(theStyle);
+	( (E3OrientationStyle*) theStyle )->instanceData = frontFacingDirection ;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1725,15 +1838,12 @@ E3AntiAliasStyle_Submit(const TQ3AntiAliasStyleData *data, TQ3ViewObject theView
 //-----------------------------------------------------------------------------
 TQ3Status
 E3AntiAliasStyle_GetData(TQ3StyleObject theStyle, TQ3AntiAliasStyleData *data)
-{	TQ3AntiAliasStyleData* instanceData = (TQ3AntiAliasStyleData*)  E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeAntiAlias);
-
-
-
+	{
 	// Get the data
-	*data = *instanceData;
+	*data = ( (E3AntiAliasStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1744,16 +1854,13 @@ E3AntiAliasStyle_GetData(TQ3StyleObject theStyle, TQ3AntiAliasStyleData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3AntiAliasStyle_SetData(TQ3StyleObject theStyle, const TQ3AntiAliasStyleData *data)
-{	TQ3AntiAliasStyleData* instanceData = (TQ3AntiAliasStyleData*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeAntiAlias);
-
-
-
+	{
 	// Set the data
-	*instanceData = *data;
-	Q3Shared_Edited(theStyle);
+	( (E3AntiAliasStyle*) theStyle )->instanceData = *data ;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1803,15 +1910,12 @@ E3FogStyle_Submit(const TQ3FogStyleData *data, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FogStyle_GetData(TQ3StyleObject theStyle, TQ3FogStyleData *data)
-{	TQ3FogStyleData* instanceData = (TQ3FogStyleData*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeFog);
-
-
-
+	{
 	// Get the data
-	*data = *instanceData;
+	*data = ( (E3FogStyle*) theStyle )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1822,16 +1926,13 @@ E3FogStyle_GetData(TQ3StyleObject theStyle, TQ3FogStyleData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FogStyle_SetData(TQ3StyleObject theStyle, const TQ3FogStyleData *data)
-{	TQ3FogStyleData* instanceData = (TQ3FogStyleData*) E3ClassTree_FindInstanceData(theStyle, kQ3StyleTypeFog);
-
-
-
+	{
 	// Set the data
-	*instanceData = *data;
-	Q3Shared_Edited(theStyle);
+	( (E3FogStyle*) theStyle )->instanceData = *data ;
+	Q3Shared_Edited ( theStyle ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 

@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,9 +46,149 @@
 #include "E3Prefix.h"
 #include "E3Transform.h"
 #include "E3View.h"
+#include "E3Main.h"
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3Transform : public E3ShapeData // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3MatrixTransform : public E3Transform  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Matrix4x4						instanceData ;
+	} ;
+	
+
+
+class E3RotateTransform : public E3Transform  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3RotateTransformData				instanceData ;
+	} ;
+	
+
+
+class E3RotateAboutPointTransform : public E3Transform  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3RotateAboutPointTransformData	instanceData ;
+	} ;
+	
+
+
+class E3RotateAboutAxisTransform : public E3Transform  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3RotateAboutAxisTransformData		instanceData ;
+	} ;
+	
+
+
+class E3ScaleTransform : public E3Transform  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Vector3D							instanceData ;
+	} ;
+	
+
+
+class E3TranslateTransform : public E3Transform  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Vector3D							instanceData ;
+	} ;
+	
+
+
+class E3QuaternionTransform : public E3Transform  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3Quaternion						instanceData ;
+	} ;
+	
+
+
+class E3ResetTransform : public E3Transform  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3CameraTransform : public E3Transform  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3CameraTransformData				instanceData ;
+	} ;
+	
+
+
+class E3CameraRasterizeTransform : public E3Transform  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
 
 
 //=============================================================================
@@ -919,81 +1059,81 @@ E3Transform_RegisterClass(void)
 
 
 	// Register the camera classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShape,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
 											kQ3ShapeTypeTransform,
 											kQ3ClassNameTransform,
 											e3transform_metahandler,
-											0);
+											~sizeof(E3Transform));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeMatrix,
 												kQ3ClassNameTransformMatrix,
 												e3transform_matrix_metahandler,
-												sizeof(TQ3Matrix4x4));
+												~sizeof(E3MatrixTransform));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeRotate,
 												kQ3ClassNameTransformRotate,
 												e3transform_rotate_metahandler,
-												sizeof(TQ3RotateTransformData));
+												~sizeof(E3RotateTransform));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeRotateAboutPoint,
 												kQ3ClassNameTransformRotateAboutPoint,
 												e3transform_rotateaboutpoint_metahandler,
-												sizeof(TQ3RotateAboutPointTransformData));
+												~sizeof(E3RotateAboutPointTransform));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeRotateAboutAxis,
 												kQ3ClassNameTransformRotateAboutAxis,
 												e3transform_rotateaboutaxis_metahandler,
-												sizeof(TQ3RotateAboutAxisTransformData));
+												~sizeof(E3RotateAboutAxisTransform));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeScale,
 												kQ3ClassNameTransformScale,
 												e3transform_scale_metahandler,
-												sizeof(TQ3Vector3D));
+												~sizeof(E3ScaleTransform));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeTranslate,
 												kQ3ClassNameTransformTranslate,
 												e3transform_translate_metahandler,
-												sizeof(TQ3Vector3D));
+												~sizeof(E3TranslateTransform));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeQuaternion,
 												kQ3ClassNameTransformQuaternion,
 												e3transform_quaternion_metahandler,
-												sizeof(TQ3Quaternion));
+												~sizeof(E3QuaternionTransform));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeReset,
 												kQ3ClassNameTransformReset,
 												e3transform_reset_metahandler,
-												0);
+												~sizeof(E3ResetTransform));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeCamera,
 												kQ3ClassNameTransformCamera,
 												e3transform_camera_metahandler,
-												sizeof(TQ3CameraTransformData));
+												~sizeof(E3CameraTransform));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
 												kQ3TransformTypeCameraRasterize,
 												kQ3ClassNameTransformCameraRasterize,
 												e3transform_camera_rasterize_metahandler,
-												0);
+												~sizeof(E3CameraRasterizeTransform));
 
 	return(qd3dStatus);
 }
@@ -1012,17 +1152,17 @@ E3Transform_UnregisterClass(void)
 
 
 	// Unregister the camera classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeReset,            kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeQuaternion,       kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeTranslate,        kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeScale,            kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeRotateAboutAxis,  kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeRotateAboutPoint, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeRotate,           kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeMatrix,           kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeCamera,           kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeCameraRasterize,  kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShapeTypeTransform,            kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeReset,            kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeQuaternion,       kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeTranslate,        kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeScale,            kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeRotateAboutAxis,  kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeRotateAboutPoint, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeRotate,           kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeMatrix,           kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeCamera,           kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeCameraRasterize,  kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeTransform,            kQ3True);
 
 	return(qd3dStatus);
 }
@@ -1137,16 +1277,13 @@ E3MatrixTransform_Submit(const TQ3Matrix4x4 *theMatrix, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MatrixTransform_Set(TQ3TransformObject theTransform, const TQ3Matrix4x4 *theMatrix)
-{	TQ3Matrix4x4	*instanceData = (TQ3Matrix4x4 *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeMatrix);
-
-
-
+	{
 	// Set the data
-	*instanceData = *theMatrix;
-	Q3Shared_Edited(theTransform);
+	( (E3MatrixTransform*) theTransform )->instanceData = *theMatrix ;
+	Q3Shared_Edited ( theTransform ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1157,15 +1294,12 @@ E3MatrixTransform_Set(TQ3TransformObject theTransform, const TQ3Matrix4x4 *theMa
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MatrixTransform_Get(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix)
-{	TQ3Matrix4x4	*instanceData = (TQ3Matrix4x4 *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeMatrix);
-
-
-
+	{
 	// Get the data
-	*theMatrix = *instanceData;
+	*theMatrix = ( (E3MatrixTransform*) theTransform )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1214,16 +1348,13 @@ E3RotateTransform_Submit(const TQ3RotateTransformData *data, TQ3ViewObject theVi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_SetData(TQ3TransformObject theTransform, const TQ3RotateTransformData *data)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
-
-
-
+	{
 	// Set the data
-	*instanceData = *data;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateTransform*) theTransform )->instanceData = *data ;
+	Q3Shared_Edited ( theTransform ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1234,15 +1365,12 @@ E3RotateTransform_SetData(TQ3TransformObject theTransform, const TQ3RotateTransf
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_GetData(TQ3TransformObject theTransform, TQ3RotateTransformData *data)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
-
-
-
+	{
 	// Get the data
-	*data = *instanceData;
+	*data = ( (E3RotateTransform*) theTransform )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1253,16 +1381,13 @@ E3RotateTransform_GetData(TQ3TransformObject theTransform, TQ3RotateTransformDat
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_SetAxis(TQ3TransformObject theTransform, TQ3Axis axis)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
-
-
-
+	{
 	// Set the field
-	instanceData->axis = axis;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateTransform*) theTransform )->instanceData.axis = axis ;
+	Q3Shared_Edited ( theTransform ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1273,15 +1398,12 @@ E3RotateTransform_SetAxis(TQ3TransformObject theTransform, TQ3Axis axis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_GetAxis(TQ3TransformObject theTransform, TQ3Axis *axis)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
-
-
-
+	{
 	// Get the field
-	*axis = instanceData->axis;
+	*axis = ( (E3RotateTransform*) theTransform )->instanceData.axis ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1292,16 +1414,13 @@ E3RotateTransform_GetAxis(TQ3TransformObject theTransform, TQ3Axis *axis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_SetAngle(TQ3TransformObject theTransform, float radians)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
-
-
-
+	{
 	// Set the field
-	instanceData->radians = radians;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateTransform*) theTransform )->instanceData.radians = radians ;
+	Q3Shared_Edited ( theTransform ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1312,15 +1431,12 @@ E3RotateTransform_SetAngle(TQ3TransformObject theTransform, float radians)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_GetAngle(TQ3TransformObject theTransform, float *radians)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
-
-
-
+	{
 	// Get the field
-	*radians = instanceData->radians;
+	*radians = ( (E3RotateTransform*) theTransform )->instanceData.radians ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1369,16 +1485,13 @@ E3RotateAboutPointTransform_Submit(const TQ3RotateAboutPointTransformData *data,
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_SetData(TQ3TransformObject theTransform, const TQ3RotateAboutPointTransformData *data)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
-
-
-
+	{
 	// Set the data
-	*instanceData = *data;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateAboutPointTransform*) theTransform )->instanceData = *data ;
+	Q3Shared_Edited ( theTransform ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1389,15 +1502,12 @@ E3RotateAboutPointTransform_SetData(TQ3TransformObject theTransform, const TQ3Ro
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_GetData(TQ3TransformObject theTransform, TQ3RotateAboutPointTransformData *data)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
-
-
-
+	{
 	// Get the data
-	*data = *instanceData;
+	*data = ( (E3RotateAboutPointTransform*) theTransform )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1408,16 +1518,13 @@ E3RotateAboutPointTransform_GetData(TQ3TransformObject theTransform, TQ3RotateAb
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_SetAxis(TQ3TransformObject theTransform, TQ3Axis axis)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
-
-
-
+	{
 	// Set the field
-	instanceData->axis = axis;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateAboutPointTransform*) theTransform )->instanceData.axis = axis ;
+	Q3Shared_Edited ( theTransform ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1428,15 +1535,12 @@ E3RotateAboutPointTransform_SetAxis(TQ3TransformObject theTransform, TQ3Axis axi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_GetAxis(TQ3TransformObject theTransform, TQ3Axis *axis)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
-
-
-
+	{
 	// Get the field
-	*axis = instanceData->axis;
+	*axis = ( (E3RotateAboutPointTransform*) theTransform )->instanceData.axis ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1447,16 +1551,13 @@ E3RotateAboutPointTransform_GetAxis(TQ3TransformObject theTransform, TQ3Axis *ax
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_SetAngle(TQ3TransformObject theTransform, float radians)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
-
-
-
+	{
 	// Set the field
-	instanceData->radians = radians;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateAboutPointTransform*) theTransform )->instanceData.radians = radians ;
+	Q3Shared_Edited ( theTransform ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1467,15 +1568,12 @@ E3RotateAboutPointTransform_SetAngle(TQ3TransformObject theTransform, float radi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_GetAngle(TQ3TransformObject theTransform, float *radians)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
-
-
-
+	{
 	// Get the field
-	*radians = instanceData->radians;
+	*radians = ( (E3RotateAboutPointTransform*) theTransform )->instanceData.radians ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1486,16 +1584,13 @@ E3RotateAboutPointTransform_GetAngle(TQ3TransformObject theTransform, float *rad
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_SetAboutPoint(TQ3TransformObject theTransform, const TQ3Point3D *about)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
-
-
-
+	{
 	// Set the field
-	instanceData->about = *about;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateAboutPointTransform*) theTransform )->instanceData.about = *about ;
+	Q3Shared_Edited ( theTransform ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1506,15 +1601,12 @@ E3RotateAboutPointTransform_SetAboutPoint(TQ3TransformObject theTransform, const
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_GetAboutPoint(TQ3TransformObject theTransform, TQ3Point3D *about)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
-
-
-
+	{
 	// Get the field
-	*about = instanceData->about;
+	*about = ( (E3RotateAboutPointTransform*) theTransform )->instanceData.about ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1563,16 +1655,13 @@ E3RotateAboutAxisTransform_Submit(const TQ3RotateAboutAxisTransformData *data, T
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_SetData(TQ3TransformObject theTransform, const TQ3RotateAboutAxisTransformData *data)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
-
-
-
+	{
 	// Set the data
-	*instanceData = *data;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateAboutAxisTransform*) theTransform )->instanceData = *data ;
+	Q3Shared_Edited ( theTransform ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1583,15 +1672,12 @@ E3RotateAboutAxisTransform_SetData(TQ3TransformObject theTransform, const TQ3Rot
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_GetData(TQ3TransformObject theTransform, TQ3RotateAboutAxisTransformData *data)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
-
-
-
+	{
 	// Get the data
-	*data = *instanceData;
+	*data = ( (E3RotateAboutAxisTransform*) theTransform )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1602,16 +1688,13 @@ E3RotateAboutAxisTransform_GetData(TQ3TransformObject theTransform, TQ3RotateAbo
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_SetOrientation(TQ3TransformObject theTransform, const TQ3Vector3D *axis)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
-
-
-
+	{
 	// Set the field
-	instanceData->orientation = *axis;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateAboutAxisTransform*) theTransform )->instanceData.orientation = *axis ;
+	Q3Shared_Edited ( theTransform ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1622,15 +1705,12 @@ E3RotateAboutAxisTransform_SetOrientation(TQ3TransformObject theTransform, const
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_GetOrientation(TQ3TransformObject theTransform, TQ3Vector3D *axis)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
-
-
-
+	{
 	// Set the field
-	*axis = instanceData->orientation;
+	*axis = ( (E3RotateAboutAxisTransform*) theTransform )->instanceData.orientation ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1641,16 +1721,13 @@ E3RotateAboutAxisTransform_GetOrientation(TQ3TransformObject theTransform, TQ3Ve
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_SetAngle(TQ3TransformObject theTransform, float radians)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
-
-
-
+	{
 	// Set the field
-	instanceData->radians = radians;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateAboutAxisTransform*) theTransform )->instanceData.radians = radians ;
+	Q3Shared_Edited ( theTransform ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1661,15 +1738,12 @@ E3RotateAboutAxisTransform_SetAngle(TQ3TransformObject theTransform, float radia
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_GetAngle(TQ3TransformObject theTransform, float *radians)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
-
-
-
+	{
 	// Get the field
-	*radians = instanceData->radians;
+	*radians = ( (E3RotateAboutAxisTransform*) theTransform )->instanceData.radians;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1680,16 +1754,13 @@ E3RotateAboutAxisTransform_GetAngle(TQ3TransformObject theTransform, float *radi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_SetOrigin(TQ3TransformObject theTransform, const TQ3Point3D *origin)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
-
-
-
+	{
 	// Set the field
-	instanceData->origin = *origin;
-	Q3Shared_Edited(theTransform);
+	( (E3RotateAboutAxisTransform*) theTransform )->instanceData.origin = *origin;
+	Q3Shared_Edited ( theTransform ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1700,15 +1771,12 @@ E3RotateAboutAxisTransform_SetOrigin(TQ3TransformObject theTransform, const TQ3P
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_GetOrigin(TQ3TransformObject theTransform, TQ3Point3D *origin)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
-
-
-
+	{
 	// Get the field
-	*origin = instanceData->origin;
+	*origin = ( (E3RotateAboutAxisTransform*) theTransform )->instanceData.origin ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1757,16 +1825,13 @@ E3ScaleTransform_Submit(const TQ3Vector3D *scale, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3ScaleTransform_Set(TQ3TransformObject theTransform, const TQ3Vector3D *scale)
-{	TQ3Vector3D	*instanceData = (TQ3Vector3D *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeScale);
-
-
-
+	{
 	// Set the data
-	*instanceData = *scale;
-	Q3Shared_Edited(theTransform);
+	( (E3ScaleTransform*) theTransform )->instanceData = *scale ;
+	Q3Shared_Edited ( theTransform ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1777,15 +1842,12 @@ E3ScaleTransform_Set(TQ3TransformObject theTransform, const TQ3Vector3D *scale)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3ScaleTransform_Get(TQ3TransformObject theTransform, TQ3Vector3D *scale)
-{	TQ3Vector3D	*instanceData = (TQ3Vector3D *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeScale);
-
-
-
+	{
 	// Get the data
-	*scale = *instanceData;
+	*scale = ( (E3ScaleTransform*) theTransform )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1834,16 +1896,13 @@ E3TranslateTransform_Submit(const TQ3Vector3D *translate, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3TranslateTransform_Set(TQ3TransformObject theTransform, const TQ3Vector3D *translate)
-{	TQ3Vector3D	*instanceData = (TQ3Vector3D *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeTranslate);
-
-
-
+	{
 	// Set the data
-	*instanceData = *translate;
-	Q3Shared_Edited(theTransform);
+	( (E3TranslateTransform*) theTransform )->instanceData = *translate ;
+	Q3Shared_Edited ( theTransform ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1854,15 +1913,12 @@ E3TranslateTransform_Set(TQ3TransformObject theTransform, const TQ3Vector3D *tra
 //-----------------------------------------------------------------------------
 TQ3Status
 E3TranslateTransform_Get(TQ3TransformObject theTransform, TQ3Vector3D *translate)
-{	TQ3Vector3D		*instanceData = (TQ3Vector3D *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeTranslate);
-
-
-
+	{
 	// Get the data
-	*translate = *instanceData;
+	*translate = ( (E3TranslateTransform*) theTransform )->instanceData;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1911,16 +1967,13 @@ E3QuaternionTransform_Submit(const TQ3Quaternion *quaternion, TQ3ViewObject theV
 //-----------------------------------------------------------------------------
 TQ3Status
 E3QuaternionTransform_Set(TQ3TransformObject theTransform, const TQ3Quaternion *quaternion)
-{	TQ3Quaternion	*instanceData = (TQ3Quaternion *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeQuaternion);
-
-
-
+	{
 	// Set the data
-	*instanceData = *quaternion;
-	Q3Shared_Edited(theTransform);
+	( (E3QuaternionTransform*) theTransform )->instanceData = *quaternion ;
+	Q3Shared_Edited ( theTransform ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1931,15 +1984,12 @@ E3QuaternionTransform_Set(TQ3TransformObject theTransform, const TQ3Quaternion *
 //-----------------------------------------------------------------------------
 TQ3Status
 E3QuaternionTransform_Get(TQ3TransformObject theTransform, TQ3Quaternion *quaternion)
-{	TQ3Quaternion	*instanceData = (TQ3Quaternion *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeQuaternion);
-
-
-
+	{
 	// Get the data
-	*quaternion = *instanceData;
+	*quaternion = ( (E3QuaternionTransform*) theTransform )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -2026,16 +2076,13 @@ E3CameraTransform_Submit(const TQ3CameraTransformData *theData, TQ3ViewObject th
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CameraTransform_Set(TQ3TransformObject theTransform, const TQ3CameraTransformData *theData)
-{	TQ3CameraTransformData	*instanceData = (TQ3CameraTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeCamera);
-
-
-
+	{
 	// Set the data
-	*instanceData = *theData;
-	Q3Shared_Edited(theTransform);
+	( (E3CameraTransform*) theTransform )->instanceData = *theData ;
+	Q3Shared_Edited ( theTransform ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -2046,15 +2093,12 @@ E3CameraTransform_Set(TQ3TransformObject theTransform, const TQ3CameraTransformD
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CameraTransform_Get(TQ3TransformObject theTransform, TQ3CameraTransformData *theData)
-{	TQ3CameraTransformData	*instanceData = (TQ3CameraTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeCamera);
-
-
-
+	{
 	// Get the data
-	*theData = *instanceData;
+	*theData = ( (E3CameraTransform*) theTransform )->instanceData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
