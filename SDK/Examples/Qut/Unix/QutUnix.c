@@ -59,7 +59,7 @@ int				gOpenGLAttributes[] = { GLX_RGBA,
 										None };
 
 
-
+TQ3StorageObject		gStorage;
 
 
 //=============================================================================
@@ -509,6 +509,24 @@ qut_terminate(void)
 }
 
 
+//=============================================================================
+//      qut_file_ok_sel : FileSelector call back, creates the Storage object.
+//-----------------------------------------------------------------------------
+static void qut_file_ok_sel (GtkWidget *w, GtkFileSelection *fs)
+{
+	gStorage = Q3PathStorage_New(gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs)));
+	gtk_widget_destroy(fs); 
+}
+
+//=============================================================================
+//      qut_file_cancel_sel : FileSelector call back, creates the Storage object.
+//-----------------------------------------------------------------------------
+static void qut_file_cancel_sel (GtkWidget *w, GtkFileSelection *fs)
+{
+	gtk_widget_destroy(fs); 
+	gtk_main_quit();
+}
+
 
 
 
@@ -578,18 +596,30 @@ Qut_SelectMetafileToOpen(void)
 	TQ3StorageObject		theStorage;
 
 
-
-	// Prompt for the path to the file
-	printf("Path to model: ");
-	gets(thePath);
-
-	if (thePath[0] == 0x00)
-		return(NULL);
-	
-	
+    GtkWidget *filew;
+    
+    /* Create a new file selection widget */
+    filew = gtk_file_selection_new ("Select the model");
+    
+    gtk_signal_connect(GTK_OBJECT(filew), "destroy", (GtkSignalFunc) gtk_main_quit, NULL);
+    /* Connect the ok_button to file_ok_sel function */
+    gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filew)->ok_button),
+                        "clicked", (GtkSignalFunc) qut_file_ok_sel, filew );
+    
+    /* Connect the cancel_button to destroy the widget */
+    gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (filew)->cancel_button),
+                               "clicked", (GtkSignalFunc) gtk_widget_destroy,
+                               GTK_OBJECT (filew));
+    
+    
+	  gtk_window_set_modal(GTK_WINDOW(filew), TRUE);
+	   gtk_widget_show(filew);
+	   gtk_main();
 	
 	// Create a storage object for the file
-	theStorage = Q3PathStorage_New(thePath);
+	theStorage = gStorage;
+	gStorage = NULL;
+	
 	return(theStorage);
 }
 
