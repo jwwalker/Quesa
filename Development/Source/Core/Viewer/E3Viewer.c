@@ -37,7 +37,8 @@
 #include "E3Version.h"
 #include "E3Viewer.h"
 
-
+#include <NumberFormatting.h>			// HACK used to support NumToString hack.
+#include <QuickDraw.h>
 
 
 
@@ -74,9 +75,22 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 	// Initialise our instance data
 	instanceData->mView  = Q3View_New();
 	instanceData->mGroup = Q3OrderedDisplayGroup_New();
-	instanceData->mFlags = params->mFlags;
 	instanceData->mWindow = params->mWindow;
 	instanceData->mArea = *params->mArea;
+
+	if (kQ3ViewerFlagDefault & params->mFlags)
+		instanceData->mFlags = kQ3ViewerFlagButtonCamera
+							 | kQ3ViewerFlagButtonTruck
+							 | kQ3ViewerFlagButtonOrbit
+							 | kQ3ViewerFlagButtonDolly
+							 | kQ3ViewerFlagButtonReset
+							 | kQ3ViewerFlagButtonOptions
+							 | kQ3ViewerFlagDragMode
+							 | kQ3ViewerFlagDrawFrame
+							 | kQ3ViewerFlagDrawGrowBox
+							 | kQ3ViewerFlagShowControlStrip;
+		
+	instanceData->mFlags |= params->mFlags;
 	
 	return(kQ3Success);
 }
@@ -127,7 +141,162 @@ e3viewer_metahandler(TQ3XMethodType methodType)
 	return(theMethod);
 }
 
+#pragma mark -
 
+//=============================================================================
+//      e3viewer_buttonHeight : Return height of control strip buttons.
+//-----------------------------------------------------------------------------
+static TQ3Uns32 e3viewer_buttonHeight(TQ3ViewerData *data)
+{
+	#pragma unused(data)
+	
+	return 28;
+}
+
+//=============================================================================
+//      e3viewer_buttonTopMargin : Return padding above buttons.
+//-----------------------------------------------------------------------------
+static TQ3Uns32 e3viewer_buttonTopMargin(TQ3ViewerData *data)
+{
+	#pragma unused(data)
+	
+	return 0;
+}
+
+//=============================================================================
+//      e3viewer_buttonBottomMargin : Return padding below buttons.
+//-----------------------------------------------------------------------------
+static TQ3Uns32 e3viewer_buttonBottomMargin(TQ3ViewerData *data)
+{
+	#pragma unused(data)
+	
+	return 0;
+}
+
+//=============================================================================
+//      e3viewer_buttonWidth : Return width of a control strip button.
+//-----------------------------------------------------------------------------
+static TQ3Uns32 e3viewer_buttonWidth(TQ3ViewerData *data, TQ3Uns32 buttonID)
+{
+	#pragma unused(data)
+
+	if (kQ3ViewerFlagButtonCamera == buttonID
+	 || kQ3ViewerFlagButtonOptions == buttonID)
+	 	return 40;
+	 	
+	return 32;
+}
+
+//=============================================================================
+//      e3viewer_contentArea : Return area used for actual rendering,
+//			i.e., not including controls and frame.
+//-----------------------------------------------------------------------------
+static TQ3Uns32 e3viewer_contentArea(TQ3ViewerData *data, TQ3Area *outArea)
+{
+	TQ3Uns32 inset = 0;
+
+	Q3_ASSERT_VALID_PTR(data);
+	Q3_ASSERT_VALID_PTR(outArea);
+	
+	*outArea = data->mArea;
+	if (data->mFlags & kQ3ViewerFlagShowControlStrip)
+		{
+		outArea->max.y -= e3viewer_buttonHeight(data);
+		outArea->max.y -= e3viewer_buttonTopMargin(data);
+		outArea->max.y -= e3viewer_buttonBottomMargin(data);
+		}
+	
+	if (data->mFlags & kQ3ViewerFlagDrawFrame)
+		inset = 1;
+	
+	if (data->mFlags & kQ3ViewerFlagDrawDragBorder)
+		inset += 3;
+	
+	if (inset)
+		{
+		outArea->min.x += inset;
+		outArea->min.y += inset;
+		outArea->max.x -= inset;
+		outArea->max.y -= inset;
+		}
+		
+	return 0;
+}
+
+
+//=============================================================================
+//      e3viewer_drawButton : Draw one control strip button.
+//-----------------------------------------------------------------------------
+static void e3viewer_drawButton(TQ3ViewerData *data, 
+			TQ3Uns32 buttonID, TQ3Area *butnRect, TQ3Boolean down)
+{
+	// For now, let's do a Mac-only hack.
+	Rect r;
+	Str255 s;
+	SetPort((CGrafPtr)data->mWindow);
+
+	E3Area_ToRect(butnRect, &r);
+	ForeColor(blackColor);
+	FrameRect(&r);
+
+	ForeColor(down ? blackColor : whiteColor);
+	InsetRect(&r, 1,1);
+	PaintRect(&r);
+
+	ForeColor(down ? whiteColor : blackColor);
+	TextFont(kFontIDGeneva);
+	TextSize(12);
+	MoveTo(r.left + 4, r.bottom - 8);
+	NumToString(buttonID, s);
+	DrawString(s);
+
+	ForeColor(blackColor);
+}
+
+//=============================================================================
+//      e3viewer_drawStripBackground : Draw the background of the control
+//			strip, i.e., sans the buttons.
+//-----------------------------------------------------------------------------
+static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect)
+{
+	// For now, let's do a Mac-only hack.
+	Rect r;
+	RGBColor bgColor = {0xCCCC, 0xCCCC, 0xCCCC};
+	SetPort((CGrafPtr)data->mWindow);
+
+	E3Area_ToRect(stripRect, &r);
+	RGBForeColor(&bgColor);
+	PaintRect(&r);				// Opportunity For Improvement: make a region that excludes the buttons!
+
+	ForeColor(blackColor);
+	
+}
+
+//=============================================================================
+//      e3viewer_drawDragFrame : Draw a drag frame.
+//-----------------------------------------------------------------------------
+static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
+{
+	// For now, let's do a Mac-only hack.
+	Rect r;
+	Pattern	pat;
+	SetPort((CGrafPtr)data->mWindow);
+
+	E3Area_ToRect(rect, &r);
+	ForeColor(blackColor);
+	GetQDGlobalsGray(&pat);
+	PenPat( &pat );
+	FrameRect(&r);
+	InsetRect(&r, 2, 2);
+	FrameRect(&r);
+	
+	PenNormal();
+	InsetRect(&r, -1, -1);
+	ForeColor(whiteColor);
+	FrameRect(&r);
+	
+	ForeColor(blackColor);
+}
 
 //=============================================================================
 //      Public functions
@@ -380,22 +549,20 @@ TQ3Status
 E3Viewer_Draw(TQ3ViewerObject theViewer)
 {
 	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
-	TQ3Status status = kQ3Success;
+	TQ3Status			status = kQ3Success;
+	TQ3Area				rect;
 	
-	// For now, let's just do a Mac-specific hack to demonstrate
-	// that we can draw something.
-	CGrafPtr port = (CGrafPtr)instanceData->mWindow;
-	SetPort(port);
-	MoveTo(instanceData->mArea.min.x, instanceData->mArea.min.y);
-	LineTo(instanceData->mArea.max.x, instanceData->mArea.max.y);
-	MoveTo(instanceData->mArea.max.x, instanceData->mArea.min.y);
-	LineTo(instanceData->mArea.min.x, instanceData->mArea.max.y);
+	// Draw the content, the frame, and the control strip.
+	status = E3Viewer_DrawContent(theViewer);
 
-	// Then, draw the content and the control strip.
+	rect = instanceData->mArea;
+	rect.max.y -= e3viewer_buttonHeight(instanceData);
+	rect.max.y -= e3viewer_buttonTopMargin(instanceData);
+	rect.max.y -= e3viewer_buttonBottomMargin(instanceData);
+	e3viewer_drawDragFrame(instanceData, &rect);
+
 	if (kQ3Success == status)
-		E3Viewer_DrawContent(theViewer);
-	if (kQ3Success == status)
-		E3Viewer_DrawControlStrip(theViewer);
+		status = E3Viewer_DrawControlStrip(theViewer);
 		
 	return(status);
 }
@@ -414,8 +581,20 @@ TQ3Status
 E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 {
 	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3Area				rect;
 
-	// Not yet implemented, but let's pretend it's working.
+		
+	// For now, let's just do a Mac-specific hack to demonstrate
+	// that we can draw something.
+	CGrafPtr port = (CGrafPtr)instanceData->mWindow;
+	SetPort(port);
+
+	e3viewer_contentArea(instanceData, &rect);
+	MoveTo(rect.min.x, rect.min.y);
+	LineTo(rect.max.x, rect.max.y);
+	MoveTo(rect.max.x, rect.min.y);
+	LineTo(rect.min.x, rect.max.y);
+
 
 	return(kQ3Success);
 }
@@ -435,27 +614,27 @@ E3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 	TQ3Uns32			i, button;
 	TQ3Status			status;
-	TQ3Area				buttonRect;
+	TQ3Area				rect;
+	
+	rect = instanceData->mArea;
+	rect.min.y = rect.max.y - e3viewer_buttonHeight(instanceData);
+	rect.min.y -= e3viewer_buttonTopMargin(instanceData);
+	rect.min.y -= e3viewer_buttonBottomMargin(instanceData);
+	e3viewer_drawStripBackground(instanceData, &rect);
 	
 	for (i=0; i<9; i++)
 		{
 		button = (kQ3ViewerFlagButtonCamera << i);
-		status = E3Viewer_GetButtonRect(theViewer, button, &buttonRect);
-		if (kQ3Success != status) break;
-		
-		// Mac-specific hack:
-		{
-			Rect r;
-			E3Area_ToRect(&buttonRect, &r);
-			SetPort((CGrafPtr)instanceData->mWindow);
-			FrameRect(&r);
-		}
-		
+		status = E3Viewer_GetButtonRect(theViewer, button, &rect);
+		if (kQ3Success == status)
+			{
+			e3viewer_drawButton(instanceData, button, &rect, false);
+			}
+				
 		button <<= 1;
 	}
 
-	// To be implemented...
-	return(kQ3Failure);
+	return(kQ3Success);
 }
 
 
@@ -471,44 +650,77 @@ E3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 TQ3Status
 E3Viewer_GetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 theButton, TQ3Area *theRect)
 {
-	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
-
-	// Hack: just define a small box per button,
-	// assuming all buttons should appear.
-	theRect->min.x = 0.0f;
-	theRect->max.x = 32.0f;
-	theRect->max.y = instanceData->mArea.max.y;
-	theRect->min.y = theRect->max.y - 24.0f;
+	TQ3ViewerData	*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	float			buttonX = -1.0f;
+	float			width = 0.0f;
+	TQ3Uns32		flags = instanceData->mFlags;
 	
-	if (kQ3ViewerFlagButtonCamera == theButton) return kQ3Success;
+	// This is trickier than it sounds, because we want the buttons centered
+	// and we must account for which buttons are present, gaps between certain
+	// buttons, varying button widths, etc.  The strategy is to loop over all
+	// buttons we have, as if the buttons were left-justified, and remember
+	// the x-pos that corresponds to the requested button.  Then, when we have
+	// that and the total width, we can add an appropriate offset for centering.
+	if (flags & kQ3ViewerFlagButtonCamera)
+		{
+		if (kQ3ViewerFlagButtonCamera == theButton) buttonX = width;
+		width += e3viewer_buttonWidth(instanceData, kQ3ViewerFlagButtonCamera);
+		}
+	
+	if (flags & kQ3ViewerFlagButtonTruck)
+		{
+		if (kQ3ViewerFlagButtonTruck == theButton) buttonX = width;
+		width += e3viewer_buttonWidth(instanceData, kQ3ViewerFlagButtonTruck);
+		}
+	
+	if (flags & kQ3ViewerFlagButtonOrbit)
+		{
+		if (kQ3ViewerFlagButtonOrbit == theButton) buttonX = width;
+		width += e3viewer_buttonWidth(instanceData, kQ3ViewerFlagButtonOrbit);
+		}
+	
+	if (flags & kQ3ViewerFlagButtonZoom)
+		{
+		if (kQ3ViewerFlagButtonZoom == theButton) buttonX = width;
+		width += e3viewer_buttonWidth(instanceData, kQ3ViewerFlagButtonZoom);
+		}
+	
+	if (flags & kQ3ViewerFlagButtonDolly)
+		{
+		if (kQ3ViewerFlagButtonDolly == theButton) buttonX = width;
+		width += e3viewer_buttonWidth(instanceData, kQ3ViewerFlagButtonDolly);
+		}
+	
+	// insert a little gap before the reset or options button
+	if (width && ((flags & kQ3ViewerFlagButtonReset) || (flags & kQ3ViewerFlagButtonOptions)))
+		width += 6;
+	
+	
+	if (flags & kQ3ViewerFlagButtonReset)
+		{
+		if (kQ3ViewerFlagButtonReset == theButton) buttonX = width;
+		width += e3viewer_buttonWidth(instanceData, kQ3ViewerFlagButtonReset);
+		}
+	
+	if (flags & kQ3ViewerFlagButtonOptions)
+		{
+		if (kQ3ViewerFlagButtonOptions == theButton) buttonX = width;
+		width += e3viewer_buttonWidth(instanceData, kQ3ViewerFlagButtonOptions);
+		}
+	
+	if (buttonX < 0.0f)
+		{
+		// Invalid or unavailable button; return failure.
+		return(kQ3Failure);
+		}
+	
+	theRect->min.x = (instanceData->mArea.max.x + instanceData->mArea.min.x - width)*0.5f + buttonX;
+	theRect->max.x = theRect->min.x + e3viewer_buttonWidth(instanceData, theButton);
+	theRect->max.y = instanceData->mArea.max.y - e3viewer_buttonBottomMargin(instanceData);
+	theRect->min.y = theRect->max.y - e3viewer_buttonHeight(instanceData);	
 
-	theRect->min.x = theRect->max.x + 2.0f;
-	theRect->max.x = theRect->min.x + 32.0f;
-	if (kQ3ViewerFlagButtonTruck == theButton) return kQ3Success;
+	return kQ3Success;
 
-	theRect->min.x = theRect->max.x + 2.0f;
-	theRect->max.x = theRect->min.x + 32.0f;
-	if (kQ3ViewerFlagButtonOrbit == theButton) return kQ3Success;
-
-	theRect->min.x = theRect->max.x + 2.0f;
-	theRect->max.x = theRect->min.x + 32.0f;
-	if (kQ3ViewerFlagButtonZoom == theButton) return kQ3Success;
-
-	theRect->min.x = theRect->max.x + 2.0f;
-	theRect->max.x = theRect->min.x + 32.0f;
-	if (kQ3ViewerFlagButtonDolly == theButton) return kQ3Success;
-
-	theRect->min.x = theRect->max.x + 2.0f;
-	theRect->max.x = theRect->min.x + 32.0f;
-	if (kQ3ViewerFlagButtonReset == theButton) return kQ3Success;
-
-	theRect->min.x = theRect->max.x + 2.0f;
-	theRect->max.x = theRect->min.x + 32.0f;
-	if (kQ3ViewerFlagButtonOptions == theButton) return kQ3Success;
-
-
-	// Invalid or unavailable button; return failure.
-	return(kQ3Failure);
 }
 
 
