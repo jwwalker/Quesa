@@ -3350,6 +3350,8 @@ Q3Quaternion_InterpolateLinear (
  *		the rotation axis is undefined, but we want to always give you a 
  *		valid axis).
  *
+ *		The returned angle in radians will be in the range [0, 2*pi].
+ *
  *		Either outAxis or outAngle may be null if you are not interested in
  *		that result.  (You could even pass null for both, but that would be
  *		rather pointless.)
