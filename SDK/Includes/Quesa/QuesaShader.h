@@ -95,7 +95,7 @@ typedef enum {
  *  @param b                The blue component for the color.
  *  @result                 Convenience pointer to the result.
  */
-EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * )
 Q3ColorARGB_Set (
     TQ3ColorARGB                  *color,
     float                         a,
@@ -123,7 +123,7 @@ Q3ColorARGB_Set (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * )
 Q3ColorARGB_Add (
     const TQ3ColorARGB            *c1,
     const TQ3ColorARGB            *c2,
@@ -151,7 +151,7 @@ Q3ColorARGB_Add (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * )
 Q3ColorARGB_Subtract (
     const TQ3ColorARGB            *c1,
     const TQ3ColorARGB            *c2,
@@ -179,7 +179,7 @@ Q3ColorARGB_Subtract (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * )
 Q3ColorARGB_Scale (
     const TQ3ColorARGB            *color,
     float                         scale,
@@ -206,7 +206,7 @@ Q3ColorARGB_Scale (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * )
 Q3ColorARGB_Clamp (
     const TQ3ColorARGB            *color,
     TQ3ColorARGB                  *result
@@ -234,7 +234,7 @@ Q3ColorARGB_Clamp (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * )
 Q3ColorARGB_Lerp (
     const TQ3ColorARGB            *first,
     const TQ3ColorARGB            *last,
@@ -264,7 +264,7 @@ Q3ColorARGB_Lerp (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * )
 Q3ColorARGB_Accumulate (
     const TQ3ColorARGB            *src,
     TQ3ColorARGB                  *result
@@ -288,7 +288,7 @@ Q3ColorARGB_Accumulate (
  *  @param b                The blue component for the color.
  *  @result                 Convenience pointer to the result.
  */
-EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Set (
     TQ3ColorRGB                   *color,
     float                         r,
@@ -311,7 +311,7 @@ Q3ColorRGB_Set (
  *  @param result           Receives the sum of c1 and c2.
  *  @result                 Convenience pointer to the result.
  */
-EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Add (
     const TQ3ColorRGB             *c1,
     const TQ3ColorRGB             *c2,
@@ -333,7 +333,7 @@ Q3ColorRGB_Add (
  *  @param result           Receives c2 minus c1.
  *  @result                 Convenience pointer to the result.
  */
-EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Subtract (
     const TQ3ColorRGB             *c1,
     const TQ3ColorRGB             *c2,
@@ -355,7 +355,7 @@ Q3ColorRGB_Subtract (
  *  @param result           Receives the scaled color.
  *  @result                 Convenience pointer to the result.
  */
-EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Scale (
     const TQ3ColorRGB             *color,
     float                         scale,
@@ -376,7 +376,7 @@ Q3ColorRGB_Scale (
  *  @param result           Receives the clamped color.
  *  @result                 Convenience pointer to the result.
  */
-EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Clamp (
     const TQ3ColorRGB             *color,
     TQ3ColorRGB                   *result
@@ -398,7 +398,7 @@ Q3ColorRGB_Clamp (
  *  @param result           Receives the interpolated color.
  *  @result                 Convenience pointer to the result.
  */
-EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Lerp (
     const TQ3ColorRGB             *first,
     const TQ3ColorRGB             *last,
@@ -422,7 +422,7 @@ Q3ColorRGB_Lerp (
  *  @param result           The color to accumulate into.
  *  @result                 Convenience pointer to the result.
  */
-EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * )
 Q3ColorRGB_Accumulate (
     const TQ3ColorRGB             *src,
     TQ3ColorRGB                   *result
@@ -448,7 +448,7 @@ Q3ColorRGB_Accumulate (
  *  @param luminance        Receives the luminance value for the color.
  *  @result                 Convenience pointer to the result.
  */
-EXTERN_API_C ( float * )
+Q3_EXTERN_API_C ( float * )
 Q3ColorRGB_Luminance (
     const TQ3ColorRGB             *color,
     float                         *luminance
@@ -468,7 +468,7 @@ Q3ColorRGB_Luminance (
  *  @param shader           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Shader_GetType (
     TQ3ShaderObject               shader
 );
@@ -488,7 +488,7 @@ Q3Shader_GetType (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_Submit (
     TQ3ShaderObject               shader,
     TQ3ViewObject                 view
@@ -509,7 +509,7 @@ Q3Shader_Submit (
  *  @param uvTransform      Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_SetUVTransform (
     TQ3ShaderObject               shader,
     const TQ3Matrix3x3            *uvTransform
@@ -530,7 +530,7 @@ Q3Shader_SetUVTransform (
  *  @param uvTransform      Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_GetUVTransform (
     TQ3ShaderObject               shader,
     TQ3Matrix3x3                  *uvTransform
@@ -551,7 +551,7 @@ Q3Shader_GetUVTransform (
  *  @param uBoundary        Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_SetUBoundary (
     TQ3ShaderObject               shader,
     TQ3ShaderUVBoundary           uBoundary
@@ -572,7 +572,7 @@ Q3Shader_SetUBoundary (
  *  @param vBoundary        Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_SetVBoundary (
     TQ3ShaderObject               shader,
     TQ3ShaderUVBoundary           vBoundary
@@ -593,7 +593,7 @@ Q3Shader_SetVBoundary (
  *  @param uBoundary        Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_GetUBoundary (
     TQ3ShaderObject               shader,
     TQ3ShaderUVBoundary           *uBoundary
@@ -614,7 +614,7 @@ Q3Shader_GetUBoundary (
  *  @param vBoundary        Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_GetVBoundary (
     TQ3ShaderObject               shader,
     TQ3ShaderUVBoundary           *vBoundary
@@ -634,7 +634,7 @@ Q3Shader_GetVBoundary (
  *  @param shader           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3IlluminationShader_GetType (
     TQ3ShaderObject               shader
 );
@@ -652,7 +652,7 @@ Q3IlluminationShader_GetType (
  *
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ShaderObject  )
+Q3_EXTERN_API_C ( TQ3ShaderObject  )
 Q3PhongIllumination_New (
     void
 );
@@ -670,7 +670,7 @@ Q3PhongIllumination_New (
  *
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ShaderObject  )
+Q3_EXTERN_API_C ( TQ3ShaderObject  )
 Q3LambertIllumination_New (
     void
 );
@@ -688,7 +688,7 @@ Q3LambertIllumination_New (
  *
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ShaderObject  )
+Q3_EXTERN_API_C ( TQ3ShaderObject  )
 Q3NULLIllumination_New (
     void
 );
@@ -707,7 +707,7 @@ Q3NULLIllumination_New (
  *  @param shader           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3SurfaceShader_GetType (
     TQ3SurfaceShaderObject        shader
 );
@@ -726,7 +726,7 @@ Q3SurfaceShader_GetType (
  *  @param texture          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ShaderObject  )
+Q3_EXTERN_API_C ( TQ3ShaderObject  )
 Q3TextureShader_New (
     TQ3TextureObject              texture
 );
@@ -746,7 +746,7 @@ Q3TextureShader_New (
  *  @param texture          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TextureShader_GetTexture (
     TQ3ShaderObject               shader,
     TQ3TextureObject              *texture
@@ -767,7 +767,7 @@ Q3TextureShader_GetTexture (
  *  @param texture          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3TextureShader_SetTexture (
     TQ3ShaderObject               shader,
     TQ3TextureObject              texture
@@ -787,7 +787,7 @@ Q3TextureShader_SetTexture (
  *  @param texture          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Texture_GetType (
     TQ3TextureObject              texture
 );
@@ -807,7 +807,7 @@ Q3Texture_GetType (
  *  @param width            Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Texture_GetWidth (
     TQ3TextureObject              texture,
     TQ3Uns32                      *width
@@ -828,7 +828,7 @@ Q3Texture_GetWidth (
  *  @param height           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Texture_GetHeight (
     TQ3TextureObject              texture,
     TQ3Uns32                      *height
@@ -848,7 +848,7 @@ Q3Texture_GetHeight (
  *  @param pixmap           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3TextureObject  )
+Q3_EXTERN_API_C ( TQ3TextureObject  )
 Q3PixmapTexture_New (
     const TQ3StoragePixmap        *pixmap
 );
@@ -868,7 +868,7 @@ Q3PixmapTexture_New (
  *  @param pixmap           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapTexture_GetPixmap (
     TQ3TextureObject              texture,
     TQ3StoragePixmap              *pixmap
@@ -889,7 +889,7 @@ Q3PixmapTexture_GetPixmap (
  *  @param pixmap           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapTexture_SetPixmap (
     TQ3TextureObject              texture,
     const TQ3StoragePixmap        *pixmap
@@ -909,7 +909,7 @@ Q3PixmapTexture_SetPixmap (
  *  @param mipmap           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3TextureObject  )
+Q3_EXTERN_API_C ( TQ3TextureObject  )
 Q3MipmapTexture_New (
     const TQ3Mipmap               *mipmap
 );
@@ -929,7 +929,7 @@ Q3MipmapTexture_New (
  *  @param mipmap           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MipmapTexture_GetMipmap (
     TQ3TextureObject              texture,
     TQ3Mipmap                     *mipmap
@@ -950,7 +950,7 @@ Q3MipmapTexture_GetMipmap (
  *  @param mipmap           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MipmapTexture_SetMipmap (
     TQ3TextureObject              texture,
     const TQ3Mipmap               *mipmap
@@ -970,7 +970,7 @@ Q3MipmapTexture_SetMipmap (
  *  @param compressedPixmap Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3TextureObject  )
+Q3_EXTERN_API_C ( TQ3TextureObject  )
 Q3CompressedPixmapTexture_New (
     const TQ3CompressedPixmap     *compressedPixmap
 );
@@ -990,7 +990,7 @@ Q3CompressedPixmapTexture_New (
  *  @param compressedPixmap Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CompressedPixmapTexture_GetCompressedPixmap (
     TQ3TextureObject              texture,
     TQ3CompressedPixmap           *compressedPixmap
@@ -1011,7 +1011,7 @@ Q3CompressedPixmapTexture_GetCompressedPixmap (
  *  @param compressedPixmap Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CompressedPixmapTexture_SetCompressedPixmap (
     TQ3TextureObject              texture,
     const TQ3CompressedPixmap     *compressedPixmap
@@ -1036,7 +1036,7 @@ Q3CompressedPixmapTexture_SetCompressedPixmap (
  *  @param codecQuality     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CompressedPixmapTexture_CompressImage (
     TQ3CompressedPixmap           *compressedPixmap,
     PixMapHandle                  sourcePixMap,

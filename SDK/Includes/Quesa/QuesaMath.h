@@ -121,7 +121,7 @@ extern "C" {
  *  @param y                Y coordinate to set into vector2D.
  *  @result                 Convenience copy of vector2D parameter.
  */
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Set (
     TQ3Vector2D                   *vector2D,
     float                         x,
@@ -144,7 +144,7 @@ Q3Vector2D_Set (
  *  @param z                Z coordinate to set into vector3D.
  *  @result                 Convenience copy of vector3D parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Set (
     TQ3Vector3D                   *vector3D,
     float                         x,
@@ -167,7 +167,7 @@ Q3Vector3D_Set (
  *  @param y                Y coordinate to set into vector2D.
  *  @result                 Convenience copy of point2D parameter.
  */
-EXTERN_API_C ( TQ3Point2D * )
+Q3_EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_Set (
     TQ3Point2D                    *point2D,
     float                         x,
@@ -189,7 +189,7 @@ Q3Point2D_Set (
  *  @param v                V coordinate to set into param2D.
  *  @result                 Convenience copy of param2D parameter.
  */
-EXTERN_API_C ( TQ3Param2D * )
+Q3_EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_Set (
     TQ3Param2D                    *param2D,
     float                         u,
@@ -212,7 +212,7 @@ Q3Param2D_Set (
  *  @param w                W coordinate to set into rationalPoint3D.
  *  @result                 Convenience copy of rationalPoint3D parameter.
  */
-EXTERN_API_C ( TQ3RationalPoint3D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint3D * )
 Q3RationalPoint3D_Set (
     TQ3RationalPoint3D            *rationalPoint3D,
     float                         x,
@@ -236,7 +236,7 @@ Q3RationalPoint3D_Set (
  *  @param z                Z coordinate to set into point3D.
  *  @result                 Convenience copy of point3D parameter.
  */
-EXTERN_API_C ( TQ3Point3D * )
+Q3_EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_Set (
     TQ3Point3D                    *point3D,
     float                         x,
@@ -260,7 +260,7 @@ Q3Point3D_Set (
  *  @param z                Z coordinate to set into rationalPoint4D.
  *  @result                 Convenience copy of rationalPoint4D parameter.
  */
-EXTERN_API_C ( TQ3RationalPoint4D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3RationalPoint4D_Set (
     TQ3RationalPoint4D            *rationalPoint4D,
     float                         x,
@@ -284,7 +284,7 @@ Q3RationalPoint4D_Set (
  *  @param theta            Angle coordinate (in radians) to set into polarPoint.
  *  @result                 Convenience copy of polarPoint parameter.
  */
-EXTERN_API_C ( TQ3PolarPoint * )
+Q3_EXTERN_API_C ( TQ3PolarPoint * )
 Q3PolarPoint_Set (
     TQ3PolarPoint                 *polarPoint,
     float                         r,
@@ -307,7 +307,7 @@ Q3PolarPoint_Set (
  *  @param phi              Phi coordinate to set into sphericalPoint.
  *  @result                 Convenience copy of polarPoint parameter.
  */
-EXTERN_API_C ( TQ3SphericalPoint * )
+Q3_EXTERN_API_C ( TQ3SphericalPoint * )
 Q3SphericalPoint_Set (
     TQ3SphericalPoint             *sphericalPoint,
     float                         rho,
@@ -339,7 +339,7 @@ Q3SphericalPoint_Set (
  *  @param result           Address of 3D vector to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector2D_To3D (
     const TQ3Vector2D             *vector2D,
     TQ3Vector3D                   *result
@@ -363,7 +363,7 @@ Q3Vector2D_To3D (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3RationalPoint3D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint3D * )
 Q3Vector2D_ToRationalPoint3D (
     const TQ3Vector2D             *vector2D,
     TQ3RationalPoint3D            *result
@@ -391,7 +391,7 @@ Q3Vector2D_ToRationalPoint3D (
  *  @param result           Address of 2D vector to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector3D_To2D (
     const TQ3Vector3D             *vector3D,
     TQ3Vector2D                   *result
@@ -415,7 +415,7 @@ Q3Vector3D_To2D (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3RationalPoint3D_ToVector2D (
     const TQ3RationalPoint3D      *rationalPoint3D,
     TQ3Vector2D                   *result
@@ -441,7 +441,7 @@ Q3RationalPoint3D_ToVector2D (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3RationalPoint4D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3Vector3D_ToRationalPoint4D (
     const TQ3Vector3D             *vector3D,
     TQ3RationalPoint4D            *result
@@ -467,7 +467,7 @@ Q3Vector3D_ToRationalPoint4D (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3RationalPoint4D_ToVector3D (
     const TQ3RationalPoint4D      *rationalPoint4D,
     TQ3Vector3D                   *result
@@ -494,7 +494,7 @@ Q3RationalPoint4D_ToVector3D (
  *  @param result           Address of 3D rational point to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3RationalPoint3D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint3D * )
 Q3Point2D_To3D (
     const TQ3Point2D              *point2D,
     TQ3RationalPoint3D            *result
@@ -514,7 +514,7 @@ Q3Point2D_To3D (
  *  @param result           Address of 2D point to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point2D * )
+Q3_EXTERN_API_C ( TQ3Point2D * )
 Q3RationalPoint3D_To2D (
     const TQ3RationalPoint3D      *rationalPoint3D,
     TQ3Point2D                    *result
@@ -534,7 +534,7 @@ Q3RationalPoint3D_To2D (
  *  @param result           Address of rational 4D point to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3RationalPoint4D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3Point3D_To4D (
     const TQ3Point3D              *point3D,
     TQ3RationalPoint4D            *result
@@ -554,7 +554,7 @@ Q3Point3D_To4D (
  *  @param result           Address of 3D point to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point3D * )
+Q3_EXTERN_API_C ( TQ3Point3D * )
 Q3RationalPoint4D_To3D (
     const TQ3RationalPoint4D      *rationalPoint4D,
     TQ3Point3D                    *result
@@ -579,7 +579,7 @@ Q3RationalPoint4D_To3D (
  *  @param result           Address of polar point to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3PolarPoint * )
+Q3_EXTERN_API_C ( TQ3PolarPoint * )
 Q3Point2D_ToPolar (
     const TQ3Point2D              *point2D,
     TQ3PolarPoint                 *result
@@ -601,7 +601,7 @@ Q3Point2D_ToPolar (
  *  @param result           Address of 2D cartesian point to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point2D * )
+Q3_EXTERN_API_C ( TQ3Point2D * )
 Q3PolarPoint_ToPoint2D (
     const TQ3PolarPoint           *polarPoint,
     TQ3Point2D                    *result
@@ -619,7 +619,7 @@ Q3PolarPoint_ToPoint2D (
  *  @param result           Address of spherical-coordinates point to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3SphericalPoint * )
+Q3_EXTERN_API_C ( TQ3SphericalPoint * )
 Q3Point3D_ToSpherical (
     const TQ3Point3D              *point3D,
     TQ3SphericalPoint             *result
@@ -637,7 +637,7 @@ Q3Point3D_ToSpherical (
  *  @param result           Address of 3D cartesian point to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point3D * )
+Q3_EXTERN_API_C ( TQ3Point3D * )
 Q3SphericalPoint_ToPoint3D (
     const TQ3SphericalPoint       *sphericalPoint,
     TQ3Point3D                    *result
@@ -662,7 +662,7 @@ Q3SphericalPoint_ToPoint3D (
  *  @param v2               Address of second vector.
  *  @result                 Dot product of the two vectors.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Vector2D_Dot (
     const TQ3Vector2D             *v1,
     const TQ3Vector2D             *v2
@@ -682,7 +682,7 @@ Q3Vector2D_Dot (
  *  @param v2               Address of second vector.
  *  @result                 Dot product of the two vectors.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Vector3D_Dot (
     const TQ3Vector3D             *v1,
     const TQ3Vector3D             *v2
@@ -714,7 +714,7 @@ Q3Vector3D_Dot (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector3D_DotArray(
     TQ3Uns32                    numVectors,
     const TQ3Vector3D           *firstVectors,
@@ -747,7 +747,7 @@ Q3Vector3D_DotArray(
  *  @param v2               Address of second vector.
  *  @result                 Length of the 2D cross product.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Vector2D_Cross (
     const TQ3Vector2D             *v1,
     const TQ3Vector2D             *v2
@@ -773,7 +773,7 @@ Q3Vector2D_Cross (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( float )
+Q3_EXTERN_API_C ( float )
 Q3Point2D_CrossProductTri (
     const TQ3Point2D              *p1,
     const TQ3Point2D              *p2,
@@ -798,7 +798,7 @@ Q3Point2D_CrossProductTri (
  *							may be the same address as v1 and/or v2.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Cross (
     const TQ3Vector3D             *v1,
     const TQ3Vector3D             *v2,
@@ -822,7 +822,7 @@ Q3Vector3D_Cross (
  *  @param result           Address of vector to set with cross product (p2-p1) x (p3-p2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Point3D_CrossProductTri (
     const TQ3Point3D              *p1,
     const TQ3Point3D              *p2,
@@ -858,7 +858,7 @@ Q3Point3D_CrossProductTri (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_CrossProductArray(
     TQ3Uns32                    numTriangles,
     const TQ3Uns8               *usageFlags,
@@ -887,7 +887,7 @@ Q3Triangle_CrossProductArray(
  *  @param vector2D         Address of vector to get length of.
  *  @result                 Length of the given vector.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Vector2D_Length (
     const TQ3Vector2D             *vector2D
 );
@@ -915,7 +915,7 @@ Q3Vector2D_Length (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Vector2D_LengthSquared (
     const TQ3Vector2D             *vector2D
 );
@@ -935,7 +935,7 @@ Q3Vector2D_LengthSquared (
  *  @param vector3D         Address of vector to get length of.
  *  @result                 Length of the given vector.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Vector3D_Length (
     const TQ3Vector3D             *vector3D
 );
@@ -963,7 +963,7 @@ Q3Vector3D_Length (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Vector3D_LengthSquared (
     const TQ3Vector3D             *vector3D
 );
@@ -989,7 +989,7 @@ Q3Vector3D_LengthSquared (
  *  @param p2               Address of second point of interest.
  *  @result                 Distance between the given points.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Point2D_Distance (
     const TQ3Point2D              *p1,
     const TQ3Point2D              *p2
@@ -1009,7 +1009,7 @@ Q3Point2D_Distance (
  *  @param p2               Address of second point of interest.
  *  @result                 Square of the distance between the given points.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Point2D_DistanceSquared (
     const TQ3Point2D              *p1,
     const TQ3Point2D              *p2
@@ -1029,7 +1029,7 @@ Q3Point2D_DistanceSquared (
  *  @param p2               Address of second point of interest.
  *  @result                 Distance between the given points.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Param2D_Distance (
     const TQ3Param2D              *p1,
     const TQ3Param2D              *p2
@@ -1049,7 +1049,7 @@ Q3Param2D_Distance (
  *  @param p2               Address of second point of interest.
  *  @result                 Square of the distance between the given points.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Param2D_DistanceSquared (
     const TQ3Param2D              *p1,
     const TQ3Param2D              *p2
@@ -1073,7 +1073,7 @@ Q3Param2D_DistanceSquared (
  *  @result                 Distance between the given points, treating
  *							w as a spatial coordinate.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3RationalPoint3D_Distance (
     const TQ3RationalPoint3D      *p1,
     const TQ3RationalPoint3D      *p2
@@ -1097,7 +1097,7 @@ Q3RationalPoint3D_Distance (
  *  @result                 Square of the distance between the given points, 
  *							treating w as a spatial coordinate.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3RationalPoint3D_DistanceSquared (
     const TQ3RationalPoint3D      *p1,
     const TQ3RationalPoint3D      *p2
@@ -1117,7 +1117,7 @@ Q3RationalPoint3D_DistanceSquared (
  *  @param p2               Address of second point of interest.
  *  @result                 Distance between the given points.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Point3D_Distance (
     const TQ3Point3D              *p1,
     const TQ3Point3D              *p2
@@ -1137,7 +1137,7 @@ Q3Point3D_Distance (
  *  @param p2               Address of second point of interest.
  *  @result                 Square of the distance between the given points.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Point3D_DistanceSquared (
     const TQ3Point3D              *p1,
     const TQ3Point3D              *p2
@@ -1161,7 +1161,7 @@ Q3Point3D_DistanceSquared (
  *  @result                 Distance between the given points, treating
  *							w as a spatial coordinate.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3RationalPoint4D_Distance (
     const TQ3RationalPoint4D      *p1,
     const TQ3RationalPoint4D      *p2
@@ -1185,7 +1185,7 @@ Q3RationalPoint4D_Distance (
  *  @result                 Square of the distance between the given points, 
  *							treating w as a spatial coordinate.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3RationalPoint4D_DistanceSquared (
     const TQ3RationalPoint4D      *p1,
     const TQ3RationalPoint4D      *p2
@@ -1210,7 +1210,7 @@ Q3RationalPoint4D_DistanceSquared (
  *  @param result           Address of vector to set (may be the same as vector2D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Negate (
     const TQ3Vector2D             *vector2D,
     TQ3Vector2D                   *result
@@ -1230,7 +1230,7 @@ Q3Vector2D_Negate (
  *  @param result           Address of vector to set (may be the same as vector3D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Negate (
     const TQ3Vector3D             *vector3D,
     TQ3Vector3D                   *result
@@ -1256,7 +1256,7 @@ Q3Vector3D_Negate (
  *  @param result           Address of vector to set (may be the same as vector2D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Scale (
     const TQ3Vector2D             *vector2D,
     float                         scalar,
@@ -1278,7 +1278,7 @@ Q3Vector2D_Scale (
  *  @param result           Address of vector to set (may be the same as vector3D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Scale (
     const TQ3Vector3D             *vector3D,
     float                         scalar,
@@ -1306,7 +1306,7 @@ Q3Vector3D_Scale (
  *  @param result           Address of vector to set (may be the same as vector2D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Normalize (
     const TQ3Vector2D             *vector2D,
     TQ3Vector2D                   *result
@@ -1328,7 +1328,7 @@ Q3Vector2D_Normalize (
  *  @param result           Address of vector to set (may be the same as vector3D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Normalize (
     const TQ3Vector3D             *vector3D,
     TQ3Vector3D                   *result
@@ -1354,7 +1354,7 @@ Q3Vector3D_Normalize (
  *  @param result           Address of vector to set (may be the same as v1 and/or v2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Add (
     const TQ3Vector2D             *v1,
     const TQ3Vector2D             *v2,
@@ -1376,7 +1376,7 @@ Q3Vector2D_Add (
  *  @param result           Address of vector to set (may be the same as v1 and/or v2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Add (
     const TQ3Vector3D             *v1,
     const TQ3Vector3D             *v2,
@@ -1398,7 +1398,7 @@ Q3Vector3D_Add (
  *  @param result           Address of vector to set (may be the same as v1 and/or v2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Subtract (
     const TQ3Vector2D             *v1,
     const TQ3Vector2D             *v2,
@@ -1420,7 +1420,7 @@ Q3Vector2D_Subtract (
  *  @param result           Address of vector to set (may be the same as v1 and/or v2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Subtract (
     const TQ3Vector3D             *v1,
     const TQ3Vector3D             *v2,
@@ -1447,7 +1447,7 @@ Q3Vector3D_Subtract (
  *  @param result           Address of point to set (may be the same as point2D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point2D * )
+Q3_EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_Vector2D_Add (
     const TQ3Point2D              *point2D,
     const TQ3Vector2D             *vector2D,
@@ -1469,7 +1469,7 @@ Q3Point2D_Vector2D_Add (
  *  @param result           Address of point to set (may be the same as param2D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Param2D * )
+Q3_EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_Vector2D_Add (
     const TQ3Param2D              *param2D,
     const TQ3Vector2D             *vector2D,
@@ -1491,7 +1491,7 @@ Q3Param2D_Vector2D_Add (
  *  @param result           Address of point to set (may be the same as point3D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point3D * )
+Q3_EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_Vector3D_Add (
     const TQ3Point3D              *point3D,
     const TQ3Vector3D             *vector3D,
@@ -1513,7 +1513,7 @@ Q3Point3D_Vector3D_Add (
  *  @param result           Address of point to set (may be the same as point2D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point2D * )
+Q3_EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_Vector2D_Subtract (
     const TQ3Point2D              *point2D,
     const TQ3Vector2D             *vector2D,
@@ -1535,7 +1535,7 @@ Q3Point2D_Vector2D_Subtract (
  *  @param result           Address of point to set (may be the same as param2D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Param2D * )
+Q3_EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_Vector2D_Subtract (
     const TQ3Param2D              *param2D,
     const TQ3Vector2D             *vector2D,
@@ -1557,7 +1557,7 @@ Q3Param2D_Vector2D_Subtract (
  *  @param result           Address of point to set (may be the same as point3D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point3D * )
+Q3_EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_Vector3D_Subtract (
     const TQ3Point3D              *point3D,
     const TQ3Vector3D             *vector3D,
@@ -1584,7 +1584,7 @@ Q3Point3D_Vector3D_Subtract (
  *  @param result           Address of a vector to set with (p1-p2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3Point2D_Subtract (
     const TQ3Point2D              *p1,
     const TQ3Point2D              *p2,
@@ -1606,7 +1606,7 @@ Q3Point2D_Subtract (
  *  @param result           Address of a vector to set with (p1-p2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3Param2D_Subtract (
     const TQ3Param2D              *p1,
     const TQ3Param2D              *p2,
@@ -1628,7 +1628,7 @@ Q3Param2D_Subtract (
  *  @param result           Address of point to set (may be the same as p1 and/or p2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Point3D_Subtract (
     const TQ3Point3D              *p1,
     const TQ3Point3D              *p2,
@@ -1668,7 +1668,7 @@ Q3Point3D_Subtract (
  *  @param result           Address of point to set (may be the same as p1 and/or p2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point2D * )
+Q3_EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_RRatio (
     const TQ3Point2D              *p1,
     const TQ3Point2D              *p2,
@@ -1699,7 +1699,7 @@ Q3Point2D_RRatio (
  *  @param result           Address of point to set (may be the same as p1 and/or p2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Param2D * )
+Q3_EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_RRatio (
     const TQ3Param2D              *p1,
     const TQ3Param2D              *p2,
@@ -1736,7 +1736,7 @@ Q3Param2D_RRatio (
  *  @param result           Address of point to set (may be the same as p1 and/or p2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point3D * )
+Q3_EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_RRatio (
     const TQ3Point3D              *p1,
     const TQ3Point3D              *p2,
@@ -1773,7 +1773,7 @@ Q3Point3D_RRatio (
  *  @param result           Address of point to set (may be the same as p1 and/or p2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3RationalPoint4D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3RationalPoint4D_RRatio (
     const TQ3RationalPoint4D      *p1,
     const TQ3RationalPoint4D      *p2,
@@ -1808,7 +1808,7 @@ Q3RationalPoint4D_RRatio (
  *  @param result           Address of point to set with the weighted combination.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point2D * )
+Q3_EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_AffineComb (
     const TQ3Point2D              *points2D,
     const float                   *weights,
@@ -1837,7 +1837,7 @@ Q3Point2D_AffineComb (
  *  @param result           Address of point to set with the weighted combination.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Param2D * )
+Q3_EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_AffineComb (
     const TQ3Param2D              *params2D,
     const float                   *weights,
@@ -1862,7 +1862,7 @@ Q3Param2D_AffineComb (
  *  @param result           Address of point to set with the weighted combination.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3RationalPoint3D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint3D * )
 Q3RationalPoint3D_AffineComb (
     const TQ3RationalPoint3D      *rationalPoints3D,
     const float                   *weights,
@@ -1891,7 +1891,7 @@ Q3RationalPoint3D_AffineComb (
  *  @param result           Address of point to set with the weighted combination.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point3D * )
+Q3_EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_AffineComb (
     const TQ3Point3D              *points3D,
     const float                   *weights,
@@ -1916,7 +1916,7 @@ Q3Point3D_AffineComb (
  *  @param result           Address of point to set with the weighted combination.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3RationalPoint4D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3RationalPoint4D_AffineComb (
     const TQ3RationalPoint4D      *rationalPoints4D,
     const float                   *weights,
@@ -1948,7 +1948,7 @@ Q3RationalPoint4D_AffineComb (
  *  @param result           Address of vector to set (may be the same as vector2D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector2D * )
+Q3_EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Transform (
     const TQ3Vector2D             *vector2D,
     const TQ3Matrix3x3            *matrix3x3,
@@ -1974,7 +1974,7 @@ Q3Vector2D_Transform (
  *  @param result           Address of vector to set (may be the same as vector3D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Transform (
     const TQ3Vector3D             *vector3D,
     const TQ3Matrix4x4            *matrix4x4,
@@ -1994,7 +1994,7 @@ Q3Vector3D_Transform (
  *  @param result           Address of point to set (may be the same as point2D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point2D * )
+Q3_EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_Transform (
     const TQ3Point2D              *point2D,
     const TQ3Matrix3x3            *matrix3x3,
@@ -2017,7 +2017,7 @@ Q3Point2D_Transform (
  *  @param result           Address of point to set (may be the same as point2D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Param2D * )
+Q3_EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_Transform (
     const TQ3Param2D              *param2D,
     const TQ3Matrix3x3            *matrix3x3,
@@ -2041,7 +2041,7 @@ Q3Param2D_Transform (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3RationalPoint3D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint3D * )
 Q3RationalPoint3D_Transform (
     const TQ3RationalPoint3D      *rationalPoint3D,
     const TQ3Matrix3x3            *matri3x3,
@@ -2063,7 +2063,7 @@ Q3RationalPoint3D_Transform (
  *  @param result           Address of point to set (may be the same as point3D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point3D * )
+Q3_EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_Transform (
     const TQ3Point3D              *point3D,
     const TQ3Matrix4x4            *matrix4x4,
@@ -2083,7 +2083,7 @@ Q3Point3D_Transform (
  *  @param result           Address of point to set (may be the same as rationalPoint4D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3RationalPoint4D * )
+Q3_EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3RationalPoint4D_Transform (
     const TQ3RationalPoint4D      *rationalPoint4D,
     const TQ3Matrix4x4            *matrix4x4,
@@ -2113,7 +2113,7 @@ Q3RationalPoint4D_Transform (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector2D_To2DTransformArray (
     const TQ3Vector2D             *inVectors2D,
     const TQ3Matrix3x3            *matrix3x3,
@@ -2148,7 +2148,7 @@ Q3Vector2D_To2DTransformArray (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector3D_To3DTransformArray (
     const TQ3Vector3D             *inVectors3D,
     const TQ3Matrix4x4            *matrix4x4,
@@ -2183,7 +2183,7 @@ Q3Vector3D_To3DTransformArray (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point2D_To2DTransformArray (
     const TQ3Point2D              *inPoints2D,
     const TQ3Matrix3x3            *matrix3x3,
@@ -2218,7 +2218,7 @@ Q3Point2D_To2DTransformArray (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint3D_To3DTransformArray (
     const TQ3RationalPoint3D      *inRationalPoints3D,
     const TQ3Matrix3x3            *matrix3x3,
@@ -2251,7 +2251,7 @@ Q3RationalPoint3D_To3DTransformArray (
  *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3Point3D).
  *  @result                 kQ3Success or some error code.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point3D_To3DTransformArray (
     const TQ3Point3D              *inPoints3D,
     const TQ3Matrix4x4            *matrix4x4,
@@ -2277,7 +2277,7 @@ Q3Point3D_To3DTransformArray (
  *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3RationalPoint4D).
  *  @result                 kQ3Success or some error code.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point3D_To4DTransformArray (
     const TQ3Point3D              *inPoints3D,
     const TQ3Matrix4x4            *matrix4x4,
@@ -2306,7 +2306,7 @@ Q3Point3D_To4DTransformArray (
  *  @param outStructSize    Size of one element of the output array, typically sizeof(TQ3RationalPoint4D).
  *  @result                 kQ3Success or some error code.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint4D_To4DTransformArray (
     const TQ3RationalPoint4D      *inRationalPoints4D,
     const TQ3Matrix4x4            *matrix4x4,
@@ -2332,7 +2332,7 @@ Q3RationalPoint4D_To4DTransformArray (
  *  @param matrix3x3        Address of matrix to set.
  *  @result                 Convenience copy of matrix3x3 parameter.
  */
-EXTERN_API_C ( TQ3Matrix3x3 * )
+Q3_EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_SetIdentity (
     TQ3Matrix3x3                  *matrix3x3
 );
@@ -2348,7 +2348,7 @@ Q3Matrix3x3_SetIdentity (
  *  @param matrix4x4        Address of matrix to set.
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetIdentity (
     TQ3Matrix4x4                  *matrix4x4
 );
@@ -2366,7 +2366,7 @@ Q3Matrix4x4_SetIdentity (
  *  @param yTrans           Amount to translate in y.
  *  @result                 Convenience copy of matrix3x3 parameter.
  */
-EXTERN_API_C ( TQ3Matrix3x3 * )
+Q3_EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_SetTranslate (
     TQ3Matrix3x3                  *matrix3x3,
     float                         xTrans,
@@ -2387,7 +2387,7 @@ Q3Matrix3x3_SetTranslate (
  *  @param zTrans           Amount to translate in z.
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetTranslate (
     TQ3Matrix4x4                  *matrix4x4,
     float                         xTrans,
@@ -2408,7 +2408,7 @@ Q3Matrix4x4_SetTranslate (
  *  @param yScale           Amount to scale in y.
  *  @result                 Convenience copy of matrix3x3 parameter.
  */
-EXTERN_API_C ( TQ3Matrix3x3 * )
+Q3_EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_SetScale (
     TQ3Matrix3x3                  *matrix3x3,
     float                         xScale,
@@ -2429,7 +2429,7 @@ Q3Matrix3x3_SetScale (
  *  @param zScale           Amount to scale in z.
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetScale (
     TQ3Matrix4x4                  *matrix4x4,
     float                         xScale,
@@ -2453,7 +2453,7 @@ Q3Matrix4x4_SetScale (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Matrix3x3 * )
+Q3_EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_SetRotate (
     TQ3Matrix3x3                  *matrix3x3,
     float                         angle
@@ -2473,7 +2473,7 @@ Q3Matrix3x3_SetRotate (
  *  @param angle            Angle to rotate (in radians).
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotate_X (
     TQ3Matrix4x4                  *matrix4x4,
     float                         angle
@@ -2491,7 +2491,7 @@ Q3Matrix4x4_SetRotate_X (
  *  @param angle            Angle to rotate (in radians).
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotate_Y (
     TQ3Matrix4x4                  *matrix4x4,
     float                         angle
@@ -2509,7 +2509,7 @@ Q3Matrix4x4_SetRotate_Y (
  *  @param angle            Angle to rotate (in radians).
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotate_Z (
     TQ3Matrix4x4                  *matrix4x4,
     float                         angle
@@ -2532,7 +2532,7 @@ Q3Matrix4x4_SetRotate_Z (
  *  @param zAngle           Angle to rotate about the Z axis (in radians).
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotate_XYZ (
     TQ3Matrix4x4                  *matrix4x4,
     float                         xAngle,
@@ -2556,7 +2556,7 @@ Q3Matrix4x4_SetRotate_XYZ (
  *  @param angle            Angle to rotate (in radians).
  *  @result                 Convenience copy of matrix3x3 parameter.
  */
-EXTERN_API_C ( TQ3Matrix3x3 * )
+Q3_EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_SetRotateAboutPoint (
     TQ3Matrix3x3                  *matrix3x3,
     const TQ3Point2D              *origin,
@@ -2582,7 +2582,7 @@ Q3Matrix3x3_SetRotateAboutPoint (
  *  @param zAngle           Angle to rotate about the translated Z axis (in radians).
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotateAboutPoint (
     TQ3Matrix4x4                  *matrix4x4,
     const TQ3Point3D              *origin,
@@ -2608,7 +2608,7 @@ Q3Matrix4x4_SetRotateAboutPoint (
  *  @param angle            Angle to rotate (in radians).
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotateAboutAxis (
     TQ3Matrix4x4                  *matrix4x4,
     const TQ3Point3D              *origin,
@@ -2632,7 +2632,7 @@ Q3Matrix4x4_SetRotateAboutAxis (
  *  @param v2               Address of "ending" vector.
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetRotateVectorToVector (
     TQ3Matrix4x4                  *matrix4x4,
     const TQ3Vector3D             *v1,
@@ -2651,7 +2651,7 @@ Q3Matrix4x4_SetRotateVectorToVector (
  *  @param quaternion       Address of the quaternion to imitate.
  *  @result                 Convenience copy of matrix4x4 parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_SetQuaternion (
     TQ3Matrix4x4                  *matrix4x4,
     const TQ3Quaternion           *quaternion
@@ -2669,7 +2669,7 @@ Q3Matrix4x4_SetQuaternion (
  *  @param result           Address of destination matrix (may be the same as matrix3x3).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Matrix3x3 * )
+Q3_EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_Copy (
     const TQ3Matrix3x3            *matrix3x3,
     TQ3Matrix3x3                  *result
@@ -2687,7 +2687,7 @@ Q3Matrix3x3_Copy (
  *  @param result           Address of destination matrix (may be the same as matrix4x4).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_Copy (
     const TQ3Matrix4x4            *matrix4x4,
     TQ3Matrix4x4                  *result
@@ -2705,7 +2705,7 @@ Q3Matrix4x4_Copy (
  *  @param result           Address of matrix to set (may be the same as matrix3x3).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Matrix3x3 * )
+Q3_EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_Transpose (
     const TQ3Matrix3x3            *matrix3x3,
     TQ3Matrix3x3                  *result
@@ -2723,7 +2723,7 @@ Q3Matrix3x3_Transpose (
  *  @param result           Address of matrix to set (may be the same as matrix4x4).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_Transpose (
     const TQ3Matrix4x4            *matrix4x4,
     TQ3Matrix4x4                  *result
@@ -2740,7 +2740,7 @@ Q3Matrix4x4_Transpose (
  *  @param matrix3x3        Address of a matrix.
  *  @result                 Determinant of that matrix.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Matrix3x3_Determinant (
     const TQ3Matrix3x3            *matrix3x3
 );
@@ -2756,7 +2756,7 @@ Q3Matrix3x3_Determinant (
  *  @param matrix4x4        Address of a matrix.
  *  @result                 Determinant of that matrix.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Matrix4x4_Determinant (
     const TQ3Matrix4x4            *matrix4x4
 );
@@ -2779,7 +2779,7 @@ Q3Matrix4x4_Determinant (
  *  @param result           Address of matrix to set (may be the same as matrix3x3).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Matrix3x3 * )
+Q3_EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_Adjoint (
     const TQ3Matrix3x3            *matrix3x3,
     TQ3Matrix3x3                  *result
@@ -2797,7 +2797,7 @@ Q3Matrix3x3_Adjoint (
  *  @param result           Address of matrix to set (may be the same as matrix3x3).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Matrix3x3 * )
+Q3_EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_Invert (
     const TQ3Matrix3x3            *matrix3x3,
     TQ3Matrix3x3                  *result
@@ -2815,7 +2815,7 @@ Q3Matrix3x3_Invert (
  *  @param result           Address of matrix to set (may be the same as matrix4x4).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_Invert (
     const TQ3Matrix4x4            *matrix4x4,
     TQ3Matrix4x4                  *result
@@ -2834,7 +2834,7 @@ Q3Matrix4x4_Invert (
  *  @param result           Address of matrix to set with m1*m2 (may be the same as m1 and/or m2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Matrix3x3 * )
+Q3_EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_Multiply (
     const TQ3Matrix3x3            *m1,
     const TQ3Matrix3x3            *m2,
@@ -2854,7 +2854,7 @@ Q3Matrix3x3_Multiply (
  *  @param result           Address of matrix to set with m1*m2 (may be the same as m1 and/or m2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Matrix4x4 * )
+Q3_EXTERN_API_C ( TQ3Matrix4x4 * )
 Q3Matrix4x4_Multiply (
     const TQ3Matrix4x4            *m1,
     const TQ3Matrix4x4            *m2,
@@ -2883,7 +2883,7 @@ Q3Matrix4x4_Multiply (
  *  @param z                Value for z component.
  *  @result                 Convenience copy of quaternion parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_Set (
     TQ3Quaternion                 *quaternion,
     float                         w,
@@ -2905,7 +2905,7 @@ Q3Quaternion_Set (
  *  @param quaternion       Address of a quaternion to set.
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetIdentity (
     TQ3Quaternion                 *quaternion
 );
@@ -2922,7 +2922,7 @@ Q3Quaternion_SetIdentity (
  *  @param angle            Angle to rotate (in radians).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotate_X (
     TQ3Quaternion                 *quaternion,
     float                         angle
@@ -2940,7 +2940,7 @@ Q3Quaternion_SetRotate_X (
  *  @param angle            Angle to rotate (in radians).
  *  @result                 Convenience copy of quaternion parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotate_Y (
     TQ3Quaternion                 *quaternion,
     float                         angle
@@ -2958,7 +2958,7 @@ Q3Quaternion_SetRotate_Y (
  *  @param angle            Angle to rotate (in radians).
  *  @result                 Convenience copy of quaternion parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotate_Z (
     TQ3Quaternion                 *quaternion,
     float                         angle
@@ -2981,7 +2981,7 @@ Q3Quaternion_SetRotate_Z (
  *  @param zAngle           Angle to rotate about the Z axis (in radians).
  *  @result                 Convenience copy of quaternion parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotate_XYZ (
     TQ3Quaternion                 *quaternion,
     float                         xAngle,
@@ -3005,7 +3005,7 @@ Q3Quaternion_SetRotate_XYZ (
  *  @param angle            Angle to rotate (in radians).
  *  @result                 Convenience copy of quaternion parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotateAboutAxis (
     TQ3Quaternion                 *quaternion,
     const TQ3Vector3D             *axis,
@@ -3028,7 +3028,7 @@ Q3Quaternion_SetRotateAboutAxis (
  *  @param v2               Address of "ending" vector.
  *  @result                 Convenience copy of quaternion parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetRotateVectorToVector (
     TQ3Quaternion                 *quaternion,
     const TQ3Vector3D             *v1,
@@ -3055,7 +3055,7 @@ Q3Quaternion_SetRotateVectorToVector (
  *  @param matrix4x4        Address of a rotation matrix to imitate.
  *  @result                 Convenience copy of quaternion parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_SetMatrix (
     TQ3Quaternion                 *quaternion,
     const TQ3Matrix4x4            *matrix4x4
@@ -3075,7 +3075,7 @@ Q3Quaternion_SetMatrix (
  *  @param result           Address of destination quaternion (may be the same as the first parameter).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_Copy (
     const TQ3Quaternion           *quaternion,
     TQ3Quaternion                 *result
@@ -3098,7 +3098,7 @@ Q3Quaternion_Copy (
  *  @param quaternion       Address of quaternion to test.
  *  @result                 True if quaternion is the identity.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Quaternion_IsIdentity (
     const TQ3Quaternion           *quaternion
 );
@@ -3117,7 +3117,7 @@ Q3Quaternion_IsIdentity (
  *  @param q2               Address of another quaternion (may be the same as q1).
  *  @result                 Dot product of q1 and q2.
  */
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Quaternion_Dot (
     const TQ3Quaternion           *q1,
     const TQ3Quaternion           *q2
@@ -3141,7 +3141,7 @@ Q3Quaternion_Dot (
  *  @param result           Address of quaternion to set (may be the same as the first parameter).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_Normalize (
     const TQ3Quaternion           *quaternion,
     TQ3Quaternion                 *result
@@ -3164,7 +3164,7 @@ Q3Quaternion_Normalize (
  *  @param result           Address of quaternion to set (may be the same as the first parameter).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_Invert (
     const TQ3Quaternion           *quaternion,
     TQ3Quaternion                 *result
@@ -3186,7 +3186,7 @@ Q3Quaternion_Invert (
  *  @param result           Address of quaternion to set (may be the same as q1 and/or q2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_Multiply (
     const TQ3Quaternion           *q1,
     const TQ3Quaternion           *q2,
@@ -3207,7 +3207,7 @@ Q3Quaternion_Multiply (
  *  @param result           Address of quaternion to set (may be the same as q1 and/or q2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_MatchReflection (
     const TQ3Quaternion           *q1,
     const TQ3Quaternion           *q2,
@@ -3234,7 +3234,7 @@ Q3Quaternion_MatchReflection (
  *  @param result           Address of quaternion to set (may be the same as q1 and/or q2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_InterpolateFast (
     const TQ3Quaternion           *q1,
     const TQ3Quaternion           *q2,
@@ -3264,7 +3264,7 @@ Q3Quaternion_InterpolateFast (
  *  @param result           Address of quaternion to set (may be the same as q1 and/or q2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Quaternion * )
+Q3_EXTERN_API_C ( TQ3Quaternion * )
 Q3Quaternion_InterpolateLinear (
     const TQ3Quaternion           *q1,
     const TQ3Quaternion           *q2,
@@ -3300,7 +3300,7 @@ Q3Quaternion_InterpolateLinear (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Quaternion_GetAxisAndAngle (
 	const TQ3Quaternion           *quaternion,
 	TQ3Vector3D                   *outAxis,
@@ -3324,7 +3324,7 @@ Q3Quaternion_GetAxisAndAngle (
  *  @param result           Address of a vector to set (may be the same as vector3D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Vector3D * )
+Q3_EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_TransformQuaternion (
     const TQ3Vector3D             *vector3D,
     const TQ3Quaternion           *quaternion,
@@ -3346,7 +3346,7 @@ Q3Vector3D_TransformQuaternion (
  *  @param result           Address of a point to set (may be the same as point3D).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3Point3D * )
+Q3_EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_TransformQuaternion (
     const TQ3Point3D              *point3D,
     const TQ3Quaternion           *quaternion,
@@ -3375,7 +3375,7 @@ Q3Point3D_TransformQuaternion (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3BoundingBox * )
+Q3_EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_Reset (
     TQ3BoundingBox                *bBox
 );
@@ -3398,7 +3398,7 @@ Q3BoundingBox_Reset (
  *  @param isEmpty          True if the bounding box is empty, false otherwise.
  *  @result                 Convenience copy of bBox parameter.
  */
-EXTERN_API_C ( TQ3BoundingBox * )
+Q3_EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_Set (
     TQ3BoundingBox                *bBox,
     const TQ3Point3D              *min,
@@ -3420,7 +3420,7 @@ Q3BoundingBox_Set (
  *  @param structSize       Size of each array element, typically sizeof(TQ3Point3D).
  *  @result                 Convenience copy of bBox parameter.
  */
-EXTERN_API_C ( TQ3BoundingBox * )
+Q3_EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_SetFromPoints3D (
     TQ3BoundingBox                *bBox,
     const TQ3Point3D              *points3D,
@@ -3442,7 +3442,7 @@ Q3BoundingBox_SetFromPoints3D (
  *  @param structSize       Size of each array element, typically sizeof(TQ3RationalPoint4D).
  *  @result                 Convenience copy of bBox parameter.
  */
-EXTERN_API_C ( TQ3BoundingBox * )
+Q3_EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_SetFromRationalPoints4D (
     TQ3BoundingBox                *bBox,
     const TQ3RationalPoint4D      *rationalPoints4D,
@@ -3464,7 +3464,7 @@ Q3BoundingBox_SetFromRationalPoints4D (
  *  @param result           Address of bounding box to set (may be the same as bBox).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3BoundingBox * )
+Q3_EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_Copy (
     const TQ3BoundingBox          *bBox,
     TQ3BoundingBox                *result
@@ -3483,7 +3483,7 @@ Q3BoundingBox_Copy (
  *  @param result           Address of bounding box to set (may be the same as b1 and/or b2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3BoundingBox * )
+Q3_EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_Union (
     const TQ3BoundingBox          *b1,
     const TQ3BoundingBox          *b2,
@@ -3503,7 +3503,7 @@ Q3BoundingBox_Union (
  *  @param result           Address of bounding box to set (may be the same as bBox).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3BoundingBox * )
+Q3_EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_UnionPoint3D (
     const TQ3BoundingBox          *bBox,
     const TQ3Point3D              *point3D,
@@ -3523,7 +3523,7 @@ Q3BoundingBox_UnionPoint3D (
  *  @param result           Address of bounding box to set (may be the same as bBox).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3BoundingBox * )
+Q3_EXTERN_API_C ( TQ3BoundingBox * )
 Q3BoundingBox_UnionRationalPoint4D (
     const TQ3BoundingBox          *bBox,
     const TQ3RationalPoint4D      *rationalPoint4D,
@@ -3552,7 +3552,7 @@ Q3BoundingBox_UnionRationalPoint4D (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3BoundingSphere * )
+Q3_EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_Reset (
     TQ3BoundingSphere             *bSphere
 );
@@ -3575,7 +3575,7 @@ Q3BoundingSphere_Reset (
  *  @param isEmpty          True if the bounding sphere is empty, false otherwise.
  *  @result                 Convenience copy of bSphere parameter.
  */
-EXTERN_API_C ( TQ3BoundingSphere * )
+Q3_EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_Set (
     TQ3BoundingSphere             *bSphere,
     const TQ3Point3D              *origin,
@@ -3597,7 +3597,7 @@ Q3BoundingSphere_Set (
  *  @param structSize       Size of each array element, typically sizeof(TQ3Point3D).
  *  @result                 Convenience copy of bSphere parameter.
  */
-EXTERN_API_C ( TQ3BoundingSphere * )
+Q3_EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_SetFromPoints3D (
     TQ3BoundingSphere             *bSphere,
     const TQ3Point3D              *points3D,
@@ -3619,7 +3619,7 @@ Q3BoundingSphere_SetFromPoints3D (
  *  @param structSize       Size of each array element, typically sizeof(TQ3RationalPoint4D).
  *  @result                 Convenience copy of bSphere parameter.
  */
-EXTERN_API_C ( TQ3BoundingSphere * )
+Q3_EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_SetFromRationalPoints4D (
     TQ3BoundingSphere             *bSphere,
     const TQ3RationalPoint4D      *rationalPoints4D,
@@ -3641,7 +3641,7 @@ Q3BoundingSphere_SetFromRationalPoints4D (
  *  @param result           Address of bounding sphere to set (may be the same as bSphere).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3BoundingSphere * )
+Q3_EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_Copy (
     const TQ3BoundingSphere       *bSphere,
     TQ3BoundingSphere             *result
@@ -3660,7 +3660,7 @@ Q3BoundingSphere_Copy (
  *  @param result           Address of bounding sphere to set (may be the same as s1 and/or s2).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3BoundingSphere * )
+Q3_EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_Union (
     const TQ3BoundingSphere       *s1,
     const TQ3BoundingSphere       *s2,
@@ -3680,7 +3680,7 @@ Q3BoundingSphere_Union (
  *  @param result           Address of bounding sphere to set (may be the same as bSphere).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3BoundingSphere * )
+Q3_EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_UnionPoint3D (
     const TQ3BoundingSphere       *bSphere,
     const TQ3Point3D              *point3D,
@@ -3700,7 +3700,7 @@ Q3BoundingSphere_UnionPoint3D (
  *  @param result           Address of bounding sphere to set (may be the same as bSphere).
  *  @result                 Convenience copy of result parameter.
  */
-EXTERN_API_C ( TQ3BoundingSphere * )
+Q3_EXTERN_API_C ( TQ3BoundingSphere * )
 Q3BoundingSphere_UnionRationalPoint4D (
     const TQ3BoundingSphere       *bSphere,
     const TQ3RationalPoint4D      *rationalPoint4D,
@@ -3732,7 +3732,7 @@ Q3BoundingSphere_UnionRationalPoint4D (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Ray3D_IntersectSphere (
     const TQ3Ray3D                *theRay,
     const TQ3Sphere               *theSphere,
@@ -3761,7 +3761,7 @@ Q3Ray3D_IntersectSphere (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Ray3D_IntersectBoundingBox (
     const TQ3Ray3D                *theRay,
     const TQ3BoundingBox          *theBounds,
@@ -3809,7 +3809,7 @@ Q3Ray3D_IntersectBoundingBox (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Ray3D_IntersectTriangle (
     const TQ3Ray3D                *theRay,
     const TQ3Point3D              *point1,
@@ -3845,7 +3845,7 @@ Q3Ray3D_IntersectTriangle (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Math_SquareRoot (
     float                         x
 );
@@ -3871,7 +3871,7 @@ Q3Math_SquareRoot (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( float  )
+Q3_EXTERN_API_C ( float  )
 Q3Math_InvSquareRoot (
     float                         x
 );

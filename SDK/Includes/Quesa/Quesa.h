@@ -39,8 +39,7 @@
 //      Auto-discovery
 //-----------------------------------------------------------------------------
 //      Note :  Since we normally use a fairly well defined set of compilers,
-//              we can attempt to determine what the correct platform is by
-//              magic.
+//              we can attempt to determine the correct platform by magic.
 //-----------------------------------------------------------------------------
 // Mac OS
 #if ((defined(__MWERKS__) && __dest_os == __mac_os) || defined(MPW_CPLUS) || defined(MPW_C))
@@ -160,6 +159,12 @@
 
     // Ensure compiler settings match QD3D, to be binary compatible
     #pragma options align=power
+
+
+	// Export symbols when building a shared library
+    #ifdef Q3_EXPORT_SYMBOLS 
+		#define Q3_EXTERN_API_C(_type)					__declspec(dllexport) _type
+    #endif
 #endif // QUESA_OS_MACINTOSH
 
 
@@ -181,10 +186,9 @@
     #endif
 
 
-    // If building a DLL, we need to use our own EXTERN_API_C
-    #ifdef WIN32_EXPORTING
-        #undef  EXTERN_API_C
-        #define EXTERN_API_C(_type) __declspec(dllexport) _type __cdecl  
+	// Export symbols when building a shared library
+    #ifdef Q3_EXPORT_SYMBOLS
+        #define Q3_EXTERN_API_C(_type)					__declspec(dllexport) _type __cdecl  
     #endif
 #endif // QUESA_OS_WIN32
 
@@ -277,12 +281,12 @@ typedef TQ3Int32                                TQ3ObjectType;
 
 
 // Macros
-#ifndef CALLBACK_API_C
-    #define CALLBACK_API_C(_type, _name)        _type (*_name)
+#ifndef Q3_CALLBACK_API_C
+    #define Q3_CALLBACK_API_C(_type, _name)     _type (*_name)
 #endif
 
-#ifndef EXTERN_API_C
-    #define EXTERN_API_C(_type)                 extern _type
+#ifndef Q3_EXTERN_API_C
+    #define Q3_EXTERN_API_C(_type)              extern _type
 #endif
 
 #define Q3_FOUR_CHARACTER_CONSTANT(_a, _b, _c, _d)          \
@@ -677,10 +681,10 @@ typedef void                                    *TQ3ControllerRef;
 
 
 // Function types
-typedef CALLBACK_API_C(void,                TQ3XFunctionPointer)(
+typedef Q3_CALLBACK_API_C(void,                TQ3XFunctionPointer)(
                             void);
 
-typedef CALLBACK_API_C(TQ3XFunctionPointer, TQ3XMetaHandler)(
+typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XMetaHandler)(
                             TQ3XMethodType      methodType);
 
 
@@ -1316,7 +1320,7 @@ typedef struct TQ3SubClassData {
  *
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Initialize (
     void
 );
@@ -1331,7 +1335,7 @@ Q3Initialize (
  *
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Exit (
     void
 );
@@ -1346,7 +1350,7 @@ Q3Exit (
  *
  *  @result                 True or false as Quesa has been initialised or not.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3IsInitialized (
     void
 );
@@ -1373,7 +1377,7 @@ Q3IsInitialized (
  *  @param minorRevision    Receives the minor revision level of Quesa.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GetVersion (
     TQ3Uns32                      *majorRevision,
     TQ3Uns32                      *minorRevision
@@ -1404,7 +1408,7 @@ Q3GetVersion (
  *  @param releaseRevision  Receives the revision of Quesa.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3GetReleaseVersion (
     TQ3Uns32                      *releaseRevision
 );
@@ -1421,7 +1425,7 @@ Q3GetReleaseVersion (
  *  @param objectClassType      Receives the class type of the class.
  *  @result                     Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_GetTypeFromString (
     const TQ3ObjectClassNameString      objectClassString,
     TQ3ObjectType                 *objectClassType
@@ -1439,7 +1443,7 @@ Q3ObjectHierarchy_GetTypeFromString (
  *  @param objectClassString    Receives the class name string of the class.
  *  @result                     Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_GetStringFromType (
     TQ3ObjectType                 objectClassType,
     TQ3ObjectClassNameString      objectClassString
@@ -1456,7 +1460,7 @@ Q3ObjectHierarchy_GetStringFromType (
  *  @param objectClassType  The class type of the class to check.
  *  @result                 True or false as the class is registered or not.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3ObjectHierarchy_IsTypeRegistered (
     TQ3ObjectType                 objectClassType
 );
@@ -1472,7 +1476,7 @@ Q3ObjectHierarchy_IsTypeRegistered (
  *  @param majorRevision    The class name of the class to check.
  *  @result                 True or false as the class is registered or not.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3ObjectHierarchy_IsNameRegistered (
     const char                    *objectClassName
 );
@@ -1492,7 +1496,7 @@ Q3ObjectHierarchy_IsNameRegistered (
  *  @param subClassData     Receives the immediate sub-classes of the class.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_GetSubClassData (
     TQ3ObjectType                 objectClassType,
     TQ3SubClassData               *subClassData
@@ -1510,7 +1514,7 @@ Q3ObjectHierarchy_GetSubClassData (
  *  @param subClassData     The sub-class data to release.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_EmptySubClassData (
     TQ3SubClassData               *subClassData
 );
@@ -1530,7 +1534,7 @@ Q3ObjectHierarchy_EmptySubClassData (
  *  @param object           The object to dispose.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_Dispose (
     TQ3Object                     object
 );
@@ -1561,7 +1565,7 @@ Q3Object_Dispose (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_CleanDispose (
     TQ3Object                     *theObject
 );
@@ -1581,7 +1585,7 @@ Q3Object_CleanDispose (
  *  @param object           The object to duplicate.
  *  @result                 A new copy of the object.
  */
-EXTERN_API_C ( TQ3Object  )
+Q3_EXTERN_API_C ( TQ3Object  )
 Q3Object_Duplicate (
     TQ3Object                     object
 );
@@ -1601,7 +1605,7 @@ Q3Object_Duplicate (
  *  @param view             The view to submit the object to.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_Submit (
     TQ3Object                     object,
     TQ3ViewObject                 view
@@ -1620,7 +1624,7 @@ Q3Object_Submit (
  *  @param object           The object to test.
  *  @result                 True or false as the object is drawable or not.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Object_IsDrawable (
     TQ3Object                     object
 );
@@ -1638,7 +1642,7 @@ Q3Object_IsDrawable (
  *  @param object           The object to test.
  *  @result                 True or false as the object is writable or not.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Object_IsWritable (
     TQ3Object                     object,
     TQ3FileObject                 theFile
@@ -1659,7 +1663,7 @@ Q3Object_IsWritable (
  *  @param object           The object to test.
  *  @result                 The top level type of the object.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Object_GetType (
     TQ3Object                     object
 );
@@ -1679,7 +1683,7 @@ Q3Object_GetType (
  *  @param object           The object to test.
  *  @result                 The leaf type of the object.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Object_GetLeafType (
     TQ3Object                     object
 );
@@ -1701,7 +1705,7 @@ Q3Object_GetLeafType (
  *  @param theType          The type to test the object against.
  *  @result                 True or false as the object belongs to the type or not.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Object_IsType (
     TQ3Object                     object,
     TQ3ObjectType                 theType
@@ -1722,7 +1726,7 @@ Q3Object_IsType (
  *  @param sharedObject     The object to test.
  *  @result                 The type of the shared object.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Shared_GetType (
     TQ3SharedObject               sharedObject
 );
@@ -1738,7 +1742,7 @@ Q3Shared_GetType (
  *  @param sharedObject     The object whose reference count should be incremented.
  *  @result                 The object whose reference count has been incremented.
  */
-EXTERN_API_C ( TQ3SharedObject  )
+Q3_EXTERN_API_C ( TQ3SharedObject  )
 Q3Shared_GetReference (
     TQ3SharedObject               sharedObject
 );
@@ -1757,7 +1761,7 @@ Q3Shared_GetReference (
  *  @param sharedObject     The object to test.
  *  @result                 True or false as the object has more than one reference.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Shared_IsReferenced (
     TQ3SharedObject               sharedObject
 );
@@ -1781,7 +1785,7 @@ Q3Shared_IsReferenced (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Uns32 )
+Q3_EXTERN_API_C ( TQ3Uns32 )
 Q3Shared_GetReferenceCount (
 	TQ3SharedObject               sharedObject
 );
@@ -1803,7 +1807,7 @@ Q3Shared_GetReferenceCount (
  *  @param sharedObject     The object to query.
  *  @result                 The current edit index of the object.
  */
-EXTERN_API_C ( TQ3Uns32  )
+Q3_EXTERN_API_C ( TQ3Uns32  )
 Q3Shared_GetEditIndex (
     TQ3SharedObject               sharedObject
 );
@@ -1823,7 +1827,7 @@ Q3Shared_GetEditIndex (
  *  @param sharedObject     The object to update.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shared_Edited (
     TQ3SharedObject               sharedObject
 );
@@ -1843,7 +1847,7 @@ Q3Shared_Edited (
  *  @param shape            The object to test.
  *  @result                 The type of the shape object.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Shape_GetType (
     TQ3ShapeObject                shape
 );
@@ -1862,7 +1866,7 @@ Q3Shape_GetType (
  *  @param theSet           Receives the set of the object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_GetSet (
     TQ3ShapeObject                shape,
     TQ3SetObject                  *theSet
@@ -1882,7 +1886,7 @@ Q3Shape_GetSet (
  *  @param theSet           The new set for the object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_SetSet (
     TQ3ShapeObject                shape,
     TQ3SetObject                  theSet
@@ -1901,7 +1905,7 @@ Q3Shape_SetSet (
  *  @param data             The element data.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_AddElement (
     TQ3ShapeObject                shape,
     TQ3ElementType                theType,
@@ -1921,7 +1925,7 @@ Q3Shape_AddElement (
  *  @param data             Receives the element data.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_GetElement (
     TQ3ShapeObject                shape,
     TQ3ElementType                theType,
@@ -1940,7 +1944,7 @@ Q3Shape_GetElement (
  *  @param theType          The type of the element data to look for.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Shape_ContainsElement (
     TQ3ShapeObject                shape,
     TQ3ElementType                theType
@@ -1963,7 +1967,7 @@ Q3Shape_ContainsElement (
  *  @param theType          Receives the next element type.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_GetNextElementType (
     TQ3ShapeObject                shape,
     TQ3ElementType                *theType
@@ -1980,7 +1984,7 @@ Q3Shape_GetNextElementType (
  *  @param shape            The object to update.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_EmptyElements (
     TQ3ShapeObject                shape
 );
@@ -1997,7 +2001,7 @@ Q3Shape_EmptyElements (
  *  @param theType          The element type to remove.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_ClearElement (
     TQ3ShapeObject                shape,
     TQ3ElementType                theType
@@ -2018,7 +2022,7 @@ Q3Shape_ClearElement (
  *  @param bitmap           The TQ3Bitmap whose image data should be released.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Bitmap_Empty (
     TQ3Bitmap                     *bitmap
 );
@@ -2038,7 +2042,7 @@ Q3Bitmap_Empty (
  *  @param height           The proposed height of the bitmap.
  *  @result                 The number of bytes needed for the bitmap.
  */
-EXTERN_API_C ( TQ3Uns32  )
+Q3_EXTERN_API_C ( TQ3Uns32  )
 Q3Bitmap_GetImageSize (
     TQ3Uns32                      width,
     TQ3Uns32                      height

@@ -199,7 +199,7 @@ sub generateQuesaHeader
 			$thePrototypes .= " *\t$funcName\n";
 			$thePrototypes .= " *\t\tDescription of function\n";
 			$thePrototypes .= " */\n";
-			$thePrototypes .= "EXTERN_API_C ( $funcReturn )\n";
+			$thePrototypes .= "Q3_EXTERN_API_C ( $funcReturn )\n";
 			$thePrototypes .= "$funcName (\n";
 
 

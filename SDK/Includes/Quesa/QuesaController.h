@@ -95,7 +95,7 @@ extern "C" {
  *                          and should receive the number of bytes written to data.
  *  @result                 Success or failure of the operation.
  */
-typedef CALLBACK_API_C(TQ3Status,           TQ3ChannelGetMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ChannelGetMethod)(
                             TQ3ControllerRef    controllerRef,
                             TQ3Uns32            channel,
                             void                *data,
@@ -116,7 +116,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3ChannelGetMethod)(
  *  @param dataSize         The number of bytes pointed to by data.
  *  @result                 Success or failure of the operation.
  */
-typedef CALLBACK_API_C(TQ3Status,           TQ3ChannelSetMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ChannelSetMethod)(
                             TQ3ControllerRef    controllerRef,
                             TQ3Uns32            channel,
                             const void          *data,
@@ -133,7 +133,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3ChannelSetMethod)(
  *  @param controllerRef    The controller associated with the tracker.
  *  @result                 Success or failure of the operation.
  */
-typedef CALLBACK_API_C(TQ3Status,           TQ3TrackerNotifyFunc)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3TrackerNotifyFunc)(
                             TQ3TrackerObject    trackerObject,
                             TQ3ControllerRef    controllerRef);
 
@@ -143,7 +143,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3TrackerNotifyFunc)(
  *  @discussion
  *      Cursor tracker notification callback.
  */
-typedef CALLBACK_API_C(void, TQ3CursorTrackerNotifyFunc)(void);
+typedef Q3_CALLBACK_API_C(void, TQ3CursorTrackerNotifyFunc)(void);
 
 
 /*!
@@ -198,7 +198,7 @@ typedef struct TQ3ControllerData {
  *                          successive calls.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetListChanged (
     TQ3Boolean                    *listChanged,
     TQ3Uns32                      *serialNumber
@@ -222,7 +222,7 @@ Q3Controller_GetListChanged (
  *  @param nextControllerRef    Receives the next controller in the list, or NULL.
  *  @result                     Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_Next (
     TQ3ControllerRef              controllerRef,
     TQ3ControllerRef              *nextControllerRef
@@ -244,7 +244,7 @@ Q3Controller_Next (
  *  @param controllerData   A description of the controller to create.
  *  @result                 The new controller object, or NULL.
  */
-EXTERN_API_C ( TQ3ControllerRef  )
+Q3_EXTERN_API_C ( TQ3ControllerRef  )
 Q3Controller_New (
     const TQ3ControllerData       *controllerData
 );
@@ -265,7 +265,7 @@ Q3Controller_New (
  *  @param controllerRef    The controller to deactivate.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_Decommission (
     TQ3ControllerRef              controllerRef
 );
@@ -290,7 +290,7 @@ Q3Controller_Decommission (
  *  @param active           The new activatione state for the controller.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetActivation (
     TQ3ControllerRef              controllerRef,
     TQ3Boolean                    active
@@ -310,7 +310,7 @@ Q3Controller_SetActivation (
  *  @param active           Receives the current activation state of the controller.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetActivation (
     TQ3ControllerRef              controllerRef,
     TQ3Boolean                    *active
@@ -335,7 +335,7 @@ Q3Controller_GetActivation (
  *  @param numChars         The number of bytes which may be written to signature.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetSignature (
     TQ3ControllerRef              controllerRef,
     char                          *signature,
@@ -359,7 +359,7 @@ Q3Controller_GetSignature (
  *  @param dataSize         The number of bytes pointed to by data.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetChannel (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      channel,
@@ -385,7 +385,7 @@ Q3Controller_SetChannel (
  *                          to data by the controller.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetChannel (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      channel,
@@ -407,7 +407,7 @@ Q3Controller_GetChannel (
  *  @param valueCount       Receives the number of values of the controller.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetValueCount (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      *valueCount
@@ -431,7 +431,7 @@ Q3Controller_GetValueCount (
  *  @param tracker          The tracker to associate with the controller.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetTracker (
     TQ3ControllerRef              controllerRef,
     TQ3TrackerObject              tracker
@@ -452,7 +452,7 @@ Q3Controller_SetTracker (
  *                          with a tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_HasTracker (
     TQ3ControllerRef              controllerRef,
     TQ3Boolean                    *hasTracker
@@ -476,7 +476,7 @@ Q3Controller_HasTracker (
  *                          the 2D system cursor.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_Track2DCursor (
     TQ3ControllerRef              controllerRef,
     TQ3Boolean                    *track2DCursor
@@ -501,7 +501,7 @@ Q3Controller_Track2DCursor (
  *                          of the system cursor.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_Track3DCursor (
     TQ3ControllerRef              controllerRef,
     TQ3Boolean                    *track3DCursor
@@ -521,7 +521,7 @@ Q3Controller_Track3DCursor (
  *  @param buttons          Receives the button state of the controller.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetButtons (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      *buttons
@@ -545,7 +545,7 @@ Q3Controller_GetButtons (
  *  @param buttons          The new button state for the controller.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetButtons (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      buttons
@@ -568,7 +568,7 @@ Q3Controller_SetButtons (
  *  @param position         The current position of the tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetTrackerPosition (
     TQ3ControllerRef              controllerRef,
     TQ3Point3D                    *position
@@ -591,7 +591,7 @@ Q3Controller_GetTrackerPosition (
  *  @param position         The new position for the tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetTrackerPosition (
     TQ3ControllerRef              controllerRef,
     const TQ3Point3D              *position
@@ -615,7 +615,7 @@ Q3Controller_SetTrackerPosition (
  *  @param delta            The delta to be added to the tracker position.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_MoveTrackerPosition (
     TQ3ControllerRef              controllerRef,
     const TQ3Vector3D             *delta
@@ -638,7 +638,7 @@ Q3Controller_MoveTrackerPosition (
  *  @param orientation      Receives the current orientation of the tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetTrackerOrientation (
     TQ3ControllerRef              controllerRef,
     TQ3Quaternion                 *orientation
@@ -661,7 +661,7 @@ Q3Controller_GetTrackerOrientation (
  *  @param orientation      The new orientation for the tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetTrackerOrientation (
     TQ3ControllerRef              controllerRef,
     const TQ3Quaternion           *orientation
@@ -685,7 +685,7 @@ Q3Controller_SetTrackerOrientation (
  *  @param orientation      The delta to be added to the tracker orientation.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_MoveTrackerOrientation (
     TQ3ControllerRef              controllerRef,
     const TQ3Quaternion           *delta
@@ -708,7 +708,7 @@ Q3Controller_MoveTrackerOrientation (
  *  @param serialNumber     A controller serial number, or NULL.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_GetValues (
     TQ3ControllerRef              controllerRef,
     TQ3Uns32                      valueCount,
@@ -732,7 +732,7 @@ Q3Controller_GetValues (
  *  @param valueCount       The number of elements in the values array.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Controller_SetValues (
     TQ3ControllerRef              controllerRef,
     const float                   *values,
@@ -752,7 +752,7 @@ Q3Controller_SetValues (
  *  @param controllerRef    The controller to query.
  *  @result                 A new controller state object.
  */
-EXTERN_API_C ( TQ3ControllerStateObject  )
+Q3_EXTERN_API_C ( TQ3ControllerStateObject  )
 Q3ControllerState_New (
     TQ3ControllerRef              controllerRef
 );
@@ -770,7 +770,7 @@ Q3ControllerState_New (
  *  @param controllerStateObject    The controller state object to save.
  *  @result                         Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ControllerState_SaveAndReset (
     TQ3ControllerStateObject      controllerStateObject
 );
@@ -788,7 +788,7 @@ Q3ControllerState_SaveAndReset (
  *  @param controllerStateObject    The controller state object to restore.
  *  @result                         Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ControllerState_Restore (
     TQ3ControllerStateObject      controllerStateObject
 );
@@ -809,7 +809,7 @@ Q3ControllerState_Restore (
  *  @param notifyFunc       The notification callback for the tracker, or NULL.
  *  @result                 The new tracker object.
  */
-EXTERN_API_C ( TQ3TrackerObject  )
+Q3_EXTERN_API_C ( TQ3TrackerObject  )
 Q3Tracker_New (
     TQ3TrackerNotifyFunc          notifyFunc
 );
@@ -829,7 +829,7 @@ Q3Tracker_New (
  *  @param orientationThresh    The new orientation threshold.
  *  @result                     Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetNotifyThresholds (
     TQ3TrackerObject              trackerObject,
     float                         positionThresh,
@@ -851,7 +851,7 @@ Q3Tracker_SetNotifyThresholds (
  *  @param orientationThresh    Receives the orientation threshold of the tracker.
  *  @result                     Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetNotifyThresholds (
     TQ3TrackerObject              trackerObject,
     float                         *positionThresh,
@@ -872,7 +872,7 @@ Q3Tracker_GetNotifyThresholds (
  *  @param active           The new activation status of the tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetActivation (
     TQ3TrackerObject              trackerObject,
     TQ3Boolean                    active
@@ -892,7 +892,7 @@ Q3Tracker_SetActivation (
  *  @param active           Receives the activation status of the tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetActivation (
     TQ3TrackerObject              trackerObject,
     TQ3Boolean                    *active
@@ -912,7 +912,7 @@ Q3Tracker_GetActivation (
  *  @param buttons          Receives the button state of the tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetButtons (
     TQ3TrackerObject              trackerObject,
     TQ3Uns32                      *buttons
@@ -934,7 +934,7 @@ Q3Tracker_GetButtons (
  *  @param buttonMask       Mask indicating which bits in buttons to apply.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_ChangeButtons (
     TQ3TrackerObject              trackerObject,
     TQ3ControllerRef              controllerRef,
@@ -964,7 +964,7 @@ Q3Tracker_ChangeButtons (
  *  @param serialNumber     If non-NULL, receives the current serial number.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetPosition (
     TQ3TrackerObject              trackerObject,
     TQ3Point3D                    *position,
@@ -990,7 +990,7 @@ Q3Tracker_GetPosition (
  *  @param position         The new position for the tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetPosition (
     TQ3TrackerObject              trackerObject,
     TQ3ControllerRef              controllerRef,
@@ -1014,7 +1014,7 @@ Q3Tracker_SetPosition (
  *  @param delta            The delta to be added to the tracker position.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_MovePosition (
     TQ3TrackerObject              trackerObject,
     TQ3ControllerRef              controllerRef,
@@ -1043,7 +1043,7 @@ Q3Tracker_MovePosition (
  *  @param serialNumber     If non-NULL, receives the current serial number.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetOrientation (
     TQ3TrackerObject              trackerObject,
     TQ3Quaternion                 *orientation,
@@ -1070,7 +1070,7 @@ Q3Tracker_GetOrientation (
  *  @param orientation      The new orientation for the tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetOrientation (
     TQ3TrackerObject              trackerObject,
     TQ3ControllerRef              controllerRef,
@@ -1094,7 +1094,7 @@ Q3Tracker_SetOrientation (
  *  @param delta            The delta to be added to the tracker orientation.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_MoveOrientation (
     TQ3TrackerObject              trackerObject,
     TQ3ControllerRef              controllerRef,
@@ -1120,7 +1120,7 @@ Q3Tracker_MoveOrientation (
  *  @param orientation      The orientation state of the tracker, or NULL.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_SetEventCoordinates (
     TQ3TrackerObject              trackerObject,
     TQ3Uns32                      timeStamp,
@@ -1148,7 +1148,7 @@ Q3Tracker_SetEventCoordinates (
  *  @param orientation      If non-NULL, receives the orientation of the tracker.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tracker_GetEventCoordinates (
     TQ3TrackerObject              trackerObject,
     TQ3Uns32                      timeStamp,
@@ -1172,7 +1172,7 @@ Q3Tracker_GetEventCoordinates (
  *
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_PrepareTracking (
     void
 );
@@ -1194,7 +1194,7 @@ Q3CursorTracker_PrepareTracking (
  *  @param trackDeltas      True or false as the cursor tracker should track deltas.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_SetTrackDeltas (
     TQ3Boolean                    trackDeltas
 );
@@ -1220,7 +1220,7 @@ Q3CursorTracker_SetTrackDeltas (
  *  @param serialNumber     Receives the current serial number.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_GetAndClearDeltas (
     float                         *depth,
     TQ3Quaternion                 *orientation,
@@ -1245,7 +1245,7 @@ Q3CursorTracker_GetAndClearDeltas (
  *  @param notifyFunc       The notification routine.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_SetNotifyFunc (
     TQ3CursorTrackerNotifyFunc    notifyFunc
 );
@@ -1266,7 +1266,7 @@ Q3CursorTracker_SetNotifyFunc (
  *  @param notifyFunc       Receives the notification routine.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CursorTracker_GetNotifyFunc (
     TQ3CursorTrackerNotifyFunc    *notifyFunc
 );

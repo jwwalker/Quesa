@@ -76,7 +76,7 @@ extern "C" {
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * )
 Q3Memory_Allocate (
     TQ3Uns32                      theSize
 );
@@ -100,7 +100,7 @@ Q3Memory_Allocate (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * )
 Q3Memory_AllocateClear (
     TQ3Uns32                      theSize
 );
@@ -135,7 +135,7 @@ Q3Memory_AllocateClear (
 #undef  Q3Memory_Free
 #define Q3Memory_Free             Q3Memory_Free_
 
-EXTERN_API_C ( void )
+Q3_EXTERN_API_C ( void )
 Q3Memory_Free (
     void                          **thePtr
 );
@@ -174,7 +174,7 @@ Q3Memory_Free (
 #undef  Q3Memory_Reallocate
 #define Q3Memory_Reallocate             Q3Memory_Reallocate_
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Memory_Reallocate (
     void                          **thePtr,
     TQ3Uns32                      newSize
@@ -203,7 +203,7 @@ Q3Memory_Reallocate (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( void  )
+Q3_EXTERN_API_C ( void  )
 Q3Memory_Initialize (
     void                          *thePtr,
     TQ3Uns32                      theSize,
@@ -229,7 +229,7 @@ Q3Memory_Initialize (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( void  )
+Q3_EXTERN_API_C ( void  )
 Q3Memory_Clear (
     void                          *thePtr,
     TQ3Uns32                      theSize
@@ -257,7 +257,7 @@ Q3Memory_Clear (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( void  )
+Q3_EXTERN_API_C ( void  )
 Q3Memory_Copy (
     const void                    *srcPtr,
     void                          *dstPtr,
@@ -283,7 +283,7 @@ Q3Memory_Copy (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Memory_StartRecording(
     void
 );
@@ -307,7 +307,7 @@ Q3Memory_StartRecording(
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Memory_StopRecording(
     void
 );
@@ -329,7 +329,7 @@ Q3Memory_StopRecording(
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean )
+Q3_EXTERN_API_C ( TQ3Boolean )
 Q3Memory_IsRecording(
     void
 );
@@ -353,7 +353,7 @@ Q3Memory_IsRecording(
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Memory_ForgetRecording(
     void
 );
@@ -377,7 +377,7 @@ Q3Memory_ForgetRecording(
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Uns32 )
+Q3_EXTERN_API_C ( TQ3Uns32 )
 Q3Memory_CountRecords(
     void
 );
@@ -415,7 +415,7 @@ Q3Memory_CountRecords(
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Object )
+Q3_EXTERN_API_C ( TQ3Object )
 Q3Memory_NextRecordedObject(
     TQ3Object                     inObject
 );
@@ -447,7 +447,7 @@ Q3Memory_NextRecordedObject(
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Memory_DumpRecording(
     const char                    *fileName,
     const char                    *memo

@@ -4,7 +4,7 @@
 # Synopsis: Holds typedef info parsed by headerDoc
 #
 # Author: Matt Morse (matt@apple.com)
-# Last Updated: $Date: 2001-03-18 13:26:28 $
+# Last Updated: $Date: 2002-12-01 12:10:19 $
 # 
 # Copyright (c) 1999 Apple Computer, Inc.  All Rights Reserved.
 # The contents of this file constitute Original Code as defined in and are
@@ -238,8 +238,8 @@ sub setTypedefDeclaration {
 	    if (length ($dec)) {$dec = "<pre>\n$dec</pre>\n";};
 	} elsif ($decType eq "funcPtr") {
         print "processing funcPtr-like typedef\n" if ($localDebug); 
-		if ($dec =~ /^EXTERN_API_C/) {
-	        $dec =~ s/^EXTERN_API_C\(\s*(\w+)\s*\)(.*)/$1 $2/;
+		if ($dec =~ /^Q3_EXTERN_API_C/) {
+	        $dec =~ s/^Q3_EXTERN_API_C\(\s*(\w+)\s*\)(.*)/$1 $2/;
 	    }
 	    my $preOpeningParen = $dec;
 	    $preOpeningParen =~ s/^\s+(.*)/$1/; # remove leading whitespace

@@ -289,7 +289,7 @@ enum {
  *  @field theViewer        Viewer object.
  *  @field userData         User supplied data parameter.
  */
-typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerDrawCallbackMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewerDrawCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
 
@@ -309,7 +309,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerDrawCallbackMethod)(
  *  @field theViewer        Viewer object.
  *  @field userData         User supplied data parameter.
  */
-typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerWindowResizeCallbackMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewerWindowResizeCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
 
@@ -323,7 +323,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerWindowResizeCallbackMethod)
  *  @field theViewer        Viewer object.
  *  @field userData         User supplied data parameter.
  */
-typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerPaneResizeNotifyCallbackMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewerPaneResizeNotifyCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
 
@@ -337,7 +337,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerPaneResizeNotifyCallbackMet
 #if QUESA_OS_MACINTOSH
 
 // Viewer callback
-typedef CALLBACK_API_C(OSErr,               TQ3ViewerDrawingCallbackMethod)(
+typedef Q3_CALLBACK_API_C(OSErr,               TQ3ViewerDrawingCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
 
@@ -449,7 +449,7 @@ typedef struct TQ3ViewerButtonSet {
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetVersion (
     TQ3Uns32                      *majorRevision,
     TQ3Uns32                      *minorRevision
@@ -485,7 +485,7 @@ Q3Viewer_GetVersion (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetReleaseVersion (
     TQ3Uns32                      *releaseRevision
 );
@@ -516,7 +516,7 @@ Q3Viewer_GetReleaseVersion (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ViewerObject )
+Q3_EXTERN_API_C ( TQ3ViewerObject )
 Q3Viewer_New(
     const void                    *theWindow,
     const TQ3Area                 *theRect,
@@ -540,7 +540,7 @@ Q3Viewer_New(
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_Dispose (
     TQ3ViewerObject               theViewer
 );
@@ -569,7 +569,7 @@ Q3Viewer_Dispose (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_UseFile (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       fileRef
@@ -599,7 +599,7 @@ Q3Viewer_UseFile (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_UseData (
     TQ3ViewerObject                theViewer,
     const void                     *theData,
@@ -626,7 +626,7 @@ Q3Viewer_UseData (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_UseGroup (
     TQ3ViewerObject                theViewer,
     TQ3GroupObject                 theGroup
@@ -653,7 +653,7 @@ Q3Viewer_UseGroup (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3GroupObject )
+Q3_EXTERN_API_C ( TQ3GroupObject )
 Q3Viewer_GetGroup (
     TQ3ViewerObject                theViewer
 );
@@ -680,7 +680,7 @@ Q3Viewer_GetGroup (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_WriteFile (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       fileRef
@@ -710,7 +710,7 @@ Q3Viewer_WriteFile (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_WriteData (
     TQ3ViewerObject                theViewer,
     void                           **theData,
@@ -738,7 +738,7 @@ Q3Viewer_WriteData (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_Draw (
     TQ3ViewerObject                theViewer
 );
@@ -765,7 +765,7 @@ Q3Viewer_Draw (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_DrawContent (
     TQ3ViewerObject                theViewer
 );
@@ -790,7 +790,7 @@ Q3Viewer_DrawContent (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_DrawControlStrip (
     TQ3ViewerObject                theViewer
 );
@@ -817,7 +817,7 @@ Q3Viewer_DrawControlStrip (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetButtonRect (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       theButton,
@@ -852,7 +852,7 @@ Q3Viewer_GetButtonRect (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Uns32 )
+Q3_EXTERN_API_C ( TQ3Uns32 )
 Q3Viewer_GetCurrentButton (
     TQ3ViewerObject                theViewer
 );
@@ -886,7 +886,7 @@ Q3Viewer_GetCurrentButton (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetCurrentButton (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       theButton
@@ -910,7 +910,7 @@ Q3Viewer_SetCurrentButton (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetBackgroundColor (
     TQ3ViewerObject                theViewer,
     TQ3ColorARGB                   *theColor
@@ -934,7 +934,7 @@ Q3Viewer_GetBackgroundColor (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetBackgroundColor (
     TQ3ViewerObject                theViewer,
     const TQ3ColorARGB             *theColor
@@ -957,7 +957,7 @@ Q3Viewer_SetBackgroundColor (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ViewObject )
+Q3_EXTERN_API_C ( TQ3ViewObject )
 Q3Viewer_GetView (
     TQ3ViewerObject                theViewer
 );
@@ -984,7 +984,7 @@ Q3Viewer_GetView (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_RestoreView (
     TQ3ViewerObject                theViewer
 );
@@ -1009,7 +1009,7 @@ Q3Viewer_RestoreView (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Uns32 )
+Q3_EXTERN_API_C ( TQ3Uns32 )
 Q3Viewer_GetFlags (
     TQ3ViewerObject                theViewer
 );
@@ -1035,7 +1035,7 @@ Q3Viewer_GetFlags (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetFlags (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       theFlags
@@ -1063,7 +1063,7 @@ Q3Viewer_SetFlags (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetBounds (
     TQ3ViewerObject                theViewer,
     TQ3Area                        *theRect
@@ -1091,7 +1091,7 @@ Q3Viewer_GetBounds (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetBounds (
     TQ3ViewerObject                theViewer,
     const TQ3Area                  *theRect
@@ -1119,7 +1119,7 @@ Q3Viewer_SetBounds (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetDimension (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       *theWidth,
@@ -1148,7 +1148,7 @@ Q3Viewer_GetDimension (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetDimension (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       theWidth,
@@ -1179,7 +1179,7 @@ Q3Viewer_SetDimension (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetMinimumDimension (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       *theWidth,
@@ -1208,7 +1208,7 @@ Q3Viewer_GetMinimumDimension (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * )
 Q3Viewer_GetWindow (
     TQ3ViewerObject                theViewer
 );
@@ -1234,7 +1234,7 @@ Q3Viewer_GetWindow (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetWindow (
     TQ3ViewerObject                theViewer,
     const void                     *theWindow
@@ -1264,7 +1264,7 @@ Q3Viewer_SetWindow (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ViewerObject )
+Q3_EXTERN_API_C ( TQ3ViewerObject )
 Q3Viewer_GetViewer (
     const void                     *theWindow
 );
@@ -1290,7 +1290,7 @@ Q3Viewer_GetViewer (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * )
 Q3Viewer_GetControlStripWindow (
     TQ3ViewerObject                theViewer
 );
@@ -1318,7 +1318,7 @@ Q3Viewer_GetControlStripWindow (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean )
+Q3_EXTERN_API_C ( TQ3Boolean )
 Q3Viewer_AdjustCursor (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       hPos,
@@ -1345,7 +1345,7 @@ Q3Viewer_AdjustCursor (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_CursorChanged (
     TQ3ViewerObject                theViewer
 );
@@ -1367,7 +1367,7 @@ Q3Viewer_CursorChanged (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Uns32 )
+Q3_EXTERN_API_C ( TQ3Uns32 )
 Q3Viewer_GetState (
     TQ3ViewerObject                theViewer
 );
@@ -1392,7 +1392,7 @@ Q3Viewer_GetState (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_EditCut (
     TQ3ViewerObject                theViewer
 );
@@ -1417,7 +1417,7 @@ Q3Viewer_EditCut (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_EditCopy (
     TQ3ViewerObject                theViewer
 );
@@ -1442,7 +1442,7 @@ Q3Viewer_EditCopy (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_EditPaste (
     TQ3ViewerObject                theViewer
 );
@@ -1467,7 +1467,7 @@ Q3Viewer_EditPaste (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_EditClear (
     TQ3ViewerObject                theViewer
 );
@@ -1492,7 +1492,7 @@ Q3Viewer_EditClear (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_EditUndo (
     TQ3ViewerObject                theViewer
 );
@@ -1524,7 +1524,7 @@ Q3Viewer_EditUndo (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean )
+Q3_EXTERN_API_C ( TQ3Boolean )
 Q3Viewer_GetUndoString (
     TQ3ViewerObject                theViewer,
     char                           *theBuffer,
@@ -1556,7 +1556,7 @@ Q3Viewer_GetUndoString (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetCameraCount (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       *cameraCount
@@ -1585,7 +1585,7 @@ Q3Viewer_GetCameraCount (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetCameraByNumber (
     TQ3ViewerObject                theViewer,
     TQ3Uns32                       cameraIndex
@@ -1609,7 +1609,7 @@ Q3Viewer_SetCameraByNumber (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetCameraByView (
     TQ3ViewerObject                theViewer,
     TQ3ViewerCameraView            viewType
@@ -1634,7 +1634,7 @@ Q3Viewer_SetCameraByView (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean )
+Q3_EXTERN_API_C ( TQ3Boolean )
 Q3Viewer_EventMouseDown (
     TQ3ViewerObject                theViewer,
     TQ3Int32                       hPos,
@@ -1664,7 +1664,7 @@ Q3Viewer_EventMouseDown (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean )
+Q3_EXTERN_API_C ( TQ3Boolean )
 Q3Viewer_EventMouseTrack (
     TQ3ViewerObject                theViewer,
     TQ3Int32                       hPos,
@@ -1692,7 +1692,7 @@ Q3Viewer_EventMouseTrack (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean )
+Q3_EXTERN_API_C ( TQ3Boolean )
 Q3Viewer_EventMouseUp (
     TQ3ViewerObject                theViewer,
     TQ3Int32                       hPos,
@@ -1722,7 +1722,7 @@ Q3Viewer_EventMouseUp (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Boolean )
+Q3_EXTERN_API_C ( TQ3Boolean )
 Q3Viewer_EventKeyboard (
     TQ3ViewerObject                theViewer,
     const void                     *theEvent
@@ -1746,7 +1746,7 @@ Q3Viewer_EventKeyboard (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetRendererType (
     TQ3ViewerObject                theViewer,
     TQ3ObjectType                  *rendererType
@@ -1774,7 +1774,7 @@ Q3Viewer_GetRendererType (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetRendererType (
     TQ3ViewerObject                theViewer,
     TQ3ObjectType                  rendererType
@@ -1801,7 +1801,7 @@ Q3Viewer_SetRendererType (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetBrightness (
     TQ3ViewerObject                theViewer,
     float                          *theBrightness
@@ -1828,7 +1828,7 @@ Q3Viewer_GetBrightness (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetBrightness (
     TQ3ViewerObject                theViewer,
     float                          theBrightness
@@ -1857,7 +1857,7 @@ Q3Viewer_SetBrightness (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetRemoveBackfaces (
     TQ3ViewerObject                theViewer,
     TQ3Boolean                     *removeBackfaces
@@ -1886,7 +1886,7 @@ Q3Viewer_GetRemoveBackfaces (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetRemoveBackfaces (
     TQ3ViewerObject                theViewer,
     TQ3Boolean                     removeBackfaces
@@ -1916,7 +1916,7 @@ Q3Viewer_SetRemoveBackfaces (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_GetPhongShading (
     TQ3ViewerObject                theViewer,
     TQ3Boolean                     *phongShading
@@ -1946,7 +1946,7 @@ Q3Viewer_GetPhongShading (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetPhongShading (
     TQ3ViewerObject                theViewer,
     TQ3Boolean                     phongShading
@@ -1976,7 +1976,7 @@ Q3Viewer_SetPhongShading (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * )
 Q3Viewer_GetImage (
     TQ3ViewerObject                theViewer
 );
@@ -2000,7 +2000,7 @@ Q3Viewer_GetImage (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ViewerDrawCallbackMethod )
+Q3_EXTERN_API_C ( TQ3ViewerDrawCallbackMethod )
 Q3Viewer_GetCallbackDraw (
     TQ3ViewerObject                theViewer
 );
@@ -2028,7 +2028,7 @@ Q3Viewer_GetCallbackDraw (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetCallbackDraw (
     TQ3ViewerObject                theViewer,
     TQ3ViewerDrawCallbackMethod    theCallback,
@@ -2054,7 +2054,7 @@ Q3Viewer_SetCallbackDraw (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ViewerWindowResizeCallbackMethod )
+Q3_EXTERN_API_C ( TQ3ViewerWindowResizeCallbackMethod )
 Q3Viewer_GetCallbackResize (
     TQ3ViewerObject                theViewer
 );
@@ -2086,7 +2086,7 @@ Q3Viewer_GetCallbackResize (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetCallbackResize (
     TQ3ViewerObject                      theViewer,
     TQ3ViewerWindowResizeCallbackMethod  theCallback,
@@ -2112,7 +2112,7 @@ Q3Viewer_SetCallbackResize (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ViewerPaneResizeNotifyCallbackMethod )
+Q3_EXTERN_API_C ( TQ3ViewerPaneResizeNotifyCallbackMethod )
 Q3Viewer_GetCallbackResizeNotify (
     TQ3ViewerObject                theViewer
 );
@@ -2138,7 +2138,7 @@ Q3Viewer_GetCallbackResizeNotify (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3Viewer_SetCallbackResizeNotify (
     TQ3ViewerObject                          theViewer,
     TQ3ViewerPaneResizeNotifyCallbackMethod  theCallback,
@@ -2176,7 +2176,7 @@ Q3Viewer_SetCallbackResizeNotify (
  *  @param minorRevision    Address of integer to receive major version number.
  *  @result                 Status code (0 for no error).
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetVersion (
     unsigned long                 *majorRevision,
     unsigned long                 *minorRevision
@@ -2207,7 +2207,7 @@ Q3ViewerGetVersion (
  *  @param releaseRevision  Address of integer to receive version data.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetReleaseVersion (
     unsigned long                 *releaseRevision
 );
@@ -2228,7 +2228,7 @@ Q3ViewerGetReleaseVersion (
  *  @param flags            Any combination of Viewer flags (consider using kQ3ViewerDefault).
  *  @result                 Newly created Viewer, or <code>NULL</code> if Viewer could not be created.
  */
-EXTERN_API_C ( TQ3ViewerObject )
+Q3_EXTERN_API_C ( TQ3ViewerObject )
 Q3ViewerNew(
     CGrafPtr                      port,
     Rect                          *rect,
@@ -2250,7 +2250,7 @@ Q3ViewerNew(
  *  @param theViewer        Viewer created with Q3ViewerNew.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerDispose (
     TQ3ViewerObject               theViewer
 );
@@ -2270,7 +2270,7 @@ Q3ViewerDispose (
  *  @param refNum           MacOS file reference number (e.g., obtained from FSOpen).
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerUseFile (
     TQ3ViewerObject                theViewer,
     long                           refNum
@@ -2296,7 +2296,7 @@ Q3ViewerUseFile (
  *  @param size             Length of the data buffer (in bytes).
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerUseData (
     TQ3ViewerObject                theViewer,
     void                           *data,
@@ -2316,7 +2316,7 @@ Q3ViewerUseData (
  *  @param refNum           MacOS file reference number (e.g., obtained from FSOpen).
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerWriteFile (
     TQ3ViewerObject                theViewer,
     long                           refNum
@@ -2341,7 +2341,7 @@ Q3ViewerWriteFile (
  *  @param data             Handle to stuff with viewer data.
  *  @result                 Number of bytes actually written, or 0 to indicate failure.
  */
-EXTERN_API_C ( unsigned long )
+Q3_EXTERN_API_C ( unsigned long )
 Q3ViewerWriteData (
     TQ3ViewerObject                theViewer,
     Handle                         data
@@ -2364,7 +2364,7 @@ Q3ViewerWriteData (
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerDraw (
     TQ3ViewerObject                theViewer
 );
@@ -2386,7 +2386,7 @@ Q3ViewerDraw (
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerDrawContent (
     TQ3ViewerObject                theViewer
 );
@@ -2406,7 +2406,7 @@ Q3ViewerDrawContent (
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerDrawControlStrip (
     TQ3ViewerObject                theViewer
 );
@@ -2435,7 +2435,7 @@ Q3ViewerDrawControlStrip (
  *  @param evt              Address of event record to process.
  *  @result                 True if event was handled, false if not handled.
  */
-EXTERN_API_C ( Boolean )
+Q3_EXTERN_API_C ( Boolean )
 Q3ViewerEvent (
     TQ3ViewerObject                theViewer,
     EventRecord                    *evt
@@ -2457,7 +2457,7 @@ Q3ViewerEvent (
  *  @param theViewer        Viewer object.
  *  @result                 Handle to newly created picture.
  */
-EXTERN_API_C ( PicHandle )
+Q3_EXTERN_API_C ( PicHandle )
 Q3ViewerGetPict (
     TQ3ViewerObject                theViewer
 );
@@ -2486,7 +2486,7 @@ Q3ViewerGetPict (
  *  @param rect             Address of a rectangle to stuff with button bounds.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetButtonRect (
     TQ3ViewerObject                theViewer,
     unsigned long                  button,
@@ -2516,7 +2516,7 @@ Q3ViewerGetButtonRect (
  *  @param theViewer        Viewer object.
  *  @result                 Active mode button.
  */
-EXTERN_API_C ( unsigned long )
+Q3_EXTERN_API_C ( unsigned long )
 Q3ViewerGetCurrentButton (
     TQ3ViewerObject                theViewer
 );
@@ -2545,7 +2545,7 @@ Q3ViewerGetCurrentButton (
  *  @param button           Constant indicating a mode button.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetCurrentButton (
     TQ3ViewerObject                theViewer,
     unsigned long                  button
@@ -2566,7 +2566,7 @@ Q3ViewerSetCurrentButton (
  *  @param group            Model data to load.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerUseGroup (
     TQ3ViewerObject                theViewer,
     TQ3GroupObject                 group
@@ -2588,7 +2588,7 @@ Q3ViewerUseGroup (
  *  @param theViewer        Viewer object.
  *  @result                 Group containing 3D model data.
  */
-EXTERN_API_C ( TQ3GroupObject )
+Q3_EXTERN_API_C ( TQ3GroupObject )
 Q3ViewerGetGroup (
     TQ3ViewerObject                theViewer
 );
@@ -2606,7 +2606,7 @@ Q3ViewerGetGroup (
  *  @param color            Color to use as background for the 3D rendering.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetBackgroundColor (
     TQ3ViewerObject                theViewer,
     TQ3ColorARGB                   *color
@@ -2625,7 +2625,7 @@ Q3ViewerSetBackgroundColor (
  *  @param color            Pointer to TQ3ColorARGB to receive background color.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetBackgroundColor (
     TQ3ViewerObject                theViewer,
     TQ3ColorARGB                   *color
@@ -2643,7 +2643,7 @@ Q3ViewerGetBackgroundColor (
  *  @param theViewer        Viewer object.
  *  @result                 View object associated with this Viewer.
  */
-EXTERN_API_C ( TQ3ViewObject )
+Q3_EXTERN_API_C ( TQ3ViewObject )
 Q3ViewerGetView (
     TQ3ViewerObject                theViewer
 );
@@ -2665,7 +2665,7 @@ Q3ViewerGetView (
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerRestoreView (
     TQ3ViewerObject                theViewer
 );
@@ -2724,7 +2724,7 @@ Q3ViewerRestoreView (
  *  @param flags            Desired combination of feature flags.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetFlags (
     TQ3ViewerObject                theViewer,
     unsigned long                  flags
@@ -2744,7 +2744,7 @@ Q3ViewerSetFlags (
  *  @param theViewer        Viewer object.
  *  @result                 Current feature flags.
  */
-EXTERN_API_C ( unsigned long )
+Q3_EXTERN_API_C ( unsigned long )
 Q3ViewerGetFlags (
     TQ3ViewerObject                theViewer
 );
@@ -2766,7 +2766,7 @@ Q3ViewerGetFlags (
  *  @param bounds           Address of a Rect containing new desired bounds
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetBounds (
     TQ3ViewerObject                theViewer,
     Rect                           *bounds
@@ -2789,7 +2789,7 @@ Q3ViewerSetBounds (
  *  @param bounds           Address of Rect to receive Viewer bounds.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetBounds (
     TQ3ViewerObject                theViewer,
     Rect                           *bounds
@@ -2812,7 +2812,7 @@ Q3ViewerGetBounds (
  *  @param height           Desired height of the viewer pane.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetDimension (
     TQ3ViewerObject                theViewer,
     unsigned long                  width,
@@ -2836,7 +2836,7 @@ Q3ViewerSetDimension (
  *  @param height           Address of an integer to receive the hinted height.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetDimension (
     TQ3ViewerObject                theViewer,
     unsigned long                  *width,
@@ -2862,7 +2862,7 @@ Q3ViewerGetDimension (
  *  @param height           Address of an integer to receive the minimum viewer height.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetMinimumDimension (
     TQ3ViewerObject                theViewer,
     unsigned long                  *width,
@@ -2890,7 +2890,7 @@ Q3ViewerGetMinimumDimension (
  *  @param port             Color graphics port to be used by this Viewer.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetPort (
     TQ3ViewerObject                theViewer,
     CGrafPtr                       port
@@ -2912,7 +2912,7 @@ Q3ViewerSetPort (
  *  @param theViewer        Viewer object.
  *  @result                 Associated color graphics port.
  */
-EXTERN_API_C ( CGrafPtr )
+Q3_EXTERN_API_C ( CGrafPtr )
 Q3ViewerGetPort (
     TQ3ViewerObject                theViewer
 );
@@ -2935,7 +2935,7 @@ Q3ViewerGetPort (
  *  @param pt               Location of the cursor, in local (window) coordinates.
  *  @result                 True if the cursor was changed, false otherwise.
  */
-EXTERN_API_C ( Boolean )
+Q3_EXTERN_API_C ( Boolean )
 Q3ViewerAdjustCursor (
     TQ3ViewerObject                theViewer,
     Point                          *pt
@@ -2956,7 +2956,7 @@ Q3ViewerAdjustCursor (
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerCursorChanged (
     TQ3ViewerObject                theViewer
 );
@@ -2983,7 +2983,7 @@ Q3ViewerCursorChanged (
  *  @param theViewer        Viewer object.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( unsigned long )
+Q3_EXTERN_API_C ( unsigned long )
 Q3ViewerGetState (
     TQ3ViewerObject                theViewer
 );
@@ -3003,7 +3003,7 @@ Q3ViewerGetState (
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerClear (
     TQ3ViewerObject                theViewer
 );
@@ -3023,7 +3023,7 @@ Q3ViewerClear (
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerCut (
     TQ3ViewerObject                theViewer
 );
@@ -3043,7 +3043,7 @@ Q3ViewerCut (
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerCopy (
     TQ3ViewerObject                theViewer
 );
@@ -3063,7 +3063,7 @@ Q3ViewerCopy (
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerPaste (
     TQ3ViewerObject                theViewer
 );
@@ -3085,7 +3085,7 @@ Q3ViewerPaste (
  *  @param y                Vertical global (screen) location of mouse down.
  *  @result                 True if the Viewer handled the event, false otherwise.
  */
-EXTERN_API_C ( Boolean )
+Q3_EXTERN_API_C ( Boolean )
 Q3ViewerMouseDown (
     TQ3ViewerObject                theViewer,
     long                           x,
@@ -3111,7 +3111,7 @@ Q3ViewerMouseDown (
  *  @param y                Vertical global (screen) location of mouse cursor.
  *  @result                 True if the Viewer handled the event, false otherwise.
  */
-EXTERN_API_C ( Boolean )
+Q3_EXTERN_API_C ( Boolean )
 Q3ViewerContinueTracking (
     TQ3ViewerObject                theViewer,
     long                           x,
@@ -3136,7 +3136,7 @@ Q3ViewerContinueTracking (
  *  @param y                Vertical global (screen) location of mouse up.
  *  @result                 True if the Viewer handled the event, false otherwise.
  */
-EXTERN_API_C ( Boolean )
+Q3_EXTERN_API_C ( Boolean )
 Q3ViewerMouseUp (
     TQ3ViewerObject                theViewer,
     long                           x,
@@ -3160,7 +3160,7 @@ Q3ViewerMouseUp (
  *  @param evt              Address of MacOS event record describing a key event.
  *  @result                 True if the Viewer handled the event, false otherwise.
  */
-EXTERN_API_C ( Boolean )
+Q3_EXTERN_API_C ( Boolean )
 Q3ViewerHandleKeyEvent (
     TQ3ViewerObject                theViewer,
     EventRecord                    *evt
@@ -3185,7 +3185,7 @@ Q3ViewerHandleKeyEvent (
  *  @param data             Arbitrary pointer passed to your callback routine.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetDrawingCallbackMethod (
     TQ3ViewerObject                theViewer,
     TQ3ViewerDrawingCallbackMethod callbackMethod,
@@ -3212,7 +3212,7 @@ Q3ViewerSetDrawingCallbackMethod (
  *  @param data             Arbitrary pointer passed to your callback routine.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetWindowResizeCallback (
     TQ3ViewerObject                theViewer,
     TQ3ViewerWindowResizeCallbackMethod windowResizeCallbackMethod,
@@ -3236,7 +3236,7 @@ Q3ViewerSetWindowResizeCallback (
  *  @param data             Arbitrary pointer passed to your callback routine.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetPaneResizeNotifyCallback (
     TQ3ViewerObject                theViewer,
     TQ3ViewerPaneResizeNotifyCallbackMethod paneResizeNotifyCallbackMethod,
@@ -3258,7 +3258,7 @@ Q3ViewerSetPaneResizeNotifyCallback (
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerUndo (
     TQ3ViewerObject                theViewer
 );
@@ -3285,7 +3285,7 @@ Q3ViewerUndo (
  *  @param cnt              On entry, the buffer size; on exit, the text length.
  *  @result                 True if there is an Undoable operation; false otherwise.
  */
-EXTERN_API_C ( Boolean )
+Q3_EXTERN_API_C ( Boolean )
 Q3ViewerGetUndoString (
     TQ3ViewerObject                theViewer,
     char                           *str,
@@ -3312,7 +3312,7 @@ Q3ViewerGetUndoString (
  *  @param cnt              Address of integer to receive the camera count.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetCameraCount (
     TQ3ViewerObject                theViewer,
     unsigned long                  *cnt
@@ -3336,7 +3336,7 @@ Q3ViewerGetCameraCount (
  *  @param cameraNum        1-based index of camera to select.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetCameraByNumber (
     TQ3ViewerObject                theViewer,
     unsigned long                  cameraNum
@@ -3365,7 +3365,7 @@ Q3ViewerSetCameraByNumber (
  *  @param viewType         A constant selecting one of the predefined views.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetCameraByView (
     TQ3ViewerObject                theViewer,
     TQ3ViewerCameraView            viewType
@@ -3388,7 +3388,7 @@ Q3ViewerSetCameraByView (
  *  @param rendererType     Type of renderer to use.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetRendererType (
     TQ3ViewerObject                theViewer,
     TQ3ObjectType                  rendererType
@@ -3407,7 +3407,7 @@ Q3ViewerSetRendererType (
  *  @param rendererType     Address to stuff with current renderer type.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetRendererType (
     TQ3ViewerObject                theViewer,
     TQ3ObjectType                  *rendererType
@@ -3426,7 +3426,7 @@ Q3ViewerGetRendererType (
  *  @param brightness       Desired brightness (from 0 to 1?).
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerChangeBrightness (
     TQ3ViewerObject                theViewer,
     float                          brightness
@@ -3451,7 +3451,7 @@ Q3ViewerChangeBrightness (
  *  @param remove           Whether backfaces should be removed.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetRemoveBackfaces (
     TQ3ViewerObject                theViewer,
     TQ3Boolean                     remove
@@ -3476,7 +3476,7 @@ Q3ViewerSetRemoveBackfaces (
  *  @param remove           Address of boolean to receive backfacing option.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetRemoveBackfaces (
     TQ3ViewerObject                theViewer,
     TQ3Boolean                     *remove
@@ -3499,7 +3499,7 @@ Q3ViewerGetRemoveBackfaces (
  *  @param phong            Whether phong shading is desired.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerSetPhongShading (
     TQ3ViewerObject                theViewer,
     TQ3Boolean                     phong
@@ -3527,7 +3527,7 @@ Q3ViewerSetPhongShading (
  *  @param phong            Address of boolean to receive phone shading option.
  *  @result                 MacOS error/result code.
  */
-EXTERN_API_C ( OSErr )
+Q3_EXTERN_API_C ( OSErr )
 Q3ViewerGetPhongShading (
     TQ3ViewerObject                theViewer,
     TQ3Boolean                     *phong
@@ -3559,7 +3559,7 @@ Q3ViewerGetPhongShading (
  *  @param minorRevision    Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetVersion (
     unsigned long                  *majorRevision,
     unsigned long                  *minorRevision
@@ -3580,7 +3580,7 @@ Q3WinViewerGetVersion (
  *  @param releaseRevision  Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetReleaseVersion (
     unsigned long                  *releaseRevision
 );
@@ -3606,7 +3606,7 @@ Q3WinViewerGetReleaseVersion (
  *  @param flags            The viewer style.
  *  @result                 The reference to a new viewer object on success, else 0.
  */
-EXTERN_API_C ( TQ3ViewerObject )
+Q3_EXTERN_API_C ( TQ3ViewerObject )
 Q3WinViewerNew (
     HWND                           window,
     const RECT                     *rect,
@@ -3628,7 +3628,7 @@ Q3WinViewerNew (
  *  @param viewer           Your viewer which you did create with Q3WinViewerNew.
  *  @result                 Normally kQ3Success, kQ3Failure if you input an invalid viewer.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerDispose (
     TQ3ViewerObject                viewer
 );
@@ -3649,7 +3649,7 @@ Q3WinViewerDispose (
  *  @param fileHandle       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerUseFile (
     TQ3ViewerObject                viewer,
     HANDLE                         fileHandle
@@ -3672,7 +3672,7 @@ Q3WinViewerUseFile (
  *  @param size             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerUseData (
     TQ3ViewerObject                viewer,
     void                           *data,
@@ -3695,7 +3695,7 @@ Q3WinViewerUseData (
  *  @param fileHandle       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerWriteFile (
     TQ3ViewerObject                viewer,
     HANDLE                         fileHandle
@@ -3719,7 +3719,7 @@ Q3WinViewerWriteFile (
  *  @param actualDataSize   Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerWriteData (
     TQ3ViewerObject                viewer,
     void                           *data,
@@ -3742,7 +3742,7 @@ Q3WinViewerWriteData (
  *  @param viewer           A valid viewer.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerDraw (
     TQ3ViewerObject                viewer
 );
@@ -3762,7 +3762,7 @@ Q3WinViewerDraw (
  *  @param viewer           A valid viewer.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerDrawContent (
     TQ3ViewerObject                viewer
 );
@@ -3782,7 +3782,7 @@ Q3WinViewerDrawContent (
  *  @param viewer           A valid viewer.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerDrawControlStrip (
     TQ3ViewerObject                viewer
 );
@@ -3805,7 +3805,7 @@ Q3WinViewerDrawControlStrip (
  *  @param y                The y coordinate of the pointer.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( BOOL )
+Q3_EXTERN_API_C ( BOOL )
 Q3WinViewerMouseDown (
     TQ3ViewerObject                viewer,
     long                           x,
@@ -3830,7 +3830,7 @@ Q3WinViewerMouseDown (
  *  @param y                The y coordinate of the pointer.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( BOOL )
+Q3_EXTERN_API_C ( BOOL )
 Q3WinViewerContinueTracking (
     TQ3ViewerObject                viewer,
     long                           x,
@@ -3855,7 +3855,7 @@ Q3WinViewerContinueTracking (
  *  @param y                The y coordinate of the pointer.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( BOOL )
+Q3_EXTERN_API_C ( BOOL )
 Q3WinViewerMouseUp (
     TQ3ViewerObject                viewer,
     long                           x,
@@ -3879,7 +3879,7 @@ Q3WinViewerMouseUp (
  *  @param viewer           A valid viewer.
  *  @result                 The bitmap, if successful, or NULL.
  */
-EXTERN_API_C ( HBITMAP )
+Q3_EXTERN_API_C ( HBITMAP )
 Q3WinViewerGetBitmap (
     TQ3ViewerObject                viewer
 );
@@ -3901,7 +3901,7 @@ Q3WinViewerGetBitmap (
  *  @param rectangle        Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetButtonRect (
     TQ3ViewerObject                viewer,
     unsigned long                  button,
@@ -3923,7 +3923,7 @@ Q3WinViewerGetButtonRect (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( unsigned long )
+Q3_EXTERN_API_C ( unsigned long )
 Q3WinViewerGetCurrentButton (
     TQ3ViewerObject                viewer
 );
@@ -3944,7 +3944,7 @@ Q3WinViewerGetCurrentButton (
  *  @param button           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetCurrentButton (
     TQ3ViewerObject                viewer,
     unsigned long                  button
@@ -3966,7 +3966,7 @@ Q3WinViewerSetCurrentButton (
  *  @param group            Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerUseGroup (
     TQ3ViewerObject                viewer,
     TQ3GroupObject                 group
@@ -3987,7 +3987,7 @@ Q3WinViewerUseGroup (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3GroupObject )
+Q3_EXTERN_API_C ( TQ3GroupObject )
 Q3WinViewerGetGroup (
     TQ3ViewerObject                viewer
 );
@@ -4015,7 +4015,7 @@ Q3WinViewerGetGroup (
  *  @param color            A Quesa argb color in the 0..1 box.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetBackgroundColor (
     TQ3ViewerObject                viewer,
     TQ3ColorARGB                   *color
@@ -4039,7 +4039,7 @@ Q3WinViewerSetBackgroundColor (
  *  @param color            A Quesa argb color in the 0..1 box.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetBackgroundColor (
     TQ3ViewerObject                viewer,
     TQ3ColorARGB                   *color
@@ -4060,7 +4060,7 @@ Q3WinViewerGetBackgroundColor (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ViewObject )
+Q3_EXTERN_API_C ( TQ3ViewObject )
 Q3WinViewerGetView (
     TQ3ViewerObject                viewer
 );
@@ -4080,7 +4080,7 @@ Q3WinViewerGetView (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerRestoreView (
     TQ3ViewerObject                viewer
 );
@@ -4101,7 +4101,7 @@ Q3WinViewerRestoreView (
  *  @param flags            Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetFlags (
     TQ3ViewerObject                viewer,
     unsigned long                  flags
@@ -4122,7 +4122,7 @@ Q3WinViewerSetFlags (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( unsigned long )
+Q3_EXTERN_API_C ( unsigned long )
 Q3WinViewerGetFlags (
     TQ3ViewerObject                viewer
 );
@@ -4142,7 +4142,7 @@ Q3WinViewerGetFlags (
  *  @param bounds           The new place of the viewer window in the parent window.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetBounds (
     TQ3ViewerObject                viewer,
     RECT                           *bounds
@@ -4163,7 +4163,7 @@ Q3WinViewerSetBounds (
  *  @param bounds           The current place of the viewer window in the parent window.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetBounds (
     TQ3ViewerObject                viewer,
     RECT                           *bounds
@@ -4188,7 +4188,7 @@ Q3WinViewerGetBounds (
  *  @param height           The new height of the viewer window.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetDimension (
     TQ3ViewerObject                viewer,
     unsigned long                  width,
@@ -4211,7 +4211,7 @@ Q3WinViewerSetDimension (
  *  @param height           The current height of the viewer window.
  *  @result                 Success indicator.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetDimension (
     TQ3ViewerObject                viewer,
     unsigned long                  *width,
@@ -4235,7 +4235,7 @@ Q3WinViewerGetDimension (
  *  @param height           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetMinimumDimension (
     TQ3ViewerObject                viewer,
     unsigned long                  *width,
@@ -4258,7 +4258,7 @@ Q3WinViewerGetMinimumDimension (
  *  @param window           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetWindow (
     TQ3ViewerObject                viewer,
     HWND                           window
@@ -4276,7 +4276,7 @@ Q3WinViewerSetWindow (
  *  @param viewer           A valid viewer.
  *  @result                 The handle to the child window of the viewer, or zero, if not successful.
  */
-EXTERN_API_C ( HWND )
+Q3_EXTERN_API_C ( HWND )
 Q3WinViewerGetWindow (
     TQ3ViewerObject                viewer
 );
@@ -4295,7 +4295,7 @@ Q3WinViewerGetWindow (
  *  @param theWindow        Your window.
  *  @result                 The viewer, or NULL, if not successful.
  */
-EXTERN_API_C ( TQ3ViewerObject )
+Q3_EXTERN_API_C ( TQ3ViewerObject )
 Q3WinViewerGetViewer (
     HWND                           theWindow
 );
@@ -4312,7 +4312,7 @@ Q3WinViewerGetViewer (
  *  @param viewer           A valid viewer.
  *  @result                 The handle to the child window of the viewer, or zero, if not successful.
  */
-EXTERN_API_C ( HWND )
+Q3_EXTERN_API_C ( HWND )
 Q3WinViewerGetControlStrip (
     TQ3ViewerObject                viewer
 );
@@ -4333,7 +4333,7 @@ Q3WinViewerGetControlStrip (
  *  @param x                Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Boolean )
+Q3_EXTERN_API_C ( TQ3Boolean )
 Q3WinViewerAdjustCursor (
     TQ3ViewerObject                viewer,
     long                           x,
@@ -4355,7 +4355,7 @@ Q3WinViewerAdjustCursor (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerCursorChanged (
     TQ3ViewerObject                viewer
 );
@@ -4375,7 +4375,7 @@ Q3WinViewerCursorChanged (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( unsigned long )
+Q3_EXTERN_API_C ( unsigned long )
 Q3WinViewerGetState (
     TQ3ViewerObject                viewer
 );
@@ -4395,7 +4395,7 @@ Q3WinViewerGetState (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerClear (
     TQ3ViewerObject                viewer
 );
@@ -4415,7 +4415,7 @@ Q3WinViewerClear (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerCut (
     TQ3ViewerObject                viewer
 );
@@ -4435,7 +4435,7 @@ Q3WinViewerCut (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerCopy (
     TQ3ViewerObject                viewer
 );
@@ -4455,7 +4455,7 @@ Q3WinViewerCopy (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerPaste (
     TQ3ViewerObject                viewer
 );
@@ -4475,7 +4475,7 @@ Q3WinViewerPaste (
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerUndo (
     TQ3ViewerObject                viewer
 );
@@ -4498,7 +4498,7 @@ Q3WinViewerUndo (
  *  @param actualSize       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Boolean )
+Q3_EXTERN_API_C ( TQ3Boolean )
 Q3WinViewerGetUndoString (
     TQ3ViewerObject                viewer,
     char                           *theString,
@@ -4522,7 +4522,7 @@ Q3WinViewerGetUndoString (
  *  @param count            Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetCameraCount (
     TQ3ViewerObject                viewer,
     unsigned long                  *count
@@ -4544,7 +4544,7 @@ Q3WinViewerGetCameraCount (
  *  @param cameraNo         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetCameraNumber (
     TQ3ViewerObject                viewer,
     unsigned long                  cameraNo
@@ -4566,7 +4566,7 @@ Q3WinViewerSetCameraNumber (
  *  @param viewType         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status )
+Q3_EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetCameraView (
     TQ3ViewerObject                viewer,
     TQ3ViewerCameraView            viewType

@@ -93,7 +93,7 @@ extern "C" {
  *  @param storage          The storage object to test.
  *  @result                 The type of storage, or kQ3ObjectTypeInvalid.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Storage_GetType (
     TQ3StorageObject              storage
 );
@@ -114,7 +114,7 @@ Q3Storage_GetType (
  *  @param size             On output, receives the size.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Storage_GetSize (
     TQ3StorageObject              storage,
     TQ3Uns32                      *size
@@ -139,7 +139,7 @@ Q3Storage_GetSize (
  *  @param sizeRead         On output, number of bytes actually received.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Storage_GetData (
     TQ3StorageObject              storage,
     TQ3Uns32                      offset,
@@ -167,7 +167,7 @@ Q3Storage_GetData (
  *							normally the same as dataSize.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Storage_SetData (
     TQ3StorageObject              storage,
     TQ3Uns32                      offset,
@@ -190,7 +190,7 @@ Q3Storage_SetData (
  *  @param storage          The storage object.
  *  @result                 The type of memory storage, or kQ3ObjectTypeInvalid.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3MemoryStorage_GetType (
     TQ3StorageObject              storage
 );
@@ -215,7 +215,7 @@ Q3MemoryStorage_GetType (
  *							0 for validSize, then Quesa uses a default grow size.
  *  @result                 The new storage object.
  */
-EXTERN_API_C ( TQ3StorageObject  )
+Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3MemoryStorage_New (
     const unsigned char           *buffer,
     TQ3Uns32                      validSize
@@ -240,7 +240,7 @@ Q3MemoryStorage_New (
  *							storage, or initial memory size if buffer was NULL.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MemoryStorage_Set (
     TQ3StorageObject              storage,
     const unsigned char           *buffer,
@@ -265,7 +265,7 @@ Q3MemoryStorage_Set (
  *  @param bufferSize       Size in bytes of the buffer.
  *  @result                 The new storage object.
  */
-EXTERN_API_C ( TQ3StorageObject  )
+Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3MemoryStorage_NewBuffer (
     unsigned char                 *buffer,
     TQ3Uns32                      validSize,
@@ -291,7 +291,7 @@ Q3MemoryStorage_NewBuffer (
  *  @param bufferSize       Size in bytes of the buffer.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MemoryStorage_SetBuffer (
     TQ3StorageObject              storage,
     unsigned char                 *buffer,
@@ -321,7 +321,7 @@ Q3MemoryStorage_SetBuffer (
  *  @param bufferSize       On output, the size of the buffer in bytes.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MemoryStorage_GetBuffer (
     TQ3StorageObject              storage,
     unsigned char                 **buffer,
@@ -350,7 +350,7 @@ Q3MemoryStorage_GetBuffer (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3StorageObject  )
+Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3PathStorage_New (
     const char                    *pathName
 );
@@ -373,7 +373,7 @@ Q3PathStorage_New (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PathStorage_Set (
     TQ3StorageObject              theStorage,
     const char                    *pathName
@@ -400,7 +400,7 @@ Q3PathStorage_Set (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PathStorage_Get (
     TQ3StorageObject              theStorage,
     char                          *pathName
@@ -433,7 +433,7 @@ Q3PathStorage_Get (
  *							or the desired size if the Handle is NULL.
  *  @result                 The new storage object, or NULL on failure.
  */
-EXTERN_API_C ( TQ3StorageObject  )
+Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3HandleStorage_New (
     Handle                        handle,
     TQ3Uns32                      validSize
@@ -457,7 +457,7 @@ Q3HandleStorage_New (
  *  @param validSize        Size in bytes of the specified buffer.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3HandleStorage_Set (
     TQ3StorageObject              storage,
     Handle                        handle,
@@ -478,7 +478,7 @@ Q3HandleStorage_Set (
  *  @param validSize        On output, the valid size in bytes of the storage.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3HandleStorage_Get (
     TQ3StorageObject              storage,
     Handle                        *handle,
@@ -503,7 +503,7 @@ Q3HandleStorage_Get (
  *							Mac file.
  *  @result                 The new storage object.
  */
-EXTERN_API_C ( TQ3StorageObject  )
+Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3MacintoshStorage_New (
     TQ3Int16                      fsRefNum
 );
@@ -523,7 +523,7 @@ Q3MacintoshStorage_New (
  *							Mac file.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacintoshStorage_Set (
     TQ3StorageObject              storage,
     TQ3Int16                      fsRefNum
@@ -543,7 +543,7 @@ Q3MacintoshStorage_Set (
  *							associated with the storage.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacintoshStorage_Get (
     TQ3StorageObject              storage,
     TQ3Int16                      *fsRefNum
@@ -562,7 +562,7 @@ Q3MacintoshStorage_Get (
  *  @param storage          The storage object.
  *  @result                 The object type.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3MacintoshStorage_GetType (
     TQ3StorageObject              storage
 );
@@ -581,7 +581,7 @@ Q3MacintoshStorage_GetType (
  *  @param fs               A valid file system specification.
  *  @result                 The new storage object.
  */
-EXTERN_API_C ( TQ3StorageObject  )
+Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3FSSpecStorage_New (
     const FSSpec                  *fs
 );
@@ -600,7 +600,7 @@ Q3FSSpecStorage_New (
  *  @param fs               The new file system specification.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FSSpecStorage_Set (
     TQ3StorageObject              storage,
     const FSSpec                  *fs
@@ -618,7 +618,7 @@ Q3FSSpecStorage_Set (
  *  @param fs               On output, a file system specification.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FSSpecStorage_Get (
     TQ3StorageObject              storage,
     FSSpec                        *fs
@@ -644,7 +644,7 @@ Q3FSSpecStorage_Get (
  *  @param hFile            A valid file handle.
  *  @result                 The new storage object.
  */
-EXTERN_API_C ( TQ3StorageObject  )
+Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3Win32Storage_New (
     HANDLE                        hFile
 );
@@ -661,7 +661,7 @@ Q3Win32Storage_New (
  *  @param hFile            The new file handle.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Win32Storage_Set (
     TQ3StorageObject              storage,
     HANDLE                        hFile
@@ -679,7 +679,7 @@ Q3Win32Storage_Set (
  *  @param hFile            Receives the file handle.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Win32Storage_Get (
     TQ3StorageObject              storage,
     HANDLE                        *hFile
@@ -707,7 +707,7 @@ Q3Win32Storage_Get (
  *  @param pathName        A NULL-terminated file system path.
  *  @result                The new storage object.
  */
-EXTERN_API_C ( TQ3StorageObject  )
+Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3UnixPathStorage_New (
     const char                    *pathName
 );
@@ -724,7 +724,7 @@ Q3UnixPathStorage_New (
  *  @param pathName         A NULL-terminated file system path.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnixPathStorage_Set (
     TQ3StorageObject              storage,
     const char                    *pathName
@@ -745,7 +745,7 @@ Q3UnixPathStorage_Set (
  *  @param pathName         On output, a NULL-terminated path.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnixPathStorage_Get (
     TQ3StorageObject              storage,
     char                          *pathName
@@ -772,7 +772,7 @@ Q3UnixPathStorage_Get (
  *  @param theFile          A valid BFile.
  *  @result                 The new storage object.
  */
-EXTERN_API_C ( TQ3StorageObject  )
+Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3BeStorage_New (
     BFile                         *theFile
 );
@@ -791,7 +791,7 @@ Q3BeStorage_New (
  *  @param theFile          The new BFile for the storage object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3BeStorage_Set (
     TQ3StorageObject              theStorage,
     BFile                         *theFile
@@ -811,7 +811,7 @@ Q3BeStorage_Set (
  *  @param theFile          Receives the BFile.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3BeStorage_Get (
     TQ3StorageObject              theStorage,
     BFile                         **theFile

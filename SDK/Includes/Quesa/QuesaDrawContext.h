@@ -469,7 +469,7 @@ typedef struct TQ3CocoaDrawContextData {
  *  @param drawContext      The draw context to query.
  *  @result                 The type of the draw context object.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3DrawContext_GetType (
     TQ3DrawContextObject          drawContext
 );
@@ -486,7 +486,7 @@ Q3DrawContext_GetType (
  *  @param contextData      The new common state for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetData (
     TQ3DrawContextObject          context,
     const TQ3DrawContextData      *contextData
@@ -504,7 +504,7 @@ Q3DrawContext_SetData (
  *  @param contextData      Receives the common state for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetData (
     TQ3DrawContextObject          context,
     TQ3DrawContextData            *contextData
@@ -522,7 +522,7 @@ Q3DrawContext_GetData (
  *  @param color            The new clear image colour.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetClearImageColor (
     TQ3DrawContextObject          context,
     const TQ3ColorARGB            *color
@@ -540,7 +540,7 @@ Q3DrawContext_SetClearImageColor (
  *  @param color            Receives the clear image colour.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetClearImageColor (
     TQ3DrawContextObject          context,
     TQ3ColorARGB                  *color
@@ -562,7 +562,7 @@ Q3DrawContext_GetClearImageColor (
  *  @param pane             The area which rendering will be constrained to.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetPane (
     TQ3DrawContextObject          context,
     const TQ3Area                 *pane
@@ -588,7 +588,7 @@ Q3DrawContext_SetPane (
  *  @param pane             Receives the dimensions of the rendered area.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetPane (
     TQ3DrawContextObject          context,
     TQ3Area                       *pane
@@ -606,7 +606,7 @@ Q3DrawContext_GetPane (
  *  @param state            True or false as the pane is active.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetPaneState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    state
@@ -624,7 +624,7 @@ Q3DrawContext_SetPaneState (
  *  @param state            Receives true or false as the pane is active.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetPaneState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    *state
@@ -642,7 +642,7 @@ Q3DrawContext_GetPaneState (
  *  @param method           The new clear image method.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetClearImageMethod (
     TQ3DrawContextObject          context,
     TQ3DrawContextClearImageMethod method
@@ -660,7 +660,7 @@ Q3DrawContext_SetClearImageMethod (
  *  @param method           Receives the clear image method.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetClearImageMethod (
     TQ3DrawContextObject            context,
     TQ3DrawContextClearImageMethod *method
@@ -683,7 +683,7 @@ Q3DrawContext_GetClearImageMethod (
  *  @param mask             The new mask for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetMask (
     TQ3DrawContextObject          context,
     const TQ3Bitmap               *mask
@@ -701,7 +701,7 @@ Q3DrawContext_SetMask (
  *  @param mask             Receives the current draw context mask.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetMask (
     TQ3DrawContextObject          context,
     TQ3Bitmap                     *mask
@@ -719,7 +719,7 @@ Q3DrawContext_GetMask (
  *  @param state            True or false as the mask is active.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetMaskState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    state
@@ -737,7 +737,7 @@ Q3DrawContext_SetMaskState (
  *  @param state            Receives true or false as the mask is active.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetMaskState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    *state
@@ -759,7 +759,7 @@ Q3DrawContext_GetMaskState (
  *  @param state            True or false as the draw context is to be double-buffered.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetDoubleBufferState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    state
@@ -777,7 +777,7 @@ Q3DrawContext_SetDoubleBufferState (
  *  @param state            Receives true or false as the draw context is double-buffered.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetDoubleBufferState (
     TQ3DrawContextObject          context,
     TQ3Boolean                    *state
@@ -794,7 +794,7 @@ Q3DrawContext_GetDoubleBufferState (
  *  @param contextData      The data for the pixmap draw context object.
  *  @result                 The new draw context object.
  */
-EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject  )
 Q3PixmapDrawContext_New (
     const TQ3PixmapDrawContextData *contextData
 );
@@ -811,7 +811,7 @@ Q3PixmapDrawContext_New (
  *  @param pixmap           The new pixmap for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapDrawContext_SetPixmap (
     TQ3DrawContextObject          drawContext,
     const TQ3Pixmap               *pixmap
@@ -829,7 +829,7 @@ Q3PixmapDrawContext_SetPixmap (
  *  @param pixmap           Receives the pixmap of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapDrawContext_GetPixmap (
     TQ3DrawContextObject          drawContext,
     TQ3Pixmap                     *pixmap
@@ -853,7 +853,7 @@ Q3PixmapDrawContext_GetPixmap (
  *  @param drawContextData  The data for the Mac draw context object.
  *  @result                 The new draw context object.
  */
-EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject  )
 Q3MacDrawContext_New (
     const TQ3MacDrawContextData   *drawContextData
 );
@@ -870,7 +870,7 @@ Q3MacDrawContext_New (
  *  @param window           The new window for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_SetWindow (
     TQ3DrawContextObject          drawContext,
     CWindowPtr                    window
@@ -888,7 +888,7 @@ Q3MacDrawContext_SetWindow (
  *  @param window           Receives the window of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_GetWindow (
     TQ3DrawContextObject          drawContext,
     CWindowPtr                    *window
@@ -906,7 +906,7 @@ Q3MacDrawContext_GetWindow (
  *  @param viewPort         The new QuickDraw GX port for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_SetGXViewPort (
     TQ3DrawContextObject          drawContext,
     gxViewPort                    viewPort
@@ -924,7 +924,7 @@ Q3MacDrawContext_SetGXViewPort (
  *  @param viewPort         Receives the QuickDraw GX port of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_GetGXViewPort (
     TQ3DrawContextObject          drawContext,
     gxViewPort                    *viewPort
@@ -942,7 +942,7 @@ Q3MacDrawContext_GetGXViewPort (
  *  @param grafPort         The new Mac OS GrafPort for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_SetGrafPort (
     TQ3DrawContextObject          drawContext,
     CGrafPtr                      grafPort
@@ -960,7 +960,7 @@ Q3MacDrawContext_SetGrafPort (
  *  @param grafPort         Receives the Mac OS GrafPort of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_GetGrafPort (
     TQ3DrawContextObject          drawContext,
     CGrafPtr                      *grafPort
@@ -978,7 +978,7 @@ Q3MacDrawContext_GetGrafPort (
  *  @param library          The new 2D library for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_Set2DLibrary (
     TQ3DrawContextObject          drawContext,
     TQ3MacDrawContext2DLibrary    library
@@ -996,7 +996,7 @@ Q3MacDrawContext_Set2DLibrary (
  *  @param library          Receives the 2D library of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_Get2DLibrary (
     TQ3DrawContextObject          drawContext,
     TQ3MacDrawContext2DLibrary    *library
@@ -1027,7 +1027,7 @@ Q3MacDrawContext_Get2DLibrary (
  *  @param window           The X11 window.
  *  @result                 The new X11 buffer object.
  */
-EXTERN_API_C ( TQ3XBufferObject  )
+Q3_EXTERN_API_C ( TQ3XBufferObject  )
 Q3XBuffers_New (
     Display                       *dpy,
     TQ3Uns32                      numBuffers,
@@ -1048,7 +1048,7 @@ Q3XBuffers_New (
  *  @param dpy              The X11 display.
  *  @param buffers          The X11 buffer object.
  */
-EXTERN_API_C ( void  )
+Q3_EXTERN_API_C ( void  )
 Q3XBuffers_Swap (
     Display                       *dpy,
     TQ3XBufferObject              buffers
@@ -1069,7 +1069,7 @@ Q3XBuffers_Swap (
  *  @param screen           The X11 screen.
  *  @result                 The X11 visual info.
  */
-EXTERN_API_C ( XVisualInfo * )
+Q3_EXTERN_API_C ( XVisualInfo * )
 Q3X_GetVisualInfo (
     Display                       *dpy,
     Screen                        *screen
@@ -1086,7 +1086,7 @@ Q3X_GetVisualInfo (
  *  @param drawContextData  The data for the X11 draw context object.
  *  @result                 The new draw context object.
  */
-EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject  )
 Q3XDrawContext_New (
     const TQ3XDrawContextData     *drawContextData
 );
@@ -1103,7 +1103,7 @@ Q3XDrawContext_New (
  *  @param display          The new Display for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_SetDisplay (
     TQ3DrawContextObject          drawContext,
     const Display                 *display
@@ -1121,7 +1121,7 @@ Q3XDrawContext_SetDisplay (
  *  @param display          Receives the Display of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetDisplay (
     TQ3DrawContextObject          drawContext,
     Display                       **display
@@ -1139,7 +1139,7 @@ Q3XDrawContext_GetDisplay (
  *  @param drawable         The new Drawable for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_SetDrawable (
     TQ3DrawContextObject          drawContext,
     Drawable                      drawable
@@ -1157,7 +1157,7 @@ Q3XDrawContext_SetDrawable (
  *  @param drawable         Receives the Drawable of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetDrawable (
     TQ3DrawContextObject          drawContext,
     Drawable                      *drawable
@@ -1175,7 +1175,7 @@ Q3XDrawContext_GetDrawable (
  *  @param visual           The new Visual for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_SetVisual (
     TQ3DrawContextObject          drawContext,
     const Visual                  *visual
@@ -1193,7 +1193,7 @@ Q3XDrawContext_SetVisual (
  *  @param visual           Receives the Visual of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetVisual (
     TQ3DrawContextObject          drawContext,
     Visual                        **visual
@@ -1211,7 +1211,7 @@ Q3XDrawContext_GetVisual (
  *  @param colormap         The new Colormap for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_SetColormap (
     TQ3DrawContextObject          drawContext,
     Colormap                      colormap
@@ -1229,7 +1229,7 @@ Q3XDrawContext_SetColormap (
  *  @param colormap         Receives the Colormap of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetColormap (
     TQ3DrawContextObject          drawContext,
     Colormap                      *colormap
@@ -1247,7 +1247,7 @@ Q3XDrawContext_GetColormap (
  *  @param colormapData     The new Colormap data for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_SetColormapData (
     TQ3DrawContextObject          drawContext,
     const TQ3XColormapData        *colormapData
@@ -1265,7 +1265,7 @@ Q3XDrawContext_SetColormapData (
  *  @param colormapData     Receives the Colormap data of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetColormapData (
     TQ3DrawContextObject          drawContext,
     TQ3XColormapData              *colormapData
@@ -1291,7 +1291,7 @@ Q3XDrawContext_GetColormapData (
  *  @param drawContextData  The data for the Win32 DC draw context object.
  *  @result                 The new draw context object.
  */
-EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject  )
 Q3Win32DCDrawContext_New (
     const TQ3Win32DCDrawContextData *drawContextData
 );
@@ -1308,7 +1308,7 @@ Q3Win32DCDrawContext_New (
  *  @param newHDC           The new DC for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Win32DCDrawContext_SetDC (
     TQ3DrawContextObject          drawContext,
     HDC                           newHDC
@@ -1326,7 +1326,7 @@ Q3Win32DCDrawContext_SetDC (
  *  @param curHDC           Receives the DC of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Win32DCDrawContext_GetDC (
     TQ3DrawContextObject          drawContext,
     HDC                           *curHDC
@@ -1343,7 +1343,7 @@ Q3Win32DCDrawContext_GetDC (
  *  @param drawContextData  Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject  )
 Q3DDSurfaceDrawContext_New (
     const TQ3DDSurfaceDrawContextData *drawContextData
 );
@@ -1360,7 +1360,7 @@ Q3DDSurfaceDrawContext_New (
  *  @param ddSurfaceDescriptor    The new DD surface for the draw context.
  *  @result                       Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DDSurfaceDrawContext_SetDirectDrawSurface (
     TQ3DrawContextObject          drawContext,
     const TQ3DDSurfaceDescriptor  *ddSurfaceDescriptor
@@ -1378,7 +1378,7 @@ Q3DDSurfaceDrawContext_SetDirectDrawSurface (
  *  @param ddSurfaceDescriptor    Receives the DD surface of the draw context.
  *  @result                       Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3DDSurfaceDrawContext_GetDirectDrawSurface (
     TQ3DrawContextObject          drawContext,
     TQ3DDSurfaceDescriptor        *ddSurfaceDescriptor
@@ -1406,7 +1406,7 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
  *  @param drawContextData  The data for the Be draw context object.
  *  @result                 The new draw context object.
  */
-EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject  )
 Q3BeDrawContext_New (
     const TQ3BeDrawContextData    *drawContextData
 );
@@ -1425,7 +1425,7 @@ Q3BeDrawContext_New (
  *  @param theView          The new BView for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3BeDrawContext_SetView (
     TQ3DrawContextObject          drawContext,
     BView                         *theView
@@ -1445,7 +1445,7 @@ Q3BeDrawContext_SetView (
  *  @param theView          Receives the BView of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3BeDrawContext_GetView (
     TQ3DrawContextObject          drawContext,
     BView                         **theView
@@ -1473,7 +1473,7 @@ Q3BeDrawContext_GetView (
  *  @param drawContextData  The data for the Cocoa draw context object.
  *  @result                 The new draw context object.
  */
-EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject  )
 Q3CocoaDrawContext_New (
     const TQ3CocoaDrawContextData *drawContextData
 );
@@ -1492,7 +1492,7 @@ Q3CocoaDrawContext_New (
  *  @param nsView           The new NSView for the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CocoaDrawContext_SetNSView (
     TQ3DrawContextObject          drawContext,
     void                          *nsView
@@ -1512,7 +1512,7 @@ Q3CocoaDrawContext_SetNSView (
  *  @param nsView           Receives the NSView of the draw context.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CocoaDrawContext_GetNSView (
     TQ3DrawContextObject          drawContext,
     void                          **nsView

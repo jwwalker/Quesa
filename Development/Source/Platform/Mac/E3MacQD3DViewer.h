@@ -152,161 +152,161 @@ typedef enum TQ3ViewMode TQ3ViewMode;
 // Called before deletion of your object. Dispose of your instance 
 
 //---- TQ3ObjectTypePlugin methods ----
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginViewParamMethod )(TQ3ViewObject theView);
-typedef CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginViewStatusMethod )(TQ3ViewObject theView);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginViewParamMethod )(TQ3ViewObject theView);
+typedef Q3_CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginViewStatusMethod )(TQ3ViewObject theView);
 
 #define kQ3XMethodType_PluginBeforeDraw					Q3_METHOD_TYPE('p','b','d','r')
 // Called just before Q3View_StartDrawing.
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginBeforeDrawMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginBeforeDrawMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_PluginAfterDraw					Q3_METHOD_TYPE('p','a','d','r')
 // Called just after Q3View_EndDrawing.
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginAfterDrawMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginAfterDrawMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_PluginDuringSubmit				Q3_METHOD_TYPE('p','d','d','r')
 // Called periodically during submission of objects during drawing, picking, writing and bounding box/sphere.
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginDuringSubmitMethod )
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginDuringSubmitMethod )
 	(TQ3ViewObject theView, TQ3SharedObject thePlugin, TQ3Uns32 current, TQ3Uns32 max, TQ3ViewMode mode); // mode is either draw, pick, writing, calc etc.
 
 #define kQ3XMethodType_PluginAfterStartDraw				Q3_METHOD_TYPE('p','a','s','d')
 // Called just after Q3View_StartDrawing. Submit any of your objects.
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginAfterStartDrawMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginAfterStartDrawMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_PluginBeforeEndDraw				Q3_METHOD_TYPE('p','b','e','d')
 // Called just before Q3View_EndDrawing. Submit any of your objects. Plug-in can force retraverse?
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginBeforeEndDrawMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginBeforeEndDrawMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_PluginAfterStartWrite			Q3_METHOD_TYPE('p','a','s','w')
 // Called just after Q3View_StartWriting.
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginAfterStartWritingMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginAfterStartWritingMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_PluginBeforeEndWrite				Q3_METHOD_TYPE('p','b','e','w')
 // Called just before Q3View_EndWriting.
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginBeforeEndWritingMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginBeforeEndWritingMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_PluginAfterStartBounds			Q3_METHOD_TYPE('p','a','s','b')
 // Called just after Q3View_StartBoundingBox or Q3View_StartBoundingSphere.
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginAfterStartBoundsMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginAfterStartBoundsMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_PluginBeforeEndBounds			Q3_METHOD_TYPE('p','b','e','b')
 // Called just before Q3View_EndBoundingBox or Q3View_EndBoundingSphere.
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginBeforeEndBoundsMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginBeforeEndBoundsMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_PluginAfterStartPick				Q3_METHOD_TYPE('p','a','s','p')
 // Called just after Q3View_StartPicking.
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginAfterStartPickingMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginAfterStartPickingMethod )(TQ3ViewObject theView, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_PluginBeforeEndPick				Q3_METHOD_TYPE('p','b','e','p')
 // Called just before Q3View_EndPicking. All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginBeforeEndPickingMethod )(TQ3ViewObject theViewer, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3ViewStatus , TQ3XPluginBeforeEndPickingMethod )(TQ3ViewObject theViewer, TQ3SharedObject thePlugin);
 
 
 //---- TQ3PluginTypeViewer methods ----
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginViewerParamMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginViewerParamEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
-typedef CALLBACK_API_C( TQ3Status , TQ3XPluginViewerParamPointMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Point2D* pt);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginViewerParamMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginViewerParamEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XPluginViewerParamPointMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Point2D* pt);
 
 #define kQ3XMethodType_ViewerPluginNewViewer			Q3_METHOD_TYPE('v','n','e','w')
 // Called when a new viewer is created
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginNewViewerMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginNewViewerMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_ViewerPluginDeleteViewer			Q3_METHOD_TYPE('v','d','e','l')
 // Called when a viewer is destroyed
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDeleteViewerMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDeleteViewerMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_ViewerPluginDrawTool				Q3_METHOD_TYPE('v','d','r','t')
 // Called when the tool needs to be drawn. Bounds is the area to draw your tool into and the port will be correctly set.
 // If you return kQ3Failure a generic icon will be drawn.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDrawToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Area* bounds);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDrawToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Area* bounds);
 
 #define kQ3XMethodType_ViewerPluginClickTool			Q3_METHOD_TYPE('v','c','l','t')
 // Called when the tool has been clicked.
 // If you return kQ3Failure you will get your double click method called.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginClickToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginClickToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_ViewerPluginDoubleClickTool		Q3_METHOD_TYPE('v','d','c','t')
 // Called when the tool has been double clicked.
 // If you return kQ3Failure you will get your click method called.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoubleClickToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoubleClickToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_ViewerPluginUnclickTool			Q3_METHOD_TYPE('v','u','c','t')
 // Called when another tool has been clicked
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginUnclickToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginUnclickToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_ViewerPluginCursorAdjust			Q3_METHOD_TYPE('v','c','a','d')
 // Called when the cursor is over the viewer area. MousePt is in local coordinates.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginCursorAdjustMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Point2D* mousePt);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginCursorAdjustMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Point2D* mousePt);
 
 #define kQ3XMethodType_ViewerPluginGetHelpString		Q3_METHOD_TYPE('v','s','h','e')
 // Called when the tool needs to display some help (Balloon help on Mac).
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginGetHelpStringMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, Str255 helpString);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginGetHelpStringMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, Str255 helpString);
 
 #define kQ3XMethodType_ViewerPluginToolOptions			Q3_METHOD_TYPE('v','t','o','p')
 // Called when the user wants to display some tool options (Perhaps clicked an options button)
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginToolOptionsMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginToolOptionsMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_ViewerPluginActivate				Q3_METHOD_TYPE('v','a','c','t')
 // Called when the viewer is activated.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginActivateMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginActivateMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_ViewerPluginDeactivate			Q3_METHOD_TYPE('v','d','a','c')
 // Called when the viewer is deactivated.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDeactivateMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDeactivateMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin);
 
 #define kQ3XMethodType_ViewerPluginGroupChanged			Q3_METHOD_TYPE('v','g','r','c')
 // Called when the viewer changes the contents of its group.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginGroupChangedMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3GroupObject group);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginGroupChangedMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3GroupObject group);
 
 #define kQ3XMethodType_ViewerPluginCameraChanged		Q3_METHOD_TYPE('v','c','a','c')
 // Called when the viewer changes its camera object.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginCameraChangedMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3CameraObject camera);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginCameraChangedMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3CameraObject camera);
 
 #define kQ3XMethodType_ViewerPluginRendererChanged		Q3_METHOD_TYPE('v','r','e','c')
 // Called when the viewer changes its renderer object.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginRendererChangedMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3RendererObject renderer);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginRendererChangedMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3RendererObject renderer);
 
 #define kQ3XMethodType_ViewerPluginLightsChanged		Q3_METHOD_TYPE('v','l','i','c')
 // Called when the viewer changes the contents of its lights group.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginLightsChangedMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3GroupObject lightGroup);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginLightsChangedMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3GroupObject lightGroup);
 
 #define kQ3XMethodType_ViewerPluginDrawContextChanged	Q3_METHOD_TYPE('v','d','c','c')
 // Called when the viewer changes its draw context object.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDrawContextChangedMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3DrawContextObject drawContext);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDrawContextChangedMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3DrawContextObject drawContext);
 
 
 // --- Platform Specific events ---
 
 #define kQ3XMethodType_ViewerPluginDoToolEvent			Q3_METHOD_TYPE('v','d','o','t')
 // Called when the selected tool has been clicked in the main viewer area. Do your stuff.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
 // On Mac evt is an EventRecord* and param1 and param2 are not used
 // On Windows, ???
 
 #define kQ3XMethodType_ViewerPluginDoToolStart			Q3_METHOD_TYPE('v','d','t','s')
 // Called when the selected tool has been clicked in the main viewer area. Do your stuff.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Int32 x, TQ3Int32 y);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Int32 x, TQ3Int32 y);
 
 #define kQ3XMethodType_ViewerPluginDoToolTracking		Q3_METHOD_TYPE('v','d','t','t')
 // Called when the selected tool is tracking in the main viewer area. Do your stuff.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolTrackingMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Int32 x, TQ3Int32 y);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolTrackingMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Int32 x, TQ3Int32 y);
 
 #define kQ3XMethodType_ViewerPluginDoToolEnd			Q3_METHOD_TYPE('v','d','t','e')
 // Called when the selected tool is finished in the main viewer area. Do your stuff.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolEndMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Int32 x, TQ3Int32 y);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoToolEndMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, TQ3Int32 x, TQ3Int32 y);
 
 #define kQ3XMethodType_ViewerPluginDoKeyDown			Q3_METHOD_TYPE('v','d','c','d')
 // Called when the selected tool has been told that the key is for it. Do your stuff.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoKeyDownMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoKeyDownMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
 // On Mac evt is an EventRecord* and param1 and param2 are not used
 // On Windows, ???
 
@@ -315,33 +315,33 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoKeyDownMethod )(TQ3ViewerO
 // If you return kQ3Success the event will not be passed on to the viewer as the plug-in will have dealt with it.
 // You can do some processing depending on the event and still return kQ3Failure to allow the event to be passed on.
 // Should be called for each registered Viewer plug-in.
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginBeforeEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginBeforeEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
 // On Mac evt is an EventRecord* and param1 and param2 are not used
 // On Windows, ???
 
 #define kQ3XMethodType_ViewerPluginAfterEvent			Q3_METHOD_TYPE('v','a','e','v')
 // Called when your tool is active and an event has been processed. Should be called for each YPE('p','a','s','p')
 // All registered plug-ins must be called
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAfterEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAfterEventMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, void* evt, TQ3Int32 param1, TQ3Int32 param2);
 
 //---- TQ3PluginTypeViewer methods ----
 
 #define	kQ3XMethodType_ViewerPluginDragAcceptable		Q3_METHOD_TYPE('v','d','r','a')
 // Called when the viewer is about to accept a drop. Return the acceptable flavor.
-typedef CALLBACK_API_C( TQ3Boolean , TQ3XViewerPluginDragAcceptableMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, TQ3Uns32 item, TQ3Int32* myFlavor);
+typedef Q3_CALLBACK_API_C( TQ3Boolean , TQ3XViewerPluginDragAcceptableMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, TQ3Uns32 item, TQ3Int32* myFlavor);
 // On Mac, drag is a DragReference, item is an ItemReference, myFlavor is an OSType
 // On Windows, drag is a Handle, item is unused, myFlavor is unused
 
 #define kQ3XMethodType_ViewerPluginDoDrop				Q3_METHOD_TYPE('v','d','d','r')
 // Called when the viewer has dropped your flavor type. Return kQ3Success if you succeeded
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoDropMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, TQ3Uns32 item, TQ3Int32 yourFlavor);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginDoDropMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, TQ3Uns32 item, TQ3Int32 yourFlavor);
 // On Mac, drag is a DragReference, item is an ItemReference, yourFlavor is an OSType
 // On Windows, drag is a Handle, item is unused, yourFlavor is unused
 
 #define kQ3XMethodType_ViewerPluginAddDragFlavors		Q3_METHOD_TYPE('v','a','d','f')
 // Called when the viewer is about to start a drag.
 // Mac only ??
-typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAddDragFlavorsMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, TQ3Uns32 item);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAddDragFlavorsMethod )(TQ3ViewerObject theViewer, TQ3SharedObject thePlugin, DragReference drag, TQ3Uns32 item);
 // On Mac, drag is a DragReference, item is an ItemReference
 
 
@@ -352,7 +352,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XViewerPluginAddDragFlavorsMethod )(TQ3Vi
 // We will need a call like Q3Object_SendMessage (TQ3Object fromObject, TQ3Object toObject, TQ3Int32 message, void* data, TQ3Uns32 length);
 // message is any value you like and depends on the object you are communicating with.
 // Define your own messaging system between your own plug-in suites.
-typedef CALLBACK_API_C( TQ3Status , TQ3XObjectMessageMethod )(TQ3Object fromObject, TQ3Int32 message, void* messageData, TQ3Uns32 messageDataLength);
+typedef Q3_CALLBACK_API_C( TQ3Status , TQ3XObjectMessageMethod )(TQ3Object fromObject, TQ3Int32 message, void* messageData, TQ3Uns32 messageDataLength);
 
 
 

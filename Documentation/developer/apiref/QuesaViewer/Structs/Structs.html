@@ -23,7 +23,7 @@ typedef struct TQ3ViewerButtonSet {
 <a name="//apple_ref/c/tag/TQ3ViewerDrawCallbackMethod"></a>
 <h3><a name="TQ3ViewerDrawCallbackMethod">TQ3ViewerDrawCallbackMethod</a></h3>
 <blockquote><pre>
-typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerDrawCallbackMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewerDrawCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
 
@@ -43,7 +43,7 @@ of the viewer window.
 @field theViewer        Viewer object.
 @field userData         User supplied data parameter.
  */
-typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerWindowResizeCallbackMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewerWindowResizeCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
 
@@ -57,7 +57,7 @@ Callback which is invoked by the viewer when its window is resized.
 @field theViewer        Viewer object.
 @field userData         User supplied data parameter.
  */
-typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerPaneResizeNotifyCallbackMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewerPaneResizeNotifyCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
 
@@ -71,7 +71,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3ViewerPaneResizeNotifyCallbackMet
 #if QUESA_OS_MACINTOSH
 
 // Viewer callback
-typedef CALLBACK_API_C(OSErr,               TQ3ViewerDrawingCallbackMethod)(
+typedef Q3_CALLBACK_API_C(OSErr,               TQ3ViewerDrawingCallbackMethod)(
                             TQ3ViewerObject     theViewer,
                             const void          *userData);
 

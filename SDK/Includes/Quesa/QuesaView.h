@@ -99,17 +99,17 @@ typedef enum {
 //      Types
 //-----------------------------------------------------------------------------
 // View callbacks
-typedef CALLBACK_API_C(TQ3Status,           TQ3ViewIdleMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewIdleMethod)(
                             TQ3ViewObject       theView,
                             const void          *idlerData);
                             
-typedef CALLBACK_API_C(TQ3Status,           TQ3ViewIdleProgressMethod)(
+typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewIdleProgressMethod)(
                             TQ3ViewObject       theView,
                             const void          *idlerData,
                             TQ3Uns32            progressCurrent,
                             TQ3Uns32            progressCompleted);
                             
-typedef CALLBACK_API_C(void,                TQ3ViewEndFrameMethod)(
+typedef Q3_CALLBACK_API_C(void,                TQ3ViewEndFrameMethod)(
                             TQ3ViewObject       theView,
                             void                *endFrameData);
 
@@ -131,7 +131,7 @@ typedef CALLBACK_API_C(void,                TQ3ViewEndFrameMethod)(
  *
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ViewObject  )
+Q3_EXTERN_API_C ( TQ3ViewObject  )
 Q3View_New (
     void
 );
@@ -167,7 +167,7 @@ Q3View_New (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3ViewObject  )
+Q3_EXTERN_API_C ( TQ3ViewObject  )
 Q3View_NewWithDefaults (
     TQ3ObjectType                 drawContextType,
     void                          *drawContextTarget
@@ -189,7 +189,7 @@ Q3View_NewWithDefaults (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_Cancel (
     TQ3ViewObject                 view
 );
@@ -209,7 +209,7 @@ Q3View_Cancel (
  *  @param theType          Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetRendererByType (
     TQ3ViewObject                 view,
     TQ3ObjectType                 theType
@@ -230,7 +230,7 @@ Q3View_SetRendererByType (
  *  @param renderer         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetRenderer (
     TQ3ViewObject                 view,
     TQ3RendererObject             renderer
@@ -251,7 +251,7 @@ Q3View_SetRenderer (
  *  @param renderer         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetRenderer (
     TQ3ViewObject                 view,
     TQ3RendererObject             *renderer
@@ -271,7 +271,7 @@ Q3View_GetRenderer (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartRendering (
     TQ3ViewObject                 view
 );
@@ -290,7 +290,7 @@ Q3View_StartRendering (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ViewStatus  )
+Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndRendering (
     TQ3ViewObject                 view
 );
@@ -309,7 +309,7 @@ Q3View_EndRendering (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_Flush (
     TQ3ViewObject                 view
 );
@@ -328,7 +328,7 @@ Q3View_Flush (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_Sync (
     TQ3ViewObject                 view
 );
@@ -348,7 +348,7 @@ Q3View_Sync (
  *  @param computeBounds    Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartBoundingBox (
     TQ3ViewObject                 view,
     TQ3ComputeBounds              computeBounds
@@ -369,7 +369,7 @@ Q3View_StartBoundingBox (
  *  @param result           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ViewStatus  )
+Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndBoundingBox (
     TQ3ViewObject                 view,
     TQ3BoundingBox                *result
@@ -390,7 +390,7 @@ Q3View_EndBoundingBox (
  *  @param computeBounds    Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartBoundingSphere (
     TQ3ViewObject                 view,
     TQ3ComputeBounds              computeBounds
@@ -411,7 +411,7 @@ Q3View_StartBoundingSphere (
  *  @param result           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ViewStatus  )
+Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndBoundingSphere (
     TQ3ViewObject                 view,
     TQ3BoundingSphere             *result
@@ -432,7 +432,7 @@ Q3View_EndBoundingSphere (
  *  @param pick             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartPicking (
     TQ3ViewObject                 view,
     TQ3PickObject                 pick
@@ -452,7 +452,7 @@ Q3View_StartPicking (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ViewStatus  )
+Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndPicking (
     TQ3ViewObject                 view
 );
@@ -472,7 +472,7 @@ Q3View_EndPicking (
  *  @param camera           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetCamera (
     TQ3ViewObject                 view,
     TQ3CameraObject               *camera
@@ -493,7 +493,7 @@ Q3View_GetCamera (
  *  @param camera           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetCamera (
     TQ3ViewObject                 view,
     TQ3CameraObject               camera
@@ -514,7 +514,7 @@ Q3View_SetCamera (
  *  @param lightGroup       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetLightGroup (
     TQ3ViewObject                 view,
     TQ3GroupObject                lightGroup
@@ -535,7 +535,7 @@ Q3View_SetLightGroup (
  *  @param lightGroup       Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetLightGroup (
     TQ3ViewObject                 view,
     TQ3GroupObject                *lightGroup
@@ -574,7 +574,7 @@ Q3View_GetLightGroup (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_AddLight (
     TQ3ViewObject                 theView,
     TQ3ObjectType                 lightType,
@@ -599,7 +599,7 @@ Q3View_AddLight (
  *  @param idleData         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetIdleMethod (
     TQ3ViewObject                 view,
     TQ3ViewIdleMethod             idleMethod,
@@ -622,7 +622,7 @@ Q3View_SetIdleMethod (
  *  @param idleData         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetIdleProgressMethod (
     TQ3ViewObject                 view,
     TQ3ViewIdleProgressMethod     idleMethod,
@@ -645,7 +645,7 @@ Q3View_SetIdleProgressMethod (
  *  @param endFrameData     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetEndFrameMethod (
     TQ3ViewObject                 view,
     TQ3ViewEndFrameMethod         endFrame,
@@ -666,7 +666,7 @@ Q3View_SetEndFrameMethod (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Push_Submit (
     TQ3ViewObject                 view
 );
@@ -685,7 +685,7 @@ Q3Push_Submit (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pop_Submit (
     TQ3ViewObject                 view
 );
@@ -703,7 +703,7 @@ Q3Pop_Submit (
  *
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StateOperatorObject  )
+Q3_EXTERN_API_C ( TQ3StateOperatorObject  )
 Q3Push_New (
     void
 );
@@ -721,7 +721,7 @@ Q3Push_New (
  *
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StateOperatorObject  )
+Q3_EXTERN_API_C ( TQ3StateOperatorObject  )
 Q3Pop_New (
     void
 );
@@ -741,7 +741,7 @@ Q3Pop_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3StateOperator_Submit (
     TQ3StateOperatorObject        stateOperator,
     TQ3ViewObject                 view
@@ -762,7 +762,7 @@ Q3StateOperator_Submit (
  *  @param bbox             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Boolean  )
+Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3View_IsBoundingBoxVisible (
     TQ3ViewObject                 view,
     const TQ3BoundingBox          *bbox
@@ -783,7 +783,7 @@ Q3View_IsBoundingBoxVisible (
  *  @param allowCulling     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_AllowAllGroupCulling (
     TQ3ViewObject                 view,
     TQ3Boolean                    allowCulling
@@ -808,7 +808,7 @@ Q3View_AllowAllGroupCulling (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_TransformLocalToWorld (
     TQ3ViewObject                 theView,
     const TQ3Point3D              *localPoint,
@@ -836,7 +836,7 @@ Q3View_TransformLocalToWorld (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_TransformLocalToWindow (
     TQ3ViewObject                 theView,
     const TQ3Point3D              *localPoint,
@@ -864,7 +864,7 @@ Q3View_TransformLocalToWindow (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_TransformWorldToWindow (
     TQ3ViewObject                 theView,
     const TQ3Point3D              *worldPoint,
@@ -888,7 +888,7 @@ Q3View_TransformWorldToWindow (
  *  @param drawContext      Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetDrawContext (
     TQ3ViewObject                 view,
     TQ3DrawContextObject          drawContext
@@ -909,7 +909,7 @@ Q3View_SetDrawContext (
  *  @param drawContext      Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetDrawContext (
     TQ3ViewObject                 view,
     TQ3DrawContextObject          *drawContext
@@ -930,7 +930,7 @@ Q3View_GetDrawContext (
  *  @param matrix           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetLocalToWorldMatrixState (
     TQ3ViewObject                 view,
     TQ3Matrix4x4                  *matrix
@@ -951,7 +951,7 @@ Q3View_GetLocalToWorldMatrixState (
  *  @param matrix           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetWorldToFrustumMatrixState (
     TQ3ViewObject                 view,
     TQ3Matrix4x4                  *matrix
@@ -972,7 +972,7 @@ Q3View_GetWorldToFrustumMatrixState (
  *  @param matrix           Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetFrustumToWindowMatrixState (
     TQ3ViewObject                 view,
     TQ3Matrix4x4                  *matrix
@@ -993,7 +993,7 @@ Q3View_GetFrustumToWindowMatrixState (
  *  @param backfacingStyle  Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetBackfacingStyleState (
     TQ3ViewObject                 view,
     TQ3BackfacingStyle            *backfacingStyle
@@ -1014,7 +1014,7 @@ Q3View_GetBackfacingStyleState (
  *  @param interpolationType Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetInterpolationStyleState (
     TQ3ViewObject                 view,
     TQ3InterpolationStyle         *interpolationType
@@ -1035,7 +1035,7 @@ Q3View_GetInterpolationStyleState (
  *  @param fillStyle        Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetFillStyleState (
     TQ3ViewObject                 view,
     TQ3FillStyle                  *fillStyle
@@ -1056,7 +1056,7 @@ Q3View_GetFillStyleState (
  *  @param highlightStyle   Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetHighlightStyleState (
     TQ3ViewObject                 view,
     TQ3AttributeSet               *highlightStyle
@@ -1077,7 +1077,7 @@ Q3View_GetHighlightStyleState (
  *  @param subdivisionStyle Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetSubdivisionStyleState (
     TQ3ViewObject                 view,
     TQ3SubdivisionStyleData       *subdivisionStyle
@@ -1098,7 +1098,7 @@ Q3View_GetSubdivisionStyleState (
  *  @param fontFacingDirectionStyle Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetOrientationStyleState (
     TQ3ViewObject                 view,
     TQ3OrientationStyle           *fontFacingDirectionStyle
@@ -1119,7 +1119,7 @@ Q3View_GetOrientationStyleState (
  *  @param receives         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetReceiveShadowsStyleState (
     TQ3ViewObject                 view,
     TQ3Boolean                    *receives
@@ -1140,7 +1140,7 @@ Q3View_GetReceiveShadowsStyleState (
  *  @param pickIDStyle      Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetPickIDStyleState (
     TQ3ViewObject                 view,
     TQ3Uns32                      *pickIDStyle
@@ -1161,7 +1161,7 @@ Q3View_GetPickIDStyleState (
  *  @param pickPartsStyle   Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetPickPartsStyleState (
     TQ3ViewObject                 view,
     TQ3PickParts                  *pickPartsStyle
@@ -1182,7 +1182,7 @@ Q3View_GetPickPartsStyleState (
  *  @param antiAliasData    Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetAntiAliasStyleState (
     TQ3ViewObject                 view,
     TQ3AntiAliasStyleData         *antiAliasData
@@ -1204,7 +1204,7 @@ Q3View_GetAntiAliasStyleState (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetFogStyleState (
     TQ3ViewObject                 view,
     TQ3FogStyleData               *fogData
@@ -1227,7 +1227,7 @@ Q3View_GetFogStyleState (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetDefaultAttributeSet (
     TQ3ViewObject                 view,
     TQ3AttributeSet               *attributeSet
@@ -1248,7 +1248,7 @@ Q3View_GetDefaultAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetDefaultAttributeSet (
     TQ3ViewObject                 view,
     TQ3AttributeSet               attributeSet
@@ -1269,7 +1269,7 @@ Q3View_SetDefaultAttributeSet (
  *  @param attributeSet     Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetAttributeSetState (
     TQ3ViewObject                 view,
     TQ3AttributeSet               *attributeSet
@@ -1291,7 +1291,7 @@ Q3View_GetAttributeSetState (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetAttributeState (
     TQ3ViewObject                 view,
     TQ3AttributeType              attributeType,

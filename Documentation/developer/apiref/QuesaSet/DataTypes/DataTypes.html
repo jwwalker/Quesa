@@ -8,7 +8,7 @@
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XAttributeCopyInheritMethod"></a>
 <h3><a name="TQ3XAttributeCopyInheritMethod">TQ3XAttributeCopyInheritMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XAttributeCopyInheritMethod)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XAttributeCopyInheritMethod)</b>(
                             const void          *fromInternalAttribute,
                             void                *toInternalAttribute);</tt><br>
 </blockquote>
@@ -29,7 +29,7 @@ copy attribute data from a parent set to a child set.
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XAttributeDefaultMethod"></a>
 <h3><a name="TQ3XAttributeDefaultMethod">TQ3XAttributeDefaultMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XAttributeDefaultMethod)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XAttributeDefaultMethod)</b>(
                             void                *internalAttribute);</tt><br>
 </blockquote>
 <p>This method does not appear to be mentioned in the QuickDraw 3D documentation,
@@ -46,7 +46,7 @@ report whether a custom attribute supports inheritance.
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XAttributeIsDefaultMethod"></a>
 <h3><a name="TQ3XAttributeIsDefaultMethod">TQ3XAttributeIsDefaultMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Boolean, <b>TQ3XAttributeIsDefaultMethod)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Boolean, <b>TQ3XAttributeIsDefaultMethod)</b>(
                             void                *internalAttribute);</tt><br>
 </blockquote>
 <p>This method does not appear to be mentioned in the QuickDraw 3D documentation,
@@ -55,7 +55,7 @@ and is not currently used in Quesa.
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XElementCopyAddMethod"></a>
 <h3><a name="TQ3XElementCopyAddMethod">TQ3XElementCopyAddMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XElementCopyAddMethod)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XElementCopyAddMethod)</b>(
                             const void          *fromAPIElement,
                             void                *toInternalElement);</tt><br>
 </blockquote>
@@ -78,7 +78,7 @@ is the size you provided when registering the class.
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XElementCopyDuplicateMethod"></a>
 <h3><a name="TQ3XElementCopyDuplicateMethod">TQ3XElementCopyDuplicateMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XElementCopyDuplicateMethod)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XElementCopyDuplicateMethod)</b>(
                             const void          *fromInternalElement,
                             void                *toInternalElement);</tt><br>
 </blockquote>
@@ -98,7 +98,7 @@ is the size you provided when registering the class.
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XElementCopyGetMethod"></a>
 <h3><a name="TQ3XElementCopyGetMethod">TQ3XElementCopyGetMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XElementCopyGetMethod)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XElementCopyGetMethod)</b>(
                             const void          *fromInternalElement,
                             void                *toAPIElement);</tt><br>
 </blockquote>
@@ -120,7 +120,7 @@ a memory copy of <code>sizeOfElement</code> bytes.
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XElementCopyReplaceMethod"></a>
 <h3><a name="TQ3XElementCopyReplaceMethod">TQ3XElementCopyReplaceMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XElementCopyReplaceMethod)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XElementCopyReplaceMethod)</b>(
                             const void          *fromAPIElement,
                             void                *toInternalElement);</tt><br>
 </blockquote>
@@ -142,7 +142,7 @@ which you may need to dispose before replacing by new data.
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XElementDeleteMethod"></a>
 <h3><a name="TQ3XElementDeleteMethod">TQ3XElementDeleteMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XElementDeleteMethod)</b>(
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XElementDeleteMethod)</b>(
                             void                *internalElement);</tt><br>
 </blockquote>
 <p>This method is called to delete element data from a set or attribute set. 

@@ -301,33 +301,33 @@ extern "C" {
 //      Types
 //-----------------------------------------------------------------------------
 // Object methods
-typedef CALLBACK_API_C(void,   		TQ3XObjectDisposeMethod)(TQ3Object theObject);
-typedef CALLBACK_API_C(TQ3Status,	TQ3XObjectSubmitMethod)(TQ3ViewObject		theView,
+typedef Q3_CALLBACK_API_C(void,   		TQ3XObjectDisposeMethod)(TQ3Object theObject);
+typedef Q3_CALLBACK_API_C(TQ3Status,	TQ3XObjectSubmitMethod)(TQ3ViewObject		theView,
 																TQ3ObjectType	objectType,
 																TQ3Object		theObject,
 																const void		*objectData);
 
 
 // Misc methods
-typedef CALLBACK_API_C(TQ3Status, 	TQ3XDrawContextUpdateMethod)(TQ3DrawContextObject theDrawContext);
-typedef CALLBACK_API_C(void, 		TQ3XDrawContextGetDimensionsMethod)(TQ3DrawContextObject theDrawContext, TQ3Area *thePane);
-typedef CALLBACK_API_C(void,      	TQ3XTransformMatrixMethod)(const void *transformData, TQ3Matrix4x4 *theMatrix);
-typedef CALLBACK_API_C(void,		TQ3XCameraFrustumMatrixMethod)(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix);
-typedef CALLBACK_API_C(void,		TQ3XTextureDimensionsMethod)(TQ3TextureObject theTexture, TQ3Point2D *theDimensions);
+typedef Q3_CALLBACK_API_C(TQ3Status, 	TQ3XDrawContextUpdateMethod)(TQ3DrawContextObject theDrawContext);
+typedef Q3_CALLBACK_API_C(void, 		TQ3XDrawContextGetDimensionsMethod)(TQ3DrawContextObject theDrawContext, TQ3Area *thePane);
+typedef Q3_CALLBACK_API_C(void,      	TQ3XTransformMatrixMethod)(const void *transformData, TQ3Matrix4x4 *theMatrix);
+typedef Q3_CALLBACK_API_C(void,		TQ3XCameraFrustumMatrixMethod)(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix);
+typedef Q3_CALLBACK_API_C(void,		TQ3XTextureDimensionsMethod)(TQ3TextureObject theTexture, TQ3Point2D *theDimensions);
 
 
 // Geometry methods
-typedef CALLBACK_API_C(TQ3AttributeSet *,	TQ3XGeomGetAttributeMethod)(TQ3GeometryObject theObject);
-typedef CALLBACK_API_C(TQ3Object,			TQ3XGeomCacheNewMethod)(TQ3ViewObject		theView,
+typedef Q3_CALLBACK_API_C(TQ3AttributeSet *,	TQ3XGeomGetAttributeMethod)(TQ3GeometryObject theObject);
+typedef Q3_CALLBACK_API_C(TQ3Object,			TQ3XGeomCacheNewMethod)(TQ3ViewObject		theView,
 																	TQ3GeometryObject	theGeom,
 																	const void			*geomData);
-typedef CALLBACK_API_C(void,				TQ3XGeomCacheDeleteMethod)(TQ3Object cachedGeom);
-typedef CALLBACK_API_C(TQ3Boolean,			TQ3XGeomCacheIsValidMethod)(TQ3ViewObject		theView,
+typedef Q3_CALLBACK_API_C(void,				TQ3XGeomCacheDeleteMethod)(TQ3Object cachedGeom);
+typedef Q3_CALLBACK_API_C(TQ3Boolean,			TQ3XGeomCacheIsValidMethod)(TQ3ViewObject		theView,
 																		TQ3ObjectType		objectType,
 																		TQ3GeometryObject	theGeom,
 																		const void			*geomData,
 																		TQ3Object			cachedGeom);
-typedef CALLBACK_API_C(void,				TQ3XGeomCacheUpdateMethod)(TQ3ViewObject		theView,
+typedef Q3_CALLBACK_API_C(void,				TQ3XGeomCacheUpdateMethod)(TQ3ViewObject		theView,
 																		TQ3ObjectType		objectType,
 																		TQ3GeometryObject	theGeom,
 																		const void			*geomData,
@@ -335,20 +335,20 @@ typedef CALLBACK_API_C(void,				TQ3XGeomCacheUpdateMethod)(TQ3ViewObject		theVie
 
 
 // Storage methods
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageReadDataMethod)(TQ3StorageObject storage,
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageReadDataMethod)(TQ3StorageObject storage,
 																TQ3Uns32		offset,
 																TQ3Uns32		dataSize,
 																TQ3Uns8			*data,
 																TQ3Uns32		*sizeRead);
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageWriteDataMethod)(TQ3StorageObject storage,
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageWriteDataMethod)(TQ3StorageObject storage,
 																TQ3Uns32		offset,
 																TQ3Uns32		dataSize,
 																const TQ3Uns8	*data,
 																TQ3Uns32		*sizeWritten);
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageGetSizeMethod)(TQ3StorageObject storage, TQ3Uns32 *size);
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageSetSizeMethod)(TQ3StorageObject storage, TQ3Uns32 size);
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageOpenMethod)(TQ3StorageObject storage, TQ3Boolean forWriting);
-typedef CALLBACK_API_C(TQ3Status, TQ3XStorageCloseMethod)(TQ3StorageObject storage);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageGetSizeMethod)(TQ3StorageObject storage, TQ3Uns32 *size);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageSetSizeMethod)(TQ3StorageObject storage, TQ3Uns32 size);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageOpenMethod)(TQ3StorageObject storage, TQ3Boolean forWriting);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageCloseMethod)(TQ3StorageObject storage);
 
 
 // Definition of TQ3Object

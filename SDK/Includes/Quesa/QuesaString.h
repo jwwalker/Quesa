@@ -79,7 +79,7 @@ extern "C" {
  *  @param stringObj        The object to test.
  *  @result                 The type of the object.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3String_GetType (
     TQ3StringObject               stringObj
 );
@@ -99,7 +99,7 @@ Q3String_GetType (
  *  @param str              The C string to copy.
  *  @result                 The new string object.
  */
-EXTERN_API_C ( TQ3StringObject  )
+Q3_EXTERN_API_C ( TQ3StringObject  )
 Q3CString_New (
     const char                    *str
 );
@@ -120,7 +120,7 @@ Q3CString_New (
  *  @param length           The number of bytes needed for character data.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CString_GetLength (
     TQ3StringObject               stringObj,
     TQ3Uns32                      *length
@@ -141,7 +141,7 @@ Q3CString_GetLength (
  *  @param str              The string to assign to the object.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CString_SetString (
     TQ3StringObject               stringObj,
     const char                    *str
@@ -166,7 +166,7 @@ Q3CString_SetString (
  *  @param str              Receives a pointer to the character data.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CString_GetString (
     TQ3StringObject               stringObj,
     char                          **str
@@ -187,7 +187,7 @@ Q3CString_GetString (
  *  @param str              The string data to release.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3CString_EmptyData (
     char                          **str
 );

@@ -274,7 +274,7 @@ typedef struct TQ3FogStyleData {
  *  @param style            Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Style_GetType (
     TQ3StyleObject                style
 );
@@ -294,7 +294,7 @@ Q3Style_GetType (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Style_Submit (
     TQ3StyleObject                style,
     TQ3ViewObject                 view
@@ -314,7 +314,7 @@ Q3Style_Submit (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3SubdivisionStyle_New (
     const TQ3SubdivisionStyleData *data
 );
@@ -334,7 +334,7 @@ Q3SubdivisionStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3SubdivisionStyle_Submit (
     const TQ3SubdivisionStyleData *data,
     TQ3ViewObject                 view
@@ -355,7 +355,7 @@ Q3SubdivisionStyle_Submit (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3SubdivisionStyle_SetData (
     TQ3StyleObject                subdiv,
     const TQ3SubdivisionStyleData *data
@@ -376,7 +376,7 @@ Q3SubdivisionStyle_SetData (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3SubdivisionStyle_GetData (
     TQ3StyleObject                subdiv,
     TQ3SubdivisionStyleData       *data
@@ -396,7 +396,7 @@ Q3SubdivisionStyle_GetData (
  *  @param id               Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3PickIDStyle_New (
     TQ3Uns32                      id
 );
@@ -416,7 +416,7 @@ Q3PickIDStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickIDStyle_Submit (
     TQ3Uns32                      id,
     TQ3ViewObject                 view
@@ -437,7 +437,7 @@ Q3PickIDStyle_Submit (
  *  @param id               Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickIDStyle_Get (
     TQ3StyleObject                pickIDObject,
     TQ3Uns32                      *id
@@ -458,7 +458,7 @@ Q3PickIDStyle_Get (
  *  @param id               Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickIDStyle_Set (
     TQ3StyleObject                pickIDObject,
     TQ3Uns32                      id
@@ -478,7 +478,7 @@ Q3PickIDStyle_Set (
  *  @param parts            Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3PickPartsStyle_New (
     TQ3PickParts                  parts
 );
@@ -498,7 +498,7 @@ Q3PickPartsStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickPartsStyle_Submit (
     TQ3PickParts                  parts,
     TQ3ViewObject                 view
@@ -519,7 +519,7 @@ Q3PickPartsStyle_Submit (
  *  @param parts            Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickPartsStyle_Get (
     TQ3StyleObject                pickPartsObject,
     TQ3PickParts                  *parts
@@ -540,7 +540,7 @@ Q3PickPartsStyle_Get (
  *  @param parts            Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickPartsStyle_Set (
     TQ3StyleObject                pickPartsObject,
     TQ3PickParts                  parts
@@ -560,7 +560,7 @@ Q3PickPartsStyle_Set (
  *  @param receives         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3ReceiveShadowsStyle_New (
     TQ3Boolean                    receives
 );
@@ -580,7 +580,7 @@ Q3ReceiveShadowsStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Submit (
     TQ3Boolean                    receives,
     TQ3ViewObject                 view
@@ -601,7 +601,7 @@ Q3ReceiveShadowsStyle_Submit (
  *  @param receives         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Get (
     TQ3StyleObject                styleObject,
     TQ3Boolean                    *receives
@@ -622,7 +622,7 @@ Q3ReceiveShadowsStyle_Get (
  *  @param receives         Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Set (
     TQ3StyleObject                styleObject,
     TQ3Boolean                    receives
@@ -642,7 +642,7 @@ Q3ReceiveShadowsStyle_Set (
  *  @param fillStyle        Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3FillStyle_New (
     TQ3FillStyle                  fillStyle
 );
@@ -662,7 +662,7 @@ Q3FillStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FillStyle_Submit (
     TQ3FillStyle                  fillStyle,
     TQ3ViewObject                 view
@@ -683,7 +683,7 @@ Q3FillStyle_Submit (
  *  @param fillStyle        Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FillStyle_Get (
     TQ3StyleObject                styleObject,
     TQ3FillStyle                  *fillStyle
@@ -704,7 +704,7 @@ Q3FillStyle_Get (
  *  @param fillStyle        Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FillStyle_Set (
     TQ3StyleObject                styleObject,
     TQ3FillStyle                  fillStyle
@@ -724,7 +724,7 @@ Q3FillStyle_Set (
  *  @param backfacingStyle  Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3BackfacingStyle_New (
     TQ3BackfacingStyle            backfacingStyle
 );
@@ -744,7 +744,7 @@ Q3BackfacingStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3BackfacingStyle_Submit (
     TQ3BackfacingStyle            backfacingStyle,
     TQ3ViewObject                 view
@@ -765,7 +765,7 @@ Q3BackfacingStyle_Submit (
  *  @param backfacingStyle  Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3BackfacingStyle_Get (
     TQ3StyleObject                backfacingObject,
     TQ3BackfacingStyle            *backfacingStyle
@@ -786,7 +786,7 @@ Q3BackfacingStyle_Get (
  *  @param backfacingStyle  Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3BackfacingStyle_Set (
     TQ3StyleObject                backfacingObject,
     TQ3BackfacingStyle            backfacingStyle
@@ -806,7 +806,7 @@ Q3BackfacingStyle_Set (
  *  @param interpolationStyle Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3InterpolationStyle_New (
     TQ3InterpolationStyle         interpolationStyle
 );
@@ -826,7 +826,7 @@ Q3InterpolationStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3InterpolationStyle_Submit (
     TQ3InterpolationStyle         interpolationStyle,
     TQ3ViewObject                 view
@@ -847,7 +847,7 @@ Q3InterpolationStyle_Submit (
  *  @param interpolationStyle Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3InterpolationStyle_Get (
     TQ3StyleObject                interpolationObject,
     TQ3InterpolationStyle         *interpolationStyle
@@ -868,7 +868,7 @@ Q3InterpolationStyle_Get (
  *  @param interpolationStyle Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3InterpolationStyle_Set (
     TQ3StyleObject                interpolationObject,
     TQ3InterpolationStyle         interpolationStyle
@@ -888,7 +888,7 @@ Q3InterpolationStyle_Set (
  *  @param highlightAttribute Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3HighlightStyle_New (
     TQ3AttributeSet               highlightAttribute
 );
@@ -908,7 +908,7 @@ Q3HighlightStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3HighlightStyle_Submit (
     TQ3AttributeSet               highlightAttribute,
     TQ3ViewObject                 view
@@ -929,7 +929,7 @@ Q3HighlightStyle_Submit (
  *  @param highlightAttribute Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3HighlightStyle_Get (
     TQ3StyleObject                highlight,
     TQ3AttributeSet               *highlightAttribute
@@ -950,7 +950,7 @@ Q3HighlightStyle_Get (
  *  @param highlightAttribute Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3HighlightStyle_Set (
     TQ3StyleObject                highlight,
     TQ3AttributeSet               highlightAttribute
@@ -970,7 +970,7 @@ Q3HighlightStyle_Set (
  *  @param frontFacingDirection Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3OrientationStyle_New (
     TQ3OrientationStyle           frontFacingDirection
 );
@@ -990,7 +990,7 @@ Q3OrientationStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrientationStyle_Submit (
     TQ3OrientationStyle           frontFacingDirection,
     TQ3ViewObject                 view
@@ -1011,7 +1011,7 @@ Q3OrientationStyle_Submit (
  *  @param frontFacingDirection Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrientationStyle_Get (
     TQ3StyleObject                frontFacingDirectionObject,
     TQ3OrientationStyle           *frontFacingDirection
@@ -1032,7 +1032,7 @@ Q3OrientationStyle_Get (
  *  @param frontFacingDirection Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrientationStyle_Set (
     TQ3StyleObject                frontFacingDirectionObject,
     TQ3OrientationStyle           frontFacingDirection
@@ -1052,7 +1052,7 @@ Q3OrientationStyle_Set (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3AntiAliasStyle_New (
     const TQ3AntiAliasStyleData   *data
 );
@@ -1072,7 +1072,7 @@ Q3AntiAliasStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3AntiAliasStyle_Submit (
     const TQ3AntiAliasStyleData   *data,
     TQ3ViewObject                 view
@@ -1093,7 +1093,7 @@ Q3AntiAliasStyle_Submit (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3AntiAliasStyle_GetData (
     TQ3StyleObject                styleObject,
     TQ3AntiAliasStyleData         *data
@@ -1114,7 +1114,7 @@ Q3AntiAliasStyle_GetData (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3AntiAliasStyle_SetData (
     TQ3StyleObject                styleObject,
     const TQ3AntiAliasStyleData   *data
@@ -1134,7 +1134,7 @@ Q3AntiAliasStyle_SetData (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3FogStyle_New (
     const TQ3FogStyleData         *data
 );
@@ -1154,7 +1154,7 @@ Q3FogStyle_New (
  *  @param view             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FogStyle_Submit (
     const TQ3FogStyleData         *data,
     TQ3ViewObject                 view
@@ -1175,7 +1175,7 @@ Q3FogStyle_Submit (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FogStyle_GetData (
     TQ3StyleObject                styleObject,
     TQ3FogStyleData               *data
@@ -1196,7 +1196,7 @@ Q3FogStyle_GetData (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3FogStyle_SetData (
     TQ3StyleObject                styleObject,
     const TQ3FogStyleData         *data

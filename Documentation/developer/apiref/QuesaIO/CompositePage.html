@@ -3668,7 +3668,7 @@ the typical usage of this function and any special requirements.
 <b>Abstract:</b> Object method of type <code>kQ3XMethodTypeObjectReadData</code> for a
 custom element or attribute.
 
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectReadDataMethod)</b>(TQ3Object parentObject, TQ3FileObject theFile);</tt><br>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XObjectReadDataMethod)</b>(TQ3Object parentObject, TQ3FileObject theFile);</tt><br>
 </blockquote>
 <p>The method normally reads the element's data using functions such as
 <code>Q3Float32_Read</code> and <code>Q3File_ReadObject</code> (for child objects),
@@ -3687,7 +3687,7 @@ then adds the element data to its parent set.
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XObjectTraverseDataMethod"></a>
 <h3><a name="TQ3XObjectTraverseDataMethod">TQ3XObjectTraverseDataMethod</a></h3>
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectTraverseDataMethod)</b>(TQ3Object object, void *data, TQ3ViewObject view);</tt><br>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XObjectTraverseDataMethod)</b>(TQ3Object object, void *data, TQ3ViewObject view);</tt><br>
 </blockquote>
 <p>This is the custom object method of type <code>kQ3XMethodTypeObjectTraverseData</code>.
 The QuickDraw 3D documention mentions this method, but does not explain how it
@@ -3699,7 +3699,7 @@ differs from <code>TQ3XObjectTraverseMethod</code>.  Quesa does not use it.
 <b>Abstract:</b> Traversal method (<code>kQ3XMethodTypeObjectTraverse</code>) for a
 custom element or attribute.
 
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectTraverseMethod)</b>(TQ3Object object, void *data, TQ3ViewObject view);</tt><br>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XObjectTraverseMethod)</b>(TQ3Object object, void *data, TQ3ViewObject view);</tt><br>
 </blockquote>
 <p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
 objects are to be written and how much space each will use, and the actual
@@ -3729,7 +3729,7 @@ result		Success or failure of the operation.</td><tr>
 <b>Abstract:</b> Object method of type <code>kQ3XMethodTypeObjectWrite</code> for a
 custom element or attribute.
 
-<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3XObjectWriteMethod)</b>(const void *data, TQ3FileObject theFile);</tt><br>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XObjectWriteMethod)</b>(const void *data, TQ3FileObject theFile);</tt><br>
 </blockquote>
 <p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
 objects are to be written and how much space each will use, and the actual

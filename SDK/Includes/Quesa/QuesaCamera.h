@@ -253,7 +253,7 @@ typedef struct TQ3ViewAngleAspectCameraData {
  *  @param camera           The camera to query.
  *  @result                 The type of the camera object.
  */
-EXTERN_API_C ( TQ3ObjectType  )
+Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Camera_GetType (
     TQ3CameraObject               camera
 );
@@ -270,7 +270,7 @@ Q3Camera_GetType (
  *  @param cameraData       The new common state for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_SetData (
     TQ3CameraObject               camera,
     const TQ3CameraData           *cameraData
@@ -288,7 +288,7 @@ Q3Camera_SetData (
  *  @param cameraData       Receives the common state of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetData (
     TQ3CameraObject               camera,
     TQ3CameraData                 *cameraData
@@ -306,7 +306,7 @@ Q3Camera_GetData (
  *  @param placement        The new placement for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_SetPlacement (
     TQ3CameraObject               camera,
     const TQ3CameraPlacement      *placement
@@ -324,7 +324,7 @@ Q3Camera_SetPlacement (
  *  @param placement        Receives the placement of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetPlacement (
     TQ3CameraObject               camera,
     TQ3CameraPlacement            *placement
@@ -342,7 +342,7 @@ Q3Camera_GetPlacement (
  *  @param range            The new range for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_SetRange (
     TQ3CameraObject               camera,
     const TQ3CameraRange          *range
@@ -360,7 +360,7 @@ Q3Camera_SetRange (
  *  @param range            Receives the range of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetRange (
     TQ3CameraObject               camera,
     TQ3CameraRange                *range
@@ -378,7 +378,7 @@ Q3Camera_GetRange (
  *  @param viewPort         The new view port for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_SetViewPort (
     TQ3CameraObject               camera,
     const TQ3CameraViewPort       *viewPort
@@ -396,7 +396,7 @@ Q3Camera_SetViewPort (
  *  @param viewPort         Receives the view port of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetViewPort (
     TQ3CameraObject               camera,
     TQ3CameraViewPort             *viewPort
@@ -419,7 +419,7 @@ Q3Camera_GetViewPort (
  *  @param worldToView      Receives the world-to-view matrix of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetWorldToView (
     TQ3CameraObject               camera,
     TQ3Matrix4x4                  *worldToView
@@ -441,7 +441,7 @@ Q3Camera_GetWorldToView (
  *  @param worldToFrustum   Receives the world-to-frustum matrix of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetWorldToFrustum (
     TQ3CameraObject               camera,
     TQ3Matrix4x4                  *worldToFrustum
@@ -466,7 +466,7 @@ Q3Camera_GetWorldToFrustum (
  *  @param viewToFrustum    Receives the view-to-frustum matrix of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3Camera_GetViewToFrustum (
     TQ3CameraObject               camera,
     TQ3Matrix4x4                  *viewToFrustum
@@ -483,7 +483,7 @@ Q3Camera_GetViewToFrustum (
  *  @param orthographicData The data for the camera object.
  *  @result                 The new camera object.
  */
-EXTERN_API_C ( TQ3CameraObject  )
+Q3_EXTERN_API_C ( TQ3CameraObject  )
 Q3OrthographicCamera_New (
     const TQ3OrthographicCameraData *orthographicData
 );
@@ -500,7 +500,7 @@ Q3OrthographicCamera_New (
  *  @param cameraData       Receives the data of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_GetData (
     TQ3CameraObject               camera,
     TQ3OrthographicCameraData     *cameraData
@@ -518,7 +518,7 @@ Q3OrthographicCamera_GetData (
  *  @param cameraData       The new data for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetData (
     TQ3CameraObject                  camera,
     const TQ3OrthographicCameraData *cameraData
@@ -536,7 +536,7 @@ Q3OrthographicCamera_SetData (
  *  @param left             The new left side for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetLeft (
     TQ3CameraObject               camera,
     float                         left
@@ -554,7 +554,7 @@ Q3OrthographicCamera_SetLeft (
  *  @param left             Receives the left side of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_GetLeft (
     TQ3CameraObject               camera,
     float                         *left
@@ -572,7 +572,7 @@ Q3OrthographicCamera_GetLeft (
  *  @param top              The new top side for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetTop (
     TQ3CameraObject               camera,
     float                         top
@@ -590,7 +590,7 @@ Q3OrthographicCamera_SetTop (
  *  @param top              Receives the top side of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_GetTop (
     TQ3CameraObject               camera,
     float                         *top
@@ -608,7 +608,7 @@ Q3OrthographicCamera_GetTop (
  *  @param right            The new right side for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetRight (
     TQ3CameraObject               camera,
     float                         right
@@ -626,7 +626,7 @@ Q3OrthographicCamera_SetRight (
  *  @param right            Receives the right side of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_GetRight (
     TQ3CameraObject               camera,
     float                         *right
@@ -644,7 +644,7 @@ Q3OrthographicCamera_GetRight (
  *  @param bottom           The new bottom side for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetBottom (
     TQ3CameraObject               camera,
     float                         bottom
@@ -662,7 +662,7 @@ Q3OrthographicCamera_SetBottom (
  *  @param bottom           Receives the bottom side of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_GetBottom (
     TQ3CameraObject               camera,
     float                         *bottom
@@ -679,7 +679,7 @@ Q3OrthographicCamera_GetBottom (
  *  @param cameraData       The data for the camera object.
  *  @result                 The new camera object.
  */
-EXTERN_API_C ( TQ3CameraObject  )
+Q3_EXTERN_API_C ( TQ3CameraObject  )
 Q3ViewPlaneCamera_New (
     const TQ3ViewPlaneCameraData  *cameraData
 );
@@ -696,7 +696,7 @@ Q3ViewPlaneCamera_New (
  *  @param cameraData       Receives the data of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetData (
     TQ3CameraObject               camera,
     TQ3ViewPlaneCameraData        *cameraData
@@ -714,7 +714,7 @@ Q3ViewPlaneCamera_GetData (
  *  @param cameraData       The new data for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetData (
     TQ3CameraObject               camera,
     const TQ3ViewPlaneCameraData  *cameraData
@@ -735,7 +735,7 @@ Q3ViewPlaneCamera_SetData (
  *  @param viewPlane        The new view plane distance for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetViewPlane (
     TQ3CameraObject               camera,
     float                         viewPlane
@@ -756,7 +756,7 @@ Q3ViewPlaneCamera_SetViewPlane (
  *  @param viewPlane        Receives the view plane distance of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetViewPlane (
     TQ3CameraObject               camera,
     float                         *viewPlane
@@ -777,7 +777,7 @@ Q3ViewPlaneCamera_GetViewPlane (
  *  @param halfWidthAtViewPlane    The new half-width of the view rectangle.
  *  @result                        Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetHalfWidth (
     TQ3CameraObject               camera,
     float                         halfWidthAtViewPlane
@@ -798,7 +798,7 @@ Q3ViewPlaneCamera_SetHalfWidth (
  *  @param halfWidthAtViewPlane    Receives the half-width of the view rectangle.
  *  @result                        Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetHalfWidth (
     TQ3CameraObject               camera,
     float                         *halfWidthAtViewPlane
@@ -819,7 +819,7 @@ Q3ViewPlaneCamera_GetHalfWidth (
  *  @param halfHeightAtViewPlane   The new half-height of the view rectangle.
  *  @result                        Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetHalfHeight (
     TQ3CameraObject               camera,
     float                         halfHeightAtViewPlane
@@ -840,7 +840,7 @@ Q3ViewPlaneCamera_SetHalfHeight (
  *  @param halfHeightAtViewPlane   Receives the half-height of the view rectangle.
  *  @result                        Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetHalfHeight (
     TQ3CameraObject               camera,
     float                         *halfHeightAtViewPlane
@@ -861,7 +861,7 @@ Q3ViewPlaneCamera_GetHalfHeight (
  *  @param centerXOnViewPlane      The new x coordinate for the center of the view rectangle.
  *  @result                        Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetCenterX (
     TQ3CameraObject               camera,
     float                         centerXOnViewPlane
@@ -882,7 +882,7 @@ Q3ViewPlaneCamera_SetCenterX (
  *  @param centerXOnViewPlane      Receives the x coordinate of the center of the view rectangle.
  *  @result                        Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetCenterX (
     TQ3CameraObject               camera,
     float                         *centerXOnViewPlane
@@ -903,7 +903,7 @@ Q3ViewPlaneCamera_GetCenterX (
  *  @param centerYOnViewPlane      The new y coordinate for the center of the view rectangle.
  *  @result                        Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetCenterY (
     TQ3CameraObject               camera,
     float                         centerYOnViewPlane
@@ -924,7 +924,7 @@ Q3ViewPlaneCamera_SetCenterY (
  *  @param centerYOnViewPlane      Receives the y coordinate of the center of the view rectangle.
  *  @result                        Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_GetCenterY (
     TQ3CameraObject               camera,
     float                         *centerYOnViewPlane
@@ -941,7 +941,7 @@ Q3ViewPlaneCamera_GetCenterY (
  *  @param cameraData       The data for the camera object.
  *  @result                 The new camera object.
  */
-EXTERN_API_C ( TQ3CameraObject  )
+Q3_EXTERN_API_C ( TQ3CameraObject  )
 Q3ViewAngleAspectCamera_New (
     const TQ3ViewAngleAspectCameraData *cameraData
 );
@@ -958,7 +958,7 @@ Q3ViewAngleAspectCamera_New (
  *  @param cameraData       The new data for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_SetData (
     TQ3CameraObject                     camera,
     const TQ3ViewAngleAspectCameraData *cameraData
@@ -976,7 +976,7 @@ Q3ViewAngleAspectCamera_SetData (
  *  @param cameraData       Receives the data of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_GetData (
     TQ3CameraObject               camera,
     TQ3ViewAngleAspectCameraData  *cameraData
@@ -996,7 +996,7 @@ Q3ViewAngleAspectCamera_GetData (
  *  @param fov              The new field of view for the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_SetFOV (
     TQ3CameraObject               camera,
     float                         fov
@@ -1016,7 +1016,7 @@ Q3ViewAngleAspectCamera_SetFOV (
  *  @param fov              Receives the field of view of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_GetFOV (
     TQ3CameraObject               camera,
     float                         *fov
@@ -1038,7 +1038,7 @@ Q3ViewAngleAspectCamera_GetFOV (
  *  @param aspectRatioXToY  The new horizontal-to-vertical aspect ratio of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_SetAspectRatio (
     TQ3CameraObject               camera,
     float                         aspectRatioXToY
@@ -1060,7 +1060,7 @@ Q3ViewAngleAspectCamera_SetAspectRatio (
  *  @param aspectRatioXToY  Receives the horizontal-to-vertical aspect ratio of the camera.
  *  @result                 Success or failure of the operation.
  */
-EXTERN_API_C ( TQ3Status  )
+Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_GetAspectRatio (
     TQ3CameraObject               camera,
     float                         *aspectRatioXToY
