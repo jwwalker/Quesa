@@ -53,6 +53,7 @@
 #include "E3Shader.h"
 #include "E3Texture.h"
 #include "E3CustomElements.h"
+#include "E3Viewer.h"
 #include "E3IOFileFormat.h"
 
 
@@ -500,6 +501,9 @@ E3Initialize(void)
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3CustomElements_RegisterClass();
 
+		if (qd3dStatus == kQ3Success)
+			qd3dStatus = E3Viewer_RegisterClass();
+		
 
 
 		// Load our plug-ins
@@ -561,6 +565,7 @@ E3Exit(void)
 
 
 		// Terminate Quesa
+		qd3dStatus = E3Viewer_UnregisterClass();
 		qd3dStatus = E3CustomElements_UnregisterClass();
 		qd3dStatus = E3Pick_UnregisterClass();
 		qd3dStatus = E3File_UnregisterClass();
