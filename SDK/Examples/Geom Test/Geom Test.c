@@ -2107,6 +2107,11 @@ App_Initialise(void)
 	
 	FSMakeFSSpec(0, 0, "\p::Support Files:Images:Quesa.jpg", &theFSSpec);
 	gSceneTexture = QutTexture_CreateTextureFromFile(&theFSSpec, kQ3PixelTypeRGB16, kQ3False);
+	if (gSceneTexture == NULL)
+		{
+		FSMakeFSSpec(0, 0, "\p:Quesa.jpg", &theFSSpec);
+		gSceneTexture = QutTexture_CreateTextureFromFile(&theFSSpec, kQ3PixelTypeRGB16, kQ3False);
+		}
 	}
 #endif
 
