@@ -7334,6 +7334,9 @@ Q3TriGrid_SetFacetAttributeSet (
  *  @discussion
  *      Create a new TriMesh geometry object.
  *
+ *		If you wish, you can set the <code>isEmpty</code> flag in the <code>bBox</code> field,
+ *		and Quesa will compute the bounding box.
+ *
  *  @param triMeshData      Data describing a TriMesh.
  *  @result                 Reference to a new TriMesh geometry object, or NULL on failure.
  */
@@ -7369,6 +7372,9 @@ Q3TriMesh_Submit (
  *      Q3TriMesh_SetData
  *  @discussion
  *      Modify a TriMesh object by supplying a full new set of data.
+ *
+ *		If you wish, you can set the <code>isEmpty</code> flag in the <code>bBox</code> field,
+ *		and Quesa will compute the bounding box.
  *
  *  @param triMesh          A TriMesh object.
  *  @param triMeshData      Data describing a TriMesh.
