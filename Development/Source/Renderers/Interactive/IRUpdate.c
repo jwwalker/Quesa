@@ -660,7 +660,12 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 		if (styleData->mode & kQ3AntiAliasModeMaskFilled)
 			glEnable(GL_POLYGON_SMOOTH);
 		}
-
+	else
+		{
+		// restore defaults
+		glPointSize(1.0f);
+		glLineWidth(1.0f);
+		}
 
 
 	// Special-case FSAA support for ATI hardware on the Mac
