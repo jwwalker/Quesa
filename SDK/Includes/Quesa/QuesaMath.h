@@ -109,14 +109,12 @@ extern "C" {
  *  @function
  *      Q3Vector2D_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a 2D vector.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector2D         Description of the parameter.
- *  @param x                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector2D         Address of vector to set (may be NULL).
+ *  @param x                X coordinate to set into vector2D.
+ *  @param y                Y coordinate to set into vector2D.
+ *  @result                 Convenience copy of vector2D parameter.
  */
 EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Set (
@@ -131,15 +129,13 @@ Q3Vector2D_Set (
  *  @function
  *      Q3Vector3D_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a 3D vector.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector3D         Description of the parameter.
- *  @param x                Description of the parameter.
- *  @param y                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector3D         Address of vector to set (may be NULL).
+ *  @param x                X coordinate to set into vector3D.
+ *  @param y                Y coordinate to set into vector3D.
+ *  @param z                Z coordinate to set into vector3D.
+ *  @result                 Convenience copy of vector3D parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Set (
@@ -155,14 +151,12 @@ Q3Vector3D_Set (
  *  @function
  *      Q3Point2D_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a 2D point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point2D          Description of the parameter.
- *  @param x                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point2D          Address of point to set (may be NULL).
+ *  @param x                X coordinate to set into vector2D.
+ *  @param y                Y coordinate to set into vector2D.
+ *  @result                 Convenience copy of point2D parameter.
  */
 EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_Set (
@@ -177,14 +171,12 @@ Q3Point2D_Set (
  *  @function
  *      Q3Param2D_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a 2D parameterization value (i.e., a UV coordinate).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param param2D          Description of the parameter.
- *  @param u                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param param2D          Address of param2D to set (may be NULL).
+ *  @param u                U coordinate to set into param2D.
+ *  @param v                V coordinate to set into param2D.
+ *  @result                 Convenience copy of param2D parameter.
  */
 EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_Set (
@@ -199,15 +191,13 @@ Q3Param2D_Set (
  *  @function
  *      Q3RationalPoint3D_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a 3D rational point (x,y,w).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param rationalPoint3D  Description of the parameter.
- *  @param x                Description of the parameter.
- *  @param y                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param rationalPoint3D  Address of rational point to set (may be NULL).
+ *  @param x                X coordinate to set into rationalPoint3D.
+ *  @param y                Y coordinate to set into rationalPoint3D.
+ *  @param w                W coordinate to set into rationalPoint3D.
+ *  @result                 Convenience copy of rationalPoint3D parameter.
  */
 EXTERN_API_C ( TQ3RationalPoint3D * )
 Q3RationalPoint3D_Set (
@@ -223,15 +213,13 @@ Q3RationalPoint3D_Set (
  *  @function
  *      Q3Point3D_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a 3D point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point3D          Description of the parameter.
- *  @param x                Description of the parameter.
- *  @param y                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          Address of point to set (may be NULL).
+ *  @param x                X coordinate to set into point3D.
+ *  @param y                Y coordinate to set into point3D.
+ *  @param z                Z coordinate to set into point3D.
+ *  @result                 Convenience copy of point3D parameter.
  */
 EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_Set (
@@ -247,16 +235,13 @@ Q3Point3D_Set (
  *  @function
  *      Q3RationalPoint4D_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a 4D rational point (x,y,z,w).
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param rationalPoint4D  Description of the parameter.
- *  @param x                Description of the parameter.
- *  @param y                Description of the parameter.
- *  @param z                Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param rationalPoint4D  Address of rational point to set.
+ *  @param x                X coordinate to set into rationalPoint4D.
+ *  @param y                Y coordinate to set into rationalPoint4D.
+ *  @param z                Z coordinate to set into rationalPoint4D.
+ *  @result                 Convenience copy of rationalPoint4D parameter.
  */
 EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3RationalPoint4D_Set (
@@ -273,15 +258,12 @@ Q3RationalPoint4D_Set (
  *  @function
  *      Q3PolarPoint_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a 2D polar-coordinates point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polarPoint       Description of the parameter.
- *  @param r                Description of the parameter.
- *  @param theta            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polarPoint       Address of point to set (may be NULL).
+ *  @param r                Radius coordinate to set into polarPoint.
+ *  @param theta            Angle coordinate (in radians) to set into polarPoint.
+ *  @result                 Convenience copy of polarPoint parameter.
  */
 EXTERN_API_C ( TQ3PolarPoint * )
 Q3PolarPoint_Set (
@@ -296,16 +278,13 @@ Q3PolarPoint_Set (
  *  @function
  *      Q3SphericalPoint_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set a 3D spherical-coordinates point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param sphericalPoint   Description of the parameter.
- *  @param rho              Description of the parameter.
- *  @param theta            Description of the parameter.
- *  @param phi              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sphericalPoint   Address of point to set (may be NULL).
+ *  @param rho              Rho coordinate to set into sphericalPoint.
+ *  @param theta            Theta coordinate to set into sphericalPoint.
+ *  @param phi              Phi coordinate to set into sphericalPoint.
+ *  @result                 Convenience copy of polarPoint parameter.
  */
 EXTERN_API_C ( TQ3SphericalPoint * )
 Q3SphericalPoint_Set (
@@ -326,11 +305,16 @@ Q3SphericalPoint_Set (
  *  @function
  *      Q3Vector2D_To3D
  *  @discussion
- *      This operation makes no sense mathematically.
+ *      Convert 2D vector to 3D, by setting z to 1.
  *
- *  @param vector2D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *		Note: this operation makes no sense mathematically, but is included
+ *		for backward-compatibility with QD3D.  Perhaps the QD3D
+ *		implementation was really intended to convert a 2D vector into a 3D
+ *		rational point -- see QDPoint2D_To3D, which does exactly that.
+ *
+ *  @param vector2D         Address of 2D vector to convert.
+ *  @param result           Address of 3D vector to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector2D_To3D (
@@ -344,11 +328,13 @@ Q3Vector2D_To3D (
  *  @function
  *      Q3Vector2D_ToRationalPoint3D
  *  @discussion
+ *		Convert 2D vector to 3D rational point, setting w to 0.
+ *
  *      Not supported by QD3D.
  *
- *  @param vector2D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector2D         Address of 2D vector to convert.
+ *  @param result           Address of 3D rational point to set.
+ *  @result                 Convenience copy of result parameter.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -366,11 +352,17 @@ Q3Vector2D_ToRationalPoint3D (
  *  @function
  *      Q3Vector3D_To2D
  *  @discussion
- *      This operation makes no sense mathematically.
+ *      Convert 3D vector to 2D, dividing by z.
  *
- *  @param vector3D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *		Note: this operation makes no sense mathematically, but is included
+ *		for backward-compatibility with QD3D.  It's possible that the QD3D
+ *		function was really intended to convert a 3D rational point to a
+ *		2D vector -- see E3RationalPoint3D_To2D, which does the same thing
+ *		for a 2D point.
+ *
+ *  @param vector3D         Address of 3D vector to convert.
+ *  @param result           Address of 2D vector to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector3D_To2D (
@@ -384,11 +376,13 @@ Q3Vector3D_To2D (
  *  @function
  *      Q3RationalPoint3D_ToVector2D
  *  @discussion
+ *		Convert 3D rational point to 2D vector, discarding w.
+ *
  *      Not supported by QD3D.
  *
- *  @param rationalPoint3D  Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param rationalPoint3D  Address of 3D rational point to convert.
+ *  @param result           Address of 2D vector to set.
+ *  @result                 Convenience copy of result parameter.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -406,11 +400,13 @@ Q3RationalPoint3D_ToVector2D (
  *  @function
  *      Q3Vector3D_ToRationalPoint4D
  *  @discussion
+ *		Convert 3D vector to 4D rational point, setting w to 0.
+ *
  *      Not supported by QD3D.
  *
- *  @param vector3D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector3D         Address of 3D vector to convert.
+ *  @param result           Address of 4D rational point to set.
+ *  @result                 Convenience copy of result parameter.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -428,11 +424,13 @@ Q3Vector3D_ToRationalPoint4D (
  *  @function
  *      Q3RationalPoint4D_ToVector3D
  *  @discussion
+ *		Convert 4D rational point to 3D vector, discarding w.
+ *
  *      Not supported by QD3D.
  *
- *  @param rationalPoint4D  Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param rationalPoint4D  Address of 4D rational point to convert.
+ *  @param result           Address of 3D vector to set.
+ *  @result                 Convenience copy of result parameter.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -450,16 +448,16 @@ Q3RationalPoint4D_ToVector3D (
  *  @function
  *      Q3Point2D_To3D
  *  @discussion
- *      One-line description of this function.
+ *      Convert 2D point to rational 3D, setting w to 1.
  *
  *      The Apple version incorrectly declares the type of 'result' to
  *      be TQ3Point3D rather than TQ3RationalPoint3D. At a binary level
  *      there is no difference, but at the source code level the Apple
  *      version forces the use of the incorrect type or type casting.
  *
- *  @param point2D          Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point2D          Address of 2D point to convert.
+ *  @param result           Address of 3D rational point to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3RationalPoint3D * )
 Q3Point2D_To3D (
@@ -473,14 +471,11 @@ Q3Point2D_To3D (
  *  @function
  *      Q3RationalPoint3D_To2D
  *  @discussion
- *      One-line description of this function.
+ *      Convert rational 3D point to 2D, dividing by w.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param rationalPoint3D  Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param rationalPoint3D  Address of rational 3D point to convert.
+ *  @param result           Address of 2D point to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point2D * )
 Q3RationalPoint3D_To2D (
@@ -494,14 +489,11 @@ Q3RationalPoint3D_To2D (
  *  @function
  *      Q3Point3D_To4D
  *  @discussion
- *      One-line description of this function.
+ *      Convert 3D point to rational 4D, setting w to 1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point3D          Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          Address of 3D point to convert.
+ *  @param result           Address of rational 4D point to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3Point3D_To4D (
@@ -515,14 +507,11 @@ Q3Point3D_To4D (
  *  @function
  *      Q3RationalPoint4D_To3D
  *  @discussion
- *      One-line description of this function.
+ *      Convert rational 4D point to 3D, dividing by w.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param rationalPoint4D  Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param rationalPoint4D  Address of rational 4D point to convert.
+ *  @param result           Address of 3D point to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point3D * )
 Q3RationalPoint4D_To3D (
@@ -541,14 +530,13 @@ Q3RationalPoint4D_To3D (
  *  @function
  *      Q3Point2D_ToPolar
  *  @discussion
- *      One-line description of this function.
+ *      Convert 2D cartesian point to polar coordinates.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The angle (theta) here is measured counter-clockwise from the +x axis.
  *
- *  @param point2D          Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point2D          Address of 2D point to convert.
+ *  @param result           Address of polar point to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3PolarPoint * )
 Q3Point2D_ToPolar (
@@ -562,14 +550,13 @@ Q3Point2D_ToPolar (
  *  @function
  *      Q3PolarPoint_ToPoint2D
  *  @discussion
- *      One-line description of this function.
+ *      Convert 2D polar point to cartesian coordinates.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The angle (theta) here is measured counter-clockwise from the +x axis.
  *
- *  @param polarPoint       Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param polarPoint       Address of polar point to convert.
+ *  @param result           Address of 2D cartesian point to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point2D * )
 Q3PolarPoint_ToPoint2D (
@@ -583,14 +570,11 @@ Q3PolarPoint_ToPoint2D (
  *  @function
  *      Q3Point3D_ToSpherical
  *  @discussion
- *      One-line description of this function.
+ *      Convert 3D cartesian point to spherical coordinates.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point3D          Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          Address of 3D cartesian point to convert.
+ *  @param result           Address of spherical-coordinates point to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3SphericalPoint * )
 Q3Point3D_ToSpherical (
@@ -604,14 +588,11 @@ Q3Point3D_ToSpherical (
  *  @function
  *      Q3SphericalPoint_ToPoint3D
  *  @discussion
- *      One-line description of this function.
+ *      Convert 3D spherical point to cartesian coordinates.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param sphericalPoint   Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sphericalPoint   Address of spherical-coordinates point to convert.
+ *  @param result           Address of 3D cartesian point to set.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point3D * )
 Q3SphericalPoint_ToPoint3D (
@@ -630,14 +611,11 @@ Q3SphericalPoint_ToPoint3D (
  *  @function
  *      Q3Vector2D_Dot
  *  @discussion
- *      One-line description of this function.
+ *      Return the dot product of two 2D vectors.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param v1               Description of the parameter.
- *  @param v2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param v1               Address of first vector.
+ *  @param v2               Address of second vector.
+ *  @result                 Dot product of the two vectors.
  */
 EXTERN_API_C ( float  )
 Q3Vector2D_Dot (
@@ -651,14 +629,11 @@ Q3Vector2D_Dot (
  *  @function
  *      Q3Vector3D_Dot
  *  @discussion
- *      One-line description of this function.
+ *      Return the dot product of two 3D vectors.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param v1               Description of the parameter.
- *  @param v2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param v1               Address of first vector.
+ *  @param v2               Address of second vector.
+ *  @result                 Dot product of the two vectors.
  */
 EXTERN_API_C ( float  )
 Q3Vector3D_Dot (
@@ -677,14 +652,14 @@ Q3Vector3D_Dot (
  *  @function
  *      Q3Vector2D_Cross
  *  @discussion
- *      One-line description of this function.
+ *      Return the length of the cross product of two 2D vectors.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Equivalently, we assume that the 2D vectors are really 3D vectors with
+ *		z=0, then return the z coordinate of the cross product (0,0,z).
  *
- *  @param v1               Description of the parameter.
- *  @param v2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param v1               Address of first vector.
+ *  @param v2               Address of second vector.
+ *  @result                 Length of the 2D cross product.
  */
 EXTERN_API_C ( float  )
 Q3Vector2D_Cross (
@@ -698,12 +673,15 @@ Q3Vector2D_Cross (
  *  @function
  *      Q3Point2D_CrossProductTri
  *  @discussion
+ *		Return the length of the cross product of a triangle specified by
+ *		three 2D points, that is, of the vectors p2-p1 and p3-p2.
+ *
  *      Not supported by QD3D.
  *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @param p3               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of one point in the triangle.
+ *  @param p2               Address of a second point in the triangle.
+ *  @param p3               Address of a third point in the triangle.
+ *  @result                 Length of (p2-p1) x (p3-p2).
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -722,15 +700,13 @@ Q3Point2D_CrossProductTri (
  *  @function
  *      Q3Vector3D_Cross
  *  @discussion
- *      One-line description of this function.
+ *      Return 3D cross product of two 3D vectors.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param v1               Description of the parameter.
- *  @param v2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param v1               Address of first vector.
+ *  @param v2               Address of second vector.
+ *  @param result           Address of vector to set with the result;
+ *							may be the same address as v1 and/or v2.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Cross (
@@ -745,16 +721,14 @@ Q3Vector3D_Cross (
  *  @function
  *      Q3Point3D_CrossProductTri
  *  @discussion
- *      One-line description of this function.
+ *      Return the cross product of triangle triangle defined by three
+ *		3D points, that is, of the vectors p2-p1 and p3-p2.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @param p3               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of one point in the triangle.
+ *  @param p2               Address of a second point in the triangle.
+ *  @param p3               Address of a third point in the triangle.
+ *  @param result           Address of vector to set with cross product (p2-p1) x (p3-p2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Point3D_CrossProductTri (
@@ -775,13 +749,10 @@ Q3Point3D_CrossProductTri (
  *  @function
  *      Q3Vector2D_Length
  *  @discussion
- *      One-line description of this function.
+ *      Return length of 2D vector.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector2D         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector2D         Address of vector to get length of.
+ *  @result                 Length of the given vector.
  */
 EXTERN_API_C ( float  )
 Q3Vector2D_Length (
@@ -794,10 +765,18 @@ Q3Vector2D_Length (
  *  @function
  *      Q3Vector2D_LengthSquared  
  *  @discussion
+ *		Return squared length of 2D vector.
+ *
+ *		For many operations, knowing the squared length of a vector is just
+ *		as good as knowing the actual length (e.g., when sorting a set of
+ *		vectors by length, or comparing a vector to a cut-off length).  But
+ *		finding the squared length is much faster, since it avoids a costly
+ *		square root computation.
+ *
  *      Not supported by QD3D.
  *
- *  @param vector2D         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector2D         Address of vector to get length of.
+ *  @result                 Squared length of the given vector.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -814,13 +793,10 @@ Q3Vector2D_LengthSquared (
  *  @function
  *      Q3Vector3D_Length
  *  @discussion
- *      One-line description of this function.
+ *      Return length of 2D vector.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector3D         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector3D         Address of vector to get length of.
+ *  @result                 Length of the given vector.
  */
 EXTERN_API_C ( float  )
 Q3Vector3D_Length (
@@ -833,10 +809,18 @@ Q3Vector3D_Length (
  *  @function
  *      Q3Vector3D_LengthSquared 
  *  @discussion
+ *		Return squared length of 2D vector.
+ *
+ *		For many operations, knowing the squared length of a vector is just
+ *		as good as knowing the actual length (e.g., when sorting a set of
+ *		vectors by length, or comparing a vector to a cut-off length).  But
+ *		finding the squared length is much faster, since it avoids a costly
+ *		square root computation.
+ *
  *      Not supported by QD3D.
  *
- *  @param vector3D         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector3D         Address of vector to get length of.
+ *  @result                 Squared length of the given vector.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -858,14 +842,11 @@ Q3Vector3D_LengthSquared (
  *  @function
  *      Q3Point2D_Distance
  *  @discussion
- *      One-line description of this function.
+ *      Return Euclidean distance between two 2D points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of first point of interest.
+ *  @param p2               Address of second point of interest.
+ *  @result                 Distance between the given points.
  */
 EXTERN_API_C ( float  )
 Q3Point2D_Distance (
@@ -879,14 +860,11 @@ Q3Point2D_Distance (
  *  @function
  *      Q3Point2D_DistanceSquared
  *  @discussion
- *      One-line description of this function.
+ *      Return the squared Euclidean distance between two 2D points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of first point of interest.
+ *  @param p2               Address of second point of interest.
+ *  @result                 Square of the distance between the given points.
  */
 EXTERN_API_C ( float  )
 Q3Point2D_DistanceSquared (
@@ -900,14 +878,11 @@ Q3Point2D_DistanceSquared (
  *  @function
  *      Q3Param2D_Distance
  *  @discussion
- *      One-line description of this function.
+ *      Return Euclidean distance between two UV parameter points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of first point of interest.
+ *  @param p2               Address of second point of interest.
+ *  @result                 Distance between the given points.
  */
 EXTERN_API_C ( float  )
 Q3Param2D_Distance (
@@ -921,14 +896,11 @@ Q3Param2D_Distance (
  *  @function
  *      Q3Param2D_DistanceSquared
  *  @discussion
- *      One-line description of this function.
+ *      Return the squared Euclidean distance between two UV parameter points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of first point of interest.
+ *  @param p2               Address of second point of interest.
+ *  @result                 Square of the distance between the given points.
  */
 EXTERN_API_C ( float  )
 Q3Param2D_DistanceSquared (
@@ -942,11 +914,15 @@ Q3Param2D_DistanceSquared (
  *  @function
  *      Q3RationalPoint3D_Distance 
  *  @discussion
- *      This operation makes no sense mathematically.
+ *		Returns the Euclidian distance between two rational 3D points.
  *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @result                 Description of the function result.
+ *      This operation makes no sense mathematically, but is included
+ *		for backwards compatibility with QD3D.
+ *
+ *  @param p1               Address of first point of interest.
+ *  @param p2               Address of second point of interest.
+ *  @result                 Distance between the given points, treating
+ *							w as a spatial coordinate.
  */
 EXTERN_API_C ( float  )
 Q3RationalPoint3D_Distance (
@@ -960,11 +936,15 @@ Q3RationalPoint3D_Distance (
  *  @function
  *      Q3RationalPoint3D_DistanceSquared
  *  @discussion
- *      This operation makes no sense mathematically.
+ *		Returns the squared Euclidian distance between two rational 3D points.
  *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @result                 Description of the function result.
+ *      This operation makes no sense mathematically, but is included
+ *		for backwards compatibility with QD3D.
+ *
+ *  @param p1               Address of first point of interest.
+ *  @param p2               Address of second point of interest.
+ *  @result                 Square of the distance between the given points, 
+ *							treating w as a spatial coordinate.
  */
 EXTERN_API_C ( float  )
 Q3RationalPoint3D_DistanceSquared (
@@ -978,14 +958,11 @@ Q3RationalPoint3D_DistanceSquared (
  *  @function
  *      Q3Point3D_Distance
  *  @discussion
- *      One-line description of this function.
+ *      Return Euclidean distance between two 3D points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of first point of interest.
+ *  @param p2               Address of second point of interest.
+ *  @result                 Distance between the given points.
  */
 EXTERN_API_C ( float  )
 Q3Point3D_Distance (
@@ -999,14 +976,11 @@ Q3Point3D_Distance (
  *  @function
  *      Q3Point3D_DistanceSquared
  *  @discussion
- *      One-line description of this function.
+ *      Return the squared Euclidean distance between two 3D points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of first point of interest.
+ *  @param p2               Address of second point of interest.
+ *  @result                 Square of the distance between the given points.
  */
 EXTERN_API_C ( float  )
 Q3Point3D_DistanceSquared (
@@ -1020,11 +994,15 @@ Q3Point3D_DistanceSquared (
  *  @function
  *      Q3RationalPoint4D_Distance
  *  @discussion
- *      This operation makes no sense mathematically.
+ *		Returns the Euclidian distance between two rational 4D points.
  *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @result                 Description of the function result.
+ *      This operation makes no sense mathematically, but is included
+ *		for backwards compatibility with QD3D.
+ *
+ *  @param p1               Address of first point of interest.
+ *  @param p2               Address of second point of interest.
+ *  @result                 Distance between the given points, treating
+ *							w as a spatial coordinate.
  */
 EXTERN_API_C ( float  )
 Q3RationalPoint4D_Distance (
@@ -1038,11 +1016,15 @@ Q3RationalPoint4D_Distance (
  *  @function
  *      Q3RationalPoint4D_DistanceSquared
  *  @discussion
- *      This operation makes no sense mathematically.
+ *		Returns the squared Euclidian distance between two rational 4D points.
  *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @result                 Description of the function result.
+ *      This operation makes no sense mathematically, but is included
+ *		for backwards compatibility with QD3D.
+ *
+ *  @param p1               Address of first point of interest.
+ *  @param p2               Address of second point of interest.
+ *  @result                 Square of the distance between the given points, 
+ *							treating w as a spatial coordinate.
  */
 EXTERN_API_C ( float  )
 Q3RationalPoint4D_DistanceSquared (
@@ -1061,14 +1043,11 @@ Q3RationalPoint4D_DistanceSquared (
  *  @function
  *      Q3Vector2D_Negate
  *  @discussion
- *      One-line description of this function.
+ *      Scale a 2D vector by a factor of -1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector2D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector2D         Address of vector to negate.
+ *  @param result           Address of vector to set (may be the same as vector2D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Negate (
@@ -1082,14 +1061,11 @@ Q3Vector2D_Negate (
  *  @function
  *      Q3Vector3D_Negate
  *  @discussion
- *      One-line description of this function.
+ *      Scale a 3D vector by a factor of -1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector3D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector3D         Address of vector to negate.
+ *  @param result           Address of vector to set (may be the same as vector3D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Negate (
@@ -1108,15 +1084,12 @@ Q3Vector3D_Negate (
  *  @function
  *      Q3Vector2D_Scale
  *  @discussion
- *      One-line description of this function.
+ *      Scale a 2D vector by the given factor.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector2D         Description of the parameter.
- *  @param scalar           Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector2D         Address of vector to scale.
+ *  @param scalar           Scaling factor.
+ *  @param result           Address of vector to set (may be the same as vector2D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Scale (
@@ -1131,15 +1104,12 @@ Q3Vector2D_Scale (
  *  @function
  *      Q3Vector3D_Scale
  *  @discussion
- *      One-line description of this function.
+ *      Scale a 3D vector by the given factor.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param vector3D         Description of the parameter.
- *  @param scalar           Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector3D         Address of vector to scale.
+ *  @param scalar           Scaling factor.
+ *  @param result           Address of vector to set (may be the same as vector3D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Scale (
@@ -1159,14 +1129,13 @@ Q3Vector3D_Scale (
  *  @function
  *      Q3Vector2D_Normalize
  *  @discussion
- *      One-line description of this function.
+ *      Scale a 2D vector to length 1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      To obtain valid results, the length of vector2D must not be 0.
  *
- *  @param vector2D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector2D         Address of vector to normalize.
+ *  @param result           Address of vector to set (may be the same as vector2D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Normalize (
@@ -1180,14 +1149,13 @@ Q3Vector2D_Normalize (
  *  @function
  *      Q3Vector3D_Normalize
  *  @discussion
- *      One-line description of this function.
+ *      Scale a 3D vector to length 1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      To obtain valid results, the length of vector3D must not be 0.
  *
- *  @param vector3D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param vector3D         Address of vector to normalize.
+ *  @param result           Address of vector to set (may be the same as vector3D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Normalize (
@@ -1206,15 +1174,12 @@ Q3Vector3D_Normalize (
  *  @function
  *      Q3Vector2D_Add
  *  @discussion
- *      One-line description of this function.
+ *      Add two 2D vectors.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param v1               Description of the parameter.
- *  @param v2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param v1               Address of first vector to add.
+ *  @param v2               Address of second vector to add.
+ *  @param result           Address of vector to set (may be the same as v1 and/or v2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Add (
@@ -1229,15 +1194,12 @@ Q3Vector2D_Add (
  *  @function
  *      Q3Vector3D_Add
  *  @discussion
- *      One-line description of this function.
+ *      Add two 3D vectors.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param v1               Description of the parameter.
- *  @param v2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param v1               Address of first vector to add.
+ *  @param v2               Address of second vector to add.
+ *  @param result           Address of vector to set (may be the same as v1 and/or v2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Add (
@@ -1252,15 +1214,12 @@ Q3Vector3D_Add (
  *  @function
  *      Q3Vector2D_Subtract
  *  @discussion
- *      One-line description of this function.
+ *      Subtract 2D vector v2 from v1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param v1               Description of the parameter.
- *  @param v2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param v1               Address of first vector.
+ *  @param v2               Address of vector to subtract from v1.
+ *  @param result           Address of vector to set (may be the same as v1 and/or v2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Subtract (
@@ -1275,15 +1234,12 @@ Q3Vector2D_Subtract (
  *  @function
  *      Q3Vector3D_Subtract
  *  @discussion
- *      One-line description of this function.
+ *      Subtract 3D vector v2 from v1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param v1               Description of the parameter.
- *  @param v2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param v1               Address of first vector.
+ *  @param v2               Address of vector to subtract from v1.
+ *  @param result           Address of vector to set (may be the same as v1 and/or v2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Subtract (
