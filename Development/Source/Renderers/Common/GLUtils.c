@@ -270,3 +270,21 @@ void		GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		featureFlags->separateSpecularColor = kQ3True;
 	}
 }
+
+
+//=============================================================================
+//      GLUtils_UpdateClientState : Enable or disable a client state if it has changed
+//-----------------------------------------------------------------------------
+void
+GLUtils_UpdateClientState( TQ3Boolean enable, TQ3Boolean* stateFlag, GLenum whichArray )
+{
+	if (*stateFlag != enable)
+	{
+		*stateFlag = enable;
+		
+		if (enable == kQ3True)
+			glEnableClientState( whichArray );
+		else
+			glDisableClientState( whichArray );
+	}
+}
