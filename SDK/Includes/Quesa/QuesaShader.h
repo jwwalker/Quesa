@@ -539,6 +539,8 @@ Q3Shader_GetUVTransform (
  *  @discussion
  *      Set the U boundary behaviour for a shader.
  *
+ *      The initial U boundary behaviour for a shader is kQ3ShaderUVBoundaryWrap.
+ *
  *  @param shader           The shader to update.
  *  @param uBoundary        The U boundary behaviour for the shader.
  *  @result                 Success or failure of the operation.
@@ -556,6 +558,8 @@ Q3Shader_SetUBoundary (
  *      Q3Shader_SetVBoundary
  *  @discussion
  *      Set the V boundary behaviour for a shader.
+ *
+ *      The initial V boundary behaviour for a shader is kQ3ShaderUVBoundaryWrap.
  *
  *  @param shader           The shader to update.
  *  @param vBoundary        The V boundary behaviour for the shader.
