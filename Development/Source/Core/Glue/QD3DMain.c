@@ -204,11 +204,12 @@ Q3GetReleaseVersion(TQ3Uns32 *releaseRevision)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3ObjectHierarchy_GetTypeFromString : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Status
 Q3ObjectHierarchy_GetTypeFromString(TQ3ObjectClassNameString objectClassString, TQ3ObjectType *objectClassType)
 {
@@ -415,11 +416,12 @@ Q3ObjectHierarchy_EmptySubClassData(TQ3SubClassData *subClassData)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Object_Dispose : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Status
 Q3Object_Dispose(TQ3Object object)
 {
@@ -700,11 +702,12 @@ Q3Object_IsType(TQ3Object object, TQ3ObjectType theType)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Shared_GetType : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3ObjectType
 Q3Shared_GetType(TQ3SharedObject sharedObject)
 {
@@ -875,11 +878,12 @@ Q3Shared_Edited(TQ3SharedObject sharedObject)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Shape_GetType : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3ObjectType
 Q3Shape_GetType(TQ3ShapeObject shape)
 {
@@ -1223,11 +1227,12 @@ Q3Shape_ClearElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3Bitmap_Empty : Quesa API entry point.
 //-----------------------------------------------------------------------------
+#pragma mark -
 TQ3Status
 Q3Bitmap_Empty(TQ3Bitmap *bitmap)
 {
