@@ -53,7 +53,7 @@ typedef struct {
 	TQ3Uns32				mValidViewer;		// guard word
 	TQ3ViewObject			mView;
 	TQ3GroupObject			mGroup;
-	void					*mWindow;
+	void					*mWindow;			// NOTE: on Mac, this is the CGrafPtr (port), not the WindowPtr!
 	TQ3Area					mArea;
 	TQ3Uns32				mFlags;
 	TQ3Uns32				mCurrentMode;		// current mode button (e.g. kQ3ViewerFlagButtonOrbit)
@@ -335,27 +335,29 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 		GetGWorld(&oldGWorld, &oldDevice);
 		if (!sIconImages || !sIconMasks)
 			{
-			Rect r = {0,0, 56, 256};
+			Rect r2 = {0,0, 56, 256};
 			short oldResFile = CurResFile();
 			if (gShlbResFile) UseResFile(gShlbResFile);
 			resPic = GetPicture(129);
 			UseResFile(oldResFile);
 			Q3_ASSERT(resPic);
-			NewGWorld(&sIconImages, 32, &r, NULL, NULL, 0);
-			NewGWorld(&sIconMasks,  32, &r, NULL, NULL, 0);
+			NewGWorld(&sIconImages, 32, &r2, NULL, NULL, 0);
+			NewGWorld(&sIconMasks,  32, &r2, NULL, NULL, 0);
 			Q3_ASSERT(sIconImages && sIconMasks);
 
 			imagePM = GetGWorldPixMap(sIconImages);
 			LockPixels(imagePM);
 			SetGWorld(sIconImages, NULL);
-			EraseRect(&r);
-			DrawPicture(resPic, &r);
+			EraseRect(&r2);
+			DrawPicture(resPic, &r2);
 
 			maskPM = GetGWorldPixMap(sIconMasks);
 			LockPixels(maskPM);
 			SetGWorld(sIconMasks, NULL);
-			OffsetRect(&r, 0, -28);
-			DrawPicture(resPic, &r);
+			OffsetRect(&r2, 0, -28);
+			DrawPicture(resPic, &r2);
+			
+			SetGWorld(oldGWorld, oldDevice);
 			}
 		else
 			{
@@ -411,21 +413,31 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 
 //=============================================================================
 //      e3viewer_drawStripBackground : Draw the background of the control
-//			strip, i.e., sans the buttons.
+//			strip, i.e., sans the buttons.  Note: has the side-effect of
+//			setting the theme background state (on MacOS).
 //-----------------------------------------------------------------------------
 static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect)
 {
 	// For now, let's do a Mac-only hack.
 	#if QUESA_OS_MACINTOSH
 		Rect r;
-		RGBColor bgColor = {0xCCCC, 0xCCCC, 0xCCCC};
+		E3Area_ToRect(stripRect, &r);
 		SetPort((CGrafPtr)data->mWindow);
 
-		E3Area_ToRect(stripRect, &r);
-		RGBForeColor(&bgColor);
-		PaintRect(&r);				// Opportunity For Improvement: make a region that excludes the buttons!
+		// Let's use the Appearance Manager to draw a proper themed background.
+		// Should look right in both OS9 and OS X.  Note that we really should
+		// vary this depending on whether the window is active -- but I'm not
+		// sure how to tell that.  Maybe we can get the window from the port,
+		// and use some system call to check whether that window is active?
+		SetThemeBackground(kThemeTextColorModelessDialogActive, 32, true);
+		EraseRect(&r);				// Opportunity For Improvement: make a region that excludes the buttons!
 
-		ForeColor(blackColor);
+		// Older code, that just draws a solid color.
+		// Probably should remove this once comfortable with the above.
+//		RGBColor bgColor = {0xCCCC, 0xCCCC, 0xCCCC};
+//		RGBForeColor(&bgColor);
+//		PaintRect(&r);				// Opportunity For Improvement: make a region that excludes the buttons!
+//		ForeColor(blackColor);
 	#endif // QUESA_OS_MACINTOSH
 }
 
@@ -692,7 +704,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 		contextData.drawContextData.doubleBufferState = kQ3True;	// should be false on OS X?!?
 
 		// Mac-specific draw context stuff
-		contextData.window = (CWindowPtr)instanceData->mWindow;
+		contextData.window = GetWindowFromPort(instanceData->mWindow);
 		drawContext = Q3MacDrawContext_New(&contextData);
 
 		// renderer
@@ -1225,7 +1237,8 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 
 
 //=============================================================================
-//      E3Viewer_DrawControlStrip : One-line description of the method.
+//      E3Viewer_DrawControlStrip : Draw the control strip that appears below
+//			the 3D rendering area.
 //-----------------------------------------------------------------------------
 //		Note : Simply draw each button in the control strip.
 //-----------------------------------------------------------------------------
