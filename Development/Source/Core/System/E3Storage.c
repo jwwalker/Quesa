@@ -205,7 +205,8 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 {	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) privateData;
 	TQ3Uns8					*passedBuffer;
 	
-	*instanceData = *((const TE3_MemoryStorageData *)paramData);
+	if(paramData != NULL)
+		*instanceData = *((const TE3_MemoryStorageData *)paramData);
 
 	if(instanceData->ownBuffer == kQ3True){
 		// called from _New
