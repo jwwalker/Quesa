@@ -863,7 +863,14 @@ e3writefile (TQ3ViewerData* viewerData, TQ3StorageObject store)
 		TQ3Status status = Q3File_SetStorage (theFile, store);
 		if (status == kQ3Success)
 			{
+#if 1
 			TQ3FileMode mode = kQ3FileModeNormal;
+#else
+			// As far as I can see this is the only implementation which is available so far
+			// Unfortunately it does not work either. (It does crash)
+			// -- Daniel Willmann <daniel.willmann@web.de>
+			TQ3FileMode mode = kQ3FFormatWriterType3DMFStreamBin;
+#endif
 			if (viewerData->flags & kQ3ViewerOutputTextMode)
 				mode |= kQ3FileModeText;
 			status = Q3File_OpenWrite (theFile, mode);
@@ -2313,9 +2320,9 @@ Q3ViewerDraw(TQ3ViewerObject theViewer)
 #else
 	TQ3Result status;
 	CheckViewerFailure (theViewer);
-	status = Q3ViewerDrawControlStrip (theViewer);
+	status = Q3WinViewerDrawControlStrip (theViewer);
 	if (status == kQ3Success) // this is 1!!!
-		status = Q3ViewerDrawContent (theViewer);
+		status = Q3WinViewerDrawContent (theViewer);
 	return status;
 #endif
 	}
@@ -2457,6 +2464,8 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 			err = kQ3BadResult;
 		}
 	return err;
+#elif defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
+	return status;
 #else
 	return status;
 #endif
