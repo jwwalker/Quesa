@@ -1748,7 +1748,8 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 				else
 					{
 					dataSize = E3ClassTree_GetInstanceSize(theElement->theClass);
-					Q3Memory_Copy(data, theElement->instanceData, dataSize);
+					if (dataSize > 0)
+						Q3Memory_Copy(data, theElement->instanceData, dataSize);
 					qd3dStatus = kQ3Success;
 					}
 				
