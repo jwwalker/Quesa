@@ -22,6 +22,99 @@
 
 
 
+<h3>Viewing</h3>
+<h4>Transforms</h4>
+<h5>Coordinate Systems</h5>
+<p>
+Several coordinate systems are involved in taking a vertex from its local coordinate
+system to a pixel position within a window. The majority of these coordinate systems
+are controlled by the current camera, operating in conjunction with the geometrical
+transform objects.
+</p>
+
+<p>
+A vertex is initially specified in <em>local coordinates</em>. This is an arbitrary
+coordinate system, chosen in a way that makes sense for the vertex's object. Typically
+the origin will be placed at the center of the object, to allow it to be transformed
+intuitively.
+</p>
+
+<p>
+During rendering, vertices are transformed from their local coordinate system to
+<em>world coordinates</em>. This coordinate system is also arbitrary, however it
+establishes a common coordinate system for all objects within the world.
+</p>
+
+<p>
+The camera position and orientation is typically specified in world coordinates, but
+for rendering purposes a camera object also needs a coordinate system known as
+<em>view coordinates</em>. This coordinate system moves the camera location to the
+origin, with the camera looking down the -z axis and the camera up vector placed
+along the +y axis.
+</p>
+
+<p>
+Although the view coordinate system establishes the camera's overall view of the world,
+a further coordinate system is necessary to establish what falls within the camera's
+field of view. This coordinate system is known as <em>frustum coordinates</em>. This
+provides the camera with the "lens" through which it sees the world, and allows the
+camera to apply a particular type of projection (e.g., perspective or orthographic)
+to the scene.
+</p>
+
+<p>
+Quesa's frustum coordinate system ranges from -1 to +1 in x and y, and 0 to -1 in
+z (where 0 is the near clipping plane, and -1 is the far clipping plane). Once the
+scene has been transformed to this coordinate system, it then passes through the
+<em>view port</em> transform. This transform selects a portion of the xy plane of
+the frustum coordinate system, and it is this portion which is mapped to the draw
+context for display.
+</p>
+
+<p>
+Once the coordinates have passed through the view port transform, they can then be
+mapped to the draw context. This is achieved with the <em>frustum to window</em>
+transform. This transform takes the portion of the frustum that was selected with the
+view port transform, and maps it to the active pane of the draw context being rendered
+to.
+</p>
+
+
+
+<h5>Summary</h5>
+<p>
+Coordinates pass through five transforms to take them from local coordinates to window
+coordinates:
+</p>
+
+<blockquote>
+<table width=200 border=1>
+<tr align=center bgcolor="#9999aa"><td>Local Coordinates</td></tr>
+<tr align=center bgcolor="#eeeeee"><td><font size=-1>local to world</font></td></tr>
+<tr align=center bgcolor="#9999bb"><td>World Coordinates</td></tr>
+<tr align=center bgcolor="#eeeeee"><td><font size=-1>world to view</font></td></tr>
+<tr align=center bgcolor="#9999cc"><td>View Coordinates</td></tr>
+<tr align=center bgcolor="#eeeeee"><td><font size=-1>view to frustum</font></td></tr>
+<tr align=center bgcolor="#9999dd"><td>Frustum Coordinates</td></tr>
+<tr align=center bgcolor="#eeeeee"><td><font size=-1>view port</font></td></tr>
+<tr align=center bgcolor="#9999ee"><td>Visible Frustum Coordinates</td></tr>
+<tr align=center bgcolor="#eeeeee"><td><font size=-1>frustum to window</font></td></tr>
+<tr align=center bgcolor="#9999ff"><td>Window Coordinates</td></tr>
+</table>
+</blockquote>
+
+
+
+
+<h3>Camera Objects</h3>
+<ol>
+	<li>Q3Camera_xxx</li>
+	<li>Q3OrthographicCamera_xxx</li>
+	<li>Q3ViewPlaneCamera_xxx</li>
+	<li>Q3ViewAngleAspectCamera_xxx</li>
+</ol>
+
+
 
 
 <!--=========================================================================-->
